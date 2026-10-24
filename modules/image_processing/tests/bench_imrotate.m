@@ -7,8 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
 % <--INDEX 64 BIT REQUIRED-->
 %=============================================================================
-I = rand(3000, 3000, 3);
-tic();J = imrotate(I,33);toc
+addpath([fileparts(nfilename('fullpathext'), 'path'), '/private']);
+I = rand(2048, 2048, 3);
+timerStart = tic();
+J = imrotate(I, 33);
+elapsed = toc(timerStart);
+ip_bench_report('imrotate_rgb2048_nearest_loose', elapsed, 12.0);
+asserts.isequal(size(J, 3), 3);
+asserts.isequal(class(J), 'double');
+clear I J timerStart elapsed;
+%=============================================================================

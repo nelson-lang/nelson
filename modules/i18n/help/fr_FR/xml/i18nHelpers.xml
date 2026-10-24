@@ -6,15 +6,20 @@
   <short_description
   >Fonctions utilitaires d&apos;internationalisation (i18n)</short_description>
   <syntax>
-    <syntax_item>i18nHelpers(&apos;convert&apos;, potFile, jsonFile)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;extractUI&apos;, sourceRoot, jsonFile)</syntax_item>
+    <syntax_item
+    >i18nHelpers(&apos;extractErrors&apos;, sourceRoot, jsonFile)</syntax_item>
     <syntax_item>i18nHelpers(&apos;merge&apos;, jsonFile1, jsonFile2)</syntax_item>
     <syntax_item>i18nHelpers(&apos;sort&apos;, jsonFileA, jsonFileB)</syntax_item>
+    <syntax_item
+    >i18nHelpers(&apos;register&apos;, moduleName, moduleRoot)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;unregister&apos;, moduleName)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>potFile</param_name>
+      <param_name>sourceRoot</param_name>
       <param_description
-      >Chaîne : chemin vers le fichier source .po/.pot (template de traduction)</param_description>
+      >Chaîne : chemin vers l&apos;arborescence source à analyser (fichiers C/C++ et .m, répertoires de tests exclus)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>jsonFile</param_name>
@@ -41,13 +46,42 @@
       <param_description
       >Chaîne : chemin vers le fichier JSON trié</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>moduleName</param_name>
+      <param_description
+      >Chaîne : le nom du module dont le catalogue de langue est enregistré ou retiré</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>moduleRoot</param_name>
+      <param_description
+      >Chaîne : le répertoire racine du module (typiquement modulepath(moduleName)), contenant locale/&lt;moduleName&gt;-ui-&lt;locale&gt;.json et locale/&lt;moduleName&gt;-errors-&lt;locale&gt;.json</param_description>
+    </param_input_item>
   </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
+      >Logique : pour &apos;register&apos;/&apos;unregister&apos;, vrai en cas de succès. Demander cette sortie fait remonter un statut au lieu de lever une erreur, évitant un try/catch.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description
+      >Vecteur de caractères : pour &apos;register&apos;/&apos;unregister&apos; avec deux sorties, un message d&apos;erreur quand status est faux, vide sinon.</param_description>
+    </param_output_item>
+  </param_output>
   <description>
     <p>
       <b>i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d&apos;internationalisation. Les fonctions principales incluent :</p>
     <p>-<b>
-        &apos;convert&apos;
-      </b> : Convertit un fichier template .po/.pot en format JSON pour une manipulation simplifiée.</p>
+        &apos;extractUI&apos;
+      </b> : Analyse les sources sous<code
+      >sourceRoot</code>pour en extraire les textes traduisibles de l&apos;interface et écrit le catalogue indexé par texte dans<code
+      >jsonFile</code>. L&apos;extraction est native (aucun outil gettext requis).</p>
+    <p>-<b>
+        &apos;extractErrors&apos;
+      </b> : Analyse les sources sous<code
+      >sourceRoot</code>pour en extraire les templates d&apos;erreur/avertissement indexés par identifiant et écrit le catalogue des erreurs dans<code
+      >jsonFile</code>.</p>
     <p>-<b>
         &apos;merge&apos;
       </b> : Fusionne deux fichiers JSON de traduction. Les entrées de<code
@@ -59,6 +93,31 @@
       </b> : Trie et organise les entrées d&apos;un fichier JSON de traduction. <code
       >jsonFileA</code> et <code
       >jsonFileB</code> peuvent référencer le même fichier si un tri en place est souhaité.</p>
+    <p>-<b>
+        &apos;register&apos;
+      </b> : Enregistre au runtime le catalogue de langue d&apos;un module externe, afin que ses chaînes source<code
+      >_()</code>et ses templates d&apos;erreur<code
+      >&lt;moduleName&gt;:*</code>soient localisés. Le module fournit<code
+      >locale/&lt;moduleName&gt;-ui-&lt;locale&gt;.json</code>et<code
+      >locale/&lt;moduleName&gt;-errors-&lt;locale&gt;.json</code> ; le catalogue de la langue courante est fusionné immédiatement puis à chaque changement de langue. C&apos;est un appel optionnel, typiquement placé dans le<code
+      >etc/startup.m</code>du module.</p>
+    <p><b>Convention d&apos;identifiant d&apos;erreur des modules externes.</b> Une erreur ou un avertissement levé par un module externe doit utiliser le namespace propre du module comme préfixe d&apos;identifiant, c.-à-d.<code
+      >error(&apos;&lt;moduleName&gt;:&lt;mnemonic&gt;&apos;, &apos;template anglais littéral&apos;, args...)</code>. Seuls les messages génériques et réutilisables dans tout Nelson gardent le préfixe<code
+      >Nelson:</code>(ils appartiennent au catalogue du cœur, pas au module). Pour qu&apos;un message soit extrait et localisé :</p>
+    <p>- l&apos;identifiant doit commencer par<code
+      >&lt;moduleName&gt;:</code>(le nom utilisé dans<code
+      >module.json</code>et comme préfixe des fichiers de catalogue) ;</p>
+    <p>- le template doit être un unique littéral de chaîne ; une partie dynamique est un indicateur de format<code
+      >printf</code>rempli par les arguments suivants, p.ex.<code
+      >error(&apos;mymod:invalidInput&apos;, &apos;%s must be a scalar logical.&apos;, name)</code>plutôt que<code
+      >error(&apos;mymod:invalidInput&apos;, [name, &apos; must be a scalar logical.&apos;])</code> ;</p>
+    <p>- chaque identifiant correspond à exactement un template (un identifiant réutilisé avec plusieurs messages différents est écarté comme surchargé). Au runtime, le littéral en ligne n&apos;est remplacé par le template localisé que s&apos;il correspond exactement au catalogue, puis les arguments sont appliqués. Générez les catalogues avec<code
+      >nmm(&apos;i18n&apos;, moduleRoot)</code>(ou<code
+      >ngen.i18n</code>).</p>
+    <p>-<b>
+        &apos;unregister&apos;
+      </b> : Retire un catalogue de module précédemment enregistré et reconstruit les catalogues en mémoire, typiquement depuis le<code
+      >etc/finish.m</code>du module.</p>
     <p
     >Cette utilité est destinée à un usage interne et peut être mise à jour au fil du temps.</p>
   </description>
@@ -76,6 +135,11 @@
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >extraction native des sources (extractUI, extractErrors) ; convert supprimé avec l&apos;outillage gettext</history_description>
     </history_item>
   </history>
   <authors>

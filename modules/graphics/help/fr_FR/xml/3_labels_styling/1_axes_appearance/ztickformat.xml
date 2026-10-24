@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ztickformat</keyword>
+  <short_description>Definir ou obtenir le format des etiquettes de l'axe des z.</short_description>
+  <syntax>
+    <syntax_item>ztickformat(fmt)</syntax_item>
+    <syntax_item>fmt = ztickformat()</syntax_item>
+    <syntax_item>ztickformat(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fmt</param_name>
+      <param_description>Specificateur de format : une conversion de type sprintf ou un mot-cle predefini.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes cibles. Par defaut, les axes courants.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fmt</param_name>
+      <param_description>Format courant des etiquettes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ztickformat</b> definit ou obtient le format des etiquettes de l'axe des z des axes courants.</p>
+    <p>Le format s'applique aux etiquettes generees automatiquement.</p>
+    <p>Le format est une conversion de type sprintf (par exemple <b>%.2f</b> ou <b>%g</b>) appliquee a chaque valeur numerique de graduation. Les mots-cles predefinis <b>usd</b>, <b>eur</b>, <b>gbp</b>, <b>jpy</b>, <b>degrees</b> et <b>percentage</b> sont egalement acceptes. Les etiquettes personnalisees definies avec zticklabels ont priorite sur le format.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Formater les etiquettes de l'axe des z.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+t = linspace(0, 10, 50);
+plot3(sin(t), cos(t), t / 4);
+ztickformat('%.1f');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/zticks">zticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/zticklabels">zticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xtickformat">xtickformat</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

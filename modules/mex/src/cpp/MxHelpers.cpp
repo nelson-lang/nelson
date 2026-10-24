@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -48,7 +48,7 @@ mxAllocateRealArray(
             ret->realdata = mxCalloc(countElements(ndim, dims), size);
 
         } else {
-            ret->realdata = mxMalloc(countElements(ndim, dims));
+            ret->realdata = mxMalloc(countElements(ndim, dims) * size);
         }
         ret->imagdata = nullptr;
         ret->Ir = nullptr;
@@ -76,8 +76,8 @@ mxAllocateSeparatedComplexArray(
             ret->realdata = mxCalloc(countElements(ndim, dims), size);
             ret->imagdata = mxCalloc(countElements(ndim, dims), size);
         } else {
-            ret->realdata = mxMalloc(countElements(ndim, dims));
-            ret->imagdata = mxMalloc(countElements(ndim, dims));
+            ret->realdata = mxMalloc(countElements(ndim, dims) * size);
+            ret->imagdata = mxMalloc(countElements(ndim, dims) * size);
         }
         ret->Ir = nullptr;
         ret->Jc = nullptr;
@@ -104,7 +104,7 @@ mxAllocateInterleavedComplexArray(
             ret->realdata = mxCalloc(countElements(ndim, dims) * 2, size);
             ret->imagdata = nullptr;
         } else {
-            ret->realdata = mxMalloc(countElements(ndim, dims) * 2);
+            ret->realdata = mxMalloc(countElements(ndim, dims) * 2 * size);
             ret->imagdata = nullptr;
         }
         ret->Ir = nullptr;
@@ -180,7 +180,7 @@ GetDimensions(const Nelson::ArrayOf& array, mwSize& numdims)
     numdims = (mwSize)(array.nDims());
     auto* dim_vec = (mwSize*)malloc(sizeof(mwSize) * numdims);
     for (mwSize i = 0; i < numdims; i++) {
-        dim_vec[i] = array.getDimensions()[i];
+        dim_vec[i] = array.dimensions()[i];
     }
     return dim_vec;
 }

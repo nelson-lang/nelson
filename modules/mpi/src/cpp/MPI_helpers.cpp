@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "MPI_helpers.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
@@ -18,7 +19,6 @@
 #include "SparseConstructors.hpp"
 #include "SparseToIJV.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,7 +39,7 @@ MPIErrorHandler(MPI_Comm* comm, int* errorcode, ...)
     int resultlen = 0;
     MPI_Error_string(*errorcode, buffer, &resultlen);
     buffer[resultlen] = 0;
-    Error(buffer);
+    Error("Nelson:MPI:errorString", buffer);
 }
 //=============================================================================
 int
@@ -72,7 +72,7 @@ ClassToInt(NelsonType dataClass)
 void
 packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
 {
-    NelsonType dataClass(A.getDataClass());
+    NelsonType dataClass(A.dataClass());
     int idclass = ClassToInt(dataClass);
     MPI_Pack(&idclass, 1, MPI_INT, buffer, bufsize, packpos, comm);
     int issparse = static_cast<int>(A.isSparse());
@@ -80,20 +80,21 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
     int dimlength = static_cast<int>(A.nDims());
     MPI_Pack(&dimlength, 1, MPI_INT, buffer, bufsize, packpos, comm);
     for (int j = 0; j < dimlength; j++) {
-        int tmp = static_cast<int>(A.getDimensionLength(j));
+        int tmp = static_cast<int>(A.dimensionLength(j));
         MPI_Pack(&tmp, 1, MPI_INT, buffer, bufsize, packpos, comm);
     }
     switch (dataClass) {
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
-        auto* dp = (ArrayOf*)A.getDataPointer();
-        for (int i = 0; i < A.getElementCount(); i++) {
+        auto* dp = (ArrayOf*)A.dataPointer();
+        for (int i = 0; i < A.elementCount(); i++) {
             packMPI(dp[i], buffer, bufsize, packpos, comm);
         }
     } break;
     case NLS_STRUCT_ARRAY:
-    case NLS_CLASS_ARRAY: {
-        stringVector fieldnames(A.getFieldNames());
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        stringVector fieldnames(A.fieldNames());
         int fieldcnt(static_cast<int>(fieldnames.size()));
         MPI_Pack(&fieldcnt, 1, MPI_INT, buffer, bufsize, packpos, comm);
         for (int i = 0; i < fieldcnt; i++) {
@@ -105,21 +106,21 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         int isclassType(static_cast<int>(A.isClassType()));
         MPI_Pack(&isclassType, 1, MPI_INT, buffer, bufsize, packpos, comm);
         if (A.isClassType()) {
-            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
+            ArrayOf classnameAsArray = ArrayOf::characterArray(A.classType());
             packMPI(classnameAsArray, buffer, bufsize, packpos, comm);
         }
-        auto* dp = (ArrayOf*)A.getDataPointer();
-        for (int i = 0; i < A.getElementCount() * fieldcnt; i++) {
+        auto* dp = (ArrayOf*)A.dataPointer();
+        for (int i = 0; i < A.elementCount() * fieldcnt; i++) {
             packMPI(dp[i], buffer, bufsize, packpos, comm);
         }
     } break;
     case NLS_FUNCTION_HANDLE: {
-        function_handle fh = A.getContentAsFunctionHandle();
+        function_handle fh = A.asFunctionHandle();
         AnonymousMacroFunctionDef* cp
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
 
         std::string anonymousContent = cp->getContent();
-        ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
+        ArrayOf anonymousElement = ArrayOf::characterArray(anonymousContent);
         packMPI(anonymousElement, buffer, bufsize, packpos, comm);
 
         int isFunctionHandle = (int)(cp->isFunctionHandle());
@@ -130,12 +131,12 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             stringVector names = cp->getVariableNames();
             std::vector<ArrayOf> variables = cp->getVariables();
             Dimensions dimsNames(1, names.size());
-            ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+            ArrayOf fieldnames = ArrayOf::stringArray(names, dimsNames);
             Dimensions dimsArguments(1, arguments.size());
-            ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+            ArrayOf argumentsArrayOf = ArrayOf::stringArray(arguments, dimsArguments);
             Dimensions dimsVariables(1, variables.size());
             ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+                NLS_CELL_ARRAY, dimsVariables.elementCount(), stringVector(), false));
             ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
             for (size_t k = 0; k < variables.size(); k++) {
                 cell[k] = variables[k];
@@ -144,6 +145,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             packMPI(argumentsArrayOf, buffer, bufsize, packpos, comm);
             packMPI(fieldnames, buffer, bufsize, packpos, comm);
             packMPI(cellArrayOf, buffer, bufsize, packpos, comm);
+            ArrayOf definition = ArrayOf::characterArray(cp->getDefinitionText());
+            packMPI(definition, buffer, bufsize, packpos, comm);
         }
     } break;
     case NLS_LOGICAL:
@@ -152,7 +155,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -161,48 +165,48 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             packMPI(N, buffer, bufsize, packpos, comm);
             packMPI(NNZ, buffer, bufsize, packpos, comm);
         } else {
-            MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-                MPI_UINT8_T, buffer, bufsize, packpos, comm);
+            MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_UINT8_T,
+                buffer, bufsize, packpos, comm);
         }
         break;
     case NLS_UINT8:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-            MPI_UINT8_T, buffer, bufsize, packpos, comm);
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_UINT8_T,
+            buffer, bufsize, packpos, comm);
         break;
     case NLS_INT8:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_INT8_T,
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_INT8_T,
             buffer, bufsize, packpos, comm);
         break;
     case NLS_UINT16:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(),
             MPI_UNSIGNED_SHORT, buffer, bufsize, packpos, comm);
         break;
     case NLS_INT16:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_SHORT,
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_SHORT,
             buffer, bufsize, packpos, comm);
         break;
     case NLS_UINT32:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-            MPI_UINT32_T, buffer, bufsize, packpos, comm);
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_UINT32_T,
+            buffer, bufsize, packpos, comm);
         break;
     case NLS_INT32:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-            MPI_INT32_T, buffer, bufsize, packpos, comm);
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_INT32_T,
+            buffer, bufsize, packpos, comm);
         break;
     case NLS_UINT64:
-        MPI_Pack(static_cast<const void*>((void*)A.getDataPointer()), (int)A.getElementCount(),
+        MPI_Pack(static_cast<const void*>((void*)A.dataPointer()), (int)A.elementCount(),
             MPI_UINT64_T, buffer, bufsize, packpos, comm);
         break;
     case NLS_INT64:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-            MPI_INT64_T, buffer, bufsize, packpos, comm);
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_INT64_T,
+            buffer, bufsize, packpos, comm);
         break;
     case NLS_SINGLE:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_FLOAT,
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_FLOAT,
             buffer, bufsize, packpos, comm);
         break;
     case NLS_MISSING_ARRAY: {
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_DOUBLE,
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_DOUBLE,
             buffer, bufsize, packpos, comm);
     } break;
     case NLS_DOUBLE:
@@ -211,7 +215,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -220,13 +225,13 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             packMPI(N, buffer, bufsize, packpos, comm);
             packMPI(NNZ, buffer, bufsize, packpos, comm);
         } else {
-            MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(),
-                MPI_DOUBLE, buffer, bufsize, packpos, comm);
+            MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_DOUBLE,
+                buffer, bufsize, packpos, comm);
         }
         break;
     case NLS_SCOMPLEX:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount() * 2,
-            MPI_FLOAT, buffer, bufsize, packpos, comm);
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount() * 2, MPI_FLOAT,
+            buffer, bufsize, packpos, comm);
         break;
     case NLS_DCOMPLEX:
         if (A.isSparse()) {
@@ -234,7 +239,8 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             packMPI(I, buffer, bufsize, packpos, comm);
             packMPI(J, buffer, bufsize, packpos, comm);
@@ -243,16 +249,16 @@ packMPI(ArrayOf& A, void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             packMPI(N, buffer, bufsize, packpos, comm);
             packMPI(NNZ, buffer, bufsize, packpos, comm);
         } else {
-            MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount() * 2,
+            MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount() * 2,
                 MPI_DOUBLE, buffer, bufsize, packpos, comm);
         }
         break;
     case NLS_CHAR:
-        MPI_Pack(static_cast<const void*>(A.getDataPointer()), (int)A.getElementCount(), MPI_WCHAR,
+        MPI_Pack(static_cast<const void*>(A.dataPointer()), (int)A.elementCount(), MPI_WCHAR,
             buffer, bufsize, packpos, comm);
         break;
     default: {
-        Error(_("Type not managed."));
+        Error("Nelson:MPI:typeNotSupported", "Type not managed.");
     } break;
     }
 }
@@ -277,29 +283,38 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
     void* cp = nullptr;
     switch (dataClass) {
     case NLS_STRING_ARRAY: {
-        auto* dp = new ArrayOf[outDim.getElementCount()];
-        indexType elementCount = outDim.getElementCount();
+        auto* dp = new ArrayOf[outDim.elementCount()];
+        indexType elementCount = outDim.elementCount();
         for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_STRING_ARRAY, outDim, dp);
     } break;
     case NLS_CELL_ARRAY: {
-        auto* dp = new ArrayOf[outDim.getElementCount()];
-        indexType elementCount = outDim.getElementCount();
+        auto* dp = new ArrayOf[outDim.elementCount()];
+        indexType elementCount = outDim.elementCount();
         for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         return ArrayOf(NLS_CELL_ARRAY, outDim, dp);
     } break;
     case NLS_STRUCT_ARRAY:
-    case NLS_CLASS_ARRAY: {
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
         int fieldcnt = 0;
         MPI_Unpack(buffer, bufsize, packpos, &fieldcnt, 1, MPI_INT, comm);
+        if (fieldcnt < 0) {
+            Error(L"Nelson:MPI:invalidSerializedData",
+                L"Invalid serialized data: negative field count.");
+        }
         stringVector fieldnames;
         for (int j = 0; j < fieldcnt; j++) {
             int fieldnamelength;
             MPI_Unpack(buffer, bufsize, packpos, &fieldnamelength, 1, MPI_INT, comm);
+            if (fieldnamelength < 0 || fieldnamelength > (bufsize - *packpos)) {
+                Error(L"Nelson:MPI:invalidSerializedDataFieldName",
+                    L"Invalid serialized data: field name length out of bounds.");
+            }
             char* dbuff = new char[fieldnamelength + 1];
             MPI_Unpack(buffer, bufsize, packpos, dbuff, fieldnamelength, MPI_CHAR, comm);
             dbuff[fieldnamelength] = 0;
@@ -311,16 +326,16 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         std::string classname;
         if (isclassType) {
             ArrayOf classNameAsArray = unpackMPI(buffer, bufsize, packpos, comm);
-            classname = classNameAsArray.getContentAsCString();
+            classname = classNameAsArray.asUtf8String();
         }
-        indexType elementCount = (indexType)(fieldcnt * outDim.getElementCount());
+        indexType elementCount = (indexType)(fieldcnt * outDim.elementCount());
         auto* dp = new ArrayOf[elementCount];
         for (indexType i = 0; i < elementCount; i++) {
             dp[i] = unpackMPI(buffer, bufsize, packpos, comm);
         }
         ArrayOf returnedArray;
         if (!classname.empty()) {
-            returnedArray = ArrayOf(NLS_CLASS_ARRAY, outDim, dp, false, fieldnames);
+            returnedArray = ArrayOf(dataClass, outDim, dp, false, fieldnames);
             returnedArray.setClassType(classname);
         } else {
             returnedArray = ArrayOf(NLS_STRUCT_ARRAY, outDim, dp, false, fieldnames);
@@ -331,7 +346,7 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
         function_handle fh;
         fh.anonymousHandle = nullptr;
         ArrayOf anonymousElement = unpackMPI(buffer, bufsize, packpos, comm);
-        std::string anonymousContent = anonymousElement.getContentAsCString();
+        std::string anonymousContent = anonymousElement.asUtf8String();
 
         int isFunctionHandle = 0;
         MPI_Unpack(buffer, bufsize, packpos, &isFunctionHandle, 1, MPI_INT, comm);
@@ -342,23 +357,26 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf argumentsArrayOf = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf names = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf cellArrayOf = unpackMPI(buffer, bufsize, packpos, comm);
+            ArrayOf definition = unpackMPI(buffer, bufsize, packpos, comm);
 
-            stringVector fieldnames = names.getContentAsCStringVector(false);
-            stringVector arguments = argumentsArrayOf.getContentAsCStringVector(false);
+            stringVector fieldnames = names.asUtf8StringVector(false);
+            stringVector arguments = argumentsArrayOf.asUtf8StringVector(false);
             std::vector<ArrayOf> variables;
-            variables.reserve(cellArrayOf.getElementCount());
+            variables.reserve(cellArrayOf.elementCount());
             ArrayOf* cell = static_cast<ArrayOf*>(
-                const_cast<void*>(static_cast<const void*>(cellArrayOf.getDataPointer())));
-            for (indexType k = 0; k < cellArrayOf.getElementCount(); k++) {
+                const_cast<void*>(static_cast<const void*>(cellArrayOf.dataPointer())));
+            for (indexType k = 0; k < cellArrayOf.elementCount(); k++) {
                 variables.push_back(cell[k]);
             }
-            fh.anonymousHandle = reinterpret_cast<nelson_handle*>(
-                new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables));
+            auto* anonymousFunction
+                = new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables);
+            anonymousFunction->setDefinitionText(definition.asUtf8String());
+            fh.anonymousHandle = reinterpret_cast<nelson_handle*>(anonymousFunction);
         }
         if (fh.anonymousHandle == nullptr) {
-            Error(_W("A valid function name expected."));
+            Error(L"Nelson:MPI:invalidFunctionName", L"A valid function name expected.");
         }
-        return ArrayOf::functionHandleConstructor(fh);
+        return ArrayOf::functionHandle(fh);
     } break;
     case NLS_LOGICAL:
         if (issparse) {
@@ -368,56 +386,55 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
-            return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
-                N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
+            return SparseConstructor(
+                I, J, V, M.asScalarIndex(), N.asScalarIndex(), NNZ.asScalarIndex());
         } else {
             cp = ArrayOf::allocateArrayOf(
-                NLS_LOGICAL, outDim.getElementCount(), stringVector(), false);
-            MPI_Unpack(
-                buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT8_T, comm);
+                NLS_LOGICAL, outDim.elementCount(), stringVector(), false);
+            MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_UINT8_T, comm);
         }
         break;
     case NLS_UINT8:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT8, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT8_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_UINT8, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_UINT8_T, comm);
         break;
     case NLS_INT8:
-        cp = ArrayOf::allocateArrayOf(NLS_INT8, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT8_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_INT8, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_INT8_T, comm);
         break;
     case NLS_UINT16:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT16, outDim.getElementCount(), stringVector(), false);
+        cp = ArrayOf::allocateArrayOf(NLS_UINT16, outDim.elementCount(), stringVector(), false);
         MPI_Unpack(
-            buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UNSIGNED_SHORT, comm);
+            buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_UNSIGNED_SHORT, comm);
         break;
     case NLS_INT16:
-        cp = ArrayOf::allocateArrayOf(NLS_INT16, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_SHORT, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_INT16, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_SHORT, comm);
         break;
     case NLS_UINT32:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT32, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT32_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_UINT32, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_UINT32_T, comm);
         break;
     case NLS_INT32:
-        cp = ArrayOf::allocateArrayOf(NLS_INT32, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT32_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_INT32, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_INT32_T, comm);
         break;
     case NLS_UINT64:
-        cp = ArrayOf::allocateArrayOf(NLS_UINT64, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_UINT64_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_UINT64, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_UINT64_T, comm);
         break;
     case NLS_INT64:
-        cp = ArrayOf::allocateArrayOf(NLS_INT64, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_INT64_T, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_INT64, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_INT64_T, comm);
         break;
     case NLS_SINGLE:
-        cp = ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_FLOAT, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_FLOAT, comm);
         break;
     case NLS_MISSING_ARRAY: {
         cp = ArrayOf::allocateArrayOf(
-            NLS_MISSING_ARRAY, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_DOUBLE, comm);
+            NLS_MISSING_ARRAY, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_DOUBLE, comm);
     } break;
     case NLS_DOUBLE:
         if (issparse) {
@@ -427,20 +444,16 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
-            return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
-                N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
+            return SparseConstructor(
+                I, J, V, M.asScalarIndex(), N.asScalarIndex(), NNZ.asScalarIndex());
         } else {
-            cp = ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
-            MPI_Unpack(
-                buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_DOUBLE, comm);
+            cp = ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
+            MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_DOUBLE, comm);
         }
         break;
     case NLS_SCOMPLEX:
-        cp = ArrayOf::allocateArrayOf(
-            NLS_SCOMPLEX, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(
-            buffer, bufsize, packpos, cp, (int)outDim.getElementCount() * 2, MPI_FLOAT, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount() * 2, MPI_FLOAT, comm);
         break;
     case NLS_DCOMPLEX:
         if (issparse) {
@@ -450,21 +463,21 @@ unpackMPI(void* buffer, int bufsize, int* packpos, MPI_Comm comm)
             ArrayOf M = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf N = unpackMPI(buffer, bufsize, packpos, comm);
             ArrayOf NNZ = unpackMPI(buffer, bufsize, packpos, comm);
-            return SparseConstructor(I, J, V, M.getContentAsScalarIndex(),
-                N.getContentAsScalarIndex(), NNZ.getContentAsScalarIndex());
+            return SparseConstructor(
+                I, J, V, M.asScalarIndex(), N.asScalarIndex(), NNZ.asScalarIndex());
         } else {
             cp = ArrayOf::allocateArrayOf(
-                NLS_DCOMPLEX, outDim.getElementCount(), stringVector(), true);
+                NLS_DCOMPLEX, outDim.elementCount(), stringVector(), true);
             MPI_Unpack(
-                buffer, bufsize, packpos, cp, (int)outDim.getElementCount() * 2, MPI_DOUBLE, comm);
+                buffer, bufsize, packpos, cp, (int)outDim.elementCount() * 2, MPI_DOUBLE, comm);
         }
         break;
     case NLS_CHAR:
-        cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.getElementCount(), stringVector(), false);
-        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.getElementCount(), MPI_WCHAR, comm);
+        cp = ArrayOf::allocateArrayOf(NLS_CHAR, outDim.elementCount(), stringVector(), false);
+        MPI_Unpack(buffer, bufsize, packpos, cp, (int)outDim.elementCount(), MPI_WCHAR, comm);
         break;
     default: {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:MPI:typeNotSupported", L"Type not managed.");
     } break;
     }
     return ArrayOf(dataClass, outDim, cp);
@@ -482,7 +495,7 @@ int
 getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
 {
     unsigned int overhead = getCanonicalSize(maxDims + 1, MPI_INT, comm);
-    NelsonType dataClass(A.getDataClass());
+    NelsonType dataClass(A.dataClass());
     switch (dataClass) {
     case NLS_LOGICAL:
         if (A.isSparse()) {
@@ -490,7 +503,8 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -500,33 +514,34 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT8_T, comm));
+            return (overhead + getCanonicalSize((int)A.elementCount(), MPI_UINT8_T, comm));
         }
     case NLS_UINT8:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT8_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_UINT8_T, comm));
     case NLS_INT8:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT8_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_INT8_T, comm));
     case NLS_UINT16:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UNSIGNED_SHORT, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_UNSIGNED_SHORT, comm));
     case NLS_INT16:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_SHORT, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_SHORT, comm));
     case NLS_UINT32:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT32_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_UINT32_T, comm));
     case NLS_INT32:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT32_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_INT32_T, comm));
     case NLS_UINT64:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_UINT64_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_UINT64_T, comm));
     case NLS_INT64:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_INT64_T, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_INT64_T, comm));
     case NLS_SINGLE:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_FLOAT, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_FLOAT, comm));
     case NLS_DOUBLE:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -536,17 +551,18 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_DOUBLE, comm));
+            return (overhead + getCanonicalSize((int)A.elementCount(), MPI_DOUBLE, comm));
         }
     case NLS_SCOMPLEX:
-        return (overhead + getCanonicalSize((int)A.getElementCount() * 2, MPI_FLOAT, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount() * 2, MPI_FLOAT, comm));
     case NLS_DCOMPLEX:
         if (A.isSparse()) {
             ArrayOf I, J, V, M, N, NNZ;
             bool needToOverload;
             SparseToIJV(A, I, J, V, M, N, NNZ, needToOverload);
             if (needToOverload) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"sparse");
             }
             int sI = getArrayOfFootPrint(I, comm);
             int sJ = getArrayOfFootPrint(J, comm);
@@ -556,23 +572,24 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             int sNNZ = getArrayOfFootPrint(NNZ, comm);
             return (overhead + sI + sJ + sV + sM + sN + sNNZ);
         } else {
-            return (overhead + getCanonicalSize((int)A.getElementCount() * 2, MPI_DOUBLE, comm));
+            return (overhead + getCanonicalSize((int)A.elementCount() * 2, MPI_DOUBLE, comm));
         }
     case NLS_CHAR:
-        return (overhead + getCanonicalSize((int)A.getElementCount(), MPI_WCHAR, comm));
+        return (overhead + getCanonicalSize((int)A.elementCount(), MPI_WCHAR, comm));
     case NLS_STRUCT_ARRAY:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
-    case NLS_CLASS_ARRAY: {
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
         if (dataClass == NLS_CELL_ARRAY || dataClass == NLS_STRING_ARRAY) {
             int total = 0;
-            auto* dp = (ArrayOf*)A.getDataPointer();
-            for (int i = 0; i < A.getElementCount(); i++) {
+            auto* dp = (ArrayOf*)A.dataPointer();
+            for (int i = 0; i < A.elementCount(); i++) {
                 total += getArrayOfFootPrint(dp[i], comm);
             }
             return (total + overhead);
         }
-        stringVector fieldnames(A.getFieldNames());
+        stringVector fieldnames(A.fieldNames());
         int fieldcount = static_cast<int>(fieldnames.size());
         int fieldsize = getCanonicalSize(1, MPI_INT, comm);
         for (int j = 0; j < fieldcount; j++) {
@@ -582,23 +599,23 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
         fieldsize += getCanonicalSize(1, MPI_INT, comm);
         int isclassType(static_cast<int>(A.isClassType()));
         if (isclassType) {
-            ArrayOf classnameAsArray = ArrayOf::characterArrayConstructor(A.getClassType());
-            fieldsize += getCanonicalSize((int)classnameAsArray.getElementCount(), MPI_WCHAR, comm);
+            ArrayOf classnameAsArray = ArrayOf::characterArray(A.classType());
+            fieldsize += getCanonicalSize((int)classnameAsArray.elementCount(), MPI_WCHAR, comm);
         }
-        auto* dp = (ArrayOf*)A.getDataPointer();
+        auto* dp = (ArrayOf*)A.dataPointer();
         int total = 0;
-        for (int i = 0; i < A.getElementCount() * fieldcount; i++) {
+        for (int i = 0; i < A.elementCount() * fieldcount; i++) {
             total += getArrayOfFootPrint(dp[i], comm);
         }
         return (total + overhead + fieldsize + 1);
     } break;
     case NLS_FUNCTION_HANDLE: {
         int total = overhead;
-        function_handle fh = A.getContentAsFunctionHandle();
+        function_handle fh = A.asFunctionHandle();
         AnonymousMacroFunctionDef* cp
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         std::string anonymousContent = cp->getContent();
-        ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
+        ArrayOf anonymousElement = ArrayOf::characterArray(anonymousContent);
         total += getArrayOfFootPrint(anonymousElement, comm);
 
         int isFunctionHandle = (int)(cp->isFunctionHandle());
@@ -608,12 +625,12 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             stringVector names = cp->getVariableNames();
             std::vector<ArrayOf> variables = cp->getVariables();
             Dimensions dimsNames(1, names.size());
-            ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+            ArrayOf fieldnames = ArrayOf::stringArray(names, dimsNames);
             Dimensions dimsArguments(1, arguments.size());
-            ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+            ArrayOf argumentsArrayOf = ArrayOf::stringArray(arguments, dimsArguments);
             Dimensions dimsVariables(1, variables.size());
             ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+                NLS_CELL_ARRAY, dimsVariables.elementCount(), stringVector(), false));
             ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
             for (size_t k = 0; k < variables.size(); k++) {
                 cell[k] = variables[k];
@@ -621,6 +638,8 @@ getArrayOfFootPrint(ArrayOf& A, MPI_Comm comm)
             total += getArrayOfFootPrint(argumentsArrayOf, comm);
             total += getArrayOfFootPrint(fieldnames, comm);
             total += getArrayOfFootPrint(cellArrayOf, comm);
+            ArrayOf definition = ArrayOf::characterArray(cp->getDefinitionText());
+            total += getArrayOfFootPrint(definition, comm);
         }
         return total;
 
@@ -639,8 +658,8 @@ getMpiLibraryVersion()
 {
     char library_version[MPI_MAX_LIBRARY_VERSION_STRING];
 #ifdef OMPI_MAJOR_VERSION
-    sprintf(library_version, "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION, OMPI_MINOR_VERSION,
-        OMPI_RELEASE_VERSION);
+    snprintf(library_version, sizeof(library_version), "OpenMPI %d.%d.%d", OMPI_MAJOR_VERSION,
+        OMPI_MINOR_VERSION, OMPI_RELEASE_VERSION);
     std::string returnedString = library_version;
 #else
 #if MPI_VERSION > 1
@@ -702,7 +721,7 @@ getMpiCommName(MPI_Comm comm)
     name[0] = 0;
     int len;
     if (MPI_Comm_get_name(comm, name, &len) != MPI_SUCCESS) {
-        Error(_W("Invalid communicator"));
+        Error(L"Nelson:MPI:commInvalid", L"Invalid communicator");
     }
     if (len >= MPI_MAX_OBJECT_NAME) {
         len = MPI_MAX_OBJECT_NAME - 1;

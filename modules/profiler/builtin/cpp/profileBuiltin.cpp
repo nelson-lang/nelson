@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include <iomanip>
 #include "profileBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
@@ -23,7 +24,7 @@ getSortArgument(const ArrayOfVector& argIn, bool& validOption)
     Profiler::Profile_Sort_Type sortOption = Profiler::Profile_Sort_Type::SORT_BY_NAMEFILELINE;
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
-        std::wstring str = param2.getContentAsWideString();
+        std::wstring str = param2.asWideString();
         validOption = false;
         if (str == L"nfl") {
             sortOption = Profiler::Profile_Sort_Type::SORT_BY_NAMEFILELINE;
@@ -54,7 +55,7 @@ getSortArgument(const ArrayOfVector& argIn, bool& validOption)
             validOption = true;
         }
         if (!validOption) {
-            Error(_W("option not managed."));
+            Error(L"Nelson:profile:unknownOption", L"option not managed.");
         }
     }
     return sortOption;
@@ -67,7 +68,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 3);
     ArrayOf param1 = argIn[0];
-    std::string arg1AsString = param1.getContentAsCString();
+    std::string arg1AsString = param1.asUtf8String();
     bool validOption = false;
     if (arg1AsString == "on") {
         nargincheck(argIn, 0, 1);
@@ -114,7 +115,7 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             fieldnames.push_back("TotalTime");
             fieldnames.push_back("PerCall");
 
-            retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
+            retval << ArrayOf::emptyStruct(fieldnames, dims);
             validOption = true;
             return retval;
         }
@@ -134,14 +135,14 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         // filename, line, name, nbcalls, tottime, percall
         for (std::tuple<std::string, uint64, std::string, uint64, uint64, uint64> element :
             profileLines) {
-            FunctionName.push_back(ArrayOf::characterArrayConstructor(std::get<2>(element)));
-            Filename.push_back(ArrayOf::characterArrayConstructor(std::get<0>(element)));
-            LinePosition.push_back(ArrayOf::doubleConstructor((double)std::get<1>(element)));
-            NumCalls.push_back(ArrayOf::doubleConstructor((double)std::get<3>(element)));
+            FunctionName.push_back(ArrayOf::characterArray(std::get<2>(element)));
+            Filename.push_back(ArrayOf::characterArray(std::get<0>(element)));
+            LinePosition.push_back(ArrayOf::doubleScalar((double)std::get<1>(element)));
+            NumCalls.push_back(ArrayOf::doubleScalar((double)std::get<3>(element)));
             double totalTimeAsSeconds = (double)std::get<4>(element) * 1e-9;
-            TotalTime.push_back(ArrayOf::doubleConstructor(totalTimeAsSeconds));
+            TotalTime.push_back(ArrayOf::doubleScalar(totalTimeAsSeconds));
             double perCallAsSeconds = (double)std::get<5>(element) * 1e-9;
-            PerCall.push_back(ArrayOf::doubleConstructor(perCallAsSeconds));
+            PerCall.push_back(ArrayOf::doubleScalar(perCallAsSeconds));
         }
         stringVector fieldnames;
         fieldnames.push_back("FunctionName");
@@ -171,9 +172,9 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         int nbLinesToDisplay = -1;
         if (argIn.size() > 2) {
             ArrayOf param3 = argIn[2];
-            nbLinesToDisplay = param3.getContentAsInteger32Scalar(true);
+            nbLinesToDisplay = param3.asInt32Scalar(true);
             if (nbLinesToDisplay < 1) {
-                Error(_W("Invalid value."));
+                Error(L"Nelson:profile:invalidValue", L"Invalid value.");
             }
         }
 
@@ -190,18 +191,18 @@ Nelson::ProfilerGateway::profileBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         fieldnames.push_back("HistorySize");
         ArrayOfVector values;
         if (Profiler::getInstance()->isOn()) {
-            values.push_back(ArrayOf::characterArrayConstructor("on"));
+            values.push_back(ArrayOf::characterArray("on"));
         } else {
-            values.push_back(ArrayOf::characterArrayConstructor("off"));
+            values.push_back(ArrayOf::characterArray("off"));
         }
-        values.push_back(ArrayOf::characterArrayConstructor("off"));
-        values.push_back(ArrayOf::doubleConstructor(1));
-        retval << ArrayOf::structScalarConstructor(fieldnames, values);
+        values.push_back(ArrayOf::characterArray("off"));
+        values.push_back(ArrayOf::doubleScalar(1));
+        retval << ArrayOf::structScalar(fieldnames, values);
         validOption = true;
     }
 
     if (!validOption) {
-        Error(_W("option not managed."));
+        Error(L"Nelson:profile:unknownOption", L"option not managed.");
     }
     return retval;
 }

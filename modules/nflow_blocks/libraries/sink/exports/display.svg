@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="265.5" height="265.5" viewBox="-132.75 -132.75 265.5 265.5">
+  <rect x="-132.75" y="-132.75" width="265.5" height="265.5" rx="50.445" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-40" width="200" height="80" fill="#B5D4F4" stroke="#0C447C" stroke-width="65"/>
+    <g transform="translate(1,0) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="54.4" fill="#0C447C">0.0</text></g>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>reshape</keyword>
+  <keyword_alias>block:reshape</keyword_alias>
+  <short_description>Modifie les dimensions d'un signal sans changer ses valeurs.</short_description>
+  <syntax><syntax_item>Type de bloc : reshape</syntax_item></syntax>
+  <description>
+    <p>Le bloc <b>Reshape</b> conserve l'ordre des éléments et applique les dimensions définies par <b>OutputDimensions</b>.</p>
+    <p>L'entrée et la sortie doivent contenir le même nombre d'éléments. Une différence est signalée dans les diagnostics de simulation.</p>
+    <p><img src="../../../../libraries/utility/exports/reshape.svg" align="middle"/></p>
+    <p><b>Extended Capabilities</b></p>
+    <p><b>Implementation Sources</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/reshape.cpp" language="cpp"/>
+  </description>
+</xmldoc>

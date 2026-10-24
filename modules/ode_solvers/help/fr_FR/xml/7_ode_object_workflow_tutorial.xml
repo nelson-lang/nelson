@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tutoriel objet edo</keyword>
+  <short_description>Definir et resoudre des problemes EDO avec des objets.</short_description>
+  <description>
+    <p>La classe <b>ode</b> stocke une definition de probleme : equation, etat initial, parametres, evenements, matrice de masse, Jacobien et options de solveur.</p>
+    <table style="width:100%">
+  <tr><th>Propriete</th><th>Role</th></tr>
+  <tr><td><b>ODEFcn</b>, <b>InitialValue</b></td><td>Definit l'equation differentielle et l'etat initial.</td></tr>
+  <tr><td><b>Solver</b>, <b>SolverOptions</b></td><td>Selectionne la methode d'integration et ses options.</td></tr>
+  <tr><td><b>EventDefinition</b>, <b>MassMatrix</b>, <b>Jacobian</b></td><td>Ajoute evenements, matrice de masse ou jacobien.</td></tr>
+  <tr><td><b>Sensitivity</b>, <b>DelayDefinition</b></td><td>Ajoute sensibilites ou retards quand le workflow choisi le permet.</td></tr>
+</table>
+    <p>Appelez <b>solve</b> pour obtenir un objet resultat, ou <b>solutionFcn</b> pour obtenir une fonction d'interpolation et l'objet de resultat.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un objet probleme reutilisable.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y,rate) -rate * y, ...
+  'InitialValue', 1, 'Parameters', {2});
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser solutionFcn pour interpoler.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1);
+[f, result] = solutionFcn(problem, 0, 1);
+f(0.5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isNull</keyword>
+  <short_description>Determiner si un pointeur de bibliotheque est nul.</short_description>
+  <syntax>
+    <syntax_item>tf = isNull(ptr)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ptr</param_name>
+      <param_description>handle libpointer ou objet qui implemente le test de pointeur nul.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>valeur logique : true lorsque l&apos;adresse du pointeur est nulle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>isNull renvoie une valeur logique indiquant si un objet pointeur de lien dynamique represente une adresse nulle.</p>
+    <p>La fonction est destinee aux objets pointeurs renvoyes par le module dynamic link.</p>
+  </description>
+  <used_function>
+    <used_function_item>libpointer</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un pointeur nul et le tester.</example_item_description>
+      <example_item_data><![CDATA[p = libpointer();
+tf = isNull(p)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${dynamic_link}libpointer">libpointer</link></see_also_item>
+    <see_also_item><link linkend="${dynamic_link}dlopen">dlopen</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

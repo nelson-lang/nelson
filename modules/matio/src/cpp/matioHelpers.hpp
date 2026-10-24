@@ -20,5 +20,5 @@ getMatVarDimensions(matvar_t* matVariable);
 size_t*
 convertDimensionsForMatVar(const Dimensions& dims, indexType& rank);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

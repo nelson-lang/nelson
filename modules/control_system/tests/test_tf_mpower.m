@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 num = [3 4];
@@ -26,7 +27,7 @@ Sample time: 0.2000 seconds
 Discrete-time transfer function.
  
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 num = [3 4];
 den = [3 1 5];
@@ -45,5 +46,5 @@ Sample time: 0.2000 seconds
 Discrete-time transfer function.
  
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

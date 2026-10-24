@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -33,20 +33,22 @@ operator<(const UniqueStringRowsEntry& a, const UniqueStringRowsEntry& b)
         bool AisNaN = !A.isCharacterArray();
         bool BisNaN = !B.isCharacterArray();
         if (!AisNaN && !BisNaN) {
-            std::wstring Astr = A.getContentAsWideString();
-            std::wstring Bstr = B.getContentAsWideString();
+            std::wstring Astr = A.asWideString();
+            std::wstring Bstr = B.asWideString();
             if (Astr < Bstr) {
                 return true;
             } else if (Astr > Bstr) {
                 return false;
             }
         } else if (AisNaN && !BisNaN) {
-            return true;
-        } else if (!AisNaN && BisNaN) {
             return false;
+        } else if (!AisNaN && BisNaN) {
+            return true;
         }
     }
-    return false;
+    // rows holding missing values at the same places stay distinct: the input
+    // order decides (first occurrence first).
+    return a.n < b.n;
 }
 //=============================================================================
 bool
@@ -66,11 +68,12 @@ operator==(const UniqueStringRowsEntry& a, const UniqueStringRowsEntry& b)
         bool AisNaN = !A.isCharacterArray();
         bool BisNaN = !B.isCharacterArray();
 
-        if ((AisNaN && !BisNaN) || (BisNaN && !AisNaN)) {
+        if (AisNaN || BisNaN) {
+            // a missing value never equals another value
             return false;
         }
         if (!AisNaN && !BisNaN) {
-            if (A.getContentAsWideString() != B.getContentAsWideString()) {
+            if (A.asWideString() != B.asWideString()) {
                 return false;
             }
         }
@@ -82,13 +85,13 @@ static ArrayOfVector
 UniqueStringRowsOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
@@ -133,13 +136,13 @@ static ArrayOfVector
 UniqueStringRowsTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
@@ -187,13 +190,13 @@ static ArrayOfVector
 UniqueStringRowsThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueStringRowsEntry> sp(len);
 
@@ -251,5 +254,5 @@ UniqueStringRows(const ArrayOf& input, int nLhs)
     return UniqueStringRowsThreeLhs(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

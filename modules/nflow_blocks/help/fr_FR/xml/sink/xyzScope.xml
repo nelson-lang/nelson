@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xyzScope</keyword>
+  <keyword_alias>block:xyzScope</keyword_alias>
+  <short_description>Stocke des echantillons X/Y/Z pour affichage 3D.</short_description>
+  <syntax>
+    <syntax_item>Block type: xyzScope</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>3 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Stocke des echantillons X/Y/Z pour affichage 3D.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>xyzScope</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>XYZ Scope</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/sink/exports/xyzScope.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Stocke des echantillons X/Y/Z pour affichage 3D.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=50</td>
+        </tr>
+        <tr>
+          <td>Port_2</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=90</td>
+        </tr>
+        <tr>
+          <td>Port_3</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=130</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <p>Ce bloc ne declare aucune sortie.</p>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>xMin</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>xMax</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>yMin</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>yMax</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>zMin</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>zMax</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>width</code>
+          </td>
+          <td>220</td>
+        </tr>
+        <tr>
+          <td>
+            <code>height</code>
+          </td>
+          <td>180</td>
+        </tr>
+        <tr>
+          <td>
+            <code>rotationX</code>
+          </td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>
+            <code>rotationY</code>
+          </td>
+          <td>45</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Cles de l inspecteur</b>
+    </p>
+    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <ul>
+      <li>
+        <code>xMin</code>
+      </li>
+      <li>
+        <code>xMax</code>
+      </li>
+      <li>
+        <code>yMin</code>
+      </li>
+      <li>
+        <code>yMax</code>
+      </li>
+      <li>
+        <code>zMin</code>
+      </li>
+      <li>
+        <code>zMax</code>
+      </li>
+      <li>
+        <code>width</code>
+      </li>
+      <li>
+        <code>height</code>
+      </li>
+      <li>
+        <code>rotationX</code>
+      </li>
+      <li>
+        <code>rotationY</code>
+      </li>
+    </ul>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>xyzScope</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>220 x 180</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, AFTER_STEP</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>voir Algorithmes</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>non observe dans le code documente</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>INIT efface xSeries, ySeries et zSeries.</li>
+      <li>AFTER_STEP ajoute les trois entrees; les entrees absentes ajoutent NaN.</li>
+      <li>Le bloc n a pas de sortie.</li>
+    </ul>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/xyzScope.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/scope">scope</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/xyScope">xyScope</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

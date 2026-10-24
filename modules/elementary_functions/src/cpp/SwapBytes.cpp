@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -49,7 +49,6 @@ template <typename T>
 inline std::enable_if_t<sizeof(T) == 1, void>
 endian_reverse_inplace(T&)
 {
-    // no-op for 1-byte types
 }
 //=============================================================================
 template <typename T>
@@ -107,13 +106,13 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Dimensions dimsA = A.getDimensions();
-    switch (A.getDataClass()) {
+    Dimensions dimsA = A.dimensions();
+    switch (A.dataClass()) {
     case NLS_UINT8: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (uint8*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (uint8*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -122,8 +121,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_INT8: {
         res = A;
         res.ensureSingleOwner();
-        int8* ptr = (int8*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        int8* ptr = (int8*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -132,8 +131,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT16: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (uint16*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (uint16*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -142,8 +141,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_INT16: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (int16*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (int16*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -152,8 +151,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT32: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (uint32*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (uint32*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -162,8 +161,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_INT32: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (int32*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (int32*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -172,8 +171,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_UINT64: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (uint64*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (uint64*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -182,8 +181,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_INT64: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (int64*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (int64*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             endian_reverse_inplace(ptr[k]);
@@ -192,8 +191,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
     case NLS_SINGLE: {
         res = A;
         res.ensureSingleOwner();
-        auto* ptr = (single*)res.getDataPointer();
-        ompIndexType elementCount = dimsA.getElementCount();
+        auto* ptr = (single*)res.dataPointer();
+        ompIndexType elementCount = dimsA.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             ptr[k] = swapSingle(ptr[k]);
@@ -205,8 +204,8 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
         } else {
             res = A;
             res.ensureSingleOwner();
-            auto* ptr = (double*)res.getDataPointer();
-            ompIndexType elementCount = dimsA.getElementCount();
+            auto* ptr = (double*)res.dataPointer();
+            ompIndexType elementCount = dimsA.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptr[k] = swapDouble(ptr[k]);

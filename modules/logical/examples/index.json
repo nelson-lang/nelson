@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "logical_indexing.m",
+      "title": {
+        "en_US": "Filter data with logical masks",
+        "fr_FR": "Filtrer des données avec des masques logiques"
+      },
+      "description": {
+        "en_US": "Combine conditions to select and replace measurements without loops.",
+        "fr_FR": "Combiner des conditions pour sélectionner et remplacer des mesures sans boucle."
+      },
+      "tags": [
+        "logical",
+        "indexing",
+        "filtering"
+      ],
+      "requirements": []
+    }
+  ]
+}

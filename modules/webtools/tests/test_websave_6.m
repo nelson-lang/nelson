@@ -7,14 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://stooq.com/q/d/l/?s=^aor&d1=20190401&d2=20190405&i=d/^aor_d.csv';
-filename = fullfile(tempdir(), 'test.csv');
+url = 'https://jsonplaceholder.typicode.com/todos/1';
+filename = fullfile(tempdir(), 'test_websave_6.json');
 o = weboptions();
 o.Timeout = 30;
 
-% retry logic
 MAX_ATTEMPTS = 3;
-PAUSE_SECS = [0, 2, 5];
+PAUSE_SECS = [0, 1, 2];
 destination_filename = '';
 lastErrorMsg = '';
 success = false;
@@ -29,12 +28,12 @@ for attempt = 1:MAX_ATTEMPTS
     destination_filename = websave(filename, url, o);
 
     if isfile(destination_filename)
-      info = dir(destination_filename);
-      if info.bytes > 200
+      R = jsondecode(fileread(destination_filename));
+      if isstruct(R) && R.id == 1
         success = true;
         break;
       else
-        lastErrorMsg = sprintf('Downloaded file too small (%d bytes).', info.bytes);
+        lastErrorMsg = 'Downloaded content did not contain expected todo.';
       end
     else
       lastErrorMsg = 'websave did not create the file.';
@@ -50,7 +49,9 @@ if ~success
   skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
 end
 
-assert_istrue(isfile(destination_filename));
-info = dir(destination_filename);
-assert_istrue(info.bytes > 200);
+asserts.istrue(isfile(destination_filename));
+R = jsondecode(fileread(destination_filename));
+asserts.isequal(R.id, 1);
+asserts.isequal(R.userId, 1);
+asserts.isequal(R.completed, false);
 %=============================================================================

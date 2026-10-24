@@ -8,4 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 r = which('which', '-module');
-assert_isequal(r{1}, 'functions_manager');
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(isempty(r{1}) || strcmp(r{1}, 'functions_manager'));
+else
+  asserts.isequal(r{1}, 'functions_manager');
+end

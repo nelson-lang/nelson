@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode events tutorial</keyword>
+  <short_description>Locate events during ODE integration.</short_description>
+  <description>
+    <p>Use the <b>Events</b> option to stop or record integration points where an event function crosses zero. Event functions return value, terminal, and direction arrays.</p>
+    <table style="width:100%">
+  <tr><th>Event output</th><th>Meaning</th></tr>
+  <tr><td><b>te</b> or <b>xe</b></td><td>Time or independent variable value where an event was located.</td></tr>
+  <tr><td><b>ye</b></td><td>Solution at the event point.</td></tr>
+  <tr><td><b>ie</b></td><td>Index of the event function that crossed zero.</td></tr>
+  <tr><td><b>isterminal</b></td><td>Nonzero values stop integration at the event.</td></tr>
+</table>
+    <p>Use terminal events to stop at thresholds and nonterminal events to collect diagnostic times without stopping the integration.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stop when the state reaches one half.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [value,isterminal,direction] = localHalfEvent(t, y)
+  value = y - 0.5;
+  isterminal = 1;
+  direction = 1;
+end
+options = odeset('Events', @localHalfEvent);
+[t, y, te, ye, ie] = ode45(@(t,y) 1, [0 1], 0, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use an event object in the object workflow.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[event = odeEvent('EventFcn', @(t,y) y - 0.5, 'Response', 'stop');
+problem = ode('ODEFcn', @(t,y) 1, 'InitialValue', 0, 'EventDefinition', event);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeEvent">odeEvent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>time</module_name>
+  <chapter>Calculs et intervalles de dates</chapter>
+  <chapter_description>
+    <p>Fonctions pour decalages, differences, intervalles de dates et temps ecoule.</p>
+  </chapter_description>
+</xmldoc>

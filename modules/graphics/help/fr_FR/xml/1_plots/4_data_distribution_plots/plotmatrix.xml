@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>plotmatrix</keyword>
+  <short_description>Affiche une matrice de graphiques deux a deux.</short_description>
+  <syntax>
+    <syntax_item>plotmatrix(X)</syntax_item>
+    <syntax_item>plotmatrix(X, Y)</syntax_item>
+    <syntax_item>plotmatrix(..., marqueur)</syntax_item>
+    <syntax_item>[h, ax, bigax, p, pax] = plotmatrix(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>plotmatrix</b> cree une grille de graphiques deux a deux pour les colonnes de matrices numeriques. Avec une seule matrice, la diagonale inclut des histogrammes retournes dans <b>p</b>, tandis que <b>h</b> contient les objets line des nuages de points.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Creer une matrice de graphiques pour trois variables.</example_item_description>
+      <example_item_data><![CDATA[X = [1 2 3; 2 3 5; 3 5 8; 4 7 13; 5 11 21];
+plotmatrix(X);]]></example_item_data>
+      <example_item_img src="../../../../images/plotmatrix_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Comparer les colonnes de deux matrices.</example_item_description>
+      <example_item_data><![CDATA[rng(0);
+X = rand(30, 2);
+Y = [X(:, 1).^2, sin(X(:, 2)), X(:, 1) + X(:, 2)];
+plotmatrix(X, Y, 'o');]]></example_item_data>
+      <example_item_img src="../../../../images/plotmatrix_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/scatter">scatter</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/histogram">histogram</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/2_layout_objects/subplot">subplot</link></see_also_item>
+  </see_also>
+</xmldoc>

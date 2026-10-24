@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <unordered_map>
+#include <atomic>
+#include <mutex>
 #include <string>
-#include <tuple>
 #include <set>
+#include <tuple>
+#include <unordered_map>
+#include <vector>
 #include "nlsProfiler_exports.h"
 #include "Types.hpp"
 #include "ProfilerHelpers.hpp"
@@ -70,8 +72,9 @@ public:
         std::wstring& errorMessage);
 
 private:
-    bool profileOn = false;
+    std::atomic_bool profileOn { false };
 
+    std::mutex profileMutex;
     std::unordered_map<size_t, profileFunction> profileMap;
     uint64 index = 0;
 

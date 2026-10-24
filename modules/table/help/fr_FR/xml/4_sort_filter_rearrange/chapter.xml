@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>table</module_name>
+  <chapter>Tri, filtrage et reorganisation</chapter>
+  <chapter_description>
+    <p>Fonctions et rubriques pour acceder, trier, reorganiser et personnaliser le contenu de tables.</p>
+  </chapter_description>
+</xmldoc>

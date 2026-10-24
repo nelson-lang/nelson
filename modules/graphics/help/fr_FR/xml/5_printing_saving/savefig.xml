@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>savefig</keyword>
+  <short_description>Enregistre une figure dans un fichier FIG Nelson.</short_description>
+  <syntax>
+    <syntax_item>savefig()</syntax_item>
+    <syntax_item>savefig(filename)</syntax_item>
+    <syntax_item>savefig(fig, filename)</syntax_item>
+    <syntax_item>savefig(fig, filename, version)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Objet graphique figure ou tableau d&apos;objets graphiques figure. Chaque element doit etre une figure valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Vecteur de caracteres ou chaine scalaire. Si le nom n&apos;a pas d&apos;extension, <b>savefig</b> ajoute <b>.fig</b>. Les autres extensions sont rejetees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>version</param_name>
+      <param_description>Option acceptee pour compatibilite syntaxique : <b>'-v7.3'</b>, <b>'-v7'</b> ou <b>'-v6'</b>. Nelson enregistre le meme format FIG Nelson pour chaque valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>savefig()</b> enregistre la figure courante retournee par <b>gcf()</b> dans <b>Untitled.fig</b>.</p>
+    <p><b>savefig(filename)</b> enregistre la figure courante dans <b>filename</b>.</p>
+    <p><b>savefig(fig, filename)</b> enregistre la figure indiquee, ou un tableau de figures, dans un seul fichier.</p>
+    <p><b>savefig(fig, filename, version)</b> accepte une option de version pour compatibilite syntaxique. Cette option ne change pas le format du fichier Nelson.</p>
+    <p>Le fichier enregistre contient une charge utile de figure Nelson dans un conteneur HDF5/NH5. Il est destine a rouvrir des figures avec <b>openfig</b>, avec leur arbre d&apos;objets graphiques et les proprietes persistantes prises en charge.</p>
+    <p><b>Avertissement :</b> les fichiers <b>.fig</b> Nelson sont specifiques a Nelson. Ils ne sont pas compatibles avec les fichiers <b>.fig</b> qui n&apos;ont pas ete generes par Nelson, et Nelson ne garantit pas l&apos;ouverture de fichiers <b>.fig</b> externes.</p>
+    <p><b>savefig</b> enregistre des figures completes. Pour exporter une image bitmap ou vectorielle, utilisez les fonctions d&apos;export d&apos;image comme <b>saveas</b> lorsqu&apos;elles sont disponibles. Pour sauvegarder des variables de l&apos;espace de travail, utilisez les fonctions de sauvegarde de donnees.</p>
+    <p>Les valeurs d&apos;execution comme les handles graphiques places dans des proprietes arbitraires et les function handles ne sont pas restaurees comme etat portable de figure.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Enregistrer la figure courante et la rouvrir.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot(1:5, [1 4 9 16 25]);
+title('Donnees quadratiques');
+figfile = [tempname(), '_quadratic.fig'];
+savefig(figfile);
+close(f);
+restored = openfig(figfile, 'invisible');
+assert(isgraphics(restored, 'figure'));
+close(restored);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Enregistrer avec ajout automatique de l&apos;extension .fig.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot(1:3);
+figfile = [tempname(), '_auto_extension'];
+savefig(f, figfile);
+assert(isfile([figfile, '.fig']));
+close(f);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Enregistrer plusieurs figures dans un seul fichier.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+figs(1) = figure('Visible', 'off');
+plot(1:4);
+figs(2) = figure('Visible', 'off');
+bar([2 4 3]);
+figfile = [tempname(), '_two_figures.fig'];
+savefig(figs, figfile);
+close(figs);
+restored = openfig(figfile, 'invisible');
+assert(isequal(numel(restored), 2));
+close(restored);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser une option de version acceptee pour compatibilite.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+surf(peaks());
+figfile = [tempname(), '_surface.fig'];
+savefig(f, figfile, '-v7.3');
+close(f);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}5_printing_saving/openfig">openfig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}saveas">saveas</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}savenh5">savenh5</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

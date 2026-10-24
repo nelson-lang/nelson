@@ -12,16 +12,16 @@
 env = pyenv();
 [r, msg] = system([env.Executable + " -m pip install numpy --quiet"]);
 try
-    pyrun('import numpy as np');
-  catch
-      skip_testsuite(true, 'Numpy not available')
-  end
+  pyrun('import numpy as np');
+catch
+  skip_testsuite(true, 'Numpy not available')
+end
 %=============================================================================
-cmd =["import numpy as np"; "A = np.array([3, 2, 1, 4])"];
+cmd = ["import numpy as np"; "A = np.array([3, 2, 1, 4])"];
 A = pyrun(cmd, 'A')
 isbuiltin('argsort')
 ismacro('argsort')
 ismethod(A, 'argsort')
 R = argsort(A)
-assert_isequal(class(R), 'py.numpy.ndarray')
+asserts.isequal(class(R), 'py.numpy.ndarray')
 

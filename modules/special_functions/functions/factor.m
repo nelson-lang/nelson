@@ -7,48 +7,50 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+%#ok<NLS0026>
 function f = factor(n)
-  narginchk(1, 1)
-  nargoutchk(0, 1)
-  
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+
   if ~isscalar(n)
-    error(_('Wrong size for argument #1: scalar expected.'));
+    error('Nelson:scalarExpected', 'Wrong size for argument #%d: scalar expected.', 1);
   end
   if ~isfinite(n)
-    error(_('Wrong value for argument #1: finite value expected.'));
+    error('Nelson:primes:mustBeFinite', 'Wrong value for argument #%d: finite value expected.', 1);
   end
   if ~isreal(n)
-    error(_('Wrong value for argument #1: real value expected.'));
+    error('Nelson:primes:mustBeReal', 'Wrong value for argument #%d: real value expected.', 1);
   end
-  
+
   if (n < 0) || (floor(n) ~= n)
-    error(_('Wrong value for input argument #1: a nonnegative integer expected.'));
+    error('Nelson:factor:mustBeNonnegativeInteger', 'Wrong value for argument #%d: a nonnegative integer expected.', 1);
   end
-  
-  if (n > 2^32)
-    error(_('Wrong value for input argument #1: maximum value of n allowed is 2^32.'));
+
+  if (n > 2 ^ 32)
+    error('Nelson:factor:valueTooLarge', 'Wrong value for argument #%d: maximum value of n allowed is 2^32.', 1);
   end
-  
-  if (n < 4)
+
+  if n < 4
     f = n;
     return;
-  else
-    f = [];
   end
-  cl = class(n);
-  n = double(n);
-  p = primes(sqrt(double(n)));
-  while n>1
-    d = find(rem(n, p) == 0);
-    if isempty(d)
-      f = [f, n];
-      break; 
+
+  outputClass = class(n);
+  remainingValue = double(n);
+  candidatePrimes = primes(sqrt(remainingValue));
+  f = [];
+  while remainingValue > 1
+    divisorMask = rem(remainingValue, candidatePrimes) == 0;
+    if ~any(divisorMask)
+      f = [f, remainingValue];
+      break;
     end
-    p = p(d);
-    f = [f, p];
-    n = n / prod(p);
+    divisors = candidatePrimes(divisorMask);
+    f = [f, divisors];
+    remainingValue = remainingValue / prod(divisors);
+    candidatePrimes = divisors;
   end
   f = sort(f);
-  f = cast(f, cl);
+  f = cast(f, outputClass);
 end
 %=============================================================================

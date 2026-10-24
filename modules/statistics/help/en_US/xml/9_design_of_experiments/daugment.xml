@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>daugment</keyword>
+  <short_description>Augment a D-optimal design.</short_description>
+  <syntax>
+    <syntax_item>dCE2 = daugment(dCE, mruns)</syntax_item>
+    <syntax_item>[dCE2, X] = daugment(dCE, mruns, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>daugment</b> augments an existing design by selecting additional rows from generated candidates.</p></description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}candexch">candexch</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Add two runs to an existing design.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(8);
+dCE = [-1 -1];
+[dCE2, X] = daugment(dCE, 2, 'linear', 'Display', 'off', 'AvoidDuplicates', true);
+dCE2
+X]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Augment a design with bounded candidate levels.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[dCE = [0 0];
+bounds = [0 1; 0 1];
+[dCE2, X] = daugment(dCE, 2, 'quadratic', 'Bounds', bounds, 'Display', 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

@@ -9,12 +9,30 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "FunctionDef.hpp"
+#include "NelsonGateway.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+using LazyGatewayResolver = bool (*)(Evaluator* eval, const std::wstring& dynlibname,
+    const std::string& functionName, std::wstring& errorMessage);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+SetLazyGatewayResolver(LazyGatewayResolver resolver);
+//=============================================================================
+// Callbacks run once, before the builtin/gateway tables are torn down at
+// shutdown. Modules that keep worker threads alive (e.g. the background pool
+// used by parfeval) register here to drain those threads while the function
+// definitions they may still dereference are alive.
+using PreModulesTeardownCallback = void (*)();
+NLSINTERPRETER_IMPEXP void
+RegisterPreModulesTeardownCallback(PreModulesTeardownCallback callback);
+NLSINTERPRETER_IMPEXP void
+RunPreModulesTeardownCallbacks();
 //=============================================================================
 class NLSINTERPRETER_IMPEXP BuiltInFunctionDef : public FunctionDef
 {
@@ -34,14 +52,8 @@ public:
      */
     int argCount;
     //=============================================================================
-    /**
-     * The pointer to (address of) the function.
-     */
     void* fptr;
     //=============================================================================
-    /**
-     * Type of builtin;
-     */
     size_t builtinPrototype;
     //=============================================================================
     /**
@@ -50,47 +62,36 @@ public:
      * MEX before 2018 version uses separated complex representation
      */
     bool interleavedComplex;
+    bool callerContextAccess;
+    // evaluator builtins are conservatively assumed to reach the calling
+    // workspace; helpers that only use the evaluator to run class member
+    // functions opt out so call sites skip the locals-to-context sync
+    bool callerContextNeutral;
+    std::atomic<bool> lazyGateway;
+    std::wstring moduleName;
     //=============================================================================
-    /**
-     * Default constructor.
-     */
     BuiltInFunctionDef(bool isOverload);
     //=============================================================================
-    /**
-     * Default destructor.
-     */
     ~BuiltInFunctionDef() override;
     //=============================================================================
-    /**
-     * The type of the function is NLS_BUILT_IN_FUNCTION
-     */
     [[nodiscard]] FunctionType
     type() const override
     {
         return NLS_BUILT_IN_FUNCTION;
     }
     //=============================================================================
-    /**
-     * The number of inputs required by this function.
-     */
     int
     inputArgCount() override
     {
         return argCount;
     }
     //=============================================================================
-    /**
-     * The number of outputs returned by this function.
-     */
     int
     outputArgCount() override
     {
         return retCount;
     }
     //=============================================================================
-    /**
-     * Evaluate the function and return the values.
-     */
     ArrayOfVector
     evaluateFunction(
         Evaluator* /*unused*/, const ArrayOfVector& /*unused*/, int /*unused*/) override;
@@ -100,6 +101,38 @@ public:
     {
         return false;
     }
+    //=============================================================================
+    bool
+    mustSyncCallerContext() const
+    {
+        return (builtinPrototype == CPP_BUILTIN_WITH_EVALUATOR && !callerContextNeutral)
+            || callerContextAccess;
+    }
+    //=============================================================================
+    bool
+    mustRefreshCallerContext() const
+    {
+        return callerContextAccess;
+    }
+    //=============================================================================
+    bool
+    isLazyGateway() const
+    {
+        return lazyGateway;
+    }
+    //=============================================================================
+    // "built-in <name>" computed once: pushDebug runs on every builtin call.
+    const std::string&
+    getDebugDetail()
+    {
+        if (debugDetailCache.empty()) {
+            debugDetailCache = std::string("built-in ") + getName();
+        }
+        return debugDetailCache;
+    }
+    //=============================================================================
+private:
+    std::string debugDetailCache;
     //=============================================================================
 };
 //=============================================================================

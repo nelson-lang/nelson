@@ -13,87 +13,95 @@ R = int8(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = int16(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = int32(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = int64(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = uint8(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = uint16(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = uint32(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = uint64(eye(3, 4));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_eye_', class(R), v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================

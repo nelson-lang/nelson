@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
@@ -18,8 +19,8 @@ ipc(getpid, 'put', A, 'R')
 clear('A');
 toc()
 tic()
-q = 0;while(~isvar('R') && q < 20), sleep(1), q = q + 1; end
+q = 0; while (~isvar('R') && q < 2000), sleep(0.01), q = q + 1; end
 toc()
-assert_isequal(size(R), [k, k])
+asserts.isequal(size(R), [k, k])
 clear('R')
 %=============================================================================

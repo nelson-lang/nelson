@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "uicontrolBuiltin.hpp"
+#include "GOHelpers.hpp"
 #include "UIControlBuilder.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
@@ -16,9 +17,9 @@ ArrayOfVector
 uicontrolBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(UIControlBuilder(argIn));
+    retval << graphicsObjectHandle(UIControlBuilder(argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

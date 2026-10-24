@@ -8,14 +8,14 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function l = getColorShortName(name)
-    shortnames = getColorShortNameList();
-    names = getColorNameList();
-    idx = find(strcmpi(names, name), 1);
-    if ~isempty(idx)
-        l = shortnames{idx};
-    else
-        l = name;
-    end
+  shortnames = getColorShortNameList();
+  names = getColorNameList();
+  idx = find(strcmpi(names, name), 1);
+  if ~isempty(idx)
+    l = shortnames{idx};
+  else
+    l = name;
+  end
 end
 %=============================================================================
-  
+

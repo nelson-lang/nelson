@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>membrane</keyword>
+  <short_description>Fonctions propres de la membrane en L.</short_description>
+  <syntax>
+    <syntax_item>L = membrane</syntax_item>
+    <syntax_item>L = membrane(k)</syntax_item>
+    <syntax_item>L = membrane(k, n)</syntax_item>
+    <syntax_item>membrane(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description
+      >un entier positif : l&apos;indice de la fonction propre (par défaut 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
+      >un entier positif : le paramètre de grille ; le résultat est (2*n+1)-par-(2*n+1) (par défaut 15).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description
+      >une matrice (2*n+1)-par-(2*n+1) : la k-ième fonction propre échantillonnée sur la grille.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>membrane</b> renvoie la <b>k</b>-ième fonction propre de la membrane en
+      forme de L, échantillonnée sur une grille carrée
+      <b>(2*n+1)</b>-par-<b>(2*n+1)</b>. Le domaine est le carré privé d&apos;un
+      quadrant ; la valeur est nulle sur la frontière et en dehors de ce
+      domaine.</p>
+    <p>La première fonction propre (<b>k = 1</b>) est le mode fondamental, une
+      unique bosse positive ; les indices supérieurs ajoutent des lignes nodales
+      et donc des valeurs négatives. Le résultat est normalisé de sorte que son
+      amplitude maximale vaut 1 avec un pic positif.</p>
+    <p>Appelée sans argument de sortie, <b>membrane</b> trace la surface.</p>
+    <p>La fonction propre est obtenue par une discrétisation en différences
+      finies du domaine, résolue par un calcul de valeurs propres en mode
+      shift-invert (<b>eigs</b>) pour les plus petites valeurs propres.</p>
+  </description>
+  <used_function>eigs</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[L = membrane(1, 10);
+size(L)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[L = membrane(1, 15);
+[min(L(:)), max(L(:))]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>tracer la surface</example_item_description>
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[f = figure();
+surf(membrane(1, 50), 'EdgeColor', 'none');
+axis('off');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}peaks">peaks</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}eigs">eigs</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surf">surf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

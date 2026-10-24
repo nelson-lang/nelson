@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_workspace</keyword>
+  <short_description>Utiliser l'espace de travail de l'éditeur nflow.</short_description>
+  <syntax>
+    <syntax_item>Page concept : bibliothèque, inspecteur, commandes de simulation et diagnostics</syntax_item>
+  </syntax>
+  <description>
+    <p>L'espace de travail conserve le diagramme au centre, avec la bibliothèque de blocs à gauche et l'inspecteur contextuel à droite. Le panneau inférieur contient deux vues distinctes : <b>Console</b> et <b>Diagnostics</b>. La visibilité et la largeur des panneaux sont restaurées à la réouverture de l'éditeur.</p>
+    <p><b>Rechercher et insérer des blocs</b></p>
+    <p>Utilisez le champ de recherche toujours visible de la bibliothèque pour filtrer les noms de blocs et les catégories. La recherche ignore la casse et les accents. Cliquez sur un résultat pour l'insérer et le sélectionner, faites-le glisser sur le diagramme ou double-cliquez sur une zone vide du diagramme pour ouvrir l'insertion rapide. Le bouton Quick insert rend la même commande accessible sans raccourci.</p>
+    <p><b>Gérer les bibliothèques</b></p>
+    <p>Ouvrez <b>Gérer les bibliothèques</b> depuis l'en-tête de la bibliothèque pour configurer les dossiers de recherche ordonnés et les bibliothèques externes. Le premier dossier contenant un identifiant donné est prioritaire. Les bibliothèques intégrées restent actives. Une bibliothèque externe peut être activée ou désactivée, sauf lorsque le diagramme courant utilise ses blocs. Les dossiers indisponibles restent affichés jusqu'à leur relocalisation ou leur retrait.</p>
+    <p><b>Modifier les propriétés</b></p>
+    <p>Sélectionnez un bloc pour ouvrir l'inspecteur <b>Block</b>. Ses paramètres restent visibles pendant l'édition du diagramme. La section Capabilities indique la prise en charge directe ou dépendante du modèle pour la génération C et Rust. La nécessité d'OpenModelica n'est affichée que pour les blocs concernés. Utilisez l'onglet <b>Model</b> pour les réglages de simulation, les variables, les métadonnées du diagramme, le routage et le mode lecture seule.</p>
+    <p>La section Informations du modèle affiche la version, le créateur et la date de création du modèle, ainsi que l'utilisateur et la date du dernier enregistrement réussi. La description, la licence et le mode lecture seule sont enregistrés avec le diagramme. Pour un ancien diagramme dépourvu de ces métadonnées, les informations de dernier enregistrement sont indiquées comme indisponibles.</p>
+    <p>Dans <b>Settings</b>, la section Modelica indique si OpenModelica a été détecté et s'il est prêt pour l'export FMU. Lorsqu'il est disponible, sa version et le chemin de l'exécutable sont affichés ; sinon, la raison de l'indisponibilité de la détection ou de l'export est précisée.</p>
+    <p><b>Exécuter une simulation</b></p>
+    <p>Le menu <b>Simulation</b> et la barre compacte au-dessus du diagramme donnent accès à Run ou Resume, Pause, Stop, Reset et Simulation Settings. La barre peut être masquée ou restaurée depuis <b>View &gt; Simulation Toolbar</b> ; ce choix est restauré à la réouverture de l'éditeur. Stop conserve les résultats déjà calculés. Reset arrête la simulation si nécessaire, remet le temps à zéro et efface les résultats affichés.</p>
+    <p><b>Utiliser les diagnostics</b></p>
+    <p>Les erreurs et avertissements apparaissent dans l'onglet Diagnostics et dans les compteurs de la barre d'état. Sélectionnez un diagnostic qui référence un bloc pour centrer et sélectionner ce bloc dans le diagramme.</p>
+    <p><b>Disposition adaptative</b></p>
+    <p>Sur une fenêtre large, la bibliothèque et l'inspecteur peuvent rester ouverts ensemble. Sur une fenêtre plus étroite, l'inspecteur s'ouvre lorsque nécessaire et l'espace de travail limite les panneaux latéraux simultanés afin que le diagramme reste utilisable.</p>
+    <p><b>Préférences restaurées</b></p>
+    <p>NFlow restaure la géométrie de la fenêtre, les panneaux visibles, leurs dimensions et leurs onglets, les sections ouvertes de la bibliothèque et de l'inspecteur, les positions de défilement, les filtres de diagnostics, les options de génération de code, les derniers dossiers des dialogues de fichiers et les valeurs par défaut des nouveaux diagrammes. Le zoom et le cadrage sont restaurés lorsque le même diagramme enregistré est ouvert à nouveau. NFlow ne rouvre pas automatiquement le dernier diagramme.</p>
+    <p>Utilisez <b>View &gt; Reset UI Preferences</b> pour supprimer ces préférences d'interface. Le diagramme courant n'est pas modifié et les valeurs par défaut s'appliquent aux nouvelles fenêtres de l'éditeur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_wire_editing">nflow_wire_editing</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

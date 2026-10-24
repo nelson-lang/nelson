@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imcomplement</keyword>
+  <short_description>Complement image values.</short_description>
+  <syntax>
+    <syntax_item>J = imcomplement(I)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input image.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Complemented image with class matching I.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Complement image values. Logical values are inverted. Unsigned integer images are complemented around their full class range. Signed integer images preserve their class and are complemented around the signed class range.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Complement an image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=repmat(linspace(0,1,96),64,1);
+J=imcomplement(I);
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(J); g=linspace(0,1,64)'; colormap([g g g]); title('Complement');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imcomplement_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Complement signed integer values</example_item_description>
+      <example_item_data><![CDATA[J = imcomplement(int16([-32768 0 32767]))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imadjust">imadjust</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imbinarize">imbinarize</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

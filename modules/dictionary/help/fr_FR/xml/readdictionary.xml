@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>readdictionary</keyword>
+  <short_description>Lit un dictionnaire depuis un fichier.</short_description>
+  <syntax>
+    <syntax_item>d = readdictionary(filename)</syntax_item>
+    <syntax_item>d = readdictionary(filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>scalaire texte : nom du fichier source.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>scalaire : objet dictionnaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>d = readdictionary(filename)</b> lit un objet JSON depuis <b>filename</b> et retourne un dictionnaire.</p>
+    <p>
+      Les noms des membres de l&apos;objet JSON deviennent des cles string du dictionnaire. Les valeurs sont converties en valeurs Nelson. Les tableaux JSON sont decodes comme cellules colonnes. Si les valeurs JSON ont des types differents ou des tailles non scalaires, le type des valeurs du dictionnaire est <code>cell</code>.</p>
+    <p>
+      <b>d = readdictionary(filename, Name, Value)</b> personnalise la lecture. Les options supportees sont :</p>
+    <ul>
+      <li>
+        <b>FileType :</b> type de fichier. Les valeurs supportees sont <code>&apos;auto&apos;</code> et <code>&apos;json&apos;</code>. Seuls les fichiers dictionnaire JSON sont actuellement supportes.</li>
+      <li>
+        <b>ValueType :</b> type cible utilise pour convertir les valeurs decodees.</li>
+      <li>
+        <b>AllowTrailingCommas :</b> scalaire logique. Si vrai, les virgules finales dans les objets JSON sont acceptees. La valeur par defaut est <code>true</code>.</li>
+      <li>
+        <b>AllowComments :</b> scalaire logique. Si vrai, les commentaires de style JavaScript sont ignores avant l&apos;analyse. La valeur par defaut est <code>true</code>.</li>
+      <li>
+        <b>AllowInfAndNaN :</b> scalaire logique. Si vrai, les jetons <code>NaN</code>, <code>Infinity</code>, <code>Inf</code>, <code>-Infinity</code> et <code>-Inf</code> sont acceptes. La valeur par defaut est <code>true</code>.</li>
+      <li>
+        <b>DateLocale :</b> accepte pour compatibilite.</li>
+    </ul>
+    <p>
+      <b>DictionaryNodeName</b> et <b>DictionarySelector</b> sont acceptes comme noms d&apos;option, mais ils ne sont pas supportes pour les fichiers dictionnaire JSON.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lecture d&apos;un dictionnaire ecrit en JSON.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'products.json'];
+d = dictionary(["apple", "banana"], [1.2, 2.3]);
+writedictionary(d, filename);
+r = readdictionary(filename)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lecture avec un type explicite.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'counts.json'];
+filewrite(filename, '{"a": 1, "b": 2}');
+d = readdictionary(filename, 'ValueType', 'single')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}writedictionary">writedictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}loadnh5">loadnh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}loadmat">loadmat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

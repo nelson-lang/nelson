@@ -12,8 +12,11 @@ function C = cov(varargin)
   % C = cov(A, w)
   % C = cov(A, B)
   % C = cov(A, B, w)
-  if nargin < 1 || nargin > 3
-    error(_('Wrong number of input arguments.'));
+  if nargin < 1
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if nargin > 3
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   w = 0;
   if nargin == 1
@@ -23,7 +26,8 @@ function C = cov(varargin)
     elseif isvector(A)
       nobs = length(A);
       r = 1 / (nobs - 1);
-      C = r * (norm(A)^2 - nobs * mean(A)^2);
+      % use |mean|^2 so that the variance of complex data is real and >= 0
+      C = r * (norm(A) ^ 2 - nobs * abs(mean(A)) ^ 2);
     else
       nobs = size(A, 'r');
       m = nobs;
@@ -57,22 +61,25 @@ function C = cov(varargin)
     B = varargin{2};
     w = varargin{3};
   end
-  
+
   if ~(w == 0 || w == 1)
-    error(_('Wrong value for #3 argument: 0 or 1 expected.'));
+    error('Nelson:statistics:invalidValue:wrongValueNArgument01', 'Wrong value for #%d argument: 0 or 1 expected.', 3);
   end
-  
+
   A = A(:);
   B = B(:);
   if (length(A) ~= length(B))
-    error(_('arguments #1 and #2 must have same length.'));
+    error('Nelson:statistics:arguments12SameLength', 'arguments #%d and #%d must have same length.', 1, 2);
   end
-  nrmlztn = 0;
   nobs = length(A);
-  r = 1 / (nobs - 1 + nrmlztn);
+  if w == 1
+    r = 1 / nobs;
+  else
+    r = 1 / (nobs - 1);
+  end
   mA = mean(A);
   mB = mean(B);
-  C = r * [norm(A) ^ 2 - nobs * mA ^ 2, A' * B - nobs * mA * mB; 0, norm(B)^2 - nobs * mB ^ 2];
-  C(2, 1) = C(1, 2);
+  C = r * [norm(A) ^ 2 - nobs * abs(mA) ^ 2, A' * B - nobs * conj(mA) * mB; 0, norm(B) ^ 2 - nobs * abs(mB) ^ 2];
+  C(2, 1) = conj(C(1, 2));
 end
 %=============================================================================

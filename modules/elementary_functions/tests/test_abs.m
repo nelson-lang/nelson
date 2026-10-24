@@ -7,25 +7,29 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('abs'), 1)
-assert_isequal(nargout('abs'), 1)
+asserts.isequal(nargin('abs'), 1)
+asserts.isequal(nargout('abs'), 1)
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
 R = abs(A);
 REF = [2.3 3.8 5.5 2.3 3.8 5.5];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = single([2.3 3.8 5.5 -2.3 -3.8 -5.5]);
 R = abs(A);
 REF = single([2.3 3.8 5.5 2.3 3.8 5.5]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(abs(NaN), NaN);
-assert_isequal(abs(Inf), Inf);
-assert_isequal(abs(-Inf), Inf);
-assert_isequal(abs(zeros(0, 3)), zeros(0, 3));
+asserts.isequal(abs(NaN), NaN);
+asserts.isequal(abs(Inf), Inf);
+asserts.isequal(abs(-Inf), Inf);
+asserts.isequal(abs(zeros(0, 3)), zeros(0, 3));
 %=============================================================================
 R = abs('a');
 REF = 97;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(abs([2.3 -3.8 NaN Inf -Inf]), [2.3 3.8 NaN Inf Inf]);
+asserts.isequal(class(abs(int8(-3))), 'int8');
+asserts.isequal(abs(int8(-3)), int8(3));
 %=============================================================================

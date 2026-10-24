@@ -19,17 +19,22 @@ main(int argc, char* argv[])
     char buffer[256], cmd[256];
     if (!(ep = engOpen(""))) {
         fprintf(stderr, "\nCan't start Nelson engine.\n");
-        exit(-1);
+        return EXIT_FAILURE;
     }
 
     engOutputBuffer(ep, buffer, 256);
 
-    while (strcmp(cmd, "exit\n") != 0) {
+    for (;;) {
         printf("\nEnter a Nelson command to evaluate.\n");
         printf("For example: X = 1:5\n");
-        printf("To finish: exit\n");
+        printf("To finish: close-client\n");
         printf(">> ");
-        fgets(cmd, 255, stdin);
+        if (fgets(cmd, 255, stdin) == NULL) {
+            break;
+        }
+        if (strcmp(cmd, "close-client\n") == 0 || strcmp(cmd, "close-client\r\n") == 0) {
+            break;
+        }
 
         engEvalString(ep, cmd);
         printf("%s", buffer);

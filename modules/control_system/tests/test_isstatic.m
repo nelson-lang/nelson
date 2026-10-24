@@ -7,26 +7,36 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isstatic'), 1);
-assert_isequal(nargout('isstatic'), 1);
+asserts.isequal(nargin('isstatic'), 1);
+asserts.isequal(nargout('isstatic'), 1);
 %=============================================================================
 S = tf(3);
-assert_istrue(isstatic(S));
+asserts.istrue(isstatic(S));
+asserts.isequal(S.Ts, 0);
+S.Ts = 0.5;
+asserts.isfalse(isstatic(S));
 %=============================================================================
-S = tf(3,2);
-assert_isfalse(isstatic(S));
+S = tf(3, 2);
+asserts.istrue(isstatic(S));
+asserts.isequal(S.Ts, 0);
+S.Numerator = [1 2];
+asserts.istrue(isstatic(S));
+S.Ts = -1;
+asserts.isfalse(isstatic(S));
 %=============================================================================
-D = [2,4;3,5];
+D = [2, 4; 3, 5];
 sys1 = ss(D)
 sys1.Ts = 0.2;
-assert_istrue(isstatic(sys1));
+asserts.istrue(isstatic(sys1));
+sys1.A = 1;
+asserts.isfalse(isstatic(sys1));
 %=============================================================================
 J = [8 -3 -3; -3 8 -3; -3 -3 8];
-F = 0.2*eye(3);
-A = -J\F;
+F = 0.2 * eye(3);
+A = -J \ F;
 B = inv(J);
 C = eye(3);
 D = 0;
-sys = ss(A,B,C,D);
-assert_isfalse(isstatic(sys));
+sys = ss(A, B, C, D);
+asserts.isfalse(isstatic(sys));
 %=============================================================================

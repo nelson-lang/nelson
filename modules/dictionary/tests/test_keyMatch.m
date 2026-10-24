@@ -7,19 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('keyMatch'), 2);
-assert_isequal(nargout('keyMatch'), 1);
+asserts.isequal(nargin('keyMatch'), 2);
+asserts.isequal(nargout('keyMatch'), 1);
 %=============================================================================
-assert_istrue(keyMatch(1, 1))
-assert_istrue(keyMatch(NaN, NaN))
+asserts.istrue(keyMatch(1, 1))
+asserts.istrue(keyMatch(NaN, NaN))
 %=============================================================================
-assert_isfalse(keyMatch(1, 0))
-assert_isfalse(keyMatch(NaN, Inf))
+asserts.isfalse(keyMatch(1, 0))
+asserts.isfalse(keyMatch(NaN, Inf))
 %=============================================================================
-X = struct("field1",1,"field2",2);
-Y = struct("field1",1,"field2",2);
-assert_istrue(keyMatch(X, Y));
+X = struct("field1", 1, "field2", 2);
+Y = struct("field1", 1, "field2", 2);
+asserts.istrue(keyMatch(X, Y));
 %=============================================================================
 Y.field1 = 3;
-assert_isfalse(keyMatch(X, Y));
+asserts.isfalse(keyMatch(X, Y));
 %=============================================================================

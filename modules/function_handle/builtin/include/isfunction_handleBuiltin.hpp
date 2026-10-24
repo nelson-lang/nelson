@@ -14,5 +14,6 @@
 namespace Nelson::FunctionHandleGateway {
 ArrayOfVector
 isfunction_handleBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>gpu_engine</module_name>
+  <chapter>Calcul GPU</chapter>
+  <chapter_description>
+    <p>Le module GPU engine exécute des calculs sur tableaux sur le GPU via WebGPU (Dawn), de façon portable sous Windows, Linux et macOS, sans dépendance propriétaire à CUDA.</p>
+    <p>Les tableaux sont transférés vers le périphérique avec <b>gpuArray</b> et ramenés vers l'hôte avec <b>gather</b>. Les opérateurs et de nombreuses fonctions sont surchargés afin que les expressions sur un <b>gpuArray</b> s'exécutent sur le périphérique et conservent leur résultat résident sur celui-ci.</p>
+    <p>Les tableaux du périphérique sont stockés en simple précision (WebGPU n'a pas encore de type de calcul double) ; les données réelles, logiques et complexes sont prises en charge. Utilisez <b>canUseGPU</b> pour vérifier la disponibilité et <b>gpuDevice</b> pour inspecter le périphérique sélectionné.</p>
+    <p>De nombreuses fonctions sont prises en charge sur un <b>gpuArray</b> : les opérateurs, les fonctions mathématiques élément par élément (y compris l'arrondi et les fonctions hyperboliques / trigonométriques inverses), les réductions et balayages (<b>sum</b>, <b>prod</b>, <b>mean</b>, <b>var</b>, <b>std</b>, <b>cumsum</b>, <b>cumprod</b>, <b>sort</b>, <b>find</b>), les fonctions d'extraction complexe, les fonctions de forme et de prédicat, ainsi que les constructeurs <b>zeros</b>/<b>ones</b>/<b>rand</b>/<b>randn</b> via les formes <b>'gpuArray'</b> / <b>'like'</b>. Appelez <b>gpuArrayFunctions</b> pour la liste exacte et toujours à jour.</p>
+  </chapter_description>
+</xmldoc>

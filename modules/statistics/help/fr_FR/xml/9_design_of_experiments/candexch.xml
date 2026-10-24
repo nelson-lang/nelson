@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>candexch</keyword>
+  <short_description>Selection D-optimale de lignes depuis un ensemble candidat.</short_description>
+  <syntax>
+    <syntax_item>rlist = candexch(C, nrows)</syntax_item>
+    <syntax_item>rlist = candexch(C, nrows, &apos;Name&apos;, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>matrice candidate. Chaque ligne represente un essai candidat.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nrows</param_name>
+      <param_description>entier positif indiquant le nombre de lignes a selectionner.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>rlist</param_name>
+      <param_description>indices des lignes selectionnees dans C.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>candexch</b> selectionne des lignes dans une matrice candidate avec une recherche par echange de lignes qui ameliore le determinant de X&apos; * X.</p>
+    <p>Les options nom-valeur prises en charge sont &apos;AvoidDuplicates&apos;, &apos;Display&apos;, &apos;InitialDesign&apos;, &apos;MaxIterations&apos;, &apos;Options&apos;, &apos;FixedRows&apos; et &apos;NumTries&apos;. Les champs d&apos;options paralleles sont acceptes et l&apos;execution reste serie.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+    <link linkend="${statistics}daugment">daugment</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Selectionner deux lignes dans un ensemble candidat.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[C = [ones(4, 1) (0:3)'];
+rlist = candexch(C, 2, 'Display', 'off', 'AvoidDuplicates', true)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

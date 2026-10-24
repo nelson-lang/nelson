@@ -9,7 +9,7 @@
     <p>
       <b>startup.m</b> in Nelson initiates user-specified commands upon Nelson startup.</p>
     <p>It executes any file named<b>startup.m</b> that is located on the search path.</p>
-    <p>To leverage this feature, create a file named<b>startup.m</b> in the userpath folder, which is included in the Nelson search path.</p>
+    <p>To use this feature, create a file named<b>startup.m</b> in the userpath folder, which is included in the Nelson search path.</p>
     <p
     >Embed commands within this file that you wish to be executed during Nelson startup.</p>
     <p

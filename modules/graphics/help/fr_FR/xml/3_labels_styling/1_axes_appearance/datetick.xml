@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>datetick</keyword>
+  <short_description>Etiquettes de graduation au format date.</short_description>
+  <syntax>
+    <syntax_item>datetick()</syntax_item>
+    <syntax_item>datetick(tickaxis)</syntax_item>
+    <syntax_item>datetick(tickaxis, dateFormat)</syntax_item>
+    <syntax_item>datetick(..., &apos;keeplimits&apos;)</syntax_item>
+    <syntax_item>datetick(..., &apos;keepticks&apos;)</syntax_item>
+    <syntax_item>datetick(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tickaxis</param_name>
+      <param_description>Axe a etiqueter : &apos;x&apos; (defaut), &apos;y&apos; ou &apos;z&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dateFormat</param_name>
+      <param_description>Format de date, donne sous la forme d&apos;une chaine de format <b>datestr</b> (par exemple &apos;yyyy&apos;) ou d&apos;un numero de format.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;keeplimits&apos;</param_name>
+      <param_description>Conserve les limites courantes de l&apos;axe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;keepticks&apos;</param_name>
+      <param_description>Conserve les positions courantes des graduations.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes cibles. Par defaut, les axes courants.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>datetick</b> etiquette les graduations d&apos;un axe avec des dates, en traitant les valeurs des graduations comme des numeros de date serie (voir <b>datenum</b>).</p>
+    <p>Si aucun format n&apos;est donne, un format est choisi selon l&apos;etendue couverte par les graduations. Utilisez <b>keepticks</b> pour conserver les positions des graduations et <b>keeplimits</b> pour conserver les limites.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Etiqueter l&apos;axe des x avec des annees.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+t = datenum(2000, 1, 1):365:datenum(2010, 1, 1);
+plot(t, rand(1, numel(t)));
+datetick('x', 'yyyy');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticks">xticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticklabels">xticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xtickformat">xtickformat</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

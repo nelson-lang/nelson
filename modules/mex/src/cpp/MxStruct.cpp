@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -29,7 +29,7 @@ mxCreateStructArray(mwSize ndim, const mwSize* dims, int nfields, const char** f
             _dims[k] = dims[k];
         }
         auto* st = (Nelson::ArrayOf*)Nelson::ArrayOf::allocateArrayOf(
-            Nelson::NLS_STRUCT_ARRAY, _dims.getElementCount(), _fieldnames, true);
+            Nelson::NLS_STRUCT_ARRAY, _dims.elementCount(), _fieldnames, true);
         Nelson::ArrayOf s
             = Nelson::ArrayOf(Nelson::NLS_STRUCT_ARRAY, _dims, st, false, _fieldnames);
 
@@ -73,7 +73,7 @@ mxGetNumberOfFields(const mxArray* pm)
 {
     if (mxIsStruct(pm)) {
         auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-        Nelson::stringVector fieldnames = ptr->getFieldNames();
+        Nelson::stringVector fieldnames = ptr->fieldNames();
         return (int)fieldnames.size();
     }
     return 0;
@@ -87,12 +87,12 @@ mxGetFieldNameByNumber(const mxArray* pm, int fieldnumber)
     if (!mxIsStruct(pm)) {
         return nullptr;
     }
-    if (fieldnumber >= mxGetNumberOfFields(pm) || (fieldnumber) < 0) {
+    if (pm->ptr == nullptr || fieldnumber >= mxGetNumberOfFields(pm) || (fieldnumber) < 0) {
         return nullptr;
     }
     auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-    const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
-    Nelson::stringVector names = ptr->getFieldNames();
+    const auto* qp = (const Nelson::ArrayOf*)ptr->dataPointer();
+    Nelson::stringVector names = ptr->fieldNames();
     privateFieldname = names[fieldnumber];
     return privateFieldname.c_str();
 }
@@ -103,32 +103,48 @@ mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber)
     if (!mxIsStruct(pm)) {
         return nullptr;
     }
-    if (index >= mxGetNumberOfElements(pm) || index < 0) {
+    if (pm->ptr == nullptr || index >= mxGetNumberOfElements(pm) || index < 0) {
         return nullptr;
     }
     if (fieldnumber >= mxGetNumberOfFields(pm) || fieldnumber < 0) {
         return nullptr;
     }
     auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-    const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
-    size_t fieldCount = ptr->getFieldNames().size();
+    const auto* qp = (const Nelson::ArrayOf*)ptr->dataPointer();
+    size_t fieldCount = ptr->fieldNames().size();
     Nelson::ArrayOf field = qp[index * fieldCount + fieldnumber];
     return Nelson::ArrayOfToMxArray(field, pm->interleavedcomplex);
+}
+//=============================================================================
+mxArray*
+mxGetField(const mxArray* pm, mwIndex index, const char* fieldname)
+{
+    if (fieldname == nullptr) {
+        return nullptr;
+    }
+    return mxGetFieldByNumber(pm, index, mxGetFieldNumber(pm, fieldname));
 }
 //=============================================================================
 void
 mxSetField(mxArray* pm, mwIndex index, const char* fieldname, mxArray* pvalue)
 {
+    if (fieldname == nullptr) {
+        return;
+    }
     mxSetFieldByNumber(pm, index, mxGetFieldNumber(pm, fieldname), pvalue);
 }
 //=============================================================================
 void
 mxSetFieldByNumber(mxArray* pm, mwIndex index, int fieldnumber, mxArray* pvalue)
 {
-    if (mxIsStruct(pm)) {
+    if (mxIsStruct(pm) && pm->ptr != nullptr && pvalue != nullptr) {
+        if (index >= mxGetNumberOfElements(pm) || fieldnumber >= mxGetNumberOfFields(pm)
+            || fieldnumber < 0) {
+            return;
+        }
         auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-        Nelson::ArrayOf* sp = (Nelson::ArrayOf*)ptr->getReadWriteDataPointer();
-        size_t fieldCount = ptr->getFieldNames().size();
+        Nelson::ArrayOf* sp = (Nelson::ArrayOf*)ptr->readWriteDataPointer();
+        size_t fieldCount = ptr->fieldNames().size();
         sp[index * fieldCount + fieldnumber] = Nelson::MxArrayToArrayOf(pvalue);
     }
 }
@@ -136,10 +152,10 @@ mxSetFieldByNumber(mxArray* pm, mwIndex index, int fieldnumber, mxArray* pvalue)
 int
 mxGetFieldNumber(const mxArray* pm, const char* fieldname)
 {
-    if (mxIsStruct(pm)) {
+    if (mxIsStruct(pm) && pm->ptr != nullptr && fieldname != nullptr) {
         auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-        const auto* qp = (const Nelson::ArrayOf*)ptr->getDataPointer();
-        Nelson::stringVector names = ptr->getFieldNames();
+        const auto* qp = (const Nelson::ArrayOf*)ptr->dataPointer();
+        Nelson::stringVector names = ptr->fieldNames();
         size_t fieldCount = names.size();
         for (size_t k = 0; k < fieldCount; ++k) {
             if (strcmp(names[k].c_str(), fieldname) == 0) {
@@ -155,8 +171,8 @@ mxAddField(mxArray* pm, const char* fieldname)
 {
     if (mxIsStruct(pm)) {
         auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-        Nelson::ArrayOf* qp = (Nelson::ArrayOf*)ptr->getDataPointer();
-        Nelson::stringVector names = ptr->getFieldNames();
+        Nelson::ArrayOf* qp = (Nelson::ArrayOf*)ptr->dataPointer();
+        Nelson::stringVector names = ptr->fieldNames();
         if (std::find(names.begin(), names.end(), std::string(fieldname)) != names.end()) {
             return mxGetFieldNumber(pm, fieldname);
         }
@@ -168,9 +184,12 @@ mxAddField(mxArray* pm, const char* fieldname)
 void
 mxRemoveField(mxArray* pm, int fieldnumber)
 {
+    if (!mxIsStruct(pm) || pm->ptr == nullptr) {
+        return;
+    }
     auto* ptr = (Nelson::ArrayOf*)pm->ptr;
-    Nelson::stringVector fieldnames = ptr->getFieldNames();
-    size_t fieldCount = ptr->getFieldNames().size();
+    Nelson::stringVector fieldnames = ptr->fieldNames();
+    size_t fieldCount = ptr->fieldNames().size();
     if (fieldnumber >= fieldCount || fieldnumber < 0) {
         return;
     }
@@ -181,15 +200,16 @@ mxRemoveField(mxArray* pm, int fieldnumber)
             newFieldnames.push_back(fieldnames[k]);
         }
     }
-    Nelson::Dimensions dims = ptr->getDimensions();
+    Nelson::Dimensions dims = ptr->dimensions();
     Nelson::ArrayOf* qp = static_cast<Nelson::ArrayOf*>(Nelson::ArrayOf::allocateArrayOf(
-        Nelson::NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldnames, false));
+        Nelson::NLS_STRUCT_ARRAY, dims.elementCount(), newFieldnames, false));
     Nelson::ArrayOf st = Nelson::ArrayOf(Nelson::NLS_STRUCT_ARRAY, dims, qp, false, newFieldnames);
     for (const std::string& c : newFieldnames) {
-        Nelson::ArrayOfVector data = ptr->getFieldAsList(c);
+        Nelson::ArrayOfVector data = ptr->fieldAsList(c);
         st.setFieldAsList(c, data);
     }
     Nelson::ArrayOf* arr = new Nelson::ArrayOf(st);
+    delete ptr;
     pm->ptr = (uint64_t*)arr;
 }
 //=============================================================================

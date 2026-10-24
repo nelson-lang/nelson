@@ -14,5 +14,6 @@
 namespace Nelson::I18nGateway {
 ArrayOfVector
 gettextBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.random</keyword>
+  <short_description>Génère des octets aléatoires cryptographiquement sûrs.</short_description>
+  <syntax>
+    <syntax_item>bytes = crypto.random(n)</syntax_item>
+    <syntax_item>hexa = crypto.random(n, &apos;-hex&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>entier entre 1 et 1048576 : nombre d'octets aléatoires.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-hex&apos;</param_name>
+      <param_description>renvoie les octets sous forme de chaîne hexadécimale au lieu d'un uint8.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bytes</param_name>
+      <param_description>vecteur ligne uint8 de n octets aléatoires sûrs.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>hexa</param_name>
+      <param_description>vecteur de caractères : 2 * n caractères hexadécimaux minuscules.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.random</b> renvoie des octets issus de la source aléatoire sécurisée du système d'exploitation (<b>BCryptGenRandom</b> sous Windows, <b>/dev/urandom</b> ailleurs). Utilisez-la pour les clés, les nonces et les sels. Contrairement à <b>rand</b>, sa sortie est imprévisible et ne doit pas être initialisée par une graine.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[key = crypto.random(32)
+nonce = crypto.random(24, '-hex')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.aead.encrypt">crypto.aead.encrypt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.x25519.keypair">crypto.x25519.keypair</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

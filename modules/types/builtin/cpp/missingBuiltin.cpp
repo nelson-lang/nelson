@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::TypeGateway::missingBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(nLhs, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::missingScalarConstructor();
+    retval << ArrayOf::missingScalar();
     return retval;
 }
 //=============================================================================

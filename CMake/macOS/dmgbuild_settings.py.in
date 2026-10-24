@@ -1,0 +1,28 @@
+import os
+
+repo = "@CMAKE_SOURCE_DIR@"
+build = "@CMAKE_BINARY_DIR@"
+package_name = "@CPACK_PACKAGE_FILE_NAME@"
+
+format = "@CPACK_DMG_FORMAT@"
+filesystem = "HFS+"
+files = [os.path.join(build, "_CPack_Packages/Darwin/DragNDrop", package_name, "Nelson.app")]
+symlinks = {"Applications": "/Applications"}
+icon = os.path.join(build, "Nelson.icns")
+background = os.path.join(repo, "CMake/macOS/dmg_background.png")
+window_rect = ((200, 120), (660, 429))
+default_view = "icon-view"
+show_toolbar = False
+show_status_bar = False
+icon_size = 96
+text_size = 13
+arrange_by = None
+icon_locations = {
+    "Nelson.app": (160, 220),
+    "Applications": (500, 220),
+}
+license = {
+    "licenses": {
+        "en_US": os.path.join(repo, "lgpl-3.0.md"),
+    }
+}

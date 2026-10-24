@@ -9,6 +9,11 @@
 %=============================================================================
 function [r, url, tag_branch] = nmm_is_http_repository(param)
   r = false;
+  url = '';
+  tag_branch = '';
+  if ~ischar(param)
+    return
+  end
   if ((startsWith(param, 'http://') == 1 || startsWith(param, 'https://') == 1) && ~isempty(strfind(param, '.git')))
     tag_index = strfind(param, '#');
     if isempty(tag_index)
@@ -19,11 +24,9 @@ function [r, url, tag_branch] = nmm_is_http_repository(param)
       if isscalar(tag_index)
         r = true;
         url = param(1:tag_index - 1);
-        tag_branch = param(tag_index + 1 : end);
+        tag_branch = param(tag_index + 1:end);
       else
         r = false;
-        url = '';
-        tag_branch = '';
       end
     end
   end

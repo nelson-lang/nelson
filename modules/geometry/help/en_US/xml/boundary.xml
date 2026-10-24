@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>boundary</keyword>
+  <short_description>Boundary facets of a set of points</short_description>
+  <syntax>
+    <syntax_item>K = boundary(P)</syntax_item>
+    <syntax_item>K = boundary(x, y)</syntax_item>
+    <syntax_item>K = boundary(x, y, z)</syntax_item>
+    <syntax_item>K = boundary(..., s)</syntax_item>
+    <syntax_item>[K, A] = boundary(x, y)</syntax_item>
+    <syntax_item>boundary(P)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>boundary</b> returns boundary facets for planar or spatial points.</p>
+    <p>When called without output, it plots the boundary.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute and plot the boundary of planar points.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+K = boundary(P);
+boundary(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}alphaShape">alphaShape</link></see_also_item>
+    <see_also_item><link linkend="${geometry}convhull">convhull</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

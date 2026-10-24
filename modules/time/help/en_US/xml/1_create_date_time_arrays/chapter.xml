@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>time</module_name>
+  <chapter>Create Date and Time Arrays</chapter>
+  <chapter_description>
+    <p>Functions for creating date and time values and alternate date representations.</p>
+  </chapter_description>
+</xmldoc>

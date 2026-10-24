@@ -10,6 +10,6 @@
 function varargout = insert(varargin)
   narginchk(1, 1000);
   nargoutchk(0, 1);
-  msg = sprintf(_("function not implemented for '%s' type."), class(varargin{1}));
-  error(msg);
+  msg = sprintf("function not implemented for '%s' type.", class(varargin{1}));
+  error('Nelson:handle:notImplemented', msg);
 end

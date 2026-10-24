@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mustBeSorted</keyword>
+  <short_description
+  >Vérifie que les éléments d&apos;un tableau sont triés ou signale une erreur.</short_description>
+  <syntax>
+    <syntax_item>mustBeSorted(A)</syntax_item>
+    <syntax_item>mustBeSorted(A, dim)</syntax_item>
+    <syntax_item>mustBeSorted(A, direction)</syntax_item>
+    <syntax_item>mustBeSorted(A, dim, direction)</syntax_item>
+    <syntax_item>mustBeSorted(..., 'MissingPlacement', placement)</syntax_item>
+    <syntax_item>mustBeSorted(..., 'ComparisonMethod', method)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
+      >une variable : numérique, logique, char, string, tableau de cellules de vecteurs de caractères, ou objet implémentant issorted. Les valeurs complexes sont supportées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >un entier positif scalaire : dimension de travail. Par défaut : première dimension dont la taille est différente de 1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description
+      >&apos;ascend&apos; (par défaut), &apos;descend&apos;, &apos;monotonic&apos; (croissant ou décroissant), &apos;strictascend&apos;, &apos;strictdescend&apos; ou &apos;strictmonotonic&apos;. Les directions strictes refusent les valeurs répétées et les valeurs manquantes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>placement</param_name>
+      <param_description
+      >&apos;auto&apos; (par défaut), &apos;first&apos; ou &apos;last&apos; : position attendue des valeurs manquantes (NaN, string manquante). &apos;auto&apos; les place à la fin pour l&apos;ordre croissant et au début pour l&apos;ordre décroissant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >&apos;auto&apos; (par défaut), &apos;real&apos; ou &apos;abs&apos; : comparaison des valeurs numériques. &apos;real&apos; compare les parties réelles puis les parties imaginaires, &apos;abs&apos; compare les modules puis les arguments. &apos;auto&apos; utilise &apos;real&apos; pour une entrée réelle et &apos;abs&apos; pour une entrée complexe.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
+      >mustBeSorted(A)</b> signale une erreur si les éléments de <b
+      >A</b> ne sont pas triés. Elle ne retourne pas de valeur.</p>
+    <p
+    >Les vecteurs sont vérifiés dans leur ensemble, les matrices colonne par colonne, et les tableaux multidimensionnels selon la première dimension dont la taille est différente de 1.</p>
+    <p>Les valeurs vides et les scalaires sont toujours triés.</p>
+    <p
+    >Les tableaux réels denses numériques, logiques et char sont vérifiés nativement en un seul parcours ; les autres types utilisent les opérateurs de comparaison de leur classe.</p>
+    <p><b
+      >mustBeSorted</b> est destinée à la validation des propriétés et des arguments de fonctions.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Direction de l&apos;ordre</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [5 3 3 1];
+mustBeSorted(A, 'descend')
+mustBeSorted(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Valeurs manquantes et valeurs complexes</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[mustBeSorted([1 2 NaN])
+mustBeSorted([NaN 1 2], 'MissingPlacement', 'first')
+mustBeSorted([1 -2 3], 'ComparisonMethod', 'abs')
+mustBeSorted([1+1i, 1-1i])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}issorted">issorted</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}mustBeVector">mustBeVector</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

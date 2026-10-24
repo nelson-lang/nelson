@@ -15,5 +15,6 @@
 namespace Nelson::AssertFunctionsGateway {
 ArrayOfVector
 assert_isapproxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

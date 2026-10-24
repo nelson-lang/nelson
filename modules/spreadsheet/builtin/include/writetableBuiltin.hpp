@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::SpreadsheetGateway {
 //=============================================================================
 ArrayOfVector
-writetableBuiltin(int nLhs, const ArrayOfVector& argIn);
+writetableBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

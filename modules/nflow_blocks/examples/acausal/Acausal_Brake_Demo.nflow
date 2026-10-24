@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal rotational demo: a signal-actuated brake stops a spinning flywheel.\n\nPhysics: the flywheel (Inertia J = 1 kg.m2) starts at w0 = 10 rad/s. The RotBrake applies a friction torque to ground whose peak magnitude is set by its signal input (constant 4 N.m). The friction is tanh-regularised around w = 0 (parameter w_eps), so the model is event-free and integrates smoothly with a fixed-step solver: J dw/dt = -tau_brake(w). The flywheel therefore decelerates and settles at rest (w -> 0 in about 2.5 s). The RotSpeedSensor measures the shaft speed; the Scope plots w(t) and the ToWorkspace block exports it as the variable 'w'.\n\nWiring: the three rotational flanges (RotBrake, Inertia, RotSpeedSensor) share ONE physical node -- the green pins joined by the vertical wire on the left. This is an undirected acausal connection (no arrows): torques sum to zero and the speed is common. The constant signal comes in from the top into the brake's actuation input; the sensor's signal output leaves at the bottom to the scope and the workspace export -- so signal wires and the physical bus stay on opposite sides.",
+  "name": "Acausal Brake",
+  "blocks": [
+    {
+      "id": "K",
+      "type": "constant",
+      "params": { "Value": 4 },
+      "inputs": 0,
+      "outputs": 1,
+      "x": -40,
+      "y": -40,
+      "rotation": 0
+    },
+    {
+      "id": "B",
+      "type": "RotBrake",
+      "params": { "w_eps": 0.01 },
+      "x": 150,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "J1",
+      "type": "Inertia",
+      "params": { "J": 1, "phi0": 0, "w0": 10 },
+      "x": 290,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "WS",
+      "type": "RotSpeedSensor",
+      "params": {},
+      "x": 150,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 450,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "w" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 450,
+      "y": 370,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "K", "to": "B", "fromIndex": 0, "toIndex": 0 },
+    { "from": "WS", "to": "sc", "fromIndex": 0, "toIndex": 0 },
+    { "from": "WS", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "ode4",
+  "runtime": 4,
+  "sampleTime": 0.01,
+  "physicalWires": [{ "pins": ["WS.flange", "B.flange", "J1.flange"] }]
+}

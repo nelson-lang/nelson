@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::QObject_setBuiltin(int nLhs, const ArrayOfVector& argI
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
+    std::wstring propertyName = param2.asWideString();
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
     SetQObjectHandleObject(param1, propertyName, param3);

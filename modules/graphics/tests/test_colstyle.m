@@ -10,49 +10,49 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 [l, c, m, msg] = colstyle('r:x');
-assert_isequal(l, ':');
-assert_isequal(c, 'r');
-assert_isequal(m, 'x');
-assert_isequal(msg, []);
+asserts.isequal(l, ':');
+asserts.isequal(c, 'r');
+asserts.isequal(m, 'x');
+asserts.isequal(msg, []);
 %=============================================================================
 [l, c, m, msg] = colstyle("r:x");
-assert_isequal(l, ':');
-assert_isequal(c, 'r');
-assert_isequal(m, 'x');
-assert_isequal(msg, []);
+asserts.isequal(l, ':');
+asserts.isequal(c, 'r');
+asserts.isequal(m, 'x');
+asserts.isequal(msg, []);
 %=============================================================================
-[l, c, m, msg] = colstyle ('+')
-assert_isequal(l, '');
-assert_isequal(c, '');
-assert_isequal(m, '+');
-assert_isequal(msg, []);
+[l, c, m, msg] = colstyle('+')
+asserts.isequal(l, '');
+asserts.isequal(c, '');
+asserts.isequal(m, '+');
+asserts.isequal(msg, []);
 %=============================================================================
-[l, c, m, msg] = colstyle ('')
-assert_isequal(l, '');
-assert_isequal(c, '');
-assert_isequal(m, '');
-assert_isequal(msg, []);
+[l, c, m, msg] = colstyle('')
+asserts.isequal(l, '');
+asserts.isequal(c, '');
+asserts.isequal(m, '');
+asserts.isequal(msg, []);
 %=============================================================================
-[l, c, m, msg] = colstyle ('4')
+[l, c, m, msg] = colstyle('4')
 REF.message = _('Invalid LineSpec string.');
 REF.Identifier = 'Nelson:colstyle:InvalidLinespec';
-assert_isequal(l, '');
-assert_isequal(c, '');
-assert_isequal(m, '');
-assert_isequal(msg, REF);
+asserts.isequal(l, '');
+asserts.isequal(c, '');
+asserts.isequal(m, '');
+asserts.isequal(msg, REF);
 %=============================================================================
-[l, c, m, msg] = colstyle ('4', 'plot')
+[l, c, m, msg] = colstyle('4', 'plot')
 REF.message = _('Invalid LineSpec string.');
 REF.Identifier = 'Nelson:colstyle:InvalidLinespec';
-assert_isequal(l, '');
-assert_isequal(c, '');
-assert_isequal(m, '');
-assert_isequal(msg, REF);
+asserts.isequal(l, '');
+asserts.isequal(c, '');
+asserts.isequal(m, '');
+asserts.isequal(msg, REF);
 %=============================================================================
-[l, c, m, msg] = colstyle ('*', 'plot')
+[l, c, m, msg] = colstyle('*', 'plot')
 REF = [];
-assert_isequal(l, 'none');
-assert_isequal(c, '');
-assert_isequal(m, '*');
-assert_isequal(msg, REF);
+asserts.isequal(l, 'none');
+asserts.isequal(c, '');
+asserts.isequal(m, '*');
+asserts.isequal(msg, REF);
 %=============================================================================

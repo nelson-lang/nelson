@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>griddedInterpolant</keyword>
+  <short_description>Objet d'interpolation de donnees sur grille</short_description>
+  <syntax>
+    <syntax_item>F = griddedInterpolant(x, v)</syntax_item>
+    <syntax_item>F = griddedInterpolant(x, v, method)</syntax_item>
+    <syntax_item>F = griddedInterpolant(x, v, method, extrapolationMethod)</syntax_item>
+    <syntax_item>F = griddedInterpolant(gridVecs, V)</syntax_item>
+    <syntax_item>F = griddedInterpolant(X1, X2, ..., Xn, V)</syntax_item>
+    <syntax_item>F = griddedInterpolant(V)</syntax_item>
+    <syntax_item>Vq = F(xq)</syntax_item>
+    <syntax_item>Vq = F(xq1, xq2, ..., xqn)</syntax_item>
+    <syntax_item>Vq = F(queryGridVecs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description
+      >un vecteur de points d'echantillonnage (grille 1-D), strictement croissant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>les valeurs aux points d'echantillonnage.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>gridVecs</param_name>
+      <param_description
+      >un tableau de cellules <b>{x1, x2, ..., xn}</b> de vecteurs de grille, un par dimension de <b>V</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>un tableau de valeurs definies sur la grille.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >une chaine de caracteres : <b>'linear'</b> (defaut), <b>'nearest'</b>, <b>'previous'</b>, <b>'next'</b>, <b>'pchip'</b>, <b>'cubic'</b>, <b>'spline'</b> ou <b>'makima'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>extrapolationMethod</param_name>
+      <param_description
+      >une chaine de caracteres choisissant la regle d'extrapolation : <b>'linear'</b>, <b>'nearest'</b>, <b>'previous'</b>, <b>'next'</b>, <b>'pchip'</b>, <b>'cubic'</b>, <b>'spline'</b>, <b>'makima'</b> ou <b>'none'</b>. Le defaut correspond a <b>method</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description>un objet griddedInterpolant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Vq</param_name>
+      <param_description>les valeurs interpolees aux points de requete.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>griddedInterpolant</b> stocke des points et des valeurs sur grille pour des requetes d'interpolation repetees.</p>
+    <p>L'objet expose quatre proprietes accessibles en lecture et en ecriture : <b>GridVectors</b> (un tableau de cellules de vecteurs de grille), <b>Values</b>, <b>Method</b> et <b>ExtrapolationMethod</b>.</p>
+    <p>On evalue l'interpolant en appelant l'objet comme une fonction, soit avec un tableau de requete par dimension, soit avec un unique tableau de cellules de vecteurs de requete.</p>
+    <p>La methode <b>'cubic'</b> utilise la convolution cubique et requiert une grille a espacement uniforme ; sur une grille non uniforme elle bascule vers <b>'spline'</b>. La convolution cubique ne gere pas l'extrapolation : les points hors grille renvoient <b>NaN</b> lorsque <b>ExtrapolationMethod</b> vaut <b>'cubic'</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpolation 1-D.</example_item_description>
+      <example_item_data
+      ><![CDATA[F = griddedInterpolant([1 2 3], [10 20 30]);
+Vq = F(2.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Grille N-D donnee comme un tableau de cellules de vecteurs de grille.</example_item_description>
+      <example_item_data
+      ><![CDATA[F = griddedInterpolant({1:3, 1:3}, magic(3));
+Vq = F(2, 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpolation spline et lecture des proprietes.</example_item_description>
+      <example_item_data
+      ><![CDATA[F = griddedInterpolant([1 2 3], [10 20 30], 'spline');
+Vq = F(2.5);
+F.Method
+F.ExtrapolationMethod]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}interp1">interp1</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}interpn">interpn</link></see_also_item>
+    <see_also_item><link linkend="${geometry}scatteredInterpolant">scatteredInterpolant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

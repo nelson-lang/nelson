@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,8 @@
 //=============================================================================
 #include "libpointerBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "LibPointerObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -27,37 +27,40 @@ Nelson::DynamicLinkGateway::libpointerBuiltin(int nLhs, const ArrayOfVector& arg
         try {
             libPointerObject = new LibPointerObject();
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        } catch (const Exception&) {
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
+        } catch (const NelsonException&) {
             throw;
         }
     } break;
     case 1: {
-        std::wstring DataType = argIn[0].getContentAsWideString();
+        std::wstring DataType = argIn[0].asWideString();
         try {
             libPointerObject = new LibPointerObject(DataType);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        } catch (const Exception&) {
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
+        } catch (const NelsonException&) {
             throw;
         }
     } break;
     case 2: {
-        std::wstring DataType = argIn[0].getContentAsWideString();
+        std::wstring DataType = argIn[0].asWideString();
         ArrayOf Value = argIn[1];
         try {
             libPointerObject = new LibPointerObject(DataType, Value);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        } catch (const Exception&) {
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
+        } catch (const NelsonException&) {
             throw;
         }
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
         break;
     }
-    retval << ArrayOf::handleConstructor(libPointerObject);
+    retval << ArrayOf::handle(libPointerObject);
     return retval;
 }
 //=============================================================================

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bunny — WebGPU vs WebGL2</title>
+    <style>
+      body {
+        font-family: ui-monospace, monospace;
+        margin: 0;
+        padding: 12px;
+        background: #fff;
+        color: #111;
+      }
+      .row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .cell {
+        border: 1px solid #ccc;
+        padding: 4px;
+      }
+      canvas {
+        display: block;
+        width: 450px;
+        height: 350px;
+        background: #e8e8e8;
+      }
+      h3 {
+        margin: 4px 0;
+      }
+      pre {
+        white-space: pre-wrap;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Stanford bunny — WebGPU vs WebGL2</h2>
+    <div class="row">
+      <div class="cell"><h3>WebGL2</h3><canvas id="gl"></canvas></div>
+      <div class="cell"><h3>WebGPU</h3><canvas id="gpu"></canvas></div>
+    </div>
+    <pre id="log">starting…</pre>
+    <script type="module" src="./bunny.ts"></script>
+  </body>
+</html>

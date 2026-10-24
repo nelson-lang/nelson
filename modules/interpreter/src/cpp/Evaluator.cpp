@@ -1,6 +1,5 @@
 //=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
-// Copyright (c) 2002, 2003 Samit Basu
 //=============================================================================
 // This file is part of Nelson.
 //=============================================================================
@@ -15,40 +14,56 @@
 #if defined(__clang__) && (__clang_major__ >= 17)
 #pragma clang diagnostic ignored "-Wmissing-template-arg-list-after-template-kw"
 #endif
-#include <regex>
-#ifdef _MSC_VER
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
+#include "BytecodeCompiler.hpp"
+#include "BytecodeVM.hpp"
+#include "ClassdefParser.hpp"
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
+#include "LexerInterface.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
-#include "OverloadName.hpp"
-#include "ClassName.hpp"
-#include "ClassToString.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "ParserInterface.hpp"
-#include "LexerInterface.hpp"
 #include "Interface.hpp"
-#include "NelsonReadyNamedMutex.hpp"
-#include "CallbackQueue.hpp"
-#include "EventQueue.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Constructor: Initializes the Evaluator with context, interface, and state.
+// Process-wide command-vs-expression variable check for the lexer: resolve the
+// head identifier against the current main evaluator's live workspace. Used for
+// parse contexts (script/function bodies) that carry no per-context hook.
+static bool
+lexerResolveVariableFromMainEvaluator(const std::string& name)
+{
+    NelsonConfiguration* config = NelsonConfiguration::getInstance();
+    // During shutdown getMainEvaluator() may still return a dangling pointer to an
+    // evaluator whose Context is already deleted, and finish.m is lexed in that
+    // window. Returning false falls back to the conservative shape test.
+    if (config->isShuttingDown()) {
+        return false;
+    }
+    auto* eval = static_cast<Evaluator*>(config->getMainEvaluator());
+    return (eval != nullptr) && (eval->getContext() != nullptr)
+        && eval->getContext()->isVariable(name);
+}
+//=============================================================================
 Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop, size_t ID)
 {
     this->ID = ID;
-    Exception e;
+    NelsonException e;
     this->setLastErrorException(e);
     this->setLastWarningException(e);
+    this->resetLastUncaughtException();
     context = aContext;
+    // Command-vs-expression syntax is resolved against the live workspace ("x /y"
+    // divides, "disp /y" is a command). The per-context hook serves interactive
+    // parses; the process-wide resolver covers script and function bodies.
+    lexerContext.isVariableHook = [this](const std::string& name) -> bool {
+        return (this->context != nullptr) && this->context->isVariable(name);
+    };
+    setLexerVariableResolver(&lexerResolveVariableFromMainEvaluator);
     resetState();
     depth = 0;
     _haveEventsLoop = haveEventsLoop;
@@ -60,37 +75,38 @@ Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLo
     commandLineArguments.clear();
 }
 //=============================================================================
-// Destructor: Cleans up the Evaluator by clearing stacks and resetting exceptions.
 Evaluator::~Evaluator()
 {
+    // The process-wide resolver reaches the workspace through getMainEvaluator(),
+    // which must never resolve to a destroyed evaluator.
+    setLexerVariableResolver(nullptr);
     clearStacks();
     commandLineArguments.clear();
     resetLastErrorException();
     resetLastWarningException();
+    resetLastUncaughtException();
 }
 //=============================================================================
-// Signal handler for interrupt: Sets the interrupt pending flag in the configuration.
 void
 sigInterrupt(int arg)
 {
     NelsonConfiguration::getInstance()->setInterruptPending(true, 0);
 }
 //=============================================================================
-// Clears the call stack and breakpoint stack.
 void
 Evaluator::clearStacks()
 {
     callstack.clear();
+    classdefAccessContextStack.clear();
+    classdefPropertySetContextStack.clear();
 }
 //=============================================================================
-// Resets the state of the evaluator to NLS_STATE_OK.
 void
 Evaluator::resetState()
 {
     state = NLS_STATE_OK;
 }
 //=============================================================================
-// Sets the state of the evaluator to a new state and returns the previous state.
 State
 Evaluator::setState(State newState)
 {
@@ -99,51 +115,147 @@ Evaluator::setState(State newState)
     return previousState;
 }
 //=============================================================================
-// Returns the current state of the evaluator.
 State
 Evaluator::getState()
 {
     return state;
 }
 //=============================================================================
-// Checks if the evaluator is in a quit or force quit state.
 bool
 Evaluator::isQuitOrForceQuitState()
 {
     return ((state == NLS_STATE_QUIT) || (state == NLS_STATE_FORCE_QUIT));
 }
 //=============================================================================
-// Returns the exit code of the evaluator.
 int
 Evaluator::getExitCode()
 {
     return exitCode;
 }
 //=============================================================================
-// Sets the exit code of the evaluator.
 void
 Evaluator::setExitCode(int _exitCode)
 {
     exitCode = _exitCode;
 }
 //=============================================================================
-// Checks if an operator needs to be overloaded based on the data class of the array.
 bool
 Evaluator::needToOverloadOperator(const ArrayOf& a)
 {
-    return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
-        || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle()
-        || (a.getDataClass() == NLS_CLASS_ARRAY) || (a.getDataClass() == NLS_FUNCTION_HANDLE));
+    return ((a.dataClass() == NLS_STRUCT_ARRAY) || (a.dataClass() == NLS_CELL_ARRAY)
+        || (a.dataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle()
+        || (a.dataClass() == NLS_CLASS_ARRAY) || (a.dataClass() == NLS_CLASSDEF_ARRAY)
+        || (a.dataClass() == NLS_FUNCTION_HANDLE));
 }
 //=============================================================================
-// Returns the context in which the evaluator operates.
+bool
+Evaluator::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
+{
+    return context->lookupFunction(funcName, val);
+}
+//=============================================================================
+void
+Evaluator::pushClassdefAccessContext(const std::string& className)
+{
+    classdefAccessContextStack.push_back(className);
+}
+//=============================================================================
+void
+Evaluator::popClassdefAccessContext()
+{
+    if (!classdefAccessContextStack.empty()) {
+        classdefAccessContextStack.pop_back();
+    }
+}
+//=============================================================================
+std::string
+Evaluator::getClassdefAccessContext() const
+{
+    return classdefAccessContextStack.empty() ? std::string() : classdefAccessContextStack.back();
+}
+//=============================================================================
+bool
+Evaluator::isClassdefMethodContextOf(const std::string& className) const
+{
+    if (classdefAccessContextStack.empty() || classdefAccessContextStack.back().empty()) {
+        return false;
+    }
+    const std::string& context = classdefAccessContextStack.back();
+    return context == className || classdefIsA(className, context);
+}
+//=============================================================================
+bool
+Evaluator::isOverloadedDotAccess(const std::string& className, bool indexingOverloaded) const
+{
+    // builtin('subsref'/'subsasgn', ...) clears withOverload: default indexing
+    return indexingOverloaded && withOverload && !isClassdefMethodContextOf(className);
+}
+//=============================================================================
+bool
+Evaluator::isDirectPropertyAccess(
+    const std::string& className, const std::string& propertyName, bool indexingOverloaded) const
+{
+    return classdefHasExactProperty(className, propertyName)
+        && !isOverloadedDotAccess(className, indexingOverloaded);
+}
+//=============================================================================
+void
+Evaluator::pushClassdefPropertySetContext(
+    const std::string& className, const std::string& propertyName)
+{
+    classdefPropertySetContextStack.emplace_back(className, propertyName);
+}
+//=============================================================================
+void
+Evaluator::popClassdefPropertySetContext()
+{
+    if (!classdefPropertySetContextStack.empty()) {
+        classdefPropertySetContextStack.pop_back();
+    }
+}
+//=============================================================================
+bool
+Evaluator::isCurrentClassdefPropertySetContext(
+    const std::string& className, const std::string& propertyName) const
+{
+    if (classdefPropertySetContextStack.empty()) {
+        return false;
+    }
+    const auto& current = classdefPropertySetContextStack.back();
+    return current.first == className && current.second == propertyName;
+}
+//=============================================================================
+void
+Evaluator::pushClassdefConstruction(const std::string& className)
+{
+    classdefConstructionStack.push_back(className);
+}
+//=============================================================================
+void
+Evaluator::popClassdefConstruction()
+{
+    if (!classdefConstructionStack.empty()) {
+        classdefConstructionStack.pop_back();
+    }
+}
+//=============================================================================
+bool
+Evaluator::isConstructingClass(const std::string& className) const
+{
+    for (const auto& name : classdefConstructionStack) {
+        if (name == className) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
 Context*
 Evaluator::getContext()
 {
     return context;
 }
 //=============================================================================
-// Returns the command queue associated with the evaluator.
 stringVector
 Evaluator::getCallers(bool includeCurrent)
 {
@@ -152,13 +264,10 @@ Evaluator::getCallers(bool includeCurrent)
     while (i < callstack.size()) {
         if (callstack.getID(i) == 0) {
             size_t j = i + 1;
-            CallStack callstackRef = callstack;
-            while ((j < callstack.size()) && (callstack.getContext(j) == callstack.getContext(i))
-                && (callstack.getDetail(j) == callstack.getDetail(i))
-                && (callstack.getID(j) != 0)) {
+            while ((j < callstack.size()) && (callstack.getID(j) != 0)) {
                 j++;
             }
-            std::string functionname = callstack.getDetail(j - 1);
+            std::string functionname = callstack.getDetail(i);
             if (StringHelpers::starts_with(functionname, "built-in ")) {
                 StringHelpers::replace_all(functionname, "built-in ", "");
             } else if (StringHelpers::starts_with(functionname, "filename ")) {
@@ -169,7 +278,6 @@ Evaluator::getCallers(bool includeCurrent)
                     callersName.push_back(functionname);
                 }
             } else {
-                // remove all that is not functions
                 bool bOK = !StringHelpers::contains(functionname, "(")
                     && !StringHelpers::contains(functionname, ")")
                     && !StringHelpers::contains(functionname, "'")
@@ -191,45 +299,39 @@ Evaluator::getCallers(bool includeCurrent)
     }
     return callersName;
 }
-//======================================================================
-// Sets the interface for the evaluator.
+//=============================================================================
 void
 Evaluator::setInterface(Interface* _io)
 {
     io = _io;
 }
-//======================================================================
-// Returns the interface associated with the evaluator.
+//=============================================================================
 Interface*
 Evaluator::getInterface()
 {
     return io;
 }
-//======================================================================
-// Returns the default (interactive) interface.
+//=============================================================================
 Interface*
 Evaluator::getDefaultInterface()
 {
     return defaultInterface ? defaultInterface : io;
 }
 //=============================================================================
-// Returns the ID of the evaluator.
 size_t
 Evaluator::getID()
 {
     return ID;
 }
 //=============================================================================
-// Evaluates a string command in the evaluator context.
 bool
-Evaluator::evaluateString(const std::wstring& line, bool propogateException)
+Evaluator::evaluateString(const std::wstring& line, bool propagateException)
 {
-    return evaluateString(wstring_to_utf8(line), propogateException);
+    return evaluateString(wstring_to_utf8(line), propagateException);
 }
 //=============================================================================
-// Evaluates a string command in the evaluator context.
 bool
-Evaluator::evaluateString(const std::string& line, bool propogateException)
+Evaluator::evaluateString(const std::string& line, bool propagateException)
 {
     AbstractSyntaxTreePtr tree = nullptr;
     ParserState parserState = ParseError;
@@ -242,33 +344,35 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     }
     std::string command = line;
     char ch = *command.rbegin();
-
-    // we add <RETURN> at the end
-    // the command need a <RETURN> to be correctly parser
+    // the parser needs a trailing <RETURN>
     if (ch != '\n') {
         command = command + "\n";
     }
     AbstractSyntaxTree::clearReferences();
     try {
         parserState = parseString(lexerContext, command);
-    } catch (Exception& e) {
+    } catch (NelsonException& e) {
         AbstractSyntaxTree::deleteReferences();
         resetParser();
         setLastErrorException(e);
-        if (propogateException) {
+        if (propagateException) {
             throw;
         }
+        setLastUncaughtException(e);
         e.printMe(io);
         return false;
     }
     if (parserState != ScriptBlock) {
         AbstractSyntaxTree::deleteReferences();
         resetParser();
-        Exception e(_W("a valid script expected."));
+        NelsonException e(
+            resolveMessageTemplate(L"Nelson:interpreter:validScript", L"a valid script expected."),
+            L"Nelson:interpreter:validScript");
         setLastErrorException(e);
-        if (propogateException) {
+        if (propagateException) {
             throw;
         }
+        setLastUncaughtException(e);
         return false;
     }
     tree = getParsedScriptBlock();
@@ -281,14 +385,57 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     AbstractSyntaxTreePtrVector astAsVector = AbstractSyntaxTree::getReferences();
     AbstractSyntaxTree::clearReferences();
     try {
-        block(tree);
-    } catch (Exception& e) {
+        auto chunk = BytecodeCompiler::compileScript(tree, L"");
+        BytecodeVM::executeScript(this, *chunk);
+    } catch (NelsonException& e) {
         AbstractSyntaxTree::deleteReferences(astAsVector);
         tree = nullptr;
         setLastErrorException(e);
-        if (propogateException) {
+        if (state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
+            callstack.popDebug();
+            throw;
+        }
+        if (propagateException) {
             throw e;
         }
+        setLastUncaughtException(e);
+        e.printMe(io);
+        callstack.popDebug();
+        return false;
+    } catch (const std::exception& stdEx) {
+        // A raw C++ exception raised inside the compiler or the bytecode VM (not a
+        // Nelson error) must never abort the process: convert it to a Nelson error
+        // so the command fails cleanly and the prompt survives.
+        AbstractSyntaxTree::deleteReferences(astAsVector);
+        tree = nullptr;
+        NelsonException e(utf8_to_wstring(stdEx.what()), L"Nelson:interpreter:cppRuntimeError");
+        setLastErrorException(e);
+        if (state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
+            callstack.popDebug();
+            throw e;
+        }
+        if (propagateException) {
+            throw e;
+        }
+        setLastUncaughtException(e);
+        e.printMe(io);
+        callstack.popDebug();
+        return false;
+    } catch (...) {
+        AbstractSyntaxTree::deleteReferences(astAsVector);
+        tree = nullptr;
+        NelsonException e(resolveMessageTemplate(L"Nelson:interpreter:unexpectedInternalError",
+                              L"An unexpected internal error occurred."),
+            L"Nelson:interpreter:unexpectedInternalError");
+        setLastErrorException(e);
+        if (state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
+            callstack.popDebug();
+            throw e;
+        }
+        if (propagateException) {
+            throw e;
+        }
+        setLastUncaughtException(e);
         e.printMe(io);
         callstack.popDebug();
         return false;
@@ -304,7 +451,6 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     return true;
 }
 //=============================================================================
-// Returns the current evaluated filename from the list of evaluated filenames.
 std::wstring
 Evaluator::getCurrentEvaluateFilename()
 {
@@ -314,7 +460,6 @@ Evaluator::getCurrentEvaluateFilename()
     return L"";
 }
 //=============================================================================
-// Returns the name of the caller function from the call stack.
 std::string
 Evaluator::getCallerFunctionName()
 {
@@ -325,21 +470,18 @@ Evaluator::getCallerFunctionName()
     return {};
 }
 //=============================================================================
-// Returns the name of the caller function in wide string format from the call stack.
 std::wstring
 Evaluator::getCallerFunctionNameW()
 {
     return utf8_to_wstring(getCallerFunctionName());
 }
 //=============================================================================
-// Returns the name of the current function from the call stack.
 std::wstring
 Evaluator::getCurrentFunctionNameW()
 {
     return utf8_to_wstring(getCurrentFunctionName());
 }
 //=============================================================================
-// Returns the name of the current function from the call stack.
 std::string
 Evaluator::getCurrentFunctionName()
 {
@@ -355,21 +497,18 @@ Evaluator::getCurrentFunctionName()
     return {};
 }
 //=============================================================================
-// Pushes a filename onto the list of evaluated filenames.
 void
 Evaluator::pushEvaluateFilenameList(const std::wstring& filename)
 {
     evaluatedFilenames.push_back(filename);
 }
 //=============================================================================
-// Pops the last filename from the list of evaluated filenames.
 void
 Evaluator::popEvaluateFilenameList()
 {
     evaluatedFilenames.pop_back();
 }
 //=============================================================================
-// Returns the current debug depth of the evaluator.
 std::wstring
 Evaluator::buildPrompt()
 {
@@ -381,452 +520,60 @@ Evaluator::buildPrompt()
     return prompt;
 }
 //=============================================================================
-void
-setNamedMutexNelsonReady()
-{
-    // Use portable process id retrieval
-#ifdef _MSC_VER
-    openIsReadyNelsonMutex(static_cast<int>(GetCurrentProcessId()));
-#else
-    openIsReadyNelsonMutex(static_cast<int>(getpid()));
-#endif
-}
-//=============================================================================
-static bool doOnce = true;
-//=============================================================================
-// Evaluates commands in the CLI mode, processing input from the command queue or user input.
-void
-Evaluator::evalCLI()
-{
-    while (true) {
-        if (!bpActive) {
-            clearStacks();
-        }
-
-        if (EventQueue::getInstance()->processCallback(this)) {
-            return;
-        }
-        if (CallbackQueue::getInstance()->processCallback(this)) {
-            return;
-        }
-
-        std::wstring commandLine;
-        commandQueue.get(commandLine);
-        if (commandLine.empty()) {
-            if (doOnce) {
-                setNamedMutexNelsonReady();
-                doOnce = false;
-            }
-
-            // Before showing prompt: if in debug mode but there is no active execution frame,
-            // exit debug mode so prompt shows >> instead of K>>. This also cleans up any stale
-            // step context that could leave the CLI stuck in K>> after script completion.
-            // Check multiple conditions that indicate we should exit debug mode:
-            // 1. Callstack is minimal (no functions executing) - BUT only if NOT at an active
-            // breakpoint
-            // 2. We have a step breakpoint but the current filename is empty (not in any file)
-            // 3. Step mode is active but we're at base scope with no file
-            bool noExecutionFrame = callstack.size() <= 1;
-            // If there is no execution frame, always leave debug mode; this runs after scripts
-            // finish.
-            if (bpActive && noExecutionFrame) {
-                bpActive = false;
-                stepMode = false;
-                stepBreakpoint.reset();
-                clearStepBreakpoints();
-            }
-
-            commandLine = io->getLine(buildPrompt());
-            if (commandLine.empty()) {
-                InCLI = false;
-                this->setState(NLS_STATE_QUIT);
-                return;
-            }
-            wchar_t ch = *commandLine.rbegin();
-            if (ch != L'\n') {
-                commandLine.push_back(L'\n');
-            }
-        }
-        // Scan the line and tokenize it
-        AbstractSyntaxTree::clearReferences();
-        setLexBuffer(lexerContext, commandLine);
-        try {
-            bool bContinueLine = lexCheckForMoreInput(lexerContext, 0);
-            AbstractSyntaxTree::deleteReferences();
-            if (bContinueLine) {
-                int lastCount = getContinuationCount(lexerContext);
-                std::wstring lines = commandLine;
-                bool enoughInput = false;
-                int emptyLineCount = 0; // Track consecutive empty lines
-
-                if (lexerContext.lineNumber > 2) {
-                    enoughInput = true;
-                }
-
-                while (!enoughInput) {
-                    std::wstring prompt = L""; // Default continuation prompt
-
-                    // Show helpful continuation prompt based on context
-                    if (lexerContext.inMultilineComment) {
-                        prompt = L"%> "; // Multiline comment continuation
-                    } else if (lexerContext.bracketStackSize > 0) {
-                        switch (lexerContext.bracketStack[lexerContext.bracketStackSize - 1]) {
-                        case '[':
-                            prompt = L"[> ";
-                            break;
-                        case '{':
-                            prompt = L"{> ";
-                            break;
-                        case '(':
-                            prompt = L"(> ";
-                            break;
-                        }
-                    } else if (lexerContext.inFunction) {
-                        prompt = L"f> "; // Function continuation
-                    } else if (lexerContext.inStatement > 0) {
-                        prompt = L"s> "; // Statement continuation
-                    }
-
-                    commandLine = io->getLine(prompt);
-
-                    // Handle empty lines - allow double empty line to force evaluation
-                    if (commandLine == L"\n" || commandLine.empty()) {
-                        emptyLineCount++;
-
-                        if (NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
-                            commandLine.clear();
-                            return;
-                        }
-
-                        // Double empty line forces evaluation (user override)
-                        if (emptyLineCount >= 2) {
-                            enoughInput = true;
-                            break;
-                        }
-
-                        // Single empty line - check if we can safely terminate
-                        if (isSafeToAutoTerminateCLI()) {
-                            enoughInput = true;
-                            break;
-                        }
-                        continue;
-                    } else {
-                        emptyLineCount = 0; // Reset counter on non-empty input
-                    }
-                    wchar_t ch = *commandLine.rbegin();
-                    if (ch != L'\n') {
-                        commandLine.push_back(L'\n');
-                    }
-                    lines.append(commandLine);
-                    AbstractSyntaxTree::clearReferences();
-                    setLexBuffer(lexerContext, lines);
-                    enoughInput = !lexCheckForMoreInput(lexerContext, lastCount);
-                    AbstractSyntaxTree::deleteReferences();
-                    lastCount = getContinuationCount(lexerContext);
-                    if (enoughInput) {
-                        lines.append(L"\n");
-                    }
-                }
-                commandLine = std::move(lines);
-            }
-        } catch (Exception& e) {
-            e.printMe(io);
-            commandLine.clear();
-        }
-        InCLI = true;
-
-        if (!commandLine.empty()) {
-            size_t stackdepth = callstack.size();
-            if (lexerContext.lineNumber > 1) {
-                auto normalize_newlines = [](const std::wstring& input) -> std::wstring {
-                    static const std::wregex newline_re(L"\n+");
-                    return std::regex_replace(input, newline_re, L"\n");
-                };
-                commandLine = normalize_newlines(commandLine);
-            }
-            bool evalResult = evaluateString(commandLine, false);
-            while (callstack.size() > stackdepth) {
-                callstack.pop_back();
-            }
-            if (this->getState() == NLS_STATE_DEBUG_QUIT_ALL) {
-                // Quit all debug levels - reset depth and exit all debugCLI calls
-                // Breakpoints remain in effect (MATLAB compatible behavior)
-                depth = 0;
-                bpActive = false;
-                InCLI = false;
-                return;
-            }
-
-            if (this->getState() == NLS_STATE_DEBUG_QUIT) {
-                // Quit current debug level only
-                // The debugCLI() caller will decrement depth and handle bpActive
-                depth--;
-                InCLI = false;
-                return;
-            }
-
-            if (this->getState() == NLS_STATE_DEBUG_STEP) {
-                InCLI = false;
-                return;
-            }
-            if (this->getState() == NLS_STATE_DEBUG_CONTINUE) {
-                InCLI = false;
-                return;
-            }
-            if (!evalResult || isQuitOrForceQuitState() || this->getState() == NLS_STATE_ABORT) {
-                // If ABORT occurred during command evaluation in a debug session,
-                // it means a nested function was aborted (dbquit). Reset state and continue.
-                if (this->getState() == NLS_STATE_ABORT && bpActive) {
-                    resetState();
-                    continue; // Continue the debug CLI loop
-                }
-                InCLI = false;
-                return;
-            }
-        }
-    }
-}
-//=============================================================================
-// Checks if it is safe to auto-terminate the CLI based on the current lexer context.
-bool
-Evaluator::isSafeToAutoTerminateCLI()
-{
-    // Only allow termination if we're just missing simple end statements
-    // but not if we have unbalanced brackets
-    if (lexerContext.bracketStackSize > 0) {
-        return false; // Never terminate with unbalanced brackets
-    }
-
-    // Allow termination if we're only missing 'end' keywords
-    // This handles cases like incomplete if/for/while blocks
-    return (lexerContext.inStatement >= 0 && !lexerContext.inFunction);
-}
-//=============================================================================
-void
-Evaluator::debugCLI()
-{
-    depth++;
-    bool previousBpActive = bpActive;
-    bpActive = true;
-    // Force immediate UI update so text editor shows current debug line
-    if (haveEventsLoop()) {
-        ProcessEventsDynamicFunctionWithoutWait();
-    }
-    // If the current interface is not the default (interactive) one
-    // (e.g., during evalc), temporarily restore the interactive interface
-    // so that the debug CLI can read user input.
-    Interface* savedIO = nullptr;
-    if (io != defaultInterface && defaultInterface != nullptr) {
-        savedIO = io;
-        io = defaultInterface;
-    }
-    evalCLI();
-    // Restore the previous interface after the debug session
-    if (savedIO != nullptr) {
-        io = savedIO;
-    }
-    // After evalCLI() returns, check if debug mode should be exited:
-    // - If a debug command set bpActive to false, keep it false
-    // - If script finished without active breakpoint, exit debug mode
-    // - Otherwise restore previous state for nested sessions
-    if (!bpActive) {
-        // Debug command (e.g., dbstep or dbcont) already disabled debug mode
-        // Keep it false
-        // Clean up any leftover temporary step breakpoints
-        stepBreakpoint.reset();
-        clearStepBreakpoints();
-    } else if (callstack.size() <= 1) {
-        // Script has finished (callstack empty or minimal), exit debug mode
-        bpActive = false;
-        // Clean up any leftover temporary step breakpoints
-        stepBreakpoint.reset();
-        clearStepBreakpoints();
-    } else {
-        // Nested debug session still active, restore previous state
-        bpActive = previousBpActive;
-    }
-    stepMode = false;
-    depth--;
-}
-//=============================================================================
-// Checks if the evaluator has an event loop.
 bool
 Evaluator::haveEventsLoop()
 {
     return this->_haveEventsLoop;
 }
 //=============================================================================
-// Sets the command line arguments for the evaluator.
 void
 Evaluator::setCommandLineArguments(wstringVector args)
 {
     this->commandLineArguments = std::move(args);
 }
 //=============================================================================
-// Returns the command line arguments for the evaluator.
 wstringVector
 Evaluator::getCommandLineArguments()
 {
     return this->commandLineArguments;
 }
 //=============================================================================
-// Returns the echo mode of the evaluator.
+void
+Evaluator::setUserCommandLineArguments(wstringVector args)
+{
+    this->userCommandLineArguments = std::move(args);
+}
+//=============================================================================
+wstringVector
+Evaluator::getUserCommandLineArguments()
+{
+    return this->userCommandLineArguments;
+}
+//=============================================================================
 bool
 Evaluator::getEchoMode()
 {
     return bEchoMode;
 }
 //=============================================================================
-// Sets the echo mode of the evaluator.
 void
 Evaluator::setEchoMode(bool _mode)
 {
     bEchoMode = _mode;
 }
 //=============================================================================
-// Checks if the evaluator is in quiet mode, where it suppresses output messages.
 bool
 Evaluator::isQuietMode()
 {
     return bQuietMode;
 }
 //=============================================================================
-// Sets the quiet mode of the evaluator, where it suppresses output messages.
 void
 Evaluator::setQuietMode(bool _quiet)
 {
     bQuietMode = _quiet;
 }
 //=============================================================================
-// Returns the overload function name based on the class and function type.
-void
-Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
-{
-    if (fieldvalue.size() != 1) {
-        Error(_W("Right hand values must satisfy left hand side expression."));
-    }
-    std::string currentType;
-    if (r.isGraphicsObject()) {
-        currentType = ClassToString(r.getDataClass());
-    } else {
-        currentType = r.getHandleCategory();
-    }
-    std::string functionNameSetHandle = getOverloadFunctionName(currentType, "set");
-    Context* _context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-    if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
-        Error(_W("Function not found."));
-    }
-    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(_W("Type function not valid."));
-    }
-    int nLhs = 0;
-    ArrayOfVector argIn;
-    argIn.push_back(r);
-    argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
-    argIn.push_back(fieldvalue[0]);
-    funcDef->evaluateFunction(this, argIn, nLhs);
-}
-//=============================================================================
-// Retrieves the handle of an object based on its type and field name, using the provided
-// parameters.
-ArrayOfVector
-Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
-{
-    ArrayOfVector argIn;
-    std::string currentType;
-    std::string functionNameCurrentType;
-    if (r.isGraphicsObject()) {
-        currentType = ClassToString(r.getDataClass());
-        functionNameCurrentType = getOverloadFunctionName(ClassName(r), fieldname);
-    } else {
-        currentType = r.getHandleCategory();
-        functionNameCurrentType = getOverloadFunctionName(currentType, fieldname);
-    }
-    Context* _context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-    if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
-        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
-                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(_W("Type function not valid."));
-        }
-        int nLhs = 1;
-        argIn.reserve(params.size() + 1);
-        argIn.push_back(r);
-        for (const ArrayOf& a : params) {
-            argIn.push_back(a);
-        }
-        return funcDef->evaluateFunction(this, argIn, nLhs);
-    }
-    std::string functionNameGetHandle = getOverloadFunctionName(currentType, "get");
-    if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
-        Error(_("Function not found: ") + functionNameGetHandle);
-    }
-    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-        Error(_W("Type function not valid."));
-    }
-    int nLhs = 1;
-    argIn.push_back(r);
-    argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
-    return funcDef->evaluateFunction(this, argIn, nLhs);
-}
-//=============================================================================
-// Checks if the given object has a method with the specified name.
-bool
-Evaluator::isObjectMethod(const ArrayOf& r, const std::string& methodName)
-{
-    Context* _context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-    if (_context->lookupFunction("ismethod", funcDef)) {
-        int nLhs = 1;
-        ArrayOfVector argIn;
-        argIn.push_back(r);
-        argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
-        ArrayOfVector res = funcDef->evaluateFunction(this, argIn, nLhs);
-        if (res.size() != 1) {
-            return false;
-        }
-        if (res[0].isLogical() && res[0].isScalar()) {
-            return res[0].getContentAsLogicalScalar();
-        }
-    }
-    if (r.isHandle()) {
-        return r.isHandleMethod(utf8_to_wstring(methodName));
-    }
-    return false;
-}
-//=============================================================================
-// Invokes a method on the given object with the specified parameters.
-ArrayOfVector
-Evaluator::invokeMethod(
-    const ArrayOf& r, const std::string& methodName, const ArrayOfVector& params)
-{
-    Context* _context = this->getContext();
-    FunctionDef* funcDef = nullptr;
-
-    std::string currentType = r.isHandle() ? r.getHandleCategory()
-        : r.isClassType()                  ? r.getClassType()
-                                           : "";
-
-    if (!currentType.empty()) {
-        std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
-        if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
-            ArrayOfVector argIn;
-            int nLhs = 1;
-            argIn.push_back(r);
-            argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
-            for (const ArrayOf& a : params) {
-                argIn.push_back(a);
-            }
-            return funcDef->evaluateFunction(this, argIn, nLhs);
-        }
-        return getHandle(r, methodName, params);
-    }
-    Error(_("Function not found: ") + "invoke");
-    return {};
-}
-//=============================================================================
-// Adds a command to the command queue, ensuring it ends with a newline character.
 void
 Evaluator::addCommandToQueue(const std::wstring& command, bool bIsPriority)
 {

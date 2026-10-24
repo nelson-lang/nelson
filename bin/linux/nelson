@@ -20,23 +20,54 @@ fi
 #==============================================================================
 NELSON_MODE=$DEFAULT_NELSON_MODE
 #==============================================================================
-if (echo "$progname"|grep "nelson-adv-cli" 2>&1 > /dev/null;) || (echo "$@"|grep "\-adv-cli" 2>&1 > /dev/null;) then
-    NELSON_MODE="-adv-cli"
-elif (echo "$progname"|grep "nelson-sio-cli" 2>&1 > /dev/null;) || (echo "$@"|grep "\-sio-cli" 2>&1 > /dev/null;) then
-    NELSON_MODE="-sio-cli"
-elif (echo "$progname"|grep "nelson-cli$" 2>&1 > /dev/null;) || (echo "$@"|grep "\-cli" 2>&1 > /dev/null;) then
-    NELSON_MODE="-cli"
-elif (echo "$progname"|grep "nelson-gui" 2>&1 > /dev/null;) || (echo "$@"|grep "\-gui" 2>&1 > /dev/null;) then
-    NELSON_MODE="-gui"
-fi
-#==============================================================================
-for arg do
+has_mode_argument()
+{
+    wanted="$1"
     shift
-    case $arg in
-        ($NELSON_MODE) : ;;
-            (*) set -- "$@" "$arg" ;;
-    esac
-done    
+    for candidate do
+        [ "$candidate" = "--" ] && return 1
+        [ "$candidate" = "$wanted" ] && return 0
+    done
+    return 1
+}
+#==============================================================================
+# A mode-specific launcher name (nelson-cli, nelson-adv-cli, ...) fixes the
+# mode: mode-selector options are only meaningful for the generic "nelson"
+# launcher. When invoked under a specific name, keep any mode-selector option
+# in the argument list so the executable rejects it, matching the native
+# launchers on the other platforms.
+LAUNCHER_IS_GENERIC=true
+case "$(basename "$progname")" in
+    (nelson-adv-cli) NELSON_MODE="-adv-cli"; LAUNCHER_IS_GENERIC=false ;;
+    (nelson-webview) NELSON_MODE="-webview"; LAUNCHER_IS_GENERIC=false ;;
+    (nelson-cli)     NELSON_MODE="-cli";     LAUNCHER_IS_GENERIC=false ;;
+    (nelson-gui)     NELSON_MODE="-gui";     LAUNCHER_IS_GENERIC=false ;;
+esac
+#==============================================================================
+if $LAUNCHER_IS_GENERIC; then
+    if has_mode_argument "--adv-cli" "$@"; then
+        NELSON_MODE="-adv-cli"
+    elif has_mode_argument "--webview" "$@" || has_mode_argument "--web" "$@"; then
+        NELSON_MODE="-webview"
+    elif has_mode_argument "--cli" "$@"; then
+        NELSON_MODE="-cli"
+    elif has_mode_argument "--gui" "$@"; then
+        NELSON_MODE="-gui"
+    fi
+    after_terminator=false
+    for arg do
+        shift
+        if $after_terminator; then
+            set -- "$@" "$arg"
+            continue
+        fi
+        case $arg in
+            (--) after_terminator=true; set -- "$@" "$arg" ;;
+            (--cli|--adv-cli|--gui|--webview) : ;;
+                (*) set -- "$@" "$arg" ;;
+        esac
+    done
+fi
 #==============================================================================
 if test -f $SCRIPT_DIRECTORY/../lib64/Nelson/libnlsEngine.so; then
   CURRENT_DIRECTORY=$(pwd -P)

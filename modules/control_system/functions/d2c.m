@@ -10,43 +10,38 @@
 %=============================================================================
 function varargout = d2c(varargin)
   % [a, b] = d2c(phi, gamma, t)
-  
-  narginchk(3,3);
+
+  narginchk(3, 3);
   nargoutchk(0, 2);
-  
+
   phi = varargin{1};
   gamma = varargin{2};
   T = varargin{3};
-  
-  [msg, phi, gamma] = abcdchk(phi, gamma);
+
+  [msg, phi, gamma] = abcdchk(phi, gamma); %#ok<NLS0004>
   if ~isempty(msg)
-    error(msg);
+    error('Nelson:control_system:invalidStateSpace', msg);
   end
-  
-  [m, n] = size(phi);
-  [m, nb] = size(gamma);
-  
-  if m == 1 && phi == 1
+
+  rowCount = size(phi, 1);
+  columnCount = size(phi, 2);
+  inputCount = size(gamma, 2);
+
+  if rowCount == 1 && phi == 1
     a = 0;
     b = gamma / T;
     return
   end
-  
-  b = zeros(m, nb);
-  nz = 0;
-  nonzero = [];
-  for i=1:nb
-    if (any(gamma(:,i ) ~= 0)) 
-      nonzero = [nonzero, i];
-      nz = nz + 1;
-    end
-  end
-  
-  m = [[phi, gamma(:, nonzero)]; zeros(nz, n), eye(nz)];
-  [s, ~] = logm(m);
-  s = real(s / T);
-  a = s(1:n, 1:n);
+
+  b = zeros(rowCount, inputCount);
+  nonzero = find(any(gamma ~= 0, 1));
+  nonzeroCount = length(nonzero);
+
+  augmentedMatrix = [[phi, gamma(:, nonzero)]; zeros(nonzeroCount, columnCount), eye(nonzeroCount)];
+  [logMatrix, ~] = logm(augmentedMatrix); %#ok<NLS0004>
+  logMatrix = real(logMatrix / T);
+  a = logMatrix(1:columnCount, 1:columnCount);
   if length(b)
-    b(:, nonzero) = s(1:n, n + 1 : n + nz);
+    b(:, nonzero) = logMatrix(1:columnCount, columnCount + 1:columnCount + nonzeroCount);
   end
 end

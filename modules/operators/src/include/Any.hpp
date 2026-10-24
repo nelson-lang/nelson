@@ -20,5 +20,5 @@ Any(ArrayOf& A, indexType dim, bool& needToOverload);
 NLSOPERATORS_IMPEXP ArrayOf
 AnyAll(ArrayOf& A, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

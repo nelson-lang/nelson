@@ -98,6 +98,24 @@ openVariable(const std::wstring& variableName)
 }
 //=============================================================================
 bool
+isVariableExisting(const std::wstring& variableName)
+{
+    if (qtVariablesEditor) {
+        return qtVariablesEditor->isVariableExisting(wstringToQString(variableName));
+    }
+    return false;
+}
+//=============================================================================
+bool
+isGraphicsObjectExisting(long long handle)
+{
+    if (qtVariablesEditor) {
+        return qtVariablesEditor->isGraphicsObjectExisting(handle);
+    }
+    return false;
+}
+//=============================================================================
+bool
 updateVariablesEditor()
 {
     if (qtVariablesEditor) {
@@ -107,5 +125,5 @@ updateVariablesEditor()
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson::VariablesEditor
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,66 +8,101 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "HorzCatHandle.hpp"
+#include "ConcatenateNdArray.hpp"
+#include "ConcatenateDimensions.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "lapack_eigen_config.hpp"
-#include <Eigen/Dense>
-#include "PredefinedErrorMessages.hpp"
+#include "HandleState.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static constexpr indexType HORZCAT_AXIS = 1;
+//=============================================================================
+static ArrayOf
+concatenateNd(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
+static void
+checkHandleClassCompatibility(const ArrayOf& A, const ArrayOf& B)
+{
+    if (A.handleCategory() != B.handleCategory()) {
+        Error(L"Nelson:handle:incompatibleClasses",
+            L"Handles being catenated have incompatible classes.");
+    }
+}
 //=============================================================================
 ArrayOf
 HorzCatHandle(const ArrayOf& A, const ArrayOf& B)
 {
     if (!A.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((1)), L"handle");
     }
     if (!B.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((2)), L"handle");
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!A.isEmpty(true) && !B.isEmpty(true)) {
-        if (dimsA.getRows() != dimsB.getRows()) {
-            Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    if (A.isEmpty(false) || B.isEmpty(false)) {
+        checkHandleClassCompatibility(A, B);
+        if (A.isEmpty(false) && B.isEmpty(false)) {
+            Dimensions dimsC = concatenatedEmptyDimensions(dimsA, dimsB, HORZCAT_AXIS);
+            return ArrayOf::emptyHandle(A.handleCategory(), dimsC);
         }
+        if (A.isEmpty(false)) {
+            checkEmptyOperandDimensions(dimsA, dimsB, HORZCAT_AXIS);
+            return ArrayOf(B);
+        }
+        checkEmptyOperandDimensions(dimsB, dimsA, HORZCAT_AXIS);
+        return ArrayOf(A);
     }
-    if (A.isEmpty(true)) {
-        ArrayOf C(B);
-        return C;
-    }
-    if (B.isEmpty(true)) {
-        ArrayOf C(A);
-        return C;
-    }
-    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-    indexType newRowsSize = dimsA.getRows();
+    checkConcatenationDimensions(dimsA, dimsB, HORZCAT_AXIS);
+    indexType newColumnsSize = dimsA.columns() + dimsB.columns();
+    indexType newRowsSize = dimsA.rows();
     indexType newSize = newColumnsSize * newRowsSize;
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
-    auto* ptrA = (nelson_handle*)A.getDataPointer();
-    auto* ptrB = (nelson_handle*)B.getDataPointer();
+    auto* ptrA = (HandleRef*)A.dataPointer();
+    auto* ptrB = (HandleRef*)B.dataPointer();
     if (newSize != 0) {
-        HandleGenericObject* hlObjA = HandleManager::getInstance()->getPointer(ptrA[0]);
-        HandleGenericObject* hlObjB = HandleManager::getInstance()->getPointer(ptrB[0]);
-        if (hlObjA->getCategory() != hlObjB->getCategory()
-            || (hlObjA == nullptr || hlObjB == nullptr)) {
-            Error(_W("Handles being catenated have incompatible classes."));
+        if (!ptrA[0] || !ptrB[0] || ptrA[0]->category() != ptrB[0]->category()) {
+            Error(L"Nelson:handle:incompatibleClasses",
+                L"Handles being catenated have incompatible classes.");
         }
+    }
+    if (!A.is2D() || !B.is2D()) {
+        return concatenateNd(A, B);
     }
     void* pRes = ArrayOf::allocateArrayOf(NLS_HANDLE, newSize, stringVector(), false);
     if (newSize != 0) {
-        auto* ptrC = static_cast<nelson_handle*>(pRes);
-        Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matA(
-            ptrA, dimsA.getRows(), dimsA.getColumns());
-        Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matB(
-            ptrB, dimsB.getRows(), dimsB.getColumns());
-        Eigen::Map<Eigen::Matrix<nelson_handle, Eigen::Dynamic, Eigen::Dynamic>> matC(
-            ptrC, dimsC.getRows(), dimsC.getColumns());
-        matC << matA, matB;
+        auto* ptrC = static_cast<HandleRef*>(pRes);
+        indexType rows = dimsC.rows();
+        for (indexType col = 0; col < dimsA.columns(); ++col) {
+            for (indexType row = 0; row < rows; ++row) {
+                ptrC[col * rows + row] = ptrA[col * rows + row];
+            }
+        }
+        for (indexType col = 0; col < dimsB.columns(); ++col) {
+            for (indexType row = 0; row < rows; ++row) {
+                ptrC[(col + dimsA.columns()) * rows + row] = ptrB[col * rows + row];
+            }
+        }
     }
     return ArrayOf(NLS_HANDLE, dimsC, pRes);
+}
+//=============================================================================
+static ArrayOf
+concatenateNd(const ArrayOf& A, const ArrayOf& B)
+{
+    // N-D operands: same element mapping as the numeric N-D concatenation.
+    ArrayOfMatrix m;
+    ArrayOfVector v;
+    v.push_back(A);
+    v.push_back(B);
+    m.push_back(v);
+    return ConcatenateNdArray(m, NLS_HANDLE);
 }
 //=============================================================================
 } // namespace Nelson

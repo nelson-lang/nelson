@@ -12,10 +12,11 @@
 #include <vector>
 #include "GOStringProperty.hpp"
 #include "GORestrictedStringProperty.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GORestrictedStringProperty : public GOStringProperty
+class NLSGRAPHICS_IMPEXP GORestrictedStringProperty : public GOStringProperty
 {
 protected:
     std::vector<std::wstring> m_dictionary;
@@ -27,7 +28,12 @@ public:
     }
     GORestrictedStringProperty(const wchar_t** dict);
     void set(ArrayOf) override;
+    std::vector<std::wstring>
+    getDictionary() override
+    {
+        return m_dictionary;
+    }
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

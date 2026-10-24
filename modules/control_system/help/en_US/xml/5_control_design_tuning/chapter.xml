@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>control_system</module_name>
+  <chapter>Control Design and Tuning</chapter>
+  <chapter_description>
+    <p>Functions for controller design, estimators, and regulator computations.</p>
+  </chapter_description>
+</xmldoc>

@@ -7,6 +7,7 @@
   >Array elements that are members of another array.</short_description>
   <syntax>
     <syntax_item>T = ismember(A, B)</syntax_item>
+    <syntax_item>[T, loc] = ismember(A, B)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,10 +24,16 @@
       <param_name>T</param_name>
       <param_description>result of ismember.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>loc</param_name>
+      <param_description>lowest index in B for each matching element of A, 0 where there is no match.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>T = ismember(A, B)</b> returns an array of logical where the data in<b>A</b> is found in <b>B</b>.</p>
+    <p>
+      <b>[T, loc] = ismember(A, B)</b> also returns <b>loc</b>, the lowest index in <b>B</b> for each element of <b>A</b> that is a member of <b>B</b>, and 0 otherwise.</p>
   </description>
   <used_function />
   <bibliography />

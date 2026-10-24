@@ -5,12 +5,9 @@ set working-directory := ".."
 # Build help/documentation for Windows 64-bit version
 win64:  (build-help "x64")
 
-# Build help/documentation for Windows 32-bit version
-win32:  (build-help "win32")
-
 # Build help/documentation for Windows arm64
 arm64:  (build-help "ARM64")
 
 [private]
 build-help arch:
-    @.\bin\{{arch}}\nelson-cli --noipc --quiet -f .\tools\buildhelp\buildhelp.m
+    @.\bin\{{arch}}\nelson-cli --no-ipc --quiet -f .\tools\buildhelp\buildhelp.m

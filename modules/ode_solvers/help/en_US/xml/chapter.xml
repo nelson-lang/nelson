@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>ode_solvers</module_name>
+  <chapter>ODE solvers</chapter>
+  <chapter_description>
+    <p>The ODE Solvers module provides time integration functions for explicit, stiff, and implicit differential equation workflows in Nelson.</p>
+    <p>It includes solver entry points, delay and boundary value problem wrappers, option handling, interpolation, solution extension, event detection, and object-oriented problem definitions.</p>
+    <p>When the optional SUNDIALS backend is built, the object workflow can also select CVODES and IDAS solver values.</p>
+    <p>The module is designed for numerical experiments, simulations, and teaching examples that need compact solver setup and reproducible result objects.</p>
+    <p>Tutorial pages cover solver choice, events, tolerances, mass matrices, implicit equations, delay equations, boundary value problems, interpolation, extension, object workflows, and complex states.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Area</th>
+        <th>Main entries</th>
+      </tr>
+      <tr>
+        <td>Initial value problems</td>
+        <td>
+          <b>ode23</b>, <b>ode45</b>, <b>ode78</b>, <b>ode89</b>, <b>ode113</b>, <b>ode15s</b>, <b>ode15i</b></td>
+      </tr>
+      <tr>
+        <td>Delay and boundary value problems</td>
+        <td>
+          <b>dde23</b>, <b>ddesd</b>, <b>ddensd</b>, <b>bvp4c</b>, <b>bvp5c</b></td>
+      </tr>
+      <tr>
+        <td>Utilities</td>
+        <td>
+          <b>odeset</b>, <b>deval</b>, <b>odextend</b>, <b>ode</b>, <b>odeEvent</b>, <b>odeSensitivity</b></td>
+      </tr>
+    </table>
+  </chapter_description>
+</xmldoc>

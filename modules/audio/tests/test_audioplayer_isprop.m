@@ -10,6 +10,6 @@
 % <--AUDIO OUTPUT REQUIRED-->
 %=============================================================================
 r = audioplayer(sin(1:10000), 8192);
-assert_istrue(isprop(r, 'Running'))
-assert_isfalse(isprop(r, 'Running2'))
+asserts.istrue(isprop(r, 'Running'))
+asserts.isfalse(isprop(r, 'Running2'))
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,9 +11,47 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "ImageProcessingCore.hpp"
 #include "ImageRotation.hpp"
+#include <cwctype>
 //=============================================================================
 namespace Nelson::ImageProcessingGateway {
+//=============================================================================
+static std::wstring
+toLowerAscii(std::wstring value)
+{
+    for (auto& ch : value) {
+        ch = static_cast<wchar_t>(std::towlower(ch));
+    }
+    return value;
+}
+//=============================================================================
+static void
+validateImage2DOrRGBA(const ArrayOf& image)
+{
+    if (!image.isNumeric() && !image.isLogical()) {
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"Input image");
+    }
+    if (image.isSparse()) {
+        Error(L"Nelson:image_processing:sparseImagesNotSupported", L"%s are not supported.",
+            L"Sparse images");
+    }
+    if (!image.isReal()) {
+        Error(L"Nelson:validators:mustBeReal", L"%s must be real.", L"Input image");
+    }
+    Dimensions dims = image.dimensions();
+    if (dims.length() > 3) {
+        Error(L"Nelson:image_processing:imageDRgbRgbaArray",
+            L"%s must be a 2-D, RGB, or RGBA array.", L"Input image");
+    }
+    indexType channels = (dims.length() > 2) ? dims.dimensionLength(2) : 1;
+    if (channels != 1 && channels != 3 && channels != 4) {
+        Error(L"Nelson:image_processing:imageDRgbRgbaArray",
+            L"%s must be a 2-D, RGB, or RGBA array.", L"Input image");
+    }
+}
 //=============================================================================
 ArrayOfVector
 imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -24,32 +62,23 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     InterpolationMethod method = InterpolationMethod::Nearest;
     BoundingBox boundingBox = BoundingBox::Loose;
 
-    // Extract input image
     ArrayOf inputImage = argIn[0];
-    if (!inputImage.isNumeric() && !inputImage.isLogical()) {
-        Error(_("Input image must be numeric or logical."));
-    }
+    validateImage2DOrRGBA(inputImage);
 
-    // Extract dimensions
-    Dimensions dims = inputImage.getDimensions();
-    if (inputImage.isSparse() || dims.getLength() > 3) {
-        Error(_("Input image must be 2-D."));
-    }
-
-    // Extract rotation angle
     if (!argIn[1].isNumeric() || !argIn[1].isScalar()) {
-        Error(_("Angle must be a numeric scalar."));
+        Error("Nelson:imrotate:invalidAngleType", "Angle must be a numeric scalar.");
     }
-    double angle = argIn[1].getContentAsDoubleScalar();
+    double angle = argIn[1].asDoubleScalar();
     if (!std::isfinite(angle)) {
-        Error(_("Angle must be a finite value."));
+        Error("Nelson:imrotate:invalidAngleValue", "Angle must be a finite value.");
     }
 
-    // Default interpolation method: "nearest"
     std::wstring methodAsString = L"nearest";
-    if (argIn.size() >= 3
-        && (argIn[2].isScalarStringArray() || argIn[2].isRowVectorCharacterArray())) {
-        methodAsString = argIn[2].getContentAsWideString();
+    if (argIn.size() >= 3) {
+        if (!(argIn[2].isScalarStringArray() || argIn[2].isRowVectorCharacterArray())) {
+            Error("Nelson:imrotate:invalidMethodType", "Interpolation method must be a string.");
+        }
+        methodAsString = toLowerAscii(argIn[2].asWideString());
     }
     if (methodAsString == L"nearest") {
         method = InterpolationMethod::Nearest;
@@ -58,14 +87,16 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (methodAsString == L"bicubic") {
         method = InterpolationMethod::Bicubic;
     } else {
-        Error(_("Interpolation method must be 'nearest', 'bilinear', or 'bicubic'."));
+        Error("Nelson:imrotate:invalidMethodValue",
+            "Interpolation method must be 'nearest', 'bilinear', or 'bicubic'.");
     }
 
-    // Default bounding box: "loose"
     std::wstring bbox = L"loose";
-    if (argIn.size() >= 4
-        && (argIn[3].isScalarStringArray() || argIn[3].isRowVectorCharacterArray())) {
-        bbox = argIn[3].getContentAsWideString();
+    if (argIn.size() >= 4) {
+        if (!(argIn[3].isScalarStringArray() || argIn[3].isRowVectorCharacterArray())) {
+            Error("Nelson:imrotate:invalidBoundingBoxType", "Bounding box must be a string.");
+        }
+        bbox = toLowerAscii(argIn[3].asWideString());
     }
 
     if (bbox == L"loose") {
@@ -73,7 +104,7 @@ imrotateBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else if (bbox == L"crop") {
         boundingBox = BoundingBox::Crop;
     } else {
-        Error(_("Bounding box must be 'loose' or 'crop'."));
+        Error("Nelson:imrotate:invalidBoundingBoxValue", "Bounding box must be 'loose' or 'crop'.");
     }
     ArrayOfVector retval;
     retval << ImageRotation(inputImage, angle, method, boundingBox);

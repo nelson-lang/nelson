@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>legend properties</keyword>
+  <short_description>Proprietes de l'objet graphique legend.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>legend</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>met a jour le titre affiche ou l&apos;objet titre associe a l&apos;objet graphique.</td>
+        <td>Type: objet texte graphique ou valeur texte, selon la classe d&apos;objet. Valeurs prises en charge: objet texte de titre, vecteur ligne de caracteres, chaine scalaire ou texte vide.</td>
+      </tr>
+      <tr>
+        <td><b>AutoUpdate</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>Box</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>BackgroundAlpha</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: numeric scalar or numeric array. Valeurs prises en charge: valeurs dans [0,1]; les tableaux doivent correspondre aux donnees rendues associees.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value or color mode keyword. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de police systeme ou 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>FontAngle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'italic'.</td>
+      </tr>
+      <tr>
+        <td><b>FontWeight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>Interpreter</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'tex', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>ItemHitFcn</b></td>
+        <td>le systeme d&apos;evenements graphiques l&apos;invoque pour l&apos;evenement associe.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>Location</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'north', 'south', 'east', 'west', 'northoutside', 'southoutside', 'eastoutside', 'westoutside', 'best', 'none', 'layout', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>NumColumns</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: integer scalar or numeric vector. Valeurs prises en charge: entier fini, valeur numerique finie ou vecteur requis par la propriete.</td>
+      </tr>
+      <tr>
+        <td><b>NumColumnsMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Orientation</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'vertical', 'horizontal'.</td>
+      </tr>
+      <tr>
+        <td><b>IconColumnWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar, image array, or empty array. Valeurs prises en charge: [], chemin d&apos;image ou donnees image.</td>
+      </tr>
+      <tr>
+        <td><b>IconColumnWidthMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Direction</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'reverse'.</td>
+      </tr>
+      <tr>
+        <td><b>DirectionMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>String</b></td>
+        <td>met a jour le contenu texte affiche.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres, chaine scalaire, tableau de chaines ou tableau de cellules de vecteurs ligne de caracteres.</td>
+      </tr>
+      <tr>
+        <td><b>TextColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s&apos;execute quand l&apos;objet recoit un evenement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l&apos;objet des tests de selection souris.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>choisit quelles parties visibles ou invisibles peuvent recevoir les clics.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>met a jour le placement demande au gestionnaire de layout parent.</td>
+        <td>Type: objet d&apos;options de layout ou valeur vide. Valeurs prises en charge: informations de layout stockees par les gestionnaires parents, y compris le placement en tuile quand l&apos;objet le prend en charge.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+ax = axes('Parent', f);
+plot(ax, 1:3, 1:3, 'DisplayName', 'line');
+h = legend(ax, {'line'});
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/legend">legend</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Page de proprietes ajoutee.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

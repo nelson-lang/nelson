@@ -12,7 +12,6 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   message("macOS architecture: ${ARCH}")
   set(BIN_DIRECTORY ${PROJECT_BINARY_DIR}/bin/macOS)
   set(CMAKE_OSX_ARCHITECTURES "${ARCH}")
-  set(Boost_NO_SYSTEM_PATHS "TRUE")
   set(MAC_FRAMEWORK_FOUNDATION_LIBRARY "-framework Foundation")
   set(MAC_FRAMEWORK_APPKIT_LIBRARY "-framework AppKit")
   if(NOT DEFINED ENV{IN_NIX_SHELL} AND EXISTS "/opt/local/include")
@@ -24,22 +23,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if(NOT DEFINED ENV{IN_NIX_SHELL} AND EXISTS "/usr/local/opt/openblas/lib/")
     link_directories(/usr/local/opt/openblas/lib/)
   endif()
-  if(NOT
-    DEFINED
-    ENV{IN_NIX_SHELL}
-    AND
-    EXISTS
-    "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib/"
+  if(NOT DEFINED ENV{IN_NIX_SHELL}
+    AND EXISTS "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib/"
   )
     link_directories($ENV{HOMEBREW_PREFIX}/opt/openblas/lib/)
   endif()
 
-  if(NOT
-    DEFINED
-    ENV{IN_NIX_SHELL}
-    AND
-    EXISTS
-    "$ENV{HOMEBREW_PREFIX}/opt/libomp/include"
+  if(NOT DEFINED ENV{IN_NIX_SHELL}
+    AND EXISTS "$ENV{HOMEBREW_PREFIX}/opt/libomp/include"
   )
     set(OpenMP_CXX_INCLUDE_DIRS $ENV{HOMEBREW_PREFIX}/opt/libomp/include)
     set(OpenMP_CXX_LIBRARIES

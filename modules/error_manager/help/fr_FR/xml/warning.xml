@@ -48,6 +48,24 @@
     <p>
       <b>warning(&apos;
         &apos;)</b> réinitialise l&apos;état de lastwarn.</p>
+    <p>Lors d&apos;un appel <b>warning(id, msg, ...)</b> ou <b>warning(state, id)</b>,
+      l&apos;identifiant s&apos;écrit <b>composant:mnémonique</b>, avec un ou plusieurs
+      champs composants suivis d&apos;un mnémonique, chaque champ commençant par une
+      lettre et ne contenant que des lettres, des chiffres ou des tirets bas,
+      séparés par des deux-points (exemple : &apos;Nelson:io:fileNotFound&apos;). Les
+      avertissements levés par Nelson utilisent <b>Nelson</b> comme premier
+      composant ; dans votre propre code, utilisez un composant de votre choix
+      (par exemple le nom de votre module).</p>
+    <p>Quelques règles gardent les identifiants utiles : le composant devrait
+      pointer vers la zone qui lève l&apos;avertissement et le mnémonique devrait
+      nommer le cas précis en camelCase ; un identifiant court à deux champs
+      suffit pour les cas qui peuvent survenir partout ; donnez à un identifiant
+      un seul texte de message (un identifiant réutilisé avec plusieurs messages
+      différents ne peut pas être traduit) ; et réutilisez un identifiant existant
+      pour le même cas plutôt qu&apos;un quasi-doublon. L&apos;identifiant est aussi ce que
+      <b>warning(&apos;off&apos;, id)</b> et <b>warning(&apos;on&apos;, id)</b> activent ou
+      désactivent, donc un identifiant stable permet aux utilisateurs de
+      contrôler l&apos;avertissement.</p>
   </description>
   <used_function />
   <bibliography />

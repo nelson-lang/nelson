@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,7 +12,7 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
+ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass, const stringVector& fieldNames)
 {
     Dimensions mat_dims;
     Dimensions row_dims;
@@ -25,10 +25,10 @@ ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
         for (const auto& d : ptr) {
             if (!d.isEmpty()) {
                 if (firstNonzeroColumn) {
-                    row_dims = d.getDimensions();
+                    row_dims = d.dimensions();
                     firstNonzeroColumn = false;
                 } else {
-                    row_dims[1] += d.getDimensions()[1];
+                    row_dims[1] += d.dimensions()[1];
                 }
             }
         }
@@ -44,11 +44,10 @@ ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
         ++i;
     }
     retDims = mat_dims;
-    void* dstPtr
-        = ArrayOf::allocateArrayOf(destClass, retDims.getElementCount(), stringVector(), true);
+    void* dstPtr = ArrayOf::allocateArrayOf(destClass, retDims.elementCount(), fieldNames, true);
     indexType row_corner = 0;
     indexType column_corner = 0;
-    indexType dim_count(mat_dims.getLength());
+    indexType dim_count(mat_dims.length());
     Dimensions aptr(dim_count);
     Dimensions bptr(dim_count);
     indexType row_count;
@@ -61,8 +60,8 @@ ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
                 aptr.zeroOut();
                 indexType dstIndex;
                 indexType srcIndex;
-                bptr = d.getDimensions();
-                row_count = d.getDimensions()[0];
+                bptr = d.dimensions();
+                row_count = d.dimensions()[0];
                 srcIndex = 0;
                 while (aptr.inside(bptr)) {
                     dstIndex = mat_dims.mapPoint(aptr);
@@ -78,7 +77,7 @@ ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass)
         row_corner += row_count;
         ++i;
     }
-    return ArrayOf(destClass, retDims, dstPtr, false);
+    return ArrayOf(destClass, retDims, dstPtr, false, fieldNames);
 }
 //=============================================================================
 } // namespace Nelson

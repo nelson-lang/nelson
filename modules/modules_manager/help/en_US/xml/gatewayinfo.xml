@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item
     >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</syntax_item>
+    <syntax_item
+    >[gateway_name, builtin_list, state] = gatewayinfo(dyn_lib_path)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,11 +27,18 @@
       <param_description
       >a cell of strings: list of builtin in this gateway</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description
+      >a string: current gateway state, <b>loaded</b>, <b>lazy</b> or <b>not_loaded</b></param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> get information about an gateway.</p>
-    <p>The dynamic library must have at least an C entry point<b>GetGatewayInfo</b>.</p>
+    <p>The dynamic library must have a C entry point named <b>GetGatewayDescriptor</b>.</p>
+    <p>The optional third output reports whether the gateway is currently loaded, registered lazily, or not registered.</p>
+    <p>Descriptor metadata can be reused from the unique cache file <b>prefdir()/gateway_cache.json</b>; the cache entry is rebuilt automatically when the dynamic library changes.</p>
     <p>If file does not exist an error is raised.</p>
   </description>
   <used_function />
@@ -40,7 +49,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[[gateway_name, builtin_list] = gatewayinfo(modulepath('time', 'builtin'))
+      ><![CDATA[[gateway_name, builtin_list, state] = gatewayinfo(modulepath('time', 'builtin'))
 ]]></example_item_data>
     </example_item>
   </examples>

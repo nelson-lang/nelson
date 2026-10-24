@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>quiver3</keyword>
+  <short_description>3-D vector field plot.</short_description>
+  <syntax>
+    <syntax_item>quiver3(Z, U, V, W)</syntax_item>
+    <syntax_item>quiver3(X, Y, Z, U, V, W)</syntax_item>
+    <syntax_item>quiver3(..., scale)</syntax_item>
+    <syntax_item>quiver3(..., LineSpec)</syntax_item>
+    <syntax_item>quiver3(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>quiver3(parent, ...)</syntax_item>
+    <syntax_item>h = quiver3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Arrow base coordinates, specified as scalars, vectors, matrices, or arrays that match the vector component size.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>U, V, W</param_name>
+      <param_description>Vector components, specified as numeric arrays of the same size.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>Automatic scale factor. Use 0 to disable automatic scaling.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line style, marker, and color specification.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Axes or hggroup parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Scalar string or character vector property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Property value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Quiver graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>quiver3(Z,U,V,W)</b> plots 3-D arrows on a regular x-y grid using <b>Z</b> as the z-coordinate data.</p>
+    <p><b>quiver3(X,Y,Z,U,V,W)</b> plots arrows at the coordinates specified by <b>X</b>, <b>Y</b>, and <b>Z</b>.</p>
+    <p>The returned object has type <b>quiver</b>. Its public properties include <b>XData</b>, <b>YData</b>, <b>ZData</b>, <b>UData</b>, <b>VData</b>, <b>WData</b>, <b>AutoScale</b>, <b>AutoScaleFactor</b>, <b>ScaleFactor</b>, <b>Color</b>, <b>LineStyle</b>, <b>LineWidth</b>, <b>Marker</b>, <b>MarkerSize</b>, <b>MaxHeadSize</b>, <b>ShowArrowHead</b>, <b>Alignment</b>, <b>DisplayName</b>, and common graphics interaction properties.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot a 3-D vector field.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[x, y, z] = meshgrid(-1:1, -1:1, -1:1);
+u = y;
+v = -x;
+w = z;
+quiver3(x, y, z, u, v, w);
+axis equal]]></example_item_data>
+      <example_item_img src="../../../../images/quiver3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Disable automatic scaling and style the arrows.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = [0 1 2];
+y = [0 1 0];
+z = [0 0 1];
+u = [1 0 -1];
+v = [0 1 0];
+w = [0.5 0.5 1];
+h = quiver3(x, y, z, u, v, w, 0, 'r--o');
+h.LineWidth = 1.5;]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot surface normals as 3-D arrows.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[X,Y] = meshgrid(-2:0.25:2,-1:0.2:1);
+Z = X.*exp(-X.^2 - Y.^2);
+[U,V,W] = surfnorm(X,Y,Z);
+quiver3(X,Y,Z,U,V,W)
+hold on
+surf(X,Y,Z)
+axis equal]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot3">plot3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>native quiver graphics object</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
+//=============================================================================
 #include "Evaluator.hpp"
 #include "nlsText_editor_exports.h"
 #include <string>
@@ -17,6 +18,8 @@ NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval);
 NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval, const std::wstring& filename);
+NLSTEXT_EDITOR_IMPEXP bool
+textEditor(Evaluator* eval, const std::wstring& filename, int lineNumber);
 NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval, const wstringVector& filenames);
 NLSTEXT_EDITOR_IMPEXP bool
@@ -28,5 +31,6 @@ NLSTEXT_EDITOR_IMPEXP bool
 isTextEditorVisible();
 NLSTEXT_EDITOR_IMPEXP void
 showTextEditor();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

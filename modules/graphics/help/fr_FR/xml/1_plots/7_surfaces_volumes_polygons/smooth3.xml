@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>smooth3</keyword>
+  <short_description>Lisser des donnees 3-D.</short_description>
+  <syntax>
+    <syntax_item>W = smooth3(V)</syntax_item>
+    <syntax_item>W = smooth3(V, method)</syntax_item>
+    <syntax_item>W = smooth3(V, method, windowSize)</syntax_item>
+    <syntax_item>W = smooth3(V, method, windowSize, sd)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Donnees volumiques 3-D reelles numeriques ou logiques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode de lissage : 'box' ou 'gaussian'. La valeur par defaut est 'box'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>windowSize</param_name>
+      <param_description>Scalaire entier impair positif ou vecteur a trois elements. La valeur par defaut est [3 3 3].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sd</param_name>
+      <param_description>Ecart type positif pour la methode gaussian. La valeur par defaut est 0.65.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>W</param_name>
+      <param_description>Tableau double lisse de meme taille que V.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>smooth3</b> lisse des donnees volumiques avec un noyau 3-D separable box ou gaussian et des valeurs de bord repliquees.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Lisser un petit volume avec un noyau gaussian.</example_item_description>
+      <example_item_data><![CDATA[V = rand(10, 10, 10);
+W = smooth3(V, 'gaussian', 5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isosurface">isosurface</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isonormals">isonormals</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+  </see_also>
+</xmldoc>

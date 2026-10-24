@@ -14,6 +14,17 @@ function edit(varargin)
   else
     for v = varargin(:)'
       name = v{1};
+      if strcmpi(fileparts(name, 'extension'), '.nlx')
+        % A Notebook document opens in the Notebook editor (web desktop),
+        % handled by the notebook module, not the text editor.
+        if ~__notebook_edit__(name)
+          error('Nelson:edit:notebookUnavailable', _('Editing a Notebook (.nlx) requires the web desktop.'));
+        end
+        continue;
+      end
+      if isbuiltin(name)
+        error('Nelson:edit:notSupported', 'Unable to edit ''%s''. Editing built-in class or function using the EDIT function is not supported.', name)
+      end
       if ismacro(name)
         filename = which(name);
         if iscell(filename)
@@ -27,7 +38,7 @@ function edit(varargin)
       end
       if isdir(finalfilename)
         wildcardDirectoryname = [finalfilename, '/*.m'];
-        dirinfo = dir (wildcardDirectoryname);
+        dirinfo = dir(wildcardDirectoryname);
         for info = dirinfo'
           if ~strcmp(info.name, '.') && ~strcmp(info.name, '..')
             edit([info.folder, '/', info.name]);

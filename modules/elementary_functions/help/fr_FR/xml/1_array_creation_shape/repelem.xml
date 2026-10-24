@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>repelem</keyword>
+  <short_description>Repete les elements d'un tableau.</short_description>
+  <syntax>
+    <syntax_item>B = repelem(V, n)</syntax_item>
+    <syntax_item>B = repelem(V, r)</syntax_item>
+    <syntax_item>B = repelem(A, r, c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>vecteur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>nombre de repetitions : entier scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>r, c</param_name>
+      <param_description>nombres de repetitions : entier scalaire ou vecteur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>resultat : vecteur ou matrice.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>repelem(V, n)</b> repete chaque element du vecteur <b>V</b> <b>n</b> fois.</p>
+    <p><b>repelem(V, r)</b> utilise un vecteur <b>r</b> pour repeter l'element <b>V(i)</b> exactement <b>r(i)</b> fois.</p>
+    <p><b>repelem(A, r, c)</b> repete les lignes de la matrice <b>r</b> fois et les colonnes <b>c</b> fois.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[repelem([1 2 3], 2)
+repelem([1 2 3], [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="repmat">repmat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

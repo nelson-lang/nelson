@@ -14,5 +14,6 @@
 namespace Nelson::ModulesManagerGateway {
 ArrayOfVector
 ismoduleBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

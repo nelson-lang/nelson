@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,9 +10,11 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "ImagPart.hpp"
+#include "SparseImagPart.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -22,30 +24,30 @@ ImagPart(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (arrayIn.isSparse()) {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        return SparseImagPart(arrayIn);
     }
-    switch (arrayIn.getDataClass()) {
+    switch (arrayIn.dataClass()) {
     case NLS_SCOMPLEX: {
-        size_t len = arrayIn.getElementCount();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
+        size_t len = arrayIn.elementCount();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.dataClass(), len, stringVector(), true);
         auto* rp = static_cast<single*>(ptr);
-        auto* sp = (single*)arrayIn.getDataPointer();
+        auto* sp = (single*)arrayIn.dataPointer();
         OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = sp[2 * i + 1];
         }
-        res = ArrayOf(NLS_SINGLE, arrayIn.getDimensions(), rp);
+        res = ArrayOf(NLS_SINGLE, arrayIn.dimensions(), rp);
     } break;
     case NLS_DCOMPLEX: {
-        size_t len = arrayIn.getElementCount();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
+        size_t len = arrayIn.elementCount();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.dataClass(), len, stringVector(), true);
         auto* rp = static_cast<double*>(ptr);
-        auto* dp = (double*)arrayIn.getDataPointer();
+        auto* dp = (double*)arrayIn.dataPointer();
         OMP_PARALLEL_FOR_LOOP(len)
         for (ompIndexType i = 0; i < (ompIndexType)len; i++) {
             rp[i] = dp[2 * i + 1];
         }
-        res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), rp);
+        res = ArrayOf(NLS_DOUBLE, arrayIn.dimensions(), rp);
     } break;
     case NLS_HANDLE:
     case NLS_GO_HANDLE:
@@ -53,16 +55,18 @@ ImagPart(const ArrayOf& arrayIn)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
-        Error(_W("Undefined function '") + utf8_to_wstring(ClassName(arrayIn)) + L"_imag'");
+        Error(L"Nelson:UndefinedFunction", L"Undefined function '%s'",
+            utf8_to_wstring(ClassName(arrayIn)) + L"_imag");
     } break;
     case NLS_CHAR:
     case NLS_DOUBLE:
     case NLS_LOGICAL: {
-        size_t len = arrayIn.getElementCount();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
-        res = ArrayOf(NLS_DOUBLE, arrayIn.getDimensions(), ptr);
+        size_t len = arrayIn.elementCount();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.dataClass(), len, stringVector(), true);
+        res = ArrayOf(NLS_DOUBLE, arrayIn.dimensions(), ptr);
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -73,9 +77,9 @@ ImagPart(const ArrayOf& arrayIn)
     case NLS_UINT64:
     case NLS_INT64:
     case NLS_SINGLE: {
-        size_t len = arrayIn.getElementCount();
-        void* ptr = ArrayOf::allocateArrayOf(arrayIn.getDataClass(), len, stringVector(), true);
-        res = ArrayOf(arrayIn.getDataClass(), arrayIn.getDimensions(), ptr);
+        size_t len = arrayIn.elementCount();
+        void* ptr = ArrayOf::allocateArrayOf(arrayIn.dataClass(), len, stringVector(), true);
+        res = ArrayOf(arrayIn.dataClass(), arrayIn.dimensions(), ptr);
     } break;
     }
     return res;

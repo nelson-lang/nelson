@@ -8,12 +8,6 @@ Nelson includes code from the following projects, which have their own licenses:
 
 > <https://www.qt.io/licensing/>
 
-- Boost C++ Libraries
-
-> <http://www.boost.org>
-
-> <http://www.boost.org/users/license.html>
-
 - Eigen
 
 a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms:
@@ -21,6 +15,14 @@ a C++ template library for linear algebra: matrices, vectors, numerical solvers,
 > <http://eigen.tuxfamily.org>
 
 > <http://eigen.tuxfamily.org/index.php?title=Main_Page#License>
+
+- date
+
+C++ date and time zone library.
+
+> <https://github.com/HowardHinnant/date>
+
+> MIT license
 
 - BLAS
 
@@ -35,6 +37,22 @@ Basic Linear Algebra Subprograms
 Linear Algebra PACKage
 
 > <http://www.netlib.org/lapack/> > <http://www.netlib.org/lapack/#_licensing>
+
+- HiGHS
+
+High-performance linear optimization and mixed-integer linear optimization solver used by the `optimization` module for `linprog` and `intlinprog`.
+
+> <https://highs.dev/>
+
+> MIT license
+
+- Qhull
+
+Computational geometry library used by the `geometry` module for convex hulls, Delaunay triangulations, Voronoi diagrams, and related spatial queries.
+
+> <http://www.qhull.org/>
+
+> Qhull license
 
 - OpenBLAS
 
@@ -66,6 +84,38 @@ High-performance data management and storage suite
 
 > <https://support.hdfgroup.org/ftp/HDF5/releases/COPYING>
 
+- netCDF-C
+
+Network Common Data Form C library used by the optional `netcdf` module.
+
+> <https://github.com/Unidata/netcdf-c>
+
+> <https://github.com/Unidata/netcdf-c/blob/main/COPYRIGHT> BSD-style license
+
+- Apache Arrow C++ and Parquet
+
+Columnar memory format and Parquet file support.
+
+> <https://arrow.apache.org/>
+
+> <https://github.com/apache/arrow/blob/main/LICENSE.txt> Apache License 2.0
+
+- xlnt
+
+C++ library for reading and writing Open XML spreadsheet files.
+
+> <https://github.com/xlnt-community/xlnt>
+
+> <https://github.com/xlnt-community/xlnt/blob/master/LICENSE.md> MIT license
+
+> libstudxml: <https://www.codesynthesis.com/projects/libstudxml/> MIT license
+
+> miniz: <https://github.com/richgel999/miniz> MIT license
+
+> utfcpp: <https://github.com/nemtrif/utfcpp> Boost Software License 1.0
+
+> Expat and Genx sources bundled inside libstudxml: MIT license
+
 - MATIO
 
 MAT file I/O library
@@ -73,6 +123,14 @@ MAT file I/O library
 > <https://github.com/tbeu/matio>
 
 > <https://github.com/tbeu/matio/blob/master/COPYING> (BSD)
+
+- Dawn
+
+Google's cross-platform implementation of the WebGPU standard, used by the optional `gpu_engine` module for GPU compute (`gpuArray`).
+
+> <https://dawn.googlesource.com/dawn>
+
+> <https://dawn.googlesource.com/dawn/+/refs/heads/main/LICENSE> (BSD 3-Clause)
 
 - F2C
 
@@ -150,12 +208,6 @@ International Components for Unicode
 
 > <http://www.unicode.org/copyright.html#License>
 
-- gettext
-
-> <https://www.gnu.org/software/gettext/>
-
-> <https://www.gnu.org/software/gettext/manual/html_node/Licenses.html>
-
 - highlight.js
 
 > <https://highlightjs.org/>
@@ -222,32 +274,6 @@ TagLib Audio Meta-Data Library
 > <https://github.com/taglib/taglib/blob/master/COPYING.LGPL>
 > LGPL
 
-- Socket.IO C++ Client
-
-C++11 implementation of Socket.IO client
-
-> <https://github.com/socketio/socket.io-client-cpp>
-
-> <https://github.com/llamerada-jp/socket.io-cpp-client-sample>
-
-> <https://github.com/socketio/socket.io-client-cpp/blob/master/LICENSE> (MIT)
-
-- rapidJSON
-
-A fast JSON parser/generator for C++ with both SAX/DOM style API
-
-> <https://github.com/Tencent/rapidjson>
-
-> <https://github.com/Tencent/rapidjson/blob/master/license.txt> (MIT)
-
-- websocketpp
-
-C++ websocket client/server library
-
-> <http://www.zaphoyd.com/websocketpp>
-
-> <https://github.com/zaphoyd/websocketpp/blob/master/COPYING>
-
 - libcurl
 
 libcurl - the multiprotocol file transfer library
@@ -272,14 +298,6 @@ Semantic version v2.0 parser and render written in ANSI C with zero dependencies
 
 > <https://github.com/h2non/semver.c/blob/master/LICENSE> MIT license
 
-- asio
-
-Asio C++ Library
-
-> <http://think-async.com/Asio/>
-
-> <https://github.com/chriskohlhoff/asio/blob/master/asio/COPYING> (Boost 1.0)
-
 - picoSHA2
 
 PicoSHA2 - a C++ SHA256 hash generator
@@ -287,6 +305,14 @@ PicoSHA2 - a C++ SHA256 hash generator
 > <https://github.com/okdshin/PicoSHA2>
 
 > <https://github.com/okdshin/PicoSHA2/blob/master/LICENSE> MIT license
+
+- Monocypher
+
+Monocypher 4.0.3 - Ed25519 signatures (with its SHA-512)
+
+> <https://monocypher.org/>
+
+> <https://github.com/LoupVaillant/Monocypher/blob/master/LICENCE.md> CC0-1.0 (dual licensed with BSD-2-Clause)
 
 - fmtlib
 
@@ -303,6 +329,14 @@ fast_float number parsing library: 4x faster than strtod
 > <https://github.com/fastfloat/fast_float>
 
 > <https://github.com/fastfloat/fast_float/blob/main/LICENSE-MIT> MIT license
+
+- CLI11
+
+Command line parser for C++11 and beyond, vendored as single header version 2.6.2.
+
+> <https://github.com/CLIUtils/CLI11>
+
+> <https://github.com/CLIUtils/CLI11/blob/main/LICENSE> BSD-3-Clause license
 
 - Hack-Regular font
 
@@ -352,14 +386,6 @@ A C++17 cross-platform implementation for UUIDs
 
 > <https://netlib.org/pppack/interv.f> > <http://www.netlib.org/pppack>
 
-- simplefilewatcher
-
-FileWatcher is a C++ wrapper for OS file monitoring systems.
-
-> <https://github.com/jameswynn/simplefilewatcher>
-
-> <https://github.com/jameswynn/simplefilewatcher/blob/master/License.txt> MIT license
-
 - Swedish Embedded Control Systems Toolbox
 
 Original library is based on excellent work by Daniel Mårtensson who has developed the original algorithms in C and GNU Octave.
@@ -392,14 +418,6 @@ GIFLIB, a library for manipulating GIF files.
 
 > <https://sourceforge.net/p/giflib/code/ci/master/tree/COPYING> MIT license
 
-- QtGifImage - QImages to/from an animated .gif file
-
-Qt Gif Image is a Qt library that can read and write Gif files.
-
-> <https://github.com/dbzhang800/QtGifImage/>
-
-> <https://github.com/dbzhang800/QtGifImage/blob/master/src/gifimage/qgifimage.h> MIT license
-
 - LibTIFF - TIFF Library and Utilities
 
 > <https://libtiff.gitlab.io/libtiff/>
@@ -413,6 +431,30 @@ a JPEG image codec that uses SIMD instructions
 > <https://github.com/libjpeg-turbo/libjpeg-turbo>
 
 > <https://github.com/libjpeg-turbo/libjpeg-turbo/blob/main/LICENSE.md> (BSD)
+
+- libpng
+
+Portable Network Graphics reference library used by the `graphics_io` raster codec.
+
+> <https://libpng.org/pub/png/libpng.html>
+
+> <https://github.com/pnggroup/libpng/blob/v1.6.58/LICENSE> libpng license
+
+- libwebp
+
+WebP image codec used by `imread`, `imwrite`, and figure export.
+
+> <https://chromium.googlesource.com/webm/libwebp/>
+
+> <https://chromium.googlesource.com/webm/libwebp/+/v1.6.0/COPYING> BSD license
+
+- stb image libraries
+
+Single-file image decoders and encoders used for the lightweight raster formats.
+
+> <https://github.com/nothings/stb>
+
+> Public domain or MIT license
 
 - randomkit
 
@@ -446,6 +488,22 @@ Beautiful and accessible math in all browsers
 
 > <https://github.com/mathjax/MathJax/blob/master/LICENSE> (Apache 2.0)
 
+- WebUI
+
+Use any web browser or webview as GUI.
+
+> <https://github.com/webui-dev/webui>
+
+> <https://github.com/webui-dev/webui/blob/main/LICENSE> (MIT)
+
+- CivetWeb
+
+Embedded C/C++ web server.
+
+> <https://github.com/civetweb/civetweb>
+
+> <https://github.com/civetweb/civetweb/blob/master/LICENSE.md> (MIT)
+
 - cppenv
 
 cppenv is a header-only C++ library that makes it easy to manage .env files in your projects.
@@ -453,3 +511,55 @@ cppenv is a header-only C++ library that makes it easy to manage .env files in y
 > <https://github.com/Tina-1300/cppenv>
 
 > <https://raw.githubusercontent.com/Tina-1300/cppenv/refs/heads/main/LICENSE> (MIT)
+
+- fmi4c
+
+A C library for importing FMI (Functional Mock-up Interface) 1.0, 2.0 and 3.0 model exchange and co-simulation FMUs, used by the optional `nflow_fmi` module. Vendored in-tree and compiled with the module.
+
+> <https://github.com/robbr48/fmi4c>
+
+> <https://github.com/robbr48/fmi4c/blob/main/LICENSE> MIT license
+
+> ezxml (bundled inside fmi4c): <https://ezxml.sourceforge.net/> MIT license
+
+> FMI standard headers (bundled inside fmi4c): <https://github.com/modelica/fmi-standard> BSD 2-Clause license
+
+- FMI-LS-WASM examples
+
+Three FMI 3.0 Co-Simulation WebAssembly components (C, Rust and WAT addition models) are bundled in `modules/nflow_fmi/examples/wasm`. The source revision, archive checksums and build instructions accompany the examples.
+
+> <https://github.com/modelica/fmi-ls-wasm>
+
+> BSD 2-Clause license; see `LICENSE.fmi-ls-wasm.txt` beside the examples.
+
+- Bytecode Alliance Jco transpiler and WASI Preview 2 shim
+
+The browser FMU adapter uses `@bytecodealliance/jco-transpile` and `@bytecodealliance/preview2-shim` to instantiate FMI-LS-WASM components in the NFlow Worker.
+
+> <https://github.com/bytecodealliance/jco>
+
+> Apache-2.0 WITH LLVM-exception
+
+- fflate
+
+The browser FMU importer uses fflate to read FMU ZIP archives.
+
+> <https://github.com/101arrowz/fflate>
+
+> MIT license
+
+- Reference FMUs
+
+A set of example Functional Mock-up Units (FMUs) maintained by the Modelica Association Project "FMI", bundled in the `nflow_fmi` module's `examples` directory (FMI 3.0 and FMI 2 variants) for documentation and tests. The five FMI 3.0 models used by the NFlow diagrams also include WASI Preview 2 CS and ME components compiled from their embedded sources. Their license and build manifest are in `modules/nflow_fmi/examples/wasm`.
+
+> <https://github.com/modelica/Reference-FMUs>
+
+> <https://github.com/modelica/Reference-FMUs/blob/main/LICENSE.txt> BSD 2-Clause license
+
+- Modelica Standard Library icons
+
+The icon annotations (vector graphics of the component symbols) of the Modelica Standard Library 4.0.0 classes equivalent to the nflow acausal blocks and to the causal blocks that have a `Modelica.Blocks` counterpart, extracted as data into `modules/nflow_blocks/libraries/msl-icons.json` by `modules/nflow_blocks/docs/tools/extract_msl_icons.py` and rendered to the palette icons in the nflow domain colours.
+
+> <https://github.com/modelica/ModelicaStandardLibrary>
+
+> <https://github.com/modelica/ModelicaStandardLibrary/blob/master/LICENSE> BSD 3-Clause license

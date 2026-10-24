@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>readvars</keyword>
+  <short_description
+  >Créer des variables en lisant les colonnes d&apos;un fichier.</short_description>
+  <syntax>
+    <syntax_item>[Var1, Var2, ..., VarN] = readvars(filename)</syntax_item>
+    <syntax_item>[Var1, Var2, ..., VarN] = readvars(filename, opts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >une chaine de caracteres : un nom de fichier source existant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>objet nelson.io.text.DelimitedTextImportOptions</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Var1, Var2, ..., VarN</param_name>
+      <param_description
+      >les colonnes du fichier, chacune retournee comme une variable distincte.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>[Var1, Var2, ..., VarN] = readvars(filename)</b> cree des variables en important les donnees orientees colonnes d&apos;un fichier texte ou tableur.</p>
+    <p
+    >Chaque colonne du fichier est retournee comme une variable de sortie distincte. Les colonnes de texte sont retournees sous forme de tableau de cellules de vecteurs de caracteres, et les colonnes numeriques sous forme de vecteur colonne de type <b>double</b>, selon les memes conventions que <b>readtable</b>. Utilisez l&apos;option nom-valeur <b>&apos;TextType&apos;</b> avec la valeur <b>&apos;string&apos;</b> pour retourner les colonnes de texte sous forme de tableau <b>string</b>.</p>
+    <p
+    >Les options nom-valeur acceptees par <b>readtable</b>, comme <b>&apos;Range&apos;</b>, sont transmises. L&apos;utilisation de <b>&apos;Range&apos;</b> restreint les colonnes et les lignes retournees comme variables.</p>
+    <p
+    >Si moins de variables de sortie sont demandees que le nombre de colonnes du fichier, seules les premieres colonnes sont retournees. Demander plus de variables de sortie qu&apos;il n&apos;y a de colonnes provoque une erreur.</p>
+    <p>
+      <b>[Var1, Var2, ..., VarN] = readvars(filename, opts)</b> utilise les parametres definis dans l&apos;objet d&apos;options d&apos;import <b>opts</b>. Tout argument supplementaire est transmis a <b>readtable</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >filename = [tempdir, &apos;readvars_1.csv&apos;]; Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; T = table(Names, Age, Height); writetable(T, filename) [N, A, H] = readvars(filename)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readmatrix">readmatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readcell">readcell</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}detectImportOptions"
+      >detectImportOptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

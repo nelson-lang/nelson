@@ -1,0 +1,31 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function display(varargin)
+  narginchk(1, 2);
+  fmt = format();
+  LineSpacing = fmt.LineSpacing;
+  obj = varargin{1};
+  if (nargin == 1)
+    name = inputname(1);
+  else
+    name = varargin{2};
+  end
+  if strcmp(LineSpacing, 'loose')
+    msgfmt = '\n%s = \n\n';
+  else
+    msgfmt = '%s = \n';
+  end
+  fprintf(sprintf(msgfmt, name));
+  disp(obj);
+  if strcmp(LineSpacing, 'loose')
+    fprintf('\n');
+  end
+end
+%=============================================================================

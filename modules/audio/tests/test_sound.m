@@ -10,8 +10,8 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-assert_isequal(nargin('sound'), -1)
-assert_isequal(nargout('sound'), 0)
+asserts.isequal(nargin('sound'), -1)
+asserts.isequal(nargout('sound'), 0)
 wav_file = [modulepath('audio', 'tests'), '/MacBoing.wav'];
 [y, fs] = audioread(wav_file);
 %=============================================================================
@@ -34,21 +34,21 @@ catch ex
   skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
 end
 %=============================================================================
-assert_checkerror('sound(10, 8192, 4)', _('NBITS must be 8, 16, or 24.'));
+asserts.checkerror('sound(10, 8192, 4)', _('NBITS must be 8, 16, or 24.'));
 %=============================================================================
-assert_checkerror('sound(10, 8192, [20 10])', _('NBITS must be 8, 16, or 24.'));
+asserts.checkerror('sound(10, 8192, [20 10])', _('NBITS must be 8, 16, or 24.'));
 %=============================================================================
-assert_checkerror('sound(10, [10 20 30])', _('Sample rate FS must be a positive number.'));
+asserts.checkerror('sound(10, [10 20 30])', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('sound(10, [20 10])', _('Sample rate FS must be a positive number.'));
+asserts.checkerror('sound(10, [20 10])', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('sound(10, [], 20)',  _('Sample rate FS must be a positive number.'));
+asserts.checkerror('sound(10, [], 20)', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('sound(10, -10)',  _('Sample rate FS must be a positive number.'));
+asserts.checkerror('sound(10, -10)', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('sound(10, 20, 30, 40, 50)', _('Wrong number of input arguments.'));
+asserts.checkerror('sound(10, 20, 30, 40, 50)', _('Too many input arguments.'));
 %=============================================================================
-assert_checkerror('sound(rand(3, 3, 3))', _('Argument #1: Requires 2-D values only.'));
+asserts.checkerror('sound(rand(3, 3, 3))', sprintf(_('Argument #%d: Requires 2-D values only.'), 1));
 %=============================================================================
 
 

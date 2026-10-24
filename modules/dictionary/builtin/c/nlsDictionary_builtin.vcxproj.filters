@@ -21,6 +21,9 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\containersMapBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\keyHashBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

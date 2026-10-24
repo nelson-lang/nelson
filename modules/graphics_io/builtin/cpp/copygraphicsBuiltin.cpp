@@ -7,12 +7,17 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QApplication>
-#include <QtGui/QClipboard>
 #include "copygraphicsBuiltin.hpp"
-#include "GOWindow.hpp"
+#include "GraphicsClipboard.hpp"
+#include "GOFigureHost.hpp"
+#include "GOFigure.hpp"
 #include "GOHelpers.hpp"
+#include "RenderWeb.hpp"
+#include "NelsonConfiguration.hpp"
+#include "WebDesktopBridge.hpp"
+#include "NelSon_engine_mode.h"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,19 +26,33 @@ namespace Nelson::GraphicsIoGateway {
 ArrayOfVector
 copygraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval = {};
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
-    GOWindow* f = findGOWindows(handle);
-    if (!f) {
-        Error(_W("Invalid handle."));
+    GOFigureHost* host = findGOWindows(argIn[0].asGraphicsObjectScalar());
+    if (!host || !host->hostFigure()) {
+        Error(L"Nelson:copygraphics:invalidFigure", L"Invalid handle.");
     }
-    f->getGOFigure()->setRenderingStateInvalid(true);
-    QClipboard* cb = QApplication::clipboard();
-    cb->setPixmap(f->getMainQWigdet()->grab());
-    return retval;
+    GOFigure* figure = host->hostFigure();
+    figure->setRenderingStateInvalid(true);
+    const auto mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+    if (mode == WEB_GUI || mode == WASM_TERMINAL) {
+        const int width = figure->getWidth();
+        const int height = figure->getHeight();
+        RenderWeb renderer(0, 0, width, height);
+        figure->paintMe(renderer);
+        renderer.flush3d();
+        std::string pngBase64;
+        if (!rasterizeWebPrimitivesToPngBase64(renderer.primitives(), width, height, pngBase64)
+            || !WebDesktopBridge::getInstance()->pushWebClipboardImage(pngBase64)) {
+            Error(L"Nelson:copygraphics:copyFailed", L"Cannot copy the figure to the clipboard.");
+        }
+        return {};
+    }
+    if (!copyGraphicsToNativeClipboard(host)) {
+        Error(L"Nelson:copygraphics:copyFailed", L"Cannot copy the figure to the clipboard.");
+    }
+    return {};
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsIoGateway
 //=============================================================================

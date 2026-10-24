@@ -9,10 +9,10 @@
 %=============================================================================
 function dlgeneratemexgateway(destinationdir, functionname, interleavedcomplex)
   if ~isdir(destinationdir)
-    error(_('Invalid directory.'));
+    error('Nelson:dlgeneratemexgateway:invalidDirectory', 'Invalid directory.');
   end
   if ~ischar(functionname)
-    error(_('Wrong type for argument #2: string expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 2, 'string');
   end
   txt = template(functionname, interleavedcomplex);
   filewrite([destinationdir, '/mexGateway.c'], txt);

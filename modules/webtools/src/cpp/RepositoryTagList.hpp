@@ -18,5 +18,5 @@ namespace Nelson {
 NLSWEBTOOLS_IMPEXP wstringVector
 RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

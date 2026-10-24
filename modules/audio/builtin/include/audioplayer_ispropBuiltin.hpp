@@ -14,5 +14,6 @@
 namespace Nelson::AudioGateway {
 ArrayOfVector
 audioplayer_ispropBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

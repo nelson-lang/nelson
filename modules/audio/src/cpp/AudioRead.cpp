@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@
 #include "AudioRead.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +33,9 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     ArrayOfVector retval(2);
     SNDFILE* file = nullptr;
     if (datatype != L"native" && datatype != L"double") {
-        errorMessage = _W("'native' or 'double' expected.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:audio:expected", L"%s expected."),
+            L"'native' or 'double'");
         return retval;
     }
     SF_INFO sfinfo;
@@ -45,19 +47,24 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
+        errorMessage = Nelson::formatI18nMessage(L"Wrong value for #%d argument.", (1));
         return retval;
     }
     if (dstart < 1 || dstart > dend) {
         sf_close(file);
-        errorMessage = _W("Invalid range.");
+        errorMessage
+            = Nelson::resolveMessageTemplate(L"Nelson:audio:invalidRange", L"Invalid range.");
         return retval;
     }
     auto start = static_cast<indexType>(dstart);
-    indexType end = static_cast<indexType>(dend) + 1;
     ArrayOfVector index;
+    indexType end;
     if (std::isinf(dend)) {
+        // dend is Inf for the "read all frames" range; casting Inf to the unsigned
+        // indexType is undefined behavior, so resolve it before the cast.
         end = (indexType)sfinfo.frames;
+    } else {
+        end = static_cast<indexType>(dend) + 1;
     }
     bool allFrames = true;
     if (start == 1 && end == sfinfo.frames) {
@@ -81,11 +88,12 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
         rangeIndex = ArrayOf(NLS_INT32, dims, pV);
 #endif
         index << rangeIndex;
-        index << ArrayOf::characterArrayConstructor(":");
+        index << ArrayOf::characterArray(":");
         allFrames = false;
     }
     if (sf_command(file, SFC_SET_NORM_DOUBLE, nullptr, SF_TRUE) == SF_FALSE) {
-        errorMessage = _W("Cannot read audio file.");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         return retval;
     }
     sf_count_t readcount = 0;
@@ -103,12 +111,12 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
     switch (format) {
     case SF_FORMAT_PCM_S8: {
         single* dataAsSingle = static_cast<single*>(
-            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
-        readcount = sf_read_float(file, dataAsSingle, dims.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_float(file, dataAsSingle, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int8* dataAsInt8 = static_cast<int8*>(
-                ArrayOf::allocateArrayOf(NLS_INT8, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_INT8, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt8[i * m_out + j]
@@ -119,17 +127,18 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_INT8, dims, dataAsInt8);
         } else {
             delete[] dataAsSingle;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     case SF_FORMAT_PCM_U8: {
         single* dataAsSingle = static_cast<single*>(
-            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
-        readcount = sf_read_float(file, dataAsSingle, dims.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_float(file, dataAsSingle, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             uint8* dataAsUInt8 = static_cast<uint8*>(
-                ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_UINT8, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsUInt8[i * m_out + j]
@@ -140,17 +149,18 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_UINT8, dims, dataAsUInt8);
         } else {
             delete[] dataAsSingle;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     case SF_FORMAT_PCM_16: {
         int16* dataAsInt16RowMajor = static_cast<int16*>(
-            ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount(), stringVector(), true));
-        readcount = sf_read_short(file, dataAsInt16RowMajor, dims.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_INT16, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_short(file, dataAsInt16RowMajor, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int16* dataAsInt16ColumnMajor = static_cast<int16*>(
-                ArrayOf::allocateArrayOf(NLS_INT16, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_INT16, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt16ColumnMajor[i * m_out + j] = dataAsInt16RowMajor[j * n_out + i];
@@ -160,18 +170,19 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_INT16, dims, dataAsInt16ColumnMajor);
         } else {
             delete[] dataAsInt16RowMajor;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     case SF_FORMAT_PCM_24:
     case SF_FORMAT_PCM_32: {
         int32* dataAsInt32RowMajor = static_cast<int32*>(
-            ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount(), stringVector(), true));
-        readcount = sf_readf_int(file, dataAsInt32RowMajor, BUFFER_FRAMES);
+            ArrayOf::allocateArrayOf(NLS_INT32, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_int(file, dataAsInt32RowMajor, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             int32* dataAsInt32ColumnMajor = static_cast<int32*>(
-                ArrayOf::allocateArrayOf(NLS_INT32, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_INT32, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsInt32ColumnMajor[i * m_out + j] = dataAsInt32RowMajor[j * n_out + i];
@@ -181,17 +192,18 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_INT32, dims, dataAsInt32ColumnMajor);
         } else {
             delete[] dataAsInt32RowMajor;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     case SF_FORMAT_FLOAT: {
         single* dataAsSingleRowMajor = static_cast<single*>(
-            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
-        readcount = sf_read_float(file, dataAsSingleRowMajor, dims.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_SINGLE, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_float(file, dataAsSingleRowMajor, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             single* dataAsSingleColumnMajor = static_cast<single*>(
-                ArrayOf::allocateArrayOf(NLS_SINGLE, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_SINGLE, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsSingleColumnMajor[i * m_out + j] = dataAsSingleRowMajor[j * n_out + i];
@@ -201,18 +213,19 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_SINGLE, dims, dataAsSingleColumnMajor);
         } else {
             delete[] dataAsSingleRowMajor;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     default: // double
     {
         double* dataAsDoubleRowMajor = static_cast<double*>(
-            ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount(), stringVector(), true));
-        readcount = sf_read_double(file, dataAsDoubleRowMajor, dims.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.elementCount(), stringVector(), true));
+        readcount = sf_read_double(file, dataAsDoubleRowMajor, dims.elementCount());
         sf_close(file);
         if (readcount == sfinfo.frames * sfinfo.channels) {
             double* dataAsDoubleColumnMajor = static_cast<double*>(
-                ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount(), stringVector(), true));
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.elementCount(), stringVector(), true));
             for (indexType i = 0; i < n_out; ++i) {
                 for (indexType j = 0; j < m_out; ++j) {
                     dataAsDoubleColumnMajor[i * m_out + j] = dataAsDoubleRowMajor[j * n_out + i];
@@ -222,16 +235,17 @@ AudioRead(const std::wstring& filename, double dstart, double dend, const std::w
             y = ArrayOf(NLS_DOUBLE, dims, dataAsDoubleColumnMajor);
         } else {
             delete[] dataAsDoubleRowMajor;
-            errorMessage = _W("Cannot read audio file.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:cannotReadAudioFile", L"Cannot read audio file.");
         }
     } break;
     }
     if (errorMessage.empty()) {
         if (!allFrames) {
-            y = y.getNDimSubset(index);
+            y = y.nDimSubset(index);
         }
         retval << y;
-        retval << ArrayOf::doubleConstructor(sfinfo.samplerate);
+        retval << ArrayOf::doubleScalar(sfinfo.samplerate);
     }
     return retval;
 }

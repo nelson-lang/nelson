@@ -7,35 +7,35 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('lastwarn'), 2);
-assert_isequal(nargout('lastwarn'), 2);
+asserts.isequal(nargin('lastwarn'), 2);
+asserts.isequal(nargout('lastwarn'), 2);
 %=============================================================================
 lastwarn();
 %=============================================================================
 msg = lastwarn();
-assert_isequal(msg, '');
+asserts.isequal(msg, '');
 %=============================================================================
 [msg, id] = lastwarn();
-assert_isequal(msg, '');
-assert_isequal(id, '');
+asserts.isequal(msg, '');
+asserts.isequal(id, '');
 %=============================================================================
 lastwarn('toto');
 [msg, id] = lastwarn();
-assert_isequal(msg, 'toto');
-assert_isequal(id, '');
+asserts.isequal(msg, 'toto');
+asserts.isequal(id, '');
 %=============================================================================
 lastwarn('');
 [msg, id] = lastwarn();
-assert_isequal(msg, '');
-assert_isequal(id, '');
+asserts.isequal(msg, '');
+asserts.isequal(id, '');
 %=============================================================================
-lastwarn('toto','titi');
+lastwarn('toto', 'titi');
 [msg, id] = lastwarn();
-assert_isequal(msg, 'toto');
-assert_isequal(id, 'titi');
+asserts.isequal(msg, 'toto');
+asserts.isequal(id, 'titi');
 %=============================================================================
 lastwarn('');
 [msg, id] = lastwarn();
-assert_isequal(msg, '');
-assert_isequal(id, '');
+asserts.isequal(msg, '');
+asserts.isequal(id, '');
 %=============================================================================

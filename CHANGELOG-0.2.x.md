@@ -16,7 +16,7 @@ HDF5 high-level functions:
 
 - [#170](https://github.com/nelson-lang/nelson/issues/170): Travis CI Macos X (mojave) build failed.
 
-- [#168](https://github.com/nelson-lang/nelson/issues/168): integer display was not interruptable.
+- [#168](https://github.com/nelson-lang/nelson/issues/168): integer display was not interruptible.
 
 ## Compilation:
 
@@ -80,7 +80,7 @@ HDF5 high-level functions:
 
 - cellstr function: converts to cell array of character vectors.
 
-- operators ==, ~=, <, >, >=, <= reworked (Compatiblity Array Sizes increased).
+- operators ==, ~=, <, >, >=, <= reworked (Compatibility Array Sizes increased).
 
 - ==, ~=, isequal: speed optimization.
 
@@ -190,9 +190,9 @@ HDF5 high-level functions:
 
 - [#142](https://github.com/nelson-lang/nelson/issues/142): clear('functionName') clears all persistent variables of functionName function.
 
-- addition, substraction reworked (Compatiblity Array Sizes increased, code factorized).
+- addition, subtraction reworked (Compatibility Array Sizes increased, code factorized).
 
-- &, |, &&, || operators reworked (Compatiblity Array Sizes increased).
+- &, |, &&, || operators reworked (Compatibility Array Sizes increased).
 
 - havecompiler uses a persistent variable to speedup result.
 
@@ -223,7 +223,7 @@ HDF5 high-level functions:
 
     - On Windows:
 
-      - VS 2017 Professional, Entreprise, Community supported.
+      - VS 2017 Professional, Enterprise, Community supported.
       - MinGW-W64 for 32 and 64 bit supported.
       - By default, Nelson does not try to detect a C/C++ compiler on Windows.
         Do not forget to run 'configuremsvc' or 'configuremingw' once.
@@ -258,7 +258,7 @@ HDF5 high-level functions:
 
 - [#139](https://github.com/nelson-lang/nelson/issues/139): fix(1e10) returned a wrong value.
 
-- [#136](https://github.com/nelson-lang/nelson/issues/136): Corrected predecence of Colon ":" operator.
+- [#136](https://github.com/nelson-lang/nelson/issues/136): Corrected precedence of Colon ":" operator.
 
 - [#134](https://github.com/nelson-lang/nelson/issues/134): Evaluation of Non-Scalar If-Condition Expression was not managed.
 
@@ -297,7 +297,7 @@ HDF5 high-level functions:
 
 - [#121](https://github.com/nelson-lang/nelson/issues/121): home key did not work in GUI terminal on prompt.
 
-- [#118](https://github.com/nelson-lang/nelson/issues/118): add information in DEVELOPMENT.md about how to buid Boost on old Ubuntu versions.
+- [#118](https://github.com/nelson-lang/nelson/issues/118): add information in DEVELOPMENT.md about how to build Boost on old Ubuntu versions.
 
 - [#109](https://github.com/nelson-lang/nelson/issues/109): add missing horzcat, vertcat for all handle types.
 
@@ -319,7 +319,7 @@ HDF5 high-level functions:
   - dlcall: C or Fortran Foreign function call.
   - dllibinfo: returns list of available symbols in an shared library.
   - dllibisloaded: checks if shared library is loaded.
-  - libpointer: creates an C pointer object usuable in Nelson.
+  - libpointer: creates an C pointer object usable in Nelson.
   - getdynlibext : returns the extension of dynamic libraries.
 
 - [#101](https://github.com/nelson-lang/nelson/issues/101): allows cell_vertcat_generic & cell_horzcat_generic.

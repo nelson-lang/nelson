@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 flac_audio = [modulepath('audio'), '/examples/kaneda.flac'];
+devices = audiodevinfo();
+if isempty(devices.output)
+  error('This example requires an audio output device.');
+end
 [y, fs] = audioread(flac_audio);
 playObj = audioplayer(y, fs);
-i = 0;
-while (i < 10)
-  playblocking(playObj, [10000, 140000]),
-  i = i + 1
-end
+playblocking(playObj);
 delete(playObj)
 clear playObj
 %=============================================================================

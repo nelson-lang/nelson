@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>upfirdn</keyword>
+  <short_description>Surechantillonne, filtre en FIR, puis sous-echantillonne.</short_description>
+  <syntax><syntax_item>Y = upfirdn(X, H)</syntax_item><syntax_item>Y = upfirdn(X, H, P, Q)</syntax_item><syntax_item>Y = upfirdn(X, H, P, Q, dim)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>X</param_name><param_description>signal d&apos;entree non vide et non sparse.</param_description></param_input_item><param_input_item><param_name>H</param_name><param_description>coefficients FIR non vides et non sparse. Une matrice applique une colonne de filtre par colonne de signal.</param_description></param_input_item><param_input_item><param_name>P</param_name><param_description>facteur de surechantillonnage.</param_description></param_input_item><param_input_item><param_name>Q</param_name><param_description>facteur de sous-echantillonnage.</param_description></param_input_item><param_input_item><param_name>dim</param_name><param_description>dimension a traiter.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>Y</param_name><param_description>sortie filtree multirate.</param_description></param_output_item></param_output>
+  <description><p><b>upfirdn</b> fournit l&apos;operation multirate de base utilisee par les fonctions de reechantillonnage.</p><p>Lorsque <b>H</b> est une matrice, chaque colonne de <b>H</b> filtre la colonne de signal correspondante.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+Y = upfirdn([1 2 3], [1 1], 2, 2);
+]]></example_item_data></example_item><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+Y = upfirdn([1; 2], [1 2; 3 4]);
+]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${signal_processing}upsample">upsample</link></see_also_item><see_also_item><link linkend="${signal_processing}downsample">downsample</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

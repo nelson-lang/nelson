@@ -13,7 +13,7 @@ function varargout = entries(varargin)
   obj = varargin{1};
   mustBeA(obj, 'dictionary', 1);
   if (nargin < 2)
-    fmt = 'table'; 
+    fmt = 'table';
   else
     fmt = varargin{2};
     mustBeTextScalar(fmt, 2);
@@ -21,14 +21,26 @@ function varargout = entries(varargin)
   k = keys(obj, 'cell');
   v = values(obj, 'cell');
   if (startsWith('cell', fmt, 'IgnoreCase', true))
-    r = [k, v];
-  elseif (startsWith ('struct', fmt, 'IgnoreCase', true))
-    r = struct('Key', k, 'Value', v);
+    r = [k(:), v(:)];
+  elseif (startsWith('struct', fmt, 'IgnoreCase', true))
+    r = struct('Key', k(:), 'Value', v(:));
   elseif (startsWith('table', fmt, 'IgnoreCase', true))
-    error(_("'table' format not yet implemented."));
-  else
-    error("Wrong value for 'format' option. 'struct', 'cell' or 'table' expected.");
+    keyColumn = k(:);
+    valueColumn = v(:);
+    try
+      keyColumn = [keyColumn{:}].';
+    catch
     end
-    varargout{1} = r;
+    if ~strcmp(obj.valueType, 'cell')
+      try
+        valueColumn = [valueColumn{:}].';
+      catch
+      end
+    end
+    r = table(keyColumn, valueColumn, 'VariableNames', {'Key', 'Value'});
+  else
+    error('Nelson:dictionary:invalidFormat', '%s expected.', 'Wrong value for ''format'' option. ''struct'', ''cell'' or ''table''');
   end
-  %=============================================================================
+  varargout{1} = r;
+end
+%=============================================================================

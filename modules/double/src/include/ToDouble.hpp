@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSDOUBLE_IMPEXP ArrayOf
 ToDouble(const ArrayOf& A, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

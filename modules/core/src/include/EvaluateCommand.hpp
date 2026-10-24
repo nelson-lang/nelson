@@ -31,5 +31,6 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
 NLSCORE_IMPEXP ArrayOfVector
 EvaluateConsoleCommand(
     Evaluator* eval, int nLhs, const std::wstring& command, const std::wstring& catchCommand);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

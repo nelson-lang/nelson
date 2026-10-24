@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,9 +19,9 @@
 #include <iostream>
 #include "DelimitedFileWriter.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,10 +39,10 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
 {
     bool bTypeSupported = mat.isNumeric() || mat.isLogical();
     if (!bTypeSupported) {
-        Error(_W("An numeric matrix expected."));
+        Error(L"Nelson:dlmwrite:numericMatrixExpected", L"An numeric matrix expected.");
     }
     if (mat.isSparse()) {
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        Error(L"Nelson:dlmwrite:typeNotSupported", L"Type not supported.");
     }
 #ifdef _MSC_VER
     FILE* file = _wfopen(filenameDestination.c_str(), bAppend ? L"ab" : L"wb");
@@ -50,15 +50,15 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
     FILE* file = fopen(wstring_to_utf8(filenameDestination).c_str(), bAppend ? "ab" : "wb");
 #endif
     if (file == nullptr) {
-        Error(_W("Impossible to open file."));
+        Error(L"Nelson:dlmwrite:cannotOpenFile", L"Impossible to open file.");
     }
 
     const std::string newline = isNewLinePc ? "\r\n" : "\n";
 
     mat.isComplex() ? mat.promoteType(NLS_DCOMPLEX) : mat.promoteType(NLS_DOUBLE);
-    Dimensions dims = mat.getDimensions();
-    int64 ymax = mat.is2D() ? dims.getColumns() + colsOffset - 1
-                            : dims.getElementCount() / dims.getRows() + colsOffset - 1;
+    Dimensions dims = mat.dimensions();
+    int64 ymax = mat.is2D() ? dims.columns() + colsOffset - 1
+                            : dims.elementCount() / dims.rows() + colsOffset - 1;
 
     for (int64 x = 1; x <= rowsOffset; x++) {
         for (int64 y = 1; y <= ymax; y++) {
@@ -67,7 +67,7 @@ delimitedFileWriter(ArrayOf mat, const std::wstring& filenameDestination, bool b
         fmt::fprintf(file, "%s", newline);
     }
 
-    ymax = mat.is2D() ? dims.getColumns() : dims.getElementCount() / dims.getRows();
+    ymax = mat.is2D() ? dims.columns() : dims.elementCount() / dims.rows();
 
     if (mat.isComplex()) {
         writeComplexData(mat, file, wstring_to_utf8(formatPrecision), wstring_to_utf8(delimiter),
@@ -83,15 +83,15 @@ void
 writeRealData(const ArrayOf& mat, FILE* file, const std::string& formatPrecision,
     const std::string& delimiter, const std::string& newline, int64 ymax, int64 colsOffset)
 {
-    Dimensions dims = mat.getDimensions();
+    Dimensions dims = mat.dimensions();
     std::string fmt_with_delimiter = formatPrecision + delimiter;
-    auto* pValue = (double*)mat.getDataPointer();
-    for (int64 x = 0; x < static_cast<int64>(dims.getRows()); x++) {
+    auto* pValue = (double*)mat.dataPointer();
+    for (int64 x = 0; x < static_cast<int64>(dims.rows()); x++) {
         for (int64 x = 0; x < colsOffset; x++) {
             fmt::fprintf(file, "%s", delimiter);
         }
         for (int64 y = 0; y < ymax; y++) {
-            double val = pValue[x + y * dims.getRows()];
+            double val = pValue[x + y * dims.rows()];
             if (std::isnan(val)) {
                 fmt::fprintf(file, "%s", "NaN");
                 if (y < ymax - 1) {
@@ -117,16 +117,16 @@ void
 writeComplexData(const ArrayOf& mat, FILE* file, const std::string& formatPrecision,
     const std::string& delimiter, const std::string& newline, int64 ymax, int64 colsOffset)
 {
-    Dimensions dims = mat.getDimensions();
-    auto* matCplx = reinterpret_cast<doublecomplex*>((double*)mat.getDataPointer());
-    for (int64 x = 0; x < static_cast<int64>(dims.getRows()); x++) {
+    Dimensions dims = mat.dimensions();
+    auto* matCplx = reinterpret_cast<doublecomplex*>((double*)mat.dataPointer());
+    for (int64 x = 0; x < static_cast<int64>(dims.rows()); x++) {
         for (int64 x = 0; x < colsOffset; x++) {
             fmt::fprintf(file, "%s", delimiter);
         }
         std::string realPartStr;
         std::string imagPartStr;
         for (int64 y = 0; y < ymax; y++) {
-            doublecomplex val = matCplx[x + y * dims.getRows()];
+            doublecomplex val = matCplx[x + y * dims.rows()];
             if (std::isnan(val.real())) {
                 realPartStr = "NaN";
             } else {

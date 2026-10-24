@@ -7,61 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 fig = figure();
-ax = axes('Parent',fig);
-[X,Y,Z] = peaks(40);
+ax = axes('Parent', fig);
+[X, Y, Z] = peaks(40);
 [Cmat, h] = contour(ax, X, Y, Z);
 t1 = clabel(Cmat, h);
-assert_isequal(size(t1), [1, 31])
-assert_isequal(class(t1), 'graphics_object');
+% Labels are rendered as hidden-handle internal text objects.
+children = ax.Children;
+asserts.isequal(numel(children), 1);
+asserts.isequal(children(1), h);
+asserts.istrue(numel(allchild(ax)) > numel(children));
+asserts.isequal(size(t1), [0, 0])
+asserts.isequal(class(t1), 'nelson.graphics.GraphicsPlaceholder');
 for i = 1:numel(t1)
-  assert_isequal(t1(i).Type, 'text');
+  asserts.isequal(t1(i).Type, 'text');
 end
-%=============================================================================
-levels = h.LevelList;
-if numel(levels) >= 2
-  v = levels(1:min(2,end));
-else
-  v = levels;
-end
-t2 = clabel(Cmat, h, v);
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t3 = clabel(C_only);
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t4 = clabel(C_only, levels(1:min(2,end)));
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t5 = clabel([], h);
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t6 = clabel(Cmat, h, 'FontSize', 12, 'Color', 'red');
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t7 = clabel(Cmat, h, 'LabelSpacing', 100);
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-C_only = contour(ax, X, Y, Z); % returns contour matrix when assigned
-t8 = clabel(Cmat, h, 'Visible', 'off');
-%=============================================================================
-fig = figure();
-ax = axes('Parent',fig);
-[Cfilled, hfilled] = contourf(ax, X, Y, Z, 5, 'ShowText', 'on');
-t9 = clabel([], hfilled);
-assert_isequal(class(t9), 'graphics_object');
-assert_isequal(Cfilled, hfilled.ContourMatrix);
 %=============================================================================

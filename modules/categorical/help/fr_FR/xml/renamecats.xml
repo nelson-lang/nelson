@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>renamecats</keyword>
+  <short_description>Renommer les categories d'un tableau categoriel.</short_description>
+  <syntax>
+    <syntax_item>B = renamecats(A, newNames)</syntax_item>
+    <syntax_item>B = renamecats(A, oldNames, newNames)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
+    <param_input_item><param_name>oldNames</param_name><param_description>Noms de categories existantes a renommer.</param_description></param_input_item>
+    <param_input_item><param_name>newNames</param_name><param_description>Nouveaux noms. Avec deux entrees, il faut fournir un nom pour chaque categorie.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau categoriel dont les noms de categories ont ete modifies sans changer les codes.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>renamecats</b> modifie les libelles de categories tout en conservant les elements dans leurs categories.</p>
+    <p>Les nouveaux noms doivent etre valides et uniques apres l'operation.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Renommer une categorie.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = renamecats(A, 'red', 'rouge'); categories(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Renommer toutes les categories.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = renamecats(A, {'bleu','rouge'}); categories(B)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}reordercats">reordercats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}mergecats">mergecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}setcats">setcats</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

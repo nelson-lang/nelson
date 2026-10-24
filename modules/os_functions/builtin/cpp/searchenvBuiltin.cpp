@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "searchenvBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "SearchVariableEnvironment.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,15 +24,15 @@ Nelson::OsFunctionsGateway::searchenvBuiltin(int nLhs, const ArrayOfVector& argI
     std::wstring varEnvName;
     std::wstring fileToSearch;
     if (argIn[0].isRowVectorCharacterArray()) {
-        fileToSearch = argIn[0].getContentAsWideString();
+        fileToSearch = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (argIn.size() == 2) {
-        varEnvName = argIn[1].getContentAsWideString();
+        varEnvName = argIn[1].asWideString();
     }
     wstringVector res = SearchVariableEnvironmentW(fileToSearch, varEnvName);
-    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+    retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
     return retval;
 }
 //=============================================================================

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "step_response.m",
+      "title": "Time-domain response",
+      "description": "Plot the step response of a stable second-order model.",
+      "tags": [
+        "control",
+        "time-response"
+      ],
+      "requirements": [
+        "control-system",
+        "plots"
+      ]
+    },
+    {
+      "file": "frequency_response.m",
+      "title": "Frequency-domain response",
+      "description": "Inspect gain and phase across frequency for a low-pass model.",
+      "tags": [
+        "control",
+        "frequency-response"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "ball_on_plate_lqr.m",
+      "title": {
+        "en_US": "Ball-on-plate LQR tracking",
+        "fr_FR": "Suivi LQR boule sur plaque"
+      },
+      "description": {
+        "en_US": "Design a state-feedback controller, integrate a rolling-ball plate model and animate the ball, reference path and actuator linkages.",
+        "fr_FR": "Concevoir une commande par retour d'etat, integrer un modele de boule sur plaque et animer la boule, la consigne et les biellettes."
+      },
+      "tags": [
+        "control",
+        "lqr",
+        "state-feedback",
+        "ode45",
+        "animation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "pid_closed_loop.m",
+      "title": {
+        "en_US": "Filtered PID closed loop",
+        "fr_FR": "Boucle fermée avec PID filtré"
+      },
+      "description": {
+        "en_US": "Build a filtered PID controller, close the feedback loop and inspect stability and tracking.",
+        "fr_FR": "Construire un PID filtré, fermer la boucle et examiner stabilité et suivi de consigne."
+      },
+      "tags": [
+        "control",
+        "pid",
+        "feedback",
+        "step-response"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

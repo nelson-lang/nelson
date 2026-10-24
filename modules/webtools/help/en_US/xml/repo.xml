@@ -11,21 +11,32 @@
     >repo(&apos;clone&apos;, url, branch, destination, username, password)</syntax_item>
     <syntax_item
     >repo(&apos;clone&apos;, url, destination, username, password)</syntax_item>
+    <syntax_item
+    >repo(&apos;clone&apos;, url, destination, Name, Value)</syntax_item>
+    <syntax_item
+    >repo(&apos;clone&apos;, url, branch, destination, Name, Value)</syntax_item>
     <syntax_item>repo(&apos;export&apos;, url, branch_tag_sha1, destination)</syntax_item>
     <syntax_item>repo(&apos;export&apos;, url, destination)</syntax_item>
     <syntax_item
     >repo(&apos;export&apos;, url, branch_tag_sha1, destination, username, password)</syntax_item>
     <syntax_item
     >repo(&apos;export&apos;, url, destination, username, password)</syntax_item>
+    <syntax_item
+    >repo(&apos;export&apos;, url, destination, Name, Value)</syntax_item>
+    <syntax_item
+    >repo(&apos;export&apos;, url, branch_tag_sha1, destination, Name, Value)</syntax_item>
     <syntax_item>repo(&apos;checkout&apos;, destination, branch_tag_sha1)</syntax_item>
     <syntax_item>ce = repo(&apos;branch&apos;, destination)</syntax_item>
     <syntax_item>ce = repo(&apos;tag&apos;, destination)</syntax_item>
     <syntax_item>st = repo(&apos;log&apos;, destination)</syntax_item>
     <syntax_item>repo(&apos;fetch&apos;, destination)</syntax_item>
     <syntax_item>repo(&apos;fetch&apos;, destination, username, password)</syntax_item>
+    <syntax_item>repo(&apos;fetch&apos;, destination, Name, Value)</syntax_item>
     <syntax_item>repo(&apos;remove_branch&apos;, destination, branch)</syntax_item>
     <syntax_item
     >current_branch = repo(&apos;current_branch&apos;, destination)</syntax_item>
+    <syntax_item>version = repo(&apos;version&apos;)</syntax_item>
+    <syntax_item>capabilities = repo(&apos;capabilities&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -55,11 +66,16 @@
       <param_description
       >a string: password used if an authentification is required.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description
+      >credential options: &apos;Username&apos;, &apos;Password&apos;, &apos;UseAgent&apos;, &apos;PrivateKey&apos;, &apos;PublicKey&apos;, &apos;Passphrase&apos;.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ce</param_name>
-      <param_description>a cell: list of tags or branchs.</param_description>
+      <param_description>a cell: list of tags or branches.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>st</param_name>
@@ -70,14 +86,26 @@
       <param_name>current_branch</param_name>
       <param_description>a string: name of current branch.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>version</param_name>
+      <param_description>a string: libgit2 version used by repo.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>capabilities</param_name>
+      <param_description
+      >a structure: libgit2 features available in this Nelson build.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>repo()</b> allows to clone, checkout, fetch a git repository.</p>
     <p>checkout command will be forced and remove untracked filed.</p>
     <p
-    >git https protocol works on all platforms. git ssh protocol works currently on macos and linux platforms.</p>
-    <p>report(&apos;export&apos;, ...) clone and remove .git directory.</p>
+    >git HTTPS protocol works on all platforms. git SSH protocol depends on the libgit2 build used by Nelson.</p>
+    <p>Use repo(&apos;capabilities&apos;) to check if HTTPS and SSH are available in the current libgit2 build.</p>
+    <p>When SSH is not available, clone and fetch fail fast with a clear message for SSH URLs.</p>
+    <p>SSH credentials can use an agent with &apos;UseAgent&apos;, true, or key files with &apos;PrivateKey&apos;, &apos;PublicKey&apos; and &apos;Passphrase&apos;.</p>
+    <p>repo(&apos;export&apos;, ...) clone and remove .git directory.</p>
     <p />
     <p>Tips:</p>
     <p />

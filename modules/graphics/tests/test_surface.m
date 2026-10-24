@@ -1,4 +1,4 @@
-%=============================================================================
+﻿%=============================================================================
 % Copyright (c) 2016-present Allan CORNET (Nelson)
 %=============================================================================
 % This file is part of Nelson.
@@ -10,37 +10,25 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-[X, Y] = meshgrid(1:0.5:10,1:20);
+[X, Y] = meshgrid(1:0.5:10, 1:20);
 Z = sin(X) + cos(Y);
 h = surface(X, Y, Z);
+asserts.isapprox(h.EdgeColor, [0.129411764705882 0.129411764705882 0.129411764705882], 1e-15);
+close all;
 %=============================================================================
-f = figure();
-ax = gca();
-[X, Y] = meshgrid(1:0.5:10,1:20);
-Z = sin(X) + cos(Y);
-h = surface(ax, X, Y, Z);
+f = figure('Visible', 'off');
+ax = axes('Parent', f);
+surface(ax, peaks(50));
+view(ax, 2);
+asserts.isapprox(ax.ZLim, [-6.5258916788603045 8.04358645092234], 1e-12);
+asserts.isequal(ax.ZTick, [-5 0 5]);
+close(f);
 %=============================================================================
-f = figure();
-[X,Y] = meshgrid(1:0.5:10,1:20);
-Z = sin(X) + cos(Y);
-C = X.*Y;
-surface(X, Y, Z, C);
-colorbar
-view(3)
-%=============================================================================
-f = figure();
-ax = gca();
-[X, Y] = meshgrid(-5:.5:5);
-Z = Y.*sin(X) - X.*cos(Y);
-s = surface(X,Y,Z,'FaceAlpha',0.5, 'EdgeColor', 'none');
-view(3)
-%=============================================================================
-f = figure();
-N = 50;
-[X,Y,Z] = peaks(N);
-CO = [];
-CO(:,:,1) = zeros(N);
-CO(:,:,2) = ones(N).*linspace(0.5,0.6,N);
-CO(:,:,3) = ones(N).*linspace(0,1,N);
-h = surf(Z,CO);
+% an empty positional C (surf(X,Y,Z,[])) colours by Z, like surf(X,Y,Z)
+f = figure('Visible', 'off');
+[X, Y] = meshgrid(1:5, 1:5);
+Z = X + Y;
+h = surf(X, Y, Z, [], 'FaceColor', '#aaa', 'EdgeColor', '#333');
+asserts.isequal(size(get(h, 'CData')), [5 5]);
+close(f);
 %=============================================================================

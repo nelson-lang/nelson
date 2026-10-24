@@ -1,5 +1,14 @@
 //=============================================================================
+// Copyright (c) 2025-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
 #pragma once
+//=============================================================================
 #include "Context.hpp"
 #include "Evaluator.hpp"
 #include "ArrayOf.hpp"
@@ -13,9 +22,8 @@
 #include <QtGui/QTextDocument>
 #include <QtWidgets/QTextEdit>
 #include <memory>
-
+//=============================================================================
 namespace Nelson {
-
 class VariableDefaultModel : public QObject
 {
     Q_OBJECT
@@ -25,7 +33,6 @@ public:
         QTextEdit* textEdit, QObject* parent = nullptr);
     ~VariableDefaultModel() override = default;
 
-    // Core functionality
     void
     refreshFromArray(const ArrayOf& value);
     bool
@@ -33,7 +40,6 @@ public:
     void
     forceViewUpdate();
 
-    // Text content management
     QString
     getFormattedContent() const;
 
@@ -49,13 +55,11 @@ public:
     bool
     canEdit() const;
 
-    // Selection and clipboard operations
     bool
     pasteText(const QString& text, int position = -1);
     bool
     insertText(const QString& text, int position = -1);
 
-    // Variable properties
     QString
     variableName() const
     {
@@ -67,9 +71,9 @@ public:
         return m_array;
     }
     NelsonType
-    getDataClass() const
+    dataClass() const
     {
-        return m_array.getDataClass();
+        return m_array.dataClass();
     }
     Evaluator*
     getEvaluator() const
@@ -92,7 +96,6 @@ private slots:
     performBatchedPersistence();
 
 private:
-    // Core data management
     void
     initializeContent();
     void
@@ -100,33 +103,29 @@ private:
     void
     disconnectTextEditSignals();
 
-    // Persistence
     void
     persistChangesToContext();
     void
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
 
-    // Member variables
     ArrayOf m_array;
     QString m_variableName;
     Evaluator* m_evaluator;
     QTextEdit* m_textEdit;
 
-    // Content state
     QString m_ContentAsString;
     bool m_isReadOnly = true;
     bool m_hasValidContent = true;
 
-    // Persistence
     QTimer* m_persistenceTimer = nullptr;
     bool m_pendingChanges = false;
     bool m_suppressSignals = false;
 
-    // Display configuration
     static constexpr int DEFAULT_MAX_LINES = 1000;
     static constexpr int DEFAULT_MAX_LINE_LENGTH = 200;
     static constexpr int MIN_UPDATE_INTERVAL_MS = 500;
-    static constexpr int MAX_CONTENT_SIZE = 1000000; // 1MB limit
+    static constexpr int MAX_CONTENT_SIZE = 1000000;
 };
-
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

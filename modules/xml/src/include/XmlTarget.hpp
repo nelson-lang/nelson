@@ -17,8 +17,23 @@ typedef enum
 {
     HTML_WEB,
     MARKDOWN,
+    TYPST,
     UNDEFINED
 } DOCUMENT_OUTPUT;
 //=============================================================================
+inline std::wstring
+documentOutputExtension(DOCUMENT_OUTPUT documentOutput)
+{
+    switch (documentOutput) {
+    case DOCUMENT_OUTPUT::MARKDOWN:
+        return L".md";
+    case DOCUMENT_OUTPUT::TYPST:
+        return L".typ";
+    case DOCUMENT_OUTPUT::HTML_WEB:
+    default:
+        return L".html";
+    }
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

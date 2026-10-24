@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,11 +20,11 @@ Nelson::DynamicLinkGateway::dlsymBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 4, 4);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring symbolName = param2.getContentAsWideString();
+    std::wstring symbolName = param2.asWideString();
     ArrayOf param3 = argIn[2];
-    std::wstring returnTypeString = param3.getContentAsWideString();
+    std::wstring returnTypeString = param3.asWideString();
     ArrayOf param4 = argIn[3];
-    wstringVector argumentsString = param4.getContentAsWideStringVector(true);
+    wstringVector argumentsString = param4.asWideStringVector(true);
     retval << createDynamicLinkSymbolObject(param1, symbolName, returnTypeString, argumentsString);
     return retval;
 }

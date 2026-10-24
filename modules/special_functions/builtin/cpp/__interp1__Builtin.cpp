@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -24,7 +24,7 @@ Nelson::SpecialFunctionsGateway::__interp1__Builtin(int nLhs, const ArrayOfVecto
     auto isTextArgument = [](const ArrayOf& arg) {
         return arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar());
     };
-    auto getTextArgument = [](const ArrayOf& arg) { return arg.getContentAsWideString(); };
+    auto getTextArgument = [](const ArrayOf& arg) { return arg.asWideString(); };
     auto isExtrapolateText = [&](const ArrayOf& arg) {
         return isTextArgument(arg) && getTextArgument(arg) == L"extrap";
     };

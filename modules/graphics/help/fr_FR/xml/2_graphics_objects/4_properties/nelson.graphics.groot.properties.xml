@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>groot properties</keyword>
+  <short_description>Proprietes de l'objet graphique groot.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>groot</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>CallbackObject</b></td>
+        <td>rapporte le contexte d&apos;execution de callback.</td>
+        <td>Type: handle graphique. Valeurs prises en charge: handle de l&apos;objet dont le callback s&apos;execute, ou handle graphique vide hors execution de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>CommandWindowSize</b></td>
+        <td>rapporte la taille de la fenetre de commande utilisee pour la mise en page de l&apos;affichage.</td>
+        <td>Type: vecteur numerique a deux elements en lecture seule. Valeurs prises en charge: [colonnes lignes] en caracteres.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentFigure</b></td>
+        <td>change ou rapporte la figure courante racine utilisee par les commandes de trace.</td>
+        <td>Type: handle graphique de figure. Valeurs prises en charge: handle de la figure courante, ou handle graphique vide si aucune figure courante n&apos;existe.</td>
+      </tr>
+      <tr>
+        <td><b>FixedWidthFontName</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de police systeme ou 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>Format</b></td>
+        <td>rapporte le format d&apos;affichage numerique courant.</td>
+        <td>Type: chaine scalaire en lecture seule. Valeurs prises en charge: 'short', 'long', 'shortE', 'longE', 'shortG', 'longG', 'shortEng', 'longEng', '+', 'bank', 'hex', 'rational'.</td>
+      </tr>
+      <tr>
+        <td><b>FormatSpacing</b></td>
+        <td>rapporte l&apos;espacement de lignes courant utilise lors de l&apos;affichage.</td>
+        <td>Type: chaine scalaire en lecture seule. Valeurs prises en charge: 'loose', 'compact'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>MonitorPositions</b></td>
+        <td>rapporte le rectangle de l&apos;ecran principal, relu a chaque interrogation (changements d&apos;echelle ou de resolution compris).</td>
+        <td>Type: vecteur numerique a quatre elements (lecture seule). Valeurs prises en charge: [left bottom width height] dans les Units de la racine ; en pixels, pixels logiques (1 pixel = 1/96 pouce).</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>PointerLocation</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>ScreenDepth</b></td>
+        <td>rapporte la profondeur de couleur d&apos;ecran utilisee par le code d&apos;affichage graphique.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: profondeur positive en bits rapportee par l&apos;affichage.</td>
+      </tr>
+      <tr>
+        <td><b>ScreenPixelsPerInch</b></td>
+        <td>rapporte la resolution logique utilisee pour convertir les pixels en pouces, centimetres et points.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: 96 sous Windows, quelle que soit l&apos;echelle d&apos;affichage.</td>
+      </tr>
+      <tr>
+        <td><b>ScreenSize</b></td>
+        <td>rapporte le rectangle de l&apos;ecran principal utilise pour placer les figures, relu a chaque interrogation.</td>
+        <td>Type: vecteur numerique a quatre elements (lecture seule). Valeurs prises en charge: [left bottom width height] dans les Units de la racine ; en pixels, pixels logiques (1 pixel = 1/96 pouce) : un ecran 1920x1080 a l&apos;echelle 125 % rapporte [1 1 1536 864], et ses figures un DevicePixelRatio de 1.25.</td>
+      </tr>
+      <tr>
+        <td><b>ShowHiddenHandles</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_data><![CDATA[h = groot();
+names = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/groot">groot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Page de proprietes ajoutee.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

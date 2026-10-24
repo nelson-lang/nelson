@@ -37,5 +37,5 @@ ArrayOf
 solveLeastSquareSingleComplex(
     const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

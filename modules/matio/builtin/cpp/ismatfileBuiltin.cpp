@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::MatioGateway::ismatfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 3);
     nargincheck(argIn, 1, 1);
-    wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
+    wstringVector filenames = argIn[0].asWideStringVector(true);
     ArrayOf isMat;
     ArrayOf matVersions;
     ArrayOf matHeaders;

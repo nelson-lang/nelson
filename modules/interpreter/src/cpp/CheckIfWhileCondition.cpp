@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "CheckIfWhileCondition.hpp"
 #include <Eigen/Sparse>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,16 +20,16 @@ bool
 checkIfWhileCondition(const ArrayOf& A)
 {
     bool res = true;
-    T first = ((T*)A.getDataPointer())[0];
+    T first = ((T*)A.dataPointer())[0];
     if (A.isScalar()) {
         return first != T(0);
     } else {
         if (!first) {
             return false;
         }
-        indexType elementCount = A.getElementCount();
+        indexType elementCount = A.elementCount();
         for (indexType i = 0; i < elementCount; i++) {
-            T valueToCompare = ((T*)A.getDataPointer())[i];
+            T valueToCompare = ((T*)A.dataPointer())[i];
             if (!valueToCompare) {
                 res = false;
                 break;
@@ -47,36 +48,38 @@ checkIfWhileCondition(const ArrayOf& A)
     } else {
         if (A.isSparse()) {
             res = false;
-            switch (A.getDataClass()) {
+            switch (A.dataClass()) {
             case NLS_LOGICAL: {
                 Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
-                    = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+                    = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
                 Eigen::Index nnz = spMatA->nonZeros();
                 if (A.isScalar()) {
                     return (nnz == 1);
                 }
-                return (nnz == A.getElementCount());
+                return (nnz == A.elementCount());
 
             } break;
             case NLS_DOUBLE: {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
                 Eigen::Index nnz = spMatA->nonZeros();
                 if (A.isScalar()) {
                     return (nnz == 1);
                 }
-                return (nnz == A.getElementCount());
+                return (nnz == A.elementCount());
 
             } break;
             case NLS_DCOMPLEX: {
-                Error(_W("Complex cannot be converted to logical."));
+                Error(L"Nelson:interpreter:complexToLogical",
+                    L"Complex cannot be converted to logical.");
             } break;
             default: {
-                Error(_W("Unable to convert variable type to test for if/while statement"));
+                Error(L"Nelson:interpreter:invalidCondition",
+                    L"Unable to convert variable type to test for if/while statement");
             } break;
             }
         } else {
-            switch (A.getDataClass()) {
+            switch (A.dataClass()) {
             case NLS_LOGICAL: {
                 return checkIfWhileCondition<logical>(A);
             } break;
@@ -115,10 +118,12 @@ checkIfWhileCondition(const ArrayOf& A)
             } break;
             case NLS_SCOMPLEX:
             case NLS_DCOMPLEX: {
-                Error(_W("Complex cannot be converted to logical."));
+                Error(L"Nelson:interpreter:complexToLogical",
+                    L"Complex cannot be converted to logical.");
             } break;
             default: {
-                Error(_W("Unable to convert variable type to test for if/while statement"));
+                Error(L"Nelson:interpreter:invalidCondition",
+                    L"Unable to convert variable type to test for if/while statement");
             } break;
             }
         }

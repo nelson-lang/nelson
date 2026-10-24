@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>istft</keyword>
+  <short_description>Transformee de Fourier court terme inverse.</short_description>
+  <syntax>
+    <syntax_item>X = istft(S)</syntax_item>
+    <syntax_item>X = istft(S, Fs)</syntax_item>
+    <syntax_item>X = istft(S, Fs, 'Window', window, 'OverlapLength', overlap, 'FFTLength', nfft)</syntax_item>
+    <syntax_item>X = istft(..., 'FrequencyRange', range)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>S</param_name><param_description>matrice de transformee court terme.</param_description></param_input_item>
+    <param_input_item><param_name>Fs</param_name><param_description>frequence d'echantillonnage acceptee pour compatibilite d'API.</param_description></param_input_item>
+    <param_input_item><param_name>window</param_name><param_description>fenetre de synthese.</param_description></param_input_item>
+    <param_input_item><param_name>overlap</param_name><param_description>longueur de recouvrement. Elle doit etre inferieure a la longueur de la fenetre.</param_description></param_input_item>
+    <param_input_item><param_name>nfft</param_name><param_description>longueur FFT. Elle doit etre superieure ou egale a la longueur de la fenetre.</param_description></param_input_item>
+    <param_input_item><param_name>range</param_name><param_description>plage de frequences de S : 'centered', 'twosided' ou 'onesided'.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>X</param_name><param_description>vecteur temporel reconstruit.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>istft</b> reconstruit un vecteur temporel depuis des spectres court terme par FFT inverse et normalisation par recouvrement-addition.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+x = sin((0:31)' * 0.2);
+[s, f, t] = stft(x, 10, 'Window', hamming(8), 'OverlapLength', 4, 'FFTLength', 16, 'FrequencyRange', 'onesided');
+y = istft(s, 10, 'Window', hamming(8), 'OverlapLength', 4, 'FFTLength', 16, 'FrequencyRange', 'onesided');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${signal_processing}stft">stft</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}spectrogram">spectrogram</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

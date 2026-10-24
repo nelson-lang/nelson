@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ode.options.IDAS</keyword>
+  <short_description>Objet d'options pour le solveur IDAS BDF optionnel.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.IDAS()</syntax_item>
+    <syntax_item>options = nelson.ode.options.IDAS(nom, valeur)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.IDAS</b> cree un objet d'options pour la valeur de solveur <b>'idas'</b> utilisee par le workflow objet <b>ode</b>.</p>
+    <table style="width:100%">
+  <tr><th>Groupe d'options</th><th>Noms</th><th>Role</th></tr>
+  <tr><td>Pas et tolerances</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>MaxOrder</b></td><td>Controle l'integration BDF adaptative pour equations residuelles.</td></tr>
+  <tr><td>Conditions initiales</td><td><b>ComputeConsistentInitialConditions</b></td><td>Demande des <b>y0</b> et <b>yp0</b> coherents pour les problemes totalement implicites.</td></tr>
+  <tr><td>Algebre lineaire</td><td><b>LinearSolver</b>, <b>Preconditioner</b>, <b>Jacobian</b>, <b>JPattern</b></td><td>Donne la structure du systeme residuel et les indications de preconditionnement.</td></tr>
+  <tr><td>Disponibilite</td><td><b>'idas'</b></td><td>Utilise le backend totalement implicite optionnel quand il est compile et active.</td></tr>
+</table>
+    <p>Cette valeur de solveur est disponible uniquement quand Nelson est construit avec le backend optionnel SUNDIALS. Elle utilise IDAS avec la methode BDF pour les problemes residuels totalement implicites <b>F(t,y,yp)=0</b>.</p>
+    <p>Les options prises en charge incluent <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>Refine</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, <b>Vectorization</b>, <b>MaxOrder</b>, <b>ComputeConsistentInitialConditions</b>, <b>LinearSolver</b> et <b>Preconditioner</b>. <b>OutputFcn</b> est appelee sur les points de sortie retournes par le backend. <b>LinearSolver</b> accepte les valeurs SUNDIALS denses, iteratives et directes creuses optionnelles quand la bibliotheque correspondante est disponible. <b>Preconditioner</b> accepte <b>'auto'</b>, <b>'none'</b>, <b>'jacobi'</b>, <b>'banded'</b> ou <b>'ilu0'</b>. Avec un <b>JPattern</b> creux, <b>'ilu0'</b> construit un preconditionneur LU incomplet creux compact sans workspace dense.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un probleme residuel IDAS.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.IDAS();
+problem = ode('EquationType', 'fullyimplicit', ...
+  'ODEFcn', @(t,y,yp) yp + y, ...
+  'InitialValue', 1, ...
+  'InitialSlope', -1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESNonstiff">nelson.ode.options.CVODESNonstiff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESStiff">nelson.ode.options.CVODESStiff</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

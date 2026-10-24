@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,6 +17,7 @@
 #include "FscanFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -33,27 +34,27 @@ convertToArrayOfFscanf(ArrayOfVector& values, NelsonType classDestination, bool 
 
     if (mixed) {
         ArrayOf v = values[0];
-        Dimensions dimsV = v.getDimensions();
+        Dimensions dimsV = v.dimensions();
         if (haveThirdArgument) {
             if (n == -1) {
-                nbValues = std::min(dimsV.getElementCount(), (indexType)m);
+                nbValues = std::min(dimsV.elementCount(), (indexType)m);
                 nDims = Dimensions(nbValues, 1);
             } else {
-                nbValues = dimsV.getElementCount();
+                nbValues = dimsV.elementCount();
                 if (std::isinf(n)) {
                     n = nbValues / m;
                 }
                 nDims = Dimensions((indexType)m, (indexType)n);
             }
         } else {
-            nbValues = dimsV.getElementCount();
+            nbValues = dimsV.elementCount();
             nDims = Dimensions(nbValues, 1);
         }
         dims = Dimensions(nbValues, 1);
         T* ptr = (T*)ArrayOf::allocateArrayOf(classDestination, nbValues, stringVector(), false);
         value = ArrayOf(classDestination, dims, ptr);
-        T* src = (T*)v.getDataPointer();
-        std::memcpy(ptr, src, sizeof(T) * dims.getElementCount());
+        T* src = (T*)v.dataPointer();
+        std::memcpy(ptr, src, sizeof(T) * dims.elementCount());
     } else {
         if (haveThirdArgument) {
             if (n == -1) {
@@ -76,25 +77,25 @@ convertToArrayOfFscanf(ArrayOfVector& values, NelsonType classDestination, bool 
         switch (classDestination) {
         case NLS_UINT64: {
             for (indexType k = 0; k < nbValues; k++) {
-                ptr[k] = (T)values[k].getContentAsUnsignedInteger64Scalar();
+                ptr[k] = (T)values[k].asUint64Scalar();
             }
         } break;
         case NLS_INT64: {
             for (indexType k = 0; k < nbValues; k++) {
-                ptr[k] = (T)values[k].getContentAsInteger64Scalar();
+                ptr[k] = (T)values[k].asInt64Scalar();
             }
         } break;
         case NLS_DOUBLE:
         default: {
             for (indexType k = 0; k < nbValues; k++) {
-                ptr[k] = (T)values[k].getContentAsDoubleScalar();
+                ptr[k] = (T)values[k].asDoubleScalar();
             }
         } break;
         }
     }
-    if (dims.getElementCount() > nDims.getElementCount()) {
+    if (dims.elementCount() > nDims.elementCount()) {
         value.resize(nDims);
-    } else if (!dims.equals(nDims) && dims.getElementCount() == nDims.getElementCount()) {
+    } else if (!dims.equals(nDims) && dims.elementCount() == nDims.elementCount()) {
         value.reshape(nDims);
     }
     return value;
@@ -124,6 +125,8 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
         char* dp = buff;
         char* np;
         char sv;
+        size_t valuesBefore = values.size();
+        long passStart = ftell(filepointer);
         while (*dp) {
             np = dp;
             while ((*dp) && (*dp != '%')) {
@@ -131,9 +134,11 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
             }
             sv = *dp;
             *dp = 0;
-            resf = fscanf(filepointer, np, NULL);
-            if (feof(filepointer)) {
-                bContinue = false;
+            if (*np != 0) {
+                resf = fscanf(filepointer, np);
+                if (resf == EOF || feof(filepointer)) {
+                    bContinue = false;
+                }
             }
             *dp = sv;
             if (*dp) {
@@ -143,7 +148,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         delete[] buff;
                         buff = nullptr;
                     }
-                    Error(_W("Invalid format."));
+                    Error(L"Nelson:stream_manager:invalidFormat", L"Invalid format.");
                 } else {
                     if (*(np - 1) == '%') {
                         resf = fscanf(filepointer, "%%");
@@ -159,6 +164,16 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         }
                         sv = *np;
                         *np = 0;
+                        if (*(dp + 1) == '*') {
+                            // Assignment suppression ("%*d"): advance the input, store nothing.
+                            bool bOK = scanfConsumeSuppressed(filepointer, std::string(dp));
+                            if (!bOK) {
+                                bContinue = false;
+                            }
+                            *np = sv;
+                            dp = np;
+                            continue;
+                        }
                         switch (*(np - 1)) {
                         case 'd':
                         case 'i': {
@@ -176,7 +191,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                         outType = AS_MIXED;
                                     }
                                 }
-                                values.push_back(ArrayOf::int64Constructor((int64)sdumint64));
+                                values.push_back(ArrayOf::int64Scalar((int64)sdumint64));
 
                             } else {
                                 int sdumdouble;
@@ -192,7 +207,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                         outType = AS_MIXED;
                                     }
                                 }
-                                values.push_back(ArrayOf::doubleConstructor((double)sdumdouble));
+                                values.push_back(ArrayOf::doubleScalar((double)sdumdouble));
                             }
                         } break;
                         case 'o':
@@ -213,7 +228,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                         outType = AS_MIXED;
                                     }
                                 }
-                                values.push_back(ArrayOf::uint64Constructor((uint64)sdumint64));
+                                values.push_back(ArrayOf::uint64Scalar((uint64)sdumint64));
 
                             } else {
                                 unsigned int dumpUnsignedInt;
@@ -229,8 +244,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                         outType = AS_MIXED;
                                     }
                                 }
-                                values.push_back(
-                                    ArrayOf::doubleConstructor((double)dumpUnsignedInt));
+                                values.push_back(ArrayOf::doubleScalar((double)dumpUnsignedInt));
                             }
                         } break;
                         case 'e':
@@ -239,8 +253,14 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                         case 'F':
                         case 'g':
                         case 'G': {
-                            single dumpAsFloat;
-                            resf = fscanf(filepointer, dp, &dumpAsFloat);
+                            // Read as double to keep full precision: a plain spec such
+                            // as "%f" gets the 'l' length modifier.
+                            std::string spec(dp);
+                            if (!as64bit && !spec.empty()) {
+                                spec.insert(spec.size() - 1, "l");
+                            }
+                            double dumpAsDouble = 0.;
+                            resf = fscanf(filepointer, spec.c_str(), &dumpAsDouble);
                             if (resf == EOF || resf == 0) {
                                 bContinue = false;
                             } else {
@@ -251,7 +271,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                         outType = AS_MIXED;
                                     }
                                 }
-                                values.push_back(ArrayOf::doubleConstructor(dumpAsFloat));
+                                values.push_back(ArrayOf::doubleScalar(dumpAsDouble));
                             }
                         } break;
                         case 'c':
@@ -263,26 +283,24 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
                                     outType = AS_MIXED;
                                 }
                             }
-                            char buffer[8192];
-                            resf = fscanf(filepointer, dp, buffer);
-                            if (resf == EOF || resf == 0) {
+                            bool asChar = (*(np - 1) == 'c');
+                            std::string charset;
+                            bool bOK = scanfReadCharsOrString(filepointer, dp, asChar, charset);
+                            if (!bOK) {
                                 bContinue = false;
                                 break;
                             }
-                            if (*(np - 1) == 'c') {
-                                buffer[resf] = 0;
-                            }
-                            std::string charset(buffer);
                             std::string asUtf8;
                             charsetToUtf8Converter(charset, encoding, asUtf8);
-                            values.push_back(ArrayOf::characterArrayConstructor(asUtf8));
+                            values.push_back(ArrayOf::characterArray(asUtf8));
                         } break;
                         default: {
                             if (buff) {
                                 delete[] buff;
                                 buff = nullptr;
                             }
-                            Error(_W("Unsupported fscanf format."));
+                            Error(L"Nelson:stream_manager:unsupportedFormat",
+                                L"Unsupported %s format.", L"fscanf");
                         } break;
                         }
                         *np = sv;
@@ -295,12 +313,17 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
             delete[] buff;
             buff = nullptr;
         }
+        if (values.size() == valuesBefore && ftell(filepointer) == passStart) {
+            // a pass that consumed nothing (empty or unmatched format) would
+            // repeat forever: stop here.
+            bContinue = false;
+        }
     }
     count = values.size();
     ArrayOf value;
     if (count == 0) {
         Dimensions empty(0, 0);
-        value = ArrayOf::emptyConstructor(empty);
+        value = ArrayOf::empty(empty);
         switch (outType) {
         case AS_STRING: {
             value.promoteType(NLS_CHAR);
@@ -324,10 +347,10 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     case AS_STRING: {
         std::wstring strs;
         for (auto& value : values) {
-            std::wstring str = value.getContentAsWideString();
+            std::wstring str = value.asWideString();
             strs.append(str);
         }
-        value = ArrayOf::characterArrayConstructor(strs);
+        value = ArrayOf::characterArray(strs);
     } break;
     case AS_DOUBLE: {
         value = convertToArrayOfFscanf<double>(values, NLS_DOUBLE, haveThirdArgument, m, n, false);
@@ -342,18 +365,18 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
         std::vector<double> v;
         v.reserve(values.size());
         for (ArrayOf value : values) {
-            switch (value.getDataClass()) {
+            switch (value.dataClass()) {
             case NLS_UINT64:
             case NLS_INT64:
             case NLS_DOUBLE: {
-                v.push_back(value.getContentAsDoubleScalar());
+                v.push_back(value.asDoubleScalar());
             } break;
             case NLS_CHAR: {
                 value.promoteType(NLS_DOUBLE);
-                Dimensions dimsValue = value.getDimensions();
-                v.reserve(v.size() + dimsValue.getElementCount());
-                double* ptr = (double*)value.getDataPointer();
-                indexType elementCount = dimsValue.getElementCount();
+                Dimensions dimsValue = value.dimensions();
+                v.reserve(v.size() + dimsValue.elementCount());
+                double* ptr = (double*)value.dataPointer();
+                indexType elementCount = dimsValue.elementCount();
                 for (indexType k = 0; k < elementCount; k++) {
                     v.push_back(ptr[k]);
                 }
@@ -379,5 +402,5 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     return value;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

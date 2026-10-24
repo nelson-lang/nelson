@@ -113,6 +113,10 @@
     </xsl:if>
   </xsl:template>
 
+  <!-- "block:" aliases are lookup-only entries (doc, nflow block help):
+       they stay in the TOC XML and index.json but are never rendered. -->
+  <xsl:template match="keyword[starts-with(@name, 'block:')]"/>
+
   <xsl:template match="keyword">
     <li class="toc-entry">
       <a class="toc-link" href="{ @link }" target="contentFrame"><xsl:value-of select="@name"/></a>
@@ -136,17 +140,76 @@
     </p>
   </xsl:template>
 
+  <!-- Chapter links use module-root paths, just like page description links. -->
+  <xsl:template match="chapter_description//link">
+    <xsl:variable name="target" select="normalize-space(@linkend)"/>
+    <xsl:choose>
+      <xsl:when test="string-length($target) &gt; 0">
+        <xsl:variable name="module" select="substring-before(substring-after($target, '{'), '}')"/>
+        <a>
+          <xsl:attribute name="href">
+            <xsl:choose>
+              <!-- href resolved by the help builder from the keyword index -->
+              <xsl:when test="@href"><xsl:value-of select="@href"/></xsl:when>
+              <xsl:otherwise>
+                <xsl:if test="string-length($module) &gt; 0">
+                  <xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text>
+                </xsl:if>
+                <xsl:choose>
+                  <xsl:when test="contains($target, '}')"><xsl:value-of select="substring-after($target, '}')"/></xsl:when>
+                  <xsl:otherwise><xsl:value-of select="$target"/></xsl:otherwise>
+                </xsl:choose>
+                <xsl:text>.html</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:attribute>
+          <xsl:apply-templates/>
+        </a>
+      </xsl:when>
+      <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <!-- Support <b> tags -->
-  <xsl:template match="chapter_description/b">
+  <xsl:template match="chapter_description//b">
     <b>
       <xsl:apply-templates/>
     </b>
   </xsl:template>
 
   <!-- Support <i> tags -->
-  <xsl:template match="chapter_description/i">
+  <xsl:template match="chapter_description//i">
     <i>
       <xsl:apply-templates/>
     </i>
+  </xsl:template>
+
+  <!-- Support <table> tags, the way nelson_html.xslt renders them in a description -->
+  <xsl:template match="chapter_description//table">
+    <table>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates/>
+    </table>
+  </xsl:template>
+
+  <xsl:template match="chapter_description//tr">
+    <tr>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates/>
+    </tr>
+  </xsl:template>
+
+  <xsl:template match="chapter_description//th">
+    <th>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates/>
+    </th>
+  </xsl:template>
+
+  <xsl:template match="chapter_description//td">
+    <td>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates/>
+    </td>
   </xsl:template>
 </xsl:stylesheet>

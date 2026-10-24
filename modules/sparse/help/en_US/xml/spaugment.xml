@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>spaugment</keyword>
+  <short_description>Form a sparse augmented least squares matrix.</short_description>
+  <syntax>
+    <syntax_item>S = spaugment(A)</syntax_item>
+    <syntax_item>S = spaugment(A, c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>non-empty numeric or logical 2-D matrix, sparse or full.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description>residual scaling factor. The first element is used. Default is max(max(abs(A))) / 1000.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>sparse augmented matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>spaugment</b> forms the sparse matrix <b>[c * I, A; A', 0]</b>.</p>
+    <p>This matrix is useful when rewriting sparse least squares problems as symmetric indefinite systems.</p>
+    <p>Double, single, logical, complex double, and complex single inputs are supported. The output is sparse, and sparse single numeric inputs keep class single.</p>
+    <p>Stored zero values in sparse <b>A</b> are ignored by the sparse arithmetic used to form the augmented matrix.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 2 3; 0 4]);
+S = spaugment(A, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([1 + 2i 0; 0 3]));
+S = spaugment(A, single(2))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}speye">speye</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqr">lsqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

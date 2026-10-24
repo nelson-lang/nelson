@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fsrftest</keyword>
+  <short_description>Rank predictors using univariate regression F-tests.</short_description>
+  <syntax>
+    <syntax_item>idx = fsrftest(X, y)</syntax_item>
+    <syntax_item>[idx, scores] = fsrftest(X, y)</syntax_item>
+    <syntax_item>[idx, scores] = fsrftest(X, y, Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fsrftest</b> ranks predictors by applying an independent regression F-test to each column of X.</p>
+    <p>Supported name-value options are CategoricalPredictors, NumBins, UseMissing, and Weights. idx contains predictor indices ordered by decreasing score. scores contains one score per predictor.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 0 3; 2 1 2; 3 0 1; 4 1 2; 5 0 3; 6 1 4];
+y = [1; 2; 2; 4; 4; 7];
+[idx, scores] = fsrftest(X, y, 'NumBins', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}relieff">relieff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}sequentialfs">sequentialfs</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

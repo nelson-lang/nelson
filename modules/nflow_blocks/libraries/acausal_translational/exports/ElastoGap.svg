@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="313.5" height="273.5" viewBox="-156.75 -106.75 313.5 273.5">
+  <rect x="-156.75" y="-106.75" width="313.5" height="273.5" rx="51.965" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-98,0 -48,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-48,36 -48,-38" fill="none" stroke="#8C5A08" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-12,-38 -12,36" fill="none" stroke="#8C5A08" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-12,-28 70,-28 70,24" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,0 98,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-12,24 0,24 6,34 18,14 30,34 42,14 54,34 60,24 70,24" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="10" y="-50" width="40" height="44" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25"/>
+    <polyline points="-52,-70 28,-70" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="58,-70 28,-60 28,-80 58,-70" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">ElastoGap</text></g>
+    <g transform="translate(0,-110) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">c</text></g>
+    <g transform="translate(0,-145) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">d</text></g>
+    <polyline points="0,-50 50,-50 50,-6 0,-6" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

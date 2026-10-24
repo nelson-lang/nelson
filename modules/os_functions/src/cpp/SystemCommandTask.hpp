@@ -27,17 +27,19 @@
 #include <thread>
 #include <future>
 #include <vector>
+#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include "Types.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
-// Define PROCESS_CHILD as a small wrapper around platform-specific process handle
 #ifdef _MSC_VER
 struct PROCESS_CHILD
 {
     HANDLE processHandle = nullptr;
+    HANDLE jobHandle = nullptr;
     DWORD processId = 0;
+    std::string registryFile;
     bool
     valid() const
     {
@@ -48,6 +50,7 @@ struct PROCESS_CHILD
 struct PROCESS_CHILD
 {
     pid_t pid = -1;
+    std::string registryFile;
     bool
     valid() const
     {
@@ -124,5 +127,5 @@ private:
     //=============================================================================
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

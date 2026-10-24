@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::TypeGateway::isstructBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     ArrayOf paramOne = argIn[0];
     bool bRes = paramOne.isStruct();
-    retval << ArrayOf::logicalConstructor(bRes);
+    retval << ArrayOf::logicalScalar(bRes);
     return retval;
 }
 //=============================================================================

@@ -7,61 +7,62 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('regexp'), -2);
-assert_isequal(nargout('regexp'), -1);
+% <--WEIGHT 16-->
+asserts.isequal(nargin('regexp'), -2);
+asserts.isequal(nargout('regexp'), -1);
 %=============================================================================
 idx = regexp('bat cat can car coat court CUT ct CAT-scan', 'c[aeiou]+t');
-assert_isequal(idx, [5 17]);
+asserts.isequal(idx, [5 17]);
 %=============================================================================
 [s, e] = regexp('bat cat coat', 'c[aeiou]+t');
-assert_isequal(s, [5 9]);
-assert_isequal(e, [7 12]);
+asserts.isequal(s, [5 9]);
+asserts.isequal(e, [7 12]);
 %=============================================================================
 m = regexp('EXTRA! The regexp function helps you relax.', '\w*x\w*', 'match');
-assert_isequal(m, {'regexp', 'relax'});
+asserts.isequal(m, {'regexp', 'relax'});
 %=============================================================================
 sp = regexp('Split ^this text into ^several pieces', '\^', 'split');
-assert_isequal(sp, {'Split ', 'this text into ', 'several pieces'});
+asserts.isequal(sp, {'Split ', 'this text into ', 'several pieces'});
 %=============================================================================
 [match, noMatch] = regexp('She sells sea shells by the seashore.', '[Ss]h.', 'match', 'split');
-assert_isequal(match, {'She', 'she', 'sho'});
-assert_isequal(noMatch, {char([]), ' sells sea ', 'lls by the sea', 're.'});
+asserts.isequal(match, {'She', 'she', 'sho'});
+asserts.isequal(noMatch, {char([]), ' sells sea ', 'lls by the sea', 're.'});
 %=============================================================================
 [tok, mat] = regexp('<title>My Title</title><p>Here is some text.</p>', '<(\w+).*>.*</\1>', 'tokens', 'match');
-assert_isequal(tok, {{'title'}, {'p'}});
-assert_isequal(mat, {'<title>My Title</title>', '<p>Here is some text.</p>'});
+asserts.isequal(tok, {{'title'}, {'p'}});
+asserts.isequal(mat, {'<title>My Title</title>', '<p>Here is some text.</p>'});
 %=============================================================================
 te = regexp('abc 123 def 45', '(\d+)', 'tokenExtents');
-assert_isequal(te, {[5 7], [13 14]});
+asserts.isequal(te, {[5 7], [13 14]});
 %=============================================================================
 names = regexp('01/11/2000 20-02-2020', '(?<month>\d+)/(?<day>\d+)/(?<year>\d+)|(?<day>\d+)-(?<month>\d+)-(?<year>\d+)', 'names');
-assert_isequal(names(1).month, '01');
-assert_isequal(names(1).day, '11');
-assert_isequal(names(2).month, '02');
-assert_isequal(names(2).day, '20');
+asserts.isequal(names(1).month, '01');
+asserts.isequal(names(1).day, '11');
+asserts.isequal(names(2).month, '02');
+asserts.isequal(names(2).day, '20');
 %=============================================================================
 txt = {'Madrid, Spain'; 'Romeo and Juliet'; 'NELSON is great'};
 cap = regexp(txt, '[A-Z]');
-assert_isequal(cap, {[1 9]; [1 11]; [1 2 3 4 5 6]});
+asserts.isequal(cap, {[1 9]; [1 11]; [1 2 3 4 5 6]});
 %=============================================================================
 c = regexp('bat cat coat', 'c[aeiou]+t', 'forceCellOutput');
-assert_isequal(c, {[5 9]});
+asserts.isequal(c, {[5 9]});
 %=============================================================================
 once = regexp('aba aba', 'a\w+a', 'match', 'once');
-assert_isequal(once, 'aba');
+asserts.isequal(once, 'aba');
 %=============================================================================
 line = sprintf('abc\n de');
 m1 = regexp(line, '.*', 'match', 'dotexceptnewline');
-assert_isequal(m1, {'abc', ' de'});
+asserts.isequal(m1, {'abc', ' de'});
 %=============================================================================
-assert_isequal(regexp('abc', 'abc'), 1);
-assert_checkerror('regexp(''abc'', ''abc'', ''r'');', _('Unknown regular expression option.'));
+asserts.isequal(regexp('abc', 'abc'), 1);
+asserts.checkerror('regexp(''abc'', ''abc'', ''r'');', _('Unknown regular expression option.'));
 %=============================================================================
 t = 'aaa aab aac aad aae';
 [start_pos, end_pos, match_str] = regexp(t, 'aa', 'start', 'end', 'match', 'once');
-assert_isequal(start_pos, 1);
-assert_isequal(end_pos, 2);
-assert_isequal(match_str, 'aa');
+asserts.isequal(start_pos, 1);
+asserts.isequal(end_pos, 2);
+asserts.isequal(match_str, 'aa');
 %=============================================================================
 cases = {
     'abc', 'abc', 1;
@@ -250,11 +251,11 @@ cases = {
     'nelson-SE-trunk-27490', '^nelson-[5-9].[0-9](.[0-9])?(-(alpha-|beta-|rc)([0-9])?)?$', [];
 };
 for k = 1:size(cases, 1)
-    computed = regexp(cases{k, 1}, cases{k, 2});
-    [ok, msg] = assert_isequal(computed, cases{k, 3});
-    if ~ok
-        error(['regexp nelson compatibility case ', int2str(k), ': ', msg]);
-    end
+  computed = regexp(cases{k, 1}, cases{k, 2});
+  [ok, msg] = asserts.isequal(computed, cases{k, 3});
+  if ~ok
+    error(['regexp nelson compatibility case ', int2str(k), ': ', msg]);
+  end
 end
 %=============================================================================
 icases = {
@@ -280,43 +281,84 @@ icases = {
     'IO.c', '\.c(pp|xx|c)?$', 3;
 };
 for k = 1:size(icases, 1)
-    computed = regexpi(icases{k, 1}, icases{k, 2});
-    [ok, msg] = assert_isequal(computed, icases{k, 3});
-    if ~ok
-        error(['regexpi nelson compatibility case ', int2str(k), ': ', msg]);
-    end
+  computed = regexpi(icases{k, 1}, icases{k, 2});
+  [ok, msg] = asserts.isequal(computed, icases{k, 3});
+  if ~ok
+    error(['regexpi nelson compatibility case ', int2str(k), ': ', msg]);
+  end
 end
 %=============================================================================
-assert_isequal(regexp(['a', char(10), 'b', char(10)], '(?m)^b'), 3);
-assert_isequal(regexp(['a', char(10), 'b', char(10), 'c', char(10)], '^b'), []);
-assert_isequal(regexp(['a', char(10), 'xb', char(10)], '(?!\A)x', 'lineanchors'), 3);
-assert_isequal(regexp(['abcd', char(10), 'dxxx'], '^d[x][x][x]', 'lineanchors'), 6);
-assert_isequal(regexp([char(10), 'x aa'], '^\S\s+aa$', 'lineanchors'), 2);
+asserts.isequal(regexp(['a', char(10), 'b', char(10)], '(?m)^b'), 3);
+asserts.isequal(regexp(['a', char(10), 'b', char(10), 'c', char(10)], '^b'), []);
+asserts.isequal(regexp(['a', char(10), 'xb', char(10)], '(?!\A)x', 'lineanchors'), 3);
+asserts.isequal(regexp(['abcd', char(10), 'dxxx'], '^d[x][x][x]', 'lineanchors'), 6);
+asserts.isequal(regexp([char(10), 'x aa'], '^\S\s+aa$', 'lineanchors'), 2);
 [s, e, m] = regexp([char(10), 'x aa'], '^\S\s+aa$', 'start', 'end', 'match', 'lineanchors');
-assert_isequal(s, 2);
-assert_isequal(e, 5);
-assert_isequal(m{1}, 'x aa');
-assert_isequal(regexp(['a', char(10), 'b', char(10)], 'b\s^', 'lineanchors'), []);
-assert_isequal(regexp(['123', char(10), 'abcabcabcabc', char(10)], '^.{9}abc.*\n', 'lineanchors'), 5);
+asserts.isequal(s, 2);
+asserts.isequal(e, 5);
+asserts.isequal(m{1}, 'x aa');
+asserts.isequal(regexp(['a', char(10), 'b', char(10)], 'b\s^', 'lineanchors'), []);
+asserts.isequal(regexp(['123', char(10), 'abcabcabcabc', char(10)], '^.{9}abc.*\n', 'lineanchors'), 5);
 %=============================================================================
 [s, e, m] = regexp('世界您好', '您好$', 'start', 'end', 'match', 'once');
-assert_isequal(m, '您好');
+asserts.isequal(m, '您好');
 [s, e, m] = regexp('世界您好', '^世界', 'start', 'end', 'match', 'once');
-assert_isequal(m, '世界');
-assert_isequal(regexp('世界您好', '世界$'), []);
-assert_isequal(regexp('世界您好', '^您好'), []);
+asserts.isequal(m, '世界');
+asserts.isequal(regexp('世界您好', '世界$'), []);
+asserts.isequal(regexp('世界您好', '^您好'), []);
 [s, e, m] = regexp('世界您好', '界您', 'start', 'end', 'match', 'once');
-assert_isequal(m, '界您');
-assert_isequal(regexp('世界您好', '界_您'), []);
+asserts.isequal(m, '界您');
+asserts.isequal(regexp('世界您好', '界_您'), []);
 %=============================================================================
 [a, b, c, piStringSplit] = regexp('3.14', '(\d+)\.(\d+)', 'start', 'end', 'match', 'tokens', 'once');
-assert_isequal(piStringSplit{1}, '3');
-assert_isequal(piStringSplit{2}, '14');
+asserts.isequal(piStringSplit{1}, '3');
+asserts.isequal(piStringSplit{2}, '14');
 [a, b, c, d] = regexp('xabyabbbz', 'ab(.*)b(.*)', 'start', 'end', 'match', 'tokens', 'once');
-assert_isequal(size(d), [1, 2]);
+asserts.isequal(size(d), [1, 2]);
 [a, b, c, d] = regexp('https://www.nelson.org/download/', '^(?:https://)?([^/]+)', 'start', 'end', 'match', 'tokens', 'once', 'ignorecase');
-assert_isequal(d{1}, 'www.nelson.org');
+asserts.isequal(d{1}, 'www.nelson.org');
 [a, b, c, d] = regexp('foobar: 2025', '(?<name>\w+): (?<digit>\d+)', 'start', 'end', 'match', 'tokens', 'once');
-assert_isequal(d{1}, 'foobar');
-assert_isequal(d{2}, '2025');
+asserts.isequal(d{1}, 'foobar');
+asserts.isequal(d{2}, '2025');
+%=============================================================================
+% a scalar (1x1) cell input yields a 1x1 cell output (not an unwrapped result)
+r = regexp({'a1b2'}, '\d', 'match');
+asserts.isequal(iscell(r), true);
+asserts.isequal(size(r), [1 1]);
+asserts.isequal(r{1}, {'1', '2'});
+%=============================================================================
+% POSIX word-boundary anchors \< (start of word) and \> (end of word)
+r = regexp('cat cats', '\<cat\>', 'match');
+asserts.isequal(r, {'cat'});
+r = regexp('cat scatter', '\<cat', 'match');
+asserts.isequal(r, {'cat'});
+r = regexp('cat scat', 'cat\>', 'match');
+asserts.isequal(r, {'cat', 'cat'});
+% an escaped literal backslash before '<' is not treated as a word anchor
+r = regexp('a\<b', '\\<', 'match');
+asserts.isequal(r, {'\<'});
+% '<' inside a character class stays literal
+r = regexp('a<b', '[<]', 'match');
+asserts.isequal(r, {'<'});
+%=============================================================================
+% Unbalanced metacharacters parse as literals, not errors.
+% A lone '(' matches the literal parenthesis (as in version() strings).
+asserts.isequal(regexp('9.14 (R2023a)', '('), 6);
+% A lone ')' matches the literal closing parenthesis.
+asserts.isequal(regexp('x)y', ')'), 2);
+% A lone '[' (never terminated) matches a literal bracket.
+asserts.isequal(regexp('a[b', '['), 2);
+asserts.isequal(isempty(regexp('ab', '[')), true);
+% multiple unbalanced parentheses each become literal
+asserts.isequal(regexp('(a)', '('), 1);
+asserts.isequal(regexp('a)b(c', ')'), 2);
+% an unbalanced outer '(' is literal while a valid inner group still captures
+r = regexp('(x', '(\w', 'match');
+asserts.isequal(r, {'(x'});
+% escaped metacharacters keep working (no leniency needed, exact behavior)
+asserts.isequal(regexp('a(b', '\('), 2);
+asserts.isequal(regexp('a)b', '\)'), 2);
+% valid constructs are never altered by the leniency fallback
+asserts.isequal(regexp('x', '(?<n>x)'), 1);
+asserts.isequal(regexp('bat cat', 'c[aeiou]+t'), 5);
 %=============================================================================

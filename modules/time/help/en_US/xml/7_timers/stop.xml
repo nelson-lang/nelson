@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stop</keyword>
+  <keyword_alias>timer.stop</keyword_alias>
+  <short_description>Stop a running timer object.</short_description>
+  <syntax>
+    <syntax_item>stop(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Timer object or timer object array.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>stop</b> stops running timers. If a timer has a <b>StopFcn</b>, Nelson executes it when the timer transitions from running to stopped.</p>
+    <p>Calling <b>stop</b> on a timer that is already stopped leaves the timer stopped.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stop a repeated timer before it reaches its task limit.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.2, ...
+  'TasksToExecute', Inf, ...
+  'TimerFcn', @(src, event) disp('tick'), ...
+  'StopFcn', @(src, event) disp('stopped'));
+start(t);
+sleep(0.35);
+stop(t);
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitrsvm</keyword>
+  <short_description>Fit a support vector regression model.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitrsvm(X, Y)</syntax_item>
+    <syntax_item>mdl = fitrsvm(X, Y, Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitrsvm</b> creates a <b>RegressionSVM</b> object from numeric predictors <b>X</b> and numeric response <b>Y</b>.</p>
+    <p>Name-value arguments include <b>KernelFunction</b>, <b>KernelScale</b>, <b>PolynomialOrder</b>, <b>BoxConstraint</b>, <b>Epsilon</b>, <b>Standardize</b>, <b>PredictorNames</b>, and <b>ResponseName</b>. Supported kernels are <b>linear</b>, <b>gaussian</b>, <b>rbf</b>, and <b>polynomial</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 2; 3; 4; 5];
+Y = [1; 1.2; 3; 3.2; 9; 9.1];
+mdl = fitrsvm(X, Y, 'KernelFunction', 'gaussian');
+yfit = predict(mdl, [1.5; 4.5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitcsvm">fitcsvm</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrknn">fitrknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrtree">fitrtree</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

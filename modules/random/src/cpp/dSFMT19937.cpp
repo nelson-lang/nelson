@@ -133,8 +133,8 @@ dSFMT19937::getValuesAsDouble(
                 break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
                 ar[k * lastDim + l] = static_cast<double>(pImpl->int_min
-                    + static_cast<int>(dsfmt_genrand_close_open(&pImpl->state)
-                        * (pImpl->int_max - pImpl->int_min + 1)));
+                    + static_cast<int64>(dsfmt_genrand_close_open(&pImpl->state)
+                        * static_cast<double>(pImpl->int_max - pImpl->int_min + 1)));
                 break;
             case RNG_DISTRIBUTION_NORMAL: {
                 ar[k * lastDim + l] = RNOR_dSFMT(&pImpl->state);
@@ -160,8 +160,8 @@ dSFMT19937::getValuesAsSingle(
                 break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
                 ar[k * lastDim + l] = static_cast<single>(pImpl->int_min
-                    + static_cast<int>(dsfmt_genrand_close_open(&pImpl->state)
-                        * (pImpl->int_max - pImpl->int_min + 1)));
+                    + static_cast<int64>(dsfmt_genrand_close_open(&pImpl->state)
+                        * static_cast<double>(pImpl->int_max - pImpl->int_min + 1)));
                 break;
             case RNG_DISTRIBUTION_NORMAL: {
                 ar[k * lastDim + l] = static_cast<single>(RNOR_dSFMT(&pImpl->state));
@@ -197,14 +197,14 @@ dSFMT19937::getStateSize()
 }
 //=============================================================================
 void
-dSFMT19937::setMinMaxUniformIntDistribution(int _min, int _max)
+dSFMT19937::setMinMaxUniformIntDistribution(int64 _min, int64 _max)
 {
     pImpl->int_min = _min;
     pImpl->int_max = _max;
 }
 //=============================================================================
 void
-dSFMT19937::getMinMaxUniformIntDistribution(int& _min, int& _max)
+dSFMT19937::getMinMaxUniformIntDistribution(int64& _min, int64& _max)
 {
     _min = pImpl->int_min;
     _max = pImpl->int_max;

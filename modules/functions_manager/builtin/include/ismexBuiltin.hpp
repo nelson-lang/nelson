@@ -18,7 +18,7 @@ namespace FunctionsGateway {
     ArrayOfVector
     ismexBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace FunctionsGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

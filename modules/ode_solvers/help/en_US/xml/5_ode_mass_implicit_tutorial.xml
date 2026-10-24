@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode mass implicit tutorial</keyword>
+  <short_description>Solve mass matrix and implicit ODE problems.</short_description>
+  <description>
+    <p>Use the <b>Mass</b> option when the system is written as <b>M(t,y)y'=f(t,y)</b>. A constant matrix, scalar, or function handle can define the mass matrix.</p>
+    <table style="width:100%">
+  <tr><th>Problem form</th><th>Entry point</th><th>Required data</th></tr>
+  <tr><td><b>M(t,y)y' = f(t,y)</b></td><td><b>ode15s</b>, <b>ode23t</b>, <b>ode23tb</b></td><td><b>Mass</b> option and initial value.</td></tr>
+  <tr><td><b>F(t,y,yp) = 0</b></td><td><b>ode15i</b></td><td>Initial value and initial slope.</td></tr>
+  <tr><td>Object workflow</td><td><b>ode</b> with <b>EquationType</b></td><td>Residual function, initial value, and optional initial slope.</td></tr>
+</table>
+    <p>Use <b>ode15i</b> for fully implicit residual equations <b>F(t,y,yp)=0</b>. The function form uses the initial value and initial slope that you provide. In the object workflow, <b>ComputeConsistentInitialConditions</b> can adjust the initial slope while keeping the initial value fixed.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Constant mass matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Mass', 2, 'Jacobian', 1);
+[t, y] = ode15s(@(t,y) y, [0 0.5], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Implicit residual equation.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y,yp) yp + y;
+[t, y] = ode15i(f, [0 1], 1, -1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15s">ode15s</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeMassMatrix">odeMassMatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeJacobian">odeJacobian</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

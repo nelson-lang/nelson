@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uidropdown</keyword>
+  <short_description>Create drop-down component.</short_description>
+  <syntax>
+    <syntax_item>h = uidropdown()</syntax_item>
+    <syntax_item>h = uidropdown(parent)</syntax_item>
+    <syntax_item>h = uidropdown(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI component object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>dd = uidropdown</b> creates a drop-down list. <b>Items</b> holds the displayed entries; <b>ItemsData</b> optionally maps each entry to a data value returned through <b>Value</b>. <b>ValueIndex</b> is the 1-based selection index. <b>Editable</b> 'on' lets the user type free text. Callback <b>ValueChangedFcn</b> (event data: <b>Value</b>, <b>PreviousValue</b>, <b>Edited</b>, <b>ValueIndex</b>, <b>PreviousValueIndex</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI component for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Drop down', 'Position', [100 100 420 260]);
+dd = uidropdown(f, 'Items', {'Small', 'Medium', 'Large'}, 'Position', [125 115 170 24]);
+dd.Value = 'Medium';
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uidropdown_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uidropdown</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+dd = uidropdown(f, 'Items', {'Red', 'Green', 'Blue'}, 'ItemsData', [1 2 3]);
+dd.Value = 2;
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

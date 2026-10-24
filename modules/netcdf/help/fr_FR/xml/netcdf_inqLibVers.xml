@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>netcdf.inqLibVers</keyword>
+  <short_description>Retourne les informations de version de la bibliotheque netCDF.</short_description>
+  <syntax>
+    <syntax_item>version = netcdf.inqLibVers()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>none</param_name>
+      <param_description>Cette fonction ne requiert aucun argument d'entree.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>version</param_name>
+      <param_description>Chaine de version de la bibliotheque netCDF.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>netcdf.inqLibVers expose une operation bas niveau de la bibliotheque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour netcdf.inqLibVers.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[version = netcdf.inqLibVers()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}netcdf.getConstant">netcdf.getConstant</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

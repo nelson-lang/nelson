@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::QmlEngineGateway::QObject_methodsignatureBuiltin(int nLhs, const ArrayOf
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
+    std::wstring propertyName = param2.asWideString();
     ArrayOfVector retval;
     ArrayOf res = methodSignatureQObject(argIn[0], propertyName);
     retval.push_back(res);

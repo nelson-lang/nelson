@@ -11,10 +11,11 @@
 //=============================================================================
 #include "GORestrictedStringProperty.hpp"
 #include "GOPropertyValues.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOUnitsProperty : public GORestrictedStringProperty
+class NLSGRAPHICS_IMPEXP GOUnitsProperty : public GORestrictedStringProperty
 {
 private:
     std::wstring previousUnits = GO_PROPERTY_VALUE_NORMALIZED_STR;
@@ -28,5 +29,5 @@ public:
     getPreviousUnits();
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

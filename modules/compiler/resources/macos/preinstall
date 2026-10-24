@@ -1,0 +1,43 @@
+#!/bin/sh
+# Copyright (c) 2026-present Allan CORNET (Nelson)
+# SPDX-License-Identifier: LGPL-3.0-or-later
+set -eu
+resources=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+. "$resources/common.sh"
+destination=$(actual_destination "$@")
+new_manifest=$resources/manifest.tsv
+[ -f "$new_manifest" ] && [ ! -L "$new_manifest" ] || fail 'Missing package manifest.'
+
+if [ ! -e "$destination" ] && [ ! -L "$destination" ]; then
+    exit 0
+fi
+[ -d "$destination" ] && [ ! -L "$destination" ] || fail 'Installation destination is not a directory.'
+old_metadata=$destination/.nelson-install
+if [ ! -d "$old_metadata" ] || [ -L "$old_metadata" ]; then
+    [ -z "$(/bin/ls -A "$destination")" ] || fail 'Installation destination is not empty or managed.'
+    exit 0
+fi
+old_manifest=$old_metadata/manifest.tsv
+old_identity=$old_metadata/identity
+[ -f "$old_manifest" ] && [ ! -L "$old_manifest" ] || fail 'Missing installed manifest.'
+[ -f "$old_identity" ] && [ ! -L "$old_identity" ] || fail 'Missing installed identity.'
+[ "$(/usr/bin/sed -n '1p' "$old_identity")" = 'NELSON_APPLICATION_INSTALL_1' ] || fail 'Unsupported installed identity.'
+[ "$(/usr/bin/sed -n '2p' "$old_identity")" = "$(hash_file "$old_manifest")" ] || fail 'Installed manifest changed.'
+[ "$(/usr/bin/sed -n '3p' "$old_identity")" = "$(hash_file "$old_metadata/uninstall")" ] || fail 'Installed uninstaller changed.'
+verify_manifest "$destination" "$old_manifest"
+
+while IFS="$(printf '\t')" read -r kind digest mode relative; do
+    target=$destination/$relative
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        manifest_contains "$old_manifest" "$relative" || fail "New package path collides with user data: $relative"
+    fi
+done < "$new_manifest"
+
+# Retire unchanged files that are absent from the update before pkgbuild publishes new files.
+while IFS="$(printf '\t')" read -r kind digest mode relative; do
+    [ "$kind" = F ] || continue
+    if ! manifest_contains "$new_manifest" "$relative"; then
+        /bin/rm -- "$destination/$relative"
+    fi
+done < "$old_manifest"
+exit 0

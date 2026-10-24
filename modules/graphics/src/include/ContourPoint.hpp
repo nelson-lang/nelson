@@ -36,5 +36,5 @@ typedef std::vector<contourLine> contourLineSet; /**< A set of contour lines */
 typedef std::vector<contourLineSet>
     contourLineCollection; /**< A collection of sets of contour lines */
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

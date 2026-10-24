@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);
-c = complexObj(3,4);
-assert_isequal(class(c), 'complexObj');
+c = complexObj(3, 4);
+asserts.isequal(class(c), 'complexObj');
 c(23, 44)
 c
 %=============================================================================

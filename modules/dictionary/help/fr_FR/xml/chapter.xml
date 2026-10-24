@@ -11,5 +11,7 @@
     >Il permet la création et la configuration de dictionnaires avec des types définis pour les clés et les valeurs, la consultation et la modification des entrées, ainsi que la gestion de la structure globale.</p>
     <p
     >Ce module permet un stockage, une récupération et une manipulation efficaces des données indexées par des clés uniques, ce qui le rend adapté aux tableaux associatifs, recherches et gestion dynamique des données.</p>
+    <p
+    >Les variables dictionnaire peuvent etre conservees dans des fichiers MAT et NH5, et les dictionnaires peuvent etre echanges comme fichiers JSON avec readdictionary et writedictionary.</p>
   </chapter_description>
 </xmldoc>

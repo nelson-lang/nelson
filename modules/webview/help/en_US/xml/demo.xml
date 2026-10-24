@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>demo</keyword>
+  <short_description>Browse examples from loaded Nelson modules and external toolboxes.</short_description>
+  <syntax>
+    <syntax_item>demo()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>demo</b> opens the examples gallery. Calling it again refreshes the catalog and brings the existing gallery window to the foreground.</p>
+    <p>The gallery lists the examples of every loaded module, the NFlow models and scripts (an NFlow model opens in the block-diagram editor) and the examples of external toolboxes. Running an example keeps the gallery open, so several demos can be tried in a row.</p>
+    <p>On the desktop, the gallery is a separate window. In the web desktop, <b>demo</b> shows it as a docked <b>Examples</b> panel next to the Command Window (Help > Examples opens the same panel), so a single browser window is enough. NFlow shows the same gallery in its File > Examples sheet.</p>
+    <p>A loaded module appears when its <b>examples/index.json</b> manifest is valid. Every entry provides a relative <b>.m</b> script path, title and description; optional tags and requirements help users find and prepare an example.</p>
+    <p><b>title</b> and <b>description</b> accept either one string or an object containing non-empty <b>en_US</b> and/or <b>fr_FR</b> strings. A missing current-language value falls back to the other available supported language.</p>
+    <table>
+      <tr><th>Requirement</th><th>Meaning</th></tr>
+      <tr><td>gui</td><td>Graphical desktop or graphics backend.</td></tr>
+      <tr><td>network</td><td>Network access to the resource used by the script.</td></tr>
+      <tr><td>credentials</td><td>User-provided authentication data.</td></tr>
+      <tr><td>compiler</td><td>Configured native-code compiler.</td></tr>
+      <tr><td>mpi</td><td>MPI runtime and launcher.</td></tr>
+      <tr><td>windows</td><td>Windows operating system.</td></tr>
+      <tr><td>python</td><td>Compatible Python installation.</td></tr>
+      <tr><td>julia</td><td>Compatible Julia installation.</td></tr>
+      <tr><td>audio-input</td><td>Available audio input device.</td></tr>
+      <tr><td>audio-output</td><td>Available audio output device.</td></tr>
+      <tr><td>external-application</td><td>Application or local service outside Nelson.</td></tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open or refresh the examples gallery.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[demo()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${webview}web">web</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

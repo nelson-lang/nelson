@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tiedrank</keyword>
+  <short_description>Ranks with average values for ties.</short_description>
+  <syntax>
+    <syntax_item>R = tiedrank(X)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X, kendall)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X, kendall, bidirectional)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>tiedrank</b> computes ranks along the first dimension and assigns average ranks to tied values. <b>NaN</b> values are ignored and keep <b>NaN</b> ranks.</p>
+    <p>When <b>kendall</b> is true, <b>tieadj</b> contains the three tie-adjustment terms used by Kendall rank correlation. When <b>bidirectional</b> is true, ranks are assigned from both ends of the sorted data.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [-2 1 3 1 4];
+[R, tieadj] = tiedrank(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}ranksum">ranksum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}signrank">signrank</link></see_also_item>
+    <see_also_item><link linkend="${statistics}friedman">friedman</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kruskalwallis">kruskalwallis</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

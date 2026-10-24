@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,8 +22,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue)
+h5LoadFunctionHandle(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -35,12 +35,12 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
 
     Dimensions dimsLogicalScalar(1, 1);
     ArrayOf isFunctionHandleArrayOf;
-    bSuccess = h5LoadLogical(fid, h5path, "is_function_handle", isEmpty, dimsLogicalScalar, false,
-        0, isFunctionHandleArrayOf);
+    bSuccess = h5LoadLogical(eval, fid, h5path, "is_function_handle", isEmpty, dimsLogicalScalar,
+        false, 0, isFunctionHandleArrayOf);
     if (!bSuccess) {
         return false;
     }
-    bool isFunctionHandle = isFunctionHandleArrayOf.getContentAsLogicalScalar();
+    bool isFunctionHandle = isFunctionHandleArrayOf.asLogicalScalar();
 
     Dimensions dimsContent = getNelsonDimensions(fid, h5path, "function_handle");
     ArrayOf anonymousElement;
@@ -49,7 +49,7 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
     if (!bSuccess) {
         return false;
     }
-    std::string anonymousContent = anonymousElement.getContentAsCString();
+    std::string anonymousContent = anonymousElement.asUtf8String();
 
     function_handle fh;
 
@@ -58,47 +58,58 @@ h5LoadFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         bool isEmptyFieldnames = isNelsonEmpty(fid, h5path, "variable_names");
         stringVector fieldnames;
         ArrayOf fieldnamesArrayOf;
-        bSuccess = h5LoadStringArray(
-            fid, h5path, "variable_names", isEmptyFieldnames, dimsFieldnames, fieldnamesArrayOf);
+        bSuccess = h5LoadStringArray(eval, fid, h5path, "variable_names", isEmptyFieldnames,
+            dimsFieldnames, fieldnamesArrayOf);
         if (!bSuccess) {
             return false;
         }
-        fieldnames = fieldnamesArrayOf.getContentAsCStringVector(false);
+        fieldnames = fieldnamesArrayOf.asUtf8StringVector(false);
 
         Dimensions dimsArguments = getNelsonDimensions(fid, h5path, "arguments");
         bool isEmptyArguments = isNelsonEmpty(fid, h5path, "arguments");
         stringVector arguments;
         ArrayOf argumentsArrayOf;
         bSuccess = h5LoadStringArray(
-            fid, h5path, "arguments", isEmptyArguments, dimsArguments, argumentsArrayOf);
+            eval, fid, h5path, "arguments", isEmptyArguments, dimsArguments, argumentsArrayOf);
         if (!bSuccess) {
             return false;
         }
-        arguments = argumentsArrayOf.getContentAsCStringVector(false);
+        arguments = argumentsArrayOf.asUtf8StringVector(false);
 
         ArrayOf cellArrayOf;
         Dimensions dimsVariables = getNelsonDimensions(fid, h5path, "variables");
-        bSuccess = h5LoadCell(fid, h5path, "variables", isEmpty, dimsVariables, cellArrayOf);
+        bSuccess = h5LoadCell(eval, fid, h5path, "variables", isEmpty, dimsVariables, cellArrayOf);
         if (!bSuccess) {
             return false;
         }
 
         std::vector<ArrayOf> variables;
-        variables.reserve(cellArrayOf.getElementCount());
+        variables.reserve(cellArrayOf.elementCount());
         ArrayOf* cell = static_cast<ArrayOf*>(
-            const_cast<void*>(static_cast<const void*>(cellArrayOf.getDataPointer())));
-        for (indexType k = 0; k < cellArrayOf.getElementCount(); k++) {
+            const_cast<void*>(static_cast<const void*>(cellArrayOf.dataPointer())));
+        for (indexType k = 0; k < cellArrayOf.elementCount(); k++) {
             variables.push_back(cell[k]);
         }
 
-        fh.anonymousHandle = reinterpret_cast<nelson_handle*>(
-            new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables));
-        VariableValue = ArrayOf::functionHandleConstructor(fh);
+        auto* anonymousFunction
+            = new AnonymousMacroFunctionDef(anonymousContent, arguments, fieldnames, variables);
+        fh.anonymousHandle = reinterpret_cast<nelson_handle*>(anonymousFunction);
+        VariableValue = ArrayOf::functionHandle(fh);
+        // files saved before the body as written was stored have no "definition"
+        std::string definitionPath = h5path + "/definition";
+        if (H5Lexists(fid, definitionPath.c_str(), H5P_DEFAULT) > 0) {
+            ArrayOf definition;
+            Dimensions dimsDefinition = getNelsonDimensions(fid, h5path, "definition");
+            if (h5LoadCharacterArray(fid, h5path, "definition",
+                    isNelsonEmpty(fid, h5path, "definition"), dimsDefinition, definition)) {
+                anonymousFunction->setDefinitionText(definition.asUtf8String());
+            }
+        }
         bSuccess = true;
     } else {
         fh.anonymousHandle
             = reinterpret_cast<nelson_handle*>(new AnonymousMacroFunctionDef(anonymousContent));
-        VariableValue = ArrayOf::functionHandleConstructor(fh);
+        VariableValue = ArrayOf::functionHandle(fh);
         bSuccess = true;
     }
     return bSuccess;

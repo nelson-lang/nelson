@@ -8,27 +8,37 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = num2cell({});
-assert_isequal(R, {});
+asserts.isequal(R, {});
 %=============================================================================
 A = [1 2; 3 4]
 R = num2cell(A);
 REF = {1, 2; 3, 4};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ["ff", "ll", "mm"];
 R = num2cell(A);
 REF = {"ff", "ll", "mm"};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 Q.s = 'f';
 R = num2cell(Q);
-REF = { Q };
-assert_isequal(R, REF);
+REF = {Q};
+asserts.isequal(R, REF);
 %=============================================================================
-A = reshape(1:12,4,3);
-A(:,:,2) = A*10;
+A = reshape(1:12, 4, 3);
+A(:, :, 2) = A * 10;
 R = num2cell(A, 1);
-REF = [1;2;3;4];
+REF = [1; 2; 3; 4];
 RR = R{1}(:);
-assert_isequal(RR, REF);
+asserts.isequal(RR, REF);
+%=============================================================================
+M = [1 2; 3 4];
+asserts.isequal(num2cell(M), {1, 2; 3, 4});
+A = reshape(1:8, [2 2 2]);
+C3 = num2cell(A, 3);
+asserts.isequal(size(C3), [2 2]);
+asserts.isequal(C3{1, 1}, reshape([1 5], [1 1 2]));
+asserts.isequal(C3{2, 2}, reshape([4 8], [1 1 2]));
+asserts.isequal(num2cell([1 2; 3 4], 1), {[1; 3], [2; 4]});
+asserts.isequal(num2cell(A, [2 1]), num2cell(A, [1 2]));
 %=============================================================================

@@ -18,5 +18,6 @@ namespace Nelson {
  */
 NLSOPERATORS_IMPEXP ArrayOf
 HorzCat(const ArrayOfVector& argIn, NelsonType commonType);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

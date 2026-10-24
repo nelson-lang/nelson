@@ -11,6 +11,7 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "nlsSpreadsheet_exports.h"
+#include "ExcelWorkbookIO.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,6 +21,7 @@ public:
     // common
     bool _WriteRowNames = false;
     std::string _FileType = "";
+    excelWorkbookOptions _ExcelOptions;
     // csv
     bool _WriteVariableNames = false;
     std::string _WriteMode = "";
@@ -35,5 +37,5 @@ NLSSPREADSHEET_IMPEXP void
 WriteTable(const ArrayOf& table, const std::wstring& filename, const writeTableOptions& options,
     std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

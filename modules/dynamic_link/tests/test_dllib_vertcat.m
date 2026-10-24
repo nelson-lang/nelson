@@ -10,6 +10,6 @@
 path_ref = modulepath('dynamic_link', 'builtin');
 lib = dlopen(path_ref);
 R = [lib, lib];
-assert_isequal(size(R),  [1 2]);
-assert_isequal(class(R), 'dllib');
+asserts.isequal(size(R), [1 2]);
+asserts.isequal(class(R), 'dllib');
 %=============================================================================

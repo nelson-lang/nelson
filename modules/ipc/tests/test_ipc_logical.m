@@ -14,18 +14,18 @@
 clear('R');
 REF = true;
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = logical(eye(100, 100));
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = logical(sparse(eye(100, 100)));
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================

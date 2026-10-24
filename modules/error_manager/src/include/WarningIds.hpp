@@ -15,7 +15,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-constexpr auto WARNING_COLON_ARRAY_AS_SCALAR = L"Nelson:colon:array-as-scalar";
 constexpr auto WARNING_MATIO_TYPE_NOT_SUPPORTED = L"Nelson:matio:type-not-supported";
 constexpr auto WARNING_RANK_DEFICIENT_MATRIX = L"Nelson:rankDeficientMatrix";
 constexpr auto WARNING_NEARLY_SINGULAR_MATRIX = L"Nelson:nearlySingularMatrix";

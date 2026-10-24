@@ -14,9 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// eol: line ending used in content (LF or CRLF); empty keeps the file line endings.
+// encoding: "UTF-8", "auto" (detected) or a supported encoding name.
 NLSSTREAM_MANAGER_IMPEXP bool
 MapFileRead(const std::wstring& filename, const std::wstring& eol, const std::wstring& encoding,
     std::wstring& content, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

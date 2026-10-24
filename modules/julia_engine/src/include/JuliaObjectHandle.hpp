@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -31,7 +31,7 @@ public:
     display(Interface* io);
     //=============================================================================
     std::string
-    getClassName() override;
+    className() override;
     //=============================================================================
     bool
     invokeMethod(Interface* io, const ArrayOfVector& argIn, int nLhs, const std::string& methodName,
@@ -46,19 +46,25 @@ public:
     isProperty(const std::wstring& propertyName) override;
     //=============================================================================
     wstringVector
-    getMethods();
+    methods() override;
     //=============================================================================
     bool
-    isMethod(const std::wstring& methodName);
+    isMethod(const std::wstring& methodName) override;
     //=============================================================================
     bool
     isCastMethod(const std::wstring& methodName);
     //=============================================================================
     wstringVector
-    getProperties();
+    properties() override;
     //=============================================================================
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
+    //=============================================================================
+    // Converts the wrapped Julia DataFrame into the pieces needed to build a
+    // Nelson table (columns, variable names, row names). Returns false when the
+    // object is not a DataFrames.DataFrame or when DataFrames is unavailable.
+    bool
+    toTableData(ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames);
     //=============================================================================
 private:
     //=============================================================================

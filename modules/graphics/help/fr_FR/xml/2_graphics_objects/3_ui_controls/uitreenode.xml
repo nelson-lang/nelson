@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uitreenode</keyword>
+  <short_description>Crée un nœud d'arbre.</short_description>
+  <syntax>
+    <syntax_item>h = uitreenode()</syntax_item>
+    <syntax_item>h = uitreenode(parent)</syntax_item>
+    <syntax_item>h = uitreenode(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>n = uitreenode(parent)</b> crée un nœud dans un uitree ou sous un autre TreeNode. Propriétés : <b>Text</b>, <b>NodeData</b>, <b>Icon</b>, <b>ContextMenu</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Tree nodes', 'Position', [100 100 420 260]);
+tr = uitree(f, 'Position', [70 40 210 180]);
+n1 = uitreenode(tr, 'Text', 'Project');
+uitreenode(n1, 'Text', 'Input');
+uitreenode(n1, 'Text', 'Results');
+expand(tr);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uitreenode_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uitreenode</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+t = uitree(f);
+n = uitreenode(t, 'Text', 'Nœud 1', 'NodeData', [1 2 3]);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

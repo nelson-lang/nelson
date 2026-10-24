@@ -24,8 +24,8 @@ private:
     struct Impl
     {
         dsfmt_t state;
-        int int_min = 1;
-        int int_max = 1000;
+        int64 int_min = 1;
+        int64 int_max = 1000;
     };
 
     Impl* pImpl;
@@ -58,9 +58,9 @@ public:
     getStateSize() override;
 
     void
-    setMinMaxUniformIntDistribution(int _min, int _max) override;
+    setMinMaxUniformIntDistribution(int64 _min, int64 _max) override;
     void
-    getMinMaxUniformIntDistribution(int& _min, int& _max) override;
+    getMinMaxUniformIntDistribution(int64& _min, int64& _max) override;
 };
 //=============================================================================
 } // namespace Nelson

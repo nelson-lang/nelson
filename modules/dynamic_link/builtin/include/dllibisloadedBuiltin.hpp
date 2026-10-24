@@ -18,7 +18,7 @@ namespace DynamicLinkGateway {
     ArrayOfVector
     dllibisloadedBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace DynamicLinkGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

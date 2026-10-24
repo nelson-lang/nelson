@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nanmean</keyword>
+  <short_description>Moyenne en ignorant les valeurs NaN.</short_description>
+  <syntax>
+    <syntax_item>m = nanmean(X)</syntax_item>
+    <syntax_item>m = nanmean(X, dim)</syntax_item>
+    <syntax_item>m = nanmean(X, vecdim)</syntax_item>
+    <syntax_item>m = nanmean(X, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanmean</b> calcule la moyenne apres suppression des valeurs <b>NaN</b> dans chaque tranche traitee.</p>
+    <p>La dimension par defaut est la premiere dimension non singleton.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = magic(3);
+X([1 6:9]) = NaN;
+m = nanmean(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmedian">nanmedian</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanstd">nanstd</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanvar">nanvar</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

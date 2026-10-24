@@ -17,13 +17,13 @@ function varargout = mink(varargin)
   if nargin >= 3
     dim = varargin{3};
   else
-    if min (size (A)) != 1
+    if min(size(A)) != 1
       % For matrices (both dims > 1) keep original behavior: work along columns
       dim = 1;
     else
       % For vectors use the vector's non-singleton dimension
-      dim = find (size (A) != 1, 1);
-      if isempty (dim)
+      dim = find(size(A) != 1, 1);
+      if isempty(dim)
         dim = 1;
       end
     end
@@ -31,18 +31,19 @@ function varargout = mink(varargin)
 
   % Validate dim
   if dim < 1 || floor(dim) != dim || dim > ndims(A)
-    error (_('Dimension argument out of range.'));
+    error('Nelson:mink:dimensionArgumentOutRange2', 'Dimension argument out of range.');
   end
 
-  sz = size (A);
+  sz = size(A);
   if k > sz(dim)
-    error (_('Number of elements exceeds size of array.'));
+    % k larger than the dimension: return all elements sorted (reference-implementation semantics)
+    k = sz(dim);
   end
 
   % Sort along requested dimension in ascending order and take first k entries
-  [s, ind] = sort (A, dim, 'ascend');
+  [s, ind] = sort(A, dim, 'ascend');
 
-  subs = repmat ({':'}, 1, ndims (A));
+  subs = repmat({':'}, 1, ndims(A));
   subs{dim} = 1:k;
   val = s(subs{:});
   idx = ind(subs{:});

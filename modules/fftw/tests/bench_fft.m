@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 arch = computer('arch');
-if strcmp(arch(end-1:end), '32') == true
+if strcmp(arch(end - 1:end), '32') == true
   A = rand(4000);
 else
   A = rand(5000);

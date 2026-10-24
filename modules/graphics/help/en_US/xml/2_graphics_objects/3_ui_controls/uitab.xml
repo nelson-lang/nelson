@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uitab</keyword>
+  <short_description>Create tab container.</short_description>
+  <syntax>
+    <syntax_item>h = uitab()</syntax_item>
+    <syntax_item>h = uitab(parent)</syntax_item>
+    <syntax_item>h = uitab(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container (uifigure, figure, uipanel, uitab, uibuttongroup, uigridlayout).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>container object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>t = uitab</b> creates a tab inside a tab group and returns the Tab object. If the given parent is not a TabGroup, an implicit uitabgroup is created. Main properties: <b>Title</b>, <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>Scrollable</b>. The tab geometry is managed by the parent TabGroup (read-only <b>Position</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI component for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Tabs', 'Position', [100 100 420 260]);
+tg = uitabgroup(f, 'Position', [55 40 310 180]);
+t = uitab(tg, 'Title', 'Data');
+uitab(tg, 'Title', 'Options');
+uibutton(t, 'Text', 'Apply', 'Position', [25 45 100 28]);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uitab_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uitab</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+tg = uitabgroup(f);
+t = uitab(tg, 'Title', 'Settings');
+b = uibutton(t, 'Text', 'Apply', 'Position', [20 20 100 22]);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

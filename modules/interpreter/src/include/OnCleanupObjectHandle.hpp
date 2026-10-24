@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,22 +25,25 @@ public:
     ~OnCleanupObjectHandle() override;
     //=============================================================================
     wstringVector
-    getMethods();
+    methods() override;
     //=============================================================================
     bool
-    isMethod(const std::wstring& methodName);
+    isMethod(const std::wstring& methodName) override;
     //=============================================================================
     bool
-    isProperty(const std::wstring& propertyName);
+    isProperty(const std::wstring& propertyName) override;
     //=============================================================================
     wstringVector
-    getProperties();
+    properties() override;
     //=============================================================================
     void
     cleanup(Evaluator* eval);
     //=============================================================================
     void
     cancel();
+    //=============================================================================
+    void
+    onClear(Evaluator* eval) override;
     //=============================================================================
     ArrayOf
     getTask();
@@ -53,6 +56,10 @@ private:
     wstringVector propertyNames;
     //=============================================================================
 };
+//=============================================================================
+// Run the onCleanup tasks registered by a function call that is exiting.
+void
+runOnCleanupTasks(Evaluator* eval, const ArrayOfVector& tasks);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

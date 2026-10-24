@@ -10,14 +10,10 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('ismethod'), 2);
-assert_isequal(nargout('methods'), 1);
+asserts.isequal(nargin('ismethod'), 2);
+asserts.isequal(nargout('methods'), 1);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
 %=============================================================================
 if ismethod(qobj.children(2), 'myQmlFunction1')
@@ -27,15 +23,15 @@ else
 end
 %=============================================================================
 r = ismethod(qobj.children(idx), 'myQmlFunction1');
-assert_istrue(r);
+asserts.istrue(r);
 r = ismethod(qobj.children(idx), 'myQmlFunction2');
-assert_istrue(r);
+asserts.istrue(r);
 r = ismethod(qobj.children(idx), 'myQmlFunction3');
-assert_istrue(r);
+asserts.istrue(r);
 r = ismethod(qobj.children(idx), 'myQmlFunction4');
-assert_istrue(r);
+asserts.istrue(r);
 r = ismethod(qobj.children(idx), 'myQmlFunction5');
-assert_isfalse(r);
+asserts.isfalse(r);
 %=============================================================================
 delete(qobj);
 %=============================================================================

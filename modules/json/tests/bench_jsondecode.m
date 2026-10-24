@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 filesrc = [nelsonroot(), '/modules/json/tests/bench_jsonencode.json'];
-tic();st = jsondecode(filesrc, '-file');toc()
+tic(); st = jsondecode(filesrc, '-file'); toc()
 %=============================================================================

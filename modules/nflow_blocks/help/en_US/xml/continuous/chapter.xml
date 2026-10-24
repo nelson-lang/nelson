@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <chapter>Continuous blocks</chapter>
+  <chapter_description>
+    <p>Stateful continuous-time blocks updated with the simulation step.</p>
+  </chapter_description>
+</xmldoc>

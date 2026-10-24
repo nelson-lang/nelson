@@ -77,7 +77,7 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     bool isCRLF = false;
 #ifdef _MSC_VER
     if (nchar != -1) {
-        // Very old bug in CRT. it will be certainly never fixed for compatibility ...
+        // CRT bug: fseek/ftell fail in text mode on Unix-style text, so buffering is off.
         // https://developercommunity.visualstudio.com/content/problem/425878/fseek-ftell-fail-in-text-mode-for-unix-style-text.html
         setvbuf(fileptr, nullptr, _IONBF, 0);
     }
@@ -88,6 +88,9 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
         if (!bWithNewLine) {
             if (readline.length() > 0) {
                 if (readline[readline.length() - 1] == '\n') {
+                    readline.pop_back();
+                }
+                if (readline.length() > 0 && readline[readline.length() - 1] == '\r') {
                     readline.pop_back();
                 }
             }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>shrinkfaces</keyword>
+  <short_description>Reduire la taille des faces d'un patch.</short_description>
+  <syntax>
+    <syntax_item>shrinkfaces(p, sf)</syntax_item>
+    <syntax_item>nfv = shrinkfaces(p, sf)</syntax_item>
+    <syntax_item>nfv = shrinkfaces(fv, sf)</syntax_item>
+    <syntax_item>nfv = shrinkfaces(faces, vertices, sf)</syntax_item>
+    <syntax_item>[newFaces, newVertices] = shrinkfaces(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>Handle de patch.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fv</param_name>
+      <param_description>Structure avec les champs faces et vertices.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sf</param_name>
+      <param_description>Facteur de reduction non negatif. La valeur par defaut est 0.3.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>nfv, newFaces, newVertices</param_name>
+      <param_description>Faces et sommets reduits avec des sommets non partages.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>shrinkfaces</b> deplace chaque sommet de face vers le centre de sa face et cree des sommets non partages.</p>
+  </description>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isosurface">isosurface</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+  </see_also>
+</xmldoc>

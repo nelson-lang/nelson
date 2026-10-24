@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Timer Callback Functions</keyword>
+  <keyword_alias>timer callback functions</keyword_alias>
+  <keyword_alias>timer callbacks</keyword_alias>
+  <short_description>Define commands that execute when timer events occur.</short_description>
+  <description>
+    <p>Timer callbacks can be delayed when another callback or a CPU-intensive task is already running.</p>
+    <p>A timer object has four callback properties. <b>StartFcn</b> runs when the timer starts. <b>TimerFcn</b> runs when the timer fires. <b>StopFcn</b> runs when the timer stops normally or after an error. <b>ErrorFcn</b> runs when a timer callback reports an error.</p>
+    <p>Set a callback property to one of these values:</p>
+    <table border="1">
+      <tr>
+        <th>Value</th>
+        <th>Use</th>
+      </tr>
+      <tr>
+        <td>Function handle</td>
+        <td>Use a function that accepts the timer object and an event structure, for example <b>@myTimerFcn</b> or <b>@(src,event)disp(event.Type)</b>.</td>
+      </tr>
+      <tr>
+        <td>Cell array</td>
+        <td>Pass extra arguments after the timer object and event structure. The first cell element is the function handle, followed by the extra arguments.</td>
+      </tr>
+      <tr>
+        <td>Character vector or string scalar</td>
+        <td>Evaluate Nelson commands directly. These callbacks do not receive the timer object or event structure as input arguments.</td>
+      </tr>
+    </table>
+    <p>Callback functions specified by function handle or cell array receive the timer object as the first input argument and an event structure as the second input argument. The event structure has a <b>Type</b> field and a <b>Data</b> field. <b>Type</b> is one of <b>StartFcn</b>, <b>TimerFcn</b>, <b>StopFcn</b>, or <b>ErrorFcn</b>. <b>Data.time</b> contains the event time as a serial date number.</p>
+    <p>For callbacks with application-specific arguments, use a cell array. Nelson calls the function with the timer object, the event structure, and then the extra arguments in the same order as they appear in the cell array.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display the event type from a timer callback.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = timer('StartDelay', 0.1, ...
+  'TimerFcn', @(src, event) disp(event.Type));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Pass an extra argument to a callback by using a cell array.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = timer('TimerFcn', {@dispTimerMessage, 'timer fired'});
+start(t);
+wait(t);
+delete(t);
+
+function dispTimerMessage(src, event, message)
+  disp([event.Type, ': ', message]);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Timer Queuing Conflicts">Timer Queuing Conflicts</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

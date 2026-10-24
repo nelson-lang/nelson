@@ -10,7 +10,7 @@
 #include "VariableTableTableModel.h"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 #include "EvaluateCommand.hpp"
@@ -29,18 +29,12 @@ namespace Nelson {
 //=============================================================================
 VariableTableTableModel::VariableTableTableModel(
     const QString& name, ArrayOf array, Evaluator* evaluator, QObject* parent)
-    : VariableAbstractTableModel(name, array, evaluator, parent)
-    , m_persistenceTimer(new QTimer(this))
+    : VariableFieldedTableModel(name, array, evaluator, parent)
 {
     initializeDimensions();
     initializeEditData();
     updateFieldNames();
-
-    m_persistenceTimer->setSingleShot(true);
-    m_persistenceTimer->setInterval(100);
-    connect(m_persistenceTimer, &QTimer::timeout, this,
-        &VariableTableTableModel::performBatchedPersistence);
-    saveCurrentStateForUndo();
+    clearUndoState();
 }
 //=============================================================================
 void
@@ -55,8 +49,8 @@ VariableTableTableModel::initializeDimensions()
     }
 
     if (m_array.isTable()) {
-        m_rows = static_cast<int>(m_array.getTableHeight());
-        m_cols = static_cast<int>(m_array.getTableWidth());
+        m_rows = static_cast<int>(m_array.tableHeight());
+        m_cols = static_cast<int>(m_array.tableWidth());
 
         if (m_rows < MIN_DISPLAY_SIZE) {
             m_rows_display = m_rows;
@@ -76,31 +70,16 @@ VariableTableTableModel::initializeDimensions()
     }
 }
 //=============================================================================
-void
-VariableTableTableModel::initializeEditData()
+bool
+VariableTableTableModel::isCompatibleArrayType(const ArrayOf& array) const
 {
-    m_editData.clear();
-    m_editData.resize(m_rows_display * m_cols_display);
+    return array.isTable();
 }
 //=============================================================================
-void
-VariableTableTableModel::updateFieldNames()
+stringVector
+VariableTableTableModel::rawFieldNames(const ArrayOf& array) const
 {
-    m_fieldNames.clear();
-
-    if (m_array.isTable() && !m_array.isEmpty()) {
-        stringVector fieldNames = m_array.getTableVariableNames();
-        for (const auto& fieldName : fieldNames) {
-            m_fieldNames << QString::fromStdWString(utf8_to_wstring(fieldName));
-        }
-    }
-}
-//=============================================================================
-int
-VariableTableTableModel::rowCount(const QModelIndex& parent) const
-{
-    Q_UNUSED(parent);
-    return m_rows_display;
+    return array.tableVariableNames();
 }
 //=============================================================================
 int
@@ -156,9 +135,9 @@ VariableTableTableModel::setData(const QModelIndex& index, const QVariant& value
     bool asStr = false;
     try {
         results = EvaluateCommand(m_evaluator, 1, command, L"");
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         results.clear();
-        results << ArrayOf::characterArrayConstructor(command);
+        results << ArrayOf::characterArray(command);
         emitError = false;
         asStr = true;
     }
@@ -189,7 +168,7 @@ VariableTableTableModel::setData(const QModelIndex& index, const QVariant& value
 
     updateEditData(row, col, value);
 
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
 
     emit dataChanged(index, index);
     emit modelChanged();
@@ -225,79 +204,39 @@ VariableTableTableModel::expandDisplayIfNeeded(int row, int col)
 //=============================================================================
 // Private helper methods
 //=============================================================================
-QVariant
-VariableTableTableModel::getDisplayValue(int row, int col) const
-{
-    return getCellDisplayValue(row, col);
-}
-//=============================================================================
-bool
-VariableTableTableModel::hasOriginalData() const
-{
-    return !m_array.isEmpty();
-}
-//=============================================================================
-bool
-VariableTableTableModel::isValidPosition(int row, int col) const
-{
-    return row >= 0 && row < m_rows && col >= 0 && col < m_cols;
-}
-//=============================================================================
-bool
-VariableTableTableModel::resizeArrayIfNeeded(int row, int col)
-{
-    if (row < m_rows && col < m_cols) {
-        return true;
-    }
-
-    return expandArrayIfNeeded(row, col);
-}
-//=============================================================================
-void
-VariableTableTableModel::updateEditData(int row, int col, const QVariant& value)
-{
-    if (row >= 0 && row < m_rows_display && col >= 0 && col < m_cols_display) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            m_editData[index] = value;
-        }
-    }
-}
-//=============================================================================
 ArrayOf
-VariableTableTableModel::getFieldValue(int row, int col) const
+VariableTableTableModel::fieldValue(int row, int col) const
 {
     if (!isValidPosition(row, col)) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     try {
-        stringVector fieldNames = m_array.getTableVariableNames();
+        stringVector fieldNames = m_array.tableVariableNames();
         if (col >= static_cast<int>(fieldNames.size())) {
-            return ArrayOf::emptyConstructor();
+            return ArrayOf::empty();
         }
 
-        ArrayOf column = m_array.getTableColumn(fieldNames[col]);
+        ArrayOf column = m_array.tableColumn(fieldNames[col]);
         if (column.isEmpty() || column.isScalar() || column.isRowVectorCharacterArray()) {
             return column;
         }
 
         if (column.isCell() || column.isStringArray()) {
-            ArrayOf* elements = (ArrayOf*)(column.getDataPointer());
+            ArrayOf* elements = (ArrayOf*)(column.dataPointer());
             return elements[row];
         }
 
-        // Lambda for general data extraction
         auto extractRow = [&](auto* src) -> ArrayOf {
             using T = std::decay_t<decltype(*src)>;
 
-            Dimensions dims = column.getDimensions();
-            size_t cols = column.isVector() ? 1 : dims.getColumns();
-            size_t rows = column.isVector() ? 0 : dims.getRows();
+            Dimensions dims = column.dimensions();
+            size_t cols = column.isVector() ? 1 : dims.columns();
+            size_t rows = column.isVector() ? 0 : dims.rows();
 
             Dimensions dimsOut(1, cols);
-            T* dst = static_cast<T*>(ArrayOf::allocateArrayOf(column.getDataClass(), cols));
-            ArrayOf res(column.getDataClass(), dimsOut, dst);
+            T* dst = static_cast<T*>(ArrayOf::allocateArrayOf(column.dataClass(), cols));
+            ArrayOf res(column.dataClass(), dimsOut, dst);
 
             if (column.isVector()) {
                 dst[0] = src[row];
@@ -310,56 +249,56 @@ VariableTableTableModel::getFieldValue(int row, int col) const
             return res;
         };
 
-        switch (column.getDataClass()) {
+        switch (column.dataClass()) {
         case NLS_DOUBLE:
-            return extractRow((double*)(column.getDataPointer()));
+            return extractRow((double*)(column.dataPointer()));
 
         case NLS_SINGLE:
-            return extractRow((single*)(column.getDataPointer()));
+            return extractRow((single*)(column.dataPointer()));
 
         case NLS_DCOMPLEX:
             return extractRow(
-                reinterpret_cast<std::complex<double>*>((double*)(column.getDataPointer())));
+                reinterpret_cast<std::complex<double>*>((double*)(column.dataPointer())));
 
         case NLS_SCOMPLEX:
             return extractRow(
-                reinterpret_cast<std::complex<single>*>((single*)(column.getDataPointer())));
+                reinterpret_cast<std::complex<single>*>((single*)(column.dataPointer())));
 
         case NLS_INT8:
-            return extractRow((int8*)(column.getDataPointer()));
+            return extractRow((int8*)(column.dataPointer()));
 
         case NLS_INT16:
-            return extractRow((int16*)(column.getDataPointer()));
+            return extractRow((int16*)(column.dataPointer()));
 
         case NLS_INT32:
-            return extractRow((int32*)(column.getDataPointer()));
+            return extractRow((int32*)(column.dataPointer()));
 
         case NLS_INT64:
-            return extractRow((int64*)(column.getDataPointer()));
+            return extractRow((int64*)(column.dataPointer()));
 
         case NLS_UINT8:
-            return extractRow((uint8*)(column.getDataPointer()));
+            return extractRow((uint8*)(column.dataPointer()));
 
         case NLS_UINT16:
-            return extractRow((uint16*)(column.getDataPointer()));
+            return extractRow((uint16*)(column.dataPointer()));
 
         case NLS_UINT32:
-            return extractRow((uint32*)(column.getDataPointer()));
+            return extractRow((uint32*)(column.dataPointer()));
 
         case NLS_UINT64:
-            return extractRow((uint64*)(column.getDataPointer()));
+            return extractRow((uint64*)(column.dataPointer()));
 
         case NLS_LOGICAL:
-            return extractRow((logical*)(column.getDataPointer()));
+            return extractRow((logical*)(column.dataPointer()));
 
         default:
             break;
         }
 
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
     }
 
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 bool
@@ -370,205 +309,25 @@ VariableTableTableModel::setFieldValue(int row, int col, const ArrayOf& value)
     }
 
     try {
-        stringVector fieldNames = m_array.getTableVariableNames();
+        stringVector fieldNames = m_array.tableVariableNames();
         if (col < static_cast<int>(fieldNames.size())) {
-            ArrayOf column = m_array.getTableColumn(fieldNames[col]);
+            ArrayOf column = m_array.tableColumn(fieldNames[col]);
             ArrayOf v = value;
             column.setField(fieldNames[col], v);
             m_array.setTableColumn(fieldNames[col], column);
             return true;
         }
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+    } catch (const NelsonException& e) {
+        emit errorOccurred(QString::fromStdWString(e.message()));
     }
 
     return false;
 }
 //=============================================================================
-QString
-VariableTableTableModel::getFieldName(int col) const
-{
-    if (col >= 0 && col < m_fieldNames.size()) {
-        return m_fieldNames[col];
-    }
-    return QString();
-}
-//=============================================================================
-int
-VariableTableTableModel::getFieldIndex(const QString& fieldName) const
-{
-    return m_fieldNames.indexOf(fieldName);
-}
-//=============================================================================
-void
-VariableTableTableModel::persistChangesToContext()
-{
-    if (m_evaluator && !m_variableName.isEmpty()) {
-        try {
-            Context* context = m_evaluator->getContext();
-            if (context) {
-                context->insertVariable(m_variableName.toStdString(), m_array);
-            }
-        } catch (const Exception& e) {
-            emit errorOccurred(QString::fromStdWString(e.getMessage()));
-        }
-    }
-}
-//=============================================================================
-void
-VariableTableTableModel::schedulePeristenceUpdate()
-{
-    m_pendingChanges = true;
-    if (m_persistenceTimer && !m_persistenceTimer->isActive()) {
-        m_persistenceTimer->start();
-    }
-}
-//=============================================================================
-void
-VariableTableTableModel::performBatchedPersistence()
-{
-    if (m_pendingChanges) {
-        persistChangesToContext();
-        m_pendingChanges = false;
-    }
-}
-//=============================================================================
-VariableTableTableModel::SelectionBounds
-VariableTableTableModel::getSelectionBounds(const QModelIndexList& selectedIndexes) const
-{
-    SelectionBounds bounds;
-
-    if (selectedIndexes.isEmpty()) {
-        return bounds;
-    }
-
-    bounds.minRow = selectedIndexes.first().row();
-    bounds.maxRow = selectedIndexes.first().row();
-    bounds.minCol = selectedIndexes.first().column();
-    bounds.maxCol = selectedIndexes.first().column();
-
-    for (const QModelIndex& index : selectedIndexes) {
-        bounds.minRow = std::min(bounds.minRow, index.row());
-        bounds.maxRow = std::max(bounds.maxRow, index.row());
-        bounds.minCol = std::min(bounds.minCol, index.column());
-        bounds.maxCol = std::max(bounds.maxCol, index.column());
-    }
-
-    bounds.isValid = true;
-    return bounds;
-}
-//=============================================================================
-VariableTableTableModel::PasteData
-VariableTableTableModel::parsePasteText(const QString& text) const
-{
-    PasteData data;
-
-    if (text.isEmpty()) {
-        return data;
-    }
-
-    QStringList lines = text.split(QRegularExpression("[\r\n]"), Qt::SkipEmptyParts);
-    if (lines.isEmpty()) {
-        return data;
-    }
-
-    data.rows = lines.size();
-    data.cols = 0;
-
-    for (const QString& line : lines) {
-        QStringList cells = line.split('\t');
-        data.cols = std::max((int)data.cols, (int)cells.size());
-        data.cells.append(QVector<QString>(cells.begin(), cells.end()));
-    }
-    for (auto& row : data.cells) {
-        while (row.size() < data.cols) {
-            row.append(QString());
-        }
-    }
-
-    data.isValid = true;
-    return data;
-}
-//=============================================================================
 bool
-VariableTableTableModel::validatePasteData(const PasteData& data, int startRow, int startCol) const
+VariableTableTableModel::writePastedValue(int row, int col, const ArrayOf& value)
 {
-    if (!data.isValid) {
-        return false;
-    }
-
-    if (startRow < 0 || startCol < 0) {
-        return false;
-    }
-
-    if (startRow + data.rows > MAX_PASTE_SIZE || startCol + data.cols > MAX_PASTE_SIZE) {
-        return false;
-    }
-
-    return true;
-}
-//=============================================================================
-bool
-VariableTableTableModel::applyPasteData(const PasteData& data, int startRow, int startCol)
-{
-    if (!validatePasteData(data, startRow, startCol)) {
-        return false;
-    }
-    try {
-        expandDisplayIfNeeded(startRow + data.rows - 1, startCol + data.cols - 1);
-
-        if (!expandArrayIfNeeded(startRow + data.rows - 1, startCol + data.cols - 1)) {
-            return false;
-        }
-
-        for (int row = 0; row < data.rows; ++row) {
-            for (int col = 0; col < data.cols; ++col) {
-                int targetRow = startRow + row;
-                int targetCol = startCol + col;
-
-                if (targetRow < m_rows && targetCol < m_cols) {
-                    QString cellText = data.cells[row][col];
-                    ArrayOf parsedValue = parseInputToArrayOf(cellText, targetRow, targetCol);
-
-                    if (!setCellValue(targetRow, targetCol, parsedValue)) {
-                        continue;
-                    }
-
-                    updateEditData(targetRow, targetCol, QVariant(cellText));
-                }
-            }
-        }
-
-        QModelIndex topLeft = createIndex(startRow, startCol);
-        QModelIndex bottomRight = createIndex(startRow + data.rows - 1, startCol + data.cols - 1);
-        emit dataChanged(topLeft, bottomRight);
-
-        schedulePeristenceUpdate();
-        emit modelChanged();
-
-        return true;
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
-        return false;
-    }
-}
-//=============================================================================
-int
-VariableTableTableModel::indexToFlat(int row, int col) const
-{
-    return row * m_cols_display + col;
-}
-//=============================================================================
-std::pair<int, int>
-VariableTableTableModel::flatToIndex(int flatIndex) const
-{
-    if (m_cols_display == 0) {
-        return { 0, 0 };
-    }
-
-    int row = flatIndex / m_cols_display;
-    int col = flatIndex % m_cols_display;
-    return { row, col };
+    return setCellValue(row, col, value);
 }
 //=============================================================================
 bool
@@ -581,89 +340,25 @@ VariableTableTableModel::expandArrayIfNeeded(int row, int col)
 }
 //=============================================================================
 bool
-VariableTableTableModel::expandDisplay(int row, int col)
-{
-    return expandDisplayIfNeeded(row, col);
-}
-//=============================================================================
-bool
-VariableTableTableModel::resizeArray(int row, int col)
-{
-    return expandArrayIfNeeded(row, col);
-}
-//=============================================================================
-void
-VariableTableTableModel::resizeEditData(int oldRows, int oldCols)
-{
-    QVector<QVariant> newEditData(m_rows_display * m_cols_display);
-
-    for (int row = 0; row < std::min(oldRows, m_rows_display); ++row) {
-        for (int col = 0; col < std::min(oldCols, m_cols_display); ++col) {
-            int oldIndex = row * oldCols + col;
-            int newIndex = row * m_cols_display + col;
-
-            if (oldIndex < m_editData.size() && newIndex < newEditData.size()) {
-                newEditData[newIndex] = m_editData[oldIndex];
-            }
-        }
-    }
-
-    m_editData = newEditData;
-}
-//=============================================================================
-QVariant
-VariableTableTableModel::getCellDisplayValue(int row, int col) const
-{
-    if (!isValidPosition(row, col)) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            QVariant editValue = m_editData[index];
-            if (editValue.isValid() && !editValue.toString().isEmpty()) {
-                return editValue;
-            }
-        }
-        return QVariant();
-    }
-
-    ArrayOf fieldValue = getFieldValue(row, col);
-    return formatStructForDisplay(fieldValue);
-}
-//=============================================================================
-QVariant
-VariableTableTableModel::getCellEditValue(int row, int col) const
-{
-    if (!isValidPosition(row, col)) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            return m_editData[index];
-        }
-        return QVariant();
-    }
-
-    ArrayOf fieldValue = getFieldValue(row, col);
-    return formatCellForEdit(fieldValue);
-}
-//=============================================================================
-bool
 VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue)
 {
     if (!expandArrayIfNeeded(row, col)) {
         return false;
     }
-    ArrayOf tableData = m_array.getTableData();
-    stringVector fieldnames = tableData.getFieldNames();
+    ArrayOf tableData = m_array.tableData();
+    stringVector fieldnames = tableData.fieldNames();
 
-    ArrayOf dataCol = tableData.getField(fieldnames[col]);
-    switch (dataCol.getDataClass()) {
+    ArrayOf dataCol = tableData.field(fieldnames[col]);
+    switch (dataCol.dataClass()) {
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
-        ArrayOf* elements = (ArrayOf*)dataCol.getDataPointer();
+        ArrayOf* elements = (ArrayOf*)dataCol.dataPointer();
         elements[row] = cellValue;
         return true;
     } break;
     case NLS_CHAR: {
-        charType* ptrIn = (charType*)dataCol.getDataPointer();
-        std::string val = cellValue.getContentAsCString();
+        charType* ptrIn = (charType*)dataCol.dataPointer();
+        std::string val = cellValue.asUtf8String();
         if (val.length()) {
             ptrIn[row] = val[0];
         }
@@ -675,15 +370,14 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
         }
         if (cellValue.isComplex()) {
             dataCol.promoteType(NLS_DCOMPLEX);
-            auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)dataCol.getDataPointer());
-            std::complex<double> val = cellValue.getContentAsDoubleComplexScalar();
+            auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)dataCol.dataPointer());
+            std::complex<double> val = cellValue.asDoubleComplexScalar();
             ptrZ[row].real(val.real());
             ptrZ[row].imag(val.imag());
-            tableData.setField(fieldnames[col], dataCol);
-            m_array.setField("data", tableData);
+            m_array.setTableColumn(fieldnames[col], dataCol);
         } else {
-            double* ptrIn = (double*)dataCol.getDataPointer();
-            double val = cellValue.getContentAsDoubleScalar();
+            double* ptrIn = (double*)dataCol.dataPointer();
+            double val = cellValue.asDoubleScalar();
             ptrIn[row] = val;
         }
         return true;
@@ -691,15 +385,14 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
     case NLS_SINGLE: {
         if (cellValue.isComplex()) {
             dataCol.promoteType(NLS_SCOMPLEX);
-            auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)dataCol.getDataPointer());
-            std::complex<double> val = cellValue.getContentAsSingleComplexScalar();
+            auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)dataCol.dataPointer());
+            std::complex<double> val = cellValue.asSingleComplexScalar();
             ptrZ[row].real(val.real());
             ptrZ[row].imag(val.imag());
-            tableData.setField(fieldnames[col], dataCol);
-            m_array.setField("data", tableData);
+            m_array.setTableColumn(fieldnames[col], dataCol);
         } else {
-            single* ptrIn = (single*)dataCol.getDataPointer();
-            single val = cellValue.getContentAsSingleScalar();
+            single* ptrIn = (single*)dataCol.dataPointer();
+            single val = cellValue.asSingleScalar();
             ptrIn[row] = val;
         }
         return true;
@@ -708,64 +401,64 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
         if (cellValue.isSparse()) {
             return false;
         }
-        std::complex<double> val = cellValue.getContentAsDoubleComplexScalar();
-        auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)dataCol.getDataPointer());
+        std::complex<double> val = cellValue.asDoubleComplexScalar();
+        auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)dataCol.dataPointer());
         ptrZ[row].real(val.real());
         ptrZ[row].imag(val.imag());
         return true;
     } break;
     case NLS_SCOMPLEX: {
-        std::complex<single> val = cellValue.getContentAsSingleComplexScalar();
-        auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)dataCol.getDataPointer());
+        std::complex<single> val = cellValue.asSingleComplexScalar();
+        auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)dataCol.dataPointer());
         ptrZ[row].real(val.real());
         ptrZ[row].imag(val.imag());
         return true;
     } break;
     case NLS_INT8: {
-        int8 val = cellValue.getContentAsInteger8Scalar();
-        int8* ptrIn = (int8*)dataCol.getDataPointer();
+        int8 val = cellValue.asInt8Scalar();
+        int8* ptrIn = (int8*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_INT16: {
-        int16 val = cellValue.getContentAsInteger16Scalar();
-        int16* ptrIn = (int16*)dataCol.getDataPointer();
+        int16 val = cellValue.asInt16Scalar();
+        int16* ptrIn = (int16*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_INT32: {
-        int32 val = cellValue.getContentAsInteger32Scalar();
-        int32* ptrIn = (int32*)dataCol.getDataPointer();
+        int32 val = cellValue.asInt32Scalar();
+        int32* ptrIn = (int32*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_INT64: {
-        int64 val = cellValue.getContentAsInteger64Scalar();
-        int64* ptrIn = (int64*)dataCol.getDataPointer();
+        int64 val = cellValue.asInt64Scalar();
+        int64* ptrIn = (int64*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_UINT8: {
-        uint8 val = cellValue.getContentAsUnsignedInteger8Scalar();
-        uint8* ptrIn = (uint8*)dataCol.getDataPointer();
+        uint8 val = cellValue.asUint8Scalar();
+        uint8* ptrIn = (uint8*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_UINT16: {
-        uint16 val = cellValue.getContentAsUnsignedInteger16Scalar();
-        uint16* ptrIn = (uint16*)dataCol.getDataPointer();
+        uint16 val = cellValue.asUint16Scalar();
+        uint16* ptrIn = (uint16*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_UINT32: {
-        uint32 val = cellValue.getContentAsUnsignedInteger32Scalar();
-        uint32* ptrIn = (uint32*)dataCol.getDataPointer();
+        uint32 val = cellValue.asUint32Scalar();
+        uint32* ptrIn = (uint32*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
     case NLS_UINT64: {
-        uint64 val = cellValue.getContentAsUnsignedInteger64Scalar();
-        uint64* ptrIn = (uint64*)dataCol.getDataPointer();
+        uint64 val = cellValue.asUint64Scalar();
+        uint64* ptrIn = (uint64*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
@@ -773,8 +466,8 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
         if (cellValue.isSparse()) {
             return false;
         }
-        logical val = cellValue.getContentAsLogicalScalar();
-        logical* ptrIn = (logical*)dataCol.getDataPointer();
+        logical val = cellValue.asLogicalScalar();
+        logical* ptrIn = (logical*)dataCol.dataPointer();
         ptrIn[row] = val;
         return true;
     } break;
@@ -785,72 +478,63 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
 }
 //=============================================================================
 QVariant
-VariableTableTableModel::formatStructForDisplay(const QVariant& cellData) const
-{
-    if (!cellData.isValid()) {
-        return QString();
-    }
-    return cellData.toString();
-}
-//=============================================================================
-QVariant
 VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
 {
     if (cellArray.isEmpty() && cellArray.isDoubleType()) {
         return QVariant(tr("[]"));
     }
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -866,7 +550,7 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             auto formatPart = [](float v, const QString& suffix = "") -> QString {
                 if (std::isnan(v)) {
                     return "NaN" + suffix;
@@ -880,17 +564,14 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
             const float real = val.real();
             const float imag = val.imag();
 
-            // Pure real
             if (imag == 0.0f) {
                 return QVariant(formatPart(real));
             }
 
-            // Pure imaginary
             if (real == 0.0f) {
                 return QVariant(formatPart(imag, "i"));
             }
 
-            // Complex with both parts
             QString realPart = formatPart(real);
             QString imagPart = (imag >= 0 ? "+" : "") + formatPart(imag, "i");
 
@@ -899,7 +580,7 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -915,7 +596,7 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             auto formatPart = [](double v, const QString& suffix = "") -> QString {
                 if (std::isnan(v)) {
                     return "NaN" + suffix;
@@ -943,17 +624,17 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -962,97 +643,65 @@ VariableTableTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     }
     std::wstring classname;
     ClassName(cellArray, classname);
-    return wstringToQString(
-        L"[" + cellArray.getDimensions().toWideString() + L" " + classname + L"]");
-}
-//=============================================================================
-ArrayOf
-VariableTableTableModel::parseInputToArrayOf(const QString& input, int row, int col) const
-{
-    Q_UNUSED(row);
-    Q_UNUSED(col);
-
-    if (input.isEmpty()) {
-        return ArrayOf::emptyConstructor();
-    }
-
-    try {
-        bool ok;
-        double numValue = input.toDouble(&ok);
-        if (ok) {
-            return ArrayOf::doubleConstructor(numValue);
-        }
-
-        QString lowerInput = input.toLower();
-        if (lowerInput == "true" || lowerInput == "1") {
-            return ArrayOf::logicalConstructor(true);
-        } else if (lowerInput == "false" || lowerInput == "0") {
-            return ArrayOf::logicalConstructor(false);
-        }
-
-        std::wstring wstr = utf8_to_wstring(input.toStdString());
-        return ArrayOf::characterArrayConstructor(wstr);
-    } catch (const Exception&) {
-        return ArrayOf::emptyConstructor();
-    }
+    return wstringToQString(L"[" + cellArray.dimensions().toWideString() + L" " + classname + L"]");
 }
 //=============================================================================
 QVariant
 VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
 {
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
 
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -1061,7 +710,7 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             auto formatPart = [](float v, const QString& suffix = "") -> QString {
                 if (std::isnan(v)) {
                     return "NaN" + suffix;
@@ -1075,17 +724,14 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
             const float real = val.real();
             const float imag = val.imag();
 
-            // Pure real
             if (imag == 0.0f) {
                 return QVariant(formatPart(real));
             }
 
-            // Pure imaginary
             if (real == 0.0f) {
                 return QVariant(formatPart(imag, "i"));
             }
 
-            // Complex with both parts
             QString realPart = formatPart(real);
             QString imagPart = (imag >= 0 ? "+" : "") + formatPart(imag, "i");
 
@@ -1094,7 +740,7 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -1103,7 +749,7 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             auto formatPart = [](double v, const QString& suffix = "") -> QString {
                 if (std::isnan(v)) {
                     return "NaN" + suffix;
@@ -1117,17 +763,14 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
             const double real = val.real();
             const double imag = val.imag();
 
-            // Pure real
             if (imag == 0.0) {
                 return QVariant(formatPart(real));
             }
 
-            // Pure imaginary
             if (real == 0.0) {
                 return QVariant(formatPart(imag, "i"));
             }
 
-            // Complex with both parts
             QString realPart = formatPart(real);
             QString imagPart = (imag >= 0 ? "+" : "") + formatPart(imag, "i");
             return QVariant(realPart + imagPart);
@@ -1135,17 +778,17 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -1153,31 +796,6 @@ VariableTableTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         break;
     }
     return QVariant("");
-}
-//=============================================================================
-QVariant
-VariableTableTableModel::formatCellForEdit(const QVariant& cellData) const
-{
-    return cellData;
-}
-//=============================================================================
-bool
-VariableTableTableModel::isValidStructArray(const ArrayOf& array) const
-{
-    if (array.isEmpty()) {
-        return true;
-    }
-
-    return array.isTable();
-}
-//=============================================================================
-bool
-VariableTableTableModel::hasConsistentFields(const ArrayOf& array) const
-{
-    if (!array.isTable()) {
-        return false;
-    }
-    return true;
 }
 //=============================================================================
 Qt::ItemFlags
@@ -1193,20 +811,20 @@ VariableTableTableModel::flags(const QModelIndex& index) const
     const int col = index.column();
 
     if (isValidPosition(row, col)) {
-        stringVector fieldNames = m_array.getTableVariableNames();
+        stringVector fieldNames = m_array.tableVariableNames();
         if (col < static_cast<int>(fieldNames.size())) {
-            ArrayOf column = m_array.getTableColumn(fieldNames[col]);
+            ArrayOf column = m_array.tableColumn(fieldNames[col]);
             if ((column.isScalar() && !column.isReferenceType())
                 || column.isRowVectorCharacterArray()) {
                 flags |= Qt::ItemIsEditable;
             } else {
                 if (column.isCell() || column.isStringArray()) {
-                    if (row < static_cast<int>(column.getRows())) {
+                    if (row < static_cast<int>(column.rows())) {
                         flags |= Qt::ItemIsEditable;
                     }
                 } else {
-                    Dimensions dims = column.getDimensions();
-                    switch (column.getDataClass()) {
+                    Dimensions dims = column.dimensions();
+                    switch (column.dataClass()) {
                     case NLS_INT8:
                     case NLS_INT16:
                     case NLS_INT32:
@@ -1241,10 +859,10 @@ VariableTableTableModel::headerData(int section, Qt::Orientation orientation, in
 {
     if (orientation == Qt::Horizontal) {
         if (role == Qt::DisplayRole || role == Qt::EditRole) {
-            ArrayOf tableProperties = m_array.getTableProperties();
+            ArrayOf tableProperties = m_array.tableProperties();
             if (tableProperties.isStruct()) {
-                ArrayOf variableNames = tableProperties.getField("VariableNames");
-                stringVector fieldNames = variableNames.getContentAsCStringVector();
+                ArrayOf variableNames = tableProperties.field("VariableNames");
+                stringVector fieldNames = variableNames.asUtf8StringVector();
                 if (section < static_cast<int>(fieldNames.size())) {
                     return QString::fromStdString(fieldNames[section]);
                 }
@@ -1252,13 +870,13 @@ VariableTableTableModel::headerData(int section, Qt::Orientation orientation, in
         }
     } else if (orientation == Qt::Vertical) {
         if (role == Qt::DisplayRole || role == Qt::EditRole) {
-            ArrayOf tableProperties = m_array.getTableProperties();
+            ArrayOf tableProperties = m_array.tableProperties();
             if (tableProperties.isStruct()) {
-                ArrayOf rowNames = tableProperties.getField("RowNames");
+                ArrayOf rowNames = tableProperties.field("RowNames");
                 if (rowNames.isEmpty()) {
                     return QString::number(section + 1);
                 }
-                stringVector fieldNames = rowNames.getContentAsCStringVector();
+                stringVector fieldNames = rowNames.asUtf8StringVector();
                 if (section < static_cast<int>(fieldNames.size())) {
                     return QString::fromStdString(fieldNames[section]);
                 }
@@ -1272,10 +890,10 @@ VariableTableTableModel::headerData(int section, Qt::Orientation orientation, in
 bool
 VariableTableTableModel::haveRowNames()
 {
-    ArrayOf tableProperties = m_array.getTableProperties();
+    ArrayOf tableProperties = m_array.tableProperties();
     if (tableProperties.isStruct()) {
-        ArrayOf rowNames = tableProperties.getField("RowNames");
-        stringVector fieldNames = rowNames.getContentAsCStringVector();
+        ArrayOf rowNames = tableProperties.field("RowNames");
+        stringVector fieldNames = rowNames.asUtf8StringVector();
         return !fieldNames.empty();
     }
     return false;
@@ -1288,23 +906,23 @@ VariableTableTableModel::setHeaderData(
     if (role != Qt::EditRole || section <= 0) {
         return false;
     }
-    ArrayOf tableProperties = m_array.getTableProperties();
+    ArrayOf tableProperties = m_array.tableProperties();
 
     if (orientation == Qt::Horizontal) {
         if (tableProperties.isStruct()) {
-            ArrayOf variableNames = tableProperties.getField("VariableNames");
-            stringVector fieldNames = variableNames.getContentAsCStringVector();
+            ArrayOf variableNames = tableProperties.field("VariableNames");
+            stringVector fieldNames = variableNames.asUtf8StringVector();
             QString newName = value.toString().trimmed();
             std::string newFieldname = newName.toStdString();
             fieldNames[section] = newFieldname;
 
-            ArrayOf tableData = m_array.getTableData();
+            ArrayOf tableData = m_array.tableData();
             tableData.renameFieldnames(fieldNames);
-            m_array.setField("data", tableData);
+            m_array.setTableData(tableData);
 
-            ArrayOf newVariableNames = ArrayOf::toCellArrayOfCharacterRowVectors(fieldNames);
+            ArrayOf newVariableNames = ArrayOf::cellArrayFromArrayOfCharacterRowVectors(fieldNames);
             tableProperties.setField("VariableNames", newVariableNames);
-            m_array.setField("Properties", tableProperties);
+            m_array.setTableProperties(tableProperties);
             emit headerDataChanged(Qt::Horizontal, section, section);
         } else {
             return false;
@@ -1312,14 +930,14 @@ VariableTableTableModel::setHeaderData(
 
     } else if (orientation == Qt::Vertical) {
         if (tableProperties.isStruct()) {
-            ArrayOf rowNames = tableProperties.getField("RowNames");
-            stringVector fieldNames = rowNames.getContentAsCStringVector();
+            ArrayOf rowNames = tableProperties.field("RowNames");
+            stringVector fieldNames = rowNames.asUtf8StringVector();
             QString newName = value.toString().trimmed();
             std::string newFieldname = newName.toStdString();
             fieldNames[section] = newFieldname;
-            ArrayOf newRowNames = ArrayOf::toCellArrayOfCharacterRowVectors(fieldNames);
+            ArrayOf newRowNames = ArrayOf::cellArrayFromArrayOfCharacterRowVectors(fieldNames);
             tableProperties.setField("RowNames", newRowNames);
-            m_array.setField("Properties", tableProperties);
+            m_array.setTableProperties(tableProperties);
             emit headerDataChanged(Qt::Vertical, section, section);
 
         } else {
@@ -1327,59 +945,8 @@ VariableTableTableModel::setHeaderData(
         }
     }
     emit modelChanged();
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
     return true;
-}
-//=============================================================================
-void
-VariableTableTableModel::refreshFromArray(ArrayOf& value)
-{
-    if (!isValidStructArray(value)) {
-        return;
-    }
-
-    beginResetModel();
-
-    m_array = value;
-    initializeDimensions();
-    initializeEditData();
-    updateFieldNames();
-
-    endResetModel();
-
-    emit modelChanged();
-}
-//=============================================================================
-bool
-VariableTableTableModel::isStructureCompatible(const ArrayOf& value)
-{
-    if (!isValidStructArray(value)) {
-        return false;
-    }
-
-    if (m_array.isTable() && value.isTable()) {
-        stringVector currentFields = m_array.getFieldNames();
-        stringVector newFields = value.getFieldNames();
-
-        if (currentFields.size() != newFields.size()) {
-            return false;
-        }
-
-        for (size_t i = 0; i < currentFields.size(); ++i) {
-            if (currentFields[i] != newFields[i]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-//=============================================================================
-void
-VariableTableTableModel::forceViewUpdate()
-{
-    beginResetModel();
-    endResetModel();
 }
 //=============================================================================
 QString
@@ -1408,12 +975,6 @@ VariableTableTableModel::getSelectedDataAsText(const QModelIndexList& selectedIn
 }
 //=============================================================================
 bool
-VariableTableTableModel::pasteDataFromExcel(int startRow, int startCol, const QString& text)
-{
-    return pasteDataFromClipboard(startRow, startCol, text);
-}
-//=============================================================================
-bool
 VariableTableTableModel::pasteDataFromClipboard(int startRow, int startCol, const QString& text)
 {
     if (text.isEmpty()) {
@@ -1432,46 +993,24 @@ VariableTableTableModel::pasteDataFromClipboard(int startRow, int startCol, cons
     return applyPasteData(data, startRow, startCol);
 }
 //=============================================================================
-bool
-VariableTableTableModel::canPasteAt(int startRow, int startCol, const QString& text) const
-{
-    PasteData data = parsePasteText(text);
-    if (!data.isValid) {
-        return false;
-    }
-
-    return validatePasteData(data, startRow, startCol);
-}
-//=============================================================================
-QSize
-VariableTableTableModel::getPasteSize(const QString& text) const
-{
-    PasteData data = parsePasteText(text);
-    if (!data.isValid) {
-        return QSize(0, 0);
-    }
-
-    return QSize(data.cols, data.rows);
-}
-//=============================================================================
 ArrayOf
 VariableTableTableModel::createArrayFromSelection(const QModelIndexList& selectedIndexes) const
 {
     if (selectedIndexes.isEmpty()) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     SelectionBounds bounds = getSelectionBounds(selectedIndexes);
     if (!bounds.isValid) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     if (selectedIndexes.size() == 1) {
         const QModelIndex index = selectedIndexes.first();
         if (!index.isValid()) {
-            return ArrayOf::emptyConstructor();
+            return ArrayOf::empty();
         }
-        return getFieldValue(index.row(), index.column());
+        return fieldValue(index.row(), index.column());
     }
 
     try {
@@ -1486,10 +1025,10 @@ VariableTableTableModel::createArrayFromSelection(const QModelIndexList& selecte
             bool isHomogeneous = true;
             bool allScalar = true;
             for (int row = bounds.minRow; row <= bounds.maxRow; ++row) {
-                ArrayOf value = getFieldValue(row, col);
+                ArrayOf value = fieldValue(row, col);
                 if (row == bounds.minRow) {
-                    commonType = value.getDataClass();
-                } else if (isHomogeneous && value.getDataClass() != commonType) {
+                    commonType = value.dataClass();
+                } else if (isHomogeneous && value.dataClass() != commonType) {
                     isHomogeneous = false;
                     break;
                 }
@@ -1503,170 +1042,166 @@ VariableTableTableModel::createArrayFromSelection(const QModelIndexList& selecte
                 case NLS_SINGLE: {
                     Dimensions dims(values.size(), 1);
                     single* ptr
-                        = (single*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (single*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsSingleScalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asSingleScalar();
                     }
                     return result;
                 } break;
                 case NLS_DCOMPLEX: {
                     Dimensions dims(values.size(), 1);
                     double* ptr
-                        = (double*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (double*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
                     auto* ptrZ
-                        = reinterpret_cast<std::complex<double>*>((double*)result.getDataPointer());
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptrZ[k] = values[k].getContentAsDoubleComplexScalar();
+                        = reinterpret_cast<std::complex<double>*>((double*)result.dataPointer());
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptrZ[k] = values[k].asDoubleComplexScalar();
                     }
                 } break;
                 case NLS_SCOMPLEX: {
                     Dimensions dims(values.size(), 1);
                     single* ptr
-                        = (single*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (single*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
                     auto* ptrZ
-                        = reinterpret_cast<std::complex<single>*>((single*)result.getDataPointer());
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptrZ[k] = values[k].getContentAsSingleComplexScalar();
+                        = reinterpret_cast<std::complex<single>*>((single*)result.dataPointer());
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptrZ[k] = values[k].asSingleComplexScalar();
                     }
                 } break;
                 case NLS_INT8: {
                     Dimensions dims(values.size(), 1);
-                    int8* ptr = (int8*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                    int8* ptr = (int8*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsInteger8Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asInt8Scalar();
                     }
                     return result;
                 } break;
                 case NLS_INT16: {
                     Dimensions dims(values.size(), 1);
-                    int16* ptr
-                        = (int16*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                    int16* ptr = (int16*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsInteger16Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asInt16Scalar();
                     }
                     return result;
                 } break;
                 case NLS_INT32: {
                     Dimensions dims(values.size(), 1);
-                    int32* ptr
-                        = (int32*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                    int32* ptr = (int32*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsInteger32Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asInt32Scalar();
                     }
                     return result;
                 } break;
                 case NLS_INT64: {
                     Dimensions dims(values.size(), 1);
-                    int64* ptr
-                        = (int64*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                    int64* ptr = (int64*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsInteger64Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asInt64Scalar();
                     }
                     return result;
                 } break;
                 case NLS_UINT8: {
                     Dimensions dims(values.size(), 1);
-                    uint8* ptr
-                        = (uint8*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                    uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsUnsignedInteger8Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asUint8Scalar();
                     }
                     return result;
                 } break;
                 case NLS_UINT16: {
                     Dimensions dims(values.size(), 1);
                     uint16* ptr
-                        = (uint16*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (uint16*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsUnsignedInteger16Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asUint16Scalar();
                     }
                     return result;
                 } break;
                 case NLS_UINT32: {
                     Dimensions dims(values.size(), 1);
                     uint32* ptr
-                        = (uint32*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (uint32*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsUnsignedInteger32Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asUint32Scalar();
                     }
                     return result;
                 } break;
                 case NLS_UINT64: {
                     Dimensions dims(values.size(), 1);
                     uint64* ptr
-                        = (uint64*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (uint64*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsUnsignedInteger64Scalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asUint64Scalar();
                     }
                     return result;
                 } break;
                 case NLS_LOGICAL: {
                     Dimensions dims(values.size(), 1);
                     logical* ptr
-                        = (logical*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (logical*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsLogicalScalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asLogicalScalar();
                     }
                     return result;
                 } break;
                 case NLS_DOUBLE: {
                     Dimensions dims(values.size(), 1);
                     double* ptr
-                        = (double*)ArrayOf::allocateArrayOf(commonType, dims.getElementCount());
+                        = (double*)ArrayOf::allocateArrayOf(commonType, dims.elementCount());
                     ArrayOf result = ArrayOf(commonType, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
-                        ptr[k] = values[k].getContentAsDoubleScalar();
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
+                        ptr[k] = values[k].asDoubleScalar();
                     }
                     return result;
                 } break;
                 case NLS_CHAR: {
                     Dimensions dims(values.size(), 1);
-                    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(
-                        NLS_CELL_ARRAY, dims.getElementCount());
+                    ArrayOf* ptr
+                        = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.elementCount());
                     ArrayOf result = ArrayOf(NLS_CELL_ARRAY, dims, ptr);
-                    for (indexType k = 0; k < dims.getElementCount(); ++k) {
+                    for (indexType k = 0; k < dims.elementCount(); ++k) {
                         ptr[k] = values[k];
                     }
                     return result;
                 } break;
+                default:
+                    break;
                 }
             } else {
                 Dimensions dims(values.size(), 1);
                 ArrayOf* ptr
-                    = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+                    = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.elementCount());
                 ArrayOf result = ArrayOf(NLS_CELL_ARRAY, dims, ptr);
-                for (indexType k = 0; k < dims.getElementCount(); ++k) {
+                for (indexType k = 0; k < dims.elementCount(); ++k) {
                     ptr[k] = values[k];
                 }
                 return result;
             }
         }
 
-        // Collect valid field names
         stringVector fieldNames;
         for (int col = bounds.minCol; col <= bounds.maxCol; ++col) {
             if (col >= 0 && col < m_fieldNames.size()) {
                 fieldNames.push_back(m_fieldNames[col].toStdString());
             } else {
-                // Skip invalid columns (outside actual field range)
-                return ArrayOf::emptyConstructor();
+                return ArrayOf::empty();
             }
         }
 
-        Dimensions dims(selRows, 1); // struct array of rows
-        indexType elementCount = dims.getElementCount();
+        Dimensions dims(selRows, 1);
+        indexType elementCount = dims.elementCount();
 
         ArrayOf* ptr = static_cast<ArrayOf*>(
             ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, elementCount, fieldNames, false));
@@ -1679,7 +1214,7 @@ VariableTableTableModel::createArrayFromSelection(const QModelIndexList& selecte
             for (int row = 0; row < selRows; ++row) {
                 int srcRow = bounds.minRow + row;
                 int srcCol = bounds.minCol + static_cast<int>(f);
-                ArrayOf val = getFieldValue(srcRow, srcCol);
+                ArrayOf val = fieldValue(srcRow, srcCol);
                 values.push_back(val);
             }
 
@@ -1688,79 +1223,11 @@ VariableTableTableModel::createArrayFromSelection(const QModelIndexList& selecte
 
         return result;
 
-    } catch (const Exception& e) {
-        qDebug() << "Error creating array from selection:"
-                 << QString::fromStdWString(e.getMessage());
-        return ArrayOf::emptyConstructor();
+    } catch (const NelsonException& e) {
+        qDebug() << "Error creating array from selection:" << QString::fromStdWString(e.message());
+        return ArrayOf::empty();
     }
 }
 //=============================================================================
-bool
-VariableTableTableModel::isValidSelectionForExtraction(const QModelIndexList& selectedIndexes) const
-{
-    if (selectedIndexes.isEmpty()) {
-        return false;
-    }
-
-    SelectionBounds bounds = getSelectionBounds(selectedIndexes);
-    return bounds.isValid;
-}
-//=============================================================================
-bool
-VariableTableTableModel::shouldDisplayAsTable() const
-{
-    return m_array.isTable() && !m_array.isEmpty();
-}
-//=============================================================================
-void
-VariableTableTableModel::undo()
-{
-
-    if (!m_hasUndoState) {
-        return; // No undo state available
-    }
-
-    try {
-        m_isPerformingUndo = true;
-
-        // Store current state as redo state (reuse the same variable)
-        ArrayOf redoArray = m_array;
-        redoArray.ensureSingleOwner();
-
-        // Restore the previous state
-        beginResetModel();
-        m_array = m_undoArray;
-        m_array.ensureSingleOwner();
-
-        // Update dimensions
-        initializeDimensions();
-        initializeEditData();
-
-        endResetModel();
-
-        // Store the current (now previous) state for redo
-        m_undoArray = std::move(redoArray);
-        // m_hasUndoState remains true for redo
-
-        // Persist the restored state
-        persistChangesToContext();
-
-        // Notify views of the change
-        emit modelChanged();
-
-        m_isPerformingUndo = false;
-
-    } catch (const std::exception& e) {
-        m_isPerformingUndo = false;
-        emit errorOccurred(tr("Failed to undo: %1").arg(e.what()));
-    }
-}
-//=============================================================================
-void
-VariableTableTableModel::redo()
-{
-    undo();
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

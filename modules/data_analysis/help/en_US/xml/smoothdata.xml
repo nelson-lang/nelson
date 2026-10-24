@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>smoothdata</keyword>
+  <short_description>Smooth noisy data.</short_description>
+  <syntax>
+    <syntax_item>B = smoothdata(A)</syntax_item>
+    <syntax_item>B = smoothdata(A, method)</syntax_item>
+    <syntax_item>B = smoothdata(A, method, window)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim, method)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim, method, window)</syntax_item>
+    <syntax_item>B = smoothdata(__, nanflag)</syntax_item>
+    <syntax_item>B = smoothdata(__, Name, Value)</syntax_item>
+    <syntax_item>[B, window] = smoothdata(__)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>input vector or matrix: numeric or logical.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>a character vector or string: smoothing method. See the description for the list of supported methods.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>window</param_name>
+      <param_description>a positive scalar or a two-element vector <b>[back forward]</b>: moving window length.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension to operate along: positive integer scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description>a character vector or string: <b>'omitnan'</b> (default) or <b>'includenan'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>parameter name/value pairs: <b>'SamplePoints'</b>, <b>'SmoothingFactor'</b>, <b>'Degree'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>smoothed data.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>window</param_name>
+      <param_description>moving window length used for the smoothing.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>smoothdata</b> smooths noisy data in a vector or in the columns of a matrix.</p>
+    <p>By default, <b>smoothdata</b> operates along the first non-singleton dimension using the <b>'movmean'</b> method and a heuristic window length chosen from the data.</p>
+    <p>The supported values of <b>method</b> are:</p>
+    <p><b>'movmean'</b>: moving average over each window (default).</p>
+    <p><b>'movmedian'</b>: moving median over each window.</p>
+    <p><b>'gaussian'</b>: moving weighted average with Gaussian weights.</p>
+    <p><b>'lowess'</b>: local regression using a first-degree polynomial.</p>
+    <p><b>'loess'</b>: local regression using a second-degree polynomial.</p>
+    <p><b>'sgolay'</b>: Savitzky-Golay polynomial filter (use <b>'Degree'</b> to set the polynomial degree, default 2).</p>
+    <p>The <b>'omitnan'</b> flag (default) ignores <b>NaN</b> values inside each window, while <b>'includenan'</b> propagates them.</p>
+    <p><b>'SmoothingFactor'</b> is a scalar between 0 and 1 that tunes the automatically chosen window length; larger values give more smoothing.</p>
+    <p><b>'SamplePoints'</b> is a vector of uniformly spaced sample coordinates; the window is then expressed in the units of these coordinates.</p>
+    <p>The robust methods <b>'rlowess'</b> and <b>'rloess'</b> are not supported yet.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>moving average</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+B = smoothdata(A, 'movmean', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Gaussian smoothing</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+B = smoothdata(A, 'gaussian', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>automatically chosen window</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+[B, window] = smoothdata(A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}movmean">movmean</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}movmedian">movmedian</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}fillmissing">fillmissing</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

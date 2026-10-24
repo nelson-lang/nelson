@@ -10,9 +10,11 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-assert_isequal(f.MenuBar, 'figure');
+asserts.isequal(f.MenuBar, 'figure');
 f.MenuBar = 'none';
-sleep(1);
-assert_isequal(f.MenuBar, 'none');
-sleep(1);
+drawnow();
+pause(0.1);
+asserts.isequal(f.MenuBar, 'none');
+drawnow();
+pause(0.1);
 %=============================================================================

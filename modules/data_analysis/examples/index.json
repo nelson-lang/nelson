@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "clean_measurements.m",
+      "title": "Clean a measurement series",
+      "description": "Interpolate missing values and compute a moving average.",
+      "tags": [
+        "data-cleaning",
+        "missing-data"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "group_observations.m",
+      "title": "Group observations",
+      "description": "Count table rows by category and display a compact summary.",
+      "tags": [
+        "grouping",
+        "table"
+      ],
+      "requirements": []
+    }
+  ]
+}

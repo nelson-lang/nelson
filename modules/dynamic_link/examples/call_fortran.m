@@ -16,10 +16,10 @@ function call_fortran()
   % load BLAS library
   lib = dlopen(blas_library_full_filename);
   DASUM_SYMBOL = "dasum";
-  V = [ -2, 1, 3, -5, 4, 0, -1, -3]
+  V = [-2, 1, 3, -5, 4, 0, -1, -3]
   N = length(V)
   % load DASUM blas symbol (L1 Norm)
-  f = dlsym(lib, DASUM_SYMBOL,'double',{'int32Ptr','doublePtr','int32Ptr'})
+  f = dlsym(lib, DASUM_SYMBOL, 'double', {'int32Ptr', 'doublePtr', 'int32Ptr'})
   % call DASUM blas symbol with arguments
   r = dlcall(f, int32(N), V, int32(1))
   assert(r == 19)
@@ -36,25 +36,25 @@ function blas_library_full_filename = detect_blas()
   library_candidates = {};
   if ispc()
     nelsonLibrariesPath = modulepath('nelson', 'builtin');
-    library_candidates{end+1} = [nelsonLibrariesPath, '/', 'libnlsblaslapack', getdynlibext()];
+    library_candidates{end + 1} = [nelsonLibrariesPath, '/', 'libnlsblaslapack', getdynlibext()];
   else
     if isunix()
-      library_candidates{end+1} = 'libopenblas.so.3';
-      library_candidates{end+1} = 'libopenblas.so.0';
-      library_candidates{end+1} = '/usr/lib/aarch64-linux-gnu/libopenblas.so';
-      library_candidates{end+1} = '/usr/lib/x86_64-linux-gnu/libopenblas.so';
-      library_candidates{end+1} = '/usr/lib/aarch64-linux-gnu/libblas.so';
-      library_candidates{end+1} = '/usr/lib/x86_64-linux-gnu/libblas.so';
-      library_candidates{end+1} = '/usr/lib64/libblas.so';
-      library_candidates{end+1} = '/usr/lib64/libopenblas.so';
-      library_candidates{end+1} = '/app/lib64/libopenblas.so';
+      library_candidates{end + 1} = 'libopenblas.so.3';
+      library_candidates{end + 1} = 'libopenblas.so.0';
+      library_candidates{end + 1} = '/usr/lib/aarch64-linux-gnu/libopenblas.so';
+      library_candidates{end + 1} = '/usr/lib/x86_64-linux-gnu/libopenblas.so';
+      library_candidates{end + 1} = '/usr/lib/aarch64-linux-gnu/libblas.so';
+      library_candidates{end + 1} = '/usr/lib/x86_64-linux-gnu/libblas.so';
+      library_candidates{end + 1} = '/usr/lib64/libblas.so';
+      library_candidates{end + 1} = '/usr/lib64/libopenblas.so';
+      library_candidates{end + 1} = '/app/lib64/libopenblas.so';
     end
     if ismac()
-      library_candidates{end+1} = '/opt/homebrew/lib/libblas.dylib';
-      library_candidates{end+1} = 'libopenblas.dylib';
-    end 
-    library_candidates{end+1} = ['libblas', getdynlibext(), '.3'];
-    library_candidates{end+1} = ['libblas', getdynlibext()];
+      library_candidates{end + 1} = '/opt/homebrew/lib/libblas.dylib';
+      library_candidates{end + 1} = 'libopenblas.dylib';
+    end
+    library_candidates{end + 1} = ['libblas', getdynlibext(), '.3'];
+    library_candidates{end + 1} = ['libblas', getdynlibext()];
   end
 
   for k = 1:length(library_candidates)
@@ -68,5 +68,5 @@ function blas_library_full_filename = detect_blas()
       blas_library_full_filename = '';
     end
   end
-end  
+end
 %=============================================================================

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nanstd</keyword>
+  <short_description>Ecart type en ignorant les valeurs NaN.</short_description>
+  <syntax>
+    <syntax_item>s = nanstd(X)</syntax_item>
+    <syntax_item>s = nanstd(X, flag)</syntax_item>
+    <syntax_item>s = nanstd(X, flag, dim)</syntax_item>
+    <syntax_item>s = nanstd(X, flag, vecdim)</syntax_item>
+    <syntax_item>s = nanstd(X, flag, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanstd</b> calcule l'ecart type apres suppression des valeurs <b>NaN</b> dans chaque tranche traitee.</p>
+    <p><b>flag</b> vaut <b>0</b> pour la normalisation echantillon et <b>1</b> pour la normalisation population.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = magic(3);
+X([1 6:9]) = NaN;
+s = nanstd(X, 0, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}std">std</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmean">nanmean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmedian">nanmedian</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanvar">nanvar</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

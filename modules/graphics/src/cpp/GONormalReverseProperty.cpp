@@ -19,5 +19,5 @@ GONormalReverseProperty::GONormalReverseProperty() : GORestrictedStringProperty(
 {
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

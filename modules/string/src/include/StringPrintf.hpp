@@ -17,5 +17,6 @@ namespace Nelson {
 NLSSTRING_IMPEXP bool
 StringPrintf(
     std::wstring& result, std::wstring& errormsg, Evaluator* eval, const ArrayOfVector& arg);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

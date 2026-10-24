@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uibuttongroup</keyword>
+  <short_description>Create button group container.</short_description>
+  <syntax>
+    <syntax_item>h = uibuttongroup()</syntax_item>
+    <syntax_item>h = uibuttongroup(parent)</syntax_item>
+    <syntax_item>h = uibuttongroup(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container (uifigure, figure, uipanel, uitab, uibuttongroup, uigridlayout).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>container object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bg = uibuttongroup</b> creates a button group container used to manage exclusive selection of radio buttons and toggle buttons. Main properties: <b>Title</b>, <b>TitlePosition</b>, <b>SelectedObject</b>, <b>Buttons</b> (read-only), <b>SelectionChangedFcn</b> (event data with <b>OldValue</b> and <b>NewValue</b>), plus panel-style border and font properties.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI component for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Button group', 'Position', [100 100 420 260]);
+bg = uibuttongroup(f, 'Position', [90 55 240 150]);
+r1 = uiradiobutton(bg, 'Text', 'Low', 'Position', [20 95 120 22]);
+r2 = uiradiobutton(bg, 'Text', 'High', 'Position', [20 55 120 22]);
+r2.Value = true;
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uibuttongroup_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uibuttongroup</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+bg = uibuttongroup(f, 'Title', 'Choices', 'Position', [20 20 260 210]);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

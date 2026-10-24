@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,7 +14,7 @@
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +24,7 @@ SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, 
 {
     needToOverload = false;
     if (spA.isSparse()) {
-        Dimensions dims = spA.getDimensions();
+        Dimensions dims = spA.dimensions();
         indexType nnz = SparseNonZeros(spA);
         indexType* ptrI;
         indexType* ptrJ;
@@ -32,11 +32,12 @@ SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, 
             ptrI = new indexType[nnz];
             ptrJ = new indexType[nnz];
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
         int nz = 0;
-        void* ptrV = Eigen_SparseToIJV(spA.getDataClass(), dims.getRows(), dims.getColumns(),
-            spA.getSparseDataPointer(), ptrI, ptrJ, nz);
+        void* ptrV = Eigen_SparseToIJV(
+            spA.dataClass(), dims.rows(), dims.columns(), spA.sparseDataPointer(), ptrI, ptrJ, nz);
         double* pdI = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, nnz, stringVector(), false));
         for (indexType k = 0; k < nnz; k++) {
@@ -51,15 +52,14 @@ SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, 
         }
         J = ArrayOf(NLS_DOUBLE, Dimensions(nnz, 1), (void*)pdJ);
         delete[] ptrJ;
-        V = ArrayOf(spA.getDataClass(), Dimensions(nnz, 1), ptrV);
-        M = ArrayOf::doubleConstructor(static_cast<double>(dims.getRows()));
-        N = ArrayOf::doubleConstructor(static_cast<double>(dims.getColumns()));
-        NNZ = ArrayOf::doubleConstructor(static_cast<double>(spA.nzmax()));
+        V = ArrayOf(spA.dataClass(), Dimensions(nnz, 1), ptrV);
+        M = ArrayOf::doubleScalar(static_cast<double>(dims.rows()));
+        N = ArrayOf::doubleScalar(static_cast<double>(dims.columns()));
+        NNZ = ArrayOf::doubleScalar(static_cast<double>(spA.nzmax()));
     } else {
         needToOverload = true;
     }
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

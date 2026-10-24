@@ -133,7 +133,7 @@
     <p>
       <b>Astuces</b> : vous pouvez facilement partager votre fichier d&apos;historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
     <p
-    >Si Nelson est lancé avec l&apos;option &apos;--nouserstartup&apos;, le fichier d&apos;historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
+    >Si Nelson est lancé avec l&apos;option &apos;--no-user-startup&apos;, le fichier d&apos;historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
   </description>
   <used_function />
   <bibliography />

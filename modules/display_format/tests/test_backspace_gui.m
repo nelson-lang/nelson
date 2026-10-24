@@ -10,7 +10,7 @@
 % <--GUI MODE-->
 %=============================================================================
 reverseStr = '';
-for idx = 1 : 100
+for idx = 1:100
   percentDone = idx;
   msg = sprintf('Percent done: %3.1f', percentDone);
   fprintf([reverseStr, msg]);

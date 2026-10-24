@@ -17,5 +17,5 @@ static const wchar_t* TOP_BOTTOM_DICT[3]
 //=============================================================================
 GOTopBottomProperty::GOTopBottomProperty() : GORestrictedStringProperty(TOP_BOTTOM_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

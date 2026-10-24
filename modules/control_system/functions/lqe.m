@@ -9,11 +9,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = lqe(varargin)
-  % Compute the LQE kalman gain matrix with the weighing matricies Q and R and state space model
+  % Compute the LQE kalman gain matrix with the weighing matrices Q and R and state space model
   % [l, p, e] = lqe(A, G, C, Q, R, N)
   narginchk(3, 6);
   nargoutchk(0, 3);
-  
+
   A = varargin{1};
   G = varargin{2};
   C = varargin{3};
@@ -32,24 +32,24 @@ function varargout = lqe(varargin)
   else
     N = [];
   end
-  
+
   if isempty(G)
-    [l, p, e] = lqr (A.', C.', Q, R, N);
+    [l, p, e] = lqr(A.', C.', Q, R, N);
   elseif (size(G, 2) ~= size(Q, 1)) || (size(Q, 1) ~= size(Q, 2))
-    error(_('Wrong size for input argument #2 and #4.'));
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentNN', 'Wrong size for argument #%d and #%d.', 2, 4);
   elseif isempty(N)
-    [l, p, e] = lqr(A.', C.', G * Q * G .', R);
-  elseif (size(G,2) ~= size(N, 1))
-    error(_('Wrong size for input argument #2 and #5.'));
+    [l, p, e] = lqr(A.', C.', G * Q * G.', R);
+  elseif (size(G, 2) ~= size(N, 1))
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentNN', 'Wrong size for argument #%d and #%d.', 2, 5);
   else
-    [l, p, e] = lqr(A.', C.', G * Q * G .', R, G * N);
+    [l, p, e] = lqr(A.', C.', G * Q * G.', R, G * N);
   end
   l = l.';
   varargout{1} = l;
   if nargout > 1
     varargout{2} = p;
-  end  
+  end
   if nargout > 2
     varargout{3} = e;
-  end  
+  end
 end

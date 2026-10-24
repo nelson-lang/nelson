@@ -13,10 +13,10 @@ function s = substruct(varargin)
   subs = varargin(2:2:nargin);
   nlevels = nargin / 2;
   if nlevels < 1
-    error(_('At least two arguments.'));
+    error('Nelson:elementary_functions:leastTwoArguments', 'At least two arguments.');
   elseif rem(nlevels, 1)
-    error(_('An even number of arguments.'));
+    error('Nelson:elementary_functions:evenNumberArguments', 'An even number of arguments.');
   end
   s = struct('type', type, 'subs', subs);
-end 
+end
 %=============================================================================

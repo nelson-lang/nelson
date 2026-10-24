@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,10 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define FMT_HEADER_ONLY
+#include <algorithm>
+#include <cwctype>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "nlsBuildConfig.h"
 #include "GraphicsObject.hpp"
+#include "GOReferenceSurfaceMask.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOAxis.hpp"
@@ -26,10 +29,13 @@
 #include "GOVectorTwoDoubleProperty.hpp"
 #include "GORestrictedStringScalarProperty.hpp"
 #include "GORestrictedStringVectorProperty.hpp"
+#include "GOStringProperty.hpp"
+#include "GOStringVectorProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 #include "StringHelpers.hpp"
@@ -42,7 +48,8 @@ isReplaceableInternalObjectReferenceProperty(const std::wstring& name)
 {
     return name == GO_TITLE_PROPERTY_NAME_STR || name == GO_SUBTITLE_PROPERTY_NAME_STR
         || name == GO_X_LABEL_PROPERTY_NAME_STR || name == GO_Y_LABEL_PROPERTY_NAME_STR
-        || name == GO_Z_LABEL_PROPERTY_NAME_STR || name == GO_LAYOUT_PROPERTY_NAME_STR;
+        || name == GO_Z_LABEL_PROPERTY_NAME_STR || name == GO_LABEL_PROPERTY_NAME_STR
+        || name == GO_LAYOUT_PROPERTY_NAME_STR;
 }
 //=============================================================================
 static bool
@@ -52,6 +59,87 @@ isReplaceableInternalObject(GraphicsObject* gp)
         return false;
     }
     return gp->isType(GO_PROPERTY_VALUE_TEXT_STR) || gp->isType(L"layoutoptions");
+}
+//=============================================================================
+static std::wstring
+canonicalGraphicsPropertyName(const std::wstring& name, const wstringVector& names)
+{
+    // Case-insensitive scan without per-candidate allocations: it runs for every
+    // user-facing (non-canonical) property access.
+    auto equalsCaseInsensitive = [](const std::wstring& a, const std::wstring& b) {
+        if (a.size() != b.size()) {
+            return false;
+        }
+        for (size_t k = 0; k < a.size(); ++k) {
+            if (towlower(a[k]) != towlower(b[k])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    for (const auto& element : names) {
+        if (equalsCaseInsensitive(element, name)) {
+            return element;
+        }
+    }
+    return name;
+}
+//=============================================================================
+// Shortest unambiguous leading-substring match against the property names, used only for
+// explicit writes (set/construction). An exact case-insensitive match always wins. With
+// several candidates it resolves only if one "base" property is a leading substring of all
+// the others ('pos' -> Position, also a prefix of PositionConstraint). Otherwise the name
+// is left unchanged so the caller raises the usual error.
+static std::wstring
+partialGraphicsPropertyName(const std::wstring& name, const wstringVector& names)
+{
+    if (name.empty()) {
+        return name;
+    }
+    auto isPrefixCaseInsensitive = [](const std::wstring& prefix, const std::wstring& full) {
+        if (prefix.size() > full.size()) {
+            return false;
+        }
+        for (size_t k = 0; k < prefix.size(); ++k) {
+            if (towlower(prefix[k]) != towlower(full[k])) {
+                return false;
+            }
+        }
+        return true;
+    };
+    std::wstring exact = canonicalGraphicsPropertyName(name, names);
+    if (exact != name) {
+        return exact;
+    }
+    for (const auto& element : names) {
+        if (element.size() == name.size() && isPrefixCaseInsensitive(name, element)) {
+            return element;
+        }
+    }
+    std::vector<const std::wstring*> matches;
+    for (const auto& element : names) {
+        if (isPrefixCaseInsensitive(name, element)) {
+            matches.push_back(&element);
+        }
+    }
+    if (matches.empty()) {
+        return name;
+    }
+    if (matches.size() == 1) {
+        return *matches[0];
+    }
+    const std::wstring* shortest = matches[0];
+    for (const auto* m : matches) {
+        if (m->size() < shortest->size()) {
+            shortest = m;
+        }
+    }
+    for (const auto* m : matches) {
+        if (!isPrefixCaseInsensitive(*shortest, *m)) {
+            return name;
+        }
+    }
+    return *shortest;
 }
 //=============================================================================
 static void
@@ -104,19 +192,37 @@ GraphicsObject::~GraphicsObject()
 bool
 GraphicsObject::isWritable(const std::wstring& name)
 {
-    if (m_properties_writable.count(name) == 0) {
-        return false;
+    auto found = m_properties_writable.find(name);
+    if (found == m_properties_writable.end()) {
+        std::wstring canonicalName = canonicalGraphicsPropertyName(name, m_property_names_order);
+        found = m_properties_writable.find(canonicalName);
+        if (found == m_properties_writable.end()) {
+            return false;
+        }
     }
-    return m_properties_writable[name];
+    return found->second;
+}
+//=============================================================================
+void
+GraphicsObject::setPropertyWritable(const std::wstring& name, bool writable)
+{
+    if (m_properties_writable.count(name) != 0) {
+        m_properties_writable[name] = writable;
+    }
 }
 //=============================================================================
 bool
 GraphicsObject::isVisible(const std::wstring& name)
 {
-    if (m_properties_visible.count(name) == 0) {
-        return false;
+    auto found = m_properties_visible.find(name);
+    if (found == m_properties_visible.end()) {
+        std::wstring canonicalName = canonicalGraphicsPropertyName(name, m_property_names_order);
+        found = m_properties_visible.find(canonicalName);
+        if (found == m_properties_visible.end()) {
+            return false;
+        }
     }
-    return m_properties_visible[name];
+    return found->second;
 }
 //=============================================================================
 GOGenericProperty*
@@ -128,34 +234,55 @@ GraphicsObject::findProperty(const std::wstring& name, bool raiseError)
     if (m_property_names_order.empty()) {
         return nullptr;
     }
+    // Fast path: internal callers pass the canonical GO_* name, so an exact hash lookup skips
+    // the case-insensitive scan. Paint and update do hundreds of lookups per frame.
     std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
         = m_properties.find(name);
+    if (got != m_properties.end()) {
+        return got->second;
+    }
+    std::wstring canonicalName = canonicalGraphicsPropertyName(name, m_property_names_order);
+    got = m_properties.find(canonicalName);
     GOGenericProperty* hp = (got != m_properties.end()) ? (got->second) : nullptr;
     if (hp) {
         return hp;
     } else {
         if (raiseError) {
-            std::wstring lowerName(name);
-            std::wstring proposedName;
-            StringHelpers::to_lower(lowerName);
-            for (auto element : m_property_names_order) {
-                std::wstring lowerElement(element);
-                StringHelpers::to_lower(lowerElement);
-                if (lowerElement == lowerName) {
-                    proposedName = element;
-                    break;
-                }
-            }
+            std::wstring proposedName = canonicalName == name ? L"" : canonicalName;
             std::wstring msg;
-            msg = fmt::format(_W("Unrecognized property '{0}' for class '{1}'."), name, getType());
+            msg = formatI18nMessage(
+                resolveMessageTemplate(L"Nelson:graphics:unrecognizedPropertySClass",
+                    L"Unrecognized property '%s' for class '%s'."),
+                name, getType());
             if (!proposedName.empty()) {
-                msg = msg + L"\n" + _W("Did you mean:") + L" " + proposedName;
+                msg = msg + L"\n"
+                    + formatI18nMessage(
+                        resolveMessageTemplate(L"Nelson:graphics:didYouMeanS", L"Did you mean: %s"),
+                        proposedName);
             }
-            Error(msg);
+            RaiseError(msg, L"Nelson:graphics:unrecognizedProperty");
         }
         hp = nullptr;
     }
     return nullptr;
+}
+//=============================================================================
+std::wstring
+GraphicsObject::resolvePartialPropertyName(const std::wstring& name)
+{
+    if (m_property_names_order.empty()) {
+        return name;
+    }
+    return partialGraphicsPropertyName(name, m_property_names_order);
+}
+//=============================================================================
+std::wstring
+GraphicsObject::resolvePartialPropertyName(const std::wstring& name, const wstringVector& names)
+{
+    if (names.empty()) {
+        return name;
+    }
+    return partialGraphicsPropertyName(name, names);
 }
 //=============================================================================
 void
@@ -194,22 +321,32 @@ GraphicsObject::getParentAxis()
     if (!name) {
         return nullptr;
     }
-    if (name->isEqual(GO_PROPERTY_VALUE_HGGROUP_STR)) {
+    // A transform may be nested inside another transform, so walk the whole ancestor chain.
+    int guard = 0;
+    while ((name->isEqual(GO_PROPERTY_VALUE_HGGROUP_STR)
+               || name->isEqual(GO_PROPERTY_VALUE_HGTRANSFORM_STR)
+               || name->isEqual(GO_PROPERTY_VALUE_BUBBLE_CLOUD_STR)
+               || name->isEqual(GO_PROPERTY_VALUE_HEATMAP_STR)
+               || name->isEqual(GO_PROPERTY_VALUE_PARALLEL_PLOT_STR))
+        && guard < 64) {
+        ++guard;
         GOGObjectsProperty* hgGroupParent = static_cast<GOGObjectsProperty*>(
             fp->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
-        if (hgGroupParent && !hgGroupParent->data().empty()
-            && hgGroupParent->data()[0] >= HANDLE_OFFSET_OBJECT) {
-            fp = findGraphicsObject(hgGroupParent->data()[0], false);
-            if (!fp) {
-                return nullptr;
-            }
-            name = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
-            if (!name) {
-                return nullptr;
-            }
+        if (!hgGroupParent || hgGroupParent->data().empty()
+            || hgGroupParent->data()[0] < HANDLE_OFFSET_OBJECT) {
+            break;
+        }
+        fp = findGraphicsObject(hgGroupParent->data()[0], false);
+        if (!fp) {
+            return nullptr;
+        }
+        name = static_cast<GOStringProperty*>(fp->findProperty(GO_TYPE_PROPERTY_NAME_STR));
+        if (!name) {
+            return nullptr;
         }
     }
-    if (!name->isEqual(GO_PROPERTY_VALUE_AXES_STR)) {
+    if (!name->isEqual(GO_PROPERTY_VALUE_AXES_STR)
+        && !name->isEqual(GO_PROPERTY_VALUE_POLAR_AXES_STR)) {
         return nullptr;
     }
     return static_cast<GOAxis*>(fp);
@@ -227,7 +364,7 @@ GraphicsObject::getParentFigure()
             return nullptr;
         }
         int64 parent_handle = parent->data()[0];
-        if (parent_handle == HANDLE_ROOT_OBJECT || parent_handle == 0) {
+        if (parent_handle == HANDLE_ROOT_OBJECT) {
             return nullptr;
         }
         if (parent_handle < HANDLE_OFFSET_OBJECT) {
@@ -249,8 +386,27 @@ GraphicsObject::findStringProperty(const std::wstring& name)
 wstringVector
 GraphicsObject::findStringVectorProperty(const std::wstring& name)
 {
-    GOStringVectorProperty* sp = static_cast<GOStringVectorProperty*>(findProperty(name));
-    return (sp->data());
+    GOGenericProperty* gp = findProperty(name);
+    if (GOStringVectorProperty* sv = dynamic_cast<GOStringVectorProperty*>(gp)) {
+        return (sv->data());
+    }
+    // Some objects (text) register String as a GOStringProperty of newline-joined lines.
+    if (GOStringProperty* sp = dynamic_cast<GOStringProperty*>(gp)) {
+        wstringVector lines;
+        const std::wstring joined = sp->data();
+        size_t start = 0;
+        for (;;) {
+            size_t pos = joined.find(L'\n', start);
+            if (pos == std::wstring::npos) {
+                lines.push_back(joined.substr(start));
+                break;
+            }
+            lines.push_back(joined.substr(start, pos - start));
+            start = pos + 1;
+        }
+        return lines;
+    }
+    return {};
 }
 //=============================================================================
 std::vector<double>
@@ -274,7 +430,7 @@ GraphicsObject::findScalarDoubleProperty(const std::wstring& name)
     return (sp->data());
 }
 //=============================================================================
-unsigned
+int64
 GraphicsObject::findGoProperty(const std::wstring& name)
 {
     GOGObjectsProperty* sp = static_cast<GOGObjectsProperty*>(findProperty(name));
@@ -314,20 +470,89 @@ GraphicsObject::sortProperties()
 bool
 GraphicsObject::haveProperty(const std::wstring& name)
 {
-    return (std::find(m_property_names_order.begin(), m_property_names_order.end(), name)
+    if (m_properties.find(name) != m_properties.end()) {
+        return true;
+    }
+    std::wstring canonicalName = canonicalGraphicsPropertyName(name, m_property_names_order);
+    return (std::find(m_property_names_order.begin(), m_property_names_order.end(), canonicalName)
         != m_property_names_order.end());
 }
 //=============================================================================
 wstringVector
-GraphicsObject::getFieldnames()
+GraphicsObject::fieldnames()
 {
     return m_property_names_order;
+}
+//=============================================================================
+void
+GraphicsObject::applyReferenceSurfaceMask(wstringVector& visibleNames)
+{
+    const wstringVector* hidden = referenceSurfaceHiddenProperties(getType());
+    if (!hidden) {
+        return;
+    }
+    visibleNames.erase(std::remove_if(visibleNames.begin(), visibleNames.end(),
+                           [hidden](const std::wstring& name) {
+                               return std::find(hidden->begin(), hidden->end(), name)
+                                   != hidden->end();
+                           }),
+        visibleNames.end());
 }
 //=============================================================================
 wstringVector
 GraphicsObject::getVisibleFieldnames()
 {
-    return m_visible_property_names_order;
+    if (isType(GO_PROPERTY_VALUE_TEXT_STR)) {
+        return {
+            GO_COLOR_PROPERTY_NAME_STR,
+            GO_COLOR_MODE_PROPERTY_NAME_STR,
+            GO_POSITION_PROPERTY_NAME_STR,
+            GO_STRING_PROPERTY_NAME_STR,
+            GO_INTERPRETER_PROPERTY_NAME_STR,
+            GO_EXTENT_PROPERTY_NAME_STR,
+            GO_ROTATION_PROPERTY_NAME_STR,
+            GO_FONT_NAME_PROPERTY_NAME_STR,
+            GO_FONT_UNITS_PROPERTY_NAME_STR,
+            GO_FONT_SIZE_PROPERTY_NAME_STR,
+            GO_FONT_ANGLE_PROPERTY_NAME_STR,
+            GO_FONT_WEIGHT_PROPERTY_NAME_STR,
+            GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR,
+            GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR,
+            GO_EDGE_COLOR_PROPERTY_NAME_STR,
+            GO_LINE_STYLE_PROPERTY_NAME_STR,
+            GO_LINE_WIDTH_PROPERTY_NAME_STR,
+            GO_BACKGROUND_COLOR_PROPERTY_NAME_STR,
+            GO_MARGIN_PROPERTY_NAME_STR,
+            GO_EDITING_PROPERTY_NAME_STR,
+            GO_CLIPPING_PROPERTY_NAME_STR,
+            GO_FONT_SMOOTHING_PROPERTY_NAME_STR,
+            GO_INTERACTIONS_PROPERTY_NAME_STR,
+            GO_UNITS_PROPERTY_NAME_STR,
+            GO_CHILDREN_PROPERTY_NAME_STR,
+            GO_PARENT_PROPERTY_NAME_STR,
+            GO_VISIBLE_PROPERTY_NAME_STR,
+            GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR,
+            GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR,
+            GO_CONTEXT_MENU_PROPERTY_NAME_STR,
+            GO_BUSY_ACTION_PROPERTY_NAME_STR,
+            GO_BEING_DELETED_PROPERTY_NAME_STR,
+            GO_INTERRUPTIBLE_PROPERTY_NAME_STR,
+            GO_CREATE_FCN_PROPERTY_NAME_STR,
+            GO_DELETE_FCN_PROPERTY_NAME_STR,
+            GO_TYPE_PROPERTY_NAME_STR,
+            GO_TAG_PROPERTY_NAME_STR,
+            GO_USER_DATA_PROPERTY_NAME_STR,
+            GO_SELECTED_PROPERTY_NAME_STR,
+            GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR,
+            GO_HIT_TEST_PROPERTY_NAME_STR,
+            GO_PICKABLE_PARTS_PROPERTY_NAME_STR,
+            GO_AFFECT_AUTO_LIMITS_PROPERTY_NAME_STR,
+            GO_SERIES_INDEX_PROPERTY_NAME_STR,
+        };
+    }
+    wstringVector names = m_visible_property_names_order;
+    applyReferenceSurfaceMask(names);
+    return names;
 }
 //=============================================================================
 void
@@ -337,7 +562,8 @@ GraphicsObject::setRestrictedStringScalarDefault(
     GORestrictedStringScalarProperty* hp
         = static_cast<GORestrictedStringScalarProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Restricted string/scalar default failed lookup of: ") + L"<" + name + L">");
+        Error(L"Nelson:graphics:defaultLookupFailed",
+            L"Restricted string default failed lookup of: <%s>", name);
     }
     hp->data(value);
     hp->scalar(sval);
@@ -350,7 +576,8 @@ GraphicsObject::setRestrictedStringColorDefault(
     GORestrictedStringColorProperty* hp
         = static_cast<GORestrictedStringColorProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Restricted string/color default failed lookup of: ") + L"<" + name + L">");
+        Error(L"Nelson:graphics:defaultLookupFailed",
+            L"Restricted string default failed lookup of: <%s>", name);
     }
     hp->data(value);
     hp->colorSpec(red, green, blue);
@@ -361,7 +588,8 @@ GraphicsObject::setRestrictedStringDefault(const std::wstring& name, const std::
 {
     GORestrictedStringProperty* hp = static_cast<GORestrictedStringProperty*>(findProperty(name));
     if (!hp) {
-        Error(_W("Set restricted string default failed lookup of: ") + L"<" + name + L">");
+        Error(L"Nelson:graphics:defaultLookupFailed",
+            L"Restricted string default failed lookup of: <%s>", name);
     }
     hp->data(value);
 }
@@ -377,16 +605,19 @@ GraphicsObject::setRestrictedStringSetDefault(const std::wstring& name, const ws
 void
 GraphicsObject::setThreeVectorDefault(const std::wstring& name, double x, double y, double z)
 {
-    GOThreeVectorProperty* hp = static_cast<GOThreeVectorProperty*>(findProperty(name));
-    hp->value(x, y, z);
+    // The property may be a GOThreeVectorProperty or a sibling fixed-3 type such as
+    // GOColorProperty. Both derive from GOVectorProperty, so set through that base to avoid an
+    // invalid downcast (UBSan type confusion).
+    auto* hp = static_cast<GOVectorProperty*>(findProperty(name));
+    hp->data(std::vector<double> { x, y, z });
 }
 //=============================================================================
 void
 GraphicsObject::setFourVectorDefault(
     const std::wstring& name, double x, double y, double z, double w)
 {
-    GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
-    hp->value(x, y, z, w);
+    auto* hp = static_cast<GOVectorProperty*>(findProperty(name));
+    hp->data(std::vector<double> { x, y, z, w });
 }
 //=============================================================================
 void
@@ -399,14 +630,14 @@ GraphicsObject::setVectorDoubleDefault(const std::wstring& name, std::vector<dou
 void
 GraphicsObject::setTwoVectorDefault(const std::wstring& name, double x, double y)
 {
-    GOTwoVectorProperty* hp = static_cast<GOTwoVectorProperty*>(findProperty(name));
-    hp->value(x, y);
+    auto* hp = static_cast<GOVectorProperty*>(findProperty(name));
+    hp->data(std::vector<double> { x, y });
 }
 //=============================================================================
 void
 GraphicsObject::setStringDefault(const std::wstring& name, const std::wstring& value)
 {
-    findProperty(name)->set(ArrayOf::stringArrayConstructor(value));
+    findProperty(name)->set(ArrayOf::stringArray(value));
 }
 //=============================================================================
 void
@@ -458,7 +689,6 @@ GraphicsObject::toAuto(const std::wstring& name)
     qp->data(GO_PROPERTY_VALUE_AUTO_STR);
 }
 //=============================================================================
-
 bool
 GraphicsObject::hasChanged(const std::vector<std::wstring>& names)
 {
@@ -477,6 +707,17 @@ GraphicsObject::hasChanged(const std::wstring& name)
     std::vector<std::wstring> names;
     names.push_back(name);
     return hasChanged(names);
+}
+//=============================================================================
+bool
+GraphicsObject::hasAnyChanged()
+{
+    for (auto& it : m_properties) {
+        if (it.second->isModified()) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 void
@@ -506,5 +747,5 @@ GraphicsObject::clearChanged(const std::wstring& name)
     hp->clearModified();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

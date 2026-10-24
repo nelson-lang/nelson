@@ -9,8 +9,8 @@
 %=============================================================================
 function r = arguments_validation_function(x, method)
   arguments
-    x (1,:) double {mustBeNumeric, mustBeReal}
-    method (1,:) char {mustBeMember(method, {'linear', 'nearest'})} = 'linear'
+    x(1, :) double {mustBeNumeric, mustBeReal}
+    method(1, :) char {mustBeMember(method, {'linear', 'nearest'})} = 'linear'
   end
   r = {x, method};
 end

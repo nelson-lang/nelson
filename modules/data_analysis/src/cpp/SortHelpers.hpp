@@ -10,8 +10,34 @@
 #pragma once
 //=============================================================================
 #include <complex>
+#include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// The original position makes equivalent values deterministic without changing
+// the value-only sort or requiring a stable sorting backend.
+template <class Entry, class IsMissing, class Compare>
+void
+sortIndexedEntries(
+    std::vector<Entry>& values, bool missingFirst, IsMissing isMissing, Compare compare)
+{
+    parallelSort(values.begin(), values.end(), [&](const Entry& a, const Entry& b) {
+        const bool aMissing = isMissing(a);
+        const bool bMissing = isMissing(b);
+        if (aMissing != bMissing) {
+            return aMissing == missingFirst;
+        }
+        if (!aMissing) {
+            if (compare(a, b)) {
+                return true;
+            }
+            if (compare(b, a)) {
+                return false;
+            }
+        }
+        return a.n < b.n;
+    });
+}
 //=============================================================================
 template <class T> class SortRealEntry
 {
@@ -27,5 +53,5 @@ public:
     std::complex<T> z;
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

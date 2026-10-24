@@ -9,12 +9,12 @@
 %=============================================================================
 function res = inv(sys)
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
   res = sys;
   if isstatic(sys)
     res.Numerator = 1 / sys.Numerator{1};
-  else 
+  else
     res.Numerator = sys.Denominator{1};
     res.Denominator = sys.Numerator{1};
   end

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uigauge</keyword>
+  <short_description>Create gauge component (circular, linear, ninetydegree, semicircular).</short_description>
+  <syntax>
+    <syntax_item>h = uigauge()</syntax_item>
+    <syntax_item>h = uigauge(parent)</syntax_item>
+    <syntax_item>h = uigauge(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI component object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>g = uigauge(parent, style)</b> creates a display-only gauge: styles <b>'circular'</b> (default), <b>'linear'</b>, <b>'ninetydegree'</b>, <b>'semicircular'</b>. Properties: <b>Value</b>, <b>Limits</b>, <b>ScaleColors</b>/<b>ScaleColorLimits</b>, ticks, <b>Orientation</b> or <b>ScaleDirection</b> depending on the style.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI component for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Gauges', 'Position', [100 100 520 320]);
+g = uigauge(f);
+g.Position = [90 70 180 180];
+g.Value = 75;
+lg = uigauge(f, 'linear');
+lg.Position = [310 145 150 40];
+lg.Value = 45;
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uigauge_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uigauge</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+g = uigauge(f, 'Value', 75);
+lg = uigauge(f, 'linear', 'Orientation', 'vertical');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

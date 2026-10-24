@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "High-pass washout filter s/(s+1) step response: decays as exp(-t) from 1 to 0.",
+  "name": "highpass_washout",
+  "blocks": [
+    {
+      "id": "f1",
+      "type": "step",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "p1",
+      "type": "tf",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1,
+          0
+        ],
+        "Denominator": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "highpass_washout_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "f1",
+      "to": "p1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "autoRoute": true,
+  "solver": "ode45"
+}

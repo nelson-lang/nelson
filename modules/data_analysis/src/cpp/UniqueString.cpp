@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -26,36 +26,42 @@ public:
 bool
 operator<(const UniqueStringEntry& a, const UniqueStringEntry& b)
 {
-    if (a.isNaN || b.isNaN) {
-        return false;
+    // missing values are sorted last, in input order (each one is distinct);
+    // equal strings keep the input order so that the first occurrence leads.
+    if (a.isNaN != b.isNaN) {
+        return b.isNaN;
     }
-    return (a.x < b.x);
+    if (a.isNaN) {
+        return a.n < b.n;
+    }
+    int cmp = a.x.compare(b.x);
+    return (cmp != 0) ? (cmp < 0) : (a.n < b.n);
 }
 //=============================================================================
 bool
 operator==(const UniqueStringEntry& a, const UniqueStringEntry& b)
 {
-    return (a.isNaN && b.isNaN) || (a.x == b.x);
+    return !a.isNaN && !b.isNaN && (a.x == b.x);
 }
 //=============================================================================
 static ArrayOfVector
 UniqueStringOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     std::vector<UniqueStringEntry> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;
         if (!values[k].isNaN) {
-            values[k].x = dp[k].getContentAsWideString();
+            values[k].x = dp[k].asWideString();
         }
     }
     parallelSort(values);
@@ -63,10 +69,10 @@ UniqueStringOneLhs(const ArrayOf& input)
 
     ompIndexType nbElements = values.size();
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
-    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan(""));
+    ArrayOf NaN = ArrayOf::doubleScalar(std::nan(""));
     OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
-        elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArrayConstructor(values[k].x);
+        elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArray(values[k].x);
     }
     ArrayOfVector retval;
     Dimensions dimsOut = isRowVector ? Dimensions(1, nbElements) : Dimensions(nbElements, 1);
@@ -81,20 +87,20 @@ static ArrayOfVector
 UniqueStringTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     std::vector<UniqueStringEntry> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;
         if (!values[k].isNaN) {
-            values[k].x = dp[k].getContentAsWideString();
+            values[k].x = dp[k].asWideString();
         }
     }
     parallelSort(values);
@@ -103,11 +109,11 @@ UniqueStringTwoLhs(const ArrayOf& input)
     ompIndexType nbElements = values.size();
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements);
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbElements);
-    ArrayOf NaN = ArrayOf::doubleConstructor(std::nan(""));
+    ArrayOf NaN = ArrayOf::doubleScalar(std::nan(""));
 
     OMP_PARALLEL_FOR_LOOP(nbElements)
     for (ompIndexType k = 0; k < nbElements; ++k) {
-        elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArrayConstructor(values[k].x);
+        elements[k] = values[k].isNaN ? NaN : ArrayOf::characterArray(values[k].x);
         mp[k] = (double)(values[k].n + 1);
     }
     ArrayOfVector retval;
@@ -124,20 +130,20 @@ static ArrayOfVector
 UniqueStringThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const ArrayOf* dp = (const ArrayOf*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const ArrayOf* dp = (const ArrayOf*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     std::vector<UniqueStringEntry> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].isNaN = !dp[k].isCharacterArray();
         values[k].n = k;
         if (!values[k].isNaN) {
-            values[k].x = dp[k].getContentAsWideString();
+            values[k].x = dp[k].asWideString();
         }
     }
     parallelSort(values);
@@ -188,5 +194,5 @@ UniqueString(const ArrayOf& input, int nLhs)
     return UniqueStringThreeLhs(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

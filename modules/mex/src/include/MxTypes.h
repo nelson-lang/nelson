@@ -15,6 +15,19 @@
 #include <stdbool.h>
 #endif
 //=============================================================================
+#define MX_CURRENT_API_VER 0x08000000
+#define MX_API_VER MX_CURRENT_API_VER
+#define MX_LAST_32BIT_VER 0x07000000
+#define MX_LAST_SEPARATE_COMPLEX_VER 0x07300000
+#if defined(MX_COMPAT_32)
+#define MX_TARGET_API_VER MX_LAST_32BIT_VER
+#elif defined(MX_HAS_INTERLEAVED_COMPLEX)
+#define MX_TARGET_API_VER MX_CURRENT_API_VER
+#else
+#define MX_TARGET_API_VER MX_LAST_SEPARATE_COMPLEX_VER
+#endif
+#define MX_HAS_64BIT_ARRAY_DIMS (MX_TARGET_API_VER > MX_LAST_32BIT_VER)
+//=============================================================================
 #ifdef __cplusplus
 extern "C"
 {
@@ -148,6 +161,8 @@ typedef int mwSignedIndex;
     };
     //=============================================================================
     typedef struct mxArray_tag mxArray;
+    //=============================================================================
+    typedef void (*mxFunctionPtr)(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[]);
     //=============================================================================
 #ifdef __cplusplus
 }

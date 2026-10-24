@@ -15,4 +15,6 @@
 namespace Nelson::ElementaryFunctionsGateway {
 ArrayOfVector
 isequalnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

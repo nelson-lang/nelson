@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Planar 2-D multibody demo: a reaction wheel. Two free bodies -- a platform (I = 0.5) and a wheel (I = 2) -- are coupled only by an internal actuator torque (tau = 1). With no external anchor and no gravity, total angular momentum is conserved: the actuator spins the wheel one way while the platform recoils the other, their angular accelerations in inverse ratio to their inertias (alpha = tau / I). (Planar island: simulation only, no code generation.) ToWorkspace exports both angular speeds as W0 (platform) and W1 (wheel).\n\nLayout: the gravity-free world sits at the left; the two bodies stack in the middle joined by the relative-torque actuator; each body has a velocity sensor (axis omega) whose signal drops to its ToWorkspace sink on the right.",
+  "name": "Planar Reaction Wheel",
+  "blocks": [
+    {
+      "id": "wld",
+      "type": "PlanarWorld",
+      "params": { "gravity": 0 },
+      "x": 0,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "r0",
+      "type": "PlanarBody",
+      "params": {
+        "m": 1,
+        "I": 0.5,
+        "x0": 0,
+        "y0": 0,
+        "phi0": 0,
+        "vx0": 0,
+        "vy0": 0,
+        "w0": 0
+      },
+      "x": 90,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "r1",
+      "type": "PlanarBody",
+      "params": {
+        "m": 1,
+        "I": 2,
+        "x0": 0,
+        "y0": 0,
+        "phi0": 0,
+        "vx0": 0,
+        "vy0": 0,
+        "w0": 0
+      },
+      "x": 290,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "rt",
+      "type": "PlanarRelativeTorque",
+      "params": { "tau": 1 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "s0",
+      "type": "PlanarVelocitySensor",
+      "params": { "axis": "omega" },
+      "x": 90,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "s1",
+      "type": "PlanarVelocitySensor",
+      "params": { "axis": "omega" },
+      "x": 290,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "w0",
+      "type": "toWorkspace",
+      "params": { "VariableName": "W0" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 100,
+      "y": 650,
+      "rotation": 0
+    },
+    {
+      "id": "w1",
+      "type": "toWorkspace",
+      "params": { "VariableName": "W1" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 300,
+      "y": 650,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "s0", "to": "w0", "fromIndex": 0, "toIndex": 0 },
+    { "from": "s1", "to": "w1", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 5,
+  "sampleTime": 0.05,
+  "physicalWires": [
+    { "pins": ["s0.a", "rt.a", "r0.com"] },
+    { "pins": ["rt.b", "s1.a", "r1.com"] }
+  ]
+}

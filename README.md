@@ -22,23 +22,23 @@
   </tr>
 </table>
 
-# 🚀 The Nelson language
+# The Nelson Language
 
 The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 
-## 🌟 **Starring the repository**
+## **Starring the repository**
 
-If you found this project useful, please consider [starring it on GitHub !!!](https://github.com/nelson-lang/nelson/stargazers) This allows me to see how many people are using my code, and motivates me to keep working to improve it.
+If this project is useful to you, consider [starring it on GitHub](https://github.com/nelson-lang/nelson/stargazers). Repository stars provide a simple signal of usage and help prioritize ongoing maintenance.
 
-## 🎓 **Introduction**
+## **Introduction**
 
-Nelson is a powerful, open-source numerical computational language, developed to provide a comprehensive and intuitive environment for engineers, scientists, and students. With over 1,200 built-in functions, Nelson supports a wide range of tasks, from basic algebra to advanced numerical simulations.
+Nelson is an open-source numerical computing language for engineering, scientific computing, and education. It provides more than 3,000 functions, native or written in Nelson, covering array computation, linear algebra, signal processing, data analysis, visualization, and external language interfaces.
 
-Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers users a lightweight yet feature-rich experience. It is designed to be easy to learn and use, with an emphasis on performance and flexibility.
+Nelson follows the array-oriented conventions used by established numerical computing environments and GNU Octave, while keeping its own module system, file formats, engine interfaces, and execution model.
 
 ![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
-## 🛠️ **Features**
+## **Features**
 
 ### Data Types Managed by Nelson
 
@@ -55,7 +55,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 ### Performance Enhancements
 
-- **OpenMP and SIMD**: Utilizes parallel processing and vectorization for faster computations.
+- **OpenMP and SIMD**: Uses parallel processing and vectorization for faster computations.
 
 ### Visualization & Interface
 
@@ -113,7 +113,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
   - [Basic Macros Template](https://github.com/nelson-lang/module_skeleton_basic).
 - **Nelson Modules Manager (nmm)**: A package manager to install and manage extensions for Nelson.
 
-## 📥 **Download**
+## **Download**
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/nelson)
 
@@ -129,7 +129,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 [Get it from Scoop](https://scoop.sh/#/apps?q=nelson)
 
-## 📚 **Resources**
+## **Resources**
 
 - **Homepage:** <https://nelson-lang.github.io/nelson-website/>
 - **GitBook:** <https://nelson-lang.github.io/nelson-gitbook/>
@@ -144,7 +144,7 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 - **LinkedIn:** <https://www.linkedin.com/groups/13576150>
 - **DeepWiki** [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nelson-lang/nelson)
 
-## 📜 **License**
+## **License**
 
 Nelson is delivered under dual-license:
 
@@ -154,9 +154,15 @@ Nelson is delivered under dual-license:
 
 - [![License (GNU General Public License (GPL) v3.0)](<https://img.shields.io/badge/license-GNU%20General%20Public%20License%20(GPL)%20v3.0-blue.svg?style=flat-square>)](https://opensource.org/licenses/GPL-3.0)
 
-## 💻 **Supported Platforms**
+Third-party components redistributed with Nelson are listed in [THIRDPARTY.md](THIRDPARTY.md).
 
-Nelson is tested and supported on a wide range of platforms. **[Downloads](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are listed below:
+## **Trademarks**
+
+Nelson is an independent free software project, not affiliated with, endorsed by, or sponsored by any third party. See [TRADEMARKS.md](TRADEMARKS.md) for the full notice.
+
+## **Supported Platforms**
+
+Nelson is tested on the platforms listed below. **[Download](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are shown for each supported target.
 
 | **Operating System** |  **Architecture**   | **CI** |   **Binaries**    |
 | :------------------: | :-----------------: | :----: | :---------------: |

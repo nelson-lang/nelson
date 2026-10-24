@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>functioncontour properties</keyword>
+  <short_description>Proprietes de l'objet graphique functioncontour.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>functioncontour</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation.</td>
+        <td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: handle d'annotation ou handle vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>indique l'etat de suppression.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle la file d'attente des callbacks.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute lors d'un evenement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>stocke les handles graphiques enfants.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>controle le rognage par les axes parents.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache un menu contextuel.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>ContourMatrix</b></td>
+        <td>stocke les segments de contour generes.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: [] ou matrice de contour.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute lors de la creation.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>met a jour le contenu des data tips.</td>
+        <td>Type: data tip template object ou handle vide. Valeurs prises en charge: handle de data tip template ou handle vide.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute lors de la suppression.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>definit le libelle utilise par les legendes.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeAlpha</b></td>
+        <td>definit la transparence des lignes de contour.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>definit la couleur interne des lignes.</td>
+        <td>Type: valeur couleur. Valeurs prises en charge: triplet RGB, nom de couleur court ou long, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>definit la transparence du remplissage.</td>
+        <td>Type: scalaire numerique ou valeur texte. Valeurs prises en charge: valeurs dans [0, 1], 'flat' ou 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>definit la couleur du remplissage.</td>
+        <td>Type: valeur couleur. Valeurs prises en charge: triplet RGB, nom de couleur court ou long, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Fill</b></td>
+        <td>controle le remplissage entre niveaux.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Floating</b></td>
+        <td>controle l'utilisation des niveaux comme coordonnee z.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Function</b></td>
+        <td>definit la fonction echantillonnee.</td>
+        <td>Type: handle de fonction. Valeurs prises en charge: handle scalaire a deux entrees.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle la decouverte du handle.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controle la reception des evenements pointeur.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle l'interruption des callbacks.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelColor</b></td>
+        <td>definit la couleur des libelles.</td>
+        <td>Type: valeur couleur. Valeurs prises en charge: triplet RGB, nom de couleur court ou long, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelFormat</b></td>
+        <td>definit le format des libelles.</td>
+        <td>Type: valeur texte ou handle de fonction. Valeurs prises en charge: texte de format, chaine scalaire ou handle de fonction.</td>
+      </tr>
+      <tr>
+        <td><b>LabelSpacing</b></td>
+        <td>definit l'espacement des libelles.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies non negatives.</td>
+      </tr>
+      <tr>
+        <td><b>LevelList</b></td>
+        <td>definit les niveaux de contour.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: valeurs de niveaux reelles finies.</td>
+      </tr>
+      <tr>
+        <td><b>LevelListMode</b></td>
+        <td>selectionne les niveaux automatiques ou manuels.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStep</b></td>
+        <td>definit l'espacement entre niveaux generes.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStepMode</b></td>
+        <td>selectionne l'espacement automatique ou manuel.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineColor</b></td>
+        <td>definit la couleur des lignes de contour.</td>
+        <td>Type: valeur couleur. Valeurs prises en charge: triplet RGB, nom de couleur court ou long, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>definit le style des lignes.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>definit l'epaisseur des lignes.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>MeshDensity</b></td>
+        <td>definit le nombre de points echantillonnes par direction.</td>
+        <td>Type: scalaire entier positif. Valeurs prises en charge: entiers superieurs a un.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>definit les axes parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle d'axes.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle les parties recevant les evenements pointeur.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>definit l'etat de selection.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle la surbrillance de selection.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ShowText</b></td>
+        <td>controle l'affichage des libelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur d'identification.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>TextList</b></td>
+        <td>definit les niveaux qui recoivent des libelles.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: valeurs de niveaux reelles finies.</td>
+      </tr>
+      <tr>
+        <td><b>TextListMode</b></td>
+        <td>selectionne les niveaux libelles automatiques ou manuels.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>TextStep</b></td>
+        <td>definit l'espacement des niveaux libelles.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>TextStepMode</b></td>
+        <td>selectionne l'espacement automatique ou manuel des libelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>indique le type d'objet graphique.</td>
+        <td>Type: texte en lecture seule. Valeurs prises en charge: 'functioncontour'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur.</td>
+        <td>Type: any Nelson value. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>controle la visibilite.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>stocke les coordonnees x echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec YData et ZData.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>selectionne les donnees x automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDataSource</b></td>
+        <td>stocke l'expression source des donnees x.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>XRange</b></td>
+        <td>definit l'intervalle x echantillonne.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: limites finies croissantes.</td>
+      </tr>
+      <tr>
+        <td><b>XRangeMode</b></td>
+        <td>selectionne les limites x automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>stocke les coordonnees y echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec XData et ZData.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>selectionne les donnees y automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDataSource</b></td>
+        <td>stocke l'expression source des donnees y.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>YRange</b></td>
+        <td>definit l'intervalle y echantillonne.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: limites finies croissantes.</td>
+      </tr>
+      <tr>
+        <td><b>YRangeMode</b></td>
+        <td>selectionne les limites y automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZData</b></td>
+        <td>stocke les valeurs de fonction echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec XData et YData.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataSource</b></td>
+        <td>stocke l'expression source des donnees z.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>ZLocation</b></td>
+        <td>definit le plan z utilise pour tracer les contours.</td>
+        <td>Type: scalaire numerique ou valeur texte. Valeurs prises en charge: scalaire fini, 'zmin' ou 'zmax'.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes d'un contour de fonction.</example_item_description>
+      <example_item_data><![CDATA[h = fcontour(@(x, y) x.^2 - y.^2);
+names = properties(h);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/fcontour">fcontour</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.contour.properties">proprietes de contour</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,7 +17,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class NLSJULIA_ENGINE_IMPEXP JuliaEnvironment : HandleGenericObject
+class NLSJULIA_ENGINE_IMPEXP JuliaEnvironment : public HandleGenericObject
 {
     //=============================================================================
 protected:
@@ -58,6 +58,12 @@ public:
     }
     //=============================================================================
     bool
+    useSharedHandleOwnership() const override
+    {
+        return false;
+    }
+    //=============================================================================
+    bool
     saveCurrentState();
     //=============================================================================
     std::wstring
@@ -87,10 +93,10 @@ public:
     setExecutionMode(int mode);
     //=============================================================================
     wstringVector
-    getProperties();
+    properties() override;
     //=============================================================================
     wstringVector
-    getMethods();
+    methods() override;
     //=============================================================================
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
@@ -103,5 +109,5 @@ public:
 NLSJULIA_ENGINE_IMPEXP bool
 configureJuliaEnvironment(const JuliaEnvironment* juliaEnvironment);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

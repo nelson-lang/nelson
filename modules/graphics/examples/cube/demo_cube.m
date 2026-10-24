@@ -10,13 +10,13 @@
 % Define cube vertices
 vertices = [
     -1 -1 -1;
-    -1 -1  1;
-    -1  1 -1;
-    -1  1  1;
+    -1 -1 1;
+    -1 1 -1;
+    -1 1 1;
      1 -1 -1;
-     1 -1  1;
-     1  1 -1;
-     1  1  1
+     1 -1 1;
+     1 1 -1;
+     1 1 1
 ];
 
 % Define cube edges
@@ -30,33 +30,65 @@ edges = [
     7 8
 ];
 
-% Generate random lines inside the cube
-numLines = 1000; % Increased number of lines
-randLines = -1 + 2 * rand(numLines, 6); % Random points in range [-1,1]
-colors = rand(numLines, 3); % Generate random colors
+numLines = 1000;
+randLines = -1 + 2 * rand(numLines, 6);
+colorCount = 64;
+colors = rand(colorCount, 3);
+lineGroups = mod(0:numLines - 1, colorCount) + 1;
 
 % Create figure
 f = figure('Visible', 'off');
-axis equal;
+ax = axes('Parent', f);
 axis off
 grid on;
 view(3);
 hold on;
 
-% Plot cube edges
-for i = 1:size(edges, 1)
-    plot3(vertices(edges(i, :), 1), vertices(edges(i, :), 2), vertices(edges(i, :), 3), 'k', 'LineWidth', 1);
+edgeCount = size(edges, 1);
+edgeX = [vertices(edges(:, 1), 1), vertices(edges(:, 2), 1), nan(edgeCount, 1)]';
+edgeY = [vertices(edges(:, 1), 2), vertices(edges(:, 2), 2), nan(edgeCount, 1)]';
+edgeZ = [vertices(edges(:, 1), 3), vertices(edges(:, 2), 3), nan(edgeCount, 1)]';
+plot3(edgeX(:), edgeY(:), edgeZ(:), 'k', 'LineWidth', 1);
+
+for colorIndex = 1:colorCount
+  selected = lineGroups == colorIndex;
+  groupCount = sum(selected);
+  lineX = [randLines(selected, 1), randLines(selected, 4), nan(groupCount, 1)]';
+  lineY = [randLines(selected, 2), randLines(selected, 5), nan(groupCount, 1)]';
+  lineZ = [randLines(selected, 3), randLines(selected, 6), nan(groupCount, 1)]';
+  plot3(lineX(:), lineY(:), lineZ(:), 'Color', colors(colorIndex, :), 'LineWidth', 0.5);
 end
 
-% Plot random lines inside the cube with multiple colors
-plot3([randLines(:,1), randLines(:,4)]', ...
-      [randLines(:,2), randLines(:,5)]', ...
-      [randLines(:,3), randLines(:,6)]', 'LineWidth', 0.5);
-f.Visible = 'on';
+% Equal data units with fixed symmetric limits that contain the whole cube.
+% Setting DataAspectRatio (instead of calling 'axis equal' on the empty axes,
+% which would freeze the limits before any data exists) keeps the cube fully
+% inside the axes box.
+set(ax, 'DataAspectRatio', [1, 1, 1]);
+xlim(ax, [-1, 1]);
+ylim(ax, [-1, 1]);
+zlim(ax, [-1, 1]);
 
-% Rotate the cube
-for angle = 1:3600
-  if (isgraphics(f))
-    view(angle, 30);
+f.Visible = 'on';
+drawnow();
+
+framesPerSecond = 60;
+duration = 10;
+% allow tests (or users) to shorten the animation
+durationOverride = str2double(getenv('NELSON_DEMO_DURATION'));
+if isfinite(durationOverride) && durationOverride > 0
+  duration = durationOverride;
+end
+frameCount = framesPerSecond * duration;
+frameDelay = 1 / framesPerSecond;
+timerStart = tic();
+for k = 1:frameCount
+  if ~isgraphics(f)
+    break
   end
+  angle = 360 * (k - 1) / framesPerSecond;
+  view(ax, angle, 30);
+  drawnow();
+  elapsedTime = toc(timerStart);
+  pause(max(0, frameDelay - elapsedTime));
+  timerStart = tic();
 end

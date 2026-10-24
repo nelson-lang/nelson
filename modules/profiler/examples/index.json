@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "profile_computation.m",
+      "title": "Profile a computation",
+      "description": "Collect timing information for repeated matrix decompositions.",
+      "tags": [
+        "profiling",
+        "performance"
+      ],
+      "requirements": []
+    }
+  ]
+}

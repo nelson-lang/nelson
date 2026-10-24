@@ -11,6 +11,7 @@
 //=============================================================================
 #include <utility>
 #include <string>
+#include <vector>
 #include "FunctionDef.hpp"
 #include "GenericTable.hpp"
 #include "nlsInterpreter_exports.h"
@@ -29,6 +30,10 @@ public:
     find(const std::string& key, FunctionDefPtr& dest);
     bool
     add(const std::string& key, FunctionDefPtr val);
+    void
+    remove(const std::string& key);
+    std::vector<std::pair<std::string, FunctionDefPtr>>
+    getAll();
 };
 //=============================================================================
 } // namespace Nelson

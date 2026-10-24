@@ -9,6 +9,8 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
@@ -16,8 +18,8 @@ comm = MPI_Comm_object();
 world_rank = MPI_Comm_rank();
 world_size = MPI_Comm_size();
 
-[FLAG, STAT, INFO] = MPI_Iprobe(world_rank,1, comm)
-assert_isequal(INFO, 0);
+[FLAG, STAT, INFO] = MPI_Iprobe(world_rank, 1, comm)
+asserts.isequal(INFO, 0);
 if MPI_Initialized()
   MPI_Finalize();
 end

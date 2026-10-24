@@ -17,13 +17,12 @@ namespace Nelson {
 NLSOS_FUNCTIONS_IMPEXP ArrayOf
 windowsQueryRegistry(
     const std::wstring& rootkey, const std::wstring& subkey, std::wstring& errorMessage);
-
 NLSOS_FUNCTIONS_IMPEXP ArrayOf
 windowsQueryRegistryAllValuesNames(
     const std::wstring& rootkey, const std::wstring& subkey, std::wstring& errorMessage);
-
 NLSOS_FUNCTIONS_IMPEXP ArrayOf
 windowsQueryRegistryValueName(const std::wstring& rootkey, const std::wstring& subkey,
     const std::wstring& valname, std::wstring& errorMessage);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

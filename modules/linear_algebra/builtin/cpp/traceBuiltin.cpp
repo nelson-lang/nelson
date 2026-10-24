@@ -21,11 +21,15 @@ Nelson::LinearAlgebraGateway::traceBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isLogical()
-        || argIn[0].isCharacterArray() || argIn[0].isIntegerType()) {
+    if (argIn[0].isReferenceType()) {
         OverloadRequired("trace");
     }
-    retval << TraceMatrix(argIn[0]);
+    ArrayOf A(argIn[0]);
+    if (A.isLogical() || A.isCharacterArray() || A.isIntegerType()) {
+        // logical, char and integer inputs give a double result
+        A.promoteType(NLS_DOUBLE);
+    }
+    retval << TraceMatrix(A);
     return retval;
 }
 //=============================================================================

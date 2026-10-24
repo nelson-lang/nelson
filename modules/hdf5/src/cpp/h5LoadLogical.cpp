@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,22 +15,23 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5LoadLogical(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    const Dimensions& dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue)
+h5LoadLogical(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, bool isSparse,
+    uint64 nzmax, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (isEmpty) {
         if (isSparse) {
-            ArrayOf I = ArrayOf::emptyConstructor();
-            ArrayOf J = ArrayOf::emptyConstructor();
-            ArrayOf V = ArrayOf::emptyConstructor(dims);
+            ArrayOf I = ArrayOf::empty();
+            ArrayOf J = ArrayOf::empty();
+            ArrayOf V = ArrayOf::empty(dims);
             V.promoteType(NLS_LOGICAL);
             Dimensions _dims(dims);
             VariableValue
                 = SparseConstructor(I, J, V, _dims[0], _dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
-            VariableValue = ArrayOf::emptyConstructor(dims);
+            VariableValue = ArrayOf::empty(dims);
             VariableValue.promoteType(NLS_LOGICAL);
             bSuccess = true;
         }
@@ -43,15 +44,15 @@ h5LoadLogical(hid_t fid, const std::string& location, const std::string& variabl
         }
         if (isSparse) {
             ArrayOf I;
-            if (!h5LoadVariable(fid, h5path, "ir", I)) {
+            if (!h5LoadVariable(eval, fid, h5path, "ir", I)) {
                 return false;
             }
             ArrayOf J;
-            if (!h5LoadVariable(fid, h5path, "jc", J)) {
+            if (!h5LoadVariable(eval, fid, h5path, "jc", J)) {
                 return false;
             }
             ArrayOf V;
-            if (!h5LoadVariable(fid, h5path, "data", V)) {
+            if (!h5LoadVariable(eval, fid, h5path, "data", V)) {
                 return false;
             }
             V.promoteType(NLS_LOGICAL);

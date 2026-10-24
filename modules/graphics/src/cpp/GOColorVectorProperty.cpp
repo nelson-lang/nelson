@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOColorVectorProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,17 +19,17 @@ GOColorVectorProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
     arg.promoteType(NLS_DOUBLE);
-    bool isValid = arg.isEmpty() || (arg.is2D() && (arg.getDimensionLength(1) == 3));
+    bool isValid = arg.isEmpty() || (arg.is2D() && (arg.dimensionLength(1) == 3));
     if (!isValid) {
-        Error(_("Expect an m x 3 matrix for color orders."));
+        Error("Nelson:colororder:invalidMatrix", "Expect an m x 3 matrix for color orders.");
     }
     const double* dp = static_cast<const double*>(
-        const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
+        const_cast<void*>(static_cast<const void*>(arg.dataPointer())));
 
-    indexType n = arg.getElementCount();
+    indexType n = arg.elementCount();
     for (indexType i = 0; i < n; i++) {
         if ((dp[i] < 0) || (dp[i] > 1.0)) {
-            Error(_("Color vector must be between 0 and 1."));
+            Error("Nelson:colororder:outOfRange", "Color vector must be between 0 and 1.");
         }
     }
     _data.clear();
@@ -55,5 +56,5 @@ GOColorVectorProperty::get()
     return ArrayOf(NLS_DOUBLE, Dimensions(rows, 3), rp);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

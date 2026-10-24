@@ -10,11 +10,7 @@
 #pragma once
 //=============================================================================
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
-#else
-#include <QtWidgets/QAction>
-#endif
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QTabWidget>
@@ -22,7 +18,6 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTextEdit>
-#include <QtWidgets/QSizeGrip>
 #include <QtCore/QMap>
 #include <QtGui/QCloseEvent>
 #include "nlsGui_exports.h"
@@ -43,6 +38,10 @@ public:
     setEvaluator(Evaluator* eval);
     bool
     openVariable(const QString& variableName);
+    bool
+    isVariableExisting(const QString& variableName) const;
+    bool
+    isGraphicsObjectExisting(long long handle) const;
     void
     updateVariables();
     void
@@ -76,8 +75,6 @@ private slots:
     pasteExcelDataFromClipboard();
     void
     closeTab(int index);
-    void
-    handleDockLocationChanged(Qt::DockWidgetArea area);
 
     void
     insertRowAbove();
@@ -105,9 +102,16 @@ private slots:
     void
     redo();
 
+    void
+    updateEditActions();
+
 private:
     void
     setupUI();
+    void
+    connectModelSignals(QObject* model);
+    void
+    showStatusMessage(const QString& message, bool isError = false);
     void
     createTableContextMenu(QTableView* tableView);
     void
@@ -131,7 +135,7 @@ private:
 
     QTabWidget* m_tabWidget = nullptr;
     QToolBar* m_toolBar = nullptr;
-    QSizeGrip* m_sizeGrip = nullptr;
+    QStatusBar* m_statusBar = nullptr;
 
     QAction* m_undoAction = nullptr;
     QAction* m_redoAction = nullptr;
@@ -149,7 +153,6 @@ private:
     QAction* m_deleteColAction = nullptr;
     QAction* m_replaceByEmptyAction = nullptr;
 
-    // Data
     Evaluator* m_evaluator = nullptr;
     QHash<QString, QWidget*> m_openedVariables;
 };

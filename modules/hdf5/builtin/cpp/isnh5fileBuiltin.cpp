@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::Hdf5Gateway::isnh5fileBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 3);
     nargincheck(argIn, 1, 1);
-    wstringVector filenames = argIn[0].getContentAsWideStringVector(true);
+    wstringVector filenames = argIn[0].asWideStringVector(true);
     ArrayOf isNh5;
     ArrayOf nh5Versions;
     ArrayOf nh5Headers;

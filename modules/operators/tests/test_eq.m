@@ -7,103 +7,103 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('eq'), 2)
-assert_isequal(nargout('eq'), 1)
+asserts.isequal(nargin('eq'), 2)
+asserts.isequal(nargout('eq'), 1)
 %=============================================================================
-assert_istrue(eq(1, 1));
-assert_istrue(eq(logical(1), logical(1)));
-assert_istrue(eq(string(1), string(1)));
+asserts.istrue(eq(1, 1));
+asserts.istrue(eq(logical(1), logical(1)));
+asserts.istrue(eq(string(1), string(1)));
 %=============================================================================
 A = ["Nel", NaN, "son"];
 B = ["Nel", NaN, "son"];
 R = (A == B);
 REF = [true false true];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ["Nel", NaN, "son"];
 B = ["Nel", "son"];
-assert_checkerror('A == B', [_('Size mismatch on arguments to arithmetic operator'), ' ', '==']);
+asserts.checkerror('A == B', [_('Size mismatch on arguments to arithmetic operator'), ' ', '==']);
 %=============================================================================
 A = ["r", "rff", ""; "dd", "c", "mm"];
 B = ["r", "rff", ""; "dd", "c", "mm"];
 R = (A == B);
 REF = logical(ones(2, 3));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ["r", "rff", ""; "dd", "c", "mm"];
 B = "r";
 R = (A == B);
 REF = logical([1 0 0; 0 0 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 B = ["r", "rff", ""; "dd", "c", "mm"];
 A = "r";
 R = (A == B);
 REF = logical([1 0 0; 0 0 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 % compatibility size
 %=============================================================================
-A = [1 2;3 4;5 6];
+A = [1 2; 3 4; 5 6];
 B = [1; 2; 3];
 R = (A == B);
 REF = logical([1 0; 0 0; 0 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-B = [1;2];
-A = [ 1 2 3];
+B = [1; 2];
+A = [1 2 3];
 R = (A == B);
 REF = logical([1 0 0; 0 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = [1;2];
-B = [ 1 2 3];
+A = [1; 2];
+B = [1 2 3];
 R = (A == B);
 REF = logical([1 0 0; 0 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = [1;2] + i;
-B = [ 1 2 3] + i;
+A = [1; 2] + i;
+B = [1 2 3] + i;
 R = (A == B);
 REF = logical([1 0 0; 0 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = 1+2i;
-B = 1+2i;
+A = 1 + 2i;
+B = 1 + 2i;
 R = (A == B);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
-A = ["apple", "orange","tomato"];
+A = ["apple", "orange", "tomato"];
 B = 'orange';
 R = (A == B);
 REF = logical([0 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ["1", "a"; "3", "b"];
 B = ["a"; "b"];
 R = A == B;
 REF = logical([0, 1;
-0, 1]);
-assert_isequal(R, REF);
+  0, 1]);
+asserts.isequal(R, REF);
 %=============================================================================
 B = ["1", "a"; "3", "b"];
 A = ["a"; "b"];
 R = A == B;
 REF = logical([0, 1;
-0, 1]);
-assert_isequal(R, REF);
+  0, 1]);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [1 2; 3 4];
 B = [1; 3];
 R = A == B;
 REF = logical([1, 0;
-1, 0]);
-assert_isequal(R, REF);
+  1, 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 B = [1 2; 3 4];
 A = [1; 3];
 R = A == B;
 REF = logical([1, 0;
-1, 0]);
-assert_isequal(R, REF);
+  1, 0]);
+asserts.isequal(R, REF);
 %=============================================================================

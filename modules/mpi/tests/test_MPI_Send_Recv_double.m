@@ -9,21 +9,23 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
 
-TAG= 1;
+TAG = 1;
 if (my_rank != 0)
   rankvect = 0;
   MPI_Send(eye(3, 4), rankvect, TAG)
 else
   for source = 1:num_ranks - 1
-    receive = MPI_Recv (source, TAG);
-    assert_istrue(isa(receive, 'double'));
-    assert_isequal(receive, eye(3, 4))
+    receive = MPI_Recv(source, TAG);
+    asserts.istrue(isa(receive, 'double'));
+    asserts.isequal(receive, eye(3, 4))
   end
 end
 if MPI_Initialized()

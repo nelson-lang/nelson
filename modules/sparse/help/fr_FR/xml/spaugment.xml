@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>spaugment</keyword>
+  <short_description>Construit une matrice sparse augmentee pour les moindres carres.</short_description>
+  <syntax>
+    <syntax_item>S = spaugment(A)</syntax_item>
+    <syntax_item>S = spaugment(A, c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>matrice 2-D numerique ou logique non vide, sparse ou pleine.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description>facteur d'echelle du residu. Le premier element est utilise. La valeur par defaut est max(max(abs(A))) / 1000.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>matrice sparse augmentee.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>spaugment</b> construit la matrice sparse <b>[c * I, A; A', 0]</b>.</p>
+    <p>Cette matrice est utile pour reecrire des problemes sparse de moindres carres sous forme de systemes symetriques indefinis.</p>
+    <p>Les entrees double, single, logiques, double complexes et single complexes sont prises en charge. La sortie est sparse, et les entrees sparse numeriques single conservent la classe single.</p>
+    <p>Les valeurs nulles stockees dans <b>A</b> sparse sont ignorees par les operations sparse utilisees pour former la matrice augmentee.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 2 3; 0 4]);
+S = spaugment(A, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([1 + 2i 0; 0 3]));
+S = spaugment(A, single(2))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}speye">speye</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqr">lsqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

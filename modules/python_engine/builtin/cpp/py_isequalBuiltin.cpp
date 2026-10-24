@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,9 +25,9 @@ Nelson::Python_engineGateway::py_isequalBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOf param1 = argIn[0];
     for (size_t k = 1; k < argIn.size(); k++) {
         if (!PyIsEqual(param1, argIn[k])) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
     }
-    return ArrayOf::logicalConstructor(true);
+    return ArrayOf::logicalScalar(true);
 }
 //=============================================================================

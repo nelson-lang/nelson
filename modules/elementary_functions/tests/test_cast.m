@@ -7,94 +7,98 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('cast'), 3)
-assert_isequal(nargout('cast'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('cast'), 3)
+asserts.isequal(nargout('cast'), 1)
 %=============================================================================
 r = cast(8, 'uint8');
 REF = uint8(8);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast('hello','double');
-REF =  [104     101     108     108     111];
-assert_isequal(r, REF);
+r = cast('hello', 'double');
+REF = [104 101 108 108 111];
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast(8,'like',sparse(1));
+r = cast(8, 'like', sparse(1));
 REF = sparse(8);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast (300, 'int8');
+r = cast(300, 'int8');
 REF = int8(127);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast (3i, 'double');
+r = cast(3i, 'double');
 REF = double(3i);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast (3i, 'single');
+r = cast(3i, 'single');
 REF = single(3i);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast(single(3.6), 'double');
 REF = 3.6;
-assert_isapprox(r, REF, eps('single'));
+asserts.isapprox(r, REF, eps('single'));
 %=============================================================================
 r = cast(3.6, 'single');
 REF = single(3.6);
-assert_isapprox(r, REF);
+asserts.isapprox(r, REF);
 %=============================================================================
 r = cast([6 0 -6], 'logical');
 REF = [true false true];
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-r = cast([104     101     108     108     111], 'char');
+r = cast([104 101 108 108 111], 'char');
 REF = 'hello';
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'int8');
-REF = int8 ([4 1 -2]);
-assert_isequal(r, REF);
+REF = int8([4 1 -2]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'uint8');
-REF = uint8 ([4 1 0]);
-assert_isequal(r, REF);
+REF = uint8([4 1 0]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'int16');
-REF = int16 ([4 1 -2]);
-assert_isequal(r, REF);
+REF = int16([4 1 -2]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'uint16');
-REF = uint16 ([4 1 0]);
-assert_isequal(r, REF);
+REF = uint16([4 1 0]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'int32');
-REF = int32 ([4 1 -2]);
-assert_isequal(r, REF);
+REF = int32([4 1 -2]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'uint32');
-REF = uint32 ([4 1 0]);
-assert_isequal(r, REF);
+REF = uint32([4 1 0]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'int64');
-REF = int64 ([4 1 -2]);
-assert_isequal(r, REF);
+REF = int64([4 1 -2]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'uint64');
-REF = uint64 ([4 1 0]);
-assert_isequal(r, REF);
+REF = uint64([4 1 0]);
+asserts.isequal(r, REF);
 %=============================================================================
 % r = cast (3i, 'int8')
 %=============================================================================
 r = cast([3.6 1.2 -2.4], 'like', int64(3));
-REF = int64 ([4 1 -2]);
-assert_isequal(r, REF);
+REF = int64([4 1 -2]);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast(1 + 0i, 'like', 3);
 REF = double(1);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
 r = cast(1 + 0i, 'like', 3i);
 REF = complex(1, 0);
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
-assert_checkerror('r = cast([3.6 1.2 -2.4], ''like2'', int64(3));',_('Wrong value for #2 argument.'));
+asserts.checkerror('r = cast([3.6 1.2 -2.4], ''like2'', int64(3));', sprintf(_('Wrong value for #%d argument.'), 2));
+%=============================================================================
+asserts.isequal(cast(3, 'uint8'), uint8(3));
+asserts.isequal(cast(300, 'int8'), int8(127));
 %=============================================================================

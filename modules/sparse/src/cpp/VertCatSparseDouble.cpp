@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,19 +14,33 @@
 #include "CtransposeSparseDouble.hpp"
 #include "HorzCatSparseDouble.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
+#include "ConcatenateDimensions.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isSparseFloatingType(const ArrayOf& value)
+{
+    if (!value.isSparse()) {
+        return false;
+    }
+    NelsonType dataClass = value.dataClass();
+    return dataClass == NLS_DOUBLE || dataClass == NLS_DCOMPLEX || dataClass == NLS_SINGLE
+        || dataClass == NLS_SCOMPLEX;
+}
 //=============================================================================
 ArrayOf
 VertCatSparseDouble(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
-    if (!A.isSparseDoubleType()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!isSparseFloatingType(A)) {
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse double");
     }
-    if (!B.isSparseDoubleType()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!isSparseFloatingType(B)) {
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+            L"sparse double");
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -36,10 +50,10 @@ VertCatSparseDouble(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getColumns() != dimsB.getColumns()) {
-        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    if (dimsA.columns() != dimsB.columns()) {
+        raiseConcatenationDimensionMismatch();
     }
     A = CtransposeSparseDouble(A);
     B = CtransposeSparseDouble(B);

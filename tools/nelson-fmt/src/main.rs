@@ -11,6 +11,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use std::env;
 use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
@@ -22,7 +23,7 @@ use walkdir::WalkDir;
 // ===========================================================================
 /// Code formatter for the Nelson project.
 ///
-/// Formats JSON, XML (help docs), Markdown, JavaScript, YAML files
+/// Formats JSON, XML (help docs), Markdown, JavaScript, TypeScript, YAML files
 /// and runs clang-format on C/C++ sources.
 #[derive(Parser, Debug)]
 #[command(name = "nelson-fmt", about = "Format code in the Nelson project")]
@@ -34,6 +35,12 @@ struct Args {
     /// Print every file being processed
     #[arg(short, long)]
     verbose: bool,
+
+    /// Only format files tracked by git (from `git ls-files`), skipping
+    /// untracked files such as build outputs or vendored copies not yet added
+    /// to the repository.
+    #[arg(short = 't', long)]
+    tracked: bool,
 
     /// Root directory of the Nelson project (default: current directory)
     #[arg(default_value = ".")]
@@ -65,6 +72,14 @@ struct ClangFormatIgnore {
     /// If present, overrides `DEFAULT_CLANG_FORMAT_MAJOR_VERSION`.
     #[serde(default)]
     clang_format_major_version: Option<u32>,
+
+    /// Frontend directories (relative to the project root) that own their own
+    /// formatting through an `npm run format` / `format:check` script (prettier
+    /// with a per-module `.prettierrc.json`).  These are excluded from
+    /// nelson-fmt's own passes and instead delegated to npm, so a single
+    /// `cargo format` also formats their TypeScript/TSX sources.
+    #[serde(default)]
+    npm_format_dirs: Vec<String>,
 }
 
 /// Load the formatting configuration from `<root>/nelson-format-ignore.json`.
@@ -111,7 +126,7 @@ fn basic_cleanup(content: &str) -> String {
 fn format_json(content: &str) -> Result<Option<String>> {
     let value: serde_json::Value = match serde_json::from_str(content) {
         Ok(v) => v,
-        Err(_) => return Ok(None), // unparseable JSON - skip
+        Err(_) => return Ok(None), // unparsable JSON - skip
     };
 
     let buf = Vec::new();
@@ -141,6 +156,207 @@ fn cmake_style_arg() -> Option<String> {
         }
     }
     Some(DEFAULT_CMAKE_STYLE.to_string())
+}
+
+/// Minimum required `cmake-fmt` version.
+///
+/// `cmake-fmt` before 0.11.0 silently drops parenthesized sub-expressions from
+/// `if()` / `elseif()` / `while()` conditions.  For example
+/// `if(WIN32 AND (X OR Y))` is rewritten as `if(WIN32 AND )`,
+/// `if((A) OR B)` as `if(OR B)` and `if(NOT (A))` as `if(NOT)`, which CMake
+/// then rejects with "Unknown arguments specified".  0.11.0 fixes the bug.
+const MIN_CMAKE_FMT_VERSION: (u32, u32, u32) = (0, 11, 0);
+
+/// Version requirement passed to `cargo install` so a fresh or upgraded
+/// install never picks up a known-corrupting `cmake-fmt`.
+const CMAKE_FMT_VERSION_REQ: &str = "^0.11";
+
+/// Parse the `(major, minor, patch)` version from `cmake-fmt --version`
+/// (whose output looks like `cmake-fmt 0.11.0`).
+fn cmake_fmt_version(bin: &Path) -> Option<(u32, u32, u32)> {
+    let output = Command::new(bin).arg("--version").output().ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    let text = String::from_utf8_lossy(&output.stdout);
+    // Take the first whitespace-separated token that starts with a digit.
+    let token = text
+        .split_whitespace()
+        .find(|t| t.chars().next().is_some_and(|c| c.is_ascii_digit()))?;
+    let mut parts = token.split('.');
+    let parse = |s: Option<&str>| -> u32 {
+        s.unwrap_or("0")
+            .chars()
+            .take_while(|c| c.is_ascii_digit())
+            .collect::<String>()
+            .parse()
+            .unwrap_or(0)
+    };
+    let major = parse(parts.next());
+    let minor = parse(parts.next());
+    let patch = parse(parts.next());
+    Some((major, minor, patch))
+}
+
+/// Whether `version` satisfies [`MIN_CMAKE_FMT_VERSION`].
+fn cmake_fmt_version_ok(version: (u32, u32, u32)) -> bool {
+    version >= MIN_CMAKE_FMT_VERSION
+}
+
+/// Detect a CMake conditional that a formatter has corrupted by dropping one of
+/// its operands.
+///
+/// Scans every `if` / `elseif` / `while` argument list and returns `true` when
+/// it finds a boolean operator (`AND` / `OR`) with a missing left or right
+/// operand, a unary operator (`NOT`, `DEFINED`, `EXISTS`, ...) with no operand,
+/// or an empty condition — the exact signature left behind when a parenthesized
+/// sub-expression is deleted.  Quoted strings and `#` comments are skipped so
+/// that parentheses inside a `MATCHES "^(a|b)$"` regex are not miscounted.
+///
+/// This is used to reject `cmake-fmt` output that would damage a build file:
+/// when it fires, the original file is kept untouched.
+fn cmake_conditionals_are_corrupted(content: &str) -> bool {
+    const BINARY_OPS: [&str; 2] = ["AND", "OR"];
+    const UNARY_OPS: [&str; 9] = [
+        "NOT",
+        "DEFINED",
+        "EXISTS",
+        "COMMAND",
+        "TARGET",
+        "POLICY",
+        "IS_DIRECTORY",
+        "IS_SYMLINK",
+        "IS_ABSOLUTE",
+    ];
+
+    let bytes = content.as_bytes();
+    let n = bytes.len();
+
+    // Return true if the identifier `word` (a command name) starts at byte
+    // index `start` on a word boundary.
+    let word_boundary = |start: usize| -> bool {
+        if start == 0 {
+            return true;
+        }
+        let prev = bytes[start - 1];
+        !(prev.is_ascii_alphanumeric() || prev == b'_')
+    };
+
+    for keyword in ["if", "elseif", "while"] {
+        let kw = keyword.as_bytes();
+        let mut search = 0usize;
+        while let Some(rel) = content[search..].find(keyword) {
+            let idx = search + rel;
+            search = idx + kw.len();
+            if !word_boundary(idx) {
+                continue;
+            }
+            // Skip whitespace between the keyword and the opening paren.
+            let mut i = idx + kw.len();
+            while i < n && (bytes[i] as char).is_whitespace() {
+                i += 1;
+            }
+            if i >= n || bytes[i] != b'(' {
+                continue;
+            }
+            // Collect the balanced argument list, skipping strings and comments.
+            let mut depth = 0i32;
+            let mut tokens: Vec<String> = Vec::new();
+            let mut cur = String::new();
+            let flush = |cur: &mut String, tokens: &mut Vec<String>| {
+                if !cur.is_empty() {
+                    tokens.push(std::mem::take(cur));
+                }
+            };
+            while i < n {
+                let c = bytes[i] as char;
+                if c == '"' {
+                    // Quoted string is a single operand token.
+                    cur.push('"');
+                    i += 1;
+                    while i < n {
+                        let d = bytes[i] as char;
+                        cur.push(d);
+                        if d == '\\' && i + 1 < n {
+                            cur.push(bytes[i + 1] as char);
+                            i += 2;
+                            continue;
+                        }
+                        i += 1;
+                        if d == '"' {
+                            break;
+                        }
+                    }
+                    continue;
+                }
+                if c == '#' {
+                    // Line comment: skip to end of line.
+                    while i < n && bytes[i] != b'\n' {
+                        i += 1;
+                    }
+                    continue;
+                }
+                if c == '(' {
+                    flush(&mut cur, &mut tokens);
+                    depth += 1;
+                    if depth > 1 {
+                        tokens.push("(".to_string());
+                    }
+                    i += 1;
+                    continue;
+                }
+                if c == ')' {
+                    flush(&mut cur, &mut tokens);
+                    depth -= 1;
+                    if depth == 0 {
+                        break;
+                    }
+                    tokens.push(")".to_string());
+                    i += 1;
+                    continue;
+                }
+                if c.is_whitespace() {
+                    flush(&mut cur, &mut tokens);
+                    i += 1;
+                    continue;
+                }
+                cur.push(c);
+                i += 1;
+            }
+            flush(&mut cur, &mut tokens);
+
+            if depth != 0 {
+                // Unbalanced parentheses: definitely corrupted.
+                return true;
+            }
+            if tokens.is_empty() {
+                return true;
+            }
+
+            let is_op = |t: &str| BINARY_OPS.iter().any(|o| o.eq_ignore_ascii_case(t));
+            let is_unary = |t: &str| UNARY_OPS.iter().any(|o| o.eq_ignore_ascii_case(t));
+            for (pos, tok) in tokens.iter().enumerate() {
+                let prev = if pos == 0 {
+                    "("
+                } else {
+                    tokens[pos - 1].as_str()
+                };
+                let next = tokens.get(pos + 1).map(String::as_str).unwrap_or(")");
+                if is_op(tok) {
+                    if prev == "(" || is_op(prev) {
+                        return true;
+                    }
+                    if next == ")" || is_op(next) {
+                        return true;
+                    }
+                }
+                if is_unary(tok) && (next == ")" || is_op(next)) {
+                    return true;
+                }
+            }
+        }
+    }
+    false
 }
 
 /// Format CMake content by calling the cmake-fmt binary.
@@ -186,7 +402,28 @@ fn format_cmake_file(path: &Path, content: &str, verbose: bool) -> String {
             child.wait_with_output()
         });
     match output {
-        Ok(out) if out.status.success() => String::from_utf8_lossy(&out.stdout).to_string(),
+        Ok(out) if out.status.success() => {
+            let formatted = String::from_utf8_lossy(&out.stdout).to_string();
+            // Guard against a buggy cmake-fmt that drops parenthesized
+            // sub-expressions from conditions: never accept output that is
+            // corrupted when the input was not.
+            if cmake_conditionals_are_corrupted(&formatted)
+                && !cmake_conditionals_are_corrupted(content)
+            {
+                eprintln!(
+                    "WARNING: cmake-fmt produced a corrupted conditional in {}; \
+                     keeping the original. Upgrade cmake-fmt to >= {}.{}.{} \
+                     (cargo install cmake-fmt --version {} --force).",
+                    path.display(),
+                    MIN_CMAKE_FMT_VERSION.0,
+                    MIN_CMAKE_FMT_VERSION.1,
+                    MIN_CMAKE_FMT_VERSION.2,
+                    CMAKE_FMT_VERSION_REQ
+                );
+                return content.to_string();
+            }
+            formatted
+        }
         _ => content.to_string(),
     }
 }
@@ -242,16 +479,100 @@ fn format_rust_with_rustfmt(path: &Path, content: &str, verbose: bool) -> String
 // ===========================================================================
 // Helper utilities
 // ===========================================================================
-/// into them.
-fn is_skipped_dir(entry: &walkdir::DirEntry, ignore: &ClangFormatIgnore) -> bool {
+/// Simple wildcard matcher supporting `*` as "match any sequence".
+///
+/// - Patterns and text are expected to use `/` as path separator (caller
+///   normalises backslashes to slashes). This matcher does not support
+///   character classes or `?` - it's intentionally minimal for the needs of
+///   `nelson-format-ignore.json` (e.g. `dir/*.c`).
+fn wildcard_match(pattern: &str, text: &str) -> bool {
+    // Fast path: exact match
+    if pattern == text {
+        return true;
+    }
+
+    // Split around '*' and match segments sequentially
+    let mut parts = pattern.split('*').peekable();
+    let mut pos: usize = 0;
+
+    // Leading segment must match the start if pattern doesn't start with '*'
+    if let Some(first) = parts.peek() {
+        if !pattern.starts_with('*') && !first.is_empty() {
+            let first = *first;
+            if !text.starts_with(first) {
+                return false;
+            }
+            pos = first.len();
+            // consume the first part
+            parts.next();
+        }
+    }
+
+    // Match intermediate segments anywhere after the previous match
+    while let Some(seg) = parts.next() {
+        if seg.is_empty() {
+            continue;
+        }
+        match text[pos..].find(seg) {
+            Some(i) => pos += i + seg.len(),
+            None => return false,
+        }
+    }
+
+    // If pattern doesn't end with '*', ensure the last segment matched the end
+    if !pattern.ends_with('*') {
+        if let Some(last) = pattern.split('*').last() {
+            if !last.is_empty() && !text.ends_with(last) {
+                return false;
+            }
+        }
+    }
+
+    true
+}
+
+/// Decide whether `WalkDir` should prune (not descend into) a directory.
+///
+/// This is the main performance lever: pruning a large excluded directory
+/// (e.g. `.git`, `tools`, `temp`) avoids enumerating the hundreds of thousands
+/// of files it may contain.
+///
+/// Pruning is kept strictly consistent with the per-file [`is_path_excluded`]
+/// logic: a directory is skipped only when *every* file beneath it would be
+/// excluded anyway.  For a directory whose path (relative to `root`) is `R`,
+/// with all descendants sharing the prefix `R/`:
+///   * a `foo/`-style (anchored) pattern excludes every descendant iff it is a
+///     prefix of `R/`;
+///   * a bare-substring pattern excludes every descendant iff `R` already
+///     contains it.
+/// Wildcard patterns are ignored here and handled per-file instead, so no file
+/// is ever skipped that the per-file pass would have formatted.
+fn is_skipped_dir(entry: &walkdir::DirEntry, root: &Path, ignore: &ClangFormatIgnore) -> bool {
     if !entry.file_type().is_dir() {
         return false;
     }
-    let name = entry.file_name().to_string_lossy();
-    ignore
-        .exclude_path_contains
-        .iter()
-        .any(|p| !p.contains('/') && !p.contains('*') && p == name.as_ref())
+    let relative = entry
+        .path()
+        .strip_prefix(root)
+        .unwrap_or(entry.path())
+        .to_string_lossy()
+        .replace('\\', "/");
+    if relative.is_empty() {
+        return false; // never prune the root itself
+    }
+    let relative_slash = format!("{}/", relative);
+    ignore.exclude_path_contains.iter().any(|p| {
+        let pat = p.replace('\\', "/");
+        if pat.contains('*') {
+            false
+        } else if pat.ends_with('/') {
+            // Anchored: prune when the pattern is a prefix of "R/".
+            relative_slash.starts_with(&pat)
+        } else {
+            // Bare substring: prune when R already contains it.
+            !pat.is_empty() && relative.contains(&pat)
+        }
+    })
 }
 /// Determine whether a path is a C/C++ source that should be excluded from
 /// clang-format (e.g. vendored third-party code).
@@ -263,12 +584,46 @@ fn is_cpp_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> bool
         .replace('\\', "/");
     ignore.exclude_path_contains.iter().any(|pattern| {
         let pat = pattern.replace('\\', "/");
-        if pat.ends_with('/') {
+        if pat.contains('*') {
+            wildcard_match(&pat, &relative)
+        } else if pat.ends_with('/') {
             relative.starts_with(&pat)
         } else {
             relative.contains(&pat)
         }
     })
+}
+
+/// Load the set of files tracked by git, as paths relative to `root` using
+/// `/` separators (matching the normalisation used by the exclusion helpers).
+///
+/// Uses `git ls-files -z` so that paths containing spaces or other unusual
+/// characters are handled correctly.  Returns an error when git is missing or
+/// the command fails (e.g. `root` is not inside a git working tree).
+fn load_tracked_files(root: &Path) -> Result<HashSet<String>> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["ls-files", "-z"])
+        .output()
+        .context("Failed to run `git ls-files` (is git installed and on PATH?)")?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        anyhow::bail!(
+            "`git ls-files` failed in {}: {}",
+            root.display(),
+            stderr.trim()
+        );
+    }
+
+    let set = output
+        .stdout
+        .split(|&b| b == 0)
+        .filter(|s| !s.is_empty())
+        .map(|s| String::from_utf8_lossy(s).replace('\\', "/"))
+        .collect();
+    Ok(set)
 }
 
 /// Determine whether a path should be excluded from formatting for any extension.
@@ -280,7 +635,9 @@ fn is_path_excluded(path: &Path, root: &Path, ignore: &ClangFormatIgnore) -> boo
         .replace('\\', "/");
     ignore.exclude_path_contains.iter().any(|pattern| {
         let pat = pattern.replace('\\', "/");
-        if pat.ends_with('/') {
+        if pat.contains('*') {
+            wildcard_match(&pat, &relative)
+        } else if pat.ends_with('/') {
             relative.starts_with(&pat)
         } else {
             relative.contains(&pat)
@@ -301,7 +658,7 @@ fn standard_file_kind<'a>(path: &'a Path, _root: &Path) -> Option<&'a str> {
         }
         let ext = path.extension()?.to_str()?;
         match ext {
-            "json" | "yml" | "yaml" | "md" | "js" | "cmake" => Some(ext),
+            "json" | "yml" | "yaml" | "md" | "js" | "ts" | "cmake" => Some(ext),
             "xml" => {
                 // We only treat XML files as special when they live inside a
                 // help/ directory.  Other XML files (e.g. desktop data files)
@@ -362,7 +719,7 @@ fn process_file(path: &Path, ext: &str, check: bool, verbose: bool) -> Result<bo
                 Some(f) => f,
                 None => {
                     if verbose {
-                        eprintln!("Skipping (unparseable JSON): {}", path.display());
+                        eprintln!("Skipping (unparsable JSON): {}", path.display());
                     }
                     return Ok(true);
                 }
@@ -443,9 +800,64 @@ fn resolve_clang_format(root: &Path, required_major: u32) -> Option<PathBuf> {
     None
 }
 
+/// Install (or upgrade) `cmake-fmt` via cargo, pinned to a non-corrupting
+/// version.  `force` re-installs over an existing (too old) binary.
+fn cargo_install_cmake_fmt(force: bool) -> bool {
+    let mut cmd = Command::new("cargo");
+    cmd.arg("install")
+        .arg("cmake-fmt")
+        .arg("--version")
+        .arg(CMAKE_FMT_VERSION_REQ);
+    if force {
+        cmd.arg("--force");
+    }
+    match cmd.status() {
+        Ok(status) if status.success() => true,
+        Ok(status) => {
+            eprintln!("`cargo install cmake-fmt` failed with exit {}", status);
+            false
+        }
+        Err(e) => {
+            eprintln!("Failed to run `cargo install cmake-fmt`: {}", e);
+            false
+        }
+    }
+}
+
+/// Return the given `cmake-fmt` binary only when it meets the minimum required
+/// version; otherwise warn and return `None`.  Refusing an older binary is the
+/// "pin the minimum version" half of the corruption guard: versions before
+/// [`MIN_CMAKE_FMT_VERSION`] drop parenthesized `if()` sub-expressions.
+fn accept_if_recent(bin: PathBuf) -> Option<PathBuf> {
+    match cmake_fmt_version(&bin) {
+        Some(v) if cmake_fmt_version_ok(v) => Some(bin),
+        Some((a, b, c)) => {
+            eprintln!(
+                "WARNING: {} is cmake-fmt {}.{}.{}, but >= {}.{}.{} is required \
+                 (older versions silently drop parenthesized if() sub-expressions). \
+                 Upgrade with `cargo install cmake-fmt --version {} --force`.",
+                bin.display(),
+                a,
+                b,
+                c,
+                MIN_CMAKE_FMT_VERSION.0,
+                MIN_CMAKE_FMT_VERSION.1,
+                MIN_CMAKE_FMT_VERSION.2,
+                CMAKE_FMT_VERSION_REQ
+            );
+            None
+        }
+        None => None,
+    }
+}
+
 /// Resolve cmake-fmt binary to use:
 /// 1. Try `<root>/tools/cmake-fmt/cmake-fmt[.exe]`
 /// 2. Fall back to `cmake-fmt` on PATH
+/// 3. Install a pinned, non-corrupting version via cargo
+///
+/// A binary older than [`MIN_CMAKE_FMT_VERSION`] is refused (and upgraded when
+/// found on PATH) so a known-corrupting formatter is never used.
 fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
     let local_name = if cfg!(windows) {
         "cmake-fmt.exe"
@@ -454,80 +866,57 @@ fn resolve_cmake_fmt(root: &Path) -> Option<PathBuf> {
     };
     let local = root.join("tools").join("cmake-fmt").join(local_name);
     if local.is_file() {
-        return Some(local);
+        if let Some(bin) = accept_if_recent(local) {
+            return Some(bin);
+        }
+        // A vendored binary that is too old cannot be upgraded in place; fall
+        // through to PATH / cargo install.
     }
 
-    // Try on PATH
-    if Command::new(local_name)
-        .arg("--version")
-        .output()
-        .map(|o| o.status.success())
-        .unwrap_or(false)
-    {
-        return Some(PathBuf::from(local_name));
-    }
-
-    // Not found: attempt to install via `cargo install cmake-fmt` so users
-    // running the tool get an automatic experience.  This may take time
-    // and requires `cargo` and network access.
-    eprintln!("cmake-fmt not found. Attempting `cargo install cmake-fmt`...");
-    match Command::new("cargo")
-        .arg("install")
-        .arg("cmake-fmt")
-        .status()
-    {
-        Ok(status) if status.success() => {
-            // Re-check the binary on PATH
-            if Command::new(local_name)
-                .arg("--version")
-                .output()
-                .map(|o| o.status.success())
-                .unwrap_or(false)
-            {
-                return Some(PathBuf::from(local_name));
-            } else {
-                eprintln!("cargo install succeeded but `cmake-fmt` not found on PATH");
+    // Try on PATH.
+    match cmake_fmt_version(Path::new(local_name)) {
+        Some(v) if cmake_fmt_version_ok(v) => return Some(PathBuf::from(local_name)),
+        Some((a, b, c)) => {
+            eprintln!(
+                "cmake-fmt {}.{}.{} on PATH is too old (>= {}.{}.{} required); \
+                 upgrading via `cargo install cmake-fmt --version {} --force`...",
+                a,
+                b,
+                c,
+                MIN_CMAKE_FMT_VERSION.0,
+                MIN_CMAKE_FMT_VERSION.1,
+                MIN_CMAKE_FMT_VERSION.2,
+                CMAKE_FMT_VERSION_REQ
+            );
+            if cargo_install_cmake_fmt(true) {
+                return accept_if_recent(PathBuf::from(local_name));
             }
+            return None;
         }
-        Ok(status) => {
-            eprintln!("`cargo install cmake-fmt` failed with exit {}", status);
-        }
-        Err(e) => {
-            eprintln!("Failed to run `cargo install cmake-fmt`: {}", e);
-        }
+        None => {}
+    }
+
+    // Not found: attempt to install a pinned version so users running the tool
+    // get an automatic experience.  Requires `cargo` and network access.
+    eprintln!(
+        "cmake-fmt not found. Attempting `cargo install cmake-fmt --version {}`...",
+        CMAKE_FMT_VERSION_REQ
+    );
+    if cargo_install_cmake_fmt(false) {
+        return accept_if_recent(PathBuf::from(local_name));
     }
 
     None
 }
 
-/// Collect and process CMake files using the cmake-fmt binary.
+/// Format (or check) the pre-collected CMake `files` using the cmake-fmt
+/// binary.  Batches are processed in parallel to use all available cores.
 fn process_cmake_files(
     root: &Path,
-    ignore: &ClangFormatIgnore,
+    files: &[PathBuf],
     check: bool,
     verbose: bool,
 ) -> Result<usize> {
-    // Collect matching files
-    let mut files: Vec<PathBuf> = Vec::new();
-    for entry in WalkDir::new(root)
-        .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, ignore))
-        .filter_map(|e| e.ok())
-    {
-        let path = entry.path();
-        if entry.file_type().is_file() {
-            if let Some(ext) = path.extension().and_then(OsStr::to_str) {
-                if ext == "cmake" && !is_path_excluded(path, root, ignore) {
-                    files.push(path.to_path_buf());
-                }
-            } else if path.file_name().is_some_and(|n| n == "CMakeLists.txt")
-                && !is_path_excluded(path, root, ignore)
-            {
-                files.push(path.to_path_buf());
-            }
-        }
-    }
-
     let total = files.len();
     if files.is_empty() {
         return Ok(0);
@@ -554,49 +943,88 @@ fn process_cmake_files(
         }
     }
 
-    if check {
-        for chunk in files.chunks(50) {
-            let mut cmd = Command::new(&cmake_bin);
-            // pass style argument if we resolved one earlier
-            if let Some(ref s) = style_arg {
-                cmd.arg("--style").arg(s);
-            }
-            cmd.arg("--check");
-            for file in chunk {
-                if verbose {
-                    eprintln!("Checking (cmake-fmt): {}", file.display());
-                }
-                cmd.arg(file);
-            }
-            let output = cmd.output().context("Failed to run cmake-fmt")?;
-            if !output.status.success() {
-                let stderr = String::from_utf8_lossy(&output.stderr);
-                eprintln!("cmake-fmt would reformat files in this batch:\n{}", stderr);
-                std::process::exit(1);
-            }
+    files.par_chunks(50).for_each(|chunk| {
+        // In write mode cmake-fmt edits files in place (`-i`), so snapshot the
+        // originals first: if the formatter corrupts a conditional we restore
+        // them below instead of leaving a broken build file on disk.
+        let originals: Vec<Option<String>> = if check {
+            Vec::new()
+        } else {
+            chunk
+                .iter()
+                .map(|file| std::fs::read_to_string(file).ok())
+                .collect()
+        };
+
+        let mut cmd = Command::new(&cmake_bin);
+        if let Some(ref s) = style_arg {
+            cmd.arg("--style").arg(s);
         }
-    } else {
-        for chunk in files.chunks(50) {
-            let mut cmd = Command::new(&cmake_bin);
-            if let Some(ref s) = style_arg {
-                cmd.arg("--style").arg(s);
-            }
+        if check {
+            cmd.arg("--check");
+        } else {
             cmd.arg("-i");
-            for file in chunk {
-                if verbose {
-                    eprintln!("Formatting (cmake-fmt): {}", file.display());
-                }
-                cmd.arg(file);
+        }
+        for file in chunk {
+            if verbose {
+                let action = if check { "Checking" } else { "Formatting" };
+                eprintln!("{} (cmake-fmt): {}", action, file.display());
             }
-            let output = cmd.output().context("Failed to run cmake-fmt")?;
-            if !output.status.success() {
+            cmd.arg(file);
+        }
+        match cmd.output() {
+            Ok(output) if output.status.success() => {
+                if !check {
+                    guard_cmake_output(chunk, &originals);
+                }
+            }
+            Ok(output) => {
                 let stderr = String::from_utf8_lossy(&output.stderr);
-                eprintln!("cmake-fmt error: {}", stderr);
+                if check {
+                    eprintln!("cmake-fmt would reformat files in this batch:\n{}", stderr);
+                    std::process::exit(1);
+                } else {
+                    eprintln!("cmake-fmt error: {}", stderr);
+                }
+            }
+            Err(e) => eprintln!("Failed to run cmake-fmt: {}", e),
+        }
+    });
+
+    Ok(total)
+}
+
+/// After an in-place `cmake-fmt` run, restore any file whose conditionals the
+/// formatter corrupted (dropping a parenthesized sub-expression) while the
+/// original was still intact.  `originals` is aligned with `chunk`.
+fn guard_cmake_output(chunk: &[PathBuf], originals: &[Option<String>]) {
+    for (file, original) in chunk.iter().zip(originals.iter()) {
+        let Some(original) = original else { continue };
+        let Ok(formatted) = std::fs::read_to_string(file) else {
+            continue;
+        };
+        if cmake_conditionals_are_corrupted(&formatted)
+            && !cmake_conditionals_are_corrupted(original)
+        {
+            match std::fs::write(file, original) {
+                Ok(()) => eprintln!(
+                    "WARNING: cmake-fmt corrupted a conditional in {}; restored the \
+                     original. Upgrade cmake-fmt to >= {}.{}.{} \
+                     (cargo install cmake-fmt --version {} --force).",
+                    file.display(),
+                    MIN_CMAKE_FMT_VERSION.0,
+                    MIN_CMAKE_FMT_VERSION.1,
+                    MIN_CMAKE_FMT_VERSION.2,
+                    CMAKE_FMT_VERSION_REQ
+                ),
+                Err(e) => eprintln!(
+                    "ERROR: cmake-fmt corrupted {} and it could not be restored: {}",
+                    file.display(),
+                    e
+                ),
             }
         }
     }
-
-    Ok(total)
 }
 
 /// Extract the major version number from `clang-format --version` output.
@@ -631,13 +1059,20 @@ fn check_clang_format_version(bin: &Path, required_major: u32) -> bool {
         }
     }
 }
-/// Collect, then format (or check) all C/C++ files via `clang-format`.
+/// Format (or check) the pre-collected C/C++ `files` via `clang-format`.
+/// Batches are processed in parallel to use all available cores.
 fn process_cpp_files(
     root: &Path,
     ignore: &ClangFormatIgnore,
+    files: &[PathBuf],
     check: bool,
     verbose: bool,
 ) -> Result<(usize, usize)> {
+    let total = files.len();
+    if files.is_empty() {
+        return Ok((0, 0));
+    }
+
     // Determine which major version we require: either the value from
     // the configuration file or the built‑in default.
     let required_major = ignore
@@ -646,29 +1081,7 @@ fn process_cpp_files(
 
     // Resolve clang-format executable:
     //   All platforms → prefer <root>/tools/clang-format/clang-format[.exe], then PATH
-    let clang_format_bin = resolve_clang_format(root, required_major);
-
-    // Collect matching files
-    let mut files: Vec<PathBuf> = Vec::new();
-    for entry in WalkDir::new(root)
-        .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, ignore))
-        .filter_map(|e| e.ok())
-    {
-        let path = entry.path();
-        if let Some(ext) = path.extension().and_then(OsStr::to_str) {
-            if CPP_EXTENSIONS.contains(&ext) && !is_cpp_excluded(path, root, ignore) {
-                files.push(path.to_path_buf());
-            }
-        }
-    }
-
-    let total = files.len();
-    if files.is_empty() {
-        return Ok((0, 0));
-    }
-
-    let clang_format_bin = match clang_format_bin {
+    let clang_format_bin = match resolve_clang_format(root, required_major) {
         Some(bin) => bin,
         None => {
             eprintln!(
@@ -691,51 +1104,127 @@ fn process_cpp_files(
         eprintln!("Using style: {}", style_arg);
     }
 
-    if check {
-        // Batch check: run clang-format --dry-run -Werror on chunks of files
-        for chunk in files.chunks(50) {
-            let mut cmd = Command::new(&clang_format_bin);
-            cmd.arg(format!("--style={}", style_arg));
+    files.par_chunks(50).for_each(|chunk| {
+        let mut cmd = Command::new(&clang_format_bin);
+        cmd.arg(format!("--style={}", style_arg));
+        if check {
             cmd.args(["--dry-run", "-Werror"]);
-            for file in chunk {
-                if verbose {
-                    eprintln!("Checking (clang-format): {}", file.display());
-                }
-                cmd.arg(file);
-            }
-            let output = cmd.output().context("Failed to run clang-format")?;
-            if !output.status.success() {
-                let stderr = String::from_utf8_lossy(&output.stderr);
-                // Try to print which files would be reformatted (stderr usually contains this info)
-                eprintln!(
-                    "clang-format would reformat files in this batch:\n{}",
-                    stderr
-                );
-                std::process::exit(1);
-            }
-        }
-    } else {
-        // Write mode - process in batches to stay within command-line limits
-        for chunk in files.chunks(50) {
-            let mut cmd = Command::new(&clang_format_bin);
-            cmd.arg(format!("--style={}", style_arg));
+        } else {
             cmd.arg("-i");
-            for file in chunk {
-                if verbose {
-                    eprintln!("Formatting (clang-format): {}", file.display());
-                }
-                cmd.arg(file);
-            }
-            let output = cmd.output().context("Failed to run clang-format")?;
-            if !output.status.success() {
-                let stderr = String::from_utf8_lossy(&output.stderr);
-                eprintln!("clang-format error: {}", stderr);
-            }
         }
-    }
+        for file in chunk {
+            if verbose {
+                let action = if check { "Checking" } else { "Formatting" };
+                eprintln!("{} (clang-format): {}", action, file.display());
+            }
+            cmd.arg(file);
+        }
+        match cmd.output() {
+            Ok(output) if output.status.success() => {}
+            Ok(output) => {
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                if check {
+                    eprintln!(
+                        "clang-format would reformat files in this batch:\n{}",
+                        stderr
+                    );
+                    std::process::exit(1);
+                } else {
+                    eprintln!("clang-format error: {}", stderr);
+                }
+            }
+            Err(e) => eprintln!("Failed to run clang-format: {}", e),
+        }
+    });
 
     Ok((total, 0))
 }
+/// Collect the set of candidate files to consider for formatting, as a single
+/// pass over the source of truth:
+///   * with `tracked`, iterate the git file list directly (no filesystem walk),
+///     which avoids descending into huge untracked trees such as `temp/`;
+///   * otherwise walk the tree once, pruning excluded directories up front via
+///     `is_skipped_dir` so their contents are never enumerated.
+///
+/// Directory pruning and the git list replace the previous behaviour of walking
+/// the entire tree three times (once per file category).
+fn collect_candidate_files(
+    root: &Path,
+    ignore: &ClangFormatIgnore,
+    tracked: Option<&HashSet<String>>,
+) -> Vec<PathBuf> {
+    if let Some(set) = tracked {
+        set.iter()
+            .map(|rel| root.join(rel))
+            .filter(|p| p.is_file())
+            .collect()
+    } else {
+        WalkDir::new(root)
+            .into_iter()
+            .filter_entry(|e| !is_skipped_dir(e, root, ignore))
+            .filter_map(|e| e.ok())
+            .filter(|e| e.file_type().is_file())
+            .map(|e| e.path().to_path_buf())
+            .collect()
+    }
+}
+
+/// Format (or check) frontend directories through their own `npm run format`
+/// (or `format:check`) scripts, so that a single `cargo format` also covers the
+/// TypeScript/TSX/JS sources those frontends own via prettier and their
+/// per-module `.prettierrc.json`.
+///
+/// A directory is skipped, with a clear warning, when it lacks a `package.json`
+/// or has no installed `node_modules` (we never run `npm install` implicitly).
+/// Node/npm being absent is likewise a graceful skip.  In `--check` mode a
+/// non-zero npm exit terminates the process like the other check phases.
+fn process_frontends(root: &Path, dirs: &[String], check: bool, verbose: bool) {
+    if dirs.is_empty() {
+        return;
+    }
+    let npm = if cfg!(windows) { "npm.cmd" } else { "npm" };
+    let script = if check { "format:check" } else { "format" };
+
+    for rel in dirs {
+        let dir = root.join(rel);
+        if !dir.join("package.json").is_file() {
+            eprintln!("WARNING: no package.json in {} - skipping npm format", rel);
+            continue;
+        }
+        if !dir.join("node_modules").is_dir() {
+            eprintln!(
+                "WARNING: {} has no node_modules - run `npm install` there to \
+                 format its TypeScript sources. Skipping.",
+                rel
+            );
+            continue;
+        }
+        if verbose {
+            eprintln!("Running `{} run {}` in {}", npm, script, rel);
+        }
+        match Command::new(npm)
+            .current_dir(&dir)
+            .arg("run")
+            .arg(script)
+            .status()
+        {
+            Ok(status) if status.success() => {}
+            Ok(status) => {
+                eprintln!("`npm run {}` failed in {} ({})", script, rel, status);
+                if check {
+                    std::process::exit(1);
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to run `{} run {}` in {}: {} (is Node/npm installed?)",
+                    npm, script, rel, e
+                );
+            }
+        }
+    }
+}
+
 // ===========================================================================
 // Main
 // ===========================================================================
@@ -744,39 +1233,58 @@ fn main() -> Result<()> {
     let root = std::fs::canonicalize(&args.root)
         .with_context(|| format!("Invalid root directory: {}", args.root.display()))?;
 
-    let mut total_files: usize = 0;
-
     // Load nelson-format ignore list from <root>/nelson-format-ignore.json
     let ignore = load_clang_format_ignore(&root)?;
 
-    // --- Standard files (JSON, YAML, MD, JS, XML help docs) ---------------
-    let entries: Vec<_> = WalkDir::new(&root)
-        .into_iter()
-        .filter_entry(|e| !is_skipped_dir(e, &ignore))
-        .filter_map(|e| e.ok())
-        .filter(|entry| !entry.file_type().is_dir())
-        .collect();
+    // When --tracked is set, restrict formatting to files tracked by git.
+    let tracked: Option<HashSet<String>> = if args.tracked {
+        let set = load_tracked_files(&root)?;
+        if args.verbose {
+            eprintln!("Restricting to {} git-tracked files", set.len());
+        }
+        Some(set)
+    } else {
+        None
+    };
 
-    // Use parallel iterator for faster processing
-    // Prepare list for non-CMake standard files (we'll process CMake files in a batch later)
-    let results: Vec<_> = entries
-        .par_iter()
-        .filter_map(|entry| {
-            let path = entry.path();
-            if is_path_excluded(path, &root, &ignore) {
-                return None;
-            }
-            if let Some(ext) = standard_file_kind(path, &root) {
-                if ext == "cmake" {
-                    return None; // skip here; handled by process_cmake_files
+    // --- Single collection pass, then classify by file category -----------
+    let candidates = collect_candidate_files(&root, &ignore, tracked.as_ref());
+
+    let mut standard: Vec<(PathBuf, String)> = Vec::new();
+    let mut cmake_files: Vec<PathBuf> = Vec::new();
+    let mut cpp_files: Vec<PathBuf> = Vec::new();
+
+    for path in candidates {
+        // C/C++ sources go to clang-format (with their own exclusion list).
+        if let Some(ext) = path.extension().and_then(OsStr::to_str) {
+            if CPP_EXTENSIONS.contains(&ext) {
+                if !is_cpp_excluded(&path, &root, &ignore) {
+                    cpp_files.push(path);
                 }
-                Some((path.to_path_buf(), ext))
-            } else {
-                None
+                continue;
             }
-        })
+        }
+        if is_path_excluded(&path, &root, &ignore) {
+            continue;
+        }
+        // Materialise the kind as an owned String so the borrow of `path`
+        // ends before we move `path` into one of the category vectors.
+        if let Some(kind) = standard_file_kind(&path, &root).map(str::to_string) {
+            if kind == "cmake" {
+                cmake_files.push(path);
+            } else {
+                standard.push((path, kind));
+            }
+        }
+    }
+
+    let mut total_files: usize = 0;
+
+    // --- Standard files (JSON, YAML, MD, JS, XML help docs) ---------------
+    let results: Vec<_> = standard
+        .par_iter()
         .map(|(path, ext)| {
-            let res = process_file(&path, ext, args.check, args.verbose);
+            let res = process_file(path, ext, args.check, args.verbose);
             (res, path)
         })
         .collect();
@@ -789,12 +1297,14 @@ fn main() -> Result<()> {
     }
 
     // --- CMake files via cmake-fmt ---------------------------------------
-    let cmake_count = process_cmake_files(&root, &ignore, args.check, args.verbose)?;
-    total_files += cmake_count;
+    total_files += process_cmake_files(&root, &cmake_files, args.check, args.verbose)?;
 
     // --- C/C++ files via clang-format -------------------------------------
-    let (cpp_total, _) = process_cpp_files(&root, &ignore, args.check, args.verbose)?;
+    let (cpp_total, _) = process_cpp_files(&root, &ignore, &cpp_files, args.check, args.verbose)?;
     total_files += cpp_total;
+
+    // --- Frontend TypeScript/TSX via each frontend's own `npm run format` --
+    process_frontends(&root, &ignore.npm_format_dirs, args.check, args.verbose);
 
     // --- Summary ----------------------------------------------------------
     if args.check {
@@ -1021,6 +1531,7 @@ mod tests {
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["third_party".to_string()],
             clang_format_major_version: None,
+            npm_format_dirs: vec![],
         };
         let path = Path::new("/project/modules/third_party/lib.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_true();
@@ -1032,6 +1543,7 @@ mod tests {
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["third_party".to_string()],
             clang_format_major_version: None,
+            npm_format_dirs: vec![],
         };
         let path = Path::new("/project/modules/core/main.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_false();
@@ -1043,8 +1555,21 @@ mod tests {
         let ignore = ClangFormatIgnore {
             exclude_path_contains: vec!["vendored".to_string(), "generated".to_string()],
             clang_format_major_version: None,
+            npm_format_dirs: vec![],
         };
         let path = Path::new("/project/src/generated/bindings.h");
+        assert_that(&is_cpp_excluded(path, root, &ignore)).is_true();
+    }
+
+    #[test]
+    fn is_cpp_excluded_wildcard_pattern_matches_c_files() {
+        let root = Path::new("/project");
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec!["modules/nflow_gui/tests/continous/*.c".to_string()],
+            clang_format_major_version: None,
+            npm_format_dirs: vec![],
+        };
+        let path = Path::new("/project/modules/nflow_gui/tests/continous/foo.c");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_true();
     }
 
@@ -1054,6 +1579,99 @@ mod tests {
         let ignore = ClangFormatIgnore::default();
         let path = Path::new("/project/src/main.cpp");
         assert_that(&is_cpp_excluded(path, root, &ignore)).is_false();
+    }
+
+    // -----------------------------------------------------------------------
+    // is_skipped_dir (directory pruning)
+    // -----------------------------------------------------------------------
+
+    fn dir_is_pruned(root: &Path, rel: &str, ignore: &ClangFormatIgnore) -> bool {
+        WalkDir::new(root)
+            .into_iter()
+            .filter_map(|e| e.ok())
+            .filter(|e| e.file_type().is_dir())
+            .filter(|e| {
+                e.path()
+                    .strip_prefix(root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/")
+                    == rel
+            })
+            .any(|e| is_skipped_dir(&e, root, ignore))
+    }
+
+    #[test]
+    fn is_skipped_dir_prunes_top_level_and_pathed_but_not_nested_name() {
+        let tmp = TempDir::new().unwrap();
+        let root = tmp.path();
+        fs::create_dir_all(root.join("temp/x")).unwrap();
+        fs::create_dir_all(root.join("modules/web_gui/frontend/src")).unwrap();
+        fs::create_dir_all(root.join("modules/nflow_gui/src/ts/blocks")).unwrap();
+        fs::create_dir_all(root.join("modules/nflow_gui/src/cpp")).unwrap();
+        fs::create_dir_all(root.join("modules/core/cmake")).unwrap();
+
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec![
+                "temp/".into(),
+                "cmake/".into(),
+                "modules/web_gui/frontend/".into(),
+                "modules/nflow_gui/src/ts/".into(),
+            ],
+            clang_format_major_version: None,
+            npm_format_dirs: vec![],
+        };
+
+        // Anchored top-level and multi-segment patterns prune.
+        assert_that(&dir_is_pruned(root, "temp", &ignore)).is_true();
+        assert_that(&dir_is_pruned(root, "modules/web_gui/frontend", &ignore)).is_true();
+        assert_that(&dir_is_pruned(root, "modules/nflow_gui/src/ts", &ignore)).is_true();
+
+        // The nflow_gui C++ tree must NOT be pruned (still clang-formatted).
+        assert_that(&dir_is_pruned(root, "modules/nflow_gui/src/cpp", &ignore)).is_false();
+
+        // A nested `cmake` dir must NOT be pruned by the anchored `cmake/`
+        // pattern (consistency with is_path_excluded, which is anchored).
+        assert_that(&dir_is_pruned(root, "modules/core/cmake", &ignore)).is_false();
+
+        // Parents of a pruned dir are not themselves pruned.
+        assert_that(&dir_is_pruned(root, "modules/web_gui", &ignore)).is_false();
+    }
+
+    // -----------------------------------------------------------------------
+    // frontend directories excluded from nelson-fmt (owned by prettier)
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn is_path_excluded_covers_frontend_dirs() {
+        let root = Path::new("/project");
+        let ignore = ClangFormatIgnore {
+            exclude_path_contains: vec![
+                "modules/web_gui/frontend/".into(),
+                "modules/nflow_gui/src/ts/".into(),
+            ],
+            clang_format_major_version: None,
+            npm_format_dirs: vec![],
+        };
+        assert_that(&is_path_excluded(
+            Path::new("/project/modules/web_gui/frontend/package.json"),
+            root,
+            &ignore,
+        ))
+        .is_true();
+        assert_that(&is_path_excluded(
+            Path::new("/project/modules/nflow_gui/src/ts/app.tsx"),
+            root,
+            &ignore,
+        ))
+        .is_true();
+        // A C++ source elsewhere in nflow_gui is still processed.
+        assert_that(&is_path_excluded(
+            Path::new("/project/modules/nflow_gui/src/cpp/foo.cpp"),
+            root,
+            &ignore,
+        ))
+        .is_false();
     }
 
     // -----------------------------------------------------------------------
@@ -1241,7 +1859,7 @@ mod tests {
     }
 
     #[test]
-    fn process_file_skips_unparseable_json() {
+    fn process_file_skips_unparsable_json() {
         let tmp = TempDir::new().unwrap();
         let file_path = tmp.path().join("bad.json");
         let bad_content = "not json at all {{{";
@@ -1283,7 +1901,7 @@ mod tests {
     }
 
     #[test]
-    fn process_file_returns_true_for_unknown_extension() {
+    fn process_file_returns_true_for_unknownn_extension() {
         let tmp = TempDir::new().unwrap();
         let file_path = tmp.path().join("test.txt");
         fs::write(&file_path, "anything").unwrap();
@@ -1446,5 +2064,111 @@ mod tests {
         assert_that(&content.contains("   ")).is_false();
         assert_that(&content.ends_with('\n')).is_true();
         assert_that(&content.ends_with("\n\n")).is_false();
+    }
+
+    // -- cmake-fmt corruption guard -------------------------------------------
+
+    #[test]
+    fn cmake_guard_flags_dropped_binary_operand() {
+        // if(WIN32 AND (X OR Y)) -> if(WIN32 AND )
+        assert_that(&cmake_conditionals_are_corrupted(
+            "if(WIN32\n  AND\n)\n  message(x)\nendif()\n",
+        ))
+        .is_true();
+    }
+
+    #[test]
+    fn cmake_guard_flags_dropped_leading_operand() {
+        // if((A) OR BENCHMARKS) -> if(OR BENCHMARKS)
+        assert_that(&cmake_conditionals_are_corrupted(
+            "if(OR BENCHMARKS)\nendif()\n",
+        ))
+        .is_true();
+    }
+
+    #[test]
+    fn cmake_guard_flags_dropped_unary_operand() {
+        // if(NOT (A STREQUAL B)) -> if(NOT)
+        assert_that(&cmake_conditionals_are_corrupted("if(NOT)\nendif()\n")).is_true();
+    }
+
+    #[test]
+    fn cmake_guard_flags_trailing_dropped_operand() {
+        // if(NOT DEFINED X OR (...)) -> if(NOT DEFINED X OR)
+        assert_that(&cmake_conditionals_are_corrupted(
+            "if(NOT DEFINED X OR)\nendif()\n",
+        ))
+        .is_true();
+    }
+
+    #[test]
+    fn cmake_guard_accepts_valid_conditionals() {
+        let ok = "\
+if(WIN32
+   AND (CMAKE_VS_PLATFORM_NAME STREQUAL \"ARM64\"
+        OR CMAKE_SYSTEM_PROCESSOR MATCHES \"^(ARM64|arm64|AARCH64|aarch64)$\"))
+  message(status)
+endif()
+
+if((TESTS AND NOT XLNT_SKIP_INTERNAL_TESTS) OR BENCHMARKS)
+  message(bench)
+endif()
+
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL \"AppleClang\"))
+  message(leak)
+endif()
+
+if(A AND NOT B)
+  message(ok)
+endif()
+";
+        assert_that(&cmake_conditionals_are_corrupted(ok)).is_false();
+    }
+
+    #[test]
+    fn cmake_guard_ignores_parens_inside_strings_and_comments() {
+        // Parentheses live only inside a quoted regex and a comment; the
+        // condition itself is a single well-formed operand.
+        let ok = "if(X MATCHES \"^(a|b)$\") # note: (see docs)\n  message(x)\nendif()\n";
+        assert_that(&cmake_conditionals_are_corrupted(ok)).is_false();
+    }
+
+    #[test]
+    fn cmake_guard_does_not_flag_identifiers_containing_keyword() {
+        // `motif(...)` and `notify` must not be mistaken for `if`/`not`.
+        let ok = "motif(value)\nif(notify_enabled)\n  message(x)\nendif()\n";
+        assert_that(&cmake_conditionals_are_corrupted(ok)).is_false();
+    }
+
+    #[test]
+    fn cmake_fmt_version_ordering() {
+        assert_that(&cmake_fmt_version_ok((0, 11, 0))).is_true();
+        assert_that(&cmake_fmt_version_ok((0, 11, 2))).is_true();
+        assert_that(&cmake_fmt_version_ok((1, 0, 0))).is_true();
+        assert_that(&cmake_fmt_version_ok((0, 10, 0))).is_false();
+        assert_that(&cmake_fmt_version_ok((0, 9, 9))).is_false();
+    }
+
+    #[test]
+    fn guard_restores_file_when_formatter_corrupts_it() {
+        let tmp = TempDir::new().unwrap();
+        let file = tmp.path().join("CMakeLists.txt");
+        let original = "if(WIN32 AND (A OR B))\n  message(x)\nendif()\n";
+        // Simulate a buggy cmake-fmt having written corrupted content in place.
+        fs::write(&file, "if(WIN32\n  AND\n)\n  message(x)\nendif()\n").unwrap();
+        guard_cmake_output(&[file.clone()], &[Some(original.to_string())]);
+        assert_that(&fs::read_to_string(&file).unwrap()).is_equal_to(original.to_string());
+    }
+
+    #[test]
+    fn guard_keeps_valid_formatted_output() {
+        let tmp = TempDir::new().unwrap();
+        let file = tmp.path().join("CMakeLists.txt");
+        let original = "if(WIN32 AND (A OR B))\nmessage(x)\nendif()\n";
+        let formatted = "if(WIN32\n  AND (A OR B))\n  message(x)\nendif()\n";
+        fs::write(&file, formatted).unwrap();
+        guard_cmake_output(&[file.clone()], &[Some(original.to_string())]);
+        // Valid formatting must be preserved, not reverted.
+        assert_that(&fs::read_to_string(&file).unwrap()).is_equal_to(formatted.to_string());
     }
 }

@@ -12,16 +12,32 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static size_t
-searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFind)
+Evaluator*
+getCompletionEvaluator()
 {
-    return 0;
+    return nullptr;
 }
 //=============================================================================
 std::wstring
 getPartialLine(const std::wstring& line)
 {
     return line;
+}
+//=============================================================================
+std::string
+getLookupSymbolFromCompletionExpression(const std::string& expression)
+{
+    std::string symbol = expression;
+    size_t lastCharacterIndex = symbol.find_last_of(" \t,;");
+    if (lastCharacterIndex != std::string::npos) {
+        symbol = symbol.substr(lastCharacterIndex + 1);
+    }
+
+    size_t indexingStart = symbol.find_first_of("([{");
+    if (indexingStart != std::string::npos) {
+        symbol = symbol.substr(0, indexingStart);
+    }
+    return symbol;
 }
 //=============================================================================
 std::wstring
@@ -45,14 +61,22 @@ getCompletionLeafPrefix(const std::wstring& completionPrefix)
 }
 //=============================================================================
 std::wstring
-completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
-    const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath)
+getCompletionTokenToReplace(const std::wstring& line, bool isPathCompletion)
 {
-    std::wstring lineModified;
-    if (currentLine.empty()) {
-        return lineModified;
-    }
+    return {};
+}
+//=============================================================================
+std::wstring
+completerLine(
+    const std::wstring& currentLine, const std::wstring& stringToAdd, bool stringToAddIsPath)
+{
     return currentLine;
+}
+//=============================================================================
+bool
+lookupCompletionVariable(Context* context, const std::string& variableName, ArrayOf& value)
+{
+    return false;
 }
 //=============================================================================
 bool
@@ -60,13 +84,17 @@ computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstr
     wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,
     wstringVector& properties, wstringVector& methods)
 {
+    completionPrefix = line;
     return false;
 }
 //=============================================================================
-stringVector
-getCompletionDictionary(std::wstring& completionPrefix)
+bool
+computeCompletion(Evaluator* eval, const std::wstring& line, std::wstring& completionPrefix,
+    wstringVector& files, wstringVector& builtin, wstringVector& macros, wstringVector& variables,
+    wstringVector& fields, wstringVector& properties, wstringVector& methods)
 {
-    return {};
+    return computeCompletion(
+        line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 }
 //=============================================================================
 } // namespace Nelson

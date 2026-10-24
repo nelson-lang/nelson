@@ -7,52 +7,52 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('tanm'), 1);
-assert_isequal(nargout('tanm'), 1);
+asserts.isequal(nargin('tanm'), 1);
+asserts.isequal(nargout('tanm'), 1);
 %=============================================================================
-assert_isequal(tanm(NaN), NaN);
-assert_isequal(tanm(-NaN), NaN);
-assert_isequal(tanm(Inf), NaN);
-assert_isequal(tanm(-Inf), NaN);
+asserts.isequal(tanm(NaN), NaN);
+asserts.isequal(tanm(-NaN), NaN);
+asserts.isequal(tanm(Inf), NaN);
+asserts.isequal(tanm(-Inf), NaN);
 %=============================================================================
 x = tanm(0i);
 ref = 0;
-assert_isequal(x, ref);
+asserts.isequal(x, ref);
 %=============================================================================
 X = tanm(zeros(3, 3));
 REF = zeros(3, 3);
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
-assert_isequal(tanm([]), []);
+asserts.isequal(tanm([]), []);
 %=============================================================================
-A = [1,2;3,4];
+A = [1, 2; 3, 4];
 R = tanm(A);
-REF = [     -0.6051     -0.3127;
--0.4691     -1.0742];
-assert_isapprox(R, REF, 1e-4);
+REF = [-0.6051 -0.3127;
+  -0.4691 -1.0742];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-A = single([1,2;3,4]);
+A = single([1, 2; 3, 4]);
 R = tanm(A);
-REF = [     -0.6051     -0.3127;
--0.4691     -1.0742];
-assert_isapprox(R, REF, 1e-4);
-assert_isequal(class(R), 'single');
+REF = [-0.6051 -0.3127;
+  -0.4691 -1.0742];
+asserts.isapprox(R, REF, 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
-A = 3 * eye(2,2) + i;
+A = 3 * eye(2, 2) + i;
 R = tanm(A);
-REF = [    -0.0762 + 0.4827i     0.0663 + 0.4827i
-0.0663 + 0.4827i    -0.0762 + 0.4827i];
-assert_isapprox(abs(R), abs(REF), 1e-4);
+REF = [-0.0762 + 0.4827i 0.0663 + 0.4827i
+  0.0663 + 0.4827i -0.0762 + 0.4827i];
+asserts.isapprox(abs(R), abs(REF), 1e-4);
 %=============================================================================
-A = single(3 * eye(2,2) + i);
+A = single(3 * eye(2, 2) + i);
 R = tanm(A);
-REF = [    -0.0762 + 0.4827i     0.0663 + 0.4827i
-0.0663 + 0.4827i    -0.0762 + 0.4827i];
-assert_isapprox(abs(R), abs(REF), 1e-4);
-assert_isequal(class(R), 'single');
+REF = [-0.0762 + 0.4827i 0.0663 + 0.4827i
+  0.0663 + 0.4827i -0.0762 + 0.4827i];
+asserts.isapprox(abs(R), abs(REF), 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
-assert_checkerror('tanm([1 , 2])', _('Square matrix expected.'));
+asserts.checkerror('tanm([1 , 2])', _('Square matrix expected.'));
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'tanm');
-assert_checkerror('tanm(''a'')', msg);
+asserts.checkerror('tanm(''a'')', msg);
 %=============================================================================

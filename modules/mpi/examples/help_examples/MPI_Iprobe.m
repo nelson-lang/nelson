@@ -16,7 +16,7 @@ comm = MPI_Comm_object();
 world_rank = MPI_Comm_rank();
 world_size = MPI_Comm_size();
 
-[FLAG, STAT, INFO] = MPI_Iprobe(world_rank,1, comm)
+[FLAG, STAT, INFO] = MPI_Iprobe(world_rank, 1, comm)
 
 if MPI_Initialized()
   MPI_Finalize();

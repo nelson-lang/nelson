@@ -8,20 +8,32 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 A = [1 0 0 0;
-0 2 0 0;
-0 0 3 0;
-0 0 0 4];
-CX = sparse (complex(zeros(4, 4), A));
+  0 2 0 0;
+  0 0 3 0;
+  0 0 0 4];
+CX = sparse(complex(zeros(4, 4), A));
 R = real(CX);
-REF = sparse(zeros(4,4));
-assert_isequal(R, REF);
+REF = sparse(zeros(4, 4));
+asserts.isequal(R, REF);
 %=============================================================================
 A = [1 0 0 0;
-0 2 0 0;
-0 0 3 0;
-0 0 0 4];
-CX = sparse (logical(A));
+  0 2 0 0;
+  0 0 3 0;
+  0 0 0 4];
+CX = sparse(logical(A));
 R = real(CX);
 REF = sparse(eye(4, 4));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+S = sparse(single([1 + 2i 0; 0 3 - 4i]));
+R = real(S);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+asserts.isequal(full(R), single([1 0; 0 3]));
+%=============================================================================
+SR = sparse(single([1 0; 0 3]));
+R = real(SR);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+asserts.isequal(full(R), single([1 0; 0 3]));
 %=============================================================================

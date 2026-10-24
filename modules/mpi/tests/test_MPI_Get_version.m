@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 [v1, v2] = MPI_Get_version();
-assert_istrue(isscalar(v1));
-assert_istrue(isscalar(v2));
-assert_istrue(isdouble(v1));
-assert_istrue(isdouble(v1));
-assert_istrue(v1 > 0);
+asserts.istrue(isscalar(v1));
+asserts.istrue(isscalar(v2));
+asserts.istrue(isdouble(v1));
+asserts.istrue(isdouble(v1));
+asserts.istrue(v1 > 0);
 %=============================================================================

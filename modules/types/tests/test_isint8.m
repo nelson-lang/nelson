@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isint8'), 1);
-assert_isequal(nargout('isint8'), 1);
+asserts.isequal(nargin('isint8'), 1);
+asserts.isequal(nargout('isint8'), 1);
 %=============================================================================
 A = 3;
 res = isint8(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = int8(3);
 res = isint8(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

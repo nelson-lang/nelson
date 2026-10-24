@@ -16,7 +16,7 @@ if ispc()
   if (pe.Executable == "")
     pythonExecutable = [modulepath('python_engine', 'root'), '/thirdparty/python/python.exe'];
     if isfile(pythonExecutable)
-        pyenv('Version', pythonExecutable);
+      pyenv('Version', pythonExecutable);
     end
   end
 end

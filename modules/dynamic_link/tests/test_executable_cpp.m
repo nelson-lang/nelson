@@ -7,29 +7,32 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 64-->
 if ispc() && ~havecompiler()
   configuremsvc()
 end
 skip_testsuite(~havecompiler())
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 %=============================================================================
-destinationdir = [tempdir(), 'test_executable_cpp'];
+destinationdir = tempname();
 mkdir(destinationdir);
+cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NASGU>
 %=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
 copyfile([currentpath, '/test_executable_cpp.cpp'], [destinationdir, '/test_executable_cpp.cpp']);
 %=============================================================================
 [status, message] = dlgeneratemake('executable', destinationdir, ...
-'test_executable_cpp', ...
-[destinationdir, '/test_executable_cpp.cpp'], ...
-[destinationdir, '/']);
+  'test_executable_cpp', ...
+  [destinationdir, '/test_executable_cpp.cpp'], ...
+  [destinationdir, '/']);
 if ~status
   error(message);
 end
 destinationPath = [destinationdir, '/CMakeLists.txt'];
-assert_istrue(isfile(destinationPath));
+asserts.istrue(isfile(destinationPath));
 [status, message] = dlmake(destinationdir);
-assert_istrue(status);
+asserts.istrue(status);
 [R, msg] = unix(['"', destinationdir, '/test_executable_cpp', '"']);
-assert_istrue(R == 0);
-assert_istrue(startsWith(msg, 'It works with C++!!!'));
+asserts.istrue(R == 0);
+asserts.istrue(startsWith(msg, 'It works with C++!!!'));
 %=============================================================================

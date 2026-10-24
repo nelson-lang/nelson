@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>vartest2</keyword>
+  <short_description>F-test for equal variances</short_description>
+  <syntax>
+    <syntax_item>h = vartest2(x, y)</syntax_item>
+    <syntax_item>h = vartest2(x, y, &apos;Alpha&apos;, alpha)</syntax_item>
+    <syntax_item>h = vartest2(x, y, &apos;Tail&apos;, tail)</syntax_item>
+    <syntax_item>h = vartest2(x, y, &apos;Dim&apos;, dim)</syntax_item>
+    <syntax_item>[h, p, ci, stats] = vartest2(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>real numeric array: first sample.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>y</param_name>
+      <param_description>real numeric array: second sample.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalar in (0,1), 0.05 by default: significance level.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tail</param_name>
+      <param_description>&apos;both&apos;, &apos;right&apos;, or &apos;left&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>positive integer: dimension to operate along.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>logical array: test decision.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>array: p-values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ci</param_name>
+      <param_description>2-row array: confidence intervals for the variance ratio.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>stats</param_name>
+      <param_description>structure with fstat, df1, and df2 fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>vartest2</b> performs an F-test comparing two sample variances along the first non-singleton dimension unless <b>Dim</b> is specified.</p>
+    <p>NaN values are omitted independently from each tested sample.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [4.5 4.8 5.1 5.4 5.7 6.0];
+y = [3.9 4.1 4.2 4.4 4.5];
+[h, p, ci, stats] = vartest2(x, y);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}vartest">vartest</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}var">var</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

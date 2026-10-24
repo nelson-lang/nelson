@@ -17,7 +17,8 @@ namespace Nelson {
 namespace ProfilerGateway {
     ArrayOfVector
     profileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-}
+    //=============================================================================
+} // namespace ProfilerGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -20,6 +20,6 @@ function ME = test2();
 end
 %=============================================================================
 function ME = test3()
-  ME = MException('sayHello:inputError','Input must be char.');
+  ME = MException('sayHello:inputError', 'Input must be char.');
 end
 %=============================================================================

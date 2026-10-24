@@ -7,22 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(true || true);
-assert_istrue(true || false);
-assert_isfalse(false || false);
-assert_istrue(false || true);
+asserts.istrue(true || true);
+asserts.istrue(true || false);
+asserts.isfalse(false || false);
+asserts.istrue(false || true);
 %=============================================================================
 A = [true, false, true];
 B = [true, true, true];
-assert_checkerror('A || B', _('Operand to || operator must be convertible to logical scalar values.'));
+asserts.checkerror('A || B', _('Operand to || operator must be convertible to logical scalar values.'));
 %=============================================================================
 A = [true, false, true];
 B = [true, false, true, true];
-assert_checkerror('A || B', _('Operand to || operator must be convertible to logical scalar values.'));
+asserts.checkerror('A || B', _('Operand to || operator must be convertible to logical scalar values.'));
 %=============================================================================
 A = [true, false, true];
 B = [true, false, true, true];
-assert_checkerror('B || A', _('Operand to || operator must be convertible to logical scalar values.'));
+asserts.checkerror('B || A', _('Operand to || operator must be convertible to logical scalar values.'));
 %=============================================================================
-assert_istrue(ischar({'f'}) || strcmp({'f'}, 'f'));
+asserts.istrue(ischar({'f'}) || strcmp({'f'}, 'f'));
 %=============================================================================

@@ -21,5 +21,5 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
     const wstringVector& commands, const wstringVector& outputs, const wstringVector& names,
     const ArrayOfVector& values);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

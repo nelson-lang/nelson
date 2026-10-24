@@ -12,10 +12,13 @@
 #include "Evaluator.hpp"
 #include "NelSon_engine_mode.h"
 #include "nlsEngine_exports.h"
+#include <cstdint>
 //=============================================================================
 namespace Nelson {
 NLSENGINE_IMPEXP Evaluator*
-createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow);
+createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow,
+    const std::wstring& webUrl = L"", uint16_t webPort = 0, bool haveWebUrl = false,
+    bool haveWebPort = false, bool webServerMode = false);
 //=============================================================================
 NLSENGINE_IMPEXP bool
 destroyMainEvaluator();

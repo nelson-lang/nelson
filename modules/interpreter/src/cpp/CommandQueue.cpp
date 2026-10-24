@@ -18,7 +18,7 @@ CommandQueue::~CommandQueue() { this->clearPending(); }
 bool
 CommandQueue::isEmpty()
 {
-    return this->empty();
+    return pendingCount.load(std::memory_order_acquire) == 0;
 }
 //=============================================================================
 void
@@ -29,22 +29,34 @@ CommandQueue::add(const std::wstring& cmdline, bool bIsPriority)
     } else {
         this->enqueue(cmdline);
     }
+    pendingCount.fetch_add(1, std::memory_order_release);
 }
 //=============================================================================
 void
 CommandQueue::clear()
 {
     this->clearPending();
+    pendingCount.store(0, std::memory_order_release);
 }
 //=============================================================================
 bool
 CommandQueue::get(std::wstring& cmd)
 {
     if (this->tryPopBack(cmd)) {
+        decrementPendingCount();
         return true;
     }
     cmd.clear();
     return false;
+}
+//=============================================================================
+void
+CommandQueue::decrementPendingCount()
+{
+    size_t count = pendingCount.load(std::memory_order_acquire);
+    while (count > 0
+        && !pendingCount.compare_exchange_weak(
+            count, count - 1, std::memory_order_acq_rel, std::memory_order_acquire)) { }
 }
 //=============================================================================
 } // namespace Nelson

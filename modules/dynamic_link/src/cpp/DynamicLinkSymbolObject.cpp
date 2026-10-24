@@ -10,15 +10,16 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <memory>
 #include <unordered_map>
 #include "DynamicLinkSymbolObject.hpp"
 #include "StringHelpers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "IsValidHandle.hpp"
 #include "LibPointerObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,8 +52,8 @@ initializeFfiTypesMap()
     ffiTypesMap[L"int16"] = CType(&ffi_type_sint16, NLS_INT16);
     ffiTypesMap[L"uint32"] = CType(&ffi_type_uint32, NLS_UINT32);
     ffiTypesMap[L"int32"] = CType(&ffi_type_sint32, NLS_INT32);
-    ffiTypesMap[L"uint64"] = CType(&ffi_type_uint32, NLS_UINT64);
-    ffiTypesMap[L"int64"] = CType(&ffi_type_sint32, NLS_INT64);
+    ffiTypesMap[L"uint64"] = CType(&ffi_type_uint64, NLS_UINT64);
+    ffiTypesMap[L"int64"] = CType(&ffi_type_sint64, NLS_INT64);
     ffiTypesMap[L"float"] = CType(&ffi_type_float, NLS_SINGLE);
     ffiTypesMap[L"single"] = CType(&ffi_type_float, NLS_SINGLE);
     ffiTypesMap[L"double"] = CType(&ffi_type_double, NLS_DOUBLE);
@@ -76,9 +77,9 @@ initializeFfiTypesMap()
     ffiTypesMap[L"singlePtr"] = CType(&ffi_type_pointer, NLS_SINGLE);
     ffiTypesMap[L"doublePtr"] = CType(&ffi_type_pointer, NLS_DOUBLE);
 #ifdef NLS_INDEX_TYPE_64
-    ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT64);
+    ffiTypesMap[L"voidPtr"] = CType(&ffi_type_pointer, NLS_UINT64);
 #else
-    ffiTypesMap[L"voidPtr"] = CType(&ffi_type_void, NLS_UINT32);
+    ffiTypesMap[L"voidPtr"] = CType(&ffi_type_pointer, NLS_UINT32);
 #endif
     ffiTypesMap[L"libpointer"] = CType(&ffi_type_pointer, NLS_UNKNOWN);
     ffiTypesMapInitialized = true;
@@ -91,7 +92,8 @@ GetFFIType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(fmt::format(_W("import type {0} not defined in FFI type table."), type));
+        Error(L"Nelson:dlsym:importTypeNotDefined",
+            L"import type %s not defined in FFI type table.", type);
     }
     return ret.FFIType;
 }
@@ -103,7 +105,8 @@ DynamicLinkSymbolObject::GetNelsonType(const std::wstring& type)
     if (ffiTypesMap.count(type) != 0) {
         ret = ffiTypesMap[type];
     } else {
-        Error(fmt::format(_W("import type {0} not defined in FFI type table."), type));
+        Error(L"Nelson:dlsym:importTypeNotDefined",
+            L"import type %s not defined in FFI type table.", type);
     }
     return ret.NelsonClass;
 }
@@ -128,7 +131,7 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     }
     for (const std::wstring& param : _paramsTypes) {
         if (param == L"void") {
-            Error(_W("'void' not allowed as input type."));
+            Error(L"Nelson:dlsym:invalidPrototype", L"'void' not allowed as input type.");
         }
         if (StringHelpers::ends_with(param, L"Ptr")) {
             _nArgOut++;
@@ -136,26 +139,25 @@ DynamicLinkSymbolObject::DynamicLinkSymbolObject(const ArrayOf& dllibObject, voi
     }
     _nArgIn = _paramsTypes.size();
     buildPrototype();
-    ffi_type** args = (ffi_type**)malloc(sizeof(ffi_type*) * _paramsTypes.size());
-    if (!args) {
-        Error(ERROR_MEMORY_ALLOCATION);
-    } else {
-        size_t i = 0;
+    try {
+        _ffiArgs.reserve(_paramsTypes.size());
         for (const std::wstring& param : _paramsTypes) {
-            args[i++] = GetFFIType(param);
+            _ffiArgs.push_back(GetFFIType(param));
         }
-        if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
-                GetFFIType(_returnType), args)
-            != FFI_OK) {
-            Error(_W("Unable to import function through FFI."));
-        }
+    } catch (const std::bad_alloc&) {
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
+    }
+    if (ffi_prep_cif(&_cif, FFI_DEFAULT_ABI, (unsigned int)paramsTypes.size(),
+            GetFFIType(_returnType), _ffiArgs.empty() ? nullptr : _ffiArgs.data())
+        != FFI_OK) {
+        Error(L"Nelson:dlsym:ffiImportFailed", L"Unable to import function through FFI.");
     }
 }
 //=============================================================================
 DynamicLinkSymbolObject::~DynamicLinkSymbolObject()
 {
     Dimensions dims(0, 0);
-    _dllibObject = ArrayOf::emptyConstructor(dims);
+    _dllibObject = ArrayOf::empty(dims);
     _pointerFunction = nullptr;
     _symbol.clear();
     _returnType.clear();
@@ -166,6 +168,7 @@ DynamicLinkSymbolObject::~DynamicLinkSymbolObject()
     _propertiesNames.clear();
     _paramsInTypes.clear();
     _paramsOutTypes.clear();
+    _ffiArgs.clear();
 }
 //=============================================================================
 void
@@ -230,8 +233,10 @@ DynamicLinkSymbolObject::disp(Interface* io)
         if (wcslen(INPUT_FIELD_STR) + lengthTextToDisplay(_paramsInTypes)
             > io->getTerminalWidth() - 4) {
             buffer = INPUT_FIELD_STR;
-            buffer
-                = buffer + std::wstring(L"1x") + std::to_wstring(_nArgIn) + L" " + _W("cell array");
+            buffer = buffer
+                + formatI18nMessage(Nelson::resolveMessageTemplate(
+                                        L"Nelson:dynamic_link:xCellArray", L"1x%d cell array"),
+                    _nArgIn);
             io->outputMessage(buffer + L"\n");
         } else {
             buffer = INPUT_FIELD_STR;
@@ -249,8 +254,10 @@ DynamicLinkSymbolObject::disp(Interface* io)
         if (wcslen(OUTPUT_FIELD_STR) + lengthTextToDisplay(_paramsOutTypes)
             > io->getTerminalWidth() - 4) {
             buffer = OUTPUT_FIELD_STR;
-            buffer = buffer + std::wstring(L"1x") + std::to_wstring(_nArgOut) + L" "
-                + _W("cell array");
+            buffer = buffer
+                + formatI18nMessage(Nelson::resolveMessageTemplate(
+                                        L"Nelson:dynamic_link:xCellArray", L"1x%d cell array"),
+                    _nArgOut);
         } else {
             buffer = OUTPUT_FIELD_STR;
             buffer = buffer + L"{";
@@ -283,45 +290,43 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
 {
     ArrayOfVector retval;
     ArrayOf isValidAsArray = IsValidHandle(_dllibObject);
-    logical isValid = isValidAsArray.getContentAsLogicalScalar();
+    logical isValid = isValidAsArray.asLogicalScalar();
     if (!isValid) {
-        Error(_W("dllib valid handle expected."));
+        Error(L"Nelson:dynamic_link:dllibValidHandle", L"dllib valid handle expected.");
     }
-    if (params.size() != _nArgIn) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (params.size() < _nArgIn) {
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
+    }
+    if (params.size() > _nArgIn) {
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
     for (size_t k = 0; k < params.size(); k++) {
-        if (GetNelsonType(_paramsTypes[k]) != params[k].getDataClass()) {
-            if (params[k].getDataClass() == NLS_HANDLE) {
-                if (params[k].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    Error(_W("libpointer handle expected."));
+        if (GetNelsonType(_paramsTypes[k]) != params[k].dataClass()) {
+            if (params[k].dataClass() == NLS_HANDLE) {
+                if (params[k].handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                    Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
                 }
-                LibPointerObject* objLibPointer
-                    = (LibPointerObject*)params[k].getContentAsHandleScalar();
-                if (objLibPointer->getDataType() != _paramsTypes[k]) {
-                    Error(fmt::format(_W("Invalid type for #{0} input argument: {1} expected."),
-                        k + 1, _paramsTypes[k]));
+                LibPointerObject* objLibPointer = (LibPointerObject*)params[k].asHandleScalar();
+                if (objLibPointer->dataType() != _paramsTypes[k]) {
+                    Error(L"Nelson:dlcall:invalidArgumentType",
+                        L"Invalid type for #%d argument: %s expected.", k + 1, _paramsTypes[k]);
                 }
             } else {
-                Error(fmt::format(_W("Invalid type for #{0} input argument: {1} expected."), k + 1,
-                    _paramsTypes[k]));
+                Error(L"Nelson:dlcall:invalidArgumentType",
+                    L"Invalid type for #%d argument: %s expected.", k + 1, _paramsTypes[k]);
             }
         }
     }
-    void** values = nullptr;
-    if (params.size() > 0) {
-        values = (void**)malloc(sizeof(void*) * params.size());
-    }
-    void** refPointers = nullptr;
+    std::vector<void*> values(params.size(), nullptr);
     size_t nbRefPointers = 0;
     for (size_t i = 0; i < params.size(); i++) {
-        if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
+        if (params[i].dataClass() == NLS_HANDLE
+            || StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
             nbRefPointers++;
         }
     }
-    if (nbRefPointers > 0) {
-        refPointers = static_cast<void**>(malloc(sizeof(void*) * nbRefPointers));
-    }
+    std::vector<void*> refPointers(nbRefPointers, nullptr);
+    std::vector<size_t> refPointerIndexes(params.size(), static_cast<size_t>(-1));
     size_t refPtrIndex = 0;
     size_t nbStrings = 0;
     for (size_t i = 0; i < params.size(); i++) {
@@ -329,160 +334,161 @@ DynamicLinkSymbolObject::call(Evaluator* eval, int nLhs, ArrayOfVector params)
             nbStrings++;
         }
     }
-    void** stringPointers = nullptr;
-    if (nbStrings > 0) {
-        stringPointers = static_cast<void**>(malloc(sizeof(void*) * nbStrings));
-    }
+    std::vector<void*> stringPointers(nbStrings, nullptr);
+    std::vector<std::unique_ptr<char[]>> utf8StringStorage;
+    std::vector<std::unique_ptr<wchar_t[]>> wideStringStorage;
+    utf8StringStorage.reserve(nbStrings);
+    wideStringStorage.reserve(nbStrings);
     size_t stringPtrIndex = 0;
     for (size_t i = 0; i < params.size(); i++) {
-        if (params[i].getDataClass() == NLS_HANDLE) {
-            if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+        if (params[i].dataClass() == NLS_HANDLE) {
+            if (params[i].handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
             }
-            LibPointerObject* objLibPointer
-                = (LibPointerObject*)params[i].getContentAsHandleScalar();
-            refPointers[refPtrIndex] = objLibPointer->getPointer();
+            LibPointerObject* objLibPointer = (LibPointerObject*)params[i].asHandleScalar();
+            refPointers[refPtrIndex] = objLibPointer->pointer();
+            refPointerIndexes[i] = refPtrIndex;
             values[i] = &refPointers[refPtrIndex];
             refPtrIndex++;
         } else if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
-            refPointers[refPtrIndex] = params[i].getReadWriteDataPointer();
+            refPointers[refPtrIndex] = params[i].readWriteDataPointer();
+            refPointerIndexes[i] = refPtrIndex;
             values[i] = &refPointers[refPtrIndex];
             refPtrIndex++;
         } else {
             if ((_paramsTypes[i] == L"cstring") || (_paramsTypes[i] == L"wstring")) {
                 if (_paramsTypes[i] == L"cstring") {
-                    stringPointers[stringPtrIndex] = params[i].getContentAsCharactersPointer();
+                    utf8StringStorage.emplace_back(params[i].toAllocatedUtf8CString());
+                    stringPointers[stringPtrIndex] = utf8StringStorage.back().get();
                 } else {
-                    stringPointers[stringPtrIndex] = params[i].getContentAsWideCharactersPointer();
+                    wideStringStorage.emplace_back(params[i].toAllocatedWideCString());
+                    stringPointers[stringPtrIndex] = wideStringStorage.back().get();
                 }
                 values[i] = &stringPointers[stringPtrIndex];
                 stringPtrIndex++;
             } else {
-                values[i] = params[i].getReadWriteDataPointer();
+                values[i] = params[i].readWriteDataPointer();
             }
         }
     }
     GenericFuncPointer addressFunction = (GenericFuncPointer)(_pointerFunction);
+    void** ffiValues = values.empty() ? nullptr : values.data();
     if (_returnType == L"libpointer") {
         void* returnedValue;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
             LibPointerObject* obj = nullptr;
             try {
                 obj = new LibPointerObject(returnedValue);
             } catch (const std::bad_alloc&) {
-                Error(ERROR_MEMORY_ALLOCATION);
+                Error(L"Nelson:outOfMemory",
+                    L"Memory allocation error... You may have run out of memory!");
             }
-            retval << ArrayOf::handleConstructor(obj);
+            retval << ArrayOf::handle(obj);
         }
     } else if (_returnType == L"logical") {
         logical returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::logicalConstructor(returnedValue);
+            retval << ArrayOf::logicalScalar(returnedValue);
         }
     } else if (_returnType == L"uint8") {
         static uint8_t returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::uint8Constructor(returnedValue);
+            retval << ArrayOf::uint8Scalar(returnedValue);
         }
     } else if (_returnType == L"int8") {
         static int8_t returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::int8Constructor(returnedValue);
+            retval << ArrayOf::int8Scalar(returnedValue);
         }
     } else if (_returnType == L"uint16") {
         static uint16 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::uint16Constructor(returnedValue);
+            retval << ArrayOf::uint16Scalar(returnedValue);
         }
     } else if (_returnType == L"int16") {
         static int16 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::int16Constructor(returnedValue);
+            retval << ArrayOf::int16Scalar(returnedValue);
         }
     } else if (_returnType == L"uint32") {
         static uint32 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::uint32Constructor(returnedValue);
+            retval << ArrayOf::uint32Scalar(returnedValue);
         }
     } else if (_returnType == L"int32") {
         static int32 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::int32Constructor(returnedValue);
+            retval << ArrayOf::int32Scalar(returnedValue);
         }
     } else if (_returnType == L"uint64") {
         static uint64 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::uint64Constructor(returnedValue);
+            retval << ArrayOf::uint64Scalar(returnedValue);
         }
     } else if (_returnType == L"int64") {
         static int64 returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::int64Constructor(returnedValue);
+            retval << ArrayOf::int64Scalar(returnedValue);
         }
     } else if ((_returnType == L"float") || (_returnType == L"single")) {
         static single returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::singleConstructor(returnedValue);
+            retval << ArrayOf::singleScalar(returnedValue);
         }
     } else if (_returnType == L"double") {
         static double returnedValue = 0;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::doubleConstructor(returnedValue);
+            retval << ArrayOf::doubleScalar(returnedValue);
         }
     } else if (_returnType == L"cstring") {
         char* returnedValue;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::characterArrayConstructor(returnedValue);
+            retval << ArrayOf::characterArray(returnedValue);
         }
     } else if (_returnType == L"wstring") {
         wchar_t* returnedValue;
-        ffi_call(&_cif, addressFunction, &returnedValue, values);
+        ffi_call(&_cif, addressFunction, &returnedValue, ffiValues);
         if (nLhs > (int)retval.size()) {
-            retval << ArrayOf::characterArrayConstructor(returnedValue);
+            retval << ArrayOf::characterArray(returnedValue);
         }
     } else {
         int dummy;
-        ffi_call(&_cif, addressFunction, &dummy, values);
+        ffi_call(&_cif, addressFunction, &dummy, ffiValues);
     }
-    int k = 0;
     for (size_t i = 0; i < _paramsTypes.size(); i++) {
         if (StringHelpers::ends_with(_paramsTypes[i], L"Ptr")) {
-            if (params[i].getDataClass() == NLS_HANDLE) {
-                if (params[i].getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                    Error(_W("libpointer handle expected."));
+            if (params[i].dataClass() == NLS_HANDLE) {
+                if (params[i].handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                    Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
                 }
-                LibPointerObject* objLibPointer
-                    = (LibPointerObject*)params[i].getContentAsHandleScalar();
+                LibPointerObject* objLibPointer = (LibPointerObject*)params[i].asHandleScalar();
                 ArrayOf retValue;
                 objLibPointer->get(L"Value", retValue);
                 retval << retValue;
             } else {
                 void* arrayPtr = ArrayOf::allocateArrayOf(
-                    params[i].getDataClass(), params[i].getElementCount(), stringVector(), false);
-                if (refPointers) {
-                    memcpy(arrayPtr, refPointers[k],
-                        params[i].getElementCount() * params[i].getElementSize());
+                    params[i].dataClass(), params[i].elementCount(), stringVector(), false);
+                if (!refPointers.empty()) {
+                    memcpy(arrayPtr, refPointers[refPointerIndexes[i]],
+                        params[i].elementCount() * params[i].elementSize());
                 }
-                retval << ArrayOf(params[i].getDataClass(), params[i].getDimensions(), arrayPtr);
+                retval << ArrayOf(params[i].dataClass(), params[i].dimensions(), arrayPtr);
             }
         }
     }
-    free(stringPointers);
-    free(refPointers);
-    free(values);
     return retval;
 }
 //=============================================================================
@@ -490,22 +496,22 @@ bool
 DynamicLinkSymbolObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"Prototype") {
-        res = ArrayOf::characterArrayConstructor(_prototype);
+        res = ArrayOf::characterArray(_prototype);
         return true;
     }
     if (propertyName == L"Input") {
-        res = ArrayOf::toCellArrayOfCharacterRowVectors(_paramsInTypes);
+        res = ArrayOf::cellArrayFromArrayOfCharacterRowVectors(_paramsInTypes);
         return true;
     }
     if (propertyName == L"Output") {
-        res = ArrayOf::toCellArrayOfCharacterRowVectors(_paramsOutTypes);
+        res = ArrayOf::cellArrayFromArrayOfCharacterRowVectors(_paramsOutTypes);
         return true;
     }
     return false;
 }
 //=============================================================================
 bool
-DynamicLinkSymbolObject::isWriteableProperty(const std::wstring& propertyName)
+DynamicLinkSymbolObject::isWritableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -530,13 +536,13 @@ DynamicLinkSymbolObject::isMethod(const std::wstring& methodName)
 }
 //=============================================================================
 wstringVector
-DynamicLinkSymbolObject::getProperties()
+DynamicLinkSymbolObject::properties()
 {
     return _propertiesNames;
 }
 //=============================================================================
 wstringVector
-DynamicLinkSymbolObject::getMethods()
+DynamicLinkSymbolObject::methods()
 {
     return {};
 }

@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP bool
 FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

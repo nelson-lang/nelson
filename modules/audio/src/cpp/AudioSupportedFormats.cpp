@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -55,22 +55,23 @@ AudioSupportedFormats()
     fieldnames.push_back("Extension");
     fieldnames.push_back("Subformats");
     if (countFormat == 0) {
-        return ArrayOf::emptyStructConstructor(fieldnames, dims);
+        return ArrayOf::emptyStruct(fieldnames, dims);
     }
     ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false);
+        NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false);
     ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
     for (int i = 0; i < countFormat; i++) {
         SF_FORMAT_INFO info;
         info.format = i;
         sf_command(nullptr, SFC_GET_FORMAT_MAJOR, &info, sizeof(info));
-        formats.push_back(ArrayOf::characterArrayConstructor(info.name));
+        formats.push_back(ArrayOf::characterArray(info.name));
         std::string extension = std::string(info.extension);
         if (extension[0] != '.') {
             extension = "." + extension;
         }
-        extensions << ArrayOf::characterArrayConstructor(extension);
-        subformats << ArrayOf::toCellArrayOfCharacterColumnVectors(AudioSubFormats(info.format));
+        extensions << ArrayOf::characterArray(extension);
+        subformats << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(
+            AudioSubFormats(info.format));
     }
     st.setFieldAsList("Name", formats);
     st.setFieldAsList("Extension", extensions);

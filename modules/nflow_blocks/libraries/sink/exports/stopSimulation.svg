@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1.5"/>
+  <polygon points="28,18 44,18 54,28 54,44 44,54 28,54 18,44 18,28" fill="#C0453B" stroke="#8E2E27" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="36" y="37" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#FFFFFF">STOP</text>
+</svg>

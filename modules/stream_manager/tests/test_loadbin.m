@@ -15,8 +15,8 @@ REF_C = single(REF_A);
 REF_D = int8(REF_A);
 clear('A', 'B', 'C', 'D');
 loadbin(F, 'A', 'B', 'C', 'D');
-assert_isequal(A, REF_A);
-assert_isequal(B, REF_B);
-assert_isequal(C, REF_C);
-assert_isequal(D, REF_D);
+asserts.isequal(A, REF_A);
+asserts.isequal(B, REF_B);
+asserts.isequal(C, REF_C);
+asserts.isequal(D, REF_D);
 %=============================================================================

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hitCrossing</keyword>
+  <keyword_alias>block:hitCrossing</keyword_alias>
+  <short_description>Outputs 1 on the step where the input crosses HitCrossingOffset.</short_description>
+  <syntax>
+    <syntax_item>Block type: hitCrossing</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs 1 on the step where the input crosses HitCrossingOffset.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Non-Linear</td></tr>
+        <tr><td>Type</td><td><code>hitCrossing</code></td></tr>
+        <tr><td>Label</td><td>Hit Crossing</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/nonlinear/exports/hitCrossing.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Detects when the scalar input reaches <code>HitCrossingOffset</code> in the configured direction and outputs 1 on the step where the crossing occurs, else 0. <code>HitCrossingDirection</code> is "rising", "falling" or "either". Stateful: the previous input (relative to the offset) is held so a straddle can be detected, and the first step is primed so it never false-fires.</p>
+    <p>Because the input is read in the OUTPUT phase, drive this block from a source rather than through an ALGEBRAIC feedthrough block (whose output would be one step stale).</p>
+    <p><b>Ports</b></p>
+    <p><b>Input(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=80, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>HitCrossingOffset</code></td><td>0</td></tr>
+        <tr><td><code>HitCrossingDirection</code></td><td>either</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>hitCrossing</td></tr>
+        <tr><td>Family</td><td>Non-Linear</td></tr>
+        <tr><td>Rendered size</td><td>80 x 80</td></tr>
+        <tr><td>Phases</td><td>INIT, OUTPUT, UPDATE</td></tr>
+        <tr><td>Internal state or history</td><td>yes</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>OUTPUT: out = crossing(prev - offset, u - offset, direction) ? 1 : 0. UPDATE: prev = u.</li>
+    </ul>
+    <p><b>Equation or Rule</b></p>
+    <latex>y_k = [\,(u_{k-1}-\text{off})\,\text{and}\,(u_k-\text{off})\ \text{straddle } 0\,]</latex>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/nonlinear/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/nonlinear/hitCrossing.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detect a rising crossing of 0.5 by a step source.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','s','type','step','inputs',0,'outputs',1,'params',struct('Time',0.45)), struct('id','hc','type','hitCrossing','inputs',1,'outputs',1,'params',struct('HitCrossingOffset',0.5,'HitCrossingDirection','rising')), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','s','to','hc','fromIndex',0,'toIndex',0), struct('from','hc','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=1.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}discrete/detectChange">detectChange</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}logic/intervalTest">intervalTest</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

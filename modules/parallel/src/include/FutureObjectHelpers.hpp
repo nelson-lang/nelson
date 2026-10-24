@@ -13,7 +13,7 @@
 #include "nlsParallel_exports.h"
 #include "ArrayOf.hpp"
 #include "FutureObject.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,6 +27,7 @@ ArrayOfToFutures(const ArrayOf& _param);
 //=============================================================================
 NLSPARALLEL_IMPEXP
 ArrayOfVector
-vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exception& e);
-}
+vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, NelsonException& e);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

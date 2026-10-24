@@ -30,5 +30,5 @@ parallelTransform(InputIterator first, InputIterator last, OutputIterator result
 #endif
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

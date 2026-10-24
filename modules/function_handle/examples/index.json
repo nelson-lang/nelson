@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "parameterized_function.m",
+      "title": {
+        "en_US": "Parameterized function handle",
+        "fr_FR": "Handle de fonction paramétré"
+      },
+      "description": {
+        "en_US": "Capture coefficients in a function handle and pass it to a numerical algorithm.",
+        "fr_FR": "Capturer des coefficients dans un handle de fonction et le transmettre à un algorithme numérique."
+      },
+      "tags": [
+        "function-handle",
+        "closure",
+        "parameters"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -13,8 +13,8 @@
 r = audioplayer(sin(1:10000), 8192);
 %=============================================================================
 play(r)
-sleep(5);
-assert_istrue(isvalid(r));
+sleep(0.2);
+asserts.istrue(isvalid(r));
 delete(r)
-assert_isfalse(isvalid(r));
+asserts.isfalse(isvalid(r));
 %=============================================================================

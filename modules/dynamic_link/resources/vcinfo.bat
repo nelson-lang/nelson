@@ -7,6 +7,7 @@
 @rem # SPDX-License-Identifier: LGPL-3.0-or-later
 @rem # LICENCE_BLOCK_END
 @rem #==============================================================================
-@call %1>NUL
+@if not "%SystemRoot%"=="" set "PATH=%SystemRoot%\System32;%SystemRoot%;%SystemRoot%\System32\Wbem"
+@call "%~1">NUL
 @setlocal EnableDelayedExpansion
 @echo(!%2!

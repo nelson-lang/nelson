@@ -16,5 +16,6 @@ namespace Nelson {
 NLSAUDIO_IMPEXP ArrayOfVector
 AudioRead(const std::wstring& filename, double dstart, double dend, const std::wstring& datatype,
     std::wstring& errorMessage);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

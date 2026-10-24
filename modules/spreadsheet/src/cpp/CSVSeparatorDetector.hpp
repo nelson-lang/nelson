@@ -16,5 +16,5 @@ namespace Nelson {
 char
 CSVSeparatorDetector(const std::wstring& filename, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

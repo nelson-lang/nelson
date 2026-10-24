@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-sys = tf([2,5,1],[1,0,2,-3]);
+sys = tf([2, 5, 1], [1, 0, 2, -3]);
 [wn, zeta, p, T] = damp(sys);
 
 wn_REF = [1.0000;
@@ -26,12 +26,12 @@ T_REF = [-1.0000;
     2.0000;
     2.0000];
 
-assert_isapprox(wn, wn_REF, 1e-4);
-assert_isapprox(zeta, zeta_REF, 1e-4);
-assert_isapprox(p, p_REF, 1e-4);
-assert_isapprox(T, T_REF, 1e-4);
+asserts.isapprox(wn, wn_REF, 1e-4);
+asserts.isapprox(zeta, zeta_REF, 1e-4);
+asserts.isapprox(p, p_REF, 1e-4);
+asserts.isapprox(T, T_REF, 1e-4);
 %=============================================================================
-sys = tf([2,5,1],[1,0,2,-3]);
+sys = tf([2, 5, 1], [1, 0, 2, -3]);
 [wn, zeta, p, T] = damp(sys);
 
 wn_REF = [1.0000;
@@ -51,8 +51,8 @@ T_REF = [-1.0000;
     2.0000;
     2.0000];
 
-assert_isapprox(wn, wn_REF, 1e-4);
-assert_isapprox(zeta, zeta_REF, 1e-4);
-assert_isapprox(p, p_REF, 1e-4);
-assert_isapprox(T, T_REF, 1e-4);
+asserts.isapprox(wn, wn_REF, 1e-4);
+asserts.isapprox(zeta, zeta_REF, 1e-4);
+asserts.isapprox(p, p_REF, 1e-4);
+asserts.isapprox(T, T_REF, 1e-4);
 %=============================================================================

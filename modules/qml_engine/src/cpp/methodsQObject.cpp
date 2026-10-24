@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "methodsQObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
@@ -19,10 +20,10 @@ namespace Nelson {
 void
 methodsQObject(QObjectHandleObject* qmlhandleobj, stringVector& methods)
 {
-    void* ptr = qmlhandleobj->getPointer();
+    void* ptr = qmlhandleobj->pointer();
     methods.clear();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -45,15 +46,15 @@ methodsQObject(QObjectHandleObject* qmlhandleobj, stringVector& methods)
 ArrayOf
 methodsQObject(const ArrayOf& A)
 {
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     stringVector methodsName;
     methodsQObject(qmlhandleobj, methodsName);
-    return ArrayOf::toCellArrayOfCharacterColumnVectors(methodsName);
+    return ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(methodsName);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

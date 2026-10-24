@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-09-28", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "Zero-ohm resistor (an ideal jumper) in the lower leg of a divider: a source through R1 = 10 into a R = 0 resistor to ground. The zero resistor must behave as a short, pinning the mid node to 0 V and carrying the full loop current V/R1 = 0.5 A, rather than dividing by zero. Regression guard for the resistor R -> 0 floor.",
+  "name": "Zero Resistor Short",
+  "blocks": [
+    { "id": "V1", "type": "ConstantVoltage", "params": { "V": 5 }, "x": 60, "y": 280, "rotation": 90 },
+    { "id": "R1", "type": "Resistor", "params": { "R": 10 }, "x": 200, "y": 200, "rotation": 0 },
+    { "id": "CS", "type": "CurrentSensor", "params": {}, "x": 340, "y": 200, "rotation": 0 },
+    { "id": "R0", "type": "Resistor", "params": { "R": 0 }, "x": 480, "y": 280, "rotation": 90 },
+    { "id": "VS", "type": "VoltageSensor", "params": {}, "x": 620, "y": 280, "rotation": 90 },
+    { "id": "G", "type": "Ground", "params": {}, "x": 60, "y": 420, "rotation": 90 },
+    { "id": "tv", "type": "toWorkspace", "params": { "VariableName": "vmid", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" }, "inputs": 1, "outputs": 0, "x": 780, "y": 520, "rotation": 0 },
+    { "id": "ti", "type": "toWorkspace", "params": { "VariableName": "iloop", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" }, "inputs": 1, "outputs": 0, "x": 780, "y": 590, "rotation": 0 },
+    { "id": "sc", "type": "scope", "params": { "width": 320, "height": 220, "ShowTickLabels": true }, "x": 780, "y": 20, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "VS", "to": "tv", "fromIndex": 0, "toIndex": 0 },
+    { "from": "CS", "to": "ti", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 0.2,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "CS.p"] },
+    { "pins": ["CS.n", "R0.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n", "R0.n", "VS.n"] }
+  ]
+}

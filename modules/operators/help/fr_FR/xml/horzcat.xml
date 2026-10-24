@@ -54,6 +54,14 @@ D = [A, B]]]></example_item_data>
 B = 'son';
 C = horzcat(A, B)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Concatener des caracteres et nombres comme codes caractere.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = [char(65) 1];
+double(C)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>

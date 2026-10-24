@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,7 +13,8 @@
 #include <memory>
 #include <regex>
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "ErrorID.hpp"
+#include "NelsonException.hpp"
 #include "GOColorHelpers.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
@@ -54,6 +55,9 @@ static std::wstring
 getStringScalar(const ArrayOf& arg);
 //=============================================================================
 static bool
+isRootHandle(const ArrayOf& arg);
+//=============================================================================
+static bool
 isOperator(const std::wstring& value);
 //=============================================================================
 static bool
@@ -61,9 +65,6 @@ isPredicateStart(const ArrayOf& arg);
 //=============================================================================
 static std::wstring
 resolvePropertyName(GraphicsObject* fp, const std::wstring& propertyName, bool raiseError);
-//=============================================================================
-static GraphicsObject*
-graphicsObjectFromHandle(int64 handle, bool throwError = true);
 //=============================================================================
 static std::vector<ArrayOf>
 cellElements(const ArrayOf& arg);
@@ -108,26 +109,29 @@ static bool
 evaluateNode(GraphicsObject* fp, const std::shared_ptr<FindObjNode>& node);
 //=============================================================================
 static bool
-isHandleVisible(GraphicsObject* fp);
+rootShowsHiddenHandles();
 //=============================================================================
 static void
 collectFindObj(int64 handle, int depth, const std::shared_ptr<FindObjNode>& expression,
-    std::vector<int64>& matches);
+    bool includeHiddenHandles, bool isExplicitRoot, std::vector<int64>& matches);
 //=============================================================================
 static ArrayOf
 handlesToGraphicsArray(const std::vector<int64>& handles);
 //=============================================================================
 ArrayOf
-FindObj(const ArrayOfVector& argIn)
+FindObj(const ArrayOfVector& argIn, bool includeHiddenHandles)
 {
     size_t index = 0;
     std::vector<int64> roots;
     if (!argIn.empty() && argIn[0].isGraphicsObject()) {
-        const nelson_handle* handles = static_cast<const nelson_handle*>(argIn[0].getDataPointer());
-        for (indexType k = 0; k < argIn[0].getElementCount(); ++k) {
+        const nelson_handle* handles = static_cast<const nelson_handle*>(argIn[0].dataPointer());
+        for (indexType k = 0; k < argIn[0].elementCount(); ++k) {
             graphicsObjectFromHandle(handles[k], true);
             roots.push_back(handles[k]);
         }
+        index = 1;
+    } else if (!argIn.empty() && isRootHandle(argIn[0])) {
+        roots.push_back(HANDLE_ROOT_OBJECT);
         index = 1;
     } else {
         roots.push_back(HANDLE_ROOT_OBJECT);
@@ -141,13 +145,14 @@ FindObj(const ArrayOfVector& argIn)
             ++index;
         } else if (StringHelpers::iequals(option, L"-depth")) {
             if (index + 1 >= argIn.size()) {
-                Error(_W("Invalid findobj expression."));
+                Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
             }
-            double depthValue = argIn[index + 1].getContentAsDoubleScalar();
+            double depthValue = argIn[index + 1].asDoubleScalar();
             if (std::isinf(depthValue)) {
                 depth = -1;
             } else if (depthValue < 0 || std::floor(depthValue) != depthValue) {
-                Error(_W("Depth must be a nonnegative integer or Inf."));
+                Error(
+                    L"Nelson:findobj:invalidDepth", L"Depth must be a nonnegative integer or Inf.");
             } else {
                 depth = static_cast<int>(depthValue);
             }
@@ -165,13 +170,15 @@ FindObj(const ArrayOfVector& argIn)
         size_t expressionIndex = 0;
         expression = parseExpression(expressionArgs, expressionIndex);
         if (expressionIndex != expressionArgs.size()) {
-            Error(_W("Invalid findobj expression."));
+            Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
         }
     }
 
+    includeHiddenHandles = includeHiddenHandles || rootShowsHiddenHandles();
+
     std::vector<int64> matches;
     for (int64 root : roots) {
-        collectFindObj(root, depth, expression, matches);
+        collectFindObj(root, depth, expression, includeHiddenHandles, true, matches);
     }
 
     return handlesToGraphicsArray(matches);
@@ -187,9 +194,22 @@ std::wstring
 getStringScalar(const ArrayOf& arg)
 {
     if (!isStringScalar(arg)) {
-        Error(_W("Expected a character vector or scalar string."));
+        Error(L"Nelson:findobj:invalidInput", L"Expected a character vector or scalar string.");
     }
-    return arg.getContentAsWideString();
+    return arg.asWideString();
+}
+//=============================================================================
+bool
+isRootHandle(const ArrayOf& arg)
+{
+    if (!arg.isNumeric() || !arg.isScalar()) {
+        return false;
+    }
+    try {
+        return arg.asDoubleScalar() == 0;
+    } catch (const NelsonException&) {
+        return false;
+    }
 }
 //=============================================================================
 bool
@@ -220,7 +240,7 @@ resolvePropertyName(GraphicsObject* fp, const std::wstring& propertyName, bool r
     if (hp) {
         return propertyName;
     }
-    wstringVector fieldnames = fp->getFieldnames();
+    wstringVector fieldnames = fp->fieldnames();
     for (const auto& name : fieldnames) {
         if (StringHelpers::iequals(name, propertyName)) {
             return name;
@@ -232,24 +252,6 @@ resolvePropertyName(GraphicsObject* fp, const std::wstring& propertyName, bool r
     return propertyName;
 }
 //=============================================================================
-GraphicsObject*
-graphicsObjectFromHandle(int64 handle, bool throwError)
-{
-    GraphicsObject* fp = nullptr;
-    if (handle == HANDLE_ROOT_OBJECT) {
-        fp = getGraphicsRootObject();
-        fp->updateState();
-    } else if (handle >= HANDLE_OFFSET_OBJECT) {
-        fp = findGraphicsObject(handle, throwError);
-    } else {
-        fp = static_cast<GraphicsObject*>(findGOFigure(handle));
-    }
-    if (!fp && throwError) {
-        Error(_W("Invalid handle."));
-    }
-    return fp;
-}
-//=============================================================================
 std::vector<ArrayOf>
 cellElements(const ArrayOf& arg)
 {
@@ -257,9 +259,9 @@ cellElements(const ArrayOf& arg)
         return {};
     }
     std::vector<ArrayOf> result;
-    result.reserve(arg.getElementCount());
-    ArrayOf* elements = const_cast<ArrayOf*>(static_cast<const ArrayOf*>(arg.getDataPointer()));
-    for (indexType k = 0; k < arg.getElementCount(); ++k) {
+    result.reserve(arg.elementCount());
+    ArrayOf* elements = const_cast<ArrayOf*>(static_cast<const ArrayOf*>(arg.dataPointer()));
+    for (indexType k = 0; k < arg.elementCount(); ++k) {
         result.push_back(elements[k]);
     }
     return result;
@@ -269,18 +271,18 @@ std::shared_ptr<FindObjNode>
 parsePrimary(const std::vector<ArrayOf>& args, size_t& index)
 {
     if (index >= args.size()) {
-        Error(_W("Invalid findobj expression."));
+        Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
     }
     const ArrayOf& current = args[index];
     if (current.isCell()) {
         std::vector<ArrayOf> nestedArgs = cellElements(current);
         if (nestedArgs.empty()) {
-            Error(_W("Invalid findobj expression."));
+            Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
         }
         size_t nestedIndex = 0;
         std::shared_ptr<FindObjNode> nested = parseExpression(nestedArgs, nestedIndex);
         if (nestedIndex != nestedArgs.size()) {
-            Error(_W("Invalid findobj expression."));
+            Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
         }
         ++index;
         return nested;
@@ -295,7 +297,7 @@ parsePrimary(const std::vector<ArrayOf>& args, size_t& index)
     }
     if (StringHelpers::iequals(token, L"-property")) {
         if (index + 1 >= args.size()) {
-            Error(_W("Invalid findobj expression."));
+            Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
         }
         auto node = std::make_shared<FindObjNode>();
         node->kind = NodeKind::HasProperty;
@@ -305,7 +307,7 @@ parsePrimary(const std::vector<ArrayOf>& args, size_t& index)
     }
     if (StringHelpers::iequals(token, L"-regexp")) {
         if (index + 2 >= args.size()) {
-            Error(_W("Invalid findobj expression."));
+            Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
         }
         auto node = std::make_shared<FindObjNode>();
         node->kind = NodeKind::Regexp;
@@ -315,10 +317,10 @@ parsePrimary(const std::vector<ArrayOf>& args, size_t& index)
         return node;
     }
     if (isOperator(token)) {
-        Error(_W("Invalid findobj expression."));
+        Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
     }
     if (index + 1 >= args.size()) {
-        Error(_W("Invalid findobj expression."));
+        Error(L"Nelson:findobj:invalidExpression", L"Invalid findobj expression.");
     }
     auto node = std::make_shared<FindObjNode>();
     node->kind = NodeKind::PropertyValue;
@@ -381,7 +383,7 @@ parseExpression(const std::vector<ArrayOf>& args, size_t& index)
 bool
 sameDimensions(const ArrayOf& lhs, const ArrayOf& rhs)
 {
-    return lhs.getDimensions().equals(rhs.getDimensions());
+    return lhs.dimensions().equals(rhs.dimensions());
 }
 //=============================================================================
 bool
@@ -393,12 +395,12 @@ numericEquals(ArrayOf lhs, ArrayOf rhs)
     try {
         lhs.promoteType(NLS_DOUBLE);
         rhs.promoteType(NLS_DOUBLE);
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         return false;
     }
-    const double* lp = static_cast<const double*>(lhs.getDataPointer());
-    const double* rp = static_cast<const double*>(rhs.getDataPointer());
-    for (indexType k = 0; k < lhs.getElementCount(); ++k) {
+    const double* lp = static_cast<const double*>(lhs.dataPointer());
+    const double* rp = static_cast<const double*>(rhs.dataPointer());
+    for (indexType k = 0; k < lhs.elementCount(); ++k) {
         if (lp[k] != rp[k]) {
             return false;
         }
@@ -409,13 +411,13 @@ numericEquals(ArrayOf lhs, ArrayOf rhs)
 bool
 logicalEquals(const ArrayOf& lhs, const ArrayOf& rhs)
 {
-    if (lhs.getDataClass() != NLS_LOGICAL || rhs.getDataClass() != NLS_LOGICAL
+    if (lhs.dataClass() != NLS_LOGICAL || rhs.dataClass() != NLS_LOGICAL
         || !sameDimensions(lhs, rhs)) {
         return false;
     }
-    const logical* lp = static_cast<const logical*>(lhs.getDataPointer());
-    const logical* rp = static_cast<const logical*>(rhs.getDataPointer());
-    for (indexType k = 0; k < lhs.getElementCount(); ++k) {
+    const logical* lp = static_cast<const logical*>(lhs.dataPointer());
+    const logical* rp = static_cast<const logical*>(rhs.dataPointer());
+    for (indexType k = 0; k < lhs.elementCount(); ++k) {
         if (lp[k] != rp[k]) {
             return false;
         }
@@ -429,9 +431,9 @@ graphicsHandleEquals(const ArrayOf& lhs, const ArrayOf& rhs)
     if (!lhs.isGraphicsObject() || !rhs.isGraphicsObject() || !sameDimensions(lhs, rhs)) {
         return false;
     }
-    const nelson_handle* lp = static_cast<const nelson_handle*>(lhs.getDataPointer());
-    const nelson_handle* rp = static_cast<const nelson_handle*>(rhs.getDataPointer());
-    for (indexType k = 0; k < lhs.getElementCount(); ++k) {
+    const nelson_handle* lp = static_cast<const nelson_handle*>(lhs.dataPointer());
+    const nelson_handle* rp = static_cast<const nelson_handle*>(rhs.dataPointer());
+    for (indexType k = 0; k < lhs.elementCount(); ++k) {
         if (lp[k] != rp[k]) {
             return false;
         }
@@ -445,7 +447,7 @@ stringEquals(const ArrayOf& lhs, const ArrayOf& rhs)
     if (!isStringScalar(lhs) || !isStringScalar(rhs)) {
         return false;
     }
-    return lhs.getContentAsWideString() == rhs.getContentAsWideString();
+    return lhs.asWideString() == rhs.asWideString();
 }
 //=============================================================================
 bool
@@ -490,13 +492,14 @@ regexpMatches(const ArrayOf& propertyValue, const ArrayOf& expression)
     }
     std::vector<std::wstring> expressions;
     if (isStringScalar(expression)) {
-        expressions.push_back(expression.getContentAsWideString());
+        expressions.push_back(expression.asWideString());
     } else if (expression.isStringArray() || expression.isCellArrayOfCharacterVectors()) {
-        expressions = expression.getContentAsWideStringVector();
+        expressions = expression.asWideStringVector();
     } else {
-        Error(_W("Regular expression must be a character vector, string array, or cell array."));
+        Error(L"Nelson:findobj:invalidRegularExpression",
+            L"Regular expression must be a character vector, string array, or cell array.");
     }
-    std::wstring value = propertyValue.getContentAsWideString();
+    std::wstring value = propertyValue.asWideString();
     for (const auto& expr : expressions) {
         try {
             std::wregex pattern(expr);
@@ -504,7 +507,7 @@ regexpMatches(const ArrayOf& propertyValue, const ArrayOf& expression)
                 return true;
             }
         } catch (const std::regex_error&) {
-            Error(_W("Invalid regular expression."));
+            Error(L"Nelson:findobj:regexpCompileFailed", L"Invalid regular expression.");
         }
     }
     return false;
@@ -557,15 +560,36 @@ isHandleVisible(GraphicsObject* fp)
     if (!hp) {
         return true;
     }
-    return !StringHelpers::iequals(hp->get().getContentAsWideString(), GO_PROPERTY_VALUE_OFF_STR);
+    return StringHelpers::iequals(hp->get().asWideString(), GO_PROPERTY_VALUE_ON_STR);
+}
+//=============================================================================
+bool
+rootShowsHiddenHandles()
+{
+    GraphicsObject* root = graphicsObjectFromHandle(HANDLE_ROOT_OBJECT, false);
+    if (!root) {
+        return false;
+    }
+    GOGenericProperty* hp = root->findProperty(L"ShowHiddenHandles", false);
+    if (!hp) {
+        return false;
+    }
+    return StringHelpers::iequals(hp->get().asWideString(), GO_PROPERTY_VALUE_ON_STR);
 }
 //=============================================================================
 void
 collectFindObj(int64 handle, int depth, const std::shared_ptr<FindObjNode>& expression,
-    std::vector<int64>& matches)
+    bool includeHiddenHandles, bool isExplicitRoot, std::vector<int64>& matches)
 {
     GraphicsObject* fp = graphicsObjectFromHandle(handle, false);
-    if (!fp || !isHandleVisible(fp)) {
+    if (!fp) {
+        return;
+    }
+    // A handle passed explicitly to findobj is always searched, regardless of
+    // its own HandleVisibility. A hidden descendant (and its subtree) is skipped
+    // unless hidden handles are requested (findall / ShowHiddenHandles).
+    bool visible = includeHiddenHandles || isExplicitRoot || isHandleVisible(fp);
+    if (!visible) {
         return;
     }
     if (evaluateNode(fp, expression)) {
@@ -574,28 +598,23 @@ collectFindObj(int64 handle, int depth, const std::shared_ptr<FindObjNode>& expr
     if (depth == 0) {
         return;
     }
-    GOGenericProperty* childrenProperty = fp->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false);
-    if (!childrenProperty) {
+    // Descends in the order the children are reported, so a search lists them the
+    // same way the Children property does.
+    std::vector<int64> childHandles = reportedChildren(fp);
+    if (childHandles.empty()) {
         return;
     }
-    auto* children = static_cast<GOGObjectsProperty*>(childrenProperty);
-    std::vector<int64> childHandles = children->data();
     int nextDepth = depth < 0 ? depth : depth - 1;
     for (int64 child : childHandles) {
-        collectFindObj(child, nextDepth, expression, matches);
+        collectFindObj(child, nextDepth, expression, includeHiddenHandles, false, matches);
     }
 }
 //=============================================================================
 ArrayOf
 handlesToGraphicsArray(const std::vector<int64>& handles)
 {
-    nelson_handle* ptr = static_cast<nelson_handle*>(
-        ArrayOf::allocateArrayOf(NLS_GO_HANDLE, handles.size(), stringVector(), true));
-    for (size_t k = 0; k < handles.size(); ++k) {
-        ptr[k] = static_cast<nelson_handle>(handles[k]);
-    }
-    return ArrayOf(NLS_GO_HANDLE, Dimensions(handles.size(), 1), ptr);
+    return graphicsObjectVector(handles);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -8,23 +8,12 @@
 // LICENCE_BLOCK_END
 // ==============================================================================
 
-use std::env;
-use std::path::Path;
-
 fn main() {
-    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap_or_default();
-    let target_env = env::var("CARGO_CFG_TARGET_ENV").unwrap_or_default();
-    if target_os != "windows" || target_env != "msvc" {
-        return;
-    }
-
-    let manifest_dir = env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR is set by Cargo");
-    let manifest = Path::new(&manifest_dir).join("nelson-update-version.exe.manifest");
-
-    println!("cargo:rerun-if-changed={}", manifest.display());
-    println!("cargo:rustc-link-arg-bin=nelson-update-version=/MANIFEST:EMBED");
-    println!(
-        "cargo:rustc-link-arg-bin=nelson-update-version=/MANIFESTINPUT:{}",
-        manifest.display()
-    );
+    // Embed a Windows application manifest that explicitly sets
+    // requestedExecutionLevel to "asInvoker". Without this, Windows UAC
+    // heuristics flag any executable with "update" in its name for elevation
+    // (OS error 740), even when no admin rights are needed.
+    #[cfg(target_os = "windows")]
+    embed_manifest::embed_manifest(embed_manifest::new_manifest("nelson-update-version"))
+        .expect("unable to embed manifest");
 }

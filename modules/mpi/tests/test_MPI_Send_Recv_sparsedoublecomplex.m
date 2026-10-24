@@ -9,10 +9,12 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
 
 A = reshape(1:12, 3, 4);
@@ -20,16 +22,17 @@ B = reshape(1:12, 3, 4);
 
 C = sparse(complex(A, B));
 
-TAG= 1;
+TAG = 1;
 if (my_rank != 0)
   rankvect = 0;
-  
+
   MPI_Send(C, rankvect, TAG)
 else
   for source = 1:num_ranks - 1
-    receive = MPI_Recv (source, TAG);
-    assert_istrue(isa(receive, 'sparsedouble'));
-    assert_isequal(receive, C);
+    receive = MPI_Recv(source, TAG);
+    asserts.istrue(isa(receive, 'double'));
+    asserts.istrue(issparse(receive));
+    asserts.isequal(receive, C);
   end
 end
 if MPI_Initialized()

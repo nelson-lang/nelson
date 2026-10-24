@@ -14,26 +14,44 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Lightweight sub-object corresponding to ax.Layout in MATLAB.
-// Holds the tile placement info for an axes or other object inside a
-// TiledChartLayout.  Exposed to Nelson as ax.Layout.Tile and
-// ax.Layout.TileSpan.
+// Lightweight sub-object corresponding to ax.Layout.
+// TiledChartLayout mode: exposes Layout.Tile and Layout.TileSpan.
+// GridLayout mode (App Designer uigridlayout): exposes Layout.Row and
+// Layout.Column (scalar or [start end] span).
+enum class LayoutOptionsMode
+{
+    TiledChartLayout,
+    GridLayout
+};
+//=============================================================================
 class NLSGRAPHICS_IMPEXP GOLayoutOptions : public GraphicsObject
 {
+    LayoutOptionsMode m_mode;
+
 public:
-    GOLayoutOptions();
+    GOLayoutOptions(LayoutOptionsMode mode = LayoutOptionsMode::TiledChartLayout);
     ~GOLayoutOptions() override = default;
 
     std::wstring
     getType() override;
 
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_LAYOUT_OPTIONS_STR;
+    }
+
+    LayoutOptionsMode
+    mode() const
+    {
+        return m_mode;
+    }
+
     void
     registerProperties() override;
 
     void
-    updateState() override
-    {
-    }
+    updateState() override;
 
     void
     paintMe(RenderInterface& /*gc*/) override

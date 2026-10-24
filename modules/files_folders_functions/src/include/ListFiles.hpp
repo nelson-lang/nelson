@@ -17,5 +17,6 @@
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::vector<FileInfo>
 ListFiles(const std::wstring& directory, bool bSubdirectories = false);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

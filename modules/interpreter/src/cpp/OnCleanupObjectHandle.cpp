@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "OnCleanupObjectHandle.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include <exception>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,7 +29,8 @@ OnCleanupObjectHandle::cleanup(Evaluator* eval)
     if (isCanceled) {
         return;
     }
-    function_handle fh = task.getContentAsFunctionHandle();
+    cancel();
+    function_handle fh = task.asFunctionHandle();
     FunctionDef* funcDef = nullptr;
     if (fh.anonymousHandle != nullptr) {
         funcDef = (FunctionDef*)fh.anonymousHandle;
@@ -36,7 +38,6 @@ OnCleanupObjectHandle::cleanup(Evaluator* eval)
     if (funcDef) {
         funcDef->evaluateFunction(eval, ArrayOfVector(), 0);
     }
-    cancel();
 }
 //=============================================================================
 void
@@ -45,8 +46,14 @@ OnCleanupObjectHandle::cancel()
     isCanceled = true;
 }
 //=============================================================================
+void
+OnCleanupObjectHandle::onClear(Evaluator* eval)
+{
+    cleanup(eval);
+}
+//=============================================================================
 wstringVector
-OnCleanupObjectHandle::getMethods()
+OnCleanupObjectHandle::methods()
 {
     return methodNames;
 }
@@ -65,7 +72,7 @@ OnCleanupObjectHandle::isProperty(const std::wstring& propertyName)
 }
 //=============================================================================
 wstringVector
-OnCleanupObjectHandle::getProperties()
+OnCleanupObjectHandle::properties()
 {
     return propertyNames;
 }
@@ -76,5 +83,28 @@ OnCleanupObjectHandle::getTask()
     return task;
 }
 //=============================================================================
+void
+runOnCleanupTasks(Evaluator* eval, const ArrayOfVector& tasks)
+{
+    std::exception_ptr firstError;
+    for (const ArrayOf& task : tasks) {
+        try {
+            if (task.isHandle() && task.handleClassName() == NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
+                auto* obj = static_cast<OnCleanupObjectHandle*>(task.asHandleScalar());
+                if (obj != nullptr && obj->isScoped()) {
+                    obj->cleanup(eval);
+                }
+            }
+        } catch (...) {
+            if (!firstError) {
+                firstError = std::current_exception();
+            }
+        }
+    }
+    if (firstError) {
+        std::rethrow_exception(firstError);
+    }
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -20,7 +20,6 @@ bool
 setMaxOpenedFiles()
 {
 #if defined(NELSON_SET_MAX_OPENED_FILES)
-    // Set maximum number of open file descriptors
     struct rlimit maxfds, newfds;
     // Due to bugs in OS X (<rdar://problem/2941095>, <rdar://problem/3342704>,
     // <rdar://problem/3839173>) you have to get and set rlimits once before getrlimit will return

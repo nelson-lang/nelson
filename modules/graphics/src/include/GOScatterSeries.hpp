@@ -19,6 +19,13 @@ class NLSGRAPHICS_IMPEXP GOScatterSeries : public GraphicsObject
 public:
     virtual std::wstring
     getType() override;
+    wstringVector
+    getVisibleFieldnames() override;
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_SCATTER_STR;
+    }
 
     GOScatterSeries();
     ~GOScatterSeries() override;
@@ -42,5 +49,5 @@ private:
     mutable bool limitsDirty = true;
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

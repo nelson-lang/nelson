@@ -17,15 +17,13 @@
 #include <QtCore/QUuid>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix4x4>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QtGui/QMatrix>
-#endif
 #include <QtGui/QQuaternion>
 #include <QtGui/QTransform>
 #include <QtGui/QVector2D>
 #include <QtQml/QQmlComponent>
 #include "DispQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
@@ -51,8 +49,8 @@ dispParent(QObject* qobj, std::wstring& msg)
 static void
 dispChildren(QObject* qobj, std::wstring& msg)
 {
-    QObjectList childs = qobj->children();
-    int s = childs.size();
+    QObjectList children = qobj->children();
+    int s = children.size();
     std::wstring line;
     if (s > 0) {
         line = L"\t" + utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR) + L": " + L"handle 1x"
@@ -151,7 +149,7 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
 {
     if (qmlHandle != nullptr) {
         wstringVector wfieldnames;
-        QObject* qobj = (QObject*)qmlHandle->getPointer();
+        QObject* qobj = (QObject*)qmlHandle->pointer();
         if (qobj) {
             fieldnamesQObjectHandleObject(qmlHandle, false, wfieldnames);
             std::wstring msg;
@@ -166,12 +164,8 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
                 } else {
                     QVariant propertyValue = qobj->property(wstring_to_utf8(wfieldname).c_str());
                     if (propertyValue.isValid()) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                         QMetaType metaType = propertyValue.metaType();
                         int id = metaType.id();
-#else
-                        int id = QMetaType::type(propertyValue.typeName());
-#endif
                         switch (id) {
                         case QMetaType::Type::QRect: {
                             QRect qrect = propertyValue.toRect();
@@ -213,9 +207,6 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
                         case QMetaType::Type::QLine:
                         case QMetaType::Type::QLineF:
                         case QMetaType::Type::QUuid:
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        case QMetaType::Type::QMatrix:
-#endif
                         case QMetaType::Type::QTransform:
                         case QMetaType::Type::QMatrix4x4:
                         case QMetaType::Type::QVector2D:
@@ -242,7 +233,7 @@ DispQObjectHandleObject(Interface* io, QObjectHandleObject* qmlHandle)
             }
         } else {
             std::string msg
-                = "  " + _("handle to deleted: ") + NLS_HANDLE_QOBJECT_CATEGORY_STR + "\n";
+                = "  " + _("handle to deleted:") + " " + NLS_HANDLE_QOBJECT_CATEGORY_STR + "\n";
             io->outputMessage(msg);
         }
     }
@@ -254,20 +245,20 @@ DispQObjectHandleObject(Interface* io, const ArrayOf& A, const std::string& name
     if (A.isHandle()) {
         DisplayVariableHeader(io, A, utf8_to_wstring(name), false);
         if (A.isScalar()) {
-            if (A.getHandleCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                Error(_W("QObject handle expected."));
+            if (A.handleCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+                Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
             }
 
             io->outputMessage("\n");
 
-            QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)A.getContentAsHandleScalar();
+            QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)A.asHandleScalar();
             DispQObjectHandleObject(io, qmlhandleobj);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("QObject handle expected."));
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

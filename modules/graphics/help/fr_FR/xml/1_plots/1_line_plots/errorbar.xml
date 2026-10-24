@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>errorbar</keyword>
+  <short_description>Trace des donnees avec barres d'erreur.</short_description>
+  <syntax>
+    <syntax_item>errorbar(Y, E)</syntax_item>
+    <syntax_item>errorbar(X, Y, E)</syntax_item>
+    <syntax_item>errorbar(X, Y, YNEG, YPOS)</syntax_item>
+    <syntax_item>errorbar(..., orientation)</syntax_item>
+    <syntax_item>errorbar(X, Y, YNEG, YPOS, XNEG, XPOS)</syntax_item>
+    <syntax_item>errorbar(..., lineSpec)</syntax_item>
+    <syntax_item>errorbar(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>errorbar(ax, ...)</syntax_item>
+    <syntax_item>h = errorbar(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>valeurs x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>valeurs y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>E</param_name>
+      <param_description>erreurs y symetriques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>YNEG</param_name>
+      <param_description>erreurs y negatives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>YPOS</param_name>
+      <param_description>erreurs y positives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>XNEG</param_name>
+      <param_description>erreurs x negatives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>XPOS</param_name>
+      <param_description>erreurs x positives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>orientation</param_name>
+      <param_description>orientation des barres d'erreur : <b>'vertical'</b>, <b>'horizontal'</b> ou <b>'both'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineSpec</param_name>
+      <param_description>specification de style, marqueur et couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>nom d'une propriete de l'objet errorbar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>valeur d'une propriete de l'objet errorbar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>objet axes cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet graphique errorbar ou vecteur ligne d'objets errorbar pour des donnees matricielles.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>errorbar</b> trace des donnees x et y avec des barres d'erreur verticales ou combinees x/y.</p>
+    <p>Les entrees vectorielles creent un objet errorbar. Les entrees matricielles creent un objet errorbar par colonne.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.errorbar.properties">proprietes de errorbar</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer des barres d'erreur verticales de meme longueur.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
+y = [20 30 45 40 60 65 80 75 95 90];
+err = 8 * ones(size(y));
+errorbar(x, y, err);
+]]></example_item_data>
+      <example_item_img src="../../../../images/errorbar_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer des barres d'erreur verticales de longueurs variables.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
+y = [20 30 45 40 60 65 80 75 95 90];
+err = [5 8 2 9 3 3 8 3 9 3];
+errorbar(x, y, err);
+]]></example_item_data>
+      <example_item_img src="../../../../images/errorbar_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer des barres d'erreur horizontales.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
+y = [20 30 45 40 60 65 80 75 95 90];
+err = [1 3 5 3 5 3 6 4 3 3];
+errorbar(x, y, err, 'horizontal');
+]]></example_item_data>
+      <example_item_img src="../../../../images/errorbar_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer des barres d'erreur verticales et horizontales avec marqueurs seuls.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
+y = [20 30 45 40 60 65 80 75 95 90];
+err = [4 3 5 3 5 3 6 4 3 3];
+errorbar(x, y, err, 'both', 'o');
+]]></example_item_data>
+      <example_item_img src="../../../../images/errorbar_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Controler les longueurs des barres dans toutes les directions.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
+y = [20 30 45 40 60 65 80 75 95 90];
+yneg = [1 3 5 3 5 3 6 4 3 3];
+ypos = [2 5 3 5 2 5 2 2 5 5];
+xneg = [1 3 5 3 5 3 6 4 3 3];
+xpos = [2 5 3 5 2 5 2 2 5 5];
+errorbar(x, y, yneg, ypos, xneg, xpos, 'o');
+]]></example_item_data>
+      <example_item_img src="../../../../images/errorbar_5.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.errorbar.properties">proprietes de errorbar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/line">line</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

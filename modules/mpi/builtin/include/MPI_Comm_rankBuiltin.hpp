@@ -14,5 +14,6 @@
 namespace Nelson::MpiGateway {
 ArrayOfVector
 MPI_Comm_rankBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

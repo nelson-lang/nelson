@@ -10,7 +10,7 @@
 #include <algorithm>
 #include "VariableCompleter.hpp"
 #include "Evaluator.hpp"
-#include "NelsonConfiguration.hpp"
+#include "CompleterHelper.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -20,7 +20,7 @@ wstringVector
 VariableCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (!eval) {
         return res;
     }
@@ -30,6 +30,12 @@ VariableCompleter(const std::wstring& prefix)
     stringVector variablesCurrentScope;
     context->getCurrentScope()->getVariablesList(true, variablesCurrentScope);
     variables.insert(variables.end(), variablesCurrentScope.begin(), variablesCurrentScope.end());
+    Scope* callerScope = context->getCallerScope();
+    if (callerScope != nullptr && callerScope != context->getCurrentScope()) {
+        stringVector variablesCallerScope;
+        callerScope->getVariablesList(true, variablesCallerScope);
+        variables.insert(variables.end(), variablesCallerScope.begin(), variablesCallerScope.end());
+    }
     stringVector variablesBaseScope;
     context->getBaseScope()->getVariablesList(true, variablesBaseScope);
     variables.insert(variables.end(), variablesBaseScope.begin(), variablesBaseScope.end());
@@ -40,7 +46,7 @@ VariableCompleter(const std::wstring& prefix)
     res.reserve(variables.size());
     std::string utf8prefix = wstring_to_utf8(prefix);
     for (const auto& variable : variables) {
-        if (StringHelpers::starts_with(variable, utf8prefix)) {
+        if (StringHelpers::icontains(variable, utf8prefix)) {
             res.push_back(utf8_to_wstring(variable));
         }
     }

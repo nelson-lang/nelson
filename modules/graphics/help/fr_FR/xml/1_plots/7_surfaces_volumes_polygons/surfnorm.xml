@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>surfnorm</keyword>
+  <short_description>Calculer ou afficher les vecteurs normaux d'une surface.</short_description>
+  <syntax>
+    <syntax_item>surfnorm(Z)</syntax_item>
+    <syntax_item>surfnorm(X, Y, Z)</syntax_item>
+    <syntax_item>Nx = surfnorm(...)</syntax_item>
+    <syntax_item>[Nx, Ny] = surfnorm(...)</syntax_item>
+    <syntax_item>[Nx, Ny, Nz] = surfnorm(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>Donnees de hauteur de surface, sous forme d'une matrice numerique reelle avec au moins trois lignes et trois colonnes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X, Y</param_name>
+      <param_description>Matrices de coordonnees de surface de meme taille que Z.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Nx, Ny, Nz</param_name>
+      <param_description>Composantes normalisees des vecteurs normaux a la surface.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>surfnorm</b> calcule les vecteurs normaux unitaires d'une surface. Sans argument de sortie, elle affiche la surface et trace un segment normal a chaque point de surface.</p>
+    <p>Lorsque seul Z est specifie, les coordonnees x et y correspondent aux indices de colonne et de ligne de Z.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher les normales sur une surface.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = peaks(20);
+surfnorm(X, Y, Z);]]></example_item_data>
+      <example_item_img src="../../../../images/surfnorm_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Calculer les composantes des vecteurs normaux.</example_item_description>
+      <example_item_data><![CDATA[[Nx, Ny, Nz] = surfnorm(peaks(10));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/5_vector_fields/quiver3">quiver3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

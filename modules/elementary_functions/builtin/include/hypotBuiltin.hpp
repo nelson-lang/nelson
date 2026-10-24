@@ -19,7 +19,7 @@ namespace ElementaryFunctionsGateway {
     ArrayOfVector
     hypotBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace ElementaryFunctionsGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

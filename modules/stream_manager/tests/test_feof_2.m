@@ -9,7 +9,7 @@
 %=============================================================================
 filename = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
-assert_isequal(feof(fid), 0);
+asserts.isequal(feof(fid), 0);
 %=============================================================================
 loop = true;
 while loop
@@ -19,6 +19,6 @@ while loop
   end
   loop = (r == 0);
 end
-assert_isequal(feof(fid), 1);
+asserts.isequal(feof(fid), 1);
 fclose(fid);
 %=============================================================================

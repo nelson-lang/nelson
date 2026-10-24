@@ -1,0 +1,1015 @@
+{
+  "id": "builtin.acausal_translational",
+  "title": "Translational (acausal)",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Acausal translational components (physical pins); lower to physicalIsland.",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "renderModule": false,
+  "blocks": [
+    {
+      "type": "TranslationalEMF",
+      "label": "TranslationalEMF",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "p",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "n",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        },
+        {
+          "name": "flange",
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "k": 1
+      },
+      "icon": "TranslationalEMF.svg",
+      "render": {
+        "type": "image",
+        "src": "TranslationalEMF.svg"
+      },
+      "help": "Linear electro-mechanical converter: back-emf v = k v_flange, force F = k i."
+    },
+    {
+      "type": "Mass",
+      "label": "Mass",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "m": 1,
+        "s0": 0,
+        "v0": 0
+      },
+      "icon": "Mass.svg",
+      "render": {
+        "type": "image",
+        "src": "Mass.svg"
+      },
+      "help": "Sliding mass with inertia: m dv/dt = F_net."
+    },
+    {
+      "type": "SlidingMass",
+      "label": "SlidingMass",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "m": 1,
+        "L": 0,
+        "s0": 0,
+        "v0": 0
+      },
+      "icon": "SlidingMass.svg",
+      "render": {
+        "type": "image",
+        "src": "SlidingMass.svg"
+      },
+      "help": "Sliding mass of length L: m dv/dt = F_net (L is geometric, does not affect the dynamics)."
+    },
+    {
+      "type": "MassWithWeight",
+      "label": "MassWithWeight",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "m": 1,
+        "g": 9.81,
+        "s0": 0,
+        "v0": 0
+      },
+      "icon": "MassWithWeight.svg",
+      "render": {
+        "type": "image",
+        "src": "MassWithWeight.svg"
+      },
+      "help": "Sliding mass under gravity: m dv/dt = F_net - m g (expands to Mass + ConstantForce)."
+    },
+    {
+      "type": "Spring",
+      "label": "Spring",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "k": 1
+      },
+      "icon": "Spring.svg",
+      "render": {
+        "type": "image",
+        "src": "Spring.svg"
+      },
+      "help": "Linear translational spring: F = k (s_a - s_b)."
+    },
+    {
+      "type": "ElastoGap",
+      "label": "ElastoGap",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "c": 100,
+        "d": 1,
+        "s_rel0": 0
+      },
+      "icon": "ElastoGap.svg",
+      "render": {
+        "type": "image",
+        "src": "ElastoGap.svg"
+      },
+      "help": "One-sided contact spring-damper: acts only while the gap is closed (s_rel < s_rel0)."
+    },
+    {
+      "type": "Damper",
+      "label": "Damper",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "d": 1
+      },
+      "icon": "Damper.svg",
+      "render": {
+        "type": "image",
+        "src": "Damper.svg"
+      },
+      "help": "Linear translational damper: F = d (v_a - v_b)."
+    },
+    {
+      "type": "SpringDamper",
+      "label": "SpringDamper",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "k": 1,
+        "d": 1
+      },
+      "icon": "SpringDamper.svg",
+      "render": {
+        "type": "image",
+        "src": "SpringDamper.svg"
+      },
+      "help": "Parallel spring and damper: F = k (s_a - s_b) + d (v_a - v_b)."
+    },
+    {
+      "type": "Brake",
+      "label": "Brake",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [
+        {
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "name": "f"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "vEps": 0.001
+      },
+      "icon": "Brake.svg",
+      "render": {
+        "type": "image",
+        "src": "Brake.svg"
+      },
+      "help": "Signal-actuated friction brake to ground: the input sets the peak braking force."
+    },
+    {
+      "type": "Friction",
+      "label": "Friction",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "Fc": 1,
+        "vEps": 0.001
+      },
+      "icon": "Friction.svg",
+      "render": {
+        "type": "image",
+        "src": "Friction.svg"
+      },
+      "help": "Regularised Coulomb friction (event-free): F = -Fc tanh(v / vEps)."
+    },
+    {
+      "type": "LinearSpeedDependentForce",
+      "label": "LinearSpeedDependentForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "d": 1
+      },
+      "icon": "LinearSpeedDependentForce.svg",
+      "render": {
+        "type": "image",
+        "src": "LinearSpeedDependentForce.svg"
+      },
+      "help": "Speed-proportional resistance to ground: F = -d v."
+    },
+    {
+      "type": "QuadraticSpeedDependentForce",
+      "label": "QuadraticSpeedDependentForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "d": 1
+      },
+      "icon": "QuadraticSpeedDependentForce.svg",
+      "render": {
+        "type": "image",
+        "src": "QuadraticSpeedDependentForce.svg"
+      },
+      "help": "Quadratic (drag) resistance to ground: F = -d v |v|."
+    },
+    {
+      "type": "Fixed",
+      "label": "Fixed",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "s0": 0
+      },
+      "icon": "Fixed.svg",
+      "render": {
+        "type": "image",
+        "src": "Fixed.svg"
+      },
+      "help": "Flange fixed at a prescribed position s0."
+    },
+    {
+      "type": "Force",
+      "label": "Force",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [
+        {
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "name": "F"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {},
+      "icon": "Force.svg",
+      "render": {
+        "type": "image",
+        "src": "Force.svg"
+      },
+      "help": "External force on a flange, driven by the input signal."
+    },
+    {
+      "type": "ConstantForce",
+      "label": "ConstantForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "F": 0
+      },
+      "icon": "ConstantForce.svg",
+      "render": {
+        "type": "image",
+        "src": "ConstantForce.svg"
+      },
+      "help": "Constant force on a flange."
+    },
+    {
+      "type": "SineForce",
+      "label": "SineForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "Amplitude": 1,
+        "Frequency": 1,
+        "Phase": 0
+      },
+      "icon": "SineForce.svg",
+      "render": {
+        "type": "image",
+        "src": "SineForce.svg"
+      },
+      "help": "Sine force on a flange: F = Amplitude sin(2 pi Frequency t + Phase)."
+    },
+    {
+      "type": "RampForce",
+      "label": "RampForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "Slope": 1,
+        "StartTime": 0
+      },
+      "icon": "RampForce.svg",
+      "render": {
+        "type": "image",
+        "src": "RampForce.svg"
+      },
+      "help": "Ramp force on a flange: F = Slope (t - StartTime) for t >= StartTime, else 0."
+    },
+    {
+      "type": "ExpSineForce",
+      "label": "ExpSineForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "Amplitude": 1,
+        "Frequency": 2,
+        "Damping": 0.5,
+        "Phase": 0
+      },
+      "icon": "ExpSineForce.svg",
+      "render": {
+        "type": "image",
+        "src": "ExpSineForce.svg"
+      },
+      "help": "Exponentially damped sine force on a flange."
+    },
+    {
+      "type": "TrapezoidForce",
+      "label": "TrapezoidForce",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "Amplitude": 1,
+        "Rising": 0.2,
+        "Width": 0.3,
+        "Falling": 0.2,
+        "Period": 1
+      },
+      "icon": "TrapezoidForce.svg",
+      "render": {
+        "type": "image",
+        "src": "TrapezoidForce.svg"
+      },
+      "help": "Trapezoidal force on a flange (continuous ramp-up / hold / ramp-down)."
+    },
+    {
+      "type": "Force2",
+      "label": "Force2",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [
+        {
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "name": "F"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {},
+      "icon": "Force2.svg",
+      "render": {
+        "type": "image",
+        "src": "Force2.svg"
+      },
+      "help": "Equal and opposite force between two flanges: +F on a, -F on b (signal-driven)."
+    },
+    {
+      "type": "Accelerate",
+      "label": "Accelerate",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [
+        {
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "name": "a"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "s0": 0,
+        "v0": 0
+      },
+      "icon": "Accelerate.svg",
+      "render": {
+        "type": "image",
+        "src": "Accelerate.svg"
+      },
+      "help": "Prescribed motion: the flange acceleration follows the input signal."
+    },
+    {
+      "type": "Speed",
+      "label": "Speed",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [
+        {
+          "x": 50,
+          "y": 0,
+          "side": "top",
+          "name": "v"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "s0": 0
+      },
+      "icon": "Speed.svg",
+      "render": {
+        "type": "image",
+        "src": "Speed.svg"
+      },
+      "help": "Prescribed motion: the flange velocity follows the input signal."
+    },
+    {
+      "type": "ConstantSpeed",
+      "label": "ConstantSpeed",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "v": 1,
+        "s0": 0
+      },
+      "icon": "ConstantSpeed.svg",
+      "render": {
+        "type": "image",
+        "src": "ConstantSpeed.svg"
+      },
+      "help": "Prescribed motion: the flange moves at a constant velocity v."
+    },
+    {
+      "type": "PositionSensor",
+      "label": "PositionSensor",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 50,
+          "y": 80,
+          "side": "bottom",
+          "name": "position"
+        }
+      ],
+      "defaultParams": {},
+      "icon": "PositionSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PositionSensor.svg"
+      },
+      "help": "Measures the absolute position of a flange."
+    },
+    {
+      "type": "SpeedSensor",
+      "label": "SpeedSensor",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "flange",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 50,
+          "y": 80,
+          "side": "bottom",
+          "name": "speed"
+        }
+      ],
+      "defaultParams": {},
+      "icon": "SpeedSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "SpeedSensor.svg"
+      },
+      "help": "Measures the absolute velocity of a flange."
+    },
+    {
+      "type": "RelPositionSensor",
+      "label": "RelPositionSensor",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 50,
+          "y": 80,
+          "side": "bottom",
+          "name": "position"
+        }
+      ],
+      "defaultParams": {},
+      "icon": "RelPositionSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "RelPositionSensor.svg"
+      },
+      "help": "Measures the relative position s_a - s_b between two flanges."
+    },
+    {
+      "type": "RelSpeedSensor",
+      "label": "RelSpeedSensor",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 50,
+          "y": 80,
+          "side": "bottom",
+          "name": "speed"
+        }
+      ],
+      "defaultParams": {},
+      "icon": "RelSpeedSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "RelSpeedSensor.svg"
+      },
+      "help": "Measures the relative velocity v_a - v_b between two flanges."
+    },
+    {
+      "type": "Rod",
+      "label": "Rod",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "ratio": 1
+      },
+      "icon": "Rod.svg",
+      "render": {
+        "type": "image",
+        "src": "Rod.svg"
+      },
+      "help": "Rigid massless rod: s_a = s_b (structural merge; ratio defaults to 1)."
+    },
+    {
+      "type": "Lever",
+      "label": "Lever",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "ratio": 1
+      },
+      "icon": "Lever.svg",
+      "render": {
+        "type": "image",
+        "src": "Lever.svg"
+      },
+      "help": "Lever (small-angle): s_a = ratio s_b, the arm ratio (structural merge)."
+    },
+    {
+      "type": "Pulley",
+      "label": "Pulley",
+      "acausal": true,
+      "domain": "translational",
+      "width": 100,
+      "height": 80,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 40,
+          "side": "left",
+          "domain": "translational"
+        },
+        {
+          "name": "b",
+          "x": 100,
+          "y": 40,
+          "side": "right",
+          "domain": "translational"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "ratio": 1
+      },
+      "icon": "Pulley.svg",
+      "render": {
+        "type": "image",
+        "src": "Pulley.svg"
+      },
+      "help": "Ideal pulley: s_a = ratio s_b (structural merge; ratio = radius ratio)."
+    }
+  ]
+}

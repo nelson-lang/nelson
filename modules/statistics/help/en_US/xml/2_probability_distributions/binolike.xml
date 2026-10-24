@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>binolike</keyword>
+  <short_description>Binomial negative log-likelihood</short_description>
+  <syntax><syntax_item>nlogL = binolike(p, x, n)</syntax_item><syntax_item>[nlogL, avar] = binolike(p, x, n)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>p</param_name><param_description>scalar: binomial probability parameter.</param_description></param_input_item>
+    <param_input_item><param_name>x</param_name><param_description>nonnegative integer finite real nonempty array: observed successes.</param_description></param_input_item>
+    <param_input_item><param_name>n</param_name><param_description>nonnegative integer finite real nonempty array or scalar: trial counts. Each value must be greater than or equal to the corresponding value in x.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>nlogL</param_name><param_description>scalar: negative log-likelihood.</param_description></param_output_item>
+    <param_output_item><param_name>avar</param_name><param_description>scalar: asymptotic variance estimate.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>binolike</b> returns the negative log-likelihood for binomial distribution data and the asymptotic variance estimate.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = [0 2 5 8 10];
+n = 10;
+[nlogL, avar] = binolike(0.4, x, n);]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}binofit">binofit</link></see_also_item><see_also_item><link linkend="${statistics}binopdf">binopdf</link></see_also_item><see_also_item><link linkend="${statistics}binocdf">binocdf</link></see_also_item><see_also_item><link linkend="${statistics}binornd">binornd</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

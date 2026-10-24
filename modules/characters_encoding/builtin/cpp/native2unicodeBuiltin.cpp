@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "native2unicodeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,7 +23,7 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     nargincheck(argIn, 1, 2);
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
-        Error(_W("Sparse type not supported."));
+        Error(L"Nelson:characters_encoding:sparseNotSupported", L"Sparse type not supported.");
     }
     ArrayOfVector retval(1);
     std::string data;
@@ -35,21 +36,26 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     if (isSupportedAsNumeric || isSupportedAsCharacterArray || isSupportedAsScalarString) {
         if (isSupportedAsNumeric) {
             param1.promoteType(NLS_UINT8);
-            indexType l = param1.getElementCount();
-            uint8* s = (uint8*)param1.getDataPointer();
-            const char* chars = reinterpret_cast<const char*>(s);
-            data = std::string(chars);
-            data[l] = 0;
+            indexType l = param1.elementCount();
+            if (l > 0) {
+                const uint8* s = (const uint8*)param1.dataPointer();
+                const char* chars = reinterpret_cast<const char*>(s);
+                // explicit length: input is not NUL-terminated and can contain NUL bytes.
+                data = std::string(chars, (size_t)l);
+            } else {
+                data = std::string();
+            }
         } else {
-            data = param1.getContentAsCString();
+            data = param1.asUtf8String();
         }
     } else {
-        Error("Type or dimensions not supported.");
+        Error("Nelson:characters_encoding:typeOrDimensionsNotSupported",
+            "Type or dimensions not supported.");
     }
     std::string charset;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        charset = param2.getContentAsCString();
+        charset = param2.asUtf8String();
         if (charset.empty()) {
             charset = getSystemEncoding();
         }
@@ -58,9 +64,9 @@ Nelson::CharactersEncodingGateway::native2unicodeBuiltin(int nLhs, const ArrayOf
     }
     std::string output;
     if (!charsetToUtf8Converter(data, charset, output)) {
-        Error(_W("Cannot convert to unicode."));
+        Error(L"Nelson:native2unicode:conversionFailed", L"Cannot convert to unicode.");
     }
-    retval << ArrayOf::characterArrayConstructor(output);
+    retval << ArrayOf::characterArray(output);
     return retval;
 }
 //=============================================================================

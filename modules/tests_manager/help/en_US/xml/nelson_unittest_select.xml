@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.select</keyword>
+  <short_description>Filter a discovered test suite.</short_description>
+  <syntax>
+    <syntax_item>selected = nelson.unittest.select(suite, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>suite</param_name>
+      <param_description>TestSuite returned by nelson.unittest.discover.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>selection options: Name, Module, File, Kind, Tags, ExcludeTags, Match, and
+        Exclude.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>selected</param_name>
+      <param_description>filtered TestSuite preserving filtered-count metadata.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.select</b> applies selection filters without executing tests.</p>
+    <p><b>Kind</b> accepts <b>test</b>, <b>bug</b>, <b>bench</b>, <b>all_tests</b>, and <b>all</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+suite = nelson.unittest.select(suite, 'Tags', {'fast'}, 'ExcludeTags', {'gui'});
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.discover">nelson.unittest.discover</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.plan">nelson.unittest.plan</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

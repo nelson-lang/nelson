@@ -10,30 +10,34 @@
 names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
 d = dictionary(wheels, names);
-assert_istrue(isKey(d, 1));
-assert_isfalse(isKey(d, '1'));
+asserts.istrue(isKey(d, 1));
+asserts.isfalse(isKey(d, '1'));
 %=============================================================================
 R = isKey(d, [1 2 3 4 5]);
 REF = [true, true, true, false, false];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+d = dictionary(string({'abc'}), 1);
+asserts.istrue(isKey(d, 'abc'));
+asserts.isfalse(isKey(d, 'def'));
 %=============================================================================
 names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
 d = dictionary(wheels, names);
 R = isKey(d, ["1" "2" "3" "4" "5"]);
 REF = [true, true, true, false, false];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 names = {"Unicycle" "Bicycle" "Tricycle"};
 wheels = {1 2 3};
 d = dictionary(wheels, names);
 R = isKey(d, {"1" "2" "3" "4" "5"});
 REF = [false, false, false, false, false];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 names = {"Unicycle" "Bicycle" "Tricycle"};
 wheels = {1 2 3};
 d = dictionary(wheels, names);
 msg = sprintf(_("Unable to use '%s' as key for dictionary with '%s' key type."), 'string', 'cell');
-assert_checkerror('R = isKey(d, ["1" "2" "3" "4" "5"]);', msg);
+asserts.checkerror('R = isKey(d, ["1" "2" "3" "4" "5"]);', msg);
 %=============================================================================

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson-lint</keyword>
+  <short_description>Analyseur de code Nelson en ligne de commande.</short_description>
+  <syntax>
+    <syntax_item>nelson-lint [--format text|json|sarif] [--config file] path ...</syntax_item>
+    <syntax_item>nelson-lint [--include-subfolders true|false] [--fail-on error|warning|info|none] path ...</syntax_item>
+    <syntax_item>nelson-lint [--stdin] [--stdin-filename name] [--fix|--fix-dry-run|--diff] path ...</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson-lint</b> analyse les fichiers et dossiers source Nelson depuis la ligne de commande.</p>
+    <p><b>--format</b> selectionne une sortie texte, JSON ou SARIF.</p>
+    <p><b>--config</b> charge un fichier de configuration JSON version 2.</p>
+    <p><b>--include-subfolders</b> active l&apos;analyse recursive des dossiers.</p>
+    <p><b>--fail-on</b> selectionne la severite minimale qui produit le code retour <b>1</b>. <b>--deny warnings</b> reste un alias de <b>--fail-on warning</b>.</p>
+    <p><b>--stdin</b> analyse le texte source depuis l&apos;entree standard. Utiliser <b>--stdin-filename</b> pour choisir le nom de fichier des diagnostics.</p>
+    <p><b>--quiet</b> supprime la sortie standard, et <b>--output</b> ecrit les diagnostics dans un fichier.</p>
+    <p><b>--fix</b> applique les edits de texte surs et non superposes portes par les diagnostics, puis analyse de nouveau les fichiers avant de signaler les diagnostics restants. Les corrections sures incluent le nettoyage des espaces et les autres corrections de l&apos;analyseur dont les plages sont exactes.</p>
+    <p><b>--fix-dry-run</b> et <b>--diff</b> affichent les edits surs sans modifier les fichiers.</p>
+    <p>Le code retour <b>0</b> signifie qu&apos;aucun diagnostic ne reste, <b>1</b> signifie que des diagnostics restent, et <b>2</b> signifie une erreur d&apos;usage, d&apos;entree ou interne.</p>
+  </description>
+  <used_function>codeAnalyzerRules</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lancer l&apos;analyse recursive avec correction activee.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-lint --include-subfolders true --fix --config nelson-lint.json modules/interpreter/functions]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

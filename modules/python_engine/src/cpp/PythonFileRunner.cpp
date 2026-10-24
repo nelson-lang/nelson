@@ -18,6 +18,7 @@
 #include "i18n.hpp"
 #include <cstdio>
 #include <algorithm>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +34,10 @@ PythonFileRunner::runFile(const std::wstring& filename, const wstringVector& arg
     FILE* file = NLS_Py_fopen(obj, "r");
     NLSPy_DECREF(obj);
     if (file == NULL) {
-        errorMessage = _W("Impossible to open file: ") + filename;
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:python_engine:impossibleOpenFile", L"Impossible to open file: %s"),
+            filename);
         NLSPyGILState_Release(gstate);
         resultReady = true;
         resultCondition.notify_one();
@@ -82,5 +86,5 @@ PythonFileRunner::getStandardOutput()
     return outputMessage;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

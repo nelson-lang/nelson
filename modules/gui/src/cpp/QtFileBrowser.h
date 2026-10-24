@@ -11,13 +11,8 @@
 //=============================================================================
 #include "nlsGui_exports.h"
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
 #include <QtGui/QFileSystemModel>
-#else
-#include <QtWidgets/QAction>
-#include <QtWidgets/QFileSystemModel>
-#endif
 #include <QtWidgets/QTreeView>
 #include <QtGui/QContextMenuEvent>
 #include <QtWidgets/QLineEdit>
@@ -25,8 +20,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QSizeGrip>
-
+#include "QtFileBrowserIconProvider.h"
 //=============================================================================
 class CustomFileSystemModel : public QFileSystemModel
 {
@@ -57,12 +51,16 @@ private:
 class QtFileBrowser : public QDockWidget
 {
     Q_OBJECT
+    // Shared by both models; they do not own their icon provider.
+    QtFileBrowserIconProvider iconProvider;
     CustomFileSystemModel* model;
     QFileSystemModel* modelBar;
     QTreeView* tree;
     QLineEdit* pathLineEdit;
+    QLineEdit* filterLineEdit;
     QCompleter* completer;
-    QSizeGrip* sizeGrip;
+    QString lastKnownPath;
+    bool showHiddenFiles = false;
 
 private:
     bool
@@ -75,7 +73,7 @@ protected:
     keyPressEvent(QKeyEvent* event) override;
 
     void
-    contextMenuEvent(QContextMenuEvent* e);
+    contextMenuEvent(QContextMenuEvent* e) override;
 
 public slots:
     void
@@ -85,6 +83,18 @@ public slots:
 
     void
     updateCurrentPath();
+
+    void
+    refreshView();
+
+    void
+    copyFullPath();
+
+    void
+    setAsCurrentFolder();
+
+    void
+    toggleShowHiddenFiles();
 
     void
     deleteSelected();
@@ -117,10 +127,7 @@ public slots:
     removeToPath();
 
     void
-    handleDockLocationChanged(Qt::DockWidgetArea area);
-
-    void
-    closeEvent(QCloseEvent* event);
+    closeEvent(QCloseEvent* event) override;
 
 public:
     QtFileBrowser(QWidget* parent);
@@ -152,6 +159,21 @@ private:
 
     void
     indicatesNotInPath();
+
+    void
+    applyPath(const QString& path);
+
+    void
+    updateModelFilter();
+
+    void
+    applyNameFilter();
+
+    void
+    saveBrowserSettings();
+
+    void
+    loadBrowserSettings();
 
 signals:
     void

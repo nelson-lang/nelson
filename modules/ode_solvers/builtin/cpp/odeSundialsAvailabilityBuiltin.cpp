@@ -1,0 +1,30 @@
+﻿//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#include "odeSundialsAvailabilityBuiltin.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+ArrayOfVector
+Nelson::OdeSolversGateway::odeSundialsAvailabilityBuiltin(int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 0, 0);
+    nargoutcheck(nLhs, 0, 1);
+#ifdef NELSON_WITH_SUNDIALS
+    ArrayOfVector retval;
+    retval << ArrayOf::logicalScalar(true);
+    return retval;
+#else
+    ArrayOfVector retval;
+    retval << ArrayOf::logicalScalar(false);
+    return retval;
+#endif
+}
+//=============================================================================

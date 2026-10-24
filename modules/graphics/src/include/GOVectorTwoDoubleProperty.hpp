@@ -13,7 +13,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOTwoVectorProperty : public GOFixedVectorProperty
+class NLSGRAPHICS_IMPEXP GOTwoVectorProperty : public GOFixedVectorProperty
 {
 public:
     GOTwoVectorProperty() : GOFixedVectorProperty(2) { }
@@ -22,5 +22,5 @@ public:
     value(double x, double y);
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

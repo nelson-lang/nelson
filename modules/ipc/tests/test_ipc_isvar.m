@@ -7,14 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 8-->
 % <--ADV-CLI MODE-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 clear('R');
 res = ipc(getpid, 'isvar', 'R');
-assert_isfalse(res);
+asserts.isfalse(res);
 R = 33;
 res = ipc(getpid, 'isvar', 'R');
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

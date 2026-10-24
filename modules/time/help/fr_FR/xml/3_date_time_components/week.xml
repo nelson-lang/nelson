@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>week</keyword>
+  <short_description>Calcule les numeros de semaine dans l annee calendaire.</short_description>
+  <syntax>
+    <syntax_item>w = week(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Valeurs datetime, numeros de date serie ou entrees compatibles date.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Un tableau double de numeros de semaine commencant a 1.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule les numeros de semaine dans l annee calendaire.</p>
+    <p>L implementation compte des blocs de sept jours depuis le 1 janvier de chaque annee.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[week(datetime(2024, 1, 1))
+week(datetime(2024, 1, 8))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

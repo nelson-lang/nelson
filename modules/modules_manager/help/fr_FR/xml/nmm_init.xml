@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nmm init</keyword>
+  <short_description>Genere un manifeste module.json valide.</short_description>
+  <syntax>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, champ1, valeur1, ...)</syntax_item>
+    <syntax_item
+    >data = nmm(&apos;init&apos;, destination_dir, ..., &apos;DryRun&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, ..., &apos;Force&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, ..., &apos;Skeleton&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, &apos;Interactive&apos;, true)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>destination_dir</param_name>
+      <param_description
+      >une chaine de caracteres : repertoire ou <b>module.json</b> est ecrit (cree s&apos;il n&apos;existe pas).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>champ1, valeur1, ...</param_name>
+      <param_description
+      >des paires nom/valeur decrivant le manifeste et les options de la commande (voir la description).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>module_json_path</param_name>
+      <param_description
+      >une chaine de caracteres : chemin complet du fichier <b>module.json</b> ecrit.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>data</param_name>
+      <param_description
+      >une structure : le manifeste assemble, retourne lorsque <b>&apos;DryRun&apos;</b> vaut <b>true</b> (rien n&apos;est ecrit).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>nmm(&apos;init&apos;, destination_dir, ...)</b> assemble un manifeste <b>module.json</b> a partir des champs fournis et de valeurs par defaut raisonnables, le valide avec le meme validateur de schema que <b>nmm(&apos;validate&apos;)</b>, puis ecrit un <b>module.json</b> formate dans <b>destination_dir</b>. Comme il reutilise le validateur de nmm, un manifeste genere est toujours valide pour nmm.</p>
+    <p>Champs du manifeste acceptes comme paires nom/valeur :</p>
+    <p><b>module</b> un nom de module respectant <b>^[A-Za-z][A-Za-z0-9_]*$</b> ; par defaut le nom du repertoire de destination (ou le titre) s&apos;il est omis.</p>
+    <p><b>title</b>, <b>summary</b> des chaines non vides ; <b>title</b> vaut par defaut le nom du module et <b>summary</b> vaut par defaut le titre.</p>
+    <p><b>version</b> une version semantique ; par defaut <b>1.0.0</b>.</p>
+    <p><b>license</b> une expression de licence SPDX (par exemple <b>MIT</b> ou <b>LGPL-3.0-or-later</b>) ; obligatoire.</p>
+    <p><b>platforms</b> une chaine ou un tableau de chaines ; par defaut <b>{&apos;all&apos;}</b>.</p>
+    <p><b>nelson</b> une plage de versions Nelson ; par defaut <b>&gt;=2.0.0</b>.</p>
+    <p><b>builtin</b> un booleen ; par defaut <b>false</b>.</p>
+    <p><b>dependencies</b> une structure associant des noms de modules a des contraintes de version ; par defaut une structure vide.</p>
+    <p><b>keywords</b>, <b>authors</b>, <b>description</b>, <b>repository</b>, <b>homepage</b>, <b>issues</b>, <b>documentation</b> metadonnees optionnelles.</p>
+    <p>Options de la commande :</p>
+    <p><b>&apos;Force&apos;, true</b> ecrase un <b>module.json</b> existant (sinon la commande echoue).</p>
+    <p><b>&apos;DryRun&apos;, true</b> retourne la structure du manifeste assemble sans ecrire de fichier.</p>
+    <p><b>&apos;Skeleton&apos;, true</b> depose aussi une arborescence source minimale, chargeable et empaquetable a cote du manifeste (<b>loader.m</b>, <b>builder.m</b>, <b>etc/startup.m</b>, <b>etc/finish.m</b>, <b>help</b> et <b>tests</b>). Elle est volontairement minimale ; utilisez un generateur dedie pour un module plus complet.</p>
+    <p><b>&apos;Interactive&apos;, true</b> demande via <b>input()</b> chaque champ requis non fourni, en affichant la valeur par defaut entre crochets et en validant chaque reponse. L&apos;option est desactivee par defaut afin que les scripts lances via <b>--file</b> ne bloquent jamais sur l&apos;entree standard.</p>
+    <p>Apres l&apos;ecriture (ou le calcul, avec <b>DryRun</b>) du manifeste, <b>init</b> execute le linter de bonnes pratiques de nmm (le meme que <b>nmm(&apos;validate&apos;, ..., &apos;-warnings&apos;)</b>) et affiche des suggestions non bloquantes pour les metadonnees recommandees manquantes, telles que <b>repository</b>, <b>authors</b>, <b>keywords</b> ou <b>description</b>. Les avertissements n&apos;empechent jamais l&apos;ecriture du manifeste. Avec <b>DryRun</b>, la structure retournee contient egalement un champ <b>warnings</b>.</p>
+    <p>Le manifeste genere est directement utilisable par <b>nmm(&apos;validate&apos;)</b> et, pour un module source, par <b>nmm(&apos;pack&apos;)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Generer un manifeste et le valider</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[module_dir = [tempdir(), 'my_module/'];
+mkdir(module_dir);
+nmm('init', module_dir, 'module', 'my_module', 'title', 'My Module', ...
+    'summary', 'a demo module', 'license', 'MIT', 'Skeleton', true);
+nmm('validate', module_dir)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}nmm">nmm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}module-json">module.json</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

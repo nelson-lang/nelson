@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "Rand.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "RandomInterface.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,48 +28,48 @@ Rand(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(cl);
         return res;
     }
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        Error(L"Nelson:rng:engineNotInitialized", L"random engine not initialized.");
     }
     switch (cl) {
     case NLS_SINGLE: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         single* mat = static_cast<single*>(
             ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
-        randEngine->getValuesAsSingle(mat, nbElements, dims.getColumns());
+        randEngine->getValuesAsSingle(mat, nbElements, dims.columns());
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_SCOMPLEX: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         single* mat = static_cast<single*>(
             ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
-        randEngine->getValuesAsSingle(mat, nbElements * 2, dims.getColumns());
+        randEngine->getValuesAsSingle(mat, nbElements * 2, dims.columns());
         return ArrayOf(cl, dims, mat, false);
     } break;
 
     case NLS_DCOMPLEX: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         double* mat = static_cast<double*>(
             ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
-        randEngine->getValuesAsDouble(mat, nbElements * 2, dims.getColumns());
+        randEngine->getValuesAsDouble(mat, nbElements * 2, dims.columns());
         return ArrayOf(cl, dims, mat, false);
 
     } break;
     case NLS_DOUBLE: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         double* mat = static_cast<double*>(
             ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false));
-        randEngine->getValuesAsDouble(mat, nbElements, dims.getColumns());
+        randEngine->getValuesAsDouble(mat, nbElements, dims.columns());
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        Error(L"Nelson:random:typeNotSupported", L"Type not supported.");
     }
     return {};
 }

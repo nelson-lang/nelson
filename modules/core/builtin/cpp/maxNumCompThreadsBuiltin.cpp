@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,8 +11,8 @@
 #include "ComputionalThreads.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,28 +21,28 @@ Nelson::CoreGateway::maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& arg
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    unsigned int currentValue = NelsonConfiguration::getInstance()->getMaxNumCompThreads();
+    unsigned int currentValue = NelsonConfiguration::getInstance()->maxNumCompThreads();
     switch (argIn.size()) {
     case 0: {
-        retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
+        retval << ArrayOf::doubleScalar(static_cast<double>(currentValue));
     } break;
     case 1: {
         ArrayOf param1 = argIn[0];
         if (param1.isRowVectorCharacterArray()) {
-            std::wstring str = param1.getContentAsWideString();
+            std::wstring str = param1.asWideString();
             if (str == L"automatic") {
                 setDefaultMaxNumCompThreads();
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
             }
         } else {
-            indexType N = param1.getContentAsScalarIndex(false);
+            indexType N = param1.asScalarIndex(false);
             setMaxNumCompThreads(static_cast<unsigned int>(N));
         }
-        retval << ArrayOf::doubleConstructor(static_cast<double>(currentValue));
+        retval << ArrayOf::doubleScalar(static_cast<double>(currentValue));
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     return retval;

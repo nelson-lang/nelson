@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSSPARSE_IMPEXP indexType
 SparseNonZeros(const ArrayOf& a);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

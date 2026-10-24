@@ -8,16 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = [double(-3) false];
-REF = double([-3   0]);
-assert_isequal(R, REF);
+REF = double([-3 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false double(-3)];
 REF = double([0 -3]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = logical(zeros(3,2,2));
+A = logical(zeros(3, 2, 2));
 B = double(A);
 R = [A, B];
 REF = double([B, B]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

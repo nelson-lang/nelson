@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>text_completion</module_name>
+  <chapter>Text completion</chapter>
+  <chapter_description>
+    <p>The Text completion module provides completion candidates for Nelson command lines, editors, and terminals.</p>
+  </chapter_description>
+</xmldoc>

@@ -12,7 +12,6 @@
 #include <vector>
 #include <random>
 #include <string>
-#include <functional>
 #include <cmath>
 #include "RandomInterface.hpp"
 #include "LaggedFibonacci607Engine.hpp"
@@ -22,46 +21,31 @@ namespace Nelson {
 class RandomLaggedFibonacci607 : public RandomInterface
 {
 private:
-    void* generator = nullptr;
     uint32 seed = 0;
     bool hasSpare_ = false;
     double spare_ = 0.0;
-    int minInt = 1;
-    int maxInt = 1000;
+    int64 minInt = 1;
+    int64 maxInt = 1000;
 
     // Use the custom Lagged Fibonacci 607 engine
     using EngineType = LaggedFibonacci607Engine;
     using UniformRealDist = std::uniform_real_distribution<double>;
 
-    auto&
+    // generator and distribution belong to the instance: two engines never
+    // share a state
+    EngineType rngLaggedFibonacci607;
+    UniformRealDist uniformDistribution { 0.0, 1.0 };
+
+    EngineType&
     random_engine()
     {
-        thread_local static EngineType rngLaggedFibonacci607;
         return rngLaggedFibonacci607;
     }
 
     double
     uniform01()
     {
-        thread_local static UniformRealDist dist(0.0, 1.0);
-        return dist(random_engine());
-    }
-
-    auto&
-    uniform_real_generator(bool doDelete = false)
-    {
-        thread_local static UniformRealDist dist(0.0, 1.0);
-        thread_local static auto* gen
-            = new std::function<double()>([this]() mutable { return dist(random_engine()); });
-        if (doDelete) {
-            delete gen;
-            gen = nullptr;
-            return gen;
-        }
-        if (!gen) {
-            gen = new std::function<double()>([this]() mutable { return dist(random_engine()); });
-        }
-        return gen;
+        return uniformDistribution(rngLaggedFibonacci607);
     }
 
     double
@@ -83,21 +67,6 @@ private:
         spare_ = v * mul;
         hasSpare_ = true;
         return mean + stddev * (u * mul);
-    }
-
-    auto&
-    normal_real_generator(bool doDelete = false)
-    {
-        thread_local static auto* gen = new std::function<double()>([this]() { return normal(); });
-        if (doDelete) {
-            delete gen;
-            gen = nullptr;
-            return gen;
-        }
-        if (!gen) {
-            gen = new std::function<double()>([this]() { return normal(); });
-        }
-        return gen;
     }
 
 public:
@@ -127,9 +96,9 @@ public:
     getStateSize() override;
 
     void
-    setMinMaxUniformIntDistribution(int _min, int _max) override;
+    setMinMaxUniformIntDistribution(int64 _min, int64 _max) override;
     void
-    getMinMaxUniformIntDistribution(int& _min, int& _max) override;
+    getMinMaxUniformIntDistribution(int64& _min, int64& _max) override;
 };
 //=============================================================================
 } // namespace Nelson

@@ -24,5 +24,5 @@ enum STRINGJUSTIFY
 NLSSTRING_IMPEXP ArrayOf
 StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

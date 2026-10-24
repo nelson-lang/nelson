@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -63,13 +63,13 @@ ArrayOfVector
 UniqueRealRowsOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueRowsEntryReal<T>> sp(len);
 
@@ -123,13 +123,13 @@ ArrayOfVector
 UniqueRealRowsTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int i;
     int cnt;
     std::vector<UniqueRowsEntryReal<T>> sp(len);
@@ -186,13 +186,13 @@ ArrayOfVector
 UniqueRealRowsThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int i;
     int cnt;
     std::vector<UniqueRowsEntryReal<T>> sp(len);
@@ -260,5 +260,5 @@ UniqueRealRows(const ArrayOf& input, int nLhs)
     return UniqueRealRowsThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

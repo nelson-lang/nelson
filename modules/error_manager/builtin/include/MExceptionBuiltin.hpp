@@ -16,6 +16,26 @@ namespace Nelson::ErrorManagerGateway {
 //=============================================================================
 ArrayOfVector
 MExceptionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_lastBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_addCauseBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_addCorrectionBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_getReportBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_eqBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_neBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_isequalBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_methodsBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_propertiesBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+MException_subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -18,5 +18,6 @@ namespace Nelson {
  */
 NLSOPERATORS_IMPEXP ArrayOf
 GreaterEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

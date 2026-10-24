@@ -7,30 +7,41 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isa'), 2);
-assert_isequal(nargout('isa'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('isa'), 2);
+asserts.isequal(nargout('isa'), 1);
 %=============================================================================
 A = 3;
 res = isa(A, 'double');
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = isa(B, 'cell');
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = isa(B, 'cell');
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = isa(B, 'float');
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = isa(B, 'numeric');
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = isa(B, 'integer');
-assert_isfalse(res);
+asserts.isfalse(res);
+%=============================================================================
+A = sparse([2 0 3]);
+asserts.istrue(isa(A, 'double'));
+asserts.isfalse(isa(A, 'sparsedouble'));
+asserts.istrue(issparse(A));
+%=============================================================================
+A = logical(sparse([1 0 1]));
+asserts.istrue(isa(A, 'logical'));
+asserts.isfalse(isa(A, 'sparselogical'));
+asserts.istrue(issparse(A));
 %=============================================================================

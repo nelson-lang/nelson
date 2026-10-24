@@ -10,7 +10,7 @@
 function y = asinh(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  
+
   x = varargin{1};
   if isreal(x)
     y = imag(asin(x * i));

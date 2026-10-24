@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+  <script src="./app/head-init.js"></script>
+  <link rel="modulepreload" href="./app/app.js">
+  <script src="webui.js"></script>
+  <meta charset="utf-8">
+  <!-- Keep the browser translation bubble away: it would also rewrite block
+       labels and port names in the diagram. -->
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1e1e1e">
+  <meta name="color-scheme" content="Light">
+  <title data-i18n="NFlow">NFlow</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/themes.css">
+  <link rel="stylesheet" href="styles/about.css">
+  <link rel="stylesheet" href="styles/grid.css">
+  <link rel="stylesheet" href="styles/context-menu.css">
+  <link rel="stylesheet" href="assets/katex/katex.min.css">
+  <script src="assets/katex/katex.min.js" defer></script>
+  <link rel="stylesheet" href="./styles/ui-extras.css">
+  <link rel="stylesheet" href="./styles/bottom-panel.css">
+  <link rel="stylesheet" href="./styles/quick-insert.css">
+  
+</head>
+  
+<body>
+  <!-- Loading overlay shown while `html.nf-loading` is set -->
+  <div class="nf-loading-overlay" aria-hidden="true">
+    <div class="nf-loading-box">
+        <div class="nf-loading-spinner" role="img" aria-label="Loading"></div>
+        <div class="nf-loading-text" data-i18n="Loading…">Loading…</div>
+        <progress id="nf-loading-progress" max="100" value="5" style="width:100%" aria-label="Runtime download"></progress>
+        <div id="nf-loading-status" class="nf-loading-step" aria-live="polite" data-i18n="Starting…">Starting…</div>
+      </div>
+  </div>
+  <div id="floatingToolbar" class="floating-toolbar" role="toolbar" aria-label="Simulation controls" style="display:none">
+    <div id="floatingToolbarHandle" class="toolbar-handle" data-i18n-title="Drag to move" aria-hidden="true" style="width:28px;display:flex;align-items:center;justify-content:center;margin-right:6px;cursor:grab">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 9h.01M7 15h.01M12 9h.01M12 15h.01M17 9h.01M17 15h.01"/></svg>
+    </div>
+    <button id="playPauseBtn" data-i18n-title="Run" data-action="run" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+  </div>
+
+  <script src="./app/floating-toolbar.js" defer></script>
+  <script src="./app/wheel-prevent.js" async></script>
+
+  <script type="module" src="./app/app.js"></script>
+</body>
+</html>

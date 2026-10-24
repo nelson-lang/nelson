@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 ImagPart(const ArrayOf& arrayIn);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

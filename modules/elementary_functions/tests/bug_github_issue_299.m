@@ -14,18 +14,18 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-a = sparse(eye(3,3));
+a = sparse(eye(3, 3));
 b = complex(a);
-assert_istrue(isreal(a));
-assert_isfalse(isreal(b));
-assert_istrue(isequal(a, b));
+asserts.istrue(isreal(a));
+asserts.isfalse(isreal(b));
+asserts.istrue(isequal(a, b));
 %=============================================================================
-a = sparse(eye(3,3) + i);
+a = sparse(eye(3, 3) + i);
 b = complex(a);
-assert_isfalse(isreal(a));
-assert_isfalse(isreal(b));
-assert_isequal(a, b);
+asserts.isfalse(isreal(a));
+asserts.isfalse(isreal(b));
+asserts.isequal(a, b);
 %=============================================================================
-a = sparse(logical(eye(3,3)));
-assert_checkerror('b = complex(a);', 'Undefined function ''sparselogical_complex''');
+a = sparse(logical(eye(3, 3)));
+asserts.checkerror('b = complex(a);', 'Undefined function ''sparselogical_complex''');
 %=============================================================================

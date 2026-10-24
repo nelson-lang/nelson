@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stretchlim</keyword>
+  <short_description>Find contrast stretching limits.</short_description>
+  <syntax>
+    <syntax_item>limits = stretchlim(I)</syntax_item>
+    <syntax_item>limits = stretchlim(I, tol)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input grayscale or RGB image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>Scalar tolerance or two-element tolerance vector in the range [0, 1].</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>limits</param_name>
+      <param_description>2-by-N matrix of lower and upper contrast limits, with one column per channel.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Find contrast stretching limits.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stretch image contrast with computed limits</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=0.2+0.6*repmat(linspace(0,1,96),64,1);
+limits=stretchlim(I);
+J=imadjust(I,limits,[0;1]);
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(J); g=linspace(0,1,64)'; colormap([g g g]); title('Adjusted');]]></example_item_data>
+      <example_item_img
+        src="../../../images/stretchlim_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imadjust">imadjust</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imhist">imhist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

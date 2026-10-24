@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>classdef</keyword>
+  <short_description>Définition de classe</short_description>
+  <syntax>
+    <syntax_item>classdef ClassName</syntax_item>
+    <syntax_item>classdef ClassName &lt; SuperClass</syntax_item>
+    <syntax_item>classdef ClassName &lt; handle</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>classdef</b> definit une classe valeur ou handle dans un fichier M.</p>
+    <p>Nelson prend en charge les proprietes, methodes, evenements, enumerations avec arguments de constructeur, enumerations basees sur des types scalaires numeriques, constantes, l&apos;heritage, les proprietes handle dynamiques via <b>dynamicprops</b>, les methodes separees dans les dossiers <b>@ClassName</b>, les classes de paquet dans les dossiers <b>+package</b> et les declarations continuees avec <b>...</b>.</p>
+    <p>Les attributs de methode incluent <b>Abstract</b>, <b>Access</b>, <b>Hidden</b>, <b>Sealed</b> et <b>Static</b>. Les attributs de propriete incluent <b>Abstract</b>, <b>Access</b>, <b>GetAccess</b>, <b>SetAccess</b>, <b>AbortSet</b>, <b>Constant</b>, <b>Dependent</b>, <b>GetObservable</b>, <b>SetObservable</b>, <b>Transient</b>, <b>NonCopyable</b>, <b>WeakHandle</b> et les expressions de validation.</p>
+    <p><b>AbortSet</b> ignore les notifications et le setter d&apos;une propriete handle lorsque la valeur affectee est egale a la valeur stockee.</p>
+    <p>Les proprietes <b>Transient</b> sont exclues de <b>struct</b> et des donnees d&apos;objet sauvegardees, puis rechargees avec leur valeur par defaut lorsqu&apos;un constructeur par defaut est disponible. Les proprietes handle <b>NonCopyable</b> retrouvent leur valeur par defaut lors d&apos;une copie via le mixin de copie.</p>
+    <p>Les proprietes <b>WeakHandle</b> d&apos;une classe handle conservent leurs handles sans maintenir les objets references en vie : un objet qui n&apos;a plus d&apos;autre reference est detruit et la propriete renvoie alors un handle supprime de la meme classe. Elles servent aux references arriere (enfant vers parent, listener vers source) qui formeraient sinon un cycle de references, car les objets d&apos;un cycle de references fortes ne sont jamais detruits. Une propriete <b>WeakHandle</b> doit declarer une validation de classe, par exemple <b>Parent (1,1) Node</b>, et ne peut pas etre <b>Constant</b> ni <b>Dependent</b> ; sans valeur par defaut, elle contient des handles supprimes de la classe et de la taille validees.</p>
+    <p>La validation de propriete prend en charge les dimensions fixes, les noms de type, les noms de fonctions de validation et les arguments de validation comme <b>mustBeGreaterThan(0)</b>.</p>
+    <p>Les sous-classes handle peuvent definir des evenements. Les attributs d&apos;evenement incluent <b>Hidden</b>, <b>ListenAccess</b> et <b>NotifyAccess</b>. Les attributs de classe incluent <b>Abstract</b>, <b>ConstructOnLoad</b>, <b>Hidden</b>, <b>InferiorClasses</b> et <b>Sealed</b>.</p>
+    <p>Les attributs d&apos;acces acceptent public, private, protected, un nom de metaclasse comme <b>?FriendClass</b>, ou une liste de classes comme <b>{?FriendA, ?FriendB}</b>.</p>
+    <p>Les methodes abstraites et les proprietes abstraites heritees doivent etre implementees par les sous-classes concretes, et les noms de membres herites en conflit sont signales lors de l&apos;analyse de la classe.</p>
+    <p>Les proprietes abstraites peuvent etre combinees avec les attributs d&apos;acces, de constante, de dependance, de masquage et de validation. Une declaration de propriete abstraite ne doit pas definir de valeur initiale.</p>
+    <p>Les methodes classdef peuvent acceder aux membres prives de leur classe et aux membres proteges des superclasses. Les membres publics sont retournes par <b>methods</b>, <b>properties</b> et <b>events</b>.</p>
+    <p>Les formes de methodes prises en charge incluent les constructeurs, methodes d&apos;instance, methodes statiques, definitions simples de methodes sur une seule ligne, dispatch de methodes heritees, declarations scellees et abstraites, methodes externes dans les dossiers <b>@ClassName</b>, accesseurs nommes <b>get.PropertyName</b> et <b>set.PropertyName</b>, hooks d&apos;indexation traditionnels nommes <b>subsref</b>, <b>subsasgn</b> et <b>end</b>, hooks simples d&apos;indexation par point nommes <b>dotReference</b> et <b>dotAssign</b>, hooks simples d&apos;indexation par parentheses <b>parenReference</b> et <b>parenAssign</b> pour les classes valeur et handle, hooks simples d&apos;indexation par accolades nommes <b>braceReference</b> et <b>braceAssign</b>, methodes utilisateur <b>delete</b> pour les classes handle, <b>copy</b> via <b>nelson.mixin.Copyable</b>, et methodes protegees <b>displayScalarObject</b> via <b>nelson.mixin.CustomDisplay</b>.</p>
+    <p>Les methodes speciales de persistance <b>saveObjectImpl</b> et <b>loadObjectImpl</b> statique peuvent convertir les objets vers et depuis des structures sauvegardees. Elles sont appliquees aux objets scalaires et element par element pour les tableaux d&apos;objets non vides.</p>
+    <p>Les tableaux d&apos;objets classdef conservent les metadonnees de classe pendant l&apos;affectation indexee. Les nouveaux elements de classe valeur utilisent le constructeur par defaut, et les nouveaux elements de classe handle recoivent des handles par defaut distincts. <b>ClassName.empty(...)</b> cree des tableaux d&apos;objets vides types pour les classes valeur et handle.</p>
+    <p>Les classes handle qui heritent de <b>dynamicprops</b> peuvent ajouter des proprietes d&apos;instance avec <b>addprop(obj, name)</b> et les supprimer avec <b>rmprop(obj, name)</b> ou <b>delete(descriptor)</b>. Les proprietes dynamiques apparaissent dans <b>isprop</b>, <b>properties</b>, l&apos;acces par champ d&apos;objet et la conversion <b>struct</b>. Le descripteur renvoye par <b>addprop</b> est un handle <b>meta.DynamicProperty</b>.</p>
+    <p>Les objets classdef fonctionnent avec la sauvegarde/chargement, le debogueur, le profileur et la completion de Nelson. Les hooks de sauvegarde/chargement sont appliques element par element pour les tableaux d&apos;objets, y compris les tableaux imbriques dans des cellules ou des structures. Les tableaux d&apos;objets vides conservent leur classe et leurs dimensions apres sauvegarde et chargement. Les tableaux de handles sont verifies avant l&apos;appel des hooks de sauvegarde afin de detecter les elements invalides.</p>
+    <p>Les classes d&apos;enumeration numeriques comme <b>classdef Mode &lt; uint32</b> utilisent chaque argument de membre comme valeur numerique stockee, prennent en charge <b>isa(member, &apos;uint32&apos;)</b>, et exposent la conversion vers le type de base comme <b>uint32(member)</b>.</p>
+    <p><b>metaclass</b> expose les metadonnees de classe, propriete, methode, evenement et enumeration. Les metadonnees de propriete incluent les expressions de valeur par defaut, expressions de validation, classe de definition, modes d&apos;acces, et indicateurs <b>Constant</b>, <b>Dependent</b>, <b>Abstract</b>, <b>Hidden</b>, <b>GetObservable</b>, <b>SetObservable</b>, <b>AbortSet</b>, <b>Transient</b>, <b>NonCopyable</b> et <b>Dynamic</b>. Les metadonnees de methode incluent la classe de definition, l&apos;acces, et les indicateurs <b>Static</b>, <b>Hidden</b>, <b>Sealed</b> et <b>Abstract</b>. Les metadonnees d&apos;evenement incluent <b>ListenAccess</b>, <b>NotifyAccess</b>, <b>Hidden</b> et les attributs bruts. Les metadonnees d&apos;enumeration incluent les noms de membres, la classe de definition et les arguments de constructeur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Classe valeur</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpPoint.m'], ["classdef NelsonHelpPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "  methods"; "    function obj = NelsonHelpPoint(x, y)"; "      if nargin > 0"; "        obj.X = x;"; "        obj.Y = y;"; "      end"; "    end"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpPoint(3, 4);
+p.X]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Aides de sauvegarde/chargement objet</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpSavedValue.m'], ["classdef NelsonHelpSavedValue"; "  properties"; "    Value = 0"; "  end"; "  methods"; "    function obj = NelsonHelpSavedValue(value)"; "      if nargin > 0"; "        obj.Value = value;"; "      end"; "    end"; "    function data = saveObjectImpl(obj)"; "      data = struct('Value', obj.Value);"; "    end"; "  end"; "  methods (Static)"; "    function obj = loadObjectImpl(data)"; "      obj = NelsonHelpSavedValue(data.Value);"; "    end"; "  end"; "end"]);
+addpath(d);
+obj = NelsonHelpSavedValue(12);
+data = obj.saveObjectImpl();
+copy = NelsonHelpSavedValue.loadObjectImpl(data);
+fileName = [tempdir(), 'nelson_help_classdef_object.nh5'];
+save(fileName, 'obj');
+clear obj;
+load(fileName);
+[copy.Value, obj.Value]]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}classdef_tutorial">tutoriel classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef_limitations">limitations classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}dynamicprops">dynamicprops</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

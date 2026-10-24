@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>jsonImportOptions</keyword>
+  <short_description>Créer des options pour importer des données JSON.</short_description>
+  <syntax>
+    <syntax_item>opts = jsonImportOptions()</syntax_item>
+    <syntax_item>opts = jsonImportOptions(&apos;NumVariables&apos;, numVars)</syntax_item>
+    <syntax_item>opts = jsonImportOptions(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>numVars</param_name>
+      <param_description>nombre de variables (défaut : 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>noms et valeurs des propriétés de l&apos;objet, et <b>&apos;ParsingMode&apos;</b> (<b>&apos;lenient&apos;</b> ou <b>&apos;strict&apos;</b>) qui fixe <b>AllowComments</b>, <b>AllowInfAndNaN</b> et <b>AllowTrailingCommas</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>opts</param_name>
+      <param_description>Objet nelson.io.json.JSONImportOptions.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>jsonImportOptions</b> crée un objet d&apos;options d&apos;importation pour les fichiers JSON, à utiliser avec <b>readtable</b> et <b>readtimetable</b>. <b>detectImportOptions</b> renvoie le même objet, rempli à partir d&apos;un fichier JSON.</p>
+    <p>Propriétés :</p>
+    <ul>
+      <li><b>VariableNames</b> : noms des variables (défaut : Var1, Var2, ...).</li>
+      <li><b>VariableNamingRule</b> : <b>&apos;preserve&apos;</b> (défaut) ou <b>&apos;modify&apos;</b>.</li>
+      <li><b>VariableTypes</b> : types des variables : <b>&apos;double&apos;</b>, <b>&apos;single&apos;</b>, types entiers, <b>&apos;logical&apos;</b>, <b>&apos;string&apos;</b>, <b>&apos;char&apos;</b>, <b>&apos;categorical&apos;</b>, <b>&apos;datetime&apos;</b>, <b>&apos;duration&apos;</b> ou <b>&apos;cell&apos;</b> (défaut : <b>&apos;char&apos;</b>).</li>
+      <li><b>SelectedVariableNames</b> : sous-ensemble des variables à importer.</li>
+      <li><b>VariableSelectors</b> : pointeurs JSON RFC 6901 des variables, relatifs à un objet ligne. <b>&quot;Keys&quot;</b> lit les clés des objets. Si vide, toutes les valeurs feuilles sont lues.</li>
+      <li><b>RowNamesSelector</b> : pointeur JSON des noms de lignes.</li>
+      <li><b>TableSelector</b> : pointeur JSON de la table (<b>&quot;&quot;</b>, le défaut, désigne le fichier entier).</li>
+      <li><b>VariableDescriptionsSelector</b>, <b>VariableUnitsSelector</b> : pointeurs JSON des descriptions et des unités des variables.</li>
+      <li><b>ImportErrorRule</b>, <b>MissingRule</b> : <b>&apos;fill&apos;</b> (défaut), <b>&apos;error&apos;</b>, <b>&apos;omitrow&apos;</b> ou <b>&apos;omitvar&apos;</b>.</li>
+      <li><b>RepeatedNodeRule</b> : <b>&apos;addcol&apos;</b> (défaut), <b>&apos;ignore&apos;</b> ou <b>&apos;error&apos;</b>.</li>
+      <li><b>AllowComments</b>, <b>AllowInfAndNaN</b>, <b>AllowTrailingCommas</b> : acceptent les commentaires, les valeurs Inf et NaN, les virgules finales (défaut : <code>true</code>).</li>
+    </ul>
+    <p>L&apos;objet utilise la classe Nelson <b>nelson.io.json.JSONImportOptions</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sélectionner une valeur imbriquée de chaque ligne :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      >f = [tempdir, &apos;students.json&apos;]; fid = fopen(f, &apos;w&apos;); fprintf(fid, &apos;%s&apos;, &apos;[{&quot;Name&quot;: {&quot;FirstName&quot;: &quot;Priya&quot;}}, {&quot;Name&quot;: {&quot;FirstName&quot;: &quot;Conor&quot;}}]&apos;); fclose(fid); opts = jsonImportOptions(&apos;VariableSelectors&apos;, &quot;/Name/FirstName&quot;, &apos;TableSelector&apos;, &quot;&quot;) T = readtable(f, opts)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}detectImportOptions">detectImportOptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtimetable">readtimetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${json}jsondecode">jsondecode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

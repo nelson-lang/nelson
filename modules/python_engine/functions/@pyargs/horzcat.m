@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = horzcat(varargin)
-  error(_('horzcat not allowed for class ''pyargs''.'));
+  error('Nelson:pyargs:horzcatNotAllowed', 'horzcat not allowed for class ''pyargs''.');
 end

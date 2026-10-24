@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uiopen</keyword>
+  <short_description>Loads a file selected from a dialog box.</short_description>
+  <syntax>
+    <syntax_item>uiopen</syntax_item>
+    <syntax_item>uiopen(filter)</syntax_item>
+    <syntax_item>uiopen(filter, option)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filter</param_name>
+      <param_description>File filter passed to the file picker.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>uiopen asks for a file and loads it into the caller workspace using the existing load behavior.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Preview a file open dialog layout.</example_item_description>
+      <example_item_data><![CDATA[f = dialog('Name', 'Open file', 'WindowStyle', 'normal', 'Position', [100 100 420 250]);
+uicontrol(f, 'Style', 'edit', 'String', pwd(), 'Position', [28 186 350 24]);
+uicontrol(f, 'Style', 'listbox', 'String', {'data.nh5', 'session.mat', 'figure.fig'}, 'Value', 1, 'Position', [28 70 350 105]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Open', 'Position', [220 28 70 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [304 28 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/uiopen_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open a data file using the default picker.</example_item_description>
+      <example_item_data><![CDATA[uiopen()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uisave">uisave</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uigetfile">uigetfile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Updated dialog API help.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::ConstructorsGateway::iBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 0);
     ArrayOfVector retval(1);
-    retval << ArrayOf::dcomplexConstructor(0, 1);
+    retval << ArrayOf::dsingleComplexScalar(0, 1);
     return retval;
 }
 //=============================================================================

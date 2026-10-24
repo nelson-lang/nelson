@@ -9,7 +9,7 @@
 %=============================================================================
 function out = arguments_edge_in_scalar_expansion(B)
   arguments
-    B (1,3) double
+    B(1, 3) double
   end
   out = B;
 end

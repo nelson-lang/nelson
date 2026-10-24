@@ -38,5 +38,5 @@ bool
 xmlDocListOfFiles(const wstringVector& xmlDirectories, std::vector<XmlDocSection>& xmlDocFiles,
     std::string& language, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

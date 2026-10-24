@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>streamline</keyword>
+  <short_description>Display streamlines from vector field data.</short_description>
+  <syntax>
+    <syntax_item>streamline(U, V, sx, sy)</syntax_item>
+    <syntax_item>streamline(vertices)</syntax_item>
+    <syntax_item>streamline(X, Y, U, V, sx, sy)</syntax_item>
+    <syntax_item>streamline(X, Y, Z, U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamline(..., options)</syntax_item>
+    <syntax_item>streamline(parent, ...)</syntax_item>
+    <syntax_item>h = streamline(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>streamline</b> traces paths through 2-D or 3-D vector fields from the supplied start points.</p>
+    <p><b>streamline(vertices)</b> draws precomputed streamline vertices supplied as a cell array. Each cell contains an N-by-2 or N-by-3 numeric array.</p>
+    <p>The optional <b>options</b> input is <b>[stepsize]</b> or <b>[stepsize, maxvert]</b>. <b>stepsize</b> is counted in grid cells and defaults to 0.1. <b>maxvert</b> is the largest number of vertices to produce, the start point counted in, and defaults to 500.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Trace a 2-D streamline.</example_item_description>
+      <example_item_data><![CDATA[[x, y] = meshgrid(-2:2, -2:2);
+streamline(x, y, -y, x, 0, 0);]]></example_item_data>
+      <example_item_img src="../../../../images/streamline_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/stream2">stream2</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/stream3">stream3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamslice">streamslice</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

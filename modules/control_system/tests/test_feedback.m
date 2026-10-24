@@ -7,22 +7,27 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-G = tf([2 5 1],[1 2 3]);
-C = tf([5,10],[1,10]); 
+% <--WEIGHT 2-->
+G = tf([2 5 1], [1 2 3]);
+C = tf([5, 10], [1, 10]);
 sys = feedback(G, C, +1);
-assert_isequal(sys.Numerator, {[2  25  51  10]});
-assert_isequal(sys.Denominator, {[-9  -33  -32  20]});
+asserts.isequal(sys.Numerator, {[2 25 51 10]});
+asserts.isequal(sys.Denominator, {[-9 -33 -32 20]});
 %=============================================================================
-G = tf([2 5 1],[1 2 3]);
-C = tf([5,10],[1,10]); 
+G = tf([2 5 1], [1 2 3]);
+C = tf([5, 10], [1, 10]);
 sys = feedback(G, C, -1);
-assert_isequal(sys.Numerator, {[2  25  51  10]});
-assert_isequal(sys.Denominator, {[11  57  78  40]});
+asserts.isequal(sys.Numerator, {[2 25 51 10]});
+asserts.isequal(sys.Denominator, {[11 57 78 40]});
 %=============================================================================
-A = [-2   3;
-0  -1];
+G = tf(1, [1 -0.5], 0.2);
+sys = feedback(tf(2), G);
+asserts.isequal(sys.Ts, 0.2);
+%=============================================================================
+A = [-2 3;
+  0 -1];
 B = [0; -1];
-C = [4   5];
+C = [4 5];
 D = [0];
 G = ss(A, B, C, D);
 sys = feedback(1, G);

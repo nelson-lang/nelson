@@ -18,9 +18,9 @@ function C = circul(x)
   elseif isvector(x) && n > 1
     % valid vector input (n already set)
   else
-    error(_('Invalid input argument X.'));
+    error('Nelson:elementary_functions:invalidInputArgumentX', 'Invalid input argument X.');
   end
   x = x(:).';
-  C = toeplitz ([x(1) x(n:-1:2)], x);
+  C = toeplitz([x(1) x(n:-1:2)], x);
 end
 %=============================================================================

@@ -21,5 +21,5 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
     const wstringVector& commands, const wstringVector& outputs, const wstringVector& names,
     const ArrayOfVector& values);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

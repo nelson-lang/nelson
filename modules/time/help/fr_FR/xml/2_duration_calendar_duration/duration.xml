@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>duration</keyword>
+  <short_description>Cree des durees de temps ecoule.</short_description>
+  <syntax>
+    <syntax_item>d = duration(h, m, s)</syntax_item>
+    <syntax_item>d = duration(h, m, s, ms)</syntax_item>
+    <syntax_item>d = duration(text)</syntax_item>
+    <syntax_item>d = duration(text, &apos;InputFormat&apos;, fmt)</syntax_item>
+    <syntax_item>d = duration(x)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Heures, minutes, secondes, millisecondes optionnelles, texte de duree ou matrice numerique N par 3.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Un tableau duration contenant des secondes ecoulees et un format d affichage.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Cree des durees de temps ecoule.</p>
+    <p>Le constructeur accepte des composants numeriques et des textes separes par deux-points. Utilisez hours, minutes, seconds, milliseconds, days et years pour construire ou convertir par unite.</p>
+    <p><b>string</b> renvoie le texte affiche de chaque element et <b>&lt;missing&gt;</b> pour une duree <b>NaN</b> ; l&apos;affichage, <b>char</b> et <b>cellstr</b> conservent le texte NaN (<b>cellstr(d, fmt)</b> utilise le format <b>fmt</b>). <b>duration(missing)</b>, et l&apos;affectation de <b>missing</b> dans un tableau duration, donnent <b>NaN</b>.</p>
+    <p><b>duration.empty(m, n, ...)</b> renvoie un tableau duration vide. Une comparaison avec <b>missing</b> est fausse (<b>~=</b> est vraie), comme avec une duree <b>NaN</b>.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[d = duration(1, 2, 3)
+seconds(d)
+duration('1:02', 'InputFormat', 'mm:ss')
+string(seconds([1 NaN]))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

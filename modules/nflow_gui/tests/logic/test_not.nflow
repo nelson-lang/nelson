@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-03-29",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "Unit test for NOT gate: output is the logical inverse of the input",
+  "name": "test_not",
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "constant",
+      "x": 200,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Value": 1
+      }
+    },
+    {
+      "id": "b2",
+      "type": "not",
+      "x": 450,
+      "y": 200,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "b3",
+      "type": "scope",
+      "x": 700,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "b1",
+      "to": "b2",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [280, 240],
+        [450, 240]
+      ]
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [550, 240],
+        [700, 240]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": true
+}

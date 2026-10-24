@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rticklabels</keyword>
+  <short_description>Definit ou retourne les etiquettes radiales des axes polaires.</short_description>
+  <syntax>
+    <syntax_item>labels = rticklabels()</syntax_item>
+    <syntax_item>rticklabels(labels)</syntax_item>
+    <syntax_item>rticklabels(&apos;auto&apos;)</syntax_item>
+    <syntax_item>rticklabels(&apos;manual&apos;)</syntax_item>
+    <syntax_item>m = rticklabels(&apos;mode&apos;)</syntax_item>
+    <syntax_item>rticklabels(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description>Tableau de cellules, tableau de chaines, vecteur de caracteres ou valeurs numeriques converties en etiquettes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;auto&apos;</param_name>
+      <param_description>Genere les etiquettes radiales depuis les valeurs de graduation radiale.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;manual&apos;</param_name>
+      <param_description>Conserve les etiquettes radiales courantes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;mode&apos;</param_name>
+      <param_description>Retourne le mode des etiquettes radiales.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes polaire cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>labels</param_name>
+      <param_description>Tableau de cellules d&apos;etiquettes radiales.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>&apos;auto&apos; ou &apos;manual&apos;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rticklabels</b> retourne ou definit les etiquettes affichees a cote des graduations radiales.</p>
+    <p>La definition d&apos;etiquettes passe le mode a <b>manual</b>. Le nombre d&apos;etiquettes affichees est aligne sur le nombre de graduations radiales visibles.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Definir les etiquettes radiales.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+polarplot(linspace(0, 2*pi, 80), linspace(0, 3, 80));
+rticks([0 1.5 3]);
+rticklabels({'zero'; 'middle'; 'maximum'});
+labels = rticklabels()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/rticks">rticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetaticklabels">thetaticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

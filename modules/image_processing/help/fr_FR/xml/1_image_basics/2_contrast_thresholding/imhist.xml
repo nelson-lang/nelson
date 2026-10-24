@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imhist</keyword>
+  <short_description>Calcule les effectifs de l histogramme d image.</short_description>
+  <syntax>
+    <syntax_item>counts = imhist(I)</syntax_item>
+    <syntax_item>[counts, binLocations] = imhist(I)</syntax_item>
+    <syntax_item>[counts, binLocations] = imhist(I, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree d'intensite ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Nombre entier positif de bins d'histogramme.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>counts</param_name>
+      <param_description>Effectifs de l'histogramme sous forme de vecteur colonne.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>binLocations</param_name>
+      <param_description>Emplacements des bins dans l'echelle native de l'image.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule les effectifs de l histogramme d image. Les emplacements de bins utilisent l echelle native des images entieres et l intervalle [0, 1] pour les images flottantes et logiques.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher un histogramme d image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=repmat(linspace(0,1,96),64,1);
+[counts,bins]=imhist(I,32);
+figure; bar(bins,counts); title('Histogram');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imhist_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imadjust">imadjust</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}graythresh">graythresh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,8 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-profile('off')
-profile('clear')
+% a lazy (never loaded) gateway has no profiling session to stop
+[~, ~, profilerGatewayState] = gatewayinfo(modulepath('profiler', 'builtin'));
+if strcmp(profilerGatewayState, 'loaded')
+  profile('off')
+  profile('clear')
+end
 %=============================================================================
 removegateway(modulepath('profiler', 'builtin'))
 %=============================================================================

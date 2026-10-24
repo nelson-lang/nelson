@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function display(obj, name)
-  if ~isempty(name) 
+  if ~isempty(name)
     disp([char(10), name, ' = ', char(10)])
   end
   disp('complexObj_disp:')

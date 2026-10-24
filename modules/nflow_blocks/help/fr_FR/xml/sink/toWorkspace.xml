@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>toWorkspace</keyword>
+<keyword_alias>block:toWorkspace</keyword_alias>
+  <short_description>Écrit le signal d'entrée dans une variable du workspace Nelson.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : toWorkspace</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port d'entrée (scalaire ou vecteur, tout type de signal).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Accumule son signal d'entrée aux pas majeurs de la simulation et, à l'arrêt de celle-ci, l'écrit dans la variable <code>VariableName</code> du workspace de base.</p>
+    <p>
+      <img src="../../../../libraries/sink/exports/toWorkspace.svg" align="middle"/>
+    </p>
+    <p><code>Decimation</code> conserve un échantillon sur k (en commençant par le premier). <code>MaxDataPoints</code> ne garde que les N derniers échantillons décimés (<code>inf</code> = tout garder). <code>SaveFormat</code> choisit la forme de la variable :</p>
+    <ul>
+      <li><code>Structure With Time</code> : champs <code>time</code>, <code>signals.values</code> (NxW), <code>signals.dimensions</code>, <code>signals.label</code>, <code>blockName</code> ;</li>
+      <li><code>Structure</code> : idem avec un champ <code>time</code> vide ;</li>
+      <li><code>Array</code> : matrice NxW des échantillons (le temps est celui de la grille de simulation).</li>
+    </ul>
+    <p>Dans le code généré, le bloc est neutre (l'écriture workspace n'y a pas de sens).</p>
+    <p>
+      <b>Paramètres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>VariableName</code>
+          </td>
+          <td>simout</td>
+        </tr>
+        <tr>
+          <td>
+            <code>MaxDataPoints</code>
+          </td>
+          <td>inf</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Decimation</code>
+          </td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SaveFormat</code>
+          </td>
+          <td>Structure With Time</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SampleTime</code>
+          </td>
+          <td>-1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Caractéristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>toWorkspace</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs sorties</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, AFTER_STEP</td>
+        </tr>
+        <tr>
+          <td>Type de signal</td>
+          <td>tous (enregistré en double)</td>
+        </tr>
+        <tr>
+          <td>Génération de code</td>
+          <td>neutre (no-op)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifeste" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/toWorkspace.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir la démo To Workspace (journalise une sinusoïde dans 'simout')</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/To_Workspace_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/scope">scope</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

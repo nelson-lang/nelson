@@ -7,21 +7,25 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('maxNumCompThreads'), -1);
-assert_isequal(nargout('maxNumCompThreads'), 1);
+asserts.isequal(nargin('maxNumCompThreads'), -1);
+asserts.isequal(nargout('maxNumCompThreads'), 1);
 %=============================================================================
 nb_cores = maxNumCompThreads();
-assert_istrue(nb_cores >= 0);
+asserts.istrue(nb_cores >= 0);
 %=============================================================================
 nb = maxNumCompThreads(10);
-assert_isequal(nb, nb_cores);
+asserts.isequal(nb, nb_cores);
 %=============================================================================
 nb_cores2 = maxNumCompThreads();
-assert_isequal(nb_cores2, 10);
+asserts.isequal(nb_cores2, 10);
 %=============================================================================
 nb_cores3 = maxNumCompThreads('automatic');
-assert_isequal(nb_cores3, nb_cores2);
+asserts.isequal(nb_cores3, nb_cores2);
 %=============================================================================
 nb_cores4 = maxNumCompThreads();
-assert_isequal(nb_cores4, nb_cores);
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(nb_cores4 >= 1);
+else
+  asserts.isequal(nb_cores4, nb_cores);
+end
 %=============================================================================

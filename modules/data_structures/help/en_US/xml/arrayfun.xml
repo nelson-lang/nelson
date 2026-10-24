@@ -9,24 +9,33 @@
     <syntax_item>B = arrayfun(func, A)</syntax_item>
     <syntax_item>B = arrayfun(func, A1, ..., An)</syntax_item>
     <syntax_item>B = arrayfun(..., &apos;UniformOutput&apos;, false)</syntax_item>
+    <syntax_item>B = arrayfun(..., &apos;ErrorHandler&apos;, errfunc)</syntax_item>
     <syntax_item>[B1, ..., Bm] = arrayfun(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>func</param_name>
       <param_description
-      >function handle to apply on each element. Must return scalar unless &apos;UniformOutput&apos; is false.</param_description>
+      >function handle (or a character vector with the function name) to apply on each element. With the default &apos;UniformOutput&apos;, true, it must return a scalar of the same class on every call, so the results can be concatenated into an array.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A, A1, ..., An</param_name>
-      <param_description>input arrays of the same size.</param_description>
+      <param_description
+      >input arrays, all of the same size. func is called with corresponding elements A1(i), ..., An(i).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>
         &apos;UniformOutput&apos;
       </param_name>
       <param_description
-      >logical scalar. If false, outputs are returned in a cell array.</param_description>
+      >logical scalar (default true). When false, the outputs are returned in a cell array and func may return values of any size and class.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>
+        &apos;ErrorHandler&apos;
+      </param_name>
+      <param_description
+      >function handle called when func raises an error. It receives a structure describing the error (fields &apos;message&apos;, &apos;identifier&apos; and &apos;stack&apos;) followed by the element inputs passed to func, and returns the replacement output(s). If no error handler is supplied, the error is rethrown.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -44,8 +53,11 @@
     <p>Use the <b>
         &apos;UniformOutput&apos;
       </b> option set to <b>false</b> to allow output values that cannot be concatenated into a single array. In this case, the result is a cell array.</p>
+    <p>With the default <b>&apos;UniformOutput&apos;</b> set to <b>true</b>, <b>func</b> must return a scalar value of the same class on every element so that the individual results can be assembled into an array; otherwise use <b>&apos;UniformOutput&apos;</b>, <b>false</b>.</p>
+    <p>Use the <b>&apos;ErrorHandler&apos;</b> option to provide a function that is invoked when <b>func</b> fails on an element, for example to substitute a default value.</p>
     <p>
       <b>[B1, ..., Bm] = arrayfun(...)</b> captures multiple outputs from the applied function.</p>
+    <p>Many built-in functions and operators are already vectorized and broadcast over arrays; when the body of <b>func</b> is a simple element-wise expression, applying the equivalent expression directly to the whole array (for example <b>A.^2 + B.^2</b>) is usually the most efficient choice.</p>
   </description>
   <used_function />
   <bibliography />
@@ -64,6 +76,17 @@ means = arrayfun(@(x) mean(x.f1), S);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
+      <example_item_description>Element-wise expression over several arrays</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = reshape(1:12, 3, 4);
+B = reshape(12:-1:1, 3, 4);
+R = arrayfun(@(x, y) sqrt(x.^2 + y.^2), A, B)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
       <example_item_description>Return multiple outputs from function</example_item_description>
       <example_item_data
         runnable="cli"
@@ -78,9 +101,17 @@ f = @(x) deal(x, x^2);
       <example_item_data
         runnable="cli"
       ><![CDATA[
-S(1).f1 = rand(3,5);
-S(2).f1 = rand(2,6);
-A = arrayfun(@(x) mean(x.f1), S, 'UniformOutput', false);
+C = arrayfun(@(x) 1:x, [2 3 4], 'UniformOutput', false)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Handle errors with an error handler</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+errfun = @(S, x) NaN;
+R = arrayfun(@(x) x(2), [1 2 3], 'ErrorHandler', errfun)
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -88,11 +119,18 @@ A = arrayfun(@(x) mean(x.f1), S, 'UniformOutput', false);
     <see_also_item>
       <link linkend="${data_structures}cellfun">cellfun</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}bsxfun">bsxfun</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.14.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>&apos;ErrorHandler&apos; option and usage notes documented</history_description>
     </history_item>
   </history>
   <authors>

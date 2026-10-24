@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>expression</keyword>
+<keyword_alias>block:expression</keyword_alias>
+  <short_description>Evaluates a restricted math expression of u during simulation and in generated code.</short_description>
+  <syntax>
+    <syntax_item>Block type: expression</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port (u, scalar double).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port (scalar double).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Evaluates the math expression <code>Expr</code> with <code>u</code> (block input), <code>t</code> (current time), <code>dt</code> (step) and the diagram variables. The same expression engine drives the simulation and the C/Rust code generation, so simulated and generated behaviors match.</p>
+    <p>
+      <img src="../../../../libraries/userdefined/exports/expression.svg" align="middle"/>
+    </p>
+    <p>Supported grammar: constants <code>pi</code>, <code>e</code>, <code>inf</code>; unary functions <code>abs, ceil, floor, round, sign, sqrt, exp, log, log10, log2, acos, asin, atan, cos, cosh, sin, sinh, tan, tanh, sinc</code>; binary functions <code>pow, atan2, min, max</code>; ternary <code>clamp</code>; operators <code>+ - * / ^</code>. Non-math constructs are rejected at code generation.</p>
+    <p>For arbitrary Nelson code (any function, handles), use the <code>nelsonFunction</code> block instead (simulation only).</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>Expr</code>
+          </td>
+          <td>u</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>expression</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>User-Defined Function blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double, scalar</td>
+        </tr>
+        <tr>
+          <td>Code generation</td>
+          <td>yes (C and Rust)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Code generation: supported for C and Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/userdefined/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/userdefined/expression.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open the user-defined function demo (Expression + Nelson Function)</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/Nelson_Function_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}userdefined/nelsonFunction">nelsonFunction</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/gain">gain</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version (replaces the codegen-only userFunc block; the expression block also simulates)</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

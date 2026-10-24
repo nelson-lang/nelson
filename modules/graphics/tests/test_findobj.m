@@ -12,79 +12,90 @@
 close all
 %=============================================================================
 h = findobj();
-assert_isfalse(isempty(h));
-assert_istrue(isgraphics(h(1)));
-assert_istrue(any(h == groot()));
+asserts.isfalse(isempty(h));
+asserts.istrue(isgraphics(h(1)));
+asserts.istrue(any(h == groot()));
+%=============================================================================
+asserts.istrue(isempty(findobj(0, 'Tag', 'ti92App')));
+asserts.istrue(isempty(findobj(groot(), 'Tag', 'ti92App')));
 %=============================================================================
 f = figure();
 ax = axes('Parent', f);
 l1 = line(1:10, 1:10, 'Parent', ax, 'Tag', 'linear', 'Color', [1 0 0]);
-l2 = line(1:10, (1:10).^2, 'Parent', ax, 'Tag', 'quadratic');
+l2 = line(1:10, (1:10) .^ 2, 'Parent', ax, 'Tag', 'quadratic');
 l3 = line(1:10, exp(1:10), 'Parent', ax, 'Tag', 'exponential');
 %=============================================================================
 h = findobj('Type', 'line');
-assert_isequal(numel(h), 3);
-assert_istrue(all(isgraphics(h, 'line')));
+asserts.isequal(numel(h), 3);
+asserts.istrue(all(isgraphics(h, 'line')));
 %=============================================================================
 h = findobj(gca(), 'Type', 'line');
-assert_isequal(numel(h), 3);
-assert_istrue(any(h == l1));
-assert_istrue(any(h == l2));
-assert_istrue(any(h == l3));
+asserts.isequal(numel(h), 3);
+asserts.istrue(any(h == l1));
+asserts.istrue(any(h == l2));
+asserts.istrue(any(h == l3));
 %=============================================================================
 h = findobj(gcf());
-assert_istrue(any(h == f));
-assert_istrue(any(h == ax));
-assert_istrue(any(h == l1));
+asserts.istrue(any(h == f));
+asserts.istrue(any(h == ax));
+asserts.istrue(any(h == l1));
 %=============================================================================
 h = findobj(f, 'flat', 'Type', 'figure');
-assert_isequal(h, f);
+asserts.isequal(h, f);
 h = findobj(f, 'flat', 'Type', 'axes');
-assert_istrue(isempty(h));
+asserts.istrue(isempty(h));
 h = findobj(f, '-depth', 1, 'Type', 'axes');
-assert_isequal(h, ax);
+asserts.isequal(h, ax);
 h = findobj(f, '-depth', 1, 'Type', 'line');
-assert_istrue(isempty(h));
+asserts.istrue(isempty(h));
 h = findobj(f, '-depth', 2, 'Type', 'line');
-assert_isequal(numel(h), 3);
+asserts.isequal(numel(h), 3);
 h = findobj(f, '-depth', inf, 'Type', 'line');
-assert_isequal(numel(h), 3);
+asserts.isequal(numel(h), 3);
 %=============================================================================
 h = findobj('Tag', 'linear');
-assert_isequal(h, l1);
+asserts.isequal(h, l1);
+h = findobj(0, 'Tag', 'linear');
+asserts.isequal(h, l1);
+h = findobj(groot(), 'Tag', 'linear');
+asserts.isequal(h, l1);
 h = findobj('-regexp', 'Tag', 'quad');
-assert_isequal(h, l2);
+asserts.isequal(h, l2);
 h = findobj('-property', 'Marker');
-assert_istrue(any(h == l1));
-assert_istrue(any(h == l2));
-assert_istrue(any(h == l3));
+asserts.istrue(any(h == l1));
+asserts.istrue(any(h == l2));
+asserts.istrue(any(h == l3));
 %=============================================================================
 h = findobj('Type', 'line', '-and', '-not', {'Tag', 'linear', '-or', 'Tag', 'quadratic'});
-assert_isequal(h, l3);
+asserts.isequal(h, l3);
 h = findobj({'Tag', 'linear', '-or', 'Tag', 'quadratic'}, '-and', {'Type', 'line'});
-assert_isequal(numel(h), 2);
-assert_istrue(any(h == l1));
-assert_istrue(any(h == l2));
+asserts.isequal(numel(h), 2);
+asserts.istrue(any(h == l1));
+asserts.istrue(any(h == l2));
 h = findobj('Type', 'line', '-and', {'Tag', 'linear', '-xor', 'Tag', 'quadratic'});
-assert_isequal(numel(h), 2);
+asserts.isequal(numel(h), 2);
 %=============================================================================
 h = findobj('Color', 'red');
-assert_istrue(any(h == l1));
+asserts.istrue(any(h == l1));
 h = findobj('Color', 'r');
-assert_istrue(any(h == l1));
+asserts.istrue(any(h == l1));
 %=============================================================================
 ax.HandleVisibility = 'off';
 h = findobj(f, 'Type', 'axes');
-assert_istrue(isempty(h));
+asserts.istrue(isempty(h));
 h = findobj(f, 'Type', 'line');
-assert_istrue(isempty(h));
+asserts.istrue(isempty(h));
+h = findobj(0, 'Tag', 'linear');
+asserts.istrue(isempty(h));
+h = findall(0, 'Tag', 'linear');
+asserts.isequal(h, l1);
 ax.HandleVisibility = 'on';
 %=============================================================================
 h = findobj([f; ax], 'Type', 'line');
-assert_isequal(sum(h == l1), 2);
+asserts.isequal(sum(h == l1), 2);
 %=============================================================================
-assert_checkerror('findobj(''Type'')', _('Invalid findobj expression.'));
-assert_checkerror('findobj(gcf(), ''-depth'', -1)', _('Depth must be a nonnegative integer or Inf.'));
+asserts.checkerror('findobj(''Type'')', getString(message('Nelson:findobj:invalidExpression')));
+asserts.checkerror('findobj(gcf(), ''-depth'', -1)', getString(message('Nelson:findobj:invalidDepth')));
 %=============================================================================
 close all
 %=============================================================================

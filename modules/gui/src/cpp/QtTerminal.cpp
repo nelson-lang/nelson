@@ -10,35 +10,41 @@
 #include <QtCore/QtGlobal>
 #include <QtCore/QLocale>
 #include <QtCore/QMimeData>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QSettings>
+#include <QtCore/QUrl>
+#include <QtCore/QUrlQuery>
 #include <QtGui/QClipboard>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QImageReader>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QTextBlock>
+#include <QtGui/QTextBlockFormat>
+#include <QtGui/QTextCharFormat>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtGui/QTextImageFormat>
+#include <QtGui/QTextFormat>
 #include <QtGui/QFontDatabase>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLineEdit>
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
-#else
-#include <QtWidgets/QAction>
-#endif
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QScrollBar>
 #include <QtCore/QStringListModel>
 #include <QtWidgets/QAbstractItemView>
+#include <QtWidgets/QScrollBar>
 #include <QtGui/QTextDocumentFragment>
 #include <QtGui/QPainter>
 #include <QtPrintSupport/QPrinter>
+#include <vector>
 #include "Nelson_VERSION.h"
+#include "NelsonSettingsScope.hpp"
 #include "QtTerminal.h"
 #include "Evaluator.hpp"
 #include "NelsonHistory.hpp"
@@ -47,6 +53,7 @@
 #include "QtTranslation.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
+#include "QtFileDialogHistory.hpp"
 #include "PostCommand.hpp"
 #include "NelsonPalette.hpp"
 #include "NelsonColors.hpp"
@@ -61,42 +68,87 @@
 #include "QtWorkspaceBrowser.h"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
+#include "MainThreadTaskQueue.hpp"
 #include "VariablesEditor.hpp"
 #include "QtTerminalCompleter.h"
+#include "QtWaitCursor.hpp"
+#include "AnsiSgr.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+namespace {
+constexpr int LATEX_IMAGE_BASE_WIDTH_PROPERTY = QTextFormat::UserProperty + 1201;
+constexpr int LATEX_IMAGE_BASE_HEIGHT_PROPERTY = QTextFormat::UserProperty + 1202;
+constexpr double LATEX_IMAGE_ZOOM_FACTOR = 1.1;
+bool
+isLatexImageFormat(const QTextImageFormat& imageFormat)
+{
+    return imageFormat.name().startsWith("data:image/svg+xml", Qt::CaseInsensitive);
+}
+//=============================================================================
+} // namespace
+//=============================================================================
+const QString SETTING_COMMAND_WINDOW_TRUNCATE_MATRICES = "command_window_truncate_matrices";
+const QString SETTING_COMMAND_WINDOW_FONT_SIZE = "command_window_font_size";
+const QString SETTING_COMMAND_WINDOW_WRAP_LINES = "command_window_wrap_lines";
+//=============================================================================
+namespace {
+constexpr int COMMAND_WINDOW_DEFAULT_FONT_SIZE = 10;
+constexpr int COMMAND_WINDOW_MIN_FONT_SIZE = 4;
+constexpr int COMMAND_WINDOW_MAX_FONT_SIZE = 72;
+//=============================================================================
+} // namespace
 //=============================================================================
 QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
 {
     mCommandLineReady = false;
+    latexImageScale = 1.0;
+    expandableTextCounter = 0;
     completionDisabled = true;
     isFirstPrompt = true;
     completerImpl = nullptr;
-    // qCompleter removed; use completerImpl
 
     QLocale us(QLocale::English, QLocale::UnitedStates);
     QLocale::setDefault(us);
     setPalette(getNelsonPalette());
+    defaultFontPointSize = COMMAND_WINDOW_DEFAULT_FONT_SIZE;
+    wrapLinesEnabled = false;
+    wrapLinesAction = nullptr;
+
+    QSettings terminalSettings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    int savedFontSize
+        = terminalSettings.value(SETTING_COMMAND_WINDOW_FONT_SIZE, defaultFontPointSize).toInt();
+    if (savedFontSize < COMMAND_WINDOW_MIN_FONT_SIZE
+        || savedFontSize > COMMAND_WINDOW_MAX_FONT_SIZE) {
+        savedFontSize = defaultFontPointSize;
+    }
+
     QFont f(wstringToQString(Nelson::getDefaultFontName()));
     f.setStyleHint(QFont::Monospace);
-    f.setPointSize(10);
+    f.setPointSize(savedFontSize);
     f.setFixedPitch(true);
     setFont(f);
     setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setUndoRedoEnabled(false);
-    setWordWrapMode(QTextOption::NoWrap);
+    wrapLinesEnabled = terminalSettings.value(SETTING_COMMAND_WINDOW_WRAP_LINES, false).toBool();
+    applyWrapLines(wrapLinesEnabled);
     setFrameStyle(QFrame::NoFrame);
     setTabStopDistance(40);
-    setAcceptDrops(false);
+    setAcceptDrops(true);
+    viewport()->setAcceptDrops(true);
     lineToSend.clear();
-    // disable cursor
     setCursorWidth(0);
     setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard
-        | Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard | Qt::TextEditable);
-    setOpenExternalLinks(true);
-    document()->setMaximumBlockCount(0);
+        | Qt::LinksAccessibleByMouse | Qt::TextEditable);
+    setOpenLinks(false);
+    setOpenExternalLinks(false);
+    connect(this, &QTextBrowser::anchorClicked, this, &QtTerminal::handleAnchorClicked);
+    // Bound the scrollback from construction: a command that floods the console
+    // (a directory with tens of thousands of files) would otherwise grow the
+    // document without limit and freeze the UI. 0 means unlimited.
+    document()->setMaximumBlockCount(DEFAULT_CONSOLE_MAX_LINE_VISIBLE);
     nelsonPath = Nelson::wstringToQString(
         Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     helpOnSelectionAction = nullptr;
@@ -106,12 +158,17 @@ QtTerminal::QtTerminal(QWidget* parent) : QTextBrowser(parent)
     selectAllAction = nullptr;
     clcAction = nullptr;
     stopAction = nullptr;
+    truncateMatricesAction = nullptr;
+    openVariableAction = nullptr;
     contextMenu = nullptr;
+
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(
+        settings.value(SETTING_COMMAND_WINDOW_TRUNCATE_MATRICES, true).toBool());
 
     lastSearch.clear();
     lastSearchCaseSensitive = false;
 
-    // Find actions
     findAction = new QAction(TR("Find..."), this);
     findAction->setShortcut(QKeySequence::Find);
     connect(findAction, SIGNAL(triggered()), this, SLOT(showFindDialog()));
@@ -216,7 +273,6 @@ QtTerminal::printPrompt(QString prompt)
         cur.insertBlock();
     }
 
-    // Batch changes to avoid repeated layout/paint work
     cur.beginEditBlock();
     QTextCharFormat fmt;
     fmt.setForeground(getInputColor());
@@ -226,6 +282,7 @@ QtTerminal::printPrompt(QString prompt)
     cur.endEditBlock();
 
     setTextCursor(cur);
+    ensureCursorVisible();
 
     if (isFirstPrompt) {
         QtHistoryBrowser* qtHistoryBrowser = (QtHistoryBrowser*)HistoryBrowser::getHistoryBrowser();
@@ -235,6 +292,8 @@ QtTerminal::printPrompt(QString prompt)
 
         QObject::connect(qtHistoryBrowser, SIGNAL(sendCommands(const QStringList&)), this,
             SLOT(onCommandsReceived(const QStringList&)));
+        QObject::connect(qtHistoryBrowser, SIGNAL(sendToCommandLine(const QStringList&)), this,
+            SLOT(onCommandsToCommandLineReceived(const QStringList&)));
         QObject::connect(
             qtHistoryBrowser, SIGNAL(sendToTextEditor()), this, SLOT(onToTextEditorReceived()));
 
@@ -249,6 +308,7 @@ QtTerminal::printPrompt(QString prompt)
     }
     isFirstPrompt = false;
     mCommandLineReady = true;
+    emit promptDisplayed();
 }
 //=============================================================================
 bool
@@ -258,6 +318,22 @@ QtTerminal::isInEditionZone()
     int promptp = promptBlock.position();
     int curp = textCursor().position();
     return mCommandLineReady && ((curp - mPrompt.size()) >= promptp);
+}
+//=============================================================================
+void
+QtTerminal::moveCursorToPrompt()
+{
+    QTextCursor cur;
+    if (mCommandLineReady && promptBlock.isValid()) {
+        cur = QTextCursor(promptBlock);
+        cur.movePosition(QTextCursor::EndOfBlock);
+    } else {
+        cur = QTextCursor(document());
+        cur.movePosition(QTextCursor::End);
+    }
+    setTextCursor(cur);
+    ensureInputColor();
+    ensureCursorVisible();
 }
 //=============================================================================
 void
@@ -274,15 +350,9 @@ QtTerminal::getLine(const std::wstring& prompt)
     FileBrowser::updateFileBrowser();
     promptBlock = document()->lastBlock();
 
-    // Enable cursor text
-    setCursorWidth(QFontMetrics(font()).horizontalAdvance(QChar('x')));
-
-    // Restore default icon cursor
+    setCursorWidth(QFontMetrics(document()->defaultFont()).horizontalAdvance(QChar('x')));
     WorkspaceBrowser::updateWorkspaceBrowser();
-    QApplication::restoreOverrideCursor();
-
-    // Prepare evaluator and queues
-
+    Nelson::restoreApplicationWaitCursor();
     Nelson::Evaluator* eval
         = static_cast<Nelson::Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (!eval) {
@@ -291,19 +361,26 @@ QtTerminal::getLine(const std::wstring& prompt)
     eval->commandQueue.clear();
     Nelson::CallbackQueue::getInstance()->clear();
     Nelson::EventQueue::getInstance()->clear();
-
+    auto* taskQueue = Nelson::MainThreadTaskQueue::getInstance();
+    taskQueue->setInterpreterIdle(true);
+    struct IdleReset
+    {
+        Nelson::MainThreadTaskQueue* queue;
+        ~IdleReset() { queue->setInterpreterIdle(false); }
+    } idleReset { taskQueue };
     bool wasInterruptedByAction = false;
-
-    // Main event processing loop
     while (true) {
         try {
             Nelson::ProcessEvents(true);
-        } catch (const Exception& e) {
+        } catch (const NelsonException& e) {
             e.printMe(eval->getInterface());
             wasInterruptedByAction = true;
             break;
         }
 
+        if (taskQueue->processTasks(eval)) {
+            continue;
+        }
         if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
             || !Nelson::EventQueue::getInstance()->isEmpty()) {
             wasInterruptedByAction = true;
@@ -328,7 +405,6 @@ QtTerminal::getLine(const std::wstring& prompt)
         }
     }
 
-    // Wait until lineToSend is not empty if it was empty before
     while (lineToSend.empty() && !wasInterruptedByAction) {
         Nelson::ProcessEvents(true);
     }
@@ -336,37 +412,62 @@ QtTerminal::getLine(const std::wstring& prompt)
     lineToSend.clear();
     Nelson::ProcessEvents();
 
-    // Disable cursor text
     setCursorWidth(0);
 
-    // Change icon cursor to wait (computation)
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    Nelson::setApplicationWaitCursor();
     return line;
 }
-
 //=============================================================================
 size_t
 QtTerminal::getTerminalWidth()
 {
-    size_t chSize = QFontMetrics(font()).horizontalAdvance(QChar('M'));
-    QScrollBar* vsb = verticalScrollBar();
-    size_t res = (document()->textWidth() - vsb->width()) / chSize;
-    return res;
+    // the zoom applies to the document default font, use it to stay in sync
+    int chSize = QFontMetrics(document()->defaultFont()).horizontalAdvance(QChar('M'));
+    if (chSize <= 0) {
+        return DEFAULT_CONSOLE_WIDTH;
+    }
+    int availableWidth = viewport() ? viewport()->width() : width();
+    if (availableWidth <= 0) {
+        return DEFAULT_CONSOLE_WIDTH;
+    }
+    return static_cast<size_t>(availableWidth / chSize);
 }
 //=============================================================================
 size_t
 QtTerminal::getTerminalHeight()
 {
-    size_t chSize = QFontMetrics(font()).height();
-    size_t res = document()->size().height() / chSize;
-    return res;
+    int chSize = QFontMetrics(document()->defaultFont()).height();
+    if (chSize <= 0) {
+        return DEFAULT_CONSOLE_HEIGHT;
+    }
+    int availableHeight = viewport() ? viewport()->height() : height();
+    if (availableHeight <= 0) {
+        return DEFAULT_CONSOLE_HEIGHT;
+    }
+    return static_cast<size_t>(availableHeight / chSize);
 }
 //=============================================================================
 void
 QtTerminal::outputMessage(const std::wstring& msg)
 {
     printMessage(Nelson::wstringToQString(msg), STDOUT_DISP);
-    Nelson::ProcessEvents();
+}
+//=============================================================================
+void
+QtTerminal::outputStyledText(const std::wstring& msg, const TextStyle& style)
+{
+    printStyledMessage(Nelson::wstringToQString(msg), style);
+}
+//=============================================================================
+void
+QtTerminal::outputAnsiText(const std::wstring& msg, bool asError)
+{
+    DISP_MODE mode = asError ? STDERR_DISP : STDOUT_DISP;
+    if (!containsAnsiEscape(msg)) {
+        printMessage(Nelson::wstringToQString(msg), mode);
+        return;
+    }
+    printAnsiMessage(msg, mode);
 }
 //=============================================================================
 void
@@ -417,7 +518,6 @@ QtTerminal::applyForegroundToCursor(
 void
 QtTerminal::ensureInputColor()
 {
-    // force to restore input color
     if (!isInEditionZone()) {
         return;
     }
@@ -477,6 +577,45 @@ QtTerminal::handleDownKeyPress()
     return replaceCurrentCommandLine(line);
 }
 //=============================================================================
+bool
+QtTerminal::event(QEvent* event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        auto* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
+            if (completerImpl && completerImpl->completer()->popup()->isVisible()
+                && !completionDisabled) {
+                return QTextBrowser::event(event);
+            }
+            if (handleTabCompletion()) {
+                keyEvent->accept();
+                return true;
+            }
+        }
+    }
+    return QTextBrowser::event(event);
+}
+//=============================================================================
+bool
+QtTerminal::handleTabCompletion()
+{
+    if (completionDisabled) {
+        return true;
+    }
+    if (!isInEditionZone()) {
+        moveCursorToPrompt();
+    }
+    if (!isInEditionZone()) {
+        return true;
+    }
+    bool backup = mCommandLineReady;
+    createCompleter();
+    QString completionPrefix = getCurrentCommandLine();
+    mCommandLineReady = backup;
+    complete(completionPrefix);
+    return true;
+}
+//=============================================================================
 void
 QtTerminal::sendKeyEvent(QKeyEvent* event)
 {
@@ -486,6 +625,12 @@ QtTerminal::sendKeyEvent(QKeyEvent* event)
 void
 QtTerminal::keyPressEvent(QKeyEvent* event)
 {
+    if ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_D) {
+        if (openTruncatedMatrixAtCursor()) {
+            event->accept();
+            return;
+        }
+    }
     if (event->matches(QKeySequence::Find)) {
         showFindDialog();
         event->accept();
@@ -504,14 +649,30 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
 
     if (event->modifiers() & Qt::ControlModifier) {
         if (event->key() == Qt::Key_Plus || event->key() == Qt::Key_Equal) {
-            this->zoomOut();
+            zoomTerminalIn();
             event->accept();
             return;
         } else if (event->key() == Qt::Key_Minus) {
-            this->zoomIn();
+            zoomTerminalOut();
+            event->accept();
+            return;
+        } else if (event->key() == Qt::Key_0) {
+            zoomTerminalReset();
             event->accept();
             return;
         }
+    }
+
+    // Copy must be handled before any cursor move: a selection made outside the edition
+    // zone would be lost otherwise. With a selection Ctrl+C copies, without it interrupts.
+    if (event->matches(QKeySequence::Copy)) {
+        if (textCursor().hasSelection()) {
+            copy();
+        } else if (!mCommandLineReady) {
+            NelsonConfiguration::getInstance()->setInterruptPending(true);
+        }
+        event->accept();
+        return;
     }
 
     if (!isInEditionZone()) {
@@ -561,23 +722,10 @@ QtTerminal::keyPressEvent(QKeyEvent* event)
         if (handleBackspaceKeyPress()) {
             return;
         }
-    } else if (event->matches(QKeySequence::Copy)) {
-        if (!mCommandLineReady) {
-            NelsonConfiguration::getInstance()->setInterruptPending(true);
-        }
     } else {
         switch (event->key()) {
         case Qt::Key_Tab: {
-            if (completionDisabled) {
-                event->accept();
-                return;
-            }
-            if (isInEditionZone()) {
-                bool backup = mCommandLineReady;
-                createCompleter();
-                QString completionPrefix = getCurrentCommandLine();
-                mCommandLineReady = backup;
-                complete(completionPrefix);
+            if (handleTabCompletion()) {
                 event->accept();
                 return;
             }
@@ -691,10 +839,96 @@ QtTerminal::colorForMode(DISP_MODE mode)
     }
 }
 //=============================================================================
+QTextCharFormat
+QtTerminal::createCharFormat(const TextStyle& style, DISP_MODE fallbackMode)
+{
+    QColor color = style.hasForeground ? QColor(style.red, style.green, style.blue)
+                                       : colorForMode(fallbackMode);
+    QTextCharFormat format = createCharFormatWithForeground(color);
+    if (style.bold) {
+        format.setFontWeight(QFont::Bold);
+    }
+    if (style.underline) {
+        format.setFontUnderline(true);
+    }
+    if (style.italic) {
+        format.setFontItalic(true);
+    }
+    if (style.strikethrough) {
+        format.setFontStrikeOut(true);
+    }
+    if (style.hasBackground) {
+        format.setBackground(
+            QColor(style.backgroundRed, style.backgroundGreen, style.backgroundBlue));
+    }
+    return format;
+}
+//=============================================================================
+void
+QtTerminal::insertFormattedText(QTextCursor& cursor, const QString& text, DISP_MODE mode)
+{
+    QTextCharFormat format = createCharFormatWithForeground(colorForMode(mode));
+    insertFormattedText(cursor, text, format);
+}
+//=============================================================================
+void
+QtTerminal::insertFormattedText(
+    QTextCursor& cursor, const QString& text, const QTextCharFormat& format)
+{
+    QString normalized = text;
+    normalized.replace("\r\n", "\n");
+    normalized.replace('\r', '\n');
+    QStringList lines = normalized.split('\n');
+    for (qsizetype k = 0; k < lines.size(); ++k) {
+        if (k > 0) {
+            cursor.insertBlock();
+        }
+        if (!lines[k].isEmpty()) {
+            cursor.insertText(lines[k], format);
+        }
+    }
+}
+//=============================================================================
+bool
+QtTerminal::isScrolledToBottom() const
+{
+    const QScrollBar* vScrollBar = verticalScrollBar();
+    if (vScrollBar == nullptr) {
+        return true;
+    }
+    if (!vScrollBar->isVisible() && vScrollBar->maximum() == vScrollBar->minimum()) {
+        return true;
+    }
+    // small tolerance: a partially visible last line must still count as 'at bottom'
+    return vScrollBar->value() >= (vScrollBar->maximum() - 4);
+}
+//=============================================================================
+void
+QtTerminal::finishOutputScroll(QTextCursor& cursor, bool wasAtBottom, int previousScrollValue)
+{
+    // Never steal an active user selection: moving the text cursor would clear it.
+    if (!textCursor().hasSelection()) {
+        // setTextCursor() implicitly makes the cursor visible: the scroll position is
+        // restored just after when the user had scrolled away from the bottom.
+        setTextCursor(cursor);
+    }
+    QScrollBar* vScrollBar = verticalScrollBar();
+    if (vScrollBar == nullptr) {
+        return;
+    }
+    if (wasAtBottom) {
+        vScrollBar->setValue(vScrollBar->maximum());
+    } else {
+        vScrollBar->setValue(previousScrollValue);
+    }
+}
+//=============================================================================
 void
 QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
     mCommandLineReady = false;
+    const bool wasAtBottom = isScrolledToBottom();
+    const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
     this->setUpdatesEnabled(false);
 
     QTextBlock lastBlock = document()->lastBlock();
@@ -713,18 +947,17 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
         cur.movePosition(QTextCursor::End);
     }
 
-    QColor col = colorForMode(mode);
-    QTextCharFormat format = createCharFormatWithForeground(col);
-
     // Batch document edits to reduce layout/paint work
     cur.beginEditBlock();
-    if (msg.contains("\b")) {
+    if (msg.contains(QStringLiteral("\x1b]8;;"))) {
+        insertHyperlinkedText(cur, msg, mode);
+    } else if (msg.contains("\b")) {
         QString buffer;
         buffer.reserve(msg.size());
         for (auto c : msg) {
             if (c == '\b') {
                 if (!buffer.isEmpty()) {
-                    cur.insertText(buffer, format);
+                    insertFormattedText(cur, buffer, mode);
                     buffer.clear();
                 }
                 cur.deletePreviousChar();
@@ -733,15 +966,165 @@ QtTerminal::printMessage(QString msg, DISP_MODE mode)
             }
         }
         if (!buffer.isEmpty()) {
-            cur.insertText(buffer, format);
+            insertFormattedText(cur, buffer, mode);
         }
     } else {
-        cur.insertText(msg, format);
+        insertFormattedText(cur, msg, mode);
     }
     cur.endEditBlock();
 
-    setTextCursor(cur);
     this->setUpdatesEnabled(true);
+    finishOutputScroll(cur, wasAtBottom, previousScrollValue);
+}
+//=============================================================================
+void
+QtTerminal::insertHyperlinkedText(QTextCursor& cursor, const QString& text, DISP_MODE mode)
+{
+    const QString oscStart = QStringLiteral("\x1b]8;;");
+    // Find the OSC string terminator (ESC '\' or BEL) at/after `from`; returns its
+    // index and sets `afterTerminator` to the index just past it, or -1 if absent.
+    auto findTerminator = [&text](int from, int& afterTerminator) -> int {
+        for (int j = from; j < text.size(); ++j) {
+            if (text[j] == QChar(0x07)) {
+                afterTerminator = j + 1;
+                return j;
+            }
+            if (text[j] == QChar(0x1b) && j + 1 < text.size() && text[j + 1] == QChar('\\')) {
+                afterTerminator = j + 2;
+                return j;
+            }
+        }
+        return -1;
+    };
+
+    int i = 0;
+    const int n = text.size();
+    while (i < n) {
+        int linkStart = text.indexOf(oscStart, i);
+        if (linkStart < 0) {
+            insertFormattedText(cursor, text.mid(i), mode);
+            return;
+        }
+        if (linkStart > i) {
+            insertFormattedText(cursor, text.mid(i, linkStart - i), mode);
+        }
+        int afterUriTerm = 0;
+        int uriTerm = findTerminator(linkStart + oscStart.size(), afterUriTerm);
+        if (uriTerm < 0) {
+            insertFormattedText(cursor, text.mid(linkStart), mode);
+            return;
+        }
+        const QString uri
+            = text.mid(linkStart + oscStart.size(), uriTerm - linkStart - oscStart.size());
+        const int labelStart = afterUriTerm;
+        int closeStart = text.indexOf(oscStart, labelStart);
+        if (closeStart < 0) {
+            insertFormattedText(cursor, text.mid(labelStart), mode);
+            return;
+        }
+        const QString label = text.mid(labelStart, closeStart - labelStart);
+        int afterCloseTerm = 0;
+        int closeTerm = findTerminator(closeStart + oscStart.size(), afterCloseTerm);
+        const QString anchor = QStringLiteral("<a href=\"%1\">%2</a>")
+                                   .arg(uri.toHtmlEscaped(), label.toHtmlEscaped());
+        cursor.insertHtml(anchor);
+        // insertHtml leaves the anchor char format current; restore the plain mode
+        // colour so trailing text is not rendered as part of the link.
+        cursor.setCharFormat(createCharFormatWithForeground(colorForMode(mode)));
+        i = (closeTerm < 0) ? n : afterCloseTerm;
+    }
+}
+//=============================================================================
+void
+QtTerminal::printStyledMessage(QString msg, const TextStyle& style)
+{
+    mCommandLineReady = false;
+    const bool wasAtBottom = isScrolledToBottom();
+    const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
+    this->setUpdatesEnabled(false);
+
+    QTextBlock lastBlock = document()->lastBlock();
+    if (!lastBlock.isValid()) {
+        QTextCursor cursor(document());
+        cursor.movePosition(QTextCursor::End);
+        cursor.insertBlock();
+        lastBlock = document()->lastBlock();
+    }
+
+    QTextCursor cur(lastBlock);
+    if (!cur.isNull()) {
+        cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
+    } else {
+        cur = QTextCursor(document());
+        cur.movePosition(QTextCursor::End);
+    }
+
+    QTextCharFormat format = createCharFormat(style, STDOUT_DISP);
+    cur.beginEditBlock();
+    if (msg.contains("\b")) {
+        QString buffer;
+        buffer.reserve(msg.size());
+        for (auto c : msg) {
+            if (c == '\b') {
+                if (!buffer.isEmpty()) {
+                    insertFormattedText(cur, buffer, format);
+                    buffer.clear();
+                }
+                cur.deletePreviousChar();
+            } else {
+                buffer.append(c);
+            }
+        }
+        if (!buffer.isEmpty()) {
+            insertFormattedText(cur, buffer, format);
+        }
+    } else {
+        insertFormattedText(cur, msg, format);
+    }
+    cur.endEditBlock();
+
+    this->setUpdatesEnabled(true);
+    finishOutputScroll(cur, wasAtBottom, previousScrollValue);
+}
+//=============================================================================
+void
+QtTerminal::printAnsiMessage(const std::wstring& msg, DISP_MODE mode)
+{
+    mCommandLineReady = false;
+    const bool wasAtBottom = isScrolledToBottom();
+    const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
+    this->setUpdatesEnabled(false);
+
+    QTextBlock lastBlock = document()->lastBlock();
+    if (!lastBlock.isValid()) {
+        QTextCursor cursor(document());
+        cursor.movePosition(QTextCursor::End);
+        cursor.insertBlock();
+        lastBlock = document()->lastBlock();
+    }
+
+    QTextCursor cur(lastBlock);
+    if (!cur.isNull()) {
+        cur.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor, 1);
+    } else {
+        cur = QTextCursor(document());
+        cur.movePosition(QTextCursor::End);
+    }
+
+    std::vector<AnsiStyledSpan> spans = parseAnsiStyledSpans(msg);
+    cur.beginEditBlock();
+    for (const AnsiStyledSpan& span : spans) {
+        if (span.length == 0) {
+            continue;
+        }
+        QTextCharFormat format = createCharFormat(span.style, mode);
+        insertFormattedText(
+            cur, Nelson::wstringToQString(msg.substr(span.first, span.length)), format);
+    }
+    cur.endEditBlock();
+
+    this->setUpdatesEnabled(true);
+    finishOutputScroll(cur, wasAtBottom, previousScrollValue);
 }
 //=============================================================================
 void
@@ -765,12 +1148,394 @@ QtTerminal::insertFromMimeData(const QMimeData* source)
     updateHistoryToken();
 }
 //=============================================================================
+QString
+QtTerminal::quotePathForNelson(const QString& path)
+{
+    QString escaped = path;
+    // Nelson single quoted strings escape an embedded quote by doubling it.
+    escaped.replace(QString("'"), QString("''"));
+    return QString("'") + escaped + QString("'");
+}
+//=============================================================================
+void
+QtTerminal::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData() != nullptr && event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+        return;
+    }
+    QTextBrowser::dragEnterEvent(event);
+}
+//=============================================================================
+void
+QtTerminal::dragMoveEvent(QDragMoveEvent* event)
+{
+    if (event->mimeData() != nullptr && event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+        return;
+    }
+    QTextBrowser::dragMoveEvent(event);
+}
+//=============================================================================
+void
+QtTerminal::dropEvent(QDropEvent* event)
+{
+    const QMimeData* mimeData = event->mimeData();
+    if (mimeData == nullptr || !mimeData->hasUrls()) {
+        QTextBrowser::dropEvent(event);
+        return;
+    }
+    QStringList quotedPaths;
+    const QList<QUrl> urls = mimeData->urls();
+    for (const QUrl& url : urls) {
+        if (!url.isLocalFile()) {
+            continue;
+        }
+        const QString localFile = QDir::toNativeSeparators(url.toLocalFile());
+        if (localFile.isEmpty()) {
+            continue;
+        }
+        quotedPaths.append(quotePathForNelson(localFile));
+    }
+    if (quotedPaths.isEmpty()) {
+        event->ignore();
+        return;
+    }
+    if (!isInEditionZone()) {
+        moveCursorToPrompt();
+    }
+    if (isInEditionZone()) {
+        QTextCursor cur = textCursor();
+        cur.insertText(quotedPaths.join(QString(" ")));
+        setTextCursor(cur);
+        ensureInputColor();
+        updateHistoryToken();
+    }
+    event->acceptProposedAction();
+    setFocus();
+}
+//=============================================================================
+void
+QtTerminal::applyWrapLines(bool wrap)
+{
+    wrapLinesEnabled = wrap;
+    if (wrap) {
+        setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+        setLineWrapMode(QTextEdit::WidgetWidth);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    } else {
+        setWordWrapMode(QTextOption::NoWrap);
+        setLineWrapMode(QTextEdit::NoWrap);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    }
+}
+//=============================================================================
+void
+QtTerminal::reloadPreferences()
+{
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+
+    int savedFontSize
+        = settings.value(SETTING_COMMAND_WINDOW_FONT_SIZE, defaultFontPointSize).toInt();
+    if (savedFontSize < COMMAND_WINDOW_MIN_FONT_SIZE
+        || savedFontSize > COMMAND_WINDOW_MAX_FONT_SIZE) {
+        savedFontSize = defaultFontPointSize;
+    }
+    QFont f(wstringToQString(Nelson::getDefaultFontName()));
+    f.setStyleHint(QFont::Monospace);
+    f.setPointSize(savedFontSize);
+    f.setFixedPitch(true);
+    setFont(f);
+    document()->setDefaultFont(f);
+
+    bool wrap = settings.value(SETTING_COMMAND_WINDOW_WRAP_LINES, false).toBool();
+    applyWrapLines(wrap);
+    if (wrapLinesAction) {
+        wrapLinesAction->setChecked(wrap);
+    }
+
+    bool truncate = settings.value(SETTING_COMMAND_WINDOW_TRUNCATE_MATRICES, true).toBool();
+    NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(truncate);
+    if (truncateMatricesAction) {
+        truncateMatricesAction->setChecked(truncate);
+    }
+}
+//=============================================================================
+void
+QtTerminal::tagLatexImages(int startPosition, int endPosition)
+{
+    QTextCursor cursor(document());
+    int position = startPosition;
+    while (position < endPosition) {
+        cursor.setPosition(position);
+        if (!cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor)) {
+            break;
+        }
+        QTextCharFormat charFormat = cursor.charFormat();
+        if (charFormat.isImageFormat()) {
+            QTextImageFormat imageFormat = charFormat.toImageFormat();
+            if (isLatexImageFormat(imageFormat)) {
+                if (!imageFormat.hasProperty(LATEX_IMAGE_BASE_WIDTH_PROPERTY)) {
+                    imageFormat.setProperty(LATEX_IMAGE_BASE_WIDTH_PROPERTY, imageFormat.width());
+                    imageFormat.setProperty(LATEX_IMAGE_BASE_HEIGHT_PROPERTY, imageFormat.height());
+                }
+                double baseWidth = imageFormat.property(LATEX_IMAGE_BASE_WIDTH_PROPERTY).toDouble();
+                double baseHeight
+                    = imageFormat.property(LATEX_IMAGE_BASE_HEIGHT_PROPERTY).toDouble();
+                if (baseWidth > 0) {
+                    imageFormat.setWidth(baseWidth * latexImageScale);
+                }
+                if (baseHeight > 0) {
+                    imageFormat.setHeight(baseHeight * latexImageScale);
+                }
+                cursor.mergeCharFormat(imageFormat);
+            }
+        }
+        position = cursor.position();
+    }
+}
+//=============================================================================
+void
+QtTerminal::updateLatexImageSizes()
+{
+    tagLatexImages(0, document()->characterCount() - 1);
+}
+//=============================================================================
+void
+QtTerminal::saveFontSizeSetting()
+{
+    // zoomIn()/zoomOut() act on the document default font, not on the widget font.
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    settings.setValue(SETTING_COMMAND_WINDOW_FONT_SIZE, document()->defaultFont().pointSize());
+}
+//=============================================================================
+void
+QtTerminal::zoomTerminalIn()
+{
+    if (document()->defaultFont().pointSize() >= COMMAND_WINDOW_MAX_FONT_SIZE) {
+        return;
+    }
+    QTextBrowser::zoomIn();
+    latexImageScale *= LATEX_IMAGE_ZOOM_FACTOR;
+    updateLatexImageSizes();
+    saveFontSizeSetting();
+}
+//=============================================================================
+void
+QtTerminal::zoomTerminalOut()
+{
+    if (document()->defaultFont().pointSize() <= COMMAND_WINDOW_MIN_FONT_SIZE) {
+        return;
+    }
+    QTextBrowser::zoomOut();
+    latexImageScale /= LATEX_IMAGE_ZOOM_FACTOR;
+    updateLatexImageSizes();
+    saveFontSizeSetting();
+}
+//=============================================================================
+void
+QtTerminal::zoomTerminalReset()
+{
+    QFont f = document()->defaultFont();
+    if (f.pointSize() == defaultFontPointSize) {
+        return;
+    }
+    f.setPointSize(defaultFontPointSize);
+    // Both must be updated: setFont() alone is a no-op when the widget font already
+    // has the default size, and the document would keep the zoomed one.
+    document()->setDefaultFont(f);
+    setFont(f);
+    latexImageScale = 1.0;
+    updateLatexImageSizes();
+    saveFontSizeSetting();
+}
+//=============================================================================
 void
 QtTerminal::insertHtml(const std::wstring& msg)
 {
-    textCursor().insertHtml(Nelson::wstringToQString(msg));
-    textCursor().insertBlock();
+    QTextCursor cur = textCursor();
+    const int htmlStart = cur.position();
+    cur.insertHtml(Nelson::wstringToQString(msg));
+    const int htmlEnd = cur.position();
+    tagLatexImages(htmlStart, htmlEnd);
+    cur.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    cur.setBlockFormat(QTextBlockFormat());
+    cur.setCharFormat(QTextCharFormat());
+    setTextCursor(cur);
     updateHistoryToken();
+}
+//=============================================================================
+void
+QtTerminal::insertExpandableText(const std::wstring& label, const std::wstring& expandedText,
+    const std::wstring& contextName, long long contextValue)
+{
+    mCommandLineReady = false;
+    QTextCursor cur(document()->lastBlock());
+    cur.movePosition(QTextCursor::EndOfBlock);
+
+    QString id = QString::number(++expandableTextCounter);
+    ExpandableTextItem item;
+    item.text = Nelson::wstringToQString(expandedText);
+    item.blockPosition = cur.block().position();
+    item.firstBlockPosition = item.blockPosition;
+    item.lastBlockPosition = item.blockPosition;
+    item.contextName = Nelson::wstringToQString(contextName);
+    item.contextValue = contextValue;
+    expandableTextItems.insert(id, item);
+
+    QString linkText = Nelson::wstringToQString(label).toHtmlEscaped();
+    QString href = QString("nelson-display:%1").arg(id);
+    cur.insertHtml(QString("<a href=\"%1\">%2</a>").arg(href, linkText));
+    cur.insertBlock();
+    setTextCursor(cur);
+    ensureCursorVisible();
+    updateHistoryToken();
+}
+//=============================================================================
+void
+QtTerminal::insertTruncatedMatrix(const std::wstring& truncatedText, const std::wstring& label,
+    const std::wstring& expandedText, const std::wstring& variableName)
+{
+    mCommandLineReady = false;
+    QTextCursor cur(document()->lastBlock());
+    cur.movePosition(QTextCursor::EndOfBlock);
+    int firstBlockPosition = cur.block().position();
+
+    this->setUpdatesEnabled(false);
+    cur.beginEditBlock();
+    insertFormattedText(cur, Nelson::wstringToQString(truncatedText), STDOUT_DISP);
+    if (!cur.block().text().isEmpty()) {
+        cur.insertBlock();
+    }
+
+    QString id = QString::number(++expandableTextCounter);
+    ExpandableTextItem item;
+    item.text = Nelson::wstringToQString(expandedText);
+    item.blockPosition = cur.block().position();
+    item.firstBlockPosition = firstBlockPosition;
+    item.lastBlockPosition = item.blockPosition;
+    item.variableName = Nelson::wstringToQString(variableName);
+    item.matrixDisplay = true;
+
+    QString linkText = Nelson::wstringToQString(label).toHtmlEscaped();
+    QString href = QString("nelson-display:%1").arg(id);
+    insertFormattedText(cur, QString("    "), STDOUT_DISP);
+    cur.insertHtml(QString("<a href=\"%1\">%2</a>").arg(href, linkText));
+    expandableTextItems.insert(id, item);
+    cur.insertBlock();
+    if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
+        cur.insertBlock();
+    }
+    cur.endEditBlock();
+    this->setUpdatesEnabled(true);
+
+    setTextCursor(cur);
+    ensureCursorVisible();
+    updateHistoryToken();
+}
+//=============================================================================
+void
+QtTerminal::handleAnchorClicked(const QUrl& url)
+{
+    if (url.scheme() == "nelson-open") {
+        openFileAtLineFromUrl(url);
+        // Clicking the anchor parks the text cursor on the clicked output line;
+        // restore it to the prompt so the posted editor() command's prompt cycle
+        // does not disturb that line.
+        moveCursorToPrompt();
+        return;
+    }
+    if (url.scheme() != "nelson-display") {
+        QDesktopServices::openUrl(url);
+        return;
+    }
+
+    QString id = url.toString();
+    id.remove(QString("nelson-display:"));
+    if (id.startsWith('/')) {
+        id.remove(0, 1);
+    }
+
+    auto it = expandableTextItems.find(id);
+    if (it == expandableTextItems.end()) {
+        moveCursorToPrompt();
+        return;
+    }
+    if (it.value().expanded) {
+        moveCursorToPrompt();
+        return;
+    }
+    QTextBlock block = document()->findBlock(it.value().blockPosition);
+    if (!block.isValid()) {
+        moveCursorToPrompt();
+        return;
+    }
+
+    if (it.value().matrixDisplay && !it.value().variableName.isEmpty()
+        && !VariablesEditor::isVariableExisting(
+            Nelson::QStringTowstring(it.value().variableName))) {
+        QTextCursor cur(block);
+        cur.movePosition(QTextCursor::EndOfBlock);
+        this->setUpdatesEnabled(false);
+        cur.beginEditBlock();
+        cur.insertBlock();
+        QString msg = QString("Unable to display variable '%1' because it no longer exists.")
+                          .arg(it.value().variableName);
+        insertFormattedText(cur, msg, STDERR_DISP);
+        cur.endEditBlock();
+        this->setUpdatesEnabled(true);
+        setTextCursor(cur);
+        ensureCursorVisible();
+        updateHistoryToken();
+        return;
+    }
+    if (it.value().contextName == QString("graphics_object")
+        && !VariablesEditor::isGraphicsObjectExisting(it.value().contextValue)) {
+        QTextCursor cur(block);
+        cur.movePosition(QTextCursor::EndOfBlock);
+        this->setUpdatesEnabled(false);
+        cur.beginEditBlock();
+        cur.insertBlock();
+        insertFormattedText(cur,
+            QString("Unable to display properties because the graphics object no longer exists."),
+            STDERR_DISP);
+        cur.endEditBlock();
+        this->setUpdatesEnabled(true);
+        setTextCursor(cur);
+        ensureCursorVisible();
+        updateHistoryToken();
+        return;
+    }
+    it.value().expanded = true;
+    QTextCursor cur(block);
+    cur.movePosition(QTextCursor::EndOfBlock);
+
+    this->setUpdatesEnabled(false);
+    cur.beginEditBlock();
+    cur.insertBlock();
+    insertFormattedText(cur, it.value().text, STDOUT_DISP);
+    it.value().lastBlockPosition = cur.block().position();
+    cur.endEditBlock();
+    this->setUpdatesEnabled(true);
+
+    moveCursorToPrompt();
+}
+//=============================================================================
+void
+QtTerminal::openFileAtLineFromUrl(const QUrl& url)
+{
+    // nelson-open:?line=<N>&file=<percent-encoded-path>
+    QUrlQuery query(url);
+    bool ok = false;
+    int line = query.queryItemValue("line").toInt(&ok);
+    QString path = query.queryItemValue("file", QUrl::FullyDecoded);
+    if (!ok || line <= 0 || path.isEmpty()) {
+        return;
+    }
+    std::wstring wpath = QStringTowstring(path);
+    StringHelpers::replace_all(wpath, L"'", L"''");
+    std::wstring cmd = L"editor('" + wpath + L"', " + std::to_wstring(line) + L");";
+    postCommand(cmd);
 }
 //=============================================================================
 void
@@ -834,20 +1599,8 @@ QtTerminal::clc()
 void
 QtTerminal::onExportContentAction()
 {
-#define PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML "preferedDirectoryExportPdfHtmlTo"
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
-
-    QString currentDir = QDir::currentPath();
-    if (settings.contains(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML)) {
-        currentDir = settings.value(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML).toString();
-        QFileInfo fileinfo(currentDir);
-        if (!fileinfo.isDir()) {
-            currentDir = QDir::homePath();
-        }
-    } else {
-        currentDir = QDir::homePath();
-    }
-    QString defaultFilePath = currentDir + "/document";
+    QString defaultFilePath
+        = qtDialogInitialSavePath(L"desktop.save", QString(), QStringLiteral("document"));
 
     bool haveTextSelected = textCursor().hasSelection();
     if (haveTextSelected) {
@@ -865,8 +1618,7 @@ QtTerminal::onExportContentAction()
     if (filePath.isEmpty()) {
         return;
     }
-    settings.setValue(PREFERED_DIRECTORY_EXPORT_TO_PDF_HTML, QFileInfo(filePath).absolutePath());
-
+    qtRecordDialogSelection(L"desktop.save", QStringLiteral("save"), filePath);
     QString fileExtension = QFileInfo(filePath).suffix();
     bool isPDF = (fileExtension.toLower() == "pdf");
     if (isPDF) {
@@ -972,7 +1724,6 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
             connect(helpOnSelectionAction, SIGNAL(triggered()), this, SLOT(helpOnSelection()));
             contextMenu->addSeparator();
         }
-        // Add find actions to context menu
         if (findAction != nullptr) {
             contextMenu->addAction(findAction);
         }
@@ -985,30 +1736,62 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
         if (cutAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-cut.svg");
             cutAction = new QAction(QIcon(fileNameIcon), TR("Cut"), this);
-            cutAction->setShortcut(TR("Ctrl + X"));
+            cutAction->setShortcut(QStringLiteral("Ctrl + X"));
             contextMenu->addAction(cutAction);
             connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
         }
         if (copyAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-copy.svg");
             copyAction = new QAction(QIcon(fileNameIcon), TR("Copy"), this);
-            copyAction->setShortcut(TR("Ctrl + Ins"));
+            copyAction->setShortcut(QStringLiteral("Ctrl + Ins"));
             contextMenu->addAction(copyAction);
             connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
         }
         if (pasteAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-paste.svg");
             pasteAction = new QAction(QIcon(fileNameIcon), TR("Paste"), this);
-            pasteAction->setShortcut(TR("Ctrl + V"));
+            pasteAction->setShortcut(QStringLiteral("Ctrl + V"));
             contextMenu->addAction(pasteAction);
             connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
         }
         if (selectAllAction == nullptr) {
             fileNameIcon = nelsonPath + QString("/resources/edit-select-all.svg");
             selectAllAction = new QAction(QIcon(fileNameIcon), TR("Select All"), this);
-            selectAllAction->setShortcut(TR("Ctrl + A"));
+            selectAllAction->setShortcut(QStringLiteral("Ctrl + A"));
             contextMenu->addAction(selectAllAction);
             connect(selectAllAction, SIGNAL(triggered()), this, SLOT(selectAll()));
+        }
+        if (openVariableAction == nullptr) {
+            openVariableAction = new QAction(TR("Open Variable"), this);
+            openVariableAction->setShortcut(QStringLiteral("Ctrl + D"));
+            contextMenu->addAction(openVariableAction);
+            connect(openVariableAction, &QAction::triggered, this, [this](bool) {
+                QString variableName = openVariableAction->data().toString();
+                if (!variableName.isEmpty()) {
+                    VariablesEditor::openVariable(Nelson::QStringTowstring(variableName));
+                }
+            });
+        }
+        contextMenu->addSeparator();
+        if (truncateMatricesAction == nullptr) {
+            truncateMatricesAction = new QAction(TR("Truncate large matrices"), this);
+            truncateMatricesAction->setCheckable(true);
+            contextMenu->addAction(truncateMatricesAction);
+            connect(truncateMatricesAction, &QAction::triggered, this, [](bool checked) {
+                NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(checked);
+                QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+                settings.setValue(SETTING_COMMAND_WINDOW_TRUNCATE_MATRICES, checked);
+            });
+        }
+        if (wrapLinesAction == nullptr) {
+            wrapLinesAction = new QAction(TR("Wrap lines"), this);
+            wrapLinesAction->setCheckable(true);
+            contextMenu->addAction(wrapLinesAction);
+            connect(wrapLinesAction, &QAction::triggered, this, [this](bool checked) {
+                applyWrapLines(checked);
+                QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+                settings.setValue(SETTING_COMMAND_WINDOW_WRAP_LINES, checked);
+            });
         }
         contextMenu->addSeparator();
         if (exportContentAction == nullptr) {
@@ -1049,6 +1832,16 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
     } else {
         copyAction->setEnabled(false);
     }
+    QTextCursor eventCursor = cursorForPosition(event->pos());
+    QString truncatedMatrixVariableName
+        = truncatedMatrixVariableForBlock(eventCursor.block().position());
+    openVariableAction->setData(truncatedMatrixVariableName);
+    openVariableAction->setEnabled(!truncatedMatrixVariableName.isEmpty());
+    truncateMatricesAction->setChecked(
+        NelsonConfiguration::getInstance()->getTruncateMatricesDisplay());
+    if (wrapLinesAction != nullptr) {
+        wrapLinesAction->setChecked(wrapLinesEnabled);
+    }
     QClipboard* Clipboard = QApplication::clipboard();
     QString clipboardText = Clipboard->text();
     if (clipboardText.isEmpty()) {
@@ -1070,6 +1863,37 @@ QtTerminal::contextMenuEvent(QContextMenuEvent* event)
     contextMenu->exec(event->globalPos());
 }
 //=============================================================================
+QString
+QtTerminal::truncatedMatrixVariableForBlock(int blockPosition) const
+{
+    for (auto it = expandableTextItems.constBegin(); it != expandableTextItems.constEnd(); ++it) {
+        const ExpandableTextItem& item = it.value();
+        if (!item.matrixDisplay || item.variableName.isEmpty()) {
+            continue;
+        }
+        if (blockPosition >= item.firstBlockPosition && blockPosition <= item.lastBlockPosition) {
+            return item.variableName;
+        }
+    }
+    return QString();
+}
+//=============================================================================
+QString
+QtTerminal::truncatedMatrixVariableAtCursor()
+{
+    return truncatedMatrixVariableForBlock(textCursor().block().position());
+}
+//=============================================================================
+bool
+QtTerminal::openTruncatedMatrixAtCursor()
+{
+    QString variableName = truncatedMatrixVariableAtCursor();
+    if (variableName.isEmpty()) {
+        return false;
+    }
+    return VariablesEditor::openVariable(Nelson::QStringTowstring(variableName));
+}
+//=============================================================================
 bool
 QtTerminal::isAtPrompt()
 {
@@ -1079,13 +1903,13 @@ QtTerminal::isAtPrompt()
 int
 QtTerminal::setMaxBlockCount(int newMax)
 {
-    int previous = getMaxBlockCount();
+    int previous = maxBlockCount();
     document()->setMaximumBlockCount(newMax);
     return previous;
 }
 //=============================================================================
 int
-QtTerminal::getMaxBlockCount()
+QtTerminal::maxBlockCount()
 {
     return document()->maximumBlockCount();
 }
@@ -1134,12 +1958,10 @@ QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector&
     const wstringVector& fieldList, const wstringVector& propertyList,
     const wstringVector& methodList)
 {
-    // Forward to completer impl for now (kept for compatibility)
     if (completerImpl) {
         return completerImpl->modelFromNelson(
             filesList, builtinList, macroList, variableList, fieldList, propertyList, methodList);
     }
-    // fallback original implementation
     QStringList words;
 
     auto appendItemsWithPostfix = [&](const wstringVector& list, const std::wstring& postfix) {
@@ -1149,24 +1971,24 @@ QtTerminal::modelFromNelson(const wstringVector& filesList, const wstringVector&
         }
     };
 
-    appendItemsWithPostfix(filesList, POSTFIX_FILES);
-    appendItemsWithPostfix(builtinList, POSTFIX_BUILTIN);
-    appendItemsWithPostfix(macroList, POSTFIX_MACRO);
     appendItemsWithPostfix(variableList, POSTFIX_VARIABLE);
     appendItemsWithPostfix(fieldList, POSTFIX_FIELD);
-    appendItemsWithPostfix(methodList, POSTFIX_METHOD);
     appendItemsWithPostfix(propertyList, POSTFIX_PROPERTY);
-    words.sort();
+    appendItemsWithPostfix(methodList, POSTFIX_METHOD);
+    appendItemsWithPostfix(macroList, POSTFIX_MACRO);
+    appendItemsWithPostfix(builtinList, POSTFIX_BUILTIN);
+    appendItemsWithPostfix(filesList, POSTFIX_FILES);
     return new QStringListModel(words, completerImpl ? completerImpl->completer() : nullptr);
 }
 //=============================================================================
 void
 QtTerminal::insertCompletion(const QString& completion)
 {
-    // original implementation kept
-    QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
-    bool isPathCompletion = (completion.lastIndexOf(FILE_OR_DIR) != -1);
+    // Decorated form: "name (type)". Strip the decoration defensively: lastIndexOf
+    // returns -1 when the postfix is absent and must never be fed to replace().
+    const QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
     wstringVector postfixStrings;
+    postfixStrings.push_back(POSTFIX_FILES);
     postfixStrings.push_back(POSTFIX_BUILTIN);
     postfixStrings.push_back(POSTFIX_MACRO);
     postfixStrings.push_back(POSTFIX_VARIABLE);
@@ -1174,32 +1996,34 @@ QtTerminal::insertCompletion(const QString& completion)
     postfixStrings.push_back(POSTFIX_PROPERTY);
     postfixStrings.push_back(POSTFIX_METHOD);
 
+    const bool isPathCompletion = completion.endsWith(FILE_OR_DIR);
     QString cleanedCompletion = completion;
     for (const std::wstring& postfix : postfixStrings) {
-        QString beforeString = wstringToQString(std::wstring(L" (") + postfix + std::wstring(L")"));
-        cleanedCompletion = cleanedCompletion.replace(
-            cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+        const QString decoration
+            = wstringToQString(std::wstring(L" (") + postfix + std::wstring(L")"));
+        const qsizetype index = cleanedCompletion.lastIndexOf(decoration);
+        if (index >= 0) {
+            cleanedCompletion.remove(index, decoration.size());
+        }
     }
-    cleanedCompletion = cleanedCompletion.replace(
-        cleanedCompletion.lastIndexOf(FILE_OR_DIR), FILE_OR_DIR.size(), QString());
-
+    insertCompletionItem(cleanedCompletion, isPathCompletion);
+}
+//=============================================================================
+void
+QtTerminal::insertCompletionItem(const QString& rawName, bool isPathCompletion)
+{
+    QString cleanedCompletion = rawName;
     if (completerImpl && completerImpl->completer()) {
         if (completerImpl->completer()->widget() != this) {
             return;
         }
     }
-    QTextCursor tc = textCursor();
-    QString completionPrefix
-        = completerImpl ? completerImpl->completer()->completionPrefix() : QString();
     bool backup = mCommandLineReady;
     std::wstring currentLineW = QStringTowstring(getCurrentCommandLine());
     mCommandLineReady = backup;
 
     std::wstring cleanedCompletionW = QStringTowstring(cleanedCompletion);
-    std::wstring fileSearchedPattern = getPartialLineAsPath(currentLineW);
-    std::wstring searchedPattern = getPartialLine(currentLineW);
-    std::wstring newLine = completerLine(
-        currentLineW, cleanedCompletionW, fileSearchedPattern, searchedPattern, isPathCompletion);
+    std::wstring newLine = completerLine(currentLineW, cleanedCompletionW, isPathCompletion);
 
     replaceCurrentCommandLine(newLine);
     updateHistoryToken();
@@ -1235,6 +2059,30 @@ QtTerminal::onCommandsReceived(const QStringList& commands)
 }
 //=============================================================================
 void
+QtTerminal::onCommandsToCommandLineReceived(const QStringList& commands)
+{
+    if (commands.isEmpty()) {
+        return;
+    }
+    if (isAtPrompt() && !isInEditionZone()) {
+        QTextCursor cur(document()->lastBlock());
+        cur.movePosition(QTextCursor::EndOfBlock);
+        setTextCursor(cur);
+    }
+    if (isInEditionZone()) {
+        std::wstring line;
+        for (const auto& command : commands) {
+            line = line + QStringTowstring(command) + L"\n";
+        }
+        line.pop_back();
+        bool backup = mCommandLineReady;
+        replaceCurrentCommandLine(line);
+        mCommandLineReady = backup;
+        setFocus();
+    }
+}
+//=============================================================================
+void
 QtTerminal::onToTextEditorReceived()
 {
     postCommand(L"editor('new_file', [])");
@@ -1245,9 +2093,9 @@ QtTerminal::wheelEvent(QWheelEvent* wheelEvent)
 {
     if (wheelEvent->modifiers() == Qt::ControlModifier) {
         if (wheelEvent->angleDelta().y() > 0) {
-            this->zoomIn();
+            zoomTerminalIn();
         } else {
-            this->zoomOut();
+            zoomTerminalOut();
         }
         wheelEvent->accept();
     } else {
@@ -1263,7 +2111,7 @@ QtTerminal::showFindDialog()
         = QInputDialog::getText(this, TR("Find"), TR("Find:"), QLineEdit::Normal, lastSearch, &ok);
     if (ok) {
         lastSearch = text;
-        lastSearchCaseSensitive = false; // default
+        lastSearchCaseSensitive = false;
         findNext();
     }
 }
@@ -1304,7 +2152,6 @@ QtTerminal::findNext()
     }
     bool found = this->find(lastSearch, flags);
     if (!found) {
-        // wrap around
         QTextCursor c = this->textCursor();
         c.movePosition(QTextCursor::Start);
         this->setTextCursor(c);

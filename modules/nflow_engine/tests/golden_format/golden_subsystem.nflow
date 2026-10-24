@@ -1,0 +1,144 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Nelson nflow team",
+    "created": "2026-08-13T00:00:00.000Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Frozen retro-read golden: nested subsystem with external ports.",
+  "name": "golden_subsystem",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "x": 100,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 2,
+        "Frequency": 1,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "sub",
+      "type": "subsystem",
+      "x": 300,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "name": "Inner",
+        "subsystem": {
+          "blocks": [
+            {
+              "id": "in1",
+              "type": "labelSource",
+              "x": 60,
+              "y": 60,
+              "rotation": 0,
+              "params": {
+                "label": "in1"
+              }
+            },
+            {
+              "id": "g",
+              "type": "gain",
+              "x": 220,
+              "y": 60,
+              "rotation": 0,
+              "params": {
+                "Gain": 3
+              }
+            },
+            {
+              "id": "ud",
+              "type": "unitDelay",
+              "x": 380,
+              "y": 60,
+              "rotation": 0,
+              "params": {
+                "InitialCondition": 0
+              }
+            },
+            {
+              "id": "out1",
+              "type": "labelSink",
+              "x": 540,
+              "y": 60,
+              "rotation": 0,
+              "params": {
+                "label": "out1"
+              }
+            }
+          ],
+          "connections": [
+            {
+              "from": "in1",
+              "to": "g",
+              "fromIndex": 0,
+              "toIndex": 0
+            },
+            {
+              "from": "g",
+              "to": "ud",
+              "fromIndex": 0,
+              "toIndex": 0
+            },
+            {
+              "from": "ud",
+              "to": "out1",
+              "fromIndex": 0,
+              "toIndex": 0
+            }
+          ],
+          "externalInputs": [
+            {
+              "id": "in1",
+              "name": "in1"
+            }
+          ],
+          "externalOutputs": [
+            {
+              "id": "out1",
+              "name": "out1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 520,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "VariableName": "y_sub",
+        "SaveFormat": "Array",
+        "Decimation": 1,
+        "MaxDataPoints": "inf"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "sub",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "sub",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 2,
+  "sampleTime": 0.1,
+  "autoRoute": true,
+  "locked": false
+}

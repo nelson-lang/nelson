@@ -26,25 +26,27 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"constructors_functions";
 //=============================================================================
-static const nlsGateway gateway[]
-    = { { "eye", (ptrBuiltin)Nelson::ConstructorsGateway::eyeBuiltin, 1, 0 },
-          { "i", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
-          { "j", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
-          { "nan", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
-          { "NaN", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0 },
-          { "inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
-          { "Inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0 },
-          { "eps", (ptrBuiltin)Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
-          { "pi", (ptrBuiltin)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
-          { "ones", (ptrBuiltin)Nelson::ConstructorsGateway::onesBuiltin, -1, 1 },
-          { "zeros", (ptrBuiltin)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1 },
-          { "diag", (ptrBuiltin)Nelson::ConstructorsGateway::diagBuiltin, 1, 2 } };
+static const nlsGateway gateway[] = { { "eye", (ptrBuiltin)Nelson::ConstructorsGateway::eyeBuiltin,
+                                          1, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "i", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
+    { "j", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
+    { "nan", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "NaN", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "Inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "eps", (ptrBuiltin)Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
+    { "pi", (ptrBuiltin)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
+    { "ones", (ptrBuiltin)Nelson::ConstructorsGateway::onesBuiltin, -1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "zeros", (ptrBuiltin)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "diag", (ptrBuiltin)Nelson::ConstructorsGateway::diagBuiltin, 1, 2 } };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

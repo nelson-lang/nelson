@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "py_invokeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,12 +25,12 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
 
     nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0);
-    HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
-    if (!hgo || hgo->getCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
-        Error(_W("Python object expected."));
+    HandleGenericObject* hgo = argIn[0].asHandleScalar();
+    if (!hgo || hgo->category() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:python:invalidObject", L"Python object expected.");
     }
 
-    std::wstring methodname = argIn[1].getContentAsWideString();
+    std::wstring methodname = argIn[1].asWideString();
     ArrayOfVector params;
     for (size_t k = 2; k < argIn.size(); k++) {
         params.push_back(argIn[k]);
@@ -41,7 +42,7 @@ Nelson::Python_engineGateway::py_invokeBuiltin(
         io = eval->getInterface();
     }
     if (!poh->invoke(io, methodname, params, nLhs, retval)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodname);
+        Error(L"Nelson:python:invalidMethod", L"Invalid method: %s.", methodname);
     }
     return retval;
 }

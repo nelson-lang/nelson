@@ -15,10 +15,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// contentType receives the Content-Type header of the response (empty when the
+// server sent none), so callers can pick a decoder without guessing.
 NLSWEBTOOLS_IMPEXP std::wstring
 WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
     const stringVector& names, const ArrayOfVector& values, WebOptions& options,
-    bool haveEventsLoop, size_t evaluatorID);
+    bool haveEventsLoop, size_t evaluatorID, std::wstring& contentType);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

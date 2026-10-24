@@ -1,0 +1,90 @@
+{
+  "blocks": [
+    {
+      "id": "src",
+      "x": 100,
+      "y": 300,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "s1",
+      "x": 500,
+      "y": 100,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "x": 500,
+      "y": 300,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "x": 500,
+      "y": 500,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "s1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "src",
+      "to": "s2",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "src",
+      "to": "s3",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "width": 1200,
+  "height": 800
+}

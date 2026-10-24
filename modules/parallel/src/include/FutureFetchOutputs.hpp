@@ -21,5 +21,5 @@ ArrayOfVector
 FutureFetchOutputs(
     Evaluator* eval, const std::vector<FutureObject*>& futures, bool uniformOutput = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

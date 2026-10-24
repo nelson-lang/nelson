@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "filewriteBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -30,14 +31,14 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring filename = param1.getContentAsWideString();
+    std::wstring filename = param1.asWideString();
     std::wstring weol;
     std::string eol;
     std::string encoding = "UTF-8";
 
     if (argIn.size() >= 3) {
         ArrayOf param3 = argIn[2];
-        std::tie(weol, eol) = getEol(param3.getContentAsWideString());
+        std::tie(weol, eol) = getEol(param3.asWideString());
     } else {
 #ifdef _MSC_VER
         weol = L"\r\n";
@@ -50,16 +51,16 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     if (argIn.size() == 4) {
         ArrayOf param4 = argIn[3];
-        encoding = param4.getContentAsCString();
+        encoding = param4.asUtf8String();
         if (!isSupportedEncoding(encoding)) {
-            Error(_W("Wrong value for #4 argument."));
+            Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 4);
         }
     }
 
-    wstringVector lines = param2.getContentAsWideStringVector(false);
+    wstringVector lines = param2.asWideStringVector(false);
     std::wstring errorMessage;
     if (!writeFile(filename, lines, weol, eol, encoding, errorMessage)) {
-        Error(errorMessage);
+        Error(L"Nelson:filewrite:writeFailed", errorMessage);
     }
     return retval;
 }
@@ -78,8 +79,8 @@ getEol(const std::wstring& str)
         return { L"\n", "\n" };
 #endif
     } else {
-        Error(_W("Wrong value for #3 argument."));
-        return { L"", "" }; // This line will never be reached
+        Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 3);
+        return { L"", "" };
     }
 }
 //=============================================================================

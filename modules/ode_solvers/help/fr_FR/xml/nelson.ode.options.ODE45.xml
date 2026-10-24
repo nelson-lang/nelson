@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ode.options.ODE45</keyword>
+  <short_description>Objet d'options pour le solveur ode45.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.ODE45()</syntax_item>
+    <syntax_item>options = nelson.ode.options.ODE45(nom, valeur)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.ODE45</b> cree une classe d'options compatible pour la valeur de solveur <b>'ode45'</b> utilisee par le workflow objet <b>ode</b>.</p>
+    <table style="width:100%">
+  <tr><th>Groupe d'options</th><th>Noms</th><th>Role</th></tr>
+  <tr><td>Pas</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b></td><td>Borne la selection adaptative du pas.</td></tr>
+  <tr><td>Controle d'erreur</td><td><b>NormControl</b></td><td>Bascule entre un controle d'erreur par composante et par norme.</td></tr>
+  <tr><td>Sortie</td><td><b>OutputFcn</b>, <b>OutputSelection</b></td><td>Choisit les callbacks de sortie et les composantes retournees.</td></tr>
+</table>
+    <p>La valeur de solveur <b>'ode45'</b> utilise une paire Runge-Kutta explicite (4,5) et constitue le premier choix recommande pour les problemes non raides. C'est la valeur de solveur par defaut du workflow objet <b>ode</b>.</p>
+    <p>Les proprietes prises en charge sont <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>NormControl</b>, <b>OutputFcn</b> et <b>OutputSelection</b>. <b>InitialStep</b>, <b>MaxStep</b> et <b>MinStep</b> sont des scalaires positifs bornant le pas adaptatif ; leur valeur par defaut est vide, ce qui laisse le solveur les choisir automatiquement. <b>NormControl</b> accepte <b>'on'</b> ou <b>'off'</b> (par defaut <b>'off'</b>) et active un controle d'erreur base sur la norme de la solution au lieu d'un controle par composante. <b>OutputFcn</b> est un handle de fonction appele sur chaque point de sortie (par defaut vide). <b>OutputSelection</b> est un vecteur d'indices selectionnant les composantes de la solution transmises a la fonction de sortie (par defaut vide, toutes les composantes). La valeur <b>Refine</b> par defaut pour ce solveur est 4.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un probleme non raide resolu avec les options ode45.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.ODE45('MaxStep', 0.1);
+problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE23">nelson.ode.options.ODE23</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

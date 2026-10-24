@@ -41,5 +41,31 @@ RngDelete();
 NLSRANDOM_IMPEXP bool
 RngSetState(const ArrayOf& st);
 //=============================================================================
+// Settings struct (Type, Seed, State) of the current engine, as returned by rng.
+NLSRANDOM_IMPEXP ArrayOf
+RngGetSettings();
+//=============================================================================
+// Replaces the current engine by one built from a settings struct.
+// An empty State keeps the state computed from the Seed.
+NLSRANDOM_IMPEXP void
+RngSetSettings(const ArrayOf& settings);
+//=============================================================================
+// Installs a private engine built from a settings struct as the current engine
+// for the lifetime of the scope. The engine that was current is parked, never
+// read nor modified, and reinstated on exit (errors included).
+class NLSRANDOM_IMPEXP RngEngineScope
+{
+public:
+    explicit RngEngineScope(const ArrayOf& settings);
+    ~RngEngineScope();
+    RngEngineScope(const RngEngineScope&) = delete;
+    RngEngineScope&
+    operator=(const RngEngineScope&)
+        = delete;
+
+private:
+    void* previousEngine;
+};
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

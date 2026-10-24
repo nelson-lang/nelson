@@ -15,5 +15,6 @@
 namespace Nelson::CoreGateway {
 ArrayOfVector
 nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -8,11 +8,14 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = tand(x)
-  I0 = x * inv(180);
-  I90 = (x - 90) * inv(180);
-  r = tan(I0 .* pi);
-  r(I0 == fix (I0) & isfinite (I0)) = 0;
-  r(I90 == fix (I90) & isfinite (I90)) = Inf;
+  % sind and cosd perform an exact reduction on degrees:
+  % zeros and infinities (with the right sign) come out exactly.
+  r = sind(x) ./ cosd(x);
+  if isreal(x)
+    % multiples of 45 degrees are exactly +/-1
+    q = mod(x, 180);
+    r(q == 45) = 1;
+    r(q == 135) = -1;
+  end
 end
 %=============================================================================
-

@@ -7,27 +7,27 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('erf'), 1)
-assert_isequal(nargout('erf'), 1)
+asserts.isequal(nargin('erf'), 1)
+asserts.isequal(nargout('erf'), 1)
 %=============================================================================
 R = erf(0);
-assert_isequal(R, 0);
+asserts.isequal(R, 0);
 %=============================================================================
 R = erf(0.76);
 REF = 0.717536752805591;
-assert_isapprox(R, REF, 1e-12);
+asserts.isapprox(R, REF, 1e-12);
 %=============================================================================
 R = erf([-Inf -1 0 1 Inf NaN]);
 REF = [-1 -0.842700792949715 0 0.842700792949715 1 NaN];
-assert_isapprox(R, REF, 1e-12);
+asserts.isapprox(R, REF, 1e-12);
 %=============================================================================
 R = erf(single([0 0.5]));
 REF = single([0 0.520499877813047]);
-assert_isequal(class(R), 'single');
-assert_isapprox(R, REF, 1e-6);
+asserts.isequal(class(R), 'single');
+asserts.isapprox(R, REF, 1e-6);
 %=============================================================================
 R = erf(reshape([0 0.25 0.5 0.75], 2, 2));
-assert_isequal(size(R), [2 2]);
+asserts.isequal(size(R), [2 2]);
 %=============================================================================
-assert_checkerror('R = erf(1 + i);', _('Input argument must be dense and real.'));
+asserts.checkerror('R = erf(1 + i);', _('Input argument must be dense and real.'));
 %=============================================================================

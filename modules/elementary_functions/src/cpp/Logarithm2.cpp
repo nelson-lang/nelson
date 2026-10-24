@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,11 +25,11 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Dimensions dimsA = A.getDimensions();
-    ompIndexType elementCount = dimsA.getElementCount();
-    switch (A.getDataClass()) {
+    Dimensions dimsA = A.dimensions();
+    ompIndexType elementCount = dimsA.elementCount();
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        double* ptrA = (double*)A.getDataPointer();
+        double* ptrA = (double*)A.dataPointer();
         double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, elementCount);
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
         res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
@@ -48,7 +48,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        single* ptrA = (single*)A.getDataPointer();
+        single* ptrA = (single*)A.dataPointer();
         single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount);
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
         res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
@@ -67,7 +67,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrA = (double*)A.getDataPointer();
+        double* ptrA = (double*)A.dataPointer();
         std::complex<double>* ptrCplxA = reinterpret_cast<std::complex<double>*>((double*)ptrA);
         double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, elementCount);
         std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
@@ -86,7 +86,7 @@ Logarithm2(const ArrayOf& A, bool& needToOverload)
         }
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrA = (single*)A.getDataPointer();
+        single* ptrA = (single*)A.dataPointer();
         std::complex<single>* ptrCplxA = reinterpret_cast<std::complex<single>*>((single*)ptrA);
         single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount);
         std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
@@ -120,11 +120,11 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Dimensions dimsA = A.getDimensions();
-    ompIndexType elementCount = dimsA.getElementCount();
-    switch (A.getDataClass()) {
+    Dimensions dimsA = A.dimensions();
+    ompIndexType elementCount = dimsA.elementCount();
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        double* ptrA = (double*)A.getDataPointer();
+        double* ptrA = (double*)A.dataPointer();
         double* ptrM = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         double* ptrE = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
@@ -144,7 +144,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         res.push_back(E);
     } break;
     case NLS_SINGLE: {
-        single* ptrA = (single*)A.getDataPointer();
+        single* ptrA = (single*)A.dataPointer();
         single* ptrM = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         single* ptrE = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
@@ -164,13 +164,13 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         res.push_back(E);
     } break;
     case NLS_DCOMPLEX: {
-        double* ptrA = (double*)A.getDataPointer();
+        double* ptrA = (double*)A.dataPointer();
         std::complex<double>* ptrCplxA = reinterpret_cast<std::complex<double>*>((double*)ptrA);
         double* ptrM = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         double* ptrE = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_DOUBLE, dimsA, ptrE);
-        Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
+        RaiseWarning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;
@@ -186,13 +186,13 @@ Frexp(const ArrayOf& A, bool& needToOverload)
         res.push_back(E);
     } break;
     case NLS_SCOMPLEX: {
-        single* ptrA = (single*)A.getDataPointer();
+        single* ptrA = (single*)A.dataPointer();
         std::complex<single>* ptrCplxA = reinterpret_cast<std::complex<single>*>((single*)ptrA);
         single* ptrM = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         single* ptrE = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);
         ArrayOf E = ArrayOf(NLS_SINGLE, dimsA, ptrE);
-        Warning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
+        RaiseWarning(WARNING_IMAGINARY_PART_IGNORED, _W("Imaginary part ignored."));
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; ++k) {
             int e;

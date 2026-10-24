@@ -24,9 +24,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class ArrayOf;
+class Context;
+class Evaluator;
+//=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
-completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
-    const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath);
+getCompletionTokenToReplace(const std::wstring& line, bool isPathCompletion);
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP std::wstring
+completerLine(
+    const std::wstring& currentLine, const std::wstring& stringToAdd, bool stringToAddIsPath);
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP std::wstring
 getPartialLineAsPath(const std::wstring& line);
@@ -34,17 +41,24 @@ getPartialLineAsPath(const std::wstring& line);
 NLSTEXT_COMPLETION_IMPEXP std::wstring
 getPartialLine(const std::wstring& line);
 //=============================================================================
-NLSTEXT_COMPLETION_IMPEXP std::wstring
-getCompletionLeafPrefix(const std::wstring& completionPrefix);
+std::string
+getLookupSymbolFromCompletionExpression(const std::string& expression);
+//=============================================================================
+bool
+lookupCompletionVariable(Context* context, const std::string& variableName, ArrayOf& value);
+//=============================================================================
+Evaluator*
+getCompletionEvaluator();
+//=============================================================================
+NLSTEXT_COMPLETION_IMPEXP bool
+computeCompletion(Evaluator* eval, const std::wstring& line, std::wstring& completionPrefix,
+    wstringVector& files, wstringVector& builtin, wstringVector& macros, wstringVector& variables,
+    wstringVector& fields, wstringVector& properties, wstringVector& methods);
 //=============================================================================
 NLSTEXT_COMPLETION_IMPEXP bool
 computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstringVector& files,
     wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,
     wstringVector& properties, wstringVector& methods);
-//=============================================================================
-NLSTEXT_COMPLETION_IMPEXP
-stringVector
-getCompletionDictionary(std::wstring& completionPrefix);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

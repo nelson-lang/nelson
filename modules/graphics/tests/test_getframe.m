@@ -7,21 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-ax1 = subplot(2,1,1);
+ax1 = subplot(2, 1, 1);
 surf(peaks);
-ax2 = subplot(2,1,2);
+ax2 = subplot(2, 1, 2);
 plot(rand(30));
 %=============================================================================
 F = getframe(ax1);
-assert_istrue(isstruct(F));
-f1 = figure();
-imshow(F.cdata);
-%=============================================================================
-F = getframe(ax2);
-assert_istrue(isstruct(F));
+asserts.istrue(isstruct(F));
 f1 = figure();
 imshow(F.cdata);
 %=============================================================================

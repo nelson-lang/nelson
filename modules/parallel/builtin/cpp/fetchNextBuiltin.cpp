@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fetchNextBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FevalFutureFetchNext.hpp"
 #include "FevalFutureObject.hpp"
@@ -26,23 +27,23 @@ Nelson::ParallelGateway::fetchNextBuiltin(Evaluator* eval, int nLhs, const Array
 
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(_W("FevalFuture handle expected."));
+        Error(L"Nelson:parallel:fevalFutureExpected", L"FevalFuture handle expected.");
     }
-    bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
+    bool isSupportedType = (param1.handleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
-        Error(_W("FevalFuture handle expected."));
+        Error(L"Nelson:parallel:fevalFutureExpected", L"FevalFuture handle expected.");
     }
 
     double timeout = -1;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        bool isReal = param2.getDataClass() == NLS_DOUBLE || param2.getDataClass() == NLS_SINGLE;
+        bool isReal = param2.dataClass() == NLS_DOUBLE || param2.dataClass() == NLS_SINGLE;
         if (!isReal) {
-            Error(_W("a numeric scalar value expected."));
+            Error(L"Nelson:parallel:numericScalarExpected", L"a numeric scalar value expected.");
         }
-        timeout = param2.getContentAsDoubleScalar();
+        timeout = param2.asDoubleScalar();
         if (timeout < 0) {
-            Error(_W("non negative value expected."));
+            Error(L"Nelson:parallel:nonNegativeValueExpected", L"non negative value expected.");
         }
     }
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);

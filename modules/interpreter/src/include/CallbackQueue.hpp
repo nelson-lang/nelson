@@ -38,6 +38,7 @@ namespace detail {
             return callback.execute(eval);
         }
     };
+    //=============================================================================
 } // namespace detail
 //=============================================================================
 class NLSINTERPRETER_IMPEXP CallbackQueue
@@ -48,10 +49,11 @@ class NLSINTERPRETER_IMPEXP CallbackQueue
 
 private:
     using Base = detail::QueueCommon<GraphicCallback, detail::GraphicCallbackQueueTraits>;
-    // storage & synchronization handled by Base
     CallbackQueue() = default;
 
 public:
+    static CallbackQueue*
+    getInstance();
     void
     clear()
     {
@@ -74,6 +76,11 @@ public:
             return false;
         }
         return process(eval);
+    }
+    bool
+    processCallbackNow(Evaluator* eval)
+    {
+        return eval != nullptr && process(eval);
     }
     ~CallbackQueue() { clearAllQueues(); }
 };

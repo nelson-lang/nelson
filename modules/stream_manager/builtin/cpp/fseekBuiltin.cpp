@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fseekBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "File.hpp"
 #include "FileSeek.hpp"
@@ -29,7 +30,7 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     int ORIGIN = 0;
     if (param3.isRowVectorCharacterArray()) {
-        std::wstring str = param3.getContentAsWideString();
+        std::wstring str = param3.asWideString();
         if ((str == L"bof") || (str == L"set")) {
             ORIGIN = -1;
         } else if ((str == L"cof") || (str == L"cur")) {
@@ -37,10 +38,10 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
         } else if ((str == L"eof") || (str == L"end")) {
             ORIGIN = 1;
         } else {
-            Error(_W("Invalid origin."));
+            Error(L"Nelson:fseek:invalidOrigin", L"Invalid origin.");
         }
     } else {
-        int iValue = static_cast<int>(param3.getContentAsDoubleScalar());
+        int iValue = static_cast<int>(param3.asDoubleScalar());
         switch (iValue) {
         case -1:
         case 0:
@@ -48,25 +49,25 @@ Nelson::StreamGateway::fseekBuiltin(int nLhs, const ArrayOfVector& argIn)
             ORIGIN = iValue;
         } break;
         default: {
-            Error(_W("Invalid origin."));
+            Error(L"Nelson:fseek:invalidOrigin", L"Invalid origin.");
         } break;
         }
     }
-    auto iOffset = static_cast<int64>(param2.getContentAsDoubleScalar());
+    auto iOffset = static_cast<int64>(param2.asDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
-    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+    auto iValue = static_cast<int32>(param1.asDoubleScalar());
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (!FileSeek(f, iOffset, ORIGIN)) {
-            retval << ArrayOf::doubleConstructor(-1);
+            retval << ArrayOf::doubleScalar(-1);
         } else {
-            retval << ArrayOf::doubleConstructor(0);
+            retval << ArrayOf::doubleScalar(0);
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     return retval;
 }

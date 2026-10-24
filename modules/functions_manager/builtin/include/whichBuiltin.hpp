@@ -15,5 +15,6 @@
 namespace Nelson::FunctionsGateway {
 ArrayOfVector
 whichBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

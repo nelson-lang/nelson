@@ -39,7 +39,7 @@ snap install --classic just
 
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \
-                   pkg-config
+                   pkg-config curl ca-certificates
 
 # Install clang-format-20 (static binary on amd64, fallback to apt otherwise)
 arch=$(uname -m)
@@ -62,15 +62,24 @@ else
     rustup update stable
 fi
 
+print_status "Installing Node.js with nvm"
+# This installer runs as root (for apt), but nvm installs Node.js per user.
+# When invoked through sudo, install Node.js for the invoking user so a later
+# cmake run (as that user) finds ~/.nvm instead of root's home.
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != "root" ]; then
+    sudo -u "$SUDO_USER" -H bash "$(dirname "$0")/install-node-nvm.sh" || \
+        print_status "WARNING: Node.js/nvm setup failed; continuing (only the GUI JS build is affected)."
+else
+    bash "$(dirname "$0")/install-node-nvm.sh" || \
+        print_status "WARNING: Node.js/nvm setup failed; continuing (only the GUI JS build is affected)."
+fi
+
 print_status "Installing system dependencies"
 apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget \
                    libpcre2-dev
 
 print_status "Installing math libraries"
-apt-get install -y  liblapack-dev liblapacke-dev libeigen3-dev
-
-print_status "Installing Boost libraries"
-apt-get install -y libboost-all-dev
+apt-get install -y  liblapack-dev libeigen3-dev
 
 print_status "Cleaning up"
 apt-get autoremove -y

@@ -10,7 +10,7 @@
 function tf = isrow(M)
   narginchk(1, 1)
   nargoutchk(0, 1)
-  sz = size (M);
+  sz = size(M);
   tf = (ndims(M) == 2 && (sz(1) == 1));
 end
 %=============================================================================

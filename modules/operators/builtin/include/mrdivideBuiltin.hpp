@@ -15,5 +15,6 @@
 namespace Nelson::OperatorsGateway {
 ArrayOfVector
 mrdivideBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

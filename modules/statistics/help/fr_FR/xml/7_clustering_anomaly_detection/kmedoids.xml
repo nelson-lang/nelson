@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>kmedoids</keyword>
+  <short_description>Partitionner des donnees en groupes avec des medoides.</short_description>
+  <syntax>
+    <syntax_item>idx = kmedoids(X, k)</syntax_item>
+    <syntax_item>[idx, C, sumd, D, midx, info] = kmedoids(...)</syntax_item>
+  </syntax>
+  <description><p><b>kmedoids</b> groupe les lignes de X avec une boucle serie de type PAM et le generateur aleatoire de Nelson pour les depart aleatoires.</p></description>
+  <used_function>
+    <link linkend="${statistics}kmeans">kmeans</link>
+    <link linkend="${statistics}pdist2">pdist2</link>
+    <link linkend="${statistics}statset">statset</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Classer des observations et retourner les informations de medoides.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 10; 11];
+[idx, C, sumd, D, midx, info] = kmedoids(X, 2, 'Start', [1; 3])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser la distance cityblock pour des observations bidimensionnelles.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6];
+[idx, C] = kmedoids(X, 2, 'Start', [0 0; 5 5], 'Distance', 'cityblock')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

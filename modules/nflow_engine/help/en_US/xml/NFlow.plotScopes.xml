@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>NFlow.plotScopes</keyword>
+  <short_description>Open one figure per scope of an nflow simulation result.</short_description>
+  <syntax>
+    <syntax_item>figures = NFlow.plotScopes(out)</syntax_item>
+    <syntax_item>NFlow.plotScopes(out)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>out</param_name><param_description>the structure returned by <b>sim</b> (it must hold a <b>logsout</b> field).</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>figures</param_name><param_description>a vector of figure handles, one per plotted scope.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>NFlow.plotScopes</b> opens one figure per logged signal in <b>out.logsout</b>, drawing every channel of a scope as a line on the same axes. Each figure is titled with the scope identifier.</p>
+    <p>It is handy as a model <b>stopFcn</b>: set a model's StopFcn to <b>NFlow.plotScopes(out)</b> so the scope traces pop up automatically when the simulation stops, both from <b>sim</b> and from the nflow editor's Run button.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Simulate a demo and plot its scopes.</example_item_description>
+      <example_item_data><![CDATA[model = [modulepath('nflow_blocks'), '/examples/causal/Second_Order_Responses_Demo.nflow'];
+out = sim(model);
+NFlow.plotScopes(out);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}sink/scope">scope</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

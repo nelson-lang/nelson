@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__scatter__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOScatterSeries.hpp"
 //=============================================================================
@@ -19,10 +20,9 @@ ArrayOfVector
 __scatter__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(
-        GOCommonConstructorHelper(new GOScatterSeries, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOScatterSeries, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

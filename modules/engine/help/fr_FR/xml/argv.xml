@@ -3,23 +3,32 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>argv</keyword>
-  <short_description
-  >Arguments de la ligne de commande de Nelson.</short_description>
+  <short_description>Arguments de la ligne de commande de Nelson.</short_description>
   <syntax>
     <syntax_item>args = argv()</syntax_item>
+    <syntax_item>args = argv('user')</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'user'</param_name>
+      <param_description>renvoie seulement les arguments situes apres le separateur de ligne de commande <b>--</b>.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>args</param_name>
-      <param_description
-      >un tableau de cellules contenant des chaînes de caractères.</param_description>
+      <param_description>un tableau de cellules contenant des chaines de caracteres.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>argv()</b> renvoie un tableau de cellules contenant les arguments de la ligne de commande de Nelson.</p>
-    <p
-    >Le premier élément du tableau retourné contient le chemin de l&apos;exécutable lancé.</p>
+      <b>argv()</b> renvoie un tableau de cellules contenant les arguments complets de la ligne de commande Nelson.</p>
+    <p>Le premier element du tableau contient le chemin de l&apos;executable lance.</p>
+    <p>
+      <b>argv('user')</b> renvoie uniquement les arguments places apres <b>--</b>. Le separateur lui-meme n&apos;est pas retourne.</p>
+    <p>Si la ligne de commande ne contient pas <b>--</b>, <b>argv('user')</b> renvoie un tableau de cellules vide.</p>
+    <p>Quand un test est execute par <b>test_run</b>, <b>argv('user')</b> peut contenir des arguments utilisateur fournis par le gestionnaire de tests, par exemple des options de controle du demarrage placees apres <b>--</b>.</p>
+    <p>Les guillemets utilises pour grouper des arguments sont traites par le systeme d&apos;exploitation ou le shell avant le demarrage de Nelson. Nelson conserve les arguments tels qu&apos;ils sont recus.</p>
   </description>
   <used_function />
   <bibliography />
@@ -28,6 +37,16 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data runnable="cli"><![CDATA[argv()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[argv('user')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson-cli -e "disp(argv('user')); quit" -- "a b" "c d"]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

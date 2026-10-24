@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>unwrap</keyword>
+  <short_description>Shift phase angles to remove jumps.</short_description>
+  <syntax>
+    <syntax_item>q = unwrap(p)</syntax_item>
+    <syntax_item>q = unwrap(p, tol)</syntax_item>
+    <syntax_item>q = unwrap(p, tol, dim)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>a real vector or matrix of phase angles in radians.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>jump tolerance, pi by default. A jump larger than tol is corrected by adding a multiple of 2*pi.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension along which to operate; by default the first dimension whose size is not 1.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>q</param_name>
+      <param_description>the phase angles with jumps of more than tol removed, with the same size and class as <b>p</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>unwrap</b> corrects the radian phase angles in <b>p</b> by adding multiples of 2*pi whenever the jump between consecutive elements is larger than <b>tol</b> (pi by default).</p>
+    <p>For a matrix, each column is unwrapped independently unless a dimension is given.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[q = unwrap([0 3*pi/2 3*pi])
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}angle">angle</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}mod">mod</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Keywords.hpp"
-#include "NelSonParser.h"
+#include "NelsonParserTokens.hpp"
 #include "characters_encoding.hpp"
 #include <algorithm>
 #include <iostream>
@@ -19,16 +19,16 @@ namespace Nelson {
 /**
  * NOTE: This list must be sorted alphabetically!
  */
-keywordStruct keyWord[KEYWORDCOUNT] = { { "abort", ABORT, NLS_KEYWORD_ABORT },
-    { "break", BREAK, NLS_KEYWORD_BREAK }, { "case", CASE, NLS_KEYWORD_CASE },
-    { "catch", CATCH, NLS_KEYWORD_CATCH }, { "continue", CONTINUE, NLS_KEYWORD_CONTINUE },
-    { "else", ELSE, NLS_KEYWORD_ELSE }, { "elseif", ELSEIF, NLS_KEYWORD_ELSEIF },
-    { "end", END, NLS_KEYWORD_END }, { "endfunction", ENDFUNCTION, NLS_KEYWORD_ENDFUNCTION },
-    { "for", FOR, NLS_KEYWORD_FOR }, { "function", FUNCTION, NLS_KEYWORD_FUNCTION },
-    { "if", IF, NLS_KEYWORD_IF }, { "keyboard", KEYBOARD, NLS_KEYWORD_KEYBOARD },
-    { "otherwise", OTHERWISE, NLS_KEYWORD_OTHERWISE }, { "parfor", FOR, NLS_KEYWORD_FOR },
-    { "return", RETURN, NLS_KEYWORD_RETURN }, { "switch", SWITCH, NLS_KEYWORD_SWITCH },
-    { "try", TRY, NLS_KEYWORD_TRY }, { "while", WHILE, NLS_KEYWORD_WHILE } };
+keywordStruct keyWord[KEYWORDCOUNT]
+    = { { "abort", ABORT, NLS_KEYWORD_ABORT }, { "break", BREAK, NLS_KEYWORD_BREAK },
+          { "case", CASE, NLS_KEYWORD_CASE }, { "catch", CATCH, NLS_KEYWORD_CATCH },
+          { "continue", CONTINUE, NLS_KEYWORD_CONTINUE }, { "else", ELSE, NLS_KEYWORD_ELSE },
+          { "elseif", ELSEIF, NLS_KEYWORD_ELSEIF }, { "end", END, NLS_KEYWORD_END },
+          { "for", FOR, NLS_KEYWORD_FOR }, { "function", FUNCTION, NLS_KEYWORD_FUNCTION },
+          { "if", IF, NLS_KEYWORD_IF }, { "keyboard", KEYBOARD, NLS_KEYWORD_KEYBOARD },
+          { "otherwise", OTHERWISE, NLS_KEYWORD_OTHERWISE }, { "parfor", FOR, NLS_KEYWORD_FOR },
+          { "return", RETURN, NLS_KEYWORD_RETURN }, { "switch", SWITCH, NLS_KEYWORD_SWITCH },
+          { "try", TRY, NLS_KEYWORD_TRY }, { "while", WHILE, NLS_KEYWORD_WHILE } };
 //=============================================================================
 int
 compareKeyword(const void* a, const void* b)

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "mex_engine_demo_1.m",
+      "title": "Build a native engine client",
+      "description": "Copy and compile the first engine client in the temporary directory.",
+      "tags": [
+        "native",
+        "engine"
+      ],
+      "requirements": [
+        "compiler"
+      ]
+    },
+    {
+      "file": "mex_engine_demo_2.m",
+      "title": "Exchange matrices with an engine client",
+      "description": "Build a second standalone engine client in the temporary directory.",
+      "tags": [
+        "native",
+        "engine"
+      ],
+      "requirements": [
+        "compiler"
+      ]
+    }
+  ]
+}

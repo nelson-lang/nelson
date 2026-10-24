@@ -74,5 +74,15 @@ convertMatrixStringToArrayOf(jl_value_t* value, bool& wasConverted);
 ArrayOf
 convertCellToArrayOf(jl_value_t* value, bool& wasConverted);
 //=============================================================================
-}
+// Converts a DataFrames.DataFrame into the pieces needed to build a Nelson
+// table: a 1-by-N cell of columns (numeric columns keep their numeric type,
+// textual and other columns become string arrays), a 1-by-N cellstr of the
+// column labels, and a cellstr of row names (always empty because a DataFrame
+// has no row-name concept). Returns false when the value is not a DataFrame or
+// when the DataFrames package cannot be loaded.
+bool
+JuliaDataFrameToTableData(
+    jl_value_t* value, ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

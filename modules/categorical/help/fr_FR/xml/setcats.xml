@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>setcats</keyword>
+  <short_description>Definir la liste des categories d'un tableau categoriel.</short_description>
+  <syntax><syntax_item>B = setcats(A, newCategories)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
+    <param_input_item><param_name>newCategories</param_name><param_description>Liste complete de remplacement des categories.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau categoriel utilisant exactement les categories listees dans <b>newCategories</b>.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>setcats</b> remplace la liste des categories d'un tableau categoriel.</p>
+    <p>Les elements dont l'ancienne categorie n'est pas presente dans <b>newCategories</b> deviennent non definis. Les nouvelles categories absentes auparavant sont ajoutees comme categories inutilisees.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Conserver seulement certaines categories.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','green'}); B = setcats(A, {'red','blue'}); isundefined(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Ajouter une categorie inutilisee avec une liste complete.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = setcats(A, {'red','blue','green'}); categories(B)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}addcats">addcats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}removecats">removecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isundefined">isundefined</link></see_also_item>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

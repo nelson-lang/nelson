@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cmdscale</keyword>
+  <short_description>Positionnement multidimensionnel classique.</short_description>
+  <syntax>
+    <syntax_item>Y = cmdscale(D)</syntax_item>
+    <syntax_item>Y = cmdscale(D, p)</syntax_item>
+    <syntax_item>[Y, e] = cmdscale(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>cmdscale</b> calcule une configuration de positionnement multidimensionnel classique a partir d'une matrice de distances, de dissimilarites ou de similarites.</p>
+    <p>D peut etre une matrice carree ou un vecteur de distances accepte par squareform. Si p est precise, seules les coordonnees associees aux valeurs propres positives parmi les p premieres dimensions sont retournees.</p>
+    <p>Le vecteur e contient les valeurs propres ordonnees de la matrice de produits internes centree. Lorsque p est precise, e contient au plus p valeurs.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 2 2];
+D = squareform(pdist(X));
+[Y, e] = cmdscale(D)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}squareform">squareform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

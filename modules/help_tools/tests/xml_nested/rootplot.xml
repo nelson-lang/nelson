@@ -2,6 +2,8 @@
 <xmldoc>
   <language>en_US</language>
   <keyword>rootplot</keyword>
+  <keyword_alias>root_plot_alias</keyword_alias>
+  <keyword_alias>block:rootplot</keyword_alias>
   <short_description>Root-level plot test page.</short_description>
   <syntax>
     <syntax_item>rootplot(X)</syntax_item>

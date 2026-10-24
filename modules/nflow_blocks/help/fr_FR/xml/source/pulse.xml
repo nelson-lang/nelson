@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pulse</keyword>
+  <keyword_alias>block:pulse</keyword_alias>
+  <short_description>Générateur d'impulsions : train d'impulsions périodique (Amplitude, Period, Width, StartTime, Offset).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : pulse</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>Aucun port d'entrée (ce bloc n'en a pas).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie déclaré.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Générateur d'impulsions : un train d'impulsions périodique.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliothèque</td><td>Source</td></tr>
+        <tr><td>Type</td><td><code>pulse</code></td></tr>
+        <tr><td>Libellé</td><td>Pulse Generator</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/source/exports/pulse.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Un train d'impulsions périodique sans entrée. À partir de <code>StartTime</code>, la sortie vaut <code>Offset + Amplitude</code> pendant les premiers <code>Width</code> pour cent de chaque <code>Period</code>, et <code>Offset</code> sinon. Sans état (fonction pure du temps).</p>
+    <p><b>Ports</b></p>
+    <p>Ce bloc n'a pas de port d'entrée.</p>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Rôle</th><th>Côté</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=80, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Paramètres</b></p>
+    <table border="1">
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>Amplitude</code></td><td>1</td></tr>
+        <tr><td><code>Period</code></td><td>1</td></tr>
+        <tr><td><code>Width</code></td><td>50</td></tr>
+        <tr><td><code>StartTime</code></td><td>0</td></tr>
+        <tr><td><code>Offset</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caractéristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>pulse</td></tr>
+        <tr><td>Famille</td><td>Source</td></tr>
+        <tr><td>Taille de rendu</td><td>80 x 80</td></tr>
+        <tr><td>Phases</td><td>OUTPUT</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>OUTPUT : évalue le train d'impulsions à l'instant courant.</li>
+    </ul>
+    <p><b>Équation ou règle</b></p>
+    <latex>y(t) = \text{Offset} + \begin{cases} A &amp; \bmod(t-t_0, T) &lt; \frac{W}{100} T \\ 0 &amp; \text{sinon} \end{cases}</latex>
+    <p><b>Capacités étendues</b></p>
+    <p>Génération de code : supportée pour C et Rust.</p>
+    <p><b>Sources d'implémentation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/source/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/source/periodic.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Générer un train d'impulsions (amplitude 1, période 1, rapport cyclique 50%).</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','p','type','pulse','inputs',0,'outputs',1,'params',struct('Amplitude',1,'Period',1,'Width',50,'StartTime',0,'Offset',0)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','p','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.05; d.duration=2.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}source/signalGenerator">signalGenerator</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}source/step">step</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

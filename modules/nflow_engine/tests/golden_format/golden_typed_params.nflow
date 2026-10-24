@@ -1,0 +1,99 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Nelson nflow team",
+    "created": "2026-08-13T00:00:00.000Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Frozen retro-read golden: vector and matrix typed block parameters.",
+  "name": "golden_typed_params",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "step",
+      "x": 100,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "ss",
+      "type": "stateSpace",
+      "x": 300,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "A": [
+          [0, 1],
+          [-4, -2]
+        ],
+        "B": [
+          [0],
+          [1]
+        ],
+        "C": [
+          [1, 0]
+        ],
+        "D": 0
+      }
+    },
+    {
+      "id": "lut",
+      "type": "lookup1D",
+      "x": 300,
+      "y": 280,
+      "rotation": 0,
+      "params": {
+        "BreakpointsForDimension1": [0, 1, 2, 3, 4],
+        "Table": [0, 1, 4, 9, 16],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 520,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "ss",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "src",
+      "to": "lut",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "ss",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

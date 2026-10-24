@@ -20,5 +20,5 @@ bool
 findColonCommonType(
     const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, std::string& typeName);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

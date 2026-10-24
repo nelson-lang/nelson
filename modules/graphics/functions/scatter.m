@@ -16,27 +16,39 @@ function varargout = scatter(varargin)
   % scatter(ax,...)
   % scatter(..., Name, Value)
   % s = scatter(...)
-  
+
   narginchk(2, 100);
   nargoutchk(0, 1);
-  
+
   [parent, X, Y, scatterProperties] = parseArguments(convertStringToCharArgs(varargin));
+  [X, xIsDate] = datetimeToSerial(X);
+  [Y, yIsDate] = datetimeToSerial(Y);
   if isvector(X)
     if ~isfield(scatterProperties, 'CData')
       scatterProperties.CData = getColorAndUpdateIndex(parent);
+      if ~isfield(scatterProperties, 'CDataMode')
+        % Auto color-order color: CDataMode stays 'auto' (matches expected behavior).
+        scatterProperties.CDataMode = 'auto';
+      end
     end
+    autoCData = isfield(scatterProperties, 'CDataMode') && strcmp(scatterProperties.CDataMode, 'auto');
     scatterProperties = reshape([fieldnames(scatterProperties)'; struct2cell(scatterProperties)'], 1, []);
     h = __scatter__('Parent', parent, 'XData', X, 'YData', Y, scatterProperties{:});
+    % Setting CData flips CDataMode to 'manual'; restore 'auto' for the auto
+    % color-order color afterwards to match expected behavior.
+    if autoCData
+      h.CDataMode = 'auto';
+    end
   else
     % X and Y are matrices
     if (size(X, 1) ~= size(Y, 1))
-      error(_('X and Y must have the same number of rows.'));
+      error('Nelson:dimagree:xYNumberRows', 'X and Y must have the same number of rows.');
     end
     if (size(X, 2) ~= size(Y, 2))
-      error(_('X and Y must have the same number of columns.'));
+      error('Nelson:dimagree:xYNumberColumns', 'X and Y must have the same number of columns.');
     end
     h = [];
-    
+
     for i = 1:size(X, 2)
       if isfield(scatterProperties, 'markerEdgeColor')
         markerColor = scatterProperties.markerEdgeColor;
@@ -48,19 +60,36 @@ function varargout = scatter(varargin)
       end
       if isempty(markerColor)
         color = getColorAndUpdateIndex(parent);
+        autoColor = true;
       else
         color = markerColor;
+        autoColor = false;
       end
       scatterPropertiesBackup = scatterProperties;
-      scatterProperties.CData = color; 
-      
+      scatterProperties.CData = color;
+      if autoColor && ~isfield(scatterProperties, 'CDataMode')
+        % Auto color-order color: CDataMode stays 'auto' (matches expected behavior).
+        scatterProperties.CDataMode = 'auto';
+      end
+
+      autoCData = isfield(scatterProperties, 'CDataMode') && strcmp(scatterProperties.CDataMode, 'auto');
       scatterPropertiesC = reshape([fieldnames(scatterProperties)'; struct2cell(scatterProperties)'], 1, []);
       he = __scatter__('Parent', parent, 'XData', X(:, i), 'YData', Y(:, i), scatterPropertiesC{:});
+      if autoCData
+        he.CDataMode = 'auto';
+      end
       scatterProperties = scatterPropertiesBackup;
       h = [h, he];
     end
   end
-  
+
+  if xIsDate
+    applyDatetimeAxis(parent, 'x');
+  end
+  if yIsDate
+    applyDatetimeAxis(parent, 'y');
+  end
+
   if nargout == 1
     varargout{1} = h;
   end
@@ -69,35 +98,41 @@ end
 function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
   % Parse arguments for scatter function
   % Returns parent axes, X data, Y data, and scatter properties
-  
+
   % Initialize default values
   scatterProperties = struct();
-  
+
   % Check if first argument is an axes object
   if ~isempty(inputArguments) && isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'axes')
-    parent = inputArguments{1};
+    designatedParent = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else
-    parent = [];
+    designatedParent = graphicsParentProperty(inputArguments);
   end
-  
+  % A designated target is prepared here, once: the fallbacks below stay late so
+  % that an invalid call still errors without creating a figure.
+  parent = [];
+  if ~isempty(designatedParent)
+    parent = newplotTarget(designatedParent);
+  end
+
   % Need at least X and Y data
   if length(inputArguments) < 2
-    error(_('At least X and Y arguments are required.'));
+    error('Nelson:scatter:leastXAndY', 'At least X and Y arguments are required.');
   end
-  
+
   % Extract X and Y data
   X = inputArguments{1};
   Y = inputArguments{2};
-  
+
   % Validate X and Y dimensions
   if (numel(X) ~= numel(Y))
-    error(_('X and Y must be the same length.'));
+    error('Nelson:dimagree:xYLength', 'X and Y must be the same length.');
   end
-  
+
   % Remove X and Y from arguments
   inputArguments = inputArguments(3:end);
-  
+
   % Create parent axes if not already set and no more arguments
   if isempty(inputArguments)
     if isempty(parent)
@@ -105,7 +140,7 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
     end
     return;
   end
-  
+
   % Process Size data (SizeData)
   if ~isempty(inputArguments) && isnumeric(inputArguments{1})
     sizeArg = inputArguments{1};
@@ -123,16 +158,16 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
       inputArguments = inputArguments(2:end);
     else
       % Invalid size specification
-      error(_('Size of S must match X, Y.'));
+      error('Nelson:dimagree:sizeSMatchXY', 'Size of S must match X, Y.');
     end
   end
-  
-  
+
+
   % Extract special arguments: 'filled' and marker types
   [inputArguments, filledFlag] = extractSpecialArg(inputArguments, 'filled');
   if filledFlag
     scatterProperties.MarkerFaceColor = 'flat';
-    scatterProperties.MarkerEdgeColor = 'none'; 
+    scatterProperties.MarkerEdgeColor = 'none';
   end
 
   % Process Color data (CData)
@@ -141,28 +176,28 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
     if ischar(colorArg) || isStringScalar(colorArg)
       colorArg = validatecolor(colorArg);
     end
-    
+
     % Set marker edge color and CData
     scatterProperties.CData = colorArg;
     inputArguments = inputArguments(2:end);
   end
-  
+
   % Extract marker symbol
   supportedMarkers = string(getMarkerNameList());
   [inputArguments, markerFound, markerValue] = extractMarker(inputArguments, supportedMarkers);
   if markerFound
     scatterProperties.Marker = markerValue;
   end
-  
+
   % Process Name-Value pairs
   [propStruct, remainingArgs, dummy] = extractNameValuePairs(inputArguments{:});
-  
+
   % Apply name-value properties (overriding any defaults)
   fields = fieldnames(propStruct);
   for i = 1:length(fields)
     scatterProperties.(fields{i}) = propStruct.(fields{i});
   end
- 
+
   switch numel(remainingArgs)
     case 0
       % No more arguments, do nothing
@@ -175,19 +210,19 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
         if validColor
           scatterProperties.CData = colorValue;
         else
-          error(msg);
+          error('Nelson:scatter:invalidColor', msg);
         end
       else
         [sizeValue, validSize, msg] = checkSizeValue(arg, X, Y);
         if validSize
           scatterProperties.SizeData = sizeValue;
         else
-          error(msg);
+          error('Nelson:scatter:invalidSize', msg);
         end
       end
     otherwise
-      error(_('Too many arguments.'));
-    end 
+      error('Nelson:tooManyInputs', 'Too many input arguments.');
+  end
 
   % Set default color if not specified
   if ~isfield(scatterProperties, 'CData') && ~isfield(scatterProperties, 'MarkerEdgeColor')
@@ -195,8 +230,12 @@ function [parent, X, Y, scatterProperties] = parseArguments(inputArguments)
       parent = newplot();
     end
     scatterProperties.CData = getColorAndUpdateIndex(parent);
+    if ~isfield(scatterProperties, 'CDataMode')
+      % Auto color-order color: CDataMode stays 'auto' (matches expected behavior).
+      scatterProperties.CDataMode = 'auto';
+    end
   end
-  
+
   % Create parent axes if not already set
   if isempty(parent)
     parent = newplot();
@@ -207,12 +246,12 @@ end
 function [remainingArgs, found, value] = extractSpecialArg(args, argName)
   found = false;
   value = [];
-  idx = find(cellfun(@(x) (ischar(x) || isStringScalar(x)) && strcmpi(x, argName), args));
+  idx = find(cellfun(@(x)(ischar(x) || isStringScalar(x)) && strcmpi(x, argName), args));
   if ~isempty(idx)
     found = true;
-    args(idx) = [];  % Remove the special argument
+    args(idx) = []; % Remove the special argument
   end
-  
+
   remainingArgs = args;
 end
 %=============================================================================
@@ -220,23 +259,23 @@ end
 function [remainingArgs, found, value] = extractMarker(args, supportedMarkers)
   found = false;
   value = [];
-  
-  idxMarker = find(cellfun(@(x) (ischar(x) || isStringScalar(x)) && any(strcmpi(x, supportedMarkers)), args));
+
+  idxMarker = find(cellfun(@(x)(ischar(x) || isStringScalar(x)) && any(strcmpi(x, supportedMarkers)), args));
   if ~isempty(idxMarker)
     found = true;
     idx = idxMarker(end);
     value = args{idx};
     args(idx) = [];
-    
+
     % Also remove 'Marker' property name if present
     if idx > 1
-      previousArg = args{idx-1};
+      previousArg = args{idx - 1};
       if (ischar(previousArg) || isStringScalar(previousArg)) && strcmpi(previousArg, 'Marker')
-        args(idx-1) = [];
+        args(idx - 1) = [];
       end
     end
   end
-  
+
   remainingArgs = args;
 end
 %=============================================================================
@@ -263,12 +302,12 @@ function [sizeValue, validSize, msg] = checkSizeValue(arg, X, Y)
         sizeValue = arg;
         validSize = true;
       else
-        msg = _('Size must be a positive scalar.');
+        msg = sprintf(_('%s must be a positive scalar.'), 'Size');
       end
       return
     end
 
-    if isvector(arg) 
+    if isvector(arg)
       if (size(X, 1) == size(arg, 1) || size(Y, 1) == size(arg, 1))
         sizeValue = arg;
         validSize = true;
@@ -291,7 +330,7 @@ function [sizeValue, validSize, msg] = checkSizeValue(arg, X, Y)
 
     end
 
-    msg = _('Size of S must match X, Y.');
+    error('Nelson:scatter:invalidSize', 'Size of S must match X, Y.');
   end
 end
 %=============================================================================
@@ -302,10 +341,10 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
 
   % Color names & short names are accepted as char or string
   if ischar(arg) || isstring(arg)
-    try 
+    try
       colorValue = validatecolor(arg);
     catch
-      msg = _('Invalid color name or short name.');
+      error('Nelson:scatter:invalidColorName', 'Invalid color name or short name.');
       return;
     end
     validColor = true;
@@ -314,7 +353,7 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
 
   % Must be numeric beyond this point
   if ~isnumeric(arg)
-    msg = _('Color must be a string, character array, or numeric.');
+    error('Nelson:scatter:invalidColorType', 'Color must be a string, character array, or numeric.');
     return;
   end
 
@@ -325,7 +364,7 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
       validColor = true;
       return;
     else
-      msg = _('RGB triplet values must be between 0 and 1.');
+      error('Nelson:scatter:rgbTripletRange', 'RGB triplet values must be between 0 and 1.');
       return;
     end
   end
@@ -334,23 +373,23 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
   nPoints = numel(X);
 
   % Case: RGB triplet matrix for each point (X, Y must be vectors)
-  if ismatrix(arg) && size(arg,2) == 3
-    if isvector(X) && isvector(Y) && size(arg,1) == nPoints
+  if ismatrix(arg) && size(arg, 2) == 3
+    if isvector(X) && isvector(Y) && size(arg, 1) == nPoints
       colorValue = arg;
       validColor = true;
       return;
     elseif ~isvector(X) || ~isvector(Y)
       % Matrix RGB colors per dataset
-      if size(arg,1) == size(Y,2) % or size(X,2)
+      if size(arg, 1) == size(Y, 2) % or size(X,2)
         colorValue = arg;
         validColor = true;
         return;
       else
-        msg = _('RGB matrix rows must match number of points or datasets.');
+        error('Nelson:scatter:rgbRowsPointsOrDatasets', 'RGB matrix rows must match number of points or datasets.');
         return;
       end
     else
-      msg = _('RGB matrix rows must match number of points.');
+      error('Nelson:scatter:rgbRowsPoints', 'RGB matrix rows must match number of points.');
       return;
     end
   end
@@ -362,11 +401,11 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
       validColor = true;
       return;
     else
-      msg = _('Colormap index vector is only valid when X and Y are vectors.');
+      error('Nelson:scatter:colormapIndexVectorOnly', 'Colormap index vector is only valid when X and Y are vectors.');
       return;
     end
   end
 
-  msg = _('Invalid color format or size mismatch.');
+  error('Nelson:scatter:invalidColorFormat', 'Invalid color format or size mismatch.');
 end
 %=============================================================================

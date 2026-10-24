@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lsmr</keyword>
+  <short_description>Methode LSMR pour equations sparse et moindres carres.</short_description>
+  <syntax>
+    <syntax_item>x = lsmr(A, b)</syntax_item>
+    <syntax_item>x = lsmr(A, b, tol, maxit)</syntax_item>
+    <syntax_item>x = lsmr(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec, lsvec] = lsmr(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice sparse flottante reelle ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>un vecteur second membre flottant reel ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>tolerance de convergence scalaire reelle finie. La valeur par defaut est 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>nombre maximal d&apos;iterations, entier positif ou nul.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>preconditionneurs a droite optionnels : matrices carrees sparse ou pleines, vecteurs diagonaux ou handles de fonction. Les handles de fonction doivent accepter un vecteur et un indicateur de transposition.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>vecteur initial optionnel.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>vecteur solution calcule.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numerique.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>norme relative du residu.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>nombre d&apos;iterations.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>historique des normes de residu.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lsvec</param_name>
+      <param_description>historique des normes du residu des equations normales.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>lsmr</b> resout des equations sparse et des problemes de moindres carres avec une methode de bidiagonalisation de Golub-Kahan.</p>
+    <p>La methode prend en charge les matrices sparse double, single, double complexes et single complexes, carrees ou rectangulaires.</p>
+    <p><b>M1</b> et <b>M2</b> sont des preconditionneurs a droite. Ils peuvent etre des vecteurs diagonaux, des matrices carrees sparse ou pleines, ou des handles de fonction acceptant un vecteur et l'indicateur de transposition <b>'notransp'</b> ou <b>'transp'</b>.</p>
+    <p><b>resvec</b> stocke les normes de residu et <b>lsvec</b> stocke les estimations du residu de moindres carres a chaque iteration.</p>
+    <p>Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapte.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+[x, flag, relres, iter] = lsmr(A, b, 1e-12, 20)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Moindres carres sparse single avec preconditionnement diagonal.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([1 0; 0 1; 1 1]));
+b = single([1; 2; 3]);
+M = single([1; 2]);
+[x, flag] = lsmr(A, b, 1e-6, 20, M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Moindres carres avec preconditionneurs a droite separes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+M1 = [2 0; 0 1];
+M2 = [1 0.5; 0 3];
+[x, flag, relres, iter] = lsmr(A, b, 1e-12, 20, M1, M2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqr">lsqr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}gmres">gmres</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout de la couverture single, single complexe, preconditionneur a droite, vecteur initial et historique des residus.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -10,4 +10,7 @@
 #define MODULE_NAME "elementary_mathematics"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsElementary_mathematics.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

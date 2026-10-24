@@ -12,7 +12,7 @@ function Vq = interpn(varargin)
   nargoutchk(0, 1);
   [args, method, extrapMode, extrapValue] = interp_parse_tail(varargin, true);
   if strcmp(method, 'pchip') && ~(numel(args) == 3 && isvector(args{1}) && isvector(args{2}))
-    error(_('PCHIP method is supported only for 1-D interpolation.'));
+    error('Nelson:interpn:methodOnly1D', 'PCHIP method is supported only for 1-D interpolation.');
   end
 
   if numel(args) == 1 || (numel(args) == 2 && isnumeric(args{2}) && isscalar(args{2}))
@@ -23,12 +23,12 @@ function Vq = interpn(varargin)
       k = args{2};
     end
     if ~isscalar(k) || k < 0 || fix(k) ~= k
-      error(_('Refinement factor must be a nonnegative integer scalar.'));
+      error('Nelson:special_functions:invalidRefinementFactor', 'Refinement factor must be a nonnegative integer scalar.');
     end
     nd = ndims(V);
     grids = cell(1, nd);
     queries = cell(1, nd);
-    step = 1 / (2^k);
+    step = 1 / (2 ^ k);
     for dim = 1:nd
       grids{dim} = 1:size(V, dim);
       q = 1:step:size(V, dim);
@@ -68,7 +68,7 @@ function Vq = interpn(varargin)
     grids = interpn_grid_vectors(grids);
     Vq = interpn_core(grids, V, queries, method, extrapMode, extrapValue);
   else
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:wrongNumberOfInputs', 'Wrong number of input arguments.');
   end
 end
 %=============================================================================
@@ -87,7 +87,7 @@ function grids = interpn_grid_vectors(gridArgs)
     baseSize = size(gridArgs{1});
     for dim = 1:nd
       if ~isequal(size(gridArgs{dim}), baseSize)
-        error(_('Grid arrays must have the same size.'));
+        error('Nelson:dimagree:valueArraysSize', '%s arrays must have the same size.', 'Grid');
       end
       subs = repmat({1}, 1, nd);
       subs{dim} = ':';

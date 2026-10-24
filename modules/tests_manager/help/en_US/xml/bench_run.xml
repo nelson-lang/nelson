@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bench_run</keyword>
+  <short_description>Run benchmarks</short_description>
+  <syntax>
+    <syntax_item>status = bench_run()</syntax_item>
+    <syntax_item>status = bench_run(targets)</syntax_item>
+    <syntax_item>status = bench_run(targets, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>module name, module names, benchmark file, or benchmark files.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>options accepted by nelson.unittest.run.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>logical: true when all selected benchmarks succeed.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bench_run</b> discovers and executes only &apos;bench_*.m&apos; files.</p>
+    <p>Benchmarks always run in child processes. One benchmark process is used with up to eight
+      available threads; two benchmark processes are used when more than eight threads are available.</p>
+    <p>Use <b>nelson.unittest.run</b> with <b>Kind</b> set to <b>bench</b> to obtain structured results.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[bench_run('string')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}test_run">test_run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson_unittest_run">nelson.unittest.run</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

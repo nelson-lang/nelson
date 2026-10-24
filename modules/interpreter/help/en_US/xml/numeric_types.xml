@@ -65,6 +65,14 @@
     <p
     >Nelson automatically infer data type by default as double and you don&apos;t need to specify this suffixe explicitly. example: A = 3.14</p>
     <p
+    >You can also write integer literals in hexadecimal, using the 0x or 0X prefix, or in binary, using the 0b or 0B prefix. example: 0xFF, 0X1A, 0b1010, 0B1111</p>
+    <p
+    >Without a type suffix, the value is stored in the smallest unsigned integer type that can hold all of its digits, where each hexadecimal digit counts for four bits and each binary digit for one bit. For example 0xFF is a uint8, 0x100 is a uint16, 0x10000 is a uint32 and 0x100000000 is a uint64.</p>
+    <p
+    >An optional integer type suffix can follow the digits to select the exact type: u8, u16, u32, u64 for unsigned integers and s8, s16, s32, s64 for signed integers (the suffix is not case sensitive). With a signed suffix, the digits are interpreted as a two&apos;s complement bit pattern, so 0xFFs8 is -1 and 0x80s8 is -128.</p>
+    <p
+    >A literal that has more digits than the selected or implied type can hold, or that contains an invalid digit or suffix, raises an error.</p>
+    <p
     >Unless you have specific requirements or need to disambiguate between data types, you often don&apos;t need to explicitly specify the type of numeric literals.</p>
     <p
     >But when you create a numeric array of large integers in Nelson, especially when they exceed the maximum precision representable by double (larger than flintmax), Nelson initially stores these values as double-precision floating-point numbers by default.</p>
@@ -98,6 +106,19 @@ single(3.1415)
       ><![CDATA[
 R1 = uint64([72057594035891654 81997179153022975])
 R2 = [72057594035891654u64 81997179153022975u64]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hexadecimal and binary integer literals</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = 0xFF
+class(A)
+B = 0b1010
+C = 0x100000000
+D = 0xFFs8
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -139,6 +160,10 @@ R2 = [72057594035891654u64 81997179153022975u64]
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>hexadecimal (0x) and binary (0b) integer literals added</history_description>
     </history_item>
   </history>
   <authors>

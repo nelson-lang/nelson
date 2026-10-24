@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>notebook</module_name>
+  <chapter>Notebook</chapter>
+  <chapter_description>
+    <p
+    >Le module Notebook exécute des documents Notebook en dehors de l'éditeur.</p>
+    <p
+    >Un Notebook mêle texte mis en forme, code et ses sorties dans un même document. Ce module lit le conteneur natif <b>.nlx</b> et le format texte <b>.m</b>, et exécute leurs cellules de code dans l'espace de travail de base — un document peut donc être lancé depuis la ligne de commande ou un script.</p>
+  </chapter_description>
+</xmldoc>

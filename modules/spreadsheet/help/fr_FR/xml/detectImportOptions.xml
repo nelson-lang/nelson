@@ -7,24 +7,28 @@
   >Créer des options d&apos;importation basées sur le contenu du fichier.</short_description>
   <syntax>
     <syntax_item>options = detectImportOptions(filename)</syntax_item>
+    <syntax_item>options = detectImportOptions(filename, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description>une chaîne : nom de fichier source.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>fichiers JSON seulement : FileType, TableSelector, TableNodeName, VariableSelectors, RowNamesSelector, VariableUnitsSelector, VariableDescriptionsSelector, RepeatedNodeRule, ParsingMode, AllowComments, AllowInfAndNaN, AllowTrailingCommas, MissingRule, ImportErrorRule et TextType (voir <b>readtable</b>).</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>options</param_name>
-      <param_description>Objet DelimitedTextImportOptions.</param_description>
+      <param_description>Objet nelson.io.text.DelimitedTextImportOptions.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>options = detectImportOptions(filename)</b> identifie une table dans un fichier et renvoie un objet d&apos;options d&apos;importation <b>options</b>.</p>
+      <b>options = detectImportOptions(filename)</b> identifie une table dans un fichier texte delimite et renvoie un objet <b>nelson.io.text.DelimitedTextImportOptions</b>.</p>
     <p>Vous pouvez personnaliser cet objet et l&apos;utiliser avec<b>readtable</b>, <b>readcell</b> ou<b>readmatrix</b> pour contrôler la façon dont Nelson importe les données en tant que table, cellule ou matrice.</p>
-    <p>Le type de l&apos;objet options renvoyé dépend de l&apos;extension du fichier.</p>
     <p />
     <p>Propriétés :</p>
     <p>
@@ -47,6 +51,7 @@
       <b>RowNamesColumn</b> : emplacement des noms de ligne. exemple : 0</p>
     <p>
       <b>DataLines</b> : emplacement des données,<b>[l1 l2]</b> indique la plage de lignes contenant les données.<b>l1</b> fait référence à la première ligne avec données, tandis que <b>l2</b> fait référence à la dernière ligne. exemple : [2 Inf]</p>
+    <p>Pour un <b>fichier JSON</b> (extension <b>.json</b> ou <b>&apos;FileType&apos;, &apos;json&apos;</b>), <b>detectImportOptions</b> renvoie un objet <b>nelson.io.json.JSONImportOptions</b> utilisable avec <b>readtable</b> et <b>readtimetable</b>. Ses propriétés <b>TableSelector</b> et <b>VariableSelectors</b> contiennent les pointeurs JSON détectés, <b>VariableNames</b> et <b>VariableTypes</b> les noms et types détectés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -58,8 +63,18 @@
         runnable="cli"
       >Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; Weight = [70; 55; 80; 60]; T = table(Names, Age, Height, Weight); writetable(T, [tempdir,&apos;readcell_1.csv&apos;]) options = detectImportOptions([tempdir,&apos;readcell_1.csv&apos;]) C1 = readcell([tempdir,&apos;readcell_1.csv&apos;], options) options.DataLines = [1 Inf] C2 = readcell([tempdir,&apos;readcell_1.csv&apos;], options)</example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Détecter les options d&apos;un fichier JSON :</example_item_description>
+      <example_item_data runnable="cli">T = table([1; 2], ["a"; "b"], &apos;VariableNames&apos;, {&apos;x&apos;, &apos;name&apos;}); f = [tempdir, &apos;detect_json.json&apos;]; writetable(T, f); opts = detectImportOptions(f) opts.SelectedVariableNames = {&apos;name&apos;}; T2 = readtable(f, opts)</example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}delimitedTextImportOptions"
+      >delimitedTextImportOptions</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${spreadsheet}readcell">readcell</link>
     </see_also_item>
@@ -69,11 +84,18 @@
     <see_also_item>
       <link linkend="${spreadsheet}readmatrix">readmatrix</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}jsonImportOptions">jsonImportOptions</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Fichiers JSON : renvoie un objet JSONImportOptions.</history_description>
     </history_item>
   </history>
   <authors>

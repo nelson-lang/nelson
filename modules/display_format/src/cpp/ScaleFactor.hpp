@@ -17,5 +17,5 @@ namespace Nelson {
 bool
 ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& formatInfo);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -7,27 +7,27 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('erfcx'), 1)
-assert_isequal(nargout('erfcx'), 1)
+asserts.isequal(nargin('erfcx'), 1)
+asserts.isequal(nargout('erfcx'), 1)
 %=============================================================================
 R = erfcx(0);
-assert_isequal(R, 1);
+asserts.isequal(R, 1);
 %=============================================================================
 R = erfcx([-Inf -1 0 1 10 Inf NaN]);
 REF = [Inf 5.008980080762283 1 0.427583576155807 0.0561409927438226 0 NaN];
-assert_isapprox(R, REF, 1e-12);
+asserts.isapprox(R, REF, 1e-12);
 %=============================================================================
 R = erfcx(35);
 REF = 0.0161131309567692;
-assert_isapprox(R, REF, 1e-10);
+asserts.isapprox(R, REF, 1e-10);
 %=============================================================================
 R = erfcx(single([0 1]));
 REF = single([1 0.427583576155807]);
-assert_isequal(class(R), 'single');
-assert_isapprox(R, REF, 1e-6);
+asserts.isequal(class(R), 'single');
+asserts.isapprox(R, REF, 1e-6);
 %=============================================================================
 R = erfcx(reshape([0 0.25 0.5 0.75], 2, 2));
-assert_isequal(size(R), [2 2]);
+asserts.isequal(size(R), [2 2]);
 %=============================================================================
-assert_checkerror('R = erfcx(1 + i);', _('Input argument must be dense and real.'));
+asserts.checkerror('R = erfcx(1 + i);', _('Input argument must be dense and real.'));
 %=============================================================================

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>trigFunction</keyword>
+<keyword_alias>block:trigFunction</keyword_alias>
+  <short_description>Trigonometric function of the input.</short_description>
+  <syntax>
+    <syntax_item>Block type: trigFunction</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Trigonometric function of the input.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Math blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>trigFunction</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Trigonometric Function</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Applies the trigonometric function selected by the <code>Function</code> parameter, element-wise, with scalar expansion for vector signals. Angles are expressed in radians.</p>
+    <p>
+      <b>Function</b>
+    </p>
+    <p>Single-input values: <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>asin</code>, <code>acos</code>, <code>atan</code>, <code>sinh</code>, <code>cosh</code>, <code>tanh</code>, <code>asinh</code>, <code>acosh</code>, <code>atanh</code>.</p>
+    <p><code>atan2</code> uses two inputs: <code>atan2(u1, u2)</code> with u1 on port 1 and u2 on port 2. <code>sincos</code> produces two outputs: sin(u) on port 1 and cos(u) on port 2.</p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/trigFunction.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/atan2">atan2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/sqrt">sqrt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

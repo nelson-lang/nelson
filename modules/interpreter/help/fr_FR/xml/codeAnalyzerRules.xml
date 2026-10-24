@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>codeAnalyzerRules</keyword>
+  <short_description>Identifiants des diagnostics de l&apos;analyseur de code.</short_description>
+  <description>
+    <p>Cette page liste les identifiants de diagnostics signales par <b>checkcode</b>, <b>codeIssues</b> et <b>nelson-lint</b>.</p>
+    <p>Chaque identifiant est stable et peut etre utilise dans les fichiers de configuration ou dans les suppressions locales comme <b>%#ok&lt;NLS0004&gt;</b>.</p>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Niveau par defaut</th>
+        <th>Categorie</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>NLS0001</td>
+        <td>error</td>
+        <td>Syntax</td>
+        <td>Erreur de syntaxe, lexique, entree ou lecture. Le fichier source ne peut pas etre analyse ou ne peut pas etre lu.</td>
+      </tr>
+      <tr>
+        <td>NLS0002</td>
+        <td>warning</td>
+        <td>Naming</td>
+        <td>Le nom de la fonction principale ou de la classe differe du nom du fichier source.</td>
+      </tr>
+      <tr>
+        <td>NLS0003</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>Du code place apres <b>return</b>, <b>break</b> ou <b>continue</b> est inaccessible dans le bloc courant.</td>
+      </tr>
+      <tr>
+        <td>NLS0004</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>Une variable locale est assignee mais n&apos;est jamais reutilisee ensuite. L&apos;analyseur ignore le texte dans les commentaires et les chaines de caracteres, ne compte pas la partie gauche d&apos;une affectation comme une utilisation, et ignore cette regle lorsque des affectations dynamiques rendent le flux local ambigu.</td>
+      </tr>
+      <tr>
+        <td>NLS0005</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Une variable locale est utilisee avant sa premiere affectation locale dans un cas simple et conservateur.</td>
+      </tr>
+      <tr>
+        <td>NLS0006</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Un argument de sortie declare n&apos;est pas assigne par le corps de la fonction.</td>
+      </tr>
+      <tr>
+        <td>NLS0007</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>Un argument d&apos;entree n&apos;est jamais utilise par le corps de la fonction.</td>
+      </tr>
+      <tr>
+        <td>NLS0008</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>Un bloc vide semble probablement involontaire.</td>
+      </tr>
+      <tr>
+        <td>NLS0009</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>Une condition est une valeur constante triviale comme <b>true</b>, <b>false</b>, <b>1</b> ou <b>0</b>.</td>
+      </tr>
+      <tr>
+        <td>NLS0010</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>Une ligne se termine par des espaces inutiles. Ce diagnostic est corrigeable trivialement.</td>
+      </tr>
+      <tr>
+        <td>NLS0011</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>Le fichier ne se termine pas par une nouvelle ligne. Ce diagnostic est corrigeable trivialement.</td>
+      </tr>
+      <tr>
+        <td>NLS0012</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>Une ligne depasse la longueur maximale configuree.</td>
+      </tr>
+      <tr>
+        <td>NLS0013</td>
+        <td>error</td>
+        <td>Repository</td>
+        <td>Un terme interdit par les regles du depot apparait dans le code source ou l&apos;aide.</td>
+      </tr>
+      <tr>
+        <td>NLS0014</td>
+        <td>warning ou error</td>
+        <td>Metrics</td>
+        <td>La complexite cyclomatique depasse le seuil configure.</td>
+      </tr>
+      <tr>
+        <td>NLS0015</td>
+        <td>warning ou error</td>
+        <td>Metrics</td>
+        <td>La complexite cyclomatique modifiee depasse le seuil configure.</td>
+      </tr>
+      <tr>
+        <td>NLS0016</td>
+        <td>error</td>
+        <td>Security</td>
+        <td>La ligne source contient un caractere de formatage directionnel invisible.</td>
+      </tr>
+      <tr>
+        <td>NLS0017</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td>Un appel d&apos;affichage encapsule <b>sprintf</b>. Preferer une sortie formatee directe pour un code plus clair.</td>
+      </tr>
+      <tr>
+        <td>NLS0018</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td>Un appel de diagnostic encapsule <b>sprintf</b>. Preferer le passage direct des arguments formates.</td>
+      </tr>
+      <tr>
+        <td>NLS0019</td>
+        <td>error</td>
+        <td>Config</td>
+        <td>Le fichier de configuration de l&apos;analyseur de code est invalide.</td>
+      </tr>
+      <tr>
+        <td>NLS0020</td>
+        <td>warning</td>
+        <td>Metrics</td>
+        <td>Un fichier depasse le nombre maximal de lignes configure.</td>
+      </tr>
+      <tr>
+        <td>NLS0021</td>
+        <td>warning</td>
+        <td>Metrics</td>
+        <td>Une fonction depasse le nombre maximal de lignes configure.</td>
+      </tr>
+      <tr>
+        <td>NLS0022</td>
+        <td>warning</td>
+        <td>Security</td>
+        <td>Un appel dynamique de code ou une mutation de workspace dangereuse est utilise. Les appels <b>load</b> simples en forme commande peuvent proposer une suggestion non sure pour capturer les donnees chargees dans une structure.</td>
+      </tr>
+      <tr>
+        <td>NLS0023</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>Une fonction locale n&apos;est jamais appelee dans son fichier.</td>
+      </tr>
+      <tr>
+        <td>NLS0024</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Une variable locale masque une fonction locale du meme fichier.</td>
+      </tr>
+      <tr>
+        <td>NLS0025</td>
+        <td>warning</td>
+        <td>Numeric</td>
+        <td>Un litteral flottant est compare avec une egalite exacte.</td>
+      </tr>
+      <tr>
+        <td>NLS0026</td>
+        <td>warning ou error</td>
+        <td>Metrics</td>
+        <td>La complexite cognitive depasse le seuil configure.</td>
+      </tr>
+      <tr>
+        <td>NLS0027</td>
+        <td>allow par defaut</td>
+        <td>Documentation</td>
+        <td>Une fonction publique ou une classe n&apos;a pas de commentaire d&apos;aide. Ce diagnostic peut inserer un squelette de commentaire d&apos;aide.</td>
+      </tr>
+      <tr>
+        <td>NLS0028</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Une variable de fonction imbriquee masque un symbole d&apos;une portee parente.</td>
+      </tr>
+      <tr>
+        <td>NLS0029</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Une variable locale masque un symbole importe.</td>
+      </tr>
+      <tr>
+        <td>NLS0030</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>Un symbole importe n&apos;est jamais utilise.</td>
+      </tr>
+      <tr>
+        <td>NLS0031</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Une propriete de classe est declaree plusieurs fois dans la meme classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0032</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Une methode de classe est declaree plusieurs fois dans la meme classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0033</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Un evenement de classe est declare plusieurs fois dans la meme classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0034</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>Une variable locale ou un argument masque un nom de fonction builtin.</td>
+      </tr>
+      <tr>
+        <td>NLS0035</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Une variable ou un argument de methode masque un nom de propriete de classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0036</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>Une affectation locale masque un nom d&apos;argument d&apos;entree.</td>
+      </tr>
+      <tr>
+        <td>NLS0037</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Une superclasse est listee plusieurs fois dans la meme classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0038</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>Un attribut de classe est liste plusieurs fois dans la meme classe.</td>
+      </tr>
+    </table>
+    <p>Les niveaux des regles peuvent etre changes avec l&apos;objet <b>rules</b> de <b>nelson-lint.json</b>. Les fichiers de configuration version 2 doivent declarer <b>"version": 2</b>. Les niveaux acceptes sont <b>allow</b>, <b>info</b>, <b>warning</b> et <b>error</b>.</p>
+  </description>
+  <used_function>checkcode, codeIssues, nelson-lint</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer un diagnostic de variable locale volontairement inutilisee.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[%#ok<NLS0004>
+temporaryValue = computeExpensiveValue();]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

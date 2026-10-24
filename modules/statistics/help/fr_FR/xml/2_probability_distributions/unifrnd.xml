@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>unifrnd</keyword>
+  <short_description>Nombres aleatoires uniformes continus</short_description>
+  <syntax>
+    <syntax_item>r = unifrnd(a, b)</syntax_item>
+    <syntax_item>r = unifrnd(a, b, sz)</syntax_item>
+    <syntax_item>r = unifrnd(a, b, sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>scalaire reel ou tableau : borne inferieure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>scalaire reel ou tableau : borne superieure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>vecteur de taille ou scalaires de taille pour la sortie.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>tableau : valeurs aleatoires.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>unifrnd</b> genere des nombres aleatoires selon des lois uniformes continues avec le generateur global de Nelson.</p>
+    <p>Les bornes scalaires sont etendues a la taille demandee. Les intervalles invalides produisent des valeurs NaN.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[rng(0);
+r = unifrnd(0, 1);
+r2 = unifrnd(0, 1, [2 3]);
+r3 = unifrnd(0:5, 1:6, 1, 6);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}unifpdf">unifpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifcdf">unifcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifinv">unifinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -23,5 +23,5 @@ NumberToString(const ArrayOf& A, double N, bool& needToOverload);
 NLSSTRING_IMPEXP ArrayOf
 NumberToString(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

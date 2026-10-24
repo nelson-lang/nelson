@@ -8,62 +8,66 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = deconv(varargin)
-  
+
   narginchk(2, 2);
   nargoutchk(0, 2);
   b = varargin{1};
   a = varargin{2};
-  
+
   if (~(isvector(a) && isvector(b)))
-    error(_('B and A must be vectors.'));
+    error('Nelson:deconv:vectorExpected', 'B and A must be vectors.');
   end
-  
+
   if ((size(b, 1) && size(a, 2)) || (size(b, 2) && size(a, 1)))
     a = a.';
   end
   if a(1) == 0
-    error(_('First coefficient of A must be non-zero.'));
+    error('Nelson:deconv:leadingCoefficientZero', 'First coefficient of A must be nonzero.');
   end
   if isscalar(a)
-    varargout{1} = b / a;
-    varargout{2} = zeros(size(b));
+    q = b / a;
+    varargout{1} = q;
+    varargout{2} = zeros(size(b), class(q));
     return;
   end
 
   [mb, nb] = size(b);
   nb = max(mb, nb);
   na = length(a);
-  
+
+  % result is single if B or A is single
+  if issingle(b) || issingle(a)
+    outclass = 'single';
+  else
+    outclass = 'double';
+  end
+
   if (na > nb) || all(a == 0)
-    if issingle(b) && issingle(a)
-      q = zeros(class(b));
-    else
-      q = zeros(class(2));
-    end
+    q = zeros(1, 1, outclass);
     varargout{1} = q;
     varargout{2} = cast(b, class(q));
     return;
   end
-  
+
   if nb - na + 1 <= 0
-    q = zeros(1, 1);
+    q = zeros(1, 1, outclass);
   else
-    q = zeros(1, nb - na + 1);
+    q = zeros(1, nb - na + 1, outclass);
   end
-  r = b;
-  
-  for i = 1:nb-na+1
+  r = cast(b, outclass);
+
+  for i = 1:nb - na + 1
     if (r(i) ~= 0)
       q(i) = r(i) / a(1);
       for j = 1:na
-        r(i+j-1) = r(i+j-1) - q(i)*a(j);
+        r(i + j - 1) = r(i + j - 1) - q(i) * a(j);
       end
     end
   end
   if mb ~= 1
     q = q(:);
-  end    
- 
+  end
+
   varargout{1} = q;
   varargout{2} = r;
 end

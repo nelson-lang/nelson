@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,7 +11,8 @@
 #include "h5ReadHelpers.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,7 +33,7 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
         dataType = H5Tcopy(H5T_NATIVE_DOUBLE);
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     } break;
     }
@@ -45,7 +46,8 @@ h5ReadReferenceFloat(hid_t dset2, hid_t space2, hid_t mtype, bool asAttribute, s
     herr_t status = H5Dread(dset2, dataType, memspace, space2, H5P_DEFAULT, rdata2);
     H5Sclose(memspace);
     if (status < 0) {
-        error = _W("Cannot read attribute.");
+        error
+            = resolveMessageTemplate(L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         return {};
     }
     return element;
@@ -97,7 +99,7 @@ h5ReadReferenceInteger(
         }
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     } break;
     }
@@ -110,7 +112,8 @@ h5ReadReferenceInteger(
     herr_t status = H5Dread(dset2, dataType, memspace, space2, H5P_DEFAULT, rdata2);
     H5Sclose(memspace);
     if (status < 0) {
-        error = _W("Cannot read attribute.");
+        error
+            = resolveMessageTemplate(L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         return {};
     }
     return element;
@@ -127,24 +130,24 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
     }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = dimensions(aspace, rank);
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
     ArrayOf* elements = nullptr;
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
 
     hdset_reg_ref_t* rdata = nullptr;
     try {
-        rdata = new_with_exception<hdset_reg_ref_t>(dims.getElementCount(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        rdata = new_with_exception<hdset_reg_ref_t>(dims.elementCount(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     herr_t status = H5I_INVALID_HID;
@@ -154,7 +157,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
         status = H5Dread(attr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, rdata);
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
 #if H5_VERS_MAJOR <= 1 && H5_VERS_MINOR < 9
         hid_t dset2 = H5Rdereference(attr_id, H5R_DATASET_REGION, &rdata[k]);
@@ -171,7 +174,7 @@ h5ReadReference(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::
             elements[k] = h5ReadReferenceFloat(dset2, space2, mtype, asAttribute, error);
         } break;
         default: {
-            error = _W("Type not managed.");
+            error = _W("Type not supported.");
         } break;
         }
         H5Tclose(mtype);

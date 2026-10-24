@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode tolerances tutorial</keyword>
+  <short_description>Control ODE accuracy and statistics.</short_description>
+  <description>
+    <p>Use <b>RelTol</b> for relative accuracy and <b>AbsTol</b> for small solution components. Use <b>InitialStep</b>, <b>MaxStep</b>, and <b>MinStep</b> to bound the adaptive step controller.</p>
+    <table style="width:100%">
+  <tr><th>Option</th><th>Effect</th><th>Typical use</th></tr>
+  <tr><td><b>RelTol</b></td><td>Scales the local error test with the solution size.</td><td>Primary accuracy control.</td></tr>
+  <tr><td><b>AbsTol</b></td><td>Sets a floor for small solution components.</td><td>Protects variables near zero.</td></tr>
+  <tr><td><b>NormControl</b></td><td>Uses a vector norm in the adaptive error test.</td><td>Coupled systems with shared scale.</td></tr>
+  <tr><td><b>Stats</b></td><td>Reports solver counters.</td><td>Diagnostics and regression tests.</td></tr>
+</table>
+    <p>Set <b>Stats</b> to <b>on</b> to display integration counts, or read the <b>stats</b> field from a solution structure.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compare two tolerances.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[loose = odeset('RelTol', 1e-3, 'AbsTol', 1e-6);
+tight = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
+solLoose = ode45(@(t,y) y, [0 1], 1, loose);
+solTight = ode45(@(t,y) y, [0 1], 1, tight);
+[solLoose.stats.nsteps solTight.stats.nsteps] ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display statistics.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Stats', 'on', 'MaxStep', 0.1);
+[t, y] = ode45(@(t,y) -y, [0 1], 1, options);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeget">odeget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

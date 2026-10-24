@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parameterizedfunctionline properties</keyword>
+  <short_description>Proprietes de l'objet graphique parameterizedfunctionline.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>parameterizedfunctionline</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>AffectAutoLimits</b></td>
+        <td>met a jour les limites automatiques des axes.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies [min max].</td>
+      </tr>
+      <tr>
+        <td><b>AlignVertexCenters</b></td>
+        <td>met a jour le rendu au rafraichissement.</td>
+        <td>Type: valeur on/off. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation.</td>
+        <td>Type: objet d'annotation graphique. Valeurs prises en charge: handle d'annotation ou handle vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>indique l'etat de suppression.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'off' ou 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle la mise en file des callbacks.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'queue' ou 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute sur evenement bouton souris.</td>
+        <td>Type: callback. Valeurs prises en charge: [], handle de fonction, texte ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>se met a jour avec le parentage.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>controle le rognage aux limites des axes.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>modifie la couleur de ligne.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms de couleurs, noms courts, triplet RGB, couleur hexadecimale ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorMode</b></td>
+        <td>choisit la couleur automatique ou manuelle.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache un menu contextuel.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute a la creation de l'objet.</td>
+        <td>Type: callback. Valeurs prises en charge: [], handle de fonction, texte ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>met a jour le contenu des infobulles de donnees interactives.</td>
+        <td>Type: objet modele d&apos;infobulle ou valeur vide. Valeurs prises en charge: un objet modele d&apos;infobulle ou une valeur vide.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute a la suppression de l'objet.</td>
+        <td>Type: callback. Valeurs prises en charge: [], handle de fonction, texte ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>definit le libelle de legende.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle la recherche de handles.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on', 'off' ou 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controle le test de selection souris.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle l'interruption des callbacks.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineJoin</b></td>
+        <td>modifie les jonctions de segments.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'miter', 'round' ou 'chamfer'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>modifie le style de ligne.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: '-', '--', ':', '-.' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleMode</b></td>
+        <td>choisit le style automatique ou manuel.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>modifie l'epaisseur de ligne.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>modifie le symbole de marqueur.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: noms de marqueurs, caracteres de marqueurs ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>modifie la couleur de bord de marqueur.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: couleurs, 'auto', 'none' ou 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>modifie la couleur de face de marqueur.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: couleurs, 'auto', 'none' ou 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerIndices</b></td>
+        <td>selectionne les points marques.</td>
+        <td>Type: vecteur d'entiers positifs. Valeurs prises en charge: indices des donnees tracees ou valeur vide.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerMode</b></td>
+        <td>choisit les marqueurs automatiques ou manuels.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>modifie la taille de marqueur.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>MeshDensity</b></td>
+        <td>controle la densite d'echantillonnage.</td>
+        <td>Type: entier positif scalaire. Valeurs prises en charge: entier superieur a 1.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent de l'objet.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle axes ou hggroup.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>selectionne les parties cliquables.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'visible', 'all' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>RData</b></td>
+        <td>met a jour les donnees radiales polaires.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: [] ou donnees numeriques finies/infinies.</td>
+      </tr>
+      <tr>
+        <td><b>RDataMode</b></td>
+        <td>choisit les donnees radiales automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>RDataSource</b></td>
+        <td>stocke le texte source radial.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: texte vide ou nom de variable.</td>
+      </tr>
+      <tr>
+        <td><b>RVariable</b></td>
+        <td>stocke le texte de variable radiale.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: texte vide ou nom de variable.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>modifie l'etat de selection.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle la surbrillance de selection.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>stocke l'ordre de serie.</td>
+        <td>Type: entier scalaire. Valeurs prises en charge: valeur entiere finie.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>lie les donnees de l&apos;objet a une table; les proprietes de variables selectionnent les colonnes.</td>
+        <td>Type: table. Valeurs prises en charge: table vide ou table fournissant les variables liees.</td>
+      </tr>
+      <tr>
+        <td><b>TRange</b></td>
+        <td>definit l'intervalle d'echantillonnage du parametre.</td>
+        <td>Type: vecteur ligne numerique a deux elements. Valeurs prises en charge: intervalle fini croissant [tmin tmax].</td>
+      </tr>
+      <tr>
+        <td><b>TRangeMode</b></td>
+        <td>choisit la plage de parametre automatique ou manuelle.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un identifiant d'objet.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: texte vide ou texte identifiant.</td>
+      </tr>
+      <tr>
+        <td><b>ThetaData</b></td>
+        <td>met a jour les donnees angulaires polaires.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: [] ou donnees numeriques finies/infinies.</td>
+      </tr>
+      <tr>
+        <td><b>ThetaDataMode</b></td>
+        <td>choisit les donnees angulaires automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ThetaDataSource</b></td>
+        <td>stocke le texte source angulaire.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: texte vide ou nom de variable.</td>
+      </tr>
+      <tr>
+        <td><b>ThetaVariable</b></td>
+        <td>stocke le texte de variable angulaire.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: texte vide ou nom de variable.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>indique le type d'objet.</td>
+        <td>Type: texte en lecture seule. Valeurs prises en charge: 'parameterizedfunctionline'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>controle la visibilite.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'on' ou 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>stocke les donnees x echantillonnees.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: [] ou vecteur numerique ligne/colonne.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>choisit les donnees x automatiques ou manuelles.</td>
+        <td>Type: chaine scalaire. Valeurs prises en charge: 'auto' ou 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDataSource</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>XFunction</b></td>
+        <td>stocke la fonction echantillonnee pour x.</td>
+        <td>Type: valeur fonction. Valeurs prises en charge: handle de fonction ou valeur vide.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>stocke les donnees y echantillonnees.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: [] ou vecteur numerique ligne/colonne.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDataSource</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>YFunction</b></td>
+        <td>stocke la fonction echantillonnee pour y.</td>
+        <td>Type: valeur fonction. Valeurs prises en charge: handle de fonction ou valeur vide.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>ZData</b></td>
+        <td>stocke les donnees z echantillonnees.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: [] ou vecteur numerique ligne/colonne.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataSource</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>ZFunction</b></td>
+        <td>stocke la fonction echantillonnee pour z.</td>
+        <td>Type: valeur fonction. Valeurs prises en charge: handle de fonction ou valeur vide.</td>
+      </tr>
+      <tr>
+        <td><b>ZVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+    </table>
+  </description>
+  <examples><example_item><example_item_type>Nelson</example_item_type><example_item_description>Inspecter les proprietes de parameterizedfunctionline.</example_item_description><example_item_data><![CDATA[h = fplot(@cos, @sin); properties(h)]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${graphics}1_plots/1_line_plots/fplot">fplot</link></see_also_item><see_also_item><link linkend="${graphics}1_plots/1_line_plots/fplot3">fplot3</link></see_also_item><see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link></see_also_item></see_also>
+</xmldoc>

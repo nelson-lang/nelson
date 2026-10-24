@@ -7,25 +7,28 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('whonh5'), 1);
-assert_isequal(nargout('whonh5'), 1);
+asserts.isequal(nargin('whonh5'), 1);
+asserts.isequal(nargout('whonh5'), 1);
 %=============================================================================
-if (isfile([tempdir(), 'test_whonh5.nh5']))
-  rmfile([tempdir(), 'test_whonh5.nh5'])
+test_whonh5_file = [tempname(), '.nh5'];
+if (isfile(test_whonh5_file))
+  rmfile(test_whonh5_file)
 end
 A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);
-savenh5([tempdir(), 'test_whonh5.nh5'], 'A', 'B', 'C', 'D')
-c = whonh5([tempdir(), 'test_whonh5.nh5']);
+savenh5(test_whonh5_file, 'A', 'B', 'C', 'D')
+c = whonh5(test_whonh5_file);
 REF = {'A'; 'B'; 'C'; 'D'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
-c = whonh5([tempdir(), 'test_whonh5.nh5'], 'A', 'C');
+c = whonh5(test_whonh5_file, 'A', 'C');
 REF = {'A'; 'C'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
-whonh5([tempdir(), 'test_whonh5.nh5'], 'A', 'C');
-whonh5([tempdir(), 'test_whonh5.nh5']);
+whonh5(test_whonh5_file, 'A', 'C');
+whonh5(test_whonh5_file);
+%=============================================================================
+rmfile(test_whonh5_file);
 %=============================================================================

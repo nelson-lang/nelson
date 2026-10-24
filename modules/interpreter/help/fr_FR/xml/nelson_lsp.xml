@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson-lsp</keyword>
+  <short_description>Point d&apos;entree Language Server Protocol pour les diagnostics de code Nelson.</short_description>
+  <syntax>
+    <syntax_item>nelson-lsp</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson-lsp</b> est un serveur JSON-RPC Language Server Protocol sur l&apos;entree standard et la sortie standard.</p>
+    <p>L&apos;executable est destine a etre lance par un editeur ou un environnement de developpement. Il n&apos;ouvre pas d&apos;invite interactive et ne lit pas de fichiers source depuis la ligne de commande. Le client envoie les messages Language Server Protocol sur stdin avec l&apos;en-tete standard <b>Content-Length</b>, et le serveur ecrit les reponses et notifications JSON-RPC sur stdout.</p>
+    <p>Le serveur maintient un modele leger de document et de workspace. Les documents ouverts sont indexes avec leur texte courant, leur version, leurs diagnostics, leurs symboles, leurs fonctions locales, leurs classes, leurs imports et leurs variables locales. Les racines de workspace sont indexees separement; chaque racine garde les fichiers <b>.m</b> trouves, les fonctions publiques, les fonctions locales, les classes, les chemins de modules et un cache invalide par date de fichier, hash de contenu et configuration lint.</p>
+    <p>Le serveur publie les diagnostics de l&apos;analyseur de code Nelson pour les buffers ouverts. Les diagnostics utilisent <b>nelson-lint</b> comme source et exposent l&apos;identifiant de regle, la severite, le message, la plage de texte, des <b>data</b> stables pour les actions de code ulterieures, les liens d&apos;aide <b>codeDescription</b>, <b>relatedInformation</b> et les tags LSP pour les elements inutilises ou obsoletes lorsque c&apos;est applicable.</p>
+    <p>Les editeurs qui utilisent les diagnostics en pull peuvent appeler <b>textDocument/diagnostic</b> pour un document ou <b>workspace/diagnostic</b> pour tous les fichiers sous les racines de workspace initialisees. Les diagnostics workspace reutilisent l&apos;analyse recursive, respectent la configuration partagee d&apos;inclusion et d&apos;exclusion, et prennent en charge les notifications de progression partielle.</p>
+    <p>Les corrections rapides sont renvoyees par <b>textDocument/codeAction</b>. Si un diagnostic porte des edits de texte surs, le serveur renvoie une action <b>quickfix</b> qui applique ces edits. Pour chaque diagnostic non supprime, le serveur propose aussi une action de suppression locale qui ajoute <b>%#ok&lt;ID&gt;</b> sur la ligne du diagnostic et une action de suppression fichier en tete du fichier.</p>
+    <p>Les actions source incluent <b>source.fixAll.nelson-lint</b> pour toutes les corrections lint sures d&apos;un document, <b>source.organizeImports</b> pour nettoyer les imports et <b>source.nelson.generateHelpSkeleton</b> pour generer une commande de squelette d&apos;aide. Certains diagnostics peuvent aussi proposer des corrections plus riches, comme creer un fichier de fonction manquant ou ajouter un stub de fonction locale.</p>
+    <p>Le formatage est expose par <b>textDocument/formatting</b>, <b>textDocument/rangeFormatting</b> et <b>textDocument/onTypeFormatting</b>. Le serveur utilise le meme coeur de formatage Nelson que <b>nelson-format</b> et renvoie des edits utilisables pour le format-on-save et le formatage declenche par l&apos;editeur.</p>
+    <p>La surface de navigation et d&apos;edition prend en charge <b>textDocument/hover</b>, <b>textDocument/completion</b>, <b>completionItem/resolve</b>, <b>textDocument/signatureHelp</b>, <b>textDocument/definition</b>, <b>textDocument/declaration</b>, <b>textDocument/implementation</b>, <b>textDocument/references</b>, <b>textDocument/documentHighlight</b>, <b>textDocument/prepareRename</b> et <b>textDocument/rename</b>. Le renommage est volontairement limite aux edits locaux dans le document courant.</p>
+    <p>Les completions couvrent les mots-cles Nelson, les snippets, les variables locales, les fonctions locales, les fonctions du workspace, les classes et les chemins de modules connus. Les requetes hover renvoient les informations de regle de l&apos;analyseur lorsque le curseur est sur un diagnostic, ou les informations de symbole lorsque le curseur est sur un symbole local ou workspace connu.</p>
+    <p>La surface IDE structurelle prend en charge <b>textDocument/documentSymbol</b>, <b>workspace/symbol</b>, <b>textDocument/foldingRange</b>, <b>textDocument/selectionRange</b>, <b>textDocument/semanticTokens/full</b>, <b>textDocument/codeLens</b> et <b>textDocument/documentLink</b>. Les semantic tokens identifient les mots-cles, fonctions, variables, classes, proprietes, methodes, chaines et commentaires.</p>
+    <p>Les code lenses exposent des actions preparees pour lancer le fichier courant, lancer les tests du module et inspecter le nombre d&apos;issues du document courant. Les liens de document sont renvoyes pour les chemins de type fichier trouves dans le texte source.</p>
+    <p>Le provider <b>workspace/executeCommand</b> accepte <b>nelson.runFile</b>, <b>nelson.runSelection</b>, <b>nelson.runTestsForModule</b>, <b>nelson.openHelp</b>, <b>nelson.lintWorkspace</b>, <b>nelson.clearLspCache</b> et <b>nelson.createFunctionFile</b>. Les commandes renvoient des donnees structurees que le client peut executer ou afficher; le serveur ne modifie pas les fichiers sauf si le client applique explicitement un workspace edit ou un resultat de commande renvoye.</p>
+    <p>La surface actuelle du protocole prend en charge <b>initialize</b>, <b>shutdown</b>, <b>exit</b>, <b>$/cancelRequest</b>, <b>workspace/didChangeConfiguration</b>, <b>workspace/didChangeWorkspaceFolders</b>, <b>workspace/executeCommand</b>, <b>workspace/symbol</b>, <b>textDocument/didOpen</b>, <b>textDocument/didChange</b>, <b>textDocument/didSave</b>, <b>textDocument/didClose</b>, <b>textDocument/willSaveWaitUntil</b>, <b>textDocument/diagnostic</b>, <b>workspace/diagnostic</b>, <b>textDocument/formatting</b>, <b>textDocument/rangeFormatting</b>, <b>textDocument/onTypeFormatting</b>, <b>textDocument/codeAction</b>, <b>codeAction/resolve</b>, <b>textDocument/hover</b>, <b>textDocument/completion</b>, <b>completionItem/resolve</b>, <b>textDocument/signatureHelp</b>, <b>textDocument/definition</b>, <b>textDocument/declaration</b>, <b>textDocument/implementation</b>, <b>textDocument/references</b>, <b>textDocument/documentHighlight</b>, <b>textDocument/prepareRename</b>, <b>textDocument/rename</b>, <b>textDocument/documentSymbol</b>, <b>textDocument/foldingRange</b>, <b>textDocument/selectionRange</b>, <b>textDocument/semanticTokens/full</b>, <b>textDocument/codeLens</b> et <b>textDocument/documentLink</b>.</p>
+    <p>La reponse <b>initialize</b> annonce une synchronisation incrementale du texte, les notifications d&apos;ouverture et de fermeture, les diagnostics en pull, les diagnostics workspace, le formatage de document, le formatage de plage, le formatage on-type, les actions de code avec support de resolution, les informations de hover, la completion avec support de resolution, l&apos;aide de signature, la navigation vers definition, declaration et implementation, les references, les highlights de document, le prepare-rename, les symboles de document, les symboles workspace, les folding ranges, les selection ranges, les semantic tokens, les code lenses, les liens de document, les commandes execute, les dossiers workspace et les notifications de sauvegarde. <b>textDocument/didChange</b> accepte les changements de document complet et les patches incrementaux avec plage de texte dans l&apos;ordre envoye par le client.</p>
+    <p>Lorsqu&apos;un client envoie des versions de document, les diagnostics publies pour les documents ouverts incluent la meme version. Les diagnostics workspace utilisent <b>null</b> comme version pour les fichiers analyses depuis le disque et la version courante pour les buffers ouverts.</p>
+    <p>Les diagnostics workspace prennent en charge <b>partialResultToken</b>. Lorsque le token est present, le serveur envoie les elements de diagnostic via une notification de resultat partiel <b>$/progress</b> et renvoie une liste finale vide pour cette requete.</p>
+    <p>Les requetes de hover sur un diagnostic actif renvoient du Markdown avec l&apos;identifiant de regle, le nom de regle, la severite, la categorie, la fixabilite, une description courte, le message du diagnostic et le lien d&apos;aide lorsqu&apos;il existe.</p>
+    <p>Les URI de fichier au format <b>file:///</b> sont converties en chemins locaux avant l&apos;analyse. Les autres schemas d&apos;URI sont analyses comme un buffer en memoire nomme <b>buffer.m</b>.</p>
+    <p>La configuration est partagee avec l&apos;analyseur de code. Lorsqu&apos;un espace de travail contient un fichier de configuration de lint Nelson, les diagnostics suivent les memes severites et seuils que <b>checkcode</b>, <b>codeIssues</b> et <b>nelson-lint</b>.</p>
+    <p>Les editeurs peuvent aussi envoyer <b>workspace/didChangeConfiguration</b>. Le serveur accepte les reglages lint sous <b>settings.nelson.lint</b>, <b>settings.nelsonLint</b>, <b>settings.nelson-lint</b>, ou dans un objet de premier niveau contenant <b>rules</b> ou <b>files</b>. Les champs pris en charge reprennent la forme de la configuration lint pour <b>rules</b>, <b>files.include</b> et <b>files.exclude</b>; ces reglages sont appliques au-dessus de la configuration workspace pour les diagnostics suivants et les buffers ouverts sont rafraichis.</p>
+    <p>L&apos;annulation suit la notification Language Server Protocol <b>$/cancelRequest</b>. Si une requete en attente est annulee avant son traitement, le serveur renvoie une erreur JSON-RPC avec le code <b>-32800</b>.</p>
+  </description>
+  <used_function>checkcode, codeIssues, nelson-lint, nelson-format</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Demarrer le serveur depuis un client editeur.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-lsp]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Configuration typique d&apos;une commande editeur.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "command": "nelson-lsp",
+  "args": [],
+  "transport": "stdio",
+  "filetypes": ["nelson", "m"]
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Corps minimal d&apos;une requete initialize envoyee apres l&apos;en-tete Content-Length.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "processId": null,
+    "rootUri": "file:///C:/work/project",
+    "capabilities": {}
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Ouvrir un document et recevoir les diagnostics.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "method": "textDocument/didOpen",
+  "params": {
+    "textDocument": {
+      "uri": "file:///C:/work/project/example.m",
+      "languageId": "nelson",
+      "version": 1,
+      "text": "function y = example(x)\ny = x + 1;\nend\n"
+    }
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Demander les corrections rapides et suppressions pour le buffer courant.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "textDocument/codeAction",
+  "params": {
+    "textDocument": {
+      "uri": "file:///C:/work/project/example.m"
+    },
+    "range": {
+      "start": { "line": 0, "character": 0 },
+      "end": { "line": 0, "character": 0 }
+    },
+    "context": {
+      "diagnostics": []
+    }
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Appliquer un changement incremental avec une plage de texte.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "method": "textDocument/didChange",
+  "params": {
+    "textDocument": {
+      "uri": "file:///C:/work/project/example.m",
+      "version": 2
+    },
+    "contentChanges": [
+      {
+        "range": {
+          "start": { "line": 1, "character": 5 },
+          "end": { "line": 1, "character": 5 }
+        },
+        "text": " + 1"
+      }
+    ]
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Demander les edits de formatage avant sauvegarde.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "textDocument/willSaveWaitUntil",
+  "params": {
+    "textDocument": {
+      "uri": "file:///C:/work/project/example.m"
+    },
+    "reason": 1
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Mettre a jour les reglages lint depuis un editeur.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "method": "workspace/didChangeConfiguration",
+  "params": {
+    "settings": {
+      "nelson": {
+        "lint": {
+          "rules": {
+            "NLS0010": { "level": "allow" }
+          }
+        }
+      }
+    }
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Demander les diagnostics workspace apres initialize.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "workspace/diagnostic",
+  "params": {
+    "previousResultIds": []
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Demander les completions a la position courante du curseur.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "textDocument/completion",
+  "params": {
+    "textDocument": {
+      "uri": "file:///C:/work/project/example.m"
+    },
+    "position": { "line": 1, "character": 4 }
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Demander une commande preparee via le provider de commandes LSP.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "method": "workspace/executeCommand",
+  "params": {
+    "command": "nelson.runFile",
+    "arguments": ["file:///C:/work/project/example.m"]
+  }
+}
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

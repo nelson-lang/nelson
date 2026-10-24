@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nchoosek</keyword>
+  <short_description>Coefficient binomial ou combinaisons.</short_description>
+  <syntax>
+    <syntax_item>c = nchoosek(n, k)</syntax_item>
+    <syntax_item>C = nchoosek(v, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>scalaire entier positif ou nul : nombre de choix disponibles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>vecteur contenant les elements disponibles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>scalaire entier positif ou nul : nombre d&apos;elements selectionnes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>coefficient binomial lorsque la premiere entree est un scalaire.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>matrice dont les lignes contiennent les combinaisons de k elements de v.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>nchoosek(n, k) renvoie le coefficient binomial pour un scalaire entier positif ou nul n.</p>
+    <p>nchoosek(v, k) renvoie une matrice contenant toutes les combinaisons de k elements du vecteur v.</p>
+  </description>
+  <used_function>
+    <used_function_item>factorial</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer un coefficient binomial et toutes les combinaisons de deux elements d&apos;un vecteur.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[b = nchoosek(5, 2)
+C = nchoosek([10 20 30 40], 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}factorial">factorial</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}prod">prod</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

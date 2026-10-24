@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "renameStructFieldBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "IsValidFieldname.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -25,23 +26,24 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
     ArrayOfVector retval;
 
     if (!argIn[0].isStruct()) {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        Error(L"Nelson:data_structures:wrongTypeArgument1Struct",
+            L"Wrong type for argument #%d: %s expected.", 1, L"struct");
     }
 
     ArrayOf structArray = argIn[0];
 
     if (argIn.size() == 2) {
-        // Case 1: Rename all fields
-        stringVector currentNames = structArray.getFieldNames();
-        stringVector newNames = argIn[1].getContentAsCStringVector();
+        stringVector currentNames = structArray.fieldNames();
+        stringVector newNames = argIn[1].asUtf8StringVector();
 
         if (currentNames.size() != newNames.size()) {
-            Error(_W("Number of field names must match number of desired names."));
+            Error(L"Nelson:data_structures:fieldNamesMatchNewNames",
+                L"Number of field names must match number of desired names.");
         }
 
         for (const auto& name : newNames) {
             if (!IsValidFieldname(name)) {
-                Error(_("Invalid field name: ") + name);
+                Error("Nelson:renameStructField:invalidFieldName", "Invalid field name: %s", name);
             }
         }
 
@@ -50,38 +52,35 @@ Nelson::DataStructuresGateway::renameStructFieldBuiltin(int nLhs, const ArrayOfV
         return retval;
     }
 
-    // Case 2: Rename selected fields
-    stringVector oldNames = argIn[1].getContentAsCStringVector();
-    stringVector newNames = argIn[2].getContentAsCStringVector();
+    stringVector oldNames = argIn[1].asUtf8StringVector();
+    stringVector newNames = argIn[2].asUtf8StringVector();
 
     if (oldNames.size() != newNames.size()) {
-        Error(_W("Number of old field names must match number of new field names."));
+        Error(L"Nelson:data_structures:numberOldFieldNamesMatch",
+            L"Number of old field names must match number of new field names.");
     }
 
-    stringVector fieldNames = structArray.getFieldNames(); // must remain same size
+    stringVector fieldNames = structArray.fieldNames(); // must remain same size
     std::unordered_set<std::string> existingFieldNames(fieldNames.begin(), fieldNames.end());
 
-    // Apply valid renames only
     for (size_t i = 0; i < oldNames.size(); ++i) {
         const std::string& oldName = oldNames[i];
         const std::string& newName = newNames[i];
 
-        // Skip if oldName doesn't exist
         auto it = std::find(fieldNames.begin(), fieldNames.end(), oldName);
         if (it == fieldNames.end()) {
             continue;
         }
 
         if (!IsValidFieldname(newName)) {
-            Error(_("Invalid field name: ") + newName);
+            Error("Nelson:renameStructField:invalidFieldName", "Invalid field name: %s", newName);
         }
 
-        // Prevent overwriting another existing field
         if (oldName != newName && existingFieldNames.find(newName) != existingFieldNames.end()) {
-            Error(_("Cannot rename to an existing field: ") + newName);
+            Error("Nelson:renameStructField:fieldExists", "Cannot rename to an existing field: %s",
+                newName);
         }
 
-        // Perform the rename in-place
         *it = newName;
         existingFieldNames.erase(oldName);
         existingFieldNames.insert(newName);

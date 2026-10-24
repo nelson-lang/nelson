@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "LoadMatioLogical.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,15 +24,15 @@ LoadMatioLogical(matvar_t* matVariable, ArrayOf& VariableValue)
     NelsonType destinationClass = NLS_LOGICAL;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(destinationClass);
         bSuccess = true;
     } else {
         void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(
-                destinationClass, dims.getElementCount(), stringVector(), false);
-        } catch (Exception&) {
+                destinationClass, dims.elementCount(), stringVector(), false);
+        } catch (NelsonException&) {
             return false;
         }
         memcpy(ptr, matVariable->data, matVariable->nbytes);

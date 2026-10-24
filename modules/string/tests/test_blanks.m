@@ -7,20 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('blanks'), 1);
-assert_isequal(nargout('blanks'), 1);
+asserts.isequal(nargin('blanks'), 1);
+asserts.isequal(nargout('blanks'), 1);
 %=============================================================================
 r = blanks(3);
 REF = '   ';
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
 r = blanks(-3);
-REF = char(zeros(1,0));
-assert_isequal(r, REF);
+REF = char(zeros(1, 0));
+asserts.isequal(r, REF);
 %=============================================================================
-assert_checkerror('r = blanks([1 3]);', _('Expected a real value scalar.'));
+asserts.checkerror('r = blanks([1 3]);', _('A scalar expected.'));
+asserts.checkerror('r = blanks([1 3]);', _('A scalar expected.'), 'Nelson:types:scalarExpected');
 %=============================================================================
-assert_checkerror('r = blanks(NaN);', _('NaN and Inf not allowed.'));
+asserts.checkerror('r = blanks(NaN);', _('NaN and Inf not allowed.'));
+asserts.checkerror('r = blanks(NaN);', _('NaN and Inf not allowed.'), 'Nelson:string:nanInfNotAllowed');
 %=============================================================================
-assert_checkerror('r = blanks(2.3);', _('Expected a integer value.'));
+asserts.checkerror('r = blanks(2.3);', sprintf(_('%s must be an integer.'), 'Value'));
 %=============================================================================

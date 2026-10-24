@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>predict</keyword>
+  <short_description>Predict responses or class labels from a fitted model.</short_description>
+  <syntax>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>mdl</param_name>
+      <param_description>a fitted model object, such as a LinearModel, GeneralizedLinearModel, or one of the regression or classification model objects returned by the fit functions.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xnew</param_name>
+      <param_description>numeric matrix of new observations: rows are observations and columns are predictors, matching the predictors used to train mdl.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>yfit</param_name>
+      <param_description>predicted response values for the observations in Xnew (regression models).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>label</param_name>
+      <param_description>predicted class labels for the observations in Xnew (classification models).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>score</param_name>
+      <param_description>classification scores for each observation and class (classification models that provide scores).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>predict</b> is the common method used to evaluate a fitted model on new predictor data.</p>
+    <p>For regression models (for example the object returned by <b>fitlm</b> or <b>fitglm</b>),
+    <b>predict</b> returns the predicted response <b>yfit</b> for each row of <b>Xnew</b>.</p>
+    <p>For classification models (for example the object returned by <b>fitcsvm</b> or
+    <b>fitctree</b>), <b>predict</b> returns the predicted class <b>label</b> for each observation,
+    and optionally a matrix of classification <b>score</b> values.</p>
+    <p>The columns of <b>Xnew</b> must correspond to the predictors used when the model was fitted.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Predict responses from a fitted linear model.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[X = [1 2; 2 1; 3 4; 4 3];
+y = [3; 3; 7; 7];
+mdl = fitlm(X, y);
+yfit = predict(mdl, [7 4; 8 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}fitlm">fitlm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitglm">fitglm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitcsvm">fitcsvm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitctree">fitctree</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}LinearModel">LinearModel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

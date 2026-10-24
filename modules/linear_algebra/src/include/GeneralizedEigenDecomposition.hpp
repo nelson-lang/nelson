@@ -35,5 +35,5 @@ bool
 GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, ArrayOf& D,
     bool& needToOverload, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

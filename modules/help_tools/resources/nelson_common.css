@@ -196,6 +196,15 @@ a.toc-link:hover {
     text-decoration: underline;
     color: #0d47a1;
 }
+a.toc-link.active {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    font-weight: 700;
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    box-shadow: inset 3px 0 0 #1976d2;
+}
 p {
     margin-top: 4px;
     margin-bottom: 4px;
@@ -493,6 +502,11 @@ p {
     a.toc-link:hover {
         color: #42a5f5;
     }
+    a.toc-link.active {
+        background-color: #1a3a5c;
+        color: #bbdefb;
+        box-shadow: inset 3px 0 0 #42a5f5;
+    }
     .banner-image img {
         box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
@@ -617,5 +631,242 @@ p {
         background: #23272e;
         border: 1px solid #333;
         color: #e0e0e0;
+    }
+}
+
+/* =========================================================================
+   Help viewer UX enhancements
+   ========================================================================= */
+
+/* (2) Search field clear button */
+.help-viewer__search-field {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+.help-viewer__search-field .help-viewer__search-input {
+    padding-right: 26px;
+}
+.help-viewer__search-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #6b7681;
+    font-size: 1.15em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+.help-viewer__search-clear:hover {
+    color: #1558ad;
+    background: #eef4ff;
+}
+
+/* (11) Mobile drawer backdrop */
+.help-viewer__backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    z-index: 15;
+}
+@media (max-width: 960px) {
+    .help-viewer__backdrop:not([hidden]) {
+        display: block;
+    }
+}
+
+/* (1) In-TOC filter box */
+.toc-filter-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px 10px;
+    margin-bottom: 6px;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e7eb;
+}
+.toc-filter-input {
+    flex: 1;
+    min-width: 0;
+    padding: 7px 10px;
+    border: 1px solid #c9d1d9;
+    border-radius: 6px;
+    font-size: 0.92em;
+    outline: none;
+    background: #fff;
+}
+.toc-filter-input:focus {
+    border-color: #84b5ff;
+    box-shadow: 0 0 0 3px rgba(132, 181, 255, 0.35);
+}
+.toc-filter-clear {
+    border: none;
+    background: transparent;
+    color: #6b7681;
+    font-size: 1.2em;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.toc-filter-clear:hover {
+    color: #1558ad;
+    background: #eef4ff;
+}
+
+/* (6) "On this page" mini table of contents */
+.nelson-onthispage {
+    margin: 12px 0 20px;
+    padding: 10px 14px;
+    background: #f6f8fa;
+    border: 1px solid #e5e7eb;
+    border-left: 3px solid #1976d2;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+.nelson-onthispage__title {
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 0.82em;
+}
+.nelson-onthispage ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+}
+.nelson-onthispage li {
+    margin: 0;
+}
+.nelson-onthispage a {
+    color: #1976d2;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 1px;
+}
+.nelson-onthispage a:hover {
+    text-decoration: underline;
+}
+.nelson-onthispage a.active {
+    color: #0d47a1;
+    border-bottom-color: #1976d2;
+    font-weight: 600;
+}
+
+/* (7) Previous / next sibling navigation bar */
+.nelson-prevnext {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 32px 0 8px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+.nelson-prevnext__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 48%;
+    padding: 8px 14px;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    background: #fff;
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.nelson-prevnext__link:hover {
+    background: #f0f6ff;
+    border-color: #84b5ff;
+}
+.nelson-prevnext__next {
+    margin-left: auto;
+    text-align: right;
+}
+.nelson-prevnext__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.nelson-prevnext__disabled {
+    visibility: hidden;
+}
+
+/* (9) Search-term highlight in the opened page */
+mark.nelson-search-hit {
+    background: #fff3b0;
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+}
+mark.nelson-search-hit--current {
+    background: #ffd54f;
+    box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.5);
+}
+
+/* Dark theme for the enhancements above */
+@media (prefers-color-scheme: dark) {
+    .toc-filter-wrap {
+        background: #1b1d1e;
+        border-bottom-color: #333;
+    }
+    .toc-filter-input {
+        background: #101214;
+        border-color: #3a3f44;
+        color: #e0e0e0;
+    }
+    .toc-filter-clear:hover,
+    .help-viewer__search-clear:hover {
+        color: #90caf9;
+        background: #1a3a5c;
+    }
+    .nelson-onthispage {
+        background: #1b1d1e;
+        border-color: #333;
+        border-left-color: #42a5f5;
+    }
+    .nelson-onthispage__title {
+        color: #b0b0b0;
+    }
+    .nelson-onthispage a {
+        color: #90caf9;
+    }
+    .nelson-onthispage a.active {
+        color: #bbdefb;
+        border-bottom-color: #42a5f5;
+    }
+    .nelson-prevnext {
+        border-top-color: #333;
+    }
+    .nelson-prevnext__link {
+        background: #101214;
+        border-color: #3a3f44;
+        color: #90caf9;
+    }
+    .nelson-prevnext__link:hover {
+        background: #1a3a5c;
+        border-color: #42a5f5;
+    }
+    mark.nelson-search-hit {
+        background: #6d5a13;
+        color: #fff;
+    }
+    mark.nelson-search-hit--current {
+        background: #b8860b;
+        box-shadow: 0 0 0 2px rgba(255, 213, 79, 0.5);
     }
 }

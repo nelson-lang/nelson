@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,7 +16,7 @@ namespace Nelson {
 inline Dimensions
 getUniqueEmptyDimensions(const ArrayOf& input)
 {
-    indexType rows = input.getRows();
+    indexType rows = input.rows();
     if (rows == 0) {
         return Dimensions(0, 1);
     } else if (rows == 1) {
@@ -26,5 +26,5 @@ getUniqueEmptyDimensions(const ArrayOf& input)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

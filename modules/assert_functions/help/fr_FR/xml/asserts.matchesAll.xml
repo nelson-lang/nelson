@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>asserts.matchesAll</keyword>
+  <short_description>Verifie qu&apos;un texte correspond a toutes les expressions regulieres.</short_description>
+  <syntax>
+    <syntax_item>asserts.matchesAll(text, patterns)</syntax_item>
+    <syntax_item>[res, msg] = asserts.matchesAll(text, patterns)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>text</param_name><param_description>Vecteur de caracteres ou scalaire string a tester.</param_description></param_input_item>
+    <param_input_item><param_name>patterns</param_name><param_description>Motifs d&apos;expressions regulieres. Chaque motif doit correspondre.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>L&apos;assertion reussit lorsque chaque expression reguliere correspond a text.</p>
+    <p>Les expressions regulieres invalides levent immediatement une erreur d&apos;argument.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>All expressions match</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[asserts.matchesAll('abc123', {'^abc', '[0-9]+$'});]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture a missing match</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[res, msg] = asserts.matchesAll('abc123', {'^abc', '^xyz'});]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${assert_functions}asserts.matchesAny">asserts.matchesAny</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.match">asserts.match</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

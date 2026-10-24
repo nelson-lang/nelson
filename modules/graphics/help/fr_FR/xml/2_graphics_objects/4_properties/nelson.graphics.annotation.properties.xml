@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>annotation properties</keyword>
+  <short_description>Proprietes des annotations.</short_description>
+  <description>
+    <p>Les annotations ont des ensembles de proprietes differents selon le type cree par annotation.</p>
+    <p>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.line.properties">line annotation</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.arrow.properties">arrow</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.doublearrow.properties">doublearrow</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.textarrow.properties">textarrow</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.rectangle.properties">rectangle</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.ellipse.properties">ellipse</link><br/>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.textbox.properties">textbox</link><br/>
+    </p>
+  </description>
+  <examples />
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/annotation">annotation</link></see_also_item>
+  </see_also>
+</xmldoc>

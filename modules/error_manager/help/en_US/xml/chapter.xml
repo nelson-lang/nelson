@@ -10,8 +10,8 @@
     <p
     >It defines how exceptions are created, raised, and rethrown, as well as how diagnostic information can be retrieved after an error or warning occurs.</p>
     <p
-    >This module ensures that users can manage execution flow in the presence of failures, capture meaningful error reports, and display warnings without interrupting program execution.</p>
+    >It lets programs control execution after failures, capture diagnostic reports, and display warnings without stopping execution.</p>
     <p
-    >It forms the foundation for robust error handling and debugging in Nelson applications.</p>
+    >It provides the common error and warning primitives used by Nelson code.</p>
   </chapter_description>
 </xmldoc>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fspecial</keyword>
+  <short_description>Create predefined 2-D image filters.</short_description>
+  <syntax>
+    <syntax_item>H = fspecial(type)</syntax_item>
+    <syntax_item>H = fspecial('average', hsize)</syntax_item>
+    <syntax_item>H = fspecial('disk', radius)</syntax_item>
+    <syntax_item>H = fspecial('gaussian', hsize, sigma)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>Filter family name: 'average', 'disk', 'gaussian', 'sobel', 'prewitt', 'laplacian', or 'log'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>hsize</param_name>
+      <param_description>Filter size for 'average', 'gaussian', and 'log'. It can be a scalar or a two-element vector of positive integers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>radius</param_name>
+      <param_description>Nonnegative disk radius used with type 'disk'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>Positive standard deviation used with type 'gaussian' or 'log'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>Finite scalar in the range [0, 1] used with type 'laplacian'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>H</param_name>
+      <param_description>Predefined 2-D filter kernel returned as a double matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Create predefined 2-D image filters. Supported types include average, disk, gaussian, sobel, prewitt, laplacian and log.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and display a Gaussian filter</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[H=fspecial('gaussian',[21 21],3);
+figure; imagesc(H); g=linspace(0,1,64)'; colormap([g g g]); title('Gaussian filter');]]></example_item_data>
+      <example_item_img
+        src="../../../images/fspecial_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imgaussfilt">imgaussfilt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -10,13 +10,15 @@
 #pragma once
 //=============================================================================
 #include <future>
+#include <memory>
 #include <vector>
 #include "nlsParallel_exports.h"
 #include "HandleGenericObject.hpp"
+#include "HandleState.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
 #include "Interface.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "FevalFutureObject.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,8 +32,11 @@ public:
     void
     destroy();
 
+    static bool
+    isInitialized();
+
     void
-    add(FevalFutureObject* fevalFutureObject);
+    add(const HandleRef& fevalFutureObject);
 
     bool
     isMethod(const std::wstring& methodName) override;
@@ -42,8 +47,17 @@ public:
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
 
+    bool
+    useSharedHandleOwnership() const override
+    {
+        return false;
+    }
+
     void
     reset();
+
+    void
+    cleanupFinishedFutures();
 
     void
     cancelAll();
@@ -54,7 +68,7 @@ private:
 
     static FevalQueueObject* m_pInstance;
 
-    std::vector<FevalFutureObject*> fEvalQueue;
+    std::vector<std::weak_ptr<HandleState>> fEvalQueue;
 
     wstringVector propertiesNames;
 

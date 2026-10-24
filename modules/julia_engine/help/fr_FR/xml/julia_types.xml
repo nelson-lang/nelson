@@ -83,6 +83,17 @@
     <p>une matrice de struct convertie en <b>Matrix{Dict}</b>.</p>
     <p>
       <b>dictionary</b> converti en <b>Dict{Any, Any}</b>.</p>
+    <p>
+      <b>table</b> convertie en <b>DataFrames.DataFrame</b> lorsque le paquet
+      DataFrames.jl est disponible (les noms de variables deviennent les noms de
+      colonnes) ; sinon elle est convertie en <b>Dict{Any, Any}</b>.</p>
+    <p>Un <b>DataFrames.DataFrame</b> est converti en <b>table</b> Nelson avec
+      <b>table(df)</b> : les colonnes numériques conservent leur type numérique,
+      une colonne Bool devient une colonne <b>logical</b>, une colonne textuelle
+      devient une colonne <b>string</b>, une colonne numérique contenant
+      <b>missing</b> devient une colonne <b>double</b> avec <b>NaN</b>, et une
+      colonne textuelle contenant <b>missing</b> devient une colonne
+      <b>string</b> avec <b>&lt;missing&gt;</b>.</p>
     <p />
     <p
     >Assurez-vous que toutes les données transmises entre Julia et Nelson respectent les correspondances de types décrites ci-dessus pour des conversions sans heurts.</p>

@@ -7,11 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f1 = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
 f2 = dlsym(lib, 'dynlibTestInputDoublePtr', 'void', {'doublePtr', 'int32'});
 R = [f1; f2];
-assert_isequal(size(R),  [2 1]);
-assert_isequal(class(R), 'dlsym');
+asserts.isequal(size(R), [2 1]);
+asserts.isequal(class(R), 'dlsym');
 %=============================================================================

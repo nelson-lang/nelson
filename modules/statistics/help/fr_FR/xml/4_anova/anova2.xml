@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>anova2</keyword>
+  <short_description>Analyse de variance a deux facteurs.</short_description>
+  <syntax>
+    <syntax_item>p = anova2(Y)</syntax_item>
+    <syntax_item>p = anova2(Y, reps)</syntax_item>
+    <syntax_item>p = anova2(Y, reps, displayopt)</syntax_item>
+    <syntax_item>[p, tbl, stats] = anova2(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>anova2</b> effectue une analyse de variance equilibree a deux facteurs. Les lignes representent les niveaux du facteur ligne et les colonnes les niveaux du facteur colonne.</p>
+    <p>Lorsque <b>reps</b> est superieur a un, chaque niveau du facteur ligne occupe <b>reps</b> lignes consecutives. Les p-values retournees testent les colonnes, les lignes et l'interaction. Sans repetition, l'interaction n'est pas estimee.</p>
+    <p><b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[Y = [8 9 6; 7 8 5; 9 10 7; 12 14 11; 13 15 12; 11 13 10];
+[p, tbl, stats] = anova2(Y, 2, 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}anova1">anova1</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fcdf">fcdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}vartest2">vartest2</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

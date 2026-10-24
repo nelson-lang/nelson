@@ -23,7 +23,6 @@ NLSSTRING_IMPEXP ArrayOf
 StringReplace(const ArrayOf& STR, const ArrayOf& OLD, const ArrayOf& NEW, bool doOverlaps,
     bool& needToOverload);
 //=============================================================================
-// modern algo.
 NLSSTRING_IMPEXP std::wstring
 Replace(
     const std::wstring& searchStr, const std::wstring& pattern, const std::wstring& replacement);

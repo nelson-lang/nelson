@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ Nelson::TypeGateway::iscellBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOfVector retval(1);
-    retval << ArrayOf::logicalConstructor(argIn[0].getDataClass() == NLS_CELL_ARRAY);
+    retval << ArrayOf::logicalScalar(argIn[0].dataClass() == NLS_CELL_ARRAY);
     return retval;
 }
 //=============================================================================

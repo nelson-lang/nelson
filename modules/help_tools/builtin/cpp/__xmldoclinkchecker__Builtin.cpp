@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,8 @@
 //=============================================================================
 #include "__xmldoclinkchecker__Builtin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "XmlDocLinkChecker.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
@@ -22,18 +22,21 @@ readDirectoriesArgument(
 {
     directories.clear();
     if (argument.isRowVectorCharacterArray()) {
-        directories.push_back(argument.getContentAsWideString());
+        directories.push_back(argument.asWideString());
     } else if (argument.isCell()) {
-        directories = argument.getContentAsWideStringVector(true);
+        directories = argument.asWideStringVector(true);
     } else {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE_CELL_OF_STRINGS_EXPECTED;
+        errorMessage = Nelson::formatI18nMessage(
+            L"Wrong type for argument #%d: %s expected.", (1), L"cell of strings");
         return false;
     }
     bool permissionDenied = false;
     for (const auto& directory : directories) {
         if (!FileSystemWrapper::Path::is_directory(directory, permissionDenied)) {
-            errorMessage
-                = permissionDenied ? _W("Permission denied.") : _W("Existing directory expected.");
+            errorMessage = permissionDenied
+                ? Nelson::resolveMessageTemplate(
+                      L"Nelson:help_tools:permissionDenied", L"Permission denied.")
+                : _W("Existing directory expected.");
             return false;
         }
     }
@@ -48,18 +51,22 @@ readFilesArgument(const ArrayOf& argument, wstringVector& files, std::wstring& e
         return true;
     }
     if (argument.isRowVectorCharacterArray()) {
-        files.push_back(argument.getContentAsWideString());
+        files.push_back(argument.asWideString());
     } else if (argument.isCell()) {
-        files = argument.getContentAsWideStringVector(true);
+        files = argument.asWideStringVector(true);
     } else {
-        errorMessage = ERROR_WRONG_ARGUMENT_2_TYPE_CELL_OF_STRINGS_EXPECTED;
+        errorMessage = Nelson::formatI18nMessage(
+            L"Wrong type for argument #%d: %s expected.", (2), L"cell of strings");
         return false;
     }
     bool permissionDenied = false;
     for (const auto& file : files) {
         if (!FileSystemWrapper::Path::is_regular_file(file, permissionDenied)) {
-            errorMessage
-                = permissionDenied ? _W("Permission denied.") : _W("Existing file expected.");
+            errorMessage = permissionDenied
+                ? Nelson::resolveMessageTemplate(
+                      L"Nelson:help_tools:permissionDenied", L"Permission denied.")
+                : resolveMessageTemplate(
+                      L"Nelson:help_tools:existingFile", L"Existing file expected.");
             return false;
         }
     }
@@ -75,28 +82,28 @@ Nelson::HelpToolsGateway::__xmldoclinkchecker__Builtin(int nLhs, const ArrayOfVe
     std::wstring errorMessage;
     wstringVector xmlDirectories;
     if (!readDirectoriesArgument(argIn[0], xmlDirectories, errorMessage)) {
-        Error(errorMessage);
+        Error(L"Nelson:xmldoclinkchecker:checkFailed", errorMessage);
     }
 
     wstringVector xmlFilesToCheck;
     if (!readFilesArgument(argIn[1], xmlFilesToCheck, errorMessage)) {
-        Error(errorMessage);
+        Error(L"Nelson:xmldoclinkchecker:checkFailed", errorMessage);
     }
 
     wstringVector errors;
     wstringVector warnings;
     bool state = xmldoclinkchecker(xmlDirectories, xmlFilesToCheck, errors, warnings, errorMessage);
     if (!state && !errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:xmldoclinkchecker:checkFailed", errorMessage);
     }
 
     ArrayOfVector retval;
-    retval << ArrayOf::logicalConstructor(state);
+    retval << ArrayOf::logicalScalar(state);
     if (nLhs >= 2) {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errors);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(errors);
     }
     if (nLhs >= 3) {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(warnings);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(warnings);
     }
     return retval;
 }

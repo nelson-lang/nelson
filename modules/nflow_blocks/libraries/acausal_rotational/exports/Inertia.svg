@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="226.5" viewBox="-153.25 -103.25 306.5 226.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="226.5" rx="43.035" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-10" width="50" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="50" y="-10" width="50" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="-80,-25 -60,-25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="60,-25 80,-25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-70,-25 -70,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,-25 70,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,25 -60,25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="60,25 80,25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-70,45 -70,25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,45 70,25" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-70,-70 70,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">Inertia</text></g>
+    <g transform="translate(0,-100) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">J</text></g>
+    <rect x="-50" y="-50" width="100" height="100" rx="10" ry="10" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+  </g>
+</svg>

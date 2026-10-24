@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-[R1, R2] = deal (2, 1);
-assert_isequal(R1, 2);
-assert_isequal(R2, 1);
+[R1, R2] = deal(2, 1);
+asserts.isequal(R1, 2);
+asserts.isequal(R2, 1);
 %=============================================================================
 [R1, R2, R3] = deal(2);
-assert_isequal(R1, 2);
-assert_isequal(R2, 2);
-assert_isequal(R3, 2);
+asserts.isequal(R1, 2);
+asserts.isequal(R2, 2);
+asserts.isequal(R3, 2);
 %=============================================================================

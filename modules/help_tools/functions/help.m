@@ -10,15 +10,17 @@
 function varargout = help(varargin)
     % HELP Display help about Nelson macros and built-in functions.
     %
+    %   help function_name
+    %   help('function_name')
     %   HELP keyword
-    %   Displays help about the specified keyword (macro or built-in function).
+    %   Displays indexed help or an XML page of a loaded external module.
     %   If no keyword is provided, a general help message is displayed.
     %   txt = HELP(keyword)
     %   Returns the help text as a string instead of displaying it.
     %   Example:
     %       help('plot')
     %       txt = help('plot')
-    %   See also ismacro, isbuiltin, getlanguage, nelsonroot, jsondecode, terminal_size.    
+    %   See also ismacro, isbuiltin, getlanguage, nelsonroot, jsondecode, terminal_size.
     varargout = {};
     if nargin == 0
         fprintf([_('Type help ''help'' for more information.'), '\n']);
@@ -26,36 +28,48 @@ function varargout = help(varargin)
     end
     keyword = varargin{1};
     json = [nelsonroot(), filesep(), 'modules', filesep(), 'help_tools', filesep(), 'help', filesep(), 'nelson_help_', getlanguage(), '.json'];
-    if ~isfile(json)
+    indexExists = isfile(json);
+    helpData = [];
+    found = false;
+    completeDescription = false;
+    if indexExists
+        helpData = jsondecode(json, '-file');
+        found = isfield(helpData, keyword);
+        if found
+            page = helpData.(keyword);
+        end
+    end
+    if ~found
+        [page, found] = externalHelpPage(keyword);
+        completeDescription = found;
+    end
+    if found
+        [r, c] = terminal_size();
+        txt = formatStruct(page, c - 4, completeDescription);
+        if nargout == 0
+            fprintf('%s', txt);
+        else
+            varargout{1} = txt;
+        end
+        return
+    end
+    if ~indexExists
         if ~(ismacro(keyword) || isbuiltin(keyword))
             if nargout > 0
                 varargout{1} = '';
             end
             return
         end
-        msg = sprintf(_('Help file not found: "%s".'), json);
-        warning(msg);
+        warning('Nelson:help:fileNotFound', 'Help file not found: "%s".', json);
         if nargout > 0
             varargout{1} = '';
         end
         return
     end
-    helpData = jsondecode(json, '-file');
     if isempty(helpData)
-        msg = sprintf(_('No help available for "%s".'), keyword);
-        warning(msg);
+        warning('Nelson:help:notAvailable', 'No help available for "%s".', keyword);
         if nargout > 0
             varargout{1} = '';
-        end
-        return
-    end
-    if isfield(helpData, keyword)
-        [r, c] = terminal_size();
-        txt  = formatStruct(helpData.(keyword), c - 4);
-        if nargout == 0
-            fprintf(txt);
-        else
-            varargout{1} = txt;
         end
         return
     end
@@ -68,8 +82,7 @@ function varargout = help(varargin)
     if ismacro(keyword)
         ce = headcomments(keyword);
         if isempty(ce)
-            msg = sprintf(_('No help available for macro "%s".'), keyword);
-            warning(msg);
+            warning('Nelson:help:notAvailableMacro', 'No help available for macro "%s".', keyword);
             if nargout > 0
                 varargout{1} = '';
             end
@@ -80,12 +93,19 @@ function varargout = help(varargin)
                 fprintf([l{1}, newline()]);
             end
         else
-            varargout{1} = join(ce, newline());
+            txt = '';
+            for l = ce(:)'
+                if isempty(txt)
+                    txt = l{1};
+                else
+                    txt = [txt, newline(), l{1}];
+                end
+            end
+            varargout{1} = txt;
         end
         return
     else
-        msg = sprintf(_('Help not found for "%s".'), keyword);
-        warning(msg);
+        warning('Nelson:help:notFound', 'Help not found for "%s".', keyword);
         if nargout > 0
             varargout{1} = '';
         end
@@ -93,7 +113,7 @@ function varargout = help(varargin)
     end
 end
 %=============================================================================
-function txt = formatStruct(st, maxLineLength)
+function txt = formatStruct(st, maxLineLength, completeDescription)
     txt = '';
     if isempty(st)
         return
@@ -105,7 +125,7 @@ function txt = formatStruct(st, maxLineLength)
         end
     end
     if isfield(st, 'description')
-        r = formatDescription(st, maxLineLength);
+        r = formatDescription(st, maxLineLength, completeDescription);
         if ~isempty(r)
             if ~isempty(txt)
                 txt = [txt, newline];
@@ -155,12 +175,12 @@ function txt = formatShortDescription(st, maxLineLength)
     if isfield(st, 'keyword')
         txt = [' ', st.keyword, ' - ', st.short_description];
     else
-        txt = [' ', st.short_description];        
+        txt = [' ', st.short_description];
     end
 end
 %=============================================================================
 function txt = formatSyntax(st, maxLineLength)
-    txt = ['   ', _('Syntax: '), newline];
+    txt = ['   ', _('Syntax:'), ' ', newline];
     for i = 1:length(st.syntax)
         txt = [txt, '   ', '   ', st.syntax{i}, newline];
     end
@@ -173,7 +193,7 @@ function txt = formatInputArgs(st, maxLineLength)
         txt = '';
         return
     end
-    txt = ['   ', _('Input Arguments:'), newline];        
+    txt = ['   ', _('Input Arguments:'), newline];
     for i = 1:nb_input_args
         txt = [txt, '   ', '   ',input_args(i).name, ': ', input_args(i).description, newline];
     end
@@ -192,8 +212,12 @@ function txt = formatOutputArgs(st, maxLineLength)
     end
 end
 %=============================================================================
-function txt = formatDescription(st, maxLineLength)
-    lines = splitText(limitToTwoSentences(st.description), maxLineLength);
+function txt = formatDescription(st, maxLineLength, completeDescription)
+    description = st.description;
+    if ~completeDescription
+        description = limitToTwoSentences(description);
+    end
+    lines = splitText(description, maxLineLength);
     txt = '';
     for i = 1:length(lines)
         txt = [txt, '   ', lines{i}, newline];
@@ -205,12 +229,16 @@ function txt = formatSeeAlso(st, maxLineLength)
         txt = '';
         return
     end
-    see_also_txt = join(st.see_also, ', ');        
+    see_also_txt = join(st.see_also, ', ');
     txt = ['   ', sprintf(_('See also: %s'), see_also_txt{1}), newline];
 end
 %=============================================================================
 function txt = formatExamples(st, maxLineLength)
-    examples_txt = join(st.examples, '\n');
+    if isempty(st.examples)
+        txt = '';
+        return
+    end
+    examples_txt = join(st.examples, newline());
     txt = ['   ', sprintf(_('Examples: %s'), examples_txt{1}), newline];
 end
 %=============================================================================

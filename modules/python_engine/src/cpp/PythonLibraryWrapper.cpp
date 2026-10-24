@@ -63,6 +63,7 @@ using PROC_PyObject_CallNoArgs = PyObject* (*)(PyObject * func);
 using PROC_PyErr_Print = void (*)();
 using PROC_PyImport_ImportModule = PyObject* (*)(const char* name);
 using PROC_PyObject_CallObject = PyObject* (*)(PyObject * callable, PyObject* args);
+using PROC_PyObject_Call = PyObject* (*)(PyObject * callable, PyObject* args, PyObject* kwargs);
 using PROC_PyUnicode_FromString = PyObject* (*)(const char* str);
 using PROC_PyDict_New = PyObject* (*)();
 using PROC_PyFloat_FromDouble = PyObject* (*)(double v);
@@ -127,6 +128,14 @@ using PROC_PyNumber_Positive = PyObject* (*)(PyObject * o);
 using PROC_PyObject_RichCompareBool = int (*)(PyObject* o1, PyObject* o2, int opid);
 using PROC_PyDict_SetItem = int (*)(PyObject* mp, PyObject* key, PyObject* item);
 using PROC_PyDict_GetItem = PyObject* (*)(PyObject * mp, PyObject* key);
+using PROC_PyErr_Fetch = void (*)(PyObject** ptype, PyObject** pvalue, PyObject** ptraceback);
+using PROC_PyErr_Restore = void (*)(PyObject* type, PyObject* value, PyObject* traceback);
+using PROC_PyErr_GivenExceptionMatches = int (*)(PyObject* given, PyObject* exc);
+using PROC_PyErr_SetString = void (*)(PyObject* type, const char* message);
+using PROC_PyCFunction_NewEx = PyObject* (*)(PyMethodDef * ml, PyObject* self, PyObject* module);
+using PROC_PyCapsule_New
+    = PyObject* (*)(void* pointer, const char* name, PyCapsule_Destructor destructor);
+using PROC_PyCapsule_GetPointer = void* (*)(PyObject * capsule, const char* name);
 //=============================================================================
 static std::unordered_map<std::string, void*> pythonSymbols;
 //=============================================================================
@@ -147,8 +156,6 @@ isPythonLibraryLoaded()
 static bool
 loadPythonSymbols()
 {
-    //=============================================================================
-    // Types
     //=============================================================================
     LOAD_PYTHON_SYMBOL(PyBool_Type);
     LOAD_PYTHON_SYMBOL(PyComplex_Type);
@@ -205,6 +212,7 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyErr_Print);
     LOAD_PYTHON_SYMBOL(PyImport_ImportModule);
     LOAD_PYTHON_SYMBOL(PyObject_CallObject);
+    LOAD_PYTHON_SYMBOL(PyObject_Call);
     LOAD_PYTHON_SYMBOL(PyUnicode_FromString);
     LOAD_PYTHON_SYMBOL(PyDict_New);
     LOAD_PYTHON_SYMBOL(PyFloat_FromDouble);
@@ -274,6 +282,16 @@ loadPythonSymbols()
     LOAD_PYTHON_SYMBOL(PyObject_RichCompareBool);
     LOAD_PYTHON_SYMBOL(PyDict_SetItem);
     LOAD_PYTHON_SYMBOL(PyDict_GetItem);
+
+    LOAD_PYTHON_SYMBOL(PyErr_Fetch);
+    LOAD_PYTHON_SYMBOL(PyErr_Restore);
+    LOAD_PYTHON_SYMBOL(PyErr_GivenExceptionMatches);
+    LOAD_PYTHON_SYMBOL(PyExc_TypeError);
+    LOAD_PYTHON_SYMBOL(PyErr_SetString);
+    LOAD_PYTHON_SYMBOL(PyExc_RuntimeError);
+    LOAD_PYTHON_SYMBOL(PyCFunction_NewEx);
+    LOAD_PYTHON_SYMBOL(PyCapsule_New);
+    LOAD_PYTHON_SYMBOL(PyCapsule_GetPointer);
     return true;
 }
 //=============================================================================
@@ -454,6 +472,72 @@ NLSPyErr_Occurred()
     return reinterpret_cast<PROC_PyErr_Occurred>(pythonSymbols["PyErr_Occurred"])();
 }
 //=============================================================================
+void
+NLSPyErr_Fetch(PyObject** ptype, PyObject** pvalue, PyObject** ptraceback)
+{
+    reinterpret_cast<PROC_PyErr_Fetch>(pythonSymbols["PyErr_Fetch"])(ptype, pvalue, ptraceback);
+}
+//=============================================================================
+void
+NLSPyErr_Restore(PyObject* type, PyObject* value, PyObject* traceback)
+{
+    reinterpret_cast<PROC_PyErr_Restore>(pythonSymbols["PyErr_Restore"])(type, value, traceback);
+}
+//=============================================================================
+int
+NLSPyErr_GivenExceptionMatches(PyObject* given, PyObject* exc)
+{
+    return reinterpret_cast<PROC_PyErr_GivenExceptionMatches>(
+        pythonSymbols["PyErr_GivenExceptionMatches"])(given, exc);
+}
+//=============================================================================
+PyObject*
+NLSPyExc_TypeError()
+{
+    void* symbol = pythonSymbols["PyExc_TypeError"];
+    if (symbol == nullptr) {
+        return nullptr;
+    }
+    return *reinterpret_cast<PyObject**>(symbol);
+}
+//=============================================================================
+PyObject*
+NLSPyExc_RuntimeError()
+{
+    void* symbol = pythonSymbols["PyExc_RuntimeError"];
+    if (symbol == nullptr) {
+        return nullptr;
+    }
+    return *reinterpret_cast<PyObject**>(symbol);
+}
+//=============================================================================
+void
+NLSPyErr_SetString(PyObject* type, const char* message)
+{
+    reinterpret_cast<PROC_PyErr_SetString>(pythonSymbols["PyErr_SetString"])(type, message);
+}
+//=============================================================================
+PyObject*
+NLSPyCFunction_NewEx(PyMethodDef* ml, PyObject* self, PyObject* module)
+{
+    return reinterpret_cast<PROC_PyCFunction_NewEx>(pythonSymbols["PyCFunction_NewEx"])(
+        ml, self, module);
+}
+//=============================================================================
+PyObject*
+NLSPyCapsule_New(void* pointer, const char* name, PyCapsule_Destructor destructor)
+{
+    return reinterpret_cast<PROC_PyCapsule_New>(pythonSymbols["PyCapsule_New"])(
+        pointer, name, destructor);
+}
+//=============================================================================
+void*
+NLSPyCapsule_GetPointer(PyObject* capsule, const char* name)
+{
+    return reinterpret_cast<PROC_PyCapsule_GetPointer>(pythonSymbols["PyCapsule_GetPointer"])(
+        capsule, name);
+}
+//=============================================================================
 Py_complex
 NLSPyComplex_AsCComplex(PyObject* op)
 {
@@ -514,6 +598,13 @@ NLSPyObject_CallObject(PyObject* callable, PyObject* args)
 {
     return reinterpret_cast<PROC_PyObject_CallObject>(pythonSymbols["PyObject_CallObject"])(
         callable, args);
+}
+//=============================================================================
+PyObject*
+NLSPyObject_Call(PyObject* callable, PyObject* args, PyObject* kwargs)
+{
+    return reinterpret_cast<PROC_PyObject_Call>(pythonSymbols["PyObject_Call"])(
+        callable, args, kwargs);
 }
 //=============================================================================
 PyObject*

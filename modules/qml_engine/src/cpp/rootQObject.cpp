@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,7 +14,7 @@
 #include <QtGui/QWindow>
 #include <QtQml/QQmlComponent>
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,15 +29,16 @@ rootQObject()
             qmlHandle = new QObjectHandleObject(parent);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
-        res = ArrayOf::handleConstructor(qmlHandle);
+        res = ArrayOf::handle(qmlHandle);
     } else {
-        res = ArrayOf::emptyConstructor(0, 0);
+        res = ArrayOf::empty(0, 0);
         res.promoteType(NLS_HANDLE);
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

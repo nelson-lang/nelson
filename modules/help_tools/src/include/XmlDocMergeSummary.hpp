@@ -19,5 +19,5 @@ NLSHELP_TOOLS_IMPEXP bool
 XmlDocMergeSummary(const std::wstring& destinationDirectory, const wstringVector& filenames,
     std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

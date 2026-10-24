@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "PyKeyMatch.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PythonObjectHandle.hpp"
 #include "PyObjectHelpers.hpp"
@@ -22,22 +23,22 @@ namespace Nelson {
 bool
 PyKeyMatch(const ArrayOf& A, const ArrayOf& B)
 {
-    if (A.getDataClass() != B.getDataClass()) {
+    if (A.dataClass() != B.dataClass()) {
         return false;
     }
-    if (A.getHandleCategory() != B.getHandleCategory()) {
+    if (A.handleCategory() != B.handleCategory()) {
         return false;
     }
-    if (A.getHandleCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
+    if (A.handleCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
         return false;
     }
     if (!A.isScalar() && !B.isScalar()) {
         return false;
     }
-    PythonObjectHandle* pyObjectA = (PythonObjectHandle*)A.getContentAsHandleScalar();
-    PythonObjectHandle* pyObjectB = (PythonObjectHandle*)B.getContentAsHandleScalar();
-    PyObject* p1 = (PyObject*)pyObjectA->getPointer();
-    PyObject* p2 = (PyObject*)pyObjectB->getPointer();
+    PythonObjectHandle* pyObjectA = (PythonObjectHandle*)A.asHandleScalar();
+    PythonObjectHandle* pyObjectB = (PythonObjectHandle*)B.asHandleScalar();
+    PyObject* p1 = (PyObject*)pyObjectA->pointer();
+    PyObject* p2 = (PyObject*)pyObjectB->pointer();
     return PyKeyMatch(p1, p2);
 }
 //=============================================================================
@@ -49,7 +50,7 @@ PyKeyMatch(PyObject* p1, PyObject* p2)
     }
 
     if (!p1 || !p2) {
-        Error(_W("Invalid Python object."), L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
     uint64 hashValue1 = PyGetHashValue(p1);
     uint64 hashValue2 = PyGetHashValue(p2);

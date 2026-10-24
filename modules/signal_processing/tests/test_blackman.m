@@ -9,31 +9,31 @@
 %=============================================================================
 R = blackman([]);
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = blackman(zeros(3, 0, 'single'));
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = blackman(1);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = blackman(2)
-REF = -[0;0];
-assert_isfalse(all(R > eps()));
+R = blackman(2);
+REF = -[0; 0];
+asserts.isfalse(all(R > eps()));
 %=============================================================================
 R = blackman(8);
 REF = [0; 0.0905; 0.4592; 0.9204; 0.9204; 0.4592; 0.0905; 0];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-assert_checkerror('R = blackman(-4)', _('M must be a positive integer.'));
+asserts.checkerror('R = blackman(-4)', _('M must be a positive integer.'));
 %=============================================================================
-R = blackman(8, 'symetric');
+R = blackman(8, 'symmetric');
 REF = [0; 0.0905; 0.4592; 0.9204; 0.9204; 0.4592; 0.0905; 0];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = blackman(8, 'periodic');
 REF = [-0; 0.0664; 0.3400; 0.7736; 1; 0.7736;; 0.3400; 0.0664];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================

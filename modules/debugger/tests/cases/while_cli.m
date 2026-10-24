@@ -11,9 +11,9 @@
 %=============================================================================
 TEST_CONDITION = true;
 while TEST_CONDITION
-    disp('Inside while loop');
-    disp('next line');
-    TEST_CONDITION = true;
+  disp('Inside while loop');
+  disp('next line');
+  TEST_CONDITION = true;
 end
 disp('After while loop');
 %=============================================================================

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>exportapp</keyword>
+  <short_description>Enregistre une figure avec ses composants d'interface dans un fichier image.</short_description>
+  <syntax>
+    <syntax_item>exportapp(fig, filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>objet figure : figure ou figure d'interface à capturer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : fichier image de destination.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output />
+  <description>
+    <p>
+      <b>exportapp(fig, filename)</b> capture la figure <b>fig</b>, y compris tous ses composants d'interface, et l'écrit dans le fichier image <b>filename</b>.</p>
+    <p>Le format du fichier de sortie est déterminé par l'extension de <b>filename</b> (par exemple <b>.png</b>, <b>.jpg</b> ou <b>.tif</b>).</p>
+    <p>Contrairement à <b>saveas</b>, <b>exportapp</b> est destinée à exporter les figures créées avec <b>uifigure</b> contenant des composants d'interface tels que des boutons, des curseurs et des tableaux.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = uifigure('Position', [100 100 300 200]);
+b = uibutton(f, 'Text', 'Export me');
+exportapp(f, [tempdir(), 'exportapp_example.png']);
+img = imread([tempdir(), 'exportapp_example.png']);
+figure();
+imshow(img)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}getframe">getframe</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}saveas">saveas</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

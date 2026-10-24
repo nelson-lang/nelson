@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
@@ -16,8 +17,8 @@
 clear('R');
 REF = figure();
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(size(R), size([]));
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(size(R), size([]));
 L = lastwarn();
-assert_isequal(L, _('Variable not fully serialized.'));
+asserts.isequal(L, _('Variable not fully serialized.'));
 %=============================================================================

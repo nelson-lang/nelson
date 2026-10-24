@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odeDelay</keyword>
+  <short_description>Objet de definition des delais pour les workflows EDO.</short_description>
+  <syntax>
+    <syntax_item>D = odeDelay()</syntax_item>
+    <syntax_item>D = odeDelay(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeDelay</b> stocke les reglages lies aux equations avec retard resolues par l'objet <b>ode</b>.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Objet</th>
+        <th>Role</th>
+        <th>Utilise par</th>
+      </tr>
+      <tr>
+        <td><b>odeDelay</b></td>
+        <td>Stocke une definition reutilisable pour le workflow objet <b>ode</b>.</td>
+        <td>La propriete correspondante de <b>ode</b> et <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Verifie les noms et formes supportes au moment de la construction.</td>
+        <td>Les tests et erreurs restent explicites avant integration.</td>
+      </tr>
+    </table>
+    <p>Le perimetre actuel prend en charge les entrees <b>ValueDelay</b> et <b>SlopeDelay</b> constantes positives ou fonctions, avec un <b>History</b> numerique ou fonction. Les fonctions de retard sont evaluees comme <b>d(t,y)</b> ou <b>d(t,y,p)</b> et doivent referencer un etat passe deja connu. La fonction EDO recoit les valeurs retardees avec <b>f(t, y, z)</b>. Quand des retards de pente sont presents, elle recoit <b>f(t, y, z, zp)</b>, ou les colonnes de <b>zp</b> contiennent les pentes retardees.</p>
+    <p>Les evenements, matrices de masse et sensibilites directes sont pris en charge pour les equations avec retard explicites ou lineairement implicites. Les sensibilites adjointes, parties complexes separees et equations avec retard pleinement implicites ne sont pas encore prises en charge et signalent des erreurs explicites.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

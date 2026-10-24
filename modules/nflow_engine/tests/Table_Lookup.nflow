@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "A unit sawtooth frac(t) (period 1) drives a 1-D lookup table (linear interpolation and linear extrapolation); the output is the lookup result.",
+  "name": "Table Lookup",
+  "blocks": [
+    { "id": "saw", "type": "repeatingSequenceInterpolated", "x": 40, "y": 160, "rotation": 0,
+      "params": { "TimeValues": [0, 1], "OutValues": [0, 1] } },
+    { "id": "lut", "type": "lookup1D", "x": 240, "y": 160, "rotation": 0,
+      "params": {
+        "BreakpointsForDimension1": [0.032, 0.384, 0.4493867, 0.5492267, 0.6241067, 0.704, 1.072],
+        "Table": [-1.072, -0.008, -0.007552, 0.657728, -0.007552, -0.008, -1.064],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      } },
+    { "id": "tw", "type": "toWorkspace", "x": 460, "y": 160, "rotation": 0,
+      "params": { "VariableName": "table_lookup_out", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+  ],
+  "connections": [
+    { "from": "saw", "to": "lut", "fromIndex": 0, "toIndex": 0 },
+    { "from": "lut", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 5,
+  "sampleTime": 0.01,
+  "autoRoute": true
+}

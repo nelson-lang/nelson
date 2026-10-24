@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>grayconnected</keyword>
+  <short_description>Select a connected grayscale region from a seed pixel.</short_description>
+  <syntax>
+    <syntax_item>BW = grayconnected(I, row, col)</syntax_item>
+    <syntax_item>BW = grayconnected(I, row, col, tolerance)</syntax_item>
+    <syntax_item>BW = grayconnected(I, row, col, tolerance, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Finite real 2-D numeric or logical image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>row</param_name>
+      <param_description>Seed row subscript.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>col</param_name>
+      <param_description>Seed column subscript.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tolerance</param_name>
+      <param_description>Nonnegative tolerance in normalized intensity units. The default value is 0.32.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity, either 4, 8, or an equivalent 3-by-3 matrix. The default value is 8.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Logical mask containing the connected pixels within tolerance of the seed intensity.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>grayconnected grows a connected region from a seed pixel. Pixels are included when their normalized intensity differs from the seed intensity by no more than the tolerance and they are connected to the seed through included pixels.</p>
+    <p>Integer and logical inputs are converted to normalized double precision values for the tolerance comparison. The output is always logical.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Grow a grayscale region from a seed pixel</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=0.2+0.6*exp(-6*((X+0.25).^2+Y.^2))+0.15*exp(-24*((X-0.45).^2+Y.^2));
+BW=grayconnected(I,32,38,0.12,8);
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(BW); title('Connected region');]]></example_item_data>
+      <example_item_img
+        src="../../../images/grayconnected_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}bwselect">bwselect</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

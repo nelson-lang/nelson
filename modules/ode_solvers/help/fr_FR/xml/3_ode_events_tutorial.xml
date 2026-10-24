@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tutoriel evenements edo</keyword>
+  <short_description>Localiser des evenements pendant une integration EDO.</short_description>
+  <description>
+    <p>Utilisez l'option <b>Events</b> pour arreter ou enregistrer les instants ou une fonction evenement passe par zero. Une fonction evenement retourne les tableaux value, terminal et direction.</p>
+    <table style="width:100%">
+  <tr><th>Sortie evenement</th><th>Signification</th></tr>
+  <tr><td><b>te</b> ou <b>xe</b></td><td>Valeur du temps ou de la variable independante ou l'evenement est localise.</td></tr>
+  <tr><td><b>ye</b></td><td>Solution au point d'evenement.</td></tr>
+  <tr><td><b>ie</b></td><td>Indice de la fonction d'evenement qui traverse zero.</td></tr>
+  <tr><td><b>isterminal</b></td><td>Les valeurs non nulles arretent l'integration.</td></tr>
+</table>
+    <p>Utilisez les evenements terminaux pour arreter a un seuil et les evenements non terminaux pour collecter des instants de diagnostic.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Arreter quand l'etat atteint un demi.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [value,isterminal,direction] = localHalfEvent(t, y)
+  value = y - 0.5;
+  isterminal = 1;
+  direction = 1;
+end
+options = odeset('Events', @localHalfEvent);
+[t, y, te, ye, ie] = ode45(@(t,y) 1, [0 1], 0, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser un objet evenement.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[event = odeEvent('EventFcn', @(t,y) y - 0.5, 'Response', 'stop');
+problem = ode('ODEFcn', @(t,y) 1, 'InitialValue', 0, 'EventDefinition', event);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeEvent">odeEvent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

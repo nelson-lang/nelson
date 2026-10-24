@@ -7,55 +7,59 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('allfinite'), 1)
-assert_isequal(nargout('allfinite'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('allfinite'), 1)
+asserts.isequal(nargout('allfinite'), 1)
 %=============================================================================
 R = allfinite([]);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite([1 2 Inf 0]);
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite([1 2 NaN 0]);
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite([1 2 3 0]);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(sparse([1 2 3 0]));
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(sparse([1 2 NaN 0]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite(single([1 2 Inf 0]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite(single([1 2 NaN 0]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite(single([1 2 3 0]));
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(complex([1 2 3 0], [0 0 0 0]));
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(complex([1 2 3 0], [0 0 NaN 0]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite(complex([1 2 NaN 0], [0 0 3 0]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = allfinite('Nelson');
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(true);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = allfinite(rand(3, 3));
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'allfinite');
-assert_checkerror('R = allfinite("3")', msg);
+asserts.checkerror('R = allfinite("3")', msg);
 %=============================================================================
 
+asserts.isfalse(allfinite([1 Inf NaN]));
+asserts.istrue(allfinite([1 2 3]));
+%=============================================================================

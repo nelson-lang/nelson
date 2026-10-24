@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "categorical_summary.m",
+      "title": "Summarize categorical labels",
+      "description": "Encode repeated labels and count each category.",
+      "tags": [
+        "categorical",
+        "summary"
+      ],
+      "requirements": []
+    }
+  ]
+}

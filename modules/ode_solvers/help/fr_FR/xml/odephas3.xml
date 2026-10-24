@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odephas3</keyword>
+  <short_description>Fonction de sortie EDO pour portrait de phase 3D.</short_description>
+  <syntax>
+    <syntax_item>status = odephas3(t, y, flag)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odephas3</b> trace les trois premieres composantes de la solution comme trajectoire de phase en trois dimensions pendant l'execution d'un solveur EDO.</p>
+    <table style="width:100%">
+  <tr><th>Flag</th><th>Moment d'appel</th><th>Valeur retournee</th></tr>
+  <tr><td><b>'init'</b></td><td>Avant le debut des sorties d'integration.</td><td><b>0</b> ou <b>false</b> pour continuer.</td></tr>
+  <tr><td><b>''</b></td><td>Aux points de sortie acceptes.</td><td><b>0</b> ou <b>false</b> pour continuer; <b>1</b> ou <b>true</b> arrete l'integration.</td></tr>
+  <tr><td><b>'done'</b></td><td>Apres la fin de l'integration.</td><td>La valeur retournee est ignoree.</td></tr>
+</table>
+    <p>La fonction accepte le protocole de callback de sortie avec <b>flag</b> egal a <b>'init'</b>, <b>''</b> ou <b>'done'</b>. Elle retourne <b>0</b> pour poursuivre l'integration.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odephas2">odephas2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeplot">odeplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

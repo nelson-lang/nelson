@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>raincloudplot</keyword>
+  <short_description>Visualize grouped numeric data by using rain cloud plots.</short_description>
+  <syntax>
+    <syntax_item>raincloudplot(ydata)</syntax_item>
+    <syntax_item>raincloudplot(xgroupdata, ydata)</syntax_item>
+    <syntax_item>raincloudplot(tbl, yvar)</syntax_item>
+    <syntax_item>raincloudplot(tbl, xvar, yvar)</syntax_item>
+    <syntax_item>raincloudplot(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>raincloudplot(ax, ...)</syntax_item>
+    <syntax_item>r = raincloudplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ydata</param_name>
+      <param_description>sample data: numeric vector or matrix. A matrix creates one rain cloud plot per column.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xgroupdata</param_name>
+      <param_description>positional grouping data: numeric or categorical vector with the same number of elements as ydata, or a matrix with the same size as ydata. One rain cloud is drawn for each unique value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tbl</param_name>
+      <param_description>table or timetable containing the data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yvar</param_name>
+      <param_description>table variables containing the numeric sample data: names, numeric indices or logical selector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xvar</param_name>
+      <param_description>table variables containing the numeric or categorical positional grouping data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes (default: current axes).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DensityWidth</param_name>
+      <param_description>positive scalar: maximum width of a rain cloud plot in units of the positional grouping data (default: 0.9).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Orientation</param_name>
+      <param_description>'horizontal' (default) or 'vertical'. With 'horizontal', the sample values are along the x-axis and the groups along the y-axis.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>raincloudplot graphics object, or column vector of objects: one per column of a matrix, or one per table variable in xvar or yvar (whichever has more elements).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>raincloudplot</b> visualizes the empirical distribution of a data sample together with the samples themselves. One half of a rain cloud plot is a half violin plot (the cloud) showing a kernel density estimate of the sample; the other half is a swarm of markers (the rain), one marker per sample, offset away from the cloud baseline so that points do not overlap.</p>
+    <p>With the default horizontal orientation, the cloud is drawn above the group position and the rain below it. With the vertical orientation, the cloud is drawn on the right of the group position and the rain on the left.</p>
+    <p>The kernel density estimate is the one used by <b>violinplot</b>. The cloud widths of all groups of one object are scaled together so that the widest cloud reaches half of <b>DensityWidth</b>. The spread of the rain follows the local density.</p>
+    <p>Each object has its own color: <b>FaceColor</b> is taken from the axes <b>ColorOrder</b> using <b>SeriesIndex</b>, which follows the creation order in the axes. <b>EdgeColor</b>, <b>MarkerFaceColor</b> and <b>MarkerEdgeColor</b> follow <b>FaceColor</b> while their mode is 'auto'.</p>
+    <p>Categorical grouping data are placed at consecutive integer positions labeled with the category names. When several table variables are used as grouping data, categories with the same name share the same position.</p>
+    <p>The <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.raincloudplot.properties">raincloudplot properties</link> page lists the supported object properties.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Rain cloud plots of grouped data.</example_item_description>
+      <example_item_data><![CDATA[rng(0);
+ydata = randn(100, 1);
+xgroupdata = categorical(repelem(["group1"; "group2"; "group3"], [20, 50, 30]));
+raincloudplot(xgroupdata, ydata)]]></example_item_data>
+      <example_item_img src="../../../../images/raincloudplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Overlaid rain cloud plots with custom colors.</example_item_description>
+      <example_item_data><![CDATA[figure
+hold on
+r1 = raincloudplot(80 + 8 * randn(40, 1));
+r2 = raincloudplot(75 + 6 * randn(60, 1));
+r1.FaceColor = "g";
+r2.FaceColor = "m";
+legend("Smoker", "Nonsmoker")]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Rain cloud plots from table variables.</example_item_description>
+      <example_item_data><![CDATA[X1 = categorical(repelem(["group1"; "group2"], [90, 10]));
+X3 = categorical(repelem(["group3"; "group4"], [25, 75]));
+tbl = table(X1, X3, randn(100, 1), randn(100, 1) + 5, 'VariableNames', {'X1', 'X3', 'Y1', 'Y2'});
+figure
+raincloudplot(tbl, ["X1", "X3"], ["Y1", "Y2"])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/violinplot">violinplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/swarmchart">swarmchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/boxchart">boxchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.raincloudplot.properties">raincloudplot properties</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "usermodulesdirBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetExternalModulesPath.hpp"
 #include "FileSystemWrapper.hpp"
@@ -24,9 +25,10 @@ Nelson::ModulesManagerGateway::usermodulesdirBuiltin(int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     std::wstring externalModulesPath = GetExternalModulesPath();
     if (!FileSystemWrapper::Path::is_directory(externalModulesPath)) {
-        Error(_W("Impossible to get external modules directory."));
+        Error(L"Nelson:usermodulesdir:cannotGetDirectory",
+            L"Impossible to get external modules directory.");
     }
-    retval << ArrayOf::characterArrayConstructor(externalModulesPath);
+    retval << ArrayOf::characterArray(externalModulesPath);
     return retval;
 }
 //=============================================================================

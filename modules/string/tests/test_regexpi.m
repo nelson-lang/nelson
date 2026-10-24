@@ -7,18 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('regexpi'), -2);
-assert_isequal(nargout('regexpi'), -1);
+asserts.isequal(nargin('regexpi'), -2);
+asserts.isequal(nargout('regexpi'), -1);
 %=============================================================================
 m = regexpi('A character vector with UPPERCASE and lowercase text.', '\w*case', 'match');
-assert_isequal(m, {'UPPERCASE', 'lowercase'});
+asserts.isequal(m, {'UPPERCASE', 'lowercase'});
 %=============================================================================
 m = regexp('A character vector with UPPERCASE and lowercase text.', '\w*case', 'match', 'ignorecase');
-assert_isequal(m, {'UPPERCASE', 'lowercase'});
+asserts.isequal(m, {'UPPERCASE', 'lowercase'});
 %=============================================================================
 m = regexpi('ABC abc', 'abc', 'match', 'matchcase');
-assert_isequal(m, {'abc'});
+asserts.isequal(m, {'abc'});
 %=============================================================================
 idx = regexpi({'Abc', 'def'; 'ABC', 'xyz'}, 'abc');
-assert_isequal(idx, {1, []; 1, []});
+asserts.isequal(idx, {1, []; 1, []});
+%=============================================================================
+% a scalar (1x1) cell input yields a 1x1 cell output (not an unwrapped result)
+r = regexpi({'only1'}, '\d+', 'match');
+asserts.isequal(iscell(r), true);
+asserts.isequal(size(r), [1 1]);
+asserts.isequal(r{1}, {'1'});
 %=============================================================================

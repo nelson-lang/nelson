@@ -10,7 +10,7 @@
 % <--NO USER MODULES-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
+builderFile = [nelsonroot(), '/module_skeleton/builder.m'];
 skip_testsuite(~isfile(builderFile))
 %=============================================================================
 if ispc() && ~havecompiler()
@@ -18,13 +18,13 @@ if ispc() && ~havecompiler()
 end
 skip_testsuite(~havecompiler())
 %=============================================================================
-sourcedir = [nelsonroot(),'/module_skeleton'];
+sourcedir = [nelsonroot(), '/module_skeleton'];
 files = dir(sourcedir, '-s');
 %=============================================================================
-destinationdir = [tempdir(), 'module_skeleton'];
-if isdir(destinationdir)
-  rmdir(destinationdir, 's');
-end
+d = tempname();
+mkdir(d);
+cleanupDestination = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+destinationdir = fullfile(d, 'module_skeleton');
 mkdir(destinationdir);
 for f = files(:)'
   sourcefile = [f.folder, '/', f.name];
@@ -40,7 +40,7 @@ end
 run([destinationdir, '/builder.m']);
 run([destinationdir, '/loader.m']);
 %=============================================================================
-assert_isequal(cpp_sum(3, 4), 7);
+asserts.isequal(cpp_sum(3, 4), 7);
 %=============================================================================
 % unload module and dependencies
 if ismodule('module_skeleton')

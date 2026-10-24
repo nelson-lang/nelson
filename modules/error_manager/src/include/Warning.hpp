@@ -15,14 +15,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Low-level warning: an exact message with an identifier (dynamic warning text).
 NLSERROR_MANAGER_IMPEXP void
-Warning(const std::wstring& id, const std::wstring& message);
+RaiseWarning(const std::wstring& id, const std::wstring& message);
 //=============================================================================
+NLSERROR_MANAGER_IMPEXP void
+RaiseWarning(const std::string& id, const std::string& message);
+//=============================================================================
+// Message-only warning (no identifier).
 NLSERROR_MANAGER_IMPEXP void
 Warning(const std::wstring& message);
-//=============================================================================
-NLSERROR_MANAGER_IMPEXP void
-Warning(const std::string& id, const std::string& message);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
 Warning(const std::string& message);

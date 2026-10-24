@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ static std::wstring tempDir;
 ArrayOf
 TempDir()
 {
-    return ArrayOf::characterArrayConstructor(GetSystemTemporaryDirectory());
+    return ArrayOf::characterArray(GetSystemTemporaryDirectory());
 }
 //=============================================================================
 std::wstring
@@ -26,6 +26,14 @@ GetSystemTemporaryDirectory()
 {
     if (tempDir == L"") {
         FileSystemWrapper::Path pwd(FileSystemWrapper::Path::temp_directory_path());
+        // Resolve symlinks to agree with pwd(): on macOS the temporary directory
+        // is reached through the /var -> /private/var symlink.
+        std::string canonicalError;
+        FileSystemWrapper::Path canonicalPwd
+            = FileSystemWrapper::Path::canonical(pwd, canonicalError);
+        if (canonicalError.empty()) {
+            pwd = canonicalPwd;
+        }
         tempDir = pwd.getFinalPathname().generic_wstring();
         if (!StringHelpers::ends_with(tempDir, L"\\")
             && (!StringHelpers::ends_with(tempDir, L"/"))) {

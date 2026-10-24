@@ -15,13 +15,20 @@ function varargout = xlim(varargin)
     ax = gca();
     varargout{1} = ax.XLim;
     return
-  end 
+  end
   if nargin == 1
     if isgraphics(varargin{1})
       ax = varargin{1};
+      varargout{1} = ax.XLim;
+      return
     else
       if ischar(varargin{1})
         if (strcmp(varargin{1}, 'mode'))
+          res = xlim(gca(), varargin{1});
+          varargout{1} = res;
+          return;
+        end
+        if (strcmp(varargin{1}, 'method'))
           res = xlim(gca(), varargin{1});
           varargout{1} = res;
           return;
@@ -34,7 +41,11 @@ function varargout = xlim(varargin)
           xlim(gca(), varargin{1});
           return;
         end
-        error(_('Invalid input arguments.'));
+        if (isLimitMethod(varargin{1}))
+          xlim(gca(), varargin{1});
+          return;
+        end
+        error('Nelson:graphics:invalidInputArguments', 'Invalid input arguments.');
       else
         ax = gca();
         value = varargin{1};
@@ -44,7 +55,7 @@ function varargout = xlim(varargin)
     % nargin == 2
     ax = varargin{1};
     if ~isgraphics(ax, 'axes')
-      error(_('Invalid input arguments.'));
+      error('Nelson:graphics:invalidInputArguments', 'Invalid input arguments.');
     end
     value = varargin{2};
   end
@@ -54,29 +65,46 @@ function varargout = xlim(varargin)
       varargout{1} = res;
       return;
     end
+    if (strcmp(value, 'method'))
+      res = ax.XLimitMethod;
+      varargout{1} = res;
+      return;
+    end
     if (strcmp(value, 'auto'))
       ax.XLimMode = 'auto';
       if nargout == 1
-        error(_('Invalid output argument.'));
+        error('Nelson:graphics:invalidOutputArgument', 'Invalid output argument.');
       end
       return;
     end
     if (strcmp(value, 'manual'))
       ax.XLimMode = 'manual';
       if nargout == 1
-        error(_('Invalid output argument.'));
+        error('Nelson:graphics:invalidOutputArgument', 'Invalid output argument.');
       end
       return;
     end
-    error(_('Invalid input arguments.'));
+    if (isLimitMethod(value))
+      ax.XLimitMethod = value;
+      ax.XLimMode = 'auto';
+      if nargout == 1
+        error('Nelson:graphics:invalidOutputArgument', 'Invalid output argument.');
+      end
+      return;
+    end
+    error('Nelson:graphics:invalidInputArguments', 'Invalid input arguments.');
   else if (isnumeric(value) && numel(value) == 2)
       ax.XLim = value;
     else
-      error(_('Invalid input arguments.'));
+      error('Nelson:graphics:invalidInputArguments', 'Invalid input arguments.');
     end
     if nargout == 1
-      error(_('Invalid output argument.'));
+      error('Nelson:graphics:invalidOutputArgument', 'Invalid output argument.');
     end
   end
+end
+%=============================================================================
+function tf = isLimitMethod(value)
+  tf = strcmp(value, 'tickaligned') || strcmp(value, 'tight') || strcmp(value, 'padded');
 end
 %=============================================================================

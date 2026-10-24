@@ -97,6 +97,17 @@ Q_IN = zeros(3, 3);
 [Q_OUT, B_OUT, SCALE, WR, WI, INFO] = slicot_sb03od(DICO, FACT, TRANS, A, Q_IN, B_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb03md">slicot_sb03md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lyap">lyap</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dlyap">dlyap</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

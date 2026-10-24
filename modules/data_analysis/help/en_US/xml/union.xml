@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>union</keyword>
+  <short_description>Set union of two arrays.</short_description>
+  <syntax>
+    <syntax_item>C = union(A, B)</syntax_item>
+    <syntax_item>[C, ia, ib] = union(A, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>Input arrays.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>Sorted values that are in <b>A</b> or <b>B</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ia, ib</param_name>
+      <param_description>Index vectors into <b>A</b> and <b>B</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>union(A, B)</b> returns the sorted set of values that occur in either input array.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [5 7 1];
+B = [3 1 1];
+C = union(A, B)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}intersect">intersect</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}setdiff">setdiff</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}setxor">setxor</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

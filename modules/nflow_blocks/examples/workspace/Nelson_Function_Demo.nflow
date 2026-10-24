@@ -1,0 +1,119 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-02",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "User-defined function blocks. The Nelson Function block evaluates tanh(u) via the interpreter at every step (simulation only). The Expression block evaluates the restricted math expression u^2 (simulates AND generates code). Both are fed by a sine and compared on the scope.",
+  "name": "Nelson Function Demo",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "x": 60,
+      "y": 140,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.5,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "nf",
+      "type": "nelsonFunction",
+      "x": 220,
+      "y": 90,
+      "rotation": 0,
+      "params": {
+        "Fcn": "tanh(u)",
+        "OutputDimensions": "-1",
+        "SampleTime": "-1"
+      }
+    },
+    {
+      "id": "ex",
+      "type": "expression",
+      "x": 220,
+      "y": 206,
+      "rotation": 0,
+      "params": {
+        "Expr": "u^2"
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 400,
+      "y": 70,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 340,
+        "height": 240,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "nf",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 180],
+        [200, 180],
+        [200, 230],
+        [220, 230]
+      ]
+    },
+    {
+      "from": "src",
+      "to": "ex",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 180],
+        [200, 180],
+        [200, 130],
+        [220, 130]
+      ]
+    },
+    {
+      "from": "nf",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [320, 230],
+        [380, 230],
+        [380, 100],
+        [400, 100]
+      ]
+    },
+    {
+      "from": "ex",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [300, 130],
+        [350, 130],
+        [350, 180],
+        [400, 180]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

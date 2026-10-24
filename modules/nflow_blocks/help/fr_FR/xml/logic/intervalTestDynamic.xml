@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>intervalTestDynamic</keyword>
+  <keyword_alias>block:intervalTestDynamic</keyword_alias>
+  <short_description>Comme intervalTest mais les bornes proviennent des ports d entree (lo, u, up).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : intervalTestDynamic</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>3 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Comme intervalTest mais les bornes proviennent des ports d entree (lo, u, up).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Type</td><td><code>intervalTestDynamic</code></td></tr>
+        <tr><td>Libelle</td><td>Interval Test Dynamic</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/logic/exports/intervalTestDynamic.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Variante pilotee par signaux de <code>intervalTest</code> : au lieu de parametres, la borne basse, la valeur et la borne haute proviennent des ports d'entree 1, 2 et 3, de sorte que la fenetre d'acceptation peut bouger a l'execution. Sortie 1 quand <code>lo &lt;= u &lt;= up</code>. <code>IntervalClosedLeft</code>/<code>IntervalClosedRight</code> controlent l'inclusion des bornes. Element par element sur la largeur de la valeur ; les bornes scalaires sont diffusees.</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
+        <tr><td>Port_2</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_3</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=60</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=100, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>IntervalClosedLeft</code></td><td>1</td></tr>
+        <tr><td><code>IntervalClosedRight</code></td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>intervalTestDynamic</td></tr>
+        <tr><td>Famille</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Taille rendue</td><td>100 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : lit port 0 = borne basse, port 1 = valeur, port 2 = borne haute ; out = 1 si la valeur est dans l'intervalle (eventuellement ouvert).</li>
+    </ul>
+    <p><b>Equation ou regle</b></p>
+    <latex>y = \begin{cases} 1 &amp; \text{lo} \le u \le \text{up} \\ 0 &amp; \text{otherwise} \end{cases}</latex>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/intervalTestDynamic.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Fournir lo=1, u=rampe, up=3 et enregistrer quand la rampe entre dans la fenetre.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','lo','type','constant','inputs',0,'outputs',1,'params',struct('Value',1)), struct('id','u','type','ramp','inputs',0,'outputs',1,'params',struct('slope',1)), struct('id','up','type','constant','inputs',0,'outputs',1,'params',struct('Value',3)), struct('id','it','type','intervalTestDynamic','inputs',3,'outputs',1,'params',struct()), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','lo','to','it','fromIndex',0,'toIndex',0), struct('from','u','to','it','fromIndex',0,'toIndex',1), struct('from','up','to','it','fromIndex',0,'toIndex',2), struct('from','it','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=1.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}logic/intervalTest">intervalTest</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

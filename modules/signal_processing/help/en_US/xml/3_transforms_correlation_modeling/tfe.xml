@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tfe</keyword>
+  <short_description>Transfer function estimate compatibility wrapper.</short_description>
+  <syntax>
+    <syntax_item>[Hv, f] = tfe(u, y)</syntax_item>
+    <syntax_item>[Hv, f, Puu, Pyy, Puy, coh, Sv] = tfe(u, y, nfft, fs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>u</param_name><param_description>input signal vector.</param_description></param_input_item>
+    <param_input_item><param_name>y</param_name><param_description>output signal vector.</param_description></param_input_item>
+    <param_input_item><param_name>nfft</param_name><param_description>FFT length.</param_description></param_input_item>
+    <param_input_item><param_name>fs</param_name><param_description>sample rate.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>Hv</param_name><param_description>transfer function estimate.</param_description></param_output_item>
+    <param_output_item><param_name>f</param_name><param_description>frequency vector.</param_description></param_output_item>
+    <param_output_item><param_name>Puu, Pyy, Puy</param_name><param_description>input, output, and cross power spectra.</param_description></param_output_item>
+    <param_output_item><param_name>coh</param_name><param_description>magnitude-squared coherence estimate.</param_description></param_output_item>
+    <param_output_item><param_name>Sv</param_name><param_description>rough standard-deviation estimate for <b>Hv</b>.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>tfe</b> estimates a transfer function from input and output data. Prefer <b>tfestimate</b> for new code.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+u = (1:16)';
+y = filter([1 0.5], 1, u);
+[Hv, f] = tfe(u, y, 4, 8)
+]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${signal_processing}tfestimate">tfestimate</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}pwelch">pwelch</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}mscohere">mscohere</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

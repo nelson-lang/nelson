@@ -40,6 +40,7 @@
 #include "isvarnameBuiltin.hpp"
 #include "isobjectBuiltin.hpp"
 #include "missingBuiltin.hpp"
+#include "emptyBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -74,14 +75,11 @@ static const nlsGateway gateway[] = {
     { "isvarname", (ptrBuiltin)Nelson::TypeGateway::isvarnameBuiltin, 1, 1 },
     { "isobject", (ptrBuiltin)Nelson::TypeGateway::isobjectBuiltin, 1, 1 },
     { "missing", (ptrBuiltin)Nelson::TypeGateway::missingBuiltin, 1, 0 },
+    { "__empty__", (ptrBuiltin)Nelson::TypeGateway::emptyBuiltin, 1, -1 },
 
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

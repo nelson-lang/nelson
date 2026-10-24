@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>asserts.lessOrEqual</keyword>
+  <short_description>Verifie que chaque valeur est inferieure ou egale a une limite.</short_description>
+  <syntax>
+    <syntax_item>asserts.lessOrEqual(value, limit)</syntax_item>
+    <syntax_item>[res, msg] = asserts.lessOrEqual(value, limit)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>value</param_name><param_description>Scalaire ou tableau reel numerique ou logique.</param_description></param_input_item>
+    <param_input_item><param_name>limit</param_name><param_description>Scalaire ou tableau reel numerique ou logique. L&apos;expansion scalaire est supportee.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>L&apos;assertion reussit lorsque value &lt;= limit pour chaque element compare.</p>
+    <p>Les tableaux doivent avoir les memes dimensions sauf si une entree est scalaire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Element-wise comparison</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[asserts.lessOrEqual([1 2], [1 2]);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture a relation failure</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[res, msg] = asserts.lessOrEqual([1 4], 3);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${assert_functions}asserts.lessThan">asserts.lessThan</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.inRange">asserts.inRange</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

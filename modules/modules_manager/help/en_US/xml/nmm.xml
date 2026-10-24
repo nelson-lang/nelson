@@ -6,15 +6,152 @@
   <short_description>Nelson Modules Manager.</short_description>
   <syntax>
     <syntax_item>st = nmm(&apos;list&apos;)</syntax_item>
+    <syntax_item>st_json = nmm(&apos;list&apos;, &apos;-json&apos;)</syntax_item>
+    <syntax_item>commands = nmm(&apos;commands&apos;)</syntax_item>
+    <syntax_item>commands_json = nmm(&apos;commands&apos;, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;help&apos;)</syntax_item>
+    <syntax_item>report_json = nmm(&apos;help&apos;, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;help&apos;, command)</syntax_item>
+    <syntax_item>report_json = nmm(&apos;help&apos;, command, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(command, ..., &apos;-quiet&apos;)</syntax_item>
     <syntax_item>nmm(&apos;load&apos;, module_name)</syntax_item>
+    <syntax_item>nmm(&apos;load&apos;, module_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;verify&apos;, package_filename)</syntax_item>
+    <syntax_item>report = nmm(&apos;verify&apos;, module_path)</syntax_item>
+    <syntax_item>lock = nmm(&apos;lock&apos;, module_path)</syntax_item>
+    <syntax_item>lock = nmm(&apos;lock&apos;, module_path, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;lock&apos;, module_path, &apos;-check&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;lock&apos;, module_path, &apos;-diff&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;config&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;pin&apos;, module_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;pin&apos;, module_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;unpin&apos;, module_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;why&apos;, package_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;why&apos;, install_report, package_name)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;why&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;tree&apos;, package_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;tree&apos;, install_report)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;tree&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>deps = nmm(&apos;deps&apos;, package_name)</syntax_item>
+    <syntax_item>deps = nmm(&apos;deps&apos;, install_report)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;deps&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>rdeps = nmm(&apos;rdeps&apos;, package_name)</syntax_item>
+    <syntax_item>status = nmm(&apos;status&apos;, package_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;explain&apos;, package_name)</syntax_item>
+    <syntax_item>graph = nmm(&apos;graph&apos;, package_name)</syntax_item>
+    <syntax_item>versions = nmm(&apos;installed&apos;, package_name)</syntax_item>
+    <syntax_item>info = nmm(&apos;latest&apos;, package_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;resolve&apos;, package_name, version_spec)</syntax_item>
+    <syntax_item>tf = nmm(&apos;satisfies&apos;, version, version_spec)</syntax_item>
     <syntax_item>l = nmm(&apos;autoload&apos;, module_name)</syntax_item>
     <syntax_item>nmm(&apos;autoload&apos;, module_name, state)</syntax_item>
     <syntax_item>nmm(&apos;install&apos;, git_url)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, module_path, &apos;-tests&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, module_path, &apos;-no-tests&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, git_url, &apos;-tests&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;install&apos;, package_filename, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;install&apos;, package_filename, &apos;-force&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;install&apos;, package_name, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;install&apos;, package_name, version, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, version, &apos;-tests&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, version, &apos;-no-tests&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, version, &apos;-force&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;install&apos;, package_name, version, &apos;-offline&apos;, &apos;-dry-run&apos;)</syntax_item>
     <syntax_item>nmm(&apos;uninstall&apos;, module_name)</syntax_item>
+    <syntax_item>nmm(&apos;uninstall&apos;, module_name, version)</syntax_item>
+    <syntax_item>nmm(&apos;remove&apos;, module_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;remove&apos;, module_name, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;remove&apos;, module_name, &apos;-force&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;remove&apos;, module_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;remove&apos;, module_name, version, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>orphans = nmm(&apos;orphans&apos;)</syntax_item>
+    <syntax_item>orphans_json = nmm(&apos;orphans&apos;, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;autoremove&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;autoremove&apos;, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report_json = nmm(&apos;autoremove&apos;, &apos;-dry-run&apos;, &apos;-json&apos;)</syntax_item>
     <syntax_item
     >package_filename = nmm(&apos;package&apos;, module_name, destination_dir)</syntax_item>
+    <syntax_item>package_filename = nmm(&apos;pack&apos;, module_path, destination_dir)</syntax_item>
+    <syntax_item>report = nmm(&apos;pack&apos;, module_path, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;pack&apos;, module_path, destination_dir, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>package_filename = nmm(&apos;pack&apos;, module_path, destination_dir, &apos;-no-tests&apos;)</syntax_item>
+    <syntax_item>package_filename = nmm(&apos;pack&apos;, module_path, destination_dir, &apos;-target&apos;, platform)</syntax_item>
+    <syntax_item>report = nmm(&apos;publish&apos;, package_filename)</syntax_item>
+    <syntax_item>report = nmm(&apos;publish&apos;, package_filename, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;publish&apos;, package_filename, &apos;-check&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;publish&apos;, package_filename, &apos;-force&apos;)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;publish&apos;, package_filename, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;publish&apos;, package_filename, &apos;-source&apos;, url)</syntax_item>
+    <syntax_item>module_json_path = nmm(&apos;init&apos;, destination_dir, field1, value1, ...)</syntax_item>
+    <syntax_item>data = nmm(&apos;init&apos;, destination_dir, ..., &apos;DryRun&apos;, true)</syntax_item>
+    <syntax_item>module_json_path = nmm(&apos;init&apos;, destination_dir, ..., &apos;Skeleton&apos;, true)</syntax_item>
+    <syntax_item>module_json_path = nmm(&apos;init&apos;, destination_dir, &apos;Interactive&apos;, true)</syntax_item>
+    <syntax_item>tf = nmm(&apos;validate&apos;, module_path)</syntax_item>
+    <syntax_item>tf = nmm(&apos;validate&apos;, module_json_file)</syntax_item>
+    <syntax_item>tf = nmm(&apos;validate&apos;, module_path, &apos;-strict&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;validate&apos;, module_path, &apos;-warnings&apos;)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;validate&apos;, module_path, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;audit&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;audit&apos;, package_name)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;audit&apos;, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;doctor&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;doctor&apos;, package_name)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;doctor&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;repair&apos;)</syntax_item>
+    <syntax_item>packages = nmm(&apos;search&apos;, query)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;search&apos;, query, &apos;-json&apos;)</syntax_item>
+    <syntax_item>packages = nmm(&apos;search&apos;, query, &apos;-platform&apos;)</syntax_item>
+    <syntax_item>info = nmm(&apos;info&apos;, package_name)</syntax_item>
+    <syntax_item>info = nmm(&apos;info&apos;, package_name, version)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;info&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>versions = nmm(&apos;versions&apos;, package_name)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;versions&apos;, package_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;registry&apos;, &apos;list&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;registry&apos;, &apos;check&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;registry&apos;, &apos;validate&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;registry&apos;, &apos;stats&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;registry&apos;, &apos;doctor&apos;)</syntax_item>
+    <syntax_item>outdated = nmm(&apos;outdated&apos;)</syntax_item>
+    <syntax_item>outdated = nmm(&apos;outdated&apos;, module_name)</syntax_item>
+    <syntax_item>json_text = nmm(&apos;outdated&apos;, module_name, &apos;-json&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;update&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;update&apos;, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;update&apos;, module_name)</syntax_item>
+    <syntax_item>report = nmm(&apos;update&apos;, module_name, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>cache_dir = nmm(&apos;cache&apos;, &apos;dir&apos;)</syntax_item>
+    <syntax_item>cache_packages = nmm(&apos;cache&apos;, &apos;list&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;size&apos;)</syntax_item>
+    <syntax_item>info = nmm(&apos;cache&apos;, &apos;info&apos;, package_name, version)</syntax_item>
+    <syntax_item>tf = nmm(&apos;cache&apos;, &apos;has&apos;, package_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;add&apos;, package_filename)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;export&apos;, destination_dir)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;import&apos;, source_dir)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;remove&apos;, package_name, version)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;verify&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;prune&apos;)</syntax_item>
+    <syntax_item>report = nmm(&apos;cache&apos;, &apos;prune&apos;, &apos;-dry-run&apos;)</syntax_item>
+    <syntax_item>status = nmm(&apos;cache&apos;, &apos;clear&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, &apos;-offline&apos;)</syntax_item>
+    <syntax_item>nmm(&apos;install&apos;, package_name, version, &apos;-offline&apos;)</syntax_item>
   </syntax>
   <param_input>
+    <param_input_item>
+      <param_name>query</param_name>
+      <param_description>a string: text to search in registry package metadata.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>package_name</param_name>
+      <param_description>a string: package name in the configured registry.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>version</param_name>
+      <param_description>a string: exact package version or semver constraint.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>module_path</param_name>
+      <param_description>a string: path to a module directory containing module.json.</param_description>
+    </param_input_item>
     <param_input_item>
       <param_name>module_name</param_name>
       <param_description>a string: short module&apos;s name.</param_description>
@@ -37,6 +174,46 @@
   </param_input>
   <param_output>
     <param_output_item>
+      <param_name>outdated</param_name>
+      <param_description>a struct array: installed modules with newer registry versions.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>cache_dir</param_name>
+      <param_description>a string: local nmm cache directory.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>cache_packages</param_name>
+      <param_description>a struct array: cached packages with name, version, path and has_sha256 fields.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>json_text</param_name>
+      <param_description>a string: JSON encoded audit report.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>a logical: true when the cache command succeeds.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>packages</param_name>
+      <param_description>a struct array: matching registry package entries.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>a struct: registry package entry.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>versions</param_name>
+      <param_description>a cell of strings: package versions listed in the registry.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>report</param_name>
+      <param_description>a struct: audit status with ok and issues fields.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical: true if module.json is valid, otherwise an error is raised.</param_description>
+    </param_output_item>
+    <param_output_item>
       <param_name>st</param_name>
       <param_description
       >a struct: list of installed modules.</param_description>
@@ -50,16 +227,34 @@
       <param_name>package_filename</param_name>
       <param_description>a string: filename.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>lock</param_name>
+      <param_description>a struct: generated module-lock.json content.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>nmm</b> is the Nelson Modules Manager.</p>
     <p
+    >Installations are prepared in a temporary staging directory, built, locked, and then copied to the final user modules directory. If an error occurs before completion, <b>nmm</b> rolls back the partially installed module.</p>
+    <p
+    >Source module dependencies declared in <b>module.json</b> are resolved before the module is built. When a source module already provides <b>module-lock.json</b>, its exact locked dependency versions are used instead of the declarative ranges. Local paths, archives and HTTP Git repositories are installed recursively. Version constraints are checked against already installed dependencies and conflicts stop the installation before the module is copied. Source installs build the module in staging before committing it to the final modules directory. Package tests are not run at install time by default: pass <b>-tests</b> to run them, or set the environment variable <b>NELSON_NMM_INSTALL_TESTS=1</b> to run them for every source install; <b>-no-tests</b> is still accepted. A registry entry declaring <b>&quot;tests&quot;: &quot;required&quot;</b> always runs the package tests, and the install fails when they do. Prebuilt archives never run tests: they were tested when packed (<b>nmm pack</b> requires passing tests). If a source install fails, an already installed version of the same module remains installed and active.</p>
+    <p>
+      Source modules and prebuilt archives are validated before installation. Packages whose <b>nelson</b> compatibility range does not match the running Nelson version are rejected before build or final copy.</p>
+    <p
     >Source-based distribution packages allows to have optimized packages for your computer and allows to have distributed repositories.</p>
     <p>Installed modules are locally built and can require an C/C++.</p>
     <p />
     <p>
-      <b>st = nmm(&apos;list&apos;)</b> get list of installed modules.</p>
+      <b>st = nmm(&apos;list&apos;)</b> get list of installed modules. This reads the local installed-module registry without network access or package loading and requires only the json module, not webtools or file_archiver. The -json and -quiet forms have the same dependencies.</p>
+    <p>
+      Add <b>&apos;-json&apos;</b> to <b>list</b>, <b>commands</b>, <b>help</b>, <b>tree</b>, <b>why</b>, <b>deps</b>, <b>outdated</b> or <b>doctor</b> to return the same report encoded as JSON for scripts.</p>
+    <p>
+      Add <b>&apos;-quiet&apos;</b> as the last argument to suppress command output while preserving returned values. This is intended for CI scripts around commands that run builders or tests.</p>
+    <p>
+      <b>nmm(&apos;commands&apos;)</b> returns a short scriptable list of supported command groups, syntax examples and aliases. <b>nmm(&apos;help&apos;)</b> lists command names. <b>nmm(&apos;help&apos;, command)</b> returns the entry for one command or alias.</p>
+    <p>
+      <b>nmm(&apos;config&apos;)</b> reports the configured registry, cache directory, user modules directory, signing-key state, trusted registry key count, unsigned-registry opt-out and offline cache count.</p>
     <p />
     <p>
       <b>nmm(&apos;install&apos;, git_url)</b> install a distant module.</p>
@@ -74,10 +269,49 @@
     <p>Without commit-ish, master branch will be used.</p>
     <p />
     <p>
+      <b>nmm(&apos;install&apos;, package_name, version)</b> installs an exact package version or the newest package version matching a semver constraint from the configured registry. The registry entry must contain an install source through <b>source</b>, <b>url</b> or <b>archive</b>. Dependencies declared by the registry entry are resolved recursively before the requested package is installed.</p>
+    <p
+    >Accepted semver constraints include forms such as <b>&gt;=1.2.0</b>, <b>~1.4</b> and <b>^2.0.0</b>.</p>
+    <p>
+      Registry installs reject entries whose <b>platforms</b> or <b>nelson</b> metadata are not compatible with the current runtime before reading the package source.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_name, &apos;-dry-run&apos;)</b> resolves the latest compatible registry package. <b>nmm(&apos;install&apos;, package_name, version, &apos;-dry-run&apos;)</b> resolves the registry package and its recursive dependencies, verifies compatibility and local archive checksums when available, and returns an install plan without changing installed modules or the cache.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_name, version, &apos;-tests&apos;)</b> installs a registry package and runs its package tests when its source is a local source tree or a Git repository; <b>-no-tests</b> skips them explicitly (the default, unless the registry entry declares <b>&quot;tests&quot;: &quot;required&quot;</b>). <b>nmm(&apos;install&apos;, package_name, version, &apos;-force&apos;)</b> reinstalls the registry package version, replacing an already installed copy when necessary.</p>
+    <p />
+    <p>
       <b>nmm(&apos;install&apos;, filename_nmz)</b> install an prebuilt external module.</p>
+    <p
+    >Prebuilt archives must contain <b>module-lock.json</b>. Dependencies listed in this lock file must already be installed and the archive platform must match the current architecture or be <b>all</b>. Binary packages also require the locked Nelson architecture and ABI tag to match the running Nelson build. If a sibling <b>.sha256</b> checksum file exists, it is verified before extraction.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, module_path, &apos;-tests&apos;)</b> installs a local source module (or a Git repository) and runs its package tests before registering it; <b>nmm(&apos;install&apos;, module_path, &apos;-no-tests&apos;)</b> skips them explicitly. Without an option, tests are not run unless <b>NELSON_NMM_INSTALL_TESTS=1</b> is set.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_filename, &apos;-dry-run&apos;)</b> verifies an archive install plan without writing to <b>modules.json</b> or copying files into the user modules directory.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_filename, &apos;-force&apos;)</b> reinstalls the same checked archive version by uninstalling the already installed version after the archive dry-run validation succeeds.</p>
+    <p>
+      <b>nmm(&apos;verify&apos;, package_filename)</b> verifies a <b>.nmz</b> archive without installing it. It checks package structure, <b>module.json</b>, <b>module-lock.json</b>, embedded lockfile checksums, optional <b>.sha256</b> sidecar, and Nelson architecture or ABI compatibility for binary packages. <b>nmm(&apos;verify&apos;, module_path)</b> verifies that a source module lockfile is up to date.</p>
     <p />
     <p>
       <b>nmm(&apos;load&apos;, module_name)</b> load an installed module for current session.</p>
+    <p>
+      <b>nmm(&apos;load&apos;, module_name, version)</b> loads a specific installed version of a module.</p>
+    <p>
+      Multiple versions of the same module can be installed side by side. The active version is the newest installed version unless a version has been pinned.</p>
+    <p>
+      <b>nmm(&apos;pin&apos;, module_name, version)</b> selects the default active version and records it in <b>modules.json</b> as <b>pinned_version</b>. If the version is omitted, the current active version is pinned.</p>
+    <p>
+      <b>nmm(&apos;unpin&apos;, module_name)</b> removes <b>pinned_version</b> without uninstalling the module and makes the newest installed version active.</p>
+    <p>
+      <b>nmm(&apos;why&apos;, package_name)</b> explains which installed modules require an installed package by reading installed <b>module-lock.json</b> dependencies. <b>nmm(&apos;why&apos;, install_report, package_name)</b> explains why a package appears in a registry dry-run install plan.</p>
+    <p>
+      <b>nmm(&apos;tree&apos;, package_name)</b> returns the installed dependency tree for a package by reading <b>module-lock.json</b>. <b>nmm(&apos;tree&apos;, install_report)</b> returns the dependency tree represented by a registry dry-run install plan. The report includes nested dependencies, missing packages and conflicts.</p>
+    <p>
+      <b>nmm(&apos;deps&apos;, package_name)</b> and <b>nmm(&apos;deps&apos;, install_report)</b> return a flat dependency list from an installed package tree or registry dry-run install plan. <b>nmm(&apos;rdeps&apos;, package_name)</b> returns installed packages that depend on a package. <b>nmm(&apos;status&apos;, package_name)</b> returns a scriptable summary of the installed package state, active version, lockfile, missing dependencies and reverse dependencies.</p>
+    <p>
+      <b>nmm(&apos;explain&apos;, package_name)</b> combines status, dependency tree and reverse dependency information into a scriptable report with human-readable summary lines. <b>nmm(&apos;graph&apos;, package_name)</b> exports the installed dependency graph as DOT and Mermaid text.</p>
+    <p>
+      <b>nmm(&apos;installed&apos;, package_name)</b> returns locally installed versions only. <b>nmm(&apos;latest&apos;, package_name)</b> returns the latest compatible registry package. <b>nmm(&apos;resolve&apos;, package_name, version_spec)</b> returns the exact compatible registry version selected for a version constraint without installing it. <b>nmm(&apos;satisfies&apos;, version, version_spec)</b> checks a version against an exact version or semver constraint.</p>
     <p />
     <p>
       <b>l = nmm(&apos;autoload&apos;, module_name</b> returns current state autoload for <b>module_name</b>.</p>
@@ -88,9 +322,106 @@
     <p />
     <p>
       <b>nmm(&apos;uninstall&apos;, module_name)</b> uninstall an installed module.</p>
+    <p>
+      <b>nmm(&apos;remove&apos;, module_name)</b> is an alias for <b>nmm(&apos;uninstall&apos;, module_name)</b>. Removal returns a report when requested, including removed paths, reverse dependencies and whether the operation changed installed modules.</p>
+    <p>
+      <b>nmm(&apos;remove&apos;, module_name, version)</b> removes only the selected installed version. Without a version argument, all installed versions of the module are removed. <b>nmm(&apos;remove&apos;, module_name, &apos;-dry-run&apos;)</b> reports the impact without deleting files. By default, removal is refused when installed modules still require the package; use <b>-force</b> to remove it anyway.</p>
+    <p>
+      <b>nmm(&apos;orphans&apos;)</b> lists auto-installed dependency packages that are no longer reachable from explicitly installed modules. <b>nmm(&apos;autoremove&apos;, &apos;-dry-run&apos;)</b> reports those packages without deleting them, and <b>nmm(&apos;autoremove&apos;)</b> removes them with explicit force because they are already classified as orphan dependencies. Both commands support <b>&apos;-json&apos;</b> output for scripting.</p>
     <p />
     <p>
       <b>nmm(&apos;package&apos;, module_name, destination_dir)</b> packages an module as a zip file.</p>
+    <p
+    >The generated <b>module-lock.json</b> stores exact installed dependency versions, lock format, package type (<b>source</b> or <b>binary</b>), source metadata, Nelson version, architecture, ABI tag and checksums for key installed files such as <b>module.json</b>, <b>loader.m</b>, <b>builder.m</b> and the startup or finish scripts. The packaged module records the dependency set, runtime context and file integrity state used at build time.</p>
+    <p
+    >Packaging also writes <b>package_filename.sha256</b>. This sidecar is optional for single-file distribution: installing or publishing a <b>.nmz</b> archive verifies it when present, and otherwise relies on the checksums embedded in <b>module-lock.json</b>.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, destination_dir)</b> validates and builds a source module in a temporary staging directory, runs the module tests with fail-fast behavior, generates <b>module-lock.json</b>, then creates a <b>.nmz</b> archive and its <b>.sha256</b> checksum.</p>
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, &apos;-dry-run&apos;)</b> validates, builds, tests and computes the lockfile without creating an archive. With a destination directory, the report also includes the archive path that would be written.</p>
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, destination_dir, &apos;-target&apos;, &apos;wasm32&apos;)</b> cross-builds a binary module for the WebAssembly engine from any host: <b>module.json</b> must list <b>wasm32</b> in <b>platforms</b>, the builder runs with <b>NELSON_DL_TARGET=wasm32</b> so <b>dlgeneratemake</b>, <b>dlmake</b> and <b>getdynlibext</b> produce an Emscripten side module (<b>lib*.so</b>, see <b>dltarget</b>), the tests are skipped because that gateway cannot run on the host, and the archive is named <b>&lt;module&gt;-wasm32-&lt;version&gt;.nmz</b> with a lockfile for the <b>wasm32</b> architecture. The Emscripten SDK of the engine build must be active (<b>EMSDK</b>, see BUILDING_WebAssembly.md). The target may also be the running architecture, which is the default.</p>
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, destination_dir, &apos;-no-tests&apos;)</b> creates the archive without running package tests. This is intended for local development archives only.</p>
+    <p>
+      By default the archive excludes version-control directories, build output (<b>bin/</b>, <b>x64/</b>, object and library files, cmake caches) and editor junk, so a packaged module is clean without any configuration. A <b>.nmignore</b> file at the module root adds further excludes with gitignore-style patterns (<b>#</b> comments, <b>*</b>, <b>**</b>, a trailing <b>/</b> for a directory, a leading <b>!</b> to re-include, an unslashed name matches at any depth while a slashed pattern is anchored to the module root); a file whose parent directory is excluded cannot be re-included. An optional <b>files</b> array in <b>module.json</b> is an allowlist of glob patterns: when present, only the matching files are packaged (still minus the default excludes, and always keeping <b>module.json</b>, <b>module-lock.json</b> and <b>loader.m</b>). <b>nmm(&apos;pack&apos;, module_path, &apos;-dry-run&apos;)</b> lists the exact files that would be packaged, so the selection can be checked before an archive is written.</p>
+    <p>
+      <b>nmm(&apos;lock&apos;, module_path)</b> builds the source loader when needed and writes or refreshes <b>module-lock.json</b> in the source tree without installing or packaging the module. <b>nmm(&apos;lock&apos;, module_path, &apos;-dry-run&apos;)</b> returns the computed lock without writing it. <b>nmm(&apos;lock&apos;, module_path, &apos;-check&apos;)</b> reports whether the current lockfile is up to date. <b>nmm(&apos;lock&apos;, module_path, &apos;-diff&apos;)</b> also returns the current and expected lock data.</p>
+    <p>
+      <b>nmm(&apos;publish&apos;, package_filename)</b> publishes a checked <b>.nmz</b> archive into the configured local registry JSON file. It inserts the package metadata from <b>module.json</b>, including summary, description, license, authors, repository, tags and package type when present, plus the source path and SHA-256 checksum, then writes <b>registry.json.sha256</b>. When <b>NELSON_NMM_REGISTRY_SIGNING_KEY</b> holds an Ed25519 private seed (64 hexadecimal characters), it also writes the <b>registry.json.sig</b> sidecar: a JSON document carrying the Ed25519 signature of the exact registry bytes and the matching public key (see <b>crypto.ed25519.sign</b>).</p>
+    <p>
+      <b>nmm(&apos;publish&apos;, package_filename, &apos;-dry-run&apos;)</b> verifies the archive, reads the target local registry and returns the registry entry that would be written without modifying files. <b>nmm(&apos;publish&apos;, package_filename, &apos;-check&apos;)</b> returns whether publication is currently possible. <b>nmm(&apos;publish&apos;, package_filename, &apos;-force&apos;)</b> explicitly replaces an existing entry with the same package and version. <b>-json</b> returns the publish report as JSON.</p>
+    <p><b>nmm(&apos;publish&apos;, package_filename, &apos;-source&apos;, url)</b> stores <b>url</b> (an <b>http</b> or <b>https</b> address, typically a release download link) as the archive source instead of the local packing path. The checksum is still computed from the published local archive, which must be identical to the hosted file. This is how a hosted registry references archives.</p>
+    <p>A binary (builtin) package is architecture specific, so its archive is stored under an <b>artifacts</b> map keyed by architecture (for example <b>win64</b> and <b>woa64</b>). Publishing another architecture of the same package version merges it into the same registry entry rather than replacing it, so a single name and version can ship several architectures published at different times; only re-publishing the same architecture needs <b>-force</b>. When a package is installed, the archive matching the running architecture is selected. Source packages keep the platform <b>all</b> and a single source and checksum.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;init&apos;, destination_dir, ...)</b> assembles a <b>module.json</b> manifest from name/value fields and sensible defaults, validates it with the same schema validator as <b>validate</b>, and writes it in <b>destination_dir</b>. Defaults: <b>version</b> <b>1.0.0</b>, <b>platforms</b> <b>{&apos;all&apos;}</b>, <b>nelson</b> <b>&gt;=2.0.0</b>, <b>builtin</b> <b>false</b>, empty <b>dependencies</b>, and <b>module</b> derived from the destination folder name. <b>&apos;Force&apos;, true</b> overwrites an existing manifest, <b>&apos;DryRun&apos;, true</b> returns the struct without writing, <b>&apos;Skeleton&apos;, true</b> also drops a minimal loadable source tree, and <b>&apos;Interactive&apos;, true</b> prompts for missing required fields (disabled by default so <b>--file</b> scripts never block). It also echoes non-fatal best-practice warnings (missing <b>repository</b>, <b>authors</b>, <b>keywords</b> or <b>description</b>) using the same linter as <b>validate -warnings</b>. See <b>nmm init</b> for details.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path)</b> validates the module descriptor before installation or packaging. <b>module_path</b> may be a module directory or a path to a lone <b>module.json</b> file (or any <b>*.json</b> manifest): when a file is passed, only its manifest fields are validated and the source-tree layout checks are skipped.</p>
+    <p
+    >Validation checks required fields, module name syntax, semantic version syntax, supported platforms, Nelson version compatibility, builtin type, SPDX license expression, dependency declarations, and the source module layout. A valid source module must provide <b>builder.m</b> or <b>loader.m</b>, <b>etc/startup.m</b>, <b>etc/finish.m</b>, <b>help</b>, and <b>tests</b>. Packaging also requires at least one test file and stops when a package test fails.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path, &apos;-strict&apos;)</b> also requires publish-oriented metadata such as <b>repository</b>, <b>homepage</b> and non-empty <b>keywords</b>, plus at least one test and XML help file.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path, &apos;-warnings&apos;)</b> returns non-blocking warnings for weak package metadata such as missing description, repository, authors or keywords, or placeholder-only help pages. The same recommended-field warnings are surfaced by <b>nmm(&apos;init&apos;)</b> when generating a manifest.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path, &apos;-json&apos;)</b> returns a JSON validation report instead of raising validation errors.</p>
+    <p>
+      Packaged archives are also checked after build: <b>loader.m</b> and <b>module-lock.json</b> must exist before a <b>.nmz</b> archive is written or installed.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;audit&apos;)</b> checks installed module records.</p>
+    <p
+    >The audit verifies installed paths, <b>module.json</b>, <b>module-lock.json</b>, locked platform compatibility, binary Nelson ABI compatibility, locked dependencies and lockfile checksums. It returns a struct with <b>ok</b> and <b>issues</b> fields.</p>
+    <p>
+      <b>nmm(&apos;audit&apos;, package_name)</b> runs the same checks for a single installed package.</p>
+    <p>
+      <b>nmm(&apos;audit&apos;, &apos;-json&apos;)</b> returns the same audit report encoded as JSON for CI usage.</p>
+    <p>
+      <b>nmm(&apos;doctor&apos;)</b> returns the audit report plus Nelson version, architecture, ABI tag, <b>usermodulesdir()</b>, configured registry, cache directory and broken module names.</p>
+    <p>
+      <b>nmm(&apos;doctor&apos;, package_name)</b> returns the same diagnostic information for one package and includes its <b>status</b> report.</p>
+    <p>
+      <b>nmm(&apos;repair&apos;)</b> removes broken <b>modules.json</b> entries whose installed path is missing. It returns the list of removed entries.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;search&apos;, query)</b>, <b>nmm(&apos;info&apos;, package_name)</b> and <b>nmm(&apos;versions&apos;, package_name)</b> read the configured registry index.</p>
+    <p>
+      <b>nmm(&apos;search&apos;, query, &apos;-json&apos;)</b>, <b>nmm(&apos;info&apos;, package_name, &apos;-json&apos;)</b> and <b>nmm(&apos;versions&apos;, package_name, &apos;-json&apos;)</b> return JSON output for CI and scripting workflows.</p>
+    <p>By default <b>search</b> reports the whole registry regardless of the current machine. <b>nmm(&apos;search&apos;, query, &apos;-platform&apos;)</b> keeps only the packages installable on the running architecture (their <b>platforms</b> contains <b>computer(&apos;arch&apos;)</b> or <b>all</b>); it is opt-in so scripts get machine-independent results by default, and presentation layers such as the package manager window use it to hide packages built for another architecture.</p>
+    <p>
+      <b>nmm(&apos;registry&apos;, &apos;check&apos;)</b> verifies the configured registry (local file or remote source), its checksum sidecar and its Ed25519 signature sidecar, then returns a diagnostic report including the signing key, the trusted-key count and, for a remote registry, the cached copy and the offline state.</p>
+    <p>
+      <b>nmm(&apos;registry&apos;, &apos;validate&apos;)</b> is an alias for <b>check</b>. <b>nmm(&apos;registry&apos;, &apos;stats&apos;)</b> returns registry entry counts, unique package counts, platform list and checksum/signature counts. <b>nmm(&apos;registry&apos;, &apos;list&apos;)</b> returns the configured registry, packages and stats. <b>nmm(&apos;registry&apos;, &apos;doctor&apos;)</b> combines registry validation with duplicate, missing-source, unsigned and unchecksummed package reports.</p>
+    <p
+    >The registry source is <b>NELSON_NMM_REGISTRY</b> when set, otherwise <b>registry.json</b> in <b>usermodulesdir()</b>. The source can be a local JSON file or a remote endpoint (<b>http://</b>, <b>https://</b> or <b>file://</b>). Local registry files must have a <b>registry.json.sha256</b> sidecar and are verified before they are read; when <b>registry.json.sig</b> is present, its Ed25519 signature must be valid and come from a trusted key. Remote registries are fetched as raw bytes together with <b>registry.json.sig</b>, verified before the JSON is parsed, then cached in the nmm cache directory: when the source is unreachable, the last verified copy is re-verified and used (offline mode). A remote registry without signature is refused unless <b>NELSON_NMM_REGISTRY_ALLOW_UNSIGNED=1</b> is set (a warning is emitted once per session). Trusted keys are the official Nelson registry keys embedded in Nelson, the keys listed in <b>NELSON_NMM_REGISTRY_PUBLIC_KEY</b> (&apos;;&apos; separated, 64 hexadecimal characters each) and the key derived from <b>NELSON_NMM_REGISTRY_SIGNING_KEY</b>. Installing an archive entry also verifies the package checksum before extraction.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;outdated&apos;)</b> reports installed modules for which the registry contains a newer semantic version.</p>
+    <p>
+      <b>nmm(&apos;update&apos;)</b> updates installed modules to the latest registry version. With a module name, only that module is updated.</p>
+    <p>
+      <b>nmm(&apos;update&apos;, module_name, &apos;-dry-run&apos;)</b> reports the update plan without modifying installed modules.</p>
+    <p>
+      <b>nmm(&apos;update&apos;, &apos;-dry-run&apos;)</b> reports the update plan for all installed modules without modifying installed modules.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;dir&apos;)</b> returns the local archive cache directory and <b>nmm(&apos;cache&apos;, &apos;clear&apos;)</b> clears it. Installing a checked <b>.nmz</b> archive stores it in the cache.</p>
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;list&apos;)</b> lists offline packages currently available in the local cache.</p>
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;size&apos;)</b> returns archive count and total cached bytes. <b>nmm(&apos;cache&apos;, &apos;remove&apos;, package_name, version)</b> removes one cached archive and its checksum sidecar.</p>
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;info&apos;, package_name, version)</b> returns the cached archive path, checksum, size and date. <b>nmm(&apos;cache&apos;, &apos;has&apos;, package_name, version)</b> returns true when that archive is available.</p>
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;add&apos;, package_filename)</b> verifies and preloads a local <b>.nmz</b> archive into the cache. <b>nmm(&apos;cache&apos;, &apos;export&apos;, destination_dir)</b> copies cached archives and checksum sidecars to a directory. <b>nmm(&apos;cache&apos;, &apos;import&apos;, source_dir)</b> verifies and imports cached archives from a directory.</p>
+    <p>
+      <b>nmm(&apos;cache&apos;, &apos;verify&apos;)</b> verifies cached archives and reports corrupted entries. <b>nmm(&apos;cache&apos;, &apos;prune&apos;)</b> removes older cached versions while keeping the latest cached version of each package. <b>nmm(&apos;cache&apos;, &apos;prune&apos;, &apos;-dry-run&apos;)</b> reports the same removals without deleting files.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_name, &apos;-offline&apos;)</b> installs the newest cached package version without reading the registry or package source.</p>
+    <p>
+      <b>nmm(&apos;install&apos;, package_name, version, &apos;-offline&apos;)</b> installs an exact cached package version, or the newest cached version matching a semver constraint, without reading the registry or package source. Add <b>&apos;-dry-run&apos;</b> to verify the cached archive plan without installing it.</p>
     <p />
   </description>
   <used_function />
@@ -109,7 +440,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Package easily a module</example_item_description>
+      <example_item_description>Package a module</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
@@ -126,11 +457,18 @@ package_filename = nmm('package', 'module_skeleton_basic', tempdir())
     <see_also_item>
       <link linkend="${modules_manager}getmodules">getmodules</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${nmm_gui}nmm_gui">nmm_gui</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>package manager workflows, registry, lockfile and cache improvements</history_description>
     </history_item>
   </history>
   <authors>

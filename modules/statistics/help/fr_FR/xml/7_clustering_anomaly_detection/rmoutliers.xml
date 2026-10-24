@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rmoutliers</keyword>
+  <short_description>Detecte et supprime les valeurs aberrantes de donnees numeriques.</short_description>
+  <syntax>
+    <syntax_item>B = rmoutliers(A)</syntax_item>
+    <syntax_item>B = rmoutliers(A, method)</syntax_item>
+    <syntax_item>B = rmoutliers(A, 'percentiles', threshold)</syntax_item>
+    <syntax_item>B = rmoutliers(A, movmethod, window)</syntax_item>
+    <syntax_item>B = rmoutliers(..., dim)</syntax_item>
+    <syntax_item>B = rmoutliers(..., Name, Value)</syntax_item>
+    <syntax_item>[B, TFrm, TFoutlier, L, U, C] = rmoutliers(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>rmoutliers</b> detecte les valeurs aberrantes dans un vecteur ou une matrice numerique, puis supprime les entrees qui en contiennent.</p>
+    <p>Pour les matrices, la detection s'effectue colonne par colonne. Par defaut les lignes contenant des valeurs aberrantes sont supprimees. Avec <b>dim</b> egal a 2, les colonnes contenant des valeurs aberrantes sont supprimees.</p>
+    <p>Les methodes de detection et arguments nom-valeur sont partages avec <b>isoutlier</b>. L'argument nom-valeur <b>OutlierLocations</b> peut fournir directement un masque logique.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [57 59 60 100 59 58 57 58 300 61 62 60 62 58 57];
+B = rmoutliers(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [2 290 1 2; 1 0 323 1; 0 2 3 2; 1 1 2 3];
+[B, TFrm, TFoutlier] = rmoutliers(A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}isoutlier">isoutlier</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isosurface</keyword>
+  <short_description>Extraire une isosurface depuis des donnees volumiques.</short_description>
+  <syntax>
+    <syntax_item>isosurface(X, Y, Z, V, isovalue)</syntax_item>
+    <syntax_item>s = isosurface(X, Y, Z, V, isovalue)</syntax_item>
+    <syntax_item>s = isosurface(X, Y, Z, V)</syntax_item>
+    <syntax_item>s = isosurface(V, isovalue)</syntax_item>
+    <syntax_item>s = isosurface(V)</syntax_item>
+    <syntax_item>s = isosurface(..., colors)</syntax_item>
+    <syntax_item>s = isosurface(..., 'noshare')</syntax_item>
+    <syntax_item>s = isosurface(..., 'verbose')</syntax_item>
+    <syntax_item>[faces, vertices] = isosurface(...)</syntax_item>
+    <syntax_item>[faces, vertices, colors] = isosurface(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Vecteurs de grille ou tableaux 3-D de meme taille que V.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Donnees volumiques 3-D numeriques reelles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>isovalue</param_name>
+      <param_description>Niveau scalaire utilise pour extraire la surface. Si la valeur est omise, Nelson choisit un niveau depuis les valeurs finies.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>colors</param_name>
+      <param_description>Donnees de couleur 3-D numeriques reelles de meme taille que V.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>Structure avec les champs faces et vertices, et facevertexcdata lorsque des donnees de couleur sont fournies.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>faces, vertices, colors</param_name>
+      <param_description>Connectivite triangulaire, coordonnees des sommets et valeurs de couleur interpolees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isosurface</b> extrait une surface triangulaire ou les donnees volumiques atteignent une valeur scalaire demandee. Sans argument de sortie, la surface est affichee comme un objet patch dans les axes courants.</p>
+    <p>L'option <b>'noshare'</b> ignore la reduction des sommets partages. L'option <b>'verbose'</b> est acceptee pour compatibilite.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher une isosurface depuis des donnees volumiques.</example_item_description>
+      <example_item_data><![CDATA[[x, y, z] = meshgrid(-2:0.25:2, -2:0.25:2, -2:0.25:2);
+v = x.^2 + y.^2 + z.^2;
+isosurface(x, y, z, v, 1);
+axis equal;]]></example_item_data>
+      <example_item_img src="../../../../images/isosurface_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/slice">slice</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/contourslice">contourslice</link></see_also_item>
+  </see_also>
+</xmldoc>

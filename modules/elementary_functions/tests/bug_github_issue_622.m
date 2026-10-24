@@ -12,5 +12,5 @@
 % <-- Short Description -->
 % isreal(sqrt(i^4)) did not return true
 %=============================================================================
-assert_istrue(isreal(sqrt(i^4)));
+asserts.istrue(isreal(sqrt(i ^ 4)));
 %=============================================================================

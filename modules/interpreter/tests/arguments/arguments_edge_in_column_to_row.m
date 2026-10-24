@@ -9,7 +9,7 @@
 %=============================================================================
 function out = arguments_edge_in_column_to_row(B)
   arguments
-    B (1,:) double
+    B(1, :) double
   end
   out = B;
 end

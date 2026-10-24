@@ -21,5 +21,5 @@ XmlDocToc(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& 
     const std::wstring& xsltFilename, DOCUMENT_OUTPUT outputDocumentType,
     std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

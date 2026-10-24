@@ -9,14 +9,17 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
+figure();
 h = uicontrol('Style', 'popupmenu', 'String', {'Option 1', 'Option 2', 'Option 3'}, 'Position', [100, 100, 100, 50]);
-assert_isequal(h.Value, 1);
-pause(2);
+asserts.isequal(h.Value, 1);
+drawnow();
+pause(0.1);
 h.Value = 2;
-assert_isequal(h.Value, 2);
-pause(2);
+asserts.isequal(h.Value, 2);
+drawnow();
+pause(0.1);
 h.Value = 3;
-assert_isequal(h.Value, 3);
-pause(2);
+asserts.isequal(h.Value, 3);
+drawnow();
+pause(0.1);
 %=============================================================================

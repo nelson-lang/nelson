@@ -21,5 +21,5 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
     bool haveThirdArgument, indexType& count, indexType& nextIndex, bool withNextIndex,
     std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

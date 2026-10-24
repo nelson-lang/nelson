@@ -7,24 +7,26 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('nativecharset'), 1);
-assert_isequal(nargout('nativecharset'), 1);
+skip_if_reduced_characters_encoding_backend();
+%=============================================================================
+asserts.isequal(nargin('nativecharset'), 1);
+asserts.isequal(nargout('nativecharset'), 1);
 %=============================================================================
 iso8859_1 = [modulepath('characters_encoding', 'tests'), '/die_ISO-8859-1.txt'];
 F = fopen(iso8859_1, 'rt');
-R = fread(F,'uint8');
+R = fread(F, 'uint8');
 fclose(F);
 ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(any(contains(ce, 'ISO-8859-1')))
+asserts.istrue(iscell(ce));
+asserts.istrue(iscellstr(ce));
+asserts.istrue(any(contains(ce, 'ISO-8859-1')))
 %=============================================================================
 pt = [modulepath('characters_encoding', 'tests'), '/portugal_ISO-8859-1.txt'];
 F = fopen(pt, 'rt');
-R = fread(F,'uint8');
+R = fread(F, 'uint8');
 fclose(F);
 ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(any(contains(ce, 'ISO-8859-1')))
+asserts.istrue(iscell(ce));
+asserts.istrue(iscellstr(ce));
+asserts.istrue(any(contains(ce, 'ISO-8859-1')))
 %=============================================================================

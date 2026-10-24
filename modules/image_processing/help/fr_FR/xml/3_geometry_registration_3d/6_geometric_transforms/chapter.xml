@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Transformations geometriques</chapter>
+  <chapter_description>
+    <p>Fonctions et objets pour le recadrage, le redimensionnement, la rotation, la translation, le referencement spatial et les transformations geometriques dans les workflows 2-D et les bases 3-D.</p>
+  </chapter_description>
+</xmldoc>

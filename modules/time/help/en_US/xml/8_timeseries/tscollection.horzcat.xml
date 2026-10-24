@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tscollection.horzcat</keyword>
+  <short_description>Time series object function.</short_description>
+  <syntax>
+    <syntax_item>horzcat(...)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>horzcat</b> operates on timeseries, tscollection, or tsdata metadata objects.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts1 = timeseries([1; 2], [10; 11], 'Name', 'a');
+ts2 = timeseries([3; 4], [10; 11], 'Name', 'b');
+tsc = [tscollection(ts1), tscollection(ts2)];
+gettimeseriesnames(tsc)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}tscollection">tscollection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,22 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('islogical'), 1);
-assert_isequal(nargout('islogical'), 1);
+asserts.isequal(nargin('islogical'), 1);
+asserts.isequal(nargout('islogical'), 1);
 %=============================================================================
 A = 1;
 res = islogical(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = logical(1);
 res = islogical(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = sparse(logical(1));
 res = islogical(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = true(3, 3, 3);
 res = islogical(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

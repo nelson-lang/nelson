@@ -20,5 +20,5 @@ computeStringToSHA256(const std::wstring& str);
 NLSCORE_IMPEXP std::wstring
 computeFileToSHA256(const std::wstring& filename);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

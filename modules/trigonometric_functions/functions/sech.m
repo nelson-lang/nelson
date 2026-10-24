@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function y = sech (varargin)
+function y = sech(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
   x = cosh(varargin{1});

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isobjectBuiltin.hpp"
+#include "ClassdefParser.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -18,8 +19,13 @@ Nelson::TypeGateway::isobjectBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bRes = (argIn[0].getDataClass() == NLS_CLASS_ARRAY);
-    retval << ArrayOf::logicalConstructor(bRes);
+    bool bRes = (argIn[0].dataClass() == NLS_CLASS_ARRAY
+        || argIn[0].dataClass() == NLS_CLASSDEF_ARRAY || argIn[0].dataClass() == NLS_GO_HANDLE);
+    if (!bRes && argIn[0].isHandle()) {
+        std::string className = argIn[0].handleClassName();
+        bRes = classdefLoadClass(className);
+    }
+    retval << ArrayOf::logicalScalar(bRes);
     return retval;
 }
 //=============================================================================

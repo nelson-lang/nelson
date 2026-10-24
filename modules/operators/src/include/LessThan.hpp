@@ -13,10 +13,8 @@
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
-/**
- * Element-wise compare (lt) of two arrays.
- */
 NLSOPERATORS_IMPEXP ArrayOf
 LessThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -10,12 +10,14 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 fptr = str2func('pause');
-for i = 1:15
-  f(i) = parfeval(backgroundPool, fptr, 0, 1);
+pool = backgroundPool();
+n = min(15, pool.NumWorkers);
+for i = 1:n
+  f(i) = parfeval(pool, fptr, 0, 1);
 end
 tic()
 R = wait(f, 'running');
 toc()
-assert_istrue(R);
+asserts.istrue(R);
+wait(f, 'finished', 10);
 %=============================================================================
-

@@ -16,6 +16,7 @@
 #include "PostCommandDynamicFunction.hpp"
 #include "NelsonPIDs.hpp"
 #include "NelsonInterprocess.hpp"
+#include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -69,6 +70,53 @@ ExecuteFilesAssociated(
 }
 //=============================================================================
 bool
+OpenAssociatedFiles(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
+{
+    wstringVector filesToEdit;
+    wstringVector filesToLoad;
+    wstringVector filesToOpenInNFlow;
+    for (const auto& filename : filesToOpen) {
+        const std::wstring extension
+            = StringHelpers::to_lower_copy(FileSystemWrapper::Path(filename).extension().wstring());
+        if (extension == L".m") {
+            filesToEdit.push_back(filename);
+        } else if (extension == L".nh5" || extension == L".mat") {
+            filesToLoad.push_back(filename);
+        } else if (extension == L".nflow") {
+            filesToOpenInNFlow.push_back(filename);
+        } else {
+            return false;
+        }
+    }
+
+    if (sendByIPC) {
+        int existingPID = getLatestPidWithModeInSharedMemory(currentMode);
+        if (existingPID == 0) {
+            return false;
+        }
+        const bool editSucceeded = filesToEdit.empty()
+            || sendCommandFileExtensionToNelsonInterprocessReceiver(
+                existingPID, NELSON_INTERPROCESS_COMMAND::OPEN_FILES, filesToEdit);
+        const bool loadSucceeded = filesToLoad.empty()
+            || sendCommandFileExtensionToNelsonInterprocessReceiver(
+                existingPID, NELSON_INTERPROCESS_COMMAND::LOAD_FILES, filesToLoad);
+        const bool nflowSucceeded = filesToOpenInNFlow.empty()
+            || sendCommandFileExtensionToNelsonInterprocessReceiver(
+                existingPID, NELSON_INTERPROCESS_COMMAND::OPEN_NFLOW_FILES, filesToOpenInNFlow);
+        return editSucceeded && loadSucceeded && nflowSucceeded;
+    }
+
+    const bool editSucceeded
+        = filesToEdit.empty() || OpenFilesAssociated(currentMode, filesToEdit, false);
+    const bool loadSucceeded
+        = filesToLoad.empty() || LoadFilesAssociated(currentMode, filesToLoad, false);
+    const bool nflowSucceeded = filesToOpenInNFlow.empty()
+        || commonFilesAssociated(currentMode, L"open_system", filesToOpenInNFlow);
+    return editSucceeded && loadSucceeded && nflowSucceeded;
+}
+//=============================================================================
+bool
 commonFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const std::wstring& command, const wstringVector& filesToOpen)
 {
@@ -80,7 +128,10 @@ commonFilesAssociated(
                     FileSystemWrapper::Path pathFileToOpen(k);
                     bool bIsFile = FileSystemWrapper::Path::is_regular_file(pathFileToOpen);
                     if (bIsFile) {
-                        std::wstring commandToExecute = command + std::wstring(L"('" + k + L"');");
+                        std::wstring escapedFilename = k;
+                        StringHelpers::replace_all(escapedFilename, L"'", L"''");
+                        std::wstring commandToExecute
+                            = command + std::wstring(L"('" + escapedFilename + L"');");
                         bool r = PostCommandDynamicFunction(commandToExecute);
                         if (r != true) {
                             return false;
@@ -90,7 +141,7 @@ commonFilesAssociated(
                     }
                 }
                 return true;
-            } catch (Exception&) {
+            } catch (NelsonException&) {
                 res = false;
             }
         }

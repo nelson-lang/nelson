@@ -15,25 +15,25 @@
 V = 1e10;
 R = fix(V);
 REF = V;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 V = 1e32;
 R = fix(V);
 REF = V;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 V = 1e333;
 R = fix(V);
 REF = inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 V = 1e-433;
 R = fix(V);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 V = [];
 R = fix(V);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -21,5 +21,6 @@ NLSINTERPRETER_IMPEXP std::string
 getParserFilenameU();
 NLSINTERPRETER_IMPEXP std::wstring
 getParserFilenameW();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

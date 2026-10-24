@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cornermetric</keyword>
+  <short_description>Calcule une metrique de force de coin.</short_description>
+  <syntax>
+    <syntax_item>C = cornermetric(I)</syntax_item>
+    <syntax_item>C = cornermetric(I, method)</syntax_item>
+    <syntax_item>C = cornermetric(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree en niveaux de gris ou RGB.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode de metrique de coin : Harris ou Minimum Eigenvalue.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>Image de metrique de coin.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>cornermetric calcule une reponse de coins 2-D a partir des gradients d'image lisses par une fenetre gaussienne. Les options prises en charge sont FilterSize et SensitivityFactor.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher une metrique de coins Harris</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(18:46,18:46)=1;
+C=cornermetric(I);
+figure; subplot(1,2,1); imagesc(I); axis image; title('Image');
+subplot(1,2,2); imagesc(C); axis image; title('Metrique');]]></example_item_data>
+      <example_item_img
+        src="../../../images/cornermetric_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}detectHarrisFeatures">detectHarrisFeatures</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}detectFASTFeatures">detectFASTFeatures</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

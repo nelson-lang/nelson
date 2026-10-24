@@ -13,7 +13,7 @@ format('short')
 %=============================================================================
 R = size([]);
 REF = [0 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = evalc('R = size([])');
 REF = '
 R =
@@ -21,11 +21,11 @@ R =
      0     0
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = size({});
 REF = [0 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = evalc('R = size({})');
 REF = '
 R =
@@ -33,11 +33,11 @@ R =
      0     0
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = size(struct([]));
 REF = [0 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = evalc('R = size(struct([]))');
 REF = '
 R =
@@ -45,7 +45,7 @@ R =
      0     0
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('R = ones(1, 2, 0)');
 REF = '
@@ -54,7 +54,7 @@ R =
   1×2×0 empty double array
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('R = zeros(5, 0, 2, 4)');
 REF = '
@@ -63,7 +63,7 @@ R =
   5×0×2×4 empty double array
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('R = cell(3, 5, 8, 13, 0)');
 REF = '
@@ -72,16 +72,16 @@ R =
   5-D empty cell array
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('R = struct(rand(1, 2, 0))');
 REF = '
-R =
+R = 
 
   1×2×0 empty struct array with no fields.
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('R = zeros(4, 3, 0, 1)');
 REF = '
@@ -90,5 +90,5 @@ R =
   4×3×0 empty double array
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -1,4 +1,12 @@
 //=============================================================================
+// Copyright (c) 2025-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
 #pragma once
 //=============================================================================
 #include "VariableDefaultModel.h"
@@ -16,14 +24,12 @@ public:
         QWidget* parent = nullptr);
     ~QtVariableTextEdit() override = default;
 
-    // Model access - similar to QTableView::model()
     VariableDefaultModel*
     model() const
     {
         return m_model;
     }
 
-    // Convenience methods that delegate to the model
     void
     refreshFromArray(const ArrayOf& value);
     bool
@@ -33,7 +39,6 @@ public:
     QString
     getVariableDimensionsAsString() const;
 
-    // Direct access to variable data
     QString
     variableName() const;
     const ArrayOf&
@@ -48,7 +53,6 @@ signals:
     variableModified(const QString& variableName);
     //=============================================================================
 protected:
-    // Override to handle model updates
     void
     showEvent(QShowEvent* event) override;
     //=============================================================================

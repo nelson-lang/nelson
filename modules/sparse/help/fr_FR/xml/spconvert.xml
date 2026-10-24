@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>spconvert</keyword>
+  <short_description>Convertit des donnees indexees en matrice sparse.</short_description>
+  <syntax>
+    <syntax_item>S = spconvert(D)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>D</param_name>
+      <param_description>une matrice pleine double m-par-3 ou m-par-4.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>une matrice sparse double ou double complexe.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>spconvert</b> construit une matrice sparse a partir de lignes <b>[i j v]</b>. Avec quatre colonnes, les lignes sont interpretees comme <b>[i j real imag]</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[D = [1 1 10; 2 3 20; 3 2 30];
+S = spconvert(D)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}IJV">IJV</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

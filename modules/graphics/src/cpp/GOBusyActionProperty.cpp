@@ -17,5 +17,5 @@ static const wchar_t* BUSY_ACTION_DICT[3]
 //=============================================================================
 GOBusyActionProperty::GOBusyActionProperty() : GORestrictedStringProperty(BUSY_ACTION_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

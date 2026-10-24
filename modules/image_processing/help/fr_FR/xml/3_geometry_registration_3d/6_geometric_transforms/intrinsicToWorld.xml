@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>intrinsicToWorld</keyword>
+  <short_description>Convertit des coordonnees intrinseques en coordonnees monde.</short_description>
+  <syntax>
+    <syntax_item>[xWorld, yWorld] = intrinsicToWorld(R, xIntrinsic, yIntrinsic)</syntax_item>
+    <syntax_item>[xWorld, yWorld, zWorld] = intrinsicToWorld(R, xIntrinsic, yIntrinsic, zIntrinsic)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description>Structure de reference spatiale 2-D ou 3-D creee par imref2d ou imref3d.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xIntrinsic, yIntrinsic, zIntrinsic</param_name>
+      <param_description>Coordonnees intrinseques. La coordonnee Z est utilisee uniquement avec les references 3-D.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>xWorld, yWorld, zWorld</param_name>
+      <param_description>Coordonnees monde correspondant aux coordonnees intrinseques.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convertit les coordonnees intrinseques en coordonnees monde avec les pas de pixel ou de voxel stockes dans la reference spatiale.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convertir des coordonnees intrinseques 2-D</example_item_description>
+      <example_item_data><![CDATA[R = imref2d([2 3], 2, 3);
+[xWorld, yWorld] = intrinsicToWorld(R, [1 3], [1 2])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convertir des coordonnees intrinseques 3-D</example_item_description>
+      <example_item_data><![CDATA[R = imref3d([2 3 4], 2, 3, 4);
+[xWorld, yWorld, zWorld] = intrinsicToWorld(R, [1 3], [1 2], [1 4])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${image_processing}worldToIntrinsic">worldToIntrinsic</link></see_also_item>
+    <see_also_item><link linkend="${image_processing}imref2d">imref2d</link></see_also_item>
+    <see_also_item><link linkend="${image_processing}imref3d">imref3d</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

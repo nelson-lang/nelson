@@ -54,6 +54,14 @@ minus([1, 2], 1)]]></example_item_data>
         runnable="cli"
       ><![CDATA[ones(0, 0) - 1]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Subtract numeric values from character codes.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[char(65) - 1
+int8([1 2]) - char(65)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>

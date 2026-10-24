@@ -1,13 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
       <Configuration>Debug</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -16,10 +12,6 @@
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -33,58 +25,39 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
@@ -94,11 +67,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
@@ -108,11 +76,6 @@
     <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>lib$(ProjectName)</TargetName>
@@ -124,28 +87,6 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSSTATISTICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/statistics/builtin/include;$(SolutionDir)modules/statistics/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
@@ -186,32 +127,6 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSSTATISTICS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/statistics/builtin/include;$(SolutionDir)modules/statistics/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
@@ -300,16 +215,294 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\corrcoefBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dbscanBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\kmeansBuiltin.cpp" />
     <ClCompile Include="..\cpp\meanBuiltin.cpp" />
+    <ClCompile Include="..\cpp\stdBuiltin.cpp" />
     <ClCompile Include="..\cpp\varBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\betacdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betafitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betainvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betalikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betapdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betarndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\betastatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binocdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binofitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binoinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binolikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binopdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binorndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\binostatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\chi2cdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\chi2invBuiltin.cpp" />
+    <ClCompile Include="..\cpp\chi2pdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\chi2rndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\chi2statBuiltin.cpp" />
+    <ClCompile Include="..\cpp\clusterBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\evstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\expcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\expfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\expinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\explikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\exppdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\exprndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\expstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\finvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\frndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\fstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gamcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gamfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gaminvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gamlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gampdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gamrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gamstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geocdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geofitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geoinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geolikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geopdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\georndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\geostatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gevstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\iqrBuiltin.cpp" />
+    <ClCompile Include="..\cpp\knnsearchBuiltin.cpp" />
+    <ClCompile Include="..\cpp\kstest2Builtin.cpp" />
+    <ClCompile Include="..\cpp\kstestBuiltin.cpp" />
+    <ClCompile Include="..\cpp\linkageBuiltin.cpp" />
+    <ClCompile Include="..\cpp\logncdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\lognfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\logninvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\lognlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\lognpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\lognrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\lognstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbincdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbinfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbininvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbinlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbinpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbinrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nbinstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\norminvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\normstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\pdistBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poisscdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poissfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poissinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poisslikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poisspdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poissrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\poissstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\prctileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\quantileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rangesearchBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rayllikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\raylstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\squareformBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\trndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ttest2Builtin.cpp" />
+    <ClCompile Include="..\cpp\ttestBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidlikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unidstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uniflikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\unifstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\vartest2Builtin.cpp" />
+    <ClCompile Include="..\cpp\vartestBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblcdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblfitBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wbllikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblpdfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblrndBuiltin.cpp" />
+    <ClCompile Include="..\cpp\wblstatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zscoreBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ztestBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\corrcoefBuiltin.hpp" />
+    <ClInclude Include="..\include\dbscanBuiltin.hpp" />
+    <ClInclude Include="..\include\kmeansBuiltin.hpp" />
     <ClInclude Include="..\include\meanBuiltin.hpp" />
     <ClInclude Include="..\include\nlsStatistics_builtin_exports.h" />
+    <ClInclude Include="..\include\stdBuiltin.hpp" />
     <ClInclude Include="..\include\varBuiltin.hpp" />
+    <ClInclude Include="..\include\betacdfBuiltin.hpp" />
+    <ClInclude Include="..\include\betafitBuiltin.hpp" />
+    <ClInclude Include="..\include\betainvBuiltin.hpp" />
+    <ClInclude Include="..\include\betalikeBuiltin.hpp" />
+    <ClInclude Include="..\include\betapdfBuiltin.hpp" />
+    <ClInclude Include="..\include\betarndBuiltin.hpp" />
+    <ClInclude Include="..\include\betastatBuiltin.hpp" />
+    <ClInclude Include="..\include\binocdfBuiltin.hpp" />
+    <ClInclude Include="..\include\binofitBuiltin.hpp" />
+    <ClInclude Include="..\include\binoinvBuiltin.hpp" />
+    <ClInclude Include="..\include\binolikeBuiltin.hpp" />
+    <ClInclude Include="..\include\binopdfBuiltin.hpp" />
+    <ClInclude Include="..\include\binorndBuiltin.hpp" />
+    <ClInclude Include="..\include\binostatBuiltin.hpp" />
+    <ClInclude Include="..\include\chi2cdfBuiltin.hpp" />
+    <ClInclude Include="..\include\chi2invBuiltin.hpp" />
+    <ClInclude Include="..\include\chi2pdfBuiltin.hpp" />
+    <ClInclude Include="..\include\chi2rndBuiltin.hpp" />
+    <ClInclude Include="..\include\chi2statBuiltin.hpp" />
+    <ClInclude Include="..\include\clusterBuiltin.hpp" />
+    <ClInclude Include="..\include\evcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\evfitBuiltin.hpp" />
+    <ClInclude Include="..\include\evinvBuiltin.hpp" />
+    <ClInclude Include="..\include\evlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\evpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\evrndBuiltin.hpp" />
+    <ClInclude Include="..\include\evstatBuiltin.hpp" />
+    <ClInclude Include="..\include\expcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\expfitBuiltin.hpp" />
+    <ClInclude Include="..\include\expinvBuiltin.hpp" />
+    <ClInclude Include="..\include\explikeBuiltin.hpp" />
+    <ClInclude Include="..\include\exppdfBuiltin.hpp" />
+    <ClInclude Include="..\include\exprndBuiltin.hpp" />
+    <ClInclude Include="..\include\expstatBuiltin.hpp" />
+    <ClInclude Include="..\include\fcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\finvBuiltin.hpp" />
+    <ClInclude Include="..\include\fpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\frndBuiltin.hpp" />
+    <ClInclude Include="..\include\fstatBuiltin.hpp" />
+    <ClInclude Include="..\include\gamcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\gamfitBuiltin.hpp" />
+    <ClInclude Include="..\include\gaminvBuiltin.hpp" />
+    <ClInclude Include="..\include\gamlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\gampdfBuiltin.hpp" />
+    <ClInclude Include="..\include\gamrndBuiltin.hpp" />
+    <ClInclude Include="..\include\gamstatBuiltin.hpp" />
+    <ClInclude Include="..\include\geocdfBuiltin.hpp" />
+    <ClInclude Include="..\include\geofitBuiltin.hpp" />
+    <ClInclude Include="..\include\geoinvBuiltin.hpp" />
+    <ClInclude Include="..\include\geolikeBuiltin.hpp" />
+    <ClInclude Include="..\include\geopdfBuiltin.hpp" />
+    <ClInclude Include="..\include\georndBuiltin.hpp" />
+    <ClInclude Include="..\include\geostatBuiltin.hpp" />
+    <ClInclude Include="..\include\gevcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\gevfitBuiltin.hpp" />
+    <ClInclude Include="..\include\gevinvBuiltin.hpp" />
+    <ClInclude Include="..\include\gevlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\gevpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\gevrndBuiltin.hpp" />
+    <ClInclude Include="..\include\gevstatBuiltin.hpp" />
+    <ClInclude Include="..\include\iqrBuiltin.hpp" />
+    <ClInclude Include="..\include\knnsearchBuiltin.hpp" />
+    <ClInclude Include="..\include\kstest2Builtin.hpp" />
+    <ClInclude Include="..\include\kstestBuiltin.hpp" />
+    <ClInclude Include="..\include\linkageBuiltin.hpp" />
+    <ClInclude Include="..\include\logncdfBuiltin.hpp" />
+    <ClInclude Include="..\include\lognfitBuiltin.hpp" />
+    <ClInclude Include="..\include\logninvBuiltin.hpp" />
+    <ClInclude Include="..\include\lognlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\lognpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\lognrndBuiltin.hpp" />
+    <ClInclude Include="..\include\lognstatBuiltin.hpp" />
+    <ClInclude Include="..\include\nbincdfBuiltin.hpp" />
+    <ClInclude Include="..\include\nbinfitBuiltin.hpp" />
+    <ClInclude Include="..\include\nbininvBuiltin.hpp" />
+    <ClInclude Include="..\include\nbinlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\nbinpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\nbinrndBuiltin.hpp" />
+    <ClInclude Include="..\include\nbinstatBuiltin.hpp" />
+    <ClInclude Include="..\include\normcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\normfitBuiltin.hpp" />
+    <ClInclude Include="..\include\norminvBuiltin.hpp" />
+    <ClInclude Include="..\include\normlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\normrndBuiltin.hpp" />
+    <ClInclude Include="..\include\normstatBuiltin.hpp" />
+    <ClInclude Include="..\include\pdistBuiltin.hpp" />
+    <ClInclude Include="..\include\poisscdfBuiltin.hpp" />
+    <ClInclude Include="..\include\poissfitBuiltin.hpp" />
+    <ClInclude Include="..\include\poissinvBuiltin.hpp" />
+    <ClInclude Include="..\include\poisslikeBuiltin.hpp" />
+    <ClInclude Include="..\include\poisspdfBuiltin.hpp" />
+    <ClInclude Include="..\include\poissrndBuiltin.hpp" />
+    <ClInclude Include="..\include\poissstatBuiltin.hpp" />
+    <ClInclude Include="..\include\prctileBuiltin.hpp" />
+    <ClInclude Include="..\include\quantileBuiltin.hpp" />
+    <ClInclude Include="..\include\rangesearchBuiltin.hpp" />
+    <ClInclude Include="..\include\raylcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\raylfitBuiltin.hpp" />
+    <ClInclude Include="..\include\raylinvBuiltin.hpp" />
+    <ClInclude Include="..\include\rayllikeBuiltin.hpp" />
+    <ClInclude Include="..\include\raylpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\raylrndBuiltin.hpp" />
+    <ClInclude Include="..\include\raylstatBuiltin.hpp" />
+    <ClInclude Include="..\include\squareformBuiltin.hpp" />
+    <ClInclude Include="..\include\tcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\tinvBuiltin.hpp" />
+    <ClInclude Include="..\include\tpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\trndBuiltin.hpp" />
+    <ClInclude Include="..\include\tstatBuiltin.hpp" />
+    <ClInclude Include="..\include\ttest2Builtin.hpp" />
+    <ClInclude Include="..\include\ttestBuiltin.hpp" />
+    <ClInclude Include="..\include\unidcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\unidfitBuiltin.hpp" />
+    <ClInclude Include="..\include\unidinvBuiltin.hpp" />
+    <ClInclude Include="..\include\unidlikeBuiltin.hpp" />
+    <ClInclude Include="..\include\unidpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\unidrndBuiltin.hpp" />
+    <ClInclude Include="..\include\unidstatBuiltin.hpp" />
+    <ClInclude Include="..\include\unifcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\unifinvBuiltin.hpp" />
+    <ClInclude Include="..\include\unifitBuiltin.hpp" />
+    <ClInclude Include="..\include\uniflikeBuiltin.hpp" />
+    <ClInclude Include="..\include\unifpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\unifrndBuiltin.hpp" />
+    <ClInclude Include="..\include\unifstatBuiltin.hpp" />
+    <ClInclude Include="..\include\vartest2Builtin.hpp" />
+    <ClInclude Include="..\include\vartestBuiltin.hpp" />
+    <ClInclude Include="..\include\wblcdfBuiltin.hpp" />
+    <ClInclude Include="..\include\wblfitBuiltin.hpp" />
+    <ClInclude Include="..\include\wblinvBuiltin.hpp" />
+    <ClInclude Include="..\include\wbllikeBuiltin.hpp" />
+    <ClInclude Include="..\include\wblpdfBuiltin.hpp" />
+    <ClInclude Include="..\include\wblrndBuiltin.hpp" />
+    <ClInclude Include="..\include\wblstatBuiltin.hpp" />
+    <ClInclude Include="..\include\zscoreBuiltin.hpp" />
+    <ClInclude Include="..\include\ztestBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

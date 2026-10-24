@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson-format</keyword>
+  <short_description>Command-line Nelson source formatter.</short_description>
+  <syntax>
+    <syntax_item>nelson-format [--include-subfolders true|false] [--indent-size n] [--full-format true|false] [--config file] [--check] path ...</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson-format</b> formats Nelson source files from the command line.</p>
+    <p>Files are formatted in place by default. The formatter only processes files with the <b>.m</b> extension.</p>
+    <p><b>--include-subfolders</b> enables recursive formatting when a folder is passed as input.</p>
+    <p><b>--indent-size</b> sets the indentation size. The default value is <b>2</b>.</p>
+    <p><b>--full-format</b> enables or disables full formatting. The default value is <b>true</b>. Set it to <b>false</b> to only update leading indentation.</p>
+    <p>Full formatting preserves package, member, and dynamic-field references such as <b>package.function(value.(name))</b>. Contextual class block names remain ordinary identifiers when used in executable statements.</p>
+    <p><b>--config</b> loads a JSON configuration file. Without this option, <b>nelson-format</b> looks for <b>nelson-format.json</b> from the input paths and then from the current folder.</p>
+    <p><b>--check</b> reports files that would change without writing them.</p>
+    <p>Single-line blocks retain their opening and closing statements. Their indentation does not affect subsequent lines, and indexing expressions using <b>end</b> remain distinct from block terminators.</p>
+    <p>Inline catch clauses preserve the separator after an optional exception variable, including forms such as <b>catch err, value = err.message;</b>.</p>
+    <p>The supported configuration keys are <b>indentSize</b>, <b>fullFormat</b>, <b>includeSubfolders</b>, and <b>excludePathContains</b>. Command-line options override values loaded from JSON.</p>
+    <p>Files listed by <b>nelson-format-ignore.json</b> or by <b>excludePathContains</b> in <b>nelson-format.json</b> are skipped.</p>
+    <p>Exit code <b>0</b> means success or no change required, <b>1</b> means <b>--check</b> found files that would change, and <b>2</b> means usage, input, read/write, or internal error.</p>
+  </description>
+  <used_function>smartindent</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Format all Nelson files in a folder recursively.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --include-subfolders true modules/interpreter/functions]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Check whether a file is already formatted.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --check myfile.m]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Format with an explicit configuration file.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --config nelson-format.json modules/interpreter/functions]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

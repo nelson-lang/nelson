@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fmesh</keyword>
+  <short_description>Tracer un maillage depuis une fonction de deux variables.</short_description>
+  <syntax>
+    <syntax_item>fmesh(fun)</syntax_item>
+    <syntax_item>fmesh(fun, xyinterval)</syntax_item>
+    <syntax_item>fmesh(fun, [xmin xmax ymin ymax])</syntax_item>
+    <syntax_item>fmesh(funx, funy, funz)</syntax_item>
+    <syntax_item>fmesh(..., Nom, Valeur)</syntax_item>
+    <syntax_item>fmesh(parent, ...)</syntax_item>
+    <syntax_item>h = fmesh(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fmesh</b> cree un objet graphique <b>functionsurface</b> et affiche un maillage pour une fonction de deux variables.</p>
+    <p>La fonction peut etre indiquee sous la forme <b>fun(x,y)</b>. Une surface parametrique peut etre indiquee avec <b>funx(u,v)</b>, <b>funy(u,v)</b> et <b>funz(u,v)</b>.</p>
+    <p>L'intervalle par defaut est <b>[-5 5 -5 5]</b>. Un intervalle a deux elements s'applique aux plages x et y.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionsurface.properties">proprietes de functionsurface</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher un maillage de fonction.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(x, y) sin(x) + cos(y), [-pi pi -pi pi]);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Utiliser un maillage plus dense et definir une propriete de ligne.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(x, y) x.^2 - y.^2, [-2 2 -2 2], 'MeshDensity', 51, 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher un maillage parametrique.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(u, v) u, @(u, v) v, @(u, v) sin(u) + cos(v), [-pi pi -pi pi]);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionsurface.properties">proprietes de functionsurface</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/mesh">mesh</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fsurf">fsurf</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>area properties</keyword>
+  <short_description>area graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>area</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>AlignVertexCenters</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>AlphaDataMapping</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>AmbientStrength</b></td>
+        <td>changes the ambient light contribution used for rendered faces.</td>
+        <td>Type: numeric scalar. Supported values: finite scalar from 0 through 1.</td>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>updates the annotation metadata used by interactive tools and object inspection.</td>
+        <td>Type: graphics annotation object or empty handle value. Supported values: an annotation object associated with the graphics item, or an empty graphics handle when no annotation is attached.</td>
+      </tr>
+      <tr>
+        <td><b>BackFaceLighting</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'none', 'flat', 'gouraud'.</td>
+      </tr>
+      <tr>
+        <td><b>BaseLine</b></td>
+        <td>exposes and updates the baseline used by area and bar style charts.</td>
+        <td>Type: line graphics object. Supported values: a baseline line object created by the chart.</td>
+      </tr>
+      <tr>
+        <td><b>BaseValue</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>CData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>CDataMapping</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>CDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches the menu used for context-click actions.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>updates the content used for interactive data tips.</td>
+        <td>Type: data tip template object or empty handle value. Supported values: a data tip template object owned by the graphics item, or an empty graphics handle when data tips are not configured.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DiffuseStrength</b></td>
+        <td>changes the diffuse light contribution used for rendered faces.</td>
+        <td>Type: numeric scalar. Supported values: finite scalar from 0 through 1.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>updates the label used by legend entries and object identification.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeAlpha</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: numeric scalar or numeric array. Supported values: values in [0,1]; data arrays must match the related rendered data.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or color mode keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeLighting</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'none', 'flat', 'gouraud'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: numeric scalar or numeric array. Supported values: values in [0,1]; data arrays must match the related rendered data.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or color mode keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColorMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceLighting</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'none', 'flat', 'gouraud'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceNormals</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric matrix. Supported values: [] or a matrix with one row per vertex, normal, point, or contour segment.</td>
+      </tr>
+      <tr>
+        <td><b>FaceNormalsMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceVertexAlphaData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>FaceVertexCData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>FaceVertexCDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Faces</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: integer matrix. Supported values: indices referencing rows of Vertices.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>includes or excludes the object from mouse hit testing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineJoin</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'miter', 'round', 'chamfer'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric scalar. Supported values: value greater than or equal to 0.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'o', '+', '*', '.', 'x', '_', '|', 'square', 'diamond', '^', 'v', '&gt;', '&lt;', 'pentagram', 'hexagram', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or marker color keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'auto', 'none', 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or marker color keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'auto', 'none', 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>selects which visible or invisible parts can receive mouse hits.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: integer scalar or numeric vector. Supported values: finite integer value, finite numeric value, or vector required by the property.</td>
+      </tr>
+      <tr>
+        <td><b>ShowBaseLine</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>SpecularColorReflectance</b></td>
+        <td>changes how object color contributes to specular highlights.</td>
+        <td>Type: numeric scalar. Supported values: finite scalar from 0 through 1.</td>
+      </tr>
+      <tr>
+        <td><b>SpecularExponent</b></td>
+        <td>changes specular highlight sharpness during lighting calculations.</td>
+        <td>Type: numeric scalar. Supported values: positive finite scalar controlling highlight size.</td>
+      </tr>
+      <tr>
+        <td><b>SpecularStrength</b></td>
+        <td>changes the strength of specular highlights during lighting calculations.</td>
+        <td>Type: numeric scalar. Supported values: finite scalar from 0 through 1.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+      <tr>
+        <td><b>VertexNormals</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric matrix. Supported values: [] or a matrix with one row per vertex, normal, point, or contour segment.</td>
+      </tr>
+      <tr>
+        <td><b>VertexNormalsMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Vertices</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric matrix. Supported values: [] or a matrix with one row per vertex, normal, point, or contour segment.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDataSource</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDataSource</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+      <tr>
+        <td><b>ZData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the graphics object and list its properties.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+ax = axes('Parent', f);
+h = area(ax, [1 2 3; 2 1 4]);
+names = properties(h(1));
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/area">area</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Property page added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

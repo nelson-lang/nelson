@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -46,7 +46,7 @@ struct
     bool
     operator()(const SortRealEntry<T>& a, const SortRealEntry<T>& b)
     {
-        return a.x > b.x;
+        return a.x == b.x ? a.n < b.n : a.x > b.x;
     }
 } comparisonIntegerGreaterRealEntry;
 //=============================================================================
@@ -56,7 +56,7 @@ struct
     bool
     operator()(const SortRealEntry<T>& a, const SortRealEntry<T>& b)
     {
-        return a.x < b.x;
+        return a.x == b.x ? a.n < b.n : a.x < b.x;
     }
 } comparisonIntegerLessRealEntry;
 //=============================================================================
@@ -141,6 +141,80 @@ IntegerSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesiz
     }
 }
 //=============================================================================
+// 'ComparisonMethod', 'abs' for signed integers: the exact magnitude (as an
+// unsigned 64-bit value, so intmin is larger than intmax) orders the elements,
+// a positive value before the negative one of the same magnitude (ascending
+// order); equal values keep their original order in both directions.
+template <class T> struct SortIntegerAbsoluteEntry
+{
+    uint64 magnitude;
+    bool negative;
+    T x;
+    double n;
+};
+//=============================================================================
+template <class T>
+static inline uint64
+integerMagnitude(T value)
+{
+    if (value < (T)0) {
+        return static_cast<uint64>(-(value + (T)1)) + 1ULL;
+    }
+    return static_cast<uint64>(value);
+}
+//=============================================================================
+template <class T>
+ArrayOfVector
+sortIntegerByAbsolute(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex,
+    indexType linesize, indexType planecount, indexType planesize, Dimensions& outDim, bool ascend)
+{
+    indexType n = outDim.elementCount();
+    T* ptrValue = (T*)ArrayOf::allocateArrayOf(dataClass, n, stringVector(), false);
+    ArrayOf sortedValues(dataClass, outDim, ptrValue);
+    double* ptrIndex = nullptr;
+    ArrayOf indexValues;
+    if (withIndex) {
+        ptrIndex = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
+        indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
+    }
+    const T* sp = (const T*)arrayIn.dataPointer();
+    std::vector<SortIntegerAbsoluteEntry<T>> buf(linesize);
+    for (indexType i = 0; i < planecount; i++) {
+        for (indexType j = 0; j < planesize; j++) {
+            for (indexType k = 0; k < linesize; k++) {
+                T value = sp[i * planesize * linesize + j + k * planesize];
+                buf[k] = { integerMagnitude<T>(value), value < (T)0, value, (double)k + 1 };
+            }
+            if (ascend) {
+                std::stable_sort(buf.begin(), buf.end(),
+                    [](const SortIntegerAbsoluteEntry<T>& a, const SortIntegerAbsoluteEntry<T>& b) {
+                        return (a.magnitude != b.magnitude) ? a.magnitude < b.magnitude
+                                                            : a.negative < b.negative;
+                    });
+            } else {
+                std::stable_sort(buf.begin(), buf.end(),
+                    [](const SortIntegerAbsoluteEntry<T>& a, const SortIntegerAbsoluteEntry<T>& b) {
+                        return (a.magnitude != b.magnitude) ? a.magnitude > b.magnitude
+                                                            : a.negative > b.negative;
+                    });
+            }
+            for (indexType k = 0; k < linesize; k++) {
+                indexType pos = i * planesize * linesize + j + k * planesize;
+                ptrValue[pos] = buf[k].x;
+                if (withIndex) {
+                    ptrIndex[pos] = buf[k].n;
+                }
+            }
+        }
+    }
+    ArrayOfVector res;
+    res.push_back(sortedValues);
+    if (withIndex) {
+        res.push_back(indexValues);
+    }
+    return res;
+}
+//=============================================================================
 template <class T>
 ArrayOfVector
 sortInteger(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType linesize,
@@ -153,23 +227,24 @@ sortInteger(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
         T* ptrValue = nullptr;
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
-            ptrValue = (T*)sortedValues.getDataPointer();
+            sortedValues.ensureSingleOwner();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
         double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
+            NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
         if (isVector) {
-            ompIndexType elementCount = outDim.getElementCount();
+            ompIndexType elementCount = outDim.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }
         }
         indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
-        IntegerSortWithIndex<T>((const T*)arrayIn.getDataPointer(), (T*)ptrValue, (double*)ptrIndex,
+        IntegerSortWithIndex<T>((const T*)arrayIn.dataPointer(), (T*)ptrValue, (double*)ptrIndex,
             planecount, planesize, linesize, isVector, ascend);
         res.push_back(sortedValues);
         res.push_back(indexValues);
@@ -178,18 +253,18 @@ sortInteger(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
             sortedValues.ensureSingleOwner();
-            ptrValue = (T*)sortedValues.getDataPointer();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
-        IntegerSortWithoutIndex<T>((const T*)arrayIn.getDataPointer(), (T*)ptrValue, planecount,
+        IntegerSortWithoutIndex<T>((const T*)arrayIn.dataPointer(), (T*)ptrValue, planecount,
             planesize, linesize, isVector, ascend);
         res.push_back(sortedValues);
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

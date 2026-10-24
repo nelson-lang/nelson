@@ -9,7 +9,9 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Types.hpp"
+#include "HandleState.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -19,8 +21,10 @@ ArrayOf::allocateArrayOf(
     NelsonType type, indexType length, const stringVector& names, bool initializeValues)
 {
     switch (type) {
-    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
+        return (void*)new_with_exception<HandleRef>(length);
+    } break;
+    case NLS_GO_HANDLE: {
         return (void*)new_with_exception<nelson_handle>(length);
     } break;
     case NLS_STRING_ARRAY: {
@@ -53,12 +57,20 @@ ArrayOf::allocateArrayOf(
         }
         return dp;
     } break;
+    case NLS_CLASSDEF_ARRAY: {
+        auto n = static_cast<indexType>(length * names.size());
+        auto* dp = new_with_exception<ArrayOf>(n, false);
+        for (indexType i = 0; i < (n); i++) {
+            dp[i] = ArrayOf(NLS_DOUBLE);
+        }
+        return dp;
+    } break;
     case NLS_STRUCT_ARRAY: {
         if (!haveValidFieldNames(names)) {
-            Error(_W("Field names must be valid."));
+            Error(L"Nelson:types:invalidFieldNames", L"Field names must be valid.");
         }
         if (!haveUniqueFieldNames(names)) {
-            Error(_W("Duplicated field detected."));
+            Error(L"Nelson:types:duplicatedFieldName", L"Duplicated field detected.");
         }
         auto n = static_cast<indexType>(length * names.size());
         auto* dp = new_with_exception<ArrayOf>(n, false);
@@ -122,8 +134,11 @@ void
 ArrayOf::deleteArrayOf(void* dp, NelsonType dataclass)
 {
     switch (dataclass) {
-    case NLS_GO_HANDLE:
     case NLS_HANDLE: {
+        auto* rp = static_cast<HandleRef*>(dp);
+        delete[] rp;
+    } break;
+    case NLS_GO_HANDLE: {
         auto* rp = static_cast<nelson_handle*>(dp);
         delete[] rp;
     } break;
@@ -144,6 +159,10 @@ ArrayOf::deleteArrayOf(void* dp, NelsonType dataclass)
         delete[] rp;
     } break;
     case NLS_CLASS_ARRAY: {
+        auto* rp = static_cast<ArrayOf*>(dp);
+        delete[] rp;
+    } break;
+    case NLS_CLASSDEF_ARRAY: {
         auto* rp = static_cast<ArrayOf*>(dp);
         delete[] rp;
     } break;

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "command": "edit([modulepath('notebook'), '/examples/notebook_showcase.nlx'])",
+      "title": {
+        "en_US": "Notebook showcase",
+        "fr_FR": "Vitrine Notebook"
+      },
+      "description": {
+        "en_US": "A ready-made .nlx document with every block kind - headings, text, a LaTeX equation, figures, interactive controls and a live task. Opens in the Notebook editor.",
+        "fr_FR": "Un document .nlx pret a l'emploi avec tous les types de blocs - titres, texte, equation LaTeX, figures, controles interactifs et live task. S'ouvre dans l'editeur Notebook."
+      },
+      "tags": [
+        "notebook",
+        "nlx",
+        "visualization"
+      ],
+      "requirements": [
+        "web_gui"
+      ]
+    },
+    {
+      "command": "edit([modulepath('notebook'), '/examples/interactive_signals.nlx'])",
+      "title": {
+        "en_US": "Interactive signals",
+        "fr_FR": "Signaux interactifs"
+      },
+      "description": {
+        "en_US": "A ready-made .nlx document whose sliders reshape a waveform and update its spectrum live. Opens in the Notebook editor.",
+        "fr_FR": "Un document .nlx pret a l'emploi dont les sliders remodelent une forme d'onde et mettent a jour son spectre en direct. S'ouvre dans l'editeur Notebook."
+      },
+      "tags": [
+        "notebook",
+        "nlx",
+        "signal"
+      ],
+      "requirements": [
+        "web_gui"
+      ]
+    }
+  ]
+}

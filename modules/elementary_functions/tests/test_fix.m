@@ -7,41 +7,51 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('fix'), 1)
-assert_isequal(nargout('fix'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('fix'), 1)
+asserts.isequal(nargout('fix'), 1)
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
 R = fix(A);
-REF = [2     3     5    -2    -3    -5];
-assert_isequal(R, REF);
+REF = [2 3 5 -2 -3 -5];
+asserts.isequal(R, REF);
 %=============================================================================
 A = single([2.3 3.8 5.5 -2.3 -3.8 -5.5]);
 R = fix(A);
-REF = single([2     3     5    -2    -3    -5]);
-assert_isequal(R, REF);
+REF = single([2 3 5 -2 -3 -5]);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
-REF = [2     3     5    -2    -3    -5];
+REF = [2 3 5 -2 -3 -5];
 R = fix(sparse(A));
 REF = sparse(REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+A = sparse(single([2.3 + 4.6i 0; -2.3 - 4.6i 3.1]));
+R = fix(A);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+REF = single([2 + 4i 0; -2 - 4i 3]);
+asserts.isapprox(full(R), REF, 1e-6);
 %=============================================================================
 A = complex([2.3 3.8 5.5 -2.3 -3.8 -5.5], [2.3 3.8 5.5 -2.3 -3.8 -5.5] * 2);
 R = fix(A);
-REF = [2.0000+4.0000i, 3.0000+7.0000i, 5.0000+11.0000i, -2.0000-4.0000i, -3.0000-7.0000i, -5.0000-11.0000i];
-assert_isequal(R, REF);
+REF = [2.0000 + 4.0000i, 3.0000 + 7.0000i, 5.0000 + 11.0000i, -2.0000 - 4.0000i, -3.0000 - 7.0000i, -5.0000 - 11.0000i];
+asserts.isequal(R, REF);
 %=============================================================================
 A = fix(int8(3));
 R = class(A);
-assert_isequal(R, 'int8');
+asserts.isequal(R, 'int8');
 %=============================================================================
-assert_isequal(fix(NaN), NaN);
-assert_isequal(fix(Inf), Inf);
-assert_isequal(fix(-Inf), -Inf);
-assert_isequal(fix(zeros(0, 3)), zeros(0, 3));
+asserts.isequal(fix(NaN), NaN);
+asserts.isequal(fix(Inf), Inf);
+asserts.isequal(fix(-Inf), -Inf);
+asserts.isequal(fix(zeros(0, 3)), zeros(0, 3));
 %=============================================================================
 x = 0.3333;
 r = fix(x);
-assert_isequal(r, 0);
-assert_isequal(x, 0.3333);
+asserts.isequal(r, 0);
+asserts.isequal(x, 0.3333);
+%=============================================================================
+asserts.isequal(fix([2.3 3.8 5.5 -2.3 -3.8 -5.5]), [2 3 5 -2 -3 -5]);
 %=============================================================================

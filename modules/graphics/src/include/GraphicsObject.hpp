@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
 #include "GOGenericProperty.hpp"
+#include "GOPropertyValues.hpp"
 #include "RenderInterface.hpp"
 //=============================================================================
 namespace Nelson {
@@ -58,6 +59,11 @@ public:
     {
         return {};
     };
+    virtual bool
+    preservesAutoDataLimits()
+    {
+        return false;
+    }
 
     virtual std::wstring
     getType()
@@ -65,10 +71,16 @@ public:
         return L"Graphics_Object";
     }
 
+    virtual std::string
+    getClassName()
+        = 0;
+
     bool
     hasChanged(const std::vector<std::wstring>& names);
     bool
     hasChanged(const std::wstring& name);
+    bool
+    hasAnyChanged();
     void
     toManual(const std::wstring& name);
     void
@@ -88,19 +100,34 @@ public:
     sortProperties();
     GOGenericProperty*
     findProperty(const std::wstring& name, bool raiseError = true);
+    // Resolve a user-supplied property name allowing the shortest unambiguous
+    // leading substring (e.g. 'FaceC' -> 'FaceColor', 'pos' -> 'Position').
+    // Only for explicit set/construction sites; existence probes keep exact
+    // semantics through findProperty so data strings are never misread as names.
+    std::wstring
+    resolvePartialPropertyName(const std::wstring& name);
+    // Same shortest-unambiguous-prefix resolution against an explicit property
+    // name list, so callers that cache a type's property names (the .m plotting
+    // wrappers) resolve abbreviations without constructing an object per lookup.
+    static std::wstring
+    resolvePartialPropertyName(const std::wstring& name, const wstringVector& names);
     bool
     isWritable(const std::wstring& name);
+    void
+    setPropertyWritable(const std::wstring& name, bool writable);
     bool
     isVisible(const std::wstring& name);
-    wstringVector
-    getFieldnames();
-    wstringVector
+    virtual wstringVector
+    fieldnames();
+    virtual wstringVector
     getVisibleFieldnames();
+    void
+    applyReferenceSurfaceMask(wstringVector& visibleNames);
     bool
     haveProperty(const std::wstring& name);
     double
     findScalarDoubleProperty(const std::wstring& name);
-    unsigned
+    int64
     findGoProperty(const std::wstring& name);
     std::vector<double>
     findVectorDoubleProperty(const std::wstring& name);
@@ -150,5 +177,5 @@ public:
     //=============================================================================
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

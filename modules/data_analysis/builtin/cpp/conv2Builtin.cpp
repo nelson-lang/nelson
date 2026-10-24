@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -30,14 +30,14 @@ Nelson::DataAnalysisGateway::conv2Builtin(int nLhs, const ArrayOfVector& argIn)
     case 3: {
         if ((argIn[2].isRowVectorCharacterArray()
                 || (argIn[2].isStringArray() && argIn[2].isScalar()))) {
-            std::wstring shape = argIn[2].getContentAsWideString();
+            std::wstring shape = argIn[2].asWideString();
             res = Convolution2D(argIn[0], argIn[1], shape, needToOverload);
         } else {
             res = Convolution2D(argIn[0], argIn[1], argIn[2], L"full", needToOverload);
         }
     } break;
     case 4: {
-        std::wstring shape = argIn[3].getContentAsWideString();
+        std::wstring shape = argIn[3].asWideString();
         res = Convolution2D(argIn[0], argIn[1], argIn[2], shape, needToOverload);
     } break;
     default: {

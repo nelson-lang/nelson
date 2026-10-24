@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,8 @@
 //=============================================================================
 #include "struct2cellBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,24 +22,24 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isStruct()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"struct");
     }
-    stringVector fieldnames = param1.getFieldNames();
+    stringVector fieldnames = param1.fieldNames();
     size_t nbFields = fieldnames.size();
     ArrayOf* elements = nullptr;
-    Dimensions dimsStruct = param1.getDimensions();
+    Dimensions dimsStruct = param1.dimensions();
     dimsStruct.simplify();
     try {
-        indexType nbElements = dimsStruct.getElementCount() * nbFields;
+        indexType nbElements = dimsStruct.elementCount() * nbFields;
         elements = new ArrayOf[nbElements];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     try {
         auto* v = new ArrayOfVector[nbFields];
         indexType S = 0;
         for (size_t k = 0; k < nbFields; k++) {
-            v[k] = param1.getFieldAsList(fieldnames[k]);
+            v[k] = param1.fieldAsList(fieldnames[k]);
             S = v[k].size();
         }
         size_t l = 0;
@@ -52,11 +52,11 @@ Nelson::DataStructuresGateway::struct2cellBuiltin(int nLhs, const ArrayOfVector&
         delete[] v;
     } catch (const std::bad_alloc&) {
         delete[] elements;
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     Dimensions dims;
     dims[0] = nbFields;
-    for (indexType k = 0; k < dimsStruct.getLength(); k++) {
+    for (indexType k = 0; k < dimsStruct.length(); k++) {
         dims[k + 1] = dimsStruct[k];
     }
     dims.simplify();

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <string>
+#include "ExcelWorkbookIO.hpp"
 #include "WriteTable.hpp"
 #include "TableWriter.hpp"
 //=============================================================================
@@ -17,6 +18,10 @@ void
 WriteTable(const ArrayOf& table, const std::wstring& filename, const writeTableOptions& options,
     std::wstring& errorMessage)
 {
+    if (options._FileType == "spreadsheet") {
+        WriteExcelTable(table, filename, options._ExcelOptions, errorMessage);
+        return;
+    }
     TableWriter tableWriter;
     tableWriter.writeTableToFile(table, filename, options, errorMessage);
 }

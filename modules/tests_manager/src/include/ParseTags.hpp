@@ -18,5 +18,6 @@
 namespace Nelson {
 NLSTESTS_MANAGER_IMPEXP bool
 ParseTags(const std::wstring& filename, TestTags& options, std::wstring& msg);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

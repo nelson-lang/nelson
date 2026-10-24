@@ -24,6 +24,74 @@ if errorlevel 1 (
     exit /b 1
 )
 rem =============================================================================
+rem Install the Node.js version required by nflow_gui with nvm-windows
+set /p NODE_VERSION=<"%BAT_PATH%\..\..\.nvmrc"
+nvm version >nul 2>&1
+if errorlevel 1 (
+    echo nvm-windows is not installed or not available in PATH. Installing with winget...
+    winget install --id CoreyButler.NVMforWindows --exact
+    if errorlevel 1 (
+        echo Failed to install nvm-windows. Please install nvm-windows manually.
+        cd "%ORIGINAL_DIR%"
+        exit /b 1
+    )
+)
+if exist "%ProgramFiles%\nvm\nvm.exe" set "PATH=%ProgramFiles%\nvm;%PATH%"
+if exist "%APPDATA%\nvm\nvm.exe" set "PATH=%APPDATA%\nvm;%PATH%"
+nvm version >nul 2>&1
+if errorlevel 1 (
+    echo nvm-windows is not installed or not available in PATH.
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+nvm install %NODE_VERSION%
+if errorlevel 1 (
+    echo Failed to install Node.js %NODE_VERSION% with nvm.
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+nvm use %NODE_VERSION%
+if errorlevel 1 (
+    echo Failed to select Node.js %NODE_VERSION% with nvm.
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+rem =============================================================================
+rem Ensure a directory that really contains node.exe is on PATH.
+rem "nvm use" exposes node through a directory symlink (mklink /D), which needs
+rem admin/Developer Mode and is not reliably present right after "nvm use"; a
+rem shell opened before nvm was configured also won't have it on PATH. So we do
+rem NOT rely on that symlink: we prepend the actual version directory created by
+rem "nvm install" (%NVM_DIR%\v<version>), which always exists. NODE_VERSION may
+rem be a major alias (e.g. "22"), so fall back to matching "v<version>*".
+rem Single-line "if" statements are used on purpose (variables set inside a
+rem parenthesized block are not visible in the same block without delayed
+rem expansion). Non-blocking: warn and continue if node.exe cannot be located.
+set "NVM_DIR=%NVM_HOME%"
+if not defined NVM_DIR for /f "delims=" %%N in ('where nvm 2^>nul') do if not defined NVM_DIR set "NVM_DIR=%%~dpN"
+if defined NVM_DIR if "%NVM_DIR:~-1%"=="\" set "NVM_DIR=%NVM_DIR:~0,-1%"
+set "NVM_NODE_DIR="
+if defined NVM_DIR if exist "%NVM_DIR%\v%NODE_VERSION%\node.exe" set "NVM_NODE_DIR=%NVM_DIR%\v%NODE_VERSION%"
+if not defined NVM_NODE_DIR if defined NVM_DIR for /f "delims=" %%D in ('dir /b /ad "%NVM_DIR%\v%NODE_VERSION%*" 2^>nul') do if exist "%NVM_DIR%\%%D\node.exe" set "NVM_NODE_DIR=%NVM_DIR%\%%D"
+if not defined NVM_NODE_DIR if defined NVM_SYMLINK if exist "%NVM_SYMLINK%\node.exe" set "NVM_NODE_DIR=%NVM_SYMLINK%"
+if defined NVM_NODE_DIR set "PATH=%NVM_NODE_DIR%;%PATH%"
+if not defined NVM_NODE_DIR echo WARNING: Could not locate node.exe under nvm; relying on the existing PATH to locate node.
+node --version >nul 2>&1
+if errorlevel 1 (
+    echo Node.js is not installed or not available in PATH.
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+rem "call" is required: npm is npm.cmd (a batch script); without "call" the
+rem parent batch would hand control to npm.cmd and never resume (clone/copy
+rem steps below would be skipped).
+call npm --version >nul 2>&1
+if errorlevel 1 (
+    echo npm is not installed or not available in PATH.
+    cd "%ORIGINAL_DIR%"
+    exit /b 1
+)
+rem =============================================================================
 rem Clone or update the repository
 if exist "%BAT_PATH%\..\..\..\nelson-thirdparty-arm64\" (
     if exist "%BAT_PATH%\..\..\..\nelson-thirdparty-arm64\.git" (

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cconv</keyword>
+  <short_description>Circular convolution.</short_description>
+  <syntax>
+    <syntax_item>Y = cconv(A, B)</syntax_item>
+    <syntax_item>Y = cconv(A, B, N)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>input vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description>positive integer convolution length.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>circular convolution result.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>cconv</b> computes circular convolution using FFTs.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+y = cconv([1 2], [1 1], 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}conv">conv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

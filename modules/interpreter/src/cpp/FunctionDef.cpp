@@ -10,6 +10,7 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "FunctionDef.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,12 +19,13 @@ FunctionDef::FunctionDef(bool isOverload) { this->_isOverload = isOverload; };
 FunctionDef::~FunctionDef() = default;
 //=============================================================================
 void
-FunctionDef::setFilename(const std::wstring& filename)
+FunctionDef::setFilename(const std::wstring& scriptFilename)
 {
-    this->filename = filename;
-    FileSystemWrapper::Path path(filename);
+    this->filename = scriptFilename;
+    FileSystemWrapper::Path path(scriptFilename);
     this->pathname = path.parent_path().generic_wstring();
+    this->filenameUtf8 = wstring_to_utf8(filename);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

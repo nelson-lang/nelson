@@ -14,5 +14,6 @@
 namespace Nelson::DynamicLinkGateway {
 ArrayOfVector
 dlopenBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

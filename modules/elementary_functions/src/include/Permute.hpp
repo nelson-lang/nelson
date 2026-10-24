@@ -19,5 +19,5 @@ NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Permute(
     const ArrayOf& arrayIn, const std::vector<indexType>& permutationVector, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

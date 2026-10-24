@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "rmpathBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
@@ -26,19 +27,25 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();
     ArrayOf param1 = argIn[0];
     if (param1.isRowVectorCharacterArray()) {
-        std::wstring pathToRemove = param1.getContentAsWideString();
+        std::wstring pathToRemove = param1.asWideString();
         if (FileSystemWrapper::Path::is_directory(pathToRemove)) {
             if (!PathFunctionIndexerManager::getInstance()->removePath(pathToRemove)) {
-                Warning(_W("Warning: Not in path:") + L" " + pathToRemove + L"\n");
+                RaiseWarning(L"Nelson:rmpath:notInPath",
+                    resolveMessageTemplate(
+                        L"Nelson:functions_manager:warningPath", L"Warning: Not in path:")
+                        + L" " + pathToRemove + L"\n");
             }
         } else {
-            Warning(_W("Warning: Not a directory:") + L" " + pathToRemove + L"\n");
+            RaiseWarning(L"Nelson:rmpath:notADirectory",
+                resolveMessageTemplate(
+                    L"Nelson:functions_manager:warningDirectory", L"Warning: Not a directory:")
+                    + L" " + pathToRemove + L"\n");
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (nLhs == 1) {
-        retval << ArrayOf::characterArrayConstructor(previousPaths);
+        retval << ArrayOf::characterArray(previousPaths);
     }
     return retval;
 }

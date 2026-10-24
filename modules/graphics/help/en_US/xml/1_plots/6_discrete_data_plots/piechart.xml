@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>piechart</keyword>
+  <short_description>Pie chart object.</short_description>
+  <syntax>
+    <syntax_item>piechart(data)</syntax_item>
+    <syntax_item>piechart(data, names)</syntax_item>
+    <syntax_item>piechart(fig, ...)</syntax_item>
+    <syntax_item>piechart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>p = piechart(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>Numeric vector of wedge values. Negative, infinite, and NaN values are ignored for display.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>String array, character vector, or cell array of character vectors used as wedge names.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Figure parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Pie chart property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Value assigned to the named property.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>Pie chart graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>piechart(data)</b> creates one pie chart object in the current figure.</p>
+    <p><b>FaceColor</b> can be <b>flat</b>, <b>none</b>, or an RGB color. <b>FaceAlpha</b>, <b>EdgeColor</b>, and <b>LineWidth</b> affect the rendered wedges. <b>Proportions</b>, <b>CategoryCounts</b>, <b>WedgeDisplayData</b>, and <b>WedgeDisplayNames</b> are read-only derived properties.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.piechart.properties">piechart properties</link> for the complete property list.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Pie chart with default percent labels.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([1 2 3 4]);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Named wedges with a legend.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([4 3 2], ["A", "B", "C"], 'LegendVisible', 'on', ...
+  'LegendTitle', 'Names', 'FaceAlpha', 0.7);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Wireframe wedges.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([3 2 1], 'FaceColor', 'none', 'EdgeColor', [0 0 0], ...
+  'LineWidth', 2);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.piechart.properties">piechart properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/donutchart">donutchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/pie">pie</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

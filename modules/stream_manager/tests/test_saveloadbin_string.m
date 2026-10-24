@@ -9,13 +9,16 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 A = ["NelSon";
-"is";
-"not";
-"LensOn"];
-savebin([tempdir(), 'test_saveload_string.bin'], 'A');
+  "is";
+  "not";
+  "LensOn"];
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_string.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

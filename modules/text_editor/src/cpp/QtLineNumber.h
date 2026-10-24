@@ -24,5 +24,8 @@ protected:
 
 private:
     QtTextEdit* tEditor;
+
+    void
+    updateWidth();
 };
 //=============================================================================

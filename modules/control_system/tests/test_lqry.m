@@ -18,24 +18,24 @@ R = 1;
 
 [K, S, e] = lqry(A, B, C, D, Q, R);
 
-K_REF = [56.8051    1.7777];
-S_REF = [369.8481    5.6805; 5.6805    0.1778];
+K_REF = [56.8051 1.7777];
+S_REF = [369.8481 5.6805; 5.6805 0.1778];
 e_REF = [-8.1385 - 8.1025i; -8.1385 + 8.1025i];
 
-assert_isapprox(K, K_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
-assert_isapprox(e, e_REF, 1e-4);
+asserts.isapprox(K, K_REF, 1e-4);
+asserts.isapprox(S, S_REF, 1e-4);
+asserts.isapprox(e, e_REF, 1e-4);
 %=============================================================================
 sys = ss(A, B, C, D);
 Q = 2;
 R = 1;
 [K, S, e] = lqry(A, B, C, D, Q, R);
 
-K_REF = [17.8345    1.0386];
-S_REF = [63.3901    1.7834; 1.7834    0.1039];
-e_REF = [ -4.4430-4.3766i; -4.4430+4.3766i];
+K_REF = [17.8345 1.0386];
+S_REF = [63.3901 1.7834; 1.7834 0.1039];
+e_REF = [-4.4430 - 4.3766i; -4.4430 + 4.3766i];
 
-assert_isapprox(K, K_REF, 1e-4);
-assert_isapprox(S, S_REF, 1e-4);
-assert_isapprox(e, e_REF, 1e-4);
+asserts.isapprox(K, K_REF, 1e-4);
+asserts.isapprox(S, S_REF, 1e-4);
+asserts.isapprox(e, e_REF, 1e-4);
 %=============================================================================

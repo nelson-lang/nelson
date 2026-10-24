@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -32,7 +32,7 @@ mexCallNELSON(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[], const char* 
                 if (funcDef != nullptr) {
                     try {
                         argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
-                    } catch (Nelson::Exception&) {
+                    } catch (Nelson::NelsonException&) {
                         return 1;
                     }
                     for (int i = 0; i < nlhs; i++) {
@@ -63,7 +63,7 @@ mexCallMATLABInterleavedComplex(
 }
 //=============================================================================
 static Nelson::ArrayOf
-createMexception(Nelson::Exception& e)
+createMexception(Nelson::NelsonException& e)
 {
     Nelson::wstringVector fieldnames;
     fieldnames.reserve(4);
@@ -74,14 +74,13 @@ createMexception(Nelson::Exception& e)
     fieldnames.push_back(L"cause");
     fieldnames.push_back(L"stack");
 
-    fieldvalues.push_back(Nelson::ArrayOf::characterArrayConstructor(e.getIdentifier()));
-    fieldvalues.push_back(Nelson::ArrayOf::characterArrayConstructor(e.getMessage()));
-    fieldvalues.push_back(Nelson::ArrayOf::emptyConstructor());
+    fieldvalues.push_back(Nelson::ArrayOf::characterArray(e.identifier()));
+    fieldvalues.push_back(Nelson::ArrayOf::characterArray(e.message()));
+    fieldvalues.push_back(Nelson::ArrayOf::empty());
     Nelson::Dimensions emptyDims(1, 0);
-    fieldvalues.push_back(
-        Nelson::ArrayOf::emptyStructConstructor(Nelson::wstringVector(), emptyDims));
+    fieldvalues.push_back(Nelson::ArrayOf::emptyStruct(Nelson::wstringVector(), emptyDims));
     std::wstring className = L"MException";
-    Nelson::ArrayOf res = Nelson::ArrayOf::classConstructor(className, fieldnames, fieldvalues);
+    Nelson::ArrayOf res = Nelson::ArrayOf::classArray(className, fieldnames, fieldvalues);
     return res;
 }
 //=============================================================================
@@ -103,7 +102,7 @@ mexCallNELSONWithTrap(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[],
             if (context->lookupFunction(functionName, funcDef)) {
                 try {
                     argOut = funcDef->evaluateFunction(mainEvaluator, argIn, nlhs);
-                } catch (Nelson::Exception& e) {
+                } catch (Nelson::NelsonException& e) {
                     return Nelson::ArrayOfToMxArray(createMexception(e), interleavedComplex);
                 }
                 for (int i = 0; i < nlhs; i++) {
@@ -113,7 +112,7 @@ mexCallNELSONWithTrap(int nlhs, mxArray* plhs[], int nrhs, mxArray* prhs[],
             }
         }
     }
-    Nelson::Exception e("No evaluator.");
+    Nelson::NelsonException e("No evaluator.");
     return Nelson::ArrayOfToMxArray(createMexception(e), interleavedComplex);
 }
 //=============================================================================
@@ -154,7 +153,7 @@ mexEvalStringWithTrapInternal(const char* command, bool interleavedComplex)
     if (mainEvaluator != nullptr) {
         try {
             bool res = mainEvaluator->evaluateString(command, true);
-        } catch (Nelson::Exception& e) {
+        } catch (Nelson::NelsonException& e) {
             return Nelson::ArrayOfToMxArray(createMexception(e), interleavedComplex);
         }
     }

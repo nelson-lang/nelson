@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,9 +19,9 @@ Nelson::FilesFoldersGateway::filesepBuiltin(int nLhs, const ArrayOfVector& argIn
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
 #ifdef _MSC_VER
-    retval << ArrayOf::characterArrayConstructor(L"\\");
+    retval << ArrayOf::characterArray(L"\\");
 #else
-    retval << ArrayOf::characterArrayConstructor(L"/");
+    retval << ArrayOf::characterArray(L"/");
 #endif
     return retval;
 }

@@ -67,5 +67,5 @@ PyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB);
 uint64
 PyGetHashValue(PyObject* pyObject);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

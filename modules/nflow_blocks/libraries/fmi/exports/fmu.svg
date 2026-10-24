@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <rect x="6" y="14" width="68" height="52" rx="6" fill="#eef4ff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="40" y="38" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#2b6cb0" text-anchor="middle">FMU</text>
+  <text x="40" y="56" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#4a5568" text-anchor="middle">FMI 3.0</text>
+</svg>

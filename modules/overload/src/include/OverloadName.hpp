@@ -33,4 +33,5 @@ getOverloadFunctionName(const std::string& typeName, const std::string& function
     return result;
 }
 //=============================================================================
-}
+} // namespace Nelson
+//=============================================================================

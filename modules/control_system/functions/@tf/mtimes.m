@@ -10,53 +10,30 @@
 function sys = mtimes(sys1, sys2)
   sysA = tf(sys1);
   sysB = tf(sys2);
-  
+
   if ~issiso(sysA) && ~issiso(sysB)
-    error(_('SISO LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
-  
+
   numeratorA = sysA.Numerator{1};
   denominatorA = sysA.Denominator{1};
   numeratorB = sysB.Numerator{1};
   denominatorB = sysB.Denominator{1};
-  
+
   numerator = conv(numeratorA, numeratorB);
   denominator = conv(denominatorA, denominatorB);
-  
-  Ts = mtimes_timesample(sysA.Ts, sysB.Ts);
+
+  Ts = ltiResolveSampleTime(sysA, sysB);
   sys = tf(numerator, denominator, Ts);
-  
-  if isa(sys1, 'tf') && strcmp(sys1.Variable,'z^-1')
-    sys.Variable = 'z^-1';
-  elseif isa(sys2, 'tf') && strcmp(sys2.Variable,'z^-1')
-    sys.Variable = 'z^-1';
+
+  variable = ltiMergeTfVariable(sysA, sysB);
+  if ~isempty(variable)
+    sys.Variable = variable;
   end
-  
-  UserData = [];
-  if ~isempty(sysA.UserData) && ~isempty(sysB.UserData)
-    UserData = sysB.UserData;
-  else
-    if ~isempty(sysA.UserData)
-      UserData = sysA.UserData;
-    end
-    if ~isempty(sysA.UserData)
-      UserData = sysA.UserData;
-    end
-  end
-  if ~isempty(UserData)
-    sys.UserData = UserData;
+  sys = ltiApplySeriesMetadata(sys, sysA, sysB);
+
+  userData = ltiMergeUserData(sysA, sysB);
+  if ~isempty(userData)
+    sys.UserData = userData;
   end
 end
-%=============================================================================
-function Ts = mtimes_timesample(TsA, TsB);
-  Ts = TsA;
-  if Ts ~= TsB
-    if ((Ts > 0) && (TsB > 0))
-      error(_('Sampling times must agree.'));
-    end
-    if (Ts < 0)
-      Ts = TsB;
-    end
-  end
-end
-%=============================================================================

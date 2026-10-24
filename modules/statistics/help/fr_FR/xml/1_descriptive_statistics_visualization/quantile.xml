@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>quantile</keyword>
+  <short_description>Quantiles d'un jeu de données.</short_description>
+  <syntax>
+    <syntax_item>Q = quantile(A, p)</syntax_item>
+    <syntax_item>Q = quantile(A, n)</syntax_item>
+    <syntax_item>Q = quantile(A, p, dim)</syntax_item>
+    <syntax_item>Q = quantile(A, p, vecdim)</syntax_item>
+    <syntax_item>Q = quantile(A, p, 'all')</syntax_item>
+    <syntax_item>Q = quantile(..., 'Method', method)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>quantile</b> retourne les quantiles pour des probabilités dans l'intervalle [0,1]. Si le second argument est un entier supérieur à un, il est interprété comme le nombre de quantiles régulièrement espacés.</p>
+    <p>Les valeurs <b>NaN</b> sont ignorées. Les méthodes supportées sont <b>midpoint</b>, <b>exact</b>, <b>inclusive</b>, <b>exclusive</b> et <b>approximate</b>.</p>
+    <p><b>A</b> peut être un tableau numérique réel, un tableau <b>datetime</b> ou un tableau <b>duration</b>. Pour des données datetime ou duration, les quantiles ont la même classe et le même Format que <b>A</b>, et les valeurs <b>NaT</b> sont ignorées comme les valeurs <b>NaN</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [2 5 6 10 11 13];
+Q = quantile(A, [0.25 0.5 0.75])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>données datetime et duration</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[d = hours([1 2 3 4 10]);
+Q = quantile(d, [0.25 0.5 0.75])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}prctile">prctile</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>données datetime et duration supportées.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

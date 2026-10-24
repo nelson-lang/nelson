@@ -43,9 +43,10 @@ static DWORD const ENABLE_VIRTUAL_TERMINAL_PROCESSING = 4;
 
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "RuntimeDispatch.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
+#include "MainThreadTaskQueue.hpp"
 
 using namespace std;
 
@@ -207,6 +208,23 @@ namespace {
         errno = ENOTTY;
         return (-1);
     }
+
+#ifdef _WIN32
+    constexpr DWORD PASTE_PENDING_EVENT_THRESHOLD = 4;
+
+    bool
+    hasModifier(DWORD controlKeyState)
+    {
+        DWORD const AltGr(LEFT_CTRL_PRESSED | RIGHT_ALT_PRESSED);
+        if ((controlKeyState & AltGr) == AltGr) {
+            controlKeyState &= ~(LEFT_CTRL_PRESSED | RIGHT_ALT_PRESSED);
+        }
+        return (controlKeyState
+                   & (RIGHT_CTRL_PRESSED | LEFT_CTRL_PRESSED | RIGHT_ALT_PRESSED
+                       | LEFT_ALT_PRESSED))
+            != 0;
+    }
+#endif
 }
 
 void
@@ -303,9 +321,10 @@ Terminal::reset_raw_mode(void)
         return (-1);
     }
 #ifdef _WIN32
-    SetConsoleMode(_consoleIn,
-        (_origInMode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT | ENABLE_PROCESSED_INPUT))
-            | ENABLE_QUICK_EDIT_MODE);
+    DWORD rawMode
+        = (_origInMode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT | ENABLE_PROCESSED_INPUT))
+        | ENABLE_QUICK_EDIT_MODE;
+    SetConsoleMode(_consoleIn, rawMode);
     SetConsoleCP(65001);
     enable_out();
     return (0);
@@ -337,6 +356,65 @@ Terminal::disable_raw_mode(void)
 }
 
 #ifdef _WIN32
+
+int
+Terminal::read_pending_characters(UnicodeString& text)
+{
+    DWORD available = 0;
+    if ((GetNumberOfConsoleInputEvents(_consoleIn, &available) == 0)
+        || (available < PASTE_PENDING_EVENT_THRESHOLD)) {
+        return 0;
+    }
+
+    int appended = 0;
+    int highSurrogate = 0;
+    while (available > 0) {
+        INPUT_RECORD rec;
+        DWORD count = 0;
+        if ((PeekConsoleInputW(_consoleIn, &rec, 1, &count) == 0) || (count == 0)) {
+            break;
+        }
+
+        if (rec.EventType != KEY_EVENT) {
+            ReadConsoleInputW(_consoleIn, &rec, 1, &count);
+            GetNumberOfConsoleInputEvents(_consoleIn, &available);
+            continue;
+        }
+
+        if (!rec.Event.KeyEvent.bKeyDown && (rec.Event.KeyEvent.wVirtualKeyCode != VK_MENU)) {
+            ReadConsoleInputW(_consoleIn, &rec, 1, &count);
+            GetNumberOfConsoleInputEvents(_consoleIn, &available);
+            continue;
+        }
+
+        char32_t key = rec.Event.KeyEvent.uChar.UnicodeChar;
+        if ((key == 0) || hasModifier(rec.Event.KeyEvent.dwControlKeyState)) {
+            break;
+        }
+        if (is_control_code(key) && (key != '\r') && (key != '\t')) {
+            break;
+        }
+
+        ReadConsoleInputW(_consoleIn, &rec, 1, &count);
+        if (key == '\r') {
+            key = '\n';
+        } else if ((key >= 0xD800) && (key <= 0xDBFF)) {
+            highSurrogate = key - 0xD800;
+            GetNumberOfConsoleInputEvents(_consoleIn, &available);
+            continue;
+        } else if ((key >= 0xDC00) && (key <= 0xDFFF) && (highSurrogate != 0)) {
+            key -= 0xDC00;
+            key |= (highSurrogate << 10);
+            key += 0x10000;
+            highSurrogate = 0;
+        }
+
+        text.push_back(key);
+        ++appended;
+        GetNumberOfConsoleInputEvents(_consoleIn, &available);
+    }
+    return appended;
+}
 
 char32_t
 read_unicode_character(int in_fd_)
@@ -660,8 +738,8 @@ Terminal::wait_for_input(int long timeout_)
         DWORD event(WAIT_TIMEOUT);
         while (waitKey) {
             try {
-                ProcessEventsDynamicFunctionWithoutWait();
-            } catch (Nelson::Exception const& e) {
+                Nelson::processGuiEvents(false);
+            } catch (Nelson::NelsonException const& e) {
                 e.printMe(eval->getInterface());
                 stopInputBuffer = true;
             }
@@ -672,7 +750,8 @@ Terminal::wait_for_input(int long timeout_)
             event = WaitForMultipleObjects(
                 static_cast<DWORD>(handles.size()), handles.data(), false, 0);
             if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
-                || !Nelson::EventQueue::getInstance()->isEmpty()) {
+                || !Nelson::EventQueue::getInstance()->isEmpty()
+                || !Nelson::MainThreadTaskQueue::getInstance()->isEmpty()) {
                 stopInputBuffer = false;
                 return static_cast<EVENT_TYPE>(EVENT_TYPE::MESSAGE);
             }
@@ -768,8 +847,8 @@ Terminal::wait_for_input(int long timeout_)
         fd_set readySet;
         while (waitKey) {
             try {
-                ProcessEventsDynamicFunctionWithoutWait();
-            } catch (Nelson::Exception const& e) {
+                Nelson::processGuiEvents(false);
+            } catch (Nelson::NelsonException const& e) {
                 e.printMe(eval->getInterface());
                 stopInputBuffer = true;
             }
@@ -782,7 +861,9 @@ Terminal::wait_for_input(int long timeout_)
             FD_SET(_interrupt[0], &readySet);
             timeval tv { 0, 0 };
             err = select(nfds, &readySet, nullptr, nullptr, &tv);
-            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()) {
+            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
+                || !Nelson::EventQueue::getInstance()->isEmpty()
+                || !Nelson::MainThreadTaskQueue::getInstance()->isEmpty()) {
                 stopInputBuffer = false;
                 return (EVENT_TYPE::MESSAGE);
             }

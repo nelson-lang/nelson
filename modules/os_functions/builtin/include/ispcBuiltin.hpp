@@ -14,5 +14,6 @@
 namespace Nelson::OsFunctionsGateway {
 ArrayOfVector
 ispcBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

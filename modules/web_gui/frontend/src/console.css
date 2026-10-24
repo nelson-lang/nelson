@@ -1,0 +1,174 @@
+/* --- console ------------------------------------------------------------ */
+.nelson-shell .console-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  padding: 4px 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.nelson-shell .console-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 0 0 2px;
+  flex: 0 0 auto;
+}
+.nelson-shell .console-toolbar button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--fg-dim);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.nelson-shell .console-toolbar button:hover {
+  color: var(--fg);
+  border-color: var(--border);
+}
+/* DOM console: a scrolling transcript of styled text lines and rich blocks,
+   with an editable input line pinned at the bottom of the flow. */
+.nelson-shell .console-host {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  font-family: Consolas, 'Cascadia Mono', 'DejaVu Sans Mono', monospace;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--fg);
+  cursor: text;
+}
+/* Hidden 10-char ruler used to measure the monospace cell (cols/rows). */
+.nelson-shell .console-measure {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  font-family: Consolas, 'Cascadia Mono', 'DejaVu Sans Mono', monospace;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.nelson-shell .console-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.nelson-shell .console-link {
+  color: var(--accent, #3b8eea);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.nelson-shell .console-rich {
+  margin: 4px 0;
+}
+.nelson-shell .console-rich .rich-content {
+  font-family: system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.nelson-shell .console-rich pre,
+.nelson-shell .console-rich code {
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  background: var(--bg-alt);
+}
+.nelson-shell .console-rich pre {
+  padding: 8px;
+  overflow-x: auto;
+}
+.nelson-shell .console-rich table {
+  border-collapse: collapse;
+}
+.nelson-shell .console-rich td,
+.nelson-shell .console-rich th {
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+}
+/* The active line (prompt + editable input) is a flex row so the input fills
+   the remaining width and scrolls internally for long lines, keeping the caret
+   in view instead of overflowing the console. */
+.nelson-shell .console-line--active {
+  display: flex;
+  align-items: baseline;
+}
+.nelson-shell .console-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+  caret-color: var(--fg);
+  resize: none;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+/* completion popup + context menu (shared floating-list look) */
+.nelson-shell .console-popup {
+  position: fixed;
+  z-index: 40;
+  min-width: 160px;
+  max-width: 320px;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 1px solid var(--border, #454545);
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  font-size: 13px;
+  padding: 2px 0;
+}
+.nelson-shell .console-popup__item {
+  padding: 3px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nelson-shell .console-popup__item.sel,
+.nelson-shell .console-popup__item:hover {
+  background: var(--accent, #0a5fce);
+  color: #fff;
+}
+.nelson-shell .console-popup__kind {
+  opacity: 0.6;
+  font-size: 11px;
+}
+.nelson-shell .console-menu {
+  position: fixed;
+  z-index: 50;
+  min-width: 150px;
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 1px solid var(--border, #454545);
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  font-size: 13px;
+  padding: 4px 0;
+}
+.nelson-shell .console-menu__item {
+  padding: 5px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.nelson-shell .console-menu__item:hover {
+  background: var(--accent, #0a5fce);
+  color: #fff;
+}
+.nelson-shell .console-menu__item.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

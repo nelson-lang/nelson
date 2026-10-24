@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>datetime</keyword>
+  <short_description>Create datetime arrays from calendar parts, text, or numeric date representations.</short_description>
+  <syntax>
+    <syntax_item>t = datetime()</syntax_item>
+    <syntax_item>t = datetime(y, m, d)</syntax_item>
+    <syntax_item>t = datetime(y, m, d, h, mi, s)</syntax_item>
+    <syntax_item>t = datetime(text, &apos;InputFormat&apos;, fmt)</syntax_item>
+    <syntax_item>t = datetime(x, &apos;ConvertFrom&apos;, kind)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Year, month, day, optional time parts, text input, numeric input, and name-value options such as Format, TimeZone, InputFormat, ConvertFrom, Epoch, and TicksPerSecond.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>A datetime array storing serial date values plus display format and timezone metadata.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Create datetime arrays from calendar parts, text, or numeric date representations.</p>
+    <p>Use datetime to construct temporal values used by the other date and time functions. Numeric matrices with three or six columns are interpreted as date vectors; scalar and array components are expanded to a common size.</p>
+    <p><b>string</b> returns the formatted text of each element and <b>&lt;missing&gt;</b> for <b>NaT</b>; the display, <b>char</b> and <b>cellstr</b> keep the text NaT (<b>cellstr(d, fmt)</b> uses the format <b>fmt</b>). <b>datetime(missing)</b>, and assigning <b>missing</b> into a datetime array, give <b>NaT</b>.</p>
+    <p><b>datetime.empty(m, n, ...)</b> returns an empty datetime array; growing an array by assignment fills the new elements with <b>NaT</b>. A comparison with <b>missing</b> is false (<b>~=</b> is true), as with <b>NaT</b>.</p>
+    <p><b>TimeZone</b> names a time zone (for example <b>&apos;Europe/Paris&apos;</b>, <b>&apos;UTC&apos;</b>, a fixed offset <b>&apos;+05:30&apos;</b>, a duration offset, or <b>&apos;local&apos;</b> for the system time zone). Setting it on a datetime that has a time zone keeps the same instants and moves the wall clock; on a datetime without one it keeps the wall clock. <b>posixtime</b> and <b>juliandate</b> inputs are UTC instants. Datetimes of different time zones compare, subtract and concatenate by instant (in the time zone of the first operand); a datetime with a time zone never combines with one without. A wall-clock time skipped by a daylight saving change moves after the gap, an ambiguous one is standard time, and fixed-length durations count elapsed time.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Basic usage.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 5, 17, 13, 14, 15)
+[y, m, d] = ymd(t)
+posixtime(datetime(1970, 1, 2))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

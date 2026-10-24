@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bvpset</keyword>
+  <short_description>Create or update BVP options.</short_description>
+  <syntax>
+    <syntax_item>options = bvpset()</syntax_item>
+    <syntax_item>options = bvpset(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>bvpset</b> creates options for boundary value problem solvers.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Option</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><b>RelTol</b>, <b>AbsTol</b></td>
+        <td>Solver tolerances.</td>
+      </tr>
+      <tr>
+        <td><b>NMax</b></td>
+        <td>Maximum number of mesh points.</td>
+      </tr>
+      <tr>
+        <td><b>FJacobian</b>, <b>BCJacobian</b></td>
+        <td>Analytical Jacobians for the equation and boundary conditions.</td>
+      </tr>
+      <tr>
+        <td><b>Vectorized</b>, <b>SingularTerm</b>, <b>Stats</b></td>
+        <td>Vectorization, singular term, and statistics display.</td>
+      </tr>
+    </table>
+    <p>Supported names include <b>AbsTol</b>, <b>RelTol</b>, <b>NMax</b>, <b>Stats</b>, <b>Vectorized</b>, <b>FJacobian</b>, <b>BCJacobian</b>, and <b>SingularTerm</b>. <b>FJacobian</b> and <b>BCJacobian</b> are used together by the Newton iteration when both callbacks are present.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Complete DDE and BVP added features example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvpget">bvpget</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

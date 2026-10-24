@@ -17,63 +17,67 @@ Y = [st.y, st.y];
 try
   r = audioplayer(Y, st.fs);
 catch ex
-    skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
+  skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
 end
 %=============================================================================
 play(r);
-sleep(5);
+sleep(0.2);
 stop(r)
 %=============================================================================
 r = audioplayer(Y', st.fs);
 play(r);
-sleep(5);
+sleep(0.2);
 stop(r)
 %=============================================================================
 r = audioplayer(st.y, st.fs);
 f = fieldnames(r);
-ref = {'SampleRate'; ... 
-    'BitsPerSample'; ... 
-    'NumChannels'; ...   
-    'DeviceID'; ...      
-    'CurrentSample'; ... 
-    'TotalSamples'; ...  
-    'Running'; ...       
-    'StartFcn'; ...      
-    'StopFcn'; ...       
-    'TimerFcn'; ...      
-    'TimerPeriod'; ...   
-    'Tag'; ...           
-    'UserData'; ...      
-    'Type'};  
-assert_isequal(f, ref);
-assert_isequal(r.SampleRate, 8192);
-assert_isequal(r.BitsPerSample, 16);
-assert_isequal(r.NumChannels, 1);
-assert_isequal(r.DeviceID, -1);
-assert_isequal(r.CurrentSample, 0);
-assert_isequal(r.TotalSamples, 73113);
-assert_isequal(r.Running, 'off');
-assert_isequal(r.Tag, '');
-assert_isequal(r.UserData, []);
-assert_isequal(r.Type, 'audioplayer');
+ref = {'SampleRate'; ...
+    'BitsPerSample'; ...
+    'NumChannels'; ...
+    'DeviceID'; ...
+    'CurrentSample'; ...
+    'TotalSamples'; ...
+    'Running'; ...
+    'StartFcn'; ...
+    'StopFcn'; ...
+    'TimerFcn'; ...
+    'TimerPeriod'; ...
+    'Tag'; ...
+    'UserData'; ...
+    'Type'};
+asserts.isequal(f, ref);
+asserts.isequal(r.SampleRate, 8192);
+asserts.isequal(r.BitsPerSample, 16);
+asserts.isequal(r.NumChannels, 1);
+asserts.isequal(r.DeviceID, -1);
+asserts.isequal(r.CurrentSample, 0);
+asserts.isequal(r.TotalSamples, 73113);
+asserts.isequal(r.Running, 'off');
+asserts.isequal(r.Tag, '');
+asserts.isequal(r.UserData, []);
+asserts.isequal(r.Type, 'audioplayer');
 %=============================================================================
-if(~isempty(getenv('IN_NIX_SHELL')) && ~ismac())
+if (~isempty(getenv('IN_NIX_SHELL')) && ~ismac())
   return
 end
 %=============================================================================
 play(r)
-assert_istrue(isplaying(r))
-sleep(5);
+skip_testsuite(~isplaying(r), 'Audio output unavailable');
+asserts.istrue(isplaying(r))
+sleep(0.2);
 play(r)
-assert_istrue(isplaying(r))
+skip_testsuite(~isplaying(r), 'Audio output unavailable');
+asserts.istrue(isplaying(r))
 pause(r)
-assert_isfalse(isplaying(r))
+asserts.isfalse(isplaying(r))
 play(r)
-assert_istrue(isplaying(r))
+skip_testsuite(~isplaying(r), 'Audio output unavailable');
+asserts.istrue(isplaying(r))
 pause(r)
-assert_isfalse(isplaying(r))
+asserts.isfalse(isplaying(r))
 resume(r)
-assert_istrue(isplaying(r))
+skip_testsuite(~isplaying(r), 'Audio output unavailable');
+asserts.istrue(isplaying(r))
 stop(r)
-assert_isfalse(isplaying(r))
+asserts.isfalse(isplaying(r))
 %=============================================================================

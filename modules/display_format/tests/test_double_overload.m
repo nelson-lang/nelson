@@ -11,5 +11,5 @@ addpath([modulepath('display_format', 'tests'), '/overload'])
 M = eye(3, 3);
 R = formattedDisplayText(M);
 REF = "Formatted disp as [1 0 0; 0 1 0; 0 0 1]"
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

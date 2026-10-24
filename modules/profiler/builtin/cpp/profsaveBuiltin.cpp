@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "profsaveBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Profiler.hpp"
 #include "ModulesManager.hpp"
@@ -40,7 +41,7 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 2);
     std::wstring fullDirname;
     if (argIn.size() == 2) {
-        std::wstring dirname = argIn[1].getContentAsWideString();
+        std::wstring dirname = argIn[1].asWideString();
         FileSystemWrapper::Path pathToSplit(dirname);
         if (filePartPath(dirname).empty()) {
             std::wstring currentDirname = FileSystemWrapper::Path::current_path().generic_wstring();
@@ -61,9 +62,9 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         ArrayOf param1 = argIn[0];
         if (!param1.isStruct()) {
-            Error(_W("Profile struct expected."));
+            Error(L"Nelson:profsave:invalidProfileStruct", L"Profile struct expected.");
         }
-        stringVector fieldnames = param1.getFieldNames();
+        stringVector fieldnames = param1.fieldNames();
         stringVector expectedNames;
         expectedNames.push_back("FunctionName");
         expectedNames.push_back("Filename");
@@ -72,26 +73,26 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
         expectedNames.push_back("TotalTime");
         expectedNames.push_back("PerCall");
         if (fieldnames.size() != expectedNames.size()) {
-            Error(_W("Profile struct expected."));
+            Error(L"Nelson:profsave:invalidProfileStruct", L"Profile struct expected.");
         }
         for (size_t index = 0; index < expectedNames.size(); ++index) {
             if (fieldnames[index] != expectedNames[index]) {
-                Error(_W("Profile struct expected."));
+                Error(L"Nelson:profsave:invalidProfileStruct", L"Profile struct expected.");
             }
         }
-        ArrayOfVector functionnames = param1.getFieldAsList("FunctionName");
-        ArrayOfVector filenames = param1.getFieldAsList("Filename");
-        ArrayOfVector positions = param1.getFieldAsList("LinePosition");
-        ArrayOfVector numcalls = param1.getFieldAsList("NumCalls");
-        ArrayOfVector totaltimes = param1.getFieldAsList("TotalTime");
-        ArrayOfVector percalls = param1.getFieldAsList("PerCall");
+        ArrayOfVector functionnames = param1.fieldAsList("FunctionName");
+        ArrayOfVector filenames = param1.fieldAsList("Filename");
+        ArrayOfVector positions = param1.fieldAsList("LinePosition");
+        ArrayOfVector numcalls = param1.fieldAsList("NumCalls");
+        ArrayOfVector totaltimes = param1.fieldAsList("TotalTime");
+        ArrayOfVector percalls = param1.fieldAsList("PerCall");
         for (size_t k = 0; k < filenames.size(); ++k) {
-            std::string functionname = functionnames[k].getContentAsCString();
-            std::string filename = filenames[k].getContentAsCString();
-            uint64 position = (uint64)positions[k].getContentAsDoubleScalar();
-            uint64 numcall = (uint64)numcalls[k].getContentAsDoubleScalar();
-            uint64 totaltime = (uint64)(totaltimes[k].getContentAsDoubleScalar() * 1e9);
-            uint64 percall = (uint64)(percalls[k].getContentAsDoubleScalar() * 1e9);
+            std::string functionname = functionnames[k].asUtf8String();
+            std::string filename = filenames[k].asUtf8String();
+            uint64 position = (uint64)positions[k].asDoubleScalar();
+            uint64 numcall = (uint64)numcalls[k].asDoubleScalar();
+            uint64 totaltime = (uint64)(totaltimes[k].asDoubleScalar() * 1e9);
+            uint64 percall = (uint64)(percalls[k].asDoubleScalar() * 1e9);
             profilerInfo.emplace_back(
                 filename, position, functionname, numcall, totaltime, percall);
         }
@@ -100,7 +101,7 @@ Nelson::ProfilerGateway::profsaveBuiltin(int nLhs, const ArrayOfVector& argIn)
     Profiler::getInstance()->save(
         profilerInfo, fullDirname, GetModulePath(L"profiler"), errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:profsave:saveFailed", errorMessage);
     }
     return retval;
 }

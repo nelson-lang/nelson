@@ -98,6 +98,14 @@
           &apos;table&apos;
         </code>).</li>
     </ul>
+    <p><b>JSON files</b> (<b>.json</b> extension or <b>&apos;FileType&apos;, &apos;json&apos;</b>): the table is written as a JSON array with one object per row; keys are the variable names.</p>
+    <ul>
+      <li>Numbers and logical values are written as JSON numbers and true or false, text, categorical, datetime and duration values as JSON strings (datetime and duration use their display format).</li>
+      <li>Missing values (&lt;missing&gt;, NaT, &lt;undefined&gt;) are written as null. A multicolumn variable gives a JSON array per row.</li>
+      <li><b>PrettyPrint</b>: indent the text with four spaces (default: <code>true</code>).</li>
+      <li><b>PreserveInfAndNaN</b>: write Inf and NaN values as Inf, -Inf and NaN (default: <code>true</code>); with <code>false</code> they are written as null.</li>
+      <li><b>WriteRowNames</b>: write the row names as the first value of each object, keyed by the first dimension name.</li>
+    </ul>
   </description>
   <examples>
     <example_item>
@@ -120,6 +128,11 @@ writetable(T, 'data.xml', 'RowNodeName', 'record', 'TableNodeName', 'dataset')
 % Append to existing file with row names
 writetable(T, 'data.txt', 'WriteMode', 'append', 'WriteRowNames', true)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write a table to a JSON file:</example_item_description>
+      <example_item_data runnable="cli">T = table([1; NaN], ["a"; missing], [true; false], &apos;VariableNames&apos;, {&apos;x&apos;, &apos;name&apos;, &apos;ok&apos;}); f = [tempdir, &apos;writetable_json.json&apos;]; writetable(T, f); fileread(f) writetable(T, f, &apos;PrettyPrint&apos;, false, &apos;PreserveInfAndNaN&apos;, false); fileread(f)</example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -130,6 +143,10 @@ writetable(T, 'data.txt', 'WriteMode', 'append', 'WriteRowNames', true)]]></exam
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>Initial version.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>JSON files: FileType json, PrettyPrint and PreserveInfAndNaN.</history_description>
     </history_item>
   </history>
   <authors>

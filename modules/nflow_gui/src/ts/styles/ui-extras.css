@@ -1,0 +1,370 @@
+/* Show a full-page loading overlay until the app signals it's ready */
+html.nf-loading body > *:not(.nf-loading-overlay) {
+  visibility: hidden !important;
+}
+.nf-loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--canvas-background, #ffffff);
+  z-index: 99999;
+}
+html.nf-loading .nf-loading-overlay {
+  display: flex;
+}
+.nf-loading-box {
+  text-align: center;
+  padding: 24px;
+  border-radius: 8px;
+}
+.nf-loading-spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid rgba(0, 0, 0, 0.08);
+  border-top-color: rgba(0, 0, 0, 0.9);
+  border-radius: 50%;
+  animation: nf-spin 1s linear infinite;
+  margin: 0 auto 12px;
+}
+.nf-loading-text {
+  font-size: 16px;
+  color: var(--nflow-foreground, #222);
+}
+#nf-loading-status {
+  font-size: 13px;
+  color: var(--nflow-foreground-secondary, #334455);
+  margin-top: 8px;
+  opacity: 0.95;
+}
+
+/* Variant shown while background library discovery is active - slightly enhanced but same palette. */
+html.nf-loading.nf-loading-activity .nf-loading-box {
+  padding: 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(16, 24, 40, 0.04);
+}
+html.nf-loading.nf-loading-activity .nf-loading-spinner {
+  width: 72px;
+  height: 72px;
+  border-width: 7px;
+}
+html.nf-loading.nf-loading-activity .nf-loading-text {
+  font-weight: 600;
+}
+
+/* ── Dark overrides ── must come AFTER light base styles for cascade to work ── */
+@media (prefers-color-scheme: dark) {
+  .nf-loading-overlay {
+    background: #1e1e1e;
+  }
+  .nf-loading-spinner {
+    border-color: rgba(255, 255, 255, 0.08);
+    border-top-color: rgba(255, 255, 255, 0.9);
+  }
+}
+[data-theme='dark'] .nf-loading-overlay {
+  background: #1e1e1e;
+}
+[data-theme='dark'] .nf-loading-spinner {
+  border-color: rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.9);
+}
+html[data-theme='dark'].nf-loading.nf-loading-activity .nf-loading-box {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Simple animated ellipsis for step text */
+.nf-loading-step-ellipsis::after {
+  content: '';
+  display: inline-block;
+  width: 1.2em;
+  text-align: left;
+}
+.nf-loading-step-ellipsis::after {
+  animation: ellipsisSteps 1s steps(4, end) infinite;
+}
+@keyframes ellipsisSteps {
+  0% {
+    content: '';
+  }
+  25% {
+    content: '.';
+  }
+  50% {
+    content: '..';
+  }
+  75% {
+    content: '...';
+  }
+  100% {
+    content: '';
+  }
+}
+@keyframes nf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Simulation command bar anchored to the diagram. */
+.floating-toolbar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--nflow-sidebar-background);
+  border-radius: 5px;
+  padding: 3px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.16);
+  z-index: 1200;
+  border: 1px solid var(--nflow-border);
+  height: 38px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.floating-toolbar[hidden] {
+  display: none;
+}
+.floating-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 31px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  padding: 0 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--nflow-foreground);
+}
+.floating-toolbar button:hover:not(:disabled) {
+  background: var(--nflow-list-hover-background);
+}
+.floating-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.floating-toolbar svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.floating-toolbar .run-button {
+  padding: 0 9px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.floating-toolbar .run-button.running {
+  background: var(--nflow-list-active-background);
+}
+.simulation-command-divider {
+  width: 1px;
+  height: 22px;
+  margin: 0 3px;
+  background: var(--nflow-border);
+}
+.simulation-time-display {
+  min-width: 100px;
+  padding: 0 5px;
+  font: 11px Consolas, monospace;
+  text-align: center;
+}
+.simulation-progress-track {
+  width: 70px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--nflow-border);
+}
+.simulation-progress-track > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.15s linear;
+}
+@media (max-width: 1100px) {
+  .simulation-time-display {
+    min-width: 82px;
+  }
+  .simulation-progress-track {
+    width: 48px;
+  }
+}
+/* App icon in titlebar with small running spinner */
+.app-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 4px;
+  flex: 0 0 32px;
+}
+.app-icon > svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.app-icon .app-spinner {
+  display: none;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 24, 40, 0.12);
+  border-top-color: rgba(16, 24, 40, 0.9);
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 1300;
+}
+.app-icon.running .app-spinner {
+  display: block;
+  animation: app-spin 0.8s linear infinite;
+}
+@keyframes app-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   Subsystem breadcrumb (root > sub > ...)
+   ============================================================================ */
+.subsystem-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--nflow-sidebar-background);
+  border: 1px solid var(--nflow-border);
+  border-radius: 4px;
+  font-size: 12px;
+  max-width: 60vw;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.subsystem-breadcrumb .breadcrumb-item {
+  background: none;
+  border: none;
+  padding: 1px 2px;
+  cursor: pointer;
+  color: var(--nflow-accent, #0e639c);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 160px;
+}
+
+.subsystem-breadcrumb .breadcrumb-item:hover {
+  text-decoration: underline;
+}
+
+.subsystem-breadcrumb .breadcrumb-sep {
+  opacity: 0.6;
+}
+
+.subsystem-breadcrumb .breadcrumb-current {
+  font-weight: 600;
+  color: var(--nflow-foreground, inherit);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 160px;
+}
+
+/* ============================================================================
+   Wire (signal) labels
+   ============================================================================ */
+.wire-label {
+  font-size: 11px;
+  fill: var(--nflow-foreground, #888);
+  paint-order: stroke;
+  stroke: var(--nflow-editor-background, #fff);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+
+#wireLabelEditor input {
+  font-size: 12px;
+  padding: 3px 6px;
+  border: 1px solid var(--nflow-accent, #0e639c);
+  border-radius: 3px;
+  background: var(--nflow-editor-background, #fff);
+  color: var(--nflow-foreground, inherit);
+  outline: none;
+  width: 160px;
+}
+
+/* ============================================================================
+   Minimap (diagram overview)
+   ============================================================================ */
+#minimap {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 180px;
+  height: 120px;
+  background: var(--nflow-sidebar-background);
+  border: 1px solid var(--nflow-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  z-index: 30;
+  cursor: crosshair;
+  opacity: 0.92;
+}
+
+#minimap svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#minimapViewport {
+  stroke: var(--nflow-accent, #0e639c);
+  stroke-width: 3px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ============================================================================
+   Signal value badge (wire hover after simulation)
+   ============================================================================ */
+#signalBadge {
+  position: fixed;
+  z-index: 1001;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-family: Consolas, monospace;
+  background: var(--nflow-accent, #0e639c);
+  color: #ffffff;
+  border-radius: 3px;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.subsystem-breadcrumb[hidden],
+#minimap[hidden] {
+  display: none;
+}
+
+/* Startup failure state in the loading overlay */
+#nf-loading-status.nf-loading-error {
+  color: var(--nflow-error, #e05252);
+  font-weight: 600;
+  white-space: pre-wrap;
+}

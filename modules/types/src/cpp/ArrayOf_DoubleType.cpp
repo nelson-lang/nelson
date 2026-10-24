@@ -10,6 +10,7 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include <cstring>
 //=============================================================================
@@ -18,19 +19,21 @@ namespace Nelson {
 bool
 ArrayOf::isDoubleClass() const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_DOUBLE;
+    }
     if (dp == nullptr) {
         return false;
     }
     return (dp->dataClass == NLS_DOUBLE || dp->dataClass == NLS_DCOMPLEX);
 }
 //=============================================================================
-/**
- * Returns TRUE if it is a double type (not ndarray, not sparse)
- */
-//=============================================================================
 bool
 ArrayOf::isDoubleType(bool realOnly) const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_DOUBLE && is2D();
+    }
     if (!dp) {
         return false;
     }
@@ -43,6 +46,9 @@ ArrayOf::isDoubleType(bool realOnly) const
 bool
 ArrayOf::isNdArrayDoubleType(bool realOnly) const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_DOUBLE && !is2D();
+    }
     if (!dp || dp->sparse || is2D()) {
         return false;
     }
@@ -50,13 +56,13 @@ ArrayOf::isNdArrayDoubleType(bool realOnly) const
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleConstructor(double aval)
+ArrayOf::doubleScalar(double aval)
 {
-    return ArrayOf(NLS_DOUBLE, Dimensions(1, 1), static_cast<const void*>(&aval), sizeof(double));
+    return ArrayOf(Representation::InlineScalar, aval);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleComplexRowVectorConstructor(const std::vector<std::complex<double>>& values)
+ArrayOf::doubleComplexRowVector(const std::vector<std::complex<double>>& values)
 {
     const size_t count = values.size();
     double* data
@@ -66,8 +72,11 @@ ArrayOf::doubleComplexRowVectorConstructor(const std::vector<std::complex<double
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleRowVectorConstructor(const std::vector<double>& values)
+ArrayOf::doubleRowVector(const std::vector<double>& values)
 {
+    if (values.size() == 1) {
+        return doubleScalar(values.front());
+    }
     double* data
         = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, values.size(), stringVector(), false));
     std::copy(values.begin(), values.end(), data);
@@ -76,90 +85,93 @@ ArrayOf::doubleRowVectorConstructor(const std::vector<double>& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleRowVectorConstructor(indexType len)
+ArrayOf::doubleRowVector(indexType len)
 {
+    if (len == 1) {
+        return doubleScalar(0.);
+    }
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, len, stringVector(), true));
     return ArrayOf(NLS_DOUBLE, Dimensions(1, len), data);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::doubleMatrix2dConstructor(indexType m, indexType n)
+ArrayOf::doubleMatrix2d(indexType m, indexType n)
 {
+    if (m == 1 && n == 1) {
+        return doubleScalar(0.);
+    }
     double* data = static_cast<double*>(allocateArrayOf(NLS_DOUBLE, m * n, stringVector(), true));
     return ArrayOf(NLS_DOUBLE, Dimensions(m, n), data);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::dcomplexConstructor(double aval, double bval)
+ArrayOf::dsingleComplexScalar(double aval, double bval)
 {
     double data[2] = { aval, bval };
     return ArrayOf(NLS_DCOMPLEX, Dimensions(1, 1), static_cast<const void*>(data), sizeof(data));
 }
 //=============================================================================
 std::vector<double>
-ArrayOf::getContentAsDoubleVector() const
+ArrayOf::asDoubleVector() const
 {
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse()) {
-        Error(_W("Expected a real value."));
+        Error(L"Nelson:validators:mustBeReal", L"%s must be real.", L"Value");
     }
-    size_t elementCount = getElementCount();
-    std::vector<double> values(elementCount);
+    size_t nbElements = elementCount();
+    std::vector<double> values(nbElements);
 
-    const double* data = nullptr;
-    if (getDataClass() != NLS_DOUBLE) {
+    if (dataClass() != NLS_DOUBLE) {
         ArrayOf P(*this);
         P.promoteType(NLS_DOUBLE);
-        data = static_cast<const double*>(P.getDataPointer());
+        const auto* data = static_cast<const double*>(P.dataPointer());
+        std::copy(data, data + nbElements, values.begin());
     } else {
-        data = static_cast<const double*>(dp->getData());
+        const auto* data = static_cast<const double*>(dataPointer());
+        std::copy(data, data + nbElements, values.begin());
     }
-
-    std::copy(data, data + elementCount, values.begin());
     return values;
 }
 //=============================================================================
 double
-ArrayOf::getContentAsDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
+ArrayOf::asDoubleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
     if (isEmpty() || isComplex() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real value scalar."));
+        Error(L"Nelson:types:scalarExpected", L"A scalar expected.");
     }
     double value = 0;
-    if (getDataClass() == NLS_DOUBLE) {
-        double* qp = (double*)dp->getData();
+    if (dataClass() == NLS_DOUBLE) {
+        const double* qp = static_cast<const double*>(dataPointer());
         value = qp[0];
     } else {
         ArrayOf P(*this);
         P.promoteType(NLS_DOUBLE);
-        double* qp = (double*)P.getDataPointer();
+        double* qp = (double*)P.dataPointer();
         value = qp[0];
     }
     if (checkIsIntegerValue) {
         double f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            Error(_W("A real integer value scalar expected."));
+            Error(L"Nelson:integerValueExpected", L"A real integer value scalar expected.");
         }
     }
     return value;
 }
 //=============================================================================
 doublecomplex
-ArrayOf::getContentAsDoubleComplexScalar(bool arrayAsScalar) const
+ArrayOf::asDoubleComplexScalar(bool arrayAsScalar) const
 {
     if (isEmpty() || isReferenceType() || isCharacterArray() || isSparse()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real valued scalar"));
+        Error(L"Nelson:types:scalarExpected", L"A scalar expected.");
     }
-    const double* qp = nullptr;
-    if (getDataClass() != NLS_DCOMPLEX) {
+    if (dataClass() != NLS_DCOMPLEX) {
         ArrayOf P(*this);
         P.promoteType(NLS_DCOMPLEX);
-        qp = static_cast<const double*>(P.getDataPointer());
-    } else {
-        qp = static_cast<const double*>(dp->getData());
+        const auto* qp = static_cast<const double*>(P.dataPointer());
+        return doublecomplex { qp[0], qp[1] };
     }
-
+    const auto* qp = static_cast<const double*>(dp->data());
     return doublecomplex { qp[0], qp[1] };
 }
 //=============================================================================

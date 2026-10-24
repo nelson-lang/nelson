@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fplot</keyword>
+  <short_description>Plot an expression or parametric function.</short_description>
+  <syntax>
+    <syntax_item>fplot(f)</syntax_item>
+    <syntax_item>fplot(f, [xmin xmax])</syntax_item>
+    <syntax_item>fplot(xfun, yfun)</syntax_item>
+    <syntax_item>fplot(xfun, yfun, [tmin tmax])</syntax_item>
+    <syntax_item>fplot(..., lineSpec)</syntax_item>
+    <syntax_item>fplot(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fplot(ax, ...)</syntax_item>
+    <syntax_item>h = fplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>function handle evaluated on x values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xfun</param_name>
+      <param_description>function handle evaluated on parameter values to produce x data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yfun</param_name>
+      <param_description>function handle evaluated on parameter values to produce y data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineSpec</param_name>
+      <param_description>line style, marker, and color specification.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">line property</link> name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>line object property value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description><b>functionline</b> graphics object for y = f(x), or <b>parameterizedfunctionline</b> graphics object for x = x(t), y = y(t).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fplot</b> samples functions over a finite range and plots the result as a function graphics object. The default range is [-5 5].</p>
+    <p>For y = f(x), <b>fplot</b> returns a <b>functionline</b> object. For parametric curves, it returns a <b>parameterizedfunctionline</b> object.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">functionline properties</link> and <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">parameterizedfunctionline properties</link> for the complete property lists.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(x) sin(x), [0 2*pi]);
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(x) exp(-x.^2), [-3 3], '-r', 'LineWidth', 1.5);
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(t) cos(t), @(t) sin(t), [0 2*pi]);
+axis equal
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">functionline properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">parameterizedfunctionline properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fsurf">fsurf</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

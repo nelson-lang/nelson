@@ -21,6 +21,16 @@ other tortious action, arising out of or in connection with the
 use or performance of this software.
 ****************************************************************/
 
+#if defined(__clang__)
+// This translator is preserved in its original K&R-era form. The assignments
+// in conditions and dangling branches are intentional parts of that grammar.
+#pragma clang diagnostic ignored "-Warray-bounds"
+#pragma clang diagnostic ignored "-Wcomment"
+#pragma clang diagnostic ignored "-Wdangling-else"
+#pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wstring-plus-int"
+#endif
+
 #include "sysdep.h"
 
 #include "ftypes.h"

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelsonFunction</keyword>
+<keyword_alias>block:nelsonFunction</keyword_alias>
+  <short_description>Évalue une fonction Nelson à chaque pas de simulation.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : nelsonFunction</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port d'entrée (u, double scalaire ou vecteur). Une entrée non connectée vaut 0.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie (double scalaire ou vecteur).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Appelle l'interpréteur Nelson à chaque pas de simulation pour évaluer <code>Fcn</code> avec l'entrée <code>u</code> du bloc. <code>Fcn</code> est un nom de fonction (<code>sin</code>), une fonction anonyme (<code>@(u) 2*u</code>) ou une expression utilisant <code>u</code> (<code>atan2(u(1), u(2))</code>).</p>
+    <p>
+      <img src="../../../../libraries/userdefined/exports/nelsonFunction.svg" align="middle"/>
+    </p>
+    <p><code>OutputDimensions</code> : -1 hérite de la largeur d'entrée (hypothèse élément par élément) ; donnez une valeur explicite quand la fonction change la largeur du signal. La fonction est sondée une fois à l'initialisation ; une largeur incohérente arrête la simulation avec un diagnostic clair, de même que toute erreur levée par la fonction.</p>
+    <p>L'interpréteur étant invoqué à chaque pas, ce bloc est plus lent que les blocs natifs. Pour une expression purement mathématique, préférez le bloc <code>expression</code>, qui génère aussi du code.</p>
+    <p>
+      <b>Paramètres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>Fcn</code>
+          </td>
+          <td>sin</td>
+        </tr>
+        <tr>
+          <td>
+            <code>OutputDimensions</code>
+          </td>
+          <td>-1</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SampleTime</code>
+          </td>
+          <td>-1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Caractéristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>nelsonFunction</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs fonctions utilisateur</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Transfert direct</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Type de signal</td>
+          <td>double, scalaire ou vecteur</td>
+        </tr>
+        <tr>
+          <td>Génération de code</td>
+          <td>non (rejet explicite ; remplacez par le bloc expression)</td>
+        </tr>
+      </tbody>
+    </table>
+    <source_code label="Manifeste" path="modules/nflow_blocks/libraries/userdefined/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/userdefined/nelsonFunction.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir la démo des blocs fonction utilisateur (Nelson Function + Expression)</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/Nelson_Function_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}userdefined/expression">expression</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -9,12 +9,18 @@
 ;==============================================================================
 #define MODULE_NAME "geometry"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsGeometry.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GEOMETRY};
+Source: {#RootPath}bin\{#BinPath}\libnlsGeometry_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GEOMETRY};
+Source: {#RootPath}bin\{#BinPath}\qhull_r.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GEOMETRY};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_GEOMETRY};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GEOMETRY};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GEOMETRY};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_GEOMETRY};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;Components: {#COMPONENT_GEOMETRY};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_GEOMETRY};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_GEOMETRY} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

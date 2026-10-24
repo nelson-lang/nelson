@@ -1,0 +1,366 @@
+/* Copyright (c) 2026-present Allan CORNET (Nelson)
+ * SPDX-License-Identifier: LGPL-3.0-or-later */
+.nelson-shell .figure-workspace-header {
+  position: relative;
+  background: var(--bg);
+  z-index: 4;
+}
+.nelson-shell .figure-inspected-point {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  outline: 1px solid var(--accent);
+  background: var(--accent);
+  pointer-events: none;
+}
+.nelson-shell .figure-axes-indicator {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 2;
+}
+.nelson-shell .figure-axes-indicator > span {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  max-width: calc(100% - 10px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  color: var(--accent);
+  font-size: 11px;
+}
+.nelson-shell .figure-workspace-heading {
+  padding: 12px 16px 8px;
+  border-bottom: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.nelson-shell .figure-workspace-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nelson-shell .figure-workspace-title > span {
+  display: block;
+  color: var(--fg-dim);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 3px;
+}
+.nelson-shell .figure-workspace-actions,
+.nelson-shell .figure-workspace-tools {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.nelson-shell .figure-workspace-actions {
+  margin-left: auto;
+}
+.nelson-shell .figure-workspace-tools {
+  font-size: 12px;
+}
+.nelson-shell .figure-workspace-header button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+.nelson-shell .figure-workspace-header button:hover {
+  background: var(--bg-alt);
+  border-color: var(--border);
+}
+.nelson-shell .figure-workspace-tools button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  color: var(--accent);
+}
+.nelson-shell .figure-workspace-header .figure-export-primary {
+  background: var(--accent);
+  color: var(--accent-fg, white);
+}
+.nelson-shell .figure-workspace-separator {
+  width: 1px;
+  height: 23px;
+  background: var(--border);
+  margin: 0 5px;
+}
+.nelson-shell .figure-view-preset {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--fg-dim);
+}
+.nelson-shell .figure-workspace-header select,
+.nelson-shell .figure-inspector input:not([type='checkbox']):not([type='range']),
+.nelson-shell .figure-inspector select {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  padding: 6px 8px;
+}
+.nelson-shell .figure-workspace-content {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  position: relative;
+}
+.nelson-shell .figure-workspace-content > .figure-panel__canvas {
+  min-width: 0;
+  min-height: 0;
+}
+.nelson-shell .figure-inspector {
+  position: relative;
+  box-sizing: border-box;
+  width: 240px;
+  flex: 0 0 240px;
+  border-left: 1px solid var(--border);
+  padding: 14px;
+  background: var(--bg-alt);
+  overflow-y: auto;
+  font-size: 12px;
+}
+.nelson-shell .figure-inspector-resize {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  cursor: col-resize;
+  touch-action: none;
+}
+.nelson-shell .figure-inspector-resize:focus-visible {
+  outline: 2px solid var(--accent);
+}
+.nelson-shell .figure-point-tip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  max-width: 230px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--fg);
+  background: var(--bg-alt);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.nelson-shell .figure-inspector h3 {
+  margin: 0 0 14px;
+  font-size: 13px;
+}
+.nelson-shell .figure-inspector details {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.nelson-shell .figure-inspector summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding-bottom: 9px;
+}
+.nelson-shell .figure-property-field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.nelson-shell .figure-property-field > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+.nelson-shell .figure-property-field > input,
+.nelson-shell .figure-property-field > select {
+  box-sizing: border-box;
+  width: 100%;
+}
+.nelson-shell .figure-property-field > input[type='range'] {
+  margin: 0;
+}
+.nelson-shell .figure-property-check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 9px 0;
+}
+.nelson-shell .figure-property-check input {
+  accent-color: var(--accent);
+}
+.nelson-shell .figure-inspector button {
+  padding: 6px 9px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--fg);
+  background: var(--bg);
+  cursor: pointer;
+}
+.nelson-shell .figure-axis-properties {
+  padding: 8px 0;
+}
+.nelson-shell .figure-workspace-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+}
+.nelson-shell .figure-workspace-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 6px 10px;
+}
+.nelson-shell .figure-workspace-legend button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--fg);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.nelson-shell .figure-workspace-legend button[aria-pressed='false'] {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+.nelson-shell .figure-legend-line {
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+}
+.nelson-shell .figure-workspace-error,
+.nelson-shell .figure-property-error {
+  color: var(--error, #bc3030);
+  font-size: 12px;
+}
+.nelson-shell .figure-workspace-error {
+  padding: 7px 12px;
+  border-top: 1px solid var(--border);
+}
+.nelson-shell .figure-workspace-muted {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+.nelson-shell .figure-workspace-menu {
+  position: absolute;
+  top: 50px;
+  right: 12px;
+  width: 235px;
+  max-width: calc(100% - 24px);
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 25px #0002;
+  z-index: 10;
+}
+.nelson-shell .figure-workspace-menu > button {
+  justify-content: flex-start;
+}
+.nelson-shell .figure-workspace-menu label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .nelson-shell .figure-inspector {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    max-width: 85%;
+    box-shadow: -6px 0 16px #0002;
+  }
+  .nelson-shell .figure-workspace-heading {
+    padding: 9px 10px 6px;
+  }
+  .nelson-shell .figure-view-preset {
+    margin-left: 0;
+  }
+}
+@media (pointer: coarse) {
+  .nelson-shell .figure-workspace-header button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .nelson-shell .figure-inspector input,
+  .nelson-shell .figure-inspector select {
+    font-size: 16px;
+  }
+}
+
+/* Property inspector: object browser tree + model-driven property list. */
+.nelson-shell .figure-inspector-browser {
+  max-height: 180px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background: var(--bg);
+}
+.nelson-shell .figure-tree-label {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  color: var(--fg);
+  font: inherit;
+  white-space: nowrap;
+}
+.nelson-shell .figure-tree-label:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+}
+.nelson-shell .figure-tree-label.is-selected {
+  background: var(--accent);
+  color: var(--accent-fg, white);
+}
+.nelson-shell .figure-inspector-list {
+  overflow: auto;
+}
+.nelson-shell .figure-property-search {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 4px 0;
+}
+.nelson-shell .figure-property-readonly {
+  opacity: 0.8;
+}
+.nelson-shell .figure-property-readonly .figure-property-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-dim);
+}

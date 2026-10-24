@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isonormals</keyword>
+  <short_description>Compute normals of isosurface vertices.</short_description>
+  <syntax>
+    <syntax_item>n = isonormals(X, Y, Z, V, vertices)</syntax_item>
+    <syntax_item>n = isonormals(V, vertices)</syntax_item>
+    <syntax_item>n = isonormals(V, p)</syntax_item>
+    <syntax_item>n = isonormals(X, Y, Z, V, p)</syntax_item>
+    <syntax_item>n = isonormals(..., 'negate')</syntax_item>
+    <syntax_item>isonormals(V, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Grid vectors or 3-D grid arrays matching V.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Real numeric 3-D volume data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vertices, p</param_name>
+      <param_description>N-by-3 vertex matrix or patch handle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description>N-by-3 normal vectors interpolated from the volume gradient.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isonormals</b> computes normals at isosurface vertices. With a patch handle and no output, the VertexNormals property is set.</p>
+  </description>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isosurface">isosurface</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/smooth3">smooth3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+  </see_also>
+</xmldoc>

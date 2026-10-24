@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pdist2</keyword>
+  <short_description>Pairwise distances between two sets of observations.</short_description>
+  <syntax>
+    <syntax_item>D = pdist2(X, Y)</syntax_item>
+    <syntax_item>D = pdist2(X, Y, distance)</syntax_item>
+    <syntax_item>D = pdist2(X, Y, distance, distanceParameter)</syntax_item>
+    <syntax_item>D = pdist2(..., 'Smallest', K)</syntax_item>
+    <syntax_item>D = pdist2(..., 'Largest', K)</syntax_item>
+    <syntax_item>[D, I] = pdist2(..., 'Smallest', K)</syntax_item>
+    <syntax_item>[D, I] = pdist2(..., 'Largest', K)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>X</param_name><param_description>real full numeric matrix. Rows are observations.</param_description></param_input_item>
+    <param_input_item><param_name>Y</param_name><param_description>real full numeric matrix with the same number of columns as X.</param_description></param_input_item>
+    <param_input_item><param_name>distance</param_name><param_description>distance name or function handle. Supported names include euclidean, squaredeuclidean, sqeuclidean, cityblock, chebychev, chebyshev, cosine, correlation, hamming, jaccard, minkowski, seuclidean, mahalanobis, spearman, fasteuclidean, and fastseuclidean.</param_description></param_input_item>
+    <param_input_item><param_name>distanceParameter</param_name><param_description>optional parameter for minkowski, seuclidean, or mahalanobis.</param_description></param_input_item>
+    <param_input_item><param_name>K</param_name><param_description>positive integer number of smallest or largest distances to return for each row of Y.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>D</param_name><param_description>distance matrix. Without Smallest or Largest, D has size size(X, 1)-by-size(Y, 1). With Smallest or Largest, D has size min(K, size(X, 1))-by-size(Y, 1).</param_description></param_output_item>
+    <param_output_item><param_name>I</param_name><param_description>indices of rows in X for the selected distances. I is available only with Smallest or Largest.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>pdist2</b> computes pairwise distances between rows of <b>X</b> and rows of <b>Y</b>. Built-in distances return NaN when either row contains NaN. A function handle distance must accept one row of X and all rows of Y, and return one distance per row of Y.</p></description>
+  <used_function>
+    <link linkend="${statistics}kmeans">kmeans</link>
+    <link linkend="${statistics}kmedoids">kmedoids</link>
+    <link linkend="${statistics}silhouette">silhouette</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute pairwise Euclidean distances.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0];
+Y = [0 0; 0 2];
+D = pdist2(X, Y)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compare several distance metrics.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 0; 0 1];
+Y = [1 0; 1 1];
+Dcos = pdist2(X, Y, 'cosine')
+Dhamming = pdist2(X, Y, 'hamming')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find selected distances and row indices.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 3];
+Y = [0 0; 0 2];
+[D, I] = pdist2(X, Y, 'euclidean', 'Smallest', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

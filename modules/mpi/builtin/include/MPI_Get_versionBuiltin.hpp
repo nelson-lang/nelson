@@ -14,5 +14,6 @@
 namespace Nelson::MpiGateway {
 ArrayOfVector
 MPI_Get_versionBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

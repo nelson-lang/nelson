@@ -11,12 +11,12 @@
 %=============================================================================
 disp('Press a mouse button on figure to continue...');
 w = waitforbuttonpress()
-assert_isequal(w, 0);
+asserts.isequal(w, 0);
 %=============================================================================
 disp('Press a key button on figure to continue...');
 w = waitforbuttonpress()
-assert_isequal(w, 1);
+asserts.isequal(w, 1);
 %=============================================================================
 disp('Press X on figure to close figure and continue...');
-assert_checkerror('w = waitforbuttonpress()', _('waitforbuttonpress exit because figure has been deleted.'))
+asserts.checkerror('w = waitforbuttonpress()', _('waitforbuttonpress exit because figure has been deleted.'))
 %=============================================================================

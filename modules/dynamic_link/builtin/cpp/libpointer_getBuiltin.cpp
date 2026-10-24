@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,11 @@
 //=============================================================================
 #include "libpointer_getBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -25,18 +25,18 @@ Nelson::DynamicLinkGateway::libpointer_getBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-        Error(_W("libpointer handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+        Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
     }
-    LibPointerObject* objLibPointer = (LibPointerObject*)param1.getContentAsHandleScalar();
+    LibPointerObject* objLibPointer = (LibPointerObject*)param1.asHandleScalar();
     ArrayOf res;
     if (argIn.size() == 1) {
         objLibPointer->get(res);
     } else {
         ArrayOf param2 = argIn[1];
-        std::wstring propertyName = param2.getContentAsWideString();
+        std::wstring propertyName = param2.asWideString();
         if (!objLibPointer->get(propertyName, res)) {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
     }
     retval << res;

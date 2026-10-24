@@ -21,7 +21,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <b>issparse</b> returns a logical 1 if the argument is a sparse array and a logical 0 otherwise.</description>
+    <p>
+      <b>issparse</b> returns a logical 1 if the argument is a sparse array and a logical 0 otherwise.</p>
+    <p>
+      The test is based on sparse storage, not on the value class. Sparse double, single, logical, complex double, and complex single arrays all return true.</p>
+    <p>
+      Full arrays return false even when they contain mostly zero values.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>
@@ -41,6 +47,14 @@ res = issparse(A)]]></example_item_data>
       ><![CDATA[B = sparse(1);
 res = issparse(B)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([1 + 2i 0; 0 0]));
+res = issparse(S)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -48,6 +62,10 @@ res = issparse(B)]]></example_item_data>
     </see_also_item>
   </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>documented sparse single and complex single behavior</history_description>
+    </history_item>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>

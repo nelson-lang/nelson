@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>convhull</keyword>
+  <short_description>Enveloppe convexe de points 2-D ou 3-D</short_description>
+  <syntax>
+    <syntax_item>K = convhull(P)</syntax_item>
+    <syntax_item>K = convhull(x, y)</syntax_item>
+    <syntax_item>K = convhull(x, y, z)</syntax_item>
+    <syntax_item>K = convhull(..., 'Simplify', tf)</syntax_item>
+    <syntax_item>[K, A] = convhull(x, y)</syntax_item>
+    <syntax_item>convhull(P)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>convhull</b> calcule l'enveloppe convexe de points plans ou spatiaux.</p>
+    <p>Sans sortie, pour des points plans, la fonction trace l'enveloppe.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer et tracer une enveloppe convexe plane.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+[K, A] = convhull(P);
+convhull(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}convhulln">convhulln</link></see_also_item>
+    <see_also_item><link linkend="${geometry}boundary">boundary</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

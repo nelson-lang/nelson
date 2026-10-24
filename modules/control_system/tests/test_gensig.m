@@ -7,63 +7,54 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 [u, t] = gensig('pulse', 5, 1, -1);
-assert_isequal(u, zeros(0, 1));
-assert_isequal(t, zeros(0, 1));
+asserts.isequal(u, zeros(0, 1));
+asserts.isequal(t, zeros(0, 1));
 %=============================================================================
 [u, t] = gensig('pulse', 5, 1, 0);
-assert_isequal(u, zeros(0, 1));
-assert_isequal(t, zeros(0, 1));
+asserts.isequal(u, zeros(0, 1));
+asserts.isequal(t, zeros(0, 1));
 %=============================================================================
 [u, t] = gensig('pulse', 5, 1, 1);
-assert_isequal(u, [1;0]);
-assert_isequal(t, [0;1]);
+asserts.isequal(u, [1; 0]);
+asserts.isequal(t, [0; 1]);
 %=============================================================================
 [u, t] = gensig('square', 5, 1, 1);
-assert_isequal(u, [0;0]);
-assert_isequal(t, [0;1]);
-%=============================================================================
-[u, t] = gensig('cos', 5, 1, 1);
-assert_isapprox(u, [ 1.0000; 0.3090], 1e-4);
-assert_isequal(t, [0;1]);
+asserts.isequal(u, [0; 0]);
+asserts.isequal(t, [0; 1]);
 %=============================================================================
 [u, t] = gensig('sin', 5, 1, 1);
-assert_isapprox(u, [0; 0.9511], 1e-3);
-assert_isequal(t, [0;1]);
+asserts.isapprox(u, [0; 0.9511], 1e-3);
+asserts.isequal(t, [0; 1]);
 %=============================================================================
-[u, t] = gensig('tan', 5, 1, 1);
-assert_isapprox(u, [ 0;3.0777], 1e-3);
-assert_isequal(t, [0;1]);
+msg = 'The first input argument of the gensig command must be one of the following: ''sin'', ''square'', or ''pulse''.';
+id = 'Nelson:control_system:invalidValue:firstInputArgumentSinSquarePulse';
+asserts.checkerror('gensig(''cos'', 5, 1, 1)', msg, id);
+%=============================================================================
+asserts.checkerror('gensig(''tan'', 5, 1, 1)', msg, id);
+%=============================================================================
+asserts.checkerror('gensig(''sine'', 5, 1, 1)', msg, id);
 %=============================================================================
 figure();
 tau = 3;
 Tf = 6;
 Ts = 0.1;
 %=============================================================================
-subplot(3, 2, 1)
-[u,t] = gensig("sine",tau,Tf,Ts);
+subplot(3, 1, 1)
+[u, t] = gensig("sin", tau, Tf, Ts);
 plot(t, u)
-title('sine')
+title('sin')
 %=============================================================================
-subplot(3, 2, 2)
-[u,t] = gensig("square",tau,Tf,Ts);
+subplot(3, 1, 2)
+[u, t] = gensig("square", tau, Tf, Ts);
 plot(t, u)
 title('square')
 %=============================================================================
-subplot(3, 2, 3)
-[u,t] = gensig("cos",tau,Tf,Ts);
+subplot(3, 1, 3)
+[u, t] = gensig("pulse", tau, Tf, Ts);
 plot(t, u)
-title('cosine')
-%=============================================================================
-subplot(3, 2, 4)
-[u,t] = gensig("sin",tau,Tf,Ts);
-plot(t, u)
-title('sine')
-%=============================================================================
-subplot(3, 2, 5)
-[u,t] = gensig("tan",tau,Tf,Ts);
-plot(t, u)
-title('tan')
+title('pulse')
 %=============================================================================

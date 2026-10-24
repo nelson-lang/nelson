@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="318.5" height="296.5" viewBox="-153.25 -153.25 318.5 296.5">
+  <rect x="-153.25" y="-153.25" width="318.5" height="296.5" rx="56.335" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#085041" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#085041">HPF</text></g>
+    <polyline points="-80,80 -80,-88" fill="none" stroke="#9FE1CB" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-80,92 -88,70 -72,70 -80,92" fill="#9FE1CB" stroke="#9FE1CB" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-90,-78 82,-78" fill="none" stroke="#9FE1CB" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,-78 68,-70 68,-86 90,-78" fill="#9FE1CB" stroke="#9FE1CB" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(11,71) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="30.4" fill="#085041">2</text></g>
+    <g transform="translate(12,-125) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#085041">f_cut</text></g>
+    <rect x="-80" y="-78" width="102" height="88" fill="#FFFFFF" stroke="#9FE1CB" stroke-width="3.25"/>
+    <g transform="translate(3.33 -6.67) rotate(0)">
+    <path d="M-83.33 34.67 Q24.67 34.67 42.67 -71.33" fill="none" stroke="#085041" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

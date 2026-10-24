@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>material</keyword>
+  <short_description>Set surface and patch material properties.</short_description>
+  <syntax>
+    <syntax_item>material(name)</syntax_item>
+    <syntax_item>material(ax, name)</syntax_item>
+    <syntax_item>material(values)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description><b>default</b>, <b>shiny</b>, <b>dull</b>, or <b>metal</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description>four or five material coefficients.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>material</b> updates ambient, diffuse, specular, exponent, and reflectance properties on surface and patch children.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+surf(peaks(30), 'EdgeColor', 'none', 'FaceLighting', 'gouraud');
+light('Position', [1 -1 1]);
+lighting gouraud;
+material('metal');
+view(35, 28);
+]]></example_item_data>
+      <example_item_img src="../../../../images/material_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/light">light</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/lighting">lighting</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

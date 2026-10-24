@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "ClassToString.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -21,34 +22,44 @@ ToInteger(NelsonType destinationClass, const ArrayOf& A)
 
     std::wstring destType = ClassToStringW(destinationClass);
     if (A.isSparse()) {
-        Error(_W("Conversion to '") + destType + _W("' from sparse matrix is not possible."));
+        Error(L"Nelson:integer:cannotConvertFromSparse",
+            L"Conversion to '%s' from sparse matrix is not possible.", destType);
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        Error(_W("Invalid conversion from complex matrix to '") + destType + _W("' matrix."));
+        Error(L"Nelson:integer:cannotConvertFromComplex",
+            L"Invalid conversion from complex matrix to '%s' matrix.", destType);
     } break;
     case NLS_GO_HANDLE: {
-        Error(_W("Conversion to '") + destType + _W("' from graphics_object is not possible."));
+        Error(L"Nelson:integer:cannotConvert:conversionValueFromGraphicsObjectNot",
+            L"Conversion to '%s' from graphics_object is not possible.", destType);
     } break;
     case NLS_HANDLE: {
-        Error(_W("Conversion to '") + destType + _W("' from handle is not possible."));
+        Error(L"Nelson:integer:cannotConvert:conversionValueFromHandleNotPossible",
+            L"Conversion to '%s' from handle is not possible.", destType);
     } break;
     case NLS_STRING_ARRAY: {
-        Error(_W("Conversion to '") + destType + _W("' from string is not possible."));
+        Error(L"Nelson:integer:cannotConvert:conversionValueFromStringNotPossible",
+            L"Conversion to '%s' from string is not possible.", destType);
     } break;
     case NLS_CELL_ARRAY: {
-        Error(_W("Conversion to '") + destType + _W("' from cell is not possible."));
+        Error(L"Nelson:integer:cannotConvert", L"Conversion to '%s' from cell is not possible.",
+            destType);
     } break;
     case NLS_FUNCTION_HANDLE: {
-        Error(_W("Conversion to '") + destType + _W("' from function_handle is not possible."));
+        Error(L"Nelson:integer:cannotConvert:conversionValueFromFunctionHandleNot",
+            L"Conversion to '%s' from function_handle is not possible.", destType);
     } break;
-    case NLS_CLASS_ARRAY: {
-        Error(_W("Undefined function '") + destType + _W("' for input arguments of type '")
-            + utf8_to_wstring(A.getClassType()) + L"'.");
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        Error(L"Nelson:integer:conversionNotDefined",
+            L"Undefined function '%s' for input arguments of type '%s'.", destType,
+            utf8_to_wstring(A.classType()));
     } break;
     case NLS_STRUCT_ARRAY: {
-        Error(_W("Conversion to '") + destType + _W("' from struct is not possible."));
+        Error(L"Nelson:integer:cannotConvert:conversionValueFromStructNotPossible",
+            L"Conversion to '%s' from struct is not possible.", destType);
     } break;
     case NLS_LOGICAL:
     case NLS_UINT8:
@@ -67,7 +78,7 @@ ToInteger(NelsonType destinationClass, const ArrayOf& A)
         return res;
     } break;
     default: {
-        Error(_W("Invalid conversion."));
+        Error(L"Nelson:integer:invalidConversion", L"Invalid conversion.");
     } break;
     }
     return {};

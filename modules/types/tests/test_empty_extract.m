@@ -7,42 +7,66 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 A = ones(1, 0);
 R = A(:);
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ones(1, 0);
-R = A(:,:);
+R = A(:, :);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ones(1, 0);
-assert_checkerror('R = A(2,:);', _('Index exceeds dimensions.'));
+asserts.checkerror('R = A(2,:);', _('Index exceeds array bounds.'));
 %=============================================================================
 A = ones(3, 0);
-R = A(1,:);
+R = A(1, :);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ones(3, 0);
-R = A(2,:);
+R = A(2, :);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ones(3, 0);
-R = A(3,:);
+R = A(3, :);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ones(3, 0);
-assert_checkerror('R = A(4,:);', _('Index exceeds dimensions.'));
+asserts.checkerror('R = A(4,:);', _('Index exceeds array bounds.'));
 %=============================================================================
 A = ones(3, 0);
-assert_checkerror('R = A(:,1);', _('Index exceeds dimensions.'));
+asserts.checkerror('R = A(:,1);', _('Index exceeds array bounds.'));
 %=============================================================================
 A = ones(1, 0);
-R = A([],:);
+R = A([], :);
 REF = []
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+% empty-range indexing preserves the vector orientation and selected shape
+c = [5; 6; 4; 2];
+asserts.isequal(size(c(5:4)), [0 1]);
+%=============================================================================
+r = [1 2 3 4];
+asserts.isequal(size(r(5:4)), [1 0]);
+%=============================================================================
+l = [3 0 0 0; -1 1 0 0; 3 -2 -1 0; 1 -2 6 2];
+asserts.isequal(size(l(5:4, 4)), [0 1]);
+%=============================================================================
+asserts.isequal(size(l(2:1, 3)), [0 1]);
+%=============================================================================
+asserts.isequal(size(l(:, 5:4)), [4 0]);
+%=============================================================================
+asserts.isequal(size(l(5:4, :)), [0 4]);
+%=============================================================================
+% brace-indexing a cell with an all-false logical mask yields an empty list
+c = {'x', 'y', 'z'};
+m = logical([0 0 0]);
+asserts.isequal(isempty({c{m}}), true);
+asserts.isequal(numel({c{m}}), 0);
+asserts.isequal(size(c(m)), [1 0]);
 %=============================================================================

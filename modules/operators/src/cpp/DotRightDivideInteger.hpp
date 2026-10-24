@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 #include "IntegerOperations.hpp"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -21,13 +22,13 @@ scalar_matrix_integer_dotRightDivide(
     NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
@@ -42,12 +43,12 @@ matrix_scalar_integer_dotRightDivide(
     NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
@@ -62,12 +63,12 @@ matrix_matrix_integer_dotRightDivide(
     NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
@@ -81,20 +82,20 @@ ArrayOf
 row_matrix_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
     indexType q = 0;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsA.rows();
             ptrC[m] = scalar_scalar_integer_divide(ptrA[q], ptrB[m]);
         }
         q++;
@@ -108,18 +109,18 @@ column_matrix_integer_dotRightDivide(
     NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
+    T* ptrC = (T*)res.dataPointer();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsB.rows();
             ptrC[m] = scalar_scalar_integer_divide(ptrA[j], ptrB[m]);
         }
     }
@@ -131,21 +132,21 @@ ArrayOf
 matrix_row_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
+    T* ptrC = (T*)res.dataPointer();
 
     indexType q = 0;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsB.rows();
             ptrC[m] = scalar_scalar_integer_divide<T>(ptrA[m], ptrB[q]);
         }
         q++;
@@ -159,19 +160,19 @@ matrix_column_integer_dotRightDivide(
     NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
+    T* ptrC = (T*)res.dataPointer();
 
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsA.rows();
             ptrC[m] = scalar_scalar_integer_divide(ptrA[m], ptrB[j]);
         }
     }
@@ -183,20 +184,20 @@ ArrayOf
 row_column_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    indexType rows = std::max(dimsA.rows(), dimsB.rows());
+    indexType columns = std::max(dimsA.columns(), dimsB.columns());
     Dimensions dimsC(rows, columns);
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
+    T* ptrC = (T*)res.dataPointer();
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < dimsA.columns(); i++) {
+        for (indexType j = 0; j < dimsB.rows(); j++) {
             ptrC[m] = scalar_scalar_integer_divide(ptrA[i], ptrB[j]);
             m++;
         }
@@ -209,21 +210,21 @@ ArrayOf
 column_row_integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    indexType rows = std::max(dimsA.rows(), dimsB.rows());
+    indexType columns = std::max(dimsA.columns(), dimsB.columns());
     Dimensions dimsC(rows, columns);
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    T* ptrA = (T*)A.getDataPointer();
-    T* ptrB = (T*)B.getDataPointer();
-    T* ptrC = (T*)res.getDataPointer();
+    T* ptrA = (T*)A.dataPointer();
+    T* ptrB = (T*)B.dataPointer();
+    T* ptrC = (T*)res.dataPointer();
 
     indexType m = 0;
-    indexType elementCountA = dimsA.getElementCount();
-    indexType elementCountB = dimsB.getElementCount();
+    indexType elementCountA = dimsA.elementCount();
+    indexType elementCountB = dimsB.elementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
             ptrC[m] = scalar_scalar_integer_divide(ptrA[j], ptrB[i]);
@@ -238,70 +239,17 @@ template <class T>
 ArrayOf
 integer_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
-    ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-
-    if (SameSizeCheck(dimsA, dimsB)) {
-        // A.isRowVector() && B.isRowVector() with same size
-        // A.isColumnVector() && B.isColumnVector() with same size
-        // A.isScalar() && B.isScalar() with same size
-        // A.isMatrix() && B.isMatrix() with same size
-        res = matrix_matrix_integer_dotRightDivide<T>(classDestination, A, B);
-    } else {
-        if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
-                res = scalar_matrix_integer_dotRightDivide<T>(classDestination, A, B);
-            } else {
-                res = matrix_scalar_integer_dotRightDivide<T>(classDestination, A, B);
-            }
-        } else {
-            if (A.isVector() || B.isVector()) {
-                if ((A.isRowVector() && B.isRowVector())
-                    || (A.isColumnVector() && B.isColumnVector())) {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                } else if (A.isRowVector() && B.isColumnVector()) {
-                    res = row_column_integer_dotRightDivide<T>(classDestination, A, B);
-                } else if (A.isColumnVector() && B.isRowVector()) {
-                    res = column_row_integer_dotRightDivide<T>(classDestination, A, B);
-                } else if (dimsA.getRows() == dimsB.getRows()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = row_matrix_integer_dotRightDivide<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_row_integer_dotRightDivide<T>(classDestination, A, B);
-                    }
-                } else if (dimsA.getColumns() == dimsB.getColumns()) {
-                    if (A.isVector()) {
-                        if (!B.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = column_matrix_integer_dotRightDivide<T>(classDestination, A, B);
-                    } else {
-                        if (!A.is2D()) {
-                            Error(
-                                _("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                        }
-                        res = matrix_column_integer_dotRightDivide<T>(classDestination, A, B);
-                    }
-                } else {
-                    Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
-                }
-            } else {
-                Error(_("Size mismatch on arguments to arithmetic operator") + " " + "+");
-            }
-        }
-    }
-    return res;
+    return binaryOperator2DDispatch(classDestination, A, B, matrix_matrix_integer_dotRightDivide<T>,
+        scalar_matrix_integer_dotRightDivide<T>, matrix_scalar_integer_dotRightDivide<T>,
+        matrix_matrix_integer_dotRightDivide<T>, row_column_integer_dotRightDivide<T>,
+        column_row_integer_dotRightDivide<T>, row_matrix_integer_dotRightDivide<T>,
+        matrix_row_integer_dotRightDivide<T>, column_matrix_integer_dotRightDivide<T>,
+        matrix_column_integer_dotRightDivide<T>,
+        [](const ArrayOf& lhs, const ArrayOf& rhs, NelsonType destinationClass) {
+            return binaryOperatorBroadcastNumeric<T>(lhs, rhs, destinationClass, "./",
+                [](T a, T b) { return scalar_scalar_integer_divide<T>(a, b); });
+        });
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

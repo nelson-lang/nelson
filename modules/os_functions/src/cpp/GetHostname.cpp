@@ -9,7 +9,6 @@
 //=============================================================================
 #include "GetHostname.hpp"
 #include "characters_encoding.hpp"
-
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -18,7 +17,6 @@
 #include <limits.h>
 #include <sys/types.h>
 #endif
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,7 +29,6 @@ GetHostname()
     if (GetComputerNameW(buf, &size)) {
         return std::wstring(buf, static_cast<size_t>(size));
     }
-    // fallback to ANSI name if wide call fails
     char abuf[MAX_COMPUTERNAME_LENGTH + 1];
     DWORD asize = (DWORD)std::size(abuf);
     if (GetComputerNameA(abuf, &asize)) {

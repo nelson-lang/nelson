@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sgtitle</keyword>
+  <short_description>Ajouter un titre commun a une disposition graphique.</short_description>
+  <syntax>
+    <syntax_item>sgtitle(text)</syntax_item>
+    <syntax_item>sgtitle(target, text)</syntax_item>
+    <syntax_item>sgtitle(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = sgtitle(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description>Texte a afficher.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>target</param_name>
+      <param_description>Objet graphique tiled layout ou axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete de l'objet texte.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur de propriete de l'objet texte.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Objet graphique pour le titre commun.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sgtitle</b> ajoute un titre commun au tiled layout courant s'il existe. Sinon, il ajoute un titre commun au-dessus des axes subplot de la figure courante.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Titre commun pour une grille de subplots.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+subplot(2, 2, 1)
+title('Premier subplot')
+subplot(2, 2, 2)
+title('Deuxieme subplot')
+subplot(2, 2, 3)
+title('Troisieme subplot')
+subplot(2, 2, 4)
+title('Quatrieme subplot')
+sgtitle('Titre de la grille')]]></example_item_data>
+      <example_item_img src="../../../images/sgtitle_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Definir les proprietes du titre commun.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+subplot(2, 1, 1)
+title('Premier subplot')
+subplot(2, 1, 2)
+title('Deuxieme subplot')
+sgt = sgtitle('Titre de la grille', 'Color', 'red');
+sgt.FontSize = 20;]]></example_item_data>
+      <example_item_img src="../../../images/sgtitle_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Titre commun pour un tiled layout.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[t = tiledlayout(2, 1);
+nexttile(t);
+plot(1:10);
+nexttile(t);
+plot((1:10).^2);
+sgtitle(t, 'Titre commun');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/title">title</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/2_layout_objects/tiledlayout">tiledlayout</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

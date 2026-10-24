@@ -39,20 +39,42 @@
       <li>
         <b>ext</b>: file format extension</li>
       <li>
-        <b>isa</b>: function handle to test if the file format is supported</li>
+        <b>isa</b>: reserved field; empty because signature detection is centralized</li>
       <li>
-        <b>info</b>: function handle to get information about the file format</li>
+        <b>info</b>: reserved field; empty because capabilities are stored in this structure</li>
       <li>
         <b>description</b>: file format description</li>
       <li>
-        <b>read</b>: function handle to read the file format</li>
+        <b>read</b>: <b>imread</b> capability, or empty for an unreadable format</li>
       <li>
-        <b>write</b>: function handle to write the file format</li>
+        <b>write</b>: <b>imwrite</b> capability, or empty for a read-only format</li>
       <li>
         <b>alpha</b>: logical scalar indicating if the file format supports transparency</li>
       <li>
-        <b>multipage</b>: logical scalar indicating if the file format supports multipage images</li>
+        <b>multipage</b>: logical scalar indicating exposed multi-image writing; only GIF is true</li>
     </ul>
+    <p>The registry is deterministic and does not depend on desktop image plugins. An empty
+    <b>read</b> or <b>write</b> field means that the operation is not supported. In the array
+    returned without an argument, these fields contain the function name; a single-format query
+    returns the equivalent function handle.</p>
+    <table style="width:100%">
+      <tr><th>Canonical extension</th><th>Aliases</th><th>Read</th><th>Write</th><th>Alpha</th><th>Multipage</th></tr>
+      <tr><td>png</td><td>-</td><td>yes</td><td>yes</td><td>yes</td><td>no</td></tr>
+      <tr><td>jpg</td><td>jpeg, jfif</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>gif</td><td>-</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+      <tr><td>webp</td><td>-</td><td>yes</td><td>yes</td><td>yes</td><td>no</td></tr>
+      <tr><td>tiff</td><td>tif</td><td>yes</td><td>yes</td><td>yes</td><td>no</td></tr>
+      <tr><td>bmp</td><td>dib</td><td>yes</td><td>yes</td><td>yes</td><td>no</td></tr>
+      <tr><td>tga</td><td>-</td><td>yes</td><td>yes</td><td>yes</td><td>no</td></tr>
+      <tr><td>pbm</td><td>-</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>pgm</td><td>-</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>ppm</td><td>-</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>pnm</td><td>-</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>pcx</td><td>-</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+      <tr><td>psd</td><td>-</td><td>yes</td><td>no</td><td>yes</td><td>no</td></tr>
+      <tr><td>hdr</td><td>rgbe</td><td>yes</td><td>no</td><td>no</td><td>no</td></tr>
+      <tr><td>pic</td><td>-</td><td>yes</td><td>no</td><td>yes</td><td>no</td></tr>
+    </table>
   </description>
   <used_function />
   <bibliography />
@@ -63,6 +85,25 @@
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[imformats()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Query a format by an alias.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[imformats('jpeg')
+imformats('webp')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Filter readable and writable formats.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[formats = imformats();
+readable = {};
+writable = {};
+for k = 1:length(formats)
+    if ~isempty(formats(k).read), readable{end + 1} = formats(k).ext; end
+    if ~isempty(formats(k).write), writable{end + 1} = formats(k).ext; end
+end
+readable
+writable]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -77,6 +118,10 @@
     <history_item>
       <history_version>1.13.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>deterministic cross-platform format registry</history_description>
     </history_item>
   </history>
   <authors>

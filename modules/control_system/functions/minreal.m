@@ -18,28 +18,28 @@ function varargout = minreal(varargin)
   if ~isempty(msg)
     error(msg.id, msg.message);
   end
-  
+
   if nargin < 5
     tol = 1e-6;
   else
     tol = varargin{5};
   end
-  
+
   [ns, nu] = size(B);
   if nargin < 5
     tol = 10 * ns * norm(A, 1) * eps;
   else
     tol = varargin{5};
   end
-  
+
   [am, bm, cm, nn] = reduceSystem(A, B, C, ns, tol);
   if nn > 1
     msg = sprintf(_('%d states removed.'), nn);
   else
     msg = sprintf(_('%d state removed.'), nn);
-  end 
+  end
   disp(msg);
-  
+
   varargout{1} = am;
   if nargout > 1
     varargout{2} = bm;

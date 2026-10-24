@@ -17,9 +17,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class Evaluator;
+//=============================================================================
 bool
-h5SaveCell(hid_t fid, const std::string& location, const std::string& variableName,
+h5SaveCell(Evaluator* eval, hid_t fid, const std::string& location, const std::string& variableName,
     const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

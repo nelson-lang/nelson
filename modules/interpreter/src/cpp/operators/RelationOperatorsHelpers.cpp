@@ -10,10 +10,13 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include "i18n.hpp"
 #include "RelationOperatorsHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "OverloadHelpers.hpp"
 #include "FindCommonType.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,16 +33,15 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     ArrayOf res;
     if (FindCommonTypeRelationalOperators(args, commonType, isSparse, isComplex, commonTypeName)) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(eval,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args, functionName,
-            commonTypeName, commonType, overloadWasFound);
+        res = callOperatorOverload(
+            eval, args, functionName, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
     }
 
     bool needToOverload = false;
-    if (commonType == NLS_STRING_ARRAY || (commonType <= NLS_CHAR && !isSparse)) {
+    if (commonType == NLS_STRING_ARRAY || commonType <= NLS_CHAR) {
         NelsonType _commonType = commonType;
         if (compareAlsoImagPart && commonType == NLS_DOUBLE && isComplex) {
             _commonType = NLS_DCOMPLEX;
@@ -58,11 +60,20 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
                 B = ArrayOf::toStringArray(B, needToOverload);
             }
             if (needToOverload) {
-                Error(_W("Cannot promote to string array."));
+                Error(L"Nelson:interpreter:cannotPromoteToString",
+                    L"Cannot promote to string array.");
             }
         } else {
-            A.promoteType(_commonType);
-            B.promoteType(_commonType);
+            auto is64BitInteger = [](const ArrayOf& value) {
+                return value.dataClass() == NLS_INT64 || value.dataClass() == NLS_UINT64;
+            };
+            // a 64-bit integer and a real double are compared exactly by the operator
+            bool exactPair = (is64BitInteger(A) && B.dataClass() == NLS_DOUBLE)
+                || (is64BitInteger(B) && A.dataClass() == NLS_DOUBLE);
+            if (!exactPair) {
+                A.promoteType(_commonType);
+                B.promoteType(_commonType);
+            }
         }
         res = relationalOperator(A, B, needToOverload);
         if (!needToOverload) {
@@ -73,11 +84,14 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     switch (commonType) {
     case NLS_UNKNOWN:
     case NLS_FUNCTION_HANDLE: {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."),
-                symbolName, ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        std::string msg = formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
+                "Operator '%s' is not supported for operands of type '%s'."),
+            symbolName, ClassToString(commonType));
+        Error("Nelson:UndefinedFunction", msg);
     } break;
+    default:
+        break;
     }
     ArrayOfVector retval;
     bool overloadWasFound = false;
@@ -89,5 +103,5 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     return retval[0];
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

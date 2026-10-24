@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest</keyword>
+  <short_description>Modern test runner namespace</short_description>
+  <syntax>
+    <syntax_item>suite = nelson.unittest.discover(targets)</syntax_item>
+    <syntax_item>suite = nelson.unittest.select(suite, Name, Value)</syntax_item>
+    <syntax_item>plan = nelson.unittest.plan(suite, Name, Value)</syntax_item>
+    <syntax_item>results = nelson.unittest.run(targets, Name, Value)</syntax_item>
+    <syntax_item>results = nelson.unittest.run(plan, Name, Value)</syntax_item>
+    <syntax_item>proposal = nelson.unittest.tuneWeights(results, Name, Value)</syntax_item>
+    <syntax_item>proposal = nelson.unittest.tuneReuse(targets, Name, Value)</syntax_item>
+    <syntax_item>status = nelson.unittest.report(results, Name, Value)</syntax_item>
+    <syntax_item>nelson.unittest.assume(condition, reason)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>a module name, file name, directory, or cell array of targets.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>selection, planning, execution, and reporting options.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>suite</param_name>
+      <param_description>a TestSuite structure containing discovered TestCase entries.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>plan</param_name>
+      <param_description>a TestPlan structure containing selected tests, shard information, workers, and
+        resource groups.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>results</param_name>
+      <param_description>a TestRunResult structure containing summary, normalized cases, registry information,
+        and raw compatibility data.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The <b>nelson.unittest</b> namespace provides the modern test runner API.</p>
+    <p>The runner separates discovery, selection, planning, execution, and reporting while preserving
+      compatibility wrappers such as <b>test_run</b>, <b>test_makeref</b>, and <b>skip_testsuite</b>.</p>
+    <p><b>test_run</b>, <b>test_makeref</b>, and <b>skip_testsuite</b> are compatibility entry points
+      implemented on top of this namespace.</p>
+    <p>Runner internals are private implementation details and are not part of the user API.</p>
+    <p>Each test and bench is executed in a child process supervised by the runner. There is no in-process
+      execution mode for tests or benches.</p>
+    <p>The native process supervisor captures output, applies timeouts, and returns diagnostics such as
+      command, process id, timeout, reason, and job id.</p>
+    <p>Normalized cases expose these native details in <b>results.cases(k).diagnostics</b>. The diagnostics
+      structure contains <b>kind</b>, <b>index</b>, <b>metadata</b>, <b>job_id</b>, <b>pid</b>,
+      <b>timeout</b>, <b>reason</b>, <b>executable</b>, and <b>process_arguments</b>.</p>
+    <p>Supported selection options include <b>Name</b>, <b>Module</b>, <b>File</b>, <b>Kind</b>, <b>Tags</b>,
+      <b>ExcludeTags</b>, <b>Match</b>, and <b>Exclude</b>.</p>
+    <p><b>Kind</b> accepts <b>test</b>, <b>bug</b>, <b>bench</b>, <b>all_tests</b>, and <b>all</b>.</p>
+    <p>Supported execution options include <b>Workers</b>, <b>Timeout</b>, <b>StopOnFail</b>, <b>Retry</b>,
+      <b>RetryOnlyOn</b>, <b>Shuffle</b>, <b>Seed</b>, <b>ShardIndex</b>, and <b>ShardCount</b>.</p>
+    <p>Process reuse is explicit. Test and bench files without the <b>&lt;--REUSE PROCESS--&gt;</b> tag run in
+      separated child processes. Tagged files can reuse the same child process when their mode and resources
+      allow it.</p>
+    <p>The native supervisor schedules files through a dynamic weighted queue. Use
+      <b>&lt;--WEIGHT N--&gt;</b> for an explicit positive scheduling weight.</p>
+    <p><b>nelson.unittest.tuneWeights</b> can derive and explicitly apply these source-controlled weights from
+      a TestRunResult. It does not use a duration cache and performs a dry run by default.</p>
+    <p><b>nelson.unittest.tuneReuse</b> can audit existing reuse tags or explicitly propose additions. It uses
+      isolated and reused native campaigns with deterministic orders, does not use a cache, and performs a dry
+      run by default.</p>
+    <p>If a tagged reusable worker crashes or returns no result, the runner retries the affected file once
+      with the isolated fallback path. Timeouts are reported directly.</p>
+    <p>Discovery always reads current file metadata and tags. Test results are progressively displayed in a
+      stable order with an elapsed time on every line.</p>
+    <p><b>LogDir</b> writes one JSON log file per normalized test case when requested.</p>
+    <p>Supported report formats are <b>console</b>, <b>json</b>, <b>junit</b>, <b>tap</b>, and <b>html</b>.
+      JUnit output is XML, TAP output follows TAP13, and HTML output is a standalone single-file report.</p>
+    <p>HTML reports include slowest case and module summaries, sortable case tables, quick filters, reproduction
+      commands, embedded JSON data, and a JSON sidecar next to the HTML file.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+suite = nelson.unittest.discover('string', 'Kind', 'all_tests');
+suite = nelson.unittest.select(suite, 'Match', 'strfind');
+plan = nelson.unittest.plan(suite, 'Workers', 1);
+results = nelson.unittest.run(plan, 'Format', 'json', 'OutputFile', [tempdir(), 'tests.json']);
+proposal = nelson.unittest.tuneWeights(results);
+reuseProposal = nelson.unittest.tuneReuse('string');
+nelson.unittest.report(results, 'Format', 'tap', 'OutputFile', [tempdir(), 'tests.tap']);
+nelson.unittest.report(results, 'Format', 'html', 'OutputFile', [tempdir(), 'tests.html']);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}test_run">test_run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}test_makeref">test_makeref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneWeights">nelson.unittest.tuneWeights</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneReuse">nelson.unittest.tuneReuse</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

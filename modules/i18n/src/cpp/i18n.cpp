@@ -19,6 +19,18 @@ forceRefreshLocale()
     I18nManager::getInstance()->forceToUpdateLocaleData();
 }
 //=============================================================================
+void
+registerModuleCatalog(const std::wstring& moduleName, const std::wstring& moduleRoot)
+{
+    I18nManager::getInstance()->registerModuleCatalog(moduleName, moduleRoot);
+}
+//=============================================================================
+void
+unregisterModuleCatalog(const std::wstring& moduleName)
+{
+    I18nManager::getInstance()->unregisterModuleCatalog(moduleName);
+}
+//=============================================================================
 std::wstring
 gettextw(const std::wstring& S)
 {
@@ -35,6 +47,28 @@ std::string
 gettext(const std::string& S)
 {
     return I18nManager::getInstance()->getText(S);
+}
+//=============================================================================
+std::wstring
+getMessageTemplateById(const std::wstring& id)
+{
+    return I18nManager::getInstance()->getTemplateById(id);
+}
+//=============================================================================
+std::wstring
+getEnglishMessageTemplateById(const std::wstring& id)
+{
+    return I18nManager::getInstance()->getEnglishTemplateById(id);
+}
+//=============================================================================
+std::string
+getMessageTemplateById(const std::string& id)
+{
+    std::wstring resolved = I18nManager::getInstance()->getTemplateById(utf8_to_wstring(id));
+    if (resolved.empty()) {
+        return "";
+    }
+    return wstring_to_utf8(resolved);
 }
 //=============================================================================
 } // namespace Nelson

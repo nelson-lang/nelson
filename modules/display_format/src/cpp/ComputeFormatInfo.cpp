@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,25 +25,22 @@ getArrayOfFormatInfoSingle(NumericFormatDisplay currentNumericFormat);
 static FormatDisplayInformation
 getArrayOfFormatInfoSingleComplex(NumericFormatDisplay currentNumericFormat);
 //=============================================================================
-static FormatDisplayInformation
-computeFormatInfo(
-    double realPart, double imagPart, bool asSingle, NumericFormatDisplay currentNumericFormat);
-//=============================================================================
-static FormatDisplayInformation
-computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat);
+template <class T>
+static std::complex<double>
+firstStoredValue(const ArrayOf& A);
 //=============================================================================
 static bool
 computeWidthRealByScaleFactor(FormatDisplayInformation& formatInfo)
 {
     if (formatInfo.scaleFactor < 9) {
-        formatInfo.formatReal = L"{:>{12}d"; // was: L"%*ld"
+        formatInfo.formatReal = L"{:>{12}d";
         formatInfo.floatAsInteger = true;
         int scaleFactor = (int)formatInfo.scaleFactor;
         switch (scaleFactor) {
         case 1:
         case 2: {
             formatInfo.widthReal = 6;
-            formatInfo.formatReal = L"{:>6d}"; // was: L"%6ld"
+            formatInfo.formatReal = L"{:>6d}";
         } break;
         case 3:
         case 4:
@@ -53,7 +50,7 @@ computeWidthRealByScaleFactor(FormatDisplayInformation& formatInfo)
         case 8:
         default: {
             formatInfo.widthReal = 12;
-            formatInfo.formatReal = L"{:>12d}"; // was: L"%12ld"
+            formatInfo.formatReal = L"{:>12d}";
         } break;
         }
         formatInfo.decimalsReal = 0;
@@ -86,59 +83,14 @@ FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
     FormatDisplayInformation formatInfo;
-    if (A.getNonzeros() == 1) {
-        bool asSingle = false;
-        if (A.isComplex()) {
-            double realPart;
-            double imagPart;
-            if (A.isSingleClass()) {
-                single* pValue = (single*)A.getDataPointer();
-                realPart = (double)pValue[0];
-                imagPart = (double)pValue[1];
-                asSingle = true;
-            } else {
-                if (A.isSparse()) {
-                    Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
-                        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)
-                              A.getSparseDataPointer();
-
-                    const std::complex<double>* values = spMat->valuePtr();
-                    realPart = values[0].real();
-                    imagPart = values[0].imag();
-                } else {
-                    double* pValue = (double*)A.getDataPointer();
-                    realPart = pValue[0];
-                    imagPart = pValue[1];
-                }
-                asSingle = false;
-            }
-            if (asSingle && imagPart == 0.) {
-                formatInfo = computeFormatInfo(realPart, asSingle, currentNumericFormat);
-            } else {
-                formatInfo = computeFormatInfo(realPart, imagPart, asSingle, currentNumericFormat);
-            }
-        } else {
-            double value;
-            if (A.isSingleClass()) {
-                single* pValue = (single*)A.getDataPointer();
-                value = (double)pValue[0];
-                asSingle = true;
-            } else {
-                if (A.isSparse()) {
-                    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)
-                              A.getSparseDataPointer();
-                    const double* values = spMat->valuePtr();
-                    value = values[0];
-                } else {
-                    double* pValue = (double*)A.getDataPointer();
-                    value = pValue[0];
-                }
-                asSingle = false;
-            }
-            formatInfo = computeFormatInfo(value, asSingle, currentNumericFormat);
+    if (A.nonzeros() == 1) {
+        bool asSingle = A.isSingleClass();
+        std::complex<double> value
+            = asSingle ? firstStoredValue<single>(A) : firstStoredValue<double>(A);
+        if (!A.isComplex() || (asSingle && value.imag() == 0.)) {
+            return computeFormatInfo(value.real(), asSingle, currentNumericFormat);
         }
-        return formatInfo;
+        return computeFormatInfo(value.real(), value.imag(), asSingle, currentNumericFormat);
     }
 
     bool isFinite = false;
@@ -153,28 +105,28 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             if (A.isComplex()) {
                 Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>*)
-                          A.getSparseDataPointer();
+                          A.sparseDataPointer();
                 std::complex<single>* zdata = spMat->valuePtr();
                 const single* data = reinterpret_cast<single*>(zdata);
                 allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros() * 2);
                 getFiniteMinMax<single>(data, spMat->nonZeros() * 2, minValue, maxValue, isFinite);
             } else {
                 Eigen::SparseMatrix<single, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<single, 0, signedIndexType>*)A.getSparseDataPointer();
+                    = (Eigen::SparseMatrix<single, 0, signedIndexType>*)A.sparseDataPointer();
                 const single* data = spMat->valuePtr();
                 allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros());
                 getFiniteMinMax<single>(data, spMat->nonZeros(), minValue, maxValue, isFinite);
             }
         } else {
             if (A.isComplex()) {
-                const single* pValues = (const single*)A.getDataPointer();
-                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount() * 2);
+                const single* pValues = (const single*)A.dataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.elementCount() * 2);
                 getFiniteMinMax<single>(
-                    pValues, A.getElementCount() * 2, minValue, maxValue, isFinite);
+                    pValues, A.elementCount() * 2, minValue, maxValue, isFinite);
             } else {
-                const single* pValues = (const single*)A.getDataPointer();
-                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
-                getFiniteMinMax<single>(pValues, A.getElementCount(), minValue, maxValue, isFinite);
+                const single* pValues = (const single*)A.dataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.elementCount());
+                getFiniteMinMax<single>(pValues, A.elementCount(), minValue, maxValue, isFinite);
             }
         }
         absoluteValue = std::max(fabs(maxValue), fabs(minValue));
@@ -186,28 +138,28 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             if (A.isComplex()) {
                 Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
                     = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)
-                          A.getSparseDataPointer();
+                          A.sparseDataPointer();
                 std::complex<double>* zdata = spMat->valuePtr();
                 const double* data = reinterpret_cast<double*>(zdata);
                 allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros() * 2);
                 getFiniteMinMax<double>(data, spMat->nonZeros() * 2, minValue, maxValue, isFinite);
             } else {
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+                    = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
                 const double* data = spMat->valuePtr();
                 allInteger = IsIntegerFormOrNotFinite(data, spMat->nonZeros());
                 getFiniteMinMax<double>(data, spMat->nonZeros(), minValue, maxValue, isFinite);
             }
         } else {
             if (A.isComplex()) {
-                const double* pValues = (const double*)A.getDataPointer();
-                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount() * 2);
+                const double* pValues = (const double*)A.dataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.elementCount() * 2);
                 getFiniteMinMax<double>(
-                    pValues, A.getElementCount() * 2, minValue, maxValue, isFinite);
+                    pValues, A.elementCount() * 2, minValue, maxValue, isFinite);
             } else {
-                const double* pValues = (const double*)A.getDataPointer();
-                allInteger = IsIntegerFormOrNotFinite(pValues, A.getElementCount());
-                getFiniteMinMax<double>(pValues, A.getElementCount(), minValue, maxValue, isFinite);
+                const double* pValues = (const double*)A.dataPointer();
+                allInteger = IsIntegerFormOrNotFinite(pValues, A.elementCount());
+                getFiniteMinMax<double>(pValues, A.elementCount(), minValue, maxValue, isFinite);
             }
         }
         absoluteValue = (double)std::max(fabs(maxValue), fabs(minValue));
@@ -242,7 +194,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             case NLS_NUMERIC_FORMAT_SHORT: {
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
-                formatInfo.formatReal = L"{:>10.4f}"; // was: L"%10.4f"
+                formatInfo.formatReal = L"{:>10.4f}";
                 formatInfo.widthReal = 10;
                 formatInfo.decimalsReal = 4;
                 if (computeWidthRealByScaleFactor(formatInfo)) {
@@ -253,11 +205,11 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>12.7f}"; // was: L"%12.7f"
+                    formatInfo.formatReal = L"{:>12.7f}";
                     formatInfo.widthReal = 12;
                     formatInfo.decimalsReal = 7;
                 } else {
-                    formatInfo.formatReal = L"{:>20.15f}"; // was: L"%20.15f"
+                    formatInfo.formatReal = L"{:>20.15f}";
                     formatInfo.widthReal = 20;
                     formatInfo.decimalsReal = 15;
                 }
@@ -270,11 +222,11 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>12.4e}"; // was: L"%12.4e"
+                    formatInfo.formatReal = L"{:>12.4e}";
                     formatInfo.widthReal = 12;
                     formatInfo.decimalsReal = 4;
                 } else {
-                    formatInfo.formatReal = L"{:>13.4e}"; // was: L"%13.4e"
+                    formatInfo.formatReal = L"{:>13.4e}";
                     formatInfo.widthReal = 13;
                     formatInfo.decimalsReal = 4;
                 }
@@ -285,11 +237,11 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>16.7e}"; // was: L"%16.7e"
+                    formatInfo.formatReal = L"{:>16.7e}";
                     formatInfo.widthReal = 16;
                     formatInfo.decimalsReal = 7;
                 } else {
-                    formatInfo.formatReal = L"{:>26.15e}"; // was: L"%26.15e"
+                    formatInfo.formatReal = L"{:>26.15e}";
                     formatInfo.widthReal = 26;
                     formatInfo.decimalsReal = 15;
                 }
@@ -299,7 +251,7 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             case NLS_NUMERIC_FORMAT_SHORTG: {
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
-                formatInfo.formatReal = L"{:>13.5g}"; // was: L"%13.5g"
+                formatInfo.formatReal = L"{:>13.5g}";
                 formatInfo.widthReal = 13;
                 formatInfo.decimalsReal = 5;
                 computeWidthRealByScaleFactor(formatInfo);
@@ -309,11 +261,11 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
                 ComputeScaleFactor(A, allInteger, formatInfo);
                 formatInfo.floatAsInteger = false;
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>16.7g}"; // was: L"%16.7g"
+                    formatInfo.formatReal = L"{:>16.7g}";
                     formatInfo.widthReal = 16;
                     formatInfo.decimalsReal = 7;
                 } else {
-                    formatInfo.formatReal = L"{:>26.15g}"; // was: L"%26.15g"
+                    formatInfo.formatReal = L"{:>26.15g}";
                     formatInfo.widthReal = 26;
                     formatInfo.decimalsReal = 15;
                 }
@@ -323,15 +275,15 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             case NLS_NUMERIC_FORMAT_RATIONAL: {
                 formatInfo.widthReal = 11;
                 formatInfo.decimalsReal = 9;
-                formatInfo.formatReal = L"{:>11}"; // was: L"%11s"
+                formatInfo.formatReal = L"{:>11}";
                 formatInfo.scaleFactor = 1;
             } break;
             case NLS_NUMERIC_FORMAT_BANK: {
                 formatInfo.widthReal = 14;
                 formatInfo.widthImag = 14;
-                formatInfo.formatReal = L"{:>14.2f}"; // was: L"%14.2f"
+                formatInfo.formatReal = L"{:>14.2f}";
                 formatInfo.decimalsReal = 2;
-                formatInfo.formatImag = L"{:>14.2f}"; // was: L"%14.2f"
+                formatInfo.formatImag = L"{:>14.2f}";
                 formatInfo.decimalsImag = 2;
                 formatInfo.scaleFactor = 1;
             } break;
@@ -346,38 +298,38 @@ computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
             switch (currentNumericFormat) {
             case NLS_NUMERIC_FORMAT_LONGG: {
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>16.7g}"; // was: L"%16.7g"
+                    formatInfo.formatReal = L"{:>16.7g}";
                     formatInfo.widthReal = 16;
                     formatInfo.decimalsReal = 7;
                 } else {
-                    formatInfo.formatReal = L"{:>26.15g}"; // was: L"%26.15g"
+                    formatInfo.formatReal = L"{:>26.15g}";
                     formatInfo.widthReal = 26;
                     formatInfo.decimalsReal = 15;
                 }
             } break;
             case NLS_NUMERIC_FORMAT_SHORTG: {
-                formatInfo.formatReal = L"{:>13.5g}"; // was: L"%13.5g"
+                formatInfo.formatReal = L"{:>13.5g}";
                 formatInfo.widthReal = 13;
                 formatInfo.decimalsReal = 5;
             } break;
             case NLS_NUMERIC_FORMAT_SHORTE: {
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>12.4e}"; // was: L"%12.4e"
+                    formatInfo.formatReal = L"{:>12.4e}";
                     formatInfo.widthReal = 12;
                     formatInfo.decimalsReal = 4;
                 } else {
-                    formatInfo.formatReal = L"{:>13.4e}"; // was: L"%13.4e"
+                    formatInfo.formatReal = L"{:>13.4e}";
                     formatInfo.widthReal = 13;
                     formatInfo.decimalsReal = 4;
                 }
             } break;
             case NLS_NUMERIC_FORMAT_LONGE: {
                 if (A.isSingleClass()) {
-                    formatInfo.formatReal = L"{:>16.7e}"; // was: L"%16.7e"
+                    formatInfo.formatReal = L"{:>16.7e}";
                     formatInfo.widthReal = 16;
                     formatInfo.decimalsReal = 7;
                 } else {
-                    formatInfo.formatReal = L"{:>26.15e}"; // was: L"%26.15e"
+                    formatInfo.formatReal = L"{:>26.15e}";
                     formatInfo.widthReal = 26;
                     formatInfo.decimalsReal = 15;
                 }
@@ -450,11 +402,11 @@ getArrayOfFormatInfo(bool asSingle, bool asComplex, NumericFormatDisplay current
                 setRealFormat(formatInfo, L"{:>16.7e}", 16, 7);
             }
         } else {
-            formatInfo.formatReal = L"{:>26.15e}"; // was: L"%*.*e"
+            formatInfo.formatReal = L"{:>26.15e}";
             formatInfo.decimalsReal = 15;
             if (asComplex) {
                 formatInfo.widthReal = 27;
-                formatInfo.formatReal = L"{:>27.15e}"; // was: L"%*.*e"
+                formatInfo.formatReal = L"{:>27.15e}";
                 setRealFormat(formatInfo, L"{:>27.15e}", 27, 15);
                 setImagFormat(formatInfo, L"{:>22.15e}", 22, 15);
             } else {
@@ -569,7 +521,7 @@ getArrayOfFormatInfo(bool asSingle, bool asComplex, NumericFormatDisplay current
     return formatInfo;
 }
 //=============================================================================
-static FormatDisplayInformation
+FormatDisplayInformation
 computeFormatInfo(
     double realPart, double imagPart, bool asSingle, NumericFormatDisplay currentNumericFormat)
 {
@@ -588,20 +540,20 @@ computeFormatInfo(
     } break;
     case NLS_NUMERIC_FORMAT_RATIONAL: {
         if (fabs(realPart) < 1e-10) {
-            setRealFormat(formatInfo, L"{:>50}", 50, formatInfo.decimalsReal); // was: L"%50s"
+            setRealFormat(formatInfo, L"{:>50}", 50, formatInfo.decimalsReal);
             formatInfo.trim = true;
         }
         if (fabs(realPart) > 1e10) {
-            setRealFormat(formatInfo, L"{:>100}", 100, formatInfo.decimalsReal); // was: L"%100s"
+            setRealFormat(formatInfo, L"{:>100}", 100, formatInfo.decimalsReal);
             formatInfo.trim = true;
         }
 
         if (fabs(imagPart) < 1e-10) {
-            setImagFormat(formatInfo, L"{:>50}", 50, formatInfo.decimalsImag); // was: L"%50s"
+            setImagFormat(formatInfo, L"{:>50}", 50, formatInfo.decimalsImag);
             formatInfo.trim = true;
         }
         if (fabs(imagPart) > 1e10) {
-            setImagFormat(formatInfo, L"{:>100}", 100, formatInfo.decimalsImag); // was: L"%100s"
+            setImagFormat(formatInfo, L"{:>100}", 100, formatInfo.decimalsImag);
             formatInfo.trim = true;
         }
     } break;
@@ -639,7 +591,7 @@ computeFormatInfo(
     return formatInfo;
 }
 //=============================================================================
-static FormatDisplayInformation
+FormatDisplayInformation
 computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat)
 {
     FormatDisplayInformation formatInfo
@@ -792,5 +744,24 @@ computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumeric
     return formatInfo;
 }
 //=============================================================================
+template <class T>
+std::complex<double>
+firstStoredValue(const ArrayOf& A)
+{
+    // first stored element: the first nonzero of a sparse array
+    if (A.isComplex()) {
+        const std::complex<T>* values = A.isSparse()
+            ? ((const Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)
+                      A.sparseDataPointer())
+                  ->valuePtr()
+            : (const std::complex<T>*)A.dataPointer();
+        return { (double)values[0].real(), (double)values[0].imag() };
+    }
+    const T* values = A.isSparse()
+        ? ((const Eigen::SparseMatrix<T, 0, signedIndexType>*)A.sparseDataPointer())->valuePtr()
+        : (const T*)A.dataPointer();
+    return { (double)values[0], 0. };
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

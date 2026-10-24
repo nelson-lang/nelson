@@ -9,26 +9,26 @@
 %=============================================================================
 % http://slicot.org/objects/software/shared/doc/MC01TD.html
 % [DP_OUT, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)
-assert_isequal(nargin('slicot_mc01td'), 3);
-assert_isequal(nargout('slicot_mc01td'), 5);
+asserts.isequal(nargin('slicot_mc01td'), 3);
+asserts.isequal(nargout('slicot_mc01td'), 5);
 %=============================================================================
 DICO = 'C';
 DP_IN = 4;
-P = [2.0  0.0  1.0  -1.0  1.0];
+P = [2.0 0.0 1.0 -1.0 1.0];
 [DP, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P);
 %=============================================================================
 DP_REF = int32(4);
-assert_isequal(DP, DP_REF);
+asserts.isequal(DP, DP_REF);
 %=============================================================================
 STABLE_REF = int32(0);
-assert_isequal(STABLE, STABLE_REF);
+asserts.isequal(STABLE, STABLE_REF);
 %=============================================================================
 NZ_REF = int32(2);
-assert_isequal(NZ, NZ_REF);
+asserts.isequal(NZ, NZ_REF);
 %=============================================================================
 IWARN_REF = int32(0);
-assert_isequal(IWARN, IWARN_REF);
+asserts.isequal(IWARN, IWARN_REF);
 %=============================================================================
 INFO_REF = int32(0);
-assert_isequal(INFO, INFO_REF);
+asserts.isequal(INFO, INFO_REF);
 %=============================================================================

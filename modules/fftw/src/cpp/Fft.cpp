@@ -18,17 +18,14 @@ namespace Nelson {
 ArrayOf
 Fft(const ArrayOf& X, indexType n, indexType dim)
 {
-    if (X.isReferenceType() || X.isHandle()) {
-        Error(
-            _("Undefined function 'fft' for input arguments of type") + " '" + ClassName(X) + "'.");
+    ArrayOf A = prepareFftwInput(X, "fft");
+    if (n == 0 || A.isEmpty()) {
+        return emptyFftwResult(A, n, dim);
     }
-    if (X.isScalar() || X.isEmpty()) {
-        return ArrayOf(X);
+    if (A.dataClass() == NLS_SCOMPLEX || A.dataClass() == NLS_SINGLE) {
+        return scomplexFFTW(A, n, dim, false);
     }
-    if (X.getDataClass() == NLS_SCOMPLEX || X.getDataClass() == NLS_SINGLE) {
-        return scomplexFFTW(X, n, dim, false);
-    }
-    return dcomplexFFTW(X, n, dim, false);
+    return dcomplexFFTW(A, n, dim, false);
 }
 //=============================================================================
 ArrayOf
@@ -42,7 +39,7 @@ ArrayOf
 Fft(const ArrayOf& X)
 {
     indexType dim = computeDim(X);
-    indexType n = X.getDimensionLength(static_cast<int>(dim));
+    indexType n = X.dimensionLength(static_cast<int>(dim));
     return Fft(X, n, dim);
 }
 //=============================================================================

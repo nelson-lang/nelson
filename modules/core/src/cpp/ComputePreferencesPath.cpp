@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(__EMSCRIPTEN__)
+#elif defined(_MSC_VER)
 #define WIN32_LEAN_AND_MEAN
 #include <Shlobj.h>
 #include <Windows.h>
@@ -23,6 +24,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,7 +32,12 @@ static std::wstring
 buildPreferencesPath()
 {
     std::wstring prefPath;
-#ifdef _MSC_VER
+#if defined(__EMSCRIPTEN__)
+    FileSystemWrapper::Path path(L"/preferences");
+    if (path.is_directory() || FileSystemWrapper::Path::create_directories(path)) {
+        prefPath = path.generic_wstring();
+    }
+#elif defined(_MSC_VER)
     std::wstring strPath;
     LPWSTR wszPath = nullptr;
     HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &wszPath);
@@ -91,6 +98,9 @@ ComputePreferencesPath(std::wstring& errorMessage)
     std::wstring penv = GetVariableEnvironment(NELSON_PREFERENCES_PATH_ENV, L"");
     if (!penv.empty()) {
         FileSystemWrapper::Path path(penv);
+        if (!path.is_directory()) {
+            FileSystemWrapper::Path::create_directories(path);
+        }
         if (path.is_directory()) {
             NelsonConfiguration::getInstance()->setNelsonPreferencesDirectory(
                 path.generic_wstring());
@@ -103,7 +113,9 @@ ComputePreferencesPath(std::wstring& errorMessage)
         SetVariableEnvironmentW(NELSON_PREFERENCES_PATH_ENV, preferencesPath);
         return true;
     }
-    errorMessage = _W("Cannot find Nelson preferences path.");
+    errorMessage = formatI18nMessage(
+        resolveMessageTemplate(L"Nelson:core:cannotFindNelsonPath", L"Cannot find Nelson %s path."),
+        L"preferences");
     return false;
 }
 //=============================================================================

@@ -13,7 +13,7 @@ function dlgeneratecleaner(varargin)
   status = false;
   message = '';
   if nargin < 1 || nargin > 2
-    error(_('Wrong numbers of input arguments.'));
+    error('Nelson:dlgeneratecleaner:wrongNumbersInputArguments2', 'Wrong numbers of input arguments.');
   end
   destinationdir = varargin{1};
   if nargin > 1
@@ -22,14 +22,14 @@ function dlgeneratecleaner(varargin)
     files = {};
   end
   if ~isdir(destinationdir)
-    error(_('A valid destination directory expected.'));
+    error('Nelson:dynamic_link:invalidDestinationDirectory', 'A valid destination directory expected.');
   end
   if ischar(files)
     files = {files};
   end
   for k = files(:)'
     if ~ischar(k{1})
-      error(_('Valid files list expected.'));
+      error('Nelson:dlgeneratecleaner:invalidFilesList', 'Valid files list expected.');
     end
   end
   cleanerfilename = [destinationdir, '/cleaner.m'];
@@ -85,7 +85,7 @@ function txt = templatecleanerpart3(files)
     else
       make_name = 'make';
     end
-    txt = [txt; ['status = unix(''', make_name , ' clean'');']];
+    txt = [txt; ['status = unix(''', make_name, ' clean'');']];
     txt = [txt; ['clear(''status'');']];
     txt = [txt; {'%============================================================================='}];
   end

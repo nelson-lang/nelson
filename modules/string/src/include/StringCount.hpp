@@ -17,5 +17,5 @@ namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
 StringCount(const ArrayOf& A, const ArrayOf& Pattern, bool bCaseSensitive = true);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

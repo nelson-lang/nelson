@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ConvertCharsToStrings.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "convertCharsToStringsBuiltin.hpp"
 //=============================================================================
@@ -18,7 +19,8 @@ ArrayOfVector
 Nelson::StringGateway::convertCharsToStringsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     if (nLhs > (int)argIn.size()) {
-        Error(_W("Number of Input arguments must the same as output."));
+        Error(L"Nelson:string:numberInputArgumentsSameOutput",
+            L"Number of Input arguments must the same as output.");
     }
     return ConvertCharsToStrings(argIn);
 }

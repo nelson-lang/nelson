@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -64,13 +64,13 @@ ArrayOfVector
 UniqueComplexRowsOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    ompIndexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    ompIndexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     ompIndexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
@@ -120,13 +120,13 @@ ArrayOfVector
 UniqueComplexRowsTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
@@ -179,13 +179,13 @@ ArrayOfVector
 UniqueComplexRowsThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueComplexRowsEntry<T>> sp(len);
 
@@ -249,5 +249,5 @@ UniqueComplexRows(const ArrayOf& input, int nLhs)
     return UniqueComplexRowsThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

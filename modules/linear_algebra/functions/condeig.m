@@ -11,23 +11,23 @@ function varargout = condeig(varargin)
   narginchk(1, 1);
   nargoutchk(0, 3);
   A = varargin{1};
-  
+
   if (~(isnumeric(A) && size(A, 1) == size(A, 2)))
-    error (_('A must be a square numeric matrix.'));
+    error('Nelson:condeig:squareMatrixExpected', '%s expected.', 'Square matrix');
   end
-  
+
   [V, L] = eig(A);
-  
+
   if ~isempty(A)
     VL = inv(V);
     VL = VL';
     rows = size(VL, 1);
-    VL = VL ./ repmat (sqrt (sum (abs(VL .^ 2))), rows, 1);
-    C = abs (1 ./ dot(VL, V)');
+    VL = VL ./ repmat(sqrt(sum(abs(VL .^ 2))), rows, 1);
+    C = abs(1 ./ dot(VL, V)');
   else
     C = [];
   end
-  
+
   if nargout < 2
     varargout{1} = C;
   else

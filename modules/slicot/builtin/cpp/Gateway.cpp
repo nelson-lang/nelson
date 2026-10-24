@@ -54,7 +54,6 @@ static const nlsGateway gateway[] = {
     { "slicot_sb02od", (ptrBuiltin)Nelson::SlicotGateway::slicot_sb02odBuiltin, 9, 13 },
     { "slicot_mb04md", (ptrBuiltin)Nelson::SlicotGateway::slicot_mb04mdBuiltin, 4, 2 },
     { "slicot_ab07nd", (ptrBuiltin)Nelson::SlicotGateway::slicot_ab07ndBuiltin, 6, 4 },
-    { "slicot_ab07nd", (ptrBuiltin)Nelson::SlicotGateway::slicot_ab07ndBuiltin, 6, 4 },
     { "slicot_ag08bd", (ptrBuiltin)Nelson::SlicotGateway::slicot_ag08bdBuiltin, 14, 9 },
     { "slicot_tg01ad", (ptrBuiltin)Nelson::SlicotGateway::slicot_tg01adBuiltin, 7, 6 },
     { "slicot_mc01td", (ptrBuiltin)Nelson::SlicotGateway::slicot_mc01tdBuiltin, 5, 3 },
@@ -63,11 +62,7 @@ static const nlsGateway gateway[] = {
     { "slicot_tb01id", (ptrBuiltin)Nelson::SlicotGateway::slicot_tb01idBuiltin, 6, 5 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

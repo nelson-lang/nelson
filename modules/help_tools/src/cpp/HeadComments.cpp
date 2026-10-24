@@ -107,10 +107,8 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
 
             // Prefer multiline %{ ... %} blocks if present
             if (StringHelpers::starts_with(trimmed, "%{")) {
-                // Content after opening on same line
                 size_t openPos = trimmed.find("%{");
                 std::string afterOpen = trimmed.substr(openPos + 2);
-                // If closing on same line
                 size_t closePosSame = afterOpen.find("%}");
                 if (closePosSame != std::string::npos) {
                     std::string content
@@ -119,12 +117,10 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
                         comments.push_back(utf8_to_wstring(content));
                     }
                 } else {
-                    // If there is content after %{ on the same line, include it
                     std::string firstLineContent = StringHelpers::trim_copy(afterOpen);
                     if (!firstLineContent.empty()) {
                         comments.push_back(utf8_to_wstring(firstLineContent));
                     }
-                    // Read until we find %}
                     while (!istream.eof()) {
                         safegetline(istream, line);
                         std::string tline = StringHelpers::trim_copy(line);
@@ -137,24 +133,19 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
                             }
                             break;
                         } else {
-                            // Entire line is content of the comment block
                             comments.push_back(utf8_to_wstring(tline));
                         }
                     }
                 }
-            }
-            // Handle single-line comment blocks starting with '%' (existing behavior)
-            else if (isCommentedLine(line)) {
+            } else if (isCommentedLine(line)) {
                 comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));
                 while (!istream.eof()) {
                     safegetline(istream, line);
                     if (isCommentedLine(line)) {
                         comments.push_back(utf8_to_wstring(removeCommentCharacters(line)));
                     } else {
-                        // If the next non-comment line is a %{ block, handle it too
                         std::string nextTrim = StringHelpers::trim_left_copy(line);
                         if (StringHelpers::starts_with(nextTrim, "%{")) {
-                            // process multiline block starting on this line
                             std::string afterOpen = nextTrim.substr(nextTrim.find("%{") + 2);
                             size_t closePosSame = afterOpen.find("%}");
                             if (closePosSame != std::string::npos) {
@@ -168,7 +159,6 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
                                 if (!firstLineContent.empty()) {
                                     comments.push_back(utf8_to_wstring(firstLineContent));
                                 }
-                                // Read until close
                                 while (!istream.eof()) {
                                     safegetline(istream, line);
                                     std::string tline = StringHelpers::trim_copy(line);
@@ -196,5 +186,5 @@ HeadComments(Evaluator* eval, const std::wstring& filename, HEADCOMMENTS_ERROR& 
     return comments;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

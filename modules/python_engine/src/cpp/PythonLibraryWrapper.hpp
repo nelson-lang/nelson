@@ -114,6 +114,33 @@ NLSPyLong_AsDouble(PyObject* pylong);
 PyObject*
 NLSPyErr_Occurred();
 //=============================================================================
+void
+NLSPyErr_Fetch(PyObject** ptype, PyObject** pvalue, PyObject** ptraceback);
+//=============================================================================
+void
+NLSPyErr_Restore(PyObject* type, PyObject* value, PyObject* traceback);
+//=============================================================================
+int
+NLSPyErr_GivenExceptionMatches(PyObject* given, PyObject* exc);
+//=============================================================================
+PyObject*
+NLSPyExc_TypeError();
+//=============================================================================
+PyObject*
+NLSPyExc_RuntimeError();
+//=============================================================================
+void
+NLSPyErr_SetString(PyObject* type, const char* message);
+//=============================================================================
+PyObject*
+NLSPyCFunction_NewEx(PyMethodDef* ml, PyObject* self, PyObject* module);
+//=============================================================================
+PyObject*
+NLSPyCapsule_New(void* pointer, const char* name, PyCapsule_Destructor destructor);
+//=============================================================================
+void*
+NLSPyCapsule_GetPointer(PyObject* capsule, const char* name);
+//=============================================================================
 Py_complex
 NLSPyComplex_AsCComplex(PyObject* op);
 //=============================================================================
@@ -146,6 +173,9 @@ NLSPyImport_ImportModule(const char* name);
 //=============================================================================
 PyObject*
 NLSPyObject_CallObject(PyObject* callable, PyObject* args);
+//=============================================================================
+PyObject*
+NLSPyObject_Call(PyObject* callable, PyObject* args, PyObject* kwargs);
 //=============================================================================
 PyObject*
 NLSPyUnicode_FromString(const char* str);

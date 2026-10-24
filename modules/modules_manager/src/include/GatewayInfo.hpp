@@ -13,12 +13,12 @@
 #include "nlsModules_manager_exports.h"
 #include "Types.hpp"
 //=============================================================================
-#define GATEWAY_INFO "GetGatewayInfo"
-#define GATEWAY_NAME "GetGatewayName"
+#define GATEWAY_DESCRIPTOR "GetGatewayDescriptor"
 //=============================================================================
 namespace Nelson {
 NLSMODULES_MANAGER_IMPEXP bool
 GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVector& functionsList,
     std::wstring& errorMessage);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

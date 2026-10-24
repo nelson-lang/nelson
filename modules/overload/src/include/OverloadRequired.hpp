@@ -11,6 +11,7 @@
 //=============================================================================
 #include <string>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,13 +19,9 @@ namespace Nelson {
 inline void
 OverloadRequired(const std::string& functionName)
 {
-    std::string msgfmt
-        = _("Check for incorrect argument data type or missing argument in call to function '%s'.");
-    size_t size = msgfmt.size() + functionName.size();
-    std::string msg(size, '\0');
-    int nChars = std::snprintf(&msg[0], size, msgfmt.c_str(), functionName.c_str());
-    msg.resize(nChars);
-    Error(msg, "Nelson:UndefinedFunction");
+    Error("Nelson:UndefinedFunction:incorrectArgumentType",
+        "Check for incorrect argument data type or missing argument in call to function '%s'.",
+        functionName);
 }
 //=============================================================================
 } // namespace Nelson

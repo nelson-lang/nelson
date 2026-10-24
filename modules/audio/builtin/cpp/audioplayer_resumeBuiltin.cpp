@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audioplayer_resumeBuiltin.hpp"
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -24,11 +25,11 @@ Nelson::AudioGateway::audioplayer_resumeBuiltin(int nLhs, const ArrayOfVector& a
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
-    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
-    objPlayer->resume();
+    auto* objPlayer = (AudioplayerObject*)param1.asHandleScalar();
+    checkAudioStreamError(objPlayer->resume());
     return retval;
 }
 //=============================================================================

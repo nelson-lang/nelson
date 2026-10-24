@@ -14,13 +14,13 @@
 %=============================================================================
 R = ones([3 4], 'logical');
 REF = cast(ones(3, 4), 'logical');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = zeros([3 4], 'logical');
 REF = cast(zeros(3, 4), 'logical');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = eye([3 4], 'logical');
 REF = cast(eye(3, 4), 'logical');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

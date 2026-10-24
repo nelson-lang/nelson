@@ -7,11 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function A = asech(X)
-  try
-    A = feval('@table/unaryFunctionTableHelper', X, @asech);
-  catch Exception
-    throwAsCaller(Exception);
-  end
+function R = asech(A)
+  R = table.applyUnary(A, @asech, 'asech');
 end
 %=============================================================================

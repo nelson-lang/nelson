@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <chapter>Logic blocks</chapter>
+  <chapter_description>
+    <p>Boolean and comparison blocks for numeric signals.</p>
+  </chapter_description>
+</xmldoc>

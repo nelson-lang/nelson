@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,10 +23,10 @@ Nelson::GuiGateway::qt_verboseBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        logical newVerbose = param1.getContentAsLogicalScalar();
+        logical newVerbose = param1.asLogicalScalar();
         QtMessageVerbose((newVerbose == 1));
     }
-    retval << ArrayOf::logicalConstructor(previous);
+    retval << ArrayOf::logicalScalar(previous);
     return retval;
 }
 //=============================================================================

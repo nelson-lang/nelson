@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stream3</keyword>
+  <short_description>Compute 3-D streamline vertices from vector field data.</short_description>
+  <syntax>
+    <syntax_item>vertices = stream3(U, V, W, startx, starty, startz)</syntax_item>
+    <syntax_item>vertices = stream3(X, Y, Z, U, V, W, startx, starty, startz)</syntax_item>
+    <syntax_item>vertices = stream3(..., options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>stream3</b> follows a 3-D vector field from each start point and returns the vertices it passed through. Nothing is drawn: hand the result to <b>streamline</b> to see it.</p>
+    <p>The result is a cell array with one entry per start point, each an N-by-3 array of <b>[x, y, z]</b> coordinates whose first row is the start point itself. A start point outside the field gives an empty entry; a start point the field does not move keeps its single vertex.</p>
+    <p>Without <b>X</b>, <b>Y</b> and <b>Z</b> the field is indexed from 1.</p>
+    <p>The optional <b>options</b> input is <b>[stepsize]</b> or <b>[stepsize, maxvert]</b>. <b>stepsize</b> is counted in grid cells and defaults to 0.1. <b>maxvert</b> is the largest number of vertices to produce, the start point counted in, and defaults to 500.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Trace a rising spiral through a rotating field.</example_item_description>
+      <example_item_data><![CDATA[[x, y, z] = meshgrid(-2:0.5:2, -2:0.5:2, -2:0.5:2);
+vertices = stream3(x, y, z, -y, x, 0.2 * ones(size(x)), 1, 0, -2);
+streamline(vertices);]]></example_item_data>
+      <example_item_img src="../../../../images/stream3_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/stream2">stream2</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/coneplot">coneplot</link></see_also_item>
+  </see_also>
+</xmldoc>

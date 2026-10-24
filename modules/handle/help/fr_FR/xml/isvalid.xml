@@ -3,25 +3,42 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isvalid</keyword>
-  <short_description
-  >Retourne vrai si la variable h est un handle valide.</short_description>
+  <short_description>Retourne vrai pour les handles valides.</short_description>
   <syntax>
     <syntax_item>res = isvalid(h)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
-      <param_description>un objet handle</param_description>
+      <param_description>un objet handle ou un tableau de handles</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un booléen : vrai ou faux</param_description>
+      <param_description>un scalaire logique ou un tableau logique de meme taille que h</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>isvalid</b> renvoie vrai si l&apos;argument est un handle valide, et faux sinon.</description>
+    <p>
+      <b>isvalid</b> renvoie vrai pour les handles valides et faux pour les handles invalides par delete.</p>
+    <p>Supprimer une variable avec clear n&apos;invalide pas les autres alias vers le meme objet handle.</p>
+    <p>Pour les tableaux de handles, le resultat a la meme taille que le tableau d&apos;entree.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier un tableau de handles classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_isvalid/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsValidCounter.m'], ["classdef NelsonHelpIsValidCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+h(3) = NelsonHelpIsValidCounter();
+isvalid(h)
+delete(h(2));
+isvalid(h)]]></example_item_data>
+    </example_item>
+  </examples>
   <used_function />
   <bibliography />
   <see_also>
@@ -33,6 +50,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>resultat pour les tableaux de handles documente</history_description>
     </history_item>
   </history>
   <authors>

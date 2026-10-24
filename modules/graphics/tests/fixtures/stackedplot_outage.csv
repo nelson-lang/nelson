@@ -1,0 +1,6 @@
+OutageTime,Region,Loss,Customers,RestorationTime,Cause
+2002-02-01 12:18,SouthWest,458.98,1820200,2002-02-07 16:50,winter storm
+2002-03-05 17:53,MidWest,96.563,286660,2002-03-10 14:41,wind
+2002-03-16 06:18,MidWest,186.44,212750,2002-03-18 23:23,severe storm
+2002-03-26 01:59,MidWest,388.04,564220,2002-03-28 19:55,winter storm
+2002-04-20 16:46,MidWest,23141,134470,2002-04-22 05:12,unknown

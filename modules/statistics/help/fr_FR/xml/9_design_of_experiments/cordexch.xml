@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cordexch</keyword>
+  <short_description>Plan D-optimal avec une interface de type echange de coordonnees.</short_description>
+  <syntax>
+    <syntax_item>dCE = cordexch(nfactors, nruns)</syntax_item>
+    <syntax_item>[dCE, X] = cordexch(nfactors, nruns, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>cordexch</b> fournit une interface compatible echange de coordonnees adossee a l&apos;implementation par echange de lignes.</p></description>
+  <used_function>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}candexch">candexch</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un plan lineaire de trois essais pour deux facteurs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(7);
+[dCE, X] = cordexch(2, 3, 'linear', 'Display', 'off', 'AvoidDuplicates', true);
+dCE
+X]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

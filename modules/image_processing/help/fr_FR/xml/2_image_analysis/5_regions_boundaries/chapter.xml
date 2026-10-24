@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Regions et frontieres</chapter>
+  <chapter_description>
+    <p>Fonctions pour les composants connexes, les etiquettes, les mesures de regions, la selection et le suivi de frontieres.</p>
+  </chapter_description>
+</xmldoc>

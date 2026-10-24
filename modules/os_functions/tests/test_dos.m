@@ -7,14 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('dos'), 1);
-assert_isequal(nargout('dos'), 2);
+asserts.isequal(nargin('dos'), 1);
+asserts.isequal(nargout('dos'), 2);
 %=============================================================================
+skip_testsuite((strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm()), ...
+  'Native nelson-cli exit-code propagation is not available in the portable runtime.');
 binpath = modulepath('nelson', 'bin');
 nelson_exe = ['"', binpath, '/nelson-cli', '"'];
 %=============================================================================
 nelson_cmd = 'exit(33);';
 cmd = [nelson_exe, ' --execute "', nelson_cmd, '"'];
 [a, b] = dos(cmd);
-assert_isequal(a, 33);
+asserts.isequal(a, 33);
 %=============================================================================

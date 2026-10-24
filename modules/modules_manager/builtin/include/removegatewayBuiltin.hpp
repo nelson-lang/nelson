@@ -19,7 +19,7 @@ namespace ModulesManagerGateway {
     ArrayOfVector
     removegatewayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace ModulesManagerGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

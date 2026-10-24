@@ -30,14 +30,27 @@ public:
     getPath() const;
     void
     rehash();
+    // probeDisk asks for the two file stats that find a file written to the
+    // directory since the last rehash. Without it the answer comes from the
+    // index alone and the call touches the disk at most once.
     bool
-    findFuncName(const std::string& functionName, std::wstring& filename) const;
+    findFuncName(const std::string& functionName, std::wstring& filename, bool probeDisk) const;
     std::unordered_map<std::string, FileFunction*>
     getAllFileFunctions() const;
 
+    // True once the directory has changed since the last rehash, and resets
+    // the reference so that the next call only reports the next change.
     bool
-    wasModified() const;
+    wasModified();
 
+    // True while the directory has not changed since the last rehash, so the
+    // index still lists its entries. Does not depend on the file watcher.
+    bool
+    directoryUnchanged() const;
+
+    // Starts reporting changes. Until it is called the directory is indexed
+    // but never re-read, which is what the modules want: they are added to the
+    // path before the interpreter is ready to answer anything.
     void
     startFileWatcher();
 
@@ -54,13 +67,17 @@ private:
     comparePathname(const std::wstring& path1, const std::wstring& path2);
 
     void
-    rehash(const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate);
+    rehash(const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate,
+        const std::wstring& packagePrefix = L"");
+
+    void
+    recordLastWriteTime();
 
     bool withWatcher;
-
-    void* fileWatcher;
-    void* updateFileWatcherListener;
-    unsigned long watcherID;
+    // A directory is watched by its modification time: creating, removing or
+    // renaming an entry in it moves that time. Recorded at every rehash.
+    bool watching;
+    std::filesystem::file_time_type lastWriteTime;
 };
 //=============================================================================
 } // namespace Nelson

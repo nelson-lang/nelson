@@ -11,6 +11,7 @@
 #include "DynamicLinkLibraryObject.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,7 +19,10 @@ bool
 DeleteDynamicLinkLibraryObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<DynamicLinkLibraryObject>(A, NLS_HANDLE_DLLIB_CATEGORY_STR,
-        _W("dllib handle expected."), _W("dllib valid handle expected."));
+        Nelson::resolveMessageTemplate(
+            L"Nelson:dynamic_link:dllibHandle", L"dllib handle expected."),
+        Nelson::resolveMessageTemplate(
+            L"Nelson:dynamic_link:dllibValidHandle", L"dllib valid handle expected."));
 }
 //=============================================================================
 } // namespace Nelson

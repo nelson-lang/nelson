@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,76 +9,95 @@
 //=============================================================================
 #include "WebOptions.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+namespace {
+    //=============================================================================
+    ArrayOf
+    getWebOptionField(const ArrayOf& webOptionsArrayOf, const std::string& fieldName)
+    {
+        if (webOptionsArrayOf.isField(fieldName)) {
+            return webOptionsArrayOf.field(fieldName);
+        }
+        std::string storageFieldName = fieldName + "Value";
+        if (webOptionsArrayOf.isField(storageFieldName)) {
+            return webOptionsArrayOf.field(storageFieldName);
+        }
+        Error("Nelson:nonExistentField", "Reference to non-existent field %s", fieldName);
+        return ArrayOf::empty();
+    }
+    //=============================================================================
+} // namespace
+//=============================================================================
 WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 {
-    if (webOptionsArrayOf.getClassType() != "weboptions") {
-        Error(_W("weboptions object expected."));
+    if (webOptionsArrayOf.classType() != "weboptions") {
+        Error(L"Nelson:weboptions:objectExpected", L"weboptions object expected.");
     }
     ArrayOf res;
-    res = webOptionsArrayOf.getField("CharacterEncoding");
-    _characterEncoding = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "CharacterEncoding");
+    _characterEncoding = res.asWideString();
     if (_characterEncoding == L"auto") {
         _characterEncoding = L"UTF-8";
     }
 
-    res = webOptionsArrayOf.getField("UserAgent");
-    _userAgent = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "UserAgent");
+    _userAgent = res.asWideString();
 
-    res = webOptionsArrayOf.getField("Timeout");
-    _timeout = res.getContentAsDoubleScalar();
+    res = getWebOptionField(webOptionsArrayOf, "Timeout");
+    _timeout = res.asDoubleScalar();
 
-    res = webOptionsArrayOf.getField("Username");
-    _username = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "Username");
+    _username = res.asWideString();
 
-    res = webOptionsArrayOf.getField("Password");
-    _password = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "Password");
+    _password = res.asWideString();
 
-    res = webOptionsArrayOf.getField("KeyName");
-    _keyName = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "KeyName");
+    _keyName = res.asWideString();
 
-    _keyValue = webOptionsArrayOf.getField("KeyValue");
+    _keyValue = getWebOptionField(webOptionsArrayOf, "KeyValue");
 
-    res = webOptionsArrayOf.getField("HeaderFields");
+    res = getWebOptionField(webOptionsArrayOf, "HeaderFields");
     if (!res.isEmpty()) {
-        _headerFields = res.getContentAsWideStringVector(false);
+        _headerFields = res.asWideStringVector(false);
     } else {
         _headerFields.clear();
     }
 
-    res = webOptionsArrayOf.getField("ContentType");
-    _contentType = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "ContentType");
+    _contentType = res.asWideString();
 
-    res = webOptionsArrayOf.getField("ContentReader");
+    res = getWebOptionField(webOptionsArrayOf, "ContentReader");
     if (!res.isEmpty()) {
-        _contentReader = res.getContentAsFunctionHandle();
+        _contentReader = res.asFunctionHandle();
     }
 
-    res = webOptionsArrayOf.getField("MediaType");
-    _mediaType = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "MediaType");
+    _mediaType = res.asWideString();
 
-    res = webOptionsArrayOf.getField("RequestMethod");
-    _requestMethod = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "RequestMethod");
+    _requestMethod = res.asWideString();
 
-    res = webOptionsArrayOf.getField("ArrayFormat");
-    _arrayformat = res.getContentAsWideString();
+    res = getWebOptionField(webOptionsArrayOf, "ArrayFormat");
+    _arrayformat = res.asWideString();
 
-    res = webOptionsArrayOf.getField("CertificateFilename");
+    res = getWebOptionField(webOptionsArrayOf, "CertificateFilename");
     if (!res.isEmpty()) {
-        _certificateFilename = res.getContentAsWideString();
+        _certificateFilename = res.asWideString();
     } else {
         _certificateFilename.clear();
     }
 
-    res = webOptionsArrayOf.getField("FollowLocation");
+    res = getWebOptionField(webOptionsArrayOf, "FollowLocation");
     if (!res.isEmpty()) {
-        _followLocation = res.getContentAsLogicalScalar();
+        _followLocation = res.asLogicalScalar();
     } else {
-        _followLocation = false;
+        _followLocation = true;
     }
 }
 //=============================================================================
@@ -90,7 +109,7 @@ WebOptions::~WebOptions()
     _username.clear();
     _password.clear();
     _keyName.clear();
-    _keyValue = ArrayOf::emptyConstructor();
+    _keyValue = ArrayOf::empty();
     _headerFields.clear();
     _contentType.clear();
     _contentReader.anonymousHandle = nullptr;
@@ -98,7 +117,7 @@ WebOptions::~WebOptions()
     _requestMethod.clear();
     _arrayformat.clear();
     _certificateFilename.clear();
-    _followLocation = false;
+    _followLocation = true;
 }
 //=============================================================================
 std::wstring

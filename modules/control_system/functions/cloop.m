@@ -7,17 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+%#ok<NLS0026>
 function model = cloop(varargin)
-  % model = cloop(sys)
-  % model = cloop(sys, sign)
-  % model = cloop(sys, outputs, inputs)
   narginchk(1, 3);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
-  
+
   if nargin == 1
-    sgn = -1; 
+    sgn = -1;
   elseif nargin == 2
     sgn = sign(varargin{2});
   else
@@ -26,53 +24,55 @@ function model = cloop(varargin)
     sgn = sign(varargin{3});
   end
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  
+
   if isa(sys, 'ss')
     a = sys.A;
     b = sys.B;
     c = sys.C;
     d = sys.D;
-    [ny, nu] = size(d);
+    outputCount = size(d, 1);
+    inputCount = size(d, 2);
     if (nargin == 1)
-      outputs = 1:ny;
-      inputs = [1:nu];
+      outputs = 1:outputCount;
+      inputs = 1:inputCount;
       sgn = -ones(1, length(inputs));
     end
-    if (nargin == 2)  
-      outputs = 1:ny;
-      inputs = [1:nu];
+    if (nargin == 2)
+      outputs = 1:outputCount;
+      inputs = 1:inputCount;
       sgn = sgn * ones(1, length(inputs));
     end
-    
-    nin = length(inputs);
-    nout = length(outputs);
-    if nin ~= nout
-      error(_('The number of feedback inputs and outputs are not equal.'));
+
+    feedbackInputCount = length(inputs);
+    feedbackOutputCount = length(outputs);
+    if feedbackInputCount ~= feedbackOutputCount
+      error('Nelson:control_system:dimagree:numberFeedbackInputsOutputsAreNot', 'The number of feedback inputs and outputs are not equal.');
     end
-    [nx, na] = size(a);
-    
+    stateCount = size(a, 1);
+
     S = [a, b; c, d];
-    Bu = S(:,[nx+inputs]); Cy = S([nx+outputs],:);
+    Bu = S(:, stateCount + inputs);
+    Cy = S(stateCount + outputs, :);
     if ~isempty(Cy)
       Cy(sgn == -1, :) = -Cy(sgn == -1, :);
-      E = eye(nout) - Cy(:, [nx+inputs]);
-      Cy = E\Cy;
-      Sc = S + Bu*Cy;
-      
-      ac = Sc(1:nx, 1:nx);
-      bc = Sc(1:nx, nx+1:nx+nu);
-      cc = Sc(nx+1:nx+ny, 1:nx);
-      dc = Sc(nx+1:nx+ny, nx+1:nx+nu);
-      model = ss(ac, bc, cc, dc, sys.Ts);  
+      E = eye(feedbackOutputCount) - Cy(:, stateCount + inputs);
+      Cy = E \ Cy;
+      Sc = S + Bu * Cy;
+
+      ac = Sc(1:stateCount, 1:stateCount);
+      bc = Sc(1:stateCount, stateCount + 1:stateCount + inputCount);
+      cc = Sc(stateCount + 1:stateCount + outputCount, 1:stateCount);
+      dc = Sc(stateCount + 1:stateCount + outputCount, stateCount + 1:stateCount + inputCount);
+      model = ss(ac, bc, cc, dc, sys.Ts);
     else
       model = sys;
     end
   else % isa(sys, 'tf')
-    numerator = sys.Numerator{1}; 
+    numerator = sys.Numerator{1};
     denominator = sys.Denominator{1} - sgn * sys.Numerator{1};
     model = tf(numerator, denominator, sys.Ts);
-    model.Variable = sys.Variable;  
+    model.Variable = sys.Variable;
   end
 end

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>nflow_fmi</module_name>
+  <chapter>Import FMI NFlow</chapter>
+  <chapter_description>
+    <p>Le module FMI de NFlow importe des unités de maquette fonctionnelle (FMU) conformes au standard <b>FMI 3.0</b> et les exécute comme composants de co-simulation ou de Model Exchange.</p>
+    <p>NFlow est actuellement publié en version <b>1.0.0-beta.1</b> : fonctionnel et testé, mais les détails de ses interfaces et de son format de fichier peuvent encore évoluer selon les retours.</p>
+    <p>Il lit la description de modèle d'une FMU, expose ses variables et ses interfaces, et soit pilote une co-simulation à pas fixe (la FMU possède son solveur), soit intègre une FMU Model Exchange avec le solveur de NFlow, en enregistrant les sorties de la FMU au cours du temps.</p>
+    <p>Les fonctions acceptent aussi bien une archive <b>.fmu</b> qu'un répertoire de FMU déjà extrait. Les archives sont décompressées avec un extracteur durci contre le ZIP-slip dans un répertoire temporaire supprimé automatiquement.</p>
+    <p>Cet import alimente aussi deux blocs dans l'éditeur NFlow (catégorie <b>FMI</b>)&#160;: un bloc <b>FMU (CS)</b> (co-simulation) et un bloc <b>FMU (ME)</b> (Model Exchange, dont les états continus rejoignent le solveur global du diagramme). Posez un bloc, cliquez sur <b>Browse FMU...</b> pour choisir un <b>.fmu</b>, et ses ports d'entrée et de sortie sont configurés automatiquement d'après la description de modèle. Des diagrammes de démonstration prêts à ouvrir pour plusieurs FMU de référence (VanDerPol, BouncingBall, Dahlquist, StateSpace, Feedthrough) sont fournis dans le répertoire <b>examples</b> du module.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Domaine</th>
+        <th>Entrées principales</th>
+      </tr>
+      <tr>
+        <td>Description de modèle</td>
+        <td>
+          <b>fmiInfo</b></td>
+      </tr>
+      <tr>
+        <td>Co-simulation</td>
+        <td>
+          <b>fmiCoSimulate</b></td>
+      </tr>
+      <tr>
+        <td>Model Exchange</td>
+        <td>
+          <b>fmiModelExchange</b></td>
+      </tr>
+      <tr>
+        <td>Pont Modelica</td>
+        <td>
+          <b>modelicaInfo</b>, <b>modelicaConfigure</b>, <b>modelicaToFmu</b></td>
+      </tr>
+      <tr>
+        <td>Assistant d'import FMU</td>
+        <td>
+          <b>fmuToBlock</b></td>
+      </tr>
+    </table>
+    <p>L'<b>assistant d'import FMU</b> (<b>fmuToBlock</b>) transforme n'importe quelle FMU en bloc nflow d'aspect natif -- ports d'entrée et de sortie d'après la description de modèle, paramètres et icône de la FMU -- prêt à déposer dans une bibliothèque. Il se marie avec le pont Modelica&#160;: <b>modelicaToFmu</b> produit une FMU, <b>fmuToBlock</b> l'enveloppe en bloc.</p>
+    <p>Le <b>pont Modelica</b> permet à un modèle nflow d'inclure un bloc <b>modelica</b> qui référence un modèle Modelica. À la simulation, le modèle est compilé en FMU avec un <b>OpenModelica</b> installé par l'utilisateur puis importé via le chemin FMI ci-dessus, de sorte que des modèles Modelica physiques (acausaux) se simulent aux côtés des blocs ordinaires. <b>modelicaInfo</b> et <b>modelicaConfigure</b> indiquent et sélectionnent l'OpenModelica utilisé&#160;; <b>modelicaToFmu</b> réalise la compilation. Des exemples (RC, RLC, masse-ressort-amortisseur) sont fournis dans le répertoire <b>examples/modelica</b> du module.</p>
+    <p><b>Prérequis&#160;:</b> le pont Modelica est la seule partie de ce module qui nécessite un outil externe. OpenModelica n'est <b>pas fourni</b> avec Nelson&#160;; installez-le vous-même (depuis le projet OpenModelica), et assurez-vous que l'installation est suffisamment complète pour exporter des FMU -- elle doit fournir le runtime d'export FMI sous <b>share/omc/runtime/c/fmi</b>, qu'une installation minimale peut omettre. nflow détecte automatiquement OpenModelica dans l'ordre suivant&#160;: un chemin défini avec <b>modelicaConfigure</b>, les variables d'environnement <b>NELSON_OPENMODELICA_HOME</b> et <b>OPENMODELICAHOME</b>, les répertoires d'installation standard, puis <b>PATH</b>. Exécutez <b>modelicaInfo</b> pour vérifier qu'un OpenModelica utilisable est trouvé. Le reste du module (import de FMU, co-simulation, Model Exchange) ne requiert aucun outil externe.</p>
+  </chapter_description>
+</xmldoc>

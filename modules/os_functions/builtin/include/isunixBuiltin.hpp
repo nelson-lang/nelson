@@ -14,5 +14,6 @@
 namespace Nelson::OsFunctionsGateway {
 ArrayOfVector
 isunixBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

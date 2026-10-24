@@ -36,7 +36,7 @@
 
 [#83](https://github.com/nelson-lang/nelson/issues/83): save action in text editor do a popup to reload file.
 
-[#82](https://github.com/nelson-lang/nelson/issues/82): home, end, page down, page up keys shorcut not implement in editor.
+[#82](https://github.com/nelson-lang/nelson/issues/82): home, end, page down, page up keys shortcut not implement in editor.
 
 ## Compilation:
 

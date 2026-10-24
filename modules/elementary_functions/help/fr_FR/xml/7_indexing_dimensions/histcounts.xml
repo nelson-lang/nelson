@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>histcounts</keyword>
+  <short_description>Comptage par classes d&apos;histogramme.</short_description>
+  <syntax>
+    <syntax_item>N = histcounts(X)</syntax_item>
+    <syntax_item>N = histcounts(X, nbins)</syntax_item>
+    <syntax_item>N = histcounts(X, edges)</syntax_item>
+    <syntax_item>[N, edges, bin] = histcounts(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>tableau numerique ou logique contenant les donnees a repartir en classes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>scalaire entier positif : nombre de classes demande.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>edges</param_name>
+      <param_description>vecteur numerique strictement croissant definissant les bornes des classes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>vecteur ligne des effectifs par classe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>edges</param_name>
+      <param_description>bornes de classes utilisees pour le comptage.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bin</param_name>
+      <param_description>tableau de meme taille que X contenant l&apos;indice de classe de chaque element.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>histcounts compte les elements de X qui appartiennent a des classes consecutives d&apos;histogramme.</p>
+    <p>Vous pouvez specifier un nombre de classes ou un vecteur de bornes strictement croissantes. La derniere classe inclut sa borne droite.</p>
+  </description>
+  <used_function>
+    <used_function_item>histcounts</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compter des valeurs avec des bornes de classes explicites.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = [0 1 1 2 3 3 4];
+[N, edges, bin] = histcounts(x, 0:2:4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}sortrows">sortrows</link></see_also_item>
+    <see_also_item><link linkend="${graphics}histogram">histogram</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

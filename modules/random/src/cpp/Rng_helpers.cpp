@@ -16,7 +16,7 @@ wstringVector
 getSupportedRngEngineName()
 {
     wstringVector supportedEngineName;
-    supportedEngineName.reserve(3);
+    supportedEngineName.reserve(9);
     supportedEngineName.push_back(L"twister");
     supportedEngineName.push_back(L"twister64");
     supportedEngineName.push_back(L"simdTwister");
@@ -24,6 +24,8 @@ getSupportedRngEngineName()
     supportedEngineName.push_back(L"laggedfibonacci607");
     supportedEngineName.push_back(L"philox");
     supportedEngineName.push_back(L"threefry");
+    supportedEngineName.push_back(L"pcg");
+    supportedEngineName.push_back(L"xoshiro");
     return supportedEngineName;
 }
 //=============================================================================
@@ -52,6 +54,12 @@ getRngTypeAsString(RNG_TYPE rngType)
     } break;
     case RNG_THREEFRY: {
         res = L"threefry";
+    } break;
+    case RNG_PCG64DXSM: {
+        res = L"pcg";
+    } break;
+    case RNG_XOSHIRO256PP: {
+        res = L"xoshiro";
     } break;
     case RNG_ERROR:
     default:
@@ -84,6 +92,12 @@ getRngType(const std::wstring& enginename)
     }
     if (enginename == L"threefry") {
         return RNG_THREEFRY;
+    }
+    if (enginename == L"pcg" || enginename == L"pcg64dxsm") {
+        return RNG_PCG64DXSM;
+    }
+    if (enginename == L"xoshiro" || enginename == L"xoshiro256pp") {
+        return RNG_XOSHIRO256PP;
     }
     return res;
 }

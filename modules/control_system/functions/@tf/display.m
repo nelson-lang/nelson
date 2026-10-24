@@ -35,22 +35,22 @@ function display(varargin)
   [m, p] = size(TF.Numerator);
   numerators = TF.Numerator;
   denominator = TF.Denominator;
-  
+
   for q = 1:p
     if (p ~= 1)
-      disp(['  ',sprintf(_('From input %d to output:'), q)]);
+      disp(['  ', sprintf(_('From input %d to output:'), q)]);
     end
     for k = 1:m
       numerator = numerators{k, q};
-      if (strcmp(TF.Variable, 'z^-1') || strcmp(TF.Variable, 'q^-1')) 
+      if (strcmp(TF.Variable, 'z^-1') || strcmp(TF.Variable, 'q^-1'))
         nonZeroIndices = find(numerator);
         numerator = numerator(1:nonZeroIndices(end));
-      end 
+      end
       numeratorString = stringPoly(numerator, TF.Variable);
       haveNoNumerator = isempty(numeratorString);
       denominatorString = stringPoly(denominator{k, q}, TF.Variable);
       isOneString = strcmp(denominatorString, ' 1');
-      
+
       maxLen = max([length(denominatorString), length(numeratorString)]);
       spacesToAdd = repmat(' ', 1, maxLen - length(numeratorString));
       numeratorString = [spacesToAdd, numeratorString];
@@ -62,16 +62,16 @@ function display(varargin)
       numeratorString = deblank(numeratorString);
       denominatorString = deblank(denominatorString);
       dashString = getDashedLine(numeratorString, denominatorString);
-      
+
       if (m ~= 1)
         if isOneString
           if ~haveNoNumerator
-            disp(['  ',sprintf(_('%d:'), k), '  ', numeratorString]);
+            disp(['  ', sprintf('%d:', k), '  ', numeratorString]);
           else
-            disp(['  ',sprintf(_('%d:'), k), '  ', '0']);
+            disp(['  ', sprintf('%d:', k), '  ', '0']);
           end
         else
-          disp(['  ',sprintf(_('%d:'), k)])        
+          disp(['  ', sprintf('%d:', k)])
           if haveNoNumerator
             disp(['  ', '0']);
           else
@@ -85,26 +85,32 @@ function display(varargin)
           disp(['  ', numeratorString]);
         end
       end
-      
+
       if (~isOneString && ~haveNoNumerator)
         disp(['  ', dashString]);
         disp(['  ', denominatorString]);
       end
-      
+
       if strcmp(currentFormat.LineSpacing, 'loose')
         disp(' ');
       end
     end
   end
   if (isstatic(TF))
-    disp(_('     Static gain.'));
+    disp(['     ', _('Static gain.')]);
+    if isscalar(TF.Numerator)
+      ltiDisplayModelProperties(TF, [_('Model Properties'), char(10)]);
+    end
   else
     if isdt(TF)
-      disp(sprintf(_('Sample time: %.4f %s'), TF.Ts, TF.TimeUnit)); 
+      disp(sprintf(_('Sample time: %.4f %s'), TF.Ts, TF.TimeUnit));
       disp(_('Discrete-time transfer function.'));
     end
     if isct(TF)
       disp(_('Continuous-time transfer function.'));
+    end
+    if isscalar(TF.Numerator)
+      ltiDisplayModelProperties(TF, '');
     end
   end
   if strcmp(currentFormat.LineSpacing, 'loose')
@@ -135,24 +141,24 @@ function returnString = stringPolyPositive(array, variableName)
   polyString = {}; % Begin with empty cell string
   % Get all to a string cell
   for i = 1:length(array)
-    if(and(array(i) ~= 0, length(array) - i ~= 0))
-      if(length(array) - i > 1)
-        if(and(array(i) <= 1.000001, array(i) >= 0.999999))
+    if (and(array(i) ~= 0, length(array) - i ~= 0))
+      if (length(array) - i > 1)
+        if (and(array(i) <= 1.000001, array(i) >= 0.999999))
           polyString(1, i) = {strcat([variableName, '^'], num2str(length(array) - i))};
-        elseif(and(array(i) >= -1.000001, array(i) <= -0.999999))
+        elseif (and(array(i) >= -1.000001, array(i) <= -0.999999))
           polyString(1, i) = {strcat(['- ', variableName, '^'], num2str(length(array) - i))};
         else
-          polyString(1, i) = {strcat(num2str(array(i)), [' ',variableName, '^'], num2str(length(array) - i))};
+          polyString(1, i) = {strcat(num2str(array(i)), [' ', variableName, '^'], num2str(length(array) - i))};
         end
       else
-        if(and(array(i) <= 1.000001, array(i) >= 0.999999))
+        if (and(array(i) <= 1.000001, array(i) >= 0.999999))
           polyString(1, i) = {[' ', strcat(variableName)]};
-        elseif(and(array(i) >= -1.000001, array(i) <= -0.999999))
+        elseif (and(array(i) >= -1.000001, array(i) <= -0.999999))
           polyString(1, i) = {['-', ' ', variableName]};
         else
           if (array(i) < 0)
             polyString(1, i) = {['- ', num2str(abs(array(i))), ' ', variableName]};
-            
+
           else
             polyString(1, i) = {[num2str(array(i)), ' ', variableName]};
           end
@@ -161,25 +167,25 @@ function returnString = stringPolyPositive(array, variableName)
     else
       if (array(i) < 0)
         polyString(1, i) = {['- ' strcat(num2str(abs(array(i))))]};
-      else    
+      else
         polyString(1, i) = {strcat(num2str(array(i)))};
       end
     end
   end
-  
+
   % Transform that string cell to a complete string
   returnString = '';
   for i = 1:length(polyString)
     element = char(polyString(1, i));
     % No only-zeros are allowed
-    if(and(~strcmp(element, '0'), ~strcmp(element, '-0')))
-      if(length(strfind(element, '-')) > 0)
+    if (and(~strcmp(element, '0'), ~strcmp(element, '-0')))
+      if (length(strfind(element, '-')) > 0)
         returnString = [returnString, ' ', element];
       else
-        if(length(returnString) == 0)
+        if (length(returnString) == 0)
           returnString = [returnString, ' ', element];
         else
-          returnString = [returnString,' + ', element];
+          returnString = [returnString, ' + ', element];
         end
       end
     end
@@ -199,22 +205,22 @@ function returnString = stringPolyNegative(array, variableName)
     valueAbs = abs(array(i));
     if (valueSign > 0)
       if i == 0
-        polyString(1, i) =  { [num2str(valueAbs)]};
+        polyString(1, i) = {[num2str(valueAbs)]};
       else
         if (i - 1 == 0)
-          polyString(1, i) =  { [num2str(valueAbs)]};
+          polyString(1, i) = {[num2str(valueAbs)]};
         else
           if strcmp(num2str(valueAbs), '1')
             if (i - 1 == 0)
-              polyString(1, i) =  { [' 1']};
+              polyString(1, i) = {[' 1']};
             else
-              polyString(1, i) =  { [' ', variableName, '^-', num2str(i-1)]};
+              polyString(1, i) = {[' ', variableName, '^-', num2str(i - 1)]};
             end
           else
             if (i - 1 == 0)
-              polyString(1, i) =  { [' ', num2str(valueAbs)]};
+              polyString(1, i) = {[' ', num2str(valueAbs)]};
             else
-              polyString(1, i) =  { [' ', num2str(valueAbs), ' ', variableName, '^-', num2str(i-1)]};
+              polyString(1, i) = {[' ', num2str(valueAbs), ' ', variableName, '^-', num2str(i - 1)]};
             end
           end
         end
@@ -222,39 +228,39 @@ function returnString = stringPolyNegative(array, variableName)
     else
       if valueSign == -1
         if (i == 0)
-          polyString(1, i) =  { [' - ', num2str(valueAbs)]};
+          polyString(1, i) = {[' - ', num2str(valueAbs)]};
         else
           if strcmp(num2str(valueAbs), '1')
-            if (i-1 == 0)
-              polyString(1, i) =  { [' - 1']};
+            if (i - 1 == 0)
+              polyString(1, i) = {[' - 1']};
             else
-              polyString(1, i) =  { [' - ', variableName, '^-', num2str(i-1)]};
+              polyString(1, i) = {[' - ', variableName, '^-', num2str(i - 1)]};
             end
           else
-            if (i-1 == 0)
-              polyString(1, i) =  { [' - ', num2str(valueAbs)]};
+            if (i - 1 == 0)
+              polyString(1, i) = {[' - ', num2str(valueAbs)]};
             else
-              polyString(1, i) =  { [' - ', num2str(valueAbs), ' ', variableName, '^-', num2str(i-1)]};
+              polyString(1, i) = {[' - ', num2str(valueAbs), ' ', variableName, '^-', num2str(i - 1)]};
             end
           end
         end
       else
-        polyString(1, i) =  {''};
+        polyString(1, i) = {''};
       end
     end
   end
-  
+
   % Transform that string cell to a complete string
   returnString = '';
   for i = 1:length(polyString)
     element = char(polyString(1, i));
-    if(and(~strcmp(element, '0'), ~strcmp(element, '-0')))
+    if (and(~strcmp(element, '0'), ~strcmp(element, '-0')))
       if startsWith(element, ' -')
-        returnString = [returnString,  element];
+        returnString = [returnString, element];
       else
         if isempty(returnString)
           returnString = [returnString, element];
-        else  
+        else
           returnString = [returnString, ' +', element];
         end
       end

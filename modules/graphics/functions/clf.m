@@ -17,6 +17,9 @@ function varargout = clf(varargin)
   end
   f.Children = [];
   f.CurrentAxes = [];
+  if isprop(f, 'CurrentObject')
+    f.CurrentObject = [];
+  end
   refresh(f);
   if nargout == 1
     varargout{1} = f;

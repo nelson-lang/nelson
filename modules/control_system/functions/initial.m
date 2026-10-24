@@ -14,37 +14,40 @@ function varargout = initial(varargin)
   % [y,t,x] = initial(sys,x0,Tfinal)
   % [y,t,x] = initial(sys,x0,t)
   % [y,t,x] = initial(sys, x0, [t0, tFinal])
-  
+
   narginchk(2, 3);
   nargoutchk(0, 3);
-  
+
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
   if ~isa(sys, 'ss')
     sys = ss(sys);
   end
-  
+
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
-  
+
   Ts = sys.Ts;
-  
+
   x0 = varargin{2};
   x0 = x0(:); % Turn them into a vector
   if (size(sys.A, 1) ~= size(x0, 1))
-    error(_('The initial conditions vector has not the same row length as matrix A.'));
+    error('Nelson:control_system:dimagree:initialConditionsVectorHasNotRow', 'The initial conditions vector has not the same row length as matrix A.');
   end
-  
+
   if nargin > 2
     t = varargin{3};
   else
-    t = 10;
+    t = ltiResponseFinalTime(sys);
+    if isempty(t)
+      t = 10;
+    end
   end
-  
-  if isvector(t) && ~isscalar(t) 
+
+  if isvector(t) && ~isscalar(t)
     if (numel(t) == 2)
       if (Ts > 0)
         t = t(1):Ts:t(2);
@@ -61,18 +64,29 @@ function varargout = initial(varargin)
   end
   % Multiple signals...or not!
   u = zeros(size(sys.B, 2), length(t)); % Creates 0 0 0 0 0 0 0
-  
+
   if nargout == 0
     lsim(sys, u, t, x0);
-    title(_('Response to initial Conditions'));
+    ax = gca();
+    % Dotted light gray baseline through y = 0, kept behind the response.
+    xLimits = ax.XLim;
+    yLimits = ax.YLim;
+    hold(ax, 'on');
+    topChildren = ax.Children;
+    hBaseline = plot(ax, xLimits, [0, 0], ':', 'Color', [0.8, 0.8, 0.8]);
+    ax.XLim = xLimits;
+    ax.YLim = yLimits;
+    ax.Children = [topChildren; hBaseline];
+    hold(ax, 'off');
+    title(ax, _('Response to Initial Conditions'));
   else
     [Y, T, X] = lsim(sys, u, t, x0);
     varargout{1} = Y;
     if nargout > 1
       varargout{2} = T;
     end
-    if nargout > 2        
+    if nargout > 2
       varargout{3} = X;
     end
-  end    
+  end
 end

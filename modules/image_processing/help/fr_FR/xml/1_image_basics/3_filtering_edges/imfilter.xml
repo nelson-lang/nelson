@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imfilter</keyword>
+  <short_description>Filtre une image avec un noyau 2D.</short_description>
+  <syntax>
+    <syntax_item>B = imfilter(A, H)</syntax_item>
+    <syntax_item>B = imfilter(A, H, option)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Image 2-D numerique/logique ou image RGB a filtrer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>H</param_name>
+      <param_description>Noyau de filtre numerique reel 2-D non vide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>Option de forme, de padding ou d'operation : same, full, valid, replicate, symmetric, circular, corr ou conv. Un scalaire fini peut etre utilise comme padding constant.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Image filtree.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Filtre une image avec un noyau 2D. Par defaut, le filtre est applique par correlation. Les options incluent same, full, valid, replicate, symmetric, circular, corr et conv. Les options textuelles sont insensibles a la casse.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Filtrer une image en niveaux de gris avec un filtre moyenneur</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=double([1 2 3; 4 5 6; 7 8 9]);
+H=fspecial('average',[3 3]);
+J=imfilter(I,H,'replicate');
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(J); title('Filtered');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imfilter_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}fspecial">fspecial</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imgaussfilt">imgaussfilt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}padarray">padarray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

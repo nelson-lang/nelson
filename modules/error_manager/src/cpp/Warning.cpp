@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@
 namespace Nelson {
 //=============================================================================
 static void
-warningEmitter(const std::wstring& message, const std::wstring& id)
+warningEmitter(const std::wstring& message, const std::wstring& id, bool display = true)
 {
     size_t mainEvaluatorID = 0;
     if (!message.empty()) {
@@ -33,30 +33,34 @@ warningEmitter(const std::wstring& message, const std::wstring& id)
         stackTrace trace;
         DebugStack(eval->callstack, 1, trace);
         try {
-            Exception* exception = new Exception(message, trace, id);
-            Exception* previousException
-                = (Exception*)NelsonConfiguration::getInstance()->getLastWarningException(
+            NelsonException* exception = new NelsonException(message, trace, id);
+            NelsonException* previousException
+                = (NelsonException*)NelsonConfiguration::getInstance()->getLastWarningException(
                     mainEvaluatorID);
             if (previousException) {
                 delete previousException;
             }
             NelsonConfiguration::getInstance()->setLastWarningException(mainEvaluatorID, exception);
-            io->warningMessage(exception->getMessage());
+            if (display) {
+                io->warningMessage(exception->formattedWarningMessage(io->supportsHyperlinks()));
+            }
         } catch (const std::bad_alloc&) {
         }
     }
 }
 //=============================================================================
 void
-Warning(const std::wstring& id, const std::wstring& message)
+RaiseWarning(const std::wstring& id, const std::wstring& message)
 {
     if (message != L"") {
         WARNING_STATE state = warningCheckState(id);
         switch (state) {
         case WARNING_STATE::AS_ERROR: {
-            Error(message, id);
+            RaiseError(message, id);
         } break;
         case WARNING_STATE::DISABLED:
+            // A disabled warning is not displayed but lastwarn still reports it.
+            warningEmitter(message, id, false);
             break;
         case WARNING_STATE::ENABLED:
         case WARNING_STATE::NOT_FOUND:
@@ -70,19 +74,19 @@ Warning(const std::wstring& id, const std::wstring& message)
 void
 Warning(const std::wstring& message)
 {
-    Warning(L"", message);
+    RaiseWarning(L"", message);
 }
 //=============================================================================
 void
 Warning(const std::string& message)
 {
-    Warning(L"", utf8_to_wstring(message));
+    RaiseWarning(L"", utf8_to_wstring(message));
 }
 //=============================================================================
 void
-Warning(const std::string& id, const std::string& message)
+RaiseWarning(const std::string& id, const std::string& message)
 {
-    Warning(utf8_to_wstring(id), utf8_to_wstring(message));
+    RaiseWarning(utf8_to_wstring(id), utf8_to_wstring(message));
 }
 //=============================================================================
 } // namespace Nelson

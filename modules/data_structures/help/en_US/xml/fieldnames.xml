@@ -3,12 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>fieldnames</keyword>
-  <short_description
-  >Returns field names of a structure or an handle.</short_description>
+  <short_description>Return structure field names or public classdef property names.</short_description>
   <syntax>
     <syntax_item>names = fieldnames(st)</syntax_item>
-    <syntax_item>names = fieldnames(h)</syntax_item>
-    <syntax_item>names = fieldnames(h, &apos;-full&apos;)</syntax_item>
+    <syntax_item>names = fieldnames(obj)</syntax_item>
+    <syntax_item>names = fieldnames(objArray)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -16,8 +15,12 @@
       <param_description>a structure</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>h</param_name>
-      <param_description>a handle object</param_description>
+      <param_name>obj</param_name>
+      <param_description>a classdef object or handle object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>objArray</param_name>
+      <param_description>a classdef object array or handle array</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,32 +31,45 @@
   </param_output>
   <description>
     <p>
-      <b>names = fieldnames(st)</b> returns a cell of strings with the names of the fields in the input structure.</p>
-    <p>
-      <b>names = fieldnames(h)</b> returns a cell of strings with the names of the properties in the handle (without hidden).</p>
-    <p>
-      <b>names = fieldnames(h, &apos;-full&apos;)</b> returns a cell of strings with the names of the all properties in the handle.</p>
+      <b>fieldnames(st)</b> returns a cell of strings with the field names of the input structure.</p>
+    <p>For classdef objects, <b>fieldnames(obj)</b> returns the same public property names as <b>properties(obj)</b>.</p>
+    <p>For classdef object arrays, the returned names are the public properties of the array element class.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[fieldnames(dir())]]></example_item_data>
+      <example_item_description>List public property names of a classdef object array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_fieldnames/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpFieldPoint.m'], ["classdef NelsonHelpFieldPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpFieldPoint();
+b = NelsonHelpFieldPoint();
+names = fieldnames([a, b])]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${data_structures}getfield">getfield</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object support added</history_description>
     </history_item>
   </history>
   <authors>

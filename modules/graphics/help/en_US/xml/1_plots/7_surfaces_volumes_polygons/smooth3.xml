@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>smooth3</keyword>
+  <short_description>Smooth 3-D data.</short_description>
+  <syntax>
+    <syntax_item>W = smooth3(V)</syntax_item>
+    <syntax_item>W = smooth3(V, method)</syntax_item>
+    <syntax_item>W = smooth3(V, method, windowSize)</syntax_item>
+    <syntax_item>W = smooth3(V, method, windowSize, sd)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Real numeric or logical 3-D volume data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Smoothing method: 'box' or 'gaussian'. The default is 'box'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>windowSize</param_name>
+      <param_description>Positive odd integer scalar or three-element vector. The default is [3 3 3].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sd</param_name>
+      <param_description>Positive standard deviation for the gaussian method. The default is 0.65.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>W</param_name>
+      <param_description>Smoothed double array with the same size as V.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>smooth3</b> smooths volumetric data with a separable 3-D box or gaussian kernel and replicated boundary values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Smooth a small volume with a gaussian kernel.</example_item_description>
+      <example_item_data><![CDATA[V = rand(10, 10, 10);
+W = smooth3(V, 'gaussian', 5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isosurface">isosurface</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/isonormals">isonormals</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+  </see_also>
+</xmldoc>

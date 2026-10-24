@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>modelica</keyword>
+  <keyword_alias>block:modelica</keyword_alias>
+  <short_description>Compiles a Modelica model and uses it as an NFlow block.</short_description>
+  <syntax><syntax_item>Block type: modelica</syntax_item></syntax>
+  <description>
+    <p>The <b>Modelica</b> block references inline <b>source</b> or a Modelica <b>file</b>, and selects <b>modelName</b>. Before simulation, NFlow compiles the model to an FMU.</p>
+    <p>A working OpenModelica installation is required. Compilation and model errors are reported in Diagnostics.</p>
+    <p><img src="../../../../libraries/fmi/exports/modelica.svg" align="middle"/></p>
+  </description>
+  <see_also><see_also_item><link linkend="${nflow_fmi}modelicaToFmu">modelicaToFmu</link></see_also_item></see_also>
+</xmldoc>

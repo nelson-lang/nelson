@@ -17,7 +17,7 @@ R = evalc('disp(fh)');
 REF =  '    @cos
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('display(fh)');
 REF =   '
@@ -28,5 +28,5 @@ fh =
     @cos
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

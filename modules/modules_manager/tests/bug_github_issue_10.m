@@ -14,7 +14,7 @@
 % <-- Short Description -->
 % module_skeleton does not build/load
 %=============================================================================
-builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
+builderFile = [nelsonroot(), '/module_skeleton/builder.m'];
 if ~isfile(builderFile)
   return
 end

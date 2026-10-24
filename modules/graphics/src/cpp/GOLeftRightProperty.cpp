@@ -17,5 +17,5 @@ static const wchar_t* LEFT_RIGHT_DICT[3]
 //=============================================================================
 GOLeftRightProperty::GOLeftRightProperty() : GORestrictedStringProperty(LEFT_RIGHT_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

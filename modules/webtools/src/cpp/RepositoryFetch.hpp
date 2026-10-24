@@ -11,13 +11,14 @@
 //=============================================================================
 #include <string>
 #include "nlsWebtools_exports.h"
+#include "Repository.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP
 void
-RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
-    const std::wstring& password, std::wstring& errorMessage);
+RepositoryFetch(const std::wstring& localPath, const RepositoryCredentialsOptions& credentials,
+    std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

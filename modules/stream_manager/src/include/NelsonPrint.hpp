@@ -24,7 +24,7 @@ NelsonPrint(const std::wstring& msg);
 NLSSTREAM_MANAGER_IMPEXP void
 NelsonPrint(const std::string& msg);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 #ifdef __cplusplus
 extern "C"

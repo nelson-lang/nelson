@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ycbcr2rgb</keyword>
+  <short_description>Convert YCbCr color values to RGB color values.</short_description>
+  <syntax>
+    <syntax_item>RGB = ycbcr2rgb(YCBCR)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>YCBCR</param_name>
+      <param_description>m-by-n-by-3 YCbCr image, or c-by-3 double colormap with values in the range [0, 1].</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description>RGB image or colormap. uint8, uint16, and single inputs preserve their class; other inputs return double.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convert YCbCr color values to RGB color values. Inputs can be m-by-n-by-3 images or c-by-3 double colormaps with values in the range [0, 1].</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convert YCbCr image to RGB</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[RGB=zeros(64,64,3);
+[X,Y]=meshgrid(linspace(0,1,64),linspace(0,1,64));
+RGB(:,:,1)=X; RGB(:,:,2)=Y; RGB(:,:,3)=0.5;
+RGB2=ycbcr2rgb(rgb2ycbcr(RGB));
+figure; image(RGB2); title('YCbCr to RGB');]]></example_item_data>
+      <example_item_img
+        src="../../../images/ycbcr2rgb_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}rgb2ycbcr">rgb2ycbcr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}hsv2rgb">hsv2rgb</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,29 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
-f= figure();
+f = figure();
 f.DrawLater = 'on';
-colormaps = {'autumn';
-'bone';
-'cool';
-'copper';
-'gray';
-'hot';
-'jet';
-'parula';
-'pink';
-'spring';
-'summer';
-'turbo';
-'viridis';
-'white';
-'winter'};
+colormaps = {'autumn'; 'bone'; 'colorcube'; 'cool'; 'copper'; 'gray'};
 
 k = 1;
 for map = colormaps'
-  subplot(4, 4, k);
+  subplot(2, 3, k);
   surf(peaks);
   ax = gca();
   colormap(ax, map{1});
@@ -39,3 +26,4 @@ for map = colormaps'
   view(-30, 10)
 end
 f.DrawLater = 'off';
+%=============================================================================

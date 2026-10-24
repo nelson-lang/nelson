@@ -22,7 +22,7 @@ namespace AudioGateway {
     ArrayOfVector
     audioplayer_playblockingBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace AudioGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

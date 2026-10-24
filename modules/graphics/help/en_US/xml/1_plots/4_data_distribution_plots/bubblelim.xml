@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bubblelim</keyword>
+  <short_description>Set or query bubble size data limits.</short_description>
+  <syntax>
+    <syntax_item>bubblelim(limits)</syntax_item>
+    <syntax_item>bubblelim(&apos;auto&apos;)</syntax_item>
+    <syntax_item>bubblelim(&apos;manual&apos;)</syntax_item>
+    <syntax_item>bubblelim(ax, ...)</syntax_item>
+    <syntax_item>limits = bubblelim()</syntax_item>
+    <syntax_item>mode = bubblelim(&apos;mode&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>limits</param_name>
+      <param_description>Two-element numeric vector [min max].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes. If omitted, the current axes is used.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>limits</param_name>
+      <param_description>Current bubble size data limits.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bubblelim</b> controls the data limits used to map <b>SizeData</b> values to rendered bubble diameters.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set bubble limits.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure();
+bubblechart(1:3, [2 4 6], [10 100 1000]);
+bubblelim([10 1000]);]]></example_item_data>
+      <example_item_img src="../../../../images/bubblelim_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblechart">bubblechart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblesize">bubblesize</link></see_also_item>
+  </see_also>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

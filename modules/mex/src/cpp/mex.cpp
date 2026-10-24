@@ -13,6 +13,7 @@
 #include "NelsonPrint.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Warning.hpp"
 //=============================================================================
 static std::string currentMexFunctionName;
@@ -53,7 +54,7 @@ mexPrintf(const char* format, ...)
 void
 mexErrMsgTxt(const char* error_msg)
 {
-    Nelson::Error(error_msg);
+    Nelson::Error("Nelson:MEX:errMsgTxt", error_msg);
 }
 //=============================================================================
 void
@@ -82,13 +83,13 @@ mexErrMsgIdAndTxt(const char* identifier, const char* err_msg, ...)
     }
     va_end(ap);
     std::string msg = buff.data();
-    Nelson::Error(msg, identifier);
+    Nelson::RaiseError(msg, identifier);
 }
 //=============================================================================
 void
 mexWarnMsgTxt(const char* warn_msg)
 {
-    Nelson::Warning(warn_msg);
+    Nelson::RaiseWarning("Nelson:mex:warning", warn_msg);
 }
 //=============================================================================
 void
@@ -116,6 +117,6 @@ mexWarnMsgIdAndTxt(const char* warningid, const char* warningmsg, ...)
         buff.resize(size);
     }
     va_end(ap);
-    Nelson::Warning(warningid, buff.data());
+    Nelson::RaiseWarning(warningid, buff.data());
 }
 //=============================================================================

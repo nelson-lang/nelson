@@ -11,7 +11,7 @@
 //=============================================================================
 #include <string>
 #include "nlsGraphics_io_exports.h"
-#include "GOWindow.hpp"
+#include "GOFigureHost.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,8 +25,20 @@ enum IMAGE_FORMAT
     PS_EXPORT,
     EPS_EXPORT,
     SVG_EXPORT,
+    WEBP_EXPORT,
+    BMP_EXPORT,
+    TGA_EXPORT,
+    PBM_EXPORT,
+    PGM_EXPORT,
+    PPM_EXPORT,
+    PNM_EXPORT,
+    PCX_EXPORT,
     ERROR_EXPORT
 };
+//=============================================================================
+using ExportGraphicsDialogProvider = bool (*)(GOFigureHost*);
+NLSGRAPHICS_IO_IMPEXP void
+setExportGraphicsDialogProvider(ExportGraphicsDialogProvider provider);
 //=============================================================================
 NLSGRAPHICS_IO_IMPEXP bool
 isSupportedImageFormatExtension(const std::wstring& extension);
@@ -38,12 +50,16 @@ NLSGRAPHICS_IO_IMPEXP std::wstring
 getExportImageFormatAsString(IMAGE_FORMAT exportFormat);
 //=============================================================================
 NLSGRAPHICS_IO_IMPEXP bool
-ExportGraphics(GOWindow* f, const std::wstring& filename, IMAGE_FORMAT exportFormat);
+ExportGraphics(GOFigureHost* f, const std::wstring& filename, IMAGE_FORMAT exportFormat);
 //=============================================================================
 NLSGRAPHICS_IO_IMPEXP bool
-ExportGraphicsGUI(GOWindow* f);
+ExportGraphicsAtScale(
+    GOFigureHost* f, const std::wstring& filename, IMAGE_FORMAT exportFormat, double exportScale);
 //=============================================================================
-}
+NLSGRAPHICS_IO_IMPEXP bool
+ExportGraphicsGUI(GOFigureHost* f);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
 extern "C"
 {

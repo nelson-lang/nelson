@@ -21,5 +21,5 @@ bool
 h5SaveLogical(hid_t fid, const std::string& location, const std::string& variableName,
     const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

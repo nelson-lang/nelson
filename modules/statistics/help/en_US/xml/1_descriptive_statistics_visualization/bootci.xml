@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bootci</keyword>
+  <short_description>Bootstrap confidence interval.</short_description>
+  <syntax>
+    <syntax_item>ci = bootci(nboot, bootfun, d)</syntax_item>
+    <syntax_item>ci = bootci(nboot, bootfun, d1, ..., dN)</syntax_item>
+    <syntax_item>ci = bootci(nboot, {bootfun, d1, ..., dN}, &apos;Type&apos;, type)</syntax_item>
+    <syntax_item>[ci, bootstat] = bootci(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nboot</param_name>
+      <param_description>positive integer number of bootstrap samples.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bootfun</param_name>
+      <param_description>function handle applied to each bootstrap sample.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>numeric or logical vector or matrix. Rows are sampled with replacement.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>confidence interval type: &apos;bca&apos;, &apos;normal&apos;, &apos;percentile&apos;, or &apos;cper&apos;. Studentized intervals are reserved for a future implementation.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ci</param_name>
+      <param_description>two-row array containing lower and upper confidence interval bounds.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bootstat</param_name>
+      <param_description>bootstrap statistics, one row per bootstrap sample.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bootci</b> draws bootstrap samples using Nelson&apos;s random generator and computes confidence intervals for statistics returned by a function handle.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}bootstrp">bootstrp</link>
+    <link linkend="${statistics}jackknife">jackknife</link>
+    <link linkend="${statistics}statset">statset</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Confidence interval for the mean.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng('default');
+ci = bootci(100, @mean, (1:10)', 'Type', 'percentile')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

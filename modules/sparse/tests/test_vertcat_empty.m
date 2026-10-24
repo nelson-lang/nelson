@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = vertcat(sparse(zeros(0, 0)), sparse(2));
-assert_isequal(R, sparse(2));
+asserts.isequal(R, sparse(2));
 R = vertcat(sparse(zeros(1, 0)), sparse(2));
-assert_isequal(R, sparse(2));
+asserts.isequal(R, sparse(2));
 R = vertcat(sparse(zeros(0, 1)), sparse(2));
-assert_isequal(R, sparse(2));
+asserts.isequal(R, sparse(2));
 %=============================================================================

@@ -18,5 +18,6 @@ NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
 UserDir();
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
 GetUserDirectory();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

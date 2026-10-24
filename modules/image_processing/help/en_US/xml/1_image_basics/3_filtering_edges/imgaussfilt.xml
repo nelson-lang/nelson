@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imgaussfilt</keyword>
+  <short_description>Apply Gaussian filtering to an image.</short_description>
+  <syntax>
+    <syntax_item>B = imgaussfilt(A)</syntax_item>
+    <syntax_item>B = imgaussfilt(A, sigma)</syntax_item>
+    <syntax_item>B = imgaussfilt(__, 'FilterSize', filterSize)</syntax_item>
+    <syntax_item>B = imgaussfilt(__, 'Padding', pad)</syntax_item>
+    <syntax_item>B = imgaussfilt(__, 'FilterDomain', domain)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>2-D grayscale, RGB, or RGBA numeric or logical image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>Positive finite scalar or 2-element vector. The default value is 0.5.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>FilterSize</param_name>
+      <param_description>Positive odd scalar or 2-element vector. If omitted, it is derived from sigma.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Padding</param_name>
+      <param_description>Padding mode: 'replicate', 'symmetric', 'circular', or a finite scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>FilterDomain</param_name>
+      <param_description>Accepted values are 'auto', 'spatial', and 'frequency'. Filtering is computed in the spatial domain.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Filtered image. The output preserves the input class for common image classes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Apply Gaussian filtering to a 2-D image or to each plane of an RGB/RGBA image.</p>
+    <p>Sigma values must be positive and FilterSize must contain positive odd integers.</p>
+    <p>The supported options are FilterSize, Padding, and FilterDomain.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Apply Gaussian filtering</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=peaks(64);
+J=imgaussfilt(I,1.5);
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(J); title('Gaussian filtered');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imgaussfilt_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Specify filter size and padding</example_item_description>
+      <example_item_data><![CDATA[A = [1 2; 3 4];
+B = imgaussfilt(A, 0.5, 'FilterSize', [3 3], 'Padding', 0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}fspecial">fspecial</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imboxfilt">imboxfilt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

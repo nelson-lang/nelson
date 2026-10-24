@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audioplayer_propertiesBuiltin.hpp"
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -26,10 +27,10 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
-    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.asHandleScalar();
     wstringVector fieldnames = objPlayer->fieldnames();
     if (nLhs == 0) {
         std::wstring msg;
@@ -49,7 +50,7 @@ Nelson::AudioGateway::audioplayer_propertiesBuiltin(int nLhs, const ArrayOfVecto
         }
         NelsonPrint(msg);
     } else {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(fieldnames);
     }
     return retval;
 }

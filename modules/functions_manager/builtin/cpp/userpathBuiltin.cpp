@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "userpathBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,7 +25,7 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         nargoutcheck(nLhs, 0, 0);
         ArrayOf param1 = argIn[0];
         if (param1.isRowVectorCharacterArray()) {
-            std::wstring paramstr = param1.getContentAsWideString();
+            std::wstring paramstr = param1.asWideString();
             if (paramstr == L"clear") {
                 PathFunctionIndexerManager::getInstance()->clearUserPath(true);
             } else if (paramstr == L"reset") {
@@ -33,17 +34,18 @@ Nelson::FunctionsGateway::userpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (FileSystemWrapper::Path::is_directory(paramstr)) {
                     PathFunctionIndexerManager::getInstance()->setUserPath(paramstr, true);
                 } else {
-                    Error(_W("Not an existing directory:") + L" " + paramstr);
+                    Error(L"Nelson:userpath:directoryDoesNotExist",
+                        L"Not an existing directory: %s", paramstr);
                 }
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     } else {
         nargincheck(argIn, 0, 0);
         nargoutcheck(nLhs, 0, 1);
-        retval << ArrayOf::characterArrayConstructor(
-            PathFunctionIndexerManager::getInstance()->getUserPath());
+        retval << ArrayOf::characterArray(PathFunctionIndexerManager::getInstance()->getUserPath());
     }
     return retval;
 }

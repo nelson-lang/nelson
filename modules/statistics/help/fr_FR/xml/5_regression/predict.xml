@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>predict</keyword>
+  <short_description>Prédire des réponses ou des étiquettes de classe à partir d&apos;un modèle ajusté.</short_description>
+  <syntax>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>mdl</param_name>
+      <param_description>un objet modèle ajusté, tel qu&apos;un LinearModel, un GeneralizedLinearModel, ou l&apos;un des objets de modèle de régression ou de classification renvoyés par les fonctions d&apos;ajustement.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xnew</param_name>
+      <param_description>matrice numérique de nouvelles observations : les lignes sont les observations et les colonnes les prédicteurs, en correspondance avec les prédicteurs utilisés pour entraîner mdl.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>yfit</param_name>
+      <param_description>valeurs de réponse prédites pour les observations de Xnew (modèles de régression).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>label</param_name>
+      <param_description>étiquettes de classe prédites pour les observations de Xnew (modèles de classification).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>score</param_name>
+      <param_description>scores de classification pour chaque observation et chaque classe (modèles de classification fournissant des scores).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>predict</b> est la méthode commune utilisée pour évaluer un modèle ajusté sur de nouvelles
+    données de prédicteurs.</p>
+    <p>Pour les modèles de régression (par exemple l&apos;objet renvoyé par <b>fitlm</b> ou
+    <b>fitglm</b>), <b>predict</b> renvoie la réponse prédite <b>yfit</b> pour chaque ligne de
+    <b>Xnew</b>.</p>
+    <p>Pour les modèles de classification (par exemple l&apos;objet renvoyé par <b>fitcsvm</b> ou
+    <b>fitctree</b>), <b>predict</b> renvoie l&apos;étiquette de classe prédite <b>label</b> pour
+    chaque observation, et éventuellement une matrice de <b>score</b> de classification.</p>
+    <p>Les colonnes de <b>Xnew</b> doivent correspondre aux prédicteurs utilisés lors de
+    l&apos;ajustement du modèle.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Prédire des réponses à partir d&apos;un modèle linéaire ajusté.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[X = [1 2; 2 1; 3 4; 4 3];
+y = [3; 3; 7; 7];
+mdl = fitlm(X, y);
+yfit = predict(mdl, [7 4; 8 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}fitlm">fitlm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitglm">fitglm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitcsvm">fitcsvm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}fitctree">fitctree</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}LinearModel">LinearModel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

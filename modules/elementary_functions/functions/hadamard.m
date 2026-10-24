@@ -14,29 +14,29 @@ function H = hadamard(varargin)
   nargoutchk(0, 1);
   n = varargin{1};
   if ~isscalar(n)
-    error(_('Wrong size for argument #1: scalar expected.'));
+    error('Nelson:elementary_functions:wrongSizeArgument1Scalar', 'Wrong size for argument #%d: scalar expected.', 1);
   end
   if ~isfinite(n)
-    error(_('Wrong value for argument #1: finite value expected.'));
+    error('Nelson:elementary_functions:wrongValueArgument1Finite', 'Wrong value for argument #%d: finite value expected.', 1);
   end
   if ~isreal(n)
-    error(_('Wrong value for argument #1: real value expected.'));
+    error('Nelson:elementary_functions:wrongValueArgument1Real', 'Wrong value for argument #%d: real value expected.', 1);
   end
-  
-  classname = 'double';    
+
+  classname = 'double';
   if nargin == 2
     classname = varargin{2};
   end
   if isStringScalar(classname)
     classname = convertStringsToChars(classname);
   end
-  N = [n, n/12, n/20];
+  N = [n, n / 12, n / 20];
   [F, E] = log2(N);
-  K = find(E > 0 & F == 1/2);
+  K = find(E > 0 & F == 1 / 2);
   if isempty(K)
-    error(_('N must be 2^k*p, with p = 1, 12, 20.'));
+    error('Nelson:elementary_functions:n2KPP', 'N must be 2^k*p, with p = 1, 12, 20.');
   end
-  E = E(K)-1;
+  E = E(K) - 1;
   switch K
     case 1
       H = h1(classname);
@@ -45,16 +45,16 @@ function H = hadamard(varargin)
     case 3
       H = h20(classname);
     otherwise
-      error(_('N must be 2^k*p, with p = 1, 12, 20.'));
-    end
-    l = length(1:E);
-    k = 0;
-    while k < l
-      H = [H  H; H -H];
-      k = k + 1;
-    end
+      error('Nelson:elementary_functions:n2KPP', 'N must be 2^k*p, with p = 1, 12, 20.');
   end
-  %=============================================================================
+  l = length(1:E);
+  k = 0;
+  while k < l
+    H = [H H; H -H];
+    k = k + 1;
+  end
+end
+%=============================================================================
 function H = h1(classname)
   H = ones(classname);
 end
@@ -62,18 +62,18 @@ end
 function H = h12(classname)
   n = 12;
   ti = ones(1, n, classname);
-  tu = ones(n - 1,1,classname);
-  T = toeplitz([-1 -1 1 -1 -1 -1 1 1 1 -1 1],[-1 1 -1 1 1 1 -1 -1 -1 1 -1]);    
+  tu = ones(n - 1, 1, classname);
+  T = toeplitz([-1 -1 1 -1 -1 -1 1 1 1 -1 1], [-1 1 -1 1 1 1 -1 -1 -1 1 -1]);
   H = [ti; tu, T];
 end
 %=============================================================================
 function H = h20(classname)
   n = 20;
   ti = ones(1, n, classname);
-  tu = ones(n - 1,1,classname);
+  tu = ones(n - 1, 1, classname);
   hkc = [-1 -1 1 1 -1 -1 -1 -1 1 -1 1 -1 1 1 1 1 -1 -1 1];
   hkr = [1 -1 -1 1 1 -1 -1 -1 -1 1 -1 1 -1 1 1 1 1 -1 -1];
-  hk  = hankel(hkc, hkr);
+  hk = hankel(hkc, hkr);
   H = [ti; tu, hk];
 end
 %=============================================================================

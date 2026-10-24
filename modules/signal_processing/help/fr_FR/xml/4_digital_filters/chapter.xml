@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>signal_processing</module_name>
+  <chapter>Filtres numeriques</chapter>
+  <chapter_description>
+    <p>Fonctions de conception, analyse, conversion et implementation de filtres.</p>
+  </chapter_description>
+</xmldoc>

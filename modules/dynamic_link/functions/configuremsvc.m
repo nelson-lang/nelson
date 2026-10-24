@@ -11,7 +11,7 @@ function varargout = configuremsvc()
   % currently only VS 2017, VS 2019 and VS 2022
   status = false;
   message = '';
-  clear('havecompiler');  % clear persistent variable
+  clear('havecompiler'); % clear persistent variable
   if ~ispc()
     varargout{1} = false;
     varargout{2} = _('Not implemented on this platform.');
@@ -29,10 +29,10 @@ function varargout = configuremsvc()
 
   if isempty(vsjson)
     varargout{1} = false;
-    varargout{2} = _('No Visual Studio installation found.');
+    varargout{2} = 'No Visual Studio installation found.';
     return
   end
-  
+
   if startsWith(vsjson.installationVersion, '18.')
     vsconfig = [modulepath('dynamic_link'), '/resources/msvc2026.json'];
   elseif startsWith(vsjson.installationVersion, '17.')
@@ -49,10 +49,10 @@ function varargout = configuremsvc()
     return
   end
   msvc201X = jsondecode(vsconfig, '-file');
-  
+
   vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');
-  vcvarsbatpath = [vsjson.installationPath,'/VC/Auxiliary/Build'];
+  vcvarsbatpath = [vsjson.installationPath, '/VC/Auxiliary/Build'];
   if strcmp(arch, 'woa64')
     vcvarsbat = 'vcvarsarm64.bat';
   else
@@ -78,30 +78,37 @@ function varargout = configuremsvc()
     varargout{2} = message;
     return
   end
-  current_PATH = getenv('PATH');
-  if ~contains(current_PATH, vcvarsbatpath)
-    setenv('PATH', [current_PATH, ';', vcvarsbatpath]);
-  end
-  if ~contains(getenv('PATH'), vcinfo_batchpath)
-    setenv('PATH', [getenv('PATH'), ';', vcinfo_batchpath]);
-  end
   names = {};
   values = {};
-  for k = msvc201X.ENVIRONMENT_VARIABLES(:)'
-    cmd = [vcinfo_batch, ' ', vcvarsbat, ' ', k{1}];
-    [s, m] = unix(cmd);
-    if (s ~= 0)
-      varargout{1} = false;
-      varargout{2} = [k{1}, ' ', _('environment variable does not exist.')];
-      return
+  if allCompilerEnvironmentVariablesExist(msvc201X.ENVIRONMENT_VARIABLES)
+    for k = msvc201X.ENVIRONMENT_VARIABLES(:)'
+      names{end + 1} = k{1};
+      values{end + 1, 1} = currentCompilerEnvironmentValue(k{1}, getenv(k{1}), vsjson.installationPath);
     end
-    % ack to remove '\n' at the end
-    m(m == 10) = '';
-    if strcmp(k{1}, 'PATH') == true
-      m = replace(m, current_PATH, '');
+  else
+    current_PATH = getenv('PATH');
+    if ~contains(current_PATH, vcvarsbatpath)
+      setenv('PATH', [current_PATH, ';', vcvarsbatpath]);
     end
-    names = [names, k{1}];
-    values = [values; m];
+    if ~contains(getenv('PATH'), vcinfo_batchpath)
+      setenv('PATH', [getenv('PATH'), ';', vcinfo_batchpath]);
+    end
+    for k = msvc201X.ENVIRONMENT_VARIABLES(:)'
+      cmd = ['"', vcinfo_batchfullfilename, '" "', vcvarsbatfullfilename, '" ', k{1}];
+      [s, m] = unix(cmd);
+      if (s ~= 0)
+        varargout{1} = false;
+        varargout{2} = sprintf('%s environment variable does not exist.', k{1});
+        return
+      end
+      % ack to remove '\n' at the end
+      m(m == 10) = '';
+      if strcmp(k{1}, 'PATH') == true
+        m = replace(m, current_PATH, '');
+      end
+      names{end + 1} = k{1};
+      values{end + 1, 1} = m;
+    end
   end
   config = cell2struct(values, names);
   config.COMPILER_CHOICE = 'msvc';
@@ -120,7 +127,58 @@ function [status, message] = checkExistFile(filename, errormsg)
   message = '';
   status = isfile(filename);
   if ~status
-    message = [filename, ' ', _('does not exist.')];
+    message = sprintf('%s does not exist.', filename);
   end
+end
+%=============================================================================
+function tf = allCompilerEnvironmentVariablesExist(names)
+  tf = true;
+  for k = names(:)'
+    if isempty(getenv(k{1}))
+      tf = false;
+      return
+    end
+  end
+end
+%=============================================================================
+function value = currentCompilerEnvironmentValue(name, value, installationPath)
+  if strcmp(name, 'PATH')
+    value = compilerPathEntries(value, installationPath);
+  else
+    value = uniqueEnvironmentEntries(value);
+  end
+end
+%=============================================================================
+function value = compilerPathEntries(value, installationPath)
+  entries = strsplit(value, ';');
+  selected = {};
+  installationPath = lower(replace(installationPath, '/', '\'));
+  for k = 1:length(entries)
+    entry = entries{k};
+    normalized = lower(replace(entry, '/', '\'));
+    if contains(normalized, installationPath) || contains(normalized, '\windows kits\')
+      selected = [selected, entry];
+    end
+  end
+  value = strjoin(uniquePreserveOrder(selected), ';');
+end
+%=============================================================================
+function value = uniqueEnvironmentEntries(value)
+  value = strjoin(uniquePreserveOrder(strsplit(value, ';')), ';');
+end
+%=============================================================================
+function entries = uniquePreserveOrder(entries)
+  result = {};
+  seen = {};
+  for k = 1:length(entries)
+    entry = entries{k};
+    normalized = lower(replace(entry, '/', '\'));
+    if isempty(entry) || any(strcmp(seen, normalized))
+      continue
+    end
+    result = [result, entry];
+    seen = [seen, normalized];
+  end
+  entries = result;
 end
 %=============================================================================

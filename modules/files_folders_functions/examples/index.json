@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "temporary_files.m",
+      "title": "Work with temporary files",
+      "description": "Create, read and clean up a text file under the temporary directory.",
+      "tags": [
+        "files",
+        "folders"
+      ],
+      "requirements": []
+    }
+  ]
+}

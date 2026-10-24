@@ -1,5 +1,14 @@
 //=============================================================================
+// Copyright (c) 2025-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
 #pragma once
+//=============================================================================
 #include "Context.hpp"
 #include "Evaluator.hpp"
 #include "ArrayOf.hpp"
@@ -26,7 +35,6 @@ public:
         const QString& name, ArrayOf array, Evaluator* evaluator, QObject* parent = nullptr);
     ~VariableRowCharactersTableModel() override = default;
 
-    // QAbstractTableModel interface
     int
     rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int
@@ -40,7 +48,6 @@ public:
     QVariant
     headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    // Array management
     void
     refreshFromArray(ArrayOf& value) override;
     bool
@@ -48,7 +55,6 @@ public:
     void
     forceViewUpdate();
 
-    // Selection and clipboard operations - MOVED FROM QtVariablesEditor
     QString
     getSelectedDataAsText(const QModelIndexList& selectedIndexes) const override;
     bool
@@ -61,13 +67,11 @@ public:
     QSize
     getPasteSize(const QString& text) const override;
 
-    // Variable creation from selection - MOVED FROM QtVariablesEditor
     ArrayOf
     createArrayFromSelection(const QModelIndexList& selectedIndexes) const override;
     bool
     isValidSelectionForExtraction(const QModelIndexList& selectedIndexes) const override;
 
-    // Row/Column operations - MOVED FROM QtVariablesEditor
     bool
     insertRowAt(int row) override;
     bool
@@ -80,11 +84,6 @@ public:
     bool
     shouldDisplayAsTable() const;
 
-    void
-    undo() override;
-    void
-    redo() override;
-
 signals:
     void
     modelChanged();
@@ -94,15 +93,15 @@ signals:
     selectionCreated(const QString& suggestedName, const ArrayOf& newArray);
 
 private:
-    // Core data management
     void
     initializeDimensions();
     void
     initializeEditData();
+    void
+    rebuildModelFromCurrentArray() override;
     bool
     validateArrayState() const;
 
-    // Display and editing
     QVariant
     getDisplayValue(int row, int col) const;
     bool
@@ -110,21 +109,18 @@ private:
     bool
     isValidPosition(int row, int col) const;
 
-    // Array manipulation
     bool
     setArrayValue(int row, int col, const std::wstring& value);
     void
     updateEditData(int row, int col, const QVariant& value);
 
-    // Persistence
     void
-    persistChangesToContext();
+    persistChangesToContext() override;
     void
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
     void
     performBatchedPersistence();
 
-    // Selection operations helpers - MOVED FROM QtVariablesEditor
     struct SelectionBounds
     {
         int minRow, maxRow, minCol, maxCol;
@@ -133,7 +129,6 @@ private:
     SelectionBounds
     getSelectionBounds(const QModelIndexList& selectedIndexes) const;
 
-    // Enhanced paste helpers
     struct PasteData
     {
         QVector<QVector<QString>> cells;
@@ -148,13 +143,11 @@ private:
     bool
     applyPasteData(const PasteData& data, int startRow, int startCol);
 
-    // Utilities
     int
     indexToFlat(int row, int col) const;
     std::pair<int, int>
     flatToIndex(int flatIndex) const;
 
-    // Member variables
     int m_rows = 1;
     int m_cols = 1;
     int m_rows_display = 1;
@@ -163,7 +156,6 @@ private:
     QTimer* m_persistenceTimer = nullptr;
     bool m_pendingChanges = false;
 
-    // Configuration
     static constexpr int MIN_DISPLAY_SIZE = 1;
     static constexpr int DEFAULT_EMPTY_SIZE = 1;
     static constexpr int MAX_PASTE_SIZE = 1;

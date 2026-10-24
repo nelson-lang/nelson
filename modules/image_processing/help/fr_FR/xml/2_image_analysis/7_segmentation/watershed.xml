@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>watershed</keyword>
+  <short_description>Calcule les regions watershed d une image 2-D ou d un volume 3-D.</short_description>
+  <syntax>
+    <syntax_item>L = watershed(I)</syntax_item>
+    <syntax_item>L = watershed(I, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image 2-D ou volume 3-D numerique ou logique, reel et fini.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, 4 ou 8 pour les images, 6, 18 ou 26 pour les volumes. La valeur par defaut est 8 pour les images et 26 pour les volumes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Tableau de labels double. Les elements de ligne de partage valent 0.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule les regions watershed d une image 2-D ou d un volume 3-D reel fini.</p>
+    <p>La connectivite peut etre 4, 8, ou une matrice 3-by-3 equivalente pour les images, et 6, 18, 26, ou un tableau 3-by-3-by-3 equivalent pour les volumes.</p>
+    <p>Les labels identifient les bassins versants, et les elements de ligne de partage valent 0.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Segmenter une image de relief synthetique</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=min((X+0.45).^2+Y.^2,(X-0.45).^2+Y.^2);
+L=watershed(I,4);
+figure; subplot(1,2,1); imagesc(I); title('Relief');
+subplot(1,2,2); imagesc(L); title('Watershed labels');]]></example_item_data>
+      <example_item_img
+        src="../../../images/watershed_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imextendedmin">imextendedmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imimposemin">imimposemin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}activecontour">activecontour</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

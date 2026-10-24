@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "semverBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "CompareVersions.hpp"
 #include "characters_encoding.hpp"
@@ -22,14 +23,15 @@ Nelson::ModulesManagerGateway::semverBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    std::string param1 = argIn[0].getContentAsCString();
-    std::string param2 = argIn[1].getContentAsCString();
+    std::string param1 = argIn[0].asUtf8String();
+    std::string param2 = argIn[1].asUtf8String();
     std::string errorMessage;
     int value = CompareVersions(param1, param2, errorMessage);
     if (!errorMessage.empty()) {
-        Error(_W("Cannot compare versions: ") + utf8_to_wstring(errorMessage));
+        Error(L"Nelson:semver:cannotCompareVersions", L"Cannot compare versions: %s",
+            utf8_to_wstring(errorMessage));
     } else {
-        retval << ArrayOf::doubleConstructor(value);
+        retval << ArrayOf::doubleScalar(value);
     }
     return retval;
 }

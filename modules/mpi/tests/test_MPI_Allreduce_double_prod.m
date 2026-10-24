@@ -14,13 +14,13 @@ if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object();
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
 
 A = [1 + my_rank:3 + my_rank];
 B = MPI_Allreduce(A, 'MPI_PROD', comm);
 if (my_rank == 0)
-  assert_isequal(B, [2, 6, 12]);
+  asserts.isequal(B, [2, 6, 12]);
 end
 if MPI_Initialized()
   MPI_Finalize();

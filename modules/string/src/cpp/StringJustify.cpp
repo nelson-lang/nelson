@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,6 +15,7 @@
 #include <fmt/xchar.h>
 #include "StringJustify.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -53,45 +54,44 @@ stringJustifyRight(const std::wstring& str)
 ArrayOf
 StringJustify(const ArrayOf& stringArrayOf, STRINGJUSTIFY style)
 {
-    switch (stringArrayOf.getDataClass()) {
+    switch (stringArrayOf.dataClass()) {
     case NLS_CHAR: {
-        std::wstring str = stringArrayOf.getContentAsWideString();
+        std::wstring str = stringArrayOf.asWideString();
         switch (style) {
         case STRINGJUSTIFY::NLS_JUSTIFY_CENTER: {
-            return ArrayOf::characterArrayConstructor(stringJustifyCenter(str));
+            return ArrayOf::characterArray(stringJustifyCenter(str));
         } break;
         case STRINGJUSTIFY::NLS_JUSTIFY_RIGHT: {
-            return ArrayOf::characterArrayConstructor(stringJustifyRight(str));
+            return ArrayOf::characterArray(stringJustifyRight(str));
         } break;
         default:
         case STRINGJUSTIFY::NLS_JUSTIFY_LEFT: {
-            return ArrayOf::characterArrayConstructor(stringJustifyLeft(str));
+            return ArrayOf::characterArray(stringJustifyLeft(str));
         } break;
         }
     } break;
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY: {
-        ArrayOf* ptr = (ArrayOf*)stringArrayOf.getDataPointer();
+        ArrayOf* ptr = (ArrayOf*)stringArrayOf.dataPointer();
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            stringArrayOf.getDataClass(), stringArrayOf.getElementCount());
-        ArrayOf cell
-            = ArrayOf(stringArrayOf.getDataClass(), stringArrayOf.getDimensions(), elements);
-        OMP_PARALLEL_FOR_LOOP(stringArrayOf.getElementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)stringArrayOf.getElementCount(); ++k) {
+            stringArrayOf.dataClass(), stringArrayOf.elementCount());
+        ArrayOf cell = ArrayOf(stringArrayOf.dataClass(), stringArrayOf.dimensions(), elements);
+        OMP_PARALLEL_FOR_LOOP(stringArrayOf.elementCount())
+        for (ompIndexType k = 0; k < (ompIndexType)stringArrayOf.elementCount(); ++k) {
             if (ptr[k].isRowVectorCharacterArray()) {
                 elements[k] = StringJustify(ptr[k], style);
             } else {
-                elements[k] = ArrayOf::doubleConstructor(std::nan(""));
+                elements[k] = ArrayOf::doubleScalar(std::nan(""));
             }
         }
         return cell;
     } break;
     default: {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:string:typeSupported", L"Type not supported.");
     } break;
     }
     return {};
 }
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

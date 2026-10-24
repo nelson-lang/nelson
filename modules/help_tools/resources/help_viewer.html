@@ -27,13 +27,17 @@
       <button id="website-btn" type="button" class="help-viewer__nav-btn" title="Open Nelson Website">🌐 Website</button>
       <button id="github-btn" type="button" class="help-viewer__nav-btn" title="Open GitHub Project">📁 GitHub</button>
       <form id="search-form" class="help-viewer__search" onsubmit="searchHelp(document.getElementById('search-input').value); return false;">
-        <input type="text" id="search-input" class="help-viewer__search-input" placeholder="Search help..." aria-label="Search help">
+        <span class="help-viewer__search-field">
+          <input type="text" id="search-input" class="help-viewer__search-input" placeholder="Search help..." aria-label="Search help">
+          <button type="button" id="search-clear" class="help-viewer__search-clear" title="Clear search" aria-label="Clear search" hidden>&times;</button>
+        </span>
         <button type="submit" id="search-btn" title="Search" class="help-viewer__search-btn">Search</button>
       </form>
       <!-- language is detected from URL or contentFrame (no manual selector) -->
     </header>
     <iframe id="contentFrame" name="contentFrame" class="help-viewer__content" src="homepage.html"></iframe>
   </main>
+  <div id="sidebar-backdrop" class="help-viewer__backdrop" hidden></div>
   <!-- Consolidated script: collapsing, language management, search/navigation -->
   <script>
     (function() {
@@ -68,11 +72,14 @@
       // Elements
       const leftFrame = document.getElementById('left-frame');
       const collapseBtn = document.getElementById('collapse-btn');
+      const tocFrame = document.getElementById('tocFrame');
       const contentFrame = document.getElementById('contentFrame');
       const searchInput = document.getElementById('search-input');
       const searchBtn = document.getElementById('search-btn');
+      const searchClearBtn = document.getElementById('search-clear');
       const websiteBtn = document.getElementById('website-btn');
       const githubBtn = document.getElementById('github-btn');
+      const sidebarBackdrop = document.getElementById('sidebar-backdrop');
       // no manual language selector: language derived from URL/content
 
       // State
@@ -131,10 +138,15 @@
       // Helpers
       function setNavigationState(isCollapsed) {
         leftFrame.classList.toggle('collapsed', isCollapsed);
-        // keep icon unchanged but update title/aria
+        // Reflect the state in the icon: hamburger when the menu is hidden
+        // (click to open), left chevron when it is open (click to close).
+        collapseBtn.innerHTML = isCollapsed ? '&#9776;' : '&#10094;';
         collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
         leftFrame.setAttribute('aria-hidden', String(isCollapsed));
         collapseBtn.title = isCollapsed ? messages[lang].expand_title : messages[lang].collapse_title;
+        // On narrow viewports the sidebar is an overlay drawer: show the backdrop
+        // whenever it is open. CSS keeps the backdrop hidden on wide screens.
+        if (sidebarBackdrop) { sidebarBackdrop.hidden = isCollapsed; }
       }
 
       function applyTranslations() {
@@ -209,17 +221,170 @@
         }
       }
 
+      // Only allow a safe relative page path (no absolute URLs / protocol handlers).
+      function isSafeRelativePath(p) {
+        if (!p || typeof p !== "string") return false;
+        if (/^\s*$/.test(p)) return false;
+        if (/^[a-z][a-z0-9+\-.]*:/i.test(p)) return false; // no protocol (http:, javascript:)
+        if (/^\/\//.test(p)) return false;                 // no protocol-relative URL
+        if (/[<>:"|?*\\]/.test(p)) return false;            // no special chars
+        return /^[\w\-\/\.\@]+$/.test(p);
+      }
+
       function navigateToPage(pagePath) {
         if (contentFrame) {
           contentFrame.src = appendLangToUrl(pagePath);
         }
+        syncTocToPage(pagePath);
       }
+
+      // ---- Shareable URL + browser history (deep-linking) ---------------------
+      // Reflect the page shown in the content frame into the outer URL hash
+      // (#open=./module/name.html) so it can be bookmarked/shared and so the
+      // browser Back/Forward buttons walk through visited pages.
+      let suppressHistory = false;
+
+      // Turn an absolute content pathname into a path relative to the help root
+      // (the directory that holds index.html), e.g. "./graphics/.../surf.html".
+      function toRootRelative(pathname) {
+        try {
+          const base = window.location.pathname.replace(/[^/]*$/, '');
+          const lb = base.toLowerCase();
+          const lp = String(pathname).toLowerCase();
+          if (lp.indexOf(lb) === 0) {
+            return './' + String(pathname).slice(base.length);
+          }
+        } catch (e) { /* ignore */ }
+        return null;
+      }
+
+      function updateUrlForPage(pathname) {
+        const rel = toRootRelative(pathname);
+        if (!rel || !isSafeRelativePath(rel)) return;
+        // Write the page into the ?open= query param (the form the web build uses
+        // and the one readLaunchParams() prefers), and drop any stale hash/search
+        // so file:// and http stay consistent and the URL is shareable.
+        let url;
+        try { url = new URL(window.location); } catch (e) { return; }
+        if (url.searchParams.get('open') === rel && !url.hash && !url.searchParams.has('search')) return;
+        url.searchParams.set('open', rel);
+        url.searchParams.delete('search');
+        url.hash = '';
+        try {
+          if (suppressHistory) {
+            window.history.replaceState({ open: rel }, '', url);
+          } else {
+            window.history.pushState({ open: rel }, '', url);
+          }
+        } catch (e) { /* ignore */ }
+      }
+
+      window.addEventListener('popstate', (e) => {
+        // Prefer the history state (authoritative, immune to query-vs-hash
+        // precedence); fall back to parsing the URL for externally-shared links.
+        let openPage = (e && e.state && e.state.open) || null;
+        if (!openPage) {
+          const params = readLaunchParams();
+          openPage = params.get('open');
+        }
+        if (openPage && isSafeRelativePath(openPage)) {
+          suppressHistory = true;
+          navigateToPage(openPage);
+          suppressHistory = false;
+        }
+      });
+
+      // ---- Table of contents synchronization ---------------------------------
+      // The TOC lives in a same-directory iframe. On file:// each document has its
+      // own opaque origin, so the parent cannot touch the toc iframe's DOM directly.
+      // Instead we hand the target page to the toc via postMessage and let the toc's
+      // own script expand/highlight/scroll to the matching entry.
+      let pendingTocPage = null;
+
+      function postTocActivate(pagePath) {
+        try {
+          if (tocFrame && tocFrame.contentWindow) {
+            tocFrame.contentWindow.postMessage(
+              { type: 'nelson-toc-activate', page: pagePath }, '*');
+          }
+        } catch (e) {
+          // ignore: toc not reachable yet, the ready handshake will retry
+        }
+      }
+
+      function syncTocToPage(pagePath) {
+        if (!pagePath) return;
+        pendingTocPage = pagePath;
+        postTocActivate(pagePath);
+      }
+
+      function postToContent(msg) {
+        try {
+          if (contentFrame && contentFrame.contentWindow) {
+            contentFrame.contentWindow.postMessage(msg, '*');
+          }
+        } catch (e) { /* ignore */ }
+      }
+
+      window.addEventListener('message', (ev) => {
+        const d = ev && ev.data;
+        if (!d) return;
+        // The toc announces itself when ready; (re)send the pending target then.
+        if (d.type === 'nelson-toc-ready') {
+          if (pendingTocPage) postTocActivate(pendingTocPage);
+        // A content page reports itself on load (search hit, cross-link, etc.):
+        // sync the toc, reflect the page in the URL, whatever route led here.
+        } else if (d.type === 'nelson-content-loaded' && d.page) {
+          syncTocToPage(d.page);
+          updateUrlForPage(d.page);
+        // The toc computed the previous/next sibling of the active entry: hand
+        // them to the content page so it can render the prev/next navigation bar.
+        } else if (d.type === 'nelson-toc-neighbors') {
+          postToContent({ type: 'nelson-neighbors', prev: d.prev || null, next: d.next || null });
+        // A content page asked to navigate (prev/next bar, "on this page", etc.).
+        } else if (d.type === 'nelson-navigate' && d.page && isSafeRelativePath(d.page)) {
+          navigateToPage(d.page);
+        }
+      });
+
+      // Belt-and-suspenders: also resend once the iframe fires its load event.
+      if (tocFrame) {
+        tocFrame.addEventListener('load', () => {
+          if (pendingTocPage) postTocActivate(pendingTocPage);
+        });
+      }
+
+      // ---- Search field: clear button (×) + Escape to clear -------------------
+      function updateSearchClearVisibility() {
+        if (searchClearBtn) { searchClearBtn.hidden = !searchInput.value; }
+      }
+      function clearSearch() {
+        searchInput.value = '';
+        updateSearchClearVisibility();
+        searchInput.focus();
+      }
+      if (searchClearBtn) {
+        searchClearBtn.addEventListener('click', clearSearch);
+      }
+      searchInput.addEventListener('input', updateSearchClearVisibility);
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          clearSearch();
+        }
+      });
 
       // Event bindings
       collapseBtn.addEventListener('click', () => {
         collapsed = !collapsed;
         setNavigationState(collapsed);
       });
+      if (sidebarBackdrop) {
+        sidebarBackdrop.addEventListener('click', () => {
+          collapsed = true;
+          setNavigationState(collapsed);
+        });
+      }
 
       websiteBtn.addEventListener('click', () => {
         window.open('https://nelson-lang.github.io/nelson-website/', '_blank');
@@ -264,26 +429,20 @@
       window.addEventListener('DOMContentLoaded', () => {
         lang = readInitialLanguage();
         applyTranslations();
+        // On narrow viewports the sidebar is an overlay drawer: start it closed
+        // so it does not cover the content until the user opens it.
+        if (window.matchMedia && window.matchMedia('(max-width: 960px)').matches) {
+          collapsed = true;
+        }
         setNavigationState(collapsed);
 
-        // populate search input from url if present
-        const params = new URLSearchParams(window.location.search);
+        const params = readLaunchParams();
         const searchTerm = params.get('search');
         const openPage = params.get('open');
         if (searchTerm) {
           searchInput.value = searchTerm.trim();
         }
-        // Only allow openPage to be a safe relative path (no absolute URLs or protocol handlers)
-        function isSafeRelativePath(p) {
-          // No protocol, not starting with //, only allowed chars, no javascript: etc.
-          if (!p || typeof p !== "string") return false;
-          if (/^\s*$/.test(p)) return false;
-          if (/^[a-z][a-z0-9+\-.]*:/i.test(p)) return false; // Disallow any protocol like http: or javascript:
-          if (/^\/\//.test(p)) return false; // Disallow protocol-relative URLs
-          if (/[<>:"|?*\\]/.test(p)) return false; // Disallow special chars
-          // Allow only paths like foo/bar.html, /foo/bar or ./foo
-          return /^[\w\-\/\.\@]+$/.test(p);
-        }
+        updateSearchClearVisibility();
         if (openPage && isSafeRelativePath(openPage)) {
           navigateToPage(openPage);
         } else if (openPage) {
@@ -293,6 +452,19 @@
           searchHelp(searchTerm);
         }
       });
+
+      function readLaunchParams() {
+        const params = new URLSearchParams(window.location.search);
+        if (window.location.hash && window.location.hash.length > 1) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          hashParams.forEach((value, key) => {
+            if (!params.has(key)) {
+              params.set(key, value);
+            }
+          });
+        }
+        return params;
+      }
 
       // Expose for inline onsubmit handlers
       window.searchHelp = searchHelp;

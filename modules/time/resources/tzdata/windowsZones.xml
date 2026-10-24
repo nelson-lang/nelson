@@ -1,0 +1,18 @@
+<supplementalData>
+  <windowsZones>
+    <mapTimezones typeVersion="nelson-minimal-2026" otherVersion="nelson-minimal-2026">
+      <mapZone other="UTC" territory="001" type="Etc/UTC"/>
+      <mapZone other="GMT Standard Time" territory="001" type="Europe/London"/>
+      <mapZone other="Romance Standard Time" territory="001" type="Europe/Paris"/>
+      <mapZone other="W. Europe Standard Time" territory="001" type="Europe/Berlin"/>
+      <mapZone other="Eastern Standard Time" territory="001" type="America/New_York"/>
+      <mapZone other="Central Standard Time" territory="001" type="America/Chicago"/>
+      <mapZone other="Mountain Standard Time" territory="001" type="America/Denver"/>
+      <mapZone other="Pacific Standard Time" territory="001" type="America/Los_Angeles"/>
+      <mapZone other="Tokyo Standard Time" territory="001" type="Asia/Tokyo"/>
+      <mapZone other="China Standard Time" territory="001" type="Asia/Shanghai"/>
+      <mapZone other="India Standard Time" territory="001" type="Asia/Kolkata"/>
+      <mapZone other="AUS Eastern Standard Time" territory="001" type="Australia/Sydney"/>
+    </mapTimezones>
+  </windowsZones>
+</supplementalData>

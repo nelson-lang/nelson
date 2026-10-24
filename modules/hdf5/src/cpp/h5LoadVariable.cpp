@@ -24,8 +24,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5LoadVariable(
-    hid_t fid, const std::string& location, const std::string& variableName, ArrayOf& VariableValue)
+h5LoadVariable(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, ArrayOf& VariableValue)
 {
     bool bSuccess = true;
     bool isObject = isNelsonObject(fid, location, variableName);
@@ -59,22 +59,25 @@ h5LoadVariable(
         bSuccess = h5LoadHandle(fid, location, variableName, VariableValue);
     } break;
     case NLS_CELL_ARRAY: {
-        bSuccess = h5LoadCell(fid, location, variableName, isEmpty, dims, VariableValue);
+        bSuccess = h5LoadCell(eval, fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
     case NLS_FUNCTION_HANDLE: {
-        bSuccess = h5LoadFunctionHandle(fid, location, variableName, isEmpty, dims, VariableValue);
+        bSuccess
+            = h5LoadFunctionHandle(eval, fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_STRUCT_ARRAY: {
         bSuccess = h5LoadStruct(
-            fid, location, variableName, isEmpty, dims, isObject, className, VariableValue);
+            eval, fid, location, variableName, isEmpty, dims, isObject, className, VariableValue);
     } break;
     case NLS_STRING_ARRAY: {
-        bSuccess = h5LoadStringArray(fid, location, variableName, isEmpty, dims, VariableValue);
+        bSuccess
+            = h5LoadStringArray(eval, fid, location, variableName, isEmpty, dims, VariableValue);
     } break;
     case NLS_LOGICAL: {
         bSuccess = h5LoadLogical(
-            fid, location, variableName, isEmpty, dims, isSparse, nzmax, VariableValue);
+            eval, fid, location, variableName, isEmpty, dims, isSparse, nzmax, VariableValue);
     } break;
     case NLS_UINT8:
     case NLS_INT8:
@@ -93,8 +96,8 @@ h5LoadVariable(
     } break;
     case NLS_DCOMPLEX:
     case NLS_DOUBLE: {
-        bSuccess = h5LoadDouble(
-            fid, location, variableName, isEmpty, isComplex, dims, isSparse, nzmax, VariableValue);
+        bSuccess = h5LoadDouble(eval, fid, location, variableName, isEmpty, isComplex, dims,
+            isSparse, nzmax, VariableValue);
     } break;
     case NLS_CHAR: {
         bSuccess = h5LoadCharacterArray(fid, location, variableName, isEmpty, dims, VariableValue);

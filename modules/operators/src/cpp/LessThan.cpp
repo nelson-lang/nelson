@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,6 @@
 //=============================================================================
 #include <algorithm>
 #include "LessThan.hpp"
-#include "complex_abs.hpp"
 #include "RelationOperator.hpp"
 //=============================================================================
 namespace Nelson {
@@ -91,16 +90,15 @@ complexComparatorLessThan(
 {
     switch (commonClass) {
     case NLS_SCOMPLEX: {
+        // Ordered comparisons use the real part only.
         auto* ptrA = static_cast<single*>(vptrA);
         auto* ptrB = static_cast<single*>(vptrB);
-        return static_cast<Nelson::logical>(complex_abs<single>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            < complex_abs<single>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
+        return static_cast<Nelson::logical>(ptrA[2 * idxA] < ptrB[2 * idxB]);
     } break;
     case NLS_DCOMPLEX: {
         auto* ptrA = static_cast<double*>(vptrA);
         auto* ptrB = static_cast<double*>(vptrB);
-        return static_cast<Nelson::logical>(complex_abs<double>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            < complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
+        return static_cast<Nelson::logical>(ptrA[2 * idxA] < ptrB[2 * idxB]);
     } break;
     default: {
     } break;
@@ -117,7 +115,7 @@ stringArrayComparatorLessThan(
         auto* ptrB = static_cast<ArrayOf*>(vptrB);
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
             return static_cast<Nelson::logical>(
-                ptrA[idxA].getContentAsWideString() < ptrB[idxB].getContentAsWideString());
+                ptrA[idxA].asWideString() < ptrB[idxB].asWideString());
         }
     }
     return 0;

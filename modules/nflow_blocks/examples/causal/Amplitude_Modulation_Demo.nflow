@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-19",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "A slow message sine (0.2 Hz) multiplies a fast carrier sine (2 Hz) to form a double-sideband product. The scope overlays message, their product and the carrier so the carrier riding inside the message envelope is visible.",
+  "name": "Amplitude Modulation - Message x Carrier",
+  "blocks": [
+    {
+      "id": "msg",
+      "type": "sine",
+      "x": 80,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "car",
+      "type": "sine",
+      "x": 80,
+      "y": 520,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "mul",
+      "type": "mult",
+      "x": 380,
+      "y": 440,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 640,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Title": "Message / Carrier / Product",
+        "TMin": "",
+        "TMax": "",
+        "YMin": -1.2,
+        "YMax": 1.2,
+        "width": 420,
+        "height": 300,
+        "ShowTickLabels": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "msg",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "car",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 2
+    },
+    {
+      "from": "msg",
+      "to": "mul",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "car",
+      "to": "mul",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "mul",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 1
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "stopFcn": "NFlow.plotScopes(out);"
+}

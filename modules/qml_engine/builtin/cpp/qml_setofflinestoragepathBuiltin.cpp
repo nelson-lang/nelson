@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::QmlEngineGateway::qml_setofflinestoragepathBuiltin(int nLhs, const Array
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
-    QmlEngine::getInstance()->setOfflineStoragePath(param1.getContentAsWideString());
+    QmlEngine::getInstance()->setOfflineStoragePath(param1.asWideString());
     ArrayOfVector retval;
     return retval;
 }

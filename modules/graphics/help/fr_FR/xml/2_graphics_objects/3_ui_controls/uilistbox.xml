@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uilistbox</keyword>
+  <short_description>Crée une liste de sélection.</short_description>
+  <syntax>
+    <syntax_item>h = uilistbox()</syntax_item>
+    <syntax_item>h = uilistbox(parent)</syntax_item>
+    <syntax_item>h = uilistbox(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet composant UI.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>lb = uilistbox</b> crée une liste. <b>Items</b>/<b>ItemsData</b> suivent les règles de la liste déroulante ; <b>Multiselect</b> 'on' autorise la sélection multiple (<b>Value</b> cell). Callback <b>ValueChangedFcn</b> (event : <b>Value</b>, <b>PreviousValue</b>, <b>ValueIndex</b>, <b>PreviousValueIndex</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'List box', 'Position', [100 100 420 260]);
+lb = uilistbox(f, 'Items', {'Option 1', 'Option 2', 'Option 3'}, 'Position', [130 65 160 120]);
+lb.Value = 'Option 2';
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uilistbox_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uilistbox</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+lb = uilistbox(f, 'Items', {'Item 1', 'Item 2', 'Item 3'}, 'Multiselect', 'on');
+lb.Value = {'Item 1', 'Item 3'};
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

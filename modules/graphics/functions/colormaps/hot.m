@@ -9,21 +9,16 @@
 %=============================================================================
 function map = hot(varargin)
   narginchk(0, 1);
-  if nargin < 1
-    R = groot();
-    f = R.CurrentFigure;
-    if isempty(f)
-      m = size(R.DefaultFigureColormap, 1);
-    else
-      m = size(f.Colormap, 1);
-    end
-  else
-    m = varargin{1};
-  end
-  n = fix(3 /8 * m);
-  r = [(1:n)' / n; ones(m - n, 1)];
-  g = [zeros(n, 1); (1:n)' / n; ones(m - 2 * n, 1)];
-  b = [zeros(2 * n, 1); (1:m-2*n)' / (m-2*n)];
-  map = [r g b];
+  colorCount = requestedColorCount(varargin{:});
+  hotSegmentLength = fix(3 * colorCount / 8);
+  colorIndex = (1:colorCount).';
+  red = saturatingRamp(colorIndex, 0, hotSegmentLength);
+  green = saturatingRamp(colorIndex, hotSegmentLength, hotSegmentLength);
+  blue = saturatingRamp(colorIndex, 2 * hotSegmentLength, colorCount - 2 * hotSegmentLength);
+  map = [red, green, blue];
+end
+%=============================================================================
+function channel = saturatingRamp(colorIndex, offset, span)
+  channel = min(max((colorIndex - offset) ./ max(span, 1), 0), 1);
 end
 %=============================================================================

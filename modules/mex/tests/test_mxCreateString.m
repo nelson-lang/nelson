@@ -7,23 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxCreateString') == 0
-  test_dir = [tempdir(), 'mxCreateString'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxCreateString.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxCreateString.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mxCreateString();
-assert_isequal(R, 'It works !!!');
+asserts.isequal(R, 'It works !!!');
 %=============================================================================

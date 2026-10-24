@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "convex_hull.m",
+      "title": "Convex hull of a point set",
+      "description": "Compute and display the boundary enclosing planar samples.",
+      "tags": [
+        "geometry",
+        "points"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "scattered_data_interpolation.m",
+      "title": {
+        "en_US": "Scattered data interpolation",
+        "fr_FR": "Interpolation de données dispersées"
+      },
+      "description": {
+        "en_US": "Connect Delaunay triangulation, Voronoi cells and gridded interpolation in one workflow.",
+        "fr_FR": "Enchaîner triangulation de Delaunay, cellules de Voronoï et interpolation sur une grille."
+      },
+      "tags": [
+        "geometry",
+        "delaunay",
+        "voronoi",
+        "interpolation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

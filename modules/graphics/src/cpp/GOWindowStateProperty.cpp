@@ -18,5 +18,5 @@ static const wchar_t* WINDOW_STATE_DICT[5]
 //=============================================================================
 GOWindowStateProperty::GOWindowStateProperty() : GORestrictedStringProperty(WINDOW_STATE_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

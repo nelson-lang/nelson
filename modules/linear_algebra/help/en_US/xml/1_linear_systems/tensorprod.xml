@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tensorprod</keyword>
+  <short_description>Tensor products between two arrays.</short_description>
+  <syntax>
+    <syntax_item>C = tensorprod(A, B)</syntax_item>
+    <syntax_item>C = tensorprod(A, B, dimA, dimB)</syntax_item>
+    <syntax_item>C = tensorprod(A, B, 'all')</syntax_item>
+    <syntax_item>C = tensorprod(___, 'NumDimensionsA', value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>numeric arrays.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dimA, dimB</param_name>
+      <param_description>vectors listing the dimensions of A and B to contract. size(A, dimA(k)) must equal size(B, dimB(k)).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>number of dimensions of A, used to account for trailing singleton dimensions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>tensor product. Its dimensions are the uncontracted dimensions of A followed by the uncontracted dimensions of B.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tensorprod(A, B)</b> returns the outer product of A and B, an array of size [size(A) size(B)].</p>
+    <p><b>tensorprod(A, B, dimA, dimB)</b> contracts (sums the products over) the dimensions dimA of A with the dimensions dimB of B. For matrices, <b>tensorprod(A, B, 2, 1)</b> is the matrix product A*B.</p>
+    <p><b>tensorprod(A, B, 'all')</b> contracts every dimension and returns the full inner product; A and B must have the same size.</p>
+    <p><b>'NumDimensionsA'</b> specifies how many dimensions A has so that trailing singleton dimensions can be contracted.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [1 2; 3 4];
+B = [5 6; 7 8];
+C = tensorprod(A, B, 2, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}kron">kron</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}reshape">reshape</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

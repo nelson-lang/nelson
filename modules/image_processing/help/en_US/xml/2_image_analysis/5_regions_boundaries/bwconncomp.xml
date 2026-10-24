@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bwconncomp</keyword>
+  <short_description>Find connected components in a binary image or volume.</short_description>
+  <syntax>
+    <syntax_item>CC = bwconncomp(BW)</syntax_item>
+    <syntax_item>CC = bwconncomp(BW, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Binary image or volume. Numeric input is treated as foreground where values are nonzero.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity. Use 4 or 8 for 2-D images, and 6, 18, or 26 for 3-D volumes. The default is maximal connectivity.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>CC</param_name>
+      <param_description>Connected-component structure with Connectivity, ImageSize, NumObjects, and PixelIdxList fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Find connected foreground components in a 2-D binary image or 3-D binary volume.</p>
+    <p>The returned structure contains Connectivity, ImageSize, NumObjects, and PixelIdxList fields.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find and display connected components</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(8:20,8:20)=true; BW(36:52,32:48)=true;
+CC=bwconncomp(BW);
+L=labelmatrix(CC);
+figure; imagesc(L); title('Connected components');]]></example_item_data>
+      <example_item_img
+        src="../../../images/bwconncomp_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/labelmatrix">labelmatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/bwlabel">bwlabel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

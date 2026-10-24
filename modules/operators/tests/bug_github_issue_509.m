@@ -12,45 +12,38 @@
 % <-- Short Description -->
 % add horzcat vertcat generic support for class object
 %=============================================================================
+skip_testsuite(isempty(which('weboptions')), 'weboptions is not available.');
+%=============================================================================
 A = weboptions();
 R = [A, A];
-assert_isequal(size(struct(R)), [1 2])
-assert_isequal(class(R), 'weboptions')
+asserts.isequal(size(R), [1 2])
+asserts.isequal(class(R), 'weboptions')
 %=============================================================================
 R = [A; A];
-assert_isequal(size(struct(R)), [2 1])
-assert_isequal(class(R), 'weboptions')
+asserts.isequal(size(R), [2 1])
+asserts.isequal(class(R), 'weboptions')
 %=============================================================================
-R = [1 2]:3;
-REF = [1 2 3];
-assert_isequal(R, REF);
-assert_isequal(lastwarn(), _('Array used as scalar.'));
+asserts.checkerror('R = [1 2]:3;', _('Colon operands must be real scalars.'));
 %=============================================================================
-R = ([1 : 2]):3;
-REF = [1 2 3];
-assert_isequal(R, REF);
+asserts.checkerror('R = ([1 : 2]):3;', _('Colon operands must be real scalars.'));
 %=============================================================================
-R = [1,2; 3, 4]:3;
-REF = [1 2 3];
-assert_isequal(R, REF);
+asserts.checkerror('R = [1,2; 3, 4]:3;', _('Colon operands must be real scalars.'));
 %=============================================================================
-R = [2:4]:[3:5]:[6:7];
-REF = [2 5];
-assert_isequal(R, REF);
+asserts.checkerror('R = [2:4]:[3:5]:[6:7];', _('Colon operands must be real scalars.'));
 %=============================================================================
 R = []:3;
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:2:[];
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:[]:4;
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:2:zeros(3, 0);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

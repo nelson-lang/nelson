@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('ischar'), 1);
-assert_isequal(nargout('ischar'), 1);
+asserts.isequal(nargin('ischar'), 1);
+asserts.isequal(nargout('ischar'), 1);
 %=============================================================================
 A = 3;
 res = ischar(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = 'NelSon';
 res = ischar(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
-C = [1 ; 3];
+C = [1; 3];
 res = ischar(C);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================

@@ -152,6 +152,20 @@ L = zeros(N, M);
 [RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sg02ad">slicot_sg02ad</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb03md">slicot_sb03md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}care">care</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dare">dare</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

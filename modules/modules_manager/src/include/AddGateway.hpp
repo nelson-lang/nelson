@@ -15,8 +15,8 @@
 namespace Nelson {
 //=============================================================================
 NLSMODULES_MANAGER_IMPEXP void
-AddGateway(
-    Evaluator* eval, const std::wstring& dynlibname, const std::wstring& moduleNameAssociated = {});
+AddGateway(Evaluator* eval, const std::wstring& dynlibname,
+    const std::wstring& moduleNameAssociated = {}, bool forceLoaded = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

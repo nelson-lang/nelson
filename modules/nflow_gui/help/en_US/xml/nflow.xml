@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow</keyword>
+  <short_description>Launch the nflow editor, optionally on a model file.</short_description>
+  <syntax>
+    <syntax_item>nflow()</syntax_item>
+    <syntax_item>nflow(file)</syntax_item>
+    <syntax_item>h = nflow(file)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>a character vector: the path to a <b>.nflow</b> model file to open in the editor. When omitted, the editor opens on an empty model.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>a handle to the editor window that was opened.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nflow</b> opens the nflow editor, a browser-based diagram editor for building and simulating models. Called with no argument it opens on an empty model; called with a <b>.nflow</b> file it opens that model.</p>
+    <p><b>nflow</b> is the low-level launcher. For opening a model already loaded in memory (by name or handle), or an <b>.ssp</b> archive, use <b>open_system</b>, which resolves those inputs and then opens the editor.</p>
+    <p>The editor works on the model it was opened with; script-side mutations made while the window is open are not streamed live to it.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open an empty editor, then a model file</example_item_description>
+      <example_item_data><![CDATA[nflow();
+model = [modulepath('nflow_blocks', 'root'), '/examples/acausal/Acausal_EMF_DC_Motor_Demo.nflow'];
+nflow(model);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}open_system">open_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

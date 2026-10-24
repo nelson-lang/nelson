@@ -17,10 +17,10 @@
 namespace Nelson {
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
-ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data);
+ParseColorToRGB(const ArrayOf& arg, std::vector<double>& data, bool allowAlpha = false);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
 ParseColorToRGB(const std::wstring& colorString, bool withNone, std::vector<double>& data);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

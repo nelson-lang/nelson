@@ -7,21 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isStringScalar'), 1);
-assert_isequal(nargout('isStringScalar'), 1);
+asserts.isequal(nargin('isStringScalar'), 1);
+asserts.isequal(nargout('isStringScalar'), 1);
 %=============================================================================
 R = isStringScalar('hello');
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = isStringScalar("hello");
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = isStringScalar(string(NaN));
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = isStringScalar(string([]));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = isStringScalar(["hello", "world"]);
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================

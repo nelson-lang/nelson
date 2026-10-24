@@ -6,31 +6,65 @@
   <short_description>Lever une erreur.</short_description>
   <syntax>
     <syntax_item>error(id, msg)</syntax_item>
+    <syntax_item>error(id, msg, A, ...)</syntax_item>
     <syntax_item>error(msg)</syntax_item>
+    <syntax_item>error(msg, A, ...)</syntax_item>
     <syntax_item>error(error_structure)</syntax_item>
+    <syntax_item>error(correction, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>id</param_name>
-      <param_description>une chaîne : identifiant d&apos;erreur.</param_description>
+      <param_description>une chaine : identifiant d&apos;erreur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>msg</param_name>
-      <param_description>une chaîne de caractères.</param_description>
+      <param_description>une chaine : message ou format.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>valeurs utilisees pour formater le message.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>error_structure</param_name>
-      <param_description>structure du message d&apos;erreur.</param_description>
+      <param_description>structure scalaire avec les champs message, identifier ou stack.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>correction</param_name>
+      <param_description>un objet nelson.lang.correction.</param_description>
     </param_input_item>
   </param_input>
   <description>
+    <p><b>error</b> arrete l&apos;execution du script en cours.</p>
+    <p><b>error(&apos;&apos;)</b> sera ignoree et le script continuera a s&apos;executer.</p>
+    <p><b>error(msg, A, ...)</b> et <b>error(id, msg, A, ...)</b> formatent le message avec les memes regles que <b>sprintf</b>.</p>
+    <p><b>error(error_structure)</b> accepte une structure scalaire. Les champs absents sont traites comme des valeurs vides, et les champs supplementaires sont ignores.</p>
+    <p>Quand <b>error_structure.stack</b> est fourni, seuls les champs <b>file</b>, <b>name</b> et <b>line</b> sont utilises. Les champs supplementaires de stack sont ignores. Les valeurs non entieres de <b>line</b> utilisent leur partie reelle entiere ; les valeurs numeriques invalides utilisent <b>0</b>.</p>
+    <p><b>error(correction, ...)</b> conserve l&apos;objet de correction dans la MException levee.</p>
+    <p>L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnemonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
     <p>
-      <b>error</b> arrête l&apos;exécution du script en cours.</p>
-    <p>
-      <b>error(&apos;
-        &apos;)</b> sera ignorée et le script continuera à s&apos;exécuter.</p>
-    <p
-    >L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
+      <b>Comment construire un identifiant d&apos;erreur.</b> Un identifiant s&apos;ecrit
+      <b>composant:mnemonique</b>, avec un ou plusieurs champs composants suivis
+      d&apos;un mnemonique, chaque champ commencant par une lettre et ne contenant
+      que des lettres, des chiffres ou des tirets bas, separes par des deux-points
+      (exemple : &apos;Nelson:elementary_functions:notFinite&apos;). Les identifiants
+      leves par Nelson lui-meme utilisent <b>Nelson</b> comme premier composant ;
+      dans votre propre code, utilisez un composant de votre choix (par exemple le
+      nom de votre module ou de votre boite a outils).</p>
+    <p>Quelques regles gardent les identifiants utiles :</p>
+    <p> - Le composant devrait pointer vers la zone qui leve l&apos;erreur (un module,
+      une classe ou un nom de fonction) ; le mnemonique devrait nommer la
+      verification precise en camelCase (exemple : &apos;mustBeFinite&apos;,
+      &apos;tooManyInputs&apos;).</p>
+    <p> - Pour les erreurs qui peuvent survenir partout (nombre d&apos;arguments,
+      indexation, forme de valeur attendue), un identifiant court a deux champs
+      suffit (exemple : &apos;Nelson:tooManyInputs&apos;, &apos;Nelson:badsubscript&apos;).</p>
+    <p> - Donnez a un identifiant un seul texte de message : un identifiant reutilise
+      avec plusieurs messages differents ne peut pas etre traduit et est retire du
+      catalogue de messages.</p>
+    <p> - Reutilisez un identifiant existant pour la meme condition plutot que de
+      creer un quasi-doublon, et gardez le mnemonique stable et descriptif (n&apos;y
+      encodez pas une valeur d&apos;execution).</p>
   </description>
   <used_function />
   <bibliography />
@@ -38,16 +72,15 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[error('your error message.')
+      <example_item_data><![CDATA[error('your error message.')
 error('nelson:identifier', 'your error message.')
+error('Value %d', 7)
 error('')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[ 1 / [1 2 3]
+      <example_item_data><![CDATA[1 / [1 2 3]
 a = lasterror()
 lasterror('reset')
 b = lasterror()

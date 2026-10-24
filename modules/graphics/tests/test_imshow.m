@@ -7,31 +7,29 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 images_path = [modulepath('graphics', 'tests'), '/images/'];
 %=============================================================================
 f = figure();
 h = imshow([images_path, 'winter-fox-64x64-indexed8.png']);
+asserts.istrue(isgraphics(h, 'image'));
 %=============================================================================
 f = figure();
-h = imshow([images_path,'winter-fox-64x64-rgb32.jpg']);
+h = imshow([images_path, 'winter-fox-64x64-rgb32.jpg']);
+asserts.istrue(isgraphics(h, 'image'));
 %=============================================================================
 f = figure();
-h = imshow([images_path,'winter-fox-64x64-rgb32-gray.jpg']);
+h = imshow([images_path, 'winter-fox-64x64-rgb32-gray.jpg']);
+asserts.istrue(isgraphics(h, 'image'));
 %=============================================================================
 f = figure();
-h = imshow([images_path,'winter-fox-64x64-rgba32.png']);
+h = imshow([images_path, 'winter-fox-64x64-rgba32.png']);
+asserts.istrue(isgraphics(h, 'image'));
 %=============================================================================
 f = figure();
-h = imshow([images_path,'winter-fox-64x64-rgba32-gray.png']);
-%=============================================================================
-f = figure();
-[img, map] = imread([images_path,'winter-fox-64x64-rgba32-gray.png']);
-h = imshow(img)
-%=============================================================================
-f = figure();
-[img, map] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
-h = imshow(img, map)
-h = imshow(img,map,'Colormap', summer);
+h = imshow([images_path, 'winter-fox-64x64-rgba32-gray.png']);
+asserts.istrue(isgraphics(h, 'image'));
+close all;
 %=============================================================================

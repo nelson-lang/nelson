@@ -1,0 +1,86 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--ENGLISH IMPOSED-->
+% <--WEIGHT 64-->
+%=============================================================================
+% Vector-I/O MIMO stateSpace used to emit a 0.0 marker and poison the whole
+% model's RK4 gate (continuousWidth -1). The vector expansion now keeps ONE
+% multi-port block (nu scalar input ports, ny scalar output ports named
+% out_<id>, out_<id>_p1, ...) and the emitters expand the full row-major
+% B/C/D products. nx=2, nu=2, ny=2 coupled system driven by (1, t):
+%   x' = [x1 + 1; -2*x0 - 3*x1 + t],  y = [x0 + 0.5*t; x1].
+%=============================================================================
+d = struct();
+d.blocks = {...
+  struct('id', 'k1', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', 1)), ...
+  struct('id', 'clk', 'type', 'clock', 'inputs', 0, 'outputs', 1, 'params', struct()), ...
+  struct('id', 'm', 'type', 'mux', 'inputs', 2, 'outputs', 1, 'params', struct()), ...
+  struct('id', 'ss', 'type', 'stateSpace', 'inputs', 1, 'outputs', 1, ...
+    'params', struct('A', [0 1 -2 -3], 'B', [1 0 0 1], 'C', [1 0 0 1], 'D', [0 0.5 0 0])), ...
+  struct('id', 'dm', 'type', 'demux', 'inputs', 1, 'outputs', 2, 'params', struct()), ...
+  struct('id', 'y0', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, ...
+    'params', struct('GotoTag', 'y0', 'isExternalPort', true)), ...
+  struct('id', 'y1', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, ...
+    'params', struct('GotoTag', 'y1', 'isExternalPort', true)), ...
+  struct('id', 'w0', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, ...
+    'params', struct('VariableName', 'nfss_y0', 'SaveFormat', 'Array', ...
+      'Decimation', 1, 'MaxDataPoints', 'inf')), ...
+  struct('id', 'w1', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, ...
+    'params', struct('VariableName', 'nfss_y1', 'SaveFormat', 'Array', ...
+      'Decimation', 1, 'MaxDataPoints', 'inf'))};
+d.connections = {...
+  struct('from', 'k1', 'to', 'm', 'fromIndex', 0, 'toIndex', 0), ...
+  struct('from', 'clk', 'to', 'm', 'fromIndex', 0, 'toIndex', 1), ...
+  struct('from', 'm', 'to', 'ss', 'fromIndex', 0, 'toIndex', 0), ...
+  struct('from', 'ss', 'to', 'dm', 'fromIndex', 0, 'toIndex', 0), ...
+  struct('from', 'dm', 'to', 'y0', 'fromIndex', 0, 'toIndex', 0), ...
+  struct('from', 'dm', 'to', 'w0', 'fromIndex', 0, 'toIndex', 0), ...
+  struct('from', 'dm', 'to', 'y1', 'fromIndex', 1, 'toIndex', 0), ...
+  struct('from', 'dm', 'to', 'w1', 'fromIndex', 1, 'toIndex', 0)};
+d.sampleTime = 0.1;
+d.duration = 0.5;
+d.variables = struct();
+%=============================================================================
+r = jsondecode(__nflow_simulate__(jsonencode(d)));
+assert_isequal(r.status, 'done');
+v0 = evalin('base', 'nfss_y0');
+assert_istrue(v0(end) > 0.05); % x0 grows and D feeds 0.5*t through
+evalin('base', 'clear(''nfss_y0'', ''nfss_y1'')');
+%=============================================================================
+f = [tempname(), '.nflow'];
+[~, fstem] = fileparts(f);
+fid = fopen(f, 'wt');
+fwrite(fid, jsonencode(d));
+fclose(fid);
+nflow_codegenerate(f, tempdir(), false, 'C');
+src = fileread([tempdir(), fstem, '/model.c']);
+assert_istrue(isempty(strfind(src, 'unknown:')));
+assert_istrue(isempty(strfind(src, 'MIMO state-space code generation not supported')));
+% Multi-port output naming and both state fields.
+assert_istrue(~isempty(strfind(src, 'out_ss_p1 = ')));
+assert_istrue(~isempty(strfind(src, 'ss_x_ss_0')));
+assert_istrue(~isempty(strfind(src, 'ss_x_ss_1')));
+nflow_codegenerate(f, tempdir(), false, 'rust');
+srcR = fileread([tempdir(), fstem, '/src/lib.rs']);
+assert_istrue(isempty(strfind(srcR, 'MIMO state-space code generation not supported')));
+assert_istrue(~isempty(strfind(srcR, 'out_ss_p1 = ')));
+%=============================================================================
+rmfile(f);
+%=============================================================================
+% Compiled numeric equivalence vs the simulator (both targets).
+if __nflow_codegen_toolchain__('C')
+  nflow_codegen_check_numeric(d, 'nfss_num', 'C', ...
+    {'y0', 'y1'}, {'nfss_y0', 'nfss_y1'}, 5e-6, 1e-9);
+  if __nflow_codegen_toolchain__('rust')
+    nflow_codegen_check_numeric(d, 'nfss_num', 'rust', ...
+      {'y0', 'y1'}, {'nfss_y0', 'nfss_y1'}, 5e-6, 1e-9);
+  end
+end
+%=============================================================================

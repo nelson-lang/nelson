@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNonzeroLengthText'), -1);
-assert_isequal(nargout('mustBeNonzeroLengthText'), 0);
+asserts.isequal(nargin('mustBeNonzeroLengthText'), -1);
+asserts.isequal(nargout('mustBeNonzeroLengthText'), 0);
 %=============================================================================
 mustBeNonzeroLengthText('a text');
 mustBeNonzeroLengthText("a text");
-assert_checkerror('mustBeNonzeroLengthText(Inf)', _('Value must be a character vector, string array or cell array of character vectors.'), 'Nelson:validators:mustBeNonzeroLengthText');
+asserts.checkerror('mustBeNonzeroLengthText(Inf)', sprintf(_('%s must contain text: a character vector, string array, or cell array of character vectors.'), 'Value'), 'Nelson:validators:mustBeNonzeroLengthText');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be non zero length text.')];
-assert_checkerror('mustBeNonzeroLengthText('''', 3)', msg, 'Nelson:validators:mustBeNonzeroLengthText');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be non zero length text.'), 'Value')];
+asserts.checkerror('mustBeNonzeroLengthText('''', 3)', msg, 'Nelson:validators:mustBeNonzeroLengthText:zeroLength');
 %=============================================================================

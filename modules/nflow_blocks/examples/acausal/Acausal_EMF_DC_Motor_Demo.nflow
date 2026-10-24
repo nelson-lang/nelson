@@ -1,0 +1,127 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal DC-motor demo (mixed electrical + mechanical): a constant voltage drives a resistor and an EMF converter (v = k*w, tau = k*i); the EMF spins a flywheel (Inertia) loaded by a rotational damper and held to a rotational reference. The motor accelerates until the electrical torque balances the viscous load, reaching a steady speed. NOTE: mixing an electrical DAE island with a mechanical island requires the DAE solver. The Scope plots shaft speed; ToWorkspace exports it.\n\nLayout: a roomy electrical loop on the left (Resistor + EMF on top, source below, ground at bottom) and a tight mechanical column to its right (flywheel, speed sensor, damper) whose left flanges share one physical node. The flywheel sits above the EMF so its top flange joins the column with a single clean elbow; the reference sits off the damper, and the sensor signal drops to the scope and workspace stacked to the right at the sensor's output level.",
+  "name": "Acausal EMF DC Motor",
+  "blocks": [
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 1 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "M",
+      "type": "EMF",
+      "params": { "name": "Motor", "k": 0.5 },
+      "x": 350,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "V1",
+      "type": "ConstantVoltage",
+      "params": { "name": "Vin", "V": 12 },
+      "x": 50,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 50,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "G2",
+      "type": "Ground",
+      "params": {},
+      "x": 350,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "J1",
+      "type": "Inertia",
+      "params": { "name": "J", "J": 0.05, "phi0": 0, "w0": 0 },
+      "x": 490,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "WS",
+      "type": "RotSpeedSensor",
+      "params": { "name": "w" },
+      "x": 490,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "L1",
+      "type": "RotDamper",
+      "params": { "name": "Damper", "d": 0.02 },
+      "x": 550,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "S",
+      "type": "RotFixed",
+      "params": { "phi0": 0 },
+      "x": 550,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 710,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "w" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 710,
+      "y": 370,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "WS", "to": "sc", "fromIndex": 0, "toIndex": 0 },
+    { "from": "WS", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 1.5,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "M.p"] },
+    { "pins": ["G.p", "V1.n"] },
+    { "pins": ["M.flange", "J1.flange", "WS.flange", "L1.a"] },
+    { "pins": ["L1.b", "S.flange"] },
+    { "pins": ["G2.p", "M.n"] }
+  ]
+}

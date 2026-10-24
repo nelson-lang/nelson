@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uniquetol</keyword>
+  <short_description>Unique values within a tolerance.</short_description>
+  <syntax>
+    <syntax_item>C = uniquetol(A)</syntax_item>
+    <syntax_item>C = uniquetol(A, tol)</syntax_item>
+    <syntax_item>C = uniquetol(___, name, value)</syntax_item>
+    <syntax_item>[C, ia, ic] = uniquetol(___)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>real full array of type single or double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>nonnegative scalar tolerance. The default is 1e-12 for double and 1e-6 for single inputs. Two values u and v are within tolerance if abs(u-v) &lt;= tol*DataScale.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>one or more name-value pairs: 'ByRows' (logical, treat each row of A as a single element), 'OutputAllIndices' (logical, return ia as a cell array holding every index of each group), 'DataScale' (scalar or per-column vector used instead of the automatic scaling).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>unique values of A within tolerance, sorted in ascending order.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ia</param_name>
+      <param_description>index vector such that C = A(ia). When 'OutputAllIndices' is true, ia is a cell array where ia{k} lists every index of A belonging to the k-th group.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ic</param_name>
+      <param_description>index vector such that A is within tolerance of C(ic).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>uniquetol</b> returns the unique values of <b>A</b> using tolerance <b>tol</b>. Two elements are considered equal when their absolute difference is less than or equal to <b>tol</b> scaled by the data. By default the scaling is the largest absolute value of <b>A</b>, or the largest absolute value of each column when <b>'ByRows'</b> is true.</p>
+    <p>The output <b>C</b> is sorted in ascending order and, for each group of nearby values, keeps the smallest one.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[C, ia, ic] = uniquetol([2 1 2 1.0000001], 1e-6)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}ismembertol">ismembertol</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

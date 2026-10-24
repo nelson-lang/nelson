@@ -17,5 +17,5 @@ static const wchar_t* LINE_STYLE_DICT[7]
 //=============================================================================
 GOLineStyleProperty::GOLineStyleProperty() : GORestrictedStringProperty(LINE_STYLE_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

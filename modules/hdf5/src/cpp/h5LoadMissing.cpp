@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,7 +17,7 @@ h5LoadMissing(hid_t fid, const std::string& location, const std::string& variabl
 {
     bool bSuccess = false;
     if (isEmpty) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(NLS_MISSING_ARRAY);
         bSuccess = true;
     } else {
@@ -39,8 +39,8 @@ h5LoadMissing(hid_t fid, const std::string& location, const std::string& variabl
         }
         H5Dclose(dset_id);
         H5Sclose(dspace_id);
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_MISSING_ARRAY, dims.getElementCount());
-        for (size_t k = 0; k < dims.getElementCount(); ++k) {
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_MISSING_ARRAY, dims.elementCount());
+        for (size_t k = 0; k < dims.elementCount(); ++k) {
             ptr[k] = std::nan("");
         }
         VariableValue = ArrayOf(NLS_MISSING_ARRAY, dims, ptr);

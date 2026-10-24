@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>condest</keyword>
+  <short_description>1-norm condition number estimate.</short_description>
+  <syntax>
+    <syntax_item>c = condest(A)</syntax_item>
+    <syntax_item>c = condest(A, t)</syntax_item>
+    <syntax_item>[c, v] = condest(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a square numeric matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>positive integer number of test vectors. Default is min(size(A, 1), 2).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>lower-bound estimate of the 1-norm condition number.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>approximate null vector associated with the estimate.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>condest</b> estimates <b>norm(A, 1) * norm(inv(A), 1)</b> without explicitly forming <b>inv(A)</b>.</p>
+    <p>The implementation uses repeated solves with <b>A</b> and <b>A'</b>, which is suitable for sparse matrices.</p>
+    <p>
+      Sparse double, sparse single, sparse double complex, and sparse single complex matrices are
+      supported. Stored zero entries in sparse input do not contribute to the structural singularity
+      check.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+[c, v] = condest(A)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}cond">cond</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}rcond">rcond</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}normest">normest</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and sparse single complex behavior documented.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

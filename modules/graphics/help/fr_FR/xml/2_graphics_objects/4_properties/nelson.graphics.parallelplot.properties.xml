@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parallelplot properties</keyword>
+  <short_description>Proprietes de l'objet graphique parallelplot.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>parallelplot</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>stocke les metadonnees d'annotation des outils graphiques.</td>
+        <td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet d'annotation ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>indique si une suppression est en cours.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle la mise en file des callbacks.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute lors d'un clic souris sur le graphique.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>liste les primitives graphiques utilisees pour le rendu.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>definit la couleur de ligne par defaut des donnees non groupees.</td>
+        <td>Type: triplet RGB ou nom de couleur. Valeurs prises en charge: vecteur RGB 1-par-3 ou nom tel que 'r', 'g' ou 'blue'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>associe un menu contextuel au graphique.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CoordinateData</b></td>
+        <td>stocke les donnees numeriques de coordonnees affichees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: [] ou matrice numerique finie.</td>
+      </tr>
+      <tr>
+        <td><b>CoordinateLabel</b></td>
+        <td>definit le texte du libelle des coordonnees.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>CoordinateTickLabels</b></td>
+        <td>definit les libelles sous les axes de coordonnees.</td>
+        <td>Type: cellule de vecteurs de caracteres ou vecteur de chaines. Valeurs prises en charge: un libelle par coordonnee.</td>
+      </tr>
+      <tr>
+        <td><b>CoordinateVariables</b></td>
+        <td>stocke les variables de table selectionnees.</td>
+        <td>Type: cellule de vecteurs de caracteres ou vecteur de chaines. Valeurs prises en charge: [] ou noms de variables de la table source.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute a la creation du graphique.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Data</b></td>
+        <td>stocke la matrice numerique tracee en lignes paralleles.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique non vide.</td>
+      </tr>
+      <tr>
+        <td><b>DataLabel</b></td>
+        <td>definit le texte du libelle des donnees.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>DataNormalization</b></td>
+        <td>choisit la mise a l'echelle des coordonnees numeriques.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'range', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute a la suppression du graphique.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>definit le libelle utilise par les outils de legende.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>definit la famille de police du texte du graphique.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: noms de polices installees ou ''.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>definit la taille du texte du graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs scalaires positives finies.</td>
+      </tr>
+      <tr>
+        <td><b>GroupData</b></td>
+        <td>stocke les donnees de groupe utilisees pour colorer les lignes.</td>
+        <td>Type: vecteur. Valeurs prises en charge: [] ou une valeur par ligne de donnees.</td>
+      </tr>
+      <tr>
+        <td><b>GroupVariable</b></td>
+        <td>stocke la variable de table utilisee pour le regroupement.</td>
+        <td>Type: texte, numerique ou selecteur de table. Valeurs prises en charge: [] ou selecteur d'une variable de la table source.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle la decouverte du handle par les recherches graphiques.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controle la reaction aux clics souris.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>InnerPosition</b></td>
+        <td>stocke le rectangle interieur du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle l'interruption des callbacks en cours.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Jitter</b></td>
+        <td>definit la gigue horizontale appliquee aux coordonnees.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs finies superieures ou egales a 0.</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>stocke les informations de placement en disposition tuilee.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle d'options de disposition.</td>
+      </tr>
+      <tr>
+        <td><b>LegendTitle</b></td>
+        <td>definit le titre de la legende de groupe.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>LegendVisible</b></td>
+        <td>controle l'affichage de la legende de groupe.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineAlpha</b></td>
+        <td>definit la transparence des lignes.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs de 0 a 1.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>definit le style des lignes tracees.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>definit l'epaisseur des lignes tracees.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs scalaires positives finies.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>definit la taille des marqueurs.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs scalaires positives finies.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerStyle</b></td>
+        <td>definit le style des marqueurs.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'none', 'o', '+', '*', '.', 'x' et autres symboles de marqueur.</td>
+      </tr>
+      <tr>
+        <td><b>OuterPosition</b></td>
+        <td>stocke le rectangle exterieur du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>stocke le parent graphique.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle parent graphique valide.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle les parties visibles selectionnables.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>stocke le rectangle de position du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>PositionConstraint</b></td>
+        <td>choisit le rectangle preserve pendant la disposition.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'outerposition', 'innerposition'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>controle l'etat de selection.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle l'affichage de la selection.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stocke la table utilisee pour creer le graphique.</td>
+        <td>Type: table ou valeur vide. Valeurs prises en charge: [] ou table fournie a parallelplot.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>definit le titre du graphique.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: tout vecteur ligne de caracteres ou chaine scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifie le type d'objet graphique.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'parallelplot'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>definit les unites des proprietes de position.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normalized', 'pixels', 'inches', 'centimeters', 'points', 'characters'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke les donnees utilisateur associees au graphique.</td>
+        <td>Type: toute valeur Nelson. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>controle la visibilite du graphique.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de parallelplot.</example_item_description>
+      <example_item_data><![CDATA[h = parallelplot([1 10 100; 2 20 50; 3 30 0]);
+properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/parallelplot">parallelplot</link></see_also_item>
+  </see_also>
+</xmldoc>

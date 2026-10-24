@@ -8,6 +8,8 @@
   <syntax>
     <syntax_item
     >status = xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite)</syntax_item>
+    <syntax_item
+    >[status, msg, warnings] = xmldocbuild(source_dirs, destination_dir, main_title, export_format, overwrite, index_dirs)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -27,12 +29,17 @@
     </param_input_item>
     <param_input_item>
       <param_name>export_format</param_name>
-      <param_description>une chaîne : &apos;html&apos; ou &apos;md&apos;.</param_description>
+      <param_description>une chaîne : &apos;html&apos;, &apos;md&apos; ou &apos;typ&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>overwrite</param_name>
       <param_description
       >un booléen : forcer l&apos;écrasement si le fichier de destination existe déjà.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>index_dirs</param_name>
+      <param_description
+      >une cellule de chaînes (optionnel) : racines XML d&apos;aide des autres modules dont les pages peuvent être liées, utilisées pour résoudre &lt;link linkend=&quot;${module}nom&quot;&gt;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -41,11 +48,23 @@
       <param_description
       >un booléen : fichiers générés ou non.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description
+      >une chaîne : message d&apos;erreur, vide en cas de succès.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>warnings</param_name>
+      <param_description
+      >une cellule de chaînes : liens non résolus. Sans cette sortie, chacun est émis comme avertissement.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>xmldocbuild</b> convertit des fichiers de documentation XML en HTML.</p>
     <p>fonction interne</p>
+    <p
+    >Les liens (&lt;link linkend=&quot;...&quot;&gt;) sont résolus à partir de l&apos;index des mots-clés de source_dirs et index_dirs : la cible peut être un mot-clé, un alias ou le chemin d&apos;une page relatif à la racine du module, éventuellement préfixé par ${module} ou {module}. Un lien résolu pointe vers la page réelle, même si elle se trouve dans un sous-répertoire de chapitre ou si son nom de fichier diffère de son mot-clé. Un lien non résolu conserve l&apos;ancien chemin &quot;&lt;module&gt;/&lt;nom&gt;&quot; et est signalé.</p>
   </description>
   <used_function />
   <bibliography />
@@ -66,6 +85,11 @@
       <history_version>1.15.0</history_version>
       <history_description>
         &apos;qt&apos; input parameter removed.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >entrée index_dirs et sortie warnings : liens résolus à partir de l&apos;index des mots-clés.</history_description>
     </history_item>
   </history>
   <authors>

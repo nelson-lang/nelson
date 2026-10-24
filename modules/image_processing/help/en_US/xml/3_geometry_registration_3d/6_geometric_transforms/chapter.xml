@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>image_processing</module_name>
+  <chapter>Geometric Transforms</chapter>
+  <chapter_description>
+    <p>Functions and objects for cropping, resizing, rotation, translation, spatial referencing, and geometric transforms in 2-D and foundational 3-D workflows.</p>
+  </chapter_description>
+</xmldoc>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>blackmanharris</keyword>
+  <short_description>Fenêtre de Blackman-Harris.</short_description>
+  <syntax><syntax_item>W = blackmanharris(M)</syntax_item><syntax_item>W = blackmanharris(M, option)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>M</param_name><param_description>longueur de la fenêtre.</param_description></param_input_item><param_input_item><param_name>option</param_name><param_description>'symmetric' ou 'periodic'.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>W</param_name><param_description>vecteur colonne contenant la fenêtre.</param_description></param_output_item></param_output>
+  <description><p><b>blackmanharris</b> retourne une fenêtre de Blackman-Harris à quatre termes.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+w = blackmanharris(5);
+]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${signal_processing}blackman">blackman</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

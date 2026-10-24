@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="237" viewBox="-153.5 -123.5 307 237">
+  <rect x="-153.5" y="-123.5" width="307" height="237" rx="45.03" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-90" y="-70" width="180" height="140" fill="#F0A99D" stroke="none"/>
+    <polyline points="-90,70 -90,-70" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="90,70 90,-70" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,99) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="33.6" fill="#9C2A1A">ThermalResistor</text></g>
+    <g transform="translate(0,-95) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#9C2A1A">R</text></g>
+  </g>
+</svg>

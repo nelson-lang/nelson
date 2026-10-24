@@ -31,5 +31,5 @@ NLSOPERATORS_IMPEXP
 ArrayOf
 solveSVDDecompositionSingleComplex(const ArrayOf& matA, const ArrayOf& matB);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

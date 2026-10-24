@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>exportapp</keyword>
+  <short_description>Save figure including UI components as an image file.</short_description>
+  <syntax>
+    <syntax_item>exportapp(fig, filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>figure object: figure or UI figure to capture.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a character vector or string scalar: destination image file.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output />
+  <description>
+    <p>
+      <b>exportapp(fig, filename)</b> captures the figure <b>fig</b>, including all of its UI components, and writes it to the image file <b>filename</b>.</p>
+    <p>The output file format is determined by the extension of <b>filename</b> (for example <b>.png</b>, <b>.jpg</b>, or <b>.tif</b>).</p>
+    <p>Unlike <b>saveas</b>, <b>exportapp</b> is intended to export figures created with <b>uifigure</b> that contain UI components such as buttons, sliders, and tables.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = uifigure('Position', [100 100 300 200]);
+b = uibutton(f, 'Text', 'Export me');
+exportapp(f, [tempdir(), 'exportapp_example.png']);
+img = imread([tempdir(), 'exportapp_example.png']);
+figure();
+imshow(img)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}getframe">getframe</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics_io}saveas">saveas</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

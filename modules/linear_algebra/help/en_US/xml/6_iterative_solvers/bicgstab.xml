@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bicgstab</keyword>
+  <short_description>BiConjugate gradients stabilized method.</short_description>
+  <syntax>
+    <syntax_item>x = bicgstab(A, b)</syntax_item>
+    <syntax_item>x = bicgstab(A, b, tol, maxit)</syntax_item>
+    <syntax_item>x = bicgstab(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec] = bicgstab(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a sparse real or complex floating-point square matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>a real or complex floating-point right-hand side vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>a finite real scalar convergence tolerance. Default is 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>a non-negative integer maximum iteration count.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>optional preconditioners: sparse or full square matrices, diagonal vectors, or function handles that apply the preconditioner to one vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>optional initial guess vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>computed solution vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 when convergence is reached, 1 when maxit is reached, 4 on numerical breakdown.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>relative residual norm.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>iteration count. Half-iteration values indicate convergence after the first step of an iteration.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>residual norm history, including half-iteration residuals.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bicgstab</b> solves <b>A * x = b</b> with the BiConjugate gradients stabilized method.</p>
+    <p>The method supports sparse double, sparse single, sparse double complex, and sparse single complex matrices.</p>
+    <p>When <b>M1</b> or <b>M2</b> is a matrix, the solver applies it through an internal linear solve. A vector preconditioner is interpreted as the diagonal of a square preconditioner. A function handle preconditioner must accept one vector input and return a vector with the same length.</p>
+    <p>If <b>M1</b>, <b>M2</b>, or <b>x0</b> is complex, the computation uses the matching complex solver path.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+b = [1; 2; 3];
+[x, flag, relres, iter] = bicgstab(A, b, 1e-12, 20)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([3 + 1i 1; 0 2 - 1i]);
+b = [4 + 2i; 3 - 1i];
+x = bicgstab(A, b, 1e-12, 20)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve with a matrix preconditioner.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+b = [1; 2; 3];
+M = diag(diag(full(A)));
+[x, flag] = bicgstab(A, b, 1e-12, 20, M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve with split matrix preconditioners.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1; 2 3]);
+b = [5; 5];
+M1 = [2 0; 0 1];
+M2 = [2 0.5; 2 3];
+[x, flag, relres, iter] = bicgstab(A, b, 1e-12, 10, M1, M2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve a sparse single complex system with an ILU preconditioner.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1i; 2 3]));
+b = single([1; 2]);
+[L, U] = ilu(A);
+[x, flag] = bicgstab(A, b, 1e-6, 20, L, U)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}pcg">pcg</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}ilu">ilu</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and sparse single complex inputs, matrix preconditioners, and function handle preconditioners supported.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

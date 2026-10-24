@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>membrane</keyword>
+  <short_description>Eigenfunctions of the L-shaped membrane.</short_description>
+  <syntax>
+    <syntax_item>L = membrane</syntax_item>
+    <syntax_item>L = membrane(k)</syntax_item>
+    <syntax_item>L = membrane(k, n)</syntax_item>
+    <syntax_item>membrane(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description
+      >a positive integer: the eigenfunction index (default 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
+      >a positive integer: the grid parameter; the result is (2*n+1)-by-(2*n+1) (default 15).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description
+      >a (2*n+1)-by-(2*n+1) matrix: the k-th eigenfunction sampled on the grid.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>membrane</b> returns the <b>k</b>-th eigenfunction of the L-shaped
+      membrane, sampled on a square <b>(2*n+1)</b>-by-<b>(2*n+1)</b> grid. The
+      domain is the square with one quadrant removed; the value is zero on the
+      boundary and outside that domain.</p>
+    <p>The first eigenfunction (<b>k = 1</b>) is the fundamental mode, a single
+      positive bump; higher indices add nodal lines and therefore negative
+      values. The result is normalised so its largest magnitude is 1 with a
+      positive peak.</p>
+    <p>Called with no output argument, <b>membrane</b> draws the surface.</p>
+    <p>The eigenfunction is obtained from a finite-difference discretisation of
+      the domain solved with a shift-invert eigensolve
+      (<b>eigs</b>) for the smallest eigenvalues.</p>
+  </description>
+  <used_function>eigs</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[L = membrane(1, 10);
+size(L)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[L = membrane(1, 15);
+[min(L(:)), max(L(:))]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>draw the surface</example_item_description>
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[f = figure();
+surf(membrane(1, 50), 'EdgeColor', 'none');
+axis('off');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}peaks">peaks</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}eigs">eigs</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surf">surf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

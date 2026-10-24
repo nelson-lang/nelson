@@ -13,16 +13,21 @@
 #include <cstring>
 //=============================================================================
 #include "Data.hpp"
-#include "SparseDynamicFunctions.hpp"
+#include "HandleState.hpp"
+#include "SparseType.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, stringVector fields)
     : cp(s)
     , owners(1)
-    , dimensions(dims)
-    , fieldNames(std::move(fields))
+    , dimensions_(dims)
+    , allocatedElementCount(dims.elementCount())
+    , fieldNames_(std::move(fields))
+    , allocatedFieldCount(static_cast<indexType>(fieldNames_.size()))
+    , fieldIndexValid_(false)
     , dataClass(aClass)
+    , sparseNzmax(0)
     , isInline(false)
 {
     sparse = sparseflag;
@@ -30,7 +35,15 @@ Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, 
 }
 //=============================================================================
 Data::Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize)
-    : owners(1), dimensions(dims), dataClass(aClass), sparse(false), isInline(true)
+    : owners(1)
+    , dimensions_(dims)
+    , allocatedElementCount(dims.elementCount())
+    , allocatedFieldCount(0)
+    , fieldIndexValid_(false)
+    , dataClass(aClass)
+    , sparse(false)
+    , sparseNzmax(0)
+    , isInline(true)
 {
     std::memcpy(inlineBuffer, scalarData, dataSize);
     cp = inlineBuffer;
@@ -40,30 +53,50 @@ Data::Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, si
 Data::~Data() { freeDataBlock(); }
 //=============================================================================
 Data*
-Data::getCopy()
+Data::copy()
 {
     owners.fetch_add(1, std::memory_order_relaxed);
     return this;
 }
 //=============================================================================
 Data*
-Data::putData(
-    NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, const stringVector& fields)
+Data::putData(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag,
+    const stringVector& fields, indexType allocatedCount)
 {
+    const indexType actualAllocatedCount
+        = allocatedCount > 0 ? allocatedCount : dims.elementCount();
     if ((owners.load() <= 1)) {
         freeDataBlock();
         cp = s;
         isInline = false;
         dataClass = aClass;
-        dimensions = dims;
-        fieldNames = fields;
+        dimensions_ = dims;
+        allocatedElementCount = actualAllocatedCount;
+        fieldNames_ = fields;
+        allocatedFieldCount = static_cast<indexType>(fieldNames_.size());
+        invalidateFieldIndexCache();
+        if (aClass != NLS_CLASSDEF_ARRAY) {
+            classdefLayout_.reset();
+        } else if (classdefLayout_) {
+            fieldNames_.clear();
+        }
         sparse = sparseflag;
+        sparseNzmax = 0;
         owners = 1;
         refreshDimensionCache();
         return this;
     }
     owners--;
-    return new Data(aClass, dims, s, sparseflag, fields);
+    Data* copy = new Data(aClass, dims, s, sparseflag, fields);
+    copy->allocatedElementCount = actualAllocatedCount;
+    if (aClass == NLS_CLASSDEF_ARRAY) {
+        copy->classdefLayout_ = classdefLayout_;
+        if (copy->classdefLayout_) {
+            copy->fieldNames_.clear();
+            copy->allocatedFieldCount = 0;
+        }
+    }
+    return copy;
 }
 //=============================================================================
 void
@@ -73,8 +106,20 @@ Data::promoteStructToClass()
 }
 //=============================================================================
 void
+Data::promoteStructToClassdef()
+{
+    dataClass = NLS_CLASSDEF_ARRAY;
+}
+//=============================================================================
+void
 Data::promoteClassToStruct()
 {
+    if (dataClass == NLS_CLASSDEF_ARRAY && classdefLayout_) {
+        fieldNames_ = classdefLayout_->storagePropertyNames;
+        allocatedFieldCount = static_cast<indexType>(fieldNames_.size());
+        classdefLayout_.reset();
+    }
+    invalidateFieldIndexCache();
     dataClass = NLS_STRUCT_ARRAY;
 }
 //=============================================================================
@@ -91,52 +136,123 @@ Data::deleteCopy()
 }
 //=============================================================================
 const void*
-Data::getData() const
+Data::data() const
 {
     return cp;
 }
 //=============================================================================
 void*
-Data::getWriteableData()
+Data::writableData()
 {
     return cp;
 }
 //=============================================================================
 const Dimensions&
-Data::getDimensions() const
+Data::dimensions() const
 {
-    return dimensions;
+    return dimensions_;
 }
 //=============================================================================
 const stringVector&
-Data::getFieldNames() const
+Data::fieldNames() const
 {
-    return fieldNames;
+    if (dataClass == NLS_CLASSDEF_ARRAY && classdefLayout_) {
+        return classdefLayout_->storagePropertyNames;
+    }
+    return fieldNames_;
 }
 //=============================================================================
 void
 Data::setDimensions(const Dimensions& dim)
 {
-    dimensions = dim;
+    dimensions_ = dim;
     refreshDimensionCache();
 }
 //=============================================================================
 void
 Data::setFieldNames(const stringVector& fields)
 {
-    fieldNames = fields;
+    fieldNames_ = fields;
+    allocatedFieldCount = static_cast<indexType>(fieldNames_.size());
+    invalidateFieldIndexCache();
+}
+//=============================================================================
+void
+Data::invalidateFieldIndexCache()
+{
+    fieldIndexValid_ = false;
+    if (!fieldNameToIndex_.empty()) {
+        fieldNameToIndex_.clear();
+    }
+}
+//=============================================================================
+int64
+Data::fieldIndexFromName(const std::string& name)
+{
+    // A linear scan beats hashing for the overwhelmingly common small
+    // structures; the cache only pays off once the field count grows large.
+    static constexpr size_t FIELD_INDEX_HASH_THRESHOLD = 16;
+    const stringVector& names = fieldNames();
+    const size_t count = names.size();
+    if (count <= FIELD_INDEX_HASH_THRESHOLD
+        || (dataClass == NLS_CLASSDEF_ARRAY && classdefLayout_)) {
+        for (size_t i = 0; i < count; ++i) {
+            if (names[i] == name) {
+                return static_cast<int64>(i);
+            }
+        }
+        return -1;
+    }
+    if (!fieldIndexValid_) {
+        fieldNameToIndex_.clear();
+        fieldNameToIndex_.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            fieldNameToIndex_.emplace(names[i], static_cast<indexType>(i));
+        }
+        fieldIndexValid_ = true;
+    }
+    auto it = fieldNameToIndex_.find(name);
+    if (it == fieldNameToIndex_.end()) {
+        return -1;
+    }
+    return static_cast<int64>(it->second);
+}
+//=============================================================================
+void
+Data::noteAppendedField(const std::string& name, indexType newIndex)
+{
+    if (fieldIndexValid_) {
+        fieldNameToIndex_.emplace(name, newIndex);
+    }
 }
 //=============================================================================
 std::string
-Data::getClassTypeName() const
+Data::classTypeName() const
 {
-    return classTypeName;
+    return classTypeName_;
 }
 //=============================================================================
 void
 Data::setClassTypeName(const std::string& typeName)
 {
-    classTypeName = typeName;
+    classTypeName_ = typeName;
+}
+//=============================================================================
+ClassdefLayoutPtr
+Data::classdefLayout() const
+{
+    return classdefLayout_;
+}
+//=============================================================================
+void
+Data::setClassdefLayout(ClassdefLayoutPtr layout)
+{
+    classdefLayout_ = std::move(layout);
+    if (dataClass == NLS_CLASSDEF_ARRAY && classdefLayout_) {
+        fieldNames_.clear();
+        allocatedFieldCount = 0;
+    }
+    invalidateFieldIndexCache();
 }
 //=============================================================================
 indexType
@@ -167,11 +283,18 @@ Data::freeDataBlock()
             auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
         } break;
-        case NLS_GO_HANDLE: {
-            auto* rp = static_cast<nelson_handle*>(cp);
+        case NLS_HANDLE: {
+            auto* rp = static_cast<HandleRef*>(cp);
+            // delete[] destroys elements last to first; a handle array releases
+            // its objects in index order so that their destructors run in that
+            // order (only handle arrays pay this pass).
+            const indexType count = dimensions_.elementCount();
+            for (indexType k = 0; k < count; ++k) {
+                rp[k].reset();
+            }
             delete[] rp;
         } break;
-        case NLS_HANDLE: {
+        case NLS_GO_HANDLE: {
             auto* rp = static_cast<nelson_handle*>(cp);
             delete[] rp;
         } break;
@@ -183,13 +306,17 @@ Data::freeDataBlock()
             auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
         } break;
+        case NLS_CLASSDEF_ARRAY: {
+            auto* rp = static_cast<ArrayOf*>(cp);
+            delete[] rp;
+        } break;
         case NLS_STRUCT_ARRAY: {
             auto* rp = static_cast<ArrayOf*>(cp);
             delete[] rp;
         } break;
         case NLS_LOGICAL: {
             if (sparse) {
-                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+                Eigen_DeleteSparseMatrix(dataClass, dimensions_[0], dimensions_[1], &cp);
             } else {
                 auto* rp = static_cast<logical*>(cp);
                 delete[] rp;
@@ -228,24 +355,32 @@ Data::freeDataBlock()
             delete[] rp;
         } break;
         case NLS_SINGLE: {
-            auto* rp = static_cast<single*>(cp);
-            delete[] rp;
+            if (sparse) {
+                Eigen_DeleteSparseMatrix(dataClass, dimensions_[0], dimensions_[1], &cp);
+            } else {
+                auto* rp = static_cast<single*>(cp);
+                delete[] rp;
+            }
         } break;
         case NLS_DOUBLE: {
             if (sparse) {
-                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+                Eigen_DeleteSparseMatrix(dataClass, dimensions_[0], dimensions_[1], &cp);
             } else {
                 auto* rp = static_cast<double*>(cp);
                 delete[] rp;
             }
         } break;
         case NLS_SCOMPLEX: {
-            auto* rp = static_cast<single*>(cp);
-            delete[] rp;
+            if (sparse) {
+                Eigen_DeleteSparseMatrix(dataClass, dimensions_[0], dimensions_[1], &cp);
+            } else {
+                auto* rp = static_cast<single*>(cp);
+                delete[] rp;
+            }
         } break;
         case NLS_DCOMPLEX: {
             if (sparse) {
-                DeleteSparseMatrixDynamicFunction(dataClass, dimensions[0], dimensions[1], cp);
+                Eigen_DeleteSparseMatrix(dataClass, dimensions_[0], dimensions_[1], &cp);
             } else {
                 auto* rp = static_cast<double*>(cp);
                 delete[] rp;
@@ -271,12 +406,12 @@ Data::isSparse() const
 void
 Data::refreshDimensionCache()
 {
-    isVectorCache = dimensions.isVector();
-    is2DCache = dimensions.is2D();
-    isScalarCache = dimensions.isScalar();
-    getColumnsCache = dimensions.getColumns();
-    getRowsCache = dimensions.getRows();
-    getElementCountCache = dimensions.getElementCount();
+    isVectorCache = dimensions_.isVector();
+    is2DCache = dimensions_.is2D();
+    isScalarCache = dimensions_.isScalar();
+    columnsCache = dimensions_.columns();
+    rowsCache = dimensions_.rows();
+    elementCountCache = dimensions_.elementCount();
 }
 //=============================================================================
 } // namespace Nelson

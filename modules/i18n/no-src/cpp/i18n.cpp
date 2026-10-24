@@ -30,5 +30,23 @@ gettext(const std::string& S)
     return S;
 }
 //=============================================================================
+std::wstring
+getMessageTemplateById(const std::wstring& /* id */)
+{
+    return L"";
+}
+//=============================================================================
+std::string
+getMessageTemplateById(const std::string& /* id */)
+{
+    return "";
+}
+//=============================================================================
+std::wstring
+getEnglishMessageTemplateById(const std::wstring& /* id */)
+{
+    return L"";
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

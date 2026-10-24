@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -34,10 +34,10 @@ public:
     getTypeName();
     //=============================================================================
     std::string
-    getClassName() override;
+    className() override;
     //=============================================================================
     wstringVector
-    getMethods();
+    methods() override;
     //=============================================================================
     bool
     isEqual(PythonObjectHandle& pythonObjectHandle);
@@ -46,13 +46,13 @@ public:
     isOperatorMethod(const std::wstring& methodName);
     //=============================================================================
     bool
-    isMethod(const std::wstring& methodName);
+    isMethod(const std::wstring& methodName) override;
     //=============================================================================
     bool
-    isProperty(const std::wstring& propertyName);
+    isProperty(const std::wstring& propertyName) override;
     //=============================================================================
     wstringVector
-    getProperties();
+    properties() override;
     //=============================================================================
     bool
     get(const std::wstring& propertyName, ArrayOf& result);
@@ -71,6 +71,9 @@ public:
     bool
     invokeOperatorMethod(
         const std::wstring& methodName, const ArrayOfVector& inputs, ArrayOfVector& results);
+    //=============================================================================
+    bool
+    toTableData(ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames);
     //=============================================================================
 private:
     //=============================================================================
@@ -132,14 +135,14 @@ private:
     invokeCastUInt64Method(ArrayOfVector& results);
     //=============================================================================
     bool
-    invokeMethodNoArgument(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
-        ArrayOfVector& results);
+    invokeMethodNoArgument(Interface* io, const std::wstring& methodName,
+        const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results);
     bool
-    invokeMethodOneArgument(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,
-        ArrayOfVector& results);
+    invokeMethodOneArgument(Interface* io, const std::wstring& methodName,
+        const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results);
     bool
-    invokeMethodMultipleArguments(const std::wstring& methodName, const ArrayOfVector& inputs,
-        int nLhs, ArrayOfVector& results);
+    invokeMethodMultipleArguments(Interface* io, const std::wstring& methodName,
+        const ArrayOfVector& inputs, int nLhs, ArrayOfVector& results);
     //=============================================================================
     bool
     invokeFunction(const std::wstring& methodName, const ArrayOfVector& inputs, int nLhs,

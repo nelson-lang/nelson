@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>wordcloud</keyword>
+  <short_description>Afficher des mots avec des tailles proportionnelles aux poids.</short_description>
+  <syntax>
+    <syntax_item>wordcloud(words, sizes)</syntax_item>
+    <syntax_item>wordcloud(words)</syntax_item>
+    <syntax_item>wordcloud(tbl, wordvar, sizevar)</syntax_item>
+    <syntax_item>wordcloud(parent, ...)</syntax_item>
+    <syntax_item>h = wordcloud(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>wordcloud</b> cree un graphique de nuage de mots dont les tailles de police dependent de poids numeriques ou de comptes de categories et retourne un objet graphique <b>wordcloud</b>.</p>
+    <p><b>wordcloud(tbl, wordvar, sizevar)</b> utilise la variable de table <b>wordvar</b> comme libelles et <b>sizevar</b> comme poids numeriques.</p>
+    <p>L'objet retourne stocke les mots affiches dans <b>WordData</b> et leurs poids dans <b>SizeData</b>.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.wordcloud.properties">proprietes wordcloud</link> liste les proprietes d'objet prises en charge.</p>
+    <p>Les proprietes prises en charge sont <b>MaxDisplayWords</b>, <b>Color</b>, <b>HighlightColor</b>, <b>Shape</b>, <b>LayoutNum</b>, <b>SizePower</b>, <b>FontName</b>, <b>TitleFontName</b>, <b>Box</b>, <b>Title</b>, <b>OuterPosition</b>, <b>InnerPosition</b>, <b>Position</b>, <b>Units</b> et <b>PositionConstraint</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des termes ponderes depuis une table.</example_item_description>
+      <example_item_data><![CDATA[terms = {'solver'; 'matrix'; 'plot'; 'graphics'; 'signal'; 'model'; 'tests'; 'data'; 'script'; 'analysis'};
+counts = [42; 37; 31; 29; 22; 18; 16; 13; 11; 8];
+T = table(terms, counts, 'VariableNames', {'Term', 'Count'});
+wordcloud(T, 'Term', 'Count', 'MaxDisplayWords', 8, 'Shape', 'rectangle', 'Color', [0.066 0.443 0.745]);]]></example_item_data>
+      <example_item_img src="../../../../images/wordcloud_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/text">text</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.wordcloud.properties">proprietes wordcloud</link></see_also_item>
+  </see_also>
+</xmldoc>

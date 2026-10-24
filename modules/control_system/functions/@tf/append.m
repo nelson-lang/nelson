@@ -15,7 +15,7 @@ function sys = append(varargin)
     else
       sys = varargin{i};
     end
-    if(i == 1)
+    if (i == 1)
       sysAppend = sys;
     else
       sysAppend = append_two_lti(sysAppend, sys);
@@ -25,19 +25,9 @@ function sys = append(varargin)
 end
 %=============================================================================
 function sys = append_two_lti(sys1, sys2)
-  
-  if (sys1.Ts == sys2.Ts)
-    sampleTime = sys1.Ts;
-  elseif (sys1.Ts == -2 || sys2.Ts == -2)
-    if sys1.Ts == -2
-      sampleTime = sys2.Ts;
-    else
-      sampleTime = sys1.Ts;
-    end
-  else
-    error(_('Sampling times must agree.'));
-  end
-  
+
+  sampleTime = ltiResolveSampleTime(sys1, sys2);
+
   sys = tf();
   [ny1, nu1] = size(sys1.Numerator);
   [ny2, nu2] = size(sys2.Numerator);
@@ -45,30 +35,21 @@ function sys = append_two_lti(sys1, sys2)
   pad21 = cell(ny2, nu1);
   pad12(:) = {0};
   pad21(:) = {0};
-  sys.Numerator = [sys1.Numerator, pad12;pad21, sys2.Numerator];
+  sys.Numerator = [sys1.Numerator, pad12; pad21, sys2.Numerator];
   pad12(:) = {1};
   pad21(:) = {1};
-  sys.Denominator = [sys1.Denominator, pad12;pad21, sys2.Denominator];
-  
-  if (strcmp (sys1.Variable, sys1.Variable))
-    sys.Variable = sys1.Variable;
-  else
-    sys.Variable = sys1.Variable;
-  end
-  UserData = [];
-  if ~isempty(sys1.UserData) && ~isempty(sys1.UserData)
-    UserData = sys1.UserData;
-  else
-    if ~isempty(sys1.UserData)
-      UserData = sys1.UserData;
-    end
-    if ~isempty(sys1.UserData)
-      UserData = sys1.UserData;
-    end
-  end
-  if ~isempty(UserData)
-    sys.UserData = UserData;
-  end
+  sys.Denominator = [sys1.Denominator, pad12; pad21, sys2.Denominator];
+
   sys.Ts = sampleTime;
+  sys.Variable = ltiMergeTfVariable(sys1, sys2, 'left');
+  sys.TimeUnit = ltiMergeTimeUnit(sys1, sys2);
+  sys.InputName = ltiMergeCellMetadata(sys1.InputName, nu1, sys2.InputName, nu2, 'concat');
+  sys.InputUnit = ltiMergeCellMetadata(sys1.InputUnit, nu1, sys2.InputUnit, nu2, 'concat');
+  sys.OutputName = ltiMergeCellMetadata(sys1.OutputName, ny1, sys2.OutputName, ny2, 'concat');
+  sys.OutputUnit = ltiMergeCellMetadata(sys1.OutputUnit, ny1, sys2.OutputUnit, ny2, 'concat');
+  userData = ltiMergeUserData(sys1, sys2);
+  if ~isempty(userData)
+    sys.UserData = userData;
+  end
 end
 %=============================================================================

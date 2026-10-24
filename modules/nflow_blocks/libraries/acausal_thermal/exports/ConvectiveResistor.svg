@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="260.5" viewBox="-153.25 -127.25 306.5 260.5">
+  <rect x="-153.25" y="-127.25" width="306.5" height="260.5" rx="49.495" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-62" y="-80" width="160" height="160" fill="#FFFFFF" stroke="#F0A99D" stroke-width="3.25"/>
+    <rect x="-90" y="-80" width="30" height="160" fill="#F0A99D" stroke="#9C2A1A" stroke-width="3.25"/>
+    <g transform="translate(0,-110) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">ConvectiveResistor</text></g>
+    <polyline points="100,0 100,0" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,20 76,20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,-20 76,-20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-34,80 -34,-80" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6,80 6,-80" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="40,80 40,-80" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="76,80 76,-80" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-34,-80 -44,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-34,-80 -24,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6,-80 -4,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="6,-80 16,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="40,-80 30,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="40,-80 50,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="76,-80 66,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="76,-80 86,-60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="56,-30 76,-20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="56,-10 76,-20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="56,10 76,20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="56,30 76,20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(57,111) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="20.8" fill="#9C2A1A">Rc</text></g>
+  </g>
+</svg>

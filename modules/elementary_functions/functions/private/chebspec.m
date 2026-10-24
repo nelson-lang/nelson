@@ -8,39 +8,35 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function CMat = chebspec(nSize, kind, className)
-  if isempty(kind)
-    kind = 0;
+  selectedKind = kind;
+  if isempty(selectedKind)
+    selectedKind = 0;
   end
-  
-  if kind == 1
-    nSize = nSize + 1;
+  if selectedKind == 1
+    effectiveSize = nSize + 1;
+  else
+    effectiveSize = nSize;
   end
-  
-  n = nSize - 1;
-  CMat = zeros(n+1, className);
-  
-  nodes = cospi((0:n)/n)';
-  scale = ones(n+1,1,className); scale(1) = 2; scale(n+1) = 2;
-  
-  num = scale * ones(1,n+1,className);
-  den = nodes - nodes.' + eye(size(CMat), className);
-  CMat = (num ./ den);
-  
-  CMat(1,1) = (2*n^2+1)/6;
-  for idx = 2:n+1
-    if rem(idx,2) == 0
-      CMat(:,idx) = -CMat(:,idx);
-      CMat(idx,:) = -CMat(idx,:);
-    end
-    if idx < n+1
-      CMat(idx,idx) = -nodes(idx)/(2*(1-nodes(idx)^2));
-    else
-      CMat(n+1,n+1) = -CMat(1,1);
-    end
+  order = effectiveSize - 1;
+  matrixSize = order + 1;
+  CMat = zeros(matrixSize, className);
+  nodes = cospi((0:order) / order).';
+  scale = ones(matrixSize, 1, className);
+  scale([1, matrixSize]) = 2;
+  denominator = nodes - nodes.' + eye(matrixSize, className);
+  CMat = scale(:, ones(1, matrixSize)) ./ denominator;
+  signs = (-1) .^ (0:order);
+  CMat = CMat .* (signs.' * signs);
+  diagonal = zeros(matrixSize, 1, className);
+  diagonal(1) = (2 * order ^ 2 + 1) / 6;
+  diagonal(matrixSize) = -diagonal(1);
+  if matrixSize > 2
+    inner = 2:matrixSize - 1;
+    diagonal(inner) = -nodes(inner) ./ (2 * (1 - nodes(inner) .^ 2));
   end
-  
-  if kind == 1
-    CMat = CMat(2:n+1,2:n+1);
+  CMat(1:matrixSize + 1:end) = diagonal;
+  if selectedKind == 1
+    CMat = CMat(2:matrixSize, 2:matrixSize);
   end
 end
 %=============================================================================

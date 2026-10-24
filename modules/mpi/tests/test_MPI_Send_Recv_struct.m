@@ -9,13 +9,15 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
 
-TAG= 1;
+TAG = 1;
 A.field1 = 'Nel';
 A.field2 = int8(3);
 A.field3.sub1 = 1;
@@ -26,9 +28,9 @@ if (my_rank != 0)
   MPI_Send(A, rankvect, TAG)
 else
   for source = 1:num_ranks - 1
-    receive = MPI_Recv (source, TAG);
-    assert_istrue(isa(receive, 'struct'));
-    assert_isequal(receive, A)
+    receive = MPI_Recv(source, TAG);
+    asserts.istrue(isa(receive, 'struct'));
+    asserts.isequal(receive, A)
   end
 end
 if MPI_Initialized()

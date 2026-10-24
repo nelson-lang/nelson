@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>readlines</keyword>
+  <short_description>Lire les lignes d&apos;un fichier texte en tableau de chaînes.</short_description>
+  <syntax>
+    <syntax_item>S = readlines(filename)</syntax_item>
+    <syntax_item>S = readlines(filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : nom du fichier texte à lire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineEnding</param_name>
+      <param_description
+      >un vecteur de caractères, un tableau de chaînes ou une cellule de vecteurs de caractères : terminaisons de ligne. Par défaut : {&apos;\n&apos;, &apos;\r&apos;, &apos;\r\n&apos;}. Les séquences d&apos;échappement \n, \r, \t, \b, \f, \v et \\ sont interprétées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Whitespace</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : caractères considérés comme des espaces. Par défaut : &apos; \b\t&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>WhitespaceRule</param_name>
+      <param_description
+      >&apos;preserve&apos; (par défaut), &apos;trim&apos;, &apos;trimleading&apos; ou &apos;trimtrailing&apos; : suppression des espaces en début et/ou en fin de chaque ligne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>EmptyLineRule</param_name>
+      <param_description
+      >&apos;read&apos; (par défaut), &apos;skip&apos; ou &apos;error&apos; : traitement des lignes vides. Une ligne qui ne contient que des espaces est vide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Encoding</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : &apos;&apos; (par défaut, l&apos;encodage est détecté), &apos;system&apos;, &apos;UTF-8&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>un tableau de chaînes N x 1 : un élément par ligne.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>S = readlines(filename)</b> lit le fichier texte <b>filename</b> et renvoie ses lignes sous forme de tableau de chaînes colonne. Les terminaisons de ligne ne font pas partie des lignes.</p>
+    <p>Par défaut, une ligne se termine par un saut de ligne, un retour chariot ou un retour chariot suivi d&apos;un saut de ligne. Quand le fichier se termine par une terminaison de ligne, le dernier élément de <b>S</b> est une chaîne vide. Un fichier vide renvoie une chaîne vide 1 x 1.</p>
+    <p>Avec <b>EmptyLineRule</b> à &apos;skip&apos;, les lignes vides sont supprimées. Avec &apos;error&apos;, une erreur est levée sur la première ligne vide, en indiquant son numéro. Dans les deux cas, le texte vide après une terminaison de ligne finale est ignoré.</p>
+    <p>Une marque d&apos;ordre des octets UTF-8 en début de fichier n&apos;est pas renvoyée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire les lignes d&apos;un fichier texte.</example_item_description>
+      <example_item_data><![CDATA[filename = [tempdir(), 'example_readlines.txt'];
+filewrite(filename, ["  Paris"; ""; "  Berlin"; "Rome  "]);
+S = readlines(filename)
+S = readlines(filename, 'EmptyLineRule', 'skip')
+S = readlines(filename, 'WhitespaceRule', 'trim')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fgetl">fgetl</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -20,12 +20,12 @@ function tf = isunicodesupported()
     with_unicode_support = tf;
     return
   end
-  if contains(getnelsonmode(), {'GUI', 'ADVANCED_SIO_CLIENT', 'BASIC_SIO_CLIENT'})
+  if contains(getnelsonmode(), {'GUI', 'WEB_GUI', 'WASM_TERMINAL'})
     tf = true;
     with_unicode_support = tf;
     return
   end
-  
+
   tf = false;
   if ~ispc()
     tf = ~strcmp(getenv('TERM'), 'linux');
@@ -33,10 +33,10 @@ function tf = isunicodesupported()
     return
   end
   tf = ~isempty(getenv('WT_SESSION')) || ...
-  strcmp(getenv('ConEmuTask'),  '{cmd::Cmder}') || ...
-  strcmp(getenv('TERM_PROGRAM'), 'vscode') || ...
-  strcmp(getenv('TERM'), 'xterm-256color') || ...
-  strcmp(getenv('TERM'), 'alacritty');
+    strcmp(getenv('ConEmuTask'), '{cmd::Cmder}') || ...
+    strcmp(getenv('TERM_PROGRAM'), 'vscode') || ...
+    strcmp(getenv('TERM'), 'xterm-256color') || ...
+    strcmp(getenv('TERM'), 'alacritty');
   with_unicode_support = tf;
 end
 %=============================================================================

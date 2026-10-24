@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>activecontour</keyword>
+  <short_description>Segmente une image depuis un masque initial de contour.</short_description>
+  <syntax>
+    <syntax_item>BW = activecontour(I, mask)</syntax_item>
+    <syntax_item>BW = activecontour(I, mask, iterations)</syntax_item>
+    <syntax_item>BW = activecontour(I, mask, iterations, method)</syntax_item>
+    <syntax_item>BW = activecontour(___, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image 2-D en niveaux de gris, RGB ou RGBA, reelle et finie. Les images couleur sont converties en luminance avant segmentation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mask</param_name>
+      <param_description>Masque initial de contour 2-D. Les masques numeriques sont convertis en valeurs logiques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>iterations</param_name>
+      <param_description>Nombre entier positif ou nul d'iterations d'evolution. La valeur par defaut est 100.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode de segmentation : 'chan-vese' ou 'edge'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Les options prises en charge sont 'Iterations', 'Method', 'SmoothFactor' et 'ContractionBias'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Masque logique de la region segmentee.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Segmente une image 2-D reelle finie en faisant evoluer un masque initial binaire. Les images RGB et RGBA sont converties en luminance, et le canal alpha est ignore. La methode par defaut est chan-vese. La methode edge utilise le meme modele de regions avec un lissage pondere par les contours.</p>
+    <p>Les options nom-valeur prises en charge sont <b>Iterations</b>, <b>Method</b>, <b>SmoothFactor</b>, un scalaire fini non negatif, et <b>ContractionBias</b>, un scalaire fini dans l intervalle [-1, 1]. Les valeurs par defaut sont 100, chan-vese, 1 et 0.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Segmenter un disque clair depuis un petit masque initial</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,96));
+I=exp(-9*(X.^2+Y.^2));
+mask=false(size(I));
+mask(40:56,40:56)=true;
+BW=activecontour(I,mask,40);
+figure; subplot(1,3,1); imagesc(I); title('Input');
+subplot(1,3,2); imagesc(mask); title('Initial');
+subplot(1,3,3); imagesc(BW); title('Segmented');]]></example_item_data>
+      <example_item_img
+        src="../../../images/activecontour_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser le mode edge avec un lissage explicite</example_item_description>
+      <example_item_data><![CDATA[I=zeros(7,7);
+I(3:5,3:5)=1;
+mask=false(7,7);
+mask(4,4)=true;
+BW=activecontour(I,mask,'Iterations',8,'Method','edge','SmoothFactor',1,'ContractionBias',0);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imreconstruct">imreconstruct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}graythresh">graythresh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

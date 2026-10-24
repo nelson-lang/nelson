@@ -15,6 +15,7 @@
 #include "HandleGenericObject.hpp"
 #include "nlsDynamic_link_exports.h"
 #include <ffi.h>
+#include <vector>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,7 +36,7 @@ public:
     bool
     get(const std::wstring& propertyName, ArrayOf& res);
     bool
-    isWriteableProperty(const std::wstring& propertyName);
+    isWritableProperty(const std::wstring& propertyName);
     wstringVector
     fieldnames();
     bool
@@ -43,9 +44,9 @@ public:
     bool
     isMethod(const std::wstring& methodName) override;
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
 
 private:
     ArrayOf _dllibObject;
@@ -55,6 +56,7 @@ private:
     wstringVector _paramsTypes;
     wstringVector _paramsInTypes;
     wstringVector _paramsOutTypes;
+    std::vector<ffi_type*> _ffiArgs;
     ffi_cif _cif;
     size_t _nArgIn;
     size_t _nArgOut;

@@ -11,85 +11,85 @@
 %=============================================================================
 R = evalc('A = string(NaN)');
 REF =  '
-A =
+A = 
 
     <missing>
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = string([])');
 REF = '
-A =
+A = 
 
   0×0 empty string array
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["d","d","d";
-    "ddd","dddd","dd";
-    "cc","cc","cc"];
+A = ["d", "d", "d";
+    "ddd", "dddd", "dd";
+    "cc", "cc", "cc"];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   3×3 string array
 
-      "d"       "d"     "d"
+    "d"      "d"       "d" 
     "ddd"    "dddd"    "dd"
-     "cc"      "cc"    "cc"
+    "cc"     "cc"      "cc"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["d","d","d";
-    "ds", NaN,"ds";
-    "c","c","c"];
+A = ["d", "d", "d";
+    "ds", NaN, "ds";
+    "c", "c", "c"];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   3×3 string array
 
-     "d"          "d"     "d"
+    "d"     "d"          "d" 
     "ds"    <missing>    "ds"
-     "c"          "c"     "c"
+    "c"     "c"          "c" 
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["dddlll" "dd" "1234567890ABCDEFGHIJKLMNOPQRSTVUWXY0123";"dddlll" "dd" "ddddddddddddddd";"d" "dd" ""];
+A = ["dddlll" "dd" "1234567890ABCDEFGHIJKLMNOPQRSTVUWXY0123"; "dddlll" "dd" "ddddddddddddddd"; "d" "dd" ""];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   3×3 string array
 
-    "dddlll"    "dd"    "1234567890ABCDE…"
-    "dddlll"    "dd"     "ddddddddddddddd"
-         "d"    "dd"                    ""
+    "dddlll"    "dd"    "1234567890ABCDEFGH…"
+    "dddlll"    "dd"    "ddddddddddddddd"    
+    "d"         "dd"    ""                   
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["Mercury1" "Gemini2" "Apollo3" "Smith4","Chung5","Morales6" "Mercury7" "Gemini8" "Apollo9" "Smith10","Chung11","Morales12" "Mercury13" "Gemini14" "Apollo15" "Smith16","Chung17","Morales18";
-       "Skylab19" "Skylab B20" "ISS21" "Sanchez22","Peterson23","Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28","Chung29","Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34","Chung35","Morales36"];
+A = ["Mercury1" "Gemini2" "Apollo3" "Smith4", "Chung5", "Morales6" "Mercury7" "Gemini8" "Apollo9" "Smith10", "Chung11", "Morales12" "Mercury13" "Gemini14" "Apollo15" "Smith16", "Chung17", "Morales18";
+       "Skylab19" "Skylab B20" "ISS21" "Sanchez22", "Peterson23", "Adams24" "Mercury25" "Gemini26" "Apollo27" "Smith28", "Chung29", "Morales30" "Mercury31" "Gemini32" "Apollo33" "Smith34", "Chung35", "Morales36"];
 R = evalc('A');
 REF =  '
-A =
+A = 
 
   2×18 string array
 
   Columns 1 through 5
 
-    "Mercury1"       "Gemini2"    "Apollo3"       "Smith4"        "Chung5"
-    "Skylab19"    "Skylab B20"      "ISS21"    "Sanchez22"    "Peterson23"
+    "Mercury1"    "Gemini2"       "Apollo3"    "Smith4"       "Chung5"    
+    "Skylab19"    "Skylab B20"    "ISS21"      "Sanchez22"    "Peterson23"
 
   Columns 6 through 10
 
-    "Morales6"     "Mercury7"     "Gemini8"     "Apollo9"    "Smith10"
-     "Adams24"    "Mercury25"    "Gemini26"    "Apollo27"    "Smith28"
+    "Morales6"    "Mercury7"     "Gemini8"     "Apollo9"     "Smith10"
+    "Adams24"     "Mercury25"    "Gemini26"    "Apollo27"    "Smith28"
 
   Columns 11 through 15
 
@@ -102,137 +102,137 @@ A =
     "Smith34"    "Chung35"    "Morales36"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["Smith","Chung","Morales"; 
-       "Sanchez","Peterson","Adams"];
+A = ["Smith", "Chung", "Morales";
+       "Sanchez", "Peterson", "Adams"];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   2×3 string array
 
-      "Smith"       "Chung"    "Morales"
-    "Sanchez"    "Peterson"      "Adams"
+    "Smith"      "Chung"       "Morales"
+    "Sanchez"    "Peterson"    "Adams"  
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = ["dd", "dddddddddddddddddddddddddddddddddddddddddddddddddd"];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   1×2 string array
 
-    "dd"    "ddddddddddddddd…"
+    "dd"    "dddddddddddddddddddddddddddddddd…"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["ffffffffffffff", "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "dddddddddddddddddddddddddddddd","ddddddddddddddddddddddddddddddddddddddddddddddddddd"];
+A = ["ffffffffffffff", "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "dddddddddddddddddddddddddddddd", "ddddddddddddddddddddddddddddddddddddddddddddddddddd"];
 R = evalc('A');
 REF =  '
-A =
+A = 
 
   1×4 string array
 
   Columns 1 through 3
 
-    "ffffffffffffff"    "ddddddddddddddd…"    "ddddddddddddddd…"
+    "ffffffffffffff"    "dddddddddddddddddd…"    "dddddddddddddddddd…"
 
   Column 4
 
-    "ddddddddddddddd…"
+    "dddddddddddddddddd…"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A=1:10:27*10;
-B = string(reshape(A,3,3,3));
-B(2,1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff";
-B(1,1, 3) = NaN;
+A = 1:10:27 * 10;
+B = string(reshape(A, 3, 3, 3));
+B(2, 1, 2) = "ffffffffffffffffffdddddddddddffffffffffffffffffffff";
+B(1, 1, 3) = NaN;
 R = evalc('B');
 REF =  '
   3×3×3 string array
 
-B(:,:,1) =
+B(:,:,1) = 
 
-     "1"    "31"    "61"
+    "1"     "31"    "61"
     "11"    "41"    "71"
     "21"    "51"    "81"
 
 
-B(:,:,2) =
+B(:,:,2) = 
 
-                  "91"    "121"    "151"
-    "fffffffffffffff…"    "131"    "161"
-                 "111"    "141"    "171"
+    "91"                     "121"    "151"
+    "ffffffffffffffffff…"    "131"    "161"
+    "111"                    "141"    "171"
 
 
-B(:,:,3) =
+B(:,:,3) = 
 
     <missing>    "211"    "241"
-        "191"    "221"    "251"
-        "201"    "231"    "261"
+    "191"        "221"    "251"
+    "201"        "231"    "261"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('disp(B)');
 REF =  '
-(:,:,1) =
+(:,:,1) = 
 
-     "1"    "31"    "61"
+    "1"     "31"    "61"
     "11"    "41"    "71"
     "21"    "51"    "81"
 
 
-(:,:,2) =
+(:,:,2) = 
 
-                  "91"    "121"    "151"
-    "fffffffffffffff…"    "131"    "161"
-                 "111"    "141"    "171"
+    "91"                     "121"    "151"
+    "ffffffffffffffffff…"    "131"    "161"
+    "111"                    "141"    "171"
 
 
-(:,:,3) =
+(:,:,3) = 
 
     <missing>    "211"    "241"
-        "191"    "221"    "251"
-        "201"    "231"    "261"
+    "191"        "221"    "251"
+    "201"        "231"    "261"
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('disp("hello")');
 REF = 'hello
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('disp(string(NaN))');
-REF =  char([32    32    32    32    60   109   105   115   115   105   110   103    62    10]);
-assert_isequal(R, REF)
+REF = char([32 32 32 32 60 109 105 115 115 105 110 103 62 10]);
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('display(string(NaN))');
-REF = char([32    32    32    32    60   109   105   115   115   105   110   103    62    10    10]);
-assert_isequal(R, REF)
+REF = char([32 32 32 32 60 109 105 115 115 105 110 103 62 10 10]);
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('display(string(NaN), ''A'')');
-REF = char([ 10    65    32    61    10    10    32    32    32    32    60   109   105   115   115   105   110   103    62    10    10]);
-assert_isequal(R, REF)
+REF = char([10 65 32 61 32 10 10 32 32 32 32 60 109 105 115 115 105 110 103 62 10 10]);
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('display("hello")');
-REF = char([32    32    32    32    34   104   101   108   108   111    34    10    10]);
-assert_isequal(R, REF)
+REF = char([32 32 32 32 34 104 101 108 108 111 34 10 10]);
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('display("hello", ''A'')');
-REF = char([ 10    65    32    61    10    10    32    32    32    32    34   104   101   108   108   111    34    10    10]);
-assert_isequal(R, REF)
+REF = char([10 65 32 61 32 10 10 32 32 32 32 34 104 101 108 108 111 34 10 10]);
+asserts.isequal(R, REF)
 %=============================================================================
-A = ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";"vvvvvvvvvvvvvvvvvvvvvvvvvv";"ddddddddddddddddddd"];
+A = ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; "vvvvvvvvvvvvvvvvvvvvvvvvvv"; "ddddddddddddddddddd"];
 R = evalc('A');
 REF = '
-A =
+A = 
 
   3×1 string array
 
@@ -241,5 +241,37 @@ A =
     "ddddddddddddddddddd"
 
 ' ;
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
+%=============================================================================
+A = ["abcdefghijklmnopqrstuvwxyz" "b"; "c" "d"];
+R = evalc('A');
+REF = '
+A = 
+
+  2×2 string array
+
+    "abcdefghijklmnopqrstuvwxyz"    "b"
+    "c"                             "d"
+
+';
+asserts.isequal(R, REF)
+%=============================================================================
+A = cat(3, [string(repmat('a', 1, 100)); "b"], ["c"; "d"]);
+R = evalc('A');
+REF = ['
+  2×1×2 string array
+
+A(:,:,1) = 
+
+    "', repmat('a', 1, 100), '"
+    "b"
+
+
+A(:,:,2) = 
+
+    "c"
+    "d"
+
+'];
+asserts.isequal(R, REF)
 %=============================================================================

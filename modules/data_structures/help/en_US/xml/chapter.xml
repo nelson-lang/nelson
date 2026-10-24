@@ -10,6 +10,6 @@
     <p
     >It enables conversion between different data formats, access and modification of fields, application of functions to array elements, and organization of structured data.</p>
     <p
-    >This module facilitates flexible handling of complex data, supporting both programmatic operations and dynamic data management.</p>
+    >This module handles complex data through programmatic operations and dynamic data management.</p>
   </chapter_description>
 </xmldoc>

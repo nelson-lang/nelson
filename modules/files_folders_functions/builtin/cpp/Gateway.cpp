@@ -17,6 +17,7 @@
 #include "isdirBuiltin.hpp"
 #include "isfileBuiltin.hpp"
 #include "mkdirBuiltin.hpp"
+#include "movefileBuiltin.hpp"
 #include "pathsepBuiltin.hpp"
 #include "pwdBuiltin.hpp"
 #include "relativepathBuiltin.hpp"
@@ -40,10 +41,11 @@ static const nlsGateway gateway[] = {
     { "isfolder", (ptrBuiltin)Nelson::FilesFoldersGateway::isdirBuiltin, 1, 1 },
     { "isfile", (ptrBuiltin)Nelson::FilesFoldersGateway::isfileBuiltin, 1, 1 },
     { "fileparts", (ptrBuiltin)Nelson::FilesFoldersGateway::filepartsBuiltin, 3, 2 },
-    { "mkdir", (ptrBuiltin)Nelson::FilesFoldersGateway::mkdirBuiltin, 2, 2 },
+    { "mkdir", (ptrBuiltin)Nelson::FilesFoldersGateway::mkdirBuiltin, 3, 2 },
     { "relativepath", (ptrBuiltin)Nelson::FilesFoldersGateway::relativepathBuiltin, 1, 2 },
     { "rmdir", (ptrBuiltin)Nelson::FilesFoldersGateway::rmdirBuiltin, 2, 2 },
-    { "copyfile", (ptrBuiltin)Nelson::FilesFoldersGateway::copyfileBuiltin, 2, 3 },
+    { "copyfile", (ptrBuiltin)Nelson::FilesFoldersGateway::copyfileBuiltin, 3, 3 },
+    { "movefile", (ptrBuiltin)Nelson::FilesFoldersGateway::movefileBuiltin, 2, 3 },
     { "diff_file", (ptrBuiltin)Nelson::FilesFoldersGateway::diff_fileBuiltin, 1, -2 },
     { "rmfile", (ptrBuiltin)Nelson::FilesFoldersGateway::rmfileBuiltin, 2, 1 },
     { "pathsep", (ptrBuiltin)Nelson::FilesFoldersGateway::pathsepBuiltin, 1, 0 },
@@ -54,11 +56,7 @@ static const nlsGateway gateway[] = {
     { "fullfile", (ptrBuiltin)Nelson::FilesFoldersGateway::fullfileBuiltin, 1, -1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

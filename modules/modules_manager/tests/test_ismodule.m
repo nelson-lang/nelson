@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('ismodule'), 1);
-assert_isequal(nargout('ismodule'), 1);
+asserts.isequal(nargin('ismodule'), 1);
+asserts.isequal(nargout('ismodule'), 1);
 %=============================================================================
-assert_istrue(ismodule('core'));
-assert_istrue(ismodule('core', 'isprotected'));
+asserts.istrue(ismodule('core'));
+asserts.istrue(ismodule('core', 'isprotected'));
 %=============================================================================
-assert_isfalse(ismodule('foo'));
-assert_isfalse(ismodule('foo', 'isprotected'));
+asserts.isfalse(ismodule('foo'));
+asserts.isfalse(ismodule('foo', 'isprotected'));
 %=============================================================================

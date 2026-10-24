@@ -14,9 +14,9 @@ function varargout = tfdata(varargin)
   narginchk(1, 1);
   nargoutchk(0, 3);
   sys = varargin{1};
-  
+
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
   sys = tf(sys);
   numerator = sys.Numerator;

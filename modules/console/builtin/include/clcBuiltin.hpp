@@ -17,7 +17,8 @@ namespace Nelson {
 namespace ConsoleGateway {
     ArrayOfVector
     clcBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
+    //=============================================================================
+} // namespace ConsoleGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

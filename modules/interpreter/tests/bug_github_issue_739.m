@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/739
 % <-- Short Description -->
@@ -14,15 +16,15 @@
 %=============================================================================
 p = {};
 p{:}
-assert_checkerror('R = eval(''p{:}'');', _('Empty expression!'));
+asserts.checkerror('R = eval(''p{:}'');', _('Empty expression!'));
 R = evalc('p{:}');
-assert_isequal(R, '');
-assert_checkerror('k = p{:}', _('Empty expression!'));
+asserts.isequal(R, '');
+asserts.checkerror('k = p{:}', _('Empty expression!'));
 %=============================================================================
 P = [];
-assert_isequal(P(:), zeros(0, 1));
+asserts.isequal(P(:), zeros(0, 1));
 R = P(:);
-assert_isequal(R, zeros(0, 1));
+asserts.isequal(R, zeros(0, 1));
 %=============================================================================
 c = {'f', 1};
 c{2}
@@ -33,6 +35,6 @@ ans =
      1
 
 ';
-assert_isequal(R, REF);
-assert_checkerror('k = p{:}', _('Empty expression!'));
+asserts.isequal(R, REF);
+asserts.checkerror('k = p{:}', _('Empty expression!'));
 %=============================================================================

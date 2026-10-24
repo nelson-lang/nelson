@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.run</keyword>
+  <short_description>Run tests through the modern test runner.</short_description>
+  <syntax>
+    <syntax_item>results = nelson.unittest.run(targets, Name, Value)</syntax_item>
+    <syntax_item>results = nelson.unittest.run(plan, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>module name, directory, file name, cell array of targets, TestSuite, or
+        TestPlan.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>execution options: Workers, Timeout, StopOnFail, Retry, RetryOnlyOn, LogDir,
+        Format, OutputFile, and Launcher.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>results</param_name>
+      <param_description>TestRunResult structure with status, summary, normalized cases, diagnostics,
+        registry, and raw compatibility data.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.run</b> executes each test or bench in a supervised child process. There is no
+      in-process execution mode for tests or benches.</p>
+    <p>Tests and benches run in separated child processes by default. A file can authorize process reuse with
+      the <b>&lt;--REUSE PROCESS--&gt;</b> tag.</p>
+    <p>The native supervisor uses a dynamic weighted queue. The optional <b>&lt;--WEIGHT N--&gt;</b> tag gives
+      heavier files priority without changing their stable display order.</p>
+    <p>The optional <b>&lt;--TIMEOUT N--&gt;</b> tag overrides the per-file execution timeout (in seconds) for a
+      single file; the global <b>Timeout</b> option, when set, still takes precedence.</p>
+    <p>Results are displayed progressively in discovery order as soon as the preceding results are available.
+      Each line includes its status and elapsed time.</p>
+    <p>If a reusable worker crashes or returns no result, the runner retries the affected test once with the
+      isolated fallback path. A timeout is reported directly.</p>
+    <p>Without a GUI or ADV-CLI tag, the isolated launcher is <b>nelson-cli</b>, including when the parent
+      process is graphical.</p>
+    <p>The <b>Launcher</b> option selects the graphics backend for ADV-CLI-tagged tests: <b>'default'</b> (the
+      historical executables) or <b>'webview'</b>, which runs those tests through <b>nelson-adv-cli --webview</b>
+      so figures are rendered by the headless web (RenderWeb) backend. CLI and GUI tags are unaffected. The
+      selection is also read from the <b>NELSON_UNITTEST_LAUNCHER</b> environment variable, which is convenient
+      for continuous integration.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+results = nelson.unittest.run('core', 'Workers', 4, 'Format', 'json', ...
+  'OutputFile', [tempdir(), 'core.json']);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}test_run">test_run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.report">nelson.unittest.report</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneWeights">nelson.unittest.tuneWeights</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneReuse">nelson.unittest.tuneReuse</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

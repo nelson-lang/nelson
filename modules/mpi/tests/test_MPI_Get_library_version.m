@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 libname = MPI_Get_library_version();
-assert_istrue(ischar(libname));
-assert_istrue(length(libname) > 0);
+asserts.istrue(ischar(libname));
+asserts.istrue(length(libname) > 0);
 %=============================================================================

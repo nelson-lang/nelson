@@ -4,25 +4,30 @@
   <language>fr_FR</language>
   <keyword>setenv</keyword>
   <short_description
-  >Définir la valeur d&apos;une variable d&apos;environnement.</short_description>
+  >Definir ou supprimer une variable d&apos;environnement.</short_description>
   <syntax>
     <syntax_item>setenv(env_name, env_value)</syntax_item>
+    <syntax_item>setenv(env_name)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>env_name</param_name>
       <param_description
-      >une chaîne : nom de la variable d&apos;environnement.</param_description>
+      >une chaine : nom de la variable d&apos;environnement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>env_value</param_name>
       <param_description
-      >une chaîne : valeur de la variable d&apos;environnement.</param_description>
+      >une chaine : valeur de la variable d&apos;environnement.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>setenv</b> définit la valeur d&apos;une variable d&apos;environnement.</p>
+      <b>setenv</b> definit la valeur d&apos;une variable d&apos;environnement.</p>
+    <p>
+      <b>setenv(env_name)</b> supprime la variable de l&apos;environnement du processus courant.</p>
+    <p>
+      <b>setenv(env_name, '')</b> conserve la variable avec une valeur vide.</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,6 +40,8 @@
       ><![CDATA[setenv('MY_ENV_VAR', 'funvalue')
 getenv('MY_ENV_VAR')
 setenv('MY_ENV_VAR', '')
+getenv('MY_ENV_VAR')
+setenv('MY_ENV_VAR')
 getenv('MY_ENV_VAR')]]></example_item_data>
     </example_item>
   </examples>
@@ -50,6 +57,10 @@ getenv('MY_ENV_VAR')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>suppression de variable d&apos;environnement ajoutee</history_description>
     </history_item>
   </history>
   <authors>

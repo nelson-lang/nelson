@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>withtol</keyword>
+  <short_description>Tolerance temporelle pour l&apos;indexation des lignes d&apos;une timetable.</short_description>
+  <syntax>
+    <syntax_item>S = withtol(rowTimes, tol)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>rowTimes</param_name><param_description>Vecteur datetime ou duration, ou texte converti en datetime.</param_description></param_input_item>
+    <param_input_item><param_name>tol</param_name><param_description>Duration scalaire positive ou nulle.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>S</param_name><param_description>Indice de lignes de timetable.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>withtol</b> cree un indice de lignes qui selectionne les lignes d&apos;une timetable dont les instants sont a moins de <b>tol</b> des instants de <b>rowTimes</b> (bornes incluses). Les lignes sont listees instant par instant, dans l&apos;ordre de <b>rowTimes</b>.</p>
+    <p>Il s&apos;utilise dans <b>TT(S, vars)</b>, <b>TT{S, vars}</b>, <b>TT.name(S)</b>, ainsi que dans les affectations et suppressions.</p>
+    <p>La tolerance doit etre inferieure a la moitie du plus petit intervalle entre instants distincts de <b>rowTimes</b>, pour qu&apos;aucune ligne ne soit selectionnee deux fois. Les instants doivent avoir le meme type que les instants de la timetable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([1; 2; 2.05; 3; 4]), (1:5)', 'VariableNames', {'A'});
+S = withtol(seconds([2 3.9]), seconds(0.2))
+TT(S, :)
+TT.A(withtol(seconds(2), seconds(0.1)))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}timerange">timerange</link></see_also_item>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

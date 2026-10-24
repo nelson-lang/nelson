@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>axes properties</keyword>
+  <short_description>Proprietes de l'objet graphique axes.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>axes</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>ALim</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>ALimMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>AlphaScale</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'linear', 'log'.</td>
+      </tr>
+      <tr>
+        <td><b>Alphamap</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: valeurs alpha numeriques dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>AmbientLightColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Box</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>BoxStyle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: noms de style definis par cet objet: styles UI, styles de lumiere, styles de graphique ou styles de ligne.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s&apos;execute quand l&apos;objet recoit un evenement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>CLim</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>CLimMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>CameraPosition</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>CameraPositionMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>CameraTarget</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>CameraTargetMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>CameraUpVector</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>CameraUpVectorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>CameraViewAngle</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>CameraViewAngleMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ClippingStyle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: noms de style definis par cet objet: styles UI, styles de lumiere, styles de graphique ou styles de ligne.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorOrder</b></td>
+        <td>modifie les couleurs selectionnees automatiquement pour les series suivantes.</td>
+        <td>Type: matrice numerique finie. Valeurs prises en charge: matrice RGB m-par-3 avec valeurs dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>ColorOrderIndex</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorScale</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>Colormap</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: matrice numerique finie. Valeurs prises en charge: matrice RGB m-par-3 avec valeurs dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentPoint</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>DataAspectRatio</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>DataAspectRatioMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>DataLimits</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>FontAngle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'italic'.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de police systeme ou 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>FontSizeMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSmoothing</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>FontUnits</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>FontWeight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>GridAlpha</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: numeric scalar or numeric array. Valeurs prises en charge: valeurs dans [0,1]; les tableaux doivent correspondre aux donnees rendues associees.</td>
+      </tr>
+      <tr>
+        <td><b>GridAlphaMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>GridColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>GridColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>GridLineStyle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>GridLineWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>GridLineWidthMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l&apos;objet des tests de selection souris.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>InnerPosition</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>InteractionOptions</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: interaction object, structure, cell array, or empty array. Valeurs prises en charge: [] ou definitions d&apos;interaction pour axes et graphiques.</td>
+      </tr>
+      <tr>
+        <td><b>Interactions</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: interaction object, structure, cell array, or empty array. Valeurs prises en charge: [] ou definitions d&apos;interaction pour axes et graphiques.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelFontSizeMultiplier</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>Layer</b></td>
+        <td>controle si les grilles et graduations d&apos;axes sont dessinees derriere ou devant les enfants traces.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: &apos;bottom&apos; ou &apos;top&apos;.</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>met a jour le placement demande au gestionnaire de layout parent.</td>
+        <td>Type: objet d&apos;options de layout ou valeur vide. Valeurs prises en charge: informations de layout stockees par les gestionnaires parents, y compris le placement en tuile quand l&apos;objet le prend en charge.</td>
+      </tr>
+      <tr>
+        <td><b>Legend</b></td>
+        <td>lie le graphique a la legende qui le represente.</td>
+        <td>Type: objet legende graphique ou handle vide. Valeurs prises en charge: objet legende associe au graphique, ou handle graphique vide si aucune legende n&apos;est attachee.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleCyclingMethod</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleOrder</b></td>
+        <td>modifie les styles de ligne selectionnes automatiquement pour les series suivantes.</td>
+        <td>Type: text scalar, string array, or cell array of text. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleOrderIndex</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridAlpha</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: numeric scalar or numeric array. Valeurs prises en charge: valeurs dans [0,1]; les tableaux doivent correspondre aux donnees rendues associees.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridAlphaMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridLineStyle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridLineWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>MinorGridLineWidthMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>NextPlot</b></td>
+        <td>choisit comment la prochaine commande graphique reutilise ou reinitialise les enfants.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'add', 'replace', 'replacechildren', 'replaceall', 'new'.</td>
+      </tr>
+      <tr>
+        <td><b>NextSeriesIndex</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: integer scalar or numeric vector. Valeurs prises en charge: entier fini, valeur numerique finie ou vecteur requis par la propriete.</td>
+      </tr>
+      <tr>
+        <td><b>OuterPosition</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>choisit quelles parties visibles ou invisibles peuvent recevoir les clics.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>PlotBoxAspectRatio</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PlotBoxAspectRatioMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PositionConstraint</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PositionMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Projection</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'orthographic', 'perspective'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SortMethod</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'childorder', 'depth'.</td>
+      </tr>
+      <tr>
+        <td><b>Subtitle</b></td>
+        <td>met a jour le sous-titre affiche ou l&apos;objet sous-titre.</td>
+        <td>Type: objet texte graphique ou valeur texte, selon la classe d&apos;objet. Valeurs prises en charge: objet texte de sous-titre, vecteur ligne de caracteres, chaine scalaire ou texte vide.</td>
+      </tr>
+      <tr>
+        <td><b>SubtitleFontWeight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>TextHeight</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>TickDir</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'in', 'out', 'both', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>TickDirMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>TickLabelInterpreter</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar, string array, or cell array of text. Valeurs prises en charge: texte vide ou etiquettes correspondant aux graduations, categories, variables, lignes ou valeurs affichees.</td>
+      </tr>
+      <tr>
+        <td><b>TickLength</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>TightInset</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>met a jour le titre affiche ou l&apos;objet titre associe a l&apos;objet graphique.</td>
+        <td>Type: objet texte graphique ou valeur texte, selon la classe d&apos;objet. Valeurs prises en charge: objet texte de titre, vecteur ligne de caracteres, chaine scalaire ou texte vide.</td>
+      </tr>
+      <tr>
+        <td><b>TitleFontSizeMultiplier</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>TitleFontWeight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>TitleHorizontalAlignment</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>Toolbar</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'none', 'figure', 'auto'.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+      </tr>
+      <tr>
+        <td><b>View</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XAxis</b></td>
+        <td>expose l&apos;etat de regle utilise pour graduations, limites, echelle et libelles.</td>
+        <td>Type: objet regle d&apos;axe. Valeurs prises en charge: objet regle d&apos;axe associe a la direction x.</td>
+      </tr>
+      <tr>
+        <td><b>XAxisLocation</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'north', 'south', 'east', 'west', 'northoutside', 'southoutside', 'eastoutside', 'westoutside', 'best', 'none', 'layout', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>XColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDir</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'reverse'.</td>
+      </tr>
+      <tr>
+        <td><b>XGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>XLabel</b></td>
+        <td>met a jour l&apos;objet libelle de l&apos;axe x et rafraichit la decoration de l&apos;axe.</td>
+        <td>Type: objet texte graphique. Valeurs prises en charge: objet texte utilise comme libelle de l&apos;axe x.</td>
+      </tr>
+      <tr>
+        <td><b>XLim</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>XLimMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XLimitMethod</b></td>
+        <td>selectionne le calcul automatique des limites de l&apos;axe x.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'tickaligned', 'tight', 'padded'.</td>
+      </tr>
+      <tr>
+        <td><b>XMinorGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>XMinorTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>XScale</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'linear', 'log'.</td>
+      </tr>
+      <tr>
+        <td><b>XTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>XTickLabel</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar, string array, or cell array of text. Valeurs prises en charge: texte vide ou etiquettes correspondant aux graduations, categories, variables, lignes ou valeurs affichees.</td>
+      </tr>
+      <tr>
+        <td><b>XTickLabelFormat</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide pour des etiquettes automatiques, un format numerique sprintf tel que '%.2f' ou '%,d', un format de date ou de duree, ou un preset tel que 'usd', 'eur', 'gbp', 'jpy', 'degrees' ou 'percentage'.</td>
+      </tr>
+      <tr>
+        <td><b>XTickLabelMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XTickLabelRotation</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: un angle de rotation scalaire reel en degres; les valeurs positives font pivoter les etiquettes dans le sens antihoraire (defaut 0).</td>
+      </tr>
+      <tr>
+        <td><b>XTickLabelRotationMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XTickMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YAxis</b></td>
+        <td>expose l&apos;etat de regle utilise pour graduations, limites, echelle et libelles.</td>
+        <td>Type: objet regle d&apos;axe. Valeurs prises en charge: objet regle d&apos;axe associe a la direction y.</td>
+      </tr>
+      <tr>
+        <td><b>YAxisLocation</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'north', 'south', 'east', 'west', 'northoutside', 'southoutside', 'eastoutside', 'westoutside', 'best', 'none', 'layout', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>YColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDir</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'reverse'.</td>
+      </tr>
+      <tr>
+        <td><b>YGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>YLabel</b></td>
+        <td>met a jour l&apos;objet libelle de l&apos;axe y et rafraichit la decoration de l&apos;axe.</td>
+        <td>Type: objet texte graphique. Valeurs prises en charge: objet texte utilise comme libelle de l&apos;axe y.</td>
+      </tr>
+      <tr>
+        <td><b>YLim</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>YLimMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YLimitMethod</b></td>
+        <td>selectionne le calcul automatique des limites de l&apos;axe y.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'tickaligned', 'tight', 'padded'.</td>
+      </tr>
+      <tr>
+        <td><b>YMinorGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>YMinorTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>YScale</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'linear', 'log'.</td>
+      </tr>
+      <tr>
+        <td><b>YTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>YTickLabel</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar, string array, or cell array of text. Valeurs prises en charge: texte vide ou etiquettes correspondant aux graduations, categories, variables, lignes ou valeurs affichees.</td>
+      </tr>
+      <tr>
+        <td><b>YTickLabelFormat</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide pour des etiquettes automatiques, un format numerique sprintf tel que '%.2f' ou '%,d', un format de date ou de duree, ou un preset tel que 'usd', 'eur', 'gbp', 'jpy', 'degrees' ou 'percentage'.</td>
+      </tr>
+      <tr>
+        <td><b>YTickLabelMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YTickLabelRotation</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: un angle de rotation scalaire reel en degres; les valeurs positives font pivoter les etiquettes dans le sens antihoraire (defaut 0).</td>
+      </tr>
+      <tr>
+        <td><b>YTickLabelRotationMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YTickMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZAxis</b></td>
+        <td>expose l&apos;etat de regle utilise pour graduations, limites, echelle et libelles.</td>
+        <td>Type: objet regle d&apos;axe. Valeurs prises en charge: objet regle d&apos;axe associe a la direction z.</td>
+      </tr>
+      <tr>
+        <td><b>ZColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ZColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZDir</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'reverse'.</td>
+      </tr>
+      <tr>
+        <td><b>ZGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>ZLabel</b></td>
+        <td>met a jour l&apos;objet libelle de l&apos;axe z et rafraichit la decoration de l&apos;axe.</td>
+        <td>Type: objet texte graphique. Valeurs prises en charge: objet texte utilise comme libelle de l&apos;axe z.</td>
+      </tr>
+      <tr>
+        <td><b>ZLim</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+      </tr>
+      <tr>
+        <td><b>ZLimMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZLimitMethod</b></td>
+        <td>selectionne le calcul automatique des limites de l&apos;axe z.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'tickaligned', 'tight', 'padded'.</td>
+      </tr>
+      <tr>
+        <td><b>ZMinorGrid</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
+        <td><b>ZMinorTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>ZScale</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'linear', 'log'.</td>
+      </tr>
+      <tr>
+        <td><b>ZTick</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numerique fini. Valeurs prises en charge: [] ou vecteur numerique fini, normalement croissant.</td>
+      </tr>
+      <tr>
+        <td><b>ZTickLabel</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar, string array, or cell array of text. Valeurs prises en charge: texte vide ou etiquettes correspondant aux graduations, categories, variables, lignes ou valeurs affichees.</td>
+      </tr>
+      <tr>
+        <td><b>ZTickLabelFormat</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide pour des etiquettes automatiques, un format numerique sprintf tel que '%.2f' ou '%,d', un format de date ou de duree, ou un preset tel que 'usd', 'eur', 'gbp', 'jpy', 'degrees' ou 'percentage'.</td>
+      </tr>
+      <tr>
+        <td><b>ZTickLabelMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZTickLabelRotation</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: un angle de rotation scalaire reel en degres; les valeurs positives font pivoter les etiquettes dans le sens antihoraire (defaut 0).</td>
+      </tr>
+      <tr>
+        <td><b>ZTickLabelRotationMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZTickMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+h = axes('Parent', f);
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/axes">axes</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Page de proprietes ajoutee.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::qml_offlinestoragepathBuiltin(int nLhs, const ArrayOfV
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     std::wstring res = QmlEngine::getInstance()->offlineStoragePath();
-    retval.push_back(ArrayOf::characterArrayConstructor(res));
+    retval.push_back(ArrayOf::characterArray(res));
     return retval;
 }
 //=============================================================================

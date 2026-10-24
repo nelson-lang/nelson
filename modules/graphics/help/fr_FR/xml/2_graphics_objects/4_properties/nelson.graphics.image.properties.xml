@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>image properties</keyword>
+  <short_description>Proprietes de l'objet graphique image.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>image</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>AlphaData</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+      <tr>
+        <td><b>AlphaDataMapping</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d&apos;annotation utilisees par les outils interactifs et l&apos;inspection d&apos;objet.</td>
+        <td>Type: objet d&apos;annotation graphique ou handle vide. Valeurs prises en charge: objet d&apos;annotation associe a l&apos;objet graphique, ou handle graphique vide si aucune annotation n&apos;est attachee.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s&apos;execute quand l&apos;objet recoit un evenement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>CData</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+      <tr>
+        <td><b>CDataMapping</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l&apos;objet des tests de selection souris.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interpolation</b></td>
+        <td>change l&apos;interpolation des couleurs ou echantillons entre les valeurs de donnees stockees.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: &apos;nearest&apos;, &apos;linear&apos; ou &apos;none&apos;.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>MaxRenderedResolution</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: integer scalar or numeric vector. Valeurs prises en charge: entier fini, valeur numerique finie ou vecteur requis par la propriete.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>choisit quelles parties visibles ou invisibles peuvent recevoir les clics.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>remplace les donnees et recalcule les limites automatiques qui en dependent.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Valeurs prises en charge: [] ou donnees de dimensions compatibles avec l&apos;objet rendu.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+ax = axes('Parent', f);
+h = image('Parent', ax, 'CData', magic(3));
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}4_images/image">image</link></see_also_item>
+    <see_also_item><link linkend="${graphics}4_images/imagesc">imagesc</link></see_also_item>
+    <see_also_item><link linkend="${graphics}4_images/imshow">imshow</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Page de proprietes ajoutee.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

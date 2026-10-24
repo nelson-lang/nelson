@@ -9,30 +9,20 @@
 //=============================================================================
 #include <git2.h>
 #include "characters_encoding.hpp"
+#include "RepositoryCredentials.hpp"
 #include "RepositoryFetch.hpp"
 #include "RepositoryHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::string _username;
-static std::string _password;
-//=============================================================================
-static int
-credentialsCallback(git_cred** cred, const char* url, const char* username_from_url,
-    unsigned int allowed_types, void* payload)
-{
-    return git_cred_userpass_plaintext_new(cred, _username.c_str(), _password.c_str());
-}
-//=============================================================================
 void
-RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
-    const std::wstring& password, std::wstring& errorMessage)
+RepositoryFetch(const std::wstring& localPath, const RepositoryCredentialsOptions& credentials,
+    std::wstring& errorMessage)
 {
     git_libgit2_init();
     git_repository* repo = nullptr;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
-    _username = wstring_to_utf8(user);
-    _password = wstring_to_utf8(password);
+    RepositoryCredentialsPayload credentialsPayload(credentials);
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
     if (errorCode != 0) {
@@ -49,11 +39,21 @@ RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
         return;
     }
     git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
-    opts.callbacks.credentials = credentialsCallback;
+    opts.callbacks.credentials = repositoryCredentialsCallback;
+    opts.callbacks.payload = &credentialsPayload;
+    const char* url = git_remote_url(origin);
+    if (url != nullptr && RepositoryUrlRequiresSSH(url) && !RepositorySupportsSSH()) {
+        errorMessage = RepositorySSHUnsupportedMessage();
+        git_remote_free(origin);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
 
     errorCode = git_remote_fetch(origin, nullptr, &opts, nullptr);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_remote_free(origin);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
@@ -62,9 +62,10 @@ RepositoryFetch(const std::wstring& localPath, const std::wstring& user,
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
     }
+    git_remote_free(origin);
     git_repository_free(repo);
     git_libgit2_shutdown();
 }
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

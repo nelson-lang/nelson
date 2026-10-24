@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeMassMatrix</keyword>
+  <short_description>Mass matrix description for ODE solvers.</short_description>
+  <syntax>
+    <syntax_item>M = odeMassMatrix(value)</syntax_item>
+    <syntax_item>M = odeMassMatrix(value, name, value)</syntax_item>
+    <syntax_item>M = odeMassMatrix(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeMassMatrix</b> stores a mass matrix or mass matrix callback for the object ODE workflow.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Object</th>
+        <th>Purpose</th>
+        <th>Used by</th>
+      </tr>
+      <tr>
+        <td><b>odeMassMatrix</b></td>
+        <td>Stores a reusable definition for the <b>ode</b> object workflow.</td>
+        <td>The matching <b>ode</b> property and <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Checks supported names and shapes at construction time.</td>
+        <td>Tests and errors stay explicit before integration.</td>
+      </tr>
+    </table>
+    <p>Public properties are <b>MassMatrix</b>, <b>Singular</b>, <b>StateDependence</b>, and <b>SparsityPattern</b>. The compatible aliases <b>MassSingular</b>, <b>MStateDependence</b>, and <b>MvPattern</b> are also accepted by the constructor.</p>
+    <p>
+      <b>Singular</b> accepts <b>yes</b>, <b>no</b>, or <b>maybe</b>. <b>StateDependence</b> accepts <b>none</b>, <b>weak</b>, or <b>strong</b>. <b>SparsityPattern</b> accepts a numeric or logical square matrix and is passed to the solver options.</p>
+    <p>Without a mass matrix, defaults are <b>Singular='maybe'</b> and <b>StateDependence='weak'</b>. For a numeric mass matrix, Nelson infers <b>Singular</b> and uses <b>StateDependence='none'</b> unless values are supplied explicitly.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[M = odeMassMatrix(2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Mass matrix in the object workflow.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = odeMassMatrix('MassMatrix', 2, 'Singular', 'no');
+problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1, 'MassMatrix', M);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fcontour</keyword>
+  <short_description>Plot contours from a function of two variables.</short_description>
+  <syntax>
+    <syntax_item>fcontour(fun)</syntax_item>
+    <syntax_item>fcontour(fun, xyinterval)</syntax_item>
+    <syntax_item>fcontour(fun, [xmin xmax ymin ymax])</syntax_item>
+    <syntax_item>fcontour(..., LineSpec)</syntax_item>
+    <syntax_item>fcontour(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fcontour(parent, ...)</syntax_item>
+    <syntax_item>h = fcontour(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fcontour</b> samples <b>fun(x,y)</b> on a regular grid and displays contour lines as a <b>functioncontour</b> graphics object.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">functioncontour properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display function contours.</example_item_description>
+      <example_item_data><![CDATA[fcontour(@(x, y) x.^2 - y.^2, [-2 2 -2 2]);]]></example_item_data>
+      <example_item_img src="../../../../images/fcontour_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use a line color and explicit levels.</example_item_description>
+      <example_item_data><![CDATA[h = fcontour(@(x, y) x + y, '-r', 'LevelList', [-2 0 2]);
+h.LineWidth = 1.5;]]></example_item_data>
+      <example_item_img src="../../../../images/fcontour_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">functioncontour properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour">contour</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fmesh">fmesh</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mkpp</keyword>
+  <short_description>Construit un polynome par morceaux</short_description>
+  <syntax>
+    <syntax_item>pp = mkpp(breaks, coefs)</syntax_item>
+    <syntax_item>pp = mkpp(breaks, coefs, d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>breaks</param_name>
+      <param_description>Vecteur des points de rupture, de longueur pieces + 1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>coefs</param_name>
+      <param_description>Matrice des coefficients polynomiaux, de taille (pieces * prod(d)) par order. Chaque ligne contient les coefficients d&apos;un morceau, de la puissance la plus elevee au terme constant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>Dimension des valeurs du polynome par morceaux (1 par defaut).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pp</param_name>
+      <param_description>Structure polynomiale par morceaux avec les champs form, breaks, coefs, pieces, order et dim.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>mkpp</b> construit une structure polynomiale par morceaux a partir de ses points de rupture et de ses coefficients. La structure peut ensuite etre evaluee avec <b>ppval</b>.</p>
+    <p>Pour chaque morceau, le polynome est evalue dans la variable locale x - breaks(i), ou breaks(i) est le point de rupture gauche du morceau.</p>
+    <p>Le nombre de morceaux vaut numel(breaks) - 1 et l&apos;ordre est le nombre de colonnes de coefs.</p>
+  </description>
+  <used_function />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[pp = mkpp([0 1 2], [1 0; 1 1]);
+ppval(pp, 0.5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}ppval">ppval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp1">interp1</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

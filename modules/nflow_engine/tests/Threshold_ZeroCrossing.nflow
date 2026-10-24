@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Autonomous linear oscillator A=[0,-1;1,0], C=[1,1], x0=[0.5;0.5], i.e. y = x1 + x2 = cos(t). Built from two integrators with initial conditions (x1'=-x2, x2'=x1).",
+  "name": "Threshold ZeroCrossing",
+  "blocks": [
+    {
+      "id": "int1",
+      "type": "integrator",
+      "x": 260,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0.5,
+        "LowerSaturationLimit": "-inf",
+        "UpperSaturationLimit": "inf"
+      }
+    },
+    {
+      "id": "int2",
+      "type": "integrator",
+      "x": 420,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0.5,
+        "LowerSaturationLimit": "-inf",
+        "UpperSaturationLimit": "inf"
+      }
+    },
+    {
+      "id": "neg",
+      "type": "gain",
+      "x": 260,
+      "y": 260,
+      "rotation": 0,
+      "params": {
+        "Gain": -1
+      }
+    },
+    {
+      "id": "y",
+      "type": "sum",
+      "x": 560,
+      "y": 150,
+      "rotation": 0,
+      "params": {
+        "Inputs": "++"
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 680,
+      "y": 150,
+      "rotation": 0,
+      "params": {
+        "VariableName": "threshold_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    { "from": "int1", "to": "int2", "fromIndex": 0, "toIndex": 0 },
+    { "from": "int2", "to": "neg", "fromIndex": 0, "toIndex": 0 },
+    { "from": "neg", "to": "int1", "fromIndex": 0, "toIndex": 0 },
+    { "from": "int1", "to": "y", "fromIndex": 0, "toIndex": 0 },
+    { "from": "int2", "to": "y", "fromIndex": 0, "toIndex": 1 },
+    { "from": "y", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 29,
+  "sampleTime": 0.1,
+  "solver": "ode45",
+  "autoRoute": true
+}

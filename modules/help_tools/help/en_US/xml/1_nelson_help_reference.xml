@@ -14,7 +14,7 @@
   >How to write help XML files for Nelson (elements, attributes, examples, tips).</short_description>
   <syntax>
     <syntax_item
-    >`&lt;xmldoc&gt;` (root) — REQUIRED child: `&lt;language&gt;`</syntax_item>
+    >`&lt;xmldoc&gt;` (root) - REQUIRED child: `&lt;language&gt;`</syntax_item>
     <syntax_item
     >Header: `&lt;title&gt;`, `&lt;language&gt;`, `&lt;module_name&gt;`, `&lt;chapter&gt;`, `&lt;short_description&gt;`</syntax_item>
     <syntax_item
@@ -67,33 +67,33 @@
     <p>Inline elements and their XSLT rendering:</p>
     <ul>
       <li>
-        <b>`&lt;b&gt;`</b> — bold text.</li>
+        <b>`&lt;b&gt;`</b> - bold text.</li>
       <li>
-        <b>`&lt;i&gt;`</b> — italic text.</li>
+        <b>`&lt;i&gt;`</b> - italic text.</li>
       <li>
-        <b>`&lt;code&gt;`</b> — inline code rendering.</li>
+        <b>`&lt;code&gt;`</b> - inline code rendering.</li>
       <li>
         <b>`&lt;a href=&quot;...&quot;
-          &gt;`</b> — external links (rendered as HTML anchors).</li>
+          &gt;`</b> - external links (rendered as HTML anchors).</li>
       <li>
         <b>`&lt;link linkend=&quot;...&quot;
-          &gt;`</b> — internal cross reference. If linkend contains a module in braces<code
+          &gt;`</b> - internal cross reference. If linkend contains a module in braces<code
         >{module}name</code>it becomes<code
         >../module/name.html</code>, otherwise<code>name.html</code>.</li>
       <li>
-        <b>`&lt;latex&gt;`</b> — math expressions; rendered as MathJax display math by the XSLT template (wrapped with<code
+        <b>`&lt;latex&gt;`</b> - math expressions; rendered as MathJax display math by the XSLT template (wrapped with<code
         >`$$...$$`</code>).</li>
       <li>
-        <b>`&lt;img src=&quot;...&quot;/&gt;`</b> — images. XSLT calls<code
+        <b>`&lt;img src=&quot;...&quot;/&gt;`</b> - images. XSLT calls<code
         >ext:copy_img(@src)</code>; SVGs are rendered with a large fixed frame and other formats are responsive.</li>
     </ul>
     <p>Block elements:</p>
     <ul>
       <li>
-        <code>`&lt;ul&gt;`</code>and<code>`&lt;ol&gt;`</code>— lists. Use<code
+        <code>`&lt;ul&gt;`</code>and<code>`&lt;ol&gt;`</code>- lists. Use<code
         >`&lt;li&gt;`</code>with nested inline/block markup as needed.</li>
       <li>
-        <code>`&lt;table&gt;`</code>— use<code>`&lt;thead&gt;`</code>,<code
+        <code>`&lt;table&gt;`</code>- use<code>`&lt;thead&gt;`</code>,<code
         >`&lt;tbody&gt;`</code>,<code>`&lt;tr&gt;`</code>,<code
         >`&lt;th&gt;`</code>and<code
         >`&lt;td&gt;`</code>. The XSD allows common attributes<code
@@ -115,7 +115,7 @@
           &gt;`</code>for module-qualified references; otherwise use plain names.</li>
     </ol>
     <p>
-      <b>Subchapter support</b> — Nelson&apos;s help system supports nested subchapters. To add one:</p>
+      <b>Subchapter support</b> - Nelson&apos;s help system supports nested subchapters. To add one:</p>
     <ol>
       <li>Create a subdirectory under your module help XML folder (for example <code>plots</code>).</li>
       <li>In that directory add a `chapter.xml` file containing at least <code>`&lt;language&gt;`</code> and <code>`&lt;chapter&gt;`</code>, and an optional <code>`&lt;chapter_description&gt;`</code>.</li>
@@ -178,7 +178,7 @@ saveas(gcf(), [tempdir(),'example_plot.svg']);
       <link linkend="${help_tools}doc">doc</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}plot">plot (graphics module)</link>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot (graphics module)</link>
     </see_also_item>
   </see_also>
   <history>

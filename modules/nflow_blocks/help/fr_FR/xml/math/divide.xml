@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>divide</keyword>
+  <keyword_alias>block:divide</keyword_alias>
+  <short_description>Divise l entree 1 par l entree 2.</short_description>
+  <syntax>
+    <syntax_item>Block type: divide</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>2 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Divise l entree 1 par l entree 2.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs mathematiques</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>divide</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Divide</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/math/exports/divide.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Divise l entree 1 par l entree 2.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=30</td>
+        </tr>
+        <tr>
+          <td>Port_2</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=50</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique produit par le bloc.</td>
+          <td>right</td>
+          <td>x=80, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <p>Aucun parametre de bloc n est declare dans le manifest.</p>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>divide</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs mathematiques</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>80 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>Bloc algebrique. Le premier port d entree est requis.</li>
+      <li>Si abs(denominateur) est sous 1e-12, la sortie precedente reste inchangee.</li>
+    </ul>
+    <p>
+      <b>Equation ou regle</b>
+    </p>
+    <latex>y = \frac{u_1}{u_2}</latex>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/divide.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/mult">mult</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/gain">gain</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>decic</keyword>
+  <short_description>Calcule des conditions initiales coherentes pour les EDO implicites.</short_description>
+  <syntax>
+    <syntax_item>[y0new, yp0new] = decic(odefun, t0, y0, fixed_y0, yp0, fixed_yp0)</syntax_item>
+    <syntax_item>[y0new, yp0new, resnrm] = decic(odefun, t0, y0, fixed_y0, yp0, fixed_yp0, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>decic</b> ajuste les composantes libres de <b>y0</b> et <b>yp0</b> afin que le residu <b>odefun(t0,y0,yp0)</b> soit petit. Les composantes marquees par <b>fixed_y0</b> et <b>fixed_yp0</b> restent fixes.</p>
+    <table style="width:100%">
+  <tr><th>Element</th><th>Details</th></tr>
+  <tr><td>Forme du probleme</td><td>Residuel totalement implicite <b>F(t,y,yp) = 0</b>.</td></tr>
+  <tr><td>Composantes fixes</td><td><b>fixed_y0</b> et <b>fixed_yp0</b> marquent les valeurs a conserver.</td></tr>
+  <tr><td>Sorties</td><td>Conditions initiales coherentes <b>y0mod</b> et <b>yp0mod</b>.</td></tr>
+  <tr><td>Utilise avec</td><td><b>ode15i</b> ou un objet <b>ode</b> de type totalement implicite.</td></tr>
+</table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y,yp) yp + y;
+[y0, yp0] = decic(f, 0, 1, 1, 0, 0);
+[t, y] = ode15i(f, [0 1], y0, yp0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

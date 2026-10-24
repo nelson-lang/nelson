@@ -14,6 +14,6 @@ rng('default') % For reproducibility
 f = figure();
 n = 100000; x = rand(n, 1); y = rand(n, 1); c = rand(n, 3);
 tic();
-scatter(x,y,25,c);
+scatter(x, y, 25, c);
 toc();
 %=============================================================================

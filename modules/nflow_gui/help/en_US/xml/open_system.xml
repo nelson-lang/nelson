@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>open_system</keyword>
+  <short_description>Open the nflow editor on a model, a model file, or an SSP archive.</short_description>
+  <syntax>
+    <syntax_item>open_system(name)</syntax_item>
+    <syntax_item>open_system(handle)</syntax_item>
+    <syntax_item>open_system(file)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>a character vector: the name of a model already loaded in memory.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>handle</param_name>
+      <param_description>a numeric handle to a model created by the programmatic API.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>a character vector: the path to a <b>.nflow</b> model file, or to an <b>.ssp</b> (System Structure and Parameterization) archive.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>open_system</b> opens the nflow editor on a model. A model already loaded in memory (by name or handle) is snapshotted to a file and opened; a <b>.nflow</b> file is opened directly.</p>
+    <p>When the argument is an <b>.ssp</b> archive, it is not a diagram: it is first imported with <b
+      >NFlow.sspImport</b> (its component FMUs are extracted, wired by connector name, and written to a runnable <b>.nflow</b> model) and the resulting model is opened. This lets an SSP composition be opened in the editor in one step.</p>
+    <p>The editor works on the snapshot it was opened with; script-side mutations made while the window is open are not streamed live to it.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open an SSP composition in the editor</example_item_description>
+      <example_item_data><![CDATA[ssp = [modulepath('nflow_fmi', 'root'), '/examples/ControlledDrivetrain.ssp'];
+open_system(ssp);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}ssp">NFlow.sspInfo</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>open_system accepts an .ssp archive (imported then opened)</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

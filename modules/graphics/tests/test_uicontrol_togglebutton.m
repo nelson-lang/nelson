@@ -9,11 +9,19 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
+figure();
 h = uicontrol('Style', 'togglebutton', 'String', 'Click Me!', 'Position', [100, 100, 100, 50]);
-assert_isequal(h.Value, 0);
-pause(2);
+asserts.isequal(h.Value, 0);
+drawnow();
+pause(0.1);
 h.Value = 1;
-assert_isequal(h.Value, 1);
-pause(2);
+asserts.isequal(h.Value, 1);
+drawnow();
+pause(0.1);
+h.Min = -1;
+h.Max = 1;
+h.Value = -1;
+asserts.isequal(h.Value, -1);
+drawnow();
+pause(0.1);
 %=============================================================================

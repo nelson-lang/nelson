@@ -10,18 +10,18 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 A = pyenv();
-assert_isequal(class(A), 'PythonEnvironment');
+asserts.isequal(class(A), 'PythonEnvironment');
 %=============================================================================
 R = properties(A);
 REF = {'Version'; 'Executable'; 'Library'; 'Home'; 'Status'; 'ExecutionMode'};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(class(A.Version), 'string');
-assert_isequal(class(A.Executable), 'string');
-assert_isequal(class(A.Library), 'string');
-assert_isequal(class(A.Status), 'string');
-assert_isequal(class(A.ExecutionMode), 'string');
+asserts.isequal(class(A.Version), 'string');
+asserts.isequal(class(A.Executable), 'string');
+asserts.isequal(class(A.Library), 'string');
+asserts.isequal(class(A.Status), 'string');
+asserts.isequal(class(A.ExecutionMode), 'string');
 %=============================================================================
-assert_isequal(A.Status, "NotLoaded");
-assert_isequal(A.ExecutionMode, "InProcess");
+asserts.isequal(A.Status, "NotLoaded");
+asserts.isequal(A.ExecutionMode, "InProcess");
 %=============================================================================

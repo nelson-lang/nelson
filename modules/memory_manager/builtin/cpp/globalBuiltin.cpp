@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,7 +12,9 @@
 #include <fmt/xchar.h>
 #include "globalBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
+#include "characters_encoding.hpp"
 #include "IsValidVariableName.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -26,18 +28,21 @@ Nelson::MemoryGateway::globalBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     Context* context = eval->getContext();
     for (size_t k = 0; k < argIn.size(); k++) {
         if (!argIn[k].isRowVectorCharacterArray()) {
-            Error(fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, k + 1));
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (k + 1),
+                L"string");
         }
-        std::string arg = argIn[k].getContentAsCString();
+        std::string arg = argIn[k].asUtf8String();
         if (!IsValidVariableName(arg)) {
-            Error(_W("Argument must contain a valid variable name."));
+            Error(L"Nelson:memory_manager:invalidVariableName",
+                L"#%d argument must contain a valid variable name.", (k + 1));
         }
         if (context->isLockedVariable(arg)) {
-            Error(_W("variable is locked."));
+            Error(L"Nelson:memory_manager:variableLocked", L"variable is locked: %s",
+                utf8_to_wstring(arg));
         }
     }
     for (const auto& k : argIn) {
-        std::string arg = k.getContentAsCString();
+        std::string arg = k.asUtf8String();
         context->addGlobalVariable(arg);
     }
     return retval;

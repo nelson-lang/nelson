@@ -79,6 +79,14 @@ C_IN = [271.0   135.0   147.0;
 [A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04qd(A_IN, B_IN, C_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb04md">slicot_sb04md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dlyap">dlyap</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

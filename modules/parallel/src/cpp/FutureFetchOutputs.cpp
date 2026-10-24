@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "FutureFetchOutputs.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "WaitFutures.hpp"
 //=============================================================================
@@ -21,7 +22,7 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
     WaitFutures(eval, futures, THREAD_STATE::FINISHED, noTimeout);
 
     ArrayOfVector _results(futures.size());
-    Exception _exception;
+    NelsonException _exception;
 
     size_t nLhs = 0;
     bool once = true;
@@ -29,18 +30,22 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
         if (future) {
             ArrayOfVector _result = future->getResult();
             _exception = future->getException();
-            if (!_exception.getMessage().empty()) {
-                std::wstring errorMessage = _W("One or more futures resulted in an error.")
-                    + L"\n\n" + _exception.getMessage();
-                Error(errorMessage, L"Nelson:parallel:future:ExecutionError");
+            if (!_exception.message().empty()) {
+                std::wstring errorMessage
+                    = resolveMessageTemplate(L"Nelson:parallel:oneMoreFuturesResulted",
+                          L"One or more futures resulted in an error.")
+                    + L"\n\n" + _exception.message();
+                Error(L"Nelson:parallel:future:ExecutionError", errorMessage);
             }
             if (once) {
                 nLhs = _result.size();
                 once = false;
             } else {
                 if (nLhs != _result.size()) {
-                    std::wstring errorMessage = _W("Unable to concatenate outputs.");
-                    Error(errorMessage, L"Nelson:parallel:future:ConcatenateOutputs");
+                    std::wstring errorMessage
+                        = resolveMessageTemplate(L"Nelson:parallel:unableConcatenateOutputs",
+                            L"Unable to concatenate outputs.");
+                    Error(L"Nelson:parallel:future:ConcatenateOutputs", errorMessage);
                 }
             }
         }
@@ -59,5 +64,5 @@ FutureFetchOutputs(Evaluator* eval, const std::vector<FutureObject*>& futures, b
     return _results;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

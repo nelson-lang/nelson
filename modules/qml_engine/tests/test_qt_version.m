@@ -9,8 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-assert_isequal(nargin('qt_version'), 0);
-assert_isequal(nargout('qt_version'), 1);
+asserts.isequal(nargin('qt_version'), 0);
+asserts.isequal(nargout('qt_version'), 1);
 %=============================================================================
-assert_isequal(semver(qt_version(), '>5.0'), 1);
+asserts.isequal(semver(qt_version(), '>=6.2'), 1);
 %=============================================================================

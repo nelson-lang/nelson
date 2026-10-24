@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1.5"/>
+  <path d="M20 42 A18 18 0 1 1 52 42" fill="none" stroke="#444441" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="52,42 47,34 57,35" fill="#444441"/>
+  <polygon points="36,26 48,40 36,54 24,40" fill="none" stroke="#444441" stroke-width="3" stroke-linejoin="round"/>
+  <text x="31" y="46" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#444441">?</text>
+</svg>

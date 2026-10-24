@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nccreate</keyword>
+  <short_description>Cree une variable dans un fichier netCDF.</short_description>
+  <syntax>
+    <syntax_item>nccreate(filename, varname, 'Dimensions', dimensions)</syntax_item>
+    <syntax_item>nccreate(filename, varname, 'Dimensions', dimensions, 'Datatype', datatype)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varname</param_name>
+      <param_description>Nom de la variable netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dimensions</param_name>
+      <param_description>Tableau de cellules contenant des paires nom de dimension et longueur, par exemple {'time', 3}.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>datatype</param_name>
+      <param_description>Nom optionnel du type Nelson, par exemple 'double', 'single', 'int32' ou 'char'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>Cette fonction ne retourne pas de valeur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>nccreate definit une variable et ses dimensions dans un fichier netCDF local.</p>
+    <p>Si le fichier n'existe pas, il est cree avant la definition de la variable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour nccreate.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_nccreate.nc'];
+nccreate(filename, 'temperature', 'Dimensions', {'x', 3});
+info = ncinfo(filename);
+info.Variables(1).Name]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}ncwrite">ncwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}ncread">ncread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}ncinfo">ncinfo</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

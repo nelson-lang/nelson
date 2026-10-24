@@ -13,6 +13,9 @@
 Source: {#RootPath}bin\{#BinPath}\iconv-2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
 Source: {#RootPath}bin\{#BinPath}\charset-1.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
 Source: {#RootPath}bin\{#BinPath}\libxml2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
+; libxml2 links zlib (z.dll); ship it with XML so the module loads without
+; relying on another data module that happens to also ship z.dll.
+Source: {#RootPath}bin\{#BinPath}\z.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
 Source: {#RootPath}bin\{#BinPath}\liblzma.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
 Source: {#RootPath}bin\{#BinPath}\libxslt.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_XML};
 ;==============================================================================
@@ -23,7 +26,9 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MOD
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_XML};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_XML};
 ;==============================================================================
-;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_XML};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;Components: {#COMPONENT_XML};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_XML};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_XML} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

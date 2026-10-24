@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mad</keyword>
+  <short_description>Ecart absolu moyen ou median.</short_description>
+  <syntax>
+    <syntax_item>y = mad(X)</syntax_item>
+    <syntax_item>y = mad(X, flag)</syntax_item>
+    <syntax_item>y = mad(X, flag, dim)</syntax_item>
+    <syntax_item>y = mad(X, flag, vecdim)</syntax_item>
+    <syntax_item>y = mad(X, flag, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>mad</b> calcule l&apos;ecart absolu moyen lorsque <b>flag</b> vaut 0, et l&apos;ecart absolu median lorsque <b>flag</b> vaut 1. Les valeurs <b>NaN</b> sont omises.</p>
+    <p>Les dimensions de calcul peuvent etre une dimension scalaire, un vecteur de dimensions ou <b>all</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 4 NaN 6; 7 8 9];
+y = mad(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>string</module_name>
+  <chapter>Joindre, separer et extraire</chapter>
+  <chapter_description>
+    <p>Fonctions pour extraire des parties de texte et combiner ou separer des valeurs texte.</p>
+  </chapter_description>
+</xmldoc>

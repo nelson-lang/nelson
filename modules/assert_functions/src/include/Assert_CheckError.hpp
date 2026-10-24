@@ -23,5 +23,27 @@ NLSASSERT_FUNCTIONS_IMPEXP bool
 Assert_CheckError(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
     const std::wstring& expectedid, std::wstring& msg);
 //=============================================================================
-}
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckErrorContains(Evaluator* eval, const std::wstring& command,
+    const std::wstring& expectedSubstring, std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckErrorContains(Evaluator* eval, const std::wstring& command,
+    const std::wstring& expectedSubstring, const std::wstring& expectedid, std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckWarning(
+    Evaluator* eval, const std::wstring& command, const std::wstring& expected, std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_CheckWarning(Evaluator* eval, const std::wstring& command, const std::wstring& expectedmsg,
+    const std::wstring& expectedid, std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_WarningFree(Evaluator* eval, const std::wstring& command, std::wstring& msg);
+//=============================================================================
+NLSASSERT_FUNCTIONS_IMPEXP bool
+Assert_NoError(Evaluator* eval, const std::wstring& command, std::wstring& msg);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

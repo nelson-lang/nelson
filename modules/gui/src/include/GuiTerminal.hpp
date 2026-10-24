@@ -24,10 +24,6 @@ public:
     GuiTerminal(void* qtMainW);
     ~GuiTerminal() override;
 
-    /**
-     *  Get a line of input from the user with the
-     *  given prompt.
-     */
     std::string
     getLine(const std::string& prompt) override;
     std::wstring
@@ -35,31 +31,35 @@ public:
     std::wstring
     getInput(const std::wstring& prompt) override;
 
-    /**
-     *  Return the width of the current "terminal" in
-     *  characters.
-     */
     size_t
     getTerminalWidth() override;
     size_t
     getTerminalHeight() override;
-    /**
-     *  Output the following text message.
-     */
     void
     outputMessage(const std::string& msg) override;
     void
     outputMessage(const std::wstring& msg) override;
-    /**
-     *  Output the following error message.
-     */
+    bool
+    outputStyledText(const std::wstring& msg, const TextStyle& style) override;
+    bool
+    outputAnsiText(const std::wstring& msg, bool asError) override;
+    bool
+    outputExpandableText(const std::wstring& label, const std::wstring& expandedText,
+        const std::wstring& plainFallback, const std::wstring& contextName = L"",
+        long long contextValue = 0) override;
+    bool
+    supportsTruncatedMatrixDisplay() override;
+    bool
+    outputTruncatedMatrix(const std::wstring& truncatedText, const std::wstring& label,
+        const std::wstring& expandedText, const std::wstring& variableName) override;
+    // The Qt command window renders OSC 8 hyperlinks as clickable anchors that
+    // open the editor at the error/warning file and line.
+    bool
+    supportsHyperlinks() override;
     void
     errorMessage(const std::string& msg) override;
     void
     errorMessage(const std::wstring& msg) override;
-    /**
-     *  Output the following warning message.
-     */
     void
     warningMessage(const std::string& msg) override;
     void
@@ -72,8 +72,8 @@ public:
     getQtPointer();
     void
     banner();
-    void
-    insertHtml(const std::wstring& msg);
+    bool
+    insertHtml(const std::wstring& msg) override;
     int
     getBufferScreenLine();
     void

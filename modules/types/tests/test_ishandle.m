@@ -7,10 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('ishandle'), 1);
-assert_isequal(nargout('ishandle'), 1);
+asserts.isequal(nargin('ishandle'), 1);
+asserts.isequal(nargout('ishandle'), 1);
 %=============================================================================
 A = 3;
 res = ishandle(A);
-assert_isfalse(res);
+asserts.isfalse(res);
+%=============================================================================
+A = [1 2; 3 4];
+res = ishandle(A);
+asserts.isequal(res, logical([0 0; 0 0]));
 %=============================================================================

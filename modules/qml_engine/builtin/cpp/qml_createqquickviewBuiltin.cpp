@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,10 +19,10 @@ Nelson::QmlEngineGateway::qml_createqquickviewBuiltin(int nLhs, const ArrayOfVec
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    std::wstring filename = param1.getContentAsWideString();
+    std::wstring filename = param1.asWideString();
     QObjectHandleObject* qmlhandle = QmlEngine::getInstance()->createQQuickView(filename);
     ArrayOfVector retval;
-    retval.push_back(ArrayOf::handleConstructor(qmlhandle));
+    retval.push_back(ArrayOf::handle(qmlhandle));
     return retval;
 }
 //=============================================================================

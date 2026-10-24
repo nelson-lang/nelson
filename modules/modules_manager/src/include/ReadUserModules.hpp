@@ -20,5 +20,5 @@ NLSMODULES_MANAGER_IMPEXP bool
 ReadUserModules(
     std::vector<std::tuple<std::wstring, std::wstring, bool>>& userModules, bool reverse = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

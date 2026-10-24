@@ -12,17 +12,20 @@ function varargout = table2array(varargin)
   nargoutchk(0, 1);
   T = varargin{1};
   if ~istable(T)
-    error(_('T must be a table.'));
+    error('Nelson:table:invalidType', '%s must be a table.', 'T');
   end
   c = [];
   st = struct(T);
-  for j=1:width(T)
+  for j = 1:width(T)
     name = st.Properties.VariableNames{j};
     a = st.data.(name);
     if (~isnumeric(a) && ~islogical(a))
-      error(_('numeric or logical expected.'));
+      error('Nelson:table:invalidType:numericLogicalExpected', 'numeric or logical expected.');
     end
     c = [c, a];
+  end
+  if width(T) == 0
+    c = zeros(height(T), 0);
   end
   varargout{1} = c;
 end

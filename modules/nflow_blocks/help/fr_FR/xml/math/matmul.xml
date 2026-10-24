@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>matmul</keyword>
+  <keyword_alias>block:matmul</keyword_alias>
+  <short_description>Multiplie deux signaux matriciels ou applique une multiplication élément par élément.</short_description>
+  <syntax><syntax_item>Type de bloc : matmul</syntax_item></syntax>
+  <description>
+    <p>Le bloc <b>MatMul</b> possède deux entrées et une sortie. Avec <b>MultiplicationRule</b> défini sur <b>matrix</b>, il calcule le produit matriciel A * B. Avec <b>elementwise</b>, il multiplie les éléments correspondants.</p>
+    <p>Les dimensions doivent être compatibles avec la règle sélectionnée. Les scalaires sont étendus lorsque les règles de disposition des signaux le permettent.</p>
+    <p><img src="../../../../libraries/math/exports/matmul.svg" align="middle"/></p>
+    <p><b>Extended Capabilities</b></p>
+    <p><b>Implementation Sources</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/matrix/matmul.cpp" language="cpp"/>
+  </description>
+  <see_also><see_also_item><link linkend="${nflow_blocks}mult">mult</link></see_also_item></see_also>
+</xmldoc>

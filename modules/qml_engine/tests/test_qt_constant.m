@@ -9,16 +9,16 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-assert_isequal(nargin('qt_constant'), 1);
-assert_isequal(nargout('qt_constant'), 1);
+asserts.isequal(nargin('qt_constant'), 1);
+asserts.isequal(nargout('qt_constant'), 1);
 %=============================================================================
 R = qt_constant();
-assert_istrue(iscell(R));
-assert_istrue(ischar(R{1}));
+asserts.istrue(iscell(R));
+asserts.istrue(ischar(R{1}));
 %=============================================================================
-assert_isequal(qt_constant('Qt.NonModal'), 0);
+asserts.isequal(qt_constant('Qt.NonModal'), 0);
 %=============================================================================
-assert_isequal(qt_constant('Qt.WindowModal'), 1);
+asserts.isequal(qt_constant('Qt.WindowModal'), 1);
 %=============================================================================
-assert_checkerror('qt_constant(''toto'')',_('Name not found.'))
+asserts.checkerror('qt_constant(''toto'')', _('Name not found.'))
 %=============================================================================

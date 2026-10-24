@@ -12,16 +12,16 @@ valid_root = [fixture_root, '/valid'];
 broken_root = [fixture_root, '/broken'];
 %=============================================================================
 [state, errors_detected, warnings_detected] = xmldoclinkchecker(valid_root);
-assert_istrue(state);
-assert_istrue(isempty(errors_detected));
-assert_istrue(isempty(warnings_detected));
+asserts.istrue(state);
+asserts.istrue(isempty(errors_detected));
+asserts.istrue(isempty(warnings_detected));
 %=============================================================================
 [state, errors_detected, warnings_detected] = xmldoclinkchecker([broken_root, '/broken_page.xml']);
-assert_isfalse(state);
-assert_istrue(~isempty(errors_detected));
-assert_istrue(isempty(warnings_detected));
-assert_istrue(~isempty(strfind(errors_detected{1}, 'missing_target')));
+asserts.isfalse(state);
+asserts.istrue(~isempty(errors_detected));
+asserts.istrue(isempty(warnings_detected));
+asserts.istrue(~isempty(strfind(errors_detected{1}, 'missing_target')));
 %=============================================================================
 [state, errors_detected] = xmldoclinkchecker(broken_root);
-assert_isfalse(state);
-assert_istrue(length(errors_detected) == 1);
+asserts.isfalse(state);
+asserts.istrue(length(errors_detected) == 1);

@@ -7,16 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/134
 % <-- Short Description -->
-% Fix predecence of Colon ":" operator.
+% Fix precedence of Colon ":" operator.
 %=============================================================================
-assert_isequal(5:10 == 5:10, logical(ones(1, 6)));
-assert_isequal([5:10] == [5:10], logical(ones(1, 6)));
-assert_isequal((5:10) == (5:10), logical(ones(1, 6)));
-assert_isequal(5:10 == [5:10], logical(ones(1, 6)));
-assert_isequal([5:10] == 5:10, logical(ones(1, 6)));
-assert_isequal([5:10] == (5:10), logical(ones(1, 6)));
-assert_isequal((5:10) == [5:10], logical(ones(1, 6)));
+asserts.isequal(5:10 == 5:10, logical(ones(1, 6)));
+asserts.isequal([5:10] == [5:10], logical(ones(1, 6)));
+asserts.isequal((5:10) == (5:10), logical(ones(1, 6)));
+asserts.isequal(5:10 == [5:10], logical(ones(1, 6)));
+asserts.isequal([5:10] == 5:10, logical(ones(1, 6)));
+asserts.isequal([5:10] == (5:10), logical(ones(1, 6)));
+asserts.isequal((5:10) == [5:10], logical(ones(1, 6)));
 %=============================================================================

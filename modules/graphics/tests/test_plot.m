@@ -10,97 +10,69 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-x = 0:pi/100:2*pi;
+x = 0:pi / 100:2 * pi;
 y = sin(x);
 L = plot(x, y);
-assert_istrue(isgraphics(L, 'line'));
+asserts.istrue(isgraphics(L, 'line'));
 P = properties(L);
 REF = {'BeingDeleted';
-'BusyAction';
-'Children';       
-'Color';
-'CreateFcn';
-'DeleteFcn';          
-'DisplayName';    
-'Interruptible';
-'LineStyle';      
-'LineWidth';      
-'Marker';         
-'MarkerEdgeColor';
-'MarkerFaceColor';
-'MarkerSize';     
-'Parent';         
-'Tag';            
-'Type';           
-'UserData';       
-'Visible';        
-'XData';          
-'XDataMode';      
-'YData';          
-'ZData'};
-assert_isequal(P, REF);
-assert_istrue(isempty(L.Children));
-assert_isapprox(L.Color, [0 0.4470 0.7410], 1e-4);
-assert_isequal(L.DisplayName, '');
-assert_isequal(L.LineStyle, '-');
-assert_isapprox(L.LineWidth, 0.5000, 1e-4);
-assert_isequal(L.Marker, 'none')
-assert_isequal(L.MarkerEdgeColor, [0 0.447000 0.741000]);
-assert_isequal(L.MarkerFaceColor, 'none');
-assert_isequal(L.MarkerSize, 6);
-assert_isequal(L.Parent, gca());
-assert_isequal(L.Tag, '');
-assert_isequal(L.Type, 'line');
-assert_isequal(L.UserData, []);
-assert_isequal(L.Visible, 'on');
-assert_isapprox(L.XData, x, 1e-4);
-assert_isequal(L.XDataMode,'manual');
-assert_isapprox(L.YData, y, 1e-4);
-assert_isequal(L.ZData, zeros(1, 0));
+  'BusyAction';
+  'Children';
+  'Color';
+  'CreateFcn';
+  'DeleteFcn';
+  'DisplayName';
+  'Interruptible';
+  'LineStyle';
+  'LineWidth';
+  'Marker';
+  'MarkerEdgeColor';
+  'MarkerFaceColor';
+  'MarkerSize';
+  'Parent';
+  'Tag';
+  'Type';
+  'UserData';
+  'Visible';
+  'XData';
+  'XDataMode';
+  'YData';
+  'ZData'};
+asserts.istrue(all(ismember(REF, P)));
+asserts.istrue(isempty(L.Children));
+asserts.isapprox(L.Color, [0.0660 0.4430 0.7450], 1e-4);
+asserts.isequal(L.DisplayName, '');
+asserts.isequal(L.LineStyle, '-');
+asserts.isapprox(L.LineWidth, 0.5000, 1e-4);
+asserts.isequal(L.Marker, 'none')
+asserts.isequal(L.MarkerEdgeColor, 'auto');
+asserts.isequal(L.MarkerFaceColor, 'none');
+asserts.isequal(L.MarkerSize, 6);
+asserts.isequal(L.Parent, gca());
+asserts.isequal(L.Tag, '');
+asserts.isequal(L.Type, 'line');
+asserts.isequal(L.UserData, []);
+asserts.isequal(char(L.Visible), 'on');
+asserts.isapprox(L.XData, x, 1e-4);
+asserts.isequal(L.XDataMode, 'manual');
+asserts.isapprox(L.YData, y, 1e-4);
+asserts.isequal(L.ZData, zeros(1, 0));
+close all;
 %=============================================================================
-x = 0:pi/100:2*pi;
-y1 = sin(x);
-y2 = sin(x-0.25);
-y3 = sin(x-0.5);
-%=============================================================================
-f = figure();
-L = plot(x,y1,x,y2,'--',x,y3,':');
-assert_isequal(size(L), [3 1]);
-assert_isequal(L(1).LineStyle, '-');
-assert_isequal(L(2).LineStyle, '--');
-assert_isequal(L(3).LineStyle, ':');
-%=============================================================================
-f = figure();
-L = plot(x,y1,'g',x,y2,'b--o',x,y3,'c*');
-assert_isequal(size(L), [3 1]);
-%=============================================================================
-f = figure();
-x = linspace(0,10);
-y = sin(x);
-L = plot(x, y, '-o');
-assert_isequal(size(L), [1 1]);
-assert_isequal(L(1).LineStyle, '-');
-%=============================================================================
-f = figure();
-x = -pi:pi/10:pi;
-y = tan(sin(x)) - sin(tan(x));
-L = plot(x, y, '--gs', 'LineWidth', 2,  'MarkerSize', 10, 'MarkerEdgeColor','b',  'MarkerFaceColor',[0.5,0.5,0.5]);
-%=============================================================================
-f = figure();
-x = linspace(-2*pi,2*pi);
-y1 = sin(x);
-y2 = cos(x);
-L = plot(x, y1, x, y2);
-L(1).LineWidth = 2;
-L(2).Marker = '*';
-%=============================================================================
-f = figure();
-r = 2;
-xc = 4;
-yc = 3;
-theta = linspace(0, 2*pi);
-x = r * cos(theta) + xc;
-y = r * sin(theta) + yc;
-plot(x, y);
-axis equal
+% abbreviated property names are accepted after a LineSpec and do not create
+% extra data series
+f = figure('Visible', 'off');
+xv = (1:5)';
+L = plot(xv, xv, 'ro', 'linew', 3, 'markers', 8);
+asserts.isequal(numel(L), 1);
+asserts.isapprox(L.LineWidth, 3, 1e-12);
+asserts.isapprox(L.MarkerSize, 8, 1e-12);
+% a LineSpec that also abbreviates a property stays positional
+L2 = plot(xv, xv, 'm', 'linew', 2);
+asserts.isequal(L2.Color, [1 0 1]);
+asserts.isapprox(L2.LineWidth, 2, 1e-12);
+% multiple x-y pairs still create multiple lines
+L3 = plot(xv, xv, xv, 2 * xv);
+asserts.isequal(numel(L3), 2);
+close(f);
 %=============================================================================

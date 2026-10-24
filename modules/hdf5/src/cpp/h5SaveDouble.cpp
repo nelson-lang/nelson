@@ -12,9 +12,10 @@
 #include "h5SaveInteger.hpp"
 #include "h5SaveHelpers.hpp"
 #include "h5SaveLoadHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
-#include "SparseDynamicFunctions.hpp"
+#include "SparseType.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -93,7 +94,7 @@ h5SaveDoubleEmptyMatrix(hid_t fid, const std::string& location, const std::strin
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
         if (bSuccess) {
-            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
+            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.dimensions());
             if (bSuccess && VariableValue.isSparse()) {
                 h5SaveSparseAttribute(fid, h5path);
                 bSuccess = h5SaveUint64Attribute(fid, h5path, NELSON_SPARSE_NZMAX_STR, (uint64)1);
@@ -118,14 +119,14 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
-    Dimensions dimsValue = VariableValue.getDimensions();
+    Dimensions dimsValue = VariableValue.dimensions();
 
     hsize_t* dimsAsHsize_t = nullptr;
     indexType nbElementsSizeData;
     if (dimsValue.isScalar()) {
         try {
             dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         nbElementsSizeData = 1;
@@ -133,19 +134,19 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
         dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
     } else {
         try {
-            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
-        } catch (Exception&) {
+            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.length(), true);
+        } catch (NelsonException&) {
             return false;
         }
-        nbElementsSizeData = dimsValue.getLength();
+        nbElementsSizeData = dimsValue.length();
         for (indexType k = 1; k <= nbElementsSizeData; k++) {
             dimsAsHsize_t[k - 1] = (hsize_t)dimsValue[nbElementsSizeData - k];
         }
-        dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
+        dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
 
-    void* buffer = const_cast<void*>(VariableValue.getDataPointer());
+    void* buffer = const_cast<void*>(VariableValue.dataPointer());
     if (VariableValue.isComplex()) {
         using complex_type = struct complex_type
         {
@@ -205,9 +206,9 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     }
     h5LDeleteIfExists(fid, h5path);
 
-    Dimensions dims = VariableValue.getDimensions();
+    Dimensions dims = VariableValue.dimensions();
     Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)VariableValue.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)VariableValue.sparseDataPointer();
     indexType nnz = 0;
     if (spmat) {
         nnz = spmat->nonZeros();
@@ -219,11 +220,11 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
         ptrI = new indexType[nnz];
         ptrJ = new indexType[nnz];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     int nz = 0;
-    void* ptrV = SparseToIJVDynamicFunction(VariableValue.getDataClass(), dims.getRows(),
-        dims.getColumns(), VariableValue.getSparseDataPointer(), ptrI, ptrJ, nz);
+    void* ptrV = Eigen_SparseToIJV(VariableValue.dataClass(), dims.rows(), dims.columns(),
+        VariableValue.sparseDataPointer(), ptrI, ptrJ, nz);
 
     uint64* pI
         = static_cast<uint64*>(ArrayOf::allocateArrayOf(NLS_UINT64, nnz, stringVector(), false));
@@ -242,20 +243,20 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     delete[] ptrJ;
 
     hid_t gcpl = H5Pcreate(H5P_GROUP_CREATE);
-    hid_t group = H5Gcreate(fid, variableName.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
+    hid_t group = H5Gcreate(fid, h5path.c_str(), H5P_DEFAULT, gcpl, H5P_DEFAULT);
     herr_t status = H5Gclose(group);
     if (status < 0) {
         return false;
     }
 
-    std::string rootPath = location + variableName + std::string("/");
+    std::string rootPath = h5path + std::string("/");
 
     std::string dataName = std::string("data");
     ArrayOf V;
     if (VariableValue.isComplex()) {
         V = ArrayOf(NLS_DCOMPLEX, Dimensions(1, nnz), ptrV);
     } else {
-        V = ArrayOf(VariableValue.getDataClass(), Dimensions(1, nnz), ptrV);
+        V = ArrayOf(VariableValue.dataClass(), Dimensions(1, nnz), ptrV);
     }
     bSuccess = h5SaveDouble(fid, rootPath, dataName, V, useCompression);
     if (!bSuccess) {
@@ -275,7 +276,7 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     }
 
     bSuccess = h5SaveUint64Attribute(
-        fid, rootPath, NELSON_SPARSE_NZMAX_STR, (uint64)spmat->data().allocatedSize());
+        fid, rootPath, NELSON_SPARSE_NZMAX_STR, (uint64)VariableValue.nzmax());
     if (!bSuccess) {
         return false;
     }

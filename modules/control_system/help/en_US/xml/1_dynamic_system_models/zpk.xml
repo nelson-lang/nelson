@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>zpk</keyword>
+  <short_description>Constructs a zero-pole-gain model.</short_description>
+  <syntax>
+    <syntax_item>sys = zpk()</syntax_item>
+    <syntax_item>sys = zpk(&apos;s&apos;)</syntax_item>
+    <syntax_item>sys = zpk(z, p, k)</syntax_item>
+    <syntax_item>sys = zpk(z, p, k, Ts)</syntax_item>
+    <syntax_item>sys = zpk(sysIn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>zeros: a vector (or cell array of vectors).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>poles: a vector (or cell array of vectors).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>scalar gain.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Ts</param_name>
+      <param_description>Sampling time Ts, default: in seconds</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sysIn</param_name>
+      <param_description>LTI model.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>sys</param_name>
+      <param_description>Output zero-pole-gain system model.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sys = zpk(z, p, k)</b> creates a continuous-time zero-pole-gain model.</p>
+    <p>The model represents the transfer function <b>k * (s - z(1))...(s - z(end)) / ((s - p(1))...(s - p(end)))</b> where <b>z</b> are the zeros, <b>p</b> the poles and <b>k</b> the scalar gain.</p>
+    <p>When you include the <b>Ts</b> parameter, it allows you to create a discrete-time zero-pole-gain model.</p>
+    <p><b>sys = zpk(sysIn)</b> converts the LTI model <b>sysIn</b> (<b>tf</b> or <b>ss</b>) into a zero-pole-gain model.</p>
+    <p>Complex zeros and poles of a real system must come in conjugate pairs. The model is displayed in factored form.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[z = -1;
+p = [-2 -3];
+k = 5;
+sys = zpk(z, p, k)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[sys = zpk(-1, [-2 -3], 5);
+G = tf(sys)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}tf">tf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ss">ss</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

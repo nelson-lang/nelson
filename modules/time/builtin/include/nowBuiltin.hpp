@@ -14,5 +14,6 @@
 namespace Nelson::TimeGateway {
 ArrayOfVector
 nowBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -15,6 +15,7 @@
 #include "ModulesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,7 +43,10 @@ StartNelsonUserModules(Evaluator* eval)
                 if (IsExistingModuleName(name)) {
                     UnregisterModule(name);
                     Interface* io = eval->getInterface();
-                    std::wstring msg = _W("Module already loaded: ") + name;
+                    std::wstring msg = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(
+                            L"Nelson:engine:moduleAlreadyLoaded", L"Module already loaded: %s"),
+                        name);
                     printError(io, msg);
                 } else {
                     std::wstring path = std::get<1>(element);
@@ -51,14 +55,18 @@ StartNelsonUserModules(Evaluator* eval)
                         std::wstring loader = path + std::wstring(L"/loader.m");
                         try {
                             EvaluateScriptFile(eval, loader, true);
-                        } catch (const Exception& e) {
+                        } catch (const NelsonException& e) {
                             if (IsExistingModuleName(name)) {
                                 UnregisterModule(name);
                             }
                             CloseAllFiles();
                             Interface* io = eval->getInterface();
                             eval->setLastErrorException(e);
-                            std::wstring errmsg = _W("Impossible to load module: ") + name;
+                            std::wstring errmsg
+                                = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                                        L"Nelson:engine:impossibleLoadModule",
+                                                        L"Impossible to load module: %s"),
+                                    name);
                             printError(io, errmsg);
                         }
                     }
@@ -68,11 +76,12 @@ StartNelsonUserModules(Evaluator* eval)
     } else {
         if (!userModules.empty()) {
             Interface* io = eval->getInterface();
-            std::wstring msg = _W("Impossible to read modules.json");
+            std::wstring msg = Nelson::resolveMessageTemplate(
+                L"Nelson:engine:impossibleReadModulesJson", L"Impossible to read modules.json");
             printError(io, msg);
         }
     }
-    return false;
+    return bOK;
 }
 //=============================================================================
 } // namespace Nelson

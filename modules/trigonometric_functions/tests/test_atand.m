@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('atand'), -1);
-assert_isequal(nargout('atand'), 1);
+asserts.isequal(nargin('atand'), -1);
+asserts.isequal(nargout('atand'), 1);
 %=============================================================================
 R = atand([-50 -20 0 20 50]);
-REF = [-88.8542  -87.1376         0   87.1376   88.8542];
-assert_isapprox(R, REF, 1e-3);
+REF = [-88.8542 -87.1376 0 87.1376 88.8542];
+asserts.isapprox(R, REF, 1e-3);
 %=============================================================================

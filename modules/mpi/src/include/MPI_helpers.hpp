@@ -30,5 +30,6 @@ NLSMPI_IMPEXP MPI_Op
 stringToMpiOp(const std::wstring& op_str);
 NLSMPI_IMPEXP std::string
 getMpiCommName(MPI_Comm comm);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

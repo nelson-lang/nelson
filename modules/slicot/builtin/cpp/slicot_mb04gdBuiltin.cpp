@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
@@ -9,8 +9,10 @@
 //=============================================================================
 #include <algorithm>
 #include "slicot_mb04gdBuiltin.hpp"
+#include "SlicotFortranAbi.hpp"
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -18,8 +20,9 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-    extern int
-    mb04gd_(int* M, int* N, double* A, int* LDA, int* JPVT, double* TAU, double* DWORK, int* INFO);
+    extern SLICOT_SUBROUTINE
+    mb04gd_(int* M, int* N, double* A, int* LDA, int* JPVT, double* TAU, double* DWORK,
+        int* INFO SLICOT_STRLEN_DECL(0));
 #ifdef __cplusplus
 }
 #endif
@@ -35,52 +38,58 @@ Nelson::SlicotGateway::slicot_mb04gdBuiltin(int nLhs, const ArrayOfVector& argIn
     // INPUT VARIABLES
     // IN/OUT VARIABLES
     ArrayOf A = argIn[0];
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
-    double* A_output_ptr = (double*)A_output.getDataPointer();
+    double* A_output_ptr = (double*)A_output.dataPointer();
     ArrayOf JPVT = argIn[1];
-    Dimensions dimsJPVT = JPVT.getDimensions();
+    Dimensions dimsJPVT = JPVT.dimensions();
     JPVT.promoteType(NLS_INT32);
     ArrayOf JPVT_output = JPVT;
     JPVT_output.ensureSingleOwner();
-    int* JPVT_output_ptr = (int*)JPVT_output.getDataPointer();
+    int* JPVT_output_ptr = (int*)JPVT_output.dataPointer();
     // LOCAL VARIABLES
-    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
-    int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)A.getRows();
-    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
-    int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
-    int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, 3 * (int)A.getRows());
-    double* DWORK_ptr = (double*)DWORK.getDataPointer();
+    ArrayOf M = ArrayOf::int32RowVector(1);
+    int* M_ptr = (int*)M.dataPointer();
+    M_ptr[0] = (int)A.rows();
+    ArrayOf N = ArrayOf::int32RowVector(1);
+    int* N_ptr = (int*)N.dataPointer();
+    N_ptr[0] = (int)A.columns();
+    ArrayOf LDA = ArrayOf::int32RowVector(1);
+    int* LDA_ptr = (int*)LDA.dataPointer();
+    LDA_ptr[0] = std::max(1, (int)A.rows());
+    ArrayOf DWORK = ArrayOf::doubleMatrix2d(1, 3 * (int)A.rows());
+    double* DWORK_ptr = (double*)DWORK.dataPointer();
     // OUTPUT VARIABLES
-    ArrayOf TAU_output = ArrayOf::doubleMatrix2dConstructor(
-        (indexType)1, (indexType)std::min((int)A.getRows(), (int)A.getColumns()));
-    double* TAU_output_ptr = (double*)TAU_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
-    int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
+    ArrayOf TAU_output = ArrayOf::doubleMatrix2d(
+        (indexType)1, (indexType)std::min((int)A.rows(), (int)A.columns()));
+    double* TAU_output_ptr = (double*)TAU_output.dataPointer();
+    ArrayOf INFO_output = ArrayOf::int32RowVector(1);
+    int* INFO_output_ptr = (int*)INFO_output.dataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), std::max(1, (int)A.getColumns()));
+    Dimensions dimsA_expected(std::max(1, (int)A.rows()), std::max(1, (int)A.columns()));
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       1)
+                + " " + dimsA_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
-    Dimensions dimsJPVT_expected(1, std::max(1, (int)A.getRows()));
+    Dimensions dimsJPVT_expected(1, std::max(1, (int)A.rows()));
     if (!dimsJPVT.equals(dimsJPVT_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsJPVT_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       2)
+                + " " + dimsJPVT_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
     // CALL EXTERN FUNCTION
     try {
         mb04gd_(M_ptr, N_ptr, A_output_ptr, LDA_ptr, JPVT_output_ptr, TAU_output_ptr, DWORK_ptr,
-            INFO_output_ptr);
+            INFO_output_ptr SLICOT_STRLEN_ARGS(0));
     } catch (const std::runtime_error&) {
-        Error("mb04gd function fails.");
+        Error("Nelson:slicot:computationFailed", "%s function fails.", "mb04gd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

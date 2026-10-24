@@ -7,39 +7,42 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 A = ones(3, 3);
-[REF_S, REF_V, REF_D ] = svd(A);
+[REF_S, REF_V, REF_D] = svd(A);
 %=============================================================================
 [~, B] = size(A);
-assert_isequal(B, 3);
+asserts.isequal(B, 3);
 %=============================================================================
 [~, V, ~] = svd(A);
-assert_isapprox(V, REF_V, 1e-1);
+asserts.isapprox(V, REF_V, 1e-1);
 %=============================================================================
 [U, ~, ~] = svd(A);
-assert_isapprox(U, REF_S, 1e-3);
+asserts.isapprox(U, REF_S, 1e-3);
 %=============================================================================
 [~, ~, W] = svd(A);
-assert_isequal(W, REF_D);
+asserts.isequal(W, REF_D);
 %=============================================================================
 A = 1;
 cmd = 'B = [A, ~, A];';
-assert_checkerror(cmd, _("Lexical error 'Incorrect use of tilde.'"));
+asserts.checkerror(cmd, _("Lexical error 'Incorrect use of tilde.'"));
 %=============================================================================
 A = 1;
 cmd = 'B = {A, ~, A};';
-assert_checkerror(cmd, _("Lexical error 'Incorrect use of tilde.'"));
+asserts.checkerror(cmd, _("Lexical error 'Incorrect use of tilde.'"));
 %=============================================================================
 A = 1;
 cmd = 'display(A, ~);';
-assert_checkerror(cmd, _('Expecting an expression after logical not'));
+expected_msg = strrep(_('Expecting %s'), '%s', _('an expression after logical not'));
+asserts.checkerror(cmd, expected_msg);
 %=============================================================================
 A = true;
 B = ~A;
-assert_isequal(B, false);
+asserts.isequal(B, false);
 %=============================================================================
-assert_istrue(1 ~= 0);
+asserts.istrue(1 ~= 0);
 %=============================================================================
 R = evalc('[~]=svd(1)');
-assert_isequal(R, '');
+asserts.isequal(R, '');
 %=============================================================================

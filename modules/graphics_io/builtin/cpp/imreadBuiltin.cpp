@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,6 +18,6 @@ GraphicsIoGateway::imreadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 3);
-    return imageReader(argIn[0].getContentAsWideString(), nLhs);
+    return imageReader(argIn[0].asWideString(), nLhs);
 }
 //=============================================================================

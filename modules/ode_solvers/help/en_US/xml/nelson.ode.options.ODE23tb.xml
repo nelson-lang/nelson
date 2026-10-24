@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ode.options.ODE23tb</keyword>
+  <short_description>Options object for the ode23tb solver.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.ODE23tb()</syntax_item>
+    <syntax_item>options = nelson.ode.options.ODE23tb(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.ODE23tb</b> creates a compatible option class for the <b>'ode23tb'</b> solver value used by the <b>ode</b> object workflow.</p>
+    <table style="width:100%">
+  <tr><th>Option group</th><th>Names</th><th>Purpose</th></tr>
+  <tr><td>Steps</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b></td><td>Bound the adaptive step size selection.</td></tr>
+  <tr><td>Error control</td><td><b>NormControl</b></td><td>Switch between componentwise and norm based error control.</td></tr>
+  <tr><td>Evaluation</td><td><b>Vectorization</b></td><td>Declare that the ODE function accepts matrices of states.</td></tr>
+  <tr><td>Output</td><td><b>OutputFcn</b>, <b>OutputSelection</b></td><td>Select output callbacks and returned components.</td></tr>
+</table>
+    <p>The <b>'ode23tb'</b> solver value uses an implicit Runge-Kutta method combining a trapezoidal rule stage with a backward differentiation stage, effective for stiff problems at crude tolerances.</p>
+    <p>Supported properties are <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, and <b>Vectorization</b>. <b>InitialStep</b>, <b>MaxStep</b>, and <b>MinStep</b> are positive scalars bounding the adaptive step size; their default value is empty, which lets the solver choose them automatically. <b>NormControl</b> accepts <b>'on'</b> or <b>'off'</b> (default <b>'off'</b>) and enables error control based on the norm of the solution instead of componentwise control. <b>Vectorization</b> accepts <b>'on'</b> or <b>'off'</b> (default <b>'off'</b>) and declares that the ODE function can evaluate several columns of states at once. <b>OutputFcn</b> is a function handle called on each output point (default empty). <b>OutputSelection</b> is a vector of indices selecting which solution components are passed to the output function (default empty, all components). The default <b>Refine</b> value for this solver is 1.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a stiff problem solved with ode23tb options.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.ODE23tb('Vectorization', 'on');
+problem = ode('ODEFcn', @(t,y) -100 * y, 'InitialValue', 1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode23tb">ode23tb</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE23t">nelson.ode.options.ODE23t</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

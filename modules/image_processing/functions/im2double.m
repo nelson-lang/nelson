@@ -17,37 +17,40 @@ function varargout = im2double(varargin)
     mustBeTextScalar(txt, 2);
     txt = convertStringsToChars(txt);
     if ~strcmp(txt, 'indexed')
-      error('Nelson:invalidText', _('Invalid text argument ''indexed'' expected.'));
+      error('Nelson:invalidText', 'Invalid text argument ''indexed'' expected.');
     end
     isIndexed = true;
   end
   switch class(img)
     case 'double'
       d = img;
-      
+
     case {'logical', 'single'}
       d = double(img);
-      
+
     case 'uint8'
       if isIndexed
         d = double(img) + 1;
       else
         d = double(img) / 255;
       end
-      
+
     case 'uint16'
       if isIndexed
         d = double(img) + 1;
       else
         d = double(img) / 65535;
       end
-      
-    otherwise
+
+    case 'int16'
       if ~isIndexed
         d = (double(img) + 32768) / 65535;
       else
-        error(_('An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.'));
+        error('Nelson:image_processing:indexedImageDataTypeUint8Uint16', 'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.');
       end
-    end
-    varargout{1} = d;
+
+    otherwise
+      error('Nelson:image_processing:imageDoubleLogicalUint8Uint16Int16', 'Image must be double, logical, uint8, uint16, int16, or single.');
   end
+  varargout{1} = d;
+end

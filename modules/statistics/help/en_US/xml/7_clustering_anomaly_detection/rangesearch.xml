@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rangesearch</keyword>
+  <short_description>Find all neighbors within a specified distance.</short_description>
+  <syntax>
+    <syntax_item>idx = rangesearch(X, Y, r)</syntax_item>
+    <syntax_item>idx = rangesearch(X, Y, r, Name, Value)</syntax_item>
+    <syntax_item>[idx, D] = rangesearch(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>rangesearch</b> finds all rows of <b>X</b> whose distance to each query row of <b>Y</b> is not greater than <b>r</b>.</p>
+    <p>The search is exhaustive and native. Outputs are column cell arrays. Supported options include Distance, NSMethod, SortIndices, P, Scale, Cov, BucketSize, and CacheSize.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 4 4];
+Y = [0 1; 3 4];
+[idx, D] = rangesearch(X, Y, 1.1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}knnsearch">knnsearch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

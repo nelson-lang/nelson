@@ -11,6 +11,7 @@
 #include <cmath>
 #include "nexttileBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
@@ -48,7 +49,7 @@ static GOTiledChartLayout*
 resolveLayout(
     const ArrayOfVector& argIn, size_t& pos, int64& layoutHandle, int64& figHandle, GOFigure*& fig);
 static int64
-createAxesInTile(GOTiledChartLayout* layout, int64 figHandle, GOFigure* fig, int tileNum,
+createAxesInTile(GOTiledChartLayout* layout, int64 layoutHandle, GOFigure* fig, int tileNum,
     int spanRows, int spanCols, const std::wstring& edgeTile = L"");
 static void
 makeCurrentAxesIfPossible(GOFigure* fig, go_handle handle);
@@ -69,11 +70,11 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
     GOTiledChartLayout* layout = resolveLayout(argIn, pos, layoutHandle, figHandle, fig);
 
     if (!layout || !fig) {
-        Error(_W("No tiled layout found."));
+        Error(L"Nelson:nexttile:noLayout", L"No tiled layout found.");
     }
 
-    // Be tolerant if the layout handle was not consumed during resolveLayout.
-    // This can happen depending on how the handle is marshalled from Nelson.
+    // Tolerate a layout handle not consumed during resolveLayout; it depends on how
+    // the handle is marshalled from Nelson.
     if (pos < argIn.size()) {
         int64 retryLayoutHandle = -1;
         int64 retryFigHandle = -1;
@@ -100,7 +101,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (pos < argIn.size()) {
         ArrayOf a = argIn[pos];
         if (isGraphicsHandleScalar(a)) {
-            const auto* ptr = static_cast<const int64*>(a.getDataPointer());
+            const auto* ptr = static_cast<const int64*>(a.dataPointer());
             int64 h = ptr[0];
             GraphicsObject* go = findGraphicsObject(h, false);
             if (go && go->getType() == GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
@@ -115,7 +116,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
                 pos++;
             } else {
-                Error(_W("Invalid tiled layout handle."));
+                Error(L"Nelson:nexttile:invalidLayoutHandle", L"Invalid tiled layout handle.");
             }
         } else if (a.isNumeric() && !a.isComplex()) {
             if (a.isScalar()) {
@@ -130,22 +131,22 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
                 ++pos;
             }
         } else if (a.isScalarStringArray() || a.isRowVectorCharacterArray()) {
-            std::wstring str = StringHelpers::to_lower_copy(a.getContentAsWideString());
+            std::wstring str = StringHelpers::to_lower_copy(a.asWideString());
             if (str == L"north" || str == L"south" || str == L"east" || str == L"west") {
                 edgeTile = str;
                 tileSpecified = true;
                 ++pos;
             } else {
-                Error(_W("Invalid tile location."));
+                Error(L"Nelson:nexttile:invalidTileLocation", L"Invalid tile location.");
             }
         } else {
-            Error(_W("Invalid tile location."));
+            Error(L"Nelson:nexttile:invalidTileLocation", L"Invalid tile location.");
         }
     }
 
     if (pos < argIn.size()) {
         if (!edgeTile.empty()) {
-            Error(_W("Span is not valid for edge tiles."));
+            Error(L"Nelson:nexttile:invalidSpan", L"Span is not valid for edge tiles.");
         }
         auto [rows, cols] = positiveSpanVector(argIn[pos]);
         spanRows = rows;
@@ -155,7 +156,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (pos != argIn.size()) {
-        Error(_W("Too many input arguments."));
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
 
     if (!edgeTile.empty()) {
@@ -163,15 +164,15 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (existing != -1 && !isDeletedGraphicsObject(existing)) {
             makeCurrentAxesIfPossible(fig, existing);
             if (nLhs > 0) {
-                retval << ArrayOf::graphicsObjectConstructor(existing);
+                retval << graphicsObjectHandle(existing);
             }
             return retval;
         }
-        int64 axHandle = createAxesInTile(layout, figHandle, fig, 0, 1, 1, edgeTile);
+        int64 axHandle = createAxesInTile(layout, layoutHandle, fig, 0, 1, 1, edgeTile);
         layout->registerEdgeTile(edgeTile, axHandle);
         layout->updateChildPositions();
         if (nLhs > 0) {
-            retval << ArrayOf::graphicsObjectConstructor(axHandle);
+            retval << graphicsObjectHandle(axHandle);
         }
         return retval;
     }
@@ -186,7 +187,8 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         int cols = (gs.size() >= 2) ? std::max(1, (int)gs[1]) : 1;
         if (tileNum > rows * cols) {
             if (arrangement == GO_PROPERTY_VALUE_FIXED_STR) {
-                Error(_W("No empty tile is available in the fixed tiled layout."));
+                Error(L"Nelson:nexttile:noEmptyTile",
+                    L"No empty tile is available in the fixed tiled layout.");
             }
             layout->ensureDynamicGridCanPlace(spanRows, spanCols);
             tileNum = layout->findNextEmptyTile(spanRows, spanCols);
@@ -202,7 +204,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (upperLeft != -1 && !isDeletedGraphicsObject(upperLeft)) {
             makeCurrentAxesIfPossible(fig, upperLeft);
             if (nLhs > 0) {
-                retval << ArrayOf::graphicsObjectConstructor(upperLeft);
+                retval << graphicsObjectHandle(upperLeft);
             }
             return retval;
         }
@@ -218,7 +220,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (exact != -1 && !isDeletedGraphicsObject(exact)) {
             makeCurrentAxesIfPossible(fig, exact);
             if (nLhs > 0) {
-                retval << ArrayOf::graphicsObjectConstructor(exact);
+                retval << graphicsObjectHandle(exact);
             }
             return retval;
         }
@@ -233,7 +235,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
 
-    int64 axHandle = createAxesInTile(layout, figHandle, fig, tileNum, spanRows, spanCols);
+    int64 axHandle = createAxesInTile(layout, layoutHandle, fig, tileNum, spanRows, spanCols);
     layout->setNextTileIndex(tileNum + 1);
     if (arrangement == GO_PROPERTY_VALUE_FLOW_STR) {
         layout->reflowTiles();
@@ -250,7 +252,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (nLhs > 0) {
-        retval << ArrayOf::graphicsObjectConstructor(axHandle);
+        retval << graphicsObjectHandle(axHandle);
     }
     return retval;
 }
@@ -258,18 +260,18 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
 bool
 isGraphicsHandleScalar(const ArrayOf& arg)
 {
-    return arg.isScalar() && arg.getDataClass() == NLS_GO_HANDLE;
+    return arg.isScalar() && arg.dataClass() == NLS_GO_HANDLE;
 }
 //=============================================================================
 int
 positiveIntegerScalar(const ArrayOf& arg, const std::wstring& name)
 {
     if (!arg.isNumeric() || arg.isComplex() || !arg.isScalar()) {
-        Error(name + _W(" must be a positive integer scalar."));
+        Error(L"Nelson:graphics:invalidInteger", L"%s must be a positive integer scalar.", name);
     }
-    int value = arg.getContentAsInteger32Scalar(false, true);
+    int value = arg.asInt32Scalar(false, true);
     if (value < 1) {
-        Error(name + _W(" must be a positive integer scalar."));
+        Error(L"Nelson:graphics:invalidInteger", L"%s must be a positive integer scalar.", name);
     }
     return value;
 }
@@ -277,13 +279,15 @@ positiveIntegerScalar(const ArrayOf& arg, const std::wstring& name)
 std::pair<int, int>
 positiveSpanVector(const ArrayOf& arg)
 {
-    if (!arg.isNumeric() || arg.isComplex() || arg.isScalar() || arg.getElementCount() != 2) {
-        Error(_W("Tile span must be a two-element positive integer vector."));
+    if (!arg.isNumeric() || arg.isComplex() || arg.isScalar() || arg.elementCount() != 2) {
+        Error(L"Nelson:nexttile:invalidTileSpan",
+            L"%s must be a two-element positive integer vector.", std::wstring(L"Tile span"));
     }
-    std::vector<double> values = arg.getContentAsDoubleVector();
+    std::vector<double> values = arg.asDoubleVector();
     if (values[0] < 1 || values[1] < 1 || values[0] != std::floor(values[0])
         || values[1] != std::floor(values[1])) {
-        Error(_W("Tile span must be a two-element positive integer vector."));
+        Error(L"Nelson:nexttile:invalidTileSpan",
+            L"%s must be a two-element positive integer vector.", std::wstring(L"Tile span"));
     }
     return { (int)values[0], (int)values[1] };
 }
@@ -338,12 +342,12 @@ tryResolveLayoutHandle(const ArrayOf& arg, int64& layoutHandle, int64& figHandle
 
     int64 h = -1;
     if (isGraphicsHandleScalar(arg)) {
-        const auto* ptr = static_cast<const int64*>(arg.getDataPointer());
+        const auto* ptr = static_cast<const int64*>(arg.dataPointer());
         h = ptr[0];
     } else if (arg.isGraphicsObject()) {
-        h = arg.getContentAsGraphicsObjectScalar();
+        h = arg.asGraphicsObjectScalar();
     } else if (arg.isNumeric() && !arg.isComplex() && arg.isScalar()) {
-        h = arg.getContentAsInteger64Scalar();
+        h = arg.asInt64Scalar();
     } else {
         return false;
     }
@@ -460,15 +464,16 @@ resolveLayout(
 }
 //=============================================================================
 int64
-createAxesInTile(GOTiledChartLayout* layout, int64 figHandle, GOFigure* fig, int tileNum,
+createAxesInTile(GOTiledChartLayout* layout, int64 layoutHandle, GOFigure* fig, int tileNum,
     int spanRows, int spanCols, const std::wstring& edgeTile)
 {
     GOAxis* ax = new GOAxis;
     int64 axHandle = assignGraphicsObject(ax);
 
-    ax->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, figHandle);
+    ax->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, layoutHandle);
+    ax->restoreToolbar(axHandle);
+    ax->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 9);
     fig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, axHandle);
-    addHandleToFigure(fig, axHandle);
 
     setLayoutOptions(ax, axHandle, tileNum, spanRows, spanCols, edgeTile);
     layout->registerChildTile(axHandle, tileNum, spanRows, spanCols);
@@ -505,7 +510,8 @@ ensureRegionFits(GOTiledChartLayout* layout, int tileNum, int spanRows, int span
         return;
     }
     if (arrangement == GO_PROPERTY_VALUE_FIXED_STR) {
-        Error(_W("Tile location exceeds the fixed tiled layout grid."));
+        Error(L"Nelson:nexttile:tileOutOfGrid",
+            L"Tile location exceeds the fixed tiled layout grid.");
     }
 
     int guard = 0;
@@ -529,9 +535,9 @@ ensureRegionFits(GOTiledChartLayout* layout, int tileNum, int spanRows, int span
     }
 
     if (!regionFits()) {
-        Error(_W("Unable to place tile in layout."));
+        Error(L"Nelson:nexttile:placementFailed", L"Unable to place tile in layout.");
     }
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

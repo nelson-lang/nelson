@@ -10,10 +10,9 @@
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "Allan CORNET")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-  "Nelson is a matrix/array programming language providing a powerful open\
- computing environment for engineering and scientific applications using\
- modern C/C++ libraries (Boost, Eigen, ...) and other state-of-the-art\
- numerical libraries."
+  "Nelson is a matrix/array programming language for engineering and\
+ scientific computing. It provides an interpreter, plotting tools and\
+ numerical libraries such as Eigen."
 )
 set(CPACK_PACKAGE_VERSION_MAJOR ${Nelson_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${Nelson_VERSION_MINOR})
@@ -42,7 +41,7 @@ endif()
 if(UNIX)
   if(APPLE)
     # ========================================================================
-    # macOS – DragNDrop (.dmg) packaging
+    # macOS â€“ DragNDrop (.dmg) packaging
     # ========================================================================
     set(CPACK_GENERATOR "DragNDrop")
     set(CPACK_PACKAGE_FILE_NAME
@@ -50,9 +49,30 @@ if(UNIX)
     )
     # -- DMG settings
     set(CPACK_DMG_VOLUME_NAME "Nelson ${CPACK_PACKAGE_VERSION}")
-    set(CPACK_DMG_FORMAT "UDBZ") # bzip2 compressed
-    set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
-      "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGSetup.scpt"
+    set(CPACK_DMG_FORMAT
+      "ULFO"
+    ) # LZFSE-compressed read-only; fast to open, small (macOS 10.11+)
+    set(
+      NELSON_DMG_LAYOUT_BACKEND
+      "DMGBUILD"
+      CACHE
+        STRING
+        "macOS DMG layout backend: DMGBUILD, FINDER, or NONE"
+    )
+    set_property(
+      CACHE NELSON_DMG_LAYOUT_BACKEND
+      PROPERTY
+        STRINGS
+        DMGBUILD
+        FINDER
+        NONE
+    )
+    set(
+      NELSON_DMGBUILD_PYTHONPATH
+      ""
+      CACHE
+        STRING
+        "Extra PYTHONPATH used to import dmgbuild for DMG layout"
     )
     # -- Generate .icns from the project PNG icon (only on macOS)
     set(_nelson_icns "${CMAKE_BINARY_DIR}/Nelson.icns")
@@ -71,12 +91,72 @@ if(UNIX)
       COMMENT "Generating Nelson.icns for macOS packaging"
       VERBATIM
     )
-    add_custom_target(nelson_icns ALL DEPENDS "${_nelson_icns}")
-    # -- DMG background image (static, checked into the repo)
-    set(CPACK_DMG_BACKGROUND_IMAGE
-      "${CMAKE_SOURCE_DIR}/CMake/macOS/dmg_background.png"
-    )
+    if(ENABLE_PACKAGING)
+      add_custom_target(nelson_icns ALL DEPENDS "${_nelson_icns}")
+    else()
+      add_custom_target(nelson_icns DEPENDS "${_nelson_icns}")
+    endif()
+    set(CPACK_PACKAGE_ICON "${_nelson_icns}")
+    string(TOUPPER "${NELSON_DMG_LAYOUT_BACKEND}" _nelson_dmg_layout_backend)
+    if(ENABLE_PACKAGING AND _nelson_dmg_layout_backend STREQUAL "DMGBUILD")
+      find_package(Python3 COMPONENTS Interpreter REQUIRED)
+      set(_dmgbuild_env)
+      if(NELSON_DMGBUILD_PYTHONPATH)
+        list(APPEND _dmgbuild_env "PYTHONPATH=${NELSON_DMGBUILD_PYTHONPATH}")
+      endif()
+      execute_process(
+        COMMAND ${CMAKE_COMMAND} -E env ${_dmgbuild_env} "${Python3_EXECUTABLE}"
+          -c "import dmgbuild"
+        RESULT_VARIABLE _dmgbuild_import_result
+        OUTPUT_QUIET ERROR_QUIET
+      )
+      if(NOT _dmgbuild_import_result EQUAL 0)
+        # Robust fallback: never drop the DMG background silently.  When dmgbuild
+        # is unavailable, warn loudly and fall back to the Finder (AppleScript)
+        # layout, which still applies the background image.  The Finder backend
+        # needs Automation permission for the build tool to control Finder; in a
+        # headless CI install dmgbuild instead (pip install dmgbuild, or set
+        # NELSON_DMGBUILD_PYTHONPATH) to keep the reproducible headless layout.
+        message(WARNING
+          "NELSON_DMG_LAYOUT_BACKEND=DMGBUILD but the Python package 'dmgbuild' "
+          "is not importable. Falling back to the Finder AppleScript layout so "
+          "the DMG background is still applied. Install dmgbuild "
+          "('pip install dmgbuild' or set NELSON_DMGBUILD_PYTHONPATH) for the "
+          "reproducible headless layout."
+        )
+        set(_nelson_dmg_layout_backend "FINDER")
+        set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+          "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGSetup.scpt"
+        )
+        set(CPACK_DMG_BACKGROUND_IMAGE
+          "${CMAKE_SOURCE_DIR}/CMake/macOS/dmg_background.png"
+        )
+      else()
+        set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+          "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGVolumeIcon.scpt"
+        )
+      endif()
+    elseif(ENABLE_PACKAGING AND _nelson_dmg_layout_backend STREQUAL "FINDER")
+      set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGSetup.scpt"
+      )
+      # -- DMG background image (static, checked into the repo)
+      set(CPACK_DMG_BACKGROUND_IMAGE
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/dmg_background.png"
+      )
+    elseif(ENABLE_PACKAGING AND _nelson_dmg_layout_backend STREQUAL "NONE")
+      set(CPACK_DMG_DS_STORE_SETUP_SCRIPT
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/DMGVolumeIcon.scpt"
+      )
+    elseif(ENABLE_PACKAGING)
+      message(FATAL_ERROR
+        "Unsupported NELSON_DMG_LAYOUT_BACKEND: ${NELSON_DMG_LAYOUT_BACKEND}"
+      )
+    endif()
     # -- Configure Info.plist
+    file(READ "${CMAKE_SOURCE_DIR}/CMake/macOS/FileAssociations.plist"
+      NELSON_FILE_ASSOCIATIONS
+    )
     configure_file(
       "${CMAKE_SOURCE_DIR}/CMake/macOS/Info.plist.in"
       "${CMAKE_BINARY_DIR}/Info.plist"
@@ -104,11 +184,38 @@ if(UNIX)
       "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake"
       @ONLY
     )
+    configure_file(
+      "${CMAKE_SOURCE_DIR}/CMake/macOS/cpack_dmg_file_icon.cmake.in"
+      "${CMAKE_BINARY_DIR}/cpack_dmg_file_icon.cmake"
+      @ONLY
+    )
+    if(ENABLE_PACKAGING AND _nelson_dmg_layout_backend STREQUAL "DMGBUILD")
+      configure_file(
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/dmgbuild_settings.py.in"
+        "${CMAKE_BINARY_DIR}/dmgbuild_settings.py"
+        @ONLY
+      )
+      configure_file(
+        "${CMAKE_SOURCE_DIR}/CMake/macOS/cpack_dmgbuild_layout.cmake.in"
+        "${CMAKE_BINARY_DIR}/cpack_dmgbuild_layout.cmake"
+        @ONLY
+      )
+    endif()
     list(APPEND CPACK_PRE_BUILD_SCRIPTS
       "${CMAKE_BINARY_DIR}/cpack_fixup_bundle.cmake"
     )
-    message(STATUS "macOS DMG packaging enabled (DragNDrop)")
-    message(STATUS "  Run: cmake --build . -- package")
+    if(ENABLE_PACKAGING AND _nelson_dmg_layout_backend STREQUAL "DMGBUILD")
+      list(APPEND CPACK_POST_BUILD_SCRIPTS
+        "${CMAKE_BINARY_DIR}/cpack_dmgbuild_layout.cmake"
+      )
+    endif()
+    list(APPEND CPACK_POST_BUILD_SCRIPTS
+      "${CMAKE_BINARY_DIR}/cpack_dmg_file_icon.cmake"
+    )
+    if(ENABLE_PACKAGING)
+      message(STATUS "macOS DMG packaging enabled (DragNDrop)")
+      message(STATUS "  Run: cmake --build . -- package")
+    endif()
   else()
     # ========================================================================
     # Linux / other UNIX
@@ -151,12 +258,6 @@ if(UNIX)
           "libfftw3-bin, libfftw3-double3, libfftw3-single3"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, hdf5-tools"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-documentation-tools"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -182,15 +283,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2t64 (>= 1.0.16)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-chrono1.90.0 (>= 1.90.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-serialization1.90.0 (>= 1.90.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-thread1.90.0 (>= 1.90.0)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libc6 (>= 2.43)"
@@ -221,9 +313,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjack-jackd2-0 (>= 1.9.10+20150825) | libjack-0.125"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, liblapacke (>= 3.12.1)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libmatio14 (>= 1.5.30)"
@@ -296,25 +385,7 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, hdf5-tools"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2t64 (>= 1.2.11)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-chrono1.83.0 (>= 1.83.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-filesystem1.83.0 (>= 1.83.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-iostreams1.83.0 (>= 1.83.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-serialization1.83.0 (>= 1.83.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-thread1.83.0 (>= 1.83.0)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libc6 (>= 2.39)"
@@ -344,9 +415,6 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjack-jackd2-0 (>= 1.9.10+20150825) | libjack-0.125"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, liblapacke (>= 3.12.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libmatio11 (>= 1.5.26)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -366,9 +434,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6help6 (>= 6.4.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.4.2)"
@@ -405,9 +470,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-documentation-tools (>= 6.4.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick (>= 6.4.2)"
@@ -447,25 +509,7 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0-openmp"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, hdf5-tools"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2 (>= 1.0.16)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-chrono1.74.0 (>= 1.74.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-filesystem1.74.0 (>= 1.74.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-iostreams1.74.0 (>= 1.74.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-serialization1.74.0 (>= 1.74.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-thread1.74.0 (>= 1.74.0)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libc6 (>= 2.35)"
@@ -495,9 +539,6 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjack-jackd2-0 (>= 1.9.10+20150825) | libjack-0.125"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, liblapacke (>= 3.10.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libmatio11 (>= 1.5.15)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -517,9 +558,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6help6 (>= 6.2.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.1.2)"
@@ -558,9 +596,6 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-documentation-tools"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -592,20 +627,9 @@ if(UNIX)
         )
       endif()
 
-      if(NOT
-        UBUNTU_VERSION
-        VERSION_EQUAL
-        "26.04"
-        AND
-        NOT
-        UBUNTU_VERSION
-        VERSION_EQUAL
-        "24.04"
-        AND
-        NOT
-        UBUNTU_VERSION
-        VERSION_EQUAL
-        "22.04"
+      if(NOT UBUNTU_VERSION VERSION_EQUAL "26.04"
+        AND NOT UBUNTU_VERSION VERSION_EQUAL "24.04"
+        AND NOT UBUNTU_VERSION VERSION_EQUAL "22.04"
       )
         message(STATUS
           "Ubuntu ${UBUNTU_VERSION}: DEB dependency list not available, using TGZ."
@@ -618,7 +642,7 @@ if(UNIX)
     endif()
 
     if(DEBIAN_FOUND AND NOT UBUNTU_FOUND)
-      message(STATUS "Debian detected – packaging as TGZ.")
+      message(STATUS "Debian detected â€“ packaging as TGZ.")
       set(CPACK_GENERATOR "TGZ")
       set(CPACK_PACKAGE_FILE_NAME
         "nelson-Debian-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
@@ -627,7 +651,7 @@ if(UNIX)
   endif()
 else()
   # Non-UNIX (should not normally be reached on Linux/macOS builds)
-  message(STATUS "Non-UNIX platform – packaging as ZIP.")
+  message(STATUS "Non-UNIX platform â€“ packaging as ZIP.")
   set(CPACK_GENERATOR "ZIP")
   set(CPACK_PACKAGE_FILE_NAME
     "nelson-Unknown-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"

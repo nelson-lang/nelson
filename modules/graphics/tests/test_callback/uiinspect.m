@@ -18,5 +18,5 @@ function varargout = uiinspect(varargin)
   if nargin > 3
     varargin{3}
   end
-  varargout={};
+  varargout = {};
 end

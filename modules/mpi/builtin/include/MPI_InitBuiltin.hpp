@@ -15,5 +15,6 @@
 namespace Nelson::MpiGateway {
 ArrayOfVector
 MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

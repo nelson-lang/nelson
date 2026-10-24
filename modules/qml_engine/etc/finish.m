@@ -7,7 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-delete(QObject_used())
+% a lazy (never loaded) gateway cannot own live objects
+[~, ~, qmlGatewayState] = gatewayinfo(modulepath('qml_engine', 'builtin'));
+if strcmp(qmlGatewayState, 'loaded')
+  delete(QObject_used())
+end
 rmpath(modulepath('qml_engine', 'functions'));
 removegateway(modulepath('qml_engine', 'builtin'));
 %=============================================================================

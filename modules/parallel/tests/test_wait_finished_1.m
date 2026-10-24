@@ -12,5 +12,5 @@
 fptr = str2func('cos');
 f = parfeval(backgroundPool, fptr, 0, 55);
 R = wait(f, 'finished');
-assert_isequal(f.State, 'finished');
+asserts.isequal(f.State, 'finished');
 %=============================================================================

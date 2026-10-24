@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>validateattributes</keyword>
+  <short_description>Verifie les classes et attributs demandes pour un tableau.</short_description>
+  <syntax>
+    <syntax_item>validateattributes(A, classes, attributes)</syntax_item>
+    <syntax_item>validateattributes(A, classes, attributes, argIndex)</syntax_item>
+    <syntax_item>validateattributes(A, classes, attributes, funcName)</syntax_item>
+    <syntax_item>validateattributes(A, classes, attributes, funcName, varName)</syntax_item>
+    <syntax_item>validateattributes(A, classes, attributes, funcName, varName, argIndex)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau ou objet a verifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>classes</param_name>
+      <param_description>noms de classes acceptes, sous forme de vecteur de caracteres, tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attributes</param_name>
+      <param_description>attributs requis, sous forme de cellule ou tableau de chaines. Les attributs qui demandent une valeur doivent etre suivis immediatement par cette valeur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argIndex</param_name>
+      <param_description>entier positif utilise dans les messages d'erreur pour indiquer la position de l'argument.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>funcName</param_name>
+      <param_description>nom de fonction utilise dans les identifiants d'erreur generes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varName</param_name>
+      <param_description>nom de variable utilise dans les messages d'erreur generes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>validateattributes</b> emet une erreur si <b>A</b> n'appartient pas a au moins une classe demandee ou ne satisfait pas tous les attributs demandes. La fonction ne renvoie aucune sortie lorsque la verification reussit.</p>
+    <p><b>classes</b> accepte les noms de classes concretes et les noms de classes personnalisees testes avec <b>isa</b>. Les alias <b>numeric</b>, <b>integer</b> et <b>float</b> sont aussi pris en charge.</p>
+    <p>Les attributs de forme pris en charge sont <b>2d</b>, <b>3d</b>, <b>column</b>, <b>row</b>, <b>scalar</b>, <b>scalartext</b>, <b>vector</b>, <b>square</b>, <b>diag</b>, <b>nonempty</b> et <b>nonsparse</b>.</p>
+    <p>Les attributs de taille avec valeur sont <b>size</b>, <b>numel</b>, <b>ncols</b>, <b>nrows</b> et <b>ndims</b>. Pour <b>size</b>, utilisez <b>NaN</b> dans une dimension attendue pour ignorer cette dimension.</p>
+    <p>Les attributs de valeur pris en charge sont <b>finite</b>, <b>nonnan</b>, <b>binary</b>, <b>even</b>, <b>odd</b>, <b>integer</b>, <b>real</b>, <b>nonnegative</b>, <b>nonpositive</b>, <b>negative</b>, <b>nonzero</b> et <b>positive</b>.</p>
+    <p>Les attributs de plage sont <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;</b> et <b>&lt;=</b>. La valeur de comparaison doit suivre le nom de l'attribut.</p>
+    <p>Les attributs de monotonie sont <b>decreasing</b>, <b>increasing</b>, <b>nondecreasing</b> et <b>nonincreasing</b>. La monotonie est verifiee colonne par colonne.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier une classe, une forme et des valeurs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[validateattributes([1 2 3], {'numeric'}, {'row', 'vector', 'positive'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier une taille partiellement specifiee.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = ones(2, 3, 4);
+validateattributes(A, {'numeric'}, {'3d', 'size', [2 NaN 4], 'ndims', 3})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier la monotonie colonne par colonne.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 4; 2 4; 3 5];
+validateattributes(A, {'numeric'}, {'nondecreasing'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser la verification dans un analyseur d'entrees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+addRequired(p, 'name', @(x) validateattributes(x, {'char'}, {'nonempty'}));
+addOptional(p, 'id', 1, @(x) validateattributes(x, {'numeric'}, {'scalar', 'positive'}));
+parse(p, 'item', 3);
+p.Results]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}validatestring">validatestring</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}inputParser">inputParser</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

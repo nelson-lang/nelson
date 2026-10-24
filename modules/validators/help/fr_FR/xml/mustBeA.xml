@@ -30,6 +30,7 @@
   <description>
     <p>
       <b>mustBeA</b> vérifie que la valeur d&apos;entrée appartient à l&apos;une des classes spécifiées.</p>
+    <p>Une valeur est acceptée quand sa classe, l&apos;une de ses superclasses, ou l&apos;une des catégories <b>numeric</b>, <b>float</b> et <b>integer</b> figure dans <b>classNames</b> (mêmes règles que <b>isa</b>).</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,11 +48,18 @@ mustBeA([], ["double", "single"])]]></example_item_data>
     <see_also_item>
       <link linkend="${validators}mustBeNumeric">mustBeNumeric</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>superclasses et catégories numeric, float, integer acceptées.</history_description>
     </history_item>
   </history>
   <authors>

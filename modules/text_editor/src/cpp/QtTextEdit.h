@@ -10,11 +10,15 @@
 #pragma once
 //=============================================================================
 #include "Types.hpp"
+#include "CodeAnalyzer.hpp"
+#include <QtCore/QList>
 #include <QtCore/QMimeData>
+#include <QtCore/QPair>
 #include <QtWidgets/QTextEdit>
 //=============================================================================
 class QCompleter;
 class QAbstractItemModel;
+class QMouseEvent;
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -41,7 +45,6 @@ public:
     void
     insertFromMimeData(const QMimeData* source) override;
 
-    // Debug line highlighting
     void
     setDebugLine(int line);
     void
@@ -50,14 +53,34 @@ public:
     getDebugLine() const;
     void
     setDebugLineColor(const QColor& color);
+    void
+    setCodeAnalyzerDiagnostics(const std::vector<Nelson::CodeAnalyzerDiagnostic>& diagnostics);
+    std::vector<Nelson::CodeAnalyzerDiagnostic>
+    getCodeAnalyzerDiagnostics() const;
+
+    // Find/Replace bar highlighting: ranges are (absolute position, length).
+    // They are merged with the debug line and the code analyzer diagnostics
+    // by updateExtraSelections().
+    void
+    setSearchHighlights(const QList<QPair<int, int>>& ranges, int currentIndex);
+    void
+    clearSearchHighlights();
 
 private:
     QCompleter* qCompleter;
     int currentDebugLine = -1;
-    QColor debugLineColor = QColor(255, 255, 0, 128); // Default semi-transparent yellow
+    QColor debugLineColor = QColor(255, 255, 0, 128);
+    std::vector<Nelson::CodeAnalyzerDiagnostic> codeAnalyzerDiagnostics;
+    QList<QPair<int, int>> searchHighlights;
+    int currentSearchHighlight = -1;
+
+    [[nodiscard]] bool
+    isAutoIndentTrigger(QKeyEvent* event) const;
 
     void
-    updateDebugLineHighlight();
+    updateExtraSelections();
+    void
+    mouseMoveEvent(QMouseEvent* event) override;
 
     [[nodiscard]] QString
     textUnderCursor() const;
@@ -79,7 +102,7 @@ private slots:
     insertCompletion(const QString& completion);
 
     void
-    wheelEvent(QWheelEvent* wheelEvent);
+    wheelEvent(QWheelEvent* wheelEvent) override;
 
 signals:
     void

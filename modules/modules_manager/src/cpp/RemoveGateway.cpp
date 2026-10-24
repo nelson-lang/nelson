@@ -9,6 +9,7 @@
 //=============================================================================
 #include "RemoveGateway.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "GatewaysManager.hpp"
 //=============================================================================
 namespace Nelson {
@@ -18,7 +19,7 @@ RemoveGateway(Evaluator* eval, const std::wstring& dynlibname)
     std::wstring errorMessage;
     GatewaysManager::getInstance()->removeGateway(eval, dynlibname, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:removegateway:removeFailed", errorMessage);
     }
 }
 //=============================================================================

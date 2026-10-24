@@ -23,7 +23,7 @@
     <param_output_item>
       <param_name>c</param_name>
       <param_description
-      >une chaîne : type d&apos;ordinateur : &apos;PCWIN&apos;, &apos;PCWIN64&apos;, &apos;PCWOA64&apos;, &apos;GLNXA64&apos;, &apos;GLNXA32&apos;, &apos;MACI32&apos;, &apos;MACI64&apos;
+      >une chaîne : type d&apos;ordinateur : &apos;PCWIN&apos;, &apos;PCWIN64&apos;, &apos;PCWOA64&apos;, &apos;GLNXA64&apos;, &apos;GLNXA32&apos;, &apos;MACI32&apos;, &apos;MACI64&apos;, &apos;MACA64&apos;
       </param_description>
     </param_output_item>
     <param_output_item>
@@ -39,7 +39,7 @@
     <param_output_item>
       <param_name>arch</param_name>
       <param_description
-      >une chaîne : type d&apos;architecture : &apos;woa64&apos;, &apos;win64&apos;, &apos;win32&apos;, &apos;glnxa64&apos;, &apos;glnxa32&apos;, &apos;maci64&apos;, &apos;maci32&apos;.</param_description>
+      >une chaîne : type d&apos;architecture : &apos;woa64&apos;, &apos;win64&apos;, &apos;win32&apos;, &apos;glnxa64&apos;, &apos;glnxa32&apos;, &apos;maci64&apos;, &apos;maci32&apos;, &apos;maca64&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>

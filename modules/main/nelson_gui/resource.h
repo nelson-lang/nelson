@@ -15,7 +15,7 @@
 #define IDI_ICON_M 102
 #define IDI_ICON_NH5 103
 #define IDI_ICON_MAT 104
-
+#define IDI_ICON_NFLOW 105
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
@@ -26,3 +26,4 @@
 #define _APS_NEXT_SYMED_VALUE 101
 #endif
 #endif
+//=============================================================================

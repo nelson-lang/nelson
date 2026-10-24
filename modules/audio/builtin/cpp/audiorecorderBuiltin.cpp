@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audiorecorderBuiltin.hpp"
 #include "AudiorecorderObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -24,33 +25,34 @@ Nelson::AudioGateway::audiorecorderBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool haveEventLoop = NelsonConfiguration::getInstance()->haveEventsLoop();
 
     AudiorecorderObject* objRec = nullptr;
+    nargincheck(argIn, 0, 4);
     switch (argIn.size()) {
     case 0: {
         objRec = new AudiorecorderObject(haveEventLoop);
     } break;
     case 3: {
-        int sampleRate = argIn[0].getContentAsInteger32Scalar();
-        int bits = argIn[1].getContentAsInteger32Scalar();
-        int channels = argIn[2].getContentAsInteger32Scalar();
+        int sampleRate = argIn[0].asInt32Scalar();
+        int bits = argIn[1].asInt32Scalar();
+        int channels = argIn[2].asInt32Scalar();
         objRec = new AudiorecorderObject(haveEventLoop);
         objRec->setConfig(sampleRate, bits, channels, -1);
     } break;
     case 4: {
-        int sampleRate = argIn[0].getContentAsInteger32Scalar();
-        int bits = argIn[1].getContentAsInteger32Scalar();
-        int channels = argIn[2].getContentAsInteger32Scalar();
-        int deviceID = argIn[3].getContentAsInteger32Scalar();
+        int sampleRate = argIn[0].asInt32Scalar();
+        int bits = argIn[1].asInt32Scalar();
+        int channels = argIn[2].asInt32Scalar();
+        int deviceID = argIn[3].asInt32Scalar();
         objRec = new AudiorecorderObject(haveEventLoop);
         objRec->setConfig(sampleRate, bits, channels, deviceID);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
     } break;
     }
     if (!objRec) {
-        Error(_W("Cannot create audiorecorder handle."));
+        Error(L"Nelson:audiorecorder:createHandleFailed", L"Cannot create audiorecorder handle.");
     } else {
-        retval << ArrayOf::handleConstructor(objRec);
+        retval << ArrayOf::handle(objRec);
     }
     return retval;
 }

@@ -1,0 +1,197 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-01",
+    "lastSavedBy": "Allan CORNET",
+    "lastSavedAt": "2026-10-17T19:45:07.524Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Feedthrough reference FMU (FMI 3.0 Co-Simulation) demo.",
+  "name": "Feedthrough FMU",
+  "blocks": [
+    {
+      "id": "fmu1",
+      "type": "fmu",
+      "x": 320,
+      "y": 230,
+      "rotation": 0,
+      "params": {
+        "path": "Feedthrough.fmu",
+        "numInputs": 2,
+        "numOutputs": 2,
+        "inputNames": [
+          "Float64_continuous_input",
+          "Float64_discrete_input"
+        ],
+        "outputNames": [
+          "Float64_continuous_output",
+          "Float64_discrete_output"
+        ]
+      }
+    },
+    {
+      "id": "src1",
+      "type": "sine",
+      "x": 120,
+      "y": 160,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.5,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "src2",
+      "type": "sine",
+      "x": 120,
+      "y": 280,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.5,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "scope1",
+      "type": "scope",
+      "x": 540,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "scope2",
+      "type": "scope",
+      "x": 540,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src1",
+      "to": "fmu1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          200,
+          200
+        ],
+        [
+          300,
+          200
+        ],
+        [
+          300,
+          250
+        ],
+        [
+          320,
+          250
+        ]
+      ]
+    },
+    {
+      "from": "src2",
+      "to": "fmu1",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [
+          200,
+          320
+        ],
+        [
+          300,
+          320
+        ],
+        [
+          300,
+          270
+        ],
+        [
+          320,
+          270
+        ]
+      ]
+    },
+    {
+      "from": "fmu1",
+      "to": "scope1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          416,
+          250
+        ],
+        [
+          520,
+          250
+        ],
+        [
+          520,
+          160
+        ],
+        [
+          540,
+          160
+        ]
+      ]
+    },
+    {
+      "from": "fmu1",
+      "to": "scope2",
+      "fromIndex": 1,
+      "toIndex": 0,
+      "points": [
+        [
+          416,
+          270
+        ],
+        [
+          440,
+          270
+        ],
+        [
+          440,
+          360
+        ],
+        [
+          540,
+          360
+        ]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.05,
+  "autoRoute": true,
+  "locked": false,
+  "realTime": true
+}

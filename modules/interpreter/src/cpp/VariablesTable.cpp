@@ -13,9 +13,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static void
+insertUnnamedSymbol(
+    GenericTable<std::string, ArrayOf>& table, const std::string& key, const ArrayOf& val);
+//=============================================================================
 VariablesTable::VariablesTable() { }
 //=============================================================================
-VariablesTable::~VariablesTable() { lockedVariables.clear(); }
+VariablesTable::~VariablesTable()
+{
+    clearVariables();
+    lockedVariables.clear();
+}
 //=============================================================================
 ArrayOf*
 VariablesTable::findVariable(const std::string& key)
@@ -48,13 +56,20 @@ bool
 VariablesTable::deleteVariable(const key_type& key)
 {
     std::lock_guard<std::mutex> lock(accessMutex);
-    if (!isLockedVariable(key)) {
+    if (lockedVariables.empty() || !isLockedVariable(key)) {
         if (isVariable(key)) {
             variablesTable.deleteSymbol(key);
             return true;
         }
     }
     return false;
+}
+//=============================================================================
+void
+VariablesTable::clearVariables()
+{
+    std::lock_guard<std::mutex> lock(accessMutex);
+    variablesTable.clear();
 }
 //=============================================================================
 bool
@@ -67,8 +82,22 @@ VariablesTable::insertVariable(const key_type& key, const value_type& val)
         return false;
     }
     std::lock_guard<std::mutex> lock(accessMutex);
-    if (!isLockedVariable(key) || lockedVariables.empty()) {
-        variablesTable.insertSymbol(key, val);
+    if (lockedVariables.empty() || !isLockedVariable(key)) {
+        insertUnnamedSymbol(variablesTable, key, val);
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+bool
+VariablesTable::insertVariableWithoutNameValidation(const key_type& key, const value_type& val)
+{
+    if (key.empty()) {
+        return false;
+    }
+    std::lock_guard<std::mutex> lock(accessMutex);
+    if (lockedVariables.empty() || !isLockedVariable(key)) {
+        insertUnnamedSymbol(variablesTable, key, val);
         return true;
     }
     return false;
@@ -118,6 +147,21 @@ stringVector
 VariablesTable::getLockedVariables()
 {
     return stringVector(lockedVariables.begin(), lockedVariables.end());
+}
+//=============================================================================
+// a stored variable holds the bare value: the name stamped on a call argument
+// for inputname must not survive in the workspace
+void
+insertUnnamedSymbol(
+    GenericTable<std::string, ArrayOf>& table, const std::string& key, const ArrayOf& val)
+{
+    if (val.name().empty()) {
+        table.insertSymbol(key, val);
+        return;
+    }
+    ArrayOf unnamed(val);
+    unnamed.name("");
+    table.insertSymbol(key, unnamed);
 }
 //=============================================================================
 } // namespace Nelson

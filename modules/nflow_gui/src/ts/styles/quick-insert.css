@@ -1,0 +1,66 @@
+/* ============================================================================
+   Copyright (c) 2016-present Allan CORNET (Nelson)
+   ============================================================================
+   This file is part of Nelson.
+   ============================================================================
+   LICENCE_BLOCK_BEGIN
+   SPDX-License-Identifier: LGPL-3.0-or-later
+   LICENCE_BLOCK_END
+   ============================================================================
+   Quick-insert popup (double-click on empty canvas).
+   ============================================================================ */
+
+#quickInsertPopup {
+  position: fixed;
+  z-index: 1000;
+  width: 220px;
+  background: var(--nflow-sidebar-background);
+  border: 1px solid var(--nflow-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+#quickInsertInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: none;
+  border-bottom: 1px solid var(--nflow-border);
+  background: var(--nflow-editor-background, transparent);
+  color: var(--nflow-foreground, inherit);
+  font-size: 13px;
+  outline: none;
+}
+
+#quickInsertList {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+#quickInsertList li {
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--nflow-foreground, inherit);
+}
+
+#quickInsertList li:hover,
+#quickInsertList li.selected {
+  background: var(--nflow-accent, #0e639c);
+  color: #ffffff;
+}
+
+/* Clickable console entries (linked to a diagram block) */
+.nf-console-entry.nf-console-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.nf-console-entry.nf-console-link:hover {
+  filter: brightness(1.25);
+}

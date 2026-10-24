@@ -10,6 +10,6 @@
     <p
     >Il prend en charge l&apos;importation vers différents types de données comme les tableaux numériques, les cellules de chaînes et les tables, ainsi que leur exportation vers des fichiers.</p>
     <p
-    >Cela permet une interaction fluide avec les logiciels de tableur (Excel, LibreOffice Calc, etc.) et l&apos;échange de données entre applications.</p>
+    >Ce module permet d&apos;échanger des données avec des logiciels de tableur (Excel, LibreOffice Calc, etc.) et avec d&apos;autres applications.</p>
   </chapter_description>
 </xmldoc>

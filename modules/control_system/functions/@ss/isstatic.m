@@ -11,9 +11,8 @@
 % Ts > 0: Discrete-time model.
 % Ts = 0: Continuous-time model.
 % Ts = -1: Discrete-time model with unspecified sampling time.
-% Ts = -2: Static gain model.
 function res = isstatic(sys)
-  res = isempty (sys.A);
+  res = isempty(sys.A);
 end
 %=============================================================================
 

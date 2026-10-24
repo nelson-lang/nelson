@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Force2</keyword>
+  <keyword_alias>block:Force2</keyword_alias>
+  <short_description>Equal and opposite force between two flanges: +F on a, -F on b (signal-driven).</short_description>
+  <syntax>
+    <syntax_item>Block type: Force2</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>physical pins</param_name>
+      <param_description>2 undirected physical pin(s); 1 signal input(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>signal ports</param_name>
+      <param_description>0 signal output(s) (sensor readings).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Equal and opposite force between two flanges: +F on a, -F on b (signal-driven).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Translational (acausal)</td></tr>
+        <tr><td>Type</td><td><code>Force2</code></td></tr>
+        <tr><td>Label</td><td>Force2</td></tr>
+        <tr><td>Solver</td><td>Lowered to <code>mechanicalTranslationalIsland</code>. Default solver <code>dae</code> (differential-algebraic); the fixed-step loop and the native explicit solvers (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) are also supported (a jointed multibody island requires <code>dae</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/acausal_translational/exports/Force2.svg" align="middle"/>
+    </p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/acausal_translational/library.json" language="json"/>
+    <source_code label="Catalog" path="modules/nflow_blocks/functions/+NFlow/+internal/acausalCatalog.m" language="matlab" start="entry('Force2'" end="');"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/TranslationalEMF">TranslationalEMF</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/Mass">Mass</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/SlidingMass">SlidingMass</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

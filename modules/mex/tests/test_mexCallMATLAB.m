@@ -7,25 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mexCallMATLAB') == 0
-  test_dir = [tempdir(), 'mexCallMATLAB'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexCallMATLAB.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexCallMATLAB.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mexCallMATLAB(pi);
-assert_isequal(R, sin(pi));
+asserts.isequal(R, sin(pi));
 %=============================================================================
-assert_checkerror('R = mexCallMATLAB(''a'');', 'error');
+asserts.checkerror('R = mexCallMATLAB(''a'');', 'error');
 %=============================================================================

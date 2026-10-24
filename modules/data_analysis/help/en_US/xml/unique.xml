@@ -7,6 +7,12 @@
   <syntax>
     <syntax_item>C = unique(A)</syntax_item>
     <syntax_item>C = unique(A, &apos;rows&apos;)</syntax_item>
+    <syntax_item>C = unique(A, &apos;stable&apos;)</syntax_item>
+    <syntax_item>C = unique(A, &apos;first&apos;)</syntax_item>
+    <syntax_item>C = unique(A, &apos;last&apos;)</syntax_item>
+    <syntax_item>C = unique(A, &apos;legacy&apos;)</syntax_item>
+    <syntax_item>C = unique(A, &apos;rows&apos;, &apos;legacy&apos;)</syntax_item>
+    <syntax_item>C = unique(..., &apos;TreatMissingAsDistinct&apos;, tf)</syntax_item>
     <syntax_item>[C, ia, ic] = unique(...)</syntax_item>
   </syntax>
   <param_input>
@@ -14,6 +20,10 @@
       <param_name>A</param_name>
       <param_description
       >an nelson&apos;s variable (double, single, int8, int16, int32, int64, uint8, uint16, uint32, uint64, logical, char, string, cell).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tf</param_name>
+      <param_description>Missing values handling: true (default) each missing value (NaN, &lt;missing&gt;, &lt;undefined&gt;) is distinct, false repeated missing values are duplicates.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -37,10 +47,19 @@
       <b>C = unique(A, &apos;rows&apos;)</b> considers each row of <b>A</b> as a unique entity and returns the unique rows in sorted order.</p>
     <p>Note that the &apos;rows&apos; option does not support cell arrays.</p>
     <p>
+      <b>C = unique(A, &apos;stable&apos;)</b> returns unique values in first-occurrence order.</p>
+    <p>
+      <b>C = unique(A, &apos;first&apos;)</b> (default) or <b>C = unique(A, &apos;last&apos;)</b> selects, respectively, the first or the last occurrence of each repeated value for the index <b>ia</b>.</p>
+    <p>
+      <b>C = unique(A, &apos;legacy&apos;)</b> preserves the older behavior of <b>unique</b>. Values are returned in sorted order, <b>ia</b> points at the <b>last</b> occurrence of each repeated value, and, unless the &apos;rows&apos; option is used, the index vectors <b>ia</b> and <b>ic</b> follow the orientation of a vector <b>A</b> (row vectors for a row-vector input). The &apos;legacy&apos; flag cannot be combined with &apos;sorted&apos;, &apos;stable&apos;, &apos;first&apos; or &apos;last&apos;.</p>
+    <p>
+      <b>C = unique(..., &apos;TreatMissingAsDistinct&apos;, false)</b> treats each repeated missing value as a duplicate: at most one missing value is included in <b>C</b>. By default (true), each missing value of <b>A</b> is included in <b>C</b>. With &apos;rows&apos;, rows are duplicates when they have missing values in the same columns and equal nonmissing values in the other columns. This option applies to numeric, string, categorical and table inputs and cannot be combined with &apos;legacy&apos;.</p>
+    <p>
       <b>[C, ia, ic] = unique(...)</b> extends any of the previous syntaxes to also return index vectors <b>ia</b> and <b>ic</b>.</p>
     <p>For a vector <b>A</b>, the relationships are <b>C = A(ia)</b> and <b>A = C(ic)</b>.</p>
     <p>For a matrix or array <b>A</b>, the relationships are <b>C = A(ia)</b> and <b>A(:) = C(ic)</b>.</p>
     <p>If the &apos;rows&apos; option is used, the relationships are <b>C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p>
+    <p>For a table <b>A</b>, each row is compared across all variables and <b>C</b> is a table: with &apos;sorted&apos; (default) its rows are ordered as <b>sortrows</b> orders them, with &apos;stable&apos; in first-occurrence order; <b>C = A(ia, :)</b> and <b>A = C(ic, :)</b>. &apos;rows&apos; is implied and &apos;legacy&apos; is not supported.</p>
   </description>
   <used_function>std::sort, std::unique (stl)</used_function>
   <bibliography />
@@ -63,6 +82,16 @@
 [C, ia, ic] = unique(A)
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Missing values treated as duplicates</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [5 8 NaN NaN];
+C1 = unique(A)
+C2 = unique(A, 'TreatMissingAsDistinct', false)
+]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -73,6 +102,18 @@
     <history_item>
       <history_version>1.6.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>stable option added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.1.0</history_version>
+      <history_description>&apos;first&apos;, &apos;last&apos; and &apos;legacy&apos; options added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>&apos;TreatMissingAsDistinct&apos; option added</history_description>
     </history_item>
   </history>
   <authors>

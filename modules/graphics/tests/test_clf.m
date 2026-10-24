@@ -13,8 +13,8 @@ f = figure();
 x = linspace(0, 10);
 y1 = sin(x);
 plot(x, y1);
-assert_isfalse(isempty(f.Children));
+asserts.isfalse(isempty(f.Children));
 f_clf = clf;
-assert_isequal(f_clf, f);
-assert_istrue(isempty(f.Children));
+asserts.isequal(f_clf, f);
+asserts.istrue(isempty(f.Children));
 %=============================================================================

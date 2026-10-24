@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
@@ -14,16 +17,16 @@ end
 tmpPath = tempname();
 mkdir(tmpPath);
 status = copyfile('mexInterleavedComplex.c', tmpPath);
-assert_istrue(status);
+asserts.istrue(status);
 cd(tmpPath);
 %=============================================================================
-mex('-output', 'mexInterleavedComplexOn', '-R2018a', 'mexInterleavedComplex.c' );
-mex('-output', 'mexInterleavedComplexOff', '-R2017b', 'mexInterleavedComplex.c' );
+mex('-output', 'mexInterleavedComplexOn', '-R2018a', 'mexInterleavedComplex.c');
+mex('-output', 'mexInterleavedComplexOff', '-R2017b', 'mexInterleavedComplex.c');
 addpath(pwd())
 %=============================================================================
 CplxOn = mexInterleavedComplexOn();
-assert_isequal(CplxOn, complex(1.53, 1.63));
+asserts.isequal(CplxOn, complex(1.53, 1.63));
 %=============================================================================
 CplxOff = mexInterleavedComplexOff();
-assert_isequal(CplxOff, complex(1.73, 4.76));
+asserts.isequal(CplxOff, complex(1.73, 4.76));
 %=============================================================================

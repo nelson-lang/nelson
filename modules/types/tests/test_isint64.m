@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isint64'), 1);
-assert_isequal(nargout('isint64'), 1);
+asserts.isequal(nargin('isint64'), 1);
+asserts.isequal(nargout('isint64'), 1);
 %=============================================================================
 A = 3;
 res = isint64(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = int64(3);
 res = isint64(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

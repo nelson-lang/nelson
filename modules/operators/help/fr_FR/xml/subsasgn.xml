@@ -52,6 +52,12 @@ R2 = subsasgn(R1, S, 'Hello')]]></example_item_data>
     <see_also_item>
       <link linkend="${elementary_functions}substruct">substruct</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsref">subsref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsindex">subsindex</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>

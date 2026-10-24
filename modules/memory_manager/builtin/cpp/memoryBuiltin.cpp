@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -48,13 +48,13 @@ Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
         uint64 val;
         fieldnames.push_back(L"MaxPossibleArrayBytes");
         val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
+        fieldvalues.push_back(ArrayOf::doubleScalar(static_cast<double>(val)));
         fieldnames.push_back(L"MemAvailableAllArrays");
         val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
+        fieldvalues.push_back(ArrayOf::doubleScalar(static_cast<double>(val)));
         fieldnames.push_back(L"MemUsedNelson");
-        fieldvalues.push_back(ArrayOf::doubleConstructor(getTotalPhysicalMemoryByNelson()));
-        retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
+        fieldvalues.push_back(ArrayOf::doubleScalar(getTotalPhysicalMemoryByNelson()));
+        retval << ArrayOf::structArray(fieldnames, fieldvalues);
     }
     if (nLhs > 1) {
         wstringVector fieldnames;
@@ -65,26 +65,26 @@ Nelson::MemoryGateway::memoryBuiltin(int nLhs, const ArrayOfVector& argIn)
         fieldnames1.push_back(L"Available");
         fieldnames1.push_back(L"Total");
         fieldvalues1.push_back(
-            ArrayOf::doubleConstructor(getTotalVirtualMemory() - getTotalVirtualMemoryUsed()));
-        fieldvalues1.push_back(ArrayOf::doubleConstructor(getTotalVirtualMemory()));
-        fieldvalues.push_back(ArrayOf::structConstructor(fieldnames1, fieldvalues1));
+            ArrayOf::doubleScalar(getTotalVirtualMemory() - getTotalVirtualMemoryUsed()));
+        fieldvalues1.push_back(ArrayOf::doubleScalar(getTotalVirtualMemory()));
+        fieldvalues.push_back(ArrayOf::structArray(fieldnames1, fieldvalues1));
         fieldnames1.clear();
         fieldvalues1.clear();
         fieldnames.push_back(L"SystemMemory");
         fieldnames1.push_back(L"Available");
         auto val = static_cast<uint64>(getTotalPhysicalMemory() + getTotalVirtualMemory());
-        fieldvalues1.push_back(ArrayOf::doubleConstructor(static_cast<double>(val)));
-        fieldvalues.push_back(ArrayOf::structConstructor(fieldnames1, fieldvalues1));
+        fieldvalues1.push_back(ArrayOf::doubleScalar(static_cast<double>(val)));
+        fieldvalues.push_back(ArrayOf::structArray(fieldnames1, fieldvalues1));
         fieldnames1.clear();
         fieldvalues1.clear();
         fieldnames.push_back(L"PhysicalMemory");
         fieldnames1.push_back(L"Available");
         fieldnames1.push_back(L"Total");
         fieldvalues1.push_back(
-            ArrayOf::doubleConstructor(getTotalPhysicalMemory() - getTotalPhysicalMemoryUsed()));
-        fieldvalues1.push_back(ArrayOf::doubleConstructor(getTotalPhysicalMemory()));
-        fieldvalues.push_back(ArrayOf::structConstructor(fieldnames1, fieldvalues1));
-        retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
+            ArrayOf::doubleScalar(getTotalPhysicalMemory() - getTotalPhysicalMemoryUsed()));
+        fieldvalues1.push_back(ArrayOf::doubleScalar(getTotalPhysicalMemory()));
+        fieldvalues.push_back(ArrayOf::structArray(fieldnames1, fieldvalues1));
+        retval << ArrayOf::structArray(fieldnames, fieldvalues);
     }
     return retval;
 }

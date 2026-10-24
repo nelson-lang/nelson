@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="226.5" viewBox="-153.25 -123.25 306.5 226.5">
+  <rect x="-153.25" y="-123.25" width="306.5" height="226.5" rx="43.035" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <ellipse cx="0" cy="0" rx="70" ry="70" fill="#FFFFFF" stroke="#9C2A1A" stroke-width="3.25"/>
+    <polyline points="0,70 0,40" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="22.9,32.8 40.2,57.3" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-22.9,32.8 -40.2,57.3" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="37.6,13.7 65.8,23.9" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-37.6,13.7 -65.8,23.9" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="0" cy="0" rx="12" ry="12" fill="none" stroke="#9C2A1A" stroke-width="3.25"/>
+    <g transform="translate(0 0) rotate(-17.5)">
+    <polygon points="-5,0 -2,60 0,65 2,60 5,0" fill="#9C2A1A" stroke="none" stroke-linejoin="round"/>
+    </g>
+    <ellipse cx="0" cy="0" rx="7" ry="7" fill="#9C2A1A" stroke="none"/>
+    <polyline points="-70,0 -90,0" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,0 90,0" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-70 0,-100" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,100) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">HeatFlowSensor</text></g>
+    <g transform="translate(0,-40) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="48" fill="#9C2A1A">W</text></g>
+  </g>
+</svg>

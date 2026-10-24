@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "joinBuiltin.hpp"
 #include "StringJoin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
@@ -24,7 +25,11 @@ Nelson::StringGateway::joinBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 3);
     ArrayOf delimiters;
     ArrayOf A = argIn[0];
-    std::vector<indexType> vec = A.getDimensions().getAsVector();
+    if (A.isCell() && !A.isCellArrayOfCharacterVectors()) {
+        Error(L"Nelson:string:join:invalidInput",
+            L"First argument must be a string array or a cell array of character vectors.");
+    }
+    std::vector<indexType> vec = A.dimensions().asVector();
     indexType dim = 0;
     if (!A.isEmpty()) {
         for (int k = static_cast<int>(vec.size()) - 1; k >= 0; --k) {
@@ -37,38 +42,38 @@ Nelson::StringGateway::joinBuiltin(int nLhs, const ArrayOfVector& argIn)
     dim += 1;
     switch (argIn.size()) {
     case 1: {
-        delimiters = ArrayOf::stringArrayConstructor(L" ");
+        delimiters = ArrayOf::stringArray(L" ");
     } break;
     case 2: {
         if (argIn[1].isRowVectorCharacterArray()) {
-            delimiters = ArrayOf::stringArrayConstructor(argIn[1].getContentAsWideString());
+            delimiters = ArrayOf::stringArray(argIn[1].asWideString());
         } else if (argIn[1].isStringArray()) {
             delimiters = argIn[1];
         } else if (argIn[1].isCellArrayOfCharacterVectors()) {
-            delimiters = ArrayOf::stringArrayConstructor(
-                argIn[1].getContentAsWideStringVector(false), argIn[1].getDimensions());
+            delimiters
+                = ArrayOf::stringArray(argIn[1].asWideStringVector(false), argIn[1].dimensions());
         } else {
-            dim = argIn[1].getContentAsScalarIndex(false, true);
-            delimiters = ArrayOf::stringArrayConstructor(" ");
+            dim = argIn[1].asScalarIndex(false, true);
+            delimiters = ArrayOf::stringArray(" ");
         }
     } break;
     case 3: {
         if (argIn[1].isRowVectorCharacterArray()) {
-            delimiters = ArrayOf::stringArrayConstructor(argIn[1].getContentAsWideString());
+            delimiters = ArrayOf::stringArray(argIn[1].asWideString());
         } else if (argIn[1].isStringArray()) {
             delimiters = argIn[1];
         } else if (argIn[1].isCellArrayOfCharacterVectors()) {
-            delimiters = ArrayOf::stringArrayConstructor(
-                argIn[1].getContentAsWideStringVector(false), argIn[1].getDimensions());
+            delimiters
+                = ArrayOf::stringArray(argIn[1].asWideStringVector(false), argIn[1].dimensions());
         } else {
-            Error(_W(
-                "Wrong type for argument #3: string, characters or cell of characters expected."));
+            Error(L"Nelson:string:invalidArgumentType",
+                L"Wrong type for argument #%d: %s expected.", 3,
+                L"string, characters or cell of characters");
         }
-        dim = argIn[2].getContentAsScalarIndex(false, true);
+        dim = argIn[2].asScalarIndex(false, true);
     } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
+    default:
+        break;
     }
     retval << StringJoin(A, delimiters, dim);
     return retval;

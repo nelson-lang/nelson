@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>writedictionary</keyword>
+  <short_description>Write dictionary to file.</short_description>
+  <syntax>
+    <syntax_item>writedictionary(d, filename)</syntax_item>
+    <syntax_item>writedictionary(d, filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>scalar: configured dictionary object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>text scalar: destination file name.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>writedictionary(d, filename)</b> writes the configured dictionary <b>d</b> to a JSON file.</p>
+    <p>
+      Dictionary keys are written as JSON object member names. Keys must be text, numeric, or logical scalar values. Values can be scalar values, arrays, cell arrays, structures, or structure arrays when they can be represented as JSON values.</p>
+    <p>
+      <b>writedictionary(d, filename, Name, Value)</b> customizes the write operation. Supported options are:</p>
+    <ul>
+      <li>
+        <b>FileType:</b> file type. Supported values are <code>&apos;auto&apos;</code> and <code>&apos;json&apos;</code>. Only JSON dictionary files are currently supported.</li>
+      <li>
+        <b>PrettyPrint:</b> logical scalar. When true, writes indented JSON text. Default is <code>true</code>.</li>
+      <li>
+        <b>PreserveInfAndNaN:</b> logical scalar. When true, writes <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code> tokens for non-finite numeric values. Default is <code>true</code>.</li>
+    </ul>
+    <p>
+      MAT and NH5 persistence for dictionary variables is handled by <b>savemat</b>/<b>loadmat</b> and <b>savenh5</b>/<b>loadnh5</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write and read a dictionary stored as JSON.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'products.json'];
+d = dictionary(["apple", "banana"], [1.2, 2.3]);
+writedictionary(d, filename);
+r = readdictionary(filename)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write heterogeneous dictionary values.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'mixed_dictionary.json'];
+d = dictionary(["vector", "data"], {[1 NaN Inf], struct('name', "Nelson")});
+writedictionary(d, filename, 'PrettyPrint', false);
+r = readdictionary(filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}readdictionary">readdictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}savenh5">savenh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}savemat">savemat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

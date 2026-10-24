@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addgateway(modulepath('gui', 'builtin'), 'gui');
+addgateway(modulepath('gui', 'builtin'), 'gui', 'loaded');
 addpath(modulepath('gui', 'functions'), '-frozen');
 %=============================================================================

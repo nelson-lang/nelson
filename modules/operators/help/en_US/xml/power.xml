@@ -27,6 +27,10 @@
   <description>
     <p>
       <b>C = power(A, B)</b> performs an element wise power operation: A .^ B .</p>
+    <p>
+      Sparse floating-point inputs are supported for double, single, complex double, and complex single data. Sparse bases preserve sparse storage for scalar, dense, or sparse exponents when the result can be represented as a sparse matrix.</p>
+    <p>
+      If an exponent makes implicit sparse zeros nonzero, for example exponent 0 or a negative exponent, Nelson materializes the corresponding sparse pattern entries.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,6 +43,17 @@
       ><![CDATA[power(3, 4)
 3.^4]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(single([2 0; 0 3]));
+R = A .^ 2
+full(R)
+C = sparse(single([1 + 2i 0; 0 3]));
+full(C .^ 2)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -49,6 +64,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>expanded sparse single and complex single support</history_description>
     </history_item>
   </history>
   <authors>

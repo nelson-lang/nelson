@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "denoise_image.m",
+      "title": "Denoise a grayscale image",
+      "description": "Apply a median filter to synthetic impulse noise.",
+      "tags": [
+        "image",
+        "filtering"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "morphology_shapes.m",
+      "title": "Binary image morphology",
+      "description": "Clean binary regions and display their boundaries.",
+      "tags": [
+        "image",
+        "morphology"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "rotate_synthetic_image.m",
+      "title": {
+        "en_US": "Rotate a synthetic image",
+        "fr_FR": "Faire pivoter une image synthétique"
+      },
+      "description": {
+        "en_US": "Animate bilinear image rotation without relying on an external image file.",
+        "fr_FR": "Animer une rotation d’image bilinéaire sans dépendre d’un fichier externe."
+      },
+      "tags": [
+        "image",
+        "rotation",
+        "animation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "sobel_edge_detection.m",
+      "title": {
+        "en_US": "Sobel edge detection",
+        "fr_FR": "Détection de contours de Sobel"
+      },
+      "description": {
+        "en_US": "Compute horizontal and vertical gradients on a self-contained synthetic image.",
+        "fr_FR": "Calculer les gradients horizontaux et verticaux d’une image synthétique autonome."
+      },
+      "tags": [
+        "image",
+        "edges",
+        "sobel"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

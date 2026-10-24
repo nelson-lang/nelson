@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bwconncomp</keyword>
+  <short_description>Trouver les composantes connexes dans une image ou un volume binaire.</short_description>
+  <syntax>
+    <syntax_item>CC = bwconncomp(BW)</syntax_item>
+    <syntax_item>CC = bwconncomp(BW, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Image ou volume binaire. Une entree numerique est au premier plan lorsque ses valeurs sont non nulles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite. Utiliser 4 ou 8 pour les images 2-D, et 6, 18 ou 26 pour les volumes 3-D. La valeur par defaut est la connectivite maximale.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>CC</param_name>
+      <param_description>Structure de composantes connexes avec les champs Connectivity, ImageSize, NumObjects et PixelIdxList.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Trouver les composantes connexes de premier plan dans une image binaire 2-D ou un volume binaire 3-D.</p>
+    <p>La structure renvoyee contient les champs Connectivity, ImageSize, NumObjects et PixelIdxList.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver et afficher les composants connexes</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(8:20,8:20)=true; BW(36:52,32:48)=true;
+CC=bwconncomp(BW);
+L=labelmatrix(CC);
+figure; imagesc(L); title('Connected components');]]></example_item_data>
+      <example_item_img
+        src="../../../images/bwconncomp_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/labelmatrix">labelmatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/bwlabel">bwlabel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -14,5 +14,6 @@
 namespace Nelson::SlicotGateway {
 ArrayOfVector
 slicot_tb01idBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -39,15 +39,15 @@ GOStringProperty::toWideString()
 ArrayOf
 GOStringProperty::get()
 {
-    return ArrayOf::characterArrayConstructor(_data);
+    return ArrayOf::characterArray(_data);
 }
 //=============================================================================
 void
 GOStringProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
-    _data = arg.getContentAsWideString();
+    _data = arg.asWideString();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

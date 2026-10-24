@@ -18,7 +18,7 @@ namespace HistoryManagerGateway {
     ArrayOfVector
     history_managerBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-};
+} // namespace HistoryManagerGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

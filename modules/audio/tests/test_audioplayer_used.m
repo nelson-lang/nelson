@@ -10,13 +10,16 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-assert_isequal(length(audioplayer_used()), 0);
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend does not expose the desktop audioplayer_used registry helper.');
+%=============================================================================
+asserts.isequal(length(audioplayer_used()), 0);
 r1 = audioplayer(sin(1:10000), 8192);
-assert_isequal(length(audioplayer_used()), 1);
+asserts.isequal(length(audioplayer_used()), 1);
 r2 = audioplayer(sin(1:10000), 8192);
-assert_isequal(length(audioplayer_used()), 2);
+asserts.isequal(length(audioplayer_used()), 2);
 delete(r1)
-assert_isequal(length(audioplayer_used()), 1);
+asserts.isequal(length(audioplayer_used()), 1);
 delete(r2)
-assert_isequal(length(audioplayer_used()), 0);
+asserts.isequal(length(audioplayer_used()), 0);
 %=============================================================================

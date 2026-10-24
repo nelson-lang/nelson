@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bubblechart3</keyword>
+  <short_description>Afficher un graphique a bulles 3-D.</short_description>
+  <syntax>
+    <syntax_item>bubblechart3(x, y, z, sz)</syntax_item>
+    <syntax_item>bubblechart3(x, y, z, sz, c)</syntax_item>
+    <syntax_item>bubblechart3(tbl, xvar, yvar, zvar, szvar)</syntax_item>
+    <syntax_item>bubblechart3(tbl, xvar, yvar, zvar, szvar, cvar)</syntax_item>
+    <syntax_item>bubblechart3(parent, ...)</syntax_item>
+    <syntax_item>bubblechart3(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = bubblechart3(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>bubblechart3</b> affiche un nuage de points 3-D dont les tailles de marqueurs sont controlees par <b>sz</b>.</p>
+    <p><b>c</b> specifie les couleurs des bulles. Il peut s'agir d'un nom de couleur, d'un nom court, d'un triplet RGB, d'un vecteur de couleurs ou d'une matrice RGB.</p>
+    <p>L'entree table selectionne les donnees depuis les variables de <b>tbl</b>. Chaque selecteur peut etre un nom de variable, une string, un indice, un selecteur logique, ou un vecteur cellule/string de noms. Plusieurs variables selectionnees creent plusieurs objets <b>bubblechart</b>.</p>
+    <p>Le handle retourne est un objet <b>bubblechart</b> avec <b>XData</b>, <b>YData</b>, <b>ZData</b> et <b>SizeData</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">proprietes de bubblechart</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher un graphique a bulles 3-D.</example_item_description>
+      <example_item_data><![CDATA[t = 0:0.4:2*pi;
+bubblechart3(cos(t), sin(t), t, 30 + 20 * t, 'b');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblechart3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Creer un graphique a bulles 3-D depuis une table.</example_item_description>
+      <example_item_data><![CDATA[t = table((1:4)', [4; 2; 6; 3], [7; 8; 9; 10], [20; 60; 30; 80], [1; 2; 3; 4], ...
+  'VariableNames', {'x', 'y', 'z', 's', 'c'});
+h = bubblechart3(t, 'x', 'y', 'z', 's', 'c');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblechart3_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">proprietes de bubblechart</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/scatter3">scatter3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblechart">bubblechart</link></see_also_item>
+  </see_also>
+</xmldoc>

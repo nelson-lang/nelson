@@ -29,7 +29,7 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >an integer value: number of bytes that fprintf write.</param_description>
+      >an integer value: number of bytes written to a file, or number of visible characters displayed on screen.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -38,6 +38,8 @@
     <p>characters encoding uses <b>fopen</b> parameter.</p>
     <p>If fid equals 1 redirection in stdout.</p>
     <p>If fid equals 2 redirection in stderr.</p>
+    <p
+    >When output is sent to the screen, ANSI SGR escape sequences can style text with bold, italic, underline, strikethrough, foreground colors, and background colors. The escape sequences are interpreted for stdout and stderr display, but they are written unchanged when output is sent to a file.</p>
     <p>The <b>format</b> follows C fprintf syntax.</p>
     <table style="width:100%">
       <tr>
@@ -113,6 +115,7 @@
     </table>
     <p
     >To display a percent sign, you need to use a double percent sign (%%) in the format string.</p>
+    <p>A percent sign at the end of the format string that is not doubled is ignored.</p>
   </description>
   <used_function />
   <bibliography />
@@ -139,6 +142,22 @@ fprintf(2, "an value %g.", pi);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
+      <example_item_description>Display styled text with ANSI SGR escape sequences</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[esc = char(27);
+fprintf([esc, '[1;34mBold blue text', esc, '[0m\n']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display truecolor text with ANSI SGR escape sequences</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[esc = char(27);
+fprintf([esc, '[38;2;80;120;220mTruecolor text', esc, '[0m\n']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
       <example_item_description>How to use backspace</example_item_description>
       <example_item_data
         runnable="cli"
@@ -158,6 +177,14 @@ end
         runnable="cli"
       ><![CDATA[fprintf(1, '%d%%.', 95)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trailing percent handling</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[fprintf(1, ' %d %', 10)
+fprintf(1, ' %d %%', 10)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -174,6 +201,10 @@ end
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ANSI SGR escape sequences are rendered for screen output.</history_description>
     </history_item>
   </history>
   <authors>

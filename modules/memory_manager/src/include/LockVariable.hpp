@@ -29,6 +29,6 @@ NLSMEMORY_MANAGER_IMPEXP bool
 IsLockedVariable(const std::string& variable, Scope* scope);
 NLSMEMORY_MANAGER_IMPEXP stringVector
 GetLockedVariables(const std::string& variable, Scope* scope);
-
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

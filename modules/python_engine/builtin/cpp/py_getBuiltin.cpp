@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "py_getBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,13 +23,13 @@ Nelson::Python_engineGateway::py_getBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
-    HandleGenericObject* hgo = argIn[0].getContentAsHandleScalar();
-    if (hgo && hgo->getCategory() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
-        std::wstring methodName = argIn[1].getContentAsWideString();
+    HandleGenericObject* hgo = argIn[0].asHandleScalar();
+    if (hgo && hgo->category() == NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
+        std::wstring methodName = argIn[1].asWideString();
         PythonObjectHandle* poh = (PythonObjectHandle*)hgo;
         ArrayOf res;
         if (!poh->get(methodName, res)) {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + methodName);
+            Error(L"Nelson:python:invalidProperty", L"Invalid property: %s.", methodName);
         }
         retval << res;
     }

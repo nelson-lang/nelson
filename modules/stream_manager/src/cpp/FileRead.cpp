@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,8 +13,8 @@
 #include <cstring>
 #include "FileRead.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "FileSeek.hpp"
 #include "FileTell.hpp"
 #include "characters_encoding.hpp"
@@ -94,6 +94,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         case NLS_CELL_ARRAY:
         case NLS_STRUCT_ARRAY:
         case NLS_CLASS_ARRAY:
+        case NLS_CLASSDEF_ARRAY:
         case NLS_FUNCTION_HANDLE:
         case NLS_STRING_ARRAY:
         case NLS_SCOMPLEX:
@@ -109,7 +110,8 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
             buffer = new char[static_cast<indexType>(sizeToRead + 1)];
         } catch (const std::bad_alloc&) {
             buffer = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
         auto count = static_cast<size_t>(sizeToRead);
         size_t elsize = sizeof(char);
@@ -126,7 +128,8 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
                     trimmed = new char[validLength + 1];
                 } catch (const std::bad_alloc&) {
                     delete[] buffer;
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    Error(L"Nelson:outOfMemory",
+                        L"Memory allocation error... You may have run out of memory!");
                 }
                 if (buffer && trimmed) {
                     memcpy(trimmed, buffer, validLength * sizeof(char));
@@ -151,12 +154,13 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
             if (encoding != "UTF-8") {
                 bool converted = charsetToUtf8Converter(raw, encoding, utf8Data);
                 if (!converted) {
-                    Error(_("Cannot to use encoding:") + encoding);
+                    Error("Nelson:stream_manager:invalidEncoding", "Cannot use encoding: %s",
+                        encoding);
                 }
             } else {
                 utf8Data = raw;
             }
-            toRead = ArrayOf::characterArrayConstructor(utf8Data);
+            toRead = ArrayOf::characterArray(utf8Data);
             if (!feof(fileptr)) {
                 if (skip) {
                     NLSFSEEK(fileptr, skip, SEEK_CUR);
@@ -168,8 +172,8 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
             classPrecision, static_cast<indexType>(sizeToRead), stringVector(), false);
         Dimensions dim(static_cast<indexType>(sizeToRead), 1);
         toRead = ArrayOf(classPrecision, dim, ptr);
-        size_t count(toRead.getElementCount());
-        size_t elsize(toRead.getElementSize());
+        size_t count(toRead.elementCount());
+        size_t elsize(toRead.elementSize());
         sizeReallyRead = static_cast<int>(fread(ptr, elsize, count, fileptr));
         if (sizeReallyRead < 0) {
             Dimensions dim(static_cast<indexType>(sizeToRead), 1);
@@ -180,11 +184,11 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
             void* ptrResize
                 = ArrayOf::allocateArrayOf(classPrecision, sizeReallyRead, stringVector(), false);
             Dimensions dim(sizeReallyRead, 1);
-            memcpy(ptrResize, ptr, toRead.getElementSize() * sizeReallyRead);
+            memcpy(ptrResize, ptr, toRead.elementSize() * sizeReallyRead);
             toRead = ArrayOf(classPrecision, dim, ptrResize);
         }
         if (bIsLittleEndian != isLittleEndianFormat()) {
-            BITSWAP(toRead.getReadWriteDataPointer(), sizeReallyRead, classPrecision);
+            BITSWAP(toRead.readWriteDataPointer(), sizeReallyRead, classPrecision);
         }
         if (!feof(fileptr)) {
             if (skip) {

@@ -9,16 +9,25 @@
 %=============================================================================
 function s = spones(S)
   narginchk(1, 1);
-  
+
   if ~ismatrix(S)
-    error(_('ND-sparse arrays are not supported.'));
+    error('Nelson:sparse:ndSparseNotSupported', 'ND-sparse arrays are not supported.');
+  end
+  if isa(S, 'single')
+    oneValue = single(1);
+  else
+    oneValue = 1;
   end
   if ~issparse(S)
-    s = sparse(double(S ~= 0));
+    if isa(S, 'single')
+      s = sparse(single(S ~= 0));
+    else
+      s = sparse(double(S ~= 0));
+    end
   else
-    [I, J, V] = IJV(S);
+    [I, J] = find(S);
     [m, n] = size(S);
-    s = sparse(I, J, 1, m, n);
+    s = sparse(I, J, oneValue, m, n);
   end
 end
 %=============================================================================

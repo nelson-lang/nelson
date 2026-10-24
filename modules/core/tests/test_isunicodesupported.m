@@ -9,6 +9,6 @@
 %=============================================================================
 previous = getenv('NELSON_TERM_IS_UNICODE_SUPPORTED');
 setenv('NELSON_TERM_IS_UNICODE_SUPPORTED', 'TRUE');
-assert_istrue(isunicodesupported())
+asserts.istrue(isunicodesupported())
 setenv('NELSON_TERM_IS_UNICODE_SUPPORTED', previous);
 %=============================================================================

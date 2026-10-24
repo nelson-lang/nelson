@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bar3h</keyword>
+  <short_description>Display a 3-D horizontal bar chart.</short_description>
+  <syntax>
+    <syntax_item>bar3h(Y)</syntax_item>
+    <syntax_item>bar3h(Z, Y)</syntax_item>
+    <syntax_item>bar3h(..., width)</syntax_item>
+    <syntax_item>bar3h(..., 'detached')</syntax_item>
+    <syntax_item>bar3h(..., 'grouped')</syntax_item>
+    <syntax_item>bar3h(..., 'stacked')</syntax_item>
+    <syntax_item>bar3h(..., color)</syntax_item>
+    <syntax_item>bar3h(parent, ...)</syntax_item>
+    <syntax_item>h = bar3h(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Numeric vector or matrix of bar lengths.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>row positions for the bars.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>width</param_name>
+      <param_description>Relative bar width. The default value is 0.8.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description>color name or short color name for the bar faces.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>surface graphics object or vector of surface graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bar3h</b> displays horizontal 3-D bars extending from x = 0.</p>
+    <p>Use <b>'grouped'</b> to group matrix columns at each row position and <b>'stacked'</b> to stack matrix columns at each row position.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Detached horizontal 3-D bars from a matrix.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+Y = [1 3; 2 4; 5 2];
+bar3h(Y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Horizontal 3-D bars from a vector.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [50 40 30 20 10];
+bar3h(y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Horizontal 3-D bars with explicit row positions.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = [1950 1960 1970 1980 1990];
+y = [16 8 4 2 1];
+bar3h(z, y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Horizontal 3-D bars from a matrix.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 4 7; 2 5 8; 3 6 9; 4 7 10];
+bar3h(y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Horizontal 3-D bars from a matrix with explicit row positions.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = [1 2 3 4];
+y = [1 5 9; 2 6 10; 3 7 11; 4 8 12];
+bar3h(z, y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_5.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Horizontal 3-D bars with width and a color.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = 0:pi/16:pi;
+y = [sin(z') / 4, sin(z') / 2, sin(z')];
+bar3h(z, y, 1, "r");
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_6.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Grouped horizontal 3-D bars.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 2; 3 4; 5 6];
+bar3h(y, 'grouped');
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_7.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Stacked horizontal 3-D bars with positive and negative values.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 -2; -3 4];
+bar3h(y, 'stacked');
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_8.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/barh">barh</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/bar3">bar3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surface">surface</link></see_also_item>
+  </see_also>
+</xmldoc>

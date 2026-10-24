@@ -15,5 +15,6 @@
 namespace Nelson::HelpToolsGateway {
 ArrayOfVector
 headcommentsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

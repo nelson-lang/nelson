@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,13 +11,13 @@
 #include <vector>
 #include "whoBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Who.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,9 +39,10 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
         std::wstring param1;
         indexType start = 1;
         if (argIn[0].isRowVectorCharacterArray()) {
-            param1 = argIn[0].getContentAsWideString();
+            param1 = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         if (param1.compare(L"global") == 0) {
             scope = eval->getContext()->getGlobalScope();
@@ -53,18 +54,20 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             scope = eval->getContext()->getCallerScope();
         } else if (param1.compare(L"-file") == 0) {
             if (argIn.size() > 1) {
-                filename = argIn[1].getContentAsWideString();
+                filename = argIn[1].asWideString();
                 start++;
             } else {
-                Error(_W("filename expected after '-file'."));
+                Error(
+                    L"Nelson:memory_manager:filenameExpected", L"filename expected after '-file'.");
             }
         } else {
             names.push_back(wstring_to_utf8(param1));
         }
         for (indexType k = start; k < (indexType)argIn.size(); ++k) {
-            std::string param = argIn[k].getContentAsCString();
+            std::string param = argIn[k].asUtf8String();
             if (param.compare("-file") == 0) {
-                Error(_W("-file must be the first argument."));
+                Error(
+                    L"Nelson:memory_manager:invalidArgument", L"-file must be the first argument.");
             }
             names.push_back(param);
         }
@@ -112,7 +115,7 @@ Nelson::MemoryGateway::whoBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
             io->outputMessage("\n");
         }
     } else {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(variablesName);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(variablesName);
     }
     return retval;
 }
@@ -122,32 +125,30 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
 {
     bool isNh5 = false;
     bool isMat = false;
-    // try detect if it is a .nh5
     FunctionDef* funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find("isnh5file", funcDef)) {
         BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
     }
     if (funcDef != nullptr) {
         ArrayOfVector inputArguments;
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+        inputArguments.push_back(ArrayOf::characterArray(filename));
         ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
         if (res.size() == 1) {
-            isNh5 = res[0].getContentAsLogicalScalar();
+            isNh5 = res[0].asLogicalScalar();
         }
     }
 
     if (!isNh5) {
-        // try detect if it is a .mat
         FunctionDef* funcDef = nullptr;
         if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }
         if (funcDef != nullptr) {
             ArrayOfVector inputArguments;
-            inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+            inputArguments.push_back(ArrayOf::characterArray(filename));
             ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
             if (res.size() == 1) {
-                isMat = res[0].getContentAsLogicalScalar();
+                isMat = res[0].asLogicalScalar();
             }
         }
     }
@@ -163,13 +164,13 @@ Who(Evaluator* eval, const std::wstring& filename, const stringVector& names, bo
     funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(whoFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whoFileFunctionName, funcDef)) {
-            Error(_W("who file function expected."));
+            Error(L"Nelson:who:functionExpected", L"who file function expected.");
         }
     }
     ArrayOfVector inputArguments;
-    inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+    inputArguments.push_back(ArrayOf::characterArray(filename));
     for (const std::string& name : names) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
+        inputArguments.push_back(ArrayOf::characterArray(name));
     }
     ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, asCell ? 1 : 0);
     if (res.size()) {

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "two_dimensional_fft.m",
+      "title": {
+        "en_US": "Two-dimensional Fourier transform",
+        "fr_FR": "Transformée de Fourier bidimensionnelle"
+      },
+      "description": {
+        "en_US": "Reveal the directional frequency content of a synthetic image.",
+        "fr_FR": "Révéler le contenu fréquentiel directionnel d’une image synthétique."
+      },
+      "tags": [
+        "fft2",
+        "image",
+        "spectrum"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>smoothdata</keyword>
+  <short_description>Lisse des donnees bruitees.</short_description>
+  <syntax>
+    <syntax_item>B = smoothdata(A)</syntax_item>
+    <syntax_item>B = smoothdata(A, method)</syntax_item>
+    <syntax_item>B = smoothdata(A, method, window)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim, method)</syntax_item>
+    <syntax_item>B = smoothdata(A, dim, method, window)</syntax_item>
+    <syntax_item>B = smoothdata(__, nanflag)</syntax_item>
+    <syntax_item>B = smoothdata(__, Name, Value)</syntax_item>
+    <syntax_item>[B, window] = smoothdata(__)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>vecteur ou matrice d'entree : numerique ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>un vecteur de caracteres ou une chaine : methode de lissage. Voir la description pour la liste des methodes supportees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>window</param_name>
+      <param_description>un scalaire positif ou un vecteur a deux elements <b>[arriere avant]</b> : longueur de la fenetre glissante.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension le long de laquelle operer : entier positif scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description>un vecteur de caracteres ou une chaine : <b>'omitnan'</b> (par defaut) ou <b>'includenan'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>paires nom/valeur : <b>'SamplePoints'</b>, <b>'SmoothingFactor'</b>, <b>'Degree'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>donnees lissees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>window</param_name>
+      <param_description>longueur de la fenetre glissante utilisee pour le lissage.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>smoothdata</b> lisse des donnees bruitees dans un vecteur ou dans les colonnes d'une matrice.</p>
+    <p>Par defaut, <b>smoothdata</b> opere le long de la premiere dimension non singleton avec la methode <b>'movmean'</b> et une longueur de fenetre heuristique choisie a partir des donnees.</p>
+    <p>Les valeurs supportees de <b>method</b> sont :</p>
+    <p><b>'movmean'</b> : moyenne glissante sur chaque fenetre (par defaut).</p>
+    <p><b>'movmedian'</b> : mediane glissante sur chaque fenetre.</p>
+    <p><b>'gaussian'</b> : moyenne ponderee glissante avec des poids gaussiens.</p>
+    <p><b>'lowess'</b> : regression locale avec un polynome de degre un.</p>
+    <p><b>'loess'</b> : regression locale avec un polynome de degre deux.</p>
+    <p><b>'sgolay'</b> : filtre polynomial de Savitzky-Golay (utiliser <b>'Degree'</b> pour fixer le degre du polynome, 2 par defaut).</p>
+    <p>Le drapeau <b>'omitnan'</b> (par defaut) ignore les valeurs <b>NaN</b> dans chaque fenetre, tandis que <b>'includenan'</b> les propage.</p>
+    <p><b>'SmoothingFactor'</b> est un scalaire entre 0 et 1 qui regle la longueur de fenetre choisie automatiquement ; des valeurs plus grandes lissent davantage.</p>
+    <p><b>'SamplePoints'</b> est un vecteur de coordonnees d'echantillonnage uniformement espacees ; la fenetre est alors exprimee dans les unites de ces coordonnees.</p>
+    <p>Les methodes robustes <b>'rlowess'</b> et <b>'rloess'</b> ne sont pas encore supportees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>moyenne glissante</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+B = smoothdata(A, 'movmean', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>lissage gaussien</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+B = smoothdata(A, 'gaussian', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>fenetre choisie automatiquement</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 10 4 5];
+[B, window] = smoothdata(A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}movmean">movmean</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}movmedian">movmedian</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}fillmissing">fillmissing</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

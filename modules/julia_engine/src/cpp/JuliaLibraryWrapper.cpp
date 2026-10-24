@@ -60,6 +60,7 @@ using PROC_jl_call0 = jl_value_t* (*)(jl_function_t*);
 using PROC_jl_call1 = jl_value_t* (*)(jl_function_t*, jl_value_t*);
 using PROC_jl_call2 = jl_value_t* (*)(jl_function_t * f, jl_value_t* a, jl_value_t* b);
 using PROC_jl_call3 = jl_value_t* (*)(jl_function_t*, jl_value_t*, jl_value_t*, jl_value_t*);
+using PROC_jl_gc_enable = int (*)(int on);
 using PROC_jl_box_bool = jl_value_t* (*)(int8_t x);
 using PROC_jl_box_int8 = jl_value_t* (*)(int8_t x);
 using PROC_jl_box_uint8 = jl_value_t* (*)(uint8_t x);
@@ -116,11 +117,7 @@ bool
 loadJuliaSymbols()
 {
     //=============================================================================
-    // Types
-    //=============================================================================
 
-    //=============================================================================
-    // Functions
     //=============================================================================
     LOAD_JULIA_SYMBOL(jl_init);
     LOAD_JULIA_SYMBOL(jl_eval_string);
@@ -146,6 +143,7 @@ loadJuliaSymbols()
     LOAD_JULIA_SYMBOL(jl_get_field);
     LOAD_JULIA_SYMBOL(jl_field_index);
     LOAD_JULIA_SYMBOL(jl_get_nth_field);
+    LOAD_JULIA_SYMBOL(jl_gc_enable);
     LOAD_JULIA_SYMBOL(jl_call);
     LOAD_JULIA_SYMBOL(jl_call0);
     LOAD_JULIA_SYMBOL(jl_call1);
@@ -322,6 +320,12 @@ jl_value_t*
 NLSjl_call(jl_function_t* f, jl_value_t** args, uint32_t nargs)
 {
     return reinterpret_cast<PROC_jl_call>(juliaSymbols["jl_call"])(f, args, nargs);
+}
+//=============================================================================
+int
+NLSjl_gc_enable(int on)
+{
+    return reinterpret_cast<PROC_jl_gc_enable>(juliaSymbols["jl_gc_enable"])(on);
 }
 //=============================================================================
 jl_value_t*

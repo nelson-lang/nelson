@@ -15,7 +15,7 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
-#include <Eigen/src/misc/lapacke.h>
+#include "LapackPrototypes.hpp"
 #include "NewWithException.hpp"
 #include "EigenLapackHelpers.hpp"
 //=============================================================================
@@ -344,5 +344,5 @@ doubleComplexGeneralizedEigenDecomposition(int n, std::complex<double>* v, std::
     delete[] WORK;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

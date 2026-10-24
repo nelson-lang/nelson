@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 //=============================================================================
 #include "nlsGraphics_exports.h"
 #include "GraphicsObject.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -19,8 +20,16 @@ class NLSGRAPHICS_IMPEXP GOLineSeries : public GraphicsObject
 public:
     virtual std::wstring
     getType() override;
+    wstringVector
+    getVisibleFieldnames() override;
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_LINE_STR;
+    }
 
     GOLineSeries();
+    explicit GOLineSeries(const std::wstring& type);
     ~GOLineSeries() override;
     virtual void
     constructProperties();
@@ -36,7 +45,8 @@ public:
 private:
     std::vector<double> limits;
     mutable bool limitsDirty = true;
+    std::wstring _type;
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

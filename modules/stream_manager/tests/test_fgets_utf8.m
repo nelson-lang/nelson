@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 filename = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
-assert_isequal(isfile(filename), true);
+asserts.isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'UTF-8');
 found = false;
 while ~feof(fid)
@@ -21,5 +21,5 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_istrue(found);
+asserts.istrue(found);
 %=============================================================================

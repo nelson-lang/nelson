@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="257" viewBox="-153.5 -153.5 307 257">
+  <rect x="-153.5" y="-153.5" width="307" height="257" rx="48.83" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#B4B2A9" stroke="#444441" stroke-width="3.25"/>
+    <ellipse cx="80" cy="0" rx="7" ry="7" fill="#B4B2A9" stroke="#B4B2A9" stroke-width="3.25"/>
+    <ellipse cx="42" cy="0" rx="10" ry="10" fill="none" stroke="#444441" stroke-width="3.25"/>
+    <polyline points="-100,-80 42,-80 42,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#444441">Relational</text></g>
+    <ellipse cx="42" cy="0" rx="10" ry="10" fill="none" stroke="#444441" stroke-width="3.25"/>
+    <polyline points="-100,-80 42,-80 42,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-54,20 -8,0 -54,-20" fill="none" stroke="#444441" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

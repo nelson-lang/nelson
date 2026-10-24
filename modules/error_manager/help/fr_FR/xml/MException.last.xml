@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>MException.last</keyword>
+  <short_description>Renvoie ou efface la derniere MException non interceptee.</short_description>
+  <syntax>
+    <syntax_item>exception = MException.last</syntax_item>
+    <syntax_item>MException.last(&apos;reset&apos;)</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>exception</param_name>
+      <param_description>un objet MException.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>MException.last</b> renvoie la derniere exception non interceptee enregistree par l&apos;evaluateur. Les exceptions traitees par un bloc catch ne la modifient pas.</p>
+    <p><b>MException.last(&apos;reset&apos;)</b> efface l&apos;exception enregistree.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[MException.last('reset');
+exception = MException.last]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}MException">MException</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}lasterror">lasterror</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getLastReport">getLastReport</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

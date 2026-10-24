@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-09-28", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "Planar 2-D single rod pendulum: a uniform rod (length 1, mass 1) pivoted at one end to a fixed world frame, released horizontally, swings under gravity. The body angle follows the physical-pendulum equation I_pivot phi'' = -m g d cos(phi). The Scope plots the angle; ToWorkspace exports it.",
+  "name": "Planar Pendulum",
+  "blocks": [
+    { "id": "wld", "type": "PlanarWorld", "params": { "gravity": 9.81 }, "x": 0, "y": 210, "rotation": 180 },
+    { "id": "r0", "type": "PlanarBody", "params": { "m": 1, "I": 0.08333333333333333, "x0": 0.5, "y0": 0, "phi0": 0, "frames": { "prox": [-0.5, 0], "dist": [0.5, 0] } }, "x": 400, "y": 210, "rotation": 0 },
+    { "id": "j0", "type": "PlanarRevolute", "params": {}, "x": 200, "y": 210, "rotation": 0 },
+    { "id": "sp", "type": "PlanarPositionSensor", "params": { "axis": "phi" }, "x": 640, "y": 360, "rotation": 90 },
+    { "id": "tw", "type": "toWorkspace", "params": { "VariableName": "phi", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" }, "inputs": 1, "outputs": 0, "x": 820, "y": 130, "rotation": 0 },
+    { "id": "sc", "type": "scope", "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "width": 320, "height": 220, "ShowTickLabels": true }, "x": 820, "y": 300, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "sp", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "sp", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 2,
+  "sampleTime": 0.005,
+  "physicalWires": [
+    { "pins": ["j0.a", "wld.frame"] },
+    { "pins": ["r0.prox", "j0.b"] },
+    { "pins": ["sp.a", "r0.com"] }
+  ]
+}

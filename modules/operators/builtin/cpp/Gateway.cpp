@@ -44,7 +44,9 @@
 #include "vertcatBuiltin.hpp"
 #include "ismemberBuiltin.hpp"
 #include "bitandBuiltin.hpp"
+#include "bitgetBuiltin.hpp"
 #include "bitorBuiltin.hpp"
+#include "bitshiftBuiltin.hpp"
 #include "bitxorBuiltin.hpp"
 #include "subsasgnBuiltin.hpp"
 #include "subsrefBuiltin.hpp"
@@ -54,7 +56,6 @@ using namespace Nelson;
 const std::wstring gatewayName = L"operators";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    /* operators */
     { PLUS_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::plusBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { MINUS_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::minusBuiltin, 1, 2,
@@ -103,28 +104,27 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { MPOWER_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::mpowerBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
-    { SUBSASGN_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::subsindexBuiltin, 1, 1,
+    { SUBSINDEX_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::subsindexBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { HORZCAT_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::horzcatBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { VERTCAT_OPERATOR_STR, (ptrBuiltin)Nelson::OperatorsGateway::vertcatBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
-    { "subsasgn", (ptrBuiltin)Nelson::OperatorsGateway::subsasgnBuiltin, 1, 3 },
+    { "subsasgn", (ptrBuiltin)Nelson::OperatorsGateway::subsasgnBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "subsref", (ptrBuiltin)Nelson::OperatorsGateway::subsrefBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "ismember", (ptrBuiltin)Nelson::OperatorsGateway::ismemberBuiltin, 1, 2 },
     { "bitand", (ptrBuiltin)Nelson::OperatorsGateway::bitandBuiltin, 1, 2, CPP_BUILTIN },
+    { "bitget", (ptrBuiltin)Nelson::OperatorsGateway::bitgetBuiltin, 1, 3, CPP_BUILTIN },
     { "bitor", (ptrBuiltin)Nelson::OperatorsGateway::bitorBuiltin, 1, 2, CPP_BUILTIN },
+    { "bitshift", (ptrBuiltin)Nelson::OperatorsGateway::bitshiftBuiltin, 1, 2, CPP_BUILTIN },
     { "bitxor", (ptrBuiltin)Nelson::OperatorsGateway::bitxorBuiltin, 1, 2, CPP_BUILTIN },
     { "any", (ptrBuiltin)Nelson::OperatorsGateway::anyBuiltin, 1, 2 },
     { "all", (ptrBuiltin)Nelson::OperatorsGateway::allBuiltin, 1, 2, CPP_BUILTIN },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

@@ -8,7 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QtLineNumber.h"
+#include <algorithm>
 #include <QtCore/QRectF>
+#include <QtCore/QString>
 #include <QtGui/QPainter>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextLayout>
@@ -16,9 +18,7 @@
 //=============================================================================
 QtLineNumber::QtLineNumber(QtTextEdit* textEditor) : QWidget(), tEditor(textEditor)
 {
-    int width;
-    width = QFontMetrics(font()).horizontalAdvance(QLatin1String("0000")) + 5;
-    setFixedWidth(width);
+    updateWidth();
     connect((QTextEdit*)tEditor->document()->documentLayout(), SIGNAL(update(const QRectF&)), this,
         SLOT(update()));
     connect(
@@ -26,8 +26,28 @@ QtLineNumber::QtLineNumber(QtTextEdit* textEditor) : QWidget(), tEditor(textEdit
 }
 //=============================================================================
 void
+QtLineNumber::updateWidth()
+{
+    int nbDigits = 1;
+    int maxLineNumber = tEditor ? std::max(tEditor->document()->blockCount(), 1) : 1;
+    while (maxLineNumber >= 10) {
+        maxLineNumber /= 10;
+        ++nbDigits;
+    }
+    // at least 4 digits to avoid the line number area to jump on small files
+    nbDigits = std::max(nbDigits, 4);
+    const int width = QFontMetrics(tEditor ? tEditor->font() : font())
+                          .horizontalAdvance(QString(nbDigits, QLatin1Char('0')))
+        + 5;
+    if (width != this->width()) {
+        setFixedWidth(width);
+    }
+}
+//=============================================================================
+void
 QtLineNumber::paintEvent(QPaintEvent* paintEvent)
 {
+    updateWidth();
     int contentsY = tEditor->verticalScrollBar()->value();
     qreal pageBottom = contentsY + tEditor->viewport()->height();
     int lineNumber = 1;

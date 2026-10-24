@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ Nelson::ElementaryFunctionsGateway::numelBuiltin(int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::doubleConstructor(static_cast<double>(argIn[0].numel()));
+    retval << ArrayOf::doubleScalar(static_cast<double>(argIn[0].numel()));
     return retval;
 }
 //=============================================================================

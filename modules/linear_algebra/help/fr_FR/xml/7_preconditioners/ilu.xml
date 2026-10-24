@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ilu</keyword>
+  <short_description>Factorisation LU incomplete.</short_description>
+  <syntax>
+    <syntax_item>LU = ilu(A)</syntax_item>
+    <syntax_item>LU = ilu(A, opts)</syntax_item>
+    <syntax_item>[L, U] = ilu(A)</syntax_item>
+    <syntax_item>[L, U] = ilu(A, opts)</syntax_item>
+    <syntax_item>[L, U, P] = ilu(A, opts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice carree sparse flottante reelle ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>une structure scalaire avec les champs optionnels type, droptol, fillfactor, udiag et thresh.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>LU</param_name>
+      <param_description>facteur sparse unique contenant la partie strictement inferieure de <b>L</b> et la partie superieure de <b>U</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>facteur sparse triangulaire inferieur LU incomplet.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>facteur sparse triangulaire superieur LU incomplet.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>matrice sparse de permutation de lignes. Quand elle est retournee, <b>P * A</b> est approximee par <b>L * U</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ilu</b> calcule des facteurs LU incomplets sparse utilisables comme preconditionneurs.</p>
+    <p><b>opts.type</b> peut valoir &apos;nofill&apos; ou &apos;ilutp&apos;. La valeur par defaut est &apos;nofill&apos;, qui conserve le motif sparse d'entree et n'applique pas de seuil de suppression.</p>
+    <p>En mode &apos;ilutp&apos;, <b>opts.droptol</b> supprime les petites entrees, <b>opts.fillfactor</b> limite le remplissage conserve par ligne, <b>opts.udiag</b> autorise les pivots nuls, et <b>opts.thresh</b> est un seuil de pivotage entre 0 et 1. Les valeurs par defaut sont <b>droptol = 1e-4</b>, <b>fillfactor = 10</b>, <b>udiag = false</b> et <b>thresh = 1</b>.</p>
+    <p>Le mode &apos;ilutp&apos; utilise un pivotage sparse par lignes. Avec trois sorties, <b>P</b> contient la permutation de lignes et <b>P * A</b> est approximee par <b>L * U</b>. Avec une sortie, le facteur sparse compacte stocke la partie strictement inferieure de <b>L</b> et la partie superieure de <b>U</b>.</p>
+    <p>Les valeurs textuelles d'options comme <b>opts.type</b> peuvent etre des vecteurs lignes de caracteres ou des string scalars.</p>
+    <p>Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Les facteurs
+      <b>L</b> et <b>U</b> conservent la classe numerique d'entree ; <b>P</b> est une matrice sparse de permutation.</p>
+    <p>Les facteurs peuvent etre utilises directement comme preconditionneurs pour les solveurs de Krylov tels que <b>gmres</b>, <b>bicgstab</b>, <b>bicg</b>, <b>cgs</b> et <b>qmr</b>.</p>
+    <p>Les pivots nuls non autorises, les options invalides et les matrices non carrees sont rejetes avant de retourner des facteurs incomplets.</p>
+  </description>
+  <used_function>Routines sparse Nelson</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+LU = ilu(A)
+full(LU)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+[L, U] = ilu(A)
+full(L * U)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+b = [1; 2; 3];
+[L, U] = ilu(A);
+x = bicgstab(A, b, 1e-12, 20, L, U)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Factorisation ILUTP sparse single complexe.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1i; 2 3]));
+opts.type = 'ilutp';
+opts.droptol = 0;
+[L, U, P] = ilu(A, opts)
+full(P * A - L * U)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Controler le pivotage et le remplissage conserve en mode avec seuil.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([0.2 1; 1 1]);
+opts.type = 'ilutp';
+opts.droptol = 0;
+opts.fillfactor = 10;
+opts.thresh = 0.25;
+[L, U, P] = ilu(A, opts);
+full(P * A - L * U)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}bicgstab">bicgstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}gmres">gmres</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}qmr">qmr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}lu">lu</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des matrices sparse single et sparse single complexes, du mode ilutp, du pivotage, des options string scalar et de l'utilisation comme preconditionneur.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

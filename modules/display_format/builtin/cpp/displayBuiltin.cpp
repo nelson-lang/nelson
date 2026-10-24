@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,7 +22,7 @@ Nelson::DisplayFormatGateway::displayBuiltin(Evaluator* eval, int nLhs, const Ar
     ArrayOf variable = argIn[0];
     std::string variableName = variable.name();
     if (argIn.size() == 2) {
-        variableName = argIn[1].getContentAsCString();
+        variableName = argIn[1].asUtf8String();
     }
     eval->display(variable, variableName, false);
     return retval;

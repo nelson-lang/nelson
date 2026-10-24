@@ -7,11 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--GUI MODE-->
+% <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-h = msgbox({'Operation' 'Completed'});
-assert_istrue(h == h);
-assert_isfalse(h == QObject_root());
-assert_isequal(h, h);
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
+qobj = qml_loadfile(qml_file_ok);
+other = qml_loadfile(qml_file_ok);
+asserts.istrue(qobj == qobj);
+asserts.isfalse(qobj == other);
+asserts.isequal(qobj, qobj);
+delete(qobj);
+delete(other);
 %=============================================================================

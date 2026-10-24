@@ -1,0 +1,36 @@
+{
+  "solution": {
+    "path": "nelson.sln",
+    "projects": [
+      "modules\\characters_encoding\\builtin\\c\\nlsCharacters_encoding_builtin.vcxproj",
+      "modules\\characters_encoding\\src\\c\\nlsCharacters_encoding.vcxproj",
+      "modules\\commons\\src\\c\\nlsCommons.vcxproj",
+      "modules\\debugger\\builtin\\c\\nlsDebugger_builtin.vcxproj",
+      "modules\\debugger\\src\\c\\nlsDebugger.vcxproj",
+      "modules\\display_format\\builtin\\c\\nlsDisplay_format_builtin.vcxproj",
+      "modules\\display_format\\src\\c\\nlsDisplay_format.vcxproj",
+      "modules\\elementary_mathematics\\src\\c\\nlsElementary_mathematics.vcxproj",
+      "modules\\error_manager\\builtin\\c\\nlsError_manager_builtin.vcxproj",
+      "modules\\error_manager\\src\\c\\nlsError_manager.vcxproj",
+      "modules\\history_manager\\builtin\\c\\nlsHistory_manager_builtin.vcxproj",
+      "modules\\history_manager\\src\\c\\nlsHistory_manager.vcxproj",
+      "modules\\i18n\\builtin\\c\\nlsI18n_builtin.vcxproj",
+      "modules\\i18n\\src\\c\\nlsI18n.vcxproj",
+      "modules\\interpreter\\builtin\\c\\nlsInterpreter_builtin.vcxproj",
+      "modules\\interpreter\\src\\c\\nlsInterpreter.vcxproj",
+      "modules\\memory_manager\\builtin\\c\\nlsMemory_manager_builtin.vcxproj",
+      "modules\\memory_manager\\src\\c\\nlsMemory_manager.vcxproj",
+      "modules\\nelson_manager\\src\\c\\nlsNelson_manager.vcxproj",
+      "modules\\operators\\builtin\\c\\nlsOperators_builtin.vcxproj",
+      "modules\\operators\\src\\c\\nlsOperators.vcxproj",
+      "modules\\os_functions\\builtin\\c\\nlsOs_functions_builtin.vcxproj",
+      "modules\\os_functions\\src\\c\\nlsOs_functions.vcxproj",
+      "modules\\profiler\\builtin\\c\\nlsProfiler_builtin.vcxproj",
+      "modules\\profiler\\src\\c\\nlsProfiler.vcxproj",
+      "modules\\stream_manager\\builtin\\c\\nlsStream_manager_builtin.vcxproj",
+      "modules\\stream_manager\\src\\c\\nlsStream_manager.vcxproj",
+      "modules\\types\\builtin\\c\\nlsTypes_builtin.vcxproj",
+      "modules\\types\\src\\c\\nlsTypes.vcxproj"
+    ]
+  }
+}

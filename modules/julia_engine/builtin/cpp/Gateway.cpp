@@ -21,6 +21,7 @@
 #include "jl_ispropBuiltin.hpp"
 #include "jl_getBuiltin.hpp"
 #include "jl_invokeBuiltin.hpp"
+#include "julia_to_table_dataBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -65,6 +66,8 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR, "struct"),
         (ptrBuiltin)Nelson::Julia_engineGateway::JuliaEnvironment_structBuiltin, 0, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { "__julia_to_table_data__",
+        (ptrBuiltin)Nelson::Julia_engineGateway::julia_to_table_dataBuiltin, 4, 1, CPP_BUILTIN },
 };
 //=============================================================================
 static bool
@@ -79,11 +82,7 @@ finishJuliaEngineModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeJuliaEngineModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeJuliaEngineModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishJuliaEngineModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishJuliaEngineModule)
 //=============================================================================

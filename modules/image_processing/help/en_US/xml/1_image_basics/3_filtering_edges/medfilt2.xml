@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>medfilt2</keyword>
+  <short_description>Apply 2-D median filtering.</short_description>
+  <syntax>
+    <syntax_item>B = medfilt2(A)</syntax_item>
+    <syntax_item>B = medfilt2(A, [m n])</syntax_item>
+    <syntax_item>B = medfilt2(A, [m n], padopt)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>2-D numeric or logical image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[m n]</param_name>
+      <param_description>Positive integer scalar or two-element neighborhood size. The default value is [3 3].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>padopt</param_name>
+      <param_description>Padding option: zeros, indexed, symmetric or replicate.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Median-filtered image, preserving the input class.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Apply 2-D median filtering. The default padding uses zeros. Supported padding options include zeros, indexed, symmetric and replicate. Text options are case-insensitive.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Apply median filtering</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=peaks(64);
+I(16:4:48,16:4:48)=8;
+J=medfilt2(I,[3 3]);
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(J); title('Median filtered');]]></example_item_data>
+      <example_item_img
+        src="../../../images/medfilt2_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imgaussfilt">imgaussfilt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

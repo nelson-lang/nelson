@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>validatestring</keyword>
+  <short_description>Checks that text matches one allowed value.</short_description>
+  <syntax>
+    <syntax_item>matched = validatestring(str, validStrings)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, argIndex)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName, varName)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName, varName, argIndex)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>text to validate, specified as a character vector or string scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>validStrings</param_name>
+      <param_description>allowed text values, specified as a character vector, string array, or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argIndex</param_name>
+      <param_description>positive integer used in generated error messages to identify the argument position.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>funcName</param_name>
+      <param_description>function name used in generated error identifiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varName</param_name>
+      <param_description>variable name used in generated error messages.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>matched</param_name>
+      <param_description>matched value from <b>validStrings</b>. The output is a string scalar when <b>validStrings</b> is a string array; otherwise it is a character vector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>validatestring</b> accepts exact matches and leading partial matches without case sensitivity. Exact matches are preferred over partial matches.</p>
+    <p>If one leading partial match exists, that value is returned. If several leading partial matches exist and every matching value forms a substring chain, the shortest matching value is returned. If several leading partial matches exist and they do not form such a chain, an ambiguity error is raised.</p>
+    <p>Error messages can include an argument position, a variable name, and a function name depending on the syntax used.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Case-insensitive exact and partial matches.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[shape = validatestring('Rect', {'square', 'rectangle', 'triangle'});
+direction = validatestring("LEFT", ["left", "right"])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Shortest match in a chain of partial matches.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[value = validatestring('rig', {'righteously', 'right', 'righteous'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use context arguments for generated errors.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[units = {'cm', 'm', 'in', 'ft'};
+choice = validatestring('CM', units, 'findArea', 'units', 4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}validateattributes">validateattributes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}inputParser">inputParser</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

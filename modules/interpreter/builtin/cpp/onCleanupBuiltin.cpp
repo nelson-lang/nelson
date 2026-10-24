@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,10 @@
 //=============================================================================
 #include "onCleanupBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OnCleanupObjectHandle.hpp"
-#include "MacroFunctionDef.hpp"
+#include "Context.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -21,24 +22,21 @@ Nelson::InterpreterGateway::onCleanupBuiltin(Evaluator* eval, int nLhs, const Ar
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
 
-    // Validate argument type
     const ArrayOf& functionArray = argIn[0];
     if (!functionArray.isFunctionHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"function handle");
     }
 
-    // Create onCleanup handle
     auto* onCleanupObj = new OnCleanupObjectHandle(functionArray);
-    ArrayOf handleArray = ArrayOf::handleConstructor(onCleanupObj);
+    ArrayOf handleArray = ArrayOf::handle(onCleanupObj);
 
-    // Register cleanup only if inside a macro function
+    // The task belongs to the function call being evaluated (its own scope),
+    // whatever kind of function it is: it runs when that call exits.
     Context* ctx = eval->getContext();
-    FunctionDef* funcDef = nullptr;
-
-    const std::string& currentName = ctx->getCurrentScope()->getName();
-    if (ctx->lookupFunction(currentName, funcDef) && funcDef->type() == NLS_MACRO_FUNCTION) {
-        auto* macroFunc = static_cast<MacroFunctionDef*>(funcDef);
-        macroFunc->addCleanupFunction(handleArray);
+    Scope* scope = ctx->getCurrentScope();
+    if (scope != ctx->getGlobalScope() && scope != ctx->getBaseScope()) {
+        scope->addCleanupTask(handleArray);
     }
 
     return ArrayOfVector { handleArray };

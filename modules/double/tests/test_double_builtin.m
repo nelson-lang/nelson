@@ -7,21 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('double'), 1);
-assert_isequal(nargout('double'), 1);
+asserts.isequal(nargin('double'), 1);
+asserts.isequal(nargout('double'), 1);
 %=============================================================================
 A = ["1", "2+i", "+nan"];
 R = double(A);
-REF = [1 2+i NaN];
-assert_isequal(R, REF);
+REF = [1 2 + i NaN];
+asserts.isequal(R, REF);
 %=============================================================================
 A = "Inf+Infi";
 R = double(A);
 REF = complex(Inf, Inf);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = logical(1);
 R = double(A);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

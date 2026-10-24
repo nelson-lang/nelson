@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSLOGICAL_IMPEXP ArrayOf
 XorLogical(const ArrayOf& A, const ArrayOf& B);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

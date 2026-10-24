@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitgmdist</keyword>
+  <short_description>Ajuster une distribution de melange gaussien.</short_description>
+  <syntax>
+    <syntax_item>gm = fitgmdist(X, k)</syntax_item>
+    <syntax_item>gm = fitgmdist(X, k, Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitgmdist</b> ajuste un modele de melange gaussien a <b>k</b> composantes aux lignes de <b>X</b> avec l'algorithme esperance-maximisation.</p>
+    <p>Les arguments nom-valeur incluent Start, Replicates, RegularizationValue, CovarianceType, SharedCovariance, MaxIter, TolFun et Options.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajuster et classer un melange simple.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 10; 11];
+gm = fitgmdist(X, 2, 'Start', [1; 1; 2; 2]);
+idx = cluster(gm, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}gmdistribution">gmdistribution</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}kmeans">kmeans</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}clusterdata">clusterdata</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

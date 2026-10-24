@@ -12,11 +12,11 @@ function t = etime(varargin)
   nargoutchk(0, 1);
   t1 = varargin{1};
   t0 = varargin{2};
-  allReal = isreal(t0) && isreal(t1); 
+  allReal = isreal(t0) && isreal(t1);
   if allReal
-    t = 86400 * (datenum(t1(:,1:3)) - datenum(t0(:, 1:3))) +  (t1(:, 4:6) - t0(:, 4:6)) * [3600; 60; 1];
+    t = 86400 * (datenum(t1(:, 1:3)) - datenum(t0(:, 1:3))) + (t1(:, 4:6) - t0(:, 4:6)) * [3600; 60; 1];
   else
-    error('Nelson:etime:InputMustBeReal', _('Numeric input data must be real.'));
+    error('Nelson:time:numericInputDataReal', 'Numeric input data must be real.');
   end
 end
 %=============================================================================

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bwmorph</keyword>
+  <short_description>Apply morphological operations to binary images.</short_description>
+  <syntax>
+    <syntax_item>BW2 = bwmorph(BW, operation)</syntax_item>
+    <syntax_item>BW2 = bwmorph(BW, operation, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>2-D numeric or logical binary image. Nonzero values are treated as true.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>operation</param_name>
+      <param_description
+      >Operation name: 'clean', 'fill', 'majority', 'remove', 'endpoints', 'branchpoints', 'spur', 'bridge', 'thin', 'skel', 'dilate', 'erode', 'open', 'close', 'tophat', or 'bothat'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Number of iterations. It must be a nonnegative integer scalar or Inf. The default value is 1.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW2</param_name>
+      <param_description>Logical image after applying the requested operation.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Apply binary morphological operations to a 2-D image.</p>
+    <p>Dilate, erode, open, close, tophat, and bothat use a 3-by-3 square neighborhood.</p>
+    <p>The iteration count n can be a nonnegative integer or Inf.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Remove endpoints from a binary line</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(32,12:52)=true; BW(20:32,32)=true;
+BW2=bwmorph(BW,'spur',4);
+figure; subplot(1,2,1); imagesc(BW); title('Input');
+subplot(1,2,2); imagesc(BW2); title('After spur');]]></example_item_data>
+      <example_item_img
+        src="../../../images/bwmorph_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imdilate">imdilate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imerode">imerode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}bwperim">bwperim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

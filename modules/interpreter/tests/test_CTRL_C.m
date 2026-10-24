@@ -9,7 +9,7 @@
 %=============================================================================
 % <--INTERACTIVE TEST-->
 % executes these commands:
-for i=1:1000;magic(6);end
+for i = 1:1000; magic(6); end
 % do CTRL-C
 who
 % checks only variables available are: 'ans' and 'i'

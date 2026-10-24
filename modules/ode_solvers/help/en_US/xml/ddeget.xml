@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ddeget</keyword>
+  <short_description>Get a DDE option value.</short_description>
+  <syntax>
+    <syntax_item>value = ddeget(options, name)</syntax_item>
+    <syntax_item>value = ddeget(options, name, defaultValue)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ddeget</b> retrieves a value from a DDE options structure and returns the default value when the option is empty.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Call</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><b>value = *get(options,name)</b></td>
+        <td>Returns the stored value for <b>name</b>.</td>
+      </tr>
+      <tr>
+        <td><b>value = *get(options,name,default)</b></td>
+        <td>Returns <b>default</b> when the option is missing or empty.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Complete DDE and BVP added features example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ddeset">ddeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

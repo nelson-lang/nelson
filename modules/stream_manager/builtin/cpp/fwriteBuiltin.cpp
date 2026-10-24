@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,12 +9,12 @@
 //=============================================================================
 #include "fwriteBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FileWrite.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -31,7 +31,7 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     ArrayOf param5 = argIn[4];
     bool bIsLittleEndian = true;
-    std::wstring arg = param5.getContentAsWideString();
+    std::wstring arg = param5.asWideString();
     if ((arg == L"n") || (arg == L"native")) {
         bIsLittleEndian = isLittleEndianFormat();
     } else if ((arg == L"b") || (arg == L"ieee-be")) {
@@ -39,37 +39,38 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(_W("Wrong value for machine format."));
+        Error(L"Nelson:stream_manager:invalidMachineFormat", L"Wrong value for machine format.");
     }
     ArrayOf param4 = argIn[3];
-    auto skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
+    auto skipSize = static_cast<size_t>(param4.asScalarIndex());
     ArrayOf param3 = argIn[2];
     NelsonType classDest = NLS_UINT8;
     if (param3.isRowVectorCharacterArray()) {
-        std::wstring precisionStr = param3.getContentAsWideString();
+        std::wstring precisionStr = param3.asWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(_W("Wrong value for #3 argument: not supported precision."));
+            Error(L"Nelson:stream_manager:unsupportedPrecision",
+                L"Wrong value for #%d argument: not supported precision.", 3);
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (3), L"string");
     }
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
         ArrayOf param2 = argIn[1];
         if (param2.isReferenceType()) {
-            Error(_W("Cannot write references type."));
+            Error(L"Nelson:fwrite:cannotWriteHandle", L"Cannot write references type.");
         }
         if (param2.isSparse()) {
-            Error(_W("Cannot write sparse type."));
+            Error(L"Nelson:fwrite:cannotWriteSparse", L"Cannot write sparse type.");
         }
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
             return retval;
         }
-        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+        auto iValue = static_cast<int32>(param1.asDoubleScalar());
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             int written = -1;
@@ -79,34 +80,38 @@ fwriteBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             switch (fwriteError) {
             case FWRITE_NO_ERROR: {
                 if (nLhs > 0) {
-                    retval << ArrayOf::doubleConstructor((double)written);
+                    retval << ArrayOf::doubleScalar((double)written);
                 }
                 if (nLhs > 1) {
-                    retval << ArrayOf::doubleConstructor((double)writtenBytes);
+                    retval << ArrayOf::doubleScalar((double)writtenBytes);
                 }
             } break;
             case FWRITE_DATA_TYPE_NOT_SUPPORTED: {
-                Error(_W("Type not supported."));
+                Error(L"Nelson:fwrite:typeNotSupported", L"Type not supported.");
             } break;
             case FWRITE_ALLOCATION_MEMORY: {
-                Error(ERROR_MEMORY_ALLOCATION);
+                Error(L"Nelson:outOfMemory",
+                    L"Memory allocation error... You may have run out of memory!");
             } break;
             case FWRITE_FILE_DESTINATION_NOT_SUPPORTED:
             case FWRITE_INVALID_FILE: {
-                Error(_W("Invalid file identifier."));
+                Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
             } break;
             case FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED: {
-                Error(_W("Endian conversion not supported for this file identifier."));
+                Error(L"Nelson:fwrite:endianConversionNotSupported",
+                    L"Endian conversion not supported for this file identifier.");
             } break;
             case FWRITE_ERROR_ENCODING: {
-                Error(_W("encoding conversion not supported for this file identifier."));
+                Error(L"Nelson:fwrite:encodingConversionNotSupported",
+                    L"encoding conversion not supported for this file identifier.");
             } break;
             }
         } else {
-            Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+            Error(L"Nelson:stream_manager:invalidFileIdentifierArgument",
+                L"Wrong value for #%d argument: a valid file ID expected.", 1);
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"double");
     }
     return retval;
 }
@@ -120,16 +125,16 @@ fwriteBuiltinFourRhs(int nLhs, const ArrayOfVector& argIn)
     if (argIn[2].isRowVectorCharacterArray()) {
         modifiedArgIn.push_back(argIn[2]);
         if (argIn[3].isRowVectorCharacterArray()) {
-            modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
+            modifiedArgIn.push_back(ArrayOf::doubleScalar(0.));
             modifiedArgIn.push_back(argIn[3]);
         } else {
             modifiedArgIn.push_back(argIn[3]);
-            modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
+            modifiedArgIn.push_back(ArrayOf::characterArray(L"n"));
         }
     } else {
         modifiedArgIn.push_back(argIn[3]);
         modifiedArgIn.push_back(argIn[2]);
-        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
+        modifiedArgIn.push_back(ArrayOf::characterArray(L"n"));
     }
     return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
@@ -141,8 +146,8 @@ fwriteBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
     modifiedArgIn.push_back(argIn[2]);
-    modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
-    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
+    modifiedArgIn.push_back(ArrayOf::doubleScalar(0.));
+    modifiedArgIn.push_back(ArrayOf::characterArray(L"n"));
     return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
@@ -153,18 +158,19 @@ fwriteBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
     modifiedArgIn.push_back(argIn[0]);
     modifiedArgIn.push_back(argIn[1]);
     if (argIn[1].isCharacterArray()) {
-        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"char"));
+        modifiedArgIn.push_back(ArrayOf::characterArray(L"char"));
     } else {
-        modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"uint8"));
+        modifiedArgIn.push_back(ArrayOf::characterArray(L"uint8"));
     }
-    modifiedArgIn.push_back(ArrayOf::doubleConstructor(0.));
-    modifiedArgIn.push_back(ArrayOf::characterArrayConstructor(L"n"));
+    modifiedArgIn.push_back(ArrayOf::doubleScalar(0.));
+    modifiedArgIn.push_back(ArrayOf::characterArray(L"n"));
     return fwriteBuiltinFiveRhs(nLhs, modifiedArgIn);
 }
 //=============================================================================
 ArrayOfVector
 Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
+    nargincheck(argIn, 2, 5);
     nargoutcheck(nLhs, 0, 2);
     switch (argIn.size()) {
     case 2:
@@ -175,9 +181,8 @@ Nelson::StreamGateway::fwriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         return fwriteBuiltinFourRhs(nLhs, argIn);
     case 5:
         return fwriteBuiltinFiveRhs(nLhs, argIn);
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
+    default:
+        break;
     }
     ArrayOfVector retval;
     return retval;

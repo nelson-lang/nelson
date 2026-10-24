@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "h5writeBuiltin.hpp"
 #include "h5writeattBuiltin.hpp"
 #include "h5readattBuiltin.hpp"
@@ -18,6 +19,8 @@
 #include "isnh5fileBuiltin.hpp"
 #include "whosnh5Builtin.hpp"
 #include "whonh5Builtin.hpp"
+#include "h5lsBuiltin.hpp"
+#include "h5dumpBuiltin.hpp"
 #include "HDF5_helpers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -34,6 +37,8 @@ static const nlsGateway gateway[] = {
     { "h5writeatt", (ptrBuiltin)Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1 },
     { "h5readatt", (ptrBuiltin)Nelson::Hdf5Gateway::h5readattBuiltin, 1, 3 },
     { "h5read", (ptrBuiltin)Nelson::Hdf5Gateway::h5readBuiltin, 1, 2 },
+    { "h5ls", (ptrBuiltin)Nelson::Hdf5Gateway::h5lsBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "h5dump", (ptrBuiltin)Nelson::Hdf5Gateway::h5dumpBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "h5create", (ptrBuiltin)Nelson::Hdf5Gateway::h5createBuiltin, 0, -4 },
     { "isnh5file", (ptrBuiltin)Nelson::Hdf5Gateway::isnh5fileBuiltin, 1, 1 },
 };
@@ -42,14 +47,12 @@ static bool
 initializeHdf5Module(Nelson::Evaluator* eval)
 {
     disableHdf5Warning();
+    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
+        (ptrBuiltin)Nelson::Hdf5Gateway::h5loadBuiltin, true);
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHdf5Module)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeHdf5Module)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

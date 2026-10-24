@@ -10,6 +10,9 @@
 #pragma once
 //=============================================================================
 #include <cstdio>
+#include <string>
+#include <utility>
+#include <vector>
 #include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
 #include "MacroFunctionDef.hpp"
@@ -18,35 +21,50 @@
 #include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
-/**
- * Reset the parser to its default state.
- */
+struct ParserDiagnostic
+{
+    std::string message;
+    std::string filename;
+    int line = 0;
+    int column = 0;
+};
+//=============================================================================
+struct ParserContext
+{
+    AbstractSyntaxTreePtr ast = nullptr;
+    MacroFunctionDef* macroFunctionDef = nullptr;
+    ParserState parserState = FuncDef;
+    ParserDiagnostic diagnostic;
+
+    ParserState
+    state() const
+    {
+        return parserState;
+    }
+};
+//=============================================================================
 NLSINTERPRETER_IMPEXP void
 resetParser();
-/**
- * Get the AST from a parse of a script or statement sequence.
- */
 NLSINTERPRETER_IMPEXP AbstractSyntaxTreePtr
 getParsedScriptBlock();
-/**
- * Get the function definition from a parse of a function-definition.
- */
 NLSINTERPRETER_IMPEXP MacroFunctionDef*
 getParsedFunctionDef();
-/**
- * Get the current parser state.
- */
 NLSINTERPRETER_IMPEXP ParserState
 parseState();
-/**
- * Parse the given string.
- */
 NLSINTERPRETER_IMPEXP ParserState
 parseString(LexerContext& lexerContext, const std::string& txt);
-/**
- * Parse the given file (with the given filename).
- */
+NLSINTERPRETER_IMPEXP ParserContext
+parseStringResult(LexerContext& lexerContext, const std::string& txt);
 NLSINTERPRETER_IMPEXP ParserState
 parseFile(LexerContext& lexerContext, FILE* /*fp*/, const std::string& /*fname*/);
+NLSINTERPRETER_IMPEXP ParserContext
+parseFileResult(LexerContext& lexerContext, FILE* /*fp*/, const std::string& /*fname*/);
+/**
+ * Ranges [start, end) of the metaclass queries "?Name" / "?pkg.Name" in the source
+ * (strings and comments skipped). The parser rewrites them as metaclass('Name').
+ */
+NLSINTERPRETER_IMPEXP std::vector<std::pair<size_t, size_t>>
+findMetaclassQueryRanges(const std::string& txt);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

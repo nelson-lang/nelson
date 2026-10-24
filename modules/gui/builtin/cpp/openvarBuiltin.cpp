@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,11 @@
 //=============================================================================
 #include "openvarBuiltin.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "VariablesEditor.hpp"
 #include "NelsonConfiguration.hpp"
 #include "NelSon_engine_mode.h"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +26,7 @@ Nelson::GuiGateway::openvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (engineMode != GUI) {
         return {};
     }
-    std::wstring variableName = argIn[0].getContentAsWideString();
+    std::wstring variableName = argIn[0].asWideString();
     if (!VariablesEditor::getVariablesEditor()) {
         VariablesEditor::createVariablesEditor(eval);
     }

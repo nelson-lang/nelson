@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "eigBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "EigenDecomposition.hpp"
@@ -23,9 +24,7 @@ using namespace Nelson;
 // e = eig(A, B)
 // [V, D ] = eig(A, B)
 // e = eig(A, balanceOption)
-// e = eig(A, B)
 // [V, D ] = eig(A, balanceOption)
-// [V, D ] = eig(A, B)
 //=============================================================================
 static ArrayOfVector
 eigFull(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVector& argIn,
@@ -51,13 +50,14 @@ Nelson::LinearAlgebraGateway::eigBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         ArrayOf B(argIn[1]);
         if (B.isCharacterArray() || (B.isStringArray() && B.isScalar())) {
-            std::wstring balanceOption = argIn[1].getContentAsWideString();
+            std::wstring balanceOption = argIn[1].asWideString();
             if (balanceOption == L"balance") {
                 balance = true;
             } else if (balanceOption == L"nobalance") {
                 balance = false;
             } else {
-                Error(_W("option #2 must be 'balance', or 'nobalance'."));
+                Error(L"Nelson:eig:invalidOption", L"option #%d must be 'balance', or 'nobalance'.",
+                    2);
             }
         } else {
             generalizedDecomposition = true;
@@ -76,7 +76,7 @@ Nelson::LinearAlgebraGateway::eigBuiltin(int nLhs, const ArrayOfVector& argIn)
         OverloadRequired("eig");
     } else {
         if (!bSuccess) {
-            Error(errorMessage);
+            Error(L"Nelson:eig:computationFailed", errorMessage);
         }
     }
     return retval;
@@ -120,10 +120,10 @@ eigCompact(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfV
     }
     if (bSuccess) {
         if (D.allReal()) {
-            if (D.getDataClass() == NLS_DCOMPLEX) {
+            if (D.dataClass() == NLS_DCOMPLEX) {
                 D.promoteType(NLS_DOUBLE);
             }
-            if (D.getDataClass() == NLS_SCOMPLEX) {
+            if (D.dataClass() == NLS_SCOMPLEX) {
                 D.promoteType(NLS_SINGLE);
             }
         }
@@ -167,19 +167,19 @@ eigFull(int nLhs, bool balance, bool generalizedDecomposition, const ArrayOfVect
     }
     if (bSuccess) {
         if (V.allReal()) {
-            if (V.getDataClass() == NLS_DCOMPLEX) {
+            if (V.dataClass() == NLS_DCOMPLEX) {
                 V.promoteType(NLS_DOUBLE);
             }
-            if (V.getDataClass() == NLS_SCOMPLEX) {
+            if (V.dataClass() == NLS_SCOMPLEX) {
                 V.promoteType(NLS_SINGLE);
             }
         }
         retval << V;
         if (D.allReal()) {
-            if (D.getDataClass() == NLS_DCOMPLEX) {
+            if (D.dataClass() == NLS_DCOMPLEX) {
                 D.promoteType(NLS_DOUBLE);
             }
-            if (D.getDataClass() == NLS_SCOMPLEX) {
+            if (D.dataClass() == NLS_SCOMPLEX) {
                 D.promoteType(NLS_SINGLE);
             }
         }

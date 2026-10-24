@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.compiler.build</keyword>
+  <keyword_alias>nelson.compiler.build</keyword_alias>
+  <short_description>Construire un executable natif avec des options structurees.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.compiler.build(options)</syntax_item>
+    <syntax_item>nelson.compiler.build(options)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>options</param_name><param_description>Un objet scalaire nelson.compiler.BuildOptions. Aucun remplacement supplementaire d'option n'est accepte.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>result</param_name><param_description>nelson.compiler.BuildResult contenant chemins produits, rapports de dependances et empreinte de l'executable.</param_description></param_output_item></param_output>
+  <description>
+    <p>C'est le point d'entree structure du module optionnel compiler. <b>ncc(options)</b> est equivalent. Utiliser ncc('options', ...) pour charger le module et construire la configuration.</p>
+    <p>La construction analyse les dependances, compile les fichiers .m applicatifs en bytecode .nbc, embarque code et donnees dans l'executable et selectionne les dependances du runtime. Un lanceur precompile est requis ; aucun compilateur C++ n'est necessaire sur la machine de construction.</p>
+    <p>Le fichier produit utilise le format natif de la plateforme hote : .exe sous Windows et fichier executable sur les plateformes Unix prises en charge. Ce n'est pas une compilation croisee. NoConsole selectionne le lanceur Windows sans console ; Mode selectionne independamment les capacites graphiques.</p>
+    <p>Avec <b>RuntimeMode='bundled'</b>, distribuer ensemble l'executable et le dossier .runtime voisin listes dans result.Files. Le runtime est selectionne d'apres les dependances, sans copier sans restriction l'installation de developpement. Les appels dynamiques et les graphiques peuvent necessiter davantage de modules.</p>
+    <p>Avec <b>RuntimeMode='installed'</b>, seul l'executable est produit. La machine destinataire doit disposer d'une installation correspondant a l'architecture et a l'empreinte du moteur requises. Le numero de version seul ne suffit pas. La selection accepte <b>NELSONC_RUNTIME_ROOT</b> et <b>NELSON_RUNTIME_PATH</b> ; consulter ncc pour les regles de recherche.</p>
+    <p>Le dossier destination est cree si necessaire. Un executable ou un dossier runtime cible existant est rejete, sans ecrasement. L'application deployee n'a plus besoin des fichiers sources d'entree apres assemblage.</p>
+    <p>L'appel sans sortie construit aussi l'application. Verbose controle l'affichage des diagnostics. Le resultat n'est pas un installateur. Le packaging ne promet pas d'acceleration des calculs ; le bytecode utilise le moteur d'execution habituel.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Construire avec un runtime installe</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', 'app_entry.m', ...
+  'RuntimeMode', 'installed', 'OutputDir', 'application-build');
+result = nelson.compiler.build(options);
+disp(result.Executable);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildResult">nelson.compiler.BuildResult</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.analyze">nelson.compiler.analyze</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

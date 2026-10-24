@@ -14,5 +14,6 @@
 namespace Nelson::FunctionsGateway {
 ArrayOfVector
 restoredefaultpathBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

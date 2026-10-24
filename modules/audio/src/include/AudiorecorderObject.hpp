@@ -11,6 +11,7 @@
 //=============================================================================
 #include <portaudio.h>
 #include <atomic>
+#include <mutex>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
@@ -26,13 +27,11 @@ public:
     ~AudiorecorderObject() override;
 
     bool
-    isWriteableProperty(const std::wstring& propertyName);
+    isWritableProperty(const std::wstring& propertyName);
 
-    // getter
     bool
     get(const std::wstring& propertyName, ArrayOf& res);
 
-    // setter
     bool
     set(const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage);
 
@@ -45,33 +44,30 @@ public:
     bool
     isMethod(const std::wstring& methodName) override;
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
 
-    // configure recorder
     bool
     setConfig(int SampleRate, int BitsPerSample, int NumberOfChannels, int deviceID);
 
-    // control
-    bool
+    // control, a PortAudio error is returned when the stream cannot be started
+    PaError
     start();
     bool
     pause();
-    bool
+    PaError
     resume();
     bool
     stop();
 
-    bool
+    PaError
     record(double durationSeconds);
 
     int
     getTotalSamples();
     bool
     getRunning();
-    PaStream*
-    getStream();
     ArrayOf
     getRecordedData(NelsonType destinationType);
     int
@@ -105,13 +101,6 @@ public:
         return timerFunc;
     }
 
-    uint32_t
-    getRecordedFrames() const
-    {
-        return recordedFrames;
-    }
-
-    // PortAudio callback
     static int
     paRecordCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
         const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
@@ -119,12 +108,6 @@ public:
 
     ArrayOf
     getPlayer();
-
-    bool
-    isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf);
-
-    void
-    enqueueCallback(const ArrayOf& callbackArrayOf);
 
 private:
     std::atomic<bool> timedRecording { false };
@@ -137,8 +120,11 @@ private:
     int _NumberOfChannels;
     int _DeviceID;
     int _CurrentSample;
-    int _TotalSamples;
-    bool _Running;
+    // written by the audio thread
+    std::atomic<int> _TotalSamples;
+    std::atomic<bool> _Running;
+    // StopFcn is due once per recording, on timed end or on stop
+    std::atomic<bool> stopFcnPending { false };
     std::wstring _Tag;
     ArrayOf _UserData;
     std::string _Type;
@@ -150,14 +136,22 @@ private:
     ArrayOf stopFunc;
     ArrayOf timerFunc;
 
-    // recording state
-    PaStream* paStream;
+    AudioStream stream;
+    std::mutex recordMutex; // guards recordBuffer
     std::vector<single> recordBuffer; // interleaved samples
-    uint32_t recordedFrames;
+    std::atomic<uint32_t> recordedFrames;
+    uint64_t lastTimerFrame = 0; // audio thread only
     NelsonType recordedDataClass;
 
     AudioplayerObject* audioPlayerObject;
     bool audioPlayerUsed;
+
+    void
+    appendFrames(const void* inputBuffer, unsigned long framesPerBuffer);
+    void
+    triggerTimerIfNeeded();
+    void
+    enqueueStopFcnOnce();
 };
 //=============================================================================
 } // namespace Nelson

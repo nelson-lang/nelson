@@ -14,8 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Fused rotate by k * 90 degrees in the plane of the first two dimensions
+// (each higher-dimension page is rotated independently). Dense numeric / char
+// / logical / complex arrays only; sets needToOverload otherwise.
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
-Rotate90(const ArrayOf& arrayIn, int nbRotations);
+Rotate90(const ArrayOf& arrayIn, int nbRotations, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -16,5 +16,5 @@ A1 = parfeval(b, p1, 1, pi);
 A2 = parfeval(b, p2, 1, pi);
 A = [A1, A2];
 R = fetchOutputs(A);
-assert_isapprox(R, [-1; 0],1e-7);
+asserts.isapprox(R, [-1; 0], 1e-7);
 %=============================================================================

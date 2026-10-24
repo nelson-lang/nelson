@@ -12,11 +12,11 @@ function varargout = normpdf(varargin)
   % Normal probability density function
   narginchk(1, 3);
   nargoutchk(0, 1);
-  
+
   x = varargin{1};
   mu = 0;
   sigma = 1;
-  
+
   if nargin > 1
     mu = varargin{2};
   end
@@ -28,7 +28,7 @@ function varargout = normpdf(varargin)
     z = (x - mu) ./ sigma;
     varargout{1} = exp(-0.5 * z .^ 2) ./ (sqrt(2 * pi) .* sigma);
   catch
-    error(_('Size mismatch on input arguments'))
+    error('Nelson:dimagree:sizeMismatchInputArguments', 'Size mismatch on input arguments')
   end
 end
 %=============================================================================

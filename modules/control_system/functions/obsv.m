@@ -25,17 +25,17 @@ function varargout = obsv(varargin)
     [mA, nA] = size(A);
     [mC, nC] = size(C);
     if (mA ~= nA)
-      error('Nelson:control_system:AMustBeSquare', _('Matrix A must be square.'));
+      error('Nelson:expectedSquare', '%s must be square.', 'Matrix A');
     end
     if (nC ~= nA)
-      error('Nelson:control_system:AAndCNumColumnsMismatch', _('Matrices A and C should have an identical number of columns.'));
+      error('Nelson:control_system:AAndCNumColumnsMismatch', 'Matrices %s and %s should have an identical number of columns.', 'A', 'C');
     end
-  end        
-  n = size(A, 1); 
+  end
+  n = size(A, 1);
   % Compute the observability matrix now!
   Or = [];
-  for i = 0:(n-1)
-    Or = [Or; C * A^i];
+  for i = 0:(n - 1)
+    Or = [Or; C * A ^ i];
   end
-  varargout{1} = Or; 
+  varargout{1} = Or;
 end

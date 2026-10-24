@@ -11,22 +11,19 @@ function varargout = buildhelpjson(varargin)
   % BUILDHELPJSON Build help JSON files from XML documentation.
   %
   if ~isempty(getenv('CONDA_PREFIX')) && ismac()
-    warning(_('Building help files is not allowed in a conda environment. libxslt causes issues on macOS.'));
+    warning('Nelson:help_tools:condaNotSupported', 'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
     return;
   end
   narginchk(0, 0);
   nargoutchk(0, 0);
   varargout = {};
-  run([nelsonroot() '/modules/' 'modules.m']);
-  funcList = @(x) x{1};
-  modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
+  modules_help_list = get_builtin_help_modules();
   for lang = getavailablelanguages()'
     destination_json_directory = [nelsonroot() '/modules/help_tools/help/'];
     if ~isdir(destination_json_directory)
-      msg = sprintf(_('Destination directory for help json files not found: %s'), destination_json_directory);
-      error(msg);
+      error('Nelson:buildhelpjson:destinationNotFound', 'Destination directory for help json files not found: %s', destination_json_directory);
     end
-    msg = sprintf(_('Building help json files for language: %s\n'), lang{1});
+    msg = [sprintf(_('Building help json files for language: %s'), lang{1}), sprintf('\n')];
     fprintf(msg);
     temp_dir = tempname();
     mkdir(temp_dir);
@@ -46,10 +43,15 @@ function varargout = buildhelpjson(varargin)
             continue;
           end
           basename = f.name(1:end-4);
-          if ~(ismacro(basename) || isbuiltin(basename))
+          xml_filename = [f.folder, '/', f.name];
+          % Index a page when its file name is a function/builtin, or when the
+          % page declares a keyword_alias. nflow block help pages expose a
+          % "block:<type>" alias (used to open a block's help from nflow) but
+          % their file name is not a Nelson function, so the function-only
+          % filter used to drop every block from the search index.
+          if ~(ismacro(basename) || isbuiltin(basename) || pageHasKeywordAlias(xml_filename))
             continue;
           end
-          xml_filename = [f.folder, '/', f.name];
           json_filename = [temp_dir, '/', m{1}, '_', lang{1}, '_', basename, '.json'];
           xmltransform(xml_filename, nelson_json_xslt, json_filename);
           st = jsondecode(json_filename, '-file');
@@ -71,6 +73,16 @@ function varargout = buildhelpjson(varargin)
     dst_json_filename = fullfile(destination_json_directory, ['nelson_help_', lang{1}, '.json']);
     filewrite(dst_json_filename, content);
     rmdir(temp_dir, 's');
+  end
+end
+%=============================================================================
+function tf = pageHasKeywordAlias(xml_filename)
+  tf = false;
+  try
+    content = fileread(xml_filename);
+    tf = contains(content, '<keyword_alias>');
+  catch
+    tf = false;
   end
 end
 %=============================================================================

@@ -11,18 +11,18 @@ wn = 5;
 z = 0.7;
 %=============================================================================
 [A, B, C, D] = ord2(wn, z);
-A_REF = [0     1;   -25    -7];
+A_REF = [0 1; -25 -7];
 B_REF = [0; 1];
-C_REF = [1     0];
+C_REF = [1 0];
 D_REF = 0;
-assert_isequal(A, A_REF);
-assert_isequal(B, B_REF);
-assert_isequal(C, C_REF);
-assert_isequal(D, D_REF);
+asserts.isequal(A, A_REF);
+asserts.isequal(B, B_REF);
+asserts.isequal(C, C_REF);
+asserts.isequal(D, D_REF);
 %=============================================================================
 [num, den] = ord2(wn, z);
 num_REF = 1;
-den_REF = [ 1     7    25];
-assert_isequal(num, num_REF)
-assert_isequal(den, den_REF)
+den_REF = [1 7 25];
+asserts.isequal(num, num_REF)
+asserts.isequal(den, den_REF)
 %=============================================================================

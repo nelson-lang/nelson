@@ -14,8 +14,8 @@ C = [0, 10];
 D = 0;
 s2 = ss(A, B, C, D);
 s3 = ss(A, B, C, D, 0.2);
-assert_istrue(isequal(s1, s1, s1));
-assert_isfalse(isequal(s1, s2, s1));
-assert_istrue(isequal(s1, s1));
-assert_isfalse(isequal(s2, s3));
+asserts.istrue(isequal(s1, s1, s1));
+asserts.isfalse(isequal(s1, s2, s1));
+asserts.istrue(isequal(s1, s1));
+asserts.isfalse(isequal(s2, s3));
 %=============================================================================

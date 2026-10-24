@@ -10,21 +10,21 @@
 function varargout = augstate(varargin)
   narginchk(4, 4);
   nargoutchk(0, 4);
-  
+
   A = varargin{1};
   B = varargin{2};
   C = varargin{3};
   D = varargin{4};
-  
+
   msg = abcdchk(A, B);
   if ~isempty(msg)
     error(msg.id, msg.message);
   end
-  
+
   rA = size(A, 1);
   cB = size(B, 2);
-  
-  varargout{1} = A; 
+
+  varargout{1} = A;
   if nargout > 1
     varargout{2} = B;
   end

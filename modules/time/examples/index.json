@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "calendar_arithmetic.m",
+      "title": {
+        "en_US": "Calendar arithmetic",
+        "fr_FR": "Calcul calendaire"
+      },
+      "description": {
+        "en_US": "Build a monthly schedule while preserving calendar semantics at month ends.",
+        "fr_FR": "Construire un calendrier mensuel en respectant la sémantique des fins de mois."
+      },
+      "tags": [
+        "datetime",
+        "calendar",
+        "schedule"
+      ],
+      "requirements": []
+    }
+  ]
+}

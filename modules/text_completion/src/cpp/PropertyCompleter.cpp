@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,8 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "EvaluateCommand.hpp"
+#include "ClassdefParser.hpp"
+#include "CompleterHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +23,7 @@ wstringVector
 PropertyCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (!eval) {
         return res;
     }
@@ -33,40 +35,55 @@ PropertyCompleter(const std::wstring& prefix)
         return res;
     }
 
-    std::string variable = utf8prefix.substr(0, lastDotPos);
+    std::string variableExpression = utf8prefix.substr(0, lastDotPos);
     std::string postfix = utf8prefix.substr(lastDotPos + 1);
-    size_t lastCharacterIndex = variable.find_last_of(" ([{,;");
+    std::string variable = getLookupSymbolFromCompletionExpression(variableExpression);
 
-    if (lastCharacterIndex != std::string::npos) {
-        variable = variable.substr(lastCharacterIndex + 1);
-    }
-
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
-        ArrayOfVector variableArray
-            = EvaluateCommand(eval, 1, utf8_to_wstring(variable), std::wstring());
-        if (variableArray.size() != 1) {
+        if (variable == variableExpression && classdefLoadClass(variable)) {
+            stringVector propertyNames = classdefProperties(variable);
+            for (const auto& name : propertyNames) {
+                if (StringHelpers::icontains(name, postfix)) {
+                    res.push_back(utf8_to_wstring(name));
+                }
+            }
+            return res;
+        }
+
+        ArrayOf variableValue;
+        if (!resolveCompletionExpressionValue(context, eval, variableExpression, variableValue)) {
+            return res;
+        }
+        if (!isValidCompletionHandle(variableValue)) {
             return res;
         }
 
         stringVector propertyNames;
 
-        if (variableArray[0].isGraphicsObject() || variableArray[0].isClassType()
-            || variableArray[0].isHandle()) {
+        std::string className;
+        if (variableValue.isClassType()) {
+            className = variableValue.classType();
+        } else if (variableValue.isHandle()) {
+            className = variableValue.handleClassName();
+        }
+        if (!className.empty() && classdefLoadClass(className)) {
+            propertyNames = classdefProperties(className);
+        } else if (variableValue.isGraphicsObject() || variableValue.isHandle()) {
             ArrayOfVector propertiesArray = EvaluateCommand(
-                eval, 1, utf8_to_wstring("properties(" + variable + ")"), std::wstring());
+                eval, 1, utf8_to_wstring("properties(" + variableExpression + ")"), std::wstring());
             if (propertiesArray.size() == 1) {
-                propertyNames = propertiesArray[0].getContentAsCStringVector();
+                propertyNames = propertiesArray[0].asUtf8StringVector();
             }
         }
 
         for (const auto& name : propertyNames) {
-            if (StringHelpers::starts_with(name, postfix)) {
+            if (StringHelpers::icontains(name, postfix)) {
                 res.push_back(utf8_to_wstring(name));
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
 

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,14 @@
 #include "characters_encoding.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
+//=============================================================================
+#define WHOS_HEADER_ATTRIBUTES "Attributes"
+#define WHOS_HEADER_BYTES "Bytes"
+#define WHOS_HEADER_CLASS "Class"
+#define WHOS_HEADER_NAME "Name"
+#define WHOS_HEADER_SIZE "Size"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,9 +38,9 @@ getNestingEmptyStruct()
     fieldnames.push_back("function");
     fieldnames.push_back("level");
     ArrayOfVector values;
-    values.push_back(ArrayOf::characterArrayConstructor(""));
-    values.push_back(ArrayOf::doubleConstructor(0));
-    return ArrayOf::structConstructor(fieldnames, values);
+    values.push_back(ArrayOf::characterArray(""));
+    values.push_back(ArrayOf::doubleScalar(0));
+    return ArrayOf::structArray(fieldnames, values);
 }
 //=============================================================================
 ArrayOf
@@ -46,21 +53,21 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
         = FileSystemWrapper::Path::is_regular_file(nh5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:hdf5:fileDoesNotExist", L"File does not exist.");
     }
 
     hid_t fid
         = H5Fopen(wstring_to_utf8(nh5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
     if (!isNelsonH5File(fid)) {
         H5Fclose(fid);
-        Error(_W("Invalid file format."));
+        Error(L"Nelson:hdf5:invalidFileFormat", L"Invalid file format.");
     }
     stringVector variableNamesInFile = getVariableNames(fid);
     stringVector variablesNamesToRead;
@@ -83,10 +90,10 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     std::vector<logical> _sparse;
     std::vector<logical> _complex;
     std::vector<logical> _persistent;
-    size_t nbSpaceName = _("Name").size();
-    size_t nbSpaceSize = _("Size").size();
-    size_t nbSpaceBytes = _("Bytes").size();
-    size_t nbSpaceClass = _("Class").size();
+    size_t nbSpaceName = _(WHOS_HEADER_NAME).size();
+    size_t nbSpaceSize = _(WHOS_HEADER_SIZE).size();
+    size_t nbSpaceBytes = _(WHOS_HEADER_BYTES).size();
+    size_t nbSpaceClass = _(WHOS_HEADER_CLASS).size();
 
     _names.reserve(variablesNamesToRead.size());
     _size.reserve(variablesNamesToRead.size());
@@ -99,7 +106,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
 
     for (const std::string& name : variablesNamesToRead) {
         ArrayOf value;
-        if (h5LoadVariable(fid, "/", name, value)) {
+        if (h5LoadVariable(nullptr, fid, "/", name, value)) {
             _names.push_back(name);
             nbSpaceName = std::max(nbSpaceName, name.size());
 
@@ -108,7 +115,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             if (value.isSparse()) {
                 sizeAsByte = std::nan("");
             } else {
-                sizeAsByte = (double)value.getByteSize();
+                sizeAsByte = (double)value.byteSize();
             }
             _bytes.push_back(sizeAsByte);
             nbSpaceBytes = std::max(nbSpaceBytes, std::to_string((int)sizeAsByte).size());
@@ -116,7 +123,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             _class.push_back(className);
             nbSpaceClass = std::max(nbSpaceClass, className.size());
 
-            Dimensions dims = value.getDimensions();
+            Dimensions dims = value.dimensions();
             _size.push_back(dims);
             nbSpaceSize = std::max(nbSpaceSize, dims.toString().size());
 
@@ -126,8 +133,11 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             _persistent.push_back(false);
         } else {
             H5Fclose(fid);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+            std::string msg
+                = formatI18nMessage(resolveMessageTemplate("Nelson:hdf5:cannotReadVariableS",
+                                        "Cannot read variable: %s"),
+                    name);
+            Error("Nelson:hdf5:whosFailed", msg);
         }
     }
     herr_t status = H5Fclose(fid);
@@ -147,10 +157,10 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
         dims[0] = _names.size();
         dims[1] = 1;
         if (_names.empty()) {
-            res = ArrayOf::emptyStructConstructor(fieldnames, dims);
+            res = ArrayOf::emptyStruct(fieldnames, dims);
         } else {
-            auto* elements = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            auto* elements = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
             ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
             ArrayOfVector nameArray;
             ArrayOfVector sizeArray;
@@ -173,20 +183,20 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             persistentArray.reserve(dims[0]);
 
             for (indexType i = 0; i < (indexType)_names.size(); ++i) {
-                nameArray.push_back(ArrayOf::characterArrayConstructor(_names[i]));
-                ArrayOf s = ArrayOf::doubleRowVectorConstructor(_size[i].getLength());
-                double* ptrDouble = (double*)s.getDataPointer();
-                for (indexType k = 0; k < _size[i].getLength(); ++k) {
+                nameArray.push_back(ArrayOf::characterArray(_names[i]));
+                ArrayOf s = ArrayOf::doubleRowVector(_size[i].length());
+                double* ptrDouble = (double*)s.dataPointer();
+                for (indexType k = 0; k < _size[i].length(); ++k) {
                     ptrDouble[k] = (double)_size[i][k];
                 }
                 sizeArray.push_back(s);
-                bytesArray.push_back(ArrayOf::doubleConstructor(_bytes[i]));
-                classArray.push_back(ArrayOf::characterArrayConstructor(_class[i]));
-                globalArray.push_back(ArrayOf::logicalConstructor(_global[i]));
-                sparseArray.push_back(ArrayOf::logicalConstructor(_sparse[i]));
-                complexArray.push_back(ArrayOf::logicalConstructor(_complex[i]));
+                bytesArray.push_back(ArrayOf::doubleScalar(_bytes[i]));
+                classArray.push_back(ArrayOf::characterArray(_class[i]));
+                globalArray.push_back(ArrayOf::logicalScalar(_global[i]));
+                sparseArray.push_back(ArrayOf::logicalScalar(_sparse[i]));
+                complexArray.push_back(ArrayOf::logicalScalar(_complex[i]));
                 nestingArray.push_back(getNestingEmptyStruct());
-                persistentArray.push_back(ArrayOf::logicalConstructor(_persistent[i]));
+                persistentArray.push_back(ArrayOf::logicalScalar(_persistent[i]));
             }
 
             st.setFieldAsList("name", nameArray);
@@ -203,14 +213,15 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     } else {
         if (_names.size()) {
             std::stringstream ssLine;
-            ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceName) << _("Name");
+            ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceName)
+                   << _(WHOS_HEADER_NAME);
             ssLine << "      " << std::left << std::setfill(' ') << std::setw(nbSpaceSize)
-                   << _("Size");
+                   << _(WHOS_HEADER_SIZE);
             ssLine << "            " << std::right << std::setfill(' ') << std::setw(nbSpaceBytes)
-                   << _("Bytes");
+                   << _(WHOS_HEADER_BYTES);
             ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceClass)
-                   << _("Class");
-            ssLine << "  " << _("Attributes");
+                   << _(WHOS_HEADER_CLASS);
+            ssLine << "  " << _(WHOS_HEADER_ATTRIBUTES);
             ssLine << std::endl;
             ssLine << std::endl;
             io->outputMessage(ssLine.str());

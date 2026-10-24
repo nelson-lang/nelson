@@ -14,8 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-matvar_t*
-SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion);
+class Evaluator;
 //=============================================================================
-}
+matvar_t*
+SaveMatioVariable(Evaluator* eval, const std::string& variableName, const ArrayOf& variableValue,
+    mat_ft matVersion);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

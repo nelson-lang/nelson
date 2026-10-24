@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,6 +20,7 @@
 #include <Eigen/Dense>
 #include "BetaIncomplete.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -28,8 +29,8 @@ inline Dimensions
 maxDimensions(Dimensions& a, Dimensions& b)
 {
     Dimensions ret;
-    for (unsigned int i = 0; i < std::min(a.getLength(), b.getLength()); i++) {
-        ret[i] = (a.getAt(i, false) > b.getAt(i, false)) ? a.getAt(i, false) : b.getAt(i, false);
+    for (unsigned int i = 0; i < std::min(a.length(), b.length()); i++) {
+        ret[i] = (a.at(i, false) > b.at(i, false)) ? a.at(i, false) : b.at(i, false);
     }
     return ret;
 }
@@ -96,7 +97,6 @@ template <typename T>
 static T
 ibeta(T a, T b, T x)
 {
-    // Regularized incomplete beta function I_x(a,b)
     if (x <= (T)0.0) {
         return (T)0.0;
     }
@@ -114,13 +114,11 @@ ibeta(T a, T b, T x)
         return (x > (T)0.0) ? (T)1.0 : (T)0.0;
     }
 
-    // Compute ln(beta(a,b)) via lgamma
     T ln_beta = std::lgamma(a) + std::lgamma(b) - std::lgamma(a + b);
 
     // Use symmetry transformation if necessary for better convergence
     T front;
     if (x < (a + (T)1.0) / (a + b + (T)2.0)) {
-        // use continued fraction directly
         front = std::exp(a * std::log(x) + b * std::log((T)1.0 - x) - ln_beta) / a;
         T cf = betacf<T>(a, b, x);
         return front * cf;
@@ -139,11 +137,11 @@ BetaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType 
     const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower)
 {
     T* result = (T*)ArrayOf::allocateArrayOf(
-        destinationType, retDims.getElementCount(), stringVector(), false);
+        destinationType, retDims.elementCount(), stringVector(), false);
     ArrayOf res = ArrayOf(destinationType, retDims, result);
-    auto* ptrX = (T*)X.getDataPointer();
-    auto* ptrY = (T*)Y.getDataPointer();
-    auto* ptrZ = (T*)Z.getDataPointer();
+    auto* ptrX = (T*)X.dataPointer();
+    auto* ptrY = (T*)Y.dataPointer();
+    auto* ptrZ = (T*)Z.dataPointer();
     if (isLower) {
         OMP_PARALLEL_FOR_LOOP(maxLen)
         for (ompIndexType i = 0; i < (ompIndexType)maxLen; ++i) {
@@ -177,70 +175,73 @@ BetaIncomplete(
     const ArrayOf& X, const ArrayOf& Y, const ArrayOf& Z, bool isLower, bool& needOverload)
 {
     ArrayOf res;
-    if (X.getDataClass() == NLS_DOUBLE || X.getDataClass() == NLS_SINGLE && !X.isSparse()) {
+    if ((X.dataClass() == NLS_DOUBLE || X.dataClass() == NLS_SINGLE) && !X.isSparse()) {
         needOverload = false;
     } else {
         needOverload = true;
         return res;
     }
-    if (Y.getDataClass() == NLS_DOUBLE || Y.getDataClass() == NLS_SINGLE && !Y.isSparse()) {
+    if ((Y.dataClass() == NLS_DOUBLE || Y.dataClass() == NLS_SINGLE) && !Y.isSparse()) {
         needOverload = false;
     } else {
         needOverload = true;
         return res;
     }
-    if (Z.getDataClass() == NLS_DOUBLE || Z.getDataClass() == NLS_SINGLE && !Z.isSparse()) {
+    if ((Z.dataClass() == NLS_DOUBLE || Z.dataClass() == NLS_SINGLE) && !Z.isSparse()) {
         needOverload = false;
     } else {
         needOverload = true;
         return res;
     }
-    indexType maxLen
-        = std::max(X.getElementCount(), std::max(Y.getElementCount(), Z.getElementCount()));
-    Dimensions dimsX = X.getDimensions();
-    Dimensions dimsY = Y.getDimensions();
-    Dimensions dimsZ = Z.getDimensions();
+    indexType maxLen = std::max(X.elementCount(), std::max(Y.elementCount(), Z.elementCount()));
+    Dimensions dimsX = X.dimensions();
+    Dimensions dimsY = Y.dimensions();
+    Dimensions dimsZ = Z.dimensions();
     Dimensions dimsMaxYZ = maxDimensions(dimsY, dimsZ);
     Dimensions retDims = maxDimensions(dimsX, dimsMaxYZ);
-    if (!(X.isScalar()) && !retDims.equals(X.getDimensions())) {
-        Error(_("Wrong size for #1 argument."));
+    if (!(X.isScalar()) && !retDims.equals(X.dimensions())) {
+        Error("Nelson:dimagree:wrongSizeNArgument", "Wrong size for #%d argument.", 1);
     }
-    if (!(Y.isScalar()) && !retDims.equals(Y.getDimensions())) {
-        Error(_("Wrong size for #2 argument."));
+    if (!(Y.isScalar()) && !retDims.equals(Y.dimensions())) {
+        Error("Nelson:dimagree:wrongSizeNArgument", "Wrong size for #%d argument.", 2);
     }
-    if (!(Z.isScalar()) && !retDims.equals(Z.getDimensions())) {
-        Error(_("Wrong size for #3 argument."));
+    if (!(Z.isScalar()) && !retDims.equals(Z.dimensions())) {
+        Error("Nelson:dimagree:wrongSizeNArgument", "Wrong size for #%d argument.", 3);
     }
     if (!Y.isPositive()) {
-        Error(_("Wrong value for #2 argument. positive value expected."));
+        Error("Nelson:betainc:mustBePositive",
+            "Wrong value for #%d argument. positive value expected.", 2);
     }
     if (!Z.isPositive()) {
-        Error(_("Wrong value for #3 argument. positive value expected."));
+        Error("Nelson:betainc:mustBePositive",
+            "Wrong value for #%d argument. positive value expected.", 3);
     }
-    if (X.getDataClass() == NLS_DOUBLE) {
+    if (X.dataClass() == NLS_DOUBLE) {
         ArrayOf YY(Y);
         ArrayOf ZZ(Z);
         YY.promoteType(NLS_DOUBLE);
         ZZ.promoteType(NLS_DOUBLE);
 
         Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> matX(
-            (double*)X.getDataPointer(), 1, dimsX.getElementCount());
+            (double*)X.dataPointer(), 1, dimsX.elementCount());
         bool isBetween0and1 = ((matX.array() >= 0).all() && (matX.array() <= 1).all());
         if (!isBetween0and1) {
-            Error(_("Wrong value for #1 argument. [0, 1] values expected."));
+            Error("Nelson:betainc:xOutOfRange",
+                "Wrong value for #%d argument. [0, 1] values expected.", 1);
         }
         res = BetaIncomplete<double>(retDims, NLS_DOUBLE, maxLen, X, YY, ZZ, isLower);
-    } else if (X.getDataClass() == NLS_SINGLE) {
+    } else if (X.dataClass() == NLS_SINGLE) {
         ArrayOf YY(Y);
         ArrayOf ZZ(Z);
         YY.promoteType(NLS_SINGLE);
         ZZ.promoteType(NLS_SINGLE);
 
         Eigen::Map<Eigen::Matrix<single, Eigen::Dynamic, Eigen::Dynamic>> matX(
-            (single*)X.getDataPointer(), 1, dimsX.getElementCount());
+            (single*)X.dataPointer(), 1, dimsX.elementCount());
         bool isBetween0and1 = ((matX.array() >= 0).all() && (matX.array() <= 1).all());
         if (!isBetween0and1) {
-            Error(_("Wrong value for #1 argument. [0, 1] values expected."));
+            Error("Nelson:betainc:xOutOfRange",
+                "Wrong value for #%d argument. [0, 1] values expected.", 1);
         }
         res = BetaIncomplete<single>(retDims, NLS_SINGLE, maxLen, X, YY, ZZ, isLower);
     } else {
@@ -251,7 +252,7 @@ BetaIncomplete(
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
-
 #if defined(__GNUC__)
 #pragma GCC diagnostic pop
 #endif
+//=============================================================================

@@ -7,16 +7,50 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('usermodulesdir'),0);
-assert_isequal(nargout('usermodulesdir'), 1);
+asserts.isequal(nargin('usermodulesdir'), 0);
+asserts.isequal(nargout('usermodulesdir'), 1);
 %=============================================================================
 P = getenv('NELSON_EXTERNAL_MODULES_PATH');
 if isdir(P)
-  REF = p;
+  REF = fullpath(P);
+  if ~endsWith(REF, '/')
+    REF = [REF, '/'];
+  end
 else
   V = version('-number');
-  REF = [userdir(), 'Nelson/', sprintf('%d.%d.%d',V(1), V(2), V(3)), '/modules/'];
+  if iswasm()
+    REF = ['/user-modules/Nelson/', sprintf('%d.%d.%d', V(1), V(2), V(3)), '/modules/'];
+  else
+    REF = [userdir(), 'Nelson/', sprintf('%d.%d.%d', V(1), V(2), V(3)), '/modules/'];
+  end
 end
 R = usermodulesdir();
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+previousExternalModulesPath = getenv('NELSON_EXTERNAL_MODULES_PATH');
+dynamicPath = [tempdir(), 'test_usermodulesdir_dynamic/'];
+if isdir(dynamicPath)
+  rmdir(dynamicPath, 's');
+end
+try
+  setenv('NELSON_EXTERNAL_MODULES_PATH', dynamicPath);
+  R = usermodulesdir();
+  asserts.isequal(R, dynamicPath);
+  if isempty(previousExternalModulesPath)
+    setenv('NELSON_EXTERNAL_MODULES_PATH');
+  else
+    setenv('NELSON_EXTERNAL_MODULES_PATH', previousExternalModulesPath);
+  end
+  rmdir(dynamicPath, 's');
+catch e
+  if isempty(previousExternalModulesPath)
+    setenv('NELSON_EXTERNAL_MODULES_PATH');
+  else
+    setenv('NELSON_EXTERNAL_MODULES_PATH', previousExternalModulesPath);
+  end
+  if isdir(dynamicPath)
+    rmdir(dynamicPath, 's');
+  end
+  rethrow(e);
+end
 %=============================================================================

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>structfun</keyword>
+  <short_description>Applique une fonction a chaque champ d'une structure scalaire.</short_description>
+  <syntax>
+    <syntax_item>B = structfun(fun, S)</syntax_item>
+    <syntax_item>B = structfun(fun, S, 'UniformOutput', tf)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>handle de fonction applique a chaque valeur de champ.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>structure scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tf</param_name>
+      <param_description>option 'UniformOutput' : true (defaut) ou false.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>vecteur colonne (sortie uniforme) ou structure (sortie non uniforme).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>structfun(fun, S)</b> applique <b>fun</b> a chaque champ de la structure scalaire <b>S</b> et retourne les resultats sous forme de vecteur colonne.</p>
+    <p>Avec <b>'UniformOutput'</b> a <b>false</b>, les resultats sont retournes dans une structure ayant les memes champs que <b>S</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[s.a = 1; s.b = 2; s.c = 3;
+structfun(@(x) x * 2, s)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}cellfun">cellfun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}arrayfun">arrayfun</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

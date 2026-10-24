@@ -8,11 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 clear A
-assert_isfalse(isvar('A'));
+asserts.isfalse(isvar('A'));
 A = 3;
-assert_istrue(isvar('A'));
-assert_istrue(isvar('local', 'A'));
-assert_isfalse(isvar('global', 'B'));
+asserts.istrue(isvar('A'));
+asserts.istrue(isvar('local', 'A'));
+asserts.isfalse(isvar('global', 'B'));
 global B
-assert_istrue(isvar('global', 'B'));
+asserts.istrue(isvar('global', 'B'));
 %=============================================================================

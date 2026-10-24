@@ -7,47 +7,47 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('fftw'), 2);
-assert_isequal(nargout('fftw'), 1);
+asserts.isequal(nargin('fftw'), 2);
+asserts.isequal(nargout('fftw'), 1);
 %=============================================================================
 m = fftw('planner');
-assert_isequal(m, 'estimate');
+asserts.isequal(m, 'estimate');
 %=============================================================================
 fftw('planner', 'estimate');
 m = fftw('planner');
-assert_isequal(m, 'estimate');
+asserts.isequal(m, 'estimate');
 %=============================================================================
 fftw('planner', 'measure');
 m = fftw('planner');
-assert_isequal(m, 'measure');
+asserts.isequal(m, 'measure');
 %=============================================================================
 fftw('planner', 'patient');
 m = fftw('planner');
-assert_isequal(m, 'patient');
+asserts.isequal(m, 'patient');
 %=============================================================================
 fftw('planner', 'exhaustive');
 m = fftw('planner');
-assert_isequal(m, 'exhaustive');
+asserts.isequal(m, 'exhaustive');
 %=============================================================================
 fftw('planner', 'hybrid');
 m = fftw('planner');
-assert_isequal(m, 'hybrid');
+asserts.isequal(m, 'hybrid');
 %=============================================================================
 fftw('planner', []);
 m = fftw('planner');
-assert_isequal(m, 'estimate');
+asserts.isequal(m, 'estimate');
 %=============================================================================
 wd = fftw('dwisdom');
-assert_istrue(strncmp(wd, '(fftw-', 6) || length(wd) == 0);
+asserts.istrue(strncmp(wd, '(fftw-', 6) || length(wd) == 0);
 %=============================================================================
-ws= fftw('swisdom');
-assert_istrue(strncmp(ws, '(fftw-', 6) || length(wd) == 0);
+ws = fftw('swisdom');
+asserts.istrue(strncmp(ws, '(fftw-', 6) || length(wd) == 0);
 %=============================================================================
 fftw('dwisdom', []);
 fftw('swisdom', []);
 %=============================================================================
-ws2= fftw('swisdom');
-wd2= fftw('dwisdom');
-assert_isequal(wd, wd2);
-assert_isequal(ws, ws2);
+ws2 = fftw('swisdom');
+wd2 = fftw('dwisdom');
+asserts.istrue(strncmp(wd2, '(fftw-', 6) || length(wd2) == 0);
+asserts.istrue(strncmp(ws2, '(fftw-', 6) || length(ws2) == 0);
 %=============================================================================

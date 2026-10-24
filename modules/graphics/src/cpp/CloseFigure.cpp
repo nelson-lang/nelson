@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CloseFigure.hpp"
+#include "GraphicsEnvironment.hpp"
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOFigure.hpp"
@@ -19,11 +20,14 @@
 namespace Nelson {
 //=============================================================================
 bool
-closeCurrentFigure()
+closeCurrentFigure(bool forceClose)
 {
     int64 currentFigure = getCurrentFigure();
     if (currentFigure == NO_FIGURE) {
         return true;
+    }
+    if (forceClose) {
+        return deleteFigure(currentFigure, true);
     }
     return closeFigure(currentFigure);
 }
@@ -39,11 +43,11 @@ closeFigureByName(const std::wstring& name)
 {
     std::vector<int64> nums = getFigureGraphicsObjects();
     for (long long num : nums) {
-        GOWindow* window = getFigure(num);
+        GOFigureHost* window = getFigure(num);
         if (!window) {
             return false;
         }
-        GraphicsObject* goFigure = window->getGOFigure();
+        GraphicsObject* goFigure = window->hostFigure();
         if (!goFigure) {
             return false;
         }
@@ -67,17 +71,23 @@ closeFigureByName(const wstringVector& names)
 }
 //=============================================================================
 bool
-closeAllFigures()
+closeAllFigures(bool forceClose)
 {
-    int64 currentFigureID = getCurrentFigure();
+    std::vector<int64> figureIDs = getFigureGraphicsObjects();
     bool closedOnce = false;
-    while (currentFigureID != -1) {
-        closeFigure(currentFigureID);
-        currentFigureID = getCurrentFigure();
-        closedOnce = true;
+    for (int64 currentFigureID : figureIDs) {
+        if (getFigure(currentFigureID)) {
+            bool closed
+                = forceClose ? deleteFigure(currentFigureID, true) : closeFigure(currentFigureID);
+            if (closed) {
+                closedOnce = true;
+            }
+        }
+        GraphicsEnvironment::flushGuiEvents(50);
     }
+    GraphicsEnvironment::flushGuiEvents(50);
     return closedOnce;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

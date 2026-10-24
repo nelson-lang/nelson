@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>crypto.argon2</keyword>
+  <short_description>Argon2 password hashing and key derivation.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.argon2(password, salt)</syntax_item>
+    <syntax_item>hexa_hash = crypto.argon2(password, salt, name, value, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description
+      >a uint8 vector (raw bytes) or a character vector (UTF-8 bytes): secret to hash.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>salt</param_name>
+      <param_description
+      >a uint8 vector (raw bytes) or a character vector (UTF-8 bytes): at least 8 bytes, 16 random bytes recommended, unique per password.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Variant&apos;</param_name>
+      <param_description
+      >&apos;argon2id&apos; (default, recommended), &apos;argon2i&apos; or &apos;argon2d&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Memory&apos;</param_name>
+      <param_description
+      >memory cost in KiB, at least 8 times the number of lanes (default: 65536, that is 64 MiB).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Passes&apos;</param_name>
+      <param_description>number of iterations, at least 1 (default: 3).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Lanes&apos;</param_name>
+      <param_description
+      >degree of parallelism of the algorithm, at least 1 (default: 1); the computation itself is single threaded.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Length&apos;</param_name>
+      <param_description>output length in bytes, between 4 and 1024 (default: 32).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Key&apos;</param_name>
+      <param_description
+      >optional secret key (pepper) as uint8 or text, mixed into the hash.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;AssociatedData&apos;</param_name>
+      <param_description>optional associated data as uint8 or text, mixed into the hash.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>a character vector: 2 * Length lowercase hexadecimal characters.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.argon2</b> computes an Argon2 hash (RFC 9106), the memory-hard function recommended for password storage and for deriving encryption keys from passphrases. Store the salt and the parameters next to the hash: verifying a password means recomputing the hash with the same inputs and comparing.</p>
+    <p
+    >The defaults (argon2id, 64 MiB, 3 passes, 1 lane) take a fraction of a second on a desktop machine; raise <b>Memory</b> or <b>Passes</b> for stronger protection, lower them only for tests. The work area is allocated for each call and wiped afterwards.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://www.rfc-editor.org/rfc/rfc9106, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hash a passphrase (small parameters for the example)</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = crypto.argon2('correct horse battery staple', 'salt-of-16-bytes', 'Memory', 1024, 'Passes', 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>RFC 9106 argon2id test vector</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[password = uint8(repmat(1, 1, 32));
+salt = uint8(repmat(2, 1, 16));
+R = crypto.argon2(password, salt, 'Memory', 32, 'Passes', 3, 'Lanes', 4, 'Key', uint8(repmat(3, 1, 8)), 'AssociatedData', uint8(repmat(4, 1, 12)))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.blake2b">crypto.blake2b</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.hmac">crypto.hmac</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

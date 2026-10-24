@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,8 +17,8 @@ GOFixedVectorProperty::set(ArrayOf num)
 {
     GOGenericProperty::set(num);
     num.promoteType(NLS_DOUBLE);
-    const double* dp = (const double*)num.getDataPointer();
-    indexType minLen = std::min((indexType)m_len, num.getElementCount());
+    const double* dp = (const double*)num.dataPointer();
+    indexType minLen = std::min((indexType)m_len, num.elementCount());
     _data.reserve(minLen);
     for (indexType i = 0; i < minLen; i++) {
         _data[i] = dp[i];
@@ -28,5 +28,5 @@ GOFixedVectorProperty::set(ArrayOf num)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -10,24 +10,24 @@
 %<--INTERACTIVE TEST-->
 %=============================================================================
 for k = 1:2
-    disp(['Iteration k = ', num2str(k)]);
-    disp('next line');
-if true
+  disp(['Iteration k = ', num2str(k)]);
+  disp('next line');
+  if true
     disp('Condition is true');
     disp('next line');
     if false
-        disp('Nested condition is false');
-        disp('next line');
+      disp('Nested condition is false');
+      disp('next line');
     end
-else
+  else
     disp('Condition is false');
     disp('next line');
     if true
-        disp('Nested condition is true');
-        disp('next line');
+      disp('Nested condition is true');
+      disp('next line');
     end
-end
-disp('after if else end')
+  end
+  disp('after if else end')
 
 end
 %=============================================================================

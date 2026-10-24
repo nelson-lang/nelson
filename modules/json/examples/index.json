@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "json_patient.m",
+      "title": {
+        "en_US": "Read and write JSON",
+        "fr_FR": "Lire et écrire du JSON"
+      },
+      "description": {
+        "en_US": "Inspect a patient record and write a formatted copy in the temporary directory.",
+        "fr_FR": "Inspecte un dossier patient et écrit une copie formatée dans le répertoire temporaire."
+      },
+      "tags": [
+        "json",
+        "files",
+        "beginner"
+      ],
+      "requirements": []
+    }
+  ]
+}

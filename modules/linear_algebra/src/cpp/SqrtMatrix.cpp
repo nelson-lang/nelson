@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,7 +17,11 @@
 #include "SqrtMatrix.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "SchurDecomposition.hpp"
+#include "Warning.hpp"
 #include "i18n.hpp"
+#include <cmath>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,30 +29,42 @@ template <class T>
 ArrayOf
 sqrtmComplex(ArrayOf& A)
 {
-    ArrayOf R(A);
-    R.ensureSingleOwner();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
-        Rz, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
-    if (!matA.allFinite()) {
-        Error(_("Input must be finite."));
-    } else {
-        // [V, D] = eig(A);
-        // sqrtm = V * diag(sqrt(diag(D))) * inv(V);
-        Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
-            solver(matA.template cast<std::complex<T>>());
-        auto evects = solver.eigenvectors();
-        auto evals = solver.eigenvalues();
-        ompIndexType elementCount = evals.rows();
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(elementCount); ++i) {
-            evals(i) = std::sqrt(evals(i));
+    const auto* inputData = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    for (indexType k = 0; k < A.elementCount(); ++k) {
+        if (!std::isfinite(static_cast<double>(inputData[k].real()))
+            || !std::isfinite(static_cast<double>(inputData[k].imag()))) {
+            Error("Nelson:linear_algebra:inputNotFinite", "Input must be finite.");
         }
-        auto evalsdiag = evals.asDiagonal();
-        matR = evects * evalsdiag * evects.inverse();
+    }
+    ArrayOf U;
+    ArrayOf Tschur;
+    SchurDecomposition(A, true, U, Tschur);
+    NelsonType complexClass = sizeof(T) == sizeof(single) ? NLS_SCOMPLEX : NLS_DCOMPLEX;
+    U.promoteType(complexClass);
+    Tschur.promoteType(complexClass);
+    ArrayOf R(U);
+    R.ensureSingleOwner();
+    using MatrixType = Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>;
+    const auto* up = reinterpret_cast<const std::complex<T>*>(U.dataPointer());
+    const auto* tp = reinterpret_cast<const std::complex<T>*>(Tschur.dataPointer());
+    auto* rp = reinterpret_cast<std::complex<T>*>(const_cast<void*>(R.dataPointer()));
+    Eigen::Map<const MatrixType> matU(up, (Eigen::Index)U.rows(), (Eigen::Index)U.columns());
+    Eigen::Map<const MatrixType> matT(
+        tp, (Eigen::Index)Tschur.rows(), (Eigen::Index)Tschur.columns());
+    Eigen::Map<MatrixType> matR(rp, (Eigen::Index)R.rows(), (Eigen::Index)R.columns());
+    bool isSingular = false;
+    for (Eigen::Index i = 0; i < matT.rows(); ++i) {
+        if (matT(i, i) == std::complex<T>((T)0, (T)0)) {
+            isSingular = true;
+            break;
+        }
+    }
+    MatrixType sqrtT = MatrixType::Zero(matT.rows(), matT.cols());
+    Eigen::matrix_sqrt_triangular(matT, sqrtT);
+    matR = matU * sqrtT * matU.adjoint();
+    if (isSingular) {
+        Warning(
+            "Nelson:sqrtm:SingularMatrix", "Matrix is singular and may not have a square root.");
     }
     return R;
 }
@@ -56,16 +72,15 @@ sqrtmComplex(ArrayOf& A)
 ArrayOf
 SqrtMatrix(ArrayOf A)
 {
-    bool isSupportedTypes
-        = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
-              || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
+    bool isSupportedTypes = (A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_SINGLE
+                                || A.dataClass() == NLS_DCOMPLEX || A.dataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'sqrtm' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+            "Undefined function '%s' for input arguments of type '%s'.", "sqrtm", ClassName(A));
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");
     }
     if (A.isEmpty()) {
         ArrayOf res(A);
@@ -73,8 +88,8 @@ SqrtMatrix(ArrayOf A)
         return res;
     }
     ArrayOf res;
-    if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {
-        if (A.getDataClass() == NLS_DOUBLE) {
+    if (A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_DCOMPLEX) {
+        if (A.dataClass() == NLS_DOUBLE) {
             A.promoteType(NLS_DCOMPLEX);
         }
         res = sqrtmComplex<double>(A);
@@ -82,7 +97,7 @@ SqrtMatrix(ArrayOf A)
             res.promoteType(NLS_DOUBLE);
         }
     } else {
-        if (A.getDataClass() == NLS_SINGLE) {
+        if (A.dataClass() == NLS_SINGLE) {
             A.promoteType(NLS_SCOMPLEX);
         }
         res = sqrtmComplex<single>(A);

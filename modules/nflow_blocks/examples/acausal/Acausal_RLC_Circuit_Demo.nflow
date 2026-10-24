@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal series RLC circuit: a constant voltage source drives a resistor, inductor and capacitor in series to ground. The inductor and capacitor exchange energy while the resistor damps it, so the capacitor voltage rings and settles to the source value -- a damped second-order electrical response. The Scope plots the capacitor voltage; ToWorkspace exports it.",
+  "name": "Acausal RLC Circuit",
+  "blocks": [
+    {
+      "id": "V1",
+      "type": "ConstantVoltage",
+      "params": { "name": "Vin", "V": 1 },
+      "x": 50,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 1 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "L1",
+      "type": "Inductor",
+      "params": { "name": "L1", "L": 1, "i0": 0 },
+      "x": 400,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "Capacitor",
+      "params": { "name": "C1", "C": 1, "v0": 0 },
+      "x": 550,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "VS",
+      "type": "VoltageSensor",
+      "params": { "name": "Vc" },
+      "x": 690,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 50,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "G2",
+      "type": "Ground",
+      "params": {},
+      "x": 550,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vc" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 850,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 850,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "L1.p"] },
+    { "pins": ["L1.n", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n"] },
+    { "pins": ["G2.p", "C1.n", "VS.n"] }
+  ]
+}

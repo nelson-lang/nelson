@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = cauchy(varargin)
   narginchk(2, 3);
-  
+
   xSeq = varargin{1};
   ySeq = varargin{2};
   if nargin < 3 || isempty(varargin{3})
@@ -30,9 +30,9 @@ function varargout = cauchy(varargin)
   elseif isempty(ySeq)
     ySeq = xSeq;
   end
-  
+
   xColumn = xSeq(:);
-  yColumn = ySeq(:); 
+  yColumn = ySeq(:);
   num = cast(1, className);
   den = xColumn + yColumn.';
   varargout{1} = num ./ den;

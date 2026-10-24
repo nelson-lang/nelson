@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#444441" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#444441">Demux</text></g>
+    <polyline points="8,0 102,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="0" cy="0" rx="15" ry="15" fill="#444441" stroke="#444441" stroke-width="3.25"/>
+    <polyline points="-100,0 -6,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="100,70 60,70 4,4" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,0 100,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="100,-70 60,-70 4,-4" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(5,-70) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#444441">n=0</text></g>
+  </g>
+</svg>

@@ -14,5 +14,6 @@
 namespace Nelson::DataStructuresGateway {
 ArrayOfVector
 cell2structBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

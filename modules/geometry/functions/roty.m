@@ -11,10 +11,10 @@ function res = roty(varargin)
   narginchk(1, 1);
   angle_degree = varargin{1};
   if ~isscalar(angle_degree)
-    error('Nelson:roty:kNonScalar', _('Input argument #1: scalar expected.'));
+    error('Nelson:geometry:kNonScalar', 'Input argument #%d: scalar expected.', 1);
   end
-  res = [cosd(angle_degree), 0, sind(angle_degree); 
-  0, 1, 0;
-  -sind(angle_degree), 0, cosd(angle_degree)];
+  res = [cosd(angle_degree), 0, sind(angle_degree);
+    0, 1, 0;
+    -sind(angle_degree), 0, cosd(angle_degree)];
 end
 %=============================================================================

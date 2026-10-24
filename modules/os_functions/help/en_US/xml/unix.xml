@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>unix</keyword>
+  <short_description>Execute commands with the operating system shell.</short_description>
+  <syntax>
+    <syntax_item>status = unix(command)</syntax_item>
+    <syntax_item>[status, output, duration] = unix(command)</syntax_item>
+    <syntax_item>[status, outputs, duration] = unix(commands)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>command</param_name>
+      <param_description>string scalar or character vector: command to execute in the operating system shell.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>commands</param_name>
+      <param_description>string array or cell array of character vectors executed as multiple commands.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>timeouts</param_name>
+      <param_description>scalar or vector of timeout values in seconds.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>integer exit status returned by the command.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>text captured from command output.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>duration</param_name>
+      <param_description>execution duration in milliseconds.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>unix executes one command or a collection of commands through the operating system shell and returns exit status values.</p>
+    <p>With output arguments, Nelson can also return command output text and execution durations. unix follows the same command execution model as system.</p>
+  </description>
+  <used_function>
+    <used_function_item>system</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run a shell command and capture its output.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[status, output] = unix('echo Nelson')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${os_functions}system">system</link></see_also_item>
+    <see_also_item><link linkend="${os_functions}dos">dos</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -62,6 +62,20 @@ A_IN = [1.0   0.0   0.0   0.0;
 [MAXRED_OUT, A_OUT, SCALE, INFO] = slicot_mb04md(MAXRED_IN, A_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_tb01id">slicot_tb01id</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb03rd">slicot_mb03rd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb05od">slicot_mb05od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}balreal">balreal</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <memory>
+#include <cstring>
 #include "h5ReadCompound.hpp"
 #include "h5ReadHelpers.hpp"
 #include "h5ReadString.hpp"
@@ -16,14 +17,26 @@
 #include "h5ReadOpaque.hpp"
 #include "h5ReadEnum.hpp"
 #include "h5ReadArray.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// Compound members are packed at arbitrary offsets. A cast and dereference would be a
+// misaligned load (undefined behaviour), so the bytes are copied.
+template <typename T>
+static inline T
+readUnalignedMember(const char* p)
+{
+    T v;
+    std::memcpy(&v, p, sizeof(T));
+    return v;
+}
 //=============================================================================
 static ArrayOf
 h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size_t offset,
@@ -32,16 +45,16 @@ h5ReadCompoundOpaqueMember(hsize_t sizeType, hid_t mType, const char* data, size
     uint8* ptrUINT8 = nullptr;
     try {
         ptrUINT8 = (uint8*)ArrayOf::allocateArrayOf(
-            NLS_UINT8, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_UINT8, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf fieldvalue = ArrayOf(NLS_UINT8, dims, ptrUINT8);
-    ompIndexType elementCount = dims.getElementCount();
+    ompIndexType elementCount = dims.elementCount();
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
-        ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
+        ptrUINT8[k] = readUnalignedMember<uint8>(data + offset + (sizeType * k));
     }
     return fieldvalue;
 }
@@ -91,48 +104,47 @@ h5ReadCompoundIntegerMember(hsize_t sizeType, hid_t mType, const char* data, siz
     }
     void* ptrVoid = nullptr;
     try {
-        ptrVoid
-            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        ptrVoid = ArrayOf::allocateArrayOf(outputClass, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
-    ompIndexType elementCount = dims.getElementCount();
+    ompIndexType elementCount = dims.elementCount();
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         switch (outputClass) {
         case NLS_UINT8: {
             auto* ptrUINT8 = static_cast<uint8*>(ptrVoid);
-            ptrUINT8[k] = ((uint8*)(data + offset + (sizeType * k)))[0];
+            ptrUINT8[k] = readUnalignedMember<uint8>(data + offset + (sizeType * k));
         } break;
         case NLS_UINT16: {
             auto* ptrUINT16 = static_cast<uint16*>(ptrVoid);
-            ptrUINT16[k] = ((uint16*)(data + offset + (sizeType * k)))[0];
+            ptrUINT16[k] = readUnalignedMember<uint16>(data + offset + (sizeType * k));
         } break;
         case NLS_UINT32: {
             auto* ptrUINT32 = static_cast<uint32*>(ptrVoid);
-            ptrUINT32[k] = ((uint32*)(data + offset + (sizeType * k)))[0];
+            ptrUINT32[k] = readUnalignedMember<uint32>(data + offset + (sizeType * k));
         } break;
         case NLS_UINT64: {
             auto* ptrUINT64 = static_cast<uint64*>(ptrVoid);
-            ptrUINT64[k] = ((uint64*)(data + offset + (sizeType * k)))[0];
+            ptrUINT64[k] = readUnalignedMember<uint64>(data + offset + (sizeType * k));
         } break;
         case NLS_INT8: {
             int8* ptrINT8 = static_cast<int8*>(ptrVoid);
-            ptrINT8[k] = ((int8*)(data + offset + (sizeType * k)))[0];
+            ptrINT8[k] = readUnalignedMember<int8>(data + offset + (sizeType * k));
         } break;
         case NLS_INT16: {
             auto* ptrINT16 = static_cast<int16*>(ptrVoid);
-            ptrINT16[k] = ((int16*)(data + offset + (sizeType * k)))[0];
+            ptrINT16[k] = readUnalignedMember<int16>(data + offset + (sizeType * k));
         } break;
         case NLS_INT32: {
             auto* ptrINT32 = static_cast<int32*>(ptrVoid);
-            ptrINT32[k] = ((int32*)(data + offset + (sizeType * k)))[0];
+            ptrINT32[k] = readUnalignedMember<int32>(data + offset + (sizeType * k));
         } break;
         case NLS_INT64: {
             auto* ptrINT64 = static_cast<int64*>(ptrVoid);
-            ptrINT64[k] = ((int64*)(data + offset + (sizeType * k)))[0];
+            ptrINT64[k] = readUnalignedMember<int64>(data + offset + (sizeType * k));
         } break;
         default: {
         } break;
@@ -155,18 +167,18 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
     ArrayOf* ptrArrayOf = nullptr;
     try {
         ptrArrayOf = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf fieldvalue = ArrayOf(NLS_CELL_ARRAY, dims, ptrArrayOf);
-    ompIndexType elementCount = dims.getElementCount();
+    ompIndexType elementCount = dims.elementCount();
     if (H5Tis_variable_str(mType)) {
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
-            char** value = (char**)(data + offset + (sizeType * k));
-            ptrArrayOf[k] = ArrayOf::characterArrayConstructor(std::string(value[0]));
+            char* value = readUnalignedMember<char*>(data + offset + (sizeType * k));
+            ptrArrayOf[k] = ArrayOf::characterArray(std::string(value));
         }
     } else {
         hsize_t lengthString = H5Tget_size(mType);
@@ -178,7 +190,7 @@ h5ReadCompoundStringMember(hsize_t sizeType, hid_t mType, const char* data, size
             for (indexType l = 0; l < (indexType)lengthString; l++) {
                 str.push_back(value[l]);
             }
-            ptrArrayOf[k] = ArrayOf::characterArrayConstructor(str);
+            ptrArrayOf[k] = ArrayOf::characterArray(str);
         }
     }
     return fieldvalue;
@@ -202,23 +214,22 @@ h5ReadCompoundFloatMember(hsize_t sizeType, hid_t mType, const char* data, size_
     }
     void* ptrVoid = nullptr;
     try {
-        ptrVoid
-            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        ptrVoid = ArrayOf::allocateArrayOf(outputClass, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     fieldvalue = ArrayOf(outputClass, dims, ptrVoid);
     auto* ptrDouble = static_cast<double*>(ptrVoid);
     auto* ptrSingle = static_cast<single*>(ptrVoid);
-    ompIndexType elementCount = dims.getElementCount();
+    ompIndexType elementCount = dims.elementCount();
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         if (outputClass == NLS_SINGLE) {
-            single value = ((single*)(data + offset + (sizeType * k)))[0];
+            single value = readUnalignedMember<single>(data + offset + (sizeType * k));
             ptrSingle[k] = value;
         } else {
-            double value = ((double*)(data + offset + (sizeType * k)))[0];
+            double value = readUnalignedMember<double>(data + offset + (sizeType * k));
             ptrDouble[k] = value;
         }
     }
@@ -237,14 +248,16 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
     }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = dimensions(aspace, rank);
 
     std::unique_ptr<char[]> data(new char[size_t(storageSize * sizeType)]);
     if (!data.get()) {
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         return {};
     }
@@ -254,21 +267,22 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
         hsize_t* h5_maxdims = nullptr;
         try {
             h5_dims = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         try {
             h5_maxdims
                 = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
-            Error("Impossible to read dimensions and maximum size of data set.");
+            Error("Nelson:hdf5:readDimensionsFailed",
+                "Impossible to read dimensions and maximum size of data set.");
             return {};
         }
         memspace = H5Screate_simple(rank, h5_dims, nullptr);
@@ -285,10 +299,12 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
 
     if (h5readStatus < 0) {
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
             H5Sclose(memspace);
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         return {};
     }
@@ -330,18 +346,14 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
             fieldvalue = h5ReadCompoundOpaqueMember(sizeType, mType, pAsChar, offset, dims, error);
         } break;
         case H5T_TIME:
-            /* The time datatype, H5T_TIME,
-                has not been fully implemented and is not supported.If H5T_TIME is used,
-                the resulting data will be readable
-                and modifiable only on the originating computing platform;
-                it will not be portable to other platforms. */
+            // H5T_TIME is not fully implemented in HDF5 and is not portable across platforms.
         case H5T_REFERENCE:
         case H5T_ENUM:
         case H5T_VLEN:
         case H5T_ARRAY:
         case H5T_NO_CLASS:
         default: {
-            error = _W("Type not managed.");
+            error = _W("Type not supported.");
         } break;
         }
         H5Tclose(mType);
@@ -352,7 +364,7 @@ h5ReadCompound(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::w
         }
     }
     if (error.empty()) {
-        res = ArrayOf::structScalarConstructor(fieldnames, fieldvalues);
+        res = ArrayOf::structScalar(fieldnames, fieldvalues);
     }
     return res;
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rgb2gray</keyword>
+  <short_description>Convertit une image RGB en niveaux de gris.</short_description>
+  <syntax>
+    <syntax_item>I = rgb2gray(RGB)</syntax_item>
+    <syntax_item>graymap = rgb2gray(map)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>RGB</param_name>
+      <param_description>Image RGB m-by-n-by-3.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Colormap double non vide avec trois colonnes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description>Image en niveaux de gris avec la meme classe que l'entree RGB.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>graymap</param_name>
+      <param_description>Colormap grise de meme taille que map.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convertit une image RGB en niveaux de gris.</p>
+    <p>Les images RGB peuvent etre des tableaux double, single ou entiers. Les images RGB logiques ne sont pas prises en charge.</p>
+    <p>Une colormap double non vide a trois colonnes est convertie en colormap grise de meme taille. Les valeurs de la colormap sont combinees directement et ne sont pas bornees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convertir une image RGB en niveaux de gris</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[RGB=zeros(64,64,3);
+[X,Y]=meshgrid(linspace(0,1,64),linspace(0,1,64));
+RGB(:,:,1)=X; RGB(:,:,2)=Y; RGB(:,:,3)=1-X;
+G=rgb2gray(RGB);
+figure; subplot(1,2,1); image(RGB); title('RGB');
+subplot(1,2,2); imagesc(G); g=linspace(0,1,64)'; colormap([g g g]); title('Gray');]]></example_item_data>
+      <example_item_img
+        src="../../../images/rgb2gray_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}im2gray">im2gray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}ind2gray">ind2gray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

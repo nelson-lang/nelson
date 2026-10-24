@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,15 +15,16 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5LoadDouble(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    bool isComplex, const Dimensions& dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue)
+h5LoadDouble(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, bool isComplex, const Dimensions& dims,
+    bool isSparse, uint64 nzmax, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (isEmpty) {
         if (isSparse) {
-            ArrayOf I = ArrayOf::emptyConstructor();
-            ArrayOf J = ArrayOf::emptyConstructor();
-            ArrayOf V = ArrayOf::emptyConstructor(dims);
+            ArrayOf I = ArrayOf::empty();
+            ArrayOf J = ArrayOf::empty();
+            ArrayOf V = ArrayOf::empty(dims);
             if (isComplex) {
                 V.promoteType(NLS_DCOMPLEX);
             } else {
@@ -34,7 +35,7 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
                 = SparseConstructor(I, J, V, _dims[0], _dims[1], static_cast<indexType>(nzmax));
             bSuccess = true;
         } else {
-            VariableValue = ArrayOf::emptyConstructor(dims);
+            VariableValue = ArrayOf::empty(dims);
             if (isComplex) {
                 VariableValue.promoteType(NLS_DCOMPLEX);
 
@@ -52,15 +53,15 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
         }
         if (isSparse) {
             ArrayOf I;
-            if (!h5LoadVariable(fid, h5path, "ir", I)) {
+            if (!h5LoadVariable(eval, fid, h5path, "ir", I)) {
                 return false;
             }
             ArrayOf J;
-            if (!h5LoadVariable(fid, h5path, "jc", J)) {
+            if (!h5LoadVariable(eval, fid, h5path, "jc", J)) {
                 return false;
             }
             ArrayOf V;
-            if (!h5LoadVariable(fid, h5path, "data", V)) {
+            if (!h5LoadVariable(eval, fid, h5path, "data", V)) {
                 return false;
             }
             Dimensions _dims(dims);
@@ -89,7 +90,7 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
                 H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_DOUBLE);
                 doublecomplex* pData = nullptr;
                 try {
-                    pData = new doublecomplex[dims.getElementCount()];
+                    pData = new doublecomplex[dims.elementCount()];
                 } catch (const std::bad_alloc&) {
                     H5Tclose(type_id);
                     H5Dclose(dset_id);
@@ -123,7 +124,7 @@ h5LoadDouble(hid_t fid, const std::string& location, const std::string& variable
                 if (!error.empty()) {
                     return false;
                 }
-                if (!VariableValue.getDimensions().equals(dims)) {
+                if (!VariableValue.dimensions().equals(dims)) {
                     return false;
                 }
                 VariableValue.promoteType(NLS_DOUBLE);

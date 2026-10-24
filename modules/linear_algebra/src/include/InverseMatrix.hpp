@@ -17,5 +17,5 @@ namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
 InverseMatrix(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

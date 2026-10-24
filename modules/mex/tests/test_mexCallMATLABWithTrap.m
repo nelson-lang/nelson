@@ -9,29 +9,27 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mexCallMATLABWithTrap') == 0
-  test_dir = [tempdir(), 'mexCallMATLABWithTrap'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexCallMATLABWithTrap.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexCallMATLABWithTrap.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mexCallMATLABWithTrap(pi);
-assert_isequal(R, 'It works !!!');
+asserts.isequal(R, 'It works !!!');
 %=============================================================================
 R = mexCallMATLABWithTrap('A');
-assert_isequal(class(R), 'MException');
+asserts.isequal(class(R), 'MException');
 %=============================================================================
 REF = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sin');
-assert_isequal(R.message, REF);
+asserts.isequal(R.message, REF);
 %=============================================================================

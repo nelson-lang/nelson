@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,532 +13,281 @@
 //=============================================================================
 #include <limits>
 #include <complex>
+#include <vector>
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "IntegerOperations.hpp"
 #include "DotPower.hpp"
+#include "BinaryOperatorsHelpers.hpp"
+#include "IntegerCompatibilityHelpers.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
 #include "IEEEFP.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
+#include "SparseOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <typename T>
-static inline T
-powi(T a, T b)
+template <class T>
+static T
+getScalarPowerExponent(const ArrayOf& B)
 {
-    unsigned long u;
-    T p = 1;
-    T x = a;
-    T n = b;
-
-    if (n != 0) {
-        if (n < 0) {
-            if (std::is_signed<T>()) {
-                n = -n;
+    if (B.isSparse()) {
+        return getSparseScalarValue<T>(B);
+    }
+    return static_cast<const T*>(B.dataPointer())[0];
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseScalarExponentFullPatternPower(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dims = A.dimensions();
+    indexType rows = dims.rows();
+    indexType cols = dims.columns();
+    T exponent = getScalarPowerExponent<T>(B);
+    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
+    triplets.reserve(static_cast<size_t>(dims.elementCount()));
+    const auto* sparseA = getSparseMatrixPointer<T>(A);
+    for (indexType col = 0; col < cols; ++col) {
+        for (indexType row = 0; row < rows; ++row) {
+            signedIndexType sparseRow = static_cast<signedIndexType>(row);
+            signedIndexType sparseCol = static_cast<signedIndexType>(col);
+            T value = std::pow(sparseA->coeff(sparseRow, sparseCol), exponent);
+            if (value != T(0)) {
+                triplets.emplace_back(sparseRow, sparseCol, value);
             }
-            x = 1 / x;
         }
-        for (u = (unsigned long)n;;) {
-            if (u & 01) {
-                p = scalar_scalar_integer_times(p, x);
-            }
-            if (u >>= 1) {
-                x = scalar_scalar_integer_times(x, x);
+    }
+    auto* sparseResult = new NelsonSparseMatrix<T>(rows, cols);
+    sparseResult->setFromTriplets(triplets.begin(), triplets.end());
+    return makeSparseOperatorResult<T>(dataClass, dims, sparseResult);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseScalarExponentPower(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSparse() || !B.isScalar()) {
+        needToOverload = true;
+        return {};
+    }
+    T exponent = getScalarPowerExponent<T>(B);
+    if (exponent == T(0)) {
+        return sparseScalarExponentFullPatternPower<T>(dataClass, A, B);
+    }
+    auto* sparseResult = new NelsonSparseMatrix<T>(*getSparseMatrixPointer<T>(A));
+    for (signedIndexType k = 0; k < sparseResult->outerSize(); ++k) {
+        for (typename NelsonSparseMatrix<T>::InnerIterator it(*sparseResult, k); it; ++it) {
+            it.valueRef() = std::pow(it.value(), exponent);
+        }
+    }
+    return makeSparseOperatorResult<T>(dataClass, A.dimensions(), sparseResult);
+}
+//=============================================================================
+template <>
+ArrayOf
+sparseScalarExponentPower<double>(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSparse() || !B.isScalar()) {
+        needToOverload = true;
+        return {};
+    }
+    double exponent = getScalarPowerExponent<double>(B);
+    if (exponent <= 0) {
+        return sparseScalarExponentFullPatternPower<double>(dataClass, A, B);
+    }
+    auto* sparseResult = new NelsonSparseMatrix<double>(*getSparseMatrixPointer<double>(A));
+    for (signedIndexType k = 0; k < sparseResult->outerSize(); ++k) {
+        for (NelsonSparseMatrix<double>::InnerIterator it(*sparseResult, k); it; ++it) {
+            it.valueRef() = std::pow(it.value(), exponent);
+        }
+    }
+    return makeSparseOperatorResult<double>(dataClass, A.dimensions(), sparseResult);
+}
+//=============================================================================
+template <>
+ArrayOf
+sparseScalarExponentPower<single>(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSparse() || !B.isScalar()) {
+        needToOverload = true;
+        return {};
+    }
+    single exponent = getScalarPowerExponent<single>(B);
+    if (exponent <= single(0)) {
+        return sparseScalarExponentFullPatternPower<single>(dataClass, A, B);
+    }
+    auto* sparseResult = new NelsonSparseMatrix<single>(*getSparseMatrixPointer<single>(A));
+    for (signedIndexType k = 0; k < sparseResult->outerSize(); ++k) {
+        for (NelsonSparseMatrix<single>::InnerIterator it(*sparseResult, k); it; ++it) {
+            it.valueRef() = std::pow(it.value(), exponent);
+        }
+    }
+    return makeSparseOperatorResult<single>(dataClass, A.dimensions(), sparseResult);
+}
+//=============================================================================
+template <>
+ArrayOf
+sparseScalarExponentPower<doublecomplex>(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSparse() || !B.isScalar()) {
+        needToOverload = true;
+        return {};
+    }
+    doublecomplex exponent = getScalarPowerExponent<doublecomplex>(B);
+    if (exponent.imag() != 0 || exponent.real() <= 0) {
+        return sparseScalarExponentFullPatternPower<doublecomplex>(dataClass, A, B);
+    }
+    auto* sparseResult
+        = new NelsonSparseMatrix<doublecomplex>(*getSparseMatrixPointer<doublecomplex>(A));
+    for (signedIndexType k = 0; k < sparseResult->outerSize(); ++k) {
+        for (NelsonSparseMatrix<doublecomplex>::InnerIterator it(*sparseResult, k); it; ++it) {
+            it.valueRef() = std::pow(it.value(), exponent);
+        }
+    }
+    return makeSparseOperatorResult<doublecomplex>(dataClass, A.dimensions(), sparseResult);
+}
+//=============================================================================
+template <>
+ArrayOf
+sparseScalarExponentPower<singlecomplex>(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    needToOverload = false;
+    if (!A.isSparse() || !B.isScalar()) {
+        needToOverload = true;
+        return {};
+    }
+    singlecomplex exponent = getScalarPowerExponent<singlecomplex>(B);
+    if (exponent.imag() != 0 || exponent.real() <= single(0)) {
+        return sparseScalarExponentFullPatternPower<singlecomplex>(dataClass, A, B);
+    }
+    auto* sparseResult
+        = new NelsonSparseMatrix<singlecomplex>(*getSparseMatrixPointer<singlecomplex>(A));
+    for (signedIndexType k = 0; k < sparseResult->outerSize(); ++k) {
+        for (NelsonSparseMatrix<singlecomplex>::InnerIterator it(*sparseResult, k); it; ++it) {
+            it.valueRef() = std::pow(it.value(), exponent);
+        }
+    }
+    return makeSparseOperatorResult<singlecomplex>(dataClass, A.dimensions(), sparseResult);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseBroadcastPower(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
+static ArrayOf
+sparseDotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    if (A.dataClass() != B.dataClass()) {
+        if ((A.isDoubleClass() && B.isSingleClass()) || (A.isSingleClass() && B.isDoubleClass())) {
+            bool isComplex = A.isComplex() || B.isComplex();
+            ArrayOf AA = A;
+            ArrayOf BB = B;
+            if (isComplex) {
+                AA.promoteType(NLS_SCOMPLEX);
+                BB.promoteType(NLS_SCOMPLEX);
             } else {
-                break;
+                AA.promoteType(NLS_SINGLE);
+                BB.promoteType(NLS_SINGLE);
             }
+            return sparseDotPower(AA, BB, needToOverload);
         }
+        needToOverload = true;
+        return {};
     }
-    return (p);
+    switch (A.dataClass()) {
+    case NLS_DOUBLE:
+        if (!B.isScalar() && A.isSparse() && B.isSparse()) {
+            needToOverload = false;
+            return sparseBroadcastPower<double>(NLS_DOUBLE, A, B);
+        }
+        return sparseScalarExponentPower<double>(NLS_DOUBLE, A, B, needToOverload);
+    case NLS_SINGLE:
+        if (!B.isScalar() && A.isSparse() && B.isSparse()) {
+            needToOverload = false;
+            return sparseBroadcastPower<single>(NLS_SINGLE, A, B);
+        }
+        return sparseScalarExponentPower<single>(NLS_SINGLE, A, B, needToOverload);
+    case NLS_DCOMPLEX:
+        if (!B.isScalar() && A.isSparse() && B.isSparse()) {
+            needToOverload = false;
+            return sparseBroadcastPower<doublecomplex>(NLS_DCOMPLEX, A, B);
+        }
+        return sparseScalarExponentPower<doublecomplex>(NLS_DCOMPLEX, A, B, needToOverload);
+    case NLS_SCOMPLEX:
+        if (!B.isScalar() && A.isSparse() && B.isSparse()) {
+            needToOverload = false;
+            return sparseBroadcastPower<singlecomplex>(NLS_SCOMPLEX, A, B);
+        }
+        return sparseScalarExponentPower<singlecomplex>(NLS_SCOMPLEX, A, B, needToOverload);
+    default:
+        needToOverload = true;
+        return {};
+    }
 }
 //=============================================================================
-void
-power_zi(double* p, const double* a, int b)
+template <class T>
+static ArrayOf
+sparseBroadcastPower(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
 {
-    std::complex<double> ca(a[0], a[1]);
-    std::complex<double> cc = std::pow(ca, b);
-    if (fabs(cc.real()) < std::numeric_limits<single>::epsilon()) {
-        p[0] = 0;
-    } else {
-        p[0] = cc.real();
+    BinaryBroadcast info = binaryOperatorBroadcast(A, B, ".^");
+    indexType rows = info.dimensions.rows();
+    const auto* sparseA = getSparseMatrixPointer<T>(A);
+    const auto* sparseB = getSparseMatrixPointer<T>(B);
+    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
+    triplets.reserve(static_cast<size_t>(info.dimensions.elementCount()));
+    for (indexType idx = 0; idx < info.dimensions.elementCount(); ++idx) {
+        indexType indexA = binaryOperatorBroadcastIndex(info, idx, info.aStrides);
+        indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
+        T base = sparseA->coeff(static_cast<signedIndexType>(indexA % A.rows()),
+            static_cast<signedIndexType>(indexA / A.rows()));
+        T exponent = sparseB->coeff(static_cast<signedIndexType>(indexB % B.rows()),
+            static_cast<signedIndexType>(indexB / B.rows()));
+        T value = std::pow(base, exponent);
+        if (value != T(0)) {
+            triplets.emplace_back(static_cast<signedIndexType>(idx % rows),
+                static_cast<signedIndexType>(idx / rows), value);
+        }
     }
-    if (fabs(cc.imag()) < std::numeric_limits<double>::epsilon()) {
-        p[1] = 0;
-    } else {
-        p[1] = cc.imag();
-    }
+    auto* sparseResult = new NelsonSparseMatrix<T>(rows, info.dimensions.columns());
+    sparseResult->setFromTriplets(triplets.begin(), triplets.end());
+    return makeSparseOperatorResult<T>(dataClass, info.dimensions, sparseResult);
 }
 //=============================================================================
-void
-power_zz(double* c, const double* a, const double* b)
+#include "DotPowerKernels.hpp"
+inline ArrayOf
+doPowerBroadcastAssist(
+    ArrayOf A, NelsonType AClass, ArrayOf B, NelsonType BClass, NelsonType CClass, vvfun exec)
 {
-    if (b[0] == 0 && b[1] == 0) {
-        c[0] = 1;
-        c[1] = 0;
-        return;
+    A.promoteType(AClass);
+    B.promoteType(BClass);
+    BinaryBroadcast info = binaryOperatorBroadcast(A, B, ".^");
+    indexType Clen = info.dimensions.elementCount();
+    ArrayOf C(CClass, info.dimensions, nullptr);
+    char* Cp = static_cast<char*>(ArrayOf::allocateArrayOf(CClass, Clen, stringVector(), false));
+    const char* ptrA = static_cast<const char*>(A.dataPointer());
+    const char* ptrB = static_cast<const char*>(B.dataPointer());
+    for (indexType i = 0; i < Clen; ++i) {
+        indexType indexA = binaryOperatorBroadcastIndex(info, i, info.aStrides);
+        indexType indexB = binaryOperatorBroadcastIndex(info, i, info.bStrides);
+        exec(1, Cp + i * C.elementSize(), ptrA + indexA * A.elementSize(), 1,
+            ptrB + indexB * B.elementSize(), 1);
     }
-    auto mag = complex_abs<double>(a[0], a[1]);
-    if (mag == 0) {
-        c[0] = 0;
-        c[1] = 0;
-        return;
-    }
-    std::complex<double> ca(a[0], a[1]);
-    std::complex<double> cb(b[0], b[1]);
-    std::complex<double> cc;
-    if (ca.imag() == 0) {
-        cc = pow(ca.real(), cb);
-    } else {
-        cc = std::exp(cb * log(ca));
-    }
-    if (fabs(cc.real()) < std::numeric_limits<single>::epsilon()) {
-        c[0] = 0;
-    } else {
-        c[0] = cc.real();
-    }
-    if (ca.imag() == 0 && !std::isfinite(cc.imag())) {
-        c[1] = 0;
-    } else {
-        if (fabs(cc.imag()) < std::numeric_limits<single>::epsilon()) {
-            c[1] = 0;
-        } else {
-            c[1] = cc.imag();
-        }
-    }
+    C.setDataPointer(Cp);
+    return C;
 }
-//=============================================================================
-double
-power_di(double a, int b)
-{
-    return std::pow(a, b);
-}
-//=============================================================================
-double
-power_dd(double a, double b)
-{
-    if (b == 0) {
-        return 1;
-    }
-    if (b == 1) {
-        return a;
-    }
-    if (std::isnan(a)) {
-        return std::nan("");
-    }
-    if (std::isnan(b)) {
-        return std::nan("");
-    }
-    if (a == 0) {
-        if (std::isinf(b) && b < 0) {
-            return std::numeric_limits<double>::infinity();
-        }
-        if (std::isinf(b) && b > 0) {
-            return 0;
-        }
-        if (b < 0) {
-            return std::numeric_limits<double>::infinity();
-        }
-        return 0;
-    }
-    if (a == -1 && std::isinf(b)) {
-        return 1;
-    }
-    if (std::isinf(b) && b > 0) {
-        if (abs(a) > 1) {
-            return std::numeric_limits<double>::infinity();
-        }
-    }
-    if (std::isinf(b) && b < 0) {
-        if (abs(a) > 1) {
-            return 0;
-        }
-    }
-    if (std::isinf(b) && b > 0) {
-        if (abs(a) < 1) {
-            return 0;
-        }
-    }
-    if (std::isinf(b) && b < 0) {
-        if (abs(a) < 1) {
-            return std::numeric_limits<double>::infinity();
-        }
-    }
-    if (std::isinf(a) && a > 0) {
-        if (b > 0) {
-            return std::numeric_limits<double>::infinity();
-        }
-        if (b < 0) {
-            return 0;
-        }
-    }
-    if (std::isinf(a) && a < 0) {
-        return pow(-0, -b);
-    }
-    if (a < 0 && std::trunc(b) == b) {
-        return std::nan("");
-    }
-    return pow(a, b);
-}
-//=============================================================================
-void
-cicpower(int n, single* c, const single* a, int stride1, int* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            power_zi(z3, z1, b[i]);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            power_zi(z3, z1, b[0]);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * 0];
-            z1[1] = a[2 * 0 + 1];
-            power_zi(z3, z1, b[i]);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    }
-}
-//=============================================================================
-void
-cfcpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[i];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * 0];
-            z1[1] = a[2 * 0 + 1];
-            z2[0] = b[i];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[0];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    }
-}
-//=============================================================================
-void
-zdzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[i];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * 0];
-            z1[1] = a[2 * 0 + 1];
-            z2[0] = b[i];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[0];
-            z2[1] = 0;
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    }
-}
-//=============================================================================
-void
-cccpower(int n, single* c, const single* a, int stride1, const single* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[2 * i];
-            z2[1] = b[2 * i + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[2 * 0];
-            z2[1] = b[2 * 0 + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * 0];
-            z1[1] = a[2 * 0 + 1];
-            z2[0] = b[2 * i];
-            z2[1] = b[2 * i + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = static_cast<single>(z3[0]);
-            c[2 * i + 1] = static_cast<single>(z3[1]);
-        }
-    }
-}
-//=============================================================================
-void
-zzzpower(int n, double* c, const double* a, int stride1, const double* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[2 * i];
-            z2[1] = b[2 * i + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[0];
-            z1[1] = a[1];
-            z2[0] = b[2 * i];
-            z2[1] = b[2 * i + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z2[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            z2[0] = b[2 * 0];
-            z2[1] = b[2 * 0 + 1];
-            power_zz(z3, z1, z2);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    }
-}
-//=============================================================================
-void
-zizpower(int n, double* c, const double* a, int stride1, int* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            power_zi(z3, z1, b[i]);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * 0];
-            z1[1] = a[2 * 0 + 1];
-            power_zi(z3, z1, b[i]);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            double z1[2];
-            double z3[2];
-            z1[0] = a[2 * i];
-            z1[1] = a[2 * i + 1];
-            power_zi(z3, z1, b[0]);
-            c[2 * i] = z3[0];
-            c[2 * i + 1] = z3[1];
-        }
-    }
-}
-//=============================================================================
-void
-didpower(int n, double* c, double* a, int stride1, int* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_di(a[i], b[i]);
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_di(a[i], b[0]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_di(a[0], b[i]);
-        }
-    }
-}
-//=============================================================================
-void
-dddpower(int n, double* c, double* a, int stride1, double* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_dd(a[i], b[0]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_dd(a[0], b[i]);
-        }
-    } else if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = power_dd(a[i], b[i]);
-        }
-    }
-}
-//=============================================================================
-void
-fifpower(int n, single* c, single* a, int stride1, int* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_di(a[i], b[i]));
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_di(a[i], b[0]));
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_di(a[0], b[i]));
-        }
-    }
-}
-//=============================================================================
-void
-fffpower(int n, single* c, single* a, int stride1, single* b, int stride2)
-{
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_dd(a[i], b[i]));
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_dd(a[i], b[0]));
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < static_cast<ompIndexType>(n); i++) {
-            c[i] = static_cast<single>(power_dd(a[0], b[i]));
-        }
-    }
-}
-//=============================================================================
-using vvfun = void (*)(indexType, void*, const void*, const int, const void*, const int);
 //=============================================================================
 inline ArrayOf
 doPowerAssist(
@@ -547,26 +296,28 @@ doPowerAssist(
     ArrayOf C;
     A.promoteType(AClass);
     B.promoteType(BClass);
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    if (!SameSizeCheck(dimsA, dimsB) && !A.isScalar() && !B.isScalar()) {
+        return doPowerBroadcastAssist(A, AClass, B, BClass, CClass, exec);
+    }
     if (A.isScalar()) {
-        indexType Blen(B.getElementCount());
-        C = ArrayOf(CClass, B.getDimensions(), nullptr);
-        void* Cp
-            = ArrayOf::allocateArrayOf(CClass, Blen * C.getElementSize(), stringVector(), true);
-        exec(Blen, Cp, A.getDataPointer(), 0, B.getDataPointer(), 1);
+        indexType Blen(B.elementCount());
+        C = ArrayOf(CClass, B.dimensions(), nullptr);
+        void* Cp = ArrayOf::allocateArrayOf(CClass, Blen, stringVector(), false);
+        exec(Blen, Cp, A.dataPointer(), 0, B.dataPointer(), 1);
         C.setDataPointer(Cp);
     } else if (B.isScalar()) {
-        indexType Alen(A.getElementCount());
-        C = ArrayOf(CClass, A.getDimensions(), nullptr);
-        void* Cp
-            = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize(), stringVector(), true);
-        exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 0);
+        indexType Alen(A.elementCount());
+        C = ArrayOf(CClass, A.dimensions(), nullptr);
+        void* Cp = ArrayOf::allocateArrayOf(CClass, Alen, stringVector(), false);
+        exec(Alen, Cp, A.dataPointer(), 1, B.dataPointer(), 0);
         C.setDataPointer(Cp);
     } else {
-        indexType Alen(A.getElementCount());
-        C = ArrayOf(CClass, A.getDimensions(), nullptr);
-        void* Cp
-            = ArrayOf::allocateArrayOf(CClass, Alen * C.getElementSize(), stringVector(), true);
-        exec(Alen, Cp, A.getDataPointer(), 1, B.getDataPointer(), 1);
+        indexType Alen(A.elementCount());
+        C = ArrayOf(CClass, A.dimensions(), nullptr);
+        void* Cp = ArrayOf::allocateArrayOf(CClass, Alen, stringVector(), false);
+        exec(Alen, Cp, A.dataPointer(), 1, B.dataPointer(), 1);
         C.setDataPointer(Cp);
     }
     return C;
@@ -580,32 +331,6 @@ doPowerAssist(
     case o:                                                                                        \
         return doPowerAssist(A, a, B, b, c, f);
 //=============================================================================
-template <typename T>
-static void
-powerInteger(
-    const ArrayOf& A, const ArrayOf& B, indexType n, indexType stride1, indexType stride2, void* Cp)
-{
-    T* a = (T*)A.getDataPointer();
-    T* b = (T*)B.getDataPointer();
-    T* c = static_cast<T*>(Cp);
-    if (stride1 == 1 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
-            c[i] = powi<T>(a[i], b[i]);
-        }
-    } else if (stride1 == 1 && stride2 == 0) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
-            c[i] = powi<T>(a[i], b[0]);
-        }
-    } else if (stride1 == 0 && stride2 == 1) {
-        OMP_PARALLEL_FOR_LOOP(n)
-        for (ompIndexType i = 0; i < (ompIndexType)n; i++) {
-            c[i] = powi<T>(a[0], b[i]);
-        }
-    }
-}
-//=============================================================================
 ArrayOf
 DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
 {
@@ -616,49 +341,76 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     int opType;
 
     if (A.isEmpty() || B.isEmpty()) {
-        Dimensions dims;
-        if (A.isEmpty()) {
-            dims = A.getDimensions();
-        } else {
-            dims = B.getDimensions();
-        }
-        return ArrayOf::emptyConstructor(dims);
+        BinaryBroadcast info = binaryOperatorBroadcast(A, B, ".^");
+        return ArrayOf::empty(info.dimensions);
     }
     CheckNumeric(A, B, "^");
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(_W("Size mismatch on arguments to power (^) operator."));
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    bool sameSizeOrScalar = SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar();
+    if (!sameSizeOrScalar) {
+        binaryOperatorBroadcast(A, B, ".^");
     }
-    AClass = A.getDataClass();
-    BClass = B.getDataClass();
+    AClass = A.dataClass();
+    BClass = B.dataClass();
     if ((A.isIntegerType() || A.isNdArrayIntegerType())
         && (B.isIntegerType() || B.isNdArrayIntegerType())) {
         if (!B.isPositive()) {
-            Error(_W("Only positive integers expected."));
+            Error(L"Nelson:operators:invalidBitInput:onlyPositiveIntegersExpected",
+                L"Only positive integers expected.");
+        }
+        if (!sameSizeOrScalar) {
+            switch (AClass) {
+            case NLS_INT8:
+                return binaryOperatorBroadcastNumeric<int8>(
+                    A, B, AClass, ".^", [](int8 a, int8 b) { return powi<int8>(a, b); });
+            case NLS_UINT8:
+                return binaryOperatorBroadcastNumeric<uint8>(
+                    A, B, AClass, ".^", [](uint8 a, uint8 b) { return powi<uint8>(a, b); });
+            case NLS_INT16:
+                return binaryOperatorBroadcastNumeric<int16>(
+                    A, B, AClass, ".^", [](int16 a, int16 b) { return powi<int16>(a, b); });
+            case NLS_UINT16:
+                return binaryOperatorBroadcastNumeric<uint16>(
+                    A, B, AClass, ".^", [](uint16 a, uint16 b) { return powi<uint16>(a, b); });
+            case NLS_INT32:
+                return binaryOperatorBroadcastNumeric<int32>(
+                    A, B, AClass, ".^", [](int32 a, int32 b) { return powi<int32>(a, b); });
+            case NLS_UINT32:
+                return binaryOperatorBroadcastNumeric<uint32>(
+                    A, B, AClass, ".^", [](uint32 a, uint32 b) { return powi<uint32>(a, b); });
+            case NLS_INT64:
+                return binaryOperatorBroadcastNumeric<int64>(
+                    A, B, AClass, ".^", [](int64 a, int64 b) { return powi<int64>(a, b); });
+            case NLS_UINT64:
+                return binaryOperatorBroadcastNumeric<uint64>(
+                    A, B, AClass, ".^", [](uint64 a, uint64 b) { return powi<uint64>(a, b); });
+            default:
+                break;
+            }
         }
         void* Cp = nullptr;
         indexType stride1 = 0;
         indexType stride2 = 0;
         indexType n = 0;
         if (A.isScalar()) {
-            indexType Blen(B.getElementCount());
-            C = ArrayOf(AClass, B.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.getElementSize(), stringVector(), false);
+            indexType Blen(B.elementCount());
+            C = ArrayOf(AClass, B.dimensions(), nullptr);
+            Cp = ArrayOf::allocateArrayOf(AClass, Blen * C.elementSize(), stringVector(), false);
             stride1 = 0;
             stride2 = 1;
             n = Blen;
         } else if (B.isScalar()) {
-            indexType Alen(A.getElementCount());
-            C = ArrayOf(AClass, A.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize(), stringVector(), false);
+            indexType Alen(A.elementCount());
+            C = ArrayOf(AClass, A.dimensions(), nullptr);
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.elementSize(), stringVector(), false);
             stride1 = 1;
             stride2 = 0;
             n = Alen;
         } else {
-            indexType Alen(A.getElementCount());
-            C = ArrayOf(AClass, A.getDimensions(), nullptr);
-            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.getElementSize(), stringVector(), false);
+            indexType Alen(A.elementCount());
+            C = ArrayOf(AClass, A.dimensions(), nullptr);
+            Cp = ArrayOf::allocateArrayOf(AClass, Alen * C.elementSize(), stringVector(), false);
             stride1 = 1;
             stride2 = 1;
             n = Alen;
@@ -697,21 +449,18 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
         C.setDataPointer(Cp);
         return C;
     }
-    // If A is not at least a single type, promote it to double
     if (AClass != BClass) {
         if (AClass < NLS_SCOMPLEX) {
             AClass = NLS_DCOMPLEX;
         }
     }
 
-    // Get a read on if A is positive
     Anegative = !(A.isPositive());
-    // Check through the different type cases...
     opType = 0;
     if (AClass == NLS_SCOMPLEX) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         } break;
             OPCASE(NLS_INT64, 1);
             OPCASE(NLS_SINGLE, 2);
@@ -722,7 +471,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DCOMPLEX) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         } break;
             OPCASE(NLS_INT64, 6);
             OPCASE(NLS_SINGLE, 3);
@@ -733,7 +482,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DOUBLE && Anegative) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 5);
@@ -744,7 +493,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_DOUBLE && (!Anegative)) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         } break;
             OPCASE(NLS_INT64, 7);
             OPCASE(NLS_SINGLE, 8);
@@ -755,7 +504,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_SINGLE && Anegative) {
         switch (BClass) {
         default: {
-            Error(_W("Unhandled type for second argument to A^B"));
+            Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 4);
@@ -766,7 +515,7 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     } else if (AClass == NLS_SINGLE && (!Anegative)) {
         switch (BClass) {
         default: {
-            Error(_("Unhandled type for second argument to A^B"));
+            Error("Nelson:operators:typeNotManaged", "Type not supported.");
         } break;
             OPCASE(NLS_INT64, 9);
             OPCASE(NLS_SINGLE, 10);
@@ -775,10 +524,9 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
             OPCASE(NLS_DCOMPLEX, 5);
         }
     }
-    // Invoke the appropriate case
     switch (opType) {
     default:
-        Error(_W("Unhandled type combination for A^B"));
+        Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
         MAPOP(1, NLS_SCOMPLEX, NLS_INT64, NLS_SCOMPLEX, (vvfun)cicpower);
         MAPOP(2, NLS_SCOMPLEX, NLS_SINGLE, NLS_SCOMPLEX, (vvfun)cfcpower);
         MAPOP(3, NLS_DCOMPLEX, NLS_DOUBLE, NLS_DCOMPLEX, (vvfun)zdzpower);
@@ -798,11 +546,10 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
     if (A.isSparse() || B.isSparse()) {
-        needToOverload = true;
-        return {};
+        return sparseDotPower(A, B, needToOverload);
     }
 
-    if (A.getDataClass() != B.getDataClass()) {
+    if (A.dataClass() != B.dataClass()) {
         if ((A.isDoubleClass() && B.isSingleClass()) || (A.isSingleClass() && B.isDoubleClass())) {
             bool isComplex = A.isComplex() || B.isComplex();
             ArrayOf AA = A;
@@ -818,41 +565,55 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
 
         if (A.isIntegerType()) {
-            bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
+            bool isCompatible = isScalarDoubleOrChar(B);
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                Error(L"Nelson:operators:integerClassMismatch",
+                    L"Integers can only be combined with integers of the same class, or scalar "
+                    L"doubles.");
+            }
+            if (B.dataClass() == NLS_CHAR) {
+                ArrayOf BB = B;
+                BB.promoteType(A.dataClass());
+                return DotPower(A, BB, needToOverload);
             }
             if (B.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                Error(L"Nelson:operators:complexIntegerNotAllowed",
+                    L"Complex integer not allowed for arithmetic operator *");
             }
             ArrayOf AA = A;
-            AA.promoteType(B.getDataClass());
+            AA.promoteType(B.dataClass());
             ArrayOf res = DotPower(AA, B, needToOverload);
             if (!needToOverload) {
-                res.promoteType(A.getDataClass());
+                res.promoteType(A.dataClass());
             }
             return res;
         } else if (B.isIntegerType()) {
-            bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
+            bool isCompatible = isScalarDoubleOrChar(A);
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                Error(L"Nelson:operators:integerClassMismatch",
+                    L"Integers can only be combined with integers of the same class, or scalar "
+                    L"doubles.");
+            }
+            if (A.dataClass() == NLS_CHAR) {
+                ArrayOf AA = A;
+                AA.promoteType(B.dataClass());
+                return DotPower(AA, B, needToOverload);
             }
             if (A.isComplex()) {
-                Error(_W("Complex integer not allowed for arithmetic operator ") + L"*");
+                Error(L"Nelson:operators:complexIntegerNotAllowed",
+                    L"Complex integer not allowed for arithmetic operator *");
             }
             ArrayOf BB = B;
-            BB.promoteType(A.getDataClass());
+            BB.promoteType(A.dataClass());
             ArrayOf res = DotPower(A, BB, needToOverload);
             if (!needToOverload) {
-                res.promoteType(B.getDataClass());
+                res.promoteType(B.dataClass());
             }
             return res;
         }
     }
 
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_UINT8:
     case NLS_INT8:
     case NLS_UINT16:
@@ -891,6 +652,7 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
         needToOverload = true;

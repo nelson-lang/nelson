@@ -1,0 +1,101 @@
+{
+  "id": "builtin.fmi",
+  "title": "FMI",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-01",
+    "tool": "Nelson nflow"
+  },
+  "comment": "FMI Co-Simulation / Model Exchange import blocks and the Modelica bridge block.",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "modelica",
+      "label": "Modelica",
+      "icon": "modelica.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 96,
+      "height": 64,
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 96,
+          "y": 32,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "source": "",
+        "file": "",
+        "modelName": ""
+      },
+      "render": {
+        "type": "image",
+        "src": "modelica.svg"
+      }
+    },
+    {
+      "type": "fmu",
+      "label": "FMU (CS)",
+      "icon": "fmu.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 96,
+      "height": 64,
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 96,
+          "y": 32,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "path": ""
+      },
+      "render": {
+        "type": "image",
+        "src": "fmu.svg"
+      }
+    },
+    {
+      "type": "fmuMe",
+      "label": "FMU (ME)",
+      "icon": "fmu.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "DERIVATIVE",
+        "ZERO_CROSSING",
+        "EVENT"
+      ],
+      "width": 96,
+      "height": 64,
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 96,
+          "y": 32,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "path": ""
+      },
+      "render": {
+        "type": "image",
+        "src": "fmu.svg"
+      }
+    }
+  ]
+}

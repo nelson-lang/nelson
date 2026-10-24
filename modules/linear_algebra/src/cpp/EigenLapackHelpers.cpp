@@ -11,21 +11,29 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include <cstring>
+#include "BlasThreadScope.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
-#include <Eigen/src/misc/lapacke.h>
+#include "LapackPrototypes.hpp"
 #include "NewWithException.hpp"
 #include "EigenLapackHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d, double* a,
-    bool eigenvectors, bool balance)
+static int
+geevWorkspaceSize(int n)
 {
-    // Use the simpler LAPACK_dgeev when balancing is not requested (faster);
-    // fall back to LAPACK_dgeevx when balance==true to preserve old behavior.
+    constexpr int blockSize = 32;
+    return std::max(1, n * blockSize);
+}
+//=============================================================================
+void
+doubleEigenDecomposition(
+    int n, double* v, std::complex<double>* d, double* a, bool eigenvectors, bool balance)
+{
+    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(n, n));
+    // Without balancing the simpler dgeev is faster; dgeevx is needed for balance == true.
     char JOBVL = 'N';
     char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
@@ -35,19 +43,12 @@ doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d
     if (!balance) {
         double* WR = (double*)new_with_exception<double>(n, false);
         double* WI = (double*)new_with_exception<double>(n, false);
-        double wkopt;
-        int LWORK = -1;
+        int LWORK = geevWorkspaceSize(n);
         int INFO;
         double* VL = nullptr;
         int LDVL = 1;
-        auto* VR = (double*)reinterpret_cast<double*>(v);
+        double* VR = v;
         int LDVR = n;
-
-        // workspace query
-        LAPACK_dgeev(
-            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, &INFO);
-
-        LWORK = (int)wkopt;
         double* WORK = (double*)new_with_exception<double>(LWORK, false);
 
         LAPACK_dgeev(
@@ -64,14 +65,13 @@ doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d
         delete[] WI;
         return;
     }
-    // Keep original geevx behaviour when balancing is requested
     char BALANC = 'B';
     char SENSE = 'N';
     double* WR = (double*)new_with_exception<double>(n, false);
     double* WI = (double*)new_with_exception<double>(n, false);
     double* VL = nullptr;
     int LDVL = 1;
-    auto* VR = (double*)reinterpret_cast<double*>(v);
+    double* VR = v;
     int LDVR = n;
     int ILO;
     int IHI;
@@ -102,11 +102,11 @@ doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d
 }
 //=============================================================================
 void
-singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, float* a,
-    bool eigenvectors, bool balance)
+singleEigenDecomposition(
+    int n, float* v, std::complex<float>* d, float* a, bool eigenvectors, bool balance)
 {
-    // Use LAPACK_sgeev when balancing is not requested (faster),
-    // otherwise preserve the original sgeevx path.
+    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(n, n));
+    // Without balancing the simpler sgeev is faster; sgeevx is needed for balance == true.
     char JOBVL = 'N';
     char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
@@ -116,19 +116,12 @@ singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, 
     if (!balance) {
         float* WR = (float*)new_with_exception<float>(n, false);
         float* WI = (float*)new_with_exception<float>(n, false);
-        float wkopt;
-        int LWORK = -1;
+        int LWORK = geevWorkspaceSize(n);
         int INFO;
         float* VL = nullptr;
         int LDVL = 1;
-        auto* VR = (float*)reinterpret_cast<float*>(v);
+        float* VR = v;
         int LDVR = n;
-
-        // workspace query
-        LAPACK_sgeev(
-            &JOBVL, &JOBVR, &N, Ain, &LDA, WR, WI, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, &INFO);
-
-        LWORK = (int)wkopt;
         float* WORK = (float*)new_with_exception<float>(LWORK, false);
 
         LAPACK_sgeev(
@@ -145,14 +138,13 @@ singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, 
         delete[] WI;
         return;
     }
-    // original sgeevx path
     char BALANC = 'B';
     char SENSE = 'N';
     float* WR = (float*)new_with_exception<float>(n, false);
     float* WI = (float*)new_with_exception<float>(n, false);
     float* VL = nullptr;
     int LDVL = 1;
-    auto* VR = (float*)reinterpret_cast<float*>(v);
+    float* VR = v;
     int LDVR = n;
     int ILO;
     int IHI;
@@ -275,8 +267,8 @@ void
 singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d,
     std::complex<float>* a, bool eigenvectors, bool balance)
 {
-    // Use cgeev when balancing is not requested (faster),
-    // otherwise preserve original cgeevx behavior.
+    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(n, n));
+    // Without balancing the simpler cgeev is faster; cgeevx is needed for balance == true.
     char JOBVL = 'N';
     char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
@@ -289,16 +281,9 @@ singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<floa
     std::complex<float>* W = d;
 
     if (!balance) {
-        std::complex<float> wkopt;
-        int LWORK = -1;
+        int LWORK = geevWorkspaceSize(n);
         int INFO;
-        float* RWORK = (float*)new_with_exception<float>(std::max(1, N), false); // added
-
-        // workspace query (RWORK must be provided for complex routines)
-        LAPACK_cgeev(
-            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &wkopt, &LWORK, RWORK, &INFO);
-
-        LWORK = (int)wkopt.real();
+        float* RWORK = (float*)new_with_exception<float>(std::max(1, 2 * N), false);
         std::complex<float>* WORK
             = (std::complex<float>*)new_with_exception<std::complex<float>>(LWORK, false);
 
@@ -306,10 +291,9 @@ singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<floa
             &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, WORK, &LWORK, RWORK, &INFO);
 
         delete[] WORK;
-        delete[] RWORK; // free RWORK
+        delete[] RWORK;
         return;
     }
-    // original cgeevx path
     char BALANC = 'B';
     char SENSE = 'N';
     int ILO;
@@ -341,8 +325,8 @@ void
 doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
     std::complex<double>* a, bool eigenvectors, bool balance)
 {
-    // Use zgeev when balancing is not requested (faster),
-    // otherwise preserve zgeevx behaviour.
+    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(n, n));
+    // Without balancing the simpler zgeev is faster; zgeevx is needed for balance == true.
     char JOBVL = 'N';
     char JOBVR = eigenvectors ? 'V' : 'N';
     int N = n;
@@ -352,19 +336,12 @@ doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<dou
     int LDVL = 1;
     std::complex<double>* VR = v;
     int LDVR = n;
-    std::complex<double>* W = d; // re-added missing declaration
+    std::complex<double>* W = d;
 
     if (!balance) {
-        int LWORK = -1;
+        int LWORK = geevWorkspaceSize(n);
         int INFO;
-        double* RWORK = (double*)new_with_exception<double>(std::max(1, N), false); // added
-
-        // workspace query (RWORK must be provided for complex routines)
-        std::complex<double> wk;
-        LAPACK_zgeev(
-            &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, &wk, &LWORK, RWORK, &INFO);
-
-        LWORK = (int)wk.real();
+        double* RWORK = (double*)new_with_exception<double>(std::max(1, 2 * N), false);
         std::complex<double>* WORK
             = (std::complex<double>*)new_with_exception<std::complex<double>>(LWORK, false);
 
@@ -372,10 +349,9 @@ doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<dou
             &JOBVL, &JOBVR, &N, Ain, &LDA, W, VL, &LDVL, VR, &LDVR, WORK, &LWORK, RWORK, &INFO);
 
         delete[] WORK;
-        delete[] RWORK; // free RWORK
+        delete[] RWORK;
         return;
     }
-    // original zgeevx path
     char BALANC = 'B';
     char SENSE = 'N';
     int ILO;

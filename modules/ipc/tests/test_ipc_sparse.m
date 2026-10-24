@@ -13,22 +13,22 @@
 %=============================================================================
 k = 10;
 clear('R');
-REF = sparse(rand(k, k) + i * rand(k,k));
+REF = sparse(rand(k, k) + i * rand(k, k));
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 k = 10;
 clear('R');
 REF = sparse(eye(k, k));
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 k = 10;
 clear('R');
 REF = sparse(logical(eye(k, k)));
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================

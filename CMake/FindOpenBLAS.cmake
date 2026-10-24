@@ -35,16 +35,9 @@ else()
     /opt/OpenBLAS/include
   )
 
-  if(NOT
-    DEFINED
-    ENV{IN_NIX_SHELL}
-    AND
-    NOT
-    DEFINED
-    ENV{CONDA_PREFIX}
-    AND
-    DEFINED
-    ENV{HOMEBREW_PREFIX}
+  if(NOT DEFINED ENV{IN_NIX_SHELL}
+    AND NOT DEFINED ENV{CONDA_PREFIX}
+    AND DEFINED ENV{HOMEBREW_PREFIX}
   )
     list(APPEND Open_BLAS_INCLUDE_SEARCH_PATHS
       "$ENV{HOMEBREW_PREFIX}/opt/openblas/include"
@@ -63,16 +56,9 @@ else()
     /usr/local/opt/openblas/lib
     /opt/OpenBLAS/lib
   )
-  if(NOT
-    DEFINED
-    ENV{IN_NIX_SHELL}
-    AND
-    NOT
-    DEFINED
-    ENV{CONDA_PREFIX}
-    AND
-    DEFINED
-    ENV{HOMEBREW_PREFIX}
+  if(NOT DEFINED ENV{IN_NIX_SHELL}
+    AND NOT DEFINED ENV{CONDA_PREFIX}
+    AND DEFINED ENV{HOMEBREW_PREFIX}
   )
     list(APPEND Open_BLAS_LIB_SEARCH_PATHS
       "$ENV{HOMEBREW_PREFIX}/opt/openblas/lib"

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "xmldocmergesummaryBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "XmlDocMergeSummary.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson::HelpToolsGateway {
 //=============================================================================
@@ -19,14 +20,14 @@ xmldocmergesummaryBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 2);
-    std::wstring destinationDirectory = argIn[0].getContentAsWideString();
-    wstringVector filenames = argIn[1].getContentAsWideStringVector();
+    std::wstring destinationDirectory = argIn[0].asWideString();
+    wstringVector filenames = argIn[1].asWideStringVector();
     std::wstring errorMessage;
     if (!XmlDocMergeSummary(destinationDirectory, filenames, errorMessage)) {
-        retval.push_back(ArrayOf::logicalConstructor(false));
-        Error(errorMessage);
+        retval.push_back(ArrayOf::logicalScalar(false));
+        Error(L"Nelson:xmldocmergesummary:mergeFailed", errorMessage);
     } else {
-        retval.push_back(ArrayOf::logicalConstructor(true));
+        retval.push_back(ArrayOf::logicalScalar(true));
     }
 
     return retval;

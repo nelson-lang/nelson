@@ -8,6 +8,8 @@
   <syntax>
     <syntax_item
     >status = xmldoctomd(source_dirs, destination_dir, main_title, overwrite)</syntax_item>
+    <syntax_item
+    >status = xmldoctomd(source_dirs, destination_dir, main_title, overwrite, index_dirs)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -30,6 +32,11 @@
       <param_description
       >un booléen : forcer l&apos;écrasement si le fichier de destination existe déjà.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>index_dirs</param_name>
+      <param_description
+      >une cellule de chaînes (optionnel) : racines XML d&apos;aide des autres modules dont les pages peuvent être liées, utilisées pour résoudre &lt;link linkend=&quot;${module}nom&quot;&gt;.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -41,6 +48,7 @@
   <description>
     <p>
       <b>xmldoctomd</b> convertit des fichiers d&apos;aide XML Nelson au format Markdown.</p>
+    <p>Les éléments link de chapter_description restent des liens dans le sommaire de chapitre généré. Une cible linkend telle que guide ou nested/guide est relative à la racine du module ; ${module}guide et {module}guide désignent un module explicite. Les cibles sont les chemins des pages XML sans leur extension, des mots-clés ou des alias : chaque lien est résolu à partir de l&apos;index des mots-clés de source_dirs et index_dirs et pointe vers la page réelle, même dans un sous-répertoire de chapitre ou si le nom de fichier diffère du mot-clé. Les liens non résolus sont signalés par des avertissements.</p>
   </description>
   <used_function />
   <bibliography />
@@ -59,6 +67,11 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >argument index_dirs : liens résolus à partir de l&apos;index des mots-clés.</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,7 +23,7 @@ Nelson::OperatorsGateway::bitandBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring assumedType = L"";
     bool withAssumedType = false;
     if (argIn.size() > 2) {
-        assumedType = argIn[2].getContentAsWideString();
+        assumedType = argIn[2].asWideString();
         withAssumedType = true;
     }
     retval << BitwiseOperator(

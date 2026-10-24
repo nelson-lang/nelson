@@ -8,13 +8,15 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 A = 1:10;
-filename = [tempdir(), '漢字.mat'];
+test_dir = tempname();
+mkdir(test_dir);
+filename = fullfile(test_dir, '漢字.mat');
 save(filename, 'A');
-assert_istrue(isfile(filename));
-clear
-filename = [tempdir(), '漢字.mat'];
-assert_isfalse(isvar('A'));
+asserts.istrue(isfile(filename));
+clear A
+asserts.isfalse(isvar('A'));
 load(filename);
-assert_istrue(isvar('A'));
-assert_isequal(A, 1:10);
+asserts.istrue(isvar('A'));
+asserts.isequal(A, 1:10);
+rmdir(test_dir, 's');
 %=============================================================================

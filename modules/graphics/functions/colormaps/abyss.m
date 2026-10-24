@@ -20,7 +20,7 @@ function map = abyss(varargin)
   else
     m = varargin{1};
   end
-  
+
   firstColor = [0.1490, 0.5490, 0.8667];
   vector = linspace(0.25, 1, m)';
   map = firstColor .* vector;

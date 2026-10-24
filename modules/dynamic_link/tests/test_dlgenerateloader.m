@@ -7,9 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-dlgenerateloader(tempdir, 'test_c');
-assert_istrue(isfile([tempdir(), 'loader.m']));
-txt = fileread([tempdir(), 'loader.m']);
+d = tempname();
+mkdir(d);
+c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+dlgenerateloader(d, 'test_c');
+asserts.istrue(isfile(fullfile(d, 'loader.m')));
+txt = fileread(fullfile(d, 'loader.m'));
 line = 'dlopen([fileparts(nfilename(''fullpathext'')), ''/'', ''test_c'', getdynlibext()]);';
-assert_istrue(contains(txt, line));
+asserts.istrue(contains(txt, line));
 %=============================================================================

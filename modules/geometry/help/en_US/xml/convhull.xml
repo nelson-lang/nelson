@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>convhull</keyword>
+  <short_description>Convex hull of 2-D or 3-D points</short_description>
+  <syntax>
+    <syntax_item>K = convhull(P)</syntax_item>
+    <syntax_item>K = convhull(x, y)</syntax_item>
+    <syntax_item>K = convhull(x, y, z)</syntax_item>
+    <syntax_item>K = convhull(..., 'Simplify', tf)</syntax_item>
+    <syntax_item>[K, A] = convhull(x, y)</syntax_item>
+    <syntax_item>convhull(P)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>convhull</b> computes the convex hull of planar or spatial points.</p>
+    <p>When called without output for planar points, it plots the hull.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute and plot a planar convex hull.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+[K, A] = convhull(P);
+convhull(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}convhulln">convhulln</link></see_also_item>
+    <see_also_item><link linkend="${geometry}boundary">boundary</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

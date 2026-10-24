@@ -17,43 +17,43 @@ function varargout = jlenv(varargin)
     case 0
       varargout{1} = currentJuliaEnvironment;
     case 2
-      juliaScriptsPath = [modulepath('julia_engine','root'), '/resources/julia/'];
+      juliaScriptsPath = [modulepath('julia_engine', 'root'), '/resources/julia/'];
       if ~isdir(juliaScriptsPath)
-        error(_('Julia scripts are missing.'));
+        error('Nelson:jlenv:scriptsMissing', 'Julia scripts are missing.');
       end
 
       name = varargin{1};
-      mustBeTextScalar(name, 1); 
+      mustBeTextScalar(name, 1);
       mustBeMember(convertStringsToChars(name), {'Version', 'version'}, 1);
       juliaExecutablePath = varargin{2};
       mustBeTextScalar(juliaExecutablePath, 2);
 
       if currentJuliaEnvironment.Status ~= "NotLoaded"
-        error(_('The Julia path cannot be modified if Julia library is loaded.'));
+        error('Nelson:jlenv:libraryLoaded', 'The Julia path cannot be modified if Julia library is loaded.');
       end
 
       if isempty(juliaExecutablePath)
-        varargout{1} = __jlenv__('', '', '', '');    
+        varargout{1} = __jlenv__('', '', '', '');
         return
       end
-      julia_version = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaVersion.jl']);        
+      julia_version = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaVersion.jl']);
       if ~semver(julia_version, '>=1.10.0')
-        error(_('Julia version is not supported (at least 1.10.0 expected).'));
+        error('Nelson:jlenv:unsupportedVersion', 'Julia version is not supported (at least 1.10.0 expected).');
       end
       julia_architecture = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaArchitecture.jl']);
       julia_is64bit = strcmpi(julia_architecture, 'true');
       compiler_info = version('-compiler');
       nelson_is64bit = strcmpi(compiler_info(3), '64');
       if (~julia_is64bit || ~nelson_is64bit) && (julia_is64bit || nelson_is64bit)
-        error(_('Julia and Nelson must use the same architecture.'))
+        error('Nelson:jlenv:architectureMismatch', 'Julia and Nelson must use the same architecture.')
       end
       julia_executable = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaExecutable.jl']);
       julia_home = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaHome.jl']);
       julia_library = getJuliaCommandResult(juliaExecutablePath, [juliaScriptsPath, 'findJuliaLibrary.jl']);
-      
+
       varargout{1} = __jlenv__(julia_version, julia_executable, julia_library, julia_home);
     otherwise
-      error(_('Wrong number of input arguments.'));
+      error('Nelson:wrongNumberOfInputs', 'Wrong number of input arguments.');
   end
 end
 %=============================================================================
@@ -65,11 +65,11 @@ function result = getJuliaCommandResult(julia, juliaScript)
   end
   [status, result] = unix(cmd);
   if (status ~= 0)
-    error(_('Impossible to call Julia. Check path.'));
+    error('Nelson:jlenv:cannotCallJulia', 'Impossible to call Julia. Check path.');
   end
   result = strtrim(result);
   if isempty(result) || strcmpi(result, 'none')
-    error(_('Julia returns no value.'));
+    error('Nelson:jlenv:noValueReturned', 'Julia returns no value.');
   end
 end
 %=============================================================================

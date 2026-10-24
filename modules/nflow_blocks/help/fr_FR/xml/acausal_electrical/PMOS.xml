@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>PMOS</keyword>
+  <keyword_alias>block:PMOS</keyword_alias>
+  <short_description>MOSFET a canal P (loi quadratique) : broches drain, grille et source.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : PMOS</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>broches physiques</param_name>
+      <param_description>3 broche(s) physique(s) non orientee(s) ; 0 entree(s) signal.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports signal</param_name>
+      <param_description>0 sortie(s) signal (lectures de capteur).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Composant acausal (Electrique (acausal)). MOSFET a canal P (loi quadratique) : broches drain, grille et source.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Electrique (acausal)</td></tr>
+        <tr><td>Type</td><td><code>PMOS</code></td></tr>
+        <tr><td>Libelle</td><td>PMOS</td></tr>
+        <tr><td>Solveur</td><td>Abaisse vers <code>physicalIsland</code>. Solveur de reference <code>dae</code> (differentiel-algebrique) ; la boucle a pas fixe et les solveurs explicites natifs (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) sont egalement pris en charge (un ilot multicorps articule necessite <code>dae</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/acausal_electrical/exports/PMOS.svg" align="middle"/>
+    </p>
+    <p><b>Sources d implementation</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/acausal_electrical/library.json" language="json"/>
+    <source_code label="Catalog" path="modules/nflow_blocks/functions/+NFlow/+internal/acausalCatalog.m" language="matlab" start="entry('PMOS'" end="');"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}acausal_electrical/Ground">Ground</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_electrical/Resistor">Resistor</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_electrical/HeatingResistor">HeatingResistor</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,39 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+classdef ClassdefDotIndexValue
+  properties
+    Stored = 10
+    LastName = ''
+    LastValue = 0
+  end
+  methods
+    function obj = ClassdefDotIndexValue(value)
+      if nargin > 0
+        obj.Stored = value;
+      end
+    end
+    function value = dotReference(obj, name)
+      if strcmp(name, 'virtual')
+        value = obj.Stored + 1;
+      else
+        error('Unexpected dotReference.');
+      end
+    end
+    function obj = dotAssign(obj, name, value)
+      if strcmp(name, 'virtual')
+        obj.Stored = value - 1;
+        obj.LastName = name;
+        obj.LastValue = value;
+      else
+        error('Unexpected dotAssign.');
+      end
+    end
+  end
+end

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ishermitianBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "IsHermitian.hpp"
@@ -26,7 +27,7 @@ Nelson::LinearAlgebraGateway::ishermitianBuiltin(int nLhs, const ArrayOfVector& 
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (param2.isRowVectorCharacterArray()) {
-            std::wstring str = param2.getContentAsWideString();
+            std::wstring str = param2.asWideString();
             if (str == L"skew" || str == L"nonskew") {
                 if (str == L"skew") {
                     skew = true;
@@ -34,16 +35,18 @@ Nelson::LinearAlgebraGateway::ishermitianBuiltin(int nLhs, const ArrayOfVector& 
                     skew = false;
                 }
             } else {
-                Error(_W("Second input must be 'skew' or 'nonskew'."));
+                Error(L"Nelson:ishermitian:invalidOption",
+                    L"Second input must be 'skew' or 'nonskew'.");
             }
         } else {
-            Error(_W("Second input must be 'skew' or 'nonskew'."));
+            Error(
+                L"Nelson:ishermitian:invalidOption", L"Second input must be 'skew' or 'nonskew'.");
         }
     }
     if (argIn[0].isReferenceType() || argIn[0].isSparse() || argIn[0].isCharacterArray()) {
         OverloadRequired("ishermitian");
     }
-    retval << ArrayOf::logicalConstructor(IsHermitian(argIn[0], skew, "ishermitian"));
+    retval << ArrayOf::logicalScalar(IsHermitian(argIn[0], skew, "ishermitian"));
     return retval;
 }
 //=============================================================================

@@ -23,9 +23,7 @@ FileSize(File* fp)
         }
         FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
         if (fileptr) {
-            // save current file position
             auto curpos = static_cast<int64>(NLSFTELL(fileptr));
-            // move to end of file
             int res;
             int ORIGIN = SEEK_END;
 #if (defined(_LP64) || defined(_WIN64))
@@ -43,7 +41,6 @@ FileSize(File* fp)
 #else
             offset = static_cast<long int>(curpos);
 #endif
-            // restore to initial position
             NLSFSEEK(fileptr, offset, ORIGIN);
         }
     }

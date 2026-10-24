@@ -13,8 +13,8 @@ C = [0, 10];
 D = 10;
 S1 = ss(A, B, C, D);
 S3 = -S1;
-assert_isequal(S3.A, S1.A);
-assert_isequal(S3.B, S1.B);
-assert_isequal(S3.C, -S1.C);
-assert_isequal(S3.D, -S1.D);
+asserts.isequal(S3.A, S1.A);
+asserts.isequal(S3.B, S1.B);
+asserts.isequal(S3.C, -S1.C);
+asserts.isequal(S3.D, -S1.D);
 %=============================================================================

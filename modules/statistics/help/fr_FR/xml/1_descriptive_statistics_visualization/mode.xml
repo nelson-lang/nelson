@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mode</keyword>
+  <short_description>Valeurs les plus frequentes.</short_description>
+  <syntax>
+    <syntax_item>M = mode(A)</syntax_item>
+    <syntax_item>M = mode(A, d)</syntax_item>
+    <syntax_item>[M, F, C] = mode(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>input array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>dimension to operate along: positive integer scalar.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Most frequent values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description>Frequencies of the most frequent values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>Cell array containing the most frequent values.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>mode</b> renvoie les valeurs les plus frequentes de A selon la dimension choisie.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}mean">mean</link>
+    <link linkend="${statistics}median">median</link>
+    <link linkend="${statistics}std">std</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 2; 3 3 4];
+[M, F, C] = mode(A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}median">median</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

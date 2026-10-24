@@ -18,5 +18,5 @@ solveSVDDecompositionSingleComplex(const ArrayOf& matA, const ArrayOf& matB)
     return solveSVDDecompositionComplex<single>(NLS_SCOMPLEX, matA, matB);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

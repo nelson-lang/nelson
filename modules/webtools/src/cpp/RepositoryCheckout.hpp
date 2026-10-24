@@ -18,5 +18,5 @@ NLSWEBTOOLS_IMPEXP void
 RepositoryCheckout(
     const std::wstring& localPath, const std::wstring& branchOrTag, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

@@ -11,7 +11,7 @@ function R = isdiag(M)
   R = (islogical(M) || isnumeric(M)) && (ndims(M) == 2);
   if (R)
     [I, J] = find(M);
-    R = all (I == J);
+    R = all(I == J);
   end
 end
 %=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "strtrimBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "StringTrim.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,7 +25,8 @@ Nelson::StringGateway::strtrimBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool needToOverload;
     ArrayOf res = StringTrim(A, needToOverload);
     if (needToOverload) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"string or cell");
     } else {
         retval << res;
     }

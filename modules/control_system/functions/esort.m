@@ -16,6 +16,6 @@ function varargout = esort(varargin)
   varargout{1} = p(index);
   if (nargout == 2)
     varargout{2} = index;
-  end 
+  end
 end
 %=============================================================================

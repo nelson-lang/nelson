@@ -18,5 +18,5 @@ static const wchar_t* FONT_UNITS_DICT[6] = { GO_PROPERTY_VALUE_POINTS_STR,
 //=============================================================================
 GOFontUnitsProperty::GOFontUnitsProperty() : GORestrictedStringProperty(FONT_UNITS_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,54 +10,58 @@
 #include <cstring>
 #include "validatecolorBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GOColorHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+static ArrayOf
+validateTextColors(const ArrayOf& param1, bool isMultiple);
+//=============================================================================
 template <class T>
 ArrayOf
 validateRealColor(NelsonType nlsType, const ArrayOf param1, bool isMultiple)
 {
     ArrayOf res;
-    if (param1.getColumns() != 3 || param1.isEmpty()) {
-        Error(_W("RGB triplet expected."), L"Nelson:graphics:validatecolor:InvalidColor");
+    if (param1.columns() != 3 || param1.isEmpty()) {
+        Error(L"Nelson:graphics:validatecolor:InvalidColor", L"Valid color expected.");
     }
-    if (param1.getRows() > 1 && !isMultiple) {
-        Error(_W("One color specification or use the 'multiple' option expected."),
-            L"Nelson:graphics:validatecolor:MultipleColors");
+    if (param1.rows() > 1 && !isMultiple) {
+        Error(L"Nelson:graphics:validatecolor:MultipleColors",
+            L"One color specification or use the 'multiple' option expected.");
     }
-    if (param1.getRows() == 1) {
-        Dimensions dimsC(param1.getRows(), 3);
+    if (param1.rows() == 1) {
+        Dimensions dimsC(param1.rows(), 3);
         double* dptr
-            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.getElementCount()));
+            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.elementCount()));
         res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
         std::vector<double> rgb;
         if (!ParseColorToRGB(param1, rgb)) {
-            Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
+            Error(L"Nelson:graphics:validatecolor:InvalidColor", L"Valid color expected.");
         }
         memcpy(dptr, rgb.data(), 3 * sizeof(double));
     } else {
-        Dimensions dimsC(param1.getRows(), 3);
+        Dimensions dimsC(param1.rows(), 3);
         double* dptr
-            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.getElementCount()));
+            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.elementCount()));
         res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
-        const T* values = static_cast<const T*>(param1.getDataPointer());
-        for (indexType k = 0; k < param1.getRows(); ++k) {
+        const T* values = static_cast<const T*>(param1.dataPointer());
+        for (indexType k = 0; k < param1.rows(); ++k) {
             Dimensions dimsArg(1, 3);
             T* uptr = static_cast<T*>(ArrayOf::allocateArrayOf(nlsType, 3));
             ArrayOf arg = ArrayOf(nlsType, dimsArg, uptr);
             uptr[0] = values[k];
-            uptr[1] = values[k + (param1.getRows())];
-            uptr[2] = values[k + (2 * param1.getRows())];
+            uptr[1] = values[k + (param1.rows())];
+            uptr[2] = values[k + (2 * param1.rows())];
             std::vector<double> rgb;
             if (!ParseColorToRGB(arg, rgb)) {
-                Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
+                Error(L"Nelson:graphics:validatecolor:InvalidColor", L"Valid color expected.");
             }
             dptr[k] = rgb[0];
-            dptr[k + (param1.getRows())] = rgb[1];
-            dptr[k + (2 * param1.getRows())] = rgb[2];
+            dptr[k + (param1.rows())] = rgb[1];
+            dptr[k + (2 * param1.rows())] = rgb[2];
         }
     }
     return res;
@@ -74,17 +78,18 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         isMultiple = false;
     } else {
-        std::wstring param2 = argIn[1].getContentAsWideString();
+        std::wstring param2 = argIn[1].asWideString();
         if (param2 == L"one") {
             isMultiple = false;
         } else if (param2 == L"multiple") {
             isMultiple = true;
         } else {
-            Error(_("Invalid #2 argument: 'one', 'multiple' expected."));
+            Error("Nelson:graphics:validatecolor:InvalidOption",
+                "Invalid #%d argument: 'one', 'multiple' expected.", 2);
         }
     }
     ArrayOf param1 = argIn[0];
-    switch (param1.getDataClass()) {
+    switch (param1.dataClass()) {
     case NLS_UINT8: {
         retval << validateRealColor<uint8>(NLS_UINT8, param1, isMultiple);
     } break;
@@ -127,62 +132,23 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case NLS_CELL_ARRAY: {
         if (!param1.isCellArrayOfCharacterVectors()) {
-            Error(_W("RGB triplet, a character vector, or a string scalar, cell of row characters "
-                     "expected."),
-                L"Nelson:graphics:validatecolor:InvalidColor");
+            Error(L"Nelson:graphics:validatecolor:InvalidColorCell",
+                L"RGB triplet, a character vector, or a string scalar, cell of row characters "
+                L"expected.");
         }
-        indexType nElements = param1.getElementCount();
-        if (!isMultiple && nElements > 1) {
-            Error(_W("Use the 'multiple' option or specify one color specification."),
-                L"Nelson:graphics:validatecolor:MultipleColors");
-        }
-        wstringVector elements = param1.getContentAsWideStringVector();
-        Dimensions dimsC(nElements, 3);
-        double* dptr
-            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.getElementCount()));
-        ArrayOf res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
-        for (indexType k = 0; k < nElements; ++k) {
-            std::vector<double> rgb;
-            if (!ParseColorToRGB(elements[k], false, rgb)) {
-                Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
-            }
-            dptr[k] = rgb[0];
-            dptr[k + nElements] = rgb[1];
-            dptr[k + (nElements * 2)] = rgb[2];
-        }
-        retval << res;
+        retval << validateTextColors(param1, isMultiple);
     } break;
     case NLS_STRING_ARRAY: {
-        indexType nElements = param1.getElementCount();
-        if (!isMultiple && nElements > 1) {
-            Error(_W("Use the 'multiple' option or specify one color specification."),
-                L"Nelson:graphics:validatecolor:MultipleColors");
-        }
-        wstringVector elements = param1.getContentAsWideStringVector();
-        Dimensions dimsC(nElements, 3);
-        double* dptr
-            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.getElementCount()));
-        ArrayOf res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
-        for (indexType k = 0; k < nElements; ++k) {
-            std::vector<double> rgb;
-            if (!ParseColorToRGB(elements[k], false, rgb)) {
-                Error(_W("Valid color expected."), L"Nelson:graphics:validatecolor:InvalidColor");
-            }
-            dptr[k] = rgb[0];
-            dptr[k + nElements] = rgb[1];
-            dptr[k + (nElements * 2)] = rgb[2];
-        }
-        retval << res;
+        retval << validateTextColors(param1, isMultiple);
     } break;
     case NLS_CHAR: {
-        std::wstring colorStr = param1.getContentAsWideString();
+        std::wstring colorStr = param1.asWideString();
         std::vector<double> rgb;
         if (!ParseColorToRGB(colorStr, false, rgb)) {
-            Error(
-                _W("Valid color string expected."), L"Nelson:graphics:validatecolor:InvalidColor");
+            Error(L"Nelson:graphics:validatecolor:InvalidColor", L"Valid color expected.");
         } else {
-            ArrayOf res = ArrayOf::doubleRowVectorConstructor(3);
-            double* dp = (double*)(res.getDataPointer());
+            ArrayOf res = ArrayOf::doubleRowVector(3);
+            double* dp = (double*)(res.dataPointer());
             if (dp) {
                 dp[0] = rgb[0];
                 dp[1] = rgb[1];
@@ -192,11 +158,39 @@ GraphicsGateway::validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } break;
     default: {
-        Error(_W("Mx3 matrix of RGB triplets, a character vector, a cell-array of character "
-                 "vectors or a string array expected."),
-            L"Nelson:graphics:validatecolor:InvalidColor");
+        Error(L"Nelson:graphics:validatecolor:InvalidColorType",
+            L"Mx3 matrix of RGB triplets, a character vector, a cell-array of character vectors or "
+            L"a string array expected.");
     } break;
     }
     return retval;
+}
+//=============================================================================
+ArrayOf
+validateTextColors(const ArrayOf& param1, bool isMultiple)
+{
+    indexType nElements = param1.elementCount();
+    if (!isMultiple && nElements > 1) {
+        Error(L"Nelson:graphics:validatecolor:MultipleColors",
+            L"One color specification or use the 'multiple' option expected.");
+    }
+    if (nElements > 1 && !param1.isVector()) {
+        Error(L"Nelson:graphics:validatecolor:InvalidStringShape",
+            L"Specify colors using a 1-D cell-array of character vectors or a 1-D string array.");
+    }
+    Dimensions dimsC(nElements, 3);
+    double* dptr = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsC.elementCount()));
+    ArrayOf res = ArrayOf(NLS_DOUBLE, dimsC, dptr);
+    wstringVector elements = param1.asWideStringVector();
+    for (indexType k = 0; k < nElements; ++k) {
+        std::vector<double> rgb;
+        if (!ParseColorToRGB(elements[k], false, rgb)) {
+            Error(L"Nelson:graphics:validatecolor:InvalidColor", L"Valid color expected.");
+        }
+        dptr[k] = rgb[0];
+        dptr[k + nElements] = rgb[1];
+        dptr[k + (nElements * 2)] = rgb[2];
+    }
+    return res;
 }
 //=============================================================================

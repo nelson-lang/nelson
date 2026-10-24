@@ -7,100 +7,113 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('warning'), -1);
-assert_isequal(nargout('warning'), 1);
+asserts.isequal(nargin('warning'), -1);
+asserts.isequal(nargout('warning'), 1);
 %=============================================================================
 warning('This is an Warning message');
 [msg, id] = lastwarn();
-assert_isequal(msg, 'This is an Warning message');
-assert_isequal(id, '');
+asserts.isequal(msg, 'This is an Warning message');
+asserts.isequal(id, '');
 %=============================================================================
 warning()
 %=============================================================================
 stBegin = warning();
 %=============================================================================
 st = warning();
-assert_istrue(isstruct(st));
-assert_istrue(length(st) >= 2);
+asserts.istrue(isstruct(st));
+asserts.istrue(length(st) >= 2);
 F = fieldnames(st);
 R = {'identifier'; 'state'};
-assert_isequal(F, R);
+asserts.isequal(F, R);
 %=============================================================================
 warning('query');
 %=============================================================================
 st = warning('query');
-assert_istrue(isstruct(st));
-assert_istrue(length(st) >= 2);
+asserts.istrue(isstruct(st));
+asserts.istrue(length(st) >= 2);
 F = fieldnames(st);
 R = {'identifier'; 'state'};
-assert_isequal(F, R);
+asserts.isequal(F, R);
 %=============================================================================
 warning('off');
 R = warning('off');
-assert_istrue(isstruct(R));
-assert_istrue(length(R) == 1);
-assert_isequal(R.identifier, 'all');
-assert_isequal(R.state, 'off');
+asserts.istrue(isstruct(R));
+asserts.istrue(length(R) == 1);
+asserts.isequal(R.identifier, 'all');
+asserts.isequal(R.state, 'off');
 %=============================================================================
 warning('on');
 R = warning('on');
-assert_istrue(isstruct(R));
-assert_istrue(length(R) == 1);
-assert_isequal(R.identifier, 'all');
-assert_isequal(R.state, 'on');
+asserts.istrue(isstruct(R));
+asserts.istrue(length(R) == 1);
+asserts.isequal(R.identifier, 'all');
+asserts.isequal(R.state, 'on');
 %=============================================================================
 lastwarn('')
 a = warning('nelson:test', 'ok');
-assert_isequal(a, '')
+asserts.isequal(a, '')
 a = warning('nelson:test2', 'ok2');
-assert_isequal(a, 'ok')
+asserts.isequal(a, 'ok')
 %=============================================================================
 lastwarn('')
 [a, b] = warning('nelson:test', 'ok');
-assert_isequal(a, '')
-assert_isequal(b, '')
+asserts.isequal(a, '')
+asserts.isequal(b, '')
 [a, b] = warning('nelson:test2', 'ok2');
-assert_isequal(a, 'ok');
-assert_isequal(b, 'nelson:test');
+asserts.isequal(a, 'ok');
+asserts.isequal(b, 'nelson:test');
 %=============================================================================
 warning(stBegin);
 c = warning();
-assert_isequal(stBegin, c);
-assert_istrue(isstruct(st));
-assert_istrue(length(st) >= 2);
+asserts.isequal(stBegin, c);
+asserts.istrue(isstruct(st));
+asserts.istrue(length(st) >= 2);
 F = fieldnames(st);
 R = {'identifier'; 'state'};
-assert_isequal(F, R);
+asserts.isequal(F, R);
 %=============================================================================
 R = warning('on', 'nelson:test');
 clear REF
 REF.identifier = 'nelson:test';
 REF.state = 'on';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-msg = _('warning(''query'') does not require an second argument.');
-assert_checkerror('warning(''query'', ''nelson'');', msg);
+% warning('query', ID) reports the state of a specific warning identifier
+warning('off', 'nelson:queryTest');
+clear R
+R = warning('query', 'nelson:queryTest');
+clear REF
+REF.identifier = 'nelson:queryTest';
+REF.state = 'off';
+asserts.isequal(R, REF);
+warning('on', 'nelson:queryTest');
+R = warning('query', 'nelson:queryTest');
+asserts.isequal(R.state, 'on');
+% an unknown identifier is enabled by default
+R = warning('query', 'nelson:neverSeen');
+asserts.isequal(R.state, 'on');
 %=============================================================================
-warning('on', 'Nelson:colon:array-as-scalar');
-[1:2]:3;
+warning('on', 'nelson:test:state');
+warning('nelson:test:state', 'state warning');
 msg = lastwarn();
-assert_isequal(msg, _('Array used as scalar.'));
+asserts.isequal(msg, 'state warning');
 %=============================================================================
 lastwarn('');
-warning('off', 'Nelson:colon:array-as-scalar');
-[1:2]:3;
+warning('off', 'nelson:test:state');
+warning('nelson:test:state', 'state warning');
 msg = lastwarn();
-assert_isequal(msg, '');
+% A disabled warning is not displayed but is still recorded by lastwarn.
+asserts.isequal(msg, 'state warning');
 %=============================================================================
-warning('aserror', 'Nelson:colon:array-as-scalar');
-assert_checkerror('[1:3]:4', _('Array used as scalar.'));
+warning('aserror', 'nelson:test:state');
+asserts.checkerror('warning(''nelson:test:state'', ''state warning'');', 'state warning');
 %=============================================================================
 warning('blabla...');
 R = lastwarn();
-assert_isequal(R, 'blabla...');
+asserts.isequal(R, 'blabla...');
 warning('');
 R = lastwarn();
-assert_isequal(R, '');
+asserts.isequal(R, '');
 %=============================================================================
 warning(stBegin);
 %=============================================================================

@@ -10,28 +10,34 @@
 function p = primes(n)
   narginchk(1, 1)
   nargoutchk(0, 1)
-  
+
   if ~isscalar(n)
-    error(_('Wrong size for argument #1: scalar expected.'));
-  end
-  if ~isfinite(n)
-    error(_('Wrong value for argument #1: finite value expected.'));
+    error('Nelson:scalarExpected', 'Wrong size for argument #%d: scalar expected.', 1);
   end
   if ~isreal(n)
-    error(_('Wrong value for argument #1: real value expected.'));
+    error('Nelson:primes:mustBeReal', 'Wrong value for argument #%d: real value expected.', 1);
   end
-  
   if n < 2
-    p = zeros(1, 0, class(n));
+    if ischar(n)
+      p = zeros(1, 0);
+    else
+      p = zeros(1, 0, class(n));
+    end
     return
+  end
+  if ischar(n)
+    n = double(n);
+  end
+  if ~isfinite(n)
+    error('Nelson:primes:mustBeFinite', 'Wrong value for argument #%d: finite value expected.', 1);
   end
   N = floor(double(n));
   p = [1:2:N];
   q = length(p);
   p(1) = 2;
   for k = 3:2:sqrt(N)
-    if p((k+1)/2)
-      p([((k*k+1)/2):k:q]) = 0;
+    if p((k + 1) / 2)
+      p([((k * k + 1) / 2):k:q]) = 0;
     end
   end
   p = p(find(p >= 0));

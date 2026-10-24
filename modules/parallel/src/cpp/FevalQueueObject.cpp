@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -35,6 +35,12 @@ FevalQueueObject::destroy()
     }
 }
 //=============================================================================
+bool
+FevalQueueObject::isInitialized()
+{
+    return (m_pInstance != nullptr);
+}
+//=============================================================================
 FevalQueueObject::FevalQueueObject()
     : HandleGenericObject(NLS_HANDLE_FEVALQUEUE_CATEGORY_STR, this, false)
 {
@@ -66,10 +72,16 @@ FevalQueueObject::display(Interface* io)
     }
 }
 //=============================================================================
-FevalQueueObject::~FevalQueueObject() = default;
+FevalQueueObject::~FevalQueueObject()
+{
+    if (m_pInstance == this) {
+        m_pInstance = nullptr;
+    }
+    fEvalQueue.clear();
+}
 //=============================================================================
 void
-FevalQueueObject::add(FevalFutureObject* fevalFutureObject)
+FevalQueueObject::add(const HandleRef& fevalFutureObject)
 {
     refreshQueue();
     fEvalQueue.push_back(fevalFutureObject);
@@ -80,10 +92,15 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 {
     refreshQueue();
     std::vector<nelson_handle> handles;
-    for (auto& k : fEvalQueue) {
+    for (auto& weak : fEvalQueue) {
+        HandleRef ref = weak.lock();
+        auto* k = ref ? dynamic_cast<FevalFutureObject*>(ref->object()) : nullptr;
+        if (k == nullptr) {
+            continue;
+        }
         FutureStateGuardRead guard(k->stateMutex);
         if (k->state == stateDesired) {
-            nelson_handle asNelsonHandle = k->asNelsonHandle;
+            nelson_handle asNelsonHandle = ref->id();
             nelson_handle nh = asNelsonHandle;
             handles.push_back(nh);
         }
@@ -95,16 +112,15 @@ FevalQueueObject::searchThreadsByState(THREAD_STATE stateDesired)
 ArrayOf
 FevalQueueObject::getThreadsByState(THREAD_STATE stateDesired)
 {
-    std::vector<nelson_handle> fEvalFuturHandles = searchThreadsByState(stateDesired);
-    nelson_handle* nh = nullptr;
+    std::vector<nelson_handle> fEvalFutureHandles = searchThreadsByState(stateDesired);
+    HandleRef* nh = nullptr;
     indexType len = 0;
-    Dimensions dims(fEvalFuturHandles.empty() ? 0 : 1, fEvalFuturHandles.size());
-    len = dims.getElementCount();
-    nh = static_cast<nelson_handle*>(
-        ArrayOf::allocateArrayOf(NLS_HANDLE, len, stringVector(), false));
+    Dimensions dims(fEvalFutureHandles.empty() ? 0 : 1, fEvalFutureHandles.size());
+    len = dims.elementCount();
+    nh = static_cast<HandleRef*>(ArrayOf::allocateArrayOf(NLS_HANDLE, len, stringVector(), false));
 
     for (indexType k = 0; k < len; k++) {
-        nh[k] = fEvalFuturHandles[k];
+        nh[k] = HandleManager::getInstance()->getHandleRef(fEvalFutureHandles[k]);
     }
     return ArrayOf(NLS_HANDLE, dims, (void*)nh);
 }
@@ -137,10 +153,18 @@ FevalQueueObject::refreshQueue()
         return;
     }
     fEvalQueue.erase(std::remove_if(fEvalQueue.begin(), fEvalQueue.end(),
-                         [](FevalFutureObject* f) {
+                         [](const std::weak_ptr<HandleState>& weak) -> bool {
+                             HandleRef ref = weak.lock();
+                             auto* f
+                                 = ref ? dynamic_cast<FevalFutureObject*>(ref->object()) : nullptr;
+                             if (f == nullptr) {
+                                 return true;
+                             }
                              FutureStateGuardRead guard(f->stateMutex);
-                             return f->state != THREAD_STATE::QUEUED
-                                 && f->state != THREAD_STATE::RUNNING;
+                             THREAD_STATE state = f->state.load();
+                             bool isInactive = (state != THREAD_STATE::QUEUED)
+                                 && (state != THREAD_STATE::RUNNING);
+                             return isInactive;
                          }),
         fEvalQueue.end());
 }
@@ -148,17 +172,42 @@ FevalQueueObject::refreshQueue()
 void
 FevalQueueObject::reset()
 {
-    for (auto& k : fEvalQueue) {
-        k->cancel();
+    for (auto& weak : fEvalQueue) {
+        HandleRef ref = weak.lock();
+        auto* k = ref ? dynamic_cast<FevalFutureObject*>(ref->object()) : nullptr;
+        if (k != nullptr) {
+            k->cancel();
+        }
     }
     refreshQueue();
     fEvalQueue.clear();
 }
 //=============================================================================
 void
+FevalQueueObject::cleanupFinishedFutures()
+{
+    refreshQueue();
+    if (fEvalQueue.empty() && BackgroundPoolObject::isInitialized()) {
+        BackgroundPoolObject::getInstance()->purgeQueuedTasks();
+    }
+}
+//=============================================================================
+void
 FevalQueueObject::cancelAll()
 {
-    BackgroundPoolObject::getInstance()->resetThreadPool();
+    for (auto& weak : fEvalQueue) {
+        HandleRef ref = weak.lock();
+        auto* k = ref ? dynamic_cast<FevalFutureObject*>(ref->object()) : nullptr;
+        if (k != nullptr) {
+            k->cancel();
+        }
+    }
+    refreshQueue();
+    if (BackgroundPoolObject::isInitialized()) {
+        BackgroundPoolObject* backgroundPool = BackgroundPoolObject::getInstance();
+        backgroundPool->purgeQueuedTasks();
+        backgroundPool->waitForTasksDone();
+    }
 }
 //=============================================================================
 } // namespace Nelson

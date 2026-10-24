@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fmiCoSimulate</keyword>
+  <short_description>Run a fixed-step Co-Simulation of an FMI 2.0 or 3.0 FMU.</short_description>
+  <syntax>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop)</syntax_item>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop, dt)</syntax_item>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop, dt, inputs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fmu</param_name>
+      <param_description>a string scalar or character row vector: the path to a <b>.fmu</b> archive, or to an already-extracted FMU directory. The FMU must provide the Co-Simulation interface (see <b>fmiInfo</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tStop</param_name>
+      <param_description>a positive real scalar: the stop time of the simulation, in the FMU time unit (seconds). The simulation starts at time <b>0</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dt</param_name>
+      <param_description>an optional positive real scalar: the communication step size. When omitted it defaults to <b>tStop / 100</b> (one hundred steps). It is clamped to <b>tStop</b> when larger.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>an optional scalar structure whose field names are FMU <b>Float64</b> input variables and whose values are the constant values held on those inputs for the whole run, for example <b>struct('u', 2.5)</b>. Inputs not listed keep their FMU start values.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>a scalar structure holding the recorded trajectory, with the fields <b>time</b>, <b>outputNames</b>, and <b>outputs</b> described below.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fmiCoSimulate</b> runs a <b>Co-Simulation</b> of a <b>Functional Mock-up Unit</b> (FMU) that follows the <b>FMI 2.0</b> or <b>3.0</b> standard and returns the values of every <b>Float64</b> output at each communication point.</p>
+    <p>The FMU is instantiated, initialized between time <b>0</b> and <b>tStop</b>, and then advanced with a fixed communication step <b>dt</b>. At the start of each step the current <b>Float64</b> outputs are recorded; the FMU is then advanced by one step. The loop stops at <b>tStop</b>, or earlier if the FMU requests termination. The FMU is always terminated and freed before the function returns, including on error.</p>
+    <p>No external inputs are applied: the parameters and inputs of the FMU keep the start values declared in its model description. The function therefore reproduces the free response of the model as packaged. Applying custom inputs is not yet supported by this entry point.</p>
+    <p>The <b>fmu</b> argument accepts either a <b>.fmu</b> archive or an already-extracted directory. A <b>.fmu</b> archive is unpacked with a ZIP-slip-hardened extractor into a fresh temporary directory that is removed automatically when the function returns; entries with absolute paths, drive letters, or <b>..</b> traversal are rejected.</p>
+    <p>The returned structure <b>result</b> has the following fields:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Field</th>
+        <th>Size</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>time</td>
+        <td>N x 1</td>
+        <td>the communication points, starting at <b>0</b> and strictly increasing by <b>dt</b> (the last point may be shorter when the FMU terminates early).</td>
+      </tr>
+      <tr>
+        <td>outputNames</td>
+        <td>1 x nOut</td>
+        <td>a cell of the names of the <b>Float64</b> output variables, in declaration order.</td>
+      </tr>
+      <tr>
+        <td>outputs</td>
+        <td>N x nOut</td>
+        <td>the recorded output values; column <b>j</b> is the trajectory of <b>outputNames{j}</b>, row <b>i</b> corresponds to <b>time(i)</b>.</td>
+      </tr>
+    </table>
+    <p>The number of rows <b>N</b> is <b>floor(tStop / dt) + 1</b> for a run that completes at <b>tStop</b>. When the FMU declares no <b>Float64</b> output, <b>outputNames</b> is empty and <b>outputs</b> has zero columns while <b>time</b> is still returned.</p>
+    <p>Use <b>fmiInfo</b> first to inspect the variables and confirm the Co-Simulation interface. An error is raised when <b>tStop</b> is not positive, when the FMU does not support Co-Simulation, or when any FMI call fails.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run a Co-Simulation with the default step size.</example_item_description>
+      <example_item_data
+        ><![CDATA[result = fmiCoSimulate('VanDerPol.fmu', 20)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run with an explicit communication step and plot the outputs.</example_item_description>
+      <example_item_data
+        ><![CDATA[r = fmiCoSimulate('VanDerPol.fmu', 20, 0.01);
+plot(r.time, r.outputs);
+legend(r.outputNames);
+xlabel('time');
+title('FMU Co-Simulation outputs');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extract a single named output from the result.</example_item_description>
+      <example_item_data
+        ><![CDATA[r = fmiCoSimulate('VanDerPol.fmu', 20, 0.01);
+col = find(strcmp(r.outputNames, 'x0'));
+x0 = r.outputs(:, col);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Drive an FMU input with a constant value (bundled Feedthrough FMU).</example_item_description>
+      <example_item_data runnable="cli"
+        ><![CDATA[fmu = [modulepath('nflow_fmi', 'root'), '/examples/Feedthrough.fmu'];
+r = fmiCoSimulate(fmu, 2, 0.1, struct('Float64_continuous_input', 2.5));
+col = find(strcmp(r.outputNames, 'Float64_continuous_output'));
+r.outputs(end, col)]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiInfo">fmiInfo</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

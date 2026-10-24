@@ -1,0 +1,66 @@
+{
+  "name": "nflow",
+  "description": "Nelson Flow",
+  "copyright": "Copyright 2025-present Allan CORNET",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "typecheck": "tsc -p src/ts --noEmit",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test",
+    "watch": "tsc -p src/ts --noEmit --watch",
+    "build": "npm run typecheck && vite build && node scripts/postbuild.mjs",
+    "build:wasm": "npm run typecheck && vite build --config vite.wasm.config.ts && cross-env NFLOW_DIST_DIR=dist-wasm node scripts/postbuild.mjs",
+    "bundle": "npm run build",
+    "build:release": "npm run build",
+    "test": "node --test scripts/shared-styles.test.mjs && vitest run",
+    "bench": "vitest bench --run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "format": "prettier --write \"src/ts/**/*.{ts,tsx,js,json,md}\" && prettier --write \"**/*.nflow\" --parser json",
+    "format:check": "prettier --check \"src/ts/**/*.{ts,tsx,js,json,md}\" && prettier --check \"**/*.nflow\" --parser json",
+    "lint": "eslint src/ts",
+    "test:e2e": "playwright test --config tests/e2e/playwright.config.ts --workers=1",
+    "test:e2e:install": "playwright install chromium",
+    "test:e2e:ui": "playwright test --config tests/e2e/playwright.config.ts --ui",
+    "test:e2e:headed": "playwright test --config tests/e2e/playwright.config.ts --headed",
+    "test:b2b": "node tests/b2b/start-nelson.mjs --reap-only && playwright test --config tests/b2b/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "@vitest/coverage-v8": "4.1.11",
+    "cross-env": "7.0.3",
+    "esbuild": "0.28.2",
+    "eslint": "10.12.0",
+    "globals": "17.11.0",
+    "jsdom": "29.1.1",
+    "minimatch": "10.2.6",
+    "prettier": "2.8.8",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vite": "7.3.7",
+    "vitest": "4.1.11"
+  },
+  "dependencies": {
+    "@bytecodealliance/jco-transpile": "0.20.0",
+    "@bytecodealliance/preview2-shim": "0.30.0",
+    "fflate": "0.8.2",
+    "katex": "^0.18.1",
+    "nelson": "file:../..",
+    "nflow": "file:",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

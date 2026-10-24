@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tutoriel edo complexe</keyword>
+  <short_description>Resoudre des problemes EDO objet avec des etats complexes.</short_description>
+  <description>
+    <p>Utilisez <b>SeparateComplexParts</b> avec le workflow objet quand une equation est ecrite avec des etats complexes mais que l'integration doit avancer les parties reelles et imaginaires separement en interne.</p>
+    <table style="width:100%">
+  <tr><th>Mode</th><th>Reglage</th><th>Comportement</th></tr>
+  <tr><td>Complexe natif</td><td><b>SeparateComplexParts</b> = <b>'off'</b></td><td>Utilise les valeurs complexes directement quand le solveur choisi les supporte.</td></tr>
+  <tr><td>Systeme reel separe</td><td><b>SeparateComplexParts</b> = <b>'on'</b></td><td>Integre les parties reelles et imaginaires comme un systeme reel.</td></tr>
+  <tr><td>Forme retournee</td><td>Forme de l'etat initial original.</td><td>Les resultats reprennent la disposition de l'etat utilisateur.</td></tr>
+</table>
+    <p>Les fonctions utilisateur recoivent des valeurs complexes. L'objet resultat retourne conserve aussi des tableaux complexes <b>Solution</b> et <b>EventSolution</b>.</p>
+    <p>Le meme workflow prend en charge l'interpolation avec <b>deval</b>, les objets d'evenement, les fonctions de sortie, les matrices de masse, les jacobiens et les equations totalement implicites.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resoudre un probleme complexe scalaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) y .* t + 2 * 1i, ...
+  'InitialValue', 1 + 1i, ...
+  'SeparateComplexParts', 'on');
+result = solve(problem, 0, 2);
+value = result.Solution(:, length(result.Time))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpoler un resultat complexe.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) 1i * y, ...
+  'InitialValue', 1, ...
+  'SeparateComplexParts', 'on');
+result = solve(problem, 0, 1);
+yhalf = deval(result, 0.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Arreter sur un evenement d'etat complexe.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[event = odeEvent('EventFcn', @(t,y) imag(y) - 0.5, ...
+  'Response', 'stop');
+problem = ode('ODEFcn', @(t,y) 1 + 1i, ...
+  'InitialValue', 0, ...
+  'SeparateComplexParts', 'on', ...
+  'EventDefinition', event);
+result = solve(problem, 0, 1);
+result.EventSolution]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeEvent">odeEvent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

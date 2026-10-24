@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP bool
 AllFinite(const ArrayOf& arrayIn, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

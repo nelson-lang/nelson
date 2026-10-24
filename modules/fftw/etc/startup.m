@@ -11,7 +11,7 @@ addgateway(modulepath('fftw', 'builtin'), 'fftw');
 if FFTWwrapper('load')
   addpath(modulepath('fftw', 'functions'), '-frozen');
 else
-  warning('Nelson:fftw:loadingFails', _('library fftw not loaded.'))
+  warning('Nelson:fftw:loadingFails', 'library fftw not loaded.')
   removemodule('fftw');
 end
 %=============================================================================

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "classic_test_matrices.m",
+      "title": {
+        "en_US": "Classic test matrices",
+        "fr_FR": "Matrices de test classiques"
+      },
+      "description": {
+        "en_US": "Construct Hilbert, Pascal and magic matrices and inspect their numerical properties.",
+        "fr_FR": "Construire des matrices de Hilbert, Pascal et magiques et examiner leurs propriétés numériques."
+      },
+      "tags": [
+        "matrices",
+        "conditioning",
+        "gallery"
+      ],
+      "requirements": []
+    }
+  ]
+}

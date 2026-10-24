@@ -12,22 +12,71 @@
 #include "omp_for_loop.hpp"
 #include "LowerTrianglePart.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "SparseType.hpp"
+#include "SparseArrayOf.hpp"
 #include "i18n.hpp"
+#include "Decomplexify.hpp"
+#include <Eigen/Sparse>
+#include <memory>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <class T>
+static ArrayOf
+LowerTrianglePartSparseTemplate(const ArrayOf& A, signedIndexType offset)
+{
+    const auto* spmatSRC
+        = static_cast<const Eigen::SparseMatrix<T, 0, signedIndexType>*>(A.sparseDataPointer());
+    auto spmatDST
+        = std::make_unique<Eigen::SparseMatrix<T, 0, signedIndexType>>(A.rows(), A.columns());
+    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
+    triplets.reserve(spmatSRC->nonZeros());
+    for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spmatSRC, k);
+            it; ++it) {
+            if ((signedIndexType)it.row() >= (signedIndexType)it.col() - offset) {
+                triplets.emplace_back(it.row(), it.col(), it.value());
+            }
+        }
+    }
+    spmatDST->setFromTriplets(triplets.begin(), triplets.end());
+    return makeSparseResult(A.dataClass(), A.dimensions(), std::move(spmatDST));
+}
+//=============================================================================
+static ArrayOf
+LowerTrianglePartSparse(const ArrayOf& A, signedIndexType offset, bool& needToOverload)
+{
+    needToOverload = false;
+    switch (A.dataClass()) {
+    case NLS_LOGICAL:
+        return LowerTrianglePartSparseTemplate<logical>(A, offset);
+    case NLS_SINGLE:
+        return LowerTrianglePartSparseTemplate<single>(A, offset);
+    case NLS_DOUBLE:
+        return LowerTrianglePartSparseTemplate<double>(A, offset);
+    case NLS_SCOMPLEX:
+        return LowerTrianglePartSparseTemplate<singlecomplex>(A, offset);
+    case NLS_DCOMPLEX:
+        return LowerTrianglePartSparseTemplate<doublecomplex>(A, offset);
+    default:
+        needToOverload = true;
+        return {};
+    }
+}
 //=============================================================================
 template <class T>
 ArrayOf
 LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
 {
-    Dimensions dimsA = A.getDimensions();
-    indexType nbElements = dimsA.getElementCount();
+    Dimensions dimsA = A.dimensions();
+    indexType nbElements = dimsA.elementCount();
     ArrayOf res = A;
     res.ensureSingleOwner();
-    T* D = (T*)res.getDataPointer();
+    T* D = (T*)res.dataPointer();
     auto* Dz = reinterpret_cast<std::complex<T>*>(D);
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    indexType C = dimsA.columns();
+    indexType R = dimsA.rows();
     OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i - offset);
@@ -41,12 +90,12 @@ template <class T>
 ArrayOf
 LowerTrianglePartReal(const ArrayOf& A, signedIndexType offset)
 {
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     ArrayOf res = A;
     res.ensureSingleOwner();
-    T* D = (T*)res.getDataPointer();
-    indexType C = dimsA.getColumns();
-    indexType R = dimsA.getRows();
+    T* D = (T*)res.dataPointer();
+    indexType C = dimsA.columns();
+    indexType R = dimsA.rows();
     OMP_PARALLEL_FOR_LOOP(C)
     for (ompIndexType i = 0; i < (ompIndexType)C; i++) {
         auto v = (signedIndexType)(i - offset);
@@ -62,15 +111,19 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     ArrayOf res;
     needToOverload = false;
     if (!(A.is2D() || A.isVector() || A.isEmpty())) {
-        Error(_W("Vector or matrix 2D expected."));
+        Error(L"Nelson:elementary_functions:vectorMatrix2DExpected",
+            L"Vector or matrix 2D expected.");
     }
-    Dimensions dimsA = A.getDimensions();
-    switch (A.getDataClass()) {
+    if (A.isComplex() && A.isEmpty()) {
+        // no elements: the result is an empty real array
+        return decomplexify(A);
+    }
+    Dimensions dimsA = A.dimensions();
+    if (A.isSparse()) {
+        return LowerTrianglePartSparse(A, offset, needToOverload);
+    }
+    switch (A.dataClass()) {
     case NLS_LOGICAL: {
-        if (A.isSparse()) {
-            needToOverload = true;
-            return {};
-        }
         res = LowerTrianglePartReal<logical>(A, offset);
 
     } break;
@@ -105,10 +158,6 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
         res = LowerTrianglePartReal<single>(A, offset);
     } break;
     case NLS_DOUBLE: {
-        if (A.isSparse()) {
-            needToOverload = true;
-            return {};
-        }
         res = LowerTrianglePartReal<double>(A, offset);
 
     } break;
@@ -116,10 +165,6 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
         res = LowerTrianglePartComplex<single>(A, offset);
     } break;
     case NLS_DCOMPLEX: {
-        if (A.isSparse()) {
-            needToOverload = true;
-            return {};
-        }
         res = LowerTrianglePartComplex<double>(A, offset);
     } break;
     default: {

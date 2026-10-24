@@ -15,17 +15,17 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-assert_isequal(f.Name, '');
+asserts.isequal(f.Name, '');
 f.Name = 'Nelson';
-assert_isequal(f.Name, 'Nelson');
-assert_isequal(f.Visible, 'on');
+asserts.isequal(f.Name, 'Nelson');
+asserts.isequal(char(f.Visible), 'on');
 f.Visible = 'off';
-assert_isequal(f.Visible, 'off');
+asserts.isequal(char(f.Visible), 'off');
 f.Visible = 'on';
-assert_isequal(f.Visible, 'on');
-assert_isequal(f.NumberTitle, 'on');
+asserts.isequal(char(f.Visible), 'on');
+asserts.isequal(char(f.NumberTitle), 'on');
 f.NumberTitle = 'off';
-assert_isequal(f.NumberTitle, 'off');
+asserts.isequal(char(f.NumberTitle), 'off');
 f.NumberTitle = 'on';
-assert_isequal(f.NumberTitle, 'on');
+asserts.isequal(char(f.NumberTitle), 'on');
 %=============================================================================

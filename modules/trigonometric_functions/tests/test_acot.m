@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('acot'), -1);
-assert_isequal(nargout('acot'), 1);
+asserts.isequal(nargin('acot'), -1);
+asserts.isequal(nargout('acot'), 1);
 %=============================================================================
-R = acot([0.5i, 1+3i, -2.2+i]);
-REF = [ 1.5708 - 0.5493i   0.1093 - 0.3059i  -0.3689 - 0.1506i];
-assert_isapprox(R, REF, 1e-4);
+R = acot([0.5i, 1 + 3i, -2.2 + i]);
+REF = [1.5708 - 0.5493i 0.1093 - 0.3059i -0.3689 - 0.1506i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 
 

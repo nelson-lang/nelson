@@ -8,62 +8,97 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = issorted(varargin)
+  % TF = issorted(A)
+  % TF = issorted(A, dim)
+  % TF = issorted(A, direction)
+  % TF = issorted(A, dim, direction)
+  % TF = issorted(A, 'rows')
+  % direction: 'ascend' (default), 'descend', 'monotonic',
+  %            'strictascend', 'strictdescend', 'strictmonotonic'
   narginchk(1, 3);
   A = varargin{1};
-  if nargin == 1
-    % TF = issorted(A)
-    tf = all(diff(A) >= 0, 'all');
-  elseif nargin == 2
-    % TF = issorted(A, dim)
-    % TF = issorted(A, 'rows')
-    % TF = issorted(A, direction)
+  dim = [];
+  direction = 'ascend';
+  if nargin == 2
     numOrString = varargin{2};
-    isrows = false;
-    isdescend = false;
-    isascend = false;
+    if isstring(numOrString) && isscalar(numOrString)
+      numOrString = char(numOrString);
+    end
     if ischar(numOrString)
-      isrows = strcmpi(numOrString, 'rows');
-      isdescend = strcmpi(numOrString, 'descend');
-      isascend = strcmpi(numOrString, 'ascend');
-      isvalid = isrows || isdescend || isascend;
-      if ~isvalid
-        error(_('invalid argument: rows, descend, ascend expected.'));
+      if strcmpi(numOrString, 'rows')
+        tf = all(all(diff(A, 1, 1) >= 0, 1), 'all');
+        return
       end
+      direction = validateDirectionLocal(numOrString);
+    elseif isnumeric(numOrString) && isscalar(numOrString)
+      dim = numOrString;
     else
-      if isnumeric(numOrString) && isscalar(numOrString)
-        dim = numOrString;
-      else
-        error(_('Invalid argument #2: scalar integer value expected.'));
-      end
+      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, 'scalar integer value');
     end
-    if (isrows || isdescend || isascend)
-      if isrows
-        tf = all(diff(A, 1, 1) >= 0, 'all');
-      elseif isdescend
-        tf = all(diff(A) <= 0, 'all');
-      else
-        tf = all(all(diff(A) >= 0, 2), 'all');
-      end
-    else
-      tf = all(all(diff(A, [], dim) <= 0, dim), 'all');
-    end
-  else
-    % TF = issorted(A, dim, direction)
+  elseif nargin == 3
     dim = varargin{2};
-    if (~(isnumeric(dim) && isscalar(dim)))
-      error(_('Invalid argument #2: scalar integer value expected.'));
+    if ~(isnumeric(dim) && isscalar(dim))
+      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, 'scalar integer value');
     end
     direction = varargin{3};
-    isdescend = strcmpi(direction, 'descend');
-    isascend = strcmpi(direction, 'ascend');
-    isvalid = isdescend || isascend;
-    if ~isvalid
-      error(_('invalid argument: descend, ascend expected.'));
+    if isstring(direction) && isscalar(direction)
+      direction = char(direction);
     end
-    if isdescend
-      tf = all(diff(A, [], dim) <= 0, 'all');
-    else
-      tf = all(diff(A, [], dim) >= 0, 'all');
+    direction = validateDirectionLocal(direction);
+  end
+  if isempty(dim)
+    dim = firstNonsingletonLocal(size(A));
+  end
+  % NaN handling (aligned with expected behavior): for 'ascend' NaN elements must be
+  % placed last, for 'descend' they must be placed first, and any NaN
+  % makes the strict directions false.
+  if isfloat(A)
+    nanMask = isnan(A);
+    anyNaN = any(nanMask(:));
+  else
+    nanMask = false(size(A));
+    anyNaN = false;
+  end
+  B = A;
+  if anyNaN
+    B(nanMask) = Inf;
+  end
+  d = diff(B, 1, dim);
+  m = diff(nanMask, 1, dim);
+  dOk = isnan(d);
+  switch direction
+    case 'ascend'
+      tf = all(m(:) >= 0) && all(d(:) >= 0 | dOk(:));
+    case 'descend'
+      tf = all(m(:) <= 0) && all(d(:) <= 0 | dOk(:));
+    case 'strictascend'
+      tf = ~anyNaN && all(d(:) > 0);
+    case 'strictdescend'
+      tf = ~anyNaN && all(d(:) < 0);
+    case 'monotonic'
+      tf = (all(m(:) >= 0) && all(d(:) >= 0 | dOk(:))) || (all(m(:) <= 0) && all(d(:) <= 0 | dOk(:)));
+    case 'strictmonotonic'
+      tf = ~anyNaN && (all(d(:) > 0) || all(d(:) < 0));
+  end
+end
+%=============================================================================
+function direction = validateDirectionLocal(direction)
+  if ~ischar(direction)
+    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', 'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
+  end
+  direction = lower(direction);
+  supported = {'ascend', 'descend', 'monotonic', 'strictascend', 'strictdescend', 'strictmonotonic'};
+  if ~any(strcmp(supported, direction))
+    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', 'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
+  end
+end
+%=============================================================================
+function dim = firstNonsingletonLocal(sz)
+  dim = 1;
+  for k = 1:length(sz)
+    if sz(k) ~= 1
+      dim = k;
+      return
     end
   end
 end

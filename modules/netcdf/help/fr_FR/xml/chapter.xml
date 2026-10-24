@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>netcdf</module_name>
+  <chapter>netCDF</chapter>
+  <short_description>Lire, ecrire, creer et inspecter des sources de donnees netCDF.</short_description>
+  <description>
+    <p>Le module netCDF fournit des fonctions haut niveau pour les fichiers et des interfaces bas niveau autour de la bibliotheque C netCDF.</p>
+    <p>Les fonctions haut niveau utilisent des noms de fichiers et de variables. Les fonctions bas niveau utilisent les identifiants numeriques retournes par netcdf.create, netcdf.open, netcdf.defDim, netcdf.defVar et les appels associes.</p>
+    <p>Utilisez les fonctions haut niveau pour les lectures et ecritures courantes. Utilisez les fonctions bas niveau lorsqu'un controle precis des groupes, du mode definition, du stockage, des attributs ou des types utilisateur est necessaire.</p>
+  </description>
+</xmldoc>

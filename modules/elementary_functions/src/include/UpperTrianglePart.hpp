@@ -17,5 +17,5 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

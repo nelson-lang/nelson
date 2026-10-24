@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>typecast</keyword>
+  <short_description>Convertit le type sans modifier les donn&#233;es sous-jacentes.</short_description>
+  <syntax>
+    <syntax_item>Y = typecast(X, type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >une variable : scalaire ou vecteur num&#233;rique plein et non complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
+      >une cha&#238;ne de caract&#232;res : nom de la classe num&#233;rique de destination ('int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64', 'single' ou 'double').</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
+      >r&#233;sultat de typecast : X r&#233;interpr&#233;t&#233; comme le type demand&#233;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>typecast</b> r&#233;interpr&#232;te les octets de <b>X</b> comme la classe
+    num&#233;rique <b>type</b> sans modifier le motif d'octets sous-jacent.</p>
+    <p>Contrairement &#224; <b>cast</b>, les valeurs num&#233;riques ne sont pas
+    converties : seule l'interpr&#233;tation de la m&#234;me m&#233;moire change. Le nombre
+    d'octets de l'entr&#233;e doit &#234;tre un multiple entier de la taille de la classe
+    de destination.</p>
+    <p>Un vecteur colonne donne un vecteur colonne, sinon le r&#233;sultat est un
+    vecteur ligne.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[Y = typecast(single(1), 'uint32')
+Z = typecast(uint32(1065353216), 'single')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}cast">cast</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}swapbytes">swapbytes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

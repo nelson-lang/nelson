@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bsxfun</keyword>
+  <short_description>Applique une fonction élément par élément avec expansion implicite</short_description>
+  <syntax>
+    <syntax_item>C = bsxfun(fun, A, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description
+      >handle vers une fonction binaire élément par élément (ou chaîne de caractères contenant le nom de la fonction). Les opérations intégrées courantes utilisables sont : @plus, @minus, @times, @rdivide, @ldivide, @power, @max, @min, @rem, @mod, @hypot, @atan2, @eq, @ne, @lt, @le, @gt, @ge, @and, @or et @xor. Tout handle de fonction binaire élément par élément défini par l&apos;utilisateur est également accepté.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau (numérique ou logique).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>tableau (numérique ou logique).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>résultat de l&apos;application de fun à A et B avec expansion des dimensions singleton.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bsxfun</b> applique la fonction binaire élément par élément fun aux tableaux A et B, avec expansion implicite (les dimensions singleton sont virtuellement répliquées) de sorte que A et B n&apos;ont pas besoin d&apos;avoir la même taille.</p>
+    <p>Pour chaque dimension, les tailles de A et B doivent être soit égales, soit l&apos;une des deux doit valoir 1. Une dimension de taille 1 est étendue pour correspondre à la taille de l&apos;autre tableau. Si deux dimensions correspondantes diffèrent et qu&apos;aucune ne vaut 1, une erreur est déclenchée.</p>
+    <p>Le résultat C a, selon chaque dimension, la plus grande des deux tailles d&apos;entrée. Par exemple, combiner une colonne <b>m</b>-par-<b>1</b> avec une ligne <b>1</b>-par-<b>n</b> produit un résultat <b>m</b>-par-<b>n</b>.</p>
+    <p>Les opérateurs élément par élément de Nelson se propagent déjà sur les dimensions singleton, ainsi <b>A + B</b> est équivalent à <b>bsxfun(@plus, A, B)</b> et constitue généralement la forme préférée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter un vecteur colonne à un vecteur ligne</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[bsxfun(@plus, (1:3)', 1:4)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Soustraire la moyenne de colonne à chaque colonne</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = magic(4);
+bsxfun(@minus, A, mean(A))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparaison élément par élément avec expansion implicite</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[bsxfun(@gt, (1:3)', 1:4)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Fonction binaire anonyme</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[bsxfun(@(x, y) sqrt(x.^2 + y.^2), (1:3)', 1:4)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Nom de fonction donné sous forme de chaîne de caractères</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[bsxfun('times', (1:3)', 1:4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_structures}arrayfun">arrayfun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_structures}cellfun">cellfun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}repmat">repmat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

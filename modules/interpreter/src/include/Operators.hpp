@@ -11,14 +11,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// UNARY
 #define UMINUS_OPERATOR_STR "uminus"
 #define UPLUS_OPERATOR_STR "uplus"
 #define NOT_OPERATOR_STR "not"
 #define SUBSINDEX_OPERATOR_STR "subsindex"
 #define SUBSREF_OPERATOR_STR "subsref"
 #define SUBSASGN_OPERATOR_STR "subsasgn"
-// BINARY
 #define PLUS_OPERATOR_STR "plus"
 #define MINUS_OPERATOR_STR "minus"
 #define TIMES_OPERATOR_STR "times"
@@ -41,7 +39,6 @@ namespace Nelson {
 #define SHORTCUTOR_OPERATOR_STR "||"
 #define CTRANSPOSE_OPERATOR_STR "ctranspose"
 #define TRANSPOSE_OPERATOR_STR "transpose"
-// MULTIPLE
 #define COLON_OPERATOR_STR "colon"
 #define HORZCAT_OPERATOR_STR "horzcat"
 #define VERTCAT_OPERATOR_STR "vertcat"

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,11 +11,11 @@
 #include "FindDynamicLinkLibraryObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "characters_encoding.hpp"
 #include "DynamicLibrary.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,29 +35,30 @@ findDynamicLinkLibraryObject(const std::wstring& libraryName, int nLhs)
             fullLibraryName = dlObject->getLibraryPath();
             delete dlObject;
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
-        } catch (const Exception&) {
-            retval << ArrayOf::logicalConstructor(false);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
+        } catch (const NelsonException&) {
+            retval << ArrayOf::logicalScalar(false);
             if (nLhs > 1) {
-                retval << ArrayOf::emptyConstructor();
+                retval << ArrayOf::empty();
             }
         }
 
         for (nelson_handle hl : used) {
-            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+            HandleGenericObject* hlObj = HandleManager::getInstance()->pointer(hl);
             auto* obj = (DynamicLinkLibraryObject*)hlObj;
             if (StringHelpers::ends_with(obj->getLibraryPath(), fullLibraryName)) {
-                retval << ArrayOf::logicalConstructor(true);
+                retval << ArrayOf::logicalScalar(true);
                 if (nLhs > 1) {
-                    retval << ArrayOf::handleConstructor(hl);
+                    retval << ArrayOf::handle(hl);
                 }
                 return retval;
             }
         }
     } else {
-        retval << ArrayOf::logicalConstructor(false);
+        retval << ArrayOf::logicalScalar(false);
         if (nLhs > 1) {
-            retval << ArrayOf::emptyConstructor();
+            retval << ArrayOf::empty();
         }
     }
     return retval;

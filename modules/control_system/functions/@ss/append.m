@@ -20,27 +20,40 @@ function sys = append(varargin)
     B = sys.B;
     C = sys.C;
     D = sys.D;
-    
+
     % The first one sets the default delay and sample time
-    if(i == 1)
+    if (i == 1)
+      sysPast = sys;
       firstsampleTime = sys.Ts;
       Apast = blkdiag([], A);
       Bpast = blkdiag([], B);
       Cpast = blkdiag([], C);
       Dpast = blkdiag([], D);
     else
-      sampleTime = sys.Ts;
-      % sample time needs to be the same as the others
-      if (firstsampleTime == sampleTime)
-        Apast = blkdiag(Apast, A);
-        Bpast = blkdiag(Bpast, B);
-        Cpast = blkdiag(Cpast, C);
-        Dpast = blkdiag(Dpast, D);
-      else
-        error(_('Sampling times must agree.'));
-      end 
+      firstsampleTime = ltiResolveSampleTime(sysPast, sys);
+      [pPast, mPast] = size(Dpast);
+      [pSys, mSys] = size(D);
+      sysPast.InputName = ltiMergeCellMetadata(sysPast.InputName, mPast, sys.InputName, mSys, 'concat');
+      sysPast.InputUnit = ltiMergeCellMetadata(sysPast.InputUnit, mPast, sys.InputUnit, mSys, 'concat');
+      sysPast.OutputName = ltiMergeCellMetadata(sysPast.OutputName, pPast, sys.OutputName, pSys, 'concat');
+      sysPast.OutputUnit = ltiMergeCellMetadata(sysPast.OutputUnit, pPast, sys.OutputUnit, pSys, 'concat');
+      sysPast.TimeUnit = ltiMergeTimeUnit(sysPast, sys);
+      sysPast.UserData = ltiMergeUserData(sysPast, sys);
+      sysPast.Ts = firstsampleTime;
+      Apast = blkdiag(Apast, A);
+      Bpast = blkdiag(Bpast, B);
+      Cpast = blkdiag(Cpast, C);
+      Dpast = blkdiag(Dpast, D);
     end
   end
   sys = ss(Apast, Bpast, Cpast, Dpast);
   sys.Ts = firstsampleTime;
+  sys.TimeUnit = sysPast.TimeUnit;
+  sys.InputName = sysPast.InputName;
+  sys.InputUnit = sysPast.InputUnit;
+  sys.OutputName = sysPast.OutputName;
+  sys.OutputUnit = sysPast.OutputUnit;
+  if ~isempty(sysPast.UserData)
+    sys.UserData = sysPast.UserData;
+  end
 end

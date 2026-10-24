@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.unittest.tuneReuse</keyword>
+  <short_description>Calibrer la reutilisation explicite des processus pour les tests et les benches.</short_description>
+  <syntax>
+    <syntax_item>proposal = nelson.unittest.tuneReuse(targets)</syntax_item>
+    <syntax_item>proposal = nelson.unittest.tuneReuse(targets, 'AllowAdd', true)</syntax_item>
+    <syntax_item>[proposal, calibration] = nelson.unittest.tuneReuse(targets, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>nom de module, dossier, fichier, tableau de cellules de cibles, TestSuite ou TestPlan.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Apply</param_name>
+      <param_description>scalaire logique. La valeur par defaut est false. Avec true, les ajouts et suppressions
+        proposes du tag &lt;--REUSE PROCESS--&gt; sont appliques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>AllowAdd</param_name>
+      <param_description>scalaire logique. La valeur par defaut est false. Avec false, seuls les fichiers deja
+        tagues sont calibres. Utiliser true pour autoriser des propositions sur les fichiers eligibles non tagues.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Trials</param_name>
+      <param_description>entier positif indiquant le nombre de campagnes en processus reutilise. La valeur par
+        defaut est 3.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>MinGain</param_name>
+      <param_description>gain minimal du temps d'execution du module exige pour les ajouts, entre -1 et 1. La
+        valeur par defaut est 0.10. Utiliser -1 pour certifier la surete sans exiger de gain.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>les options de selection Name, Module, File, Kind, Tags, ExcludeTags, Match, Exclude et
+        l'option d'execution Timeout sont acceptees.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>proposal</param_name>
+      <param_description>structure ReuseTuningResult contenant preuves, temps, actions et resume.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>calibration</param_name>
+      <param_description>structure ReuseCalibration contenant le resultat isole et les resultats reutilises.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.tuneReuse</b> valide la reutilisation explicite avec de vraies executions. La fonction
+      ne deduit pas la surete en analysant le texte source et ne cree ni ne consulte de cache.</p>
+    <p>La calibration utilise toujours un worker natif et desactive les retries. La reference isolee et chaque
+      essai reutilise executent deux fois la meme charge. Les essais reutilises suivent des ordres deterministes
+      normal, inverse et rotatif afin de detecter les contaminations entre fichiers et entre repetitions.</p>
+    <p>Les campagnes reutilisees emploient le protocole worker et le reset de production. Un fichier est certifie
+      uniquement si les executions isolees reussissent et si chaque execution reutilisee retourne un payload
+      worker reussi, sans fallback ni resultat manquant.</p>
+    <p>Si un fichier deja tague reussit en isolation mais echoue en reutilisation, la suppression du tag est
+      proposee. Un fichier non tague recoit une proposition d'ajout uniquement avec <b>AllowAdd</b> a true, une
+      calibration reussie et un gain de module au moins egal a <b>MinGain</b>. Un echec isole ne modifie rien.</p>
+    <p>Les cas GUI, ADV-CLI, MPI, sequentiels, IPC, file-watcher, audio, langue imposee et environnements externes
+      sont exclus car ils ne sont pas eligibles au worker CLI reutilisable.</p>
+    <p>Le comportement par defaut est une simulation. <b>Apply</b> doit etre true pour modifier les sources.
+      L'ajout et la suppression dans l'entete conservent le BOM UTF-8 et le style des fins de ligne.</p>
+    <p>Cette commande de maintenance explicite n'est pas un prepass obligatoire. Elle execute davantage de
+      travail qu'un run normal et sert a calibrer periodiquement les tags avant les runs CI habituels.</p>
+    <p>Pour maintenir les tags de reutilisation et de poids, calibrer et appliquer d'abord les tags de
+      reutilisation. Mesurer ensuite de nouvelles durees avec <b>nelson.unittest.tuneWeights</b> afin que les
+      poids decrivent la configuration d'execution obtenue.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Auditer les tags existants sans modifier les fichiers.</example_item_description>
+      <example_item_data><![CDATA[
+proposal = nelson.unittest.tuneReuse({'interpreter', 'statistics'});
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calibrer les tests d'un module, verifier la proposition, puis recalibrer et appliquer les changements acceptes.</example_item_description>
+      <example_item_data><![CDATA[
+[proposal, calibration] = nelson.unittest.tuneReuse('interpreter', ...
+  'Kind', 'test', 'Trials', 3, 'MinGain', 0.10, 'AllowAdd', true);
+proposal.summary
+proposal.cases
+
+applied = nelson.unittest.tuneReuse('interpreter', ...
+  'Kind', 'test', 'Trials', 3, 'MinGain', 0.10, ...
+  'AllowAdd', true, 'Apply', true);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.tuneWeights">nelson.unittest.tuneWeights</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.discover">nelson.unittest.discover</link></see_also_item>
+  </see_also>
+</xmldoc>

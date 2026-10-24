@@ -10,6 +10,6 @@
     <p
     >Il inclut des fonctions pour interroger les informations système, gérer les variables d&apos;environnement, exécuter des commandes shell, générer des GUID et effectuer des opérations spécifiques à la plateforme.</p>
     <p
-    >Ce module permet une intégration fluide des scripts Nelson avec le système d&apos;exploitation sous-jacent sur Windows, macOS et Linux/Unix.</p>
+    >Ce module permet aux scripts Nelson d&apos;interagir avec le système d&apos;exploitation sous-jacent sur Windows, macOS et Linux/Unix.</p>
   </chapter_description>
 </xmldoc>

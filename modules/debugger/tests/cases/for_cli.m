@@ -10,8 +10,8 @@
 %<--INTERACTIVE TEST-->
 %=============================================================================
 for k = 1:2
-    disp(['Iteration k = ', num2str(k)]);
-    disp('next line');
+  disp(['Iteration k = ', num2str(k)]);
+  disp('next line');
 end
 disp('end of file')
 %=============================================================================

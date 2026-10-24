@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright><language>en_US</language><keyword>symvar</keyword>
+  <short_description>Determine the variables in an expression.</short_description>
+  <syntax><syntax_item>v = symvar(expr)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>expr</param_name><param_description>Expression as text (character vector, string scalar) or a function handle.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>v</param_name><param_description>Column cell array of variable names.</param_description></param_output_item></param_output>
+  <description><p><b>symvar</b> returns the names of the variables used in <b>expr</b>, sorted alphabetically and without duplicates.</p><p>Identifiers that resolve to a function or a builtin (including the special values <b>pi</b>, <b>i</b>, <b>j</b>, <b>eps</b>, <b>Inf</b> and <b>NaN</b>), language keywords and field access names are not reported as variables.</p></description>
+  <used_function /><bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[v = symvar('sin(x) + a*y')]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="vectorize">vectorize</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${function_handle}func2str">func2str</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}iskeyword">iskeyword</link>
+    </see_also_item>
+  </see_also>
+<history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history><authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

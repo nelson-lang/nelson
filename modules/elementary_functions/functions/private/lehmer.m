@@ -8,15 +8,15 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function lehmerMatrix = lehmer(varargin)
-    narginchk(1, 2);
-    n = varargin{1};
-    if nargin < 2
-        className = 'double';
-    else
-        className = varargin{2};
-    end
-    rowIndices = cast(1:n, className);
-    lowerTriangle = rowIndices ./ rowIndices';
-    lehmerMatrix = tril(lowerTriangle) + tril(lowerTriangle, -1)';
+  narginchk(1, 2);
+  n = varargin{1};
+  if nargin < 2
+    className = 'double';
+  else
+    className = varargin{2};
+  end
+  rowIndices = cast(1:n, className);
+  lowerTriangle = rowIndices ./ rowIndices';
+  lehmerMatrix = tril(lowerTriangle) + tril(lowerTriangle, -1)';
 end
 %=============================================================================

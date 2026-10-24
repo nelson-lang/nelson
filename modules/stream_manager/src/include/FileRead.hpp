@@ -19,5 +19,6 @@ namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP ArrayOf
 FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, bool bIsLittleEndian,
     int& sizeReallyRead);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

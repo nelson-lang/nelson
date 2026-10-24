@@ -30,6 +30,20 @@
   <description>
     <p
     >Retourne le nombre d&apos;arguments d&apos;entrée fournis à la fonction appelée.</p>
+    <p>
+      Sans argument d&apos;entrée, <b>nargin</b> retourne le nombre
+      d&apos;arguments d&apos;entrée utilisés pour appeler la fonction en cours
+      d&apos;exécution.</p>
+    <p>
+      Avec un nom de fonction ou un handle de fonction, <b>nargin</b>
+      retourne le nombre d&apos;arguments d&apos;entrée déclarés par cette
+      fonction.</p>
+    <p>
+      Si le dernier argument d&apos;entrée déclaré est <b>varargin</b>, la
+      valeur retournée est négative. Sa valeur absolue est le nombre total
+      d&apos;arguments d&apos;entrée déclarés, <b>varargin</b> inclus. Par
+      exemple, pour une fonction déclarée sous la forme
+      <b>f(a, b, varargin)</b>, <b>nargin('f')</b> retourne <b>-3</b>.</p>
   </description>
   <used_function />
   <bibliography />

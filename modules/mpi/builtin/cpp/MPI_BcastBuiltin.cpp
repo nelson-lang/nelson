@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,11 @@
 //=============================================================================
 #include "MPI_BcastBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -27,11 +27,11 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     ArrayOf A = argIn[0];
     ArrayOf tmp = argIn[1];
-    int rootID = tmp.getContentAsInteger32Scalar();
+    int rootID = tmp.asInt32Scalar();
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 2) {
         comm = HandleToMpiComm(argIn[2]);
@@ -50,7 +50,8 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             free(cp);
             retval << A;
         } else {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     } else {
         int msgsize = 0;
@@ -62,7 +63,8 @@ Nelson::MpiGateway::MPI_BcastBuiltin(int nLhs, const ArrayOfVector& argIn)
             retval << unpackMPI(cp, msgsize, &packpos, comm);
             free(cp);
         } else {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     }
     return retval;

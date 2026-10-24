@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>streamribbon</keyword>
+  <short_description>Afficher des chemins de courant avec un style ruban.</short_description>
+  <syntax>
+    <syntax_item>streamribbon(U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamribbon(X, Y, Z, U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamribbon(vertices, twistangle)</syntax_item>
+    <syntax_item>streamribbon(..., width)</syntax_item>
+    <syntax_item>h = streamribbon(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>streamribbon</b> affiche des chemins de courant 3-D sous forme de surfaces ruban.</p>
+    <p><b>streamribbon(vertices, twistangle)</b> utilise des sommets de lignes de courant pre-calcules et un tableau de cellules d'angles de torsion. Les handles retournes sont des objets surface.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher un chemin avec un style ruban.</example_item_description>
+      <example_item_data><![CDATA[t = 0:.15:2;
+vertices = {[cos(t)' sin(t)' t']};
+twistangle = {cos(t)'};
+streamribbon(vertices, twistangle);]]></example_item_data>
+      <example_item_img src="../../../../images/streamribbon_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamtube">streamtube</link></see_also_item>
+  </see_also>
+</xmldoc>

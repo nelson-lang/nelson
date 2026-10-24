@@ -8,10 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = pow2db(varargin)
-  narginchk(1 ,1);
+  narginchk(1, 1);
   nargoutchk(0, 1);
   if (any(varargin{1} < 0))
-    error('Nelson:signal:pow2db:InvalidInput', _('Input argument value must be non-negative.'));
+    error('Nelson:validators:mustBeNonnegative', '%s must be nonnegative.', 'Input argument value');
   end
   varargout{1} = 10 .* log10(varargin{1});
 end

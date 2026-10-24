@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bvp5c</keyword>
+  <short_description>Resout des problemes aux limites avec raffinement de maillage.</short_description>
+  <syntax>
+    <syntax_item>sol = bvp5c(odefun, bcfun, solinit)</syntax_item>
+    <syntax_item>sol = bvp5c(odefun, bcfun, solinit, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>bvp5c</b> resout des problemes aux limites du premier ordre avec le moteur BVP et une passe de raffinement de maillage.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Element</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Forme du probleme</td>
+        <td>Systeme du premier ordre <b>y' = f(x,y)</b> avec conditions aux limites <b>bcfun(ya,yb)</b>.</td>
+      </tr>
+      <tr>
+        <td>Initialisation</td>
+        <td><b>bvpinit</b> fournit le maillage initial, l estimation de solution et les parametres inconnus optionnels.</td>
+      </tr>
+      <tr>
+        <td>Methode</td>
+        <td>Collocation avec raffinement supplementaire.</td>
+      </tr>
+      <tr>
+        <td>Solution</td>
+        <td>Structure <b>sol</b> avec <b>x</b>, <b>y</b>, <b>yp</b>, <b>parameters</b> et <b>stats</b>.</td>
+      </tr>
+    </table>
+    <p>Les options creees avec <b>bvpset</b> peuvent fournir <b>FJacobian</b>, <b>BCJacobian</b>, <b>Vectorized</b> et <b>SingularTerm</b>. Quand les deux callbacks de jacobien sont fournis, l'iteration de Newton les utilise a la place des differences finies. Les stats de solution incluent <b>niterations</b>, <b>nmeshpoints</b>, <b>residualNorm</b>, <b>residualRms</b>, <b>nrefinements</b>, <b>maxDefect</b>, <b>rmsDefect</b> et, quand disponible, <b>nfevals</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvp4c">bvp4c</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvpinit">bvpinit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

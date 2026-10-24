@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('validators', 'builtin'), 'validators');
+addpath(modulepath('validators', 'functions'), '-frozen');
 %=============================================================================

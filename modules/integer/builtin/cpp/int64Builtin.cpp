@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
 #include "Warning.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,11 +27,12 @@ Nelson::IntegerGateway::int64Builtin(int nLhs, const ArrayOfVector& argIn)
         OverloadRequired("int64");
     }
     if (argIn[0].isScalar() && argIn[0].isDoubleClass()) {
-        double asDouble = argIn[0].getContentAsDoubleScalar();
+        double asDouble = argIn[0].asDoubleScalar();
         if (std::abs(asDouble) > (1ULL << DBL_MANT_DIG)) {
-            Warning("Nelson:int64:InputExceedsFlintmax",
-                _("Numbers representing integers greater than or equal to flintmax might not "
-                  "be represented exactly as double-precision floating-point values."));
+            RaiseWarning("Nelson:int64:InputExceedsFlintmax",
+                Nelson::resolveMessageTemplate("Nelson:integer:numbersRepresentingIntegersGreater",
+                    "Numbers representing integers greater than or equal to flintmax might not be "
+                    "represented exactly as double-precision floating-point values."));
         }
     }
     retval << ToInteger(NLS_INT64, argIn[0]);

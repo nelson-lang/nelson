@@ -26,6 +26,7 @@ RepositoryIsBranch(
 
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
     if (errorCode != 0) {
+        git_libgit2_shutdown();
         return false;
     }
     git_branch_iterator* it;
@@ -34,14 +35,17 @@ RepositoryIsBranch(
         git_branch_t type;
         const char* name;
         while (!git_branch_next(&ref, &type, it)) {
-            git_reference_free(ref);
             errorCode = git_branch_name(&name, ref);
             if (errorCode == 0) {
-                if (StringHelpers::ends_with(utf8_to_wstring(name), branchName)) {
+                std::wstring currentBranchName = utf8_to_wstring(name);
+                if (currentBranchName == branchName
+                    || StringHelpers::ends_with(currentBranchName, L"/" + branchName)) {
                     found = true;
+                    git_reference_free(ref);
                     break;
                 }
             }
+            git_reference_free(ref);
         }
         git_branch_iterator_free(it);
     }
@@ -68,5 +72,5 @@ RepositoryIsRemoteBranch(const std::wstring& localPath, const std::wstring& bran
     return RepositoryIsBranch(localPath, branch, GIT_BRANCH_REMOTE);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

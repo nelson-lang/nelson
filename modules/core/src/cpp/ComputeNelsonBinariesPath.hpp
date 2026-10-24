@@ -16,5 +16,5 @@ namespace Nelson {
 bool
 ComputeNelsonBinariesPath(std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

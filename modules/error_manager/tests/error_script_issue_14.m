@@ -17,8 +17,8 @@ catch
   l1 = lasterror()
   lasterror('reset');
   l2 = lasterror()
-  assert_isequal(l2.message, '');
+  asserts.isequal(l2.message, '');
   error(l1);
 end
-assert_istrue(do_error);
+asserts.istrue(do_error);
 %=============================================================================

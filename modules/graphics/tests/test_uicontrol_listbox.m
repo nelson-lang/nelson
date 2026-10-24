@@ -9,15 +9,18 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
+figure();
 h = uicontrol('Style', 'listbox', 'String', {'Item 1', 'Item 2', 'Item 3'}, 'Position', [100, 100, 100, 100]);
-assert_isequal(h.Value, 1);
-assert_isequal(h.String, {'Item 1'; 'Item 2'; 'Item 3'});
-pause(2);
+asserts.isequal(h.Value, 1);
+asserts.isequal(h.String, {'Item 1'; 'Item 2'; 'Item 3'});
+drawnow();
+pause(0.1);
 h.Value = 2;
-assert_isequal(h.Value, 2);
-pause(2);
+asserts.isequal(h.Value, 2);
+drawnow();
+pause(0.1);
 h.Value = 3;
-assert_isequal(h.Value, 3);
-pause(2);
+asserts.isequal(h.Value, 3);
+drawnow();
+pause(0.1);
 %=============================================================================

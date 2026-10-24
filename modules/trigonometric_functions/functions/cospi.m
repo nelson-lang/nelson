@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function y = cospi (varargin)
+function y = cospi(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
   x = varargin{1};
-  x = mod (x - 0.5, 2) - 1;
+  x = mod(x - 0.5, 2) - 1;
   x(x == -1) = 0;
-  y = sin (x * pi);
+  y = sin(x * pi);
 end
 %=============================================================================

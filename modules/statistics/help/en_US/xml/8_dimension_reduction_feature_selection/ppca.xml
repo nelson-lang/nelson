@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ppca</keyword>
+  <short_description>Probabilistic principal component analysis.</short_description>
+  <syntax>
+    <syntax_item>[coeff, score, pcvar] = ppca(Y, K)</syntax_item>
+    <syntax_item>[coeff, score, pcvar, mu, v, S] = ppca(Y, K, Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>ppca</b> computes a probabilistic principal component model for a real data matrix. Missing values encoded as NaN are estimated iteratively.</p>
+    <p>Supported name-value options are W0, v0, and Options. The Options structure can be created with statset and supports Display, MaxIter, TolFun, and TolX.</p>
+    <p>The structure S contains W, Xexp, Recon, v, NumIter, RMSResid, and nloglk fields.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[Y = [1 2 3; 2 NaN 5; 4 5 8; 5 7 NaN; 7 8 13];
+[coeff, score, pcvar, mu, v, S] = ppca(Y, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pcacov">pcacov</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}statset">statset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

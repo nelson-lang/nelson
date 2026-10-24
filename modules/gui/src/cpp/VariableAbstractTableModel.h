@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,9 +16,11 @@
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QString>
 #include <QtCore/QSize>
+#include <QtCore/QVector>
+#include <QtCore/QVariant>
+#include <QtCore/QTimer>
 //=============================================================================
 namespace Nelson {
-
 class VariableAbstractTableModel : public QAbstractTableModel
 {
     //=============================================================================
@@ -27,10 +29,11 @@ class VariableAbstractTableModel : public QAbstractTableModel
 public:
     VariableAbstractTableModel(
         const QString& name, ArrayOf array, Evaluator* evaluator, QObject* parent = nullptr)
-        : m_variableName(name)
+        : QAbstractTableModel(parent)
         , m_array(array)
+        , m_variableName(name)
         , m_evaluator(evaluator)
-        , QAbstractTableModel(parent) { };
+        , m_isPerformingUndo(false) { };
     //=============================================================================
     ~VariableAbstractTableModel() override = default;
     //=============================================================================
@@ -41,7 +44,7 @@ public:
     array() const;
     //=============================================================================
     NelsonType
-    getDataClass();
+    dataClass();
     //=============================================================================
     Evaluator*
     getEvaluator();
@@ -53,10 +56,10 @@ public:
     getVariableDimensionsAsString() const;
     //=============================================================================
     virtual void
-    redo() { };
+    redo();
     //=============================================================================
     virtual void
-    undo() { };
+    undo();
     //=============================================================================
     virtual bool
     isValidSelectionForExtraction(const QModelIndexList& selectedIndexes) const
@@ -132,47 +135,89 @@ public:
     bool
     canUndo() const
     {
-        return m_hasUndoState && !m_isPerformingUndo;
+        return !m_undoStack.isEmpty() && !m_isPerformingUndo;
     }
     //=============================================================================
     bool
     canRedo() const
     {
-        return m_hasUndoState && !m_isPerformingUndo;
+        return !m_redoStack.isEmpty() && !m_isPerformingUndo;
     }
     //=============================================================================
     void
-    clearUndoState()
-    {
-        m_hasUndoState = false;
-        m_undoArray = ArrayOf(); // Clear the stored array
-    }
+    clearUndoState();
     //=============================================================================
     void
-    saveCurrentStateForUndo()
-    {
-        if (m_isPerformingUndo) {
-            return; // Don't save state during undo/redo operations
-        }
-
-        try {
-            // Create a deep copy of the current array
-            m_undoArray = m_array;
-            m_array.ensureSingleOwner();
-            m_hasUndoState = true;
-        } catch (const std::exception&) {
-            m_hasUndoState = false;
-        }
-    }
+    saveCurrentStateForUndo();
+    //=============================================================================
+signals:
+    //=============================================================================
+    // Emitted whenever the underlying array changed (edit, resize, paste, undo).
+    void
+    modelChanged();
+    //=============================================================================
+    // Emitted when an edit or a command failed, with a user facing message.
+    void
+    errorOccurred(const QString& message);
+    //=============================================================================
+    // Emitted when a new variable is extracted from the current selection.
+    void
+    selectionCreated(const QString& suggestedName, const ArrayOf& newArray);
     //=============================================================================
 protected:
+    virtual void
+    rebuildModelFromCurrentArray()
+    {
+    }
+    //=============================================================================
+    virtual void
+    persistChangesToContext()
+    {
+    }
+    //=============================================================================
+    // Rectangular bounds of a selection, shared by every model.
+    struct SelectionBounds
+    {
+        int minRow, maxRow, minCol, maxCol;
+        bool isValid = false;
+    };
+    //=============================================================================
+    // A grid of cells parsed from clipboard / Excel text, shared by every model.
+    struct PasteData
+    {
+        QVector<QVector<QString>> cells;
+        int rows = 0;
+        int cols = 0;
+        bool isValid = false;
+    };
+    //=============================================================================
     ArrayOf m_array;
     QString m_variableName;
     Evaluator* m_evaluator;
     //=============================================================================
-    ArrayOf m_undoArray; // Stores the previous state for undo
-    bool m_hasUndoState; // Flag to track if undo is available
-    bool m_isPerformingUndo; // Flag to prevent saving state during undo/redo
+    // The edit cache is never typed: real data lives in m_array, display goes through QVariant.
+    int m_rows = 0;
+    int m_cols = 0;
+    int m_rows_display = 0;
+    int m_cols_display = 0;
+    QVector<QVariant> m_editData;
+    QTimer* m_persistenceTimer = nullptr;
+    bool m_pendingChanges = false;
+    //=============================================================================
+    static constexpr int MIN_DISPLAY_SIZE = 10;
+    static constexpr int DEFAULT_EMPTY_SIZE = 10;
+    static constexpr int MAX_PASTE_SIZE = 10000;
+    //=============================================================================
+    // Bounded undo/redo history: m_undoStack holds the previous states (most
+    // recent last), m_redoStack the states undone so far (most recent last).
+    static constexpr int MAX_UNDO_LEVELS = 32;
+    QVector<ArrayOf> m_undoStack;
+    QVector<ArrayOf> m_redoStack;
+    bool m_isPerformingUndo;
+    //=============================================================================
+private:
+    bool
+    applyState(QVector<ArrayOf>& source, QVector<ArrayOf>& destination);
     //=============================================================================
 };
 //=============================================================================

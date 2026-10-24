@@ -11,19 +11,19 @@
 %=============================================================================
 path_1 = modulepath('dynamic_link', 'builtin');
 path_2 = modulepath('core', 'builtin');
-assert_isequal(size(dllib_used()), [0 0]);
+asserts.isequal(size(dllib_used()), [0 0]);
 lib1 = dlopen(path_1);
-assert_isequal(size(dllib_used()), [1 1]);
+asserts.isequal(size(dllib_used()), [1 1]);
 lib2 = dlopen(path_2);
-assert_isequal(size(dllib_used()), [1 2]);
-assert_isfalse(dllibisloaded(['nlscore2', getdynlibext()]));
-assert_isequal(size(dllib_used()), [1 2]);
-assert_istrue(dllibisloaded(path_1));
-assert_isequal(size(dllib_used()), [1 2]);
-assert_istrue(dllibisloaded(path_2));
-assert_isequal(size(dllib_used()), [1 2]);
+asserts.isequal(size(dllib_used()), [1 2]);
+asserts.isfalse(dllibisloaded(['nlscore2', getdynlibext()]));
+asserts.isequal(size(dllib_used()), [1 2]);
+asserts.istrue(dllibisloaded(path_1));
+asserts.isequal(size(dllib_used()), [1 2]);
+asserts.istrue(dllibisloaded(path_2));
+asserts.isequal(size(dllib_used()), [1 2]);
 [t, lib] = dllibisloaded(path_1);
-assert_isequal(lib1, lib);
-assert_isequal(size(dllib_used()), [1 2]);
-assert_checkerror('dllibisloaded(3);', _('Unable to convert supplied object to a string.'));
+asserts.isequal(lib1, lib);
+asserts.isequal(size(dllib_used()), [1 2]);
+asserts.checkerror('dllibisloaded(3);', _('Unable to convert supplied object to a string.'));
 %=============================================================================

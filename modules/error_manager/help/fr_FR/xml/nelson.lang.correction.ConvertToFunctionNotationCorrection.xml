@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.lang.correction.ConvertToFunctionNotationCorrection</keyword>
+  <short_description>Corrige une erreur en convertissant vers la notation fonction.</short_description>
+  <syntax>
+    <syntax_item>correction = nelson.lang.correction.ConvertToFunctionNotationCorrection(method)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>nom de methode qui doit etre appelee avec la notation fonction.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>correction</param_name>
+      <param_description>un objet nelson.lang.correction.ConvertToFunctionNotationCorrection.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Utilisez les objets <b>nelson.lang.correction.ConvertToFunctionNotationCorrection</b> dans les classes dont les methodes ne doivent pas etre appelees avec la notation point.</p>
+    <p><b>correction = nelson.lang.correction.ConvertToFunctionNotationCorrection(method)</b> cree une correction qui suggere de convertir la notation point en notation fonction pour appeler <b>method</b>.</p>
+    <p>La propriete en lecture seule <b>Method</b> contient le nom de la methode.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:useFunctionForm', 'Use function syntax to call this method.');
+correction = nelson.lang.correction.ConvertToFunctionNotationCorrection('isvalid');
+ME = addCorrection(ME, correction)
+ME.Correction.Method]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.AppendArgumentsCorrection">nelson.lang.correction.AppendArgumentsCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ReplaceIdentifierCorrection">nelson.lang.correction.ReplaceIdentifierCorrection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

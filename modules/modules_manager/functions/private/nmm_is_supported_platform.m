@@ -7,44 +7,39 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function [r, msg] = nmm_is_supported_platform(plaforms)
+function [r, msg] = nmm_is_supported_platform(platforms, currentArch)
+  % currentArch defaults to the running architecture; nmm('pack', ...,
+  % '-target', 'wasm32') checks the package against the target instead.
   r = false;
-  msg = sprintf(_('Platform not supported: %s'), sprintf('%s ', string(plaforms')));
-  validPlatforms = ["all", "win32" , "woa64", "win64", "maci64", "maci32", "glnxa64", "glnxa32"];
-  if all(contains(plaforms, validPlatforms))
+  msg = 'Invalid type in platforms';
+  validPlatforms = nmm_valid_platforms();
+  if nargin < 2
     currentArch = computer('arch');
-  else
+  end
+
+  if ischar(platforms)
+    platforms = {platforms};
+  elseif isstring(platforms)
+    platforms = cellstr(platforms);
+  elseif ~iscellstr(platforms)
     return
   end
-  currentArch = computer('arch');
-  if ischar(plaforms)
-    if any(contains(validPlatforms, plaforms))
-      if strcmp(plaforms, "all")
-        r = true;
-        msg = '';
-      else
-        if strcmp(plaforms, currentArch)
-          r = true;
-        else
-          r = false;
-          msg = sprintf(_('Platform not supported: %s'), plaforms);
-        end
-      end
-    else
-      r = false;
-      msg = sprintf(_('Platform not supported: %s'), plaforms);
+
+  for platform = platforms(:)'
+    if ~any(strcmp(validPlatforms, platform{1}))
+      msg = sprintf('Platform not supported: %s', platform{1});
+      return
     end
+  end
+
+  if any(strcmp(platforms, 'all')) || any(strcmp(platforms, currentArch))
+    r = true;
+    msg = '';
   else
-    if iscell(plaforms)
-      if any(contains(validPlatforms, plaforms))
-        r = true;
-        msg = '';
-      else
-        r = false;
-        msg = sprintf(_('Platform not supported: %s'), plaforms);
-      end
+    if length(platforms) == 1
+      msg = sprintf('Platform not supported: %s', platforms{1});
     else
-      msg = _('Invalid type in platforms');
+      msg = sprintf('Platform not supported: %s', sprintf('%s ', platforms{:}));
     end
   end
 end

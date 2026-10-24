@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>detrend</keyword>
+  <short_description>Remove polynomial trend.</short_description>
+  <syntax>
+    <syntax_item>y = detrend(x)</syntax_item>
+    <syntax_item>y = detrend(x, n)</syntax_item>
+    <syntax_item>y = detrend(x, method)</syntax_item>
+    <syntax_item>y = detrend(x, n, bp)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>a real vector or matrix. For a matrix, each column is detrended independently.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>trend order: 0 removes the mean, 1 (default) removes a best-fit straight line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>'constant' (same as 0) or 'linear' (same as 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bp</param_name>
+      <param_description>breakpoints given as row indices, producing a continuous piecewise-linear trend.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description>the data with the trend removed, with the same size and class as <b>x</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>detrend</b> removes a low-order polynomial trend from data by a least-squares fit and returns the residual.</p>
+    <p>By default it removes a straight-line trend. With <b>n</b> equal to 0 (or the method <b>'constant'</b>) it removes only the mean. Breakpoints produce a continuous piecewise-linear trend joined at the given row indices.</p>
+    <p>A row vector input returns a row vector; a column vector returns a column vector.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[t = 0:0.1:2;
+x = 3 * t + sin(t);
+y = detrend(x)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = detrend([1 3 2 4 6], 'constant')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}cumsum">cumsum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}polyfit">polyfit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

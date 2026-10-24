@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "play_generated_tone.m",
+      "title": {
+        "en_US": "Play a generated stereo tone",
+        "fr_FR": "Lire un son stéréo généré"
+      },
+      "description": {
+        "en_US": "Synthesize a short stereo tone, plot its waveform and play it through the available audio backend.",
+        "fr_FR": "Synthétiser un court son stéréo, tracer sa forme d’onde et le lire avec le backend audio disponible."
+      },
+      "tags": [
+        "audio",
+        "synthesis",
+        "beginner"
+      ],
+      "requirements": [
+        "audio-output"
+      ]
+    },
+    {
+      "file": "play_wav.m",
+      "title": {
+        "en_US": "Play a WAV file",
+        "fr_FR": "Lire un fichier WAV"
+      },
+      "description": {
+        "en_US": "Load and play a bundled waveform.",
+        "fr_FR": "Charge et lit une forme d’onde fournie."
+      },
+      "tags": [
+        "audio",
+        "beginner"
+      ],
+      "requirements": [
+        "audio-output"
+      ]
+    },
+    {
+      "file": "play_flac.m",
+      "title": "Play lossless audio",
+      "description": "Read and play a bundled FLAC recording.",
+      "tags": [
+        "audio",
+        "file"
+      ],
+      "requirements": [
+        "audio-output",
+        "audio-flac"
+      ]
+    },
+    {
+      "file": "play_ogg.m",
+      "title": "Play Ogg audio",
+      "description": "Read and play a bundled Ogg recording.",
+      "tags": [
+        "audio",
+        "file"
+      ],
+      "requirements": [
+        "audio-output",
+        "audio-ogg"
+      ]
+    },
+    {
+      "file": "play_mp3.m",
+      "title": "Play compressed audio",
+      "description": "Read and play a bundled MP3 recording.",
+      "tags": [
+        "audio",
+        "file"
+      ],
+      "requirements": [
+        "audio-output",
+        "audio-mpeg"
+      ]
+    },
+    {
+      "file": "synth_piano/synth_piano.m",
+      "title": {
+        "en_US": "Polyphonic synthesizer piano",
+        "fr_FR": "Piano synthétiseur polyphonique"
+      },
+      "description": {
+        "en_US": "Play a three-octave neon keyboard with six live-synthesised instruments, ADSR knobs, oscilloscope, spectrum, recorder and a player piano.",
+        "fr_FR": "Jouer sur un clavier néon de trois octaves avec six instruments synthétisés en direct, knobs ADSR, oscilloscope, spectre, enregistreur et piano mécanique."
+      },
+      "tags": [
+        "audio",
+        "synthesis",
+        "gui",
+        "realtime"
+      ],
+      "requirements": [
+        "gui",
+        "audio-output"
+      ]
+    },
+    {
+      "file": "demo_recorder.m",
+      "title": "Record from a microphone",
+      "description": "Capture a short signal from the default audio input.",
+      "tags": [
+        "audio",
+        "recording"
+      ],
+      "requirements": [
+        "audio-input",
+        "audio-output"
+      ]
+    }
+  ]
+}

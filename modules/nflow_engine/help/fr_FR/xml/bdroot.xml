@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bdroot</keyword>
+  <short_description>Renvoie le modèle de plus haut niveau d'un chemin de bloc.</short_description>
+  <syntax>
+    <syntax_item>root = bdroot(obj)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>obj</param_name><param_description>un nom de modèle ou un chemin de bloc ('modèle' ou 'modèle/NomDeBloc').</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>root</param_name><param_description>le nom du modèle de plus haut niveau (la partie avant le premier '/').</param_description></param_output_item></param_output>
+  <description>
+    <p><b>bdroot</b> renvoie le modèle de plus haut niveau d'un chemin de bloc.</p>
+    <p><b>bdroot('modele')</b> vaut <b>'modele'</b> ; <b>bdroot('modele/Sub/Blk')</b> vaut
+    <b>'modele'</b>. Le modèle racine doit être chargé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/math/gain', 'demo/Gain');
+root = bdroot('demo/Gain')
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}find_system">find_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

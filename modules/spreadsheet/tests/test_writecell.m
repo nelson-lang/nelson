@@ -8,36 +8,36 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 C = {'Name', 'Age', 'City'; 'Alice', 25, 'New York'; 'Bob', 30, 'Los Angeles'};
-filename = [tempdir(), 'test_writecell_1.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_1.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {'ID', 'Product', 'Price'; 1, 'Laptop', 799.99; 2, 'Phone', 699.49; 3, 'Tablet', 499.00};
-filename = [tempdir(), 'test_writecell_2.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_2.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {'A', 'B', 'C'; 1, 2, 3; 4, 5, 6};
-filename = [tempdir(), 'test_writecell_3.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename, 'Delimiter', '\t');
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_3.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {'Name', 'Score', 'Remarks'; 'Alice', 85, 'Good'; 'Bob', [], 'Pending'; 'Charlie', 95, ''};
-filename = [tempdir(), 'test_writecell_4.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_4.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {
     'ID', 'Task', 'Completed', 'Notes';
@@ -46,12 +46,12 @@ C = {
     103, 'Task C', true, Inf;
     104, 'Task D', false, -Inf
 };
-filename = [tempdir(), 'test_writecell_5.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_5.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {
     'ID', 'Task', 'Completed', 'Notes', 'Value';
@@ -61,12 +61,12 @@ C = {
     104, 'Task D', false, -Inf, NaN;
     105, 'Task E', false, complex(-Inf, NaN), complex(NaN, -Inf);
 };
-filename = [tempdir(), 'test_writecell_6.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_6.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = {
     'Name', 'Symbol', 'Unicode';
@@ -74,22 +74,22 @@ C = {
     'Übung', '®', '🚀';
     'こんにちは', '§', '🌈'
 };
-filename = [tempdir(), 'test_writecell_7.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename);
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_7.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R,REF);
+asserts.isequal(R,REF);
 %=============================================================================
 C = {
     'Name', 'Quote Test', 'Delimiter Test';
     'John "The Great"', 'with, comma', 'semicolon;test';
     'Jane', 'another, quote', 'another; semicolon'
 };
-filename = [tempdir(), 'test_writecell_8.csv'];
+filename = [tempname(), '.csv'];
 writecell(C, filename, 'Delimiter', ';', 'QuoteStrings', 'all');
 R = fileread(filename);
 csv_ref_filename = [modulepath('spreadsheet'), '/tests/writecell_8.csv'];
 REF =  fileread(csv_ref_filename);
-assert_isequal(R,REF);
+asserts.isequal(R,REF);
 %=============================================================================

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>surfl</keyword>
+  <short_description>Display a lighted surface.</short_description>
+  <syntax>
+    <syntax_item>surfl(Z)</syntax_item>
+    <syntax_item>surfl(X, Y, Z)</syntax_item>
+    <syntax_item>surfl(..., &apos;light&apos;)</syntax_item>
+    <syntax_item>surfl(parent, ...)</syntax_item>
+    <syntax_item>h = surfl(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>surfl</b> displays a surface with lighting-based reflectance stored in the surface color data.</p>
+    <p><b>surfl(..., 'light')</b> creates an infinite light and returns the surface and light handles.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Lighted surface.</example_item_description>
+      <example_item_data><![CDATA[surfl(peaks(30));
+shading interp;]]></example_item_data>
+      <example_item_img src="../../../../images/surfl_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/light">light</link></see_also_item>
+  </see_also>
+</xmldoc>

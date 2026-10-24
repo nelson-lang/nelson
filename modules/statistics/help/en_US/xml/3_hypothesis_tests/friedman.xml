@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>friedman</keyword>
+  <short_description>Friedman test for blocked data.</short_description>
+  <syntax>
+    <syntax_item>p = friedman(X)</syntax_item>
+    <syntax_item>p = friedman(X, reps)</syntax_item>
+    <syntax_item>p = friedman(X, reps, displayopt)</syntax_item>
+    <syntax_item>[p, tbl, stats] = friedman(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>friedman</b> performs a nonparametric test for column treatment effects in blocked data. Rows are blocks and columns are treatments.</p>
+    <p>When <b>reps</b> is greater than one, each block occupies <b>reps</b> consecutive rows. <b>displayopt</b> can be <b>'on'</b> or <b>'off'</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [9 7 6; 8 6 5; 7 8 6; 10 9 7; 9 10 8];
+[p, tbl, stats] = friedman(X, 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}anova2">anova2</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kruskalwallis">kruskalwallis</link></see_also_item>
+    <see_also_item><link linkend="${statistics}chi2cdf">chi2cdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

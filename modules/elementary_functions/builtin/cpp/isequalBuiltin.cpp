@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isequalBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "IsEqual.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,7 +25,6 @@ Nelson::ElementaryFunctionsGateway::isequalBuiltin(
 {
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2);
-
     std::string commonTypeName = NLS_UNKNOWN_STR;
     NelsonType commonType = NLS_UNKNOWN;
     bool isSparse = false;
@@ -40,9 +40,10 @@ Nelson::ElementaryFunctionsGateway::isequalBuiltin(
             return res;
         }
     }
+    commonType = IsEqualComparisonType(argIn, commonType);
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        Error("Nelson:UnableToConvert", "Attempt to convert to unimplemented sparse type");
     }
 
     bool needToOverload = false;
@@ -50,6 +51,6 @@ Nelson::ElementaryFunctionsGateway::isequalBuiltin(
     if (needToOverload) {
         OverloadRequired("isequal");
     }
-    return ArrayOf::logicalConstructor(result);
+    return ArrayOf::logicalScalar(result);
 }
 //=============================================================================

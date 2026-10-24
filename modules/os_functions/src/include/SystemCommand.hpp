@@ -13,7 +13,7 @@
 #include <tuple>
 #include <vector>
 #include <utility>
-#include "ArrayOf.hpp"
+#include "Types.hpp"
 #include "nlsOs_functions_exports.h"
 //=============================================================================
 namespace Nelson {

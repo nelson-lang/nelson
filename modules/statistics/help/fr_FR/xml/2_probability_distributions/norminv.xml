@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>norminv</keyword>
+  <short_description>Inverse de la fonction de repartition normale</short_description>
+  <syntax>
+    <syntax_item>x = norminv(p)</syntax_item>
+    <syntax_item>x = norminv(p, mu, sigma)</syntax_item>
+    <syntax_item>[x, xLo, xUp] = norminv(p, mu, sigma, pCov)</syntax_item>
+    <syntax_item>[x, xLo, xUp] = norminv(p, mu, sigma, pCov, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>scalaire reel ou tableau : probabilites.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description>scalaire reel ou tableau, 0 par defaut : moyenne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>scalaire reel positif ou tableau, 1 par defaut : ecart-type.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pCov</param_name>
+      <param_description>matrice de covariance 2-par-2 pour les parametres estimes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>scalaire ou tableau : quantiles.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>xLo</param_name>
+      <param_description>borne inferieure de confiance.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>xUp</param_name>
+      <param_description>borne superieure de confiance.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>norminv</b> evalue les quantiles de la loi normale.</p>
+    <p>Les probabilites hors de [0,1] retournent NaN. Les probabilites 0 et 1 retournent les bornes infinies.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[p = [0.025 0.5 0.975];
+x = norminv(p);
+[x, xLo, xUp] = norminv(0.5, 0, 1, [0.04 0; 0 0.01]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}normcdf">normcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}normrnd">normrnd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

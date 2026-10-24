@@ -1,0 +1,146 @@
+[files]
+extend-exclude = [
+    "CHANGELOG-*.md",
+    "desktop/*.appdata.xml",
+    "desktop/*.desktop",
+    "locale/",
+    "modules/*/help/fr_FR/",
+    "modules/spreadsheet/src/xlnt/third-party/",
+    "tools/cmake/",
+    "tools/cmake-fmt/",
+    "tools/innosetup/",
+    "modules/help_tools/resources/tex-svg.js",
+    "modules/help_tools/resources/tex-mml-chtml.js",
+    "modules/help_tools/resources/",
+    "modules/profiler/resources/highlight.pack.js",
+    "modules/json/src/cpp/simdjson.h",
+    "modules/json/src/cpp/simdjson.cpp",
+    "modules/characters_encoding/src/cpp/simdutf/",
+    "modules/characters_encoding/tests/",
+    "modules/spreadsheet/src/xlnt/",
+    "modules/slicot/src/fortran/",
+    "modules/webview/src/webui/",
+    "modules/engine/src/include/CLI11.hpp",
+    "modules/commons/src/fmt/",
+    "modules/commons/src/include/nlohmann/",
+    "modules/commons/src/include/fast_float/",
+    "modules/commons/src/cpp/stduuid/",
+    "modules/graphics_io/src/cpp/QtGifImage/",
+    "modules/help_tools/help/",
+    "modules/files_folders_functions/src/include/dtl/",
+    "modules/json/tests/bench_jsonencode.json",
+    "modules/stream_manager/tests/bench_fileread.json",
+    "modules/parallel/src/include/BS_thread_pool.hpp",
+    "modules/terminal/src/cpp/replxx/",
+    "modules/time/src/cpp/date-3.0.4/",
+    "modules/time/resources/tzdata/",
+    "modules/f2c/src/include/nelson_f2c.h",
+    "modules/f2c/src/c/libf2c/",
+    "modules/f2c/src/c/f2c/",
+    "modules/slicot/help/en_US/xml/",
+    "modules/slicot/builtin/cpp/slicot_*",
+    "resources/textedit-icon.svg",
+    "tools/doxygen/",
+    "*.fig",
+    "*.aps",
+    "*.bin",
+    "*.flac",
+    "*.gif",
+    "*.h5",
+    "*.jpeg",
+    "*.jpg",
+    "*.mdb",
+    "*.mp3",
+    "*.mat",
+    "*.nh5",
+    "*.nc",
+    "*.nmz",
+    "*.ico",
+    "*.ogg",
+    "*.PCX",
+    "*.pcx",
+    "*.png",
+    "*.tiff",
+    "*.ttf",
+    "*.wav",
+    "*.xls",
+    "*.xlsx",
+    "*.zip",
+]
+
+[default.extend-identifiers]
+Caf = "Caf"
+Clen = "Clen"
+COORDINATES = "COORDINATES"
+EQUIL = "EQUIL"
+INVOKABLE = "INVOKABLE"
+JOBB = "JOBB"
+LONGE = "LONGE"
+NIN = "NIN"
+PN = "PN"
+SUR = "SUR"
+WRONLY = "WRONLY"
+arange = "arange"
+astroid = "astroid"
+als = "als"
+ba = "ba"
+Ba = "Ba"
+BA = "BA"
+benchs = "benchs"
+caf = "caf"
+sTring = "sTring"
+optio = "optio"
+authentification = "authentification"
+indx = "indx"
+iy = "iy"
+iz = "iz"
+nin = "nin"
+nknown = "nknown"
+Pn = "Pn"
+sammon = "sammon"
+siz = "siz"
+ttest = "ttest"
+ttest2 = "ttest2"
+whos = "whos"
+yhat = "yhat"
+workd = "workd"
+Aas = "Aas"
+handel = "handel"
+lik = "lik"
+ptd = "ptd"
+seh = "seh"
+thr = "thr"
+wre = "wre"
+
+[default.extend-words]
+Caf = "Caf"
+LONGE = "LONGE"
+Nd = "Nd"
+SUR = "SUR"
+astroid = "astroid"
+als = "als"
+benchs = "benchs"
+Benchs = "Benchs"
+caf = "caf"
+authentification = "authentification"
+INVOCABLE = "INVOCABLE"
+INVOKABLE = "INVOKABLE"
+Aas = "Aas"
+BA = "BA"
+IST = "IST"
+Oktober = "Oktober"
+februar = "februar"
+abd = "abd"
+handel = "handel"
+lik = "lik"
+nknown = "nknown"
+ptd = "ptd"
+sammon = "sammon"
+seh = "seh"
+siz = "siz"
+thr = "thr"
+ttest = "ttest"
+ttest2 = "ttest2"
+whos = "whos"
+workd = "workd"
+wre = "wre"

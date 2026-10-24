@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSRANDOM_IMPEXP ArrayOf
-RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl);
+RandInteger(int64 imin, int64 imax, Dimensions& dims, NelsonType cl);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

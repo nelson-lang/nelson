@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <complex>
+#include <vector>
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
@@ -15,24 +17,188 @@
 #endif
 #include "Subtraction.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "SubtractionReal.hpp"
 #include "SubtractionComplex.hpp"
 #include "SubtractionInteger.hpp"
+#include "IntegerDoubleArithmetic.hpp"
 #include "BinaryOperatorsHelpers.hpp"
+#include "SparseOperatorsHelpers.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+tryIntegerDoubleSubtraction(const ArrayOf& A, const ArrayOf& B, ArrayOf& res);
+//=============================================================================
+template <class T>
+static T
+sparseSubtractionValueAtIndex(
+    const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA, indexType linearIndex)
+{
+    if (A.isSparse()) {
+        indexType row = linearIndex % A.rows();
+        indexType col = linearIndex / A.rows();
+        return sparseA->coeff(static_cast<signedIndexType>(row), static_cast<signedIndexType>(col));
+    }
+    return denseA[linearIndex];
+}
+//=============================================================================
+template <class T>
+static T
+sparseSubtractionValue(const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA,
+    indexType row, indexType col, indexType linearIndex)
+{
+    if (A.isSparse()) {
+        signedIndexType sparseRow = A.isScalar() ? 0 : static_cast<signedIndexType>(row);
+        signedIndexType sparseCol = A.isScalar() ? 0 : static_cast<signedIndexType>(col);
+        return sparseA->coeff(sparseRow, sparseCol);
+    }
+    return denseA[A.isScalar() ? 0 : linearIndex];
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseScalarExpansionSubtraction(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, const Dimensions& dimensions)
+{
+    indexType rows = dimensions.rows();
+    indexType cols = dimensions.columns();
+    const auto* sparseA = getSparseMatrixPointer<T>(A);
+    const auto* sparseB = getSparseMatrixPointer<T>(B);
+    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
+    triplets.reserve(static_cast<size_t>(dimensions.elementCount()));
+    for (indexType col = 0; col < cols; ++col) {
+        for (indexType row = 0; row < rows; ++row) {
+            indexType idx = row + col * rows;
+            T value = sparseSubtractionValue<T>(A, sparseA, nullptr, row, col, idx)
+                - sparseSubtractionValue<T>(B, sparseB, nullptr, row, col, idx);
+            if (value != T(0)) {
+                triplets.emplace_back(
+                    static_cast<signedIndexType>(row), static_cast<signedIndexType>(col), value);
+            }
+        }
+    }
+    auto* sparseResult = new NelsonSparseMatrix<T>(rows, cols);
+    sparseResult->setFromTriplets(triplets.begin(), triplets.end());
+    return makeSparseOperatorResult<T>(dataClass, dimensions, sparseResult);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+denseSparseSubtraction(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
+{
+    BinaryBroadcast info = binaryOperatorBroadcast(A, B, "-");
+    T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(dataClass, info.dimensions.elementCount()));
+    const auto* sparseA = A.isSparse() ? getSparseMatrixPointer<T>(A) : nullptr;
+    const auto* sparseB = B.isSparse() ? getSparseMatrixPointer<T>(B) : nullptr;
+    const T* denseA = A.isSparse() ? nullptr : static_cast<const T*>(A.dataPointer());
+    const T* denseB = B.isSparse() ? nullptr : static_cast<const T*>(B.dataPointer());
+    for (indexType idx = 0; idx < info.dimensions.elementCount(); ++idx) {
+        indexType indexA = binaryOperatorBroadcastIndex(info, idx, info.aStrides);
+        indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
+        T a = sparseSubtractionValueAtIndex<T>(A, sparseA, denseA, indexA);
+        T b = sparseSubtractionValueAtIndex<T>(B, sparseB, denseB, indexB);
+        ptrC[idx] = a - b;
+    }
+    return ArrayOf(dataClass, info.dimensions, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseSparseBroadcastSubtraction(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
+{
+    BinaryBroadcast info = binaryOperatorBroadcast(A, B, "-");
+    indexType rows = info.dimensions.rows();
+    indexType cols = info.dimensions.columns();
+    const auto* sparseA = getSparseMatrixPointer<T>(A);
+    const auto* sparseB = getSparseMatrixPointer<T>(B);
+    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
+    triplets.reserve(static_cast<size_t>(info.dimensions.elementCount()));
+    for (indexType idx = 0; idx < info.dimensions.elementCount(); ++idx) {
+        indexType indexA = binaryOperatorBroadcastIndex(info, idx, info.aStrides);
+        indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
+        T value = sparseSubtractionValueAtIndex<T>(A, sparseA, nullptr, indexA)
+            - sparseSubtractionValueAtIndex<T>(B, sparseB, nullptr, indexB);
+        if (value != T(0)) {
+            triplets.emplace_back(static_cast<signedIndexType>(idx % rows),
+                static_cast<signedIndexType>(idx / rows), value);
+        }
+    }
+    auto* sparseResult = new NelsonSparseMatrix<T>(rows, cols);
+    sparseResult->setFromTriplets(triplets.begin(), triplets.end());
+    return makeSparseOperatorResult<T>(dataClass, info.dimensions, sparseResult);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseSubtraction(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
+{
+    if (!A.isSparse() || !B.isSparse()) {
+        return denseSparseSubtraction<T>(dataClass, A, B);
+    }
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    if (SameSizeCheck(dimsA, dimsB)) {
+        return sameSizeSparseOperatorSubtraction<T>(dataClass, dimsA, A, B);
+    }
+    if (B.isScalar()) {
+        T scalarValue = getSparseScalarValue<T>(B);
+        if (scalarValue == T(0)) {
+            return copySparseOperatorResult<T>(dataClass, dimsA, A);
+        }
+        return sparseScalarExpansionSubtraction<T>(dataClass, A, B, dimsA);
+    }
+    if (A.isScalar()) {
+        T scalarValue = getSparseScalarValue<T>(A);
+        if (scalarValue == T(0)) {
+            return scalarSparseOperatorProduct<T>(dataClass, dimsB, B, T(-1));
+        }
+        return sparseScalarExpansionSubtraction<T>(dataClass, A, B, dimsB);
+    }
+    return sparseSparseBroadcastSubtraction<T>(dataClass, A, B);
+}
+//=============================================================================
+static ArrayOf
+sparseSubtraction(const ArrayOf& A, const ArrayOf& B)
+{
+    if ((!A.isSparse() && !B.isSparse()) || A.dataClass() != B.dataClass()) {
+        Error("Nelson:operators:typeMismatch", "Same types expected.");
+    }
+    switch (A.dataClass()) {
+    case NLS_DOUBLE:
+        return sparseSubtraction<double>(NLS_DOUBLE, A, B);
+    case NLS_SINGLE:
+        return sparseSubtraction<single>(NLS_SINGLE, A, B);
+    case NLS_DCOMPLEX:
+        return sparseSubtraction<doublecomplex>(NLS_DCOMPLEX, A, B);
+    case NLS_SCOMPLEX:
+        return sparseSubtraction<singlecomplex>(NLS_SCOMPLEX, A, B);
+    default:
+        Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
+    }
+    return {};
+}
 //=============================================================================
 ArrayOf
 Subtraction(const ArrayOf& A, const ArrayOf& B)
 {
-    if ((A.getDataClass() != B.getDataClass())
-        || ((A.isSparse() != B.isSparse()) && A.isSparse())) {
-        Error(_("Same types expected."));
+    if (A.isSparse() || B.isSparse()) {
+        // A sparse difference drops an all-zero imaginary part, including the
+        // dense and empty result paths that bypass makeSparseOperatorResult.
+        return decomplexify(sparseSubtraction(A, B));
     }
-    NelsonType commonClass = A.getDataClass();
+    if (A.dataClass() != B.dataClass()) {
+        ArrayOf mixed;
+        if (tryIntegerDoubleSubtraction(A, B, mixed)) {
+            return mixed;
+        }
+        Error("Nelson:operators:typeMismatch", "Same types expected.");
+    }
+    NelsonType commonClass = A.dataClass();
     ArrayOf res;
     if (A.isEmpty() || B.isEmpty()) {
         if (A.isScalar() || B.isScalar()) {
@@ -42,14 +208,14 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
                 res = A;
             }
         } else {
-            res = binaryOperatorEmptyMatrixEmptryMatrix(A, B, commonClass, "-");
+            res = binaryOperatorEmptyMatrixEmptyMatrix(A, B, commonClass, "-");
         }
-        if (res.getDataClass() == NLS_DCOMPLEX) {
+        if (res.dataClass() == NLS_DCOMPLEX) {
             if (res.allReal()) {
                 res.promoteType(NLS_DOUBLE);
             }
         }
-        if (res.getDataClass() == NLS_SCOMPLEX) {
+        if (res.dataClass() == NLS_SCOMPLEX) {
             if (res.allReal()) {
                 res.promoteType(NLS_SINGLE);
             }
@@ -77,15 +243,15 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         if (A.isScalar() && B.isScalar()) {
             res = scalar_scalar_real_subtraction<single>(NLS_SINGLE, A, B);
         } else {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
+            Dimensions dimsA = A.dimensions();
+            Dimensions dimsB = B.dimensions();
             if (SameSizeCheck(dimsA, dimsB)) {
 #if defined(_NLS_WITH_VML)
-                Dimensions dimsC = A.getDimensions();
-                indexType Clen = dimsC.getElementCount();
+                Dimensions dimsC = A.dimensions();
+                indexType Clen = dimsC.elementCount();
                 single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, Clen);
-                const single* ptrA = (const single*)A.getDataPointer();
-                const single* ptrB = (const single*)B.getDataPointer();
+                const single* ptrA = (const single*)A.dataPointer();
+                const single* ptrB = (const single*)B.dataPointer();
                 res = ArrayOf(NLS_SINGLE, dimsC, ptrC, false);
                 vsSub((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
@@ -100,15 +266,15 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         if (A.isScalar() && B.isScalar()) {
             res = scalar_scalar_real_subtraction<double>(NLS_DOUBLE, A, B);
         } else {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
+            Dimensions dimsA = A.dimensions();
+            Dimensions dimsB = B.dimensions();
             if (SameSizeCheck(dimsA, dimsB)) {
 #if defined(_NLS_WITH_VML)
-                Dimensions dimsC = A.getDimensions();
-                indexType Clen = dimsC.getElementCount();
+                Dimensions dimsC = A.dimensions();
+                indexType Clen = dimsC.elementCount();
                 double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
-                const double* ptrA = (const double*)A.getDataPointer();
-                const double* ptrB = (const double*)B.getDataPointer();
+                const double* ptrA = (const double*)A.dataPointer();
+                const double* ptrB = (const double*)B.dataPointer();
                 res = ArrayOf(NLS_DOUBLE, dimsC, ptrC, false);
                 vdSub((MKL_INT)Clen, ptrA, ptrB, ptrC);
 #else
@@ -123,16 +289,16 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         if (A.isScalar() && B.isScalar()) {
             res = scalar_scalar_complex_subtraction<single>(NLS_SCOMPLEX, A, B);
         } else {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
+            Dimensions dimsA = A.dimensions();
+            Dimensions dimsB = B.dimensions();
             if (SameSizeCheck(dimsA, dimsB)) {
 #if defined(_NLS_WITH_VML)
-                Dimensions dimsC = A.getDimensions();
-                indexType Clen = dimsC.getElementCount();
+                Dimensions dimsC = A.dimensions();
+                indexType Clen = dimsC.elementCount();
                 single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, Clen);
                 res = ArrayOf(NLS_SCOMPLEX, dimsC, ptrC, false);
-                single* ptrA = (single*)A.getDataPointer();
-                single* ptrB = (single*)B.getDataPointer();
+                single* ptrA = (single*)A.dataPointer();
+                single* ptrB = (single*)B.dataPointer();
                 MKL_Complex8* ptrAz = reinterpret_cast<MKL_Complex8*>(ptrA);
                 MKL_Complex8* ptrBz = reinterpret_cast<MKL_Complex8*>(ptrB);
                 MKL_Complex8* ptrCz = reinterpret_cast<MKL_Complex8*>(ptrC);
@@ -152,16 +318,16 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         if (A.isScalar() && B.isScalar()) {
             res = scalar_scalar_complex_subtraction<double>(NLS_DCOMPLEX, A, B);
         } else {
-            Dimensions dimsA = A.getDimensions();
-            Dimensions dimsB = B.getDimensions();
+            Dimensions dimsA = A.dimensions();
+            Dimensions dimsB = B.dimensions();
             if (SameSizeCheck(dimsA, dimsB)) {
 #if defined(_NLS_WITH_VML)
-                Dimensions dimsC = A.getDimensions();
-                indexType Clen = dimsC.getElementCount();
+                Dimensions dimsC = A.dimensions();
+                indexType Clen = dimsC.elementCount();
                 double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, Clen);
                 res = ArrayOf(NLS_DCOMPLEX, dimsC, ptrC, false);
-                double* ptrA = (double*)A.getDataPointer();
-                double* ptrB = (double*)B.getDataPointer();
+                double* ptrA = (double*)A.dataPointer();
+                double* ptrB = (double*)B.dataPointer();
                 MKL_Complex16* ptrAz = reinterpret_cast<MKL_Complex16*>(ptrA);
                 MKL_Complex16* ptrBz = reinterpret_cast<MKL_Complex16*>(ptrB);
                 MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
@@ -178,10 +344,154 @@ Subtraction(const ArrayOf& A, const ArrayOf& B)
         }
     } break;
     default: {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
     } break;
     }
     return res;
+}
+//=============================================================================
+static bool
+tryIntegerDoubleSubtraction(const ArrayOf& A, const ArrayOf& B, ArrayOf& res)
+{
+    bool integerIsLeft = false;
+    if (!isIntegerDoubleScalarPair(A, B, integerIsLeft)) {
+        return false;
+    }
+    const ArrayOf& I = integerIsLeft ? A : B;
+    const ArrayOf& D = integerIsLeft ? B : A;
+    const IntegerDoubleOperation op = integerIsLeft ? IntegerDoubleOperation::IntegerMinusDouble
+                                                    : IntegerDoubleOperation::DoubleMinusInteger;
+    switch (I.dataClass()) {
+    case NLS_INT8:
+        res = integerDoubleArithmetic<int8>(
+            NLS_INT8, I, D, integerIsLeft, op, integer_subtraction<int8>);
+        break;
+    case NLS_UINT8:
+        res = integerDoubleArithmetic<uint8>(
+            NLS_UINT8, I, D, integerIsLeft, op, integer_subtraction<uint8>);
+        break;
+    case NLS_INT16:
+        res = integerDoubleArithmetic<int16>(
+            NLS_INT16, I, D, integerIsLeft, op, integer_subtraction<int16>);
+        break;
+    case NLS_UINT16:
+        res = integerDoubleArithmetic<uint16>(
+            NLS_UINT16, I, D, integerIsLeft, op, integer_subtraction<uint16>);
+        break;
+    case NLS_INT32:
+        res = integerDoubleArithmetic<int32>(
+            NLS_INT32, I, D, integerIsLeft, op, integer_subtraction<int32>);
+        break;
+    case NLS_UINT32:
+        res = integerDoubleArithmetic<uint32>(
+            NLS_UINT32, I, D, integerIsLeft, op, integer_subtraction<uint32>);
+        break;
+    case NLS_INT64:
+        res = integerDoubleArithmetic<int64>(
+            NLS_INT64, I, D, integerIsLeft, op, integer_subtraction<int64>);
+        break;
+    case NLS_UINT64:
+        res = integerDoubleArithmetic<uint64>(
+            NLS_UINT64, I, D, integerIsLeft, op, integer_subtraction<uint64>);
+        break;
+    default:
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+complexRealSubKernel(NelsonType classDestination, const ArrayOf& complexArray,
+    const ArrayOf& realArray, bool complexIsMatrix, bool realIsMatrix, bool complexIsLeft)
+{
+    Dimensions dimsC = complexIsMatrix ? complexArray.dimensions() : realArray.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az
+        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    const T* Br = reinterpret_cast<const T*>(realArray.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    for (indexType k = 0; k < Clen; ++k) {
+        const std::complex<T>& a = complexIsMatrix ? Az[k] : Az[0];
+        T c = realIsMatrix ? Br[k] : Br[0];
+        if (complexIsLeft) {
+            Cz[k] = std::complex<T>(a.real() - c, a.imag());
+        } else {
+            Cz[k] = std::complex<T>(c - a.real(), -a.imag());
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static bool
+complex_real_sub_scaling(NelsonType classDestination, const ArrayOf& complexArray,
+    const ArrayOf& realArray, bool complexIsLeft, ArrayOf& result)
+{
+    bool matrixMatrix = complexArray.dimensions().equals(realArray.dimensions());
+    bool matrixScalar = !matrixMatrix && realArray.isScalar();
+    bool scalarMatrix = !matrixMatrix && !matrixScalar && complexArray.isScalar();
+    if (!matrixMatrix && !matrixScalar && !scalarMatrix) {
+        return false;
+    }
+    bool complexIsMatrix = matrixMatrix || matrixScalar;
+    bool realIsMatrix = matrixMatrix || scalarMatrix;
+    result = complexRealSubKernel<T>(
+        classDestination, complexArray, realArray, complexIsMatrix, realIsMatrix, complexIsLeft);
+    return true;
+}
+//=============================================================================
+bool
+dotMinusComplexRealScaling(const ArrayOf& A, const ArrayOf& B, ArrayOf& result)
+{
+    if (A.isSparse() || B.isSparse() || A.isEmpty() || B.isEmpty()) {
+        return false;
+    }
+    NelsonType classA = A.dataClass();
+    NelsonType classB = B.dataClass();
+    const ArrayOf* complexArray = nullptr;
+    const ArrayOf* realArray = nullptr;
+    NelsonType classDestination = NLS_DCOMPLEX;
+    bool complexIsLeft = true;
+    if (classA == NLS_DCOMPLEX && classB == NLS_DOUBLE) {
+        complexArray = &A;
+        realArray = &B;
+        classDestination = NLS_DCOMPLEX;
+        complexIsLeft = true;
+    } else if (classA == NLS_DOUBLE && classB == NLS_DCOMPLEX) {
+        complexArray = &B;
+        realArray = &A;
+        classDestination = NLS_DCOMPLEX;
+        complexIsLeft = false;
+    } else if (classA == NLS_SCOMPLEX && classB == NLS_SINGLE) {
+        complexArray = &A;
+        realArray = &B;
+        classDestination = NLS_SCOMPLEX;
+        complexIsLeft = true;
+    } else if (classA == NLS_SINGLE && classB == NLS_SCOMPLEX) {
+        complexArray = &B;
+        realArray = &A;
+        classDestination = NLS_SCOMPLEX;
+        complexIsLeft = false;
+    } else {
+        return false;
+    }
+    bool handled = false;
+    if (classDestination == NLS_DCOMPLEX) {
+        handled = complex_real_sub_scaling<double>(
+            NLS_DCOMPLEX, *complexArray, *realArray, complexIsLeft, result);
+        if (handled && result.allReal()) {
+            result.promoteType(NLS_DOUBLE);
+        }
+    } else {
+        handled = complex_real_sub_scaling<single>(
+            NLS_SCOMPLEX, *complexArray, *realArray, complexIsLeft, result);
+        if (handled && result.allReal()) {
+            result.promoteType(NLS_SINGLE);
+        }
+    }
+    return handled;
 }
 //=============================================================================
 } // namespace Nelson

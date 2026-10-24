@@ -10,14 +10,14 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_addpluginpath'), 1);
-assert_isequal(nargout('qml_addpluginpath'), 0);
+asserts.isequal(nargin('qml_addpluginpath'), 1);
+asserts.isequal(nargout('qml_addpluginpath'), 0);
 %=============================================================================
 l1 = qml_pluginpathlist();
 qml_addpluginpath(nelsonroot());
 l2 = qml_pluginpathlist();
-assert_istrue(length(l2) > length(l1))
+asserts.istrue(length(l2) > length(l1))
 for k = l2(:)'
-  assert_istrue(isdir(k));
+  asserts.istrue(isdir(k));
 end
 %=============================================================================

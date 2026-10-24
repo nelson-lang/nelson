@@ -12,5 +12,5 @@ set(module_name control_system)
 nelson_install_module_data(
   ${module_name}
   EXTRA_TEST_PATTERNS
-  "*.ref")
-# ==============================================================================
+  "*.ref"
+)

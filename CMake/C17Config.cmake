@@ -35,7 +35,7 @@ endif()
 # AVX2
 # ==============================================================================
 if(ENABLE_AVX2)
-  check_cxx_compiler_flag("-mavx2" COMPILER_SUPPORTS_AVX2)
+  CHECK_CXX_COMPILER_FLAG("-mavx2" COMPILER_SUPPORTS_AVX2)
   if(COMPILER_SUPPORTS_AVX2)
     message(STATUS "Enabling AVX2 optimizations")
     add_compile_options(-mavx2)
@@ -44,13 +44,8 @@ endif()
 # ==============================================================================
 # Apple M-series optimizations
 # ==============================================================================
-if(CMAKE_SYSTEM_NAME
-  STREQUAL
-  "Darwin"
-  AND
-  CMAKE_SYSTEM_PROCESSOR
-  STREQUAL
-  "arm64"
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin"
+  AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"
 )
   message(STATUS "Enabling Apple M-series optimizations")
   add_compile_options(-march=native)

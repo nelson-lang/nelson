@@ -8,28 +8,40 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 p = which('clear');
-assert_istrue(contains(p, 'libnlsMemory_manager_builtin'));
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(startsWith(p, 'static:'));
+else
+  asserts.istrue(contains(p, 'libnlsMemory_manager_builtin'));
+end
 %=============================================================================
-p = modulepath('core','builtin');
-assert_istrue(contains(p, 'libnlsCore_builtin'));
+p = modulepath('core', 'builtin');
+asserts.istrue(contains(p, 'libnlsCore_builtin'));
 %=============================================================================
 p = modulepath('core');
-ref = [nelsonroot, '/modules/core'];
-assert_isequal(p, ref);
+rootPath = nelsonroot();
+if endsWith(rootPath, '/')
+  rootPath = rootPath(1:end - 1);
+end
+ref = [rootPath, '/modules/core'];
+asserts.isequal(p, ref);
 %=============================================================================
-p = modulepath('core','etc');
-ref = [nelsonroot, '/modules/core/etc'];
-assert_isequal(p, ref);
+p = modulepath('core', 'etc');
+ref = [rootPath, '/modules/core/etc'];
+asserts.isequal(p, ref);
 %=============================================================================
-p = modulepath('nelson','builtin');
-ref = fileparts(which('clear'));
-assert_isequal(p, ref);
+p = modulepath('nelson', 'builtin');
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(isdir(p));
+else
+  ref = fileparts(which('clear'));
+  asserts.isequal(p, ref);
+end
 %=============================================================================
-p = modulepath('core','root');
-ref = [nelsonroot, '/modules/core'];
-assert_isequal(p, ref);
+p = modulepath('core', 'root');
+ref = [rootPath, '/modules/core'];
+asserts.isequal(p, ref);
 %=============================================================================
-p = modulepath('core','tests');
-ref = [nelsonroot, '/modules/core/tests'];
-assert_isequal(p, ref);
+p = modulepath('core', 'tests');
+ref = [rootPath, '/modules/core/tests'];
+asserts.isequal(p, ref);
 %=============================================================================

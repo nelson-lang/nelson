@@ -11,10 +11,10 @@
 function [frsp] = evalfr(varargin)
   narginchk(2, 2);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
   w = varargin{2};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
 end

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>voronoin</keyword>
+  <short_description>Diagramme de Voronoi en N dimensions</short_description>
+  <syntax>
+    <syntax_item>[V, C] = voronoin(P)</syntax_item>
+    <syntax_item>[V, C] = voronoin(P, options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>voronoin</b> calcule les sommets et cellules de Voronoi pour les points d'entree.</p>
+    <p><b>V</b> contient les sommets et <b>C</b> est un tableau de cellules d'indices a partir de un.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sommets et cellules de Voronoi pour des points plans.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
+[V, C] = voronoin(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}voronoi">voronoi</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunayn">delaunayn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

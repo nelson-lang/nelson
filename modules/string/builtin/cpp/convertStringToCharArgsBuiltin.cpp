@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include "convertStringToCharArgsBuiltin.hpp"
 #include "ConvertStringsToChars.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ArrayOfView.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,13 +25,13 @@ Nelson::StringGateway::convertStringToCharArgsBuiltin(int nLhs, const ArrayOfVec
     if (argIn[0].isScalarStringArray()) {
         retval << ConvertStringsToChars(argIn[0], false);
     } else if (argIn[0].isCell()) {
-        ArrayOf* argsCells = (ArrayOf*)argIn[0].getDataPointer();
+        ArrayOfView<ArrayOf> argsCells(argIn[0], ArrayOfViewAssumeValidated {});
         ArrayOf* modifiedCells
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, argIn[0].getElementCount());
-        for (size_t k = 0; k < argIn[0].getElementCount(); k++) {
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, argIn[0].elementCount());
+        for (size_t k = 0; k < argIn[0].elementCount(); k++) {
             modifiedCells[k] = ConvertStringsToChars(argsCells[k], false);
         }
-        ArrayOf convertedCell = ArrayOf(NLS_CELL_ARRAY, argIn[0].getDimensions(), modifiedCells);
+        ArrayOf convertedCell = ArrayOf(NLS_CELL_ARRAY, argIn[0].dimensions(), modifiedCells);
         retval << convertedCell;
     } else {
         retval << argIn[0];

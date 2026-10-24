@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>edge</keyword>
+  <short_description>Find edges in a grayscale image.</short_description>
+  <syntax>
+    <syntax_item>BW = edge(I)</syntax_item>
+    <syntax_item>BW = edge(I, method)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh, direction)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh, sigma)</syntax_item>
+    <syntax_item>[BW, thresh] = edge(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input grayscale or RGB image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Edge detection method: 'sobel', 'prewitt', 'roberts', 'log', or 'canny'. The default is 'sobel'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>thresh</param_name>
+      <param_description>Detection threshold. For 'canny', it can be a scalar or a two-element vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description>Direction used with 'sobel', 'prewitt', and 'roberts': 'horizontal', 'vertical', or 'both'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>Positive Gaussian scale used with 'log' and 'canny'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Logical image whose true pixels mark detected edges.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>thresh</param_name>
+      <param_description>Threshold value used by the detector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Find edges in a grayscale image. Supported methods are sobel, prewitt, roberts, log and canny. The sobel, prewitt and roberts methods accept horizontal, vertical or both as direction. The log and canny methods accept a positive scalar sigma. The canny threshold can be a scalar or a two-element vector.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detect edges</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=exp(-4*(X.^2+Y.^2));
+BW=edge(I,'sobel');
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(BW); g=linspace(0,1,64)'; colormap([g g g]); title('Edges');]]></example_item_data>
+      <example_item_img
+        src="../../../images/edge_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}fspecial">fspecial</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

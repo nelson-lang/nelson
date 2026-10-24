@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "cumulativeFunctionBuiltinHelpers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -21,18 +22,21 @@ namespace Nelson::DataAnalysisGateway {
 static inline void
 getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& reverse)
 {
-    std::wstring wstr = argIn[pos].getContentAsWideString();
-    if (wstr == L"includenan") {
+    std::wstring wstr = argIn[pos].asWideString();
+    if (wstr == L"includenan" || wstr == L"includemissing") {
         withNaN = true;
-    } else if (wstr == L"omitnan") {
+    } else if (wstr == L"omitnan" || wstr == L"omitmissing") {
         withNaN = false;
     } else if (wstr == L"reverse") {
         reverse = true;
     } else if (wstr == L"forward") {
         reverse = false;
     } else {
-        std::string msg = fmt::format(_("Wrong value for #{0} argument."), pos);
-        Error(msg);
+        std::string msg = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                "Nelson:data_analysis:wrongValueForArgument", "Wrong value for #%d argument."),
+            pos);
+        Error("Nelson:cumulative:invalidOptionValue", msg);
     }
 }
 //=============================================================================
@@ -42,10 +46,9 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
 {
     ArrayOfVector retval;
     size_t nRhs = argIn.size();
-    nargincheck(argIn, 1, 3);
+    nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-        || argIn[0].isClassType()) {
+    if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct() || argIn[0].isClassType()) {
         OverloadRequired(cumulativeFunctionName);
     }
     bool withNaN = true;
@@ -55,41 +58,39 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
 
     switch (nRhs) {
     case 1: {
-        // NOTHING TO DO
     } break;
     case 2: {
-        if (argIn[1].isRowVectorCharacterArray()) {
+        if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
             getCumulativeArgument(argIn, 1, withNaN, reverse);
         } else {
-            n = argIn[1].getContentAsScalarIndex(false);
+            n = argIn[1].asScalarIndex(false);
         }
     } break;
     case 3: {
-        if (argIn[1].isRowVectorCharacterArray()) {
-            std::wstring wstr1 = argIn[1].getContentAsWideString();
-            std::wstring wstr2 = argIn[2].getContentAsWideString();
+        if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
+            std::wstring wstr1 = argIn[1].asWideString();
+            std::wstring wstr2 = argIn[2].asWideString();
             if (wstr1 == wstr2) {
-                Error(_W("Wrong value for #3 argument."));
+                Error(L"Nelson:data_analysis:wrongValueForArgument",
+                    L"Wrong value for #%d argument.", 3);
             }
             getCumulativeArgument(argIn, 1, withNaN, reverse);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
         } else {
-            n = argIn[1].getContentAsScalarIndex(false);
+            n = argIn[1].asScalarIndex(false);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
         }
     } break;
     case 4: {
-        n = argIn[1].getContentAsScalarIndex(false);
-        std::wstring wstr1 = argIn[2].getContentAsWideString();
-        std::wstring wstr2 = argIn[3].getContentAsWideString();
+        n = argIn[1].asScalarIndex(false);
+        std::wstring wstr1 = argIn[2].asWideString();
+        std::wstring wstr2 = argIn[3].asWideString();
         if (wstr1 == wstr2) {
-            Error(_W("Wrong value for #3 argument."));
+            Error(
+                L"Nelson:data_analysis:wrongValueForArgument", L"Wrong value for #%d argument.", 3);
         }
         getCumulativeArgument(argIn, 2, withNaN, reverse);
         getCumulativeArgument(argIn, 3, withNaN, reverse);
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
 
@@ -102,5 +103,5 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::DataAnalysisGateway
 //=============================================================================

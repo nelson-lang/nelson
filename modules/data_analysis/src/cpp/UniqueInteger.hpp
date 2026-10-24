@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -47,15 +47,15 @@ template <class T>
 ArrayOfVector
 UniqueIntegerOneLhs(const ArrayOf& input)
 {
-    ompIndexType len = input.getElementCount();
-    const T* dp = static_cast<const T*>(input.getDataPointer());
+    ompIndexType len = input.elementCount();
+    const T* dp = static_cast<const T*>(input.dataPointer());
     ArrayOfVector retval;
     std::vector<T> values(dp, dp + len);
     parallelSort(values);
     values.erase(std::unique(values.begin(), values.end()), values.end());
 
     len = static_cast<ompIndexType>(values.size());
-    T* op = static_cast<T*>(ArrayOf::allocateArrayOf(input.getDataClass(), len));
+    T* op = static_cast<T*>(ArrayOf::allocateArrayOf(input.dataClass(), len));
 
     std::copy(values.begin(), values.end(), op);
 
@@ -63,7 +63,7 @@ UniqueIntegerOneLhs(const ArrayOf& input)
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     return retval;
 }
 //=============================================================================
@@ -72,13 +72,13 @@ ArrayOfVector
 UniqueIntegerTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const T* dp = (const T*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const T* dp = (const T*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     ArrayOfVector retval;
     std::vector<UniqueIntegerEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -91,7 +91,7 @@ UniqueIntegerTwoLhs(const ArrayOf& input)
 
     len = values.size();
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-    T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), len);
+    T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), len);
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
@@ -103,7 +103,7 @@ UniqueIntegerTwoLhs(const ArrayOf& input)
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(len, 1), mp);
     return retval;
 }
@@ -113,13 +113,13 @@ ArrayOfVector
 UniqueIntegerThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const T* dp = (const T*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const T* dp = (const T*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     std::vector<UniqueIntegerEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
@@ -136,7 +136,7 @@ UniqueIntegerThreeLhs(const ArrayOf& input)
 
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
-    T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), cnt);
+    T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), cnt);
     if (len > 0) {
         op[0] = dp[values[0].n];
         cnt = 1;
@@ -154,13 +154,13 @@ UniqueIntegerThreeLhs(const ArrayOf& input)
     ArrayOfVector retval;
     Dimensions dimsOut = isRowVector ? Dimensions(1, cnt) : Dimensions(cnt, 1);
     if (len == 0) {
-        if (input.getRows() == input.getColumns()) {
+        if (input.rows() == input.columns()) {
             dimsOut = Dimensions(0, 1);
         } else {
-            dimsOut = Dimensions(input.getRows() != 0 ? 1 : 0, input.getColumns() != 0 ? 1 : 0);
+            dimsOut = Dimensions(input.rows() != 0 ? 1 : 0, input.columns() != 0 ? 1 : 0);
         }
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
@@ -182,5 +182,5 @@ UniqueInteger(const ArrayOf& input, int nLhs)
     return UniqueIntegerThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

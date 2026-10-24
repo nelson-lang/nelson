@@ -11,6 +11,7 @@
 #include "AudiorecorderObject.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,7 +19,10 @@ bool
 DeleteAudiorecorderHandleObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<AudiorecorderObject>(A, NLS_HANDLE_AUDIORECORDER_CATEGORY_STR,
-        _W("audiorecorder handle expected."), _W("audiorecorder valid handle expected."));
+        Nelson::resolveMessageTemplate(
+            L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected."),
+        resolveMessageTemplate(
+            L"Nelson:audio:audiorecorderValidHandle", L"audiorecorder valid handle expected."));
 }
 //=============================================================================
 } // namespace Nelson

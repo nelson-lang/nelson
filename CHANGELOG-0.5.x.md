@@ -131,7 +131,7 @@
 
 - macros in memory reworked to support also MEX.
 
-- C MEX compatibility, load and build fully compatible with other softwares.
+- C MEX compatibility, load and build fully compatible with other software.
 
 - `inmem` builtin returns names of functions, MEX-files in memory.
 
@@ -215,7 +215,7 @@ BREAKING CHANGE:
 
 - `test_run` manages `SEQUENTIAL TEST REQUIRED` and `NATIVE_ARCHITECTURE TEST REQUIRED` tags.
 
-- benchs are executed sequentialy (better bench results).
+- benches are executed sequentially (better bench results).
 
 - `all`, `any` behavior with empty matrix updated.
 
@@ -259,7 +259,7 @@ BREAKING CHANGE:
   - `exp`, `sqrt`, `log1p`, `log10`, `log`
   - `cos`, `sin`, `tan`
   - `atan2`, `acos`, `asin`
-  - addition, substraction, multiplication, division vectors.
+  - addition, subtraction, multiplication, division vectors.
 
 - `system` allows to run shell command execution in parallel.
 
@@ -335,9 +335,9 @@ BREAKING CHANGE:
 
 - rename ArrayOf::getLength to ArrayOf::getElementCount method.
 
-- rework simple assignement.
+- rework simple assignment.
 
-- add benchs about loop to identify existing bottleneck for next iteration.
+- add benches about loop to identify existing bottleneck for next iteration.
 
 - rework loop to prepare next iteration.
 
@@ -367,7 +367,7 @@ BREAKING CHANGE:
 
 - libboost 1.75 on Windows.
 
-- fix cirle CI build.
+- fix circle CI build.
 
 - [#394](https://github.com/nelson-lang/nelson/issues/394): Upgrade socket.IO dependency to v3.0.
 

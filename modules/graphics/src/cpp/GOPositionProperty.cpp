@@ -17,5 +17,5 @@ static const wchar_t* POSITION_DICT[3]
 //=============================================================================
 GOPositionProperty::GOPositionProperty() : GORestrictedStringProperty(POSITION_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>asserts.size</keyword>
+  <short_description>Verifie qu&apos;une valeur a les dimensions attendues.</short_description>
+  <syntax>
+    <syntax_item>asserts.size(value, expectedSize)</syntax_item>
+    <syntax_item>[res, msg] = asserts.size(value, expectedSize)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>value</param_name><param_description>Valeur a tester.</param_description></param_input_item>
+    <param_input_item><param_name>expectedSize</param_name><param_description>Vecteur numerique de longueurs de dimensions entieres non negatives.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>L&apos;assertion reussit lorsque size(value) correspond exactement a expectedSize.</p>
+    <p>Le vecteur de taille attendu doit avoir le meme nombre de dimensions que value.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Expected size</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[asserts.size(ones(2, 3), [2 3]);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture a size failure</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[res, msg] = asserts.size(ones(2, 3), [3 2]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${assert_functions}asserts.rows">asserts.rows</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.columns">asserts.columns</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.ndims">asserts.ndims</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

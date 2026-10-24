@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "feofBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
@@ -25,15 +26,15 @@ Nelson::StreamGateway::feofBuiltin(int nLhs, const ArrayOfVector& argIn)
     FilesManager* fm
         = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
     ArrayOf param1 = argIn[0];
-    int32 iValue = static_cast<int32>(param1.getContentAsDoubleScalar(false));
+    int32 iValue = static_cast<int32>(param1.asDoubleScalar(false));
     if (!fm->isOpened(iValue)) {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));
-    retval << ArrayOf::doubleConstructor(feof(fileptr));
+    retval << ArrayOf::doubleScalar(feof(fileptr));
     return retval;
 }
 //=============================================================================

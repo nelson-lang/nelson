@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if strcmp(getenv('AUDIODEV'), 'null') == false && ~any(contains(argv(), '--noaudio'))
+if strcmp(getenv('AUDIODEV'), 'null') == false && ~any(contains(argv(), '--no-audio'))
   addgateway(modulepath('audio', 'builtin'), 'audio');
   addpath(modulepath('audio', 'functions'), '-frozen');
 end

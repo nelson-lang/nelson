@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-rmpath(modulepath('hdf5', 'functions'));
 removegateway(modulepath('hdf5', 'builtin'))
+%=============================================================================

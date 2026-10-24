@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "GOGroup.hpp"
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
@@ -16,6 +17,7 @@
 #include "GOArrayOfProperty.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOBusyActionProperty.hpp"
+#include "GOCommonProperties.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,6 +38,7 @@ GOGroup::constructProperties()
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
+    registerCommonProperties(this);
     sortProperties();
 }
 //=============================================================================
@@ -48,6 +51,7 @@ GOGroup::setupDefaults()
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    initializeCommonProperties(this);
 }
 //=============================================================================
 GOGroup::GOGroup()
@@ -75,13 +79,41 @@ GOGroup::updateState()
             if (cp) {
                 auto property = cp->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false);
                 if (property) {
-                    property->set(ArrayOf::characterArrayConstructor(
+                    property->set(ArrayOf::characterArray(
                         turnOff ? GO_PROPERTY_VALUE_OFF_STR : GO_PROPERTY_VALUE_ON_STR));
                 }
             }
         }
         clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     }
+}
+//=============================================================================
+std::vector<double>
+GOGroup::getLimits()
+{
+    GOGObjectsProperty* cp
+        = static_cast<GOGObjectsProperty*>(this->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+    std::vector<double> limits;
+    for (auto child : cp->data()) {
+        GraphicsObject* go = findGraphicsObject(child, false);
+        if (!go) {
+            continue;
+        }
+        std::vector<double> childLimits(go->getLimits());
+        if (childLimits.empty()) {
+            continue;
+        }
+        if (limits.empty()) {
+            limits = childLimits;
+        } else {
+            size_t n = std::min(limits.size(), childLimits.size());
+            for (size_t i = 0; i + 1 < n; i += 2) {
+                limits[i] = std::min(limits[i], childLimits[i]);
+                limits[i + 1] = std::max(limits[i + 1], childLimits[i + 1]);
+            }
+        }
+    }
+    return limits;
 }
 //=============================================================================
 void
@@ -102,5 +134,5 @@ GOGroup::paintMe(RenderInterface& gc)
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

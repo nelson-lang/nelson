@@ -7,9 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-delete(backgroundPool_used());
-delete(FevalFuture_used());
-delete(FevalQueue_used());
+% a lazy (never loaded) gateway cannot own live objects
+[~, ~, parallelGatewayState] = gatewayinfo(modulepath('parallel', 'builtin'));
+if strcmp(parallelGatewayState, 'loaded')
+  delete(backgroundPool_used());
+  delete(FevalFuture_used());
+  delete(AfterAllFuture_used());
+  delete(AfterEachFuture_used());
+  delete(FevalQueue_used());
+end
 %=============================================================================
 % rmpath(modulepath('parallel', 'functions'));
 removegateway(modulepath('parallel', 'builtin'));

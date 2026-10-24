@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = gray(varargin)
   narginchk(0, 1);
-  nargoutchk(0, 1);    
+  nargoutchk(0, 1);
   narginchk(0, 1);
   if nargin < 1
     R = groot();
@@ -22,14 +22,14 @@ function varargout = gray(varargin)
   else
     n = varargin{1};
   end
-  
+
   if (n == 1)
-    varargout{1} = [ 0,   0,     0];
+    varargout{1} = [0, 0, 0];
   else
     if (n <= 0)
-      varargout{1} = zeros (0, 3);
+      varargout{1} = zeros(0, 3);
     else
-      r = (0:n-1)' / max(n-1, 1);
+      r = (0:n - 1)' / max(n - 1, 1);
       varargout{1} = [r, r, r];
     end
   end

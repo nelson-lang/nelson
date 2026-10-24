@@ -16,5 +16,5 @@ namespace Nelson::SpecialFunctionsGateway {
 ArrayOfVector
 __interpn__Builtin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::SpecialFunctionsGateway
 //=============================================================================

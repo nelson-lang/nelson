@@ -7,13 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('unix'), 1);
-assert_isequal(nargout('unix'), 2);
+skip_testsuite(iswasm(), 'Requires a native shell and process creation, unavailable in WebAssembly.');
+asserts.isequal(nargin('unix'), 1);
+asserts.isequal(nargout('unix'), 2);
 %=============================================================================
 if ismac()
   [a, b] = unix('ls');
 else
   [a, b] = unix('dir');
 end
-assert_isequal(a, 0);
+asserts.isequal(a, 0);
 %=============================================================================

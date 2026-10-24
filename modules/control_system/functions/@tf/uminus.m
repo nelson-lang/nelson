@@ -10,7 +10,7 @@
 function sys = uminus(sys)
   numerators = sys.Numerator;
   for k = 1:length(numerators)'
-    sys.Numerator{k} = - numerators{k};
+    sys.Numerator{k} = -numerators{k};
   end
 end
 %=============================================================================

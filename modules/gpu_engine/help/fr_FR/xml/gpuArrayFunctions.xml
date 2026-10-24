@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gpuArrayFunctions</keyword>
+  <short_description>Liste les fonctions prenant en charge gpuArray.</short_description>
+  <syntax>
+    <syntax_item>c = gpuArrayFunctions()</syntax_item>
+    <syntax_item>gpuArrayFunctions()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>un cellule colonne de vecteurs de caractères : les noms triés des fonctions surchargées pour <b>gpuArray</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>c = gpuArrayFunctions()</b> renvoie la liste des fonctions et opérateurs qui s'exécutent sur un <b>gpuArray</b>. Appeler <b>gpuArrayFunctions()</b> sans argument de sortie affiche la liste.</p>
+    <p>La liste est dérivée des opérations réellement enregistrées par le module <b>gpu_engine</b> (à la fois les builtins du périphérique et les surcharges de méthode), elle reflète donc toujours la version courante. Elle regroupe, entre autres :</p>
+    <p><b>Opérateurs</b> : plus, minus, times, rdivide, ldivide, power, mtimes, uminus, transpose, ctranspose, eq, ne, lt, le, gt, ge, and, or, xor, not.</p>
+    <p><b>Mathématiques élément par élément</b> : abs, sqrt, exp, expm1, log, log1p, log2, log10, pow2, sin, cos, tan, sec, csc, cot, asin, acos, atan, asec, acsc, acot, atan2, hypot, sinh, cosh, tanh, sech, csch, coth, asinh, acosh, atanh, deg2rad, rad2deg, floor, ceil, round, fix, sign, mod, rem.</p>
+    <p><b>Bit à bit</b> (entier) : bitand, bitor, bitxor, bitshift.</p>
+    <p><b>Réductions et balayages</b> : sum, prod, mean, var, std, any, all, cumsum, cumprod, cummax, cummin, sort, find, dot, norm.</p>
+    <p><b>Algèbre linéaire</b> : mtimes et, sur le périphérique lorsque c'est possible, dot et les normes vectorielles ; les factorisations (mldivide, inv, lu, qr, eig, svd), les fonctions matricielles (expm, logm, sqrtm) et fft/ifft retombent sur l'hôte.</p>
+    <p><b>Complexe</b> : real, imag, conj, angle, isreal (floor/ceil/round/fix/sign et les prédicats NaN/Inf acceptent aussi le complexe).</p>
+    <p><b>Forme</b> : reshape, transpose, ctranspose, flip, fliplr, flipud, rot90, circshift, repmat, squeeze, diff, triu, tril, diag, kron, trace, cross, horzcat, vertcat, cat.</p>
+    <p><b>Statistiques d'ordre et fonctions ensemblistes</b> : median, mode, prctile, histcounts, unique, ismember, sortrows, issorted, nonzeros, gradient (évaluées sur l'hôte, ré-encapsulées en gpuArray).</p>
+    <p><b>Prédicats et dimensions</b> : isnan, isinf, isfinite, isreal, isempty, isscalar, isvector, ismatrix, isrow, iscolumn, isnumeric, isfloat, isinteger, islogical, length, nnz, underlyingType, isUnderlyingType.</p>
+    <p><b>Constructeurs</b> : zeros, ones, eye, nan, inf, true, false, rand, randn (via les formes <b>'gpuArray'</b> / <b>'like'</b>), et linspace / colon à partir d'une borne gpuArray.</p>
+    <p>Les données sont transférées avec <b>gpuArray</b> et <b>gather</b> ; utilisez <b>arrayfun</b> pour exécuter une expression élément par élément fusionnée sur le périphérique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[c = gpuArrayFunctions();
+numel(c)
+gpuArrayFunctions()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gpuArray">gpuArray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}gather">gather</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}isgpuarray">isgpuarray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}canUseGPU">canUseGPU</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}gpuDevice">gpuDevice</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}plus">plus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}minus">minus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}times">times</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}rdivide">rdivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mtimes">mtimes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}power">power</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}uminus">uminus</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}mldivide">mldivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}transpose">transpose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ctranspose">ctranspose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}horzcat">horzcat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}vertcat">vertcat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}cat">cat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}colon">colon</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}eq">eq</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ne">ne</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}lt">lt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}le">le</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}gt">gt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}ge">ge</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}and">and</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}or">or</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}not">not</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}any">any</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}all">all</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitand">bitand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitor">bitor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitxor">bitxor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}sin">sin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}cos">cos</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}tan">tan</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}sinh">sinh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}cosh">cosh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}tanh">tanh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}asin">asin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}acos">acos</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}atan">atan</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}atan2">atan2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sum">sum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}prod">prod</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}max">max</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}min">min</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}cumsum">cumsum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}cumprod">cumprod</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}cummax">cummax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}cummin">cummin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}dot">dot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}cross">cross</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isreal">isreal</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${logical}xor">xor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${logical}true">true</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${logical}false">false</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}zeros">zeros</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}ones">ones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}eye">eye</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${random}rand">rand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${random}randn">randn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${fftw}fft">fft</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${fftw}ifft">ifft</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

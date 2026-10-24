@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hysteresis</keyword>
+  <keyword_alias>block:hysteresis</keyword_alias>
+  <short_description>Relay: latching two-threshold switch (uHigh, uLow, yHigh, yLow).</short_description>
+  <syntax>
+    <syntax_item>Block type: hysteresis</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Relay: a latching switch with two thresholds (hysteresis).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Nonlinear</td></tr>
+        <tr><td>Type</td><td><code>hysteresis</code></td></tr>
+        <tr><td>Label</td><td>Relay</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/nonlinear/exports/hysteresis.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>The output latches: it switches to <code>yHigh</code> when the input rises to or above <code>uHigh</code>, to <code>yLow</code> when it falls to or below <code>uLow</code>, and holds its previous value in between. This two-threshold behaviour is the classic relay with hysteresis. Stateful (latched output).</p>
+    <p><b>Ports</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Control input compared against the thresholds.</td><td>left</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Latched relay output (yHigh or yLow).</td><td>right</td><td>x=80, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>uHigh</code></td><td>1</td></tr>
+        <tr><td><code>uLow</code></td><td>-1</td></tr>
+        <tr><td><code>yHigh</code></td><td>1</td></tr>
+        <tr><td><code>yLow</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>hysteresis</td></tr>
+        <tr><td>Family</td><td>Nonlinear</td></tr>
+        <tr><td>Rendered size</td><td>80 x 80</td></tr>
+        <tr><td>Phases</td><td>INIT, OUTPUT, UPDATE</td></tr>
+        <tr><td>Internal state or history</td><td>yes (latched output)</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>INIT: start at yLow.</li>
+      <li>OUTPUT: emit the latched value.</li>
+      <li>UPDATE: switch to yHigh above uHigh, to yLow below uLow, otherwise hold.</li>
+    </ul>
+    <p><b>Equation or Rule</b></p>
+    <latex>y \leftarrow \begin{cases} y_{High} &amp; u \ge u_{High} \\ y_{Low} &amp; u \le u_{Low} \\ y &amp; \text{otherwise} \end{cases}</latex>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/nonlinear/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/nonlinear/hysteresis.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Relay driven by a sine crossing both thresholds.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','s','type','sine','inputs',0,'outputs',1,'params',struct('Amplitude',2,'Frequency',1)), struct('id','r','type','hysteresis','inputs',1,'outputs',1,'params',struct('uHigh',1,'uLow',-1,'yHigh',1,'yLow',0)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','s','to','r','fromIndex',0,'toIndex',0), struct('from','r','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.02; d.duration=2.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}nonlinear/saturation">saturation</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}nonlinear/deadZone">deadZone</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

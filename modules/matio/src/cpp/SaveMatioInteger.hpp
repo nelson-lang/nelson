@@ -17,5 +17,5 @@ namespace Nelson {
 matvar_t*
 SaveMatioInteger(const std::string& variableName, const ArrayOf& variableValue);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -13,10 +13,8 @@
 #include "nlsOperators_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * Transposes the argument.
- */
 NLSOPERATORS_IMPEXP ArrayOf
 ComplexTranspose(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

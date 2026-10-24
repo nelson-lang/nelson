@@ -7,9 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(__EMSCRIPTEN__)
+#include <emscripten/heap.h>
+#elif defined(_MSC_VER)
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <malloc.h>
 #include <psapi.h>
 #else
 #if defined(__APPLE__) || defined(__MACH__)
@@ -34,12 +37,49 @@
 #include <sys/types.h>
 #include <unistd.h>
 #endif
-
 #endif
 #include "MemoryInformation.hpp"
 //=============================================================================
 namespace Nelson {
-#ifdef _MSC_VER
+#if defined(__EMSCRIPTEN__)
+//=============================================================================
+double
+getTotalVirtualMemory()
+{
+    return static_cast<double>(emscripten_get_heap_size());
+}
+//=============================================================================
+double
+getTotalVirtualMemoryUsed()
+{
+    return 0;
+}
+//=============================================================================
+double
+getTotalVirtualMemoryByNelson()
+{
+    return static_cast<double>(emscripten_get_heap_size());
+}
+//=============================================================================
+double
+getTotalPhysicalMemory()
+{
+    return static_cast<double>(emscripten_get_heap_size());
+}
+//=============================================================================
+double
+getTotalPhysicalMemoryUsed()
+{
+    return 0;
+}
+//=============================================================================
+double
+getTotalPhysicalMemoryByNelson()
+{
+    return static_cast<double>(emscripten_get_heap_size());
+}
+//=============================================================================
+#elif defined(_MSC_VER)
 //=============================================================================
 double
 getTotalVirtualMemory()
@@ -69,6 +109,7 @@ double
 getTotalVirtualMemoryByNelson()
 {
     double res;
+    _heapmin();
     PROCESS_MEMORY_COUNTERS_EX pmc;
     GetProcessMemoryInfo(
         GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
@@ -105,6 +146,7 @@ double
 getTotalPhysicalMemoryByNelson()
 {
     double res;
+    _heapmin();
     PROCESS_MEMORY_COUNTERS_EX pmc;
     GetProcessMemoryInfo(
         GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
@@ -201,7 +243,6 @@ getTotalPhysicalMemory()
     struct sysinfo si;
     sysinfo(&si);
     res = (double)(si.totalram);
-    //		res = (double)(sysconf(_SC_PHYS_PAGES) * sysconf(_SC_PAGESIZE));
 #endif
     return res;
 }
@@ -259,5 +300,6 @@ getTotalPhysicalMemoryByNelson()
 }
 //=============================================================================
 #endif
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

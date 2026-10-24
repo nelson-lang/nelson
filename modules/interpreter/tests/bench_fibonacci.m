@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addpath([modulepath('interpreter', 'tests'), '/fibonacci']);
-tic;R = fibonacci(25);toc
-assert_isequal(R, 75025);
+tic; R = fibonacci(25); toc
+asserts.isequal(R, 75025);
 %=============================================================================

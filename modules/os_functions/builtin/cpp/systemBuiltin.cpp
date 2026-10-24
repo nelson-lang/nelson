@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "systemBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "SystemCommand.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,27 +28,28 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     bool outputAsArray = false;
 
     if (argIn[0].isStringArray() || argIn[0].isCellArrayOfCharacterVectors()) {
-        commands = argIn[0].getContentAsWideStringVector(true);
+        commands = argIn[0].asWideStringVector(true);
         outputAsArray = true;
     } else if (argIn[0].isRowVectorCharacterArray()) {
-        std::wstring command = argIn[0].getContentAsWideString();
+        std::wstring command = argIn[0].asWideString();
         commands.push_back(command);
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
 
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
-            std::wstring flag = argIn[1].getContentAsWideString();
+            std::wstring flag = argIn[1].asWideString();
             if (flag.compare(L"-echo") == 0) {
                 bEcho = true;
             } else {
-                Error(_W("Unrecognized option. \"-echo\" or timeout value expected."));
+                Error(L"Nelson:system:unrecognizedOption",
+                    L"Unrecognized option. \"-echo\" or timeout value expected.");
             }
         } else if (argIn[1].isNumeric()) {
             if (argIn[1].isScalar()) {
-                uint64 timeout = argIn[1].getContentAsUnsignedInteger64Scalar();
+                uint64 timeout = argIn[1].asUint64Scalar();
                 if (commands.size() == 1) {
                     timeouts.push_back(timeout);
                 } else {
@@ -57,19 +58,20 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
                     }
                 }
             } else if (argIn[1].isVector()) {
-                if (argIn[1].getElementCount() == commands.size()) {
+                if (argIn[1].elementCount() == commands.size()) {
                     ArrayOf asUint64 = argIn[1];
                     asUint64.promoteType(NLS_UINT64);
-                    uint64* ptrUint64 = (uint64*)asUint64.getDataPointer();
+                    uint64* ptrUint64 = (uint64*)asUint64.dataPointer();
                     for (size_t k = 0; k < commands.size(); ++k) {
                         timeouts.push_back(ptrUint64[k]);
                     }
                 } else {
-                    Error(_W("same size expected."));
+                    Error(L"Nelson:dimagree:sizeExpectedX", L"Same size expected.");
                 }
             }
         } else {
-            Error(_W("Unrecognized option. \"-echo\" or timeout value expected."));
+            Error(L"Nelson:system:unrecognizedOption",
+                L"Unrecognized option. \"-echo\" or timeout value expected.");
         }
     }
 
@@ -78,7 +80,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
     }
 
     if (bEcho && commands.size() > 1) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
 
     if (timeouts.empty()) {
@@ -98,12 +100,12 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             }
         }
 
-        retval << ArrayOf::doubleConstructor(static_cast<double>(std::get<0>(result)));
+        retval << ArrayOf::doubleScalar(static_cast<double>(std::get<0>(result)));
         if (nLhs > 1) {
-            retval << ArrayOf::characterArrayConstructor(std::get<1>(result));
+            retval << ArrayOf::characterArray(std::get<1>(result));
         }
         if (nLhs > 2) {
-            retval << ArrayOf::doubleConstructor(static_cast<double>(std::get<2>(result)));
+            retval << ArrayOf::doubleScalar(static_cast<double>(std::get<2>(result)));
         }
     } else {
         Dimensions dimsOut(1, results.size());
@@ -117,7 +119,7 @@ Nelson::OsFunctionsGateway::systemBuiltin(Evaluator* eval, int nLhs, const Array
             ArrayOf outRet = ArrayOf(NLS_STRING_ARRAY, dimsOut, pArray);
             size_t i = 0;
             for (auto k : results) {
-                pArray[i++] = ArrayOf::characterArrayConstructor(std::get<1>(k));
+                pArray[i++] = ArrayOf::characterArray(std::get<1>(k));
             }
             retval << outRet;
         }

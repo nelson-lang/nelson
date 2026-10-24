@@ -9,20 +9,18 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
-assert_istrue(havecompiler());
+asserts.istrue(havecompiler());
 %=============================================================================
 if exist('mxDuplicateArray') == 0
-  test_dir = [tempdir(), 'mxDuplicateArray_cell'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxDuplicateArray.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxDuplicateArray.c');
   addpath(pwd())
@@ -30,10 +28,10 @@ end
 %=============================================================================
 REF = {1, single(2); 'Nelson Text in a cell', false};
 R = mxDuplicateArray(REF);
-assert_istrue(iscell(R));
-assert_isequal(R{1}, REF{1});
-assert_isequal(R{2}, REF{2});
-assert_isequal(R{3}, REF{3});
-assert_isequal(R{4}, REF{4});
-assert_isequal(R, REF);
+asserts.istrue(iscell(R));
+asserts.isequal(R{1}, REF{1});
+asserts.isequal(R{2}, REF{2});
+asserts.isequal(R{3}, REF{3});
+asserts.isequal(R{4}, REF{4});
+asserts.isequal(R, REF);
 %=============================================================================

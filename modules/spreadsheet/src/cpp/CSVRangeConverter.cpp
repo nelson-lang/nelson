@@ -76,7 +76,6 @@ std::vector<double>
 CSVRangeConverter::convertRange(const std::string& range, bool& failed)
 {
     try {
-        // Split range into start and end cells
         size_t separatorPos = range.find("..");
         if (separatorPos == std::string::npos) {
             failed = true;
@@ -86,7 +85,6 @@ CSVRangeConverter::convertRange(const std::string& range, bool& failed)
         std::string startCell = range.substr(0, separatorPos);
         std::string endCell = range.substr(separatorPos + 2);
 
-        // Convert start cell
         double startRow = extractRow(startCell, failed);
         if (failed) {
             return {};
@@ -97,7 +95,6 @@ CSVRangeConverter::convertRange(const std::string& range, bool& failed)
             return {};
         }
 
-        // Convert end cell
         double endRow = extractRow(endCell, failed);
         if (failed) {
             return {};

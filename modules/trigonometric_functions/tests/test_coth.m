@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('coth'), -1);
-assert_isequal(nargout('coth'), 1);
+asserts.isequal(nargin('coth'), -1);
+asserts.isequal(nargout('coth'), 1);
 %=============================================================================
-X = [0, pi, 2*pi, 3*pi];
+X = [0, pi, 2 * pi, 3 * pi];
 R = coth(X);
-REF = [ Inf    1.0037    1.0000    1.0000];
-assert_isapprox(R, REF, 1e-3);
+REF = [Inf 1.0037 1.0000 1.0000];
+asserts.isapprox(R, REF, 1e-3);
 %=============================================================================

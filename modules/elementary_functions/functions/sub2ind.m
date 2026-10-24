@@ -14,15 +14,23 @@ function ind = sub2ind(szvec, varargin)
     if (length(szvec) < length(varargin))
       szvec = [szvec, ones(1, length(varargin) - length(szvec))];
     end
+    if (length(varargin) < length(szvec))
+      % fewer subscripts than dimensions: last subscript spans remaining dims
+      szvec(length(varargin)) = prod(szvec(length(varargin):end));
+      szvec(length(varargin) + 1:end) = [];
+    end
     indvecs = {};
     nlength = length(varargin{1}(:));
-    for i=1:length(varargin)
+    for i = 1:length(varargin)
       indvecs{i} = varargin{i}(:);
       if (length(indvecs{i}) ~= nlength)
-        error(_('Indexing arguments must have the same length.'));
+        error('Nelson:elementary_functions:indexingArgumentsSameLength', 'Indexing arguments must have the same length.');
       end
       if (min(indvecs{i}) < 1)
-        error(_('Indexing arguments are out of range of an array of the given size.'));
+        error('Nelson:elementary_functions:indexingArgumentsOutRangeArray', 'Indexing arguments are out of range of an array of the given size.');
+      end
+      if (max(indvecs{i}) > szvec(i))
+        error('Nelson:elementary_functions:outRangeSubscript', 'Out of range subscript.');
       end
     end
     out = zeros(nlength, 1);

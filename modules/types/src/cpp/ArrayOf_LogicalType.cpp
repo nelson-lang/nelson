@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,20 +11,23 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 ArrayOf::isLogical() const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_LOGICAL;
+    }
     return dp && dp->dataClass == NLS_LOGICAL;
 }
 //=============================================================================
 bool
 ArrayOf::isNdArrayLogical() const
 {
-    return dp && dp->dataClass == NLS_LOGICAL && !is2D();
+    return isLogical() && !is2D();
 }
 //=============================================================================
 bool
@@ -34,29 +37,26 @@ ArrayOf::isSparseLogicalType() const
 }
 //=============================================================================
 ArrayOf
-ArrayOf::logicalConstructor(bool aval)
+ArrayOf::logicalScalar(bool aval)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    logical val = static_cast<logical>(aval);
-    return ArrayOf(NLS_LOGICAL, dim, static_cast<const void*>(&val), sizeof(logical));
+    return ArrayOf(Representation::InlineScalar, static_cast<logical>(aval));
 }
 //=============================================================================
 logical
-ArrayOf::getContentAsLogicalScalar(bool arrayAsScalar) const
+ArrayOf::asLogicalScalar(bool arrayAsScalar) const
 {
     if (!isLogical()) {
-        Error(ERROR_TYPE_LOGICAL_EXPECTED);
+        Error(L"Nelson:types:logicalExpected", L"logical expected.");
     }
     if (isEmpty() || (!arrayAsScalar && !isScalar())) {
-        Error(ERROR_SIZE_SCALAR_EXPECTED);
+        Error(L"Nelson:types:scalarExpected", L"A scalar expected.");
     }
     if (!isSparse()) {
-        auto* qp = (logical*)dp->getData();
+        auto* qp = (const logical*)dataPointer();
         return (*qp);
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)sparseDataPointer();
     spMat->finalize();
     return spMat->coeff(0, 0);
 }

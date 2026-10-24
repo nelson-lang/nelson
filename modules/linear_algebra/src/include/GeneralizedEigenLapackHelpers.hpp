@@ -47,5 +47,5 @@ NLSLINEAR_ALGEBRA_IMPEXP void
 doubleComplexGeneralizedEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
     std::complex<double>* a, std::complex<double>* b, bool eigenvectors);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -11,18 +11,19 @@
 //=============================================================================
 #include <string>
 #include "nlsWebtools_exports.h"
+#include "Repository.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSWEBTOOLS_IMPEXP
 void
-RepositoryClone(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+RepositoryClone(const std::wstring& url, const RepositoryCredentialsOptions& credentials,
     const std::wstring& branch, std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
 NLSWEBTOOLS_IMPEXP
 void
-RepositoryExport(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+RepositoryExport(const std::wstring& url, const RepositoryCredentialsOptions& credentials,
     const std::wstring& branch, std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

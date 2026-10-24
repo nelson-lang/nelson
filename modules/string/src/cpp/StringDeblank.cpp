@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,72 +7,64 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include <cctype>
-#include <string>
 #include "StringDeblank.hpp"
+#include "StringTrim.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::wstring&
-rtrim(std::wstring& s)
-{
-    const wchar_t* ws = L" \t\n\r\f\v";
-    s.erase(s.find_last_not_of(ws) + 1);
-    return s;
-}
-//=============================================================================
-static std::wstring&
-Deblank(std::wstring& s)
-{
-    return rtrim(s);
-}
-//=============================================================================
+// deblank removes trailing whitespace and NUL characters; non-text values
+// (numbers, nested cells, ...) are returned unchanged.
 ArrayOf
 StringDeblank(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    ArrayOf res;
-    if (A.isEmpty()) {
-        res = ArrayOf::emptyConstructor();
-        res.promoteType(A.getDataClass());
+    if (A.isCharacterArray()) {
+        if (A.isEmpty()) {
+            return ArrayOf::characterArray(L"");
+        }
+        return TrimCharacterArray(A, false, true);
+    }
+    if (A.isCell()) {
+        if (A.isEmpty()) {
+            return A;
+        }
+        ArrayOf res(A);
+        res.ensureSingleOwner();
+        auto* element = (ArrayOf*)res.dataPointer();
+        indexType elementCount = A.elementCount();
+        for (indexType k = 0; k < elementCount; k++) {
+            if (element[k].isCharacterArray() || element[k].isStringArray()) {
+                bool over = false;
+                element[k] = StringDeblank(element[k], over);
+            }
+        }
         return res;
     }
-    if (A.isRowVectorCharacterArray()) {
-        std::wstring str = A.getContentAsWideString();
-        res = ArrayOf::characterArrayConstructor(Deblank(str));
-    } else if (A.getDataClass() == NLS_CELL_ARRAY) {
-        res = ArrayOf(A);
-        res.ensureSingleOwner();
-        auto* element = (ArrayOf*)(res.getDataPointer());
-        indexType elementCount = A.getElementCount();
-        for (indexType k = 0; k < elementCount; k++) {
-            if (!element[k].isRowVectorCharacterArray()) {
-                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-            }
-            std::wstring str = element[k].getContentAsWideString();
-            element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
+    if (A.isStringArray()) {
+        if (A.isEmpty()) {
+            return A;
         }
-    } else if (A.getDataClass() == NLS_STRING_ARRAY) {
-        res = ArrayOf(A);
+        ArrayOf res(A);
         res.ensureSingleOwner();
-        auto* element = (ArrayOf*)(res.getDataPointer());
-        ompIndexType elementCount = A.getElementCount();
+        auto* element = (ArrayOf*)res.dataPointer();
+        ompIndexType elementCount = A.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
-            if (element[k].isRowVectorCharacterArray()) {
-                std::wstring str = element[k].getContentAsWideString();
-                element[k] = ArrayOf::characterArrayConstructor(Deblank(str));
+            if (element[k].isCharacterArray()) {
+                element[k] = TrimCharacterArray(element[k], false, true);
             }
         }
-    } else {
-        needToOverload = true;
+        return res;
     }
-    return res;
+    if (A.isNumeric() || A.isLogical()) {
+        return A;
+    }
+    needToOverload = true;
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

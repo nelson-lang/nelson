@@ -7,82 +7,88 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sqrtm'), 1);
-assert_isequal(nargout('sqrtm'), 1);
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('sqrtm'), 1);
+asserts.isequal(nargout('sqrtm'), 1);
 %=============================================================================
 R = sqrtm([1, 2; 3, 4]);
-REF = [0.55369+0.46439i, 0.80696-0.21243i;
-1.21044-0.31864i, 1.76413+0.14575i];
-assert_isapprox(R, REF, 1e-4);
-assert_isequal(class(R), 'double');
+REF = [0.55369 + 0.46439i, 0.80696 - 0.21243i;
+  1.21044 - 0.31864i, 1.76413 + 0.14575i];
+asserts.isapprox(R, REF, 1e-4);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = sqrtm(single([1, 2; 3, 4]));
-REF = [0.5537+0.4644i, 0.8070-0.2124i;
-1.2104-0.3186i, 1.7641+0.1458i];
+REF = [0.5537 + 0.4644i, 0.8070 - 0.2124i;
+  1.2104 - 0.3186i, 1.7641 + 0.1458i];
 REF = single(REF);
-assert_isapprox(abs(R), abs(REF), 1e-4);
-assert_isequal(class(R), 'single');
+asserts.isapprox(abs(R), abs(REF), 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
 R = sqrtm([]);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sqrtm(100);
 REF = 10;
-assert_isapprox(R, REF);
+asserts.isapprox(R, REF);
 %=============================================================================
-assert_checkerror('R = sqrtm(NaN);', _('Input must be finite.'));
+asserts.checkerror('R = sqrtm(NaN);', _('Input must be finite.'));
 %=============================================================================
-assert_checkerror('R = sqrtm(inf);', _('Input must be finite.'));
+asserts.checkerror('R = sqrtm(inf);', _('Input must be finite.'));
 %=============================================================================
 R = sqrtm(i);
-REF = 0.7071+0.7071i;
-assert_isapprox(R, REF, 1e-4);
+REF = 0.7071 + 0.7071i;
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = [1 -1 -1;0 1 -1; 0 0 1];
+M = [1 -1 -1; 0 1 -1; 0 0 1];
 R = sqrtm(M);
 % singular values
 %=============================================================================
-M = [1 -1;0 1];
+M = [1 -1; 0 1];
 R = sqrtm(M);
 % singular values
 %=============================================================================
 M = eye(100);
 R = sqrtm(M);
 REF = eye(100);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = [1 1 0; 0 0 2; 0 0 -1] + i;
 R = sqrtm(M);
-REF = [   0.4753+0.3639i, 0.4753+0.3639i, 0.4753-0.6361i;
-0.9482-0.0167i, 0.9482-0.0167i, 0.9482+1.9833i;
-0.0191+0.6927i, 0.0191+0.6927i, 0.0191-0.3073i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.4753 + 0.3639i, 0.4753 + 0.3639i, 0.4753 - 0.6361i;
+  0.9482 - 0.0167i, 0.9482 - 0.0167i, 0.9482 + 1.9833i;
+  0.0191 + 0.6927i, 0.0191 + 0.6927i, 0.0191 - 0.3073i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-assert_checkerror('sqrtm([1 2])', _('Square matrix expected.'));
+asserts.checkerror('sqrtm([1 2])', sprintf(_('%s expected.'), 'Square matrix'));
 %=============================================================================
 M = [0 1; 0 0];
 R = sqrtm(M);
 % singular values
 %=============================================================================
 M = [2.7183, 1.7183, 1.0862;
-0, 1.0000, 1.2642;
-0, 0, 0.3679];
+  0, 1.0000, 1.2642;
+  0, 0, 0.3679];
 R = sqrtm(M);
 REF = [1.6487, 0.6487, 0.2553;
-0, 1.0000, 0.7869;
-0, 0, 0.6065];
-assert_isapprox(R, REF, 1e-4);
+  0, 1.0000, 0.7869;
+  0, 0, 0.6065];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = [-1 2 ; 4 -1];
+M = [-1 2; 4 -1];
 R = sqrtm(M);
-REF = [0.6761+0.9783i, 0.4781-0.6918i;
-0.9561-1.3836i, 0.6761+0.9783i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.6761 + 0.9783i, 0.4781 - 0.6918i;
+  0.9561 - 1.3836i, 0.6761 + 0.9783i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = expm(sqrtm([-1 2 ; 4 -1]));
+M = expm(sqrtm([-1 2; 4 -1]));
 R = sqrtm(M);
-REF = [1.2623+0.4148i, 0.4977-0.2933i;
-0.9954-0.5866i, 1.2623+0.4148i];
-assert_isapprox(R, REF, 1e-4);
+REF = [1.2623 + 0.4148i, 0.4977 - 0.2933i;
+  0.9954 - 0.5866i, 1.2623 + 0.4148i];
+asserts.isapprox(R, REF, 1e-4);
+%=============================================================================
+singleInput = single([2 0; 0 4]);
+asserts.isequal(class(sqrtm(singleInput)), 'single');
+asserts.isapprox(sqrtm(singleInput) * sqrtm(singleInput), singleInput, 1e-5);
+asserts.checkerror('sqrtm([1 2])', sprintf(_('%s expected.'), 'Square matrix'));
 %=============================================================================

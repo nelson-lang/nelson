@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>waitbar</keyword>
+  <short_description>Cree ou met a jour une figure de progression.</short_description>
+  <syntax>
+    <syntax_item>h = waitbar(x)</syntax_item>
+    <syntax_item>h = waitbar(x, message)</syntax_item>
+    <syntax_item>h = waitbar(x, h)</syntax_item>
+    <syntax_item>h = waitbar(x, h, message)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>Progress value. Values below 0 are clipped to 0; values above 1 are clipped to 1.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Graphics figure handle. The progress value is stored in UserData.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>waitbar creates a progress figure or updates an existing one. The handle supports set, get, close, delete, and waitfor.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer et mettre a jour une barre d attente.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = waitbar(0.25, 'Starting');
+pause(0.1);
+h = waitbar(0.75, h, 'Almost done');]]></example_item_data>
+      <example_item_img
+        src="../images/waitbar_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Update a wait bar inside a loop.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = waitbar(0, 'Processing');
+for k = 1:3
+  h = waitbar(k / 3, h, 'Processing');
+end
+close(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}dialog">dialog</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uiprogressdlg">uiprogressdlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise a jour.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

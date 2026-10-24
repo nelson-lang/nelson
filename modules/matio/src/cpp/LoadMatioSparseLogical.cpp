@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "LoadMatioSparseLogical.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 #include "SparseConstructors.hpp"
 //=============================================================================
@@ -29,9 +29,9 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
     ArrayOf J;
     ArrayOf V;
     if (dims.isEmpty(false)) {
-        I = ArrayOf::emptyConstructor();
-        J = ArrayOf::emptyConstructor();
-        V = ArrayOf::emptyConstructor(dims);
+        I = ArrayOf::empty();
+        J = ArrayOf::empty();
+        V = ArrayOf::empty(dims);
         V.promoteType(NLS_LOGICAL);
     } else {
         indexType nbR = (indexType)sparseData->nir;
@@ -39,7 +39,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
         void* ptrR = nullptr;
         try {
             ptrR = ArrayOf::allocateArrayOf(NLS_INT32, nbR, stringVector(), false);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         memcpy(ptrR, sparseData->ir, nbR * sizeof(int32));
@@ -53,7 +53,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
         void* ptrC = nullptr;
         try {
             ptrC = ArrayOf::allocateArrayOf(NLS_INT32, nbR, stringVector(), false);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         auto* iptC = static_cast<int32*>(ptrC);
@@ -71,7 +71,7 @@ LoadMatioSparseLogical(matvar_t* matVariable, ArrayOf& VariableValue)
         void* ptrV = nullptr;
         try {
             ptrV = ArrayOf::allocateArrayOf(NLS_LOGICAL, nbV, stringVector(), false);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         V = ArrayOf(NLS_LOGICAL, dimsV, ptrV);

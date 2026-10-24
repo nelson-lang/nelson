@@ -22,35 +22,35 @@ function hold(varargin)
       opt_hold_state = varargin{2};
       nargs = 1;
     otherwise
-      error(_('Too many input arguments.'));
-    end
-    if ~isgraphics(ax)
-      error(_('First argument must be an axes object.'));
-    end
-    fig = ax.Parent;
-    nexta = ax.NextPlot;
-    nextf = fig.NextPlot;
-    hold_state = strcmp(nextf, 'add') && strcmp(nexta, 'add');
-    replace_state = 'replace';
-    add_state = 'add';
-    
-    if(nargs == 0)
-      if(hold_state)
-        ax.NextPlot = replace_state;
-      else
-        fig.NextPlot = add_state;
-        ax.NextPlot = add_state;
-      end
-    elseif(strcmpi(opt_hold_state, 'on'))
-      fig.NextPlot = add_state;
-      ax.NextPlot = add_state;
-    elseif(strcmpi(opt_hold_state, 'off'))
-      ax.NextPlot = replace_state;
-    elseif(strcmpi(opt_hold_state, 'all'))
-      fig.NextPlot = add_state;
-      ax.NextPlot = add_state;
-    else
-      error(_('Command option must be ''on'' or ''off''.'));
-    end
+      error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
-  %=============================================================================
+  if ~isgraphics(ax)
+    error('Nelson:hold:invalidFirstArgument', 'First argument must be an axes object.');
+  end
+  fig = ancestor(ax, 'figure');
+  nexta = ax.NextPlot;
+  nextf = fig.NextPlot;
+  hold_state = strcmp(nextf, 'add') && strcmp(nexta, 'add');
+  replace_state = 'replace';
+  add_state = 'add';
+
+  if (nargs == 0)
+    if (hold_state)
+      ax.NextPlot = replace_state;
+    else
+      fig.NextPlot = add_state;
+      ax.NextPlot = add_state;
+    end
+  elseif (strcmpi(opt_hold_state, 'on'))
+    fig.NextPlot = add_state;
+    ax.NextPlot = add_state;
+  elseif (strcmpi(opt_hold_state, 'off'))
+    ax.NextPlot = replace_state;
+  elseif (strcmpi(opt_hold_state, 'all'))
+    fig.NextPlot = add_state;
+    ax.NextPlot = add_state;
+  else
+    error('Nelson:hold:invalidOnOffValue', 'Command option must be ''on'' or ''off''.');
+  end
+end
+%=============================================================================

@@ -10,7 +10,7 @@
 function z = conv(a, b, shape)
   if nargin < 3
     shape = 'full';
-  end    
+  end
   a_is_col = size(a, 1) > size(a, 2);
   b_is_col = size(b, 1) > size(b, 2);
   if (a_is_col || b_is_col)

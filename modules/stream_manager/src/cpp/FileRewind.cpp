@@ -8,18 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileRewind.hpp"
+#include "FileSeek.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 FileRewind(File* fp)
 {
-    if (fp) {
-        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
-        if (fileptr) {
-            rewind(fileptr);
-        }
-    }
+    FileSeek(fp, 0, -1);
 }
 //=============================================================================
 } // namespace Nelson

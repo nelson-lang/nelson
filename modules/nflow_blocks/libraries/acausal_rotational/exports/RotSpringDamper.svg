@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="386.5" height="269.5" viewBox="-193.25 -113.25 386.5 269.5">
+  <rect x="-193.25" y="-113.25" width="386.5" height="269.5" rx="51.205" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-80,40 -60,40 -45,10 -15,70 15,10 45,70 60,40 80,40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,40 -80,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,-40 -50,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-50" y="-70" width="90" height="60" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="-50,-10 70,-10" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-50,-70 70,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="40,-40 80,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="80,40 80,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,0 -80,0" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="80,0 90,0" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0 -9) rotate(0)">
+    <g transform="translate(0,-124) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">d</text></g>
+    </g>
+    <g transform="translate(0,90) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">RotSpringDamper</text></g>
+    <g transform="translate(0 -7) rotate(0)">
+    <g transform="translate(0,-88) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">c</text></g>
+    </g>
+  </g>
+</svg>

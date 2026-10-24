@@ -11,9 +11,9 @@ A = uint8([0 1; 0 1]);
 B = uint8([0 0; 1 1]);
 R = bitxor(A, B);
 REF = uint8([0 1; 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(bitxor(false, true), true)
+asserts.isequal(bitxor(false, true), true)
 %=============================================================================
-assert_isequal(bitxor([], true), [])
+asserts.isequal(bitxor([], true), [])
 %=============================================================================

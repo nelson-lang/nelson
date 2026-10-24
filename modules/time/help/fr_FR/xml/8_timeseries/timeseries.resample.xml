@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries.resample</keyword>
+  <short_description>Reechantillonne un objet timeseries a de nouveaux temps.</short_description>
+  <syntax>
+    <syntax_item>tsOut = resample(ts, newTime)</syntax_item>
+    <syntax_item>tsOut = resample(ts, newTime, method)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Objet timeseries en entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>newTime</param_name>
+      <param_description>Nouveaux temps d'echantillon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode d'interpolation optionnelle : linear, zoh ou nearest.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsOut</param_name>
+      <param_description>Objet timeseries reechantillonne en sortie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>resample</b> Interpole les donnees sur un nouveau vecteur de temps et met a jour Time en preservant les metadonnees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2; 3], [10; 11; 12], 'Name', 'speed');
+ts2 = resample(ts, [10; 10.5; 11]);
+ts2.Data
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

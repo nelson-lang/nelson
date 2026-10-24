@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "narginchkBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,29 +23,30 @@ Nelson::CoreGateway::narginchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 2, 2);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        Error(_W("You can only call 'narginchk' from within a Nelson function."));
+        Error(L"Nelson:core:notInFunction",
+            L"You can only call '%s' from within a Nelson function.", L"narginchk");
     }
     if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-        Error(_("Scalar integer value required for #1 argument."));
+        Error("Nelson:expectedScalar", "%s must be a scalar.", "Argument #1");
     }
     if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-        Error(_("Scalar integer value required for #2 argument."));
+        Error("Nelson:expectedScalar", "%s must be a scalar.", "Argument #2");
     }
-    int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
+    int minArgs = argIn[0].asInt32Scalar(false, true);
     bool maxArgsIsInf = false;
     if (argIn[1].isDoubleType(true)) {
-        double maxValue = argIn[1].getContentAsDoubleScalar();
+        double maxValue = argIn[1].asDoubleScalar();
         maxArgsIsInf = std::isinf(maxValue);
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (nargin < minArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:notEnoughInputs", true);
+        ErrorAsCaller(L"Nelson:narginchk:notEnoughInputs", L"Not enough input arguments.");
     }
     if (!maxArgsIsInf) {
-        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+        int maxArgs = argIn[1].asInt32Scalar(false, true);
 
         if (nargin > maxArgs) {
-            Error(ERROR_WRONG_NUMBERS_INPUT_ARGS, L"Nelson:narginchk:tooManyInputs", true);
+            ErrorAsCaller(L"Nelson:narginchk:tooManyInputs", L"Too many input arguments.");
         }
     }
     return retval;

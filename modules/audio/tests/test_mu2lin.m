@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mu2lin'), 1);
-assert_isequal(nargout('mu2lin'), 1);
+asserts.isequal(nargin('mu2lin'), 1);
+asserts.isequal(nargout('mu2lin'), 1);
 %=============================================================================
 R = lin2mu(0.1);
-REF =  181;
-assert_isequal(R, REF);
+REF = 181;
+asserts.isequal(R, REF);
 %=============================================================================
 R = lin2mu([0 255]);
-REF =  [ 255   128];
-assert_isequal(R, REF);
+REF = [255 128];
+asserts.isequal(R, REF);
 %=============================================================================

@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('toolboxdir'), 1);
-assert_isequal(nargout('toolboxdir'), 1);
+asserts.isequal(nargin('toolboxdir'), 1);
+asserts.isequal(nargout('toolboxdir'), 1);
 %=============================================================================
 REF = modulepath('core');
 R = toolboxdir('core');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

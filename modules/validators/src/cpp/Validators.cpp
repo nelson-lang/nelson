@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Validators.hpp"
+#include "ErrorID.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "ValidatorsInternal.hpp"
@@ -18,9 +19,10 @@ static void
 checkArgumentPosition(const ArrayOfVector& args, int argPosition)
 {
     if (argPosition < 0 || argPosition >= args.size()) {
-        std::wstring msg = _W("Invalid input argument position.");
+        std::wstring msg = resolveMessageTemplate(
+            L"Nelson:validators:invalidInputArgumentPosition", L"Invalid input argument position.");
         std::wstring id = L"Nelson:validators:invalidInputPosition";
-        Error(msg, id);
+        RaiseError(msg, id);
     }
 }
 //=============================================================================
@@ -60,6 +62,13 @@ mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition)
 }
 //=============================================================================
 void
+mustBeScalar(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeScalar(args[argPosition], argPosition + 1);
+}
+//=============================================================================
+void
 mustBeValidVariableName(const ArrayOfVector& args, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
@@ -85,6 +94,13 @@ mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition)
 {
     checkArgumentPosition(args, argPosition);
     mustBeVector(args[argPosition], allowsAllEmpties, argPosition + 1);
+}
+//=============================================================================
+void
+mustBeVectorOrEmpty(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeVectorOrEmpty(args[argPosition], argPosition + 1);
 }
 //=============================================================================
 void

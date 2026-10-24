@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bvpxtend</keyword>
+  <short_description>Etend une estimation de solution BVP.</short_description>
+  <syntax>
+    <syntax_item>solinit = bvpxtend(sol, xnew)</syntax_item>
+    <syntax_item>solinit = bvpxtend(sol, xnew, ynew)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>bvpxtend</b> construit une nouvelle estimation initiale BVP depuis une solution existante et un maillage raffine.</p>
+    <table style="width:100%">
+  <tr><th>Entree</th><th>Details</th></tr>
+  <tr><td><b>sol</b></td><td>Solution existante ou structure d'estimation initiale.</td></tr>
+  <tr><td><b>xnew</b></td><td>Nouveaux points ajoutes au maillage ou remplacant le maillage precedent.</td></tr>
+  <tr><td><b>ynew</b></td><td>Valeurs optionnelles aux nouveaux points du maillage.</td></tr>
+  <tr><td><b>solinit</b></td><td>Structure d'estimation etendue pour un autre appel <b>bvp4c</b> ou <b>bvp5c</b>.</td></tr>
+</table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvpinit">bvpinit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

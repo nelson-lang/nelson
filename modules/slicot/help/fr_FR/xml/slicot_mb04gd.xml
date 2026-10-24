@@ -66,6 +66,17 @@ JPVT_IN = zeros(1, M);
 [A_OUT, JPVT_OUT, TAU, INFO] = slicot_mb04gd(A_IN, JPVT_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb03od">slicot_mb03od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb03pd">slicot_mb03pd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb02md">slicot_mb02md</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

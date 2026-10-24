@@ -12,21 +12,23 @@
 #include <QtGui/QClipboard>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QSizeGrip>
 #include <QtGui/QContextMenuEvent>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
-
 #include "QtHistoryBrowser.h"
+#include "QtDockTitleBar.h"
 #include "HistoryManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "QStringConverter.hpp"
 #include "QtTranslation.hpp"
 #include "Nelson_VERSION.h"
+#include "NelsonSettingsScope.hpp"
 #include "HistoryBrowser.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
+#include "NelsonPalette.hpp"
 #include "QtTerminal.h"
+#include "ErrorID.hpp"
 //=============================================================================
 const QString SETTING_HISTORY_BROWSER_VISIBILITY = "hb_visibility";
 const QString SETTING_HISTORY_BROWSER_GEOMETRY = "hb_geometry";
@@ -41,28 +43,33 @@ QtHistoryBrowser::QtHistoryBrowser(QWidget* parent) : QDockWidget(TR("History Br
     setObjectName("historyBrowser");
 
     QVBoxLayout* layout = new QVBoxLayout;
+
+    m_searchLineEdit = new QLineEdit(this);
+    m_searchLineEdit->setClearButtonEnabled(true);
+    m_searchLineEdit->setPlaceholderText(TR("Search history"));
+    connect(m_searchLineEdit, &QLineEdit::textChanged, this, &QtHistoryBrowser::applySearchFilter);
+    layout->addWidget(m_searchLineEdit);
+
     m_listWidget = new QListWidget;
     layout->addWidget(m_listWidget);
     setLayout(layout);
     m_listWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setFocusPolicy(Qt::StrongFocus);
-    sizeGrip = new QSizeGrip(this);
-    layout->addWidget(sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(layout);
     setWidget(centralWidget);
 
+    setTitleBarWidget(new QtDockTitleBar(this, "hb"));
+
     createContextMenu();
 
     connect(m_listWidget, &QListWidget::itemDoubleClicked, this, &QtHistoryBrowser::doubleClicked);
-    connect(this, &QDockWidget::dockLocationChanged, this,
-        &QtHistoryBrowser::handleDockLocationChanged);
 }
 //=============================================================================
 void
 QtHistoryBrowser::createContextMenu()
 {
-    m_popup = new QMenu;
+    m_popup = new QMenu(this);
     m_execute = new QAction(TR("Execute selection"), this);
     connect(m_execute, SIGNAL(triggered()), this, SLOT(execute()));
 
@@ -76,9 +83,13 @@ QtHistoryBrowser::createContextMenu()
     m_copy->setShortcut(QKeySequence::Copy);
     connect(m_copy, SIGNAL(triggered()), this, SLOT(copy()));
 
+    m_toCommandLine = new QAction(TR("Copy to Command Line"), this);
+    connect(m_toCommandLine, SIGNAL(triggered()), this, SLOT(toCommandLine()));
+
     m_toEditor = new QAction(TR("Create Script"), this);
     connect(m_toEditor, SIGNAL(triggered()), this, SLOT(toTextEditor()));
     m_popup->addAction(m_execute);
+    m_popup->addAction(m_toCommandLine);
     m_popup->addAction(m_clearall);
     m_popup->addAction(m_copy);
     m_popup->addAction(m_delete);
@@ -92,10 +103,47 @@ QtHistoryBrowser::contextMenuEvent(QContextMenuEvent* event)
         QList<QListWidgetItem*> items = m_listWidget->selectedItems();
         m_toEditor->setEnabled(items.size() > 0);
         m_execute->setEnabled(items.size() > 0);
+        m_toCommandLine->setEnabled(items.size() > 0);
         m_copy->setEnabled(items.size() > 0);
+        m_delete->setEnabled(items.size() > 0);
         m_toEditor->setVisible(NelsonConfiguration::getInstance()->useEmbeddedEditor());
         m_popup->exec(event->globalPos());
     }
+}
+//=============================================================================
+static bool
+isSessionHeaderLine(const QString& line)
+{
+    return line.startsWith("%% --") && line.endsWith("-- %%");
+}
+//=============================================================================
+void
+QtHistoryBrowser::applySearchFilter()
+{
+    const QString pattern = m_searchLineEdit->text().trimmed();
+    for (int i = 0; i < m_listWidget->count(); ++i) {
+        QListWidgetItem* item = m_listWidget->item(i);
+        if (pattern.isEmpty()) {
+            item->setHidden(false);
+        } else {
+            item->setHidden(!item->text().contains(pattern, Qt::CaseInsensitive));
+        }
+    }
+}
+//=============================================================================
+QStringList
+QtHistoryBrowser::selectedCommands()
+{
+    QStringList commands;
+    QList<QListWidgetItem*> items = m_listWidget->selectedItems();
+    for (QListWidgetItem* item : items) {
+        // session headers ('%% -- date -- %%') are not commands
+        if (isSessionHeaderLine(item->text())) {
+            continue;
+        }
+        commands.push_back(item->text());
+    }
+    return commands;
 }
 //=============================================================================
 static QStringList
@@ -118,7 +166,8 @@ QtHistoryBrowser::addCommand(const QStringList& lines)
         return;
     }
     QString previous;
-    QColor color(37, 150, 190);
+    // session header color: readable with both light and dark themes
+    QColor color = Nelson::isDarkPalette() ? QColor(102, 194, 232) : QColor(21, 101, 138);
     QBrush brush(color);
     for (const QString& line : lines) {
         if (line == previous) {
@@ -126,13 +175,16 @@ QtHistoryBrowser::addCommand(const QStringList& lines)
         }
         previous = line;
         QListWidgetItem* item = new QListWidgetItem(line, m_listWidget);
-        if (line.startsWith("%% --") && line.endsWith("-- %%")) {
+        if (isSessionHeaderLine(line)) {
             item->setForeground(brush);
+            // a session header is not a command: it must not be selectable
+            item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
         }
         m_listWidget->addItem(item);
     }
     m_listWidget->setCurrentRow(m_listWidget->count() - 1);
     m_listWidget->scrollToBottom();
+    applySearchFilter();
 }
 //=============================================================================
 void
@@ -146,20 +198,45 @@ QtHistoryBrowser::addCommand(const QString& text)
 void
 QtHistoryBrowser::doubleClicked(QListWidgetItem* item)
 {
+    if (!item || isSessionHeaderLine(item->text())) {
+        return;
+    }
     emit sendCommands(QStringList(item->text()));
 }
 //=============================================================================
 void
 QtHistoryBrowser::execute()
 {
-    QList<QListWidgetItem*> items = m_listWidget->selectedItems();
-    QStringList commands;
-    if (items.size() > 0) {
-        for (int i = 0; i < items.size(); i++) {
-            commands.push_back(items[i]->text());
-        }
-        emit sendCommands(commands);
+    QStringList commands = selectedCommands();
+    if (commands.isEmpty()) {
+        return;
     }
+    if (commands.size() > 10) {
+        QMessageBox msgBox(this);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setWindowTitle(TR("Execute selection"));
+        msgBox.setText(
+            TR("Are you certain you wish to execute the %1 selected lines?").arg(commands.size()));
+        msgBox.setInformativeText(
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:pleaseNoteThatAction",
+                L"Please note that this action cannot be undone.")));
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        if (msgBox.exec() != QMessageBox::Yes) {
+            return;
+        }
+    }
+    emit sendCommands(commands);
+}
+//=============================================================================
+void
+QtHistoryBrowser::toCommandLine()
+{
+    const QStringList commands = selectedCommands();
+    if (commands.isEmpty()) {
+        return;
+    }
+    emit sendToCommandLine(commands);
 }
 //=============================================================================
 void
@@ -178,10 +255,10 @@ void
 QtHistoryBrowser::toTextEditor()
 {
     std::wstring text;
-    QList<QListWidgetItem*> selectedItems = m_listWidget->selectedItems();
+    const QStringList commands = selectedCommands();
 
-    for (QListWidgetItem* selectedItem : selectedItems) {
-        text += QStringTowstring(selectedItem->text()) + L"\n";
+    for (const QString& command : commands) {
+        text += QStringTowstring(command) + L"\n";
     }
 
     if (!text.empty()) {
@@ -201,7 +278,8 @@ QtHistoryBrowser::clearAll()
     msgBox.setWindowIcon(QPixmap(fileNameIcon));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setText(TR("Are you certain you wish to clear the history?"));
-    msgBox.setInformativeText(TR("Please note that this action cannot be undone."));
+    msgBox.setInformativeText(wstringToQString(Nelson::resolveMessageTemplate(
+        L"Nelson:gui:pleaseNoteThatAction", L"Please note that this action cannot be undone.")));
     msgBox.setWindowTitle(TR("Clear history"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
@@ -277,30 +355,24 @@ QtHistoryBrowser::keyPressEvent(QKeyEvent* event)
 void
 QtHistoryBrowser::restorePosition()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     restoreGeometry(settings.value(SETTING_HISTORY_BROWSER_GEOMETRY).toByteArray());
 }
 //=============================================================================
 void
 QtHistoryBrowser::restoreVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
-    bool savedVisibility = settings.value(SETTING_HISTORY_BROWSER_VISIBILITY, true).toBool();
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    bool savedVisibility = settings.value(SETTING_HISTORY_BROWSER_VISIBILITY, false).toBool();
     setVisible(savedVisibility);
 }
 //=============================================================================
 void
 QtHistoryBrowser::savePositionAndVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     settings.setValue(SETTING_HISTORY_BROWSER_VISIBILITY, isVisible());
     settings.setValue(SETTING_HISTORY_BROWSER_GEOMETRY, saveGeometry());
-}
-//=============================================================================
-void
-QtHistoryBrowser::handleDockLocationChanged(Qt::DockWidgetArea area)
-{
-    sizeGrip->setVisible(area == Qt::NoDockWidgetArea);
 }
 //=============================================================================
 void

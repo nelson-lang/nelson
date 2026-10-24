@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>clusterdata</keyword>
+  <short_description>Regrouper les observations depuis les donnees.</short_description>
+  <syntax>
+    <syntax_item>T = clusterdata(X, &apos;MaxClust&apos;, maxclust)</syntax_item>
+    <syntax_item>T = clusterdata(X, &apos;Cutoff&apos;, cutoff, &apos;Criterion&apos;, &apos;distance&apos;)</syntax_item>
+    <syntax_item>T = clusterdata(..., &apos;Linkage&apos;, method)</syntax_item>
+    <syntax_item>T = clusterdata(..., &apos;Distance&apos;, metric)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>clusterdata</b> regroupe les lignes de <b>X</b> en construisant un arbre hierarchique puis en le coupant en classes.</p>
+    <p>Cette version prend en charge le critere distance avec MaxClust ou Cutoff. Les options Linkage et Distance sont transmises a <b>linkage</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 4 4];
+T = clusterdata(X, 'MaxClust', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}cluster">cluster</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}linkage">linkage</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

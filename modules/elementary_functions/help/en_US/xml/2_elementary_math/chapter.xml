@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>elementary_functions</module_name>
+  <chapter>Elementary Math</chapter>
+  <chapter_description>
+    <p>Elementary numerical functions, norms, rounding, powers, roots, logarithms, and remainders.</p>
+  </chapter_description>
+</xmldoc>

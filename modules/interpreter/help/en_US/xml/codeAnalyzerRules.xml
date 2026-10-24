@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>codeAnalyzerRules</keyword>
+  <short_description>Code analyzer diagnostic identifiers.</short_description>
+  <description>
+    <p>This page lists the diagnostic identifiers reported by <b>checkcode</b>, <b>codeIssues</b>, and <b>nelson-lint</b>.</p>
+    <p>Each identifier is stable and can be used in configuration files or in local suppressions such as <b>%#ok&lt;NLS0004&gt;</b>.</p>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Default level</th>
+        <th>Category</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>NLS0001</td>
+        <td>error</td>
+        <td>Syntax</td>
+        <td>Syntax, lexical, input, or read error. The source file cannot be parsed or cannot be read.</td>
+      </tr>
+      <tr>
+        <td>NLS0002</td>
+        <td>warning</td>
+        <td>Naming</td>
+        <td>The main function or class name differs from the source file name.</td>
+      </tr>
+      <tr>
+        <td>NLS0003</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>Code after <b>return</b>, <b>break</b>, or <b>continue</b> is unreachable in the current block.</td>
+      </tr>
+      <tr>
+        <td>NLS0004</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>A local variable is assigned but is never used afterwards. The analyzer ignores text inside comments and character vectors, does not count the left side of an assignment as a use, and skips this rule when dynamic assignment patterns make the local dataflow ambiguous.</td>
+      </tr>
+      <tr>
+        <td>NLS0005</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A local variable is used before its first local assignment in a conservative, simple dataflow case.</td>
+      </tr>
+      <tr>
+        <td>NLS0006</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A declared output argument is not assigned by the function body.</td>
+      </tr>
+      <tr>
+        <td>NLS0007</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>An input argument is never used by the function body.</td>
+      </tr>
+      <tr>
+        <td>NLS0008</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>A block is empty in a way that is likely accidental.</td>
+      </tr>
+      <tr>
+        <td>NLS0009</td>
+        <td>warning</td>
+        <td>Flow</td>
+        <td>A condition is a trivial constant value such as <b>true</b>, <b>false</b>, <b>1</b>, or <b>0</b>.</td>
+      </tr>
+      <tr>
+        <td>NLS0010</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>A line ends with trailing whitespace. This diagnostic is trivially fixable.</td>
+      </tr>
+      <tr>
+        <td>NLS0011</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>The file does not end with a newline. This diagnostic is trivially fixable.</td>
+      </tr>
+      <tr>
+        <td>NLS0012</td>
+        <td>warning</td>
+        <td>Style</td>
+        <td>A line is longer than the configured maximum length.</td>
+      </tr>
+      <tr>
+        <td>NLS0013</td>
+        <td>error</td>
+        <td>Repository</td>
+        <td>A forbidden project term appears in source or help text.</td>
+      </tr>
+      <tr>
+        <td>NLS0014</td>
+        <td>warning or error</td>
+        <td>Metrics</td>
+        <td>Cyclomatic complexity is above the configured threshold.</td>
+      </tr>
+      <tr>
+        <td>NLS0015</td>
+        <td>warning or error</td>
+        <td>Metrics</td>
+        <td>Modified cyclomatic complexity is above the configured threshold.</td>
+      </tr>
+      <tr>
+        <td>NLS0016</td>
+        <td>error</td>
+        <td>Security</td>
+        <td>The source line contains an invisible directional formatting character.</td>
+      </tr>
+      <tr>
+        <td>NLS0017</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td>An output display call wraps <b>sprintf</b>. Prefer direct formatted output for clearer code.</td>
+      </tr>
+      <tr>
+        <td>NLS0018</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td>A diagnostic call wraps <b>sprintf</b>. Prefer passing formatted arguments directly.</td>
+      </tr>
+      <tr>
+        <td>NLS0019</td>
+        <td>error</td>
+        <td>Config</td>
+        <td>The code analyzer configuration file is invalid.</td>
+      </tr>
+      <tr>
+        <td>NLS0020</td>
+        <td>warning</td>
+        <td>Metrics</td>
+        <td>A file is longer than the configured maximum number of lines.</td>
+      </tr>
+      <tr>
+        <td>NLS0021</td>
+        <td>warning</td>
+        <td>Metrics</td>
+        <td>A function is longer than the configured maximum number of lines.</td>
+      </tr>
+      <tr>
+        <td>NLS0022</td>
+        <td>warning</td>
+        <td>Security</td>
+        <td>A dynamic code call or unsafe workspace mutation call is used. Simple command-form <b>load</b> calls can expose an unsafe suggestion to capture loaded data in a struct.</td>
+      </tr>
+      <tr>
+        <td>NLS0023</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>A local function is never called inside its file.</td>
+      </tr>
+      <tr>
+        <td>NLS0024</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A local variable shadows a local function in the same file.</td>
+      </tr>
+      <tr>
+        <td>NLS0025</td>
+        <td>warning</td>
+        <td>Numeric</td>
+        <td>A floating-point literal is compared with exact equality.</td>
+      </tr>
+      <tr>
+        <td>NLS0026</td>
+        <td>warning or error</td>
+        <td>Metrics</td>
+        <td>Cognitive complexity is above the configured threshold.</td>
+      </tr>
+      <tr>
+        <td>NLS0027</td>
+        <td>allow by default</td>
+        <td>Documentation</td>
+        <td>A public function or class has no help comment. This diagnostic can insert a help comment skeleton.</td>
+      </tr>
+      <tr>
+        <td>NLS0028</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A nested function variable shadows a symbol from a parent scope.</td>
+      </tr>
+      <tr>
+        <td>NLS0029</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A local variable shadows an imported symbol.</td>
+      </tr>
+      <tr>
+        <td>NLS0030</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>An imported symbol is never used.</td>
+      </tr>
+      <tr>
+        <td>NLS0031</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A class property is declared more than once in the same class.</td>
+      </tr>
+      <tr>
+        <td>NLS0032</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A class method is declared more than once in the same class.</td>
+      </tr>
+      <tr>
+        <td>NLS0033</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A class event is declared more than once in the same class.</td>
+      </tr>
+      <tr>
+        <td>NLS0034</td>
+        <td>warning</td>
+        <td>Dataflow</td>
+        <td>A local variable or argument shadows a builtin function name.</td>
+      </tr>
+      <tr>
+        <td>NLS0035</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A method variable or argument shadows a class property name.</td>
+      </tr>
+      <tr>
+        <td>NLS0036</td>
+        <td>info</td>
+        <td>Dataflow</td>
+        <td>A local assignment shadows an input argument name.</td>
+      </tr>
+      <tr>
+        <td>NLS0037</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A class superclass is listed more than once in the same class.</td>
+      </tr>
+      <tr>
+        <td>NLS0038</td>
+        <td>warning</td>
+        <td>Classdef</td>
+        <td>A class attribute is listed more than once in the same class.</td>
+      </tr>
+    </table>
+    <p>Rule levels can be changed with the <b>rules</b> object in <b>nelson-lint.json</b>. Version 2 configuration files must declare <b>"version": 2</b>. Accepted levels are <b>allow</b>, <b>info</b>, <b>warning</b>, and <b>error</b>.</p>
+  </description>
+  <used_function>checkcode, codeIssues, nelson-lint</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Suppress an intentionally unused local variable.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[%#ok<NLS0004>
+temporaryValue = computeExpensiveValue();]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

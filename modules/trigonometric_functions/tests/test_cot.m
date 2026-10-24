@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('cot'), -1);
-assert_isequal(nargout('cot'), 1);
+asserts.isequal(nargin('cot'), -1);
+asserts.isequal(nargout('cot'), 1);
 %=============================================================================
-R = cot([-i pi+i*pi/2 -1+i*4]);
-REF = [  -0.0000 + 1.3130i,  -0.0000 - 1.0903i,  -0.0006 - 0.9997i];
-assert_isapprox(imag(R), imag(REF), 1e-3);
-assert_isfalse(all(real(R) - real(REF) > eps()));
+R = cot([-i pi + i * pi / 2 -1 + i * 4]);
+REF = [-0.0000 + 1.3130i, -0.0000 - 1.0903i, -0.0006 - 0.9997i];
+asserts.isapprox(imag(R), imag(REF), 1e-3);
+asserts.isfalse(all(real(R) - real(REF) > eps()));
 %=============================================================================

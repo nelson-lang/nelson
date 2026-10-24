@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "tiledlayoutBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
@@ -48,6 +49,8 @@ static void
 addHandleToChildren(GraphicsObject* parent, int64 childHandle);
 static void
 createNestedLayoutOptions(GOTiledChartLayout* layout, int64 layoutHandle);
+void
+clearFigureAxesAndLayouts(GOFigure* fig);
 //=============================================================================
 ArrayOfVector
 tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -62,7 +65,7 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
     int64 parentHandle = resolveParent(argIn, pos, figHandle, fig);
 
     if (!fig || parentHandle == -1) {
-        Error(_W("Invalid parent handle."));
+        Error(L"Nelson:tiledlayout:invalidParentHandle", L"Invalid parent handle.");
     }
 
     if (parentHandle < HANDLE_OFFSET_OBJECT) {
@@ -80,14 +83,15 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
             gridM = positiveIntegerScalar(first, L"m");
             ++pos;
             if (pos >= argIn.size() || !argIn[pos].isNumeric() || argIn[pos].isComplex()) {
-                Error(_W("tiledlayout(m,n) requires both m and n grid dimensions."));
+                Error(L"Nelson:tiledlayout:missingGridDimensions",
+                    L"tiledlayout(m,n) requires both m and n grid dimensions.");
             }
             gridN = positiveIntegerScalar(argIn[pos], L"n");
             ++pos;
             arrangement = GO_PROPERTY_VALUE_FIXED_STR;
         } else if ((first.isScalarStringArray() || first.isRowVectorCharacterArray())
-            && isArrangementValue(first.getContentAsWideString())) {
-            arrangement = first.getContentAsWideString();
+            && isArrangementValue(first.asWideString())) {
+            arrangement = first.asWideString();
             ++pos;
         }
     }
@@ -100,15 +104,16 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     while (pos < argIn.size()) {
         if (pos + 1 >= argIn.size()) {
-            Error(_W("Name-value arguments must appear in pairs."));
+            Error(L"Nelson:graphics:nameValuePair", L"Name-value arguments must be paired.");
         }
         if (!argIn[pos].isScalarStringArray() && !argIn[pos].isRowVectorCharacterArray()) {
-            Error(_W("Property name must be a string scalar or character row vector."));
+            Error(L"Nelson:graphics:propertyNameNotText",
+                L"Property name must be a string scalar or character row vector.");
         }
 
-        std::wstring propName = canonicalPropertyName(layout, argIn[pos].getContentAsWideString());
+        std::wstring propName = canonicalPropertyName(layout, argIn[pos].asWideString());
         if (propName == GO_TILE_ARRANGEMENT_PROPERTY_NAME_STR) {
-            Error(_W("Property is read-only: ") + propName);
+            Error(L"Nelson:tiledlayout:readOnlyProperty", L"Property is read-only: %s", propName);
         }
 
         if (propName == GO_GRID_SIZE_PROPERTY_NAME_STR) {
@@ -116,7 +121,8 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
             layout->setGridSizeFromUser(rows, cols);
         } else {
             if (!layout->isWritable(propName) && layout->haveProperty(propName)) {
-                Error(_W("Property is read-only: ") + propName);
+                Error(
+                    L"Nelson:tiledlayout:readOnlyProperty", L"Property is read-only: %s", propName);
             }
             ArrayOf value = normalizedPropertyValue(propName, argIn[pos + 1]);
             layout->findProperty(propName)->set(value);
@@ -131,7 +137,8 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         GraphicsObject* parentLayoutGO = findGraphicsObject(parentHandle, false);
         if (!parentLayoutGO || parentLayoutGO->getType() != GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
-            Error(_W("Parent must be a figure or TiledChartLayout."));
+            Error(L"Nelson:tiledlayout:invalidParent",
+                L"Parent must be a figure or TiledChartLayout.");
         }
         addHandleToChildren(parentLayoutGO, layoutHandle);
         createNestedLayoutOptions(layout, layoutHandle);
@@ -142,7 +149,7 @@ tiledlayoutBuiltin(int nLhs, const ArrayOfVector& argIn)
     fig->setRenderingStateInvalid(true);
 
     if (nLhs > 0) {
-        retval << ArrayOf::graphicsObjectConstructor(layoutHandle);
+        retval << graphicsObjectHandle(layoutHandle);
     }
     return retval;
 }
@@ -158,11 +165,11 @@ int
 positiveIntegerScalar(const ArrayOf& arg, const std::wstring& name)
 {
     if (!arg.isNumeric() || arg.isComplex() || !arg.isScalar()) {
-        Error(name + _W(" must be a positive integer scalar."));
+        Error(L"Nelson:graphics:invalidInteger", L"%s must be a positive integer scalar.", name);
     }
-    int value = arg.getContentAsInteger32Scalar(false, true);
+    int value = arg.asInt32Scalar(false, true);
     if (value < 1) {
-        Error(name + _W(" must be a positive integer scalar."));
+        Error(L"Nelson:graphics:invalidInteger", L"%s must be a positive integer scalar.", name);
     }
     return value;
 }
@@ -170,15 +177,17 @@ positiveIntegerScalar(const ArrayOf& arg, const std::wstring& name)
 std::pair<int, int>
 positiveGridVector(const ArrayOf& arg, const std::wstring& name)
 {
-    if (!arg.isNumeric() || arg.isComplex() || arg.getElementCount() != 2) {
-        Error(name + _W(" must be a two-element positive integer vector."));
+    if (!arg.isNumeric() || arg.isComplex() || arg.elementCount() != 2) {
+        Error(L"Nelson:tiledlayout:invalidGridSize",
+            L"%s must be a two-element positive integer vector.", name);
     }
-    std::vector<double> values = arg.getContentAsDoubleVector();
+    std::vector<double> values = arg.asDoubleVector();
     int rows = (int)values[0];
     int cols = (int)values[1];
     if (rows < 1 || cols < 1 || values[0] != std::floor(values[0])
         || values[1] != std::floor(values[1])) {
-        Error(name + _W(" must be a two-element positive integer vector."));
+        Error(L"Nelson:tiledlayout:invalidGridSize",
+            L"%s must be a two-element positive integer vector.", name);
     }
     return { rows, cols };
 }
@@ -216,7 +225,7 @@ resolveParent(const ArrayOfVector& argIn, size_t& pos, int64& figHandle, GOFigur
     int64 parentHandle = -1;
 
     if (!argIn.empty() && argIn[0].isGraphicsObject()) {
-        int64 h = argIn[0].getContentAsGraphicsObjectScalar();
+        int64 h = argIn[0].asGraphicsObjectScalar();
         if (h != HANDLE_ROOT_OBJECT && h < HANDLE_OFFSET_OBJECT) {
             GOFigure* candidate = findGOFigure(h);
             if (candidate) {
@@ -262,29 +271,11 @@ resolveParent(const ArrayOfVector& argIn, size_t& pos, int64& figHandle, GOFigur
     if (id == NO_FIGURE) {
         id = createNewFigure();
     } else {
-        // If current figure already has axes content (nexttile was called), create a new figure.
-        // This matches MATLAB behavior where tiledlayout without a parent figure creates a new
-        // figure rather than overwriting an existing one that has been used.
+        // A new top-level tiledlayout replaces the content of the current figure: its existing
+        // axes and tiled layouts (and their tiles) are deleted first.
         GOFigure* existingFig = findGOFigure(id);
         if (existingFig) {
-            GOGObjectsProperty* chProp = dynamic_cast<GOGObjectsProperty*>(
-                existingFig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-            if (chProp) {
-                bool hasAxesContent = false;
-                for (int64 ch : chProp->data()) {
-                    if (isDeletedGraphicsObject(ch)) {
-                        continue;
-                    }
-                    GraphicsObject* go = findGraphicsObject(ch, false);
-                    if (go && go->getType() == GO_PROPERTY_VALUE_AXES_STR) {
-                        hasAxesContent = true;
-                        break;
-                    }
-                }
-                if (hasAxesContent) {
-                    id = createNewFigure();
-                }
-            }
+            clearFigureAxesAndLayouts(existingFig);
         }
     }
     parentHandle = id;
@@ -336,12 +327,12 @@ canonicalPropertyName(GraphicsObject* go, const std::wstring& requested)
     if (go->haveProperty(requested)) {
         return requested;
     }
-    for (const auto& fieldName : go->getFieldnames()) {
+    for (const auto& fieldName : go->fieldnames()) {
         if (fieldName == requested) {
             return fieldName;
         }
     }
-    Error(_W("Unknown property: ") + requested);
+    Error(L"Nelson:tiledlayout:unknownProperty", L"Unknown property: %s", requested);
     return requested;
 }
 //=============================================================================
@@ -351,14 +342,14 @@ normalizedPropertyValue(const std::wstring& propertyName, const ArrayOf& value)
     if (!value.isScalarStringArray() && !value.isRowVectorCharacterArray()) {
         return value;
     }
-    std::wstring str = value.getContentAsWideString();
+    std::wstring str = value.asWideString();
     if (propertyName == GO_TILE_SPACING_PROPERTY_NAME_STR) {
         if (str == GO_PROPERTY_VALUE_NORMAL_STR) {
             str = GO_PROPERTY_VALUE_LOOSE_STR;
         }
         if (str == GO_PROPERTY_VALUE_LOOSE_STR || str == GO_PROPERTY_VALUE_COMPACT_STR
             || str == GO_PROPERTY_VALUE_TIGHT_STR || str == GO_PROPERTY_VALUE_NONE_STR) {
-            return ArrayOf::characterArrayConstructor(str);
+            return ArrayOf::characterArray(str);
         }
     } else if (propertyName == GO_PADDING_PROPERTY_NAME_STR) {
         if (str == L"normal") {
@@ -368,14 +359,14 @@ normalizedPropertyValue(const std::wstring& propertyName, const ArrayOf& value)
         }
         if (str == GO_PROPERTY_VALUE_LOOSE_STR || str == GO_PROPERTY_VALUE_COMPACT_STR
             || str == GO_PROPERTY_VALUE_TIGHT_STR) {
-            return ArrayOf::characterArrayConstructor(str);
+            return ArrayOf::characterArray(str);
         }
     } else if (propertyName == GO_TILE_INDEXING_PROPERTY_NAME_STR
         || propertyName == GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR
         || propertyName == GO_UNITS_PROPERTY_NAME_STR
         || propertyName == GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR
         || propertyName == GO_VISIBLE_PROPERTY_NAME_STR) {
-        return ArrayOf::characterArrayConstructor(str);
+        return ArrayOf::characterArray(str);
     }
     return value;
 }
@@ -404,5 +395,5 @@ createNestedLayoutOptions(GOTiledChartLayout* layout, int64 layoutHandle)
     layout->setGoProperty(GO_LAYOUT_PROPERTY_NAME_STR, optsHandle);
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

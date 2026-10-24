@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,22 @@
 //=============================================================================
 #include "sparsedouble_realBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "SparseRealPart.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static bool
+isSupportedSparseRealType(const ArrayOf& value)
+{
+    if (!value.isSparse()) {
+        return false;
+    }
+    NelsonType dataClass = value.dataClass();
+    return dataClass == NLS_DOUBLE || dataClass == NLS_DCOMPLEX || dataClass == NLS_LOGICAL
+        || dataClass == NLS_SINGLE || dataClass == NLS_SCOMPLEX;
+}
 //=============================================================================
 ArrayOfVector
 Nelson::SparseGateway::sparsedouble_realBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -21,8 +32,9 @@ Nelson::SparseGateway::sparsedouble_realBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (!argIn[0].isSparseDoubleType()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_DOUBLE_EXPECTED);
+    if (!isSupportedSparseRealType(argIn[0])) {
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse double");
     }
     retval << SparseRealPart(argIn[0]);
     return retval;

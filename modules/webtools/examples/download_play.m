@@ -10,6 +10,5 @@
 function playerObj = download_play(filename)
   [y, fs] = audioread(filename);
   playerObj = audioplayer(y, fs);
-  play(playerObj)
 end
 %=============================================================================

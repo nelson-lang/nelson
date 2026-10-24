@@ -10,106 +10,106 @@
 A = int8([9 2; 9 5]);
 R = unique(A);
 REF = int8([2; 5; 9]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = int8([9 2; 9 5]);
 [R, ia] = unique(A);
 REF = int8([2; 5; 9]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 ia_REF = [3; 4; 1];
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 %=============================================================================
 A = int8([9 2; 9 5]);
 [R, ia, ic] = unique(A);
 REF = int8([2; 5; 9]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 ia_REF = [3; 4; 1];
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 ic_REF = [3; 3; 1; 2];
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
 A = int8(magic(6));
 R = unique(A);
 REF = int8([1:36]');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = int8(magic(6));
 [R, ia] = unique(A);
 REF = int8([1:36]');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 ia_REF = [7; 15; 2; 6; 11; 13; 14; 4; 9; 28; 36; 23; 24; 29; 34; 35; 22; 30; 25;
-33; 20; 21; 26; 31; 32; 19; 27; 10; 18; 5; 3; 8; 16; 17; 1; 12];
-assert_isequal(ia, ia_REF);
+  33; 20; 21; 26; 31; 32; 19; 27; 10; 18; 5; 3; 8; 16; 17; 1; 12];
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C, ia, ic] = unique(uint8([10,20,20,30,20,40]), 'rows');
-C_REF = uint8([10   20   20   30   20   40]);
-assert_isequal(C, C_REF);
+[C, ia, ic] = unique(uint8([10, 20, 20, 30, 20, 40]), 'rows');
+C_REF = uint8([10 20 20 30 20 40]);
+asserts.isequal(C, C_REF);
 ia_REF = 1;
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 ic_REF = 1;
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique(uint8([10,20,20,30,20,40]), 'rows');
-C_REF = uint8([10   20   20   30   20   40]);
-assert_isequal(C, C_REF);
+[C, ia] = unique(uint8([10, 20, 20, 30, 20, 40]), 'rows');
+C_REF = uint8([10 20 20 30 20 40]);
+asserts.isequal(C, C_REF);
 ia_REF = 1;
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique(uint8([10,20,20,30,20,40]), 'rows');
-C_REF = uint8([10   20   20   30   20   40]);
-assert_isequal(C, C_REF);
+[C] = unique(uint8([10, 20, 20, 30, 20, 40]), 'rows');
+C_REF = uint8([10 20 20 30 20 40]);
+asserts.isequal(C, C_REF);
 %=============================================================================
-[C, ia, ic] = unique(uint8([10,20,20,30,20,40]));
-C_REF = uint8([10   20   30   40]);
-assert_isequal(C, C_REF);
-ia_REF = [     1;     2;     4;     6];
-assert_isequal(ia, ia_REF);
-ic_REF = [     1;     2;     2;     3;     2;     4];
-assert_isequal(ic, ic_REF);
+[C, ia, ic] = unique(uint8([10, 20, 20, 30, 20, 40]));
+C_REF = uint8([10 20 30 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
+ic_REF = [1; 2; 2; 3; 2; 4];
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique(uint8([10,20,20,30,20,40]));
-C_REF = uint8([10   20   30   40]);
-assert_isequal(C, C_REF);
-ia_REF = [     1;     2;     4;     6];
-assert_isequal(ia, ia_REF);
+[C, ia] = unique(uint8([10, 20, 20, 30, 20, 40]));
+C_REF = uint8([10 20 30 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique(uint8([10,20,20,30,20,40]));
-C_REF = uint8([10   20   30   40]);
-assert_isequal(C, C_REF);
+[C] = unique(uint8([10, 20, 20, 30, 20, 40]));
+C_REF = uint8([10 20 30 40]);
+asserts.isequal(C, C_REF);
 %=============================================================================
-[C, ia, ic] = unique(uint8([10,20,20,30,20,40]'), 'rows');
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
-ia_REF = [1;      2;     4;     6];
-assert_isequal(ia, ia_REF);
-ic_REF = [     1;     2;     2;     3;     2;     4];
-assert_isequal(ic, ic_REF);
+[C, ia, ic] = unique(uint8([10, 20, 20, 30, 20, 40]'), 'rows');
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
+ic_REF = [1; 2; 2; 3; 2; 4];
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique(uint8([10,20,20,30,20,40]'), 'rows');
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
-ia_REF = [1;      2;     4;     6];
-assert_isequal(ia, ia_REF);
+[C, ia] = unique(uint8([10, 20, 20, 30, 20, 40]'), 'rows');
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique(uint8([10,20,20,30,20,40]'), 'rows');
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
+[C] = unique(uint8([10, 20, 20, 30, 20, 40]'), 'rows');
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
 %=============================================================================
-[C, ia, ic] = unique(uint8([10,20,20,30,20,40]'));
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
-ia_REF = [1;      2;     4;     6];
-assert_isequal(ia, ia_REF);
-ic_REF = [     1;     2;     2;     3;     2;     4];
-assert_isequal(ic, ic_REF);
+[C, ia, ic] = unique(uint8([10, 20, 20, 30, 20, 40]'));
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
+ic_REF = [1; 2; 2; 3; 2; 4];
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique(uint8([10,20,20,30,20,40]'));
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
-ia_REF = [1;      2;     4;     6];
-assert_isequal(ia, ia_REF);
+[C, ia] = unique(uint8([10, 20, 20, 30, 20, 40]'));
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2; 4; 6];
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique(uint8([10,20,20,30,20,40]'));
-C_REF = uint8([    10;    20;    30;    40]);
-assert_isequal(C, C_REF);
+[C] = unique(uint8([10, 20, 20, 30, 20, 40]'));
+C_REF = uint8([10; 20; 30; 40]);
+asserts.isequal(C, C_REF);
 %=============================================================================

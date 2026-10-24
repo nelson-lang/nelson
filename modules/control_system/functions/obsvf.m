@@ -8,24 +8,20 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = obsvf(varargin)
-  % Compute observability staircase form
-  % [Abar, Bbar, Cbar, T, k] = obsvf(A, B, C)
-  % [Abar, Bbar, Cbar, T, k] = obsvf(A, B, C, tol)
-  
   narginchk(3, 4);
   nargoutchk(0, 5);
-  
+
   A = varargin{1};
   B = varargin{2};
   C = varargin{3};
-  
+
   if nargin == 3
     [AA, BB, CC, T, K] = ctrbf(A', C', B');
   else
     tol = varargin{4};
     [AA, BB, CC, T, K] = ctrbf(A', C', B', tol);
   end
-  
+
   varargout{1} = AA';
   varargout{2} = CC';
   varargout{3} = BB';

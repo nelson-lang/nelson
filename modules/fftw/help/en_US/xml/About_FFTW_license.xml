@@ -20,7 +20,7 @@
     <p
     >On Windows platforms, MKL FFTW implementation is used and distributed with Nelson.</p>
     <p
-    >On others plaforms, if FFTW library is available, and user chooses to use it, distribution falls under the terms of the GPL.</p>
+    >On others platforms, if FFTW library is available, and user chooses to use it, distribution falls under the terms of the GPL.</p>
   </description>
   <used_function />
   <bibliography />

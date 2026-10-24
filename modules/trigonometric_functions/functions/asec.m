@@ -10,6 +10,6 @@
 function x = asec(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = acos (1 ./ varargin{1});
+  x = acos(1 ./ varargin{1});
 end
 %=============================================================================

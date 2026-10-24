@@ -37,8 +37,6 @@ dependencies=(
     icu4c
     openmpi
     pkgconf
-    gettext
-    boost
     libxml2
     libxslt
     cmake
@@ -53,14 +51,29 @@ dependencies=(
     eigen
     libomp
     openblas
+    arpack
     qt
     giflib
+    jpeg-turbo
+    libpng
+    webp
     numpy
     tbb
     julia
     libtiff
     just
     rust
+    qhull
+    netcdf
+    apache-arrow
+)
+
+# Optional packages: the related modules are simply disabled when missing.
+# - SUNDIALS >= 7 (sundials_core) is required by the ode_solvers backend
+# - HiGHS is used by the optimization module (linprog, intlinprog)
+optional_dependencies=(
+    sundials
+    highs
 )
 
 for package in "${dependencies[@]}"; do
@@ -72,10 +85,21 @@ for package in "${dependencies[@]}"; do
     fi
 done
 
+for package in "${optional_dependencies[@]}"; do
+    if ! brew list "$package" &>/dev/null; then
+        print_status "Installing optional package $package"
+        brew install "$package" || echo "Optional package '$package' not available: skipped."
+    else
+        print_status "$package is already installed. Skipping..."
+    fi
+done
+
+print_status "Installing Node.js with nvm"
+bash "$(dirname "$0")/install-node-nvm.sh" || \
+    print_status "WARNING: Node.js/nvm setup failed; continuing (only the GUI JS build is affected)."
 
 # Link necessary packages
 print_status "Linking necessary packages"
-brew link gettext --force
 brew link libomp --force
 brew link giflib --force
 brew link icu4c --force

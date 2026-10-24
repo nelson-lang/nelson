@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>islocalmax</keyword>
+  <short_description>Détecte les maxima locaux des données.</short_description>
+  <syntax>
+    <syntax_item>TF = islocalmax(A)</syntax_item>
+    <syntax_item>TF = islocalmax(A, dim)</syntax_item>
+    <syntax_item>TF = islocalmax(..., Name, Value)</syntax_item>
+    <syntax_item>[TF, P] = islocalmax(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>données d'entrée : vecteur, matrice, tableau N-D numérique réel ou logique, table ou timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension de travail : entier positif (par défaut : première dimension non singleton). Non disponible pour les tables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinProminence'</param_name>
+      <param_description>scalaire positif ou nul (par défaut : 0) : seuls les maxima dont la proéminence est au moins égale à cette valeur sont renvoyés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'FlatSelection'</param_name>
+      <param_description>élément marqué dans un plateau maximal : 'center' (défaut), 'first', 'last' ou 'all'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinSeparation'</param_name>
+      <param_description>scalaire positif ou nul (par défaut : 0), dans l'unité des abscisses (une duration pour des abscisses datetime ou duration) : un maximum plus proche que cette valeur d'un maximum plus proéminent est ignoré.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MaxNumExtrema'</param_name>
+      <param_description>entier positif : conserve au plus ce nombre de maxima parmi les plus proéminents (par défaut : pas de limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ProminenceWindow'</param_name>
+      <param_description>scalaire positif k ou vecteur [b f] de deux valeurs positives ou nulles (une duration pour des abscisses datetime ou duration) : la proéminence d'un maximum est calculée uniquement avec les données de la fenêtre [x-k/2, x+k/2) ou [x-b, x+f].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'SamplePoints'</param_name>
+      <param_description>vecteur trié de valeurs distinctes double, single, datetime ou duration : abscisses des données (par défaut : 1, 2, 3, ...). Pour une table, peut aussi être le nom d'une variable de la table. Une timetable utilise ses temps de lignes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DataVariables'</param_name>
+      <param_description>variables de la table à traiter : noms, indices, vecteur logique, handle de fonction ou vartype (par défaut : toutes les variables).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'OutputFormat'</param_name>
+      <param_description>'logical' (défaut) : TF est un tableau logique ; 'tabular' : TF est une table contenant les DataVariables. Uniquement pour les tables.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description>tableau logique de la taille de A (ou table), vrai aux maxima locaux.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>proéminence de chaque maximum local (0 ailleurs), de la taille de A ; classe entière non signée pour des données entières. Pour une table, P est une table contenant les DataVariables.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>islocalmax</b> marque les éléments de A plus grands que leurs voisins selon la dimension de travail. Une suite de valeurs égales plus grandes que les valeurs qui l'entourent forme un seul maximum local (voir 'FlatSelection').</p>
+    <p>Le premier et le dernier éléments ne sont jamais des maxima locaux. Les valeurs NaN sont ignorées. Les valeurs +Inf sont toujours des maxima locaux, de proéminence infinie.</p>
+    <p>La proéminence d'un maximum mesure à quel point il se détache : depuis le maximum, une ligne horizontale est tracée de chaque côté jusqu'à la première valeur strictement plus grande ou jusqu'au bord des données ; la base est la plus grande des deux valeurs minimales trouvées sous ces lignes, et la proéminence est la hauteur du maximum au-dessus de la base. Chaque élément d'un plateau maximal porte sa proéminence.</p>
+    <p>Les filtres sont appliqués dans cet ordre : 'MinProminence', 'MinSeparation' (un plateau compte comme un seul maximum couvrant ses échantillons) puis 'MaxNumExtrema' (en cas d'égalité, le premier maximum l'emporte).</p>
+    <p>Sans 'ProminenceWindow', la recherche est de complexité linéaire : elle convient aux grands signaux.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Maxima locaux et leur proéminence</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [0 5 1 3 1 4 0];
+[TF, P] = islocalmax(A)
+islocalmax(A, 'MinProminence', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plateaux maximaux</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 0:0.1:5;
+A = min(0.75, sin(pi * x));
+find(islocalmax(A, 'FlatSelection', 'first'))
+find(islocalmax(A, 'FlatSelection', 'all'))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Maxima séparés avec des abscisses temporelles</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = hours(linspace(0, 3, 15));
+A = [2 4 6 4 3 7 5 6 5 10 4 -1 -3 -2 0];
+TF = islocalmax(A, 'MinSeparation', minutes(45), 'SamplePoints', t);
+find(TF)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Maxima le long des lignes d'une matrice</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 3 1 2 0; 0 1 4 1 0; 2 0 2 0 2];
+TF = islocalmax(A, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}islocalmin">islocalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}max">max</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}movmax">movmax</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

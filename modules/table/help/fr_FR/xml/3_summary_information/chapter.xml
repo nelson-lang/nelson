@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>table</module_name>
+  <chapter>Informations de synthese</chapter>
+  <chapter_description>
+    <p>Fonctions pour taille de table, controles de type et apercus rapides.</p>
+  </chapter_description>
+</xmldoc>

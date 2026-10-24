@@ -22,6 +22,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{IN_NIX_SHELL})
   # If not found via Homebrew, try default paths
   if(NOT LIBFFI_INCLUDE_DIR AND NOT DEFINED ENV{IN_NIX_SHELL})
     set(POSSIBLE_LIBFFI_PATHS
+      "${CMAKE_LIBFFI_PATH}/include"
       "$ENV{HOMEBREW_PREFIX}/opt/libffi/include"
       "$ENV{HOMEBREW_CELLAR}/opt/libffi/include"
       "/usr/local/opt/libffi/include"

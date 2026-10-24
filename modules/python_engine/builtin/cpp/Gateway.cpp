@@ -21,6 +21,8 @@
 #include "py_classBuiltin.hpp"
 #include "py_invokeBuiltin.hpp"
 #include "py_isequalBuiltin.hpp"
+#include "pandas_to_table_dataBuiltin.hpp"
+#include "pyfunctionBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -68,6 +70,10 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_PYOBJECT_CATEGORY_STR, "isequalto"),
         (ptrBuiltin)Nelson::Python_engineGateway::py_isequalBuiltin, 1, -1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { "__pandas_to_table_data__",
+        (ptrBuiltin)Nelson::Python_engineGateway::pandas_to_table_dataBuiltin, 4, 1, CPP_BUILTIN },
+    { "pyfunction", (ptrBuiltin)Nelson::Python_engineGateway::pyfunctionBuiltin, 1, 1,
+        CPP_BUILTIN },
 
 };
 //=============================================================================
@@ -83,11 +89,7 @@ finishPythonEngineModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializePythonEngineModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializePythonEngineModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishPythonEngineModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishPythonEngineModule)
 //=============================================================================

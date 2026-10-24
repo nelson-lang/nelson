@@ -10,6 +10,8 @@
 #pragma once
 //=============================================================================
 #include <QtCore/QRegularExpression>
+#include <QtCore/QSet>
+#include <QtCore/QString>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
 //=============================================================================
@@ -46,6 +48,13 @@ private:
     };
     QVector<HighlightingRule> highlightingRules;
 
+    // identifiers (keywords, builtin, macro) are tokenized with a single
+    // regular expression and resolved with a lookup in the sets below.
+    QRegularExpression identifierExpression;
+    QSet<QString> keywords;
+    QSet<QString> builtins;
+    QSet<QString> macros;
+
     QTextCharFormat keywordFormat;
     QTextCharFormat builtinFormat;
     QTextCharFormat macroFormat;
@@ -61,5 +70,10 @@ private:
     QColor singleLineCommentColor;
     QColor quotationColor;
     QColor multilineCommentColor;
+
+    void
+    applyIdentifierRules(const QString& segment, int offset);
+    void
+    applyRulesOnRange(const QString& segment, int offset);
 };
 //=============================================================================

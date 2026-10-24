@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>expression</keyword>
+<keyword_alias>block:expression</keyword_alias>
+  <short_description>Évalue une expression mathématique restreinte de u, en simulation et dans le code généré.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : expression</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port d'entrée (u, double scalaire).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie (double scalaire).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Évalue l'expression mathématique <code>Expr</code> avec <code>u</code> (entrée du bloc), <code>t</code> (temps courant), <code>dt</code> (pas) et les variables du diagramme. Le même moteur d'expression sert à la simulation et à la génération de code C/Rust : les comportements simulé et généré coïncident.</p>
+    <p>
+      <img src="../../../../libraries/userdefined/exports/expression.svg" align="middle"/>
+    </p>
+    <p>Grammaire supportée : constantes <code>pi</code>, <code>e</code>, <code>inf</code> ; fonctions unaires <code>abs, ceil, floor, round, sign, sqrt, exp, log, log10, log2, acos, asin, atan, cos, cosh, sin, sinh, tan, tanh, sinc</code> ; binaires <code>pow, atan2, min, max</code> ; ternaire <code>clamp</code> ; opérateurs <code>+ - * / ^</code>. Les constructions non mathématiques sont rejetées à la génération de code.</p>
+    <p>Pour du code Nelson arbitraire (toute fonction, handles), utilisez le bloc <code>nelsonFunction</code> (simulation uniquement).</p>
+    <p>
+      <b>Paramètres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>Expr</code>
+          </td>
+          <td>u</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Caractéristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>expression</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs fonctions utilisateur</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Transfert direct</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Type de signal</td>
+          <td>double, scalaire</td>
+        </tr>
+        <tr>
+          <td>Génération de code</td>
+          <td>oui (C et Rust)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifeste" path="modules/nflow_blocks/libraries/userdefined/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/userdefined/expression.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir la démo des blocs fonction utilisateur (Expression + Nelson Function)</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/Nelson_Function_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}userdefined/nelsonFunction">nelsonFunction</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/gain">gain</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale (remplace le bloc userFunc, limité à la génération de code ; le bloc expression simule aussi)</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

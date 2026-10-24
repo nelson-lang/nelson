@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bodeplot</keyword>
+  <short_description>Diagramme de Bode d'un système LTI SISO avec options de tracé.</short_description>
+  <syntax>
+    <syntax_item>bodeplot(sys)</syntax_item>
+    <syntax_item>bodeplot(sys, opt)</syntax_item>
+    <syntax_item>bodeplot(sys, lineSpec)</syntax_item>
+    <syntax_item>bodeplot(sys, opt, lineSpec)</syntax_item>
+    <syntax_item>bodeplot(sys, w, ...)</syntax_item>
+    <syntax_item>[magnitude, phase, w] = bodeplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>un modèle LTI SISO.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opt</param_name>
+      <param_description
+      >une structure d'options renvoyée par bodeoptions.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineSpec</param_name>
+      <param_description>Style de ligne, marqueur et couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description
+      >un cell {wmin, wmax} ou un vecteur de fréquences.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>magnitude</param_name>
+      <param_description>Amplitude : taille 1 x 1 x k (SISO).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>phase</param_name>
+      <param_description>Phase : taille 1 x 1 x k (SISO).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>w</param_name>
+      <param_description>Fréquences : un vecteur 1 x k.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bodeplot(sys)</b> génère un diagramme de Bode du système LTI SISO <b>sys</b>, comme <b>bode</b>.</p>
+    <p><b>bodeplot(sys, opt)</b> applique les options de tracé décrites par <b>opt</b> (voir <b>bodeoptions</b>).</p>
+    <p>Lorsque <b>opt.PhaseUnits</b> vaut <b>'rad'</b>, la phase est tracée en radians. Lorsque <b>opt.Grid</b> vaut <b>'on'</b>, une grille est affichée.</p>
+    <p>Un <b>lineSpec</b> et une spécification de fréquence <b>w</b> peuvent également être fournis, comme avec <b>bode</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[G = tf([3], [1 1/2 4]);
+opt = bodeoptions();
+opt.PhaseUnits = 'rad';
+opt.Grid = 'on';
+f = figure();
+bodeplot(G, opt, '--');
+]]></example_item_data>
+      <example_item_img
+        src="../../images/bodeplot_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}bodeoptions">bodeoptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

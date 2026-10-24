@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>regionprops3</keyword>
+  <short_description>Mesurer les proprietes de regions de volumes 3-D</short_description>
+  <syntax>
+    <syntax_item>stats = regionprops3(BW)</syntax_item>
+    <syntax_item>stats = regionprops3(CC, properties)</syntax_item>
+    <syntax_item>stats = regionprops3(L, properties)</syntax_item>
+    <syntax_item>stats = regionprops3(regions, V, properties)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>regions</param_name>
+      <param_description>Volume logique 3-D, volume de labels entiers non negatifs 3-D, ou structure de composantes connexes issue de bwconncomp.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Volume d'intensite optionnel de meme taille que regions.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>properties</param_name>
+      <param_description>Noms de proprietes, 'basic', 'all', ou tableau de cellules de noms de proprietes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>stats</param_name>
+      <param_description>Tableau de structures contenant un element par region.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>regionprops3</b> mesure les regions connexes de volumes 3-D. Les proprietes geometriques prises en charge incluent Volume, Centroid, BoundingBox, VoxelIdxList, VoxelList, Image, SubarrayIdx, Extent et EquivDiameter.</p>
+    <p>Lorsqu'un volume d'intensite est fourni, les proprietes d'intensite prises en charge incluent MeanIntensity, MinIntensity, MaxIntensity, VoxelValues et WeightedCentroid.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Mesurer des objets dans un volume synthetique et afficher une tranche labelisee.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[X, Y, Z] = meshgrid(1:48, 1:48, 1:20);
+BW = ((X - 16) .^ 2 + (Y - 18) .^ 2 + (Z - 8) .^ 2) < 6 ^ 2;
+BW = BW | (((X - 34) .^ 2 + (Y - 32) .^ 2 + (Z - 14) .^ 2) < 5 ^ 2);
+S = regionprops3(BW, 'Volume', 'Centroid', 'BoundingBox');
+L = labelmatrix(bwconncomp(BW));
+figure;
+imagesc(L(:, :, 10));
+title('Measured volume regions');]]></example_item_data>
+      <example_item_img src="../../../images/regionprops3_1.png" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/bwconncomp">bwconncomp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}2_image_analysis/5_regions_boundaries/regionprops">regionprops</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

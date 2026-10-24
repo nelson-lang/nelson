@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>initialCondition</keyword>
+  <keyword_alias>block:initialCondition</keyword_alias>
+  <short_description>Forces the output to InitialValue at the first step, then passes the input.</short_description>
+  <syntax>
+    <syntax_item>Block type: initialCondition</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Forces the output to InitialValue at the first step, then passes the input.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Utility</td></tr>
+        <tr><td>Type</td><td><code>initialCondition</code></td></tr>
+        <tr><td>Label</td><td>IC</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/initialCondition.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Emits the parameter <code>InitialValue</code> at simulation time 0 and passes the input through unchanged for every step afterwards (t &gt; 0). Useful to seed an algebraic loop or to define the value a feedback signal takes before the first real sample is available. Feedthrough for t &gt; 0.</p>
+    <p><b>Ports</b></p>
+    <p><b>Input(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=90, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>InitialValue</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>initialCondition</td></tr>
+        <tr><td>Family</td><td>Utility</td></tr>
+        <tr><td>Rendered size</td><td>90 x 50</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Internal state or history</td><td>no</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>ALGEBRAIC: out = (t &gt; 0) ? u : InitialValue.</li>
+    </ul>
+    <p><b>Equation or Rule</b></p>
+    <latex>y(t) = \begin{cases} \text{InitialValue} &amp; t = 0 \\ u(t) &amp; t &gt; 0 \end{cases}</latex>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/initialCondition.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Break an algebraic loop by seeding the first sample to 5.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','r','type','ramp','inputs',0,'outputs',1,'params',struct('slope',1)), struct('id','ic','type','initialCondition','inputs',1,'outputs',1,'params',struct('InitialValue',5)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','r','to','ic','fromIndex',0,'toIndex',0), struct('from','ic','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.5; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}discrete/unitDelay">unitDelay</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreMemory">dataStoreMemory</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

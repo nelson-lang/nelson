@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>integralInterpolant</keyword>
+  <short_description>Intégrale définie à borne supérieure variable (objet interpolant d&apos;intégrale)</short_description>
+  <syntax>
+    <syntax_item>F = integralInterpolant(integrand, lower, upper)</syntax_item>
+    <syntax_item>F = integralInterpolant(integrand, lower, upper, nom, valeur)</syntax_item>
+    <syntax_item>Fq = F(xq)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>integrand</param_name>
+      <param_description>handle de la fonction à intégrer, avec les mêmes exigences que pour <b>integral</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower</param_name>
+      <param_description>borne inférieure d&apos;intégration : scalaire réel, fini ou infini.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>upper</param_name>
+      <param_description>borne supérieure d&apos;intégration : scalaire réel, fini ou infini, différent de <b>lower</b>. Elle peut être inférieure à <b>lower</b> (intégration à rebours).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nom, valeur</param_name>
+      <param_description>une ou plusieurs paires nom/valeur : &apos;AbsoluteTolerance&apos; (défaut 1e-10), &apos;RelativeTolerance&apos; (défaut 1e-6), &apos;ArrayValued&apos; (défaut false), &apos;Vectorized&apos; (défaut true), &apos;Waypoints&apos; (vecteur de points réels utilisés dans le maillage initial).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xq</param_name>
+      <param_description>tableau numérique réel de points de requête.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description>un objet integralInterpolant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Fq</param_name>
+      <param_description>valeurs de l&apos;intégrale de <b>lower</b> à chaque point de requête : un tableau de la taille de <b>xq</b> ou, si <b>ArrayValued</b> vaut true, un tableau avec une ligne par point de requête.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>integralInterpolant</b> évalue une intégrale définie à borne supérieure variable : l&apos;objet renvoyé <b>F</b> donne <b>F(x)</b>, l&apos;intégrale de <b>integrand</b> de <b>lower</b> à <b>x</b>, pour tout <b>x</b> compris entre <b>lower</b> et <b>upper</b>.</p>
+    <p>L&apos;intégrale de <b>lower</b> à <b>upper</b> est calculée une seule fois par la quadrature de Gauss-Kronrod adaptative de <b>integral</b>. La requête <b>F(xq)</b> ajoute les sommes partielles des intervalles du maillage situés avant chaque point de requête à la règle de Gauss-Kronrod appliquée sur la partie de l&apos;intervalle qui le contient ; les valeurs obtenues ont donc la précision de l&apos;intégrale. Les points de requête hors de l&apos;intervalle d&apos;intégration renvoient <b>NaN</b>.</p>
+    <p>L&apos;objet possède les propriétés en lecture seule <b>Integrand</b>, <b>LowerLimit</b>, <b>UpperLimit</b>, <b>Integral</b> (valeur de l&apos;intégrale de <b>lower</b> à <b>upper</b>), <b>ErrorBound</b> (majorant approché de l&apos;erreur absolue), <b>AbsoluteTolerance</b>, <b>RelativeTolerance</b> et <b>Subintervals</b> (vecteur ligne des points du maillage, de <b>lower</b> à <b>upper</b>, points de passage inclus). <b>F(F.Subintervals)</b> renvoie les sommes partielles de l&apos;intégrale.</p>
+    <p>Indiquez les discontinuités de la fonction avec <b>Waypoints</b>. N&apos;utilisez pas de points de passage pour indiquer des singularités aux bornes d&apos;intégration. Pour des évaluations plus rapides mais moins précises, échantillonnez <b>F</b> et construisez un <b>griddedInterpolant</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Intégrale de 1 + cos(x)^2 à borne supérieure variable.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) 1 + cos(x).^2;
+F = integralInterpolant(f, 0, 5)
+xq = linspace(1, 3, 5);
+Fq = F(xq)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Intégrale impropre.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) x.^5 .* exp(-x) .* sin(x);
+F = integralInterpolant(f, 0, Inf, 'RelativeTolerance', 1e-8, 'AbsoluteTolerance', 1e-13);
+Fq = F([0 Inf])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sommes partielles d&apos;une fonction à valeurs tableau.</example_item_description>
+      <example_item_data
+      ><![CDATA[k = 1:5;
+f = @(x) sin(k * x);
+F = integralInterpolant(f, 0, 1, 'ArrayValued', true);
+partialSums = F(F.Subintervals(end-5:end))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Conversion en interpolant sur grille.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) x.^x;
+F = integralInterpolant(f, 1, 2);
+x = linspace(1, 2, 11);
+G = griddedInterpolant(x, F(x), 'cubic');
+Fq = F(1.88)
+Gq = G(1.88)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}cumtrapz">cumtrapz</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}griddedInterpolant">griddedInterpolant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

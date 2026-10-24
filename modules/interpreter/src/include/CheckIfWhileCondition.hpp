@@ -19,5 +19,6 @@ namespace Nelson {
  */
 NLSINTERPRETER_IMPEXP bool
 checkIfWhileCondition(const ArrayOf& A);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

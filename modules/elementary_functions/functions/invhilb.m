@@ -7,31 +7,36 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function h = invhilb(n, classname)
+function h = invhilb(n, requestedClassName)
   % https://nhigham.com/2020/06/30/what-is-the-hilbert-matrix/
   narginchk(1, 2)
+  nargoutchk(0, 1)
   if nargin < 2
-    classname = 'double';
+    className = 'double';
+  else
+    className = requestedClassName;
   end
-  if (isStringScalar(classname)) || (~strcmp(classname,'double') && ~strcmp(classname,'single'))
-    error('Nelson:invhilb:notSupportedClass', _('#2 argument must be ''double'' or ''single''.'));
+  if isStringScalar(className)
+    className = convertStringsToChars(className);
   end
-  p = n;
-  h = zeros(n, classname);
-  for i = 1:n
-    r = p * p;
-    h(i, i) = r / (2 * i - 1);
-    for j = i+1:n
-      [h, r] = invh(h, r, n, i, j);
+  if ~strcmp(className, 'double') && ~strcmp(className, 'single')
+    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', 'single');
+  end
+  h = zeros(n, className);
+  for row = 1:n
+    for col = row:n
+      entry = inverseHilbertEntry(n, row, col);
+      h(row, col) = entry;
+      h(col, row) = entry;
     end
-    p = ((n-i) * p * (n+i)) / (i^2);
   end
 end
 %=============================================================================
-function [h, r] = invh(h, r, n, i, j)
-  r = -((n - j + 1) * r * (n + j - 1))/(j - 1)^2;
-  den = i + j - 1;
-  h(i, j) = r / den;
-  h(j, i) = r / den;
+function entry = inverseHilbertEntry(order, row, col)
+  signValue = 1 - 2 * rem(row + col, 2);
+  left = nchoosek(order + row - 1, order - col);
+  right = nchoosek(order + col - 1, order - row);
+  center = nchoosek(row + col - 2, row - 1);
+  entry = signValue * (row + col - 1) * left * right * center * center;
 end
 %=============================================================================

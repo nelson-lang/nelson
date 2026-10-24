@@ -11,7 +11,7 @@ function A = vander(V)
   % https://en.wikipedia.org/wiki/Vandermonde_matrix
   narginchk(1, 1);
   nargoutchk(0, 1);
-  
+
   V = V(:);
   N = length(V);
   if N > 0

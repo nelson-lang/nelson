@@ -17,7 +17,7 @@ namespace Nelson {
 //=============================================================================
 NLSHELP_TOOLS_IMPEXP bool
 xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outputDir,
-    wstringVector& outputScriptFilenames, std::wstring& errorMessage);
+    wstringVector& outputScriptFilenames, std::wstring& errorMessage, bool force);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,46 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
+% combinatorialLogic: the N-bit input vector forms a binary index
+% (element 0 = MSB) into a 2^N-entry TruthTable.
+%=============================================================================
+% TruthTable = [0 1 1 0] is 2-input XOR: index 0 (00)->0, 1 (01)->1, 2 (10)->1,
+% 3 (11)->0. Drive the 2-bit input as a constant vector [b0 b1] (b0 = MSB).
+%=============================================================================
+% Each row: {input vector, expected output}.
+cases = {...
+  {[0 0], 0}, ...
+  {[0 1], 1}, ...
+  {[1 0], 1}, ...
+  {[1 1], 0} ...
+};
+for k = 1:numel(cases)
+  c = cases{k};
+  vec = c{1}; expected = c{2};
+  d = struct();
+  d.blocks = {...
+    struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, ...
+      'params', struct('Value', vec)), ...
+    struct('id', 'cl', 'type', 'combinatorialLogic', 'inputs', 1, 'outputs', 1, ...
+      'params', struct('TruthTable', [0 1 1 0])), ...
+    struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, ...
+      'params', struct('VariableName', 'cl_out', 'SaveFormat', 'Array', ...
+      'Decimation', 1, 'MaxDataPoints', 'inf'))};
+  d.connections = {...
+    struct('from', 'c', 'to', 'cl', 'fromIndex', 0, 'toIndex', 0), ...
+    struct('from', 'cl', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();
+  res = jsondecode(__nflow_simulate__(jsonencode(d)));
+  assert_isequal(res.status, 'done');
+  y = evalin('base', 'cl_out'); y = y(:)';
+  assert_isequal(y(1), expected);
+end
+%=============================================================================

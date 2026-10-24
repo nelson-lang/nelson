@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeset</keyword>
+  <short_description>Create or update ODE options.</short_description>
+  <syntax>
+    <syntax_item>options = odeset()</syntax_item>
+    <syntax_item>options = odeset(name, value)</syntax_item>
+    <syntax_item>options = odeset(oldOptions, name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeset</b> creates an options structure for ODE solvers.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Group</th>
+        <th>Options</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>Tolerances</td>
+        <td><b>RelTol</b>, <b>AbsTol</b>, <b>NormControl</b></td>
+        <td>Control the adaptive error test.</td>
+      </tr>
+      <tr>
+        <td>Steps and output</td>
+        <td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>Refine</b>, <b>OutputFcn</b>, <b>OutputSel</b>, <b>Stats</b></td>
+        <td>Control public output points, output callbacks, and statistics.</td>
+      </tr>
+      <tr>
+        <td>Events and constraints</td>
+        <td><b>Events</b>, <b>NonNegative</b></td>
+        <td>Locate zeros and constrain selected components.</td>
+      </tr>
+      <tr>
+        <td>Stiff systems</td>
+        <td><b>Mass</b>, <b>Jacobian</b>, <b>JPattern</b>, <b>JConstant</b>, <b>BDF</b>, <b>MaxOrder</b>, <b>MassSingular</b>, <b>MStateDependence</b>, <b>MvPattern</b></td>
+        <td>Provide structural information to stiff or implicit solvers.</td>
+      </tr>
+    </table>
+    <p>Common options include <b>RelTol</b>, <b>AbsTol</b>, <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>Refine</b>, <b>Stats</b>, <b>Events</b>, <b>OutputFcn</b>, <b>OutputSel</b>, <b>NonNegative</b>, <b>Mass</b>, <b>Jacobian</b>, <b>JPattern</b>, <b>JConstant</b>, <b>BDF</b>, <b>MaxOrder</b>, <b>MassSingular</b>, <b>MStateDependence</b>, and <b>MvPattern</b>. Explicit step-size options must be positive.</p>
+    <p>When the time span has only two values, <b>Refine</b> inserts additional output points inside each accepted step. With longer time spans, requested time points define the public output points. <b>OutputFcn</b> is called at these refined or requested output points; returning scalar <b>true</b> stops integration at the current output point. <b>Stats</b> set to <b>on</b> prints step and evaluation counters. <b>NormControl</b> set to <b>on</b> uses a vector norm in the adaptive error test. <b>Vectorized</b> set to <b>on</b> allows vectorized right-hand side calls during finite-difference Jacobian construction. <b>JPattern</b> supplies the nonzero pattern used by stiff entries and the implicit entry when a finite-difference Jacobian is needed. <b>JConstant</b> set to <b>on</b> reuses the Jacobian inside each linearly implicit step.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Refined output points.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Refine', 4, 'MaxStep', 0.5);
+[t, y] = ode45(@(t,y) y, [0 1], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stats and a Jacobian for a stiff entry point.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y) -1000 * (y - cos(t)) - sin(t);
+options = odeset('Jacobian', -1000, 'Stats', 'on');
+[t, y] = ode15s(f, [0 0.5], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Vector norm control.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('NormControl', 'on');
+[t, y] = ode45(@(t,y) [y(1); -2*y(2)], [0 1], [1; 1], options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Finite-difference Jacobian pattern.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[pattern = [1 0; 0 1];
+options = odeset('JPattern', pattern, 'Vectorized', 'on');
+[t, y] = ode15s(@(t,y) [-10*y(1,:); -20*y(2,:)], [0 0.2], [1; 2], options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Constant Jacobian hint.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Jacobian', -25, 'JConstant', 'on');
+[t, y] = ode15s(@(t,y) -25*y, [0 0.2], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Output function at requested points.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[out = @(t,y,flag) false;
+options = odeset('OutputFcn', out);
+[t, y] = ode45(@(t,y) y, [0 0.25 0.5], 1, options)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeget">odeget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15s">ode15s</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

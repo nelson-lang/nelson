@@ -10,7 +10,7 @@
 function varargout = grid(varargin)
   narginchk(0, 2);
   nargoutchk(0, 0);
-  
+
   if (nargin == 0)
     ax = gca();
     gridToggle(ax);
@@ -23,7 +23,7 @@ function varargout = grid(varargin)
   else
     ax = gca();
   end
-  
+
   if length(inputArguments) == 0
     gridToggle(ax);
   else
@@ -40,8 +40,8 @@ function varargout = grid(varargin)
       elseif strcmp(parameter, 'minor')
         minorGridToggle(ax);
       else
-        error(_('Unknown command option.'));
-      end 
+        error('Nelson:grid:unknownCommandOption', 'Unknown command option.');
+      end
     end
   end
 end
@@ -77,7 +77,7 @@ function gridOff(go)
 end
 %=============================================================================
 function gridToggle(go)
-  if (strcmp(go.XGrid, 'on') || strcmp(go.YGrid,'on') || strcmp(go.ZGrid,'on'))
+  if (strcmp(go.XGrid, 'on') || strcmp(go.YGrid, 'on') || strcmp(go.ZGrid, 'on'))
     gridOff(go);
   else
     gridOn(go);

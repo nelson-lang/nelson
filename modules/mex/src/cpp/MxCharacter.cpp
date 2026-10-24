@@ -149,6 +149,12 @@ mxGetString(const mxArray* pm, char* str, mwSize strlen)
     }
     ptr = (mxChar*)pm->realdata;
     elcount = mxGetNumberOfElements(pm);
+    if (strlen == 0) {
+        // No room for any character; avoid the (strlen - 1) unsigned underflow that
+        // would make tocopy == SIZE_MAX and cause an out-of-bounds write.
+        str[0] = 0;
+        return 1;
+    }
     tocopy = std::min((mwSize)elcount, (mwSize)(strlen - 1));
     for (i = 0; i < tocopy; i++) {
         str[i] = (char)ptr[i];

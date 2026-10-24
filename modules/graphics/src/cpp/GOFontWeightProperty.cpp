@@ -17,5 +17,5 @@ static const wchar_t* FONT_WEIGHT_DICT[5] = { GO_PROPERTY_VALUE_NORMAL_STR,
 //=============================================================================
 GOFontWeightProperty::GOFontWeightProperty() : GORestrictedStringProperty(FONT_WEIGHT_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

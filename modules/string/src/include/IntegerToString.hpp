@@ -17,5 +17,5 @@ namespace Nelson {
 NLSSTRING_IMPEXP bool
 IntegerToString(ArrayOf A, wstringVector& result, std::wstring& error_message);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

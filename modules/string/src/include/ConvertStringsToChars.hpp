@@ -20,5 +20,5 @@ ConvertStringsToChars(const ArrayOfVector& A);
 NLSSTRING_IMPEXP ArrayOf
 ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

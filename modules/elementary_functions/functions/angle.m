@@ -8,6 +8,14 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = angle(Z)
-  R = atan2(imag(Z), real(Z));
+  if islogical(Z) || ischar(Z)
+    Z = double(Z);
+  end
+  % adding zero turns a negative zero into a positive one: angle(-0) is 0
+  if issparse(Z)
+    R = sparse(atan2(full(imag(Z)), full(real(Z)) + 0) + 0);
+  else
+    R = atan2(imag(Z), real(Z) + 0) + 0;
+  end
 end
 %=============================================================================

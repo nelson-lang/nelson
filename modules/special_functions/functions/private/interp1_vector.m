@@ -12,7 +12,9 @@ function yq = interp1_vector(x, y, q, method, extrapMode, extrapValue)
   yq = zeros(size(q)) + 0 * y(1);
   defaultExtrap = any(strcmp(method, {'pchip', 'makima', 'spline'}));
 
-  if any(strcmp(method, {'pchip', 'makima', 'spline', 'cubic'}))
+  if strcmp(method, 'makima')
+    d = interp1_makima_slopes(x, y);
+  elseif any(strcmp(method, {'pchip', 'spline', 'cubic'}))
     d = interp1_pchip_slopes(x, y);
   else
     d = [];
@@ -69,10 +71,10 @@ function yq = interp1_vector(x, y, q, method, extrapMode, extrapValue)
       case {'pchip', 'makima', 'spline', 'cubic'}
         h = x(left + 1) - x(left);
         t = (xk - x(left)) / h;
-        h00 = (2 * t^3) - (3 * t^2) + 1;
-        h10 = (t^3) - (2 * t^2) + t;
-        h01 = (-2 * t^3) + (3 * t^2);
-        h11 = (t^3) - (t^2);
+        h00 = (2 * t ^ 3) - (3 * t ^ 2) + 1;
+        h10 = (t ^ 3) - (2 * t ^ 2) + t;
+        h01 = (-2 * t ^ 3) + (3 * t ^ 2);
+        h11 = (t ^ 3) - (t ^ 2);
         yq(k) = h00 * y(left) + h10 * h * d(left) + h01 * y(left + 1) + h11 * h * d(left + 1);
       otherwise
         frac = (xk - x(left)) / (x(left + 1) - x(left));
@@ -101,6 +103,38 @@ function d = interp1_pchip_slopes(x, y)
   end
   d(1) = interp1_pchip_endpoint(h(1), h(2), delta(1), delta(2));
   d(n) = interp1_pchip_endpoint(h(end), h(end - 1), delta(end), delta(end - 1));
+end
+%=============================================================================
+function d = interp1_makima_slopes(x, y)
+  % Modified Akima piecewise cubic Hermite slopes at the nodes.
+  % The classic Akima weights are augmented with the '+ |sum| / 2' term so
+  % that regions where consecutive slopes are equal but non-zero no longer
+  % produce the 0/0 indeterminate form of the original Akima scheme.
+  n = numel(x);
+  h = diff(x);
+  delta = diff(y) ./ h;
+  d = zeros(size(y)) + 0 * y(1);
+  if n == 2
+    d(:) = delta(1);
+    return
+  end
+  % Extend the segment slopes with two synthetic values on each side using a
+  % linear extrapolation of the slope sequence.
+  m = zeros(n + 3, 1) + 0 * y(1);
+  m(3:n + 1) = delta;
+  m(2) = 2 * m(3) - m(4);
+  m(1) = 2 * m(2) - m(3);
+  m(n + 2) = 2 * m(n + 1) - m(n);
+  m(n + 3) = 2 * m(n + 2) - m(n + 1);
+  for i = 1:n
+    w1 = abs(m(i + 3) - m(i + 2)) + abs(m(i + 3) + m(i + 2)) / 2;
+    w2 = abs(m(i + 1) - m(i)) + abs(m(i + 1) + m(i)) / 2;
+    if w1 + w2 == 0
+      d(i) = 0;
+    else
+      d(i) = (w1 * m(i + 1) + w2 * m(i + 2)) / (w1 + w2);
+    end
+  end
 end
 %=============================================================================
 function d = interp1_pchip_endpoint(h1, h2, del1, del2)

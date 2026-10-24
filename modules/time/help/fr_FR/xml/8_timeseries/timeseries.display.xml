@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries.display</keyword>
+  <short_description>Affiche un objet timeseries.</short_description>
+  <syntax>
+    <syntax_item>display(ts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Un objet timeseries.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>display</b> affiche un objet timeseries avec son nom de variable lorsqu&apos;il est disponible.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2; 3], [10; 11; 12], 'Name', 'speed');
+display(ts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

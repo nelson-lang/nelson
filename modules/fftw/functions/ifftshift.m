@@ -9,19 +9,22 @@
 %=============================================================================
 function Y = ifftshift(varargin)
   nRhs = nargin;
-  if (nRhs < 1 || nRhs > 2)
-    error(_('Wrong number of input arguments.'));
+  if nRhs < 1
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if nRhs > 2
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   X = varargin{1};
   if (~(isnumeric(X) || islogical(X) || ischar(X)))
-    error(_('X must be a vector or matrix.'));
+    error('Nelson:fftw:invalidInput', 'X must be a vector or matrix.');
   end
   if nRhs == 1
     Y = circshift(X, ceil(size(X) * inv(2)));
   else
     DIM = varargin{2};
     if ((~isscalar(DIM)) || (DIM < 1) || (floor(DIM) ~= DIM))
-      error(_('All values of DIM must be integer values.'));
+      error('Nelson:fftw:invalidDim', 'All values of DIM must be integer values.');
     end
     Y = circshift(X, ceil(size(X, DIM) * inv(2)), DIM);
   end

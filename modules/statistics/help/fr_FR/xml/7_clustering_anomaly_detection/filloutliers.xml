@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>filloutliers</keyword>
+  <short_description>Detecte et remplace les valeurs aberrantes dans des donnees numeriques.</short_description>
+  <syntax>
+    <syntax_item>B = filloutliers(A, fillmethod)</syntax_item>
+    <syntax_item>B = filloutliers(A, fillmethod, method)</syntax_item>
+    <syntax_item>B = filloutliers(A, fillmethod, 'percentiles', threshold)</syntax_item>
+    <syntax_item>B = filloutliers(A, fillmethod, movmethod, window)</syntax_item>
+    <syntax_item>B = filloutliers(..., dim)</syntax_item>
+    <syntax_item>B = filloutliers(..., Name, Value)</syntax_item>
+    <syntax_item>[B, TF, L, U, C] = filloutliers(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>filloutliers</b> detecte les valeurs aberrantes dans un tableau numerique et les remplace avec la methode de remplissage choisie.</p>
+    <p>Les methodes de remplissage incluent <b>previous</b>, <b>next</b>, <b>nearest</b>, <b>linear</b>, <b>pchip</b>, <b>clip</b> ou une constante scalaire numerique. Les methodes de detection et arguments nom-valeur sont partages avec <b>isoutlier</b>. L'argument nom-valeur <b>OutlierLocations</b> peut fournir directement un masque logique.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [57 59 60 100 59 58 57 58 300 61 62 60 62 58 57];
+B = filloutliers(A, 'linear')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [60 59 49 49 58 100 61 57 48 58];
+[B, TF, L, U, C] = filloutliers(A, 'clip')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}isoutlier">isoutlier</link></see_also_item>
+    <see_also_item><link linkend="${statistics}rmoutliers">rmoutliers</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}fillmissing">fillmissing</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

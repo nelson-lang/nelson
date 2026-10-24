@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.blake2b</keyword>
+  <short_description>Calcule le hash BLAKE2b, avec clé optionnelle.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.blake2b(message)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(message, key)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(message, key, digestSize)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(filename, key, digestSize, &apos;-file&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : contenu à hacher.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>chaîne : fichier existant dont les octets bruts sont hachés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) d'au plus 64 octets, ou [] pour un hachage sans clé (défaut).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>digestSize</param_name>
+      <param_description>entier entre 1 et 64 : longueur du condensé en octets (défaut : 64).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-file&apos;</param_name>
+      <param_description>le premier argument est un nom de fichier (toujours en dernier argument).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>vecteur de caractères : 2 * digestSize caractères hexadécimaux minuscules.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.blake2b</b> calcule un condensé BLAKE2b (RFC 7693) : un hachage cryptographique rapide à taille de sortie configurable. Avec une clé, il sert de code d'authentification de message sans la construction HMAC.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://www.rfc-editor.org/rfc/rfc7693, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[R = crypto.blake2b('abc')
+R = crypto.blake2b('abc', [], 20)
+R = crypto.blake2b('abc', 'my secret key', 32)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hacher un fichier</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'blake2b_example.txt'];
+filewrite(filename, 'abc');
+R = crypto.blake2b(filename, [], 64, '-file')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.sha512">crypto.sha512</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.hmac">crypto.hmac</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.argon2">crypto.argon2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

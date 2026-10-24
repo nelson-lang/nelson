@@ -12,11 +12,20 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <utility>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class ArrayOf;
 //=============================================================================
+/**
+ * Small vector wrapper used for Nelson argument and result lists.
+ *
+ * The wrapper keeps the
+ * old stream-like append operator while exposing the
+ * subset of std::vector operations used
+ * throughout builtins.
+ */
 template <typename T> class ListVector
 {
 private:
@@ -68,6 +77,19 @@ public:
     push_back(const T& el)
     {
         vector.push_back(el);
+    }
+    //=============================================================================
+    inline void
+    push_back(T&& el)
+    {
+        vector.push_back(std::move(el));
+    }
+    //=============================================================================
+    template <typename... Args>
+    inline T&
+    emplace_back(Args&&... args)
+    {
+        return vector.emplace_back(std::forward<Args>(args)...);
     }
     //=============================================================================
     inline void
@@ -195,9 +217,15 @@ public:
     //=============================================================================
 };
 //=============================================================================
+/**
+ * Ordered list of ArrayOf values, usually function inputs or outputs.
+ */
 using ArrayOfVector = ListVector<ArrayOf>;
 //=============================================================================
+/**
+ * Two-dimensional list of ArrayOf values.
+ */
 using ArrayOfMatrix = std::vector<ArrayOfVector>;
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

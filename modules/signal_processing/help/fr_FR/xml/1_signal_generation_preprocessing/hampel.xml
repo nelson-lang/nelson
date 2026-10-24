@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>hampel</keyword>
+  <short_description>Filtrage d'aberrants par Hampel.</short_description>
+  <syntax>
+    <syntax_item>Y = hampel(X)</syntax_item>
+    <syntax_item>Y = hampel(X, K)</syntax_item>
+    <syntax_item>[Y, I] = hampel(X, K, NSIGMA)</syntax_item>
+    <syntax_item>[Y, I, XMEDIAN, XSIGMA] = hampel(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>signal d'entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>K</param_name>
+      <param_description>nombre de voisins de chaque cote.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>NSIGMA</param_name>
+      <param_description>seuil en ecarts types robustes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>signal filtre.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description>indices logiques des aberrants.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>XMEDIAN</param_name>
+      <param_description>valeurs medianes locales.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>XSIGMA</param_name>
+      <param_description>estimations locales d'ecart type robuste.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>hampel</b> remplace les aberrants par la mediane locale.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+[y, i] = hampel([1 1 10 1 1], 1, 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}medfilt1">medfilt1</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

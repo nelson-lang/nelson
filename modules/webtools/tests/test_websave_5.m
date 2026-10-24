@@ -49,8 +49,8 @@ if ~success
   skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
 end
 
-assert_istrue(isfile(destination_filename));
+asserts.istrue(isfile(destination_filename));
 txt = fileread(destination_filename);
 st = jsondecode(txt);
-assert_isequal(lower(st(1).email), lower('Eliseo@gardner.biz'));
+asserts.isequal(lower(st(1).email), lower('Eliseo@gardner.biz'));
 %=============================================================================

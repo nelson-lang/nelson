@@ -7,9 +7,10 @@
   <syntax>
     <syntax_item>R = sum(M)</syntax_item>
     <syntax_item>R = sum(M, d)</syntax_item>
-    <syntax_item>R = sum(M, d)</syntax_item>
+    <syntax_item>R = sum(M, 'all')</syntax_item>
+    <syntax_item>R = sum(M, ___, f)</syntax_item>
     <syntax_item>R = sum(M, d, t)</syntax_item>
-    <syntax_item>R = sum(M, d, t, f)</syntax_item>
+    <syntax_item>R = sum(M, 'all', t, f)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,6 +22,10 @@
       <param_name>d</param_name>
       <param_description
       >dimension to operate along: positive integer scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description>sum all elements of M and return a scalar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
@@ -41,14 +46,32 @@
   </param_output>
   <description>
     <p>
-      <b>R = sum(M)</b> returns the sum of the array elements of M.</p>
+      <b>R = sum(M)</b> returns the sum along the first non-singleton dimension of M.</p>
+    <p>
+      <b>R = sum(M, d)</b> sums along dimension d. <b>R = sum(M, 'all')</b> sums all elements of M and returns a scalar.</p>
+    <p>
+      Optional text arguments control the output type (<b>'default'</b>, <b>'double'</b> or <b>'native'</b>) and NaN handling (<b>'includenan'</b> or <b>'omitnan'</b>).</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
+      <example_item_description>Sum along a dimension.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [1 2; 3 4];
+R = sum(M, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sum all elements.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [1 2; 3 4];
+R = sum(M, 'all')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Keep the native integer output type.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);

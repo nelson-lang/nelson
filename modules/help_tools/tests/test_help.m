@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
+% <--WEIGHT 8-->
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 help_json = [modulepath('help_tools'), '/help/nelson_help_', getlanguage(), '.json'];
@@ -17,10 +17,10 @@ help;
 help('help');
 help help
 txt = help('help');
-assert_istrue(ischar(txt));
-assert_istrue(contains(txt, 'help function_name'));
-assert_istrue(contains(txt, 'help(''function_name'')'));
+asserts.istrue(ischar(txt));
+asserts.istrue(contains(txt, 'help function_name'));
+asserts.istrue(contains(txt, 'help(''function_name'')'));
 txt = help('nelson_missing_help_entry');
-assert_istrue(ischar(txt));
-assert_istrue(isempty(txt));
+asserts.istrue(ischar(txt));
+asserts.istrue(isempty(txt));
 %=============================================================================

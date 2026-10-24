@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function validateContourData(X, Y, Z)
-  if ~isnumeric(Z) || ~ismatrix(Z) || size(Z, 1) < 2 || size(Z, 2) < 2
-    error(_('Z must be a numeric matrix with at least two rows and two columns.'));
+  if ~(isnumeric(Z) || islogical(Z)) || ~ismatrix(Z) || size(Z, 1) < 2 || size(Z, 2) < 2
+    error('Nelson:validateContourData:invalidZ', 'Z must be a numeric matrix with at least two rows and two columns.');
   end
-  finiteZ = Z(isfinite(Z));
-  if isempty(finiteZ) || numel(unique(finiteZ(:))) < 2
-    error(_('Z must contain at least two different finite values.'));
-  end
+  % Data with no relief draws no contour line, which is not a reason to refuse
+  % it: the object is still built and reports an empty LevelList. The plotting
+  % functions say so with a warning, see warnContourNotRendered; contourc
+  % returns its empty matrix without a word.
   if ~isempty(X)
     validateContourCoordinate(X, size(Z, 2), size(Z), 'X');
   end
@@ -25,19 +25,19 @@ end
 %=============================================================================
 function validateContourCoordinate(C, vectorLength, matrixSize, name)
   if ~isnumeric(C)
-    error([name, _(' must be numeric.')]);
+    error('Nelson:validators:mustBeNumeric', '%s must be numeric.', name);
   end
   if isvector(C)
     if numel(C) ~= vectorLength
-      error([name, _(' vector length does not match Z.')]);
+      error('Nelson:validateContourData:vectorLengthMismatch', '%s vector length does not match Z.', name);
     end
     values = double(C(:));
     delta = diff(values);
     if ~(all(delta > 0) || all(delta < 0))
-      error([name, _(' vector values must be strictly monotonic.')]);
+      error('Nelson:validateContourData:mustBeMonotonic', '%s vector values must be strictly monotonic.', name);
     end
   elseif ~isequal(size(C), matrixSize)
-    error([name, _(' matrix size must match Z.')]);
+    error('Nelson:validateContourData:sizeMismatch', '%s matrix size must match Z.', name);
   end
 end
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -56,13 +56,13 @@ GORestrictedStringColorProperty::get()
     if (!isEqual(GO_PROPERTY_VALUE_COLORSPEC_STR)) {
         return GORestrictedStringProperty::get();
     }
-    ArrayOf ret(ArrayOf::doubleRowVectorConstructor(3));
-    double* dp = (double*)ret.getReadWriteDataPointer();
+    ArrayOf ret(ArrayOf::doubleRowVector(3));
+    double* dp = (double*)ret.readWriteDataPointer();
     dp[0] = colorspec[0];
     dp[1] = colorspec[1];
     dp[2] = colorspec[2];
     return ret;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

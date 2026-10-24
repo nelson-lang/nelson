@@ -10,12 +10,12 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
+#include "LapackPrototypes.hpp"
 #include <Eigen/Dense>
-#include <Eigen/src/misc/lapacke.h>
 #include "Balance.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "LinearAlgebraHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -33,8 +33,8 @@ template <class T>
 static ArrayOf
 permuteVector(const T* ptrScale, int N, int IHI)
 {
-    ArrayOf P = ArrayOf::doubleMatrix2dConstructor(N, 1);
-    double* ptrPermutingVector = (double*)P.getDataPointer();
+    ArrayOf P = ArrayOf::doubleMatrix2d(N, 1);
+    double* ptrPermutingVector = (double*)P.dataPointer();
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         ptrPermutingVector[i] = (double)(i + 1);
@@ -51,8 +51,8 @@ template <class T>
 static ArrayOf
 scalingVector(const T* ptrScale, int N, int ILO, int IHI)
 {
-    ArrayOf S = ArrayOf::doubleMatrix2dConstructor(N, 1);
-    double* ptrScalingVector = (double*)S.getDataPointer();
+    ArrayOf S = ArrayOf::doubleMatrix2d(N, 1);
+    double* ptrScalingVector = (double*)S.dataPointer();
 
     OMP_PARALLEL_FOR_LOOP(N)
     for (int i = 0; i < N; ++i) {
@@ -73,14 +73,14 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
         needToOverload = true;
         return {};
     }
-    Dimensions dimsA = A.getDimensions();
-    if (dimsA.getRows() != dimsA.getColumns()) {
-        Error(_("Matrix must be square."), "Nelson:square");
+    Dimensions dimsA = A.dimensions();
+    if (dimsA.rows() != dimsA.columns()) {
+        Error("Nelson:square", "%s expected.", "Square matrix");
     }
     if (A.isEmpty()) {
         ArrayOfVector retval;
         Dimensions dims(0, 0);
-        ArrayOf emptyMatrix = ArrayOf::emptyConstructor(dims);
+        ArrayOf emptyMatrix = ArrayOf::empty(dims);
         needToOverload = false;
         if (A.isSingleClass()) {
             emptyMatrix.promoteType(NLS_SINGLE);
@@ -95,7 +95,7 @@ Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload)
         return retval;
     }
     needToOverload = false;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
         return doubleRealBalance(A, noperm, nLhs);
     } break;
@@ -119,22 +119,22 @@ ArrayOfVector
 doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        Error("Nelson:balance:matrixWithNaNInf", "%s must not contain NaN or Inf.",
+            "Input to BALANCE");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
-    int N = (int)A.getColumns();
+    int N = (int)A.columns();
     int ILO = 0;
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    ArrayOf SCALE = ArrayOf::doubleMatrix2dConstructor(N, 1);
-    double* ptrScale = (double*)SCALE.getDataPointer();
+    ArrayOf SCALE = ArrayOf::doubleMatrix2d(N, 1);
+    double* ptrScale = (double*)SCALE.dataPointer();
 
-    int INFO = LAPACKE_dgebal(
-        LAPACK_COL_MAJOR, JOB, N, (double*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
+    int INFO = 0;
+    LAPACK_dgebal(&JOB, &N, (double*)B.dataPointer(), &N, &ILO, &IHI, ptrScale, &INFO);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        Error("Nelson:balance:lapackError", "Invalid arguments for LAPACK_%s", "dgebal");
     }
 
     ArrayOfVector retval;
@@ -145,7 +145,7 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
+        retval << ArrayOf::diagonalMatrix(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<double>(ptrScale, N, ILO, IHI);
@@ -155,28 +155,28 @@ doubleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     return retval;
 }
 //=============================================================================
-
 ArrayOfVector
 doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<double>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        Error("Nelson:balance:matrixWithNaNInf", "%s must not contain NaN or Inf.",
+            "Input to BALANCE");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
-    int N = (int)A.getColumns();
+    int N = (int)A.columns();
     int ILO = 0;
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    auto* pzB = reinterpret_cast<doublecomplex*>((double*)B.getDataPointer());
+    auto* pzB = reinterpret_cast<doublecomplex*>((double*)B.dataPointer());
 
-    ArrayOf SCALE = ArrayOf::doubleMatrix2dConstructor(N, 1);
-    double* ptrScale = (double*)SCALE.getDataPointer();
+    ArrayOf SCALE = ArrayOf::doubleMatrix2d(N, 1);
+    double* ptrScale = (double*)SCALE.dataPointer();
 
-    int INFO = LAPACKE_zgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
+    int INFO = 0;
+    LAPACK_zgebal(&JOB, &N, pzB, &N, &ILO, &IHI, ptrScale, &INFO);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        Error("Nelson:balance:lapackError", "Invalid arguments for LAPACK_%s", "zgebal");
     }
 
     ArrayOfVector retval;
@@ -187,7 +187,7 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
+        retval << ArrayOf::diagonalMatrix(scalingVector<double>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<double>(ptrScale, N, ILO, IHI);
@@ -201,22 +201,22 @@ ArrayOfVector
 singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        Error("Nelson:balance:matrixWithNaNInf", "%s must not contain NaN or Inf.",
+            "Input to BALANCE");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
-    int N = (int)A.getColumns();
+    int N = (int)A.columns();
     int ILO = 0;
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    ArrayOf SCALE = ArrayOf::singleMatrix2dConstructor(N, 1);
-    single* ptrScale = (single*)SCALE.getDataPointer();
+    ArrayOf SCALE = ArrayOf::singleMatrix2d(N, 1);
+    single* ptrScale = (single*)SCALE.dataPointer();
 
-    int INFO = LAPACKE_sgebal(
-        LAPACK_COL_MAJOR, JOB, N, (single*)B.getDataPointer(), N, &ILO, &IHI, ptrScale);
+    int INFO = 0;
+    LAPACK_sgebal(&JOB, &N, (single*)B.dataPointer(), &N, &ILO, &IHI, ptrScale, &INFO);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        Error("Nelson:balance:lapackError", "Invalid arguments for LAPACK_%s", "sgebal");
     }
 
     ArrayOfVector retval;
@@ -227,7 +227,7 @@ singleRealBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
+        retval << ArrayOf::diagonalMatrix(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<single>(ptrScale, N, ILO, IHI);
@@ -241,23 +241,24 @@ ArrayOfVector
 singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(
-            _("Input to BALANCE must not contain NaN or Inf."), "Nelson:balance:matrixWithNaNInf");
+        Error("Nelson:balance:matrixWithNaNInf", "%s must not contain NaN or Inf.",
+            "Input to BALANCE");
     }
     char JOB = noperm ? (false ? 'N' : 'S') : (false ? 'P' : 'B');
-    int N = (int)A.getColumns();
+    int N = (int)A.columns();
     int ILO = 0;
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    auto* pzB = reinterpret_cast<singlecomplex*>((single*)B.getDataPointer());
+    auto* pzB = reinterpret_cast<singlecomplex*>((single*)B.dataPointer());
 
-    ArrayOf SCALE = ArrayOf::singleMatrix2dConstructor(N, 1);
-    single* ptrScale = (single*)SCALE.getDataPointer();
+    ArrayOf SCALE = ArrayOf::singleMatrix2d(N, 1);
+    single* ptrScale = (single*)SCALE.dataPointer();
 
-    int INFO = LAPACKE_cgebal(LAPACK_COL_MAJOR, JOB, N, pzB, N, &ILO, &IHI, ptrScale);
+    int INFO = 0;
+    LAPACK_cgebal(&JOB, &N, pzB, &N, &ILO, &IHI, ptrScale, &INFO);
     if (INFO < 0) {
-        Error(_("Invalid arguments for LAPACKE_dgebal"));
+        Error("Nelson:balance:lapackError", "Invalid arguments for LAPACK_%s", "cgebal");
     }
 
     ArrayOfVector retval;
@@ -268,7 +269,7 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     }
 
     if (nLhs == 2) {
-        retval << ArrayOf::diagonalConstructor(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
+        retval << ArrayOf::diagonalMatrix(scalingVector<single>(ptrScale, N, ILO, IHI), 0);
         retval << B;
     } else {
         retval << scalingVector<single>(ptrScale, N, ILO, IHI);
@@ -278,5 +279,5 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

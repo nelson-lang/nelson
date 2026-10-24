@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="247" viewBox="-153.5 -143.5 307 247">
+  <rect x="-153.5" y="-143.5" width="307" height="247" rx="46.93" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <ellipse cx="0" cy="-79" rx="20" ry="19" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="6.5"/>
+    <rect x="-12" y="-68" width="24" height="108" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25"/>
+    <polyline points="12,0 100,0" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,0 -12,0" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-12,40 -12,80 -10,86 -6,88 0,90 6,88 10,86 12,80 12,40 -12,40" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linejoin="round"/>
+    <polyline points="-12,40 -12,-64" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="12,40 12,-64" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-40,-20 -12,-20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-40,20 -12,20" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-40,60 -12,60" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,120) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">TemperatureSensor</text></g>
+    <g transform="translate(50,30) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="48" fill="#9C2A1A">K</text></g>
+  </g>
+</svg>

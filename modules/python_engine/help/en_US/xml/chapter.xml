@@ -6,7 +6,7 @@
   <chapter>Python engine</chapter>
   <chapter_description>
     <p
-    >The Python Engine module allows Nelson users to seamlessly interface with Python, leveraging Python’s extensive ecosystem alongside Nelson’s native capabilities.</p>
+    >The Python Engine module lets Nelson call Python code and use Python libraries alongside Nelson functions.</p>
     <p
     >It provides functions to run Python code, manage interpreter environments, and exchange data between Nelson and Python.</p>
   </chapter_description>

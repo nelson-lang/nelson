@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "PythonEnvironment_structBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -23,12 +24,12 @@ Nelson::Python_engineGateway::PythonEnvironment_structBuiltin(int nLhs, const Ar
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
 
-    if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+    if (param1.handleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
+        Error(L"Nelson:python:invalidEnvironment", L"PythonEnvironment object expected.");
     }
 
     if (!param1.isScalar()) {
-        Error(_W("Wrong size for argument #1. scalar expected"));
+        Error(L"Nelson:python:scalarExpected", L"Wrong size for argument #1. scalar expected");
     }
 
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();
@@ -45,21 +46,19 @@ Nelson::Python_engineGateway::PythonEnvironment_structBuiltin(int nLhs, const Ar
     fieldnames.push_back("ExecutionMode");
 
     ArrayOf* elementRes = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.getElementCount(), fieldnames, false));
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dimsRes.elementCount(), fieldnames, false));
     ArrayOf res = ArrayOf(NLS_STRUCT_ARRAY, dimsRes, elementRes, false, fieldnames);
-    ArrayOfVector versionField(ArrayOf::stringArrayConstructor(pythonEnvironment->getVersion()));
+    ArrayOfVector versionField(ArrayOf::stringArray(pythonEnvironment->getVersion()));
     res.setFieldAsList(fieldnames[0], versionField);
-    ArrayOfVector executableField(
-        ArrayOf::stringArrayConstructor(pythonEnvironment->getExecutable()));
+    ArrayOfVector executableField(ArrayOf::stringArray(pythonEnvironment->getExecutable()));
     res.setFieldAsList(fieldnames[1], executableField);
-    ArrayOfVector libraryField(ArrayOf::stringArrayConstructor(pythonEnvironment->getLibrary()));
+    ArrayOfVector libraryField(ArrayOf::stringArray(pythonEnvironment->getLibrary()));
     res.setFieldAsList(fieldnames[2], libraryField);
-    ArrayOfVector homeField(ArrayOf::stringArrayConstructor(pythonEnvironment->getHome()));
+    ArrayOfVector homeField(ArrayOf::stringArray(pythonEnvironment->getHome()));
     res.setFieldAsList(fieldnames[3], homeField);
-    ArrayOfVector statusField(ArrayOf::doubleConstructor(pythonEnvironment->getStatus()));
+    ArrayOfVector statusField(ArrayOf::doubleScalar(pythonEnvironment->getStatus()));
     res.setFieldAsList(fieldnames[4], statusField);
-    ArrayOfVector executionModeField(
-        ArrayOf::doubleConstructor(pythonEnvironment->getExecutionMode()));
+    ArrayOfVector executionModeField(ArrayOf::doubleScalar(pythonEnvironment->getExecutionMode()));
     res.setFieldAsList(fieldnames[5], executionModeField);
     retval << res;
 

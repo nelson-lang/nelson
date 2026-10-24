@@ -14,5 +14,6 @@
 namespace Nelson::FunctionsGateway {
 ArrayOfVector
 rehashBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

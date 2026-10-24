@@ -7,17 +7,9 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 # LICENCE_BLOCK_END
 # ==============================================================================
-if(${CMAKE_SYSTEM_NAME}
-  MATCHES
-  "Darwin"
-  AND
-  NOT
-  DEFINED
-  ENV{CONDA_PREFIX}
-  AND
-  NOT
-  DEFINED
-  ENV{IN_NIX_SHELL}
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin"
+  AND NOT DEFINED ENV{CONDA_PREFIX}
+  AND NOT DEFINED ENV{IN_NIX_SHELL}
 )
   # Prefer pkg-config since it respects the user's pkg-config path and
   # avoids version mismatches between icu4c@77 and icu4c@78 on Homebrew.
@@ -53,11 +45,8 @@ if(${CMAKE_SYSTEM_NAME}
       )
 
       foreach(PATH ${POSSIBLE_ICU_PATHS})
-        if(EXISTS
-          "${PATH}/include"
-          AND
-          EXISTS
-          "${PATH}/lib/libicuuc${CMAKE_SHARED_LIBRARY_SUFFIX}"
+        if(EXISTS "${PATH}/include"
+          AND EXISTS "${PATH}/lib/libicuuc${CMAKE_SHARED_LIBRARY_SUFFIX}"
         )
           set(CMAKE_ICU_PATH ${PATH})
           break()

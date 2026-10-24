@@ -7,96 +7,190 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-A = [1,2;3,4];
+A = [1, 2; 3, 4];
 R = {A, 5};
 R{1, 2} = [];
-REF = {A , []};
-assert_isequal(R, REF);
+REF = {A, []};
+asserts.isequal(R, REF);
+%=============================================================================
+C = cell(1, 3);
+C{2} = 42;
+asserts.isequal(C, {[], 42, []});
+%=============================================================================
+C = cell(2, 2);
+asserts.isequal(C, {[], []; [], []});
+C = cell([1, 4]);
+asserts.isequal(C, {[], [], [], []});
+C = cell(0, 3);
+asserts.isequal(size(C), [0 3]);
+asserts.istrue(iscell(C));
+%=============================================================================
+C = {};
+C{3} = 'tail';
+asserts.isequal(C, {[], [], 'tail'});
 %=============================================================================
 C = {A};
 C1 = C(1, 1);
 C2 = C{1, 1};
 T1 = class(C1);
 T2 = class(C2);
-assert_checkerror('C2{1}', _('Attempt to apply contents-indexing to non cell-array object.'));
-assert_isequal(T1, 'cell');
-assert_isequal(T2, 'double');
+asserts.checkerror('C2{1}', _('Attempt to apply contents-indexing to non cell-array object.'));
+asserts.isequal(T1, 'cell');
+asserts.isequal(T2, 'double');
 %=============================================================================
-R = {cos(33), [1:3;3:5;5:7] {[1:10], 3; 'str', cos(33)}; [1i 3], 'abc', [1:10]};
+R = {cos(33), [1:3; 3:5; 5:7] {[1:10], 3; 'str', cos(33)}; [1i 3], 'abc', [1:10]};
 R1 = R(:);
-REF = {cos(33); [1i 3]; [1:3;3:5;5:7]; 'abc'; {[1:10], 3; 'str', cos(33)}; [1:10]};
-assert_isequal(R1, REF);
+REF = {cos(33); [1i 3]; [1:3; 3:5; 5:7]; 'abc'; {[1:10], 3; 'str', cos(33)}; [1:10]};
+asserts.isequal(R1, REF);
 %=============================================================================
 R2 = R(:, :);
-assert_isequal(R2, R);
+asserts.isequal(R2, R);
 %=============================================================================
 R3 = R(1, :);
-REF = {cos(33), [1:3;3:5;5:7], {[1:10], 3; 'str', cos(33)}};
-assert_isequal(R3, REF);
+REF = {cos(33), [1:3; 3:5; 5:7], {[1:10], 3; 'str', cos(33)}};
+asserts.isequal(R3, REF);
 %=============================================================================
 R4 = R{2, :};
 REF = [1i 3];
-assert_isequal(R4, REF);
+asserts.isequal(R4, REF);
 %=============================================================================
 R5 = R(:, 3);
 REF = {{[1:10], 3; 'str', cos(33)}; [1:10]};
-assert_isequal(R5, REF);
+asserts.isequal(R5, REF);
 %=============================================================================
-assert_checkerror('R{:, 4}', _('Index exceeds dimensions.'));
+asserts.checkerror('R{:, 4}', _('Index exceeds array bounds.'));
 %=============================================================================
 R6 = R(1, 1);
 REF = {cos(33)};
-assert_isequal(R6, REF);
+asserts.isequal(R6, REF);
 %=============================================================================
-R7 = R(1,3);
+R7 = R(1, 3);
 REF = {{[1:10], 3; 'str', cos(33)}};
-assert_isequal(R7, REF);
+asserts.isequal(R7, REF);
 %=============================================================================
-R8 = R{1,3};
+R8 = R{1, 3};
 REF = {[1:10], 3; 'str', cos(33)};
-assert_isequal(R8, REF);
+asserts.isequal(R8, REF);
 %=============================================================================
 R9 = R{1, 3}{1, 1};
 REF = [1:10];
-assert_isequal(R9, REF);
+asserts.isequal(R9, REF);
 %=============================================================================
 R10 = R{1, 3}(1, 1);
 REF = {[1:10]};
-assert_isequal(R10, REF);
+asserts.isequal(R10, REF);
 %=============================================================================
 R11 = R{1, 3}{1, 1}(2);
 REF = 2;
-assert_isequal(R11, REF);
+asserts.isequal(R11, REF);
 %=============================================================================
 R12 = R(2, 3);
 REF = {[1:10]};
-assert_isequal(R12, REF);
+asserts.isequal(R12, REF);
 %=============================================================================
-assert_checkerror('R(1, 5)', _('Index exceeds dimensions.'));
-assert_checkerror('R(5, 5)', _('Index exceeds dimensions.'));
+asserts.checkerror('R(1, 5)', _('Index exceeds array bounds.'));
+asserts.checkerror('R(5, 5)', _('Index exceeds array bounds.'));
 %=============================================================================
 R1 = {1 'abc'};
 R2 = {1, 'abc'};
-assert_isequal(R1, R2);
+asserts.isequal(R1, R2);
 %=============================================================================
 R = {1, 'abc'; [1:10], [1:2]};
-assert_checkerror('R{3}(-1)', _('index must either be real positive integers or logicals.'));
+asserts.checkerror('R{3}(-1)', _('index must either be real positive integers or logicals.'));
 %=============================================================================
-R ={ [1, 2; 3, 4], 'hello'; 5, [1, 2, 3]};
-assert_isequal(R{2, 2}, [1:3]);
-assert_isequal(R(2, 2), {[1:3]});
+R = {[1, 2; 3, 4], 'hello'; 5, [1, 2, 3]};
+asserts.isequal(R{2, 2}, [1:3]);
+asserts.isequal(R(2, 2), {[1:3]});
 %=============================================================================
-R = { [1, 2; 3, 4], 5};
-R(1, 1) = [];
-assert_isequal(R, {5});
+R = {[1, 2; 3, 4], 5};
+R(:, 1) = [];
+asserts.isequal(R, {5});
 %=============================================================================
 A = ["Nel", "son"; "open", "source"];
 R = cell(A);
 REF = {'Nel', 'son'; 'open', 'source'};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = ["Nel", "son"; NaN, "source"];
 R = cell(A);
 REF = {'Nel', 'son'; [], 'source'};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+C = cell(2, 3);
+asserts.isequal(size(C), [2 3]);
+asserts.istrue(iscell(C));
+C(:) = {[]};
+C{1, 1} = [1 2 3];
+C{2, 3} = 'abc';
+asserts.isequal(C{1, 1}, [1 2 3]);
+asserts.isequal(C{2, 3}, 'abc');
+C(:) = {'x'};
+asserts.isequal(C, {'x', 'x', 'x'; 'x', 'x', 'x'});
+%=============================================================================
+C = cell(1, 4);
+for k = 1:4
+  C{k} = k;
+end
+asserts.isequal([C{:}], 1:4);
+s = 0;
+for k = 1:4
+  s = s + C{k};
+end
+asserts.isequal(s, 10);
+%=============================================================================
+C = cell(4, 2);
+for k = 1:4
+  C{k, 1} = k;
+end
+asserts.isequal([C{:, 1}], 1:4);
+%=============================================================================
+C = cell(1, 6);
+for k = 1:6
+  C{k} = k;
+end
+C{3} = 'middle';
+asserts.isequal(C, {1, 2, 'middle', 4, 5, 6});
+%=============================================================================
+C = cell(4, 3);
+C(:) = {'x'};
+asserts.isequal(C, {'x', 'x', 'x'; 'x', 'x', 'x'; 'x', 'x', 'x'; 'x', 'x', 'x'});
+%=============================================================================
+C = cell(2, 2);
+C(:) = {0};
+D = C;
+C(:) = {'copy'};
+asserts.isequal(size(C), [2 2]);
+asserts.isequal(C, {'copy', 'copy'; 'copy', 'copy'});
+asserts.isequal(D, {0, 0; 0, 0});
+%=============================================================================
+C = cell(1, 7);
+C(:) = {0};
+C(2:2:6) = {'even'};
+asserts.isequal(C, {0, 'even', 0, 'even', 0, 'even', 0});
+%=============================================================================
+C = cell(7, 1);
+C(:) = {0};
+C(2:2:6) = {'even'};
+asserts.isequal(C, {0; 'even'; 0; 'even'; 0; 'even'; 0});
+%=============================================================================
+C = cell(3, 2);
+C(:) = {'base'};
+C([1 3 5]) = {'odd'};
+REF = {'odd', 'base'; 'base', 'odd'; 'odd', 'base'};
+asserts.isequal(C, REF);
+%=============================================================================
+C = cell(2, 2);
+C(:) = {'base'};
+D = C;
+C([2 4]) = {'copy'};
+asserts.isequal(C, {'base', 'base'; 'copy', 'copy'});
+asserts.isequal(D, {'base', 'base'; 'base', 'base'});
+%=============================================================================
+% sizes in any numeric or char class, empty sizes
+asserts.isequal(size(cell(int8(2))), [2 2]);
+asserts.isequal(size(cell(single(2), 3)), [2 3]);
+asserts.isequal(size(cell([])), [0 0]);
+asserts.isequal(size(cell(2, [])), [2 0]);
+asserts.isequal(size(cell(2, 'a')), [2 97]);
+asserts.isequal(cell({2}), {2});
 %=============================================================================

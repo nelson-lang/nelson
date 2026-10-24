@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>watershed</keyword>
+  <short_description>Compute watershed regions of a 2-D image or 3-D volume.</short_description>
+  <syntax>
+    <syntax_item>L = watershed(I)</syntax_item>
+    <syntax_item>L = watershed(I, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Finite real 2-D or 3-D numeric or logical image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity, 4 or 8 for images, 6, 18, or 26 for volumes. The default value is 8 for images and 26 for volumes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Double label array. Watershed ridge elements are set to 0.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Compute watershed regions of a finite real 2-D image or 3-D volume.</p>
+    <p>Connectivity can be 4, 8, or an equivalent 3-by-3 matrix for images, and 6, 18, 26, or an equivalent 3-by-3-by-3 array for volumes.</p>
+    <p>Labels identify catchment basins, and watershed ridge elements are set to 0.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Segment a synthetic relief image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=min((X+0.45).^2+Y.^2,(X-0.45).^2+Y.^2);
+L=watershed(I,4);
+figure; subplot(1,2,1); imagesc(I); title('Relief');
+subplot(1,2,2); imagesc(L); title('Watershed labels');]]></example_item_data>
+      <example_item_img
+        src="../../../images/watershed_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imextendedmin">imextendedmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imimposemin">imimposemin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}activecontour">activecontour</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -32,5 +32,12 @@ ExecuteFilesAssociated(
     return false;
 }
 //=============================================================================
+bool
+OpenAssociatedFiles(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC)
+{
+    return false;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

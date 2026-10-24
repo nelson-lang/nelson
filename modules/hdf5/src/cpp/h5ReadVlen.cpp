@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,9 @@
 #include "h5ReadVlen.hpp"
 #include "h5ReadHelpers.hpp"
 #include "NewWithException.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,24 +24,24 @@ h5ReadVlenOpaque(
     NelsonType outputClass = NLS_UINT8;
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(outputClass, rdata[k].len, stringVector(), false);
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
-        memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
+        memcpy(ptr, rdata[k].p, elements[k].elementSize() * rdata[k].len);
     }
     return res;
 }
@@ -60,30 +61,30 @@ h5ReadVlenFloat(
         outputClass = NLS_DOUBLE;
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     } break;
     }
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(outputClass, rdata[k].len, stringVector(), false);
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
-        memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
+        memcpy(ptr, rdata[k].p, elements[k].elementSize() * rdata[k].len);
     }
     return res;
 }
@@ -125,30 +126,30 @@ h5ReadVlenInteger(
         }
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     } break;
     }
     try {
         elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         Dimensions dimsVector(rdata[k].len, 1);
         void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(outputClass, rdata[k].len, stringVector(), false);
             elements[k] = ArrayOf(outputClass, dimsVector, ptr);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
-        memcpy(ptr, rdata[k].p, elements[k].getElementSize() * rdata[k].len);
+        memcpy(ptr, rdata[k].p, elements[k].elementSize() * rdata[k].len);
     }
     return res;
 }
@@ -171,15 +172,15 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
     }
     hsize_t sizeType = H5Tget_size(type);
     int rank;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = dimensions(aspace, rank);
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
     hvl_t* rdata = nullptr;
     try {
-        rdata = (hvl_t*)new_with_exception<hvl_t>(dims.getElementCount(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        rdata = (hvl_t*)new_with_exception<hvl_t>(dims.elementCount(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     hid_t memspace = H5I_INVALID_HID;
@@ -188,21 +189,22 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
         hsize_t* h5_maxdims = nullptr;
         try {
             h5_dims = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         try {
             h5_maxdims
                 = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         if (H5Sget_simple_extent_dims(aspace, h5_dims, h5_maxdims) < 0) {
             delete[] h5_dims;
             delete[] h5_maxdims;
-            Error("Impossible to read dimensions and maximum size of data set.");
+            Error("Nelson:hdf5:readDimensionsFailed",
+                "Impossible to read dimensions and maximum size of data set.");
             return {};
         }
         memspace = H5Screate_simple(rank, h5_dims, nullptr);
@@ -219,10 +221,12 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
 
     if (status < 0) {
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
             H5Sclose(memspace);
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         return {};
     }
@@ -242,7 +246,7 @@ h5ReadVlen(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstri
         return h5ReadVlenOpaque(attr_id, stype, rdata, dims, error);
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
     } break;
     }
     if (!asAttribute) {

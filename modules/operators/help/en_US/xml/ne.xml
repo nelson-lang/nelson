@@ -29,6 +29,8 @@
       <b>C = ne(A, B)</b> performs inequality operation: A ~= B variables.</p>
     <p>
       <b>ne</b> compares both real and imaginary parts of numeric arrays.</p>
+    <p>
+      When inputs are sparse numeric or logical arrays, the result is a sparse logical array. Sparse <b>single</b> and single-complex operands are supported.</p>
   </description>
   <used_function />
   <bibliography />
@@ -57,6 +59,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and single-complex operands supported.</history_description>
     </history_item>
   </history>
   <authors>

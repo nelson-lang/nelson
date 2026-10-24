@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Thread-safe storage for AST nodes
 class ASTThreadSafeStorage
 {
     //=============================================================================
@@ -56,7 +55,7 @@ public:
     }
     //=============================================================================
     AbstractSyntaxTreePtrVector
-    getCopy() const
+    copy() const
     {
         std::shared_lock<std::shared_mutex> lock(mutex);
         return storage;
@@ -64,7 +63,6 @@ public:
     //=============================================================================
 };
 //=============================================================================
-// Global storage instance with static lifetime
 static ASTThreadSafeStorage g_astStorage;
 //=============================================================================
 void
@@ -95,10 +93,9 @@ AbstractSyntaxTree::deleteReferences(AbstractSyntaxTreePtrVector& astAsVector)
 AbstractSyntaxTreePtrVector
 AbstractSyntaxTree::getReferences()
 {
-    return g_astStorage.getCopy();
+    return g_astStorage.copy();
 }
 //=============================================================================
-
 AbstractSyntaxTreePtr
 AbstractSyntaxTree::createNode(NODE_TYPE ntype, const std::string& name, int context)
 {

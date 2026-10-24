@@ -18,5 +18,5 @@ namespace Nelson {
 NLSHDF5_IMPEXP void
 h5WriteDataset(const std::wstring& filename, const std::wstring& location, ArrayOf& data);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -11,24 +11,18 @@ function disp(varargin)
   onCleanupObj = varargin{1};
   currentFormat = format();
   if ~isscalar(onCleanupObj)
-    h  = size(onCleanupObj, 1);
-    w  = size(onCleanupObj, 2);
+    h = size(onCleanupObj, 1);
+    w = size(onCleanupObj, 2);
     header = sprintf('  %d×%d %s array with properties:', h, w, 'onCleanup');
     disp(header);
-    if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
-    end
-    disp('   task');
-    if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
-    end
+    fprintf('\n');
+    disp('    task');
+    fprintf('\n');
     return;
   end
-  msg = sprintf(_('  %s with properties:'), 'onCleanup');
+  msg = ['  ', sprintf(_('%s with properties:'), 'onCleanup')];
   disp(msg);
-  if strcmp(currentFormat.LineSpacing, 'loose')
-    disp(' ');
-  end
+  fprintf('\n');
   task = onCleanupObj.task;
   funAsStr = func2str(task);
   if ~startsWith(funAsStr, '@')
@@ -36,7 +30,7 @@ function disp(varargin)
   end
   disp(['    task: ', funAsStr]);
   if strcmp(currentFormat.LineSpacing, 'loose')
-    disp(' ');
+    fprintf('\n');
   end
 end
 %=============================================================================

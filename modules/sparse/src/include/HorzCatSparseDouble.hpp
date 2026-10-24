@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
 HorzCatSparseDouble(ArrayOf A, ArrayOf B);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

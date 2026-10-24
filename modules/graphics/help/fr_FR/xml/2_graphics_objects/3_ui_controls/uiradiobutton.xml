@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uiradiobutton</keyword>
+  <short_description>Crée un bouton radio dans un groupe de boutons.</short_description>
+  <syntax>
+    <syntax_item>h = uiradiobutton()</syntax_item>
+    <syntax_item>h = uiradiobutton(parent)</syntax_item>
+    <syntax_item>h = uiradiobutton(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet composant UI.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rb = uiradiobutton(bg)</b> crée un bouton radio dans un uibuttongroup. Le premier bouton ajouté est sélectionné. La sélection est exclusive ; les changements sont signalés par le <b>SelectionChangedFcn</b> du groupe. Propriétés : <b>Value</b> (logique), <b>Text</b>, <b>WordWrap</b>, polices.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Radio buttons', 'Position', [100 100 420 260]);
+bg = uibuttongroup(f, 'Position', [95 55 230 150]);
+r1 = uiradiobutton(bg, 'Text', 'Metric', 'Position', [25 95 120 22]);
+r2 = uiradiobutton(bg, 'Text', 'Imperial', 'Position', [25 55 120 22]);
+r1.Value = true;
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uiradiobutton_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uiradiobutton</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+bg = uibuttongroup(f, 'Title', 'Options');
+rb1 = uiradiobutton(bg, 'Text', 'Premier');
+rb2 = uiradiobutton(bg, 'Text', 'Second');
+rb2.Value = true;
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

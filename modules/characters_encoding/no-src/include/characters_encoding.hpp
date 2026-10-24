@@ -30,6 +30,9 @@ NLSCHARACTERS_ENCODING_IMPEXP bool
 isSupportedEncoding(const std::wstring& encoding);
 //=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP std::string
+getSystemEncoding();
+//=============================================================================
+NLSCHARACTERS_ENCODING_IMPEXP std::string
 detectBestEncoding(const std::string& data);
 //=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::string>
@@ -42,7 +45,6 @@ utf8ToCharsetConverter(
 NLSCHARACTERS_ENCODING_IMPEXP bool
 charsetToUtf8Converter(const std::string& data, const std::string& codeIn, std::string& asUtf8);
 //=============================================================================
-// convert UTF-8 string to wstring
 NLSCHARACTERS_ENCODING_IMPEXP bool
 utf8_to_wstring(const std::string& str, std::wstring& wstr);
 NLSCHARACTERS_ENCODING_IMPEXP std::wstring
@@ -52,7 +54,6 @@ utf8_to_wstring(const char* str);
 NLSCHARACTERS_ENCODING_IMPEXP std::vector<std::wstring>
 utf8_to_wstring(const std::vector<std::string>& strs);
 //=============================================================================
-// convert wstring to UTF-8 string
 NLSCHARACTERS_ENCODING_IMPEXP bool
 wstring_to_utf8(const std::wstring& wstr, std::string& asUft8);
 NLSCHARACTERS_ENCODING_IMPEXP std::string

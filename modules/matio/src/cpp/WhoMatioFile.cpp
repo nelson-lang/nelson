@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include "matioHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -28,20 +29,20 @@ WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector& n
         = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:matio:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:matio:fileDoesNotExist", L"File does not exist.");
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:matio:fileDoesNotExist", L"File does not exist.");
     }
 
     std::string utf8filename = wstring_to_utf8(filename);
     mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
     if (!matfile) {
-        Error(_W("Valid .mat file expected."));
+        Error(L"Nelson:matio:invalidMatFile", L"Valid .mat file expected.");
     }
     stringVector variableNamesInFile;
     size_t nVars = 0;
@@ -65,10 +66,10 @@ WhoMatioFile(Interface* io, const std::wstring& filename, const wstringVector& n
     if (asCell) {
         Dimensions dims(variablesNamesToRead.size(), 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
         indexType k = 0;
         for (const std::string& name : variablesNamesToRead) {
-            elements[k] = ArrayOf::characterArrayConstructor(name);
+            elements[k] = ArrayOf::characterArray(name);
             k++;
         }
         res = ArrayOf(NLS_CELL_ARRAY, dims, elements);

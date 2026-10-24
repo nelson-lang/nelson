@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://s.w-x.co/staticmaps/WEB_Current_Weather_Map_1280x720.jpg?crop=16:9&width=800&format=pjpg&auto=webp&quality=60';
-filename = fullfile(tempdir(), 'earth2.jpg');
+url = 'https://jsonplaceholder.typicode.com/comments';
+filename = fullfile(tempdir(), 'test_websave_3.json');
 if isfile(filename)
   try
     rmfile(filename);
@@ -17,10 +17,9 @@ if isfile(filename)
   end
 end
 
-% Use a reasonable timeout and retry a few times with backoff
 options = weboptions('Timeout', 30);
 MAX_ATTEMPTS = 4;
-PAUSE_SECS = [0, 5, 10, 20];
+PAUSE_SECS = [0, 1, 2, 4];
 destination_filename = '';
 lastErrorMsg = '';
 success = false;
@@ -32,16 +31,15 @@ for attempt = 1:MAX_ATTEMPTS
   end
 
   try
-    destination_filename = websave(filename, url, options);
+    destination_filename = websave(filename, url, 'postId', 1, options);
 
-    % basic validation: file exists and is not tiny
     if isfile(destination_filename)
-      info = dir(destination_filename);
-      if info.bytes >= 1000
+      R = jsondecode(fileread(destination_filename));
+      if isstruct(R) && length(R) == 5 && R(1).postId == 1
         success = true;
         break;
       else
-        lastErrorMsg = sprintf('Downloaded file too small (%d bytes).', info.bytes);
+        lastErrorMsg = 'Downloaded content did not contain expected comments.';
       end
     else
       lastErrorMsg = 'websave did not create the file.';
@@ -57,6 +55,8 @@ if ~success
   skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
 end
 
-assert_istrue(isfile(destination_filename));
-assert_istrue(success)
+asserts.istrue(isfile(destination_filename));
+R = jsondecode(fileread(destination_filename));
+asserts.isequal(length(R), 5);
+asserts.isequal(R(1).email, 'Eliseo@gardner.biz');
 %=============================================================================

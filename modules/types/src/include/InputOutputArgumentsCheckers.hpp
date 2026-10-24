@@ -11,59 +11,47 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-/**
- * Validate number of input arguments
- */
 inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        RaiseError(_W("Not enough input arguments."), L"Nelson:notEnoughInputs");
     }
 }
 //=============================================================================
-/**
- * Validate number of input arguments
- */
 inline void
 nargincheck(const ArrayOfVector& argIn, int minArgs, int maxArgs)
 {
     if (argIn.size() < (size_t)minArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        RaiseError(_W("Not enough input arguments."), L"Nelson:notEnoughInputs");
     }
     if (argIn.size() > (size_t)maxArgs) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        RaiseError(_W("Too many input arguments."), L"Nelson:tooManyInputs");
     }
 }
 //=============================================================================
-/**
- * Validate number of output arguments
- */
 inline void
 nargoutcheck(int nLhs, int minArgs)
 {
     if (nLhs < minArgs) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        RaiseError(_W("Not enough output arguments."), L"Nelson:notEnoughOutputs");
     }
 }
 //=============================================================================
-/**
- * Validate number of output arguments
- */
 inline void
 nargoutcheck(int nLhs, int minArgs, int maxArgs)
 {
     if (nLhs < minArgs) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        RaiseError(_W("Not enough output arguments."), L"Nelson:notEnoughOutputs");
     }
     if (nLhs > maxArgs) {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        RaiseError(_W("Too many output arguments."), L"Nelson:tooManyOutputs");
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

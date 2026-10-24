@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>readdictionary</keyword>
+  <short_description>Read dictionary from file.</short_description>
+  <syntax>
+    <syntax_item>d = readdictionary(filename)</syntax_item>
+    <syntax_item>d = readdictionary(filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>text scalar: source file name.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>scalar: dictionary object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>d = readdictionary(filename)</b> reads a JSON object from <b>filename</b> and returns it as a dictionary.</p>
+    <p>
+      JSON object member names become string dictionary keys. Values are converted to Nelson values. JSON arrays are decoded as cell column arrays. If the JSON values have mixed types or non-scalar sizes, the dictionary value type is <code>cell</code>.</p>
+    <p>
+      <b>d = readdictionary(filename, Name, Value)</b> customizes the read operation. Supported options are:</p>
+    <ul>
+      <li>
+        <b>FileType:</b> file type. Supported values are <code>&apos;auto&apos;</code> and <code>&apos;json&apos;</code>. Only JSON dictionary files are currently supported.</li>
+      <li>
+        <b>ValueType:</b> target value type used to convert decoded values.</li>
+      <li>
+        <b>AllowTrailingCommas:</b> logical scalar. When true, trailing commas in JSON objects are accepted. Default is <code>true</code>.</li>
+      <li>
+        <b>AllowComments:</b> logical scalar. When true, JavaScript-style line and block comments are ignored before parsing. Default is <code>true</code>.</li>
+      <li>
+        <b>AllowInfAndNaN:</b> logical scalar. When true, <code>NaN</code>, <code>Infinity</code>, <code>Inf</code>, <code>-Infinity</code>, and <code>-Inf</code> tokens are accepted. Default is <code>true</code>.</li>
+      <li>
+        <b>DateLocale:</b> accepted for compatibility.</li>
+    </ul>
+    <p>
+      <b>DictionaryNodeName</b> and <b>DictionarySelector</b> are accepted as option names, but they are not supported for JSON dictionary files.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read a dictionary written as JSON.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'products.json'];
+d = dictionary(["apple", "banana"], [1.2, 2.3]);
+writedictionary(d, filename);
+r = readdictionary(filename)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read values with an explicit type.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'counts.json'];
+filewrite(filename, '{"a": 1, "b": 2}');
+d = readdictionary(filename, 'ValueType', 'single')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}writedictionary">writedictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}loadnh5">loadnh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}loadmat">loadmat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

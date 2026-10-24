@@ -15,5 +15,6 @@
 namespace Nelson::HandleGateway {
 ArrayOfVector
 handle_invokeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

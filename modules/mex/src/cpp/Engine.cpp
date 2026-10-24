@@ -14,6 +14,7 @@
 //=============================================================================
 #include <string>
 #include <cstdlib>
+#include <cstring>
 #include <algorithm>
 #include <map>
 #include <filesystem>
@@ -348,7 +349,7 @@ engEvalString(Engine* ep, const char* string)
         if ((mapOutputBufferPointer[childPID] != nullptr)
             && (mapoutputBufferLength[childPID] > 0)) {
             std::string engineOutputBuffer = Nelson::wstring_to_utf8(result);
-            strncpy(mapOutputBufferPointer[childPID], engineOutputBuffer.c_str(),
+            std::strncpy(mapOutputBufferPointer[childPID], engineOutputBuffer.c_str(),
                 mapoutputBufferLength[childPID]);
             mapOutputBufferPointer[childPID][mapoutputBufferLength[childPID]] = 0;
         }

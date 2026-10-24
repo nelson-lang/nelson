@@ -9,37 +9,47 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/core/tests/']);
 %=============================================================================
-assert_checkerror('fun_nargoutchk()', _('Wrong number of output arguments.'), 'Nelson:nargoutchk:notEnoughOutputs');
+asserts.checkerror('fun_nargoutchk()', _('Not enough output arguments.'), 'Nelson:nargoutchk:notEnoughOutputs');
 %=============================================================================
-assert_checkerror('[a, b, c, d] = fun_nargoutchk()', _('Wrong number of output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
+asserts.checkerror('[a, b, c, d] = fun_nargoutchk()', _('Too many output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
 %=============================================================================
-R = nargoutchk(1, 2 , 3);
+R = nargoutchk(1, 2, 3);
 REF = _('Too many output arguments.');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = nargoutchk(1, 2 , 0);
+R = nargoutchk(1, 2, 0);
 REF = _('Not enough output arguments.');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = nargoutchk(1, 2 , 1);
+R = nargoutchk(1, 2, 1);
 REF = '';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-S = nargoutchk(1, 2 , 3, 'struct');
+S = nargoutchk(1, 2, 3, 'struct');
 MSG = _('Too many output arguments.');
 ID = 'Nelson:nargoutchk:tooManyOutputs';
-assert_isequal(S.message, MSG);
-assert_isequal(S.identifier, ID);
+asserts.isequal(S.message, MSG);
+asserts.isequal(S.identifier, ID);
 %=============================================================================
-S = nargoutchk(1, 2 , 0, 'struct');
+S = nargoutchk(1, 2, 0, 'struct');
 MSG = _('Not enough output arguments.');
 ID = 'Nelson:nargoutchk:notEnoughOutputs';
-assert_isequal(S.message, MSG);
-assert_isequal(S.identifier, ID);
+asserts.isequal(S.message, MSG);
+asserts.isequal(S.identifier, ID);
 %=============================================================================
-S = nargoutchk(1, 2 , 1, 'struct');
+S = nargoutchk(1, 2, 1, 'struct');
 MSG = '';
 ID = '';
-assert_isequal(S.message, MSG);
-assert_isequal(S.identifier, ID);
+asserts.isequal(S.message, MSG);
+asserts.isequal(S.identifier, ID);
+%=============================================================================
+addpath([modulepath('functions_manager'), '/tests']);
+runtime_nargoutchk_fixture();
+[out1, out2] = runtime_nargoutchk_fixture();
+asserts.isequal([out1, out2], [1 2]);
+asserts.checkerror('[out1, out2, out3] = runtime_nargoutchk_fixture()', _('Too many output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
+nargoutMessage = nargoutchk(1, 2, 3);
+asserts.isequal(nargoutMessage, _('Too many output arguments.'));
+nargoutStruct = nargoutchk(1, 2, 0, 'struct');
+asserts.isequal(nargoutStruct.identifier, 'Nelson:nargoutchk:notEnoughOutputs');
 %=============================================================================

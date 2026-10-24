@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.lang.makeUniqueStrings</keyword>
+  <short_description>Make strings unique by adding numeric suffixes.</short_description>
+  <syntax>
+    <syntax_item>U = nelson.lang.makeUniqueStrings(S)</syntax_item>
+    <syntax_item>U = nelson.lang.makeUniqueStrings(S, excludedStrings)</syntax_item>
+    <syntax_item>U = nelson.lang.makeUniqueStrings(S, whichStringsIdx)</syntax_item>
+    <syntax_item>U = nelson.lang.makeUniqueStrings(S, excludedStrings, maxStringLength)</syntax_item>
+    <syntax_item>U = nelson.lang.makeUniqueStrings(S, whichStringsIdx, maxStringLength)</syntax_item>
+    <syntax_item>[U, modified] = nelson.lang.makeUniqueStrings(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>string array, character vector, or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>excludedStrings</param_name>
+      <param_description>strings that generated values must not duplicate.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>whichStringsIdx</param_name>
+      <param_description>numeric indices or logical mask selecting which elements to make unique. This argument is used instead of excludedStrings.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxStringLength</param_name>
+      <param_description>positive integer scalar maximum output length.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>unique strings, returned with the same text container type as S.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>modified</param_name>
+      <param_description>logical array indicating which input elements were changed.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.makeUniqueStrings</b> appends suffixes such as <b>_1</b> and <b>_2</b> to selected elements until they are unique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson.lang.makeUniqueStrings({'a', 'a', 'b', 'a'})
+nelson.lang.makeUniqueStrings({'a', 'b'}, {'a', 'b'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}nelson.lang.makeValidName">nelson.lang.makeValidName</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}namelengthmax">namelengthmax</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

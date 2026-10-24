@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>table</module_name>
+  <chapter>Lecture et ecriture de tableaux</chapter>
+  <chapter_description>
+    <p>Pages pour lire et ecrire des donnees de table.</p>
+  </chapter_description>
+</xmldoc>

@@ -10,7 +10,7 @@
 %<--INTERACTIVE TEST-->
 %=============================================================================
 addpath([modulepath('debugger', 'tests'), '/cases/']);
-dbstop('in','dbstep_in_out>myfunction')
+dbstop('in', 'dbstep_in_out>myfunction')
 dbstep_in_out(1)
 whos
 %   Name      Size            Bytes  Class   Attributes

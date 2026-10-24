@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>qt_verbose</keyword>
   <short_description
-  >Afficher/masquer les messages de débogage Qt.</short_description>
+  >Afficher/masquer les messages de dÃ©bogage Qt.</short_description>
   <syntax>
     <syntax_item>r = qt_verbose()</syntax_item>
     <syntax_item>p = qt_verbose(logical)</syntax_item>
@@ -28,8 +28,8 @@
   </param_output>
   <description>
     <p>
-      <b>qt_verbose</b> affiche ou masque les messages de débogage Qt.</p>
-    <p>Cette fonction est utile pour déboguer Qt et Qml.</p>
+      <b>qt_verbose</b> affiche ou masque les messages de dÃ©bogage Qt.</p>
+    <p>Cette fonction est utile pour dÃ©boguer Qt et Qml.</p>
   </description>
   <used_function />
   <bibliography />

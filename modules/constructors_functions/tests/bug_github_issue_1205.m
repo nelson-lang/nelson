@@ -15,61 +15,61 @@
 A = vander(1:3);
 R = diag(A)';
 REF = [1 2 1];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:3);
 R = diag(A, 1)';
 REF = [1 1];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = diag(A, 2)';
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = diag(A, 3)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = diag(A, 4)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = diag(A, 5)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:4);
 R = diag(A, 4)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:4);
 R = diag(A, 5)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:4);
 R = diag(A, 45)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:3);
 R = diag(A, -1)';
 REF = [4 3];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:3);
 R = diag(A, -2)';
 REF = 9;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:3);
 R = diag(A, -3)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = vander(1:3);
 R = diag(A, -4)';
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -14,5 +14,6 @@
 namespace Nelson::FftwGateway {
 ArrayOfVector
 fftwBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

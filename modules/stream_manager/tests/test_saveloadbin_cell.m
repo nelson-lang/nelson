@@ -9,29 +9,32 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % empty 2D cell
-A = cell(3,4);
-savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
+A = cell(3, 4);
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_cell.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % cell
-A = {'jim', 89, [5 2 1] ; 'george', pi, 3i};
-savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
+A = {'jim', 89, [5 2 1]; 'george', pi, 3i};
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_cell.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % nd array cell
 A = cell(3, 4, 2);
 A{1, 1} = 3;
 A{3, 4, 2} = 6;
-savebin([tempdir(), 'test_saveload_cell.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_cell.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Full-wave rectifier: |sin(2 pi 0.2 t)|.",
+  "name": "abs_rectifier",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "sine",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "a1",
+      "type": "abs",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "abs_rectifier_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "s1",
+      "to": "a1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "a1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "autoRoute": true
+}

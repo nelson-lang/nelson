@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dummyvar</keyword>
+  <short_description>Create dummy variables from grouping variables.</short_description>
+  <syntax>
+    <syntax_item>D = dummyvar(group)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>dummyvar</b> creates a numeric matrix of indicator columns for the grouping variables in <b>group</b>.</p>
+    <p>Each numeric matrix column, categorical vector, text vector, or cell element in <b>group</b> contributes one block of dummy variables. Missing group values produce <b>NaN</b> rows in their block.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[Colors = categorical({'Red'; 'Blue'; 'Green'; 'Red'; 'Green'; 'Blue'});
+D = dummyvar(Colors)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}grp2idx">grp2idx</link></see_also_item>
+    <see_also_item><link linkend="${statistics}anova1">anova1</link></see_also_item>
+    <see_also_item><link linkend="${statistics}x2fx">x2fx</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

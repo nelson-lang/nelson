@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,8 +23,8 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
         = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, filenames.size(), stringVector(), false);
     results = ArrayOf(NLS_LOGICAL, dims, res);
     if (filenames.size() == 0) {
-        versions = ArrayOf::stringArrayConstructor(filenames, dims);
-        headers = ArrayOf::stringArrayConstructor(filenames, dims);
+        versions = ArrayOf::stringArray(filenames, dims);
+        headers = ArrayOf::stringArray(filenames, dims);
         return;
     }
     ArrayOf* elementVersions = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -41,8 +41,8 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
         bool fileExistPreviously = FileSystemWrapper::Path::is_regular_file(mat_filename);
         if (!fileExistPreviously) {
             res[k] = false;
-            elementVersions[k] = ArrayOf::characterArrayConstructor("");
-            elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+            elementVersions[k] = ArrayOf::characterArray("");
+            elementHeaders[k] = ArrayOf::characterArray("");
         } else {
             std::wstring nh5Header;
             int16 nh5Version;
@@ -51,28 +51,28 @@ isNh5File(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions, A
             if (haveHeader) {
                 res[k] = true;
                 if (nh5Version == NELSON_HEADER_VERSION) {
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v1");
+                    elementVersions[k] = ArrayOf::characterArray("-v1");
                 } else {
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("");
+                    elementVersions[k] = ArrayOf::characterArray("");
                 }
-                elementHeaders[k] = ArrayOf::characterArrayConstructor(nh5Header);
+                elementHeaders[k] = ArrayOf::characterArray(nh5Header);
             } else {
                 std::string utf8filename = wstring_to_utf8(filename);
                 hid_t fid = H5Fopen(utf8filename.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
                 if (fid == H5I_INVALID_HID) {
                     res[k] = false;
-                    ArrayOf empty = ArrayOf::emptyConstructor(0, 1);
+                    ArrayOf empty = ArrayOf::empty(0, 1);
                     empty.promoteType(NLS_CHAR);
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("");
-                    elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+                    elementVersions[k] = ArrayOf::characterArray("");
+                    elementHeaders[k] = ArrayOf::characterArray("");
                 } else {
                     res[k] = isNelsonH5File(fid);
                     if (res[k]) {
-                        elementVersions[k] = ArrayOf::characterArrayConstructor("-v1");
+                        elementVersions[k] = ArrayOf::characterArray("-v1");
                     } else {
-                        elementVersions[k] = ArrayOf::characterArrayConstructor("");
+                        elementVersions[k] = ArrayOf::characterArray("");
                     }
-                    elementHeaders[k] = ArrayOf::characterArrayConstructor(NELSON_HEADER);
+                    elementHeaders[k] = ArrayOf::characterArray(NELSON_HEADER);
                     H5Fclose(fid);
                 }
             }

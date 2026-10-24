@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,7 +23,7 @@ Nelson::FunctionsGateway::ismexBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    std::string name = param1.getContentAsCString();
+    std::string name = param1.asUtf8String();
     wstringVector filenames;
     bool res = false;
     PathFunctionIndexerManager::getInstance()->find(name, filenames);
@@ -35,7 +35,7 @@ Nelson::FunctionsGateway::ismexBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
         }
     }
-    retval << ArrayOf::logicalConstructor(res);
+    retval << ArrayOf::logicalScalar(res);
     return retval;
 }
 //=============================================================================

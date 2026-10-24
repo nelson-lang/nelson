@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bvpinit</keyword>
+  <short_description>Cree une estimation initiale BVP.</short_description>
+  <syntax>
+    <syntax_item>solinit = bvpinit(xinit, yinit)</syntax_item>
+    <syntax_item>solinit = bvpinit(xinit, yinit, parameters)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>bvpinit</b> cree le maillage initial, l'estimation d'etat et les parametres inconnus optionnels utilises par les solveurs BVP.</p>
+    <table style="width:100%">
+  <tr><th>Entree</th><th>Forme acceptee</th><th>Role</th></tr>
+  <tr><td><b>xinit</b></td><td>Vecteur de maillage croissant.</td><td>Definit le premier maillage BVP.</td></tr>
+  <tr><td><b>yinit</b></td><td>Vecteur constant, tableau sur le maillage ou handle de fonction.</td><td>Definit l'estimation initiale de la solution.</td></tr>
+  <tr><td><b>parameters</b></td><td>Vecteur optionnel.</td><td>Estimation initiale des parametres inconnus.</td></tr>
+  <tr><td><b>solinit</b></td><td>Structure.</td><td>Entree pour <b>bvp4c</b> et <b>bvp5c</b>.</td></tr>
+</table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvp4c">bvp4c</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvp5c">bvp5c</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

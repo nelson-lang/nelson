@@ -9,24 +9,30 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 nolhs_function()
-assert_checkerror('a = nolhs_function();', _('Wrong number of output arguments.'));
-assert_checkerror('disp(nolhs_function())', _('Wrong number of output arguments.'));
+asserts.checkerror('a = nolhs_function();', _('Too many output arguments.'));
+asserts.checkerror('disp(nolhs_function())', _('Too many output arguments.'));
 onelhs_function()
-assert_istrue(onelhs_function());
+asserts.istrue(onelhs_function());
 twolhs_function()
 a = twolhs_function();
-assert_isequal(a, 1);
+asserts.isequal(a, 1);
 [a, b] = twolhs_function();
-assert_isequal(a, 1);
-assert_isequal(b, 10);
+asserts.isequal(a, 1);
+asserts.isequal(b, 10);
 varargoutlhs_function(0)
 varargoutlhs_function(1)
-assert_checkerror('A = varargoutlhs_function(0)', _('Not enough outputs in varargout to satisfy call.'));
+asserts.checkerror('A = varargoutlhs_function(0)', _('Not enough outputs in varargout to satisfy call.'));
 A = varargoutlhs_function(1)
-assert_isequal(A, 1);
+asserts.isequal(A, 1);
 A = varargoutlhs_function(2);
-assert_isequal(A, 1);
+asserts.isequal(A, 1);
 [A, B] = varargoutlhs_function(2);
-assert_isequal(A, 1);
-assert_isequal(B, 2);
+asserts.isequal(A, 1);
+asserts.isequal(B, 2);
+displayOrder = evalc('[firstOutput, secondOutput] = max([1 3 2])');
+firstPosition = strfind(displayOrder, 'firstOutput =');
+secondPosition = strfind(displayOrder, 'secondOutput =');
+asserts.istrue(~isempty(firstPosition));
+asserts.istrue(~isempty(secondPosition));
+asserts.istrue(firstPosition(1) < secondPosition(1));
 %=============================================================================

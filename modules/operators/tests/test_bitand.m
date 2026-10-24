@@ -10,13 +10,13 @@
 A = uint8([0 1; 0 1]);
 B = uint8([0 0; 1 1]);
 R = bitand(A, B);
-REF = uint8([ 0   0; 0   1]);
-assert_isequal(R, REF);
+REF = uint8([0 0; 0 1]);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(bitand(5, 3), 1);
-assert_isequal(bitand(5, 3, 'int8'), 1);
-assert_isequal(bitand(uint8(5), 3), uint8(1));
-assert_isequal(bitand(5, uint8(3)), uint8(1));
-assert_isequal(bitand(1, logical(1)), 1);
-assert_isequal(bitand([], 3), []);
+asserts.isequal(bitand(5, 3), 1);
+asserts.isequal(bitand(5, 3, 'int8'), 1);
+asserts.isequal(bitand(uint8(5), 3), uint8(1));
+asserts.isequal(bitand(5, uint8(3)), uint8(1));
+asserts.isequal(bitand(1, logical(1)), 1);
+asserts.isequal(bitand([], 3), []);
 %=============================================================================

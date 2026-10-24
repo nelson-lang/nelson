@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "nargoutchkBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -28,63 +29,67 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     switch (argIn.size()) {
     case 2: {
         if (nLhs == 1) {
-            Error(_W("No output arguments are allowed if only two input arguments."));
+            Error(L"Nelson:nargoutchk:noOutputWithTwoInputs",
+                L"No output arguments are allowed if only two input arguments.");
         }
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
-            Error(_W("You can only call 'nargoutchk' from within a Nelson function."));
+            Error(L"Nelson:core:notInFunction",
+                L"You can only call '%s' from within a Nelson function.", L"nargoutchk");
         }
-        int minArgs = argIn[0].getContentAsInteger32Scalar();
-        int maxArgs = argIn[1].getContentAsInteger32Scalar();
+        int minArgs = argIn[0].asInt32Scalar();
+        int maxArgs = argIn[1].asInt32Scalar();
 
         int nargout = context->getCurrentScope()->getNargOut();
         if (nargout < minArgs) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, L"Nelson:nargoutchk:notEnoughOutputs", true);
+            ErrorAsCaller(L"Nelson:nargoutchk:notEnoughOutputs", L"Not enough output arguments.");
         }
         if (nargout > maxArgs) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, L"Nelson:nargoutchk:tooManyOutputs", true);
+            ErrorAsCaller(L"Nelson:nargoutchk:tooManyOutputs", L"Too many output arguments.");
         }
     } break;
     case 4:
     case 3: {
         bool asStruct = false;
         if (argIn.size() == 4) {
-            std::wstring param4AsString = argIn[3].getContentAsWideString();
+            std::wstring param4AsString = argIn[3].asWideString();
             if (param4AsString == L"struct") {
                 asStruct = true;
             } else if (param4AsString == L"string") {
                 asStruct = false;
             } else {
-                Error(_W("#4 input must be either 'struct' or 'string'."));
+                Error(L"Nelson:nargoutchk:invalidInputType",
+                    L"#%d input must be either 'struct' or 'string'.", 4);
             }
         }
         if (!argIn[0].isScalar() || !argIn[0].isNumeric()) {
-            Error(_("Scalar integer value required for #1 argument."));
+            Error("Nelson:expectedScalar", "%s must be a scalar.", "Argument #1");
         }
         if (!argIn[1].isScalar() || !argIn[1].isNumeric()) {
-            Error(_("Scalar integer value required for #2 argument."));
+            Error("Nelson:expectedScalar", "%s must be a scalar.", "Argument #2");
         }
         if (!argIn[2].isScalar() || !argIn[2].isNumeric()) {
-            Error(_("Scalar integer value required for #3 argument."));
+            Error("Nelson:expectedScalar", "%s must be a scalar.", "Argument #3");
         }
 
-        int minArgs = argIn[0].getContentAsInteger32Scalar(false, true);
+        int minArgs = argIn[0].asInt32Scalar(false, true);
 
         bool maxArgsIsInf = false;
         if (argIn[1].isDoubleType(true)) {
-            double maxValue = argIn[1].getContentAsDoubleScalar();
+            double maxValue = argIn[1].asDoubleScalar();
             maxArgsIsInf = std::isinf(maxValue);
         }
-        int numArgs = argIn[2].getContentAsInteger32Scalar(false, true);
+        int numArgs = argIn[2].asInt32Scalar(false, true);
 
         std::wstring msg = L"";
         std::wstring id = L"";
         if (numArgs < minArgs) {
-            msg = _W("Not enough output arguments.");
+            msg = Nelson::resolveMessageTemplate(
+                L"Nelson:core:enoughOutput", L"Not enough output arguments.");
             id = L"Nelson:nargoutchk:notEnoughOutputs";
         }
 
-        int maxArgs = argIn[1].getContentAsInteger32Scalar(false, true);
+        int maxArgs = argIn[1].asInt32Scalar(false, true);
         if (!maxArgsIsInf && numArgs > maxArgs) {
             msg = _W("Too many output arguments.");
             id = L"Nelson:nargoutchk:tooManyOutputs";
@@ -95,12 +100,12 @@ Nelson::CoreGateway::nargoutchkBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
             fieldnames.push_back(L"message");
             fieldnames.push_back(L"identifier");
 
-            fieldvalues << ArrayOf::characterArrayConstructor(msg);
-            fieldvalues << ArrayOf::characterArrayConstructor(id);
+            fieldvalues << ArrayOf::characterArray(msg);
+            fieldvalues << ArrayOf::characterArray(id);
 
-            retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
+            retval << ArrayOf::structArray(fieldnames, fieldvalues);
         } else {
-            retval << ArrayOf::characterArrayConstructor(msg);
+            retval << ArrayOf::characterArray(msg);
         }
     } break;
     default: {

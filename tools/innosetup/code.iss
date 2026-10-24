@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //============================================================================
+#include "compiler_dependencies.iss"
 procedure AddWindowsTerminalProfile(); forward;
-function GetWindowsTerminalSettingsPath(): string; forward;
-function ReadFileToString(const FileName: string): string; forward;
-procedure WriteFileFromString(const FileName, Content: string); forward;
+procedure RemoveWindowsTerminalProfile(); forward;
 //=============================================================================
 var
   SecondLicensePage: TOutputMsgMemoWizardPage;
@@ -109,6 +108,25 @@ begin
     result := configureModuleFlag(MODULE_NAME, WizardIsComponentSelected(COMPONENT_NAME));
 end;
 //=============================================================================
+function ModuleNameFromComponent(const Component: string): string;
+// Components live under category parents ("grp_<cat>\<NAME>"); the module name
+// is the lowercased leaf, so strip everything up to the last backslash.
+var
+  I: Integer;
+  Name: string;
+begin
+  Name := Component;
+  for I := Length(Name) downto 1 do
+  begin
+    if Name[I] = '\' then
+    begin
+      Name := Copy(Name, I + 1, Length(Name) - I);
+      Break;
+    end;
+  end;
+  Result := AnsiLowercase(Name);
+end;
+//=============================================================================
 procedure updateModulesList();
 var
   ModulesList: TStringList;
@@ -117,21 +135,25 @@ begin
   ModulesList := TStringList.Create;
   try
     ModulesList.Add(ExpandConstant('{#COMPONENT_PARALLEL}'));
+#ifndef NELSON_WOA64
     ModulesList.Add(ExpandConstant('{#COMPONENT_MPI}'));
+#else
+    configureModuleFlag('mpi', False);
+#endif
     ModulesList.Add(ExpandConstant('{#COMPONENT_DYNAMIC_LINK}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_MEX}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_SIO_CLIENT}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_SLICOT}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_FFTW}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GUI}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_WEBVIEW}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_QML_ENGINE}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GRAPHICS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_TEXT_EDITOR}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_TESTS_MANAGER}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_COM_ENGINE}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_VALIDATORS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_DATA_ANALYSIS}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_CATEGORICAL}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_IPC}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_SPECIAL_FUNCTIONS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_AUDIO}'));
@@ -140,15 +162,20 @@ begin
     ModulesList.Add(ExpandConstant('{#COMPONENT_POLYNOMIAL_FUNCTIONS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_SIGNAL_PROCESSING}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_RANDOM}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_OPTIMIZATION}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HELP_TOOLS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_FILE_ARCHIVER}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_F2C}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_NIG}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_JSON}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_AI}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_XML}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_WEBTOOLS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_MATIO}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_HDF5}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_NETCDF}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_SPREADSHEET}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_PARQUET}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_IMAGE_PROCESSING}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GEOMETRY}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_PYTHON_ENGINE}'));
 #ifdef WITH_JULIA_ENGINE
@@ -156,9 +183,15 @@ begin
 #else
     configureModuleFlag('julia_engine', False);
 #endif
+#ifdef WITH_GPU_ENGINE
+    ModulesList.Add(ExpandConstant('{#COMPONENT_GPU_ENGINE}'));
+#else
+    configureModuleFlag('gpu_engine', False);
+#endif
+    ModulesList.Add(ExpandConstant('{#COMPONENT_ODE_SOLVERS}'));
     for I := 0 to ModulesList.Count - 1 do
     begin
-      configureModule(ModulesList[I], AnsiLowercase(ModulesList[I]));
+      configureModule(ModulesList[I], ModuleNameFromComponent(ModulesList[I]));
     end;
   finally
     ModulesList.Free;
@@ -166,6 +199,37 @@ begin
 
   configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'localization');
   configureModule(ExpandConstant('{#COMPONENT_INTERNATIONALIZATION}'), 'characters_encoding');
+
+  // preferences stores its data through HDF5, so it ships with the HDF5
+  // component. Its module name does not match the component leaf ('hdf5'), so the
+  // loop above does not cover it: disable its startup loader explicitly when HDF5
+  // is not installed, otherwise startup.m fails on the missing loader.m.
+  configureModule(ExpandConstant('{#COMPONENT_HDF5}'), 'preferences');
+
+  // nflow_* modules share a single NFLOW component
+  configureModuleFlag('nflow_blocks', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_NFLOW}')));
+  configureModuleFlag('nflow_engine', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_NFLOW}')));
+  configureModuleFlag('nflow_fmi', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_NFLOW}')));
+  configureModuleFlag('nflow_gui', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_NFLOW}')));
+
+  // These modules ship under a component whose leaf name differs from the module
+  // name, so the loop above does not configure them: graphics_io follows the
+  // GRAPHICS component, nmm_gui follows WEBVIEW.
+  configureModuleFlag('graphics_io', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')));
+  configureModuleFlag('nmm_gui', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_WEBVIEW}')));
+  configureModule(ExpandConstant('{#COMPONENT_COMPILER}'), 'compiler');
+
+  // history_manager's core library is linked by the terminal, but its builtin
+  // layer only serves the interactive history of the advanced CLI and the GUI
+  // (both shipped under the GUI component); a CLI-only install does not load it.
+  configureModuleFlag('history_manager', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GUI}')));
+
+  // Comfort modules made optional so a minimal install is the strict numerical
+  // core. text_completion keeps its statically-linked DLL through the no- stub,
+  // so only the module (loader + .m functions) is dropped when deselected;
+  // assert_functions has no importer and is dropped entirely.
+  configureModule(ExpandConstant('{#COMPONENT_TEXT_COMPLETION}'), 'text_completion');
+  configureModule(ExpandConstant('{#COMPONENT_ASSERT_FUNCTIONS}'), 'assert_functions');
 end;
 //=============================================================================
 procedure AfterNelsonInstall();
@@ -216,8 +280,15 @@ var
   LicenseFileName: string;
   LicenseFilePath: string;
   VersionLabel: TNewStaticText;
+  RadioHeight: Integer;
+  RadioGap: Integer;
 begin
-  // Website link at bottom of wizard
+  // Footer labels live in the bottom button bar, aligned to the left so they
+  // never overlap the right-aligned Back / Next / Cancel buttons. They are
+  // vertically centered on the Cancel button and anchored bottom-left so they
+  // keep their place when the (resizable) wizard is resized.
+
+  // Website link at the bottom-left of the wizard
   URLLabel := TNewStaticText.Create(WizardForm);
   URLLabel.Caption := 'nelson-lang.github.io/nelson-website';
   URLLabel.Cursor := crHand;
@@ -225,17 +296,20 @@ begin
   URLLabel.Parent := WizardForm;
   URLLabel.Font.Style := URLLabel.Font.Style + [fsUnderline];
   URLLabel.Font.Color := clBlue;
-  URLLabel.Top := WizardForm.ClientHeight - URLLabel.Height - ScaleY(4);
-  URLLabel.Left := ScaleX(8);
+  URLLabel.Anchors := [akLeft, akBottom];
+  URLLabel.Top := WizardForm.CancelButton.Top +
+    (WizardForm.CancelButton.Height - URLLabel.Height) div 2;
+  URLLabel.Left := ScaleX(16);
 
-  // Version label at bottom-right
+  // Version label, right after the link, same baseline
   VersionLabel := TNewStaticText.Create(WizardForm);
   VersionLabel.Caption := 'v' + ExpandConstant('{#APPLICATION_VERSION}');
   VersionLabel.Parent := WizardForm;
   VersionLabel.Font.Color := clGray;
-  VersionLabel.Font.Size := 7;
-  VersionLabel.Top := WizardForm.ClientHeight - VersionLabel.Height - ScaleY(4);
-  VersionLabel.Left := WizardForm.ClientWidth - VersionLabel.Width - ScaleX(8);
+  VersionLabel.Anchors := [akLeft, akBottom];
+  VersionLabel.Top := WizardForm.CancelButton.Top +
+    (WizardForm.CancelButton.Height - VersionLabel.Height) div 2;
+  VersionLabel.Left := URLLabel.Left + URLLabel.Width + ScaleX(12);
 
   if not IsSilentMode() then
   begin
@@ -243,7 +317,15 @@ begin
       CreateOutputMsgMemoPage(
         wpSelectComponents, SetupMessage(msgWizardLicense), SetupMessage(msgLicenseLabel),
         SetupMessage(msgLicenseLabel3), '');
-    SecondLicensePage.RichEditViewer.Height := WizardForm.LicenseMemo.Height;
+
+    RadioHeight := WizardForm.LicenseAcceptedRadio.Height;
+    RadioGap := ScaleY(6);
+
+    // Shrink the license viewer to leave room for the two accept / decline
+    // radios below it, so their positions are derived from the page layout
+    // instead of a magic pixel offset (robust under DPI and resizing).
+    SecondLicensePage.RichEditViewer.Height :=
+      SecondLicensePage.SurfaceHeight - (2 * RadioHeight + 3 * RadioGap);
 
     LicenseFileName := 'gpl-3.0.md';
     ExtractTemporaryFile(LicenseFileName);
@@ -251,13 +333,17 @@ begin
     SecondLicensePage.RichEditViewer.Lines.LoadFromFile(LicenseFilePath);
     DeleteFile(LicenseFilePath);
 
-    License2AcceptedRadio :=
-      CloneLicenseRadioButton(WizardForm.LicenseAcceptedRadio);
-    License2AcceptedRadio.Top := License2AcceptedRadio.Top + 77;
+    License2AcceptedRadio := CloneLicenseRadioButton(WizardForm.LicenseAcceptedRadio);
+    License2AcceptedRadio.Left := SecondLicensePage.RichEditViewer.Left;
+    License2AcceptedRadio.Width := SecondLicensePage.RichEditViewer.Width;
+    License2AcceptedRadio.Top :=
+      SecondLicensePage.RichEditViewer.Top + SecondLicensePage.RichEditViewer.Height + RadioGap;
 
-    License2NotAcceptedRadio :=
-      CloneLicenseRadioButton(WizardForm.LicenseNotAcceptedRadio);
-    License2NotAcceptedRadio.Top := License2NotAcceptedRadio.Top + 77;
+    License2NotAcceptedRadio := CloneLicenseRadioButton(WizardForm.LicenseNotAcceptedRadio);
+    License2NotAcceptedRadio.Left := SecondLicensePage.RichEditViewer.Left;
+    License2NotAcceptedRadio.Width := SecondLicensePage.RichEditViewer.Width;
+    License2NotAcceptedRadio.Top :=
+      License2AcceptedRadio.Top + RadioHeight + RadioGap;
 
     License2NotAcceptedRadio.Checked := True;
   end;
@@ -265,6 +351,12 @@ end;
 //=============================================================================
 procedure CurPageChanged(CurPageID: Integer);
 begin
+  if CurPageID = wpInstalling then
+  begin
+    // Hide the scrolling full-path label during installation; the per-phase
+    // StatusMsg messages give readable progress instead of raw file paths.
+    WizardForm.FilenameLabel.Visible := False;
+  end;
   if not IsSilentMode() then
   begin
     if CurPageID = SecondLicensePage.ID then
@@ -286,98 +378,61 @@ begin
   end;
 end;
 //=============================================================================
-function CheckComponentDependency(const RequiredComponent, DependentComponent, ErrorMessageKey: string): Boolean;
-// Returns False (blocking navigation) if DependentComponent is selected but RequiredComponent is not.
+procedure EnsureDependency(const RequiredComponent, DependentComponent: string);
+// Auto-select RequiredComponent when DependentComponent is selected, instead of
+// blocking with an error. WizardSelectComponents adds to the current selection
+// (it leaves unspecified components unchanged) and also checks the required
+// component's category parent.
 begin
-  Result := True;
-  if (not WizardIsComponentSelected(ExpandConstant(RequiredComponent))) and
-     WizardIsComponentSelected(ExpandConstant(DependentComponent)) then
+  if WizardIsComponentSelected(ExpandConstant(DependentComponent)) and
+     (not WizardIsComponentSelected(ExpandConstant(RequiredComponent))) then
   begin
-    SuppressibleMsgBox(CustomMessage(ErrorMessageKey), mbError, MB_OK, MB_OK);
-    Result := False;
-  end;
-end;
-//=============================================================================
-function CheckComponentDependencyMulti(const RequiredComponent: string;
-  const DependentComponents: TStringList; const ErrorMessageKey: string): Boolean;
-// Returns False if any of the DependentComponents is selected but RequiredComponent is not.
-var
-  I: Integer;
-  AnyDependentSelected: Boolean;
-begin
-  Result := True;
-  if WizardIsComponentSelected(ExpandConstant(RequiredComponent)) then Exit;
-  AnyDependentSelected := False;
-  for I := 0 to DependentComponents.Count - 1 do
-  begin
-    if WizardIsComponentSelected(ExpandConstant(DependentComponents[I])) then
-    begin
-      AnyDependentSelected := True;
-      Break;
-    end;
-  end;
-  if AnyDependentSelected then
-  begin
-    SuppressibleMsgBox(CustomMessage(ErrorMessageKey), mbError, MB_OK, MB_OK);
-    Result := False;
+    WizardSelectComponents(ExpandConstant(RequiredComponent));
   end;
 end;
 //=============================================================================
 function NextButtonClick(CurPageID: Integer): Boolean;
-var
-  GuiDependents: TStringList;
 begin
   Result := True;
-
-  if (CurPageID = wpWelcome) then
-  begin
-    if not Is64BitInstallMode then
-    begin
-#ifndef NELSON_WOA64
-      if IsWin64() and not IsSilentMode() then
-      begin
-        SuppressibleMsgBox(CustomMessage('MESSAGEBOX_X64_VERSION_RECOMMANDED'), mbInformation, MB_OK, MB_OK);
-      end;
-#endif
-    end;
-  end;
-
   if (CurPageID = wpSelectComponents) then
   begin
-    // GUI is required by QML_ENGINE, TEXT_EDITOR, GRAPHICS
-    GuiDependents := TStringList.Create;
-    try
-      GuiDependents.Add('{#COMPONENT_QML_ENGINE}');
-      GuiDependents.Add('{#COMPONENT_TEXT_EDITOR}');
-      GuiDependents.Add('{#COMPONENT_GRAPHICS}');
-      if not CheckComponentDependencyMulti('{#COMPONENT_GUI}', GuiDependents, 'MESSAGEBOX_GUI_REQUIRED') then
-        Result := False;
-    finally
-      GuiDependents.Free;
-    end;
-
-    // Simple 1-to-1 dependencies
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_TESTS_MANAGER}', '{#COMPONENT_UNIT_TESTS}', 'MESSAGEBOX_TESTS_MANAGER_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_DATA_ANALYSIS}', '{#COMPONENT_VALIDATORS}', 'MESSAGEBOX_DATA_ANALYSIS_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_F2C}', '{#COMPONENT_SLICOT}', 'MESSAGEBOX_F2C_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_JSON}', '{#COMPONENT_WEBTOOLS}', 'MESSAGEBOX_JSON_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_HDF5}', '{#COMPONENT_MATIO}', 'MESSAGEBOX_HDF5_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_SLICOT}', '{#COMPONENT_CONTROL_SYSTEM}', 'MESSAGEBOX_SLICOT_REQUIRED') then
-        Result := False;
-    if Result then
-      if not CheckComponentDependency('{#COMPONENT_XML}', '{#COMPONENT_HELP_TOOLS}', 'MESSAGEBOX_XML_REQUIRED') then
-        Result := False;
+    // Missing dependencies are auto-selected instead of blocking with an error.
+    // GUI is required by QML_ENGINE, TEXT_EDITOR and GRAPHICS.
+    EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_QML_ENGINE}');
+    EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_TEXT_EDITOR}');
+    EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_GRAPHICS}');
+    // WEBVIEW is required by WEB_GUI and NFLOW.
+    EnsureDependency('{#COMPONENT_WEBVIEW}', '{#COMPONENT_WEB_GUI}');
+    EnsureDependency('{#COMPONENT_WEBVIEW}', '{#COMPONENT_NFLOW}');
+    // NFLOW (nflow_fmi) statically links the file archiver to unpack FMUs, so it
+    // cannot run against the stub shipped when FILE_ARCHIVER is deselected.
+    EnsureDependency('{#COMPONENT_FILE_ARCHIVER}', '{#COMPONENT_NFLOW}');
+    // The nflow engine builtin statically links the ode_solvers library (CVODES/IDAS
+    // solver backends), so NFLOW cannot load unless ODE_SOLVERS is installed.
+    EnsureDependency('{#COMPONENT_ODE_SOLVERS}', '{#COMPONENT_NFLOW}');
+    // MEX builds MEX files with the dynamic_link toolchain and its module loader
+    // requires both components, so MEX pulls in DYNAMIC_LINK.
+    EnsureDependency('{#COMPONENT_DYNAMIC_LINK}', '{#COMPONENT_MEX}');
+    // The mex builtin statically links the validators library, so it cannot load
+    // unless VALIDATORS is installed.
+    EnsureDependency('{#COMPONENT_VALIDATORS}', '{#COMPONENT_MEX}');
+    // The graphics library statically links the json library (used to serialize
+    // figures), so GRAPHICS cannot load unless JSON is installed.
+    EnsureDependency('{#COMPONENT_JSON}', '{#COMPONENT_GRAPHICS}');
+    // Simple 1-to-1 dependencies.
+    EnsureDependency('{#COMPONENT_TESTS_MANAGER}', '{#COMPONENT_UNIT_TESTS}');
+    // The test files rely on the assert_* helpers from assert_functions.
+    EnsureDependency('{#COMPONENT_ASSERT_FUNCTIONS}', '{#COMPONENT_TESTS_MANAGER}');
+    EnsureDependency('{#COMPONENT_DATA_ANALYSIS}', '{#COMPONENT_VALIDATORS}');
+    EnsureDependency('{#COMPONENT_DATA_ANALYSIS}', '{#COMPONENT_CATEGORICAL}');
+    EnsureDependency('{#COMPONENT_JSON}', '{#COMPONENT_WEBTOOLS}');
+    EnsureDependency('{#COMPONENT_JSON}', '{#COMPONENT_AI}');
+    EnsureDependency('{#COMPONENT_HDF5}', '{#COMPONENT_MATIO}');
+    EnsureDependency('{#COMPONENT_XML}', '{#COMPONENT_HELP_TOOLS}');
+    // CONTROL_SYSTEM needs SLICOT, which needs F2C; keep this order so the whole
+    // chain is satisfied in a single pass.
+    EnsureDependency('{#COMPONENT_SLICOT}', '{#COMPONENT_CONTROL_SYSTEM}');
+    EnsureDependency('{#COMPONENT_F2C}', '{#COMPONENT_SLICOT}');
   end;
 end;
 //=============================================================================
@@ -406,201 +461,83 @@ begin
 #endif
 end;
 //=============================================================================
-function AddNelsonProfile(const JsonContent: string): string;
-var
-  NelsonProfile: string;
-  BPos, ProfilesPos: Integer;
-begin
-  Result := JsonContent;
-  if (Pos('"name": "Nelson"', JsonContent) > 0) or (Pos('nelson-adv-cli.exe', LowerCase(JsonContent)) > 0) then Exit;
-
-  NelsonProfile := #13#10 + '            {' + #13#10 +
-                   '                "name": "Nelson",' + #13#10 +
-                   '                "commandline": "%NELSON_RUNTIME_PATH%\\nelson-adv-cli.exe",' + #13#10 +
-                   '                "startingDirectory": "%USERPROFILE%"' + #13#10 +
-                   '            }';
-
-  ProfilesPos := Pos('"list":', JsonContent);
-  if ProfilesPos = 0 then ProfilesPos := Pos('"profiles":', JsonContent);
-  
-  if ProfilesPos > 0 then
-  begin
-    // Simple logic to find array start
-    BPos := ProfilesPos;
-    while (BPos < Length(JsonContent)) and (JsonContent[BPos] <> '[') do Inc(BPos);
-    
-    if JsonContent[BPos] = '[' then
-      Insert(NelsonProfile + ',', Result, BPos + 1);
-  end;
-end;
-//=============================================================================
 procedure AddWindowsTerminalProfile();
 var
-  SettingsPath, SettingsContent, ModifiedContent: string;
+  FragmentDir: string;
+  FragmentFile: string;
+  Lines: TArrayOfString;
 begin
-  SettingsPath := GetWindowsTerminalSettingsPath();
-  if SettingsPath <> '' then
+  FragmentDir :=
+    ExpandConstant('{localappdata}') +
+    '\Microsoft\Windows Terminal\Fragments\Nelson';
+
+  FragmentFile := FragmentDir + '\Nelson.json';
+
+  if not DirExists(FragmentDir) then
   begin
-    SettingsContent := ReadFileToString(SettingsPath);
-    if SettingsContent <> '' then
-    begin
-      ModifiedContent := AddNelsonProfile(SettingsContent);
-      if ModifiedContent <> SettingsContent then
-      begin
-        WriteFileFromString(SettingsPath, ModifiedContent);
-      end;
-    end;
+    ForceDirectories(FragmentDir);
   end;
-end;
-//=============================================================================
-function GetWindowsTerminalSettingsPath(): string;
-var
-  LocalAppData: string;
-  Candidate: string;
-begin
-  Result := '';
-  LocalAppData := ExpandConstant('{localappdata}');
-  
-  Candidate := LocalAppData + '\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json';
-  if FileExists(Candidate) then begin Result := Candidate; Exit; end;
 
-  Candidate := LocalAppData + '\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json';
-  if FileExists(Candidate) then begin Result := Candidate; Exit; end;
+  SetArrayLength(Lines, 10);
+
+  Lines[0] := '{';
+  Lines[1] := '  "profiles": [';
+  Lines[2] := '    {';
+  Lines[3] := '      "name": "Nelson",';
+  Lines[4] := '      "commandline": "%NELSON_RUNTIME_PATH%\\nelson-adv-cli.exe",';
+  Lines[5] := '      "startingDirectory": "%USERPROFILE%",';
+  Lines[6] := '      "icon": "%NELSON_RUNTIME_PATH%\\nelson.ico"';
+  Lines[7] := '    }';
+  Lines[8] := '  ]';
+  Lines[9] := '}';
+
+  SaveStringsToFile(FragmentFile, Lines, False);
 end;
 //=============================================================================
-function ReadFileToString(const FileName: string): string;
+procedure RemoveWindowsTerminalProfile();
 var
-  SL: TStringList;
+  FragmentFile: string;
 begin
-  Result := '';
-  if not FileExists(FileName) then Exit;
-  SL := TStringList.Create;
-  try
-    SL.LoadFromFile(FileName);
-    Result := SL.Text;
-  finally
-    SL.Free;
-  end;
-end;
-//=============================================================================
-procedure WriteFileFromString(const FileName, Content: string);
-var
-  SL: TStringList;
-begin
-  ForceDirectories(ExtractFileDir(FileName));
-  SL := TStringList.Create;
-  try
-    SL.Text := Content;
-    SL.SaveToFile(FileName);
-  finally
-    SL.Free;
-  end;
-end;
-//=============================================================================
-function MakeUniqueBackupName(const BaseFileName: string): string;
-var
-  i: Integer;
-  Candidate: string;
-begin
-  Candidate := BaseFileName + '.nelson.bak';
-  i := 1;
-  while FileExists(Candidate) do
+  FragmentFile :=
+    ExpandConstant('{localappdata}') +
+    '\Microsoft\Windows Terminal\Fragments\Nelson\Nelson.json';
+
+  if FileExists(FragmentFile) then
   begin
-    Candidate := BaseFileName + '.nelson.' + IntToStr(i) + '.bak';
-    Inc(i);
+    DeleteFile(FragmentFile);
   end;
-  Result := Candidate;
-end;
-//=============================================================================
-function RemoveNelsonProfile(const JsonContent: string): string;
-var
-  namePos: Integer;
-  cmdPos: Integer;
-  startPos: Integer;
-  endPos: Integer;
-  afterPos: Integer;
-  beforePos: Integer;
-begin
-  Result := JsonContent;
-
-  // Quick existence checks
-  if (Pos(UpperCase('"name": "Nelson"'), UpperCase(JsonContent)) = 0) and (Pos('nelson-adv-cli.exe', LowerCase(JsonContent)) = 0) then
-    Exit;
-
-  // Prefer locating by name
-  namePos := Pos(UpperCase('"name": "Nelson"'), UpperCase(JsonContent));
-  if namePos = 0 then
-    cmdPos := Pos('nelson-adv-cli.exe', LowerCase(JsonContent))
-  else
-    cmdPos := namePos;
-
-  if cmdPos = 0 then Exit;
-
-  // Find opening brace before position
-  startPos := cmdPos;
-  while (startPos > 0) and (JsonContent[startPos] <> '{') do Dec(startPos);
-  if startPos <= 0 then Exit;
-
-  // Find closing brace after position
-  endPos := cmdPos;
-  while (endPos <= Length(JsonContent)) and (JsonContent[endPos] <> '}') do Inc(endPos);
-  if endPos > Length(JsonContent) then Exit;
-  afterPos := endPos + 1;
-
-  // Skip whitespace after
-  while (afterPos <= Length(JsonContent)) and (JsonContent[afterPos] in [#9,#10,#13,#32]) do Inc(afterPos);
-
-  // If there's a trailing comma after the object, remove it too
-  if (afterPos <= Length(JsonContent)) and (JsonContent[afterPos] = ',') then
-  begin
-    Inc(afterPos);
-  end
-  else
-  begin
-    // Otherwise, if there's a comma before the object, remove it instead to keep JSON valid
-    beforePos := startPos - 1;
-    while (beforePos >= 1) and (JsonContent[beforePos] in [#9,#10,#13,#32]) do Dec(beforePos);
-    if (beforePos >= 1) and (JsonContent[beforePos] = ',') then
-    begin
-      startPos := beforePos;
-    end;
-  end;
-
-  Result := Copy(JsonContent, 1, startPos - 1) + Copy(JsonContent, afterPos, Length(JsonContent));
 end;
 //=============================================================================
 procedure DeinitializeUninstall();
-var
-  SettingsPath: string;
-  SettingsContent: string;
-  ModifiedContent: string;
-  BackupPath: string;
 begin
-  SettingsPath := GetWindowsTerminalSettingsPath();
-  if SettingsPath = '' then
-  begin
+  RemoveWindowsTerminalProfile();
+end;
+//=============================================================================
+procedure RemoveUserPreferences();
+var
+  PreferencesDir: string;
+  NelsonRootDir: string;
+begin
+  PreferencesDir :=
+    ExpandConstant('{userappdata}') + '\Nelson\' + ExpandConstant('{#APPLICATION_VERSION}');
+  if not DirExists(PreferencesDir) then
     Exit;
-  end;
-
-  SettingsContent := ReadFileToString(SettingsPath);
-  if SettingsContent = '' then
+  // Default answer is "No" so a silent uninstall never deletes user data.
+  if SuppressibleMsgBox(CustomMessage('UNINSTALL_REMOVE_PREFERENCES'),
+       mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
   begin
-    Exit;
+    DelTree(PreferencesDir, True, True, True);
+    // Remove the parent Nelson folder too, but only if no other version remains.
+    NelsonRootDir := ExpandConstant('{userappdata}') + '\Nelson';
+    RemoveDir(NelsonRootDir);
   end;
-
-  ModifiedContent := RemoveNelsonProfile(SettingsContent);
-  if ModifiedContent <> SettingsContent then
+end;
+//=============================================================================
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
   begin
-    try
-      BackupPath := MakeUniqueBackupName(SettingsPath);
-      WriteFileFromString(BackupPath, SettingsContent);
-    except
-    end;
-
-    try
-      WriteFileFromString(SettingsPath, ModifiedContent);
-    except
-    end;
+    RemoveUserPreferences();
   end;
 end;
 //=============================================================================

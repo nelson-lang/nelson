@@ -9,17 +9,19 @@
 %=============================================================================
 % <--JULIA ENVIRONMENT REQUIRED-->
 %=============================================================================
+juliaRequireEngineForTest();
+%=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
 %=============================================================================
 out = evalc('[a, b, c] = jlrunfile([currentpath, ''/test_jlrunfile.jl''], ["A", "B", "C"] ,"D", [10, 20, 30]);');
-assert_isequal(a.numeric(), int64([1;2;3]));
-assert_isequal(b.numeric(), int64([4;5;6]));
-assert_isequal(c.numeric(), [ 15.0  25.0  35.0;17.0  27.0  37.0; 19.0  29.0  39.0]);
+asserts.isequal(a.numeric(), int64([1; 2; 3]));
+asserts.isequal(b.numeric(), int64([4; 5; 6]));
+asserts.isequal(c.numeric(), [15.0 25.0 35.0; 17.0 27.0 37.0; 19.0 29.0 39.0]);
 out_REF = '"Hello from Julia"
 3×3 Matrix{Float64}:
  15.0  25.0  35.0
  17.0  27.0  37.0
  19.0  29.0  39.0
 ';
-assert_isequal(out, out_REF);
+asserts.isequal(out, out_REF);
 %=============================================================================

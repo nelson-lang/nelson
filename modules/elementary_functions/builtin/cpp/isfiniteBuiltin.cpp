@@ -20,8 +20,7 @@ Nelson::ElementaryFunctionsGateway::isfiniteBuiltin(int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-        || argIn[0].isClassType()) {
+    if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct() || argIn[0].isClassType()) {
         OverloadRequired("isfinite");
     }
     retval << IsFinite(argIn[0]);

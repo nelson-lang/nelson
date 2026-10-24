@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>netcdf.inqVarID</keyword>
+  <short_description>Work with netCDF variables.</short_description>
+  <syntax>
+    <syntax_item>varid = netcdf.inqVarID(ncid, varname)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ncid</param_name>
+      <param_description>Open netCDF file or group identifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varid</param_name>
+      <param_description>Variable identifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varname</param_name>
+      <param_description>Variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xtype</param_name>
+      <param_description>netCDF datatype constant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dimids</param_name>
+      <param_description>Dimension identifier or vector of identifiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>Nelson array to write.</param_description>
+    </param_input_item>
+  </param_input>
+    <param_output>
+    <param_output_item>
+      <param_name>varid</param_name>
+      <param_description>Return value described by the syntax shown above.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>netcdf.inqVarID exposes low-level variable access.</p>
+    <p>Low-level start and count arguments use zero-based netCDF C indexing semantics.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Copy-paste example for netcdf.inqVarID.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_netcdf_inqVarID.nc'];
+ncid = netcdf.create(filename, netcdf.getConstant('NC_CLOBBER'));
+dimid = netcdf.defDim(ncid, 'x', 3);
+netcdf.defVar(ncid, 'temperature', netcdf.getConstant('NC_DOUBLE'), dimid);
+varid = netcdf.inqVarID(ncid, 'temperature');
+netcdf.close(ncid);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${netcdf}netcdf.defDim">netcdf.defDim</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}netcdf.putAtt">netcdf.putAtt</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}netcdf.getConstant">netcdf.getConstant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

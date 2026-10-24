@@ -18,5 +18,5 @@ solveSVDDecompositionDouble(const ArrayOf& matA, const ArrayOf& matB)
     return solveSVDDecompositionReal<double>(NLS_DOUBLE, matA, matB);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,186 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-08-09",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "Groups a position vector and a scalar count into a bus (busCreator), replaces the 'count' member with a new value (busAssignment), then reads both members back out (busSelector). 'pos' passes through unchanged; 'count' is overwritten.",
+  "name": "Bus Assignment Demo",
+  "blocks": [
+    {
+      "id": "pos",
+      "type": "constant",
+      "x": 60,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Value": [1, 2]
+      }
+    },
+    {
+      "id": "cnt",
+      "type": "constant",
+      "x": 60,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Value": 7
+      }
+    },
+    {
+      "id": "bc",
+      "type": "busCreator",
+      "x": 220,
+      "y": 135,
+      "rotation": 0,
+      "params": {
+        "MemberNames": ["pos", "count"]
+      },
+      "inputs": 2
+    },
+    {
+      "id": "newcnt",
+      "type": "constant",
+      "x": 60,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Value": 99
+      }
+    },
+    {
+      "id": "ba",
+      "type": "busAssignment",
+      "x": 380,
+      "y": 210,
+      "rotation": 0,
+      "params": {
+        "AssignedSignals": ["count"]
+      },
+      "inputs": 2
+    },
+    {
+      "id": "sel",
+      "type": "busSelector",
+      "x": 560,
+      "y": 205,
+      "rotation": 0,
+      "params": {
+        "SelectedSignals": ["pos", "count"]
+      },
+      "outputs": 2
+    },
+    {
+      "id": "scope_pos",
+      "type": "scope",
+      "x": 730,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Title": "pos (unchanged)"
+      }
+    },
+    {
+      "id": "scope_cnt",
+      "type": "scope",
+      "x": 730,
+      "y": 260,
+      "rotation": 0,
+      "params": {
+        "Title": "count (replaced)"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "pos",
+      "to": "bc",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 220],
+        [170, 220],
+        [170, 160],
+        [220, 160]
+      ]
+    },
+    {
+      "from": "cnt",
+      "to": "bc",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 100],
+        [200, 100],
+        [200, 180],
+        [220, 180]
+      ]
+    },
+    {
+      "from": "bc",
+      "to": "ba",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 170],
+        [360, 170],
+        [360, 230],
+        [380, 230]
+      ]
+    },
+    {
+      "from": "newcnt",
+      "to": "ba",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 340],
+        [360, 340],
+        [360, 250],
+        [380, 250]
+      ]
+    },
+    {
+      "from": "ba",
+      "to": "sel",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [480, 240],
+        [560, 240]
+      ]
+    },
+    {
+      "from": "sel",
+      "to": "scope_pos",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [650, 230],
+        [670, 230],
+        [670, 300],
+        [730, 300]
+      ]
+    },
+    {
+      "from": "sel",
+      "to": "scope_cnt",
+      "fromIndex": 1,
+      "toIndex": 0,
+      "points": [
+        [650, 250],
+        [710, 250],
+        [710, 100],
+        [730, 100]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

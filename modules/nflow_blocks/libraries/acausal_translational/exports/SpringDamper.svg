@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="291.5" viewBox="-153.25 -123.25 306.5 291.5">
+  <rect x="-153.25" y="-123.25" width="306.5" height="291.5" rx="55.385" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-80,40 -60,40 -45,10 -15,70 15,10 45,70 60,40 80,40" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,40 -80,-70 80,-70 80,40" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,0 -80,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="80,0 90,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="53,-20 23,-10 23,-30 53,-20" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-57,-20 23,-20" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,100) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">SpringDamper</text></g>
+    <g transform="translate(0,-150) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">d</text></g>
+    <g transform="translate(0,-115) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">c</text></g>
+    <rect x="-50" y="-90" width="90" height="40" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25"/>
+    <polyline points="70,-90 -50,-90 -50,-50 70,-50" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

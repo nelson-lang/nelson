@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>islocalmin</keyword>
+  <short_description>Détecte les minima locaux des données.</short_description>
+  <syntax>
+    <syntax_item>TF = islocalmin(A)</syntax_item>
+    <syntax_item>TF = islocalmin(A, dim)</syntax_item>
+    <syntax_item>TF = islocalmin(..., Name, Value)</syntax_item>
+    <syntax_item>[TF, P] = islocalmin(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>données d'entrée : vecteur, matrice, tableau N-D numérique réel ou logique, table ou timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension de travail : entier positif (par défaut : première dimension non singleton). Non disponible pour les tables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinProminence'</param_name>
+      <param_description>scalaire positif ou nul (par défaut : 0) : seuls les minima dont la proéminence est au moins égale à cette valeur sont renvoyés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'FlatSelection'</param_name>
+      <param_description>élément marqué dans un plateau minimal : 'center' (défaut), 'first', 'last' ou 'all'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinSeparation'</param_name>
+      <param_description>scalaire positif ou nul (par défaut : 0), dans l'unité des abscisses (une duration pour des abscisses datetime ou duration) : un minimum plus proche que cette valeur d'un minimum plus proéminent est ignoré.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MaxNumExtrema'</param_name>
+      <param_description>entier positif : conserve au plus ce nombre de minima parmi les plus proéminents (par défaut : pas de limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ProminenceWindow'</param_name>
+      <param_description>scalaire positif k ou vecteur [b f] de deux valeurs positives ou nulles (une duration pour des abscisses datetime ou duration) : la proéminence d'un minimum est calculée uniquement avec les données de la fenêtre [x-k/2, x+k/2) ou [x-b, x+f].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'SamplePoints'</param_name>
+      <param_description>vecteur trié de valeurs distinctes double, single, datetime ou duration : abscisses des données (par défaut : 1, 2, 3, ...). Pour une table, peut aussi être le nom d'une variable de la table. Une timetable utilise ses temps de lignes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DataVariables'</param_name>
+      <param_description>variables de la table à traiter : noms, indices, vecteur logique, handle de fonction ou vartype (par défaut : toutes les variables).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'OutputFormat'</param_name>
+      <param_description>'logical' (défaut) : TF est un tableau logique ; 'tabular' : TF est une table contenant les DataVariables. Uniquement pour les tables.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description>tableau logique de la taille de A (ou table), vrai aux minima locaux.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>proéminence de chaque minimum local (0 ailleurs), de la taille de A ; classe entière non signée pour des données entières. Pour une table, P est une table contenant les DataVariables.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>islocalmin</b> marque les éléments de A plus petits que leurs voisins selon la dimension de travail. Une suite de valeurs égales plus petites que les valeurs qui l'entourent forme un seul minimum local (voir 'FlatSelection').</p>
+    <p>Le premier et le dernier éléments ne sont jamais des minima locaux. Les valeurs NaN sont ignorées. Les valeurs -Inf sont toujours des minima locaux, de proéminence infinie.</p>
+    <p>La proéminence d'un minimum mesure à quel point il se détache : depuis le minimum, une ligne horizontale est tracée de chaque côté jusqu'à la première valeur strictement plus petite ou jusqu'au bord des données ; la base est la plus petite des deux valeurs maximales trouvées au-dessus de ces lignes, et la proéminence est la profondeur du minimum sous la base. Chaque élément d'un plateau minimal porte sa proéminence.</p>
+    <p>islocalmin(A) donne le même résultat que islocalmax appliqué aux données inversées : les options se comportent de la même façon. Les filtres sont appliqués dans cet ordre : 'MinProminence', 'MinSeparation' (un plateau compte comme un seul minimum couvrant ses échantillons) puis 'MaxNumExtrema' (en cas d'égalité, le premier minimum l'emporte).</p>
+    <p>Sans 'ProminenceWindow', la recherche est de complexité linéaire : elle convient aux grands signaux.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minima locaux et leur proéminence</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [5 0 4 2 4 1 5];
+[TF, P] = islocalmin(A)
+islocalmin(A, 'MinProminence', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plateaux minimaux</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 0:0.1:5;
+A = max(-0.75, -sin(pi * x));
+find(islocalmin(A, 'FlatSelection', 'first'))
+find(islocalmin(A, 'FlatSelection', 'all'))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimum le plus proéminent de chaque colonne</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [3 4; 1 2; 2 4; 0 1; 3 4];
+TF = islocalmin(A, 'MaxNumExtrema', 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}islocalmax">islocalmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}min">min</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}movmin">movmin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

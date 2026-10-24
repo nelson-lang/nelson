@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,14 +18,14 @@ namespace Nelson {
 matvar_t*
 SaveMatioSparseDouble(const std::string& variableName, const ArrayOf& variableValue)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
         return nullptr;
     }
     Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)variableValue.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)variableValue.sparseDataPointer();
     indexType nnz = 0;
     if (spmat) {
         nnz = spmat->nonZeros();

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.mixin.indexing.RedefinesParen</keyword>
+  <short_description>Customize parentheses indexing of a class.</short_description>
+  <syntax>
+    <syntax_item>classdef MyClass &lt; nelson.mixin.indexing.RedefinesParen</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>an object of a class deriving from nelson.mixin.indexing.RedefinesParen.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>obj</param_name><param_description>an object supporting customized parenthesis indexing.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Derive from <b>nelson.mixin.indexing.RedefinesParen</b> to give a class its own
+    parentheses indexing behavior, for example to build a container that indexes its
+    stored data rather than an array of objects.</p>
+    <p>A subclass implements these protected methods:</p>
+    <p><b>parenReference(obj, indexOp)</b> - value of <b>obj(...)</b>.</p>
+    <p><b>parenAssign(obj, indexOp, value)</b> - result of <b>obj(...) = value</b>.</p>
+    <p><b>parenDelete(obj, indexOp)</b> - result of <b>obj(...) = []</b>.</p>
+    <p><b>parenListLength(obj, indexOp, indexContext)</b> - number of values a paren
+    reference produces.</p>
+    <p>and these public methods: <b>size(obj)</b>, <b>cat(dim, ...)</b> and the static
+    <b>empty(...)</b>.</p>
+    <p>The <b>indexOp</b> argument is a <b>nelson.indexing.IndexingOperation</b> array. For a
+    chained expression such as <b>obj(i).field</b> the hook is called once with the whole chain:
+    <b>numel(indexOp)</b> is the number of operations (2 here), <b>indexOp(1)</b> is the
+    parentheses operation and <b>indexOp(2)</b> the <b>.field</b> operation. Apply the whole chain
+    to the stored data with the dynamic form <b>obj.Data.(indexOp)</b>, or read a single level
+    through <b>indexOp(k).Indices{...}</b> / <b>indexOp(k).Name</b>. The base class provides
+    <b>numel</b>, <b>length</b>, <b>isempty</b>, <b>ndims</b>, <b>end</b>, <b>horzcat</b>
+    and <b>vertcat</b> in terms of the abstract <b>size</b>/<b>cat</b>.</p>
+    <p>A single-level index (<b>obj(i)</b>) calls the hook with a scalar <b>indexOp</b>
+    (<b>numel(indexOp) == 1</b>). A few chain shapes are still evaluated one step at a time (the
+    hook sees a single operation, the value is identical): a level of the form
+    <b>.method(args)</b>, a chain using the <b>end</b> keyword after the first level, and chained
+    assignment.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>A container that redefines parentheses indexing.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Bag < nelson.mixin.indexing.RedefinesParen
+  properties
+    Data
+  end
+  methods
+    function obj = Bag(x)
+      obj.Data = x;
+    end
+    function varargout = size(obj, varargin)
+      varargout{1} = size(obj.Data, varargin{:});
+    end
+    function obj = cat(dim, varargin)
+      acc = [];
+      for k = 1:numel(varargin)
+        acc = cat(dim, acc, varargin{k}.Data);
+      end
+      obj = Bag(acc);
+    end
+  end
+  methods (Access = protected)
+    function varargout = parenReference(obj, indexOp)
+      % indexOp may hold the whole chain; apply it to the stored data.
+      [varargout{1:nargout}] = obj.Data.(indexOp);
+    end
+    function obj = parenAssign(obj, indexOp, varargin)
+      obj.Data.(indexOp) = varargin{1};
+    end
+    function obj = parenDelete(obj, indexOp)
+      obj.Data.(indexOp) = [];
+    end
+    function n = parenListLength(obj, indexOp, ctx)
+      n = 1;
+    end
+  end
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${types}nelson.mixin.indexing.RedefinesBrace">nelson.mixin.indexing.RedefinesBrace</link></see_also_item>
+    <see_also_item><link linkend="${types}nelson.mixin.indexing.RedefinesDot">nelson.mixin.indexing.RedefinesDot</link></see_also_item>
+    <see_also_item><link linkend="${types}nelson.indexing.IndexingOperation">nelson.indexing.IndexingOperation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

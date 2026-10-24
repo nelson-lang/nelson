@@ -15,5 +15,6 @@
 namespace Nelson::EngineGateway {
 ArrayOfVector
 isquietmodeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -8,19 +8,30 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = xmldoctomd(varargin)
-  if nargin() < 3 || nargin() > 4
-    error(_('Wrong number of input arguments.'));
+  % xmldoctomd(source_dirs, destination_dir, main_title [, overwrite [, index_dirs]])
+  % index_dirs: XML help roots of the other modules, used to resolve
+  % <link linkend="${module}name"> to the real page path.
+  if nargin() < 3
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if nargin() > 5
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   dirs_input = varargin{1};
   dir_output = varargin{2};
   main_title = varargin{3};
-  if nargin() == 4
+  if nargin() >= 4
     overwrite = varargin{4};
   else
     overwrite = true;
   end
+  if nargin() == 5
+    index_dirs = varargin{5};
+  else
+    index_dirs = {};
+  end
   mkdir(dir_output);
-   xmldocbuild(dirs_input, dir_output, main_title, 'md', overwrite);
-   tf = true;
+  xmldocbuild(dirs_input, dir_output, main_title, 'md', overwrite, index_dirs);
+  tf = true;
 end
 %=============================================================================

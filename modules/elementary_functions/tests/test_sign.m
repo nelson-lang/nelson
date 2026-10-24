@@ -7,28 +7,30 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sign'), 1)
-assert_isequal(nargout('sign'), 1)
+asserts.isequal(nargin('sign'), 1)
+asserts.isequal(nargout('sign'), 1)
 %=============================================================================
-R = sign([complex(-3,0), complex(-2,1)]);
-REF = [-1.0000 + 0.0000i  -0.8944 + 0.4472i];
-assert_isapprox(R, REF, 1e-4);
+R = sign([complex(-3, 0), complex(-2, 1)]);
+REF = [-1.0000 + 0.0000i -0.8944 + 0.4472i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-R = sign(complex(-3,0));
+R = sign(complex(-3, 0));
 REF = -1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = magic(3) - 5;
 R = sign(M);
-REF = [1    -1     1;-1     0     1;-1     1    -1];
-assert_isequal(R, REF);
+REF = [1 -1 1; -1 0 1; -1 1 -1];
+asserts.isequal(R, REF);
 %=============================================================================
 V = [-11 0 1.5 Inf NaN];
 R = sign(V);
-REF = [-1     0     1     1   NaN];
-assert_isequal(R, REF);
+REF = [-1 0 1 1 NaN];
+asserts.isequal(R, REF);
 %=============================================================================
 R = sign(2);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(sign([-3 0 4 NaN]), [-1 0 1 NaN]);
 %=============================================================================

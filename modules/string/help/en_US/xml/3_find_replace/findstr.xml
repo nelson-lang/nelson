@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>findstr</keyword>
+  <short_description>Find one character vector inside another.</short_description>
+  <syntax>
+    <syntax_item>R = findstr(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>findstr</b> Find one character vector inside another.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[findstr("hello", "l")]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}strfind">strfind</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}contains">contains</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}strcmp">strcmp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -25,6 +25,9 @@ regex = "1"
 anyhow = { workspace = true }
 chrono = "0.4"
 
+[build-dependencies]
+embed-manifest = "1"
+
 [dev-dependencies]
 speculoos = { workspace = true }
 tempfile = { workspace = true }

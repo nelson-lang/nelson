@@ -12,7 +12,7 @@
 % <-- Short Description -->
 % close menu on figure can crash on linux.
 %=============================================================================
-% <--INTERACTIVE TEST--> 
+% <--INTERACTIVE TEST-->
 %=============================================================================
 f = figure();
 % go to menu and click on 'close'

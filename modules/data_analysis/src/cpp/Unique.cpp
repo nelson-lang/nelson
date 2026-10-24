@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,14 +17,31 @@
 #include "UniqueString.hpp"
 #include "UniqueStringRows.hpp"
 #include "UniqueCell.hpp"
+#include "UniqueStable.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOfVector
-Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload)
+Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload, bool stable)
 {
     needOverload = false;
-    switch (input.getDataClass()) {
+    if (asRows && input.dimensions().rows() == 0) {
+        // A matrix with no rows has no rows to compare: return it unchanged
+        // with empty index vectors, avoiding an out-of-bounds access.
+        ArrayOfVector retval;
+        retval << input;
+        if (nLhs >= 2) {
+            retval << ArrayOf(NLS_DOUBLE, Dimensions(0, 1), nullptr);
+        }
+        if (nLhs >= 3) {
+            retval << ArrayOf(NLS_DOUBLE, Dimensions(0, 1), nullptr);
+        }
+        return retval;
+    }
+    if (stable) {
+        return UniqueStable(input, nLhs, asRows, needOverload);
+    }
+    switch (input.dataClass()) {
     case NLS_DOUBLE: {
         if (input.isSparse()) {
             needOverload = true;
@@ -134,6 +151,7 @@ Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload)
     case NLS_STRUCT_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_HANDLE:
     case NLS_GO_HANDLE:
     case NLS_UNKNOWN:
@@ -144,5 +162,5 @@ Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload)
     return {};
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -14,15 +14,15 @@ function varargout = minreal(varargin)
   % sysOut = minreal(sysIn, tol)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  
+
   sysIn = varargin{1};
-  
+
   if nargin < 2
     tol = 1e-6;
   else
     tol = varargin{2};
   end
-  
+
   [am, bm, cm, dm] = minreal(sysIn.A, sysIn.B, sysIn.C, sysIn.D, tol);
   varargout{1} = ss(am, bm, cm, dm, sysIn.Ts);
 end

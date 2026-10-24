@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,8 +20,25 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::wstring
+PyObjectToDisplayRepresentation(PyObject* pyObject, PythonType pythonType)
+{
+    if (pythonType == PY_STR_TYPE) {
+        PyObject* pyStr = NLSPyObject_Str(pyObject);
+        if (pyStr) {
+            const char* c_str = NLSPyUnicode_AsUTF8(pyStr);
+            std::wstring rep = utf8_to_wstring(c_str);
+            NLSPy_DECREF(pyStr);
+            return rep;
+        }
+        NLSPyErr_Clear();
+    }
+    return PyObjectToStringRepresentation(pyObject);
+}
 //=============================================================================
 PythonObjectHandle::PythonObjectHandle(void* _ptr)
     : HandleGenericObject(NLS_HANDLE_PYOBJECT_CATEGORY_STR, _ptr, true)
@@ -72,7 +89,7 @@ PythonObjectHandle::~PythonObjectHandle() { }
 bool
 PythonObjectHandle::isMainPythonInterpreter()
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return pyObject == (PyObject*)getPythonInterpreter();
 }
 //=============================================================================
@@ -83,16 +100,17 @@ PythonObjectHandle::display(Interface* io)
     std::wstring pyObjTypeName = getTypeName();
     std::wstring strFormat;
 
-    PyObject* pyObject = (PyObject*)this->getPointer();
-    switch (getPythonType(pyObject)) {
+    PyObject* pyObject = (PyObject*)this->pointer();
+    PythonType pythonType = getPythonType(pyObject);
+    switch (pythonType) {
     case PY_DICT_TYPE:
     case PY_STR_TYPE:
     case PY_NONE_TYPE: {
-        strFormat = _W("  Python %s with no properties.");
+        strFormat = _W("Python %s with no properties.");
     } break;
     case PY_LIST_TYPE:
     case PY_LONG_TYPE: {
-        strFormat = _W("  Python %s with values:");
+        strFormat = _W("Python %s with values:");
     } break;
     case PY_FLOAT_TYPE:
     case PY_BOOL_TYPE:
@@ -105,26 +123,26 @@ PythonObjectHandle::display(Interface* io)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        strFormat = _W("  Python {0}:");
+        strFormat = _W("Python %s:");
     } break;
     }
 
-    std::wstring msg = fmt::format(strFormat, pyObjTypeName);
+    std::wstring msg = L"  " + formatI18nMessage(strFormat, pyObjTypeName);
     msg.append(L"\n");
     msg.append(L"\n");
     io->outputMessage(msg);
-    std::wstring rep = PyObjectToStringRepresentation(pyObject);
+    std::wstring rep = PyObjectToDisplayRepresentation(pyObject, pythonType);
     io->outputMessage(std::wstring(L"    ") + rep + L"\n");
 }
 //=============================================================================
 std::wstring
 PythonObjectHandle::getTypeName()
 {
-    return TypeName(((PyObject*)this->getPointer()));
+    return TypeName(((PyObject*)this->pointer()));
 }
 //=============================================================================
 std::string
-PythonObjectHandle::getClassName()
+PythonObjectHandle::className()
 {
     std::wstring _typename = getTypeName();
     if (!_typename.empty()) {
@@ -159,7 +177,7 @@ PythonObjectHandle::isMethod(const std::wstring& methodName)
     if (methodName == L"keyMatch") {
         return true;
     }
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (pyObject) {
         PyObject* method = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(methodName).c_str());
         NLSPyErr_Clear();
@@ -182,7 +200,7 @@ PythonObjectHandle::getOperatorMethods()
         return methodOperatorNames;
     }
 
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     wstringVector pythonMethodNames = getPyObjectMethods(pyObject, true);
 
     for (const auto& pair : operatorMap) {
@@ -204,7 +222,7 @@ PythonObjectHandle::getCastMethods()
 
     methodCastNames.push_back(L"char");
 
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
         methodCastNames.push_back(L"string");
@@ -285,14 +303,14 @@ PythonObjectHandle::isCastMethod(const std::wstring& methodName)
 bool
 PythonObjectHandle::isPyObjectMethod(const std::wstring& methodName, bool withUnderscore)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     wstringVector pythonMethodNames = getPyObjectMethods(pyObject, withUnderscore);
     auto it = std::find(pythonMethodNames.begin(), pythonMethodNames.end(), methodName);
     return (it != pythonMethodNames.end());
 }
 //=============================================================================
 wstringVector
-PythonObjectHandle::getMethods()
+PythonObjectHandle::methods()
 {
     if (isMainPythonInterpreter()) {
         return {};
@@ -301,7 +319,7 @@ PythonObjectHandle::getMethods()
     wstringVector methodOperatorNames = getOperatorMethods();
     methodCastNames.insert(
         methodCastNames.end(), methodOperatorNames.begin(), methodOperatorNames.end());
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     wstringVector pythonMethodNames = getPyObjectMethods(pyObject, false);
     methodCastNames.insert(
         methodCastNames.end(), pythonMethodNames.begin(), pythonMethodNames.end());
@@ -314,7 +332,7 @@ PythonObjectHandle::getMethods()
 bool
 PythonObjectHandle::isProperty(const std::wstring& propertyName)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (pyObject) {
         PyObject* method
             = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(propertyName).c_str());
@@ -326,19 +344,19 @@ PythonObjectHandle::isProperty(const std::wstring& propertyName)
 }
 //=============================================================================
 wstringVector
-PythonObjectHandle::getProperties()
+PythonObjectHandle::properties()
 {
     if (isMainPythonInterpreter()) {
         return {};
     }
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return getPyObjectProperties(pyObject, false);
 }
 //=============================================================================
 bool
 PythonObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     PyObject* propertyObj
         = NLSPyObject_GetAttrString(pyObject, wstring_to_utf8(propertyName).c_str());
     if (!propertyObj || NLSPyCallable_Check(propertyObj)) {
@@ -352,13 +370,14 @@ PythonObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
         }
     } else {
         NLSPy_DECREF(propertyObj);
-        std::wstring errorMessage = _W("Error calling property.");
+        std::wstring errorMessage = resolveMessageTemplate(
+            L"Nelson:python_engine:errorCallingProperty", L"Error calling property.");
         if (NLSPyErr_Occurred()) {
             NLSPyErr_Print();
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:PyException", errorMessage);
     }
     return true;
 }
@@ -380,7 +399,8 @@ handleUnaryOperator(
 
     PyObject* nameMethod = NLSPyUnicode_FromString(utf8OperatorName.c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:methodNameCreationFailed",
+            L"Failed to create Python method name object.");
     }
 
     PyObject* pyObjectResult = NLSPyObject_VectorcallMethod(
@@ -398,16 +418,17 @@ handleUnaryOperator(
         }
     }
     if (!pyObjectResult) {
-        std::wstring errorMessage = _W("Error calling method.");
+        std::wstring errorMessage = resolveMessageTemplate(
+            L"Nelson:python_engine:errorCallingMethod", L"Error calling method.");
         if (NLSPyErr_Occurred()) {
             NLSPyErr_Print();
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:PyException", errorMessage);
     }
     PythonObjectHandle* pythonObjectHandle = new PythonObjectHandle(pyObjectResult);
-    results << ArrayOf::handleConstructor(pythonObjectHandle);
+    results << ArrayOf::handle(pythonObjectHandle);
     return true;
 }
 //=============================================================================
@@ -422,13 +443,14 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
 
     PyObject* arg = NLSPy_BuildValue("(O)", p2);
     if (!arg) {
-        Error(_W("Failed to create Python argument tuple."), L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:argTupleCreationFailed", L"Failed to create Python argument tuple.");
         return false;
     }
 
     PyObject* nameMethod = NLSPyUnicode_FromString(wstring_to_utf8(pythonOperatorName).c_str());
     if (!nameMethod) {
-        Error(_W("Failed to create Python method name object."), L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:methodNameCreationFailed",
+            L"Failed to create Python method name object.");
     }
 
     PyObject* args[2] = { p1, p2 };
@@ -461,13 +483,14 @@ handleBinaryOperator(PyObject* pyObject, const std::wstring& pythonOperatorName,
     }
 
     if (!pyObjectResult) {
-        std::wstring errorMessage = _W("Error calling method.");
+        std::wstring errorMessage = resolveMessageTemplate(
+            L"Nelson:python_engine:errorCallingMethod", L"Error calling method.");
         if (NLSPyErr_Occurred()) {
             NLSPyErr_Print();
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:PyException", errorMessage);
     }
 
     bool needToDecreaseReference;
@@ -486,7 +509,7 @@ PythonObjectHandle::invokeOperatorMethod(
     }
     pythonOperatorName = it->second;
 
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
 
     if (methodName == L"uminus" || methodName == L"uplus") {
         return handleUnaryOperator(pyObject, pythonOperatorName, results);
@@ -507,23 +530,30 @@ PythonObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVect
 bool
 PythonObjectHandle::invokeHashMethod(uint64& hashValue)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
 
     if (!pyObject) {
-        Error(_W("Invalid Python object."), L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
     hashValue = PyGetHashValue(pyObject);
     return true;
 }
 //=============================================================================
 bool
+PythonObjectHandle::toTableData(ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames)
+{
+    PyObject* pyObject = (PyObject*)this->pointer();
+    return PyPandasToTableData(pyObject, columns, variableNames, rowNames);
+}
+//=============================================================================
+bool
 PythonObjectHandle::isEqual(PythonObjectHandle& pythonObjectHandle)
 {
-    PyObject* pyObjectA = (PyObject*)this->getPointer();
-    PyObject* pyObjectB = (PyObject*)pythonObjectHandle.getPointer();
+    PyObject* pyObjectA = (PyObject*)this->pointer();
+    PyObject* pyObjectB = (PyObject*)pythonObjectHandle.pointer();
 
     return PyIsEqual(pyObjectA, pyObjectB);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

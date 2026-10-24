@@ -3,11 +3,17 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>MException</keyword>
-  <short_description>Matrix Exception information.</short_description>
+  <short_description>Exception information.</short_description>
   <syntax>
     <syntax_item>ME = MException(identifier, message)</syntax_item>
-    <syntax_item>ME = MException(&apos;last&apos;)</syntax_item>
-    <syntax_item>MException(&apos;reset&apos;)</syntax_item>
+    <syntax_item>ME = MException(identifier, format, A, ...)</syntax_item>
+    <syntax_item>ME = addCause(ME, causeException)</syntax_item>
+    <syntax_item>ME = ME.addCause(causeException)</syntax_item>
+    <syntax_item>ME = addCorrection(ME, correction)</syntax_item>
+    <syntax_item>report = getReport(ME)</syntax_item>
+    <syntax_item>report = ME.getReport(type)</syntax_item>
+    <syntax_item>exception = MException.last</syntax_item>
+    <syntax_item>MException.last(&apos;reset&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -18,22 +24,42 @@
       <param_name>message</param_name>
       <param_description>a string.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description>a string used to format the error message.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>causeException</param_name>
+      <param_description>a scalar MException object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>correction</param_name>
+      <param_description>a nelson.lang.correction object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>&apos;basic&apos; or &apos;extended&apos;.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ME</param_name>
       <param_description>a MException object.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>report</param_name>
+      <param_description>a string: formatted exception report.</param_description>
+    </param_output_item>
   </param_output>
   <description>
-    <p
-    >All Nelson code that detects an error and throws an exception constructs an MException object.</p>
-    <p
-    >identifier includes one or more component fields and a mnemonic field (example: &apos;nelson:matrix:empty&apos;)</p>
-    <p>
-      <b>ME = MException(&apos;last&apos;)</b> return last exception.</p>
-    <p>
-      <b>MException(&apos;reset&apos;)</b> clears last exception.</p>
+    <p>All Nelson code that detects an error and throws an exception constructs an MException object.</p>
+    <p>identifier includes one or more component fields and a mnemonic field (example: &apos;nelson:matrix:empty&apos;).</p>
+    <p><b>MException</b> is a built-in class. It has the read-only properties <b>identifier</b>, <b>message</b>, <b>cause</b>, <b>stack</b>, and <b>Correction</b>.</p>
+    <p><b>ME = MException(identifier, format, A, ...)</b> formats the message using the same formatting rules as <b>sprintf</b>.</p>
+    <p><b>addCause</b> returns a new MException object with an additional cause.</p>
+    <p><b>addCorrection</b> returns a new MException object with a correction object. Nelson correction objects are in the <b>nelson.lang.correction</b> package.</p>
+    <p><b>getReport</b> returns a formatted exception report.</p>
+    <p><b>MException.last</b> returns the last uncaught exception recorded by the evaluator. <b>MException.last(&apos;reset&apos;)</b> clears it.</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,9 +67,24 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[ME = MException('nelson:identifier', 'your error message.')
+      <example_item_data><![CDATA[ME = MException('nelson:identifier', 'your error message.');
 throw(ME)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:badIndex', 'Unable to index into array %s.', 'A');
+causeException = MException('nelson:badSubscript', 'Index must be positive.');
+ME = ME.addCause(causeException)
+getReport(ME, 'basic')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:missingArgument', 'Missing argument.');
+correction = nelson.lang.correction.AppendArgumentsCorrection('value');
+ME = addCorrection(ME, correction)
+ME.Correction]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -61,6 +102,21 @@ throw(ME)]]></example_item_data>
     </see_also_item>
     <see_also_item>
       <link linkend="${error_manager}throwAsCaller">throwAsCaller</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCause">addCause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getReport">getReport</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}MException.last">MException.last</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}lasterror">lasterror</link>
     </see_also_item>
   </see_also>
   <history>

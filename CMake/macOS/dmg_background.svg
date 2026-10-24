@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 800" width="1320" height="800">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7fafd"/><stop offset="1" stop-color="#e6eef7"/></linearGradient>
+ <radialGradient id="vign" cx="0.5" cy="0.44" r="0.8"><stop offset="0.62" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#c9d8e9" stop-opacity="0.4"/></radialGradient>
+</defs>
+<rect width="1320" height="800" fill="url(#bg)"/>
+<g transform="translate(677.27 506.73) scale(1.3818)"><rect x="0.0" y="-0.0" width="10.0" height="10.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="0.0" y="10.0" width="10.0" height="10.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="-20.0" y="0.0" width="20.0" height="20.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="-20.0" y="-30.0" width="30.0" height="30.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="10.0" y="-30.0" width="50.0" height="50.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="-20.0" y="20.0" width="80.0" height="80.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="-150.0" y="-30.0" width="130.0" height="130.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="-150.0" y="-240.0" width="210.0" height="210.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<rect x="60.0" y="-240.0" width="340.0" height="340.0" fill="none" stroke="#1E90FF" stroke-width="1.1" opacity="0.11"/>
+<path d="M 0.00 0.00 A 10.00 10.00 0 0 1 10.00 10.00 A 10.00 10.00 0 0 1 0.00 20.00 A 20.00 20.00 0 0 1 -20.00 0.00 A 30.00 30.00 0 0 1 10.00 -30.00 A 50.00 50.00 0 0 1 60.00 20.00 A 80.00 80.00 0 0 1 -20.00 100.00 A 130.00 130.00 0 0 1 -150.00 -30.00 A 210.00 210.00 0 0 1 60.00 -240.00 A 340.00 340.00 0 0 1 400.00 100.00" fill="none" stroke="#1E90FF" stroke-width="2.0" opacity="0.18" stroke-linecap="round" stroke-linejoin="round"/></g>
+<rect width="1320" height="800" fill="url(#vign)"/>
+<rect x="0" y="0" width="1320" height="5" fill="#1E90FF"/>
+<text x="92" y="118" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="70" fill="#122a44" font-weight="500">Nel<tspan font-size="76">S</tspan>on</text>
+<text x="96" y="156" font-family="-apple-system,Helvetica,Arial" font-size="23" fill="#2e6aa6" opacity="0.85" letter-spacing="3">NUMERICAL COMPUTING LANGUAGE</text>
+<line x1="474" y1="440" x2="820" y2="440" stroke="#1E90FF" stroke-width="9" stroke-linecap="round"/><path d="M 816 422 L 846 440 L 816 458 Z" fill="#1E90FF"/>
+<text x="660.0" y="742" font-family="-apple-system,Helvetica,Arial" font-size="22" fill="#5a6b7a" text-anchor="middle" opacity="0.8">If macOS blocks Nelson on first launch, right-click it and choose Open</text>
+</svg>

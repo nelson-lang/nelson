@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>markdowndisp</keyword>
+  <short_description>Affiche du texte Markdown rendu.</short_description>
+  <syntax>
+    <syntax_item>markdowndisp(textToRender)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>textToRender</param_name>
+      <param_description>une chaîne scalaire ou un vecteur ligne de caractères : texte Markdown à rendre.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>markdowndisp</b> rend du texte Markdown et des équations LaTeX dans la fenêtre de commande GUI.</p>
+    <p>Lorsque Nelson ne s'exécute pas avec la fenêtre de commande GUI, <b>markdowndisp</b> affiche le texte d'entrée avec <b>disp</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[markdowndisp('**texte gras** et $E=mc^2$')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[mdText = sprintf([ ...
+    '## Test de rendu LaTeX\n\n', ...
+    '**Fraction et exposant :**\n\n', ...
+    '$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$\n\n', ...
+    '**Somme :**\n\n', ...
+    '$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$\n\n', ...
+    '**Intégrale :**\n\n', ...
+    '$\\int_{0}^{\\infty} e^{-x^2}\\,dx = \\frac{\\sqrt{\\pi}}{2}$\n\n', ...
+    '**Matrice :**\n\n', ...
+    '$A = \\begin{bmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{bmatrix}$\n\n', ...
+    '**Limite et lettres grecques :**\n\n', ...
+    '$\\lim_{\\theta \\to 0} \\frac{\\sin\\theta}{\\theta} = 1, \\quad \\alpha + \\beta = \\gamma$\n\n', ...
+    '**Équation inline :** l''énergie $E = mc^2$ et l''identité d''Euler $e^{i\\pi} + 1 = 0$.\n' ...
+]);
+
+markdowndisp(mdText)]]></example_item_data>
+    </example_item>  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}markdown">markdown</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}disp">disp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

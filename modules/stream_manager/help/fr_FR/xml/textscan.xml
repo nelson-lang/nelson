@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>textscan</keyword>
+  <short_description>Lit des données formatées depuis une chaîne ou un fichier.</short_description>
+  <syntax>
+    <syntax_item>C = textscan(chr, format)</syntax_item>
+    <syntax_item>C = textscan(fid, format)</syntax_item>
+    <syntax_item>C = textscan(__, Name, Value)</syntax_item>
+    <syntax_item>[C, position] = textscan(__)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>chr</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire à lire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fid</param_name>
+      <param_description
+      >un identifiant de fichier retourné par fopen. Les données sont lues depuis la position courante jusqu'à la fin du fichier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description
+      >un vecteur de caractères décrivant les spécificateurs de conversion appliqués à chaque champ.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>une ou plusieurs paires option/valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description
+      >un tableau de cellules avec une cellule par spécificateur de conversion.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>position</param_name>
+      <param_description
+      >le nombre de caractères lus lorsque la lecture s'est arrêtée.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>textscan</b> lit des données formatées et retourne un tableau de
+    cellules <b>C</b>. Chaque cellule contient une colonne de sortie
+    collectée sur toutes les répétitions du format, car le format est
+    appliqué de façon cyclique sur toute l'entrée.</p>
+    <p>Les spécificateurs numériques produisent des vecteurs colonnes, tandis
+    que <b>%s</b>, <b>%q</b> et <b>%[...]</b> produisent des tableaux de
+    cellules de vecteurs de caractères.</p>
+    <p>Spécificateurs de conversion pris en charge :</p>
+    <p><b>%d</b> entier signé (int32), <b>%u</b> entier non signé (uint32),
+    <b>%f</b> nombre à virgule flottante (double), <b>%s</b> texte séparé par
+    des espaces ou un délimiteur, <b>%q</b> texte éventuellement entre
+    guillemets, <b>%c</b> un nombre fixe de caractères, <b>%[...]</b> et
+    <b>%[^...]</b> lecture d'un ensemble de caractères.</p>
+    <p>Une largeur de champ peut être indiquée (par exemple <b>%5d</b> ou
+    <b>%3s</b>). Un spécificateur préfixé par <b>*</b> (par exemple
+    <b>%*d</b>) est lu mais non stocké. Un suffixe de taille sélectionne la
+    classe numérique (<b>%d8</b>, <b>%d16</b>, <b>%d32</b>, <b>%d64</b>,
+    <b>%u8</b> et <b>%f32</b>). Le texte littéral entre les spécificateurs
+    doit correspondre dans l'entrée.</p>
+    <p>Options option/valeur prises en charge :</p>
+    <p><b>Delimiter</b> un vecteur de caractères, ou un tableau de cellules de
+    vecteurs de caractères, utilisé pour séparer les champs.</p>
+    <p><b>HeaderLines</b> le nombre de lignes d'en-tête à ignorer.</p>
+    <p><b>CollectOutput</b> si vrai, les colonnes consécutives de même classe
+    sont concaténées dans un seul tableau.</p>
+    <p><b>EmptyValue</b> la valeur numérique utilisée pour les champs
+    numériques vides.</p>
+    <p><b>Whitespace</b> les caractères traités comme des espaces.</p>
+    <p><b>MultipleDelimsAsOne</b> si vrai, les délimiteurs consécutifs sont
+    traités comme un seul délimiteur.</p>
+    <p><b>CommentStyle</b> un marqueur de commentaire, ou une paire début et
+    fin, dont le texte est ignoré.</p>
+    <p><b>TreatAsEmpty</b> des valeurs textuelles traitées comme des champs
+    numériques vides.</p>
+    <p><b>EndOfLine</b> accepté pour compatibilité ; les caractères de fin de
+    ligne sont toujours traités comme des séparateurs.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('1 2 3', '%d')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('a,b,c', '%s', 'Delimiter', ',');
+C{1}]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('name:42', '%[^:]:%d')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}sscanf">sscanf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fscanf">fscanf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fopen">fopen</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

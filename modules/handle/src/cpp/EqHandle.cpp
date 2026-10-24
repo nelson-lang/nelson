@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,11 @@
 //=============================================================================
 #include "EqHandle.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "MatrixCheck.hpp"
 #include "NewWithException.hpp"
 #include "Operators.hpp"
@@ -23,13 +25,16 @@ EqHandle(const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
     if (!A.isHandle() && !B.isHandle()) {
-        Error(_W("handle expected."));
+        Error(L"Nelson:handle:handleExpected", L"handle expected.");
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
     if (!(SameSizeCheck(dimsA, dimsB) || A.isScalar() || B.isScalar())) {
-        Error(std::string(_("Size mismatch on arguments to arithmetic operator")) + " "
-            + EQ_OPERATOR_STR);
+        RaiseError(
+            std::string(resolveMessageTemplate("Nelson:graphics:sizeMismatchArgumentsArithmetic",
+                "Size mismatch on arguments to arithmetic operator"))
+                + " " + EQ_OPERATOR_STR,
+            "Nelson:dimagree");
     }
     int Astride = 0;
     int Bstride = 0;
@@ -48,24 +53,25 @@ EqHandle(const ArrayOf& A, const ArrayOf& B)
         Bstride = 1;
         Cdim = dimsA;
     }
-    Clen = Cdim.getElementCount();
-    void* Cp = new_with_exception<logical>(Clen, false);
+    Clen = Cdim.elementCount();
+    // initialized to false: a handle is never equal to a non-handle value.
+    void* Cp = new_with_exception<logical>(Clen, true);
     auto* C = static_cast<logical*>(Cp);
     if (A.isHandle() && B.isHandle()) {
-        auto* hA = (nelson_handle*)A.getDataPointer();
-        auto* hB = (nelson_handle*)B.getDataPointer();
+        auto* hA = (HandleRef*)A.dataPointer();
+        auto* hB = (HandleRef*)B.dataPointer();
         if ((Astride == 1) && (Bstride == 1)) {
             for (indexType i = 0; i < Clen; i++) {
-                C[i] = (hA[i] == hB[i]) ? 1 : 0;
+                C[i] = (hA[i] && hB[i] && hA[i]->id() == hB[i]->id()) ? 1 : 0;
             }
         } else {
             if (Astride != 0) {
                 for (indexType i = 0; i < Clen; i++) {
-                    C[i] = (hA[i] == hB[0]) ? 1 : 0;
+                    C[i] = (hA[i] && hB[0] && hA[i]->id() == hB[0]->id()) ? 1 : 0;
                 }
             } else {
                 for (indexType i = 0; i < Clen; i++) {
-                    C[i] = (hA[0] == hB[i]) ? 1 : 0;
+                    C[i] = (hA[0] && hB[i] && hA[0]->id() == hB[i]->id()) ? 1 : 0;
                 }
             }
         }

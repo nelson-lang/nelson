@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>findall</keyword>
+  <short_description>Find graphics objects, including hidden handles.</short_description>
+  <syntax>
+    <syntax_item>h = findall()</syntax_item>
+    <syntax_item>h = findall(prop, value)</syntax_item>
+    <syntax_item>h = findall(objhandles, prop, value)</syntax_item>
+    <syntax_item>h = findall(objhandles, &apos;flat&apos;, ...)</syntax_item>
+    <syntax_item>h = findall(objhandles, &apos;-depth&apos;, d, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>objhandles</param_name>
+      <param_description>graphics object or array of graphics objects to search from.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>prop</param_name>
+      <param_description>property name as a character vector or scalar string.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>property value to match.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>nonnegative integer search depth, or Inf.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>column array of matching graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>findall</b> searches the graphics object hierarchy like <b>findobj</b>, but includes objects whose <b>HandleVisibility</b> is <b>&apos;off&apos;</b> or <b>&apos;callback&apos;</b>.</p>
+    <p>When the search starts from <b>groot</b>, hidden figures are traversed even when <b>ShowHiddenHandles</b> is <b>&apos;off&apos;</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[close all
+f = figure('Visible', 'off', 'HandleVisibility', 'off', 'Tag', 'hiddenFigure');
+h = findall(groot(), 'Tag', 'hiddenFigure')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findobj">findobj</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/allchild">allchild</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/groot">groot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

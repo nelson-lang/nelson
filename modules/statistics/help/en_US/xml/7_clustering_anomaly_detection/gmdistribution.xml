@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gmdistribution</keyword>
+  <short_description>Gaussian mixture distribution.</short_description>
+  <syntax>
+    <syntax_item>gm = gmdistribution(mu, Sigma)</syntax_item>
+    <syntax_item>gm = gmdistribution(mu, Sigma, p)</syntax_item>
+    <syntax_item>y = pdf(gm, X)</syntax_item>
+    <syntax_item>P = posterior(gm, X)</syntax_item>
+    <syntax_item>idx = cluster(gm, X)</syntax_item>
+    <syntax_item>R = random(gm, n)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>gmdistribution</b> creates a Gaussian mixture model object from component means, covariance matrices, and optional component proportions.</p>
+    <p>The object supports density evaluation with <b>pdf</b>, posterior probabilities with <b>posterior</b>, maximum-posterior assignment with <b>cluster</b>, and random sampling with <b>random</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and evaluate a two-component mixture.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[gm = gmdistribution([0; 10], cat(3, 1, 4), [0.25 0.75]);
+y = pdf(gm, [0; 10; 5])
+P = posterior(gm, [0; 10; 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}fitgmdist">fitgmdist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}kmeans">kmeans</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

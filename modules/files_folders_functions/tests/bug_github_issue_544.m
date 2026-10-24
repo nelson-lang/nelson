@@ -15,13 +15,17 @@
 st = dir(nelsonroot());
 names = fieldnames(st);
 REF = {'name';
-'folder';
-'date';
-'bytes';
-'isdir';
-'datenum'};
-assert_isequal(names, REF);
-assert_isequal(st(1).name, '.')
-assert_isequal(st(1).folder, nelsonroot())
-assert_isequal(st(1).isdir, true)
+  'folder';
+  'date';
+  'bytes';
+  'isdir';
+  'datenum'};
+asserts.isequal(names, REF);
+idx = find(strcmp({st.name}, '.'), 1);
+if isempty(idx)
+  idx = find(strcmp({st.folder}, nelsonroot()) & [st.isdir], 1);
+end
+asserts.istrue(~isempty(idx))
+asserts.isequal(st(idx).folder, nelsonroot())
+asserts.isequal(st(idx).isdir, true)
 %=============================================================================

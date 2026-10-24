@@ -31,9 +31,14 @@ public:
     data();
     void
     data(const std::vector<int64>& m);
+    // Append a single handle in amortized O(1), without copying the whole list
+    // out and back. Used by the object-attach path, where rebuilding the vector
+    // on every new child made creating N objects O(N^2).
+    void
+    append(int64 handle);
     std::wstring
     toWideString() override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

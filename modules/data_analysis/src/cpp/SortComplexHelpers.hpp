@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -105,53 +105,6 @@ struct
     }
 } comparisonComplexAbsoluteValueGreater;
 //=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortComplexEntry<T>& a, const SortComplexEntry<T>& b)
-    {
-        return comparisonComplexLess(a.z, b.z);
-    }
-} comparisonComplexEntryLess;
-//=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortComplexEntry<T>& a, const SortComplexEntry<T>& b)
-    {
-        return comparisonComplexAbsoluteValueLess(a.z, b.z);
-    }
-} comparisonComplexEntryAbsoluteValueLess;
-//=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortComplexEntry<T>& a, const SortComplexEntry<T>& b)
-    {
-        return comparisonComplexGreater(a.z, b.z);
-    }
-} comparisonComplexEntryGreater;
-//=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortComplexEntry<T>& a, const SortComplexEntry<T>& b)
-    {
-        return comparisonComplexAbsoluteValueGreater(a.z, b.z);
-    }
-} comparisonComplexEntryAbsoluteValueGreater;
-//=============================================================================
-template <class T>
-bool
-isPureZero(std::complex<T> n)
-{
-    return n.real() == 0. && n.imag() == 0.;
-}
-//=============================================================================
 template <class T>
 void
 VectorComplexSortWithoutIndexMissingAuto(const T* sp, T* dp, indexType planes, indexType planesize,
@@ -159,25 +112,22 @@ VectorComplexSortWithoutIndexMissingAuto(const T* sp, T* dp, indexType planes, i
 {
     std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
     if (ascend) {
+        std::complex<T>* pt = std::stable_partition(z, z + linesize, [](const std::complex<T>& i) {
+            return !std::isnan(i.real()) && !std::isnan(i.imag());
+        });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(z, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            std::complex<T>* pt = std::stable_partition(z, z + linesize,
-                [](const std::complex<T>& i) { return (!isPureZero(i) || i.imag() == 0.); });
-            if (pt == z) {
-                parallelSort(z, z + linesize, comparisonComplexLess);
-            } else {
-                parallelSort(z, pt, comparisonComplexLess);
-            }
+            parallelSort(z, pt, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(z, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
-        std::complex<T>* pt = std::partition(z, z + linesize,
+        std::complex<T>* pt = std::stable_partition(z, z + linesize,
             [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
@@ -199,7 +149,7 @@ VectorComplexSortWithoutIndexMissingFirst(const T* sp, T* dp, indexType planes, 
     indexType linesize, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
     std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
-    std::complex<T>* pt = std::partition(z, z + linesize,
+    std::complex<T>* pt = std::stable_partition(z, z + linesize,
         [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
     if (ascend) {
         switch (comparisonMethod) {
@@ -234,30 +184,30 @@ VectorComplexSortWithoutIndexMissingLast(const T* sp, T* dp, indexType planes, i
     indexType linesize, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
     std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
-    std::complex<T>* pt = std::partition(z, z + linesize,
+    std::complex<T>* pt = std::stable_partition(z, z + linesize,
         [](const std::complex<T>& i) { return !std::isnan(i.real()) && !std::isnan(i.imag()); });
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexLess);
+            parallelSort(z, pt, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueLess);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexGreater);
+            parallelSort(z, pt, comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(pt, z + linesize, comparisonComplexAbsoluteValueGreater);
+            parallelSort(z, pt, comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -269,19 +219,22 @@ MatrixComplexSortWithoutIndexMissingAuto(
     std::vector<std::complex<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
     if (ascend) {
+        auto pt = std::stable_partition(buf.begin(), buf.end(), [](const std::complex<T>& i) {
+            return !std::isnan(i.real()) && !std::isnan(i.imag());
+        });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(buf.begin(), buf.end(), comparisonComplexLess);
+            parallelSort(buf.begin(), pt, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(buf.begin(), buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
-        auto pt = std::partition(buf.begin(), buf.end(),
+        auto pt = std::stable_partition(buf.begin(), buf.end(),
             [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
@@ -302,7 +255,7 @@ void
 MatrixComplexSortWithoutIndexMissingFirst(
     std::vector<std::complex<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
-    auto pt = std::partition(buf.begin(), buf.end(),
+    auto pt = std::stable_partition(buf.begin(), buf.end(),
         [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
     if (ascend) {
         switch (comparisonMethod) {
@@ -337,170 +290,30 @@ MatrixComplexSortWithoutIndexMissingLast(
     std::vector<std::complex<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
 
-    auto pt = std::partition(buf.begin(), buf.end(),
+    auto pt = std::stable_partition(buf.begin(), buf.end(),
         [](const std::complex<T>& i) { return !std::isnan(i.real()) && !std::isnan(i.imag()); });
     if (ascend) {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueLess);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexLess);
+            parallelSort(buf.begin(), pt, comparisonComplexLess);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueLess);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueLess);
         } break;
         }
     } else {
         switch (comparisonMethod) {
         case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueGreater);
         } break;
         case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexGreater);
+            parallelSort(buf.begin(), pt, comparisonComplexGreater);
         } break;
         case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(pt, buf.end(), comparisonComplexAbsoluteValueGreater);
-        } break;
-        }
-    }
-}
-//=============================================================================
-template <class T>
-void
-ComplexEntrySortByPlacementAuto(
-    std::vector<SortComplexEntry<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
-{
-    if (ascend) {
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            auto pt
-                = std::stable_partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
-                      return (!(i.z.real() == 0. && i.z.imag() == 0.) || (i.z.imag() == 0.));
-                  });
-            if (pt == buf.begin()) {
-                parallelSort(buf.begin(), buf.end(), comparisonComplexEntryLess);
-            } else {
-                parallelSort(buf.begin(), pt, comparisonComplexEntryLess);
-            }
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(buf.begin(), buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        }
-    } else {
-        auto it = std::partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
-            return std::isnan(i.z.real()) || std::isnan(i.z.imag());
-        });
-
-        parallelSort(
-            buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
-                if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
-                    && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
-                    return a.n < b.n;
-                }
-                return a.n != a.n;
-            });
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
-        } break;
-        }
-    }
-}
-//=============================================================================
-template <class T>
-void
-ComplexEntrySortByPlacementFirst(
-    std::vector<SortComplexEntry<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
-{
-    auto it = std::partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
-        return std::isnan(i.z.real()) || std::isnan(i.z.imag());
-    });
-    parallelSort(
-        buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
-            if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
-                && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
-                return a.n < b.n;
-            }
-            return a.n != a.n;
-        });
-
-    if (ascend) {
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryLess);
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        }
-    } else {
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
-        } break;
-        }
-    }
-}
-//=============================================================================
-template <class T>
-void
-ComplexEntrySortByPlacementLast(
-    std::vector<SortComplexEntry<T>>& buf, bool ascend, COMPARISON_METHOD comparisonMethod)
-{
-    auto it = std::partition(buf.begin(), buf.end(), [](const SortComplexEntry<T>& i) {
-        return !std::isnan(i.z.real()) && !std::isnan(i.z.imag());
-    });
-    parallelSort(
-        buf.begin(), buf.end(), [](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
-            if ((std::isnan(a.z.real()) || std::isnan(a.z.imag()))
-                && (std::isnan(b.z.real()) || std::isnan(b.z.imag()))) {
-                return a.n < b.n;
-            }
-            return a.n != a.n;
-        });
-
-    if (ascend) {
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryLess);
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueLess);
-        } break;
-        }
-    } else {
-        switch (comparisonMethod) {
-        case COMPARISON_METHOD::AUTO_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
-        } break;
-        case COMPARISON_METHOD::REAL_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryGreater);
-        } break;
-        case COMPARISON_METHOD::ABS_METHOD: {
-            parallelSort(it, buf.end(), comparisonComplexEntryAbsoluteValueGreater);
+            parallelSort(buf.begin(), pt, comparisonComplexAbsoluteValueGreater);
         } break;
         }
     }
@@ -511,17 +324,21 @@ void
 ComplexEntrySortByPlacement(std::vector<SortComplexEntry<T>>& buf, bool ascend,
     MISSING_PLACEMENT placement, COMPARISON_METHOD comparisonMethod)
 {
-    switch (placement) {
-    case MISSING_PLACEMENT::AUTO_PLACEMENT: {
-        ComplexEntrySortByPlacementAuto(buf, ascend, comparisonMethod);
-    } break;
-    case MISSING_PLACEMENT::FIRST_PLACEMENT: {
-        ComplexEntrySortByPlacementFirst(buf, ascend, comparisonMethod);
-    } break;
-    case MISSING_PLACEMENT::LAST_PLACEMENT: {
-        ComplexEntrySortByPlacementLast(buf, ascend, comparisonMethod);
-    } break;
-    }
+    const bool missingFirst = placement == MISSING_PLACEMENT::FIRST_PLACEMENT
+        || (placement == MISSING_PLACEMENT::AUTO_PLACEMENT && !ascend);
+    sortIndexedEntries(
+        buf, missingFirst,
+        [](const SortComplexEntry<T>& entry) {
+            return std::isnan(entry.z.real()) || std::isnan(entry.z.imag());
+        },
+        [ascend, comparisonMethod](const SortComplexEntry<T>& a, const SortComplexEntry<T>& b) {
+            if (comparisonMethod == COMPARISON_METHOD::REAL_METHOD) {
+                return ascend ? comparisonComplexLess(a.z, b.z)
+                              : comparisonComplexGreater(a.z, b.z);
+            }
+            return ascend ? comparisonComplexAbsoluteValueLess(a.z, b.z)
+                          : comparisonComplexAbsoluteValueGreater(a.z, b.z);
+        });
 }
 //=============================================================================
 template <class T>
@@ -658,24 +475,24 @@ sortComplex(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
             sortedValues.ensureSingleOwner();
-            ptrValue = (T*)sortedValues.getDataPointer();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
         double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
+            NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
         if (isVector) {
-            ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
+            ompIndexType elementCount = (ompIndexType)outDim.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }
         }
         indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
-        ComplexSortWithIndex<T>((const T*)arrayIn.getDataPointer(), (T*)ptrValue, ptrIndex,
-            planecount, planesize, linesize, isVector, ascend, placement, comparisonMethod);
+        ComplexSortWithIndex<T>((const T*)arrayIn.dataPointer(), (T*)ptrValue, ptrIndex, planecount,
+            planesize, linesize, isVector, ascend, placement, comparisonMethod);
 
         res.push_back(sortedValues);
         res.push_back(indexValues);
@@ -684,18 +501,18 @@ sortComplex(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexT
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
             sortedValues.ensureSingleOwner();
-            ptrValue = (T*)sortedValues.getDataPointer();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
-        ComplexSortWithoutIndex((const T*)arrayIn.getDataPointer(), (T*)ptrValue, planecount,
+        ComplexSortWithoutIndex((const T*)arrayIn.dataPointer(), (T*)ptrValue, planecount,
             planesize, linesize, isVector, ascend, placement, comparisonMethod);
         res.push_back(sortedValues);
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

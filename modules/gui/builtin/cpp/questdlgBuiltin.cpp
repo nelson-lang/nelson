@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "questdlgBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "QuestionBox.hpp"
 #include "Warning.hpp"
@@ -37,42 +38,42 @@ Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     ArrayOf param1 = argIn[0];
     if (param1.isRowVectorCharacterArray()) {
-        question = param1.getContentAsWideString();
+        question = param1.asWideString();
     } else if (param1.isStringArray()) {
-        wstringVector lines = param1.getContentAsWideStringVector(false);
+        wstringVector lines = param1.asWideStringVector(false);
         question = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {
             question += L"\n";
             question += lines[k];
         }
     } else if (param1.isCellArrayOfCharacterVectors()) {
-        wstringVector lines = param1.getContentAsWideStringVector();
+        wstringVector lines = param1.asWideStringVector();
         question = lines[0];
         for (size_t k = 1; k < lines.size(); ++k) {
             question += L"\n";
             question += lines[k];
         }
     } else {
-        Error(_W("char, cell, or string expected."));
+        Error(L"Nelson:questdlg:invalidArgument", L"char, cell, or string expected.");
     }
 
     if (argIn.size() > 1) {
-        title = argIn[1].getContentAsWideString();
+        title = argIn[1].asWideString();
     }
     if (argIn.size() == 3) {
-        defaultButton = argIn[2].getContentAsWideString();
+        defaultButton = argIn[2].asWideString();
     }
     if (argIn.size() == 5) {
-        button1 = argIn[2].getContentAsWideString();
-        button2 = argIn[3].getContentAsWideString();
-        defaultButton = argIn[4].getContentAsWideString();
+        button1 = argIn[2].asWideString();
+        button2 = argIn[3].asWideString();
+        defaultButton = argIn[4].asWideString();
         numButtons = 2;
     }
     if (argIn.size() == 6) {
-        button1 = argIn[2].getContentAsWideString();
-        button2 = argIn[3].getContentAsWideString();
-        button3 = argIn[4].getContentAsWideString();
-        defaultButton = argIn[5].getContentAsWideString();
+        button1 = argIn[2].asWideString();
+        button2 = argIn[3].asWideString();
+        button3 = argIn[4].asWideString();
+        defaultButton = argIn[5].asWideString();
         numButtons = 3;
     }
 
@@ -81,9 +82,6 @@ Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     if (argIn.size() <= 2) {
         defaultButton = _W("Yes");
-    }
-    if (argIn.size() == 3) {
-        defaultButton = button1;
     }
     if (argIn.size() <= 3) {
         button1 = _W("Yes");

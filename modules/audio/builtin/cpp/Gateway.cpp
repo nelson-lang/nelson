@@ -7,36 +7,52 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "AudioHelpers.hpp"
+#include <string>
 #include "OverloadName.hpp"
 #include "NelsonGateway.hpp"
+#ifndef NELSON_AUDIO_FILE_ONLY_BACKEND
+#define NELSON_AUDIO_FILE_ONLY_BACKEND 0
+#endif
 #include "audiodevinfoBuiltin.hpp"
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
+#include "AudioHelpers.hpp"
+#endif
 #include "audioinfoBuiltin.hpp"
 #include "audiometadataBuiltin.hpp"
 #include "audioplayerBuiltin.hpp"
 #include "audioplayer_deleteBuiltin.hpp"
+#include "audioplayer_pauseBuiltin.hpp"
+#include "audioplayer_playBuiltin.hpp"
+#include "audioplayer_playblockingBuiltin.hpp"
+#include "audioplayer_resumeBuiltin.hpp"
+#include "audioplayer_stopBuiltin.hpp"
+#if NELSON_AUDIO_FILE_ONLY_BACKEND
+#include "audioplayer_fieldnamesBuiltin.hpp"
+#include "audioplayer_getBuiltin.hpp"
+#include "audioplayer_ispropBuiltin.hpp"
+#include "audioplayer_setBuiltin.hpp"
+#endif
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
 #include "audioplayer_displayBuiltin.hpp"
 #include "audioplayer_fieldnamesBuiltin.hpp"
 #include "audioplayer_getBuiltin.hpp"
 #include "audioplayer_ismethodBuiltin.hpp"
 #include "audioplayer_ispropBuiltin.hpp"
 #include "audioplayer_isvalidBuiltin.hpp"
-#include "audioplayer_pauseBuiltin.hpp"
-#include "audioplayer_playBuiltin.hpp"
 #include "audioplayer_propertiesBuiltin.hpp"
 #include "audioplayer_methodsBuiltin.hpp"
-#include "audioplayer_resumeBuiltin.hpp"
 #include "audioplayer_setBuiltin.hpp"
-#include "audioplayer_stopBuiltin.hpp"
 #include "audioplayer_usedBuiltin.hpp"
+#endif
 #include "audioreadBuiltin.hpp"
 #include "audiosupportedformatsBuiltin.hpp"
 #include "audiowriteBuiltin.hpp"
 #include "beepBuiltin.hpp"
 #include "playBuiltin.hpp"
 #include "playblockingBuiltin.hpp"
-#include "resumeBuiltin.hpp"
 #include "stopBuiltin.hpp"
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
+#include "resumeBuiltin.hpp"
 #include "audiorecorderBuiltin.hpp"
 #include "recordblockingBuiltin.hpp"
 #include "recordBuiltin.hpp"
@@ -64,12 +80,54 @@
 #include "audiorecorder_ispropBuiltin.hpp"
 #include "audiorecorder_usedBuiltin.hpp"
 #include "audiorecorder_deleteBuiltin.hpp"
+#endif
+#if NELSON_AUDIO_FILE_ONLY_BACKEND
+#include "resumeBuiltin.hpp"
+#endif
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"audio";
 //=============================================================================
 static const nlsGateway gateway[] = {
+#if NELSON_AUDIO_FILE_ONLY_BACKEND
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "delete"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_deleteBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "play"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_playBuiltin, 0, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "playblocking"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_playblockingBuiltin, 0, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "pause"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_pauseBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "resume"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_resumeBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "stop"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_stopBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "get"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_getBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "set"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_setBuiltin, 0, 3, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "fieldnames"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_fieldnamesBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "isprop"),
+        (ptrBuiltin)Nelson::AudioGateway::audioplayer_ispropBuiltin, 1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "audioplayer", (ptrBuiltin)Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
+    { "playblocking", (ptrBuiltin)Nelson::AudioGateway::playblockingBuiltin, 0, -1 },
+    { "play", (ptrBuiltin)Nelson::AudioGateway::playBuiltin, 0, -1 },
+    { "resume", (ptrBuiltin)Nelson::AudioGateway::resumeBuiltin, 0, 1 },
+    { "stop", (ptrBuiltin)Nelson::AudioGateway::stopBuiltin, 0, 1 },
+#endif
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR, "display"),
         (ptrBuiltin)Nelson::AudioGateway::audioplayer_displayBuiltin, 0, 2,
@@ -192,12 +250,13 @@ static const nlsGateway gateway[] = {
     //=============================================================================
     { "audioplayer_used", (ptrBuiltin)Nelson::AudioGateway::audioplayer_usedBuiltin, 1, 0 },
     { "audiorecorder_used", (ptrBuiltin)Nelson::AudioGateway::audiorecorder_usedBuiltin, 1, 0 },
-    { "audiodevinfo", (ptrBuiltin)Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "audioplayer", (ptrBuiltin)Nelson::AudioGateway::audioplayerBuiltin, 1, -1 },
     { "playblocking", (ptrBuiltin)Nelson::AudioGateway::playblockingBuiltin, 0, -1 },
     { "play", (ptrBuiltin)Nelson::AudioGateway::playBuiltin, 0, -1 },
     { "stop", (ptrBuiltin)Nelson::AudioGateway::stopBuiltin, 0, 1 },
     { "resume", (ptrBuiltin)Nelson::AudioGateway::resumeBuiltin, 0, 1 },
+#endif
+    { "audiodevinfo", (ptrBuiltin)Nelson::AudioGateway::audiodevinfoBuiltin, 1, -1 },
     { "beep", (ptrBuiltin)Nelson::AudioGateway::beepBuiltin, 1, 1 },
     { "audioread", (ptrBuiltin)Nelson::AudioGateway::audioreadBuiltin, 2, 3 },
     { "audioinfo", (ptrBuiltin)Nelson::AudioGateway::audioinfoBuiltin, 1, 1 },
@@ -210,22 +269,22 @@ static const nlsGateway gateway[] = {
 static bool
 initializeAudioModule(Nelson::Evaluator* eval)
 {
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
     initializeAudio();
+#endif
     return true;
 }
 //=============================================================================
 static bool
 finishAudioModule(Nelson::Evaluator* eval)
 {
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
     terminateAudio();
+#endif
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeAudioModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeAudioModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishAudioModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishAudioModule)
 //=============================================================================

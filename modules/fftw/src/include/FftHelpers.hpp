@@ -26,6 +26,20 @@ enum FftPlannerMethod
 indexType
 computeDim(const ArrayOf& X);
 //=============================================================================
+/**
+ * Validates the input type for fft/ifft and promotes integer/logical inputs
+ * to double. Errors for unsupported types (char, int64, uint64, ...).
+ */
+ArrayOf
+prepareFftwInput(const ArrayOf& X, const std::string& functionName);
+//=============================================================================
+/**
+ * Builds the empty result of fft/ifft when the transform length along the
+ * working dimension is zero or when the input is empty.
+ */
+ArrayOf
+emptyFftwResult(const ArrayOf& X, indexType n, indexType dim);
+//=============================================================================
 ArrayOf
 scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse);
 //=============================================================================

@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('csc'), -1);
-assert_isequal(nargout('csc'), 1);
+asserts.isequal(nargin('csc'), -1);
+asserts.isequal(nargout('csc'), 1);
 %=============================================================================
-R = csc([-i pi+i*pi/2 -1+i*4]);
-REF = [0.0000 + 0.8509i   0.0000 + 0.4345i  -0.0308 - 0.0198i];
-assert_isapprox(R, REF, 1e-3);
+R = csc([-i pi + i * pi / 2 -1 + i * 4]);
+REF = [0.0000 + 0.8509i 0.0000 + 0.4345i -0.0308 - 0.0198i];
+asserts.isapprox(R, REF, 1e-3);
 %=============================================================================

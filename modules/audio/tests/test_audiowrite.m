@@ -7,10 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-dest_path = [tempdir(), 'test_audiowrite'];
-if isdir(dest_path)
-  rmdir(dest_path, 's');
-end
+dest_path = tempname();
 %=============================================================================
 wav_file = [modulepath('audio', 'tests'), '/DynoA3.wav'];
 [Y_REF, FS_REF] = audioread(wav_file);
@@ -19,7 +16,7 @@ dest_file = [dest_path, '/'];
 dest_file = [dest_path, '/test_audiowrite_1', '.wav'];
 audiowrite(dest_file, Y_REF, FS_REF)
 [y, fs] = audioread(dest_file);
-assert_isapprox(y, Y_REF, 1e-4);
+asserts.isapprox(y, Y_REF, 1e-4);
 %=============================================================================
 formats = audiosupportedformats();
 unsupported_extensions = {'.htk', '.iff', '.sds', '.wve', '.xi', '.raw', '.sd2', '.m1a', '.oga'};
@@ -27,11 +24,11 @@ for f = formats(:)'
   if ~any(strcmp(f.Extension, unsupported_extensions))
     dest_file = [dest_path, '/test_audiowrite_1', f.Extension];
     audiowrite(dest_file, Y_REF, FS_REF)
-    assert_istrue(isfile(dest_file));
+    asserts.istrue(isfile(dest_file));
     [y, fs] = audioread(dest_file);
-    assert_isequal(size(y), size(Y_REF));
-    assert_isequal(fs, FS_REF);
-    assert_isapprox(y, Y_REF, 1e-4);
+    asserts.isequal(size(y), size(Y_REF));
+    asserts.isequal(fs, FS_REF);
+    asserts.isapprox(y, Y_REF, 1e-4);
   end
 end
 %=============================================================================

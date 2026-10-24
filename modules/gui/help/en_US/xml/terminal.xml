@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>terminal</keyword>
+  <short_description>Shell terminal in GUI mode</short_description>
+  <syntax>
+    <syntax_item>t = terminal()</syntax_item>
+    <syntax_item>t = terminal('Name', 'Build')</syntax_item>
+    <syntax_item>t = terminal('WindowStyle', 'normal')</syntax_item>
+    <syntax_item>t = terminal('Shell', 'powershell.exe')</syntax_item>
+    <syntax_item>t = terminal('Theme', 'dark')</syntax_item>
+    <syntax_item>t = terminal('StartupCommand', 'git status')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Name</param_name>
+      <param_description>a string: terminal title. The default title is Terminal.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>WindowStyle</param_name>
+      <param_description>a string: docked creates a terminal docked in the main Nelson window, and normal creates a floating terminal window. The default value is docked.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Shell</param_name>
+      <param_description>a string: shell executable to start. If empty, Nelson uses the platform default shell: %COMSPEC% with cmd.exe fallback on Windows, and $SHELL with /bin/sh fallback on Linux and macOS.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Theme</param_name>
+      <param_description>a string: terminal color theme. Supported values are auto, light, and dark. The default value is auto.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>StartupCommand</param_name>
+      <param_description>a string: command sent to the shell after it starts. The default value is an empty string.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>a terminal handle object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><code>terminal</code> opens a shell process in the Nelson GUI and returns a handle object.</p>
+    <p>The terminal object supports <code>Name</code>, <code>Shell</code>, <code>Place</code>, <code>WindowStyle</code>, <code>Running</code>, <code>ExitCode</code>, <code>ProcessId</code>, and <code>Theme</code> properties.</p>
+    <p>Constructor options:</p>
+    <table>
+      <tr>
+        <th>Option</th>
+        <th>Values</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td>string scalar or character vector</td>
+        <td>Terminal</td>
+        <td>Terminal title. This property can be changed after creation.</td>
+      </tr>
+      <tr>
+        <td>WindowStyle</td>
+        <td>docked, normal</td>
+        <td>docked</td>
+        <td>docked creates a terminal docked in the main Nelson window. normal creates a floating terminal window.</td>
+      </tr>
+      <tr>
+        <td>Shell</td>
+        <td>shell executable</td>
+        <td>platform default</td>
+        <td>If empty, Nelson uses %COMSPEC% with cmd.exe fallback on Windows, and $SHELL with /bin/sh fallback on Linux and macOS.</td>
+      </tr>
+      <tr>
+        <td>Theme</td>
+        <td>auto, light, dark</td>
+        <td>auto</td>
+        <td>Terminal color theme. This property can be changed after creation.</td>
+      </tr>
+      <tr>
+        <td>StartupCommand</td>
+        <td>string scalar or character vector</td>
+        <td>empty string</td>
+        <td>Command sent to the shell after it starts.</td>
+      </tr>
+    </table>
+    <p>The <code>Name</code> and <code>Theme</code> properties can be changed after creation. The other terminal state properties are read-only.</p>
+    <p>The <code>Place</code> property returns <code>nelson</code> in this release.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[
+terminal.closeAll();
+t = terminal();
+t.run('echo NELSON_TERMINAL_EXAMPLE');
+pause(1);
+txt = t.read()
+t.Place
+t.Shell
+t.WindowStyle
+t.Running
+t.ProcessId
+delete(t);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[
+terminal.closeAll();
+dockedTerminal = terminal('Name', 'Docked terminal', ...
+  'WindowStyle', 'docked');
+floatingTerminal = terminal('Name', 'Floating terminal', ...
+  'WindowStyle', 'normal');
+dockedTerminal.WindowStyle
+floatingTerminal.WindowStyle
+delete(dockedTerminal);
+delete(floatingTerminal);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[
+terminal.closeAll();
+probe = terminal();
+defaultShell = probe.Shell;
+delete(probe);
+t = terminal('Name', 'Build terminal', ...
+  'WindowStyle', 'normal', ...
+  'Shell', defaultShell, ...
+  'Theme', 'dark', ...
+  'StartupCommand', 'echo NELSON_TERMINAL_STARTUP');
+pause(1);
+t.Name = 'Renamed terminal';
+t.Theme = 'light';
+txt = t.read()
+delete(t);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[
+terminal.closeAll();
+t1 = terminal('Name', 'First terminal');
+t2 = terminal('Name', 'Second terminal');
+items = terminal.list()
+terminal.version()
+terminal.themes()
+terminal.closeAll();
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}commandhistory">commandhistory</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

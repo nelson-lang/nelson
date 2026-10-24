@@ -63,7 +63,7 @@ mxGetDimensions(const mxArray* pm)
 int
 mxSetDimensions(mxArray* pm, const mwSize* dims, mwSize ndim)
 {
-    if (pm == nullptr) {
+    if (pm == nullptr || dims == nullptr) {
         return 1;
     }
     while ((ndim > 2) && (dims[ndim - 1] == 1)) {
@@ -78,6 +78,9 @@ mxSetDimensions(mxArray* pm, const mwSize* dims, mwSize ndim)
 size_t
 mxGetNumberOfElements(const mxArray* array_ptr)
 {
+    if (array_ptr == nullptr || array_ptr->dims == nullptr) {
+        return 0;
+    }
     return (size_t)countElements(array_ptr->number_of_dims, array_ptr->dims);
 }
 //=============================================================================
@@ -86,8 +89,11 @@ mxCalcSingleSubscript(const mxArray* pm, mwSize nsubs, mwIndex* subs)
 {
     mwIndex index = 0;
     mwIndex iMult = 1;
-    if (pm != nullptr) {
+    if (pm != nullptr && subs != nullptr) {
         const mwSize* dims = mxGetDimensions(pm);
+        if (dims == nullptr) {
+            return 0;
+        }
         for (mwSize i = 0; i < nsubs; i++) {
             index += subs[i] * iMult;
             iMult *= dims[i];
@@ -99,7 +105,7 @@ mxCalcSingleSubscript(const mxArray* pm, mwSize nsubs, mwIndex* subs)
 size_t
 mxGetM(const mxArray* pm)
 {
-    if (pm != nullptr) {
+    if (pm != nullptr && pm->dims != nullptr && pm->number_of_dims >= 1) {
         return (size_t)pm->dims[0];
     }
     return 0;
@@ -108,7 +114,7 @@ mxGetM(const mxArray* pm)
 size_t
 mxGetN(const mxArray* pm)
 {
-    if (pm != nullptr) {
+    if (pm != nullptr && pm->dims != nullptr && pm->number_of_dims >= 2) {
         return (size_t)pm->dims[1];
     }
     return 0;
@@ -117,7 +123,7 @@ mxGetN(const mxArray* pm)
 void
 mxSetM(mxArray* pm, mwSize m)
 {
-    if (pm != nullptr) {
+    if (pm != nullptr && pm->dims != nullptr && pm->number_of_dims >= 1) {
         pm->dims[0] = m;
     }
 }
@@ -125,7 +131,7 @@ mxSetM(mxArray* pm, mwSize m)
 void
 mxSetN(mxArray* pm, mwSize n)
 {
-    if (pm != nullptr) {
+    if (pm != nullptr && pm->dims != nullptr && pm->number_of_dims >= 2) {
         pm->dims[1] = n;
     }
 }

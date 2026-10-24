@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('clock'), 0);
-assert_isequal(nargout('clock'), 1);
+asserts.isequal(nargin('clock'), 0);
+asserts.isequal(nargout('clock'), 1);
 %=============================================================================
 c = clock(); n = now();
-assert_isequal(size(c), [1 6]);
+asserts.isequal(size(c), [1 6]);
 %=============================================================================
 d = datevec(n);
-assert_isequal(c(1:5), d(1:5));
+asserts.isequal(c(1:5), d(1:5));
 %=============================================================================

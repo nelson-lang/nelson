@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>svds</keyword>
+  <short_description>Valeurs singulieres et vecteurs singuliers selectionnes d'une matrice creuse.</short_description>
+  <syntax>
+    <syntax_item>s = svds(A)</syntax_item>
+    <syntax_item>s = svds(A, k)</syntax_item>
+    <syntax_item>s = svds(A, k, which)</syntax_item>
+    <syntax_item>[U, S, V] = svds(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice creuse double, single, double complexe ou single complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>un entier positif strictement inferieur a la plus petite dimension de la matrice. La valeur par defaut est 6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>which</param_name>
+      <param_description
+      >une chaine : &apos;largest&apos; ou &apos;lm&apos; pour les plus grandes valeurs singulieres, &apos;smallest&apos; ou &apos;sm&apos; pour les plus petites valeurs singulieres.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>valeurs singulieres selectionnees retournees dans un vecteur colonne dense par ordre decroissant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers gauches selectionnes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>matrice diagonale dense contenant les valeurs singulieres selectionnees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers droits selectionnes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>svds</b> calcule des valeurs singulieres selectionnees et, optionnellement, les vecteurs singuliers correspondants d'une matrice creuse flottante.</p>
+    <p>Pour une matrice <b>A</b>, les facteurs retournes verifient :</p>
+    <latex>A V = U S</latex>
+    <p>
+      Les matrices hautes utilisent le plus petit probleme normal possible, et les matrices larges utilisent le probleme normal transpose correspondant.</p>
+    <p>
+      Lorsque le backend optionnel ARPACK n'est pas disponible, <b>svds</b> utilise un fallback dense pour les petites matrices creuses. Les matrices creuses plus grandes necessitent toujours ARPACK afin d'eviter une utilisation memoire excessive.</p>
+    <p>
+      Les entrees sparse single et sparse single complexes sont acceptees. Le probleme de valeurs singulieres selectionne est calcule par le backend sparse en double precision, puis les sorties denses sont reconverties en single ou single complexe lorsque cela s'applique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse([1 0 0; 0 2 0; 3 0 0; 0 4 0; 0 0 5]);
+s = svds(A, 2)
+[U, S, V] = svds(A, 2, 'smallest')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse([1 + 1i 0 0; 0 2i 0; 3 0 0; 0 4 0; 0 0 5i]);
+s = svds(A, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(single([1 + 1i 0 0; 0 2i 0; 3 0 0; 0 4 0; 0 0 5i]));
+s = svds(A, 2)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}svd">svd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}eigs">eigs</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>fallback dense ajoute pour les petites matrices creuses lorsque ARPACK n'est pas disponible.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>entrees sparse single et sparse single complexes prises en charge via le backend sparse en double precision.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

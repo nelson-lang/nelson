@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>signalConversion</keyword>
+  <keyword_alias>block:signalConversion</keyword_alias>
+  <short_description>Passe-plat qui recopie son entree vers sa sortie inchangee (point de conversion).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : signalConversion</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Passe-plat qui recopie son entree vers sa sortie inchangee (point de conversion).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Type</td><td><code>signalConversion</code></td></tr>
+        <tr><td>Libelle</td><td>Signal Conversion</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/signalConversion.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Un passe-plat qui recopie son entree vers sa sortie sans la modifier. Il marque un point de conversion de signal explicite dans un diagramme (frontiere de copie contigue / specification de signal) ; la valeur est identique, c'est donc une identite element par element. Scalaire ou vecteur.</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><i>aucun</i></td><td></td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>signalConversion</td></tr>
+        <tr><td>Famille</td><td>Utilitaires</td></tr>
+        <tr><td>Taille rendue</td><td>90 x 50</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : out = in, element par element.</li>
+    </ul>
+    <p><b>Equation ou regle</b></p>
+    <latex>y = u</latex>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/signalConversion.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>L'entree 5 passe inchangee a 5.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','c','type','constant','inputs',0,'outputs',1,'params',struct('Value',5)), struct('id','s','type','signalConversion','inputs',1,'outputs',1,'params',struct()), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','c','to','s','fromIndex',0,'toIndex',0), struct('from','s','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}utility/convert">convert</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/reshape">reshape</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mfilename</keyword>
+  <short_description>Nom du fichier en cours d&apos;execution.</short_description>
+  <syntax>
+    <syntax_item>name = mfilename()</syntax_item>
+    <syntax_item>name = mfilename(&apos;fullpath&apos;)</syntax_item>
+    <syntax_item>name = mfilename(&apos;fullpathext&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>chaine optionnelle : &apos;fullpath&apos; renvoie le chemin sans extension et &apos;fullpathext&apos; inclut l&apos;extension.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description>chaine contenant le nom du script ou de la fonction courante. Le resultat est vide lorsqu&apos;aucun fichier n&apos;est en cours d&apos;execution.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>mfilename renvoie le nom de la fonction ou du script en cours d&apos;execution.</p>
+    <p>Avec une option, la fonction peut renvoyer une forme qualifiee par le chemin prise en charge par Nelson.</p>
+  </description>
+  <used_function>
+    <used_function_item>nfilename</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interroger le nom du fichier courant. Dans la fenetre de commande, le resultat est vide.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[name = mfilename()
+nameWithPath = mfilename('fullpath')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${core}nfilename">nfilename</link></see_also_item>
+    <see_also_item><link linkend="${core}run">run</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

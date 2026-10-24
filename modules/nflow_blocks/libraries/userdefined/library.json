@@ -1,0 +1,87 @@
+{
+  "id": "builtin.userdefined",
+  "title": "User-Defined Functions",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-02",
+    "tool": "Nelson nflow"
+  },
+  "builtin": true,
+  "comment": "User-defined function blocks",
+  "license": "LGPL-3.0",
+  "blocks": [
+    {
+      "type": "expression",
+      "label": "Expression",
+      "icon": "expression.svg",
+      "phases": [
+        "INIT",
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Expr": "u"
+      },
+      "render": {
+        "type": "math",
+        "formula": "{params.Expr}",
+        "mathGroupClass": "nf-userfunc-formula",
+        "textSize": "16px",
+        "width": 80,
+        "height": 80
+      }
+    },
+    {
+      "type": "nelsonFunction",
+      "label": "Nelson Function",
+      "icon": "nelsonFunction.svg",
+      "phases": [
+        "INIT",
+        "ALGEBRAIC"
+      ],
+      "width": 96,
+      "height": 48,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 24,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 96,
+          "y": 24,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Fcn": "sin",
+        "OutputDimensions": "-1",
+        "SampleTime": "-1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "\\mathtt{{params.Fcn}}",
+        "textSize": 14
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Segmentation</chapter>
+  <chapter_description>
+    <p>Fonctions pour segmenter les images avec la croissance de region, les contours actifs, la reconstruction morphologique, les h-minima/maxima, les extrema regionaux, les minima imposes et les transformations watershed.</p>
+  </chapter_description>
+</xmldoc>

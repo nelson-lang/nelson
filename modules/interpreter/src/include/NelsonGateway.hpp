@@ -26,12 +26,25 @@ enum BUILTIN_PROTOTYPE
 //=============================================================================
 using nlsGateway = struct nlsGatewayStructType
 {
-    std::string functionName;
+    const char* functionName;
     ptrBuiltin fptr;
     int nLhs;
     int nRhs;
     BUILTIN_PROTOTYPE builtinPrototype;
     FunctionOverloadAutoMode builtinOverloadAutoMode;
+};
+//=============================================================================
+using nlsGatewayDescriptor = struct nlsGatewayDescriptorStructType
+{
+    const wchar_t* gatewayName;
+    const nlsGateway* gateway;
+    size_t nbBuiltins;
+    bool hasInitializer;
+    bool hasFinalizer;
+    // The initializer has effects consumed outside this gateway's own builtins
+    // (class registration, IPC receiver, ...): the library must be loaded at
+    // startup instead of on the first builtin call.
+    bool requiresEagerLoad;
 };
 //=============================================================================
 } // namespace Nelson
@@ -44,37 +57,57 @@ using nlsGateway = struct nlsGatewayStructType
 #define EXTERN_AS_C extern "C"
 #endif
 //=============================================================================
-#define NLSGATEWAYFUNCEXTENDED(gateway, ptrInitializeFunction)                                     \
-    EXTERN_AS_C EXPORTSYMBOL int AddGateway(void* eval, const wchar_t* moduleFilename)             \
+#define NLS_GATEWAY_CONCAT_IMPL(left, right) left##right
+#define NLS_GATEWAY_CONCAT(left, right) NLS_GATEWAY_CONCAT_IMPL(left, right)
+#ifdef NELSON_STATIC_GATEWAY_ID
+#define NLS_GATEWAY_ADD_SYMBOL NLS_GATEWAY_CONCAT(AddGateway_, NELSON_STATIC_GATEWAY_ID)
+#define NLS_GATEWAY_REMOVE_SYMBOL NLS_GATEWAY_CONCAT(RemoveGateway_, NELSON_STATIC_GATEWAY_ID)
+#define NLS_GATEWAY_DESCRIPTOR_SYMBOL                                                              \
+    NLS_GATEWAY_CONCAT(GetGatewayDescriptor_, NELSON_STATIC_GATEWAY_ID)
+#else
+#define NLS_GATEWAY_ADD_SYMBOL AddGateway
+#define NLS_GATEWAY_REMOVE_SYMBOL RemoveGateway
+#define NLS_GATEWAY_DESCRIPTOR_SYMBOL GetGatewayDescriptor
+#endif
+//=============================================================================
+#define NLS_GATEWAY_FUNC_EXTENDED_IMPL(gateway, ptrInitializeFunction, eagerLoad)                  \
+    static bool nlsGatewayHasInitializer() { return (void*)ptrInitializeFunction != nullptr; }     \
+    static bool nlsGatewayRequiresEagerLoad() { return eagerLoad; }                                \
+    EXTERN_AS_C EXPORTSYMBOL int NLS_GATEWAY_ADD_SYMBOL(void* eval, const wchar_t* moduleFilename) \
     {                                                                                              \
         return NelsonAddGatewayWithEvaluator(eval, moduleFilename, (void*)gateway,                 \
             sizeof(gateway) / sizeof(nlsGateway), gatewayName.c_str(),                             \
             (void*)ptrInitializeFunction);                                                         \
     }
 //=============================================================================
-#define NLSGATEWAYFUNC(gateway) NLSGATEWAYFUNCEXTENDED(gateway, NULL)
+// The initializer runs at startup and the library is loaded eagerly. Required
+// when the initializer has effects consumed before any builtin of this gateway
+// is called (see nlsGatewayDescriptor).
+#define NLS_GATEWAY_FUNC_EXTENDED(gateway, ptrInitializeFunction)                                  \
+    NLS_GATEWAY_FUNC_EXTENDED_IMPL(gateway, ptrInitializeFunction, true)
 //=============================================================================
-#define NLSGATEWAYNAME()                                                                           \
-    EXTERN_AS_C EXPORTSYMBOL const wchar_t* GetGatewayName() { return gatewayName.c_str(); }
+// The initializer only serves this gateway's own builtins: the library stays
+// lazy and the initializer runs when the first builtin call resolves it.
+#define NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, ptrInitializeFunction)                             \
+    NLS_GATEWAY_FUNC_EXTENDED_IMPL(gateway, ptrInitializeFunction, false)
 //=============================================================================
-#define NLSGATEWAYINFO(gateway)                                                                    \
-    EXTERN_AS_C EXPORTSYMBOL Nelson::stringVector GetGatewayInfo()                                 \
+// No initializer: nothing to run at startup, the library stays lazy.
+#define NLS_GATEWAY_FUNC(gateway) NLS_GATEWAY_FUNC_EXTENDED_IMPL(gateway, NULL, false)
+//=============================================================================
+#define NLS_GATEWAY_REMOVE_EXTENDED(gateway, ptrFinishFunction)                                    \
+    EXTERN_AS_C EXPORTSYMBOL const Nelson::nlsGatewayDescriptor* NLS_GATEWAY_DESCRIPTOR_SYMBOL()   \
     {                                                                                              \
-        stringVector res;                                                                          \
-        size_t nbBuiltins = sizeof(gateway) / sizeof(nlsGateway);                                  \
-        res.reserve(nbBuiltins);                                                                   \
-        for (size_t k = 0; k < nbBuiltins; k++) {                                                  \
-            res.push_back(gateway[k].functionName);                                                \
-        }                                                                                          \
-        return res;                                                                                \
-    }
-//=============================================================================
-#define NLSGATEWAYREMOVEEXTENDED(gateway, ptrFinishFunction)                                       \
-    EXTERN_AS_C EXPORTSYMBOL bool RemoveGateway(void* eval, const wchar_t* moduleFilename)         \
+        static const Nelson::nlsGatewayDescriptor descriptor = { gatewayName.c_str(), gateway,     \
+            sizeof(gateway) / sizeof(nlsGateway), nlsGatewayHasInitializer(),                      \
+            (void*)ptrFinishFunction != nullptr, nlsGatewayRequiresEagerLoad() };                  \
+        return &descriptor;                                                                        \
+    }                                                                                              \
+    EXTERN_AS_C EXPORTSYMBOL bool NLS_GATEWAY_REMOVE_SYMBOL(                                       \
+        void* eval, const wchar_t* moduleFilename)                                                 \
     {                                                                                              \
         return NelsonRemoveGatewayWithEvaluator(eval, moduleFilename, (void*)gateway,              \
             sizeof(gateway) / sizeof(nlsGateway), gatewayName.c_str(), (void*)ptrFinishFunction);  \
     }
 //=============================================================================
-#define NLSGATEWAYREMOVE(gateway) NLSGATEWAYREMOVEEXTENDED(gateway, NULL)
+#define NLS_GATEWAY_REMOVE(gateway) NLS_GATEWAY_REMOVE_EXTENDED(gateway, NULL)
 //=============================================================================

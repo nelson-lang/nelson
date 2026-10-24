@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nnmf</keyword>
+  <short_description>Factorisation de matrice non negative.</short_description>
+  <syntax>
+    <syntax_item>[W, H] = nnmf(A, k)</syntax_item>
+    <syntax_item>[W, H] = nnmf(A, k, Name, Value)</syntax_item>
+    <syntax_item>[W, H, D] = nnmf(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nnmf</b> factorise la matrice non negative A en deux facteurs non negatifs W et H afin que W*H approxime A.</p>
+    <p>Les options nom-valeur supportees sont Algorithm, W0, H0, Options et Replicates. Algorithm peut etre als ou mult. La structure Options peut etre creee avec statset et supporte Display, MaxIter, TolFun et TolX.</p>
+    <p>Les lignes de H sont normalisees a une longueur unitaire et les colonnes de W sont ordonnees par longueur decroissante. D est le residu quadratique moyen.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = rand(20, 10);
+[W, H, D] = nnmf(A, 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}statset">statset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

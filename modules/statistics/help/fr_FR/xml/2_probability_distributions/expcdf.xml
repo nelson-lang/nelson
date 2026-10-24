@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>expcdf</keyword>
+  <short_description>Fonction de repartition exponentielle</short_description>
+  <syntax><syntax_item>p = expcdf(x)</syntax_item><syntax_item>p = expcdf(x, mu)</syntax_item><syntax_item>p = expcdf(x, mu, &apos;upper&apos;)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>x</param_name><param_description>tableau numerique reel.</param_description></param_input_item><param_input_item><param_name>mu</param_name><param_description>moyenne positive, 1 par defaut.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>p</param_name><param_description>probabilites cumulees ou de queue superieure.</param_description></param_output_item></param_output>
+  <description><p><b>expcdf</b> calcule par defaut les probabilites de queue inferieure exponentielle et les probabilites de queue superieure avec <b>&apos;upper&apos;</b>.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = [0 0.5 1 2];
+p = expcdf(x, 3);
+q = expcdf(x, 3, 'upper');]]></example_item_data></example_item></examples>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

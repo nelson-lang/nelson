@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>comet3</keyword>
+  <short_description>Creer un trace comete 3-D.</short_description>
+  <syntax>
+    <syntax_item>comet3(z)</syntax_item>
+    <syntax_item>comet3(x, y, z)</syntax_item>
+    <syntax_item>comet3(x, y, z, p)</syntax_item>
+    <syntax_item>comet3(ax, x, y, z, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>valeurs z: vecteur numerique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x, y, z</param_name>
+      <param_description>vecteurs numeriques avec le meme nombre d'elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>facteur de longueur du corps dans l'intervalle [0, 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>axes cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>comet3</b> anime une tete avec marqueur, un corps mobile et une trace complete pour un trace comete trois dimensions.</p>
+    <p><b>comet3(z)</b> trace <b>z</b> en fonction des indices sur les axes x et y.</p>
+    <p>L'etat final des axes contient deux objets animatedline et un objet line pour le marqueur de tete.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[t = -pi:pi/120:pi;
+comet3(sin(5 * t), cos(3 * t), t, 0.2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/comet">comet</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/animatedline">animatedline</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

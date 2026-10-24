@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>detectFASTFeatures</keyword>
+  <short_description>Detecte les coins FAST.</short_description>
+  <syntax>
+    <syntax_item>points = detectFASTFeatures(I)</syntax_item>
+    <syntax_item>points = detectFASTFeatures(I, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree en niveaux de gris ou RGB.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>points</param_name>
+      <param_description>Structure avec les champs Location, Metric et Count.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>detectFASTFeatures applique un test circulaire de type FAST-9 et retourne les coordonnees des points locaux triees par force de contraste. Les options prises en charge sont MinContrast, MinQuality et ROI.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detecter des points FAST</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(18:46,18:46)=1; I(30:34,10:54)=0.5;
+points=detectFASTFeatures(I,'MinContrast',0.2);
+figure; imagesc(I); axis image; hold on;
+plot(points.Location(:,1),points.Location(:,2),'g+'); title('Points FAST');]]></example_item_data>
+      <example_item_img
+        src="../../../images/detectFASTFeatures_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}cornermetric">cornermetric</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}detectHarrisFeatures">detectHarrisFeatures</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

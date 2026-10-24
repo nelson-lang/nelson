@@ -9,14 +9,16 @@
 %=============================================================================
 % <--JULIA ENVIRONMENT REQUIRED-->
 %=============================================================================
-R = jlrun('A = Base','A');
-assert_isequal(R.ceil(3.145), 4);
+juliaRequireEngineForTest();
+%=============================================================================
+R = jlrun('A = Base', 'A');
+asserts.isequal(R.ceil(3.145), 4);
 %=============================================================================
 julia_code = ["mutable struct Person";
-"    name::String";
-"    greetings::Function";
-"end";
-"p = Person(""Alice"", () -> println(""Hello, my name is Alice""))"];
+  "    name::String";
+  "    greetings::Function";
+  "end";
+  "p = Person(""Alice"", () -> println(""Hello, my name is Alice""))"];
 R = jlrun(julia_code, "p");
-assert_istrue(contains(evalc('R.greetings();'), "Hello, my name is Alice"));
+asserts.istrue(contains(evalc('R.greetings();'), "Hello, my name is Alice"));
 %=============================================================================

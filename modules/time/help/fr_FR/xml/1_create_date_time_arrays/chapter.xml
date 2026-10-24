@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>time</module_name>
+  <chapter>Creation de tableaux de date et heure</chapter>
+  <chapter_description>
+    <p>Fonctions pour creer des valeurs date et heure et des representations de date alternatives.</p>
+  </chapter_description>
+</xmldoc>

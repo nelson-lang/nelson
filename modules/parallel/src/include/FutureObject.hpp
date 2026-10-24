@@ -12,10 +12,11 @@
 #include <vector>
 #include <atomic>
 #include <shared_mutex>
+#include <chrono>
 #include "nlsParallel_exports.h"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "Interface.hpp"
 #include "EvaluateInterface.hpp"
 #include "FunctionDef.hpp"
@@ -86,6 +87,15 @@ public:
     cancel();
 
     void
+    setState(THREAD_STATE newState);
+
+    static void
+    notifyStateChanged();
+
+    static void
+    waitForAnyStateChange(std::chrono::milliseconds timeout);
+
+    void
     evaluateFunction(
         FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState = true);
 
@@ -95,11 +105,11 @@ public:
     void
     setResult(const ArrayOfVector& result);
 
-    Exception
+    NelsonException
     getException(bool changeReadState = true);
 
     void
-    setException(const Exception& e);
+    setException(const NelsonException& e);
 
     int
     getNumberOfLhs();
@@ -124,7 +134,7 @@ private:
     wstringVector propertiesNames;
     std::wstring functionName;
     bool _wasRead;
-    Exception _exception;
+    NelsonException _exception;
     ArrayOfVector _result;
     int _nLhs;
     std::string _type;

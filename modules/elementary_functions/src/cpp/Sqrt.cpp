@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,8 +13,13 @@
 #include <limits>
 #include <cmath>
 #include <complex>
+#include <memory>
+#include <vector>
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
 #include "Sqrt.hpp"
+#include "SparseType.hpp"
+#include "SparseArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -67,9 +72,9 @@ template <class T>
 static ArrayOf
 SqrtReal(NelsonType classDestination, const ArrayOf& A)
 {
-    Dimensions dimsA = A.getDimensions();
-    ompIndexType elementCount = (ompIndexType)A.getElementCount();
-    T* ptrIn = (T*)A.getDataPointer();
+    Dimensions dimsA = A.dimensions();
+    ompIndexType elementCount = (ompIndexType)A.elementCount();
+    T* ptrIn = (T*)A.dataPointer();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(classDestination, elementCount, stringVector(), false);
 #if defined(_NLS_WITH_VML)
     Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matIn(ptrIn, elementCount);
@@ -88,13 +93,13 @@ template <class T>
 static ArrayOf
 SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
 {
-    Dimensions dimsA = A.getDimensions();
-    ompIndexType elementCount = (ompIndexType)A.getElementCount();
+    Dimensions dimsA = A.dimensions();
+    ompIndexType elementCount = (ompIndexType)A.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
-        classDestination, dimsA.getElementCount(), stringVector(), false);
+        classDestination, dimsA.elementCount(), stringVector(), false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
-    T* ptrIn = (T*)A.getDataPointer();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+    T* ptrIn = (T*)A.dataPointer();
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
     allReal = true;
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -107,6 +112,73 @@ SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
     return ArrayOf(classDestination, dimsA, ptrOut);
 }
 //=============================================================================
+template <class T>
+static ArrayOf
+SparseSqrtReal(const ArrayOf& A, NelsonType realClass, NelsonType complexClass)
+{
+    // sqrt preserves zeros, so only the stored nonzeros need to be visited:
+    // O(nnz) instead of densifying to a full rows*cols buffer.
+    indexType rows = A.rows();
+    indexType cols = A.columns();
+    const auto* spmatSRC
+        = static_cast<const Eigen::SparseMatrix<T, 0, signedIndexType>*>(A.sparseDataPointer());
+    bool anyNegative = false;
+    for (signedIndexType k = 0; k < spmatSRC->outerSize() && !anyNegative; ++k) {
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spmatSRC, k);
+            it; ++it) {
+            if (it.value() < T(0)) {
+                anyNegative = true;
+                break;
+            }
+        }
+    }
+    if (!anyNegative) {
+        // sqrt of a nonnegative entry stays nonnegative, so the sparsity pattern
+        // is unchanged: copy it and transform the stored values with the same
+        // routine the dense path uses, for bit-for-bit parity with full sqrt.
+        auto spmatDST = std::make_unique<Eigen::SparseMatrix<T, 0, signedIndexType>>(*spmatSRC);
+        spmatDST->makeCompressed();
+        T* values = spmatDST->valuePtr();
+        ompIndexType nnz = (ompIndexType)spmatDST->nonZeros();
+#if defined(_NLS_WITH_VML)
+        Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> mapValues(values, nnz);
+        mapValues = mapValues.array().sqrt();
+#else
+        OMP_PARALLEL_FOR_LOOP(nnz)
+        for (ompIndexType i = 0; i < nnz; ++i) {
+            values[i] = SqrtRealScalar<T>(values[i]);
+        }
+#endif
+        return makeSparseResult(realClass, A.dimensions(), std::move(spmatDST));
+    }
+    // A negative real entry maps to a pure imaginary value, so the result must
+    // become a complex sparse matrix.
+    auto spmatDST
+        = std::make_unique<Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>>(rows, cols);
+    std::vector<Eigen::Triplet<std::complex<T>, signedIndexType>> triplets;
+    triplets.reserve(spmatSRC->nonZeros());
+    bool allReal = true;
+    for (signedIndexType k = 0; k < spmatSRC->outerSize(); ++k) {
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spmatSRC, k);
+            it; ++it) {
+            bool isReal = true;
+            std::complex<T> value = SqrtComplexScalar<T>(std::complex<T>(it.value(), T(0)), isReal);
+            if (!isReal) {
+                allReal = false;
+            }
+            if (value != std::complex<T>(0)) {
+                triplets.emplace_back(it.row(), it.col(), value);
+            }
+        }
+    }
+    spmatDST->setFromTriplets(triplets.begin(), triplets.end());
+    ArrayOf res = makeSparseResult(complexClass, A.dimensions(), std::move(spmatDST));
+    if (allReal) {
+        res.promoteType(realClass);
+    }
+    return res;
+}
+//=============================================================================
 ArrayOf
 Sqrt(const ArrayOf& A, bool& needToOverload)
 {
@@ -114,26 +186,41 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
     needToOverload = false;
     bool asComplex = false;
     if (A.isSparse()) {
-        needToOverload = true;
-        return res;
+        switch (A.dataClass()) {
+        case NLS_DOUBLE:
+            return SparseSqrtReal<double>(A, NLS_DOUBLE, NLS_DCOMPLEX);
+        case NLS_SINGLE:
+            return SparseSqrtReal<single>(A, NLS_SINGLE, NLS_SCOMPLEX);
+        default: {
+            // complex / logical sparse: sqrt still preserves zeros, so densify,
+            // compute, and re-sparsify.
+            ArrayOf dense(A);
+            dense.makeDense();
+            res = Sqrt(dense, needToOverload);
+            if (!needToOverload) {
+                res.makeSparse();
+            }
+            return res;
+        }
+        }
     }
-    NelsonType classA = A.getDataClass();
+    NelsonType classA = A.dataClass();
     ArrayOf AA(A);
 
     if (classA == NLS_DOUBLE) {
-        auto* ptrIn = (double*)A.getDataPointer();
-        if (haveNegativeValue<double>(ptrIn, A.getElementCount())) {
+        auto* ptrIn = (double*)A.dataPointer();
+        if (haveNegativeValue<double>(ptrIn, A.elementCount())) {
             AA.promoteType(NLS_DCOMPLEX);
         }
     } else if (classA == NLS_SINGLE) {
-        auto* ptrIn = (single*)A.getDataPointer();
-        if (haveNegativeValue<single>(ptrIn, A.getElementCount())) {
+        auto* ptrIn = (single*)A.dataPointer();
+        if (haveNegativeValue<single>(ptrIn, A.elementCount())) {
             AA.promoteType(NLS_SCOMPLEX);
         }
     }
 
-    NelsonType classAA = AA.getDataClass();
-    switch (AA.getDataClass()) {
+    NelsonType classAA = AA.dataClass();
+    switch (AA.dataClass()) {
     case NLS_DOUBLE: {
         res = SqrtReal<double>(NLS_DOUBLE, AA);
     } break;

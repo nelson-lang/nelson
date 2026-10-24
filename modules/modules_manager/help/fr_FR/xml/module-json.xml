@@ -32,12 +32,16 @@
     <p>
       &quot;maci64&quot; : macOS 64 bits</p>
     <p>
+      &quot;maca64&quot; : macOS Apple silicon</p>
+    <p>
       &quot;maci32&quot; : macOS 32 bits</p>
     <p>
       &quot;glnxa64&quot; : Linux 64 bits</p>
     <p>
       &quot;glnxa32&quot; : Linux 32 bits</p>
     <p>exemple :<b>[&quot;win64&quot;, &quot;glnxa64&quot;]</b>, le module ne sera disponible que sur Windows et Linux 64 bits.</p>
+    <p
+    >L&apos;architecture courante doit correspondre exactement à l&apos;une des plateformes listées, sauf si <b>all</b> est présent.</p>
     <p>
       <b>nelson</b>: versions de Nelson supportées, exemple : &quot;
       &lt;2.0.0&quot; (par défaut)</p>
@@ -60,13 +64,19 @@
       <b>homepage</b>: page d&apos;accueil du module, exemple &quot;https://github.com/nelson-lang/module_skeleton_basic&quot;
     </p>
     <p>
+      <b>issues</b>: URL optionnelle du gestionnaire de tickets du module, exemple &quot;https://github.com/nelson-lang/module_skeleton_basic/issues&quot;
+    </p>
+    <p>
+      <b>documentation</b>: URL optionnelle de la documentation du module, exemple &quot;https://nelson-lang.github.io/nelson-website/&quot;
+    </p>
+    <p>
       <b>description</b>: description complète du module, format Markdown supporté, exemple : &quot;nelson&apos;s module skeleton (macros only)&quot;
     </p>
     <p>
       <b>copyright</b>: description du copyright, exemple : &quot;Copyright © 2019-present Allan              CORNET&quot;
     </p>
     <p>
-      <b>license</b>: licence sous laquelle la boîte à outils sera publiée, exemple : &quot;BSD&quot; ou &quot;LGPLv2&quot;, ...</p>
+      <b>license</b>: expression de licence SPDX sous laquelle la boîte à outils sera publiée, exemple : &quot;BSD-3-Clause&quot;, &quot;MIT&quot; ou &quot;LGPL-3.0-or-later OR GPL-3.0-or-later&quot;.</p>
     <p>
       <b>keywords</b>: mots-clés décrivant votre module.</p>
     <p>Exemple :</p>
@@ -82,6 +92,34 @@
       &quot;module_b&quot;: &quot;https://module_b.git#v1.0.0&quot;
     </p>
     <p>}</p>
+    <p
+    >Lors de la création d&apos;un paquet, les versions installées des dépendances sont résolues dans <b>module-lock.json</b>. Le fichier de verrou enregistre aussi sa version de format, le type de paquet (<b>source</b> ou <b>binary</b>), les métadonnées de source, la version de Nelson, l&apos;architecture, le tag ABI et les checksums des fichiers installés essentiels. Une archive <b>.nmz</b> ne peut être installée que si ces dépendances verrouillées sont déjà installées. Les paquets binaires exigent aussi que l&apos;architecture Nelson et le tag ABI verrouillés correspondent au build Nelson en cours.</p>
+    <p
+    >Lors de l&apos;installation d&apos;un module source, les valeurs de dépendances peuvent être des chemins locaux, des archives <b>.nmz</b>, des dépôts Git HTTP, des versions exactes ou des contraintes semver. Les dépendances source sont installées récursivement avant la construction du module. Si l&apos;arborescence source contient déjà <b>module-lock.json</b>, ses versions exactes de dépendances sont utilisées pour une installation reproductible. Les installations source construisent et exécutent les tests dans un répertoire temporaire de staging avant que le module soit écrit dans son emplacement final. Une installation source en échec conserve intacte toute version précédente déjà installée du même module.</p>
+    <p
+    >Une archive <b>.nmz</b> peut être accompagnée d&apos;un fichier checksum <b>.sha256</b>. <b>nmm</b> vérifie ce checksum lorsqu&apos;il est présent, sinon il vérifie après extraction les checksums de fichiers embarqués dans <b>module-lock.json</b>.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path)</b> vérifie que ces champs obligatoires sont présents et correctement formés avant installation ou empaquetage.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path, &apos;-strict&apos;)</b> ajoute des vérifications orientées publication pour <b>repository</b>, <b>homepage</b>, des <b>keywords</b> non vides, au moins un fichier de test et au moins un fichier d&apos;aide XML.</p>
+    <p>
+      En mode strict, <b>repository</b> et <b>homepage</b> doivent être des URLs HTTP ou HTTPS. Les champs optionnels <b>issues</b> et <b>documentation</b> ne sont validés que lorsqu&apos;ils sont présents et doivent alors être des URLs HTTP ou HTTPS. <b>nmm(&apos;validate&apos;, module_path, &apos;-json&apos;)</b> retourne un rapport de validation exploitable par des outils.</p>
+    <p>
+      La validation vérifie aussi la structure du paquet : un module source doit inclure <b>builder.m</b> ou <b>loader.m</b>, <b>etc/startup.m</b>, <b>etc/finish.m</b>, <b>help</b> et <b>tests</b>. L&apos;empaquetage exige au moins un fichier de test et exécute les tests du paquet avant d&apos;écrire une archive.</p>
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, destination_dir)</b> utilise ce descripteur pour construire un module source et créer une archive de paquet reproductible avec fichier de verrou et checksum.</p>
+    <p>
+      <b>nmm(&apos;lock&apos;, module_path)</b> écrit ou rafraîchit <b>module-lock.json</b> pour un module source sans l&apos;installer ni l&apos;empaqueter.</p>
+    <p>
+      <b>nmm(&apos;publish&apos;, package_filename)</b> lit le fichier de verrou du paquet et <b>module.json</b>, puis écrit une entrée de registre local contenant les métadonnées du paquet, le chemin source du paquet et son checksum SHA-256. La commande écrit aussi un sidecar <b>registry.json.sha256</b>. Lorsque <b>NELSON_NMM_REGISTRY_SIGNING_KEY</b> est défini, elle écrit et vérifie aussi un sidecar à clé <b>registry.json.sig</b>. Les installations d&apos;archives depuis le registre vérifient le checksum du paquet et les fichiers de registre locaux exigent le sidecar de checksum.</p>
+    <p />
+    <p>
+      Un index de registre est un document JSON avec un tableau <b>packages</b>. Chaque entrée de paquet contient les métadonnées comme le nom, la version, le type de paquet, les plateformes, la compatibilité Nelson, les dépendances, le checksum et une métadonnée de signature de paquet optionnelle. Une entrée installable contient aussi <b>source</b>, <b>url</b> ou <b>archive</b>. Les dépendances déclarées par une entrée installable sont résolues récursivement avant l&apos;installation de la source du paquet. <b>nmm(&apos;search&apos;)</b>, <b>nmm(&apos;info&apos;)</b> et <b>nmm(&apos;versions&apos;)</b> lisent cet index.</p>
+    <p
+    >Les versions du registre sont aussi utilisées par <b>nmm(&apos;outdated&apos;)</b> et <b>nmm(&apos;update&apos;)</b>. Les archives <b>.nmz</b> vérifiées sont mises en cache localement et peuvent être réutilisées par les installations offline.</p>
+    <p>
+      Plusieurs versions du même module peuvent être installées côte à côte. <b>modules.json</b> stocke la version active dans les champs racine <b>path</b> et <b>version</b>, toutes les versions installées dans <b>versions</b>, et la version par défaut explicite dans <b>pinned_version</b> lorsque <b>nmm(&apos;pin&apos;)</b> est utilisé.</p>
   </description>
   <used_function />
   <bibliography />
@@ -112,6 +150,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>lockfile, registre et métadonnées de validation stricte</history_description>
     </history_item>
   </history>
   <authors>

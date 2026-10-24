@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,6 +16,8 @@
 #include <string>
 #include <map>
 #include <cstdint>
+#include <atomic>
+#include <mutex>
 #include "nlsNelson_manager_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -62,6 +64,13 @@ public:
     bool
     setInterruptPending(bool bInterruptPending, size_t evaluatorID = 0);
     //=============================================================================
+    // Profiler on/off state, published by the profiler module so other modules
+    // (e.g. the web desktop) can read it without linking nlsProfiler.
+    bool
+    isProfilerActive();
+    void
+    setProfilerActive(bool active);
+    //=============================================================================
     NumericFormatDisplay
     setNumericFormatDisplay(NumericFormatDisplay desiredNumericFormatDisplay);
     NumericFormatDisplay
@@ -71,6 +80,10 @@ public:
     setLineSpacingDisplay(LineSpacingDisplay desiredLineSpacingDisplay);
     LineSpacingDisplay
     getLineSpacingDisplay();
+    bool
+    setTruncateMatricesDisplay(bool truncateMatrices);
+    bool
+    getTruncateMatricesDisplay();
     //=============================================================================
     void
     destroy();
@@ -165,14 +178,49 @@ public:
     void
     setNelsonEngineMode(int nelsonMode);
     //=============================================================================
+    // Figures render through the headless RenderWeb host instead of Qt. Inlined so
+    // the hot path (createFigureHost) is a relaxed atomic load, not a cross-DLL
+    // call. Covers only the opt-in `--webview` case; WEB_GUI and WASM_TERMINAL
+    // come from the engine mode, and the graphics helper ORs the two.
+    inline void
+    setWebGraphicsMode(bool on)
+    {
+        m_webGraphicsMode.store(on, std::memory_order_relaxed);
+    }
+    inline bool
+    isWebGraphicsMode() const
+    {
+        return m_webGraphicsMode.load(std::memory_order_relaxed);
+    }
+    //=============================================================================
     bool
     haveEventsLoop();
+    //=============================================================================
+    // graphics_qt updates the count as Qt figure windows come and go. The
+    // interpreter reads hasOpenFigureWindows() at every statement boundary to
+    // pump the GUI event loop while a script runs. Inlined to avoid a cross-DLL
+    // call on the hot path; 0 in headless runs.
+    inline void
+    incrementOpenFigureWindowCount()
+    {
+        m_openFigureWindowCount.fetch_add(1, std::memory_order_relaxed);
+    }
+    inline void
+    decrementOpenFigureWindowCount()
+    {
+        m_openFigureWindowCount.fetch_sub(1, std::memory_order_relaxed);
+    }
+    inline bool
+    hasOpenFigureWindows() const
+    {
+        return m_openFigureWindowCount.load(std::memory_order_relaxed) > 0;
+    }
     //=============================================================================
     void
     setMaxNumCompThreads(int nbThreads);
     //=============================================================================
     int
-    getMaxNumCompThreads();
+    maxNumCompThreads();
     //=============================================================================
     void
     setLastErrorException(size_t ID, void* lastErrorException);
@@ -274,6 +322,20 @@ public:
         m_isDarkMode = darkMode;
     }
     //=============================================================================
+    // Set once the quit is final (no CANCEL_QUIT possible), before the finish
+    // script unloads module gateways.
+    bool
+    isShuttingDown() const
+    {
+        return m_isShuttingDown;
+    }
+    //=============================================================================
+    void
+    setAsShuttingDown(bool shuttingDown)
+    {
+        m_isShuttingDown = shuttingDown;
+    }
+    //=============================================================================
     bool
     isDarkMode() const
     {
@@ -288,20 +350,17 @@ private:
     //=============================================================================
     static NelsonConfiguration* m_pInstance;
     //=============================================================================
-    /**
-     * Pending control-C
-     */
     std::map<size_t, bool> InterruptPending;
+    std::mutex InterruptPendingMutex;
+    std::atomic_bool mainInterruptPending { false };
+    std::atomic_bool m_profilerActive { false };
+    // On-screen (non-headless) figure windows alive; see the inline accessors.
+    std::atomic<long> m_openFigureWindowCount { 0 };
     //=============================================================================
-    /**
-     * Current numeric format
-     */
     NumericFormatDisplay currentNumericFormatDisplay;
     //=============================================================================
-    /**
-     * Current line spacing
-     */
     LineSpacingDisplay currentLineSpacingDisplay;
+    bool currentTruncateMatricesDisplay;
     //=============================================================================
     bool modulesProtected;
     //=============================================================================
@@ -351,6 +410,14 @@ private:
     bool m_isClosing = false;
     //=============================================================================
     bool m_isDarkMode = false;
+    //=============================================================================
+    bool m_isShuttingDown = false;
+    //=============================================================================
+    // Kept last on purpose: the offsets of the existing members must not change,
+    // because inline accessors are compiled into other DLLs.
+    std::atomic_bool m_webGraphicsMode { false };
+    //=============================================================================
+    mutable std::recursive_mutex stringMutex;
     //=============================================================================
 };
 //=============================================================================

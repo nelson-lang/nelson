@@ -8,8 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayer_setBuiltin.hpp"
+#ifdef NELSON_AUDIO_FILE_ONLY_BACKEND
+#include "PortableAudioplayerObject.hpp"
+#else
 #include "AudioplayerObject.hpp"
+#endif
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -24,19 +29,24 @@ Nelson::AudioGateway::audioplayer_setBuiltin(int nLhs, const ArrayOfVector& argI
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
+    std::wstring propertyName = param2.asWideString();
     ArrayOf param3 = argIn[2];
     ArrayOfVector retval;
-    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
-    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
-    if (!objPlayer->isWriteableProperty(propertyName)) {
-        Error(_W("Cannot set a read only property."));
+    auto* objPlayer =
+#ifdef NELSON_AUDIO_FILE_ONLY_BACKEND
+        static_cast<PortableAudioplayerObject*>(param1.asHandleScalar());
+#else
+        static_cast<AudioplayerObject*>(param1.asHandleScalar());
+#endif
+    if (!objPlayer->isWritableProperty(propertyName)) {
+        Error(L"Nelson:audioplayer:readOnlyProperty", L"Cannot set a read-only property.");
     }
     std::wstring errorMessage;
     if (!objPlayer->set(propertyName, param3, errorMessage)) {
-        Error(errorMessage);
+        Error(L"Nelson:audioplayer:setFailed", errorMessage);
     }
     return retval;
 }

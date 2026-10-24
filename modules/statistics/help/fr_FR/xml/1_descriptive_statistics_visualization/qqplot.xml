@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>qqplot</keyword>
+  <short_description>Trace quantile-quantile.</short_description>
+  <syntax>
+    <syntax_item>qqplot(x)</syntax_item>
+    <syntax_item>qqplot(x, y)</syntax_item>
+    <syntax_item>qqplot(..., p)</syntax_item>
+    <syntax_item>h = qqplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>qqplot</b> cree un trace quantile-quantile pour des donnees d&apos;echantillon.</p>
+    <p>Avec un echantillon, Nelson compare les quantiles de l&apos;echantillon aux quantiles normaux standards. Avec deux echantillons, Nelson compare les quantiles empiriques des deux echantillons. La valeur retournee contient les handles des lignes pour les donnees, la ligne des quartiles et la ligne de reference extrapolee.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = randn(100, 1);
+qqplot(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}quantile">quantile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}norminv">norminv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

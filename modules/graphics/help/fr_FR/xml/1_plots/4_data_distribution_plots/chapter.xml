@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Graphiques de distribution de donnees</chapter>
+  <chapter_description>
+    <p>Fonctions pour les histogrammes, nuages de points, graphiques de distribution et visualisations de synthese de donnees.</p>
+  </chapter_description>
+</xmldoc>

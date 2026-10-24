@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>quadgk</keyword>
+  <short_description>Numerically evaluate an integral with Gauss-Kronrod quadrature.</short_description>
+  <syntax>
+    <syntax_item>q = quadgk(fun, a, b)</syntax_item>
+    <syntax_item>[q, errbnd] = quadgk(fun, a, b)</syntax_item>
+    <syntax_item>[...] = quadgk(fun, a, b, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>Integrand: function handle.</param_description></param_input_item>
+    <param_input_item><param_name>a, b</param_name><param_description>Integration limits. Finite complex limits are supported through straight-line contour segments.</param_description></param_input_item>
+    <param_input_item><param_name>name, value</param_name><param_description>Options: &apos;RelTol&apos;, &apos;AbsTol&apos;, &apos;Waypoints&apos;, and &apos;MaxIntervalCount&apos;.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>q</param_name><param_description>Computed integral.</param_description></param_output_item>
+    <param_output_item><param_name>errbnd</param_name><param_description>Approximate absolute error bound.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>quadgk</b> integrates a vectorized scalar integrand using adaptive Gauss-Kronrod quadrature.</p>
+    <p><b>Waypoints</b> split the integral into subintervals. Complex waypoints define a piecewise straight contour.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[[q, errbnd] = quadgk(@(x) exp(-x.^2), 0, Inf)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[q = quadgk(@(z) 1 ./ (2 .* z - 1), 1, 1, 'Waypoints', [1 + 1i, 0 + 1i, 0 - 1i, 1 - 1i])]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral2">integral2</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral3">integral3</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

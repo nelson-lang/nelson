@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nmm init</keyword>
+  <short_description>Generate a valid module.json manifest.</short_description>
+  <syntax>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, field1, value1, ...)</syntax_item>
+    <syntax_item
+    >data = nmm(&apos;init&apos;, destination_dir, ..., &apos;DryRun&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, ..., &apos;Force&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, ..., &apos;Skeleton&apos;, true)</syntax_item>
+    <syntax_item
+    >module_json_path = nmm(&apos;init&apos;, destination_dir, &apos;Interactive&apos;, true)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>destination_dir</param_name>
+      <param_description
+      >a string: directory where <b>module.json</b> is written (created if it does not exist).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>field1, value1, ...</param_name>
+      <param_description
+      >name/value pairs describing the manifest and the command options (see the description).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>module_json_path</param_name>
+      <param_description
+      >a string: full path of the written <b>module.json</b> file.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>data</param_name>
+      <param_description
+      >a struct: the assembled manifest, returned when <b>&apos;DryRun&apos;</b> is <b>true</b> (nothing is written).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>nmm(&apos;init&apos;, destination_dir, ...)</b> assembles a <b>module.json</b> manifest from the supplied fields and sensible defaults, validates it with the same schema validator used by <b>nmm(&apos;validate&apos;)</b>, and writes a pretty-printed <b>module.json</b> in <b>destination_dir</b>. Because it reuses nmm&apos;s own validator, a generated manifest is always nmm-valid.</p>
+    <p>Manifest fields accepted as name/value pairs:</p>
+    <p><b>module</b> a string module name matching <b>^[A-Za-z][A-Za-z0-9_]*$</b>; defaults to the destination folder name (or the title) when omitted.</p>
+    <p><b>title</b>, <b>summary</b> non-empty strings; <b>title</b> defaults to the module name and <b>summary</b> defaults to the title.</p>
+    <p><b>version</b> a semantic version; defaults to <b>1.0.0</b>.</p>
+    <p><b>license</b> a SPDX license expression (for example <b>MIT</b> or <b>LGPL-3.0-or-later</b>); required.</p>
+    <p><b>platforms</b> a string or cell of strings; defaults to <b>{&apos;all&apos;}</b>.</p>
+    <p><b>nelson</b> a Nelson version range; defaults to <b>&gt;=2.0.0</b>.</p>
+    <p><b>builtin</b> a logical; defaults to <b>false</b>.</p>
+    <p><b>dependencies</b> a struct mapping module names to version constraints; defaults to an empty struct.</p>
+    <p><b>keywords</b>, <b>authors</b>, <b>description</b>, <b>repository</b>, <b>homepage</b>, <b>issues</b>, <b>documentation</b> optional metadata.</p>
+    <p>Command options:</p>
+    <p><b>&apos;Force&apos;, true</b> overwrites an existing <b>module.json</b> (otherwise the command errors).</p>
+    <p><b>&apos;DryRun&apos;, true</b> returns the assembled manifest struct without writing any file.</p>
+    <p><b>&apos;Skeleton&apos;, true</b> also drops a minimal loadable, package-ready source tree next to the manifest (<b>loader.m</b>, <b>builder.m</b>, <b>etc/startup.m</b>, <b>etc/finish.m</b>, <b>help</b> and <b>tests</b>). It is intentionally minimal; use a dedicated scaffolder for a richer module.</p>
+    <p><b>&apos;Interactive&apos;, true</b> prompts with <b>input()</b> for any required field that was not supplied, showing the default in brackets and validating each answer. It is disabled by default so that scripts run through <b>--file</b> never block on standard input.</p>
+    <p>After writing (or computing, on <b>DryRun</b>) the manifest, <b>init</b> runs nmm&apos;s own best-practice warnings linter (the same one as <b>nmm(&apos;validate&apos;, ..., &apos;-warnings&apos;)</b>) and echoes non-fatal suggestions for recommended metadata that is missing, such as <b>repository</b>, <b>authors</b>, <b>keywords</b> or <b>description</b>. Warnings never stop the manifest from being written. On <b>DryRun</b> the returned struct also carries a <b>warnings</b> field.</p>
+    <p>The generated manifest is directly usable by <b>nmm(&apos;validate&apos;)</b> and, for a source module, by <b>nmm(&apos;pack&apos;)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Generate a manifest and validate it</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[module_dir = [tempdir(), 'my_module/'];
+mkdir(module_dir);
+nmm('init', module_dir, 'module', 'my_module', 'title', 'My Module', ...
+    'summary', 'a demo module', 'license', 'MIT', 'Skeleton', true);
+nmm('validate', module_dir)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${modules_manager}nmm">nmm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${modules_manager}module-json">module.json</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

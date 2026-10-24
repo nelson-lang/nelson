@@ -31,7 +31,7 @@ isImageFormatReadable(const std::wstring& format);
 NLSGRAPHICS_IO_IMPEXP bool
 isImageFormatWritable(const std::wstring& format);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 // namespace Nelson
 //=============================================================================

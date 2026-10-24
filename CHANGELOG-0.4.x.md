@@ -73,7 +73,7 @@
 
 - [#341](https://github.com/nelson-lang/nelson/issues/341): extend `ipc(pid, 'post', cmd, scope)` to manage scope destination.
 
-- [#314](https://github.com/nelson-lang/nelson/issues/314): Nelson crashs randomly at exit with Qt 5.15.0
+- [#314](https://github.com/nelson-lang/nelson/issues/314): Nelson crashes randomly at exit with Qt 5.15.0
 
 ## Compilation:
 
@@ -155,7 +155,7 @@
 
 - fix play, playblocking, resume builtin.
 
-- getpid() returns current process identificator.
+- getpid() returns current process identifier.
 
 - getpid('running') returns all nelson processes identificators currently running for current user.
 

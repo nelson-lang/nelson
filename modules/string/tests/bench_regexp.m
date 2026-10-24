@@ -11,15 +11,15 @@ line = 'id=12345; name=alpha_beta; status=OK; value=-42.75; ';
 txt = repmat(line, 1, 10000);
 
 tic(); S = regexp(txt, '\d+', 'start'); toc()
-assert_isequal(S(1), 4);
+asserts.isequal(S(1), 4);
 
 tic(); M = regexp(txt, 'name=([A-Za-z_]+); status=([A-Z]+)', 'tokens'); toc()
-assert_isequal(M{1}{1}, 'alpha_beta');
-assert_isequal(M{1}{2}, 'OK');
+asserts.isequal(M{1}{1}, 'alpha_beta');
+asserts.isequal(M{1}{2}, 'OK');
 
 tic(); N = regexp(txt, 'value=(?<number>[-+]?\d+(?:\.\d+)?)', 'names'); toc()
-assert_isequal(N(1).number, '-42.75');
+asserts.isequal(N(1).number, '-42.75');
 
 tic(); R = regexp(txt, 'status=OK', 'match', 'once'); toc()
-assert_isequal(R, 'status=OK');
+asserts.isequal(R, 'status=OK');
 %=============================================================================

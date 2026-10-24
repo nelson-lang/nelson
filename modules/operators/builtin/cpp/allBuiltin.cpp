@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,8 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cmath>
+#include <vector>
 #include "allBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
@@ -16,6 +19,30 @@
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static bool
+tryGetDimensionVector(const ArrayOf& arg, std::vector<indexType>& dims)
+{
+    if (arg.isRowVectorCharacterArray() || arg.isStringArray() || arg.isScalar() || !arg.isNumeric()
+        || arg.isComplex() || !arg.isVector()) {
+        return false;
+    }
+    ArrayOf values(arg);
+    values.promoteType(NLS_DOUBLE);
+    const double* ptr = (const double*)values.dataPointer();
+    indexType n = values.elementCount();
+    dims.clear();
+    for (indexType k = 0; k < n; ++k) {
+        double v = ptr[k];
+        if (v < 1 || v != std::floor(v)) {
+            Error(L"Nelson:operators:invalidDimensionArg",
+                L"Dimension argument must be a positive integer scalar or vector of positive "
+                L"integers.");
+        }
+        dims.push_back((indexType)v);
+    }
+    return true;
+}
 //=============================================================================
 ArrayOfVector
 Nelson::OperatorsGateway::allBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -25,22 +52,37 @@ Nelson::OperatorsGateway::allBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     bool doOverAllElements = false;
     indexType d = 0;
+    bool useVecDim = false;
+    std::vector<indexType> vecDims;
     ArrayOf arg1 = argIn[0];
     if (argIn.size() > 1) {
         ArrayOf arg2 = argIn[1];
         if (arg2.isRowVectorCharacterArray() || (arg2.isStringArray() && arg2.isScalar())) {
-            std::wstring paramAsString = arg2.getContentAsWideString();
+            std::wstring paramAsString = arg2.asWideString();
             if (paramAsString != L"all") {
-                Error(_W("Wrong value for #2 argument."));
+                Error(L"Nelson:operators:invalidValue", L"Wrong value for #%d argument.", 2);
             } else {
                 doOverAllElements = true;
             }
+        } else if (tryGetDimensionVector(arg2, vecDims)) {
+            useVecDim = true;
         } else {
-            d = arg2.getContentAsScalarIndex(false);
+            d = arg2.asScalarIndex(false);
         }
     }
     bool needToOverload = false;
-    ArrayOf res = All(arg1, d, doOverAllElements, needToOverload);
+    ArrayOf res;
+    if (useVecDim) {
+        res = arg1;
+        for (indexType dm : vecDims) {
+            res = All(res, dm, false, needToOverload);
+            if (needToOverload) {
+                break;
+            }
+        }
+    } else {
+        res = All(arg1, d, doOverAllElements, needToOverload);
+    }
     if (needToOverload) {
         OverloadRequired(functionName);
     }

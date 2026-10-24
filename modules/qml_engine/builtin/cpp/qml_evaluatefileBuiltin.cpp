@@ -20,10 +20,9 @@ Nelson::QmlEngineGateway::qml_evaluatefileBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     ArrayOfVector retval;
-    bool bWithOuput;
-    ArrayOf res
-        = QmlEngine::getInstance()->evaluateFile(param1.getContentAsWideString(), bWithOuput);
-    if (bWithOuput) {
+    bool bWithOutput;
+    ArrayOf res = QmlEngine::getInstance()->evaluateFile(param1.asWideString(), bWithOutput);
+    if (bWithOutput) {
         retval.push_back(res);
     }
     return retval;

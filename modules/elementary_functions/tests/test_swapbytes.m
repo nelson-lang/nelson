@@ -7,53 +7,55 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('swapbytes'), 1)
-assert_isequal(nargout('swapbytes'), 1)
+asserts.isequal(nargin('swapbytes'), 1)
+asserts.isequal(nargout('swapbytes'), 1)
 %=============================================================================
 R = swapbytes(0);
-assert_isequal(R, 0);
+asserts.isequal(R, 0);
 %=============================================================================
 R = swapbytes(NaN);
-assert_isapprox(R, 3.1493e-319);
+asserts.isapprox(R, 3.1493e-319);
 %=============================================================================
 R2 = swapbytes(R);
-assert_isequal(R2, NaN);
+asserts.isequal(R2, NaN);
 %=============================================================================
 R = swapbytes(Inf);
-assert_isapprox(R, 3.0418e-319);
+asserts.isapprox(R, 3.0418e-319);
 %=============================================================================
 R = swapbytes(single(1));
-assert_isapprox(R, single(4.6006e-41));
+asserts.isapprox(R, single(4.6006e-41));
 %=============================================================================
 R = swapbytes(single(4.6006e-41));
-assert_isapprox(R, single(1));
+asserts.isapprox(R, single(1));
 %=============================================================================
-assert_isequal(swapbytes(int8(8)),int8(8));
-assert_isequal(swapbytes(uint8(8)),uint8(8));
+asserts.isequal(swapbytes(int8(8)), int8(8));
+asserts.isequal(swapbytes(uint8(8)), uint8(8));
 %=============================================================================
-assert_isequal(swapbytes(int16(8)),int16(2048));
-assert_isequal(swapbytes(int16(-8)),int16(-1793));
+asserts.isequal(swapbytes(int16(8)), int16(2048));
+asserts.isequal(swapbytes(int16(-8)), int16(-1793));
 %=============================================================================
-assert_isequal(swapbytes(int32(1)),int32(16777216));
-assert_isequal(swapbytes(int32(-1)),int32(-1));
+asserts.isequal(swapbytes(int32(1)), int32(16777216));
+asserts.isequal(swapbytes(int32(-1)), int32(-1));
 %=============================================================================
-assert_isequal(swapbytes(uint32(12)),uint32(201326592));
-assert_isequal(swapbytes(uint32(68)),uint32(1140850688));
+asserts.isequal(swapbytes(uint32(12)), uint32(201326592));
+asserts.isequal(swapbytes(uint32(68)), uint32(1140850688));
 %=============================================================================
-assert_isequal(swapbytes(int64(1)),int64(72057594037927936));
-assert_isequal(swapbytes(int64(-1)),int64(-1));
+asserts.isequal(swapbytes(int64(1)), int64(72057594037927936));
+asserts.isequal(swapbytes(int64(-1)), int64(-1));
 %=============================================================================
-assert_isequal(swapbytes(uint64(12)), uint64(864691128455135232));
-assert_isequal(swapbytes(5648002115885334530u64), 144115188088201550u64);
+asserts.isequal(swapbytes(uint64(12)), uint64(864691128455135232));
+asserts.isequal(swapbytes(5648002115885334530u64), 144115188088201550u64);
 %=============================================================================
 R = swapbytes([1u64, 2u64, 3u64; 4u64, 5u64, 6u64]);
 REF = [72057594037927936u64, 144115188075855872u64, 216172782113783808u64;
-288230376151711744u64, 360287970189639680u64, 432345564227567616u64];
-assert_isequal(R, REF);
+  288230376151711744u64, 360287970189639680u64, 432345564227567616u64];
+asserts.isequal(R, REF);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'swapbytes');
 %=============================================================================
-assert_checkerror('R = swapbytes(3+i);', msg);
+asserts.checkerror('R = swapbytes(3+i);', msg);
 %=============================================================================
-assert_checkerror('R = swapbytes(true)', msg);
+asserts.checkerror('R = swapbytes(true)', msg);
+%=============================================================================
+asserts.isequal(swapbytes(uint16(1)), uint16(256));
 %=============================================================================

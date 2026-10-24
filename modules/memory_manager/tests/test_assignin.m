@@ -10,4 +10,8 @@
 function test_assignin()
   test_assignin1()
   disp(b)
+  assignin('base', 'compatibilityRuntimeValue', 42);
+  asserts.isequal(evalin('base', 'compatibilityRuntimeValue'), 42);
+  evalin('base', 'clear compatibilityRuntimeValue');
 end
+%=============================================================================

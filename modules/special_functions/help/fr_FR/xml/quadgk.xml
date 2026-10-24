@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>quadgk</keyword>
+  <short_description>Evalue numeriquement une integrale par quadrature Gauss-Kronrod.</short_description>
+  <syntax>
+    <syntax_item>q = quadgk(fun, a, b)</syntax_item>
+    <syntax_item>[q, errbnd] = quadgk(fun, a, b)</syntax_item>
+    <syntax_item>[...] = quadgk(fun, a, b, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>Integrande : handle de fonction.</param_description></param_input_item>
+    <param_input_item><param_name>a, b</param_name><param_description>Bornes d&apos;integration. Les bornes complexes finies sont integrees sur des segments droits.</param_description></param_input_item>
+    <param_input_item><param_name>name, value</param_name><param_description>Options : &apos;RelTol&apos;, &apos;AbsTol&apos;, &apos;Waypoints&apos; et &apos;MaxIntervalCount&apos;.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>q</param_name><param_description>Integrale calculee.</param_description></param_output_item>
+    <param_output_item><param_name>errbnd</param_name><param_description>Borne approximative de l&apos;erreur absolue.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>quadgk</b> integre une integrande scalaire vectorisee avec une quadrature Gauss-Kronrod adaptive.</p>
+    <p><b>Waypoints</b> decoupe l&apos;integrale en sous-intervalles. Des points complexes definissent un contour polygonal.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[[q, errbnd] = quadgk(@(x) exp(-x.^2), 0, Inf)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral2">integral2</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral3">integral3</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -9,7 +9,7 @@
 %=============================================================================
 function out = arguments_edge_out_fixed_mismatch()
   arguments (Output)
-    out (1,3) double
+    out(1, 3) double
   end
   out = [1, 2, 3, 4];
 end

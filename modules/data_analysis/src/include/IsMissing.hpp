@@ -17,5 +17,5 @@ namespace Nelson {
 NLSDATA_ANALYSIS_IMPEXP ArrayOf
 isMissing(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

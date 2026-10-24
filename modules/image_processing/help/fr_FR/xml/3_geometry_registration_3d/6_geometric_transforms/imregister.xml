@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imregister</keyword>
+  <short_description>Recale une image mobile sur une image fixe.</short_description>
+  <syntax>
+    <syntax_item>registered = imregister(moving, fixed, transformType, optimizer, metric)</syntax_item>
+    <syntax_item>registered = imregister(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>moving</param_name>
+      <param_description>Image mobile en niveaux de gris ou RGB.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fixed</param_name>
+      <param_description>Image fixe en niveaux de gris ou RGB, de meme taille que moving.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>transformType</param_name>
+      <param_description>Type de transformation transmis a imregtform.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>optimizer</param_name>
+      <param_description>Structure d'optimiseur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>metric</param_name>
+      <param_description>Structure de metrique ou nom de metrique.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>registered</param_name>
+      <param_description>Image mobile recalee, echantillonnee sur la grille de l'image fixe.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imregister estime une transformation 2-D avec imregtform et reechantillonne l'image mobile sur la grille de l'image fixe avec imwarp. Les methodes d'interpolation prises en charge sont nearest, linear, bilinear et cubic.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Recaler une image translatee</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(24:40,22:38)=1;
+J=imtranslate(I,[7 -5],'nearest');
+[optimizer,metric]=imregconfig('monomodal');
+K=imregister(I,J,'translation',optimizer,metric,'Interpolation','nearest');
+figure; subplot(1,3,1); imagesc(I); axis image; title('Mobile');
+subplot(1,3,2); imagesc(J); axis image; title('Fixe');
+subplot(1,3,3); imagesc(K); axis image; title('Recalee');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imregister_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imregconfig">imregconfig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregcorr">imregcorr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregtform">imregtform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imwarp">imwarp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

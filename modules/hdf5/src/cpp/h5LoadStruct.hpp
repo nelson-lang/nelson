@@ -17,10 +17,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-h5LoadStruct(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    const Dimensions& dims, bool isObject, const std::string& objectClassname,
-    ArrayOf& VariableValue);
+class Evaluator;
 //=============================================================================
-};
+bool
+h5LoadStruct(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, bool isObject,
+    const std::string& objectClassname, ArrayOf& VariableValue);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

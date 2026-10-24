@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pcares</keyword>
+  <short_description>Residuals from principal component analysis.</short_description>
+  <syntax>
+    <syntax_item>residuals = pcares(X, NumComponents)</syntax_item>
+    <syntax_item>[residuals, reconstructed] = pcares(X, NumComponents)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>pcares</b> returns residuals obtained by retaining the requested number of principal components of the data matrix X.</p>
+    <p>The reconstructed output is the low-dimensional approximation of X, and residuals is equal to X minus reconstructed.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4; 5 8; 7 11];
+[residuals, reconstructed] = pcares(X, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pcacov">pcacov</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

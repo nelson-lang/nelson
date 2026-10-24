@@ -7,39 +7,41 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+%#ok<NLS0014,NLS0015,NLS0026>
 function y = cond(A, p)
   narginchk(1, 2);
   if (nargin < 2)
-    p = 2;
+    normType = 2;
+  else
+    normType = p;
   end
-  
-  if ~isequal(p, 2) 
+
+  if ~isequal(normType, 2)
     sizeMismatch = ismatrix(A) && size(A, 1) ~= size(A, 2);
     if sizeMismatch
-      error('Nelson:cond:normMismatchSizeA', _('Input must be square.'));
+      error('Nelson:linear_algebra:squareMatrixExpected', '%s expected.', 'Square matrix');
     end
   end
-  
-  if (isempty(A)) 
-    y = 0; 
+
+  if (isempty(A))
+    y = 0;
     return;
-  end;
-  if (p ~= 2)
-    y = norm(A, p) * norm(inv(A), p);
+  end
+  if (normType ~= 2)
+    y = norm(A, normType) * norm(inv(A), normType);
   else
     if (isscalar(A) && (A == 0))
       y = inf;
     else
-      s = svd(A);
-      if any(s == 0)
-        c = cast(Inf, class(A));
+      singularValues = svd(A);
+      if any(singularValues == 0)
+        y = cast(Inf, class(A));
       else
-        c = max(s) ./ min(s);
-        if isempty(c)
-          c = zeros(class(A));
+        y = max(singularValues) ./ min(singularValues);
+        if isempty(y)
+          y = zeros(class(A));
         end
-      end            
-      y = s(1) / s(end);
+      end
     end
   end
 end

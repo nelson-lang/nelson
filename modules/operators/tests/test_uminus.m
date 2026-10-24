@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('uminus'), 1);
-assert_isequal(nargout('uminus'), 1);
+asserts.isequal(nargin('uminus'), 1);
+asserts.isequal(nargout('uminus'), 1);
 %=============================================================================
 R = -uint8([3 1]);
 REF = uint8([0 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = -'A';
 REF = -65;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

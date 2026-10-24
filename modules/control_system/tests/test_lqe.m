@@ -12,19 +12,19 @@ skip_testsuite(~ismodule('slicot'), 'SLICOT is not installed');
 c = 1;
 m = 1;
 k = 1;
-A = [0, 2; -k/m, -c/m];
-B = [0; 2/m];
-G = [2 0 ; 0 2];
+A = [0, 2; -k / m, -c / m];
+B = [0; 2 / m];
+G = [2 0; 0 2];
 C = [2 0];
 Q = [0.02 0; 0 0.02];
 R = 0.02;
 [l, p, e] = lqe(A, G, C, Q, R);
 
 l_REF = [2.2987; 0.6420];
-p_REF = [0.0230    0.0064; 0.0064    0.0295];
+p_REF = [0.0230 0.0064; 0.0064 0.0295];
 e_REF = [-2.7987 - 1.1544i; -2.7987 + 1.1544i];
 
-assert_isapprox(l, l_REF, 1e-4);
-assert_isapprox(p, p_REF, 1e-2);
-assert_isapprox(e, e_REF, 1e-4);
+asserts.isapprox(l, l_REF, 1e-4);
+asserts.isapprox(p, p_REF, 1e-2);
+asserts.isapprox(e, e_REF, 1e-4);
 %=============================================================================

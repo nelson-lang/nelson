@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <short_description>Known classdef limitations.</short_description>
+  <description>
+    <p>
+      Nelson supports many <b>classdef</b> features: value and handle classes, single or multiple inheritance, declared properties, abstract properties, dependent, constant, observable, transient, and non-copyable properties, default values, dimension, type, and function validation (including validators referencing the property name), instance, static, abstract, sealed, and hidden methods, restricted constructors (<b>Access</b> on the constructor), single-line methods, <b>get.PropertyName</b> and <b>set.PropertyName</b> accessors, packages, separate method files, <b>...</b> continuation, events and listeners (with <b>addlistener</b> binding the listener lifetime to the source object), <b>event.EventData</b> subclasses for typed payloads, <b>ListenAccess</b>, <b>NotifyAccess</b>, and <b>Hidden</b> event attributes, mixin base classes (<b>nelson.mixin.Copyable</b>, <b>nelson.mixin.CustomDisplay</b>, <b>nelson.mixin.SetGet</b>, <b>nelson.mixin.Heterogeneous</b>), enumerations with constructor arguments, numeric enumeration base types, subclassing built-in numeric, logical, and char types, object arrays (including <b>reshape</b>, <b>permute</b>, and <b>isequal</b>), <b>ClassName.empty(...)</b>, simple indexing hooks, persistence hooks, dynamic handle properties, and metadata queries returning <b>meta.class</b> objects.</p>
+    <p>
+      The main help pages document the supported behavior: <b>classdef</b> describes syntax and attributes, <b>classdef_tutorial</b> gives basic examples, <b>metaclass</b> describes metadata structures, <b>events</b> describes event visibility, and <b>dynamicprops</b> describes instance dynamic properties.</p>
+    <p>
+      This page lists documented limits for Nelson. It is a status page, not a complete object-system specification.</p>
+    <p>
+      <b>Known limitations</b>:</p>
+    <table>
+      <tr>
+        <th>Area</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Metadata object model</td>
+        <td>meta.* objects</td>
+        <td><b>metaclass</b> and <b>?ClassName</b> return <b>meta.class</b> objects whose <b>PropertyList</b>, <b>MethodList</b>, <b>EventList</b>, and <b>EnumerationMemberList</b> are typed <b>meta.property</b>, <b>meta.method</b>, <b>meta.event</b>, and <b>meta.EnumerationMember</b> arrays. The Nelson-specific <b>ClassDetails</b>, <b>PropertyDetails</b>, <b>MethodDetails</b>, <b>EventDetails</b>, and <b>EnumerationDetails</b> structure properties remain available for compatibility. <b>meta.DynamicProperty</b> is available for instance dynamic property descriptors. Static constructors such as <b>meta.class.fromName</b> are not provided.</td>
+      </tr>
+      <tr>
+        <td>Custom indexing method names</td>
+        <td>Partial</td>
+        <td>Traditional overload hooks such as <b>subsref</b>, <b>subsasgn</b>, and <b>end</b> use the common overload machinery. Method-name forms <b>dotReference</b>, <b>dotAssign</b>, <b>parenReference</b>, <b>parenAssign</b>, <b>braceReference</b>, and <b>braceAssign</b> are supported for simple value and handle indexing. Full operation-object indexing customization is not documented as supported.</td>
+      </tr>
+      <tr>
+        <td>Method forms</td>
+        <td>Declared or separate</td>
+        <td>Methods in the class file, separate method prototypes, and method files in <b>@ClassName</b> folders are supported. Simple methods written on one line with their body and final <b>end</b> are supported. Abstract methods must remain declarations without a body.</td>
+      </tr>
+      <tr>
+        <td>Class attributes</td>
+        <td>Documented</td>
+        <td><b>Abstract</b>, <b>ConstructOnLoad</b>, <b>Hidden</b>, <b>InferiorClasses</b>, and <b>Sealed</b> are parsed and exposed in metadata. Associated constraints such as not combining <b>Sealed</b> and <b>Abstract</b> are checked.</td>
+      </tr>
+      <tr>
+        <td>Property attributes</td>
+        <td>Documented</td>
+        <td><b>Access</b>, <b>GetAccess</b>, <b>SetAccess</b>, <b>Abstract</b>, <b>AbortSet</b>, <b>Constant</b>, <b>Dependent</b>, <b>GetObservable</b>, <b>SetObservable</b>, <b>Hidden</b>, <b>Transient</b>, <b>NonCopyable</b>, <b>WeakHandle</b>, and validation expressions are supported. An abstract property must not define an initial value. <b>WeakHandle</b> is limited to handle classes, and objects linked by a cycle of strong references are not destroyed.</td>
+      </tr>
+      <tr>
+        <td>Method attributes</td>
+        <td>Documented</td>
+        <td><b>Access</b>, <b>Abstract</b>, <b>Hidden</b>, <b>Sealed</b>, and <b>Static</b> are supported. Private abstract methods are not instantiable in a concrete class; sealed methods cannot be overridden.</td>
+      </tr>
+      <tr>
+        <td>Event attributes</td>
+        <td>Documented</td>
+        <td>Events can be declared only by handle subclasses. <b>ListenAccess</b>, <b>NotifyAccess</b>, and <b>Hidden</b> are supported. <b>events</b> and <b>metaclass(...).EventList</b> expose visible public events; <b>EventDetails</b> keeps declared events, including non-public or hidden events.</td>
+      </tr>
+      <tr>
+        <td>Class-list access</td>
+        <td>Supported</td>
+        <td>Access attributes accept <b>public</b>, <b>private</b>, <b>protected</b>, one class name such as <b>?FriendClass</b>, or a list such as <b>{?FriendA, ?FriendB}</b>. Access checks apply to properties, methods, and events.</td>
+      </tr>
+      <tr>
+        <td>Object arrays</td>
+        <td>Supported</td>
+        <td>Value and handle class arrays keep class metadata. Indexed expansion initializes missing elements with the default constructor or distinct default handles. <b>ClassName.empty(...)</b> creates typed empty arrays.</td>
+      </tr>
+      <tr>
+        <td>Persistence</td>
+        <td>Supported</td>
+        <td>Save and load preserve classdef objects, including objects nested in cells and structs. <b>saveObjectImpl</b> and static <b>loadObjectImpl</b> are applied to scalar objects and element by element for non-empty arrays. <b>Transient</b> properties reload with their default values when possible.</td>
+      </tr>
+      <tr>
+        <td>Subclassing built-in data types</td>
+        <td>Numeric, logical, char</td>
+        <td>Value classes can inherit from <b>double</b>, <b>single</b>, integer types, <b>logical</b>, and <b>char</b>. The base data is initialized with <b>obj = obj@double(...)</b>; arithmetic, indexing, concatenation, and shape operations return the subclass, conversions return the base type, and type predicates follow the base type. Subclassing container types (<b>cell</b>, <b>struct</b>) is not supported.</td>
+      </tr>
+      <tr>
+        <td>Dynamic properties</td>
+        <td>Handle classes only</td>
+        <td>Instance dynamic properties require a handle class that inherits from <b>dynamicprops</b>. Dynamic property descriptors support access flags, callbacks, dependent accessors, validation, common storage flags, and persisted stored values. Declared class properties cannot be removed with <b>rmprop</b>.</td>
+      </tr>
+      <tr>
+        <td>Table custom properties</td>
+        <td>Separate API</td>
+        <td><b>addprop</b> and <b>rmprop</b> also exist for tables with a different signature. That mechanism adds custom properties to table metadata and does not return a <b>meta.DynamicProperty</b> descriptor.</td>
+      </tr>
+      <tr>
+        <td>Completion, debugger, and profiler</td>
+        <td>Nelson integration</td>
+        <td>Classdef objects are supported by the existing Nelson tools. The exposed metadata interfaces remain the structures documented by <b>metaclass</b>.</td>
+      </tr>
+      <tr>
+        <td>Status tracking</td>
+        <td>Test based</td>
+        <td>Before adding or removing a limitation, verify the current behavior against Nelson classdef tests and the related help pages.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef_tutorial">classdef tutorial</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}dynamicprops">dynamicprops</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -27,11 +27,11 @@ nix develop
 
 Then, use the following commands:
 
-`just config` — Configure the build environment
+`just config` - Configure the build environment
 
-`just build` — Build the project
+`just build` - Build the project
 
-`just start` — Run Nelson
+`just start` - Run Nelson
 
 ## NixOS
 
@@ -90,7 +90,7 @@ cmake -LAH
 // Build Nelson under LGPL v3.x only
 LGPL_ONLY:BOOL=OFF
 
-// Build mininal Nelson
+// Build minimal Nelson
 MINIMAL_BUILD:BOOL=ON
 
 // Enable AVX2 Instruction set (if available)
@@ -150,9 +150,6 @@ WITHOUT_MEX_MODULE:BOOL=OFF
 // Disable MPI module.
 WITHOUT_MPI_MODULE:BOOL=OFF
 
-// Disable NIG module.
-WITHOUT_NIG_MODULE:BOOL=OFF
-
 // Disable OpenMP
 WITHOUT_OPENMP:BOOL=OFF
 
@@ -170,9 +167,6 @@ WITHOUT_RANDOM_MODULE:BOOL=OFF
 
 // Disable SIGNAL_PROCESSING module.
 WITHOUT_SIGNAL_PROCESSING_MODULE:BOOL=OFF
-
-// Disable SIO_CLIENT module.
-WITHOUT_SIO_CLIENT_MODULE:BOOL=OFF
 
 // Disable SLICOT module.
 WITHOUT_SLICOT_MODULE:BOOL=OFF
@@ -252,5 +246,18 @@ just update-localization
 cd nelson
 just start
 ```
+
+## Debug and sanitizer builds
+
+- Debug build: switch `Release` to `Debug` in the root `CMakeLists.txt` (or
+  pass `-DCMAKE_BUILD_TYPE=Debug` to `just config`), rebuild, and run under
+  gdb. Core dumps plus the unstripped binaries in the build tree symbolize
+  normally.
+- AddressSanitizer: add `-fsanitize=address` to the compiler flags with a
+  Debug or RelWithDebInfo build type.
+- When running tests under a sanitizer, remember that `test_run` launches
+  each test as a child process and chdirs into the test folder: reports
+  written with a relative log path land in `modules/<mod>/tests/`, so scan
+  the whole tree for report files.
 
 [Previous (Building)](BUILDING.md)

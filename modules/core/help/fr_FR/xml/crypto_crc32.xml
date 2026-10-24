@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.crc32</keyword>
+  <short_description>Somme de contrôle CRC-32 (alias de l'espace crypto).</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.crc32(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>...</param_name>
+      <param_description>voir <b>crc32</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>chaîne hexadécimale, identique à <b>crc32</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>crypto.crc32</b> est un alias de <b>crc32</b>, dans l'espace de noms <b>crypto</b> (mêmes arguments et même résultat).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crc32">crc32</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

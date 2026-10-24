@@ -13,10 +13,8 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * Transposes the argument.
- */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 ComplexConjugate(const ArrayOf& A);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

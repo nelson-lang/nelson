@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>chirp</keyword>
+  <short_description>Signal cosinus a frequence balayee.</short_description>
+  <syntax>
+    <syntax_item>Y = chirp(T)</syntax_item>
+    <syntax_item>Y = chirp(T, F0, T1, F1)</syntax_item>
+    <syntax_item>Y = chirp(T, F0, T1, F1, method)</syntax_item>
+    <syntax_item>Y = chirp(T, F0, T1, F1, method, phi)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>valeurs de temps.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>F0</param_name>
+      <param_description>frequence initiale.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T1</param_name>
+      <param_description>temps de reference.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>F1</param_name>
+      <param_description>frequence a T1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>'linear', 'quadratic' ou 'logarithmic'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>phi</param_name>
+      <param_description>phase initiale en degres.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>signal genere.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>chirp</b> genere un cosinus dont la frequence varie dans le temps.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+y = chirp(0:0.01:1, 0, 1, 10);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}sawtooth">sawtooth</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${signal_processing}square">square</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

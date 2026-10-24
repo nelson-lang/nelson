@@ -105,6 +105,23 @@ C_IN = [1.0000e+000          0.0          0.0          0.0          0.0;
 [MAXRED_OUT, A_OUT, B_OUT, C_OUT, SCALE, INFO] = slicot_tb01id(JOB, MAXRED_IN, A_IN, B_IN, C_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb04md">slicot_mb04md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_tg01ad">slicot_tg01ad</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_ab01od">slicot_ab01od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}balreal">balreal</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ss">ss</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

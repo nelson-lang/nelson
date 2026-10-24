@@ -9,6 +9,6 @@
 %=============================================================================
 r = blanks(1e8);
 r(5) = 't';
-tic();R = isletter(r);toc()
-assert_isequal(R(5), true);
-assert_isequal(R(4), false);
+tic(); R = isletter(r); toc()
+asserts.isequal(R(5), true);
+asserts.isequal(R(4), false);

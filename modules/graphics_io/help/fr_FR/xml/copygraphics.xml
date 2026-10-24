@@ -16,6 +16,11 @@
   <description>
     <p>
       <b>copygraphics</b> copie la figure dans le presse-papiers.</p>
+    <p>Sur le bureau, l&apos;image RGBA rendue est envoyée au presse-papiers natif par l&apos;adaptateur
+    de bureau optionnel. En mode web, le même rendu est encodé en PNG RGBA puis transmis par
+    <b>clipboard.image</b> au navigateur. Cet accès exige un contexte sécurisé et peut
+    demander une permission ou un geste utilisateur. Si la demande automatique est refusée, une
+    action visible <b>Copy image</b> permet de recommencer l&apos;opération.</p>
   </description>
   <used_function />
   <bibliography />
@@ -24,7 +29,7 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data
-        runnable="adv-cli"
+        runnable="gui"
       ><![CDATA[x = -2:0.25:2;
 y = x;
 [X,Y] = meshgrid(x);
@@ -36,7 +41,7 @@ copygraphics(gcf());
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}gcf">gcf</link>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics_io}saveas">saveas</link>
@@ -46,6 +51,10 @@ copygraphics(gcf());
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout du presse-papiers d&apos;images dans le navigateur</history_description>
     </history_item>
   </history>
   <authors>

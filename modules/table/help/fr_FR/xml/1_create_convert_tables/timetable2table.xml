@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timetable2table</keyword>
+  <short_description>Convertir une timetable en table.</short_description>
+  <syntax>
+    <syntax_item>T = timetable2table(TT)</syntax_item>
+    <syntax_item>T = timetable2table(TT, &apos;ConvertRowTimes&apos;, tf)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>TT</param_name><param_description>Objet timetable.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>T</param_name><param_description>Objet table.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>timetable2table</b> convertit une timetable en table.</p>
+    <p>Lorsque <b>&apos;ConvertRowTimes&apos;</b> vaut vrai, les temps de lignes sont inseres comme premiere variable de la table.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[t = datetime(2024, 1, 1) + days(0:1)';
+TT = timetable(t, [1; 2], 'VariableNames', {'A'});
+T = timetable2table(TT, 'ConvertRowTimes', true)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}table2timetable">table2timetable</link></see_also_item>
+    <see_also_item><link linkend="${table}table">table</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

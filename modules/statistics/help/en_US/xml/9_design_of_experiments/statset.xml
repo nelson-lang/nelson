@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>statset</keyword>
+  <short_description>Create or update statistics options structures.</short_description>
+  <syntax>
+    <syntax_item>options = statset()</syntax_item>
+    <syntax_item>options = statset(statfun)</syntax_item>
+    <syntax_item>options = statset(Name, Value, ...)</syntax_item>
+    <syntax_item>options = statset(oldOptions, Name, Value, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>statfun</param_name>
+      <param_description>statistics function name used to initialize defaults, such as &apos;kmeans&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>option names and values. Names can be abbreviated when the abbreviation is unique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>oldOptions</param_name>
+      <param_description>existing scalar options structure to update or merge.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>scalar structure containing statistics options fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>statset</b> creates a scalar structure with common statistics options. The structure can be passed to functions that accept an <b>Options</b> name-value argument.</p>
+    <p>Parallel and stream option fields are accepted by statistics functions that support them. Execution can remain serial when a function does not use parallel evaluation. <b>Streams</b> can contain a <b>RandStream</b> object or a cell array of streams.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}statget">statget</link>
+    <link linkend="${statistics}kmeans">kmeans</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create default options for kmeans.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset('kmeans');
+opts.Display
+opts.MaxIter]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Update an options structure and use it with kmeans.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6];
+opts = statset('kmeans', 'Display', 'final', 'MaxIter', 20);
+[idx, C] = kmeans(X, 2, 'Start', [0 0; 5 5], 'Options', opts)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set parallel option fields.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset('UseParallel', true, 'UseSubstreams', true, 'Streams', {});
+statget(opts, 'UseParallel')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

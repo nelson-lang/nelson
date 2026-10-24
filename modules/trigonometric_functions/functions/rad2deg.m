@@ -14,7 +14,7 @@ function y = rad2deg(varargin)
   if isfloat(x)
     y = (180 / pi) * x;
   else
-    error('Nelson:rad2deg:nonFloatInput', _('Input must be single or double.'));
+    error('Nelson:trigonometric_functions:nonFloatInput', 'Input must be single or double.');
   end
 end
 %=============================================================================

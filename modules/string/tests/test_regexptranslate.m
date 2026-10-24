@@ -7,18 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('regexptranslate'), -2);
-assert_isequal(nargout('regexptranslate'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('regexptranslate'), -2);
+asserts.isequal(nargout('regexptranslate'), 1);
 %=============================================================================
 r = regexptranslate('escape', 'a+b*c?.m');
-assert_isequal(r, 'a\+b\*c\?\.m');
+asserts.isequal(r, 'a\+b\*c\?\.m');
 %=============================================================================
 r = regexptranslate('wildcard', '*.m');
-assert_isequal(r, '.*\.m');
+asserts.isequal(r, '.*\.m');
 %=============================================================================
 r = regexptranslate('wildcard', {'*.m', 'test?.mat'});
-assert_isequal(r, {'.*\.m', 'test.\.mat'});
+asserts.isequal(r, {'.*\.m', 'test.\.mat'});
 %=============================================================================
 r = regexptranslate('escape', "a+b");
-assert_isequal(r, "a\+b");
+asserts.isequal(r, "a\+b");
 %=============================================================================

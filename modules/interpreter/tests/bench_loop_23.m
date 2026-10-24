@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+% <--WEIGHT 8-->
+%=============================================================================
 runs = 30;
 cumulate = [];
 b = 0;
@@ -16,7 +19,7 @@ for i = 1:runs
   tic();
   for j = 1:N
     for k = 1:N
-      b(k,j) = abs(j - k) + 1;
+      b(k, j) = abs(j - k) + 1;
     end
   end
   timing = toc();

@@ -9,16 +9,16 @@
 %=============================================================================
 function mex(varargin)
   if nargin() == 0
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   params = varargin(:)';
   if nargin() > 1
     isengine = ischar(params{1}) && (strcmp(params{1}, '-client') == true) && ...
-    ischar(params{2}) && (strcmp(params{2}, 'engine') == true);
+      ischar(params{2}) && (strcmp(params{2}, 'engine') == true);
   else
     isengine = false;
   end
-  
+
   filenames = getFilenames(params);
   definesParams = getDefines(params);
   includesParams = getIncludes(params);
@@ -40,16 +40,16 @@ function mex(varargin)
   if status
     functionName = outputName;
   else
-    [p, f, e ] = fileparts(filenames{1});
+    [p, f, e] = fileparts(filenames{1});
     functionName = f;
   end
   if isempty(interleavedComplex)
     defines = {nelsonIdentified};
   else
-    defines = { nelsonIdentified, interleavedComplex };
+    defines = {nelsonIdentified, interleavedComplex};
   end
   defines = [defines, definesParams];
-  
+
   destinationPath = fileparts(filenames{1}, 'path');
   if isempty(destinationPath)
     destinationPath = pwd();
@@ -61,13 +61,13 @@ function mex(varargin)
     c_flags = '';
     cxx_flags = '';
   end
-  
+
   includes = [{destinationPath}; includesParams'; getMexIncludes()];
   libraries = [librariesParams'; getMexLibraries()];
-  c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams),  ' ', concateToChar(undefinesParams)];
+  c_flags = [concateToChar(c_flags), ' ', concateToChar(cflagsParams), ' ', concateToChar(undefinesParams)];
   c_flags = strtrim(c_flags);
   build_configuration = buildConfigParam;
-  
+
   if ~isengine
     dlgeneratemexgateway(destinationPath, functionName, hasinterleavedcomplex);
     filenames = [filenames, 'mexGateway.c'];
@@ -76,35 +76,35 @@ function mex(varargin)
     maketype = 'executable';
   end
   [status, message, cmakefilename] = dlgeneratemake(maketype, destinationPath, ...
-  functionName, ...
-  filenames, ...
-  includes, ...
-  defines, ...
-  libraries, ...
-  build_configuration, ...
-  c_flags, ...
-  cxx_flags);
+    functionName, ...
+    filenames, ...
+    includes, ...
+    defines, ...
+    libraries, ...
+    build_configuration, ...
+    c_flags, ...
+    cxx_flags);
   if ~status
-    error(message);
+    error('Nelson:mex:compileFailed', message);
   end
   [status, message] = dlmake(destinationPath);
   if ~status
-    error(message);
+    error('Nelson:mex:makeFailed', message);
   end
   if ~isengine
     clear(functionName)
-    if ~endsWith(destinationPath,'/') && ~endsWith(destinationPath,'\')
+    if ~endsWith(destinationPath, '/') && ~endsWith(destinationPath, '\')
       destinationPath = [destinationPath, '/'];
     end
     mexGatewayFilename = [destinationPath, '/mexGateway.c'];
     rmfile(mexGatewayFilename)
-    fullDestinationDynamicLibraryName =  [destinationPath, functionName, getdynlibext()];
+    fullDestinationDynamicLibraryName = [destinationPath, functionName, getdynlibext()];
     fullDestinationMexName = [destinationPath, functionName, '.', mexext()];
     copyfile(fullDestinationDynamicLibraryName, fullDestinationMexName)
     rmfile(fullDestinationDynamicLibraryName)
     rmfile(cmakefilename)
     if ispc()
-      fullDestinationLibraryName =  [destinationPath, functionName, '.lib'];
+      fullDestinationLibraryName = [destinationPath, functionName, '.lib'];
       rmfile(fullDestinationLibraryName)
     end
   end
@@ -148,9 +148,9 @@ function filenames = getFilenames(params)
   for p = params
     if ischar(p{1}) && isfile(p{1})
       isSupportedExtensions = endsWith(p{1}, '.c', 'IgnoreCase', true) || ...
-      endsWith(p{1}, '.cc', 'IgnoreCase', true) || ...
-      endsWith(p{1}, '.cxx', 'IgnoreCase', true) || ...
-      endsWith(p{1}, '.cpp', 'IgnoreCase', true);
+        endsWith(p{1}, '.cc', 'IgnoreCase', true) || ...
+        endsWith(p{1}, '.cxx', 'IgnoreCase', true) || ...
+        endsWith(p{1}, '.cpp', 'IgnoreCase', true);
       if isSupportedExtensions
         filenames{end + 1} = strtrim(strrep(p{1}, '\', '/'));
       end
@@ -179,7 +179,7 @@ function includes = getIncludes(params)
       isInclude = startsWith(s, '-I', 'IgnoreCase', false);
       if isInclude
         s = removeDoubleQuote(s(3:length(s)));
-        includes{end + 1} = strrep(s, '\','/');
+        includes{end + 1} = strrep(s, '\', '/');
       end
     end
   end

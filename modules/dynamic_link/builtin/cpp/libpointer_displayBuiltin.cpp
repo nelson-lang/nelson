@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "libpointer_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
@@ -31,15 +32,15 @@ Nelson::DynamicLinkGateway::libpointer_dispBuiltin(
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
             }
-            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
+            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.asHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("libpointer handle expected."));
+        Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
     }
     return retval;
 }
@@ -55,20 +56,20 @@ Nelson::DynamicLinkGateway::libpointer_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name = argIn[0].wname();
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
-                Error(_W("libpointer handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_LIBPOINTER_CATEGORY_STR) {
+                Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
             }
-            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.getContentAsHandleScalar();
+            LibPointerObject* lipPointerObj = (LibPointerObject*)param1.asHandleScalar();
             lipPointerObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("libpointer handle expected."));
+        Error(L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected.");
     }
     return retval;
 }

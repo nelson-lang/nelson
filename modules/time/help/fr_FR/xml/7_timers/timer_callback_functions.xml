@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>Fonctions de callback de timer</keyword>
+  <keyword_alias>callbacks de timer</keyword_alias>
+  <keyword_alias>fonctions de rappel de timer</keyword_alias>
+  <short_description>Definir les commandes executees lors des evenements de timer.</short_description>
+  <description>
+    <p>Les callbacks de timer peuvent etre retardes lorsqu&apos;un autre callback ou une tache couteuse en CPU est deja en cours.</p>
+    <p>Un objet timer possede quatre proprietes de callback. <b>StartFcn</b> s&apos;execute lorsque le timer demarre. <b>TimerFcn</b> s&apos;execute lorsque le timer se declenche. <b>StopFcn</b> s&apos;execute lorsque le timer s&apos;arrete normalement ou apres une erreur. <b>ErrorFcn</b> s&apos;execute lorsqu&apos;un callback de timer signale une erreur.</p>
+    <p>Definissez une propriete de callback avec l&apos;une des valeurs suivantes :</p>
+    <table border="1">
+      <tr>
+        <th>Valeur</th>
+        <th>Utilisation</th>
+      </tr>
+      <tr>
+        <td>Handle de fonction</td>
+        <td>Utilise une fonction qui accepte l&apos;objet timer et une structure d&apos;evenement, par exemple <b>@myTimerFcn</b> ou <b>@(src,event)disp(event.Type)</b>.</td>
+      </tr>
+      <tr>
+        <td>Tableau de cellules</td>
+        <td>Passe des arguments supplementaires apres l&apos;objet timer et la structure d&apos;evenement. Le premier element de la cellule est le handle de fonction, suivi des arguments supplementaires.</td>
+      </tr>
+      <tr>
+        <td>Vecteur de caracteres ou chaine scalaire</td>
+        <td>Evalue directement des commandes Nelson. Ces callbacks ne recoivent pas l&apos;objet timer ni la structure d&apos;evenement comme arguments d&apos;entree.</td>
+      </tr>
+    </table>
+    <p>Les callbacks specifies par handle de fonction ou tableau de cellules recoivent l&apos;objet timer comme premier argument d&apos;entree et une structure d&apos;evenement comme second argument d&apos;entree. La structure d&apos;evenement possede les champs <b>Type</b> et <b>Data</b>. <b>Type</b> vaut <b>StartFcn</b>, <b>TimerFcn</b>, <b>StopFcn</b> ou <b>ErrorFcn</b>. <b>Data.time</b> contient l&apos;heure de l&apos;evenement sous forme de numero de date serie.</p>
+    <p>Pour les callbacks avec des arguments propres a l&apos;application, utilisez un tableau de cellules. Nelson appelle la fonction avec l&apos;objet timer, la structure d&apos;evenement, puis les arguments supplementaires dans l&apos;ordre ou ils apparaissent dans le tableau de cellules.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher le type d&apos;evenement depuis un callback de timer.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = timer('StartDelay', 0.1, ...
+  'TimerFcn', @(src, event) disp(event.Type));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Passer un argument supplementaire a un callback avec un tableau de cellules.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = timer('TimerFcn', {@dispTimerMessage, 'timer fired'});
+start(t);
+wait(t);
+delete(t);
+
+function dispTimerMessage(src, event, message)
+  disp([event.Type, ': ', message]);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Conflits de file de timers">Conflits de file de timers</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

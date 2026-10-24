@@ -14,6 +14,7 @@
 #include "NelsonGateway.hpp"
 #include "dispBuiltin.hpp"
 #include "displayBuiltin.hpp"
+#include "display_expandable_textBuiltin.hpp"
 #include "formatBuiltin.hpp"
 #include "echoBuiltin.hpp"
 //=============================================================================
@@ -28,6 +29,9 @@ static const nlsGateway gateway[] = {
     { "disp", (ptrBuiltin)Nelson::DisplayFormatGateway::dispBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "display", (ptrBuiltin)Nelson::DisplayFormatGateway::displayBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__display_expandable_text__",
+        (ptrBuiltin)Nelson::DisplayFormatGateway::display_expandable_textBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
 
 };
@@ -44,11 +48,7 @@ finishModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishModule)
 //=============================================================================

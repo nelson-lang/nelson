@@ -1,0 +1,33 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#pragma once
+//=============================================================================
+#include "GOText.hpp"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+class NLSGRAPHICS_IMPEXP GOSubplotText : public GOText
+{
+public:
+    GOSubplotText();
+    ~GOSubplotText() override = default;
+    std::wstring
+    getType() override;
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_TEXT_STR;
+    }
+    wstringVector
+    getVisibleFieldnames() override;
+};
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

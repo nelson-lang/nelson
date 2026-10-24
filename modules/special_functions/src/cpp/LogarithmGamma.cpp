@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,6 +16,7 @@
 #include "LogarithmGamma.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -27,7 +28,7 @@ gammalnd(double v)
         return std::numeric_limits<double>::infinity();
     }
     if (v < 0) {
-        Error(_W("Input must be nonnegative."));
+        Error(L"Nelson:gammaln:mustBeNonnegative", L"Input must be nonnegative.");
     }
     return std::lgamma(v);
 }
@@ -39,7 +40,7 @@ gammalns(single v)
         return std::numeric_limits<single>::infinity();
     }
     if (v < 0) {
-        Error(_W("Input must be nonnegative."));
+        Error(L"Nelson:gammaln:mustBeNonnegative", L"Input must be nonnegative.");
     }
     return std::lgamma(v);
 }
@@ -49,21 +50,21 @@ LogarithmGamma(const ArrayOf& arrayIn)
 {
     ArrayOf res;
     if (!arrayIn.isEmpty()) {
-        Dimensions dimsIn = arrayIn.getDimensions();
-        if (arrayIn.getDataClass() == NLS_DOUBLE) {
+        Dimensions dimsIn = arrayIn.dimensions();
+        if (arrayIn.dataClass() == NLS_DOUBLE) {
             double* ptrOut = (double*)ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, dimsIn.getElementCount(), stringVector(), false);
-            auto* ptrIn = (double*)arrayIn.getDataPointer();
-            Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsIn.getElementCount());
-            Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsIn.getElementCount());
+                NLS_DOUBLE, dimsIn.elementCount(), stringVector(), false);
+            auto* ptrIn = (double*)arrayIn.dataPointer();
+            Eigen::Map<Eigen::ArrayXd> matOut(ptrOut, dimsIn.elementCount());
+            Eigen::Map<Eigen::ArrayXd> matIn(ptrIn, dimsIn.elementCount());
             matOut = matIn.unaryExpr(std::ref(gammalnd));
             res = ArrayOf(NLS_DOUBLE, dimsIn, ptrOut);
         } else {
             single* ptrOut = (single*)ArrayOf::allocateArrayOf(
-                NLS_SINGLE, dimsIn.getElementCount(), stringVector(), false);
-            auto* ptrIn = (single*)arrayIn.getDataPointer();
-            Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsIn.getElementCount());
-            Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsIn.getElementCount());
+                NLS_SINGLE, dimsIn.elementCount(), stringVector(), false);
+            auto* ptrIn = (single*)arrayIn.dataPointer();
+            Eigen::Map<Eigen::ArrayXf> matOut(ptrOut, dimsIn.elementCount());
+            Eigen::Map<Eigen::ArrayXf> matIn(ptrIn, dimsIn.elementCount());
             matOut = matIn.unaryExpr(std::ref(gammalns));
             res = ArrayOf(NLS_SINGLE, dimsIn, ptrOut);
         }

@@ -22,8 +22,10 @@
 #include <libxml/xmlerror.h>
 #include <libxml/xmlsave.h>
 #include <libxml/xpathInternals.h>
+#include <map>
 #include <string>
 #include <vector>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,6 +34,8 @@ struct KeywordInfo
     std::string name;
     std::string link;
     std::string description;
+    // true for a <keyword_alias> entry, false for the page's own <keyword>.
+    bool alias = false;
 };
 //=============================================================================
 struct SectionInfo
@@ -56,7 +60,10 @@ ReadFileToBuffer(const std::wstring& filename, std::wstring& errorMessage)
     file.open(filenameUtf8, std::ios::binary);
 #endif
     if (!file.is_open()) {
-        errorMessage = _W("Cannot read file: ") + filename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                filename);
         return std::string();
     }
 
@@ -64,7 +71,10 @@ ReadFileToBuffer(const std::wstring& filename, std::wstring& errorMessage)
     file.close();
 
     if (buffer.empty()) {
-        errorMessage = _W("Cannot read file: ") + filename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                filename);
     }
     return buffer;
 }
@@ -75,13 +85,18 @@ ProcessKeywordNode(xmlNodePtr keywordNode, KeywordInfo& keyword)
     xmlChar* name = xmlGetProp(keywordNode, BAD_CAST "name");
     xmlChar* link = xmlGetProp(keywordNode, BAD_CAST "link");
     xmlChar* description = xmlGetProp(keywordNode, BAD_CAST "description");
+    xmlChar* alias = xmlGetProp(keywordNode, BAD_CAST "alias");
 
     bool result = false;
     if (name && link && description) {
         keyword.name = (const char*)name;
         keyword.link = (const char*)link;
         keyword.description = (const char*)description;
+        keyword.alias = alias && xmlStrcmp(alias, BAD_CAST "true") == 0;
         result = true;
+    }
+    if (alias) {
+        xmlFree(alias);
     }
 
     if (name) {
@@ -160,21 +175,30 @@ ProcessXmlFile(const std::wstring& filename, std::vector<SectionInfo>& sections,
     xmlDocPtr doc
         = xmlReadMemory(buffer.data(), (int)buffer.size(), filenameUtf8.c_str(), nullptr, 0);
     if (!doc) {
-        errorMessage = _W("Cannot parse XML file: ") + filename;
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotParseXmlFile",
+                                    L"Cannot parse XML file: %s"),
+                filename);
         return false;
     }
 
     xmlNodePtr root = xmlDocGetRootElement(doc);
     if (!root) {
         xmlFreeDoc(doc);
-        errorMessage = _W("Empty XML document: ") + filename;
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:help_tools:emptyXmlDocument", L"Empty XML document: %s"),
+            filename);
         return false;
     }
 
     xmlXPathContextPtr xpathCtx = xmlXPathNewContext(doc);
     if (!xpathCtx) {
         xmlFreeDoc(doc);
-        errorMessage = _W("Cannot create XPath context: ") + filename;
+        errorMessage = formatI18nMessage(
+            resolveMessageTemplate(
+                L"Nelson:help_tools:cannotCreateXpathContext2", L"Cannot create XPath context: %s"),
+            filename);
         return false;
     }
 
@@ -229,8 +253,126 @@ ProcessXmlFile(const std::wstring& filename, std::vector<SectionInfo>& sections,
     return true;
 }
 //=============================================================================
+//=============================================================================
+// Root-relative link ("./module/page.html") of every keyword, per module. Used to
+// resolve <link linkend="..."> in chapter descriptions: the merged summary lives
+// at the root of the help tree, where the module-relative paths produced by the
+// stylesheets ("../module/page") do not apply.
+using ChapterLinkIndex = std::map<std::string, std::map<std::string, std::string>>;
+//=============================================================================
 static void
-AppendSectionNode(xmlNodePtr tocNode, const SectionInfo& section)
+CollectChapterLinkTargets(const SectionInfo& section, ChapterLinkIndex& index)
+{
+    std::map<std::string, std::string>& pages = index[section.moduleName];
+    for (const auto& keyword : section.keywords) {
+        std::string target = "./" + section.moduleName + "/" + keyword.link;
+        auto existing = pages.find(keyword.name);
+        if (existing == pages.end()) {
+            pages.emplace(keyword.name, target);
+        } else if (!keyword.alias) {
+            // a page's own keyword wins over an alias declared by another page
+            existing->second = target;
+        }
+    }
+    for (const auto& child : section.children) {
+        CollectChapterLinkTargets(child, index);
+    }
+}
+//=============================================================================
+static std::string
+trimCopy(const std::string& text)
+{
+    size_t begin = text.find_first_not_of(" \t\r\n");
+    if (begin == std::string::npos) {
+        return std::string();
+    }
+    size_t end = text.find_last_not_of(" \t\r\n");
+    return text.substr(begin, end - begin + 1);
+}
+//=============================================================================
+// "${module}name" / "{module}name" / "name" -> (module, name)
+static void
+SplitLinkend(const std::string& linkend, std::string& moduleName, std::string& name)
+{
+    moduleName.clear();
+    name = trimCopy(linkend);
+    size_t prefixLength = 0;
+    if (name.rfind("${", 0) == 0) {
+        prefixLength = 2;
+    } else if (name.rfind("{", 0) == 0) {
+        prefixLength = 1;
+    }
+    if (prefixLength > 0) {
+        size_t end = name.find('}', prefixLength);
+        if (end != std::string::npos) {
+            moduleName = trimCopy(name.substr(prefixLength, end - prefixLength));
+            name = trimCopy(name.substr(end + 1));
+        }
+    }
+}
+//=============================================================================
+static bool
+FindChapterLinkTarget(const ChapterLinkIndex& index, const std::string& currentModule,
+    const std::string& linkend, std::string& target)
+{
+    std::string moduleName;
+    std::string name;
+    SplitLinkend(linkend, moduleName, name);
+    if (name.empty()) {
+        return false;
+    }
+    if (moduleName.empty()) {
+        moduleName = currentModule;
+    }
+    auto module = index.find(moduleName);
+    if (module != index.end()) {
+        auto page = module->second.find(name);
+        if (page != module->second.end()) {
+            target = page->second;
+            return true;
+        }
+    }
+    // unqualified or mis-qualified name: accept it when a single module defines it
+    const std::string* unique = nullptr;
+    for (const auto& candidate : index) {
+        auto page = candidate.second.find(name);
+        if (page != candidate.second.end()) {
+            if (unique) {
+                return false;
+            }
+            unique = &page->second;
+        }
+    }
+    if (unique) {
+        target = *unique;
+        return true;
+    }
+    return false;
+}
+//=============================================================================
+static void
+ResolveChapterLinks(
+    xmlNodePtr node, const ChapterLinkIndex& index, const std::string& currentModule)
+{
+    for (xmlNodePtr current = node; current; current = current->next) {
+        if (current->type == XML_ELEMENT_NODE && xmlStrcmp(current->name, BAD_CAST "link") == 0) {
+            xmlChar* linkend = xmlGetProp(current, BAD_CAST "linkend");
+            if (linkend) {
+                std::string target;
+                if (FindChapterLinkTarget(index, currentModule, (const char*)linkend, target)) {
+                    xmlSetProp(current, BAD_CAST "href", BAD_CAST target.c_str());
+                }
+                xmlFree(linkend);
+            }
+        }
+        if (current->children) {
+            ResolveChapterLinks(current->children, index, currentModule);
+        }
+    }
+}
+//=============================================================================
+static void
+AppendSectionNode(xmlNodePtr tocNode, const SectionInfo& section, const ChapterLinkIndex& index)
 {
     xmlNodePtr sectionNode = xmlNewChild(tocNode, nullptr, BAD_CAST "section", nullptr);
     xmlNewProp(sectionNode, BAD_CAST "name", BAD_CAST section.name.c_str());
@@ -243,6 +385,7 @@ AppendSectionNode(xmlNodePtr tocNode, const SectionInfo& section)
 
     if (!section.chapterDescription.empty()) {
         addRawXml(sectionNode, section.chapterDescription);
+        ResolveChapterLinks(sectionNode->children, index, section.moduleName);
     }
 
     for (const auto& keyword : section.keywords) {
@@ -254,7 +397,7 @@ AppendSectionNode(xmlNodePtr tocNode, const SectionInfo& section)
     }
 
     for (const auto& child : section.children) {
-        AppendSectionNode(sectionNode, child);
+        AppendSectionNode(sectionNode, child, index);
     }
 }
 //=============================================================================
@@ -264,7 +407,8 @@ CreateMergedXmlDocument(const std::vector<SectionInfo>& sections, const std::str
 {
     xmlDocPtr mergedDoc = xmlNewDoc(BAD_CAST "1.0");
     if (!mergedDoc) {
-        errorMessage = _W("Cannot create output XML document");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:help_tools:cannotCreateOutputXml", L"Cannot create output XML document");
         return false;
     }
 
@@ -277,8 +421,12 @@ CreateMergedXmlDocument(const std::vector<SectionInfo>& sections, const std::str
     xmlDocSetRootElement(mergedDoc, rootNode);
     xmlNodePtr tocNode = xmlNewChild(rootNode, nullptr, BAD_CAST "toc", nullptr);
 
+    ChapterLinkIndex chapterLinkIndex;
     for (const auto& section : sections) {
-        AppendSectionNode(tocNode, section);
+        CollectChapterLinkTargets(section, chapterLinkIndex);
+    }
+    for (const auto& section : sections) {
+        AppendSectionNode(tocNode, section, chapterLinkIndex);
     }
 
     std::string outputPathUtf8 = wstring_to_utf8(outputPath.wstring());
@@ -286,7 +434,10 @@ CreateMergedXmlDocument(const std::vector<SectionInfo>& sections, const std::str
         = xmlSaveToFilename(outputPathUtf8.c_str(), "UTF-8", XML_SAVE_FORMAT | XML_SAVE_NO_EMPTY);
     if (!saveCtx) {
         xmlFreeDoc(mergedDoc);
-        errorMessage = _W("Cannot create save context for: ") + outputPath.wstring();
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotCreateSaveContext",
+                                    L"Cannot create save context for: %s"),
+                outputPath.wstring());
         return false;
     }
 
@@ -295,7 +446,10 @@ CreateMergedXmlDocument(const std::vector<SectionInfo>& sections, const std::str
     xmlFreeDoc(mergedDoc);
 
     if (res < 0) {
-        errorMessage = _W("Cannot save merged XML to: ") + outputPath.wstring();
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotSaveMergedXml",
+                                    L"Cannot save merged XML to: %s"),
+                outputPath.wstring());
         return false;
     }
 
@@ -368,7 +522,7 @@ escapeJsonString(const std::string& input)
         default:
             if (static_cast<unsigned char>(c) < 32) {
                 char buf[8];
-                sprintf(buf, "\\u%04x", static_cast<unsigned char>(c));
+                snprintf(buf, sizeof(buf), "\\u%04x", static_cast<unsigned char>(c));
                 output += buf;
             } else {
                 output += c;
@@ -452,7 +606,10 @@ CreateIndexJson(const std::vector<SectionInfo>& sections, const std::filesystem:
 
     std::ofstream outFile(outputPath);
     if (!outFile.is_open()) {
-        errorMessage = _W("Cannot create output JSON file: ") + outputPath.wstring();
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotCreateOutputJson",
+                                    L"Cannot create output JSON file: %s"),
+                outputPath.wstring());
         return false;
     }
 
@@ -525,7 +682,10 @@ CreateIndexJs(const std::vector<SectionInfo>& sections, const std::filesystem::p
 
     std::ofstream outFile(outputPath);
     if (!outFile.is_open()) {
-        errorMessage = _W("Cannot create output JS file: ") + outputPath.wstring();
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotCreateOutputJs",
+                                    L"Cannot create output JS file: %s"),
+                outputPath.wstring());
         return false;
     }
 
@@ -562,7 +722,8 @@ XmlDocMergeSummary(const std::wstring& destinationDirectory, const wstringVector
     }
 
     if (sections.empty()) {
-        errorMessage = _W("No sections found in input files");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:help_tools:sectionsFoundInputFiles", L"No sections found in input files");
         return false;
     }
 

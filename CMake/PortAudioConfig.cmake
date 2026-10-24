@@ -12,13 +12,8 @@ if(PORTAUDIO_FOUND)
       $ENV{CONDA_PREFIX}/lib/libportaudio${CMAKE_SHARED_LIBRARY_SUFFIX}
     )
     set(PORTAUDIO_INCLUDE_DIRS $ENV{CONDA_PREFIX}/include)
-  elseif(${CMAKE_SYSTEM_NAME}
-    MATCHES
-    "Darwin"
-    AND
-    NOT
-    DEFINED
-    ENV{IN_NIX_SHELL}
+  elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin"
+    AND NOT DEFINED ENV{IN_NIX_SHELL}
   )
     if(EXISTS "$ENV{HOMEBREW_PREFIX}/include/portaudio.h")
       set(PORTAUDIO_INCLUDE_DIRS $ENV{HOMEBREW_PREFIX}/include)
@@ -57,12 +52,8 @@ if(PORTAUDIO_FOUND)
     endif()
   endif()
 
-  if(NOT
-    PORTAUDIO_INCLUDE_DIRS
-    OR
-    NOT
-    EXISTS
-    "${PORTAUDIO_INCLUDE_DIRS}/portaudio.h"
+  if(NOT PORTAUDIO_INCLUDE_DIRS
+    OR NOT EXISTS "${PORTAUDIO_INCLUDE_DIRS}/portaudio.h"
   )
     message(WARNING
       "PortAudio include directory not found or invalid: ${PORTAUDIO_INCLUDE_DIRS}"

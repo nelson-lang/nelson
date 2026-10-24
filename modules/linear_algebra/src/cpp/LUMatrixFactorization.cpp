@@ -15,27 +15,70 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
+#if WITH_OPENMP
+#include <omp.h>
+#endif
+#include "LapackPrototypes.hpp"
 #include <Eigen/Dense>
-#include <Eigen/src/misc/lapacke.h>
+#include <algorithm>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "Eye.hpp"
 #include "LinearAlgebraHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#if WITH_OPENMP
+class ScopedOpenMPThreads
+{
+    int previousThreadCount = 1;
+    bool changed = false;
+
+public:
+    explicit ScopedOpenMPThreads(int requestedThreadCount)
+    {
+        previousThreadCount = omp_get_max_threads();
+        if (requestedThreadCount > 0 && requestedThreadCount < previousThreadCount) {
+            omp_set_num_threads(requestedThreadCount);
+            changed = true;
+        }
+    }
+
+    ~ScopedOpenMPThreads()
+    {
+        if (changed) {
+            omp_set_num_threads(previousThreadCount);
+        }
+    }
+};
+//=============================================================================
+static int
+luThreadCount(int nrows, int ncols)
+{
+    int currentThreadCount = omp_get_max_threads();
+    if ((size_t)nrows * (size_t)ncols <= 1024 * 1024 && currentThreadCount > 1) {
+        return 1;
+    }
+    return currentThreadCount;
+}
+#else
+class ScopedOpenMPThreads
+{
+public:
+    explicit ScopedOpenMPThreads(int) { }
+};
+//=============================================================================
+static int
+luThreadCount(int, int)
+{
+    return 1;
+}
+#endif
+//=============================================================================
 /**
- * @brief Update a pivot vector based on a given permutation array.
- *
- * This function initializes a pivot vector and updates it based on a permutation array.
- * The permutation array 'piv' is expected to contain the desired order of elements.
- * The function uses OpenMP for parallelization if the WITH_OPENMP macro is defined.
- *
- * @param nrows The number of rows in the pivot vector.
- * @param piv   The permutation array specifying the desired order.
- * @param p     The size of the permutation array.
- * @return      The updated pivot vector.
+ * Builds the row permutation (nrows entries) from the LAPACK row-swap list 'piv'
+ * (1-based, length p). The caller frees the result with delete[].
  */
 int*
 updatePivotVector(int nrows, int* piv, int p)
@@ -44,7 +87,7 @@ updatePivotVector(int nrows, int* piv, int p)
     try {
         fullpivot = new int[nrows];
     } catch (std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     OMP_PARALLEL_FOR_LOOP(nrows)
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
@@ -59,34 +102,87 @@ updatePivotVector(int nrows, int* piv, int p)
     return fullpivot;
 }
 //=============================================================================
+static bool
+hasPivotInterchanges(const std::vector<lapack_int>& piv)
+{
+    for (size_t k = 0; k < piv.size(); ++k) {
+        if (piv[k] != static_cast<lapack_int>(k + 1)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+template <class T>
+void
+RealLUWithoutPivot(int nrows, int ncols, T* l, T* u, const T* a)
+{
+    if (nrows > ncols) {
+        ompIndexType lrows = nrows;
+        ompIndexType lcols = ncols;
+        ompIndexType urows = ncols;
+        ompIndexType ucols = ncols;
+        OMP_PARALLEL_FOR_LOOP(lcols)
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[col + col * lrows] = 1.0;
+            ompIndexType firstRow = col + 1;
+            if (firstRow < lrows) {
+                std::copy_n(
+                    a + firstRow + col * nrows, lrows - firstRow, l + firstRow + col * lrows);
+            }
+        }
+#if WITH_OPENMP
+#pragma omp parallel for if (urows > OMP_DEFAULT_THRESHOLD)
+#endif
+        for (ompIndexType col = 0; col < ucols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            std::copy_n(a + col * nrows, lastRow + 1, u + col * urows);
+        }
+    } else {
+        ompIndexType lrows = nrows;
+        ompIndexType lcols = nrows;
+        ompIndexType urows = nrows;
+#if WITH_OPENMP
+#pragma omp parallel for if (lrows > OMP_DEFAULT_THRESHOLD)
+#endif
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[col + col * lrows] = 1.0;
+            ompIndexType firstRow = col + 1;
+            if (firstRow < lrows) {
+                std::copy_n(
+                    a + firstRow + col * nrows, lrows - firstRow, l + firstRow + col * lrows);
+            }
+        }
+#if WITH_OPENMP
+#pragma omp parallel for if (nrows > OMP_DEFAULT_THRESHOLD)
+#endif
+        for (ompIndexType col = 0; col < ncols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            std::copy_n(a + col * nrows, lastRow + 1, u + col * urows);
+        }
+    }
+}
+//=============================================================================
 /**
- * @brief Perform Complex LUP decomposition on a given matrix.
- *
- * This function performs a Complex LUP decomposition on the input matrix 'a'. The result
- * is decomposed into lower triangular matrix 'l', upper triangular matrix 'u', and a
- * permutation matrix 'pmat'. The function uses LAPACK functions for the decomposition.
- * The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is defined.
- *
- * @tparam T             The data type of the matrix elements.
- * @param nrows         The number of rows in the matrix.
- * @param ncols         The number of columns in the matrix.
- * @param l             The output lower triangular matrix.
- * @param u             The output upper triangular matrix.
- * @param pmat          The output permutation matrix.
- * @param a             The input matrix to be decomposed.
- * @param lapacke_fn    LAPACK function for complex LUP decomposition.
+ * Fills l, u and the permutation matrix pmat from a LAPACK LU of complex 'a'.
+ * 'a' is overwritten.
  */
 template <class T>
 void
 ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
-    lapack_int (*lapacke_fn)(int matrix_layout, lapack_int m, lapack_int n, std::complex<T>* a,
-        lapack_int lda, lapack_int* ipiv))
+    void (*lapack_fn)(const lapack_int* m, const lapack_int* n, std::complex<T>* a,
+        const lapack_int* lda, lapack_int* ipiv, lapack_int* info))
 {
     ompIndexType i = 0;
     ompIndexType j = 0;
     int p = std::min(nrows, ncols);
     std::vector<lapack_int> piv(p);
-    lapack_int info = (lapacke_fn)(LAPACK_COL_MAJOR, nrows, ncols, a, nrows, piv.data());
+    ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+    lapack_int m = nrows;
+    lapack_int n = ncols;
+    lapack_int lda = nrows;
+    lapack_int info = 0;
+    lapack_fn(&m, &n, a, &lda, piv.data(), &info);
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
@@ -159,48 +255,25 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
 }
 //=============================================================================
 /**
- * @brief Perform LU decomposition on a complex matrix A, factorizing it into lower (L) and upper
- * (U) triangular matrices.
- *
- * This function computes the LU decomposition of a complex matrix A such that A = P * L * U, where
- * P is a permutation matrix, L is a lower triangular matrix, and U is an upper triangular matrix.
- *
- * @tparam T Data type of the matrix elements.
- * @param nrows Number of rows in the matrix A.
- * @param ncols Number of columns in the matrix A.
- * @param l Pointer to the array representing the lower triangular matrix L. Should have dimensions
- * nrows x std::min(nrows, ncols).
- * @param u Pointer to the array representing the upper triangular matrix U. Should have dimensions
- * std::min(nrows, ncols) x ncols.
- * @param a Pointer to the complex matrix A with dimensions nrows x ncols.
- * @param lapacke_fn Function pointer to LAPACK routine for LU decomposition of complex matrices.
- * @return Lapack_info Lapack error code indicating success or failure of the LU decomposition.
- *
- * @note The LAPACK routine specified by lapacke_fn should have the following signature:
- *       lapack_int lapack_fn(int matrix_layout, lapack_int m, lapack_int n, std::complex<T>* a,
- * lapack_int lda, lapack_int* ipiv)
- *
- * @details The function updates the lower and upper triangular matrices (l and u) using the
- * provided LAPACK routine. It also updates the pivot vector and constructs the permutation matrix
- * to be applied to the original matrix A.
- *
- * @warning The input matrix A is modified during the decomposition.
- * @warning It is the responsibility of the caller to free the memory allocated for the fullpivot
- * array.
- *
- * @see LAPACK documentation for details on LAPACK routines.
+ * Fills l (nrows x min(nrows, ncols)) and u (min(nrows, ncols) x ncols) from a
+ * LAPACK LU of complex 'a'. 'a' is overwritten.
  */
 template <class T>
 void
 ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
-    lapack_int (*lapacke_fn)(int matrix_layout, lapack_int m, lapack_int n, std::complex<T>* a,
-        lapack_int lda, lapack_int* ipiv))
+    void (*lapack_fn)(const lapack_int* m, const lapack_int* n, std::complex<T>* a,
+        const lapack_int* lda, lapack_int* ipiv, lapack_int* info))
 {
     ompIndexType i = 0;
     ompIndexType j = 0;
     int p = std::min(nrows, ncols);
     std::vector<lapack_int> piv(p);
-    lapack_int info = (lapacke_fn)(LAPACK_COL_MAJOR, nrows, ncols, a, nrows, piv.data());
+    ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+    lapack_int m = nrows;
+    lapack_int n = ncols;
+    lapack_int lda = nrows;
+    lapack_int info = 0;
+    lapack_fn(&m, &n, a, &lda, piv.data(), &info);
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
     if (nrows > ncols) {
@@ -271,31 +344,33 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
 }
 //=============================================================================
 /**
- * @brief Perform Complex LU decomposition on a given matrix.
- *
- * This function performs a Complex LU decomposition on the input matrix 'a'. The result
- * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
- * The function uses LAPACK functions for the decomposition. The decomposition is
- * parallelized using OpenMP if the WITH_OPENMP macro is defined.
- *
- * @tparam T             The data type of the matrix elements.
- * @param nrows         The number of rows in the matrix.
- * @param ncols         The number of columns in the matrix.
- * @param l             The output lower triangular matrix.
- * @param u             The output upper triangular matrix.
- * @param a             The input matrix to be decomposed.
- * @param lapacke_fn    LAPACK function for complex LU decomposition.
+ * Fills l, u and the permutation matrix pmat from a LAPACK LU of real 'a'.
+ * 'a' is overwritten.
  */
 template <class T>
 void
 RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
-    lapack_int (*lapacke_fn)(
-        int matrix_order, lapack_int m, lapack_int n, T* a, lapack_int lda, lapack_int* ipiv))
+    void (*lapack_fn)(const lapack_int* m, const lapack_int* n, T* a, const lapack_int* lda,
+        lapack_int* ipiv, lapack_int* info))
 {
     int p = std::min(nrows, ncols);
     std::vector<lapack_int> piv(p);
 
-    lapack_int info = (lapacke_fn)(LAPACK_COL_MAJOR, nrows, ncols, a, nrows, piv.data());
+    ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+    lapack_int m = nrows;
+    lapack_int n = ncols;
+    lapack_int lda = nrows;
+    lapack_int info = 0;
+    lapack_fn(&m, &n, a, &lda, piv.data(), &info);
+
+    if (!hasPivotInterchanges(piv)) {
+        OMP_PARALLEL_FOR_LOOP(nrows)
+        for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
+            pmat[i + i * nrows] = 1;
+        }
+        RealLUWithoutPivot(nrows, ncols, l, u, a);
+        return;
+    }
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
@@ -303,97 +378,82 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
     for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
         pmat[i + fullpivot[i] * nrows] = 1;
     }
-    if (fullpivot) {
-        delete[] fullpivot;
-        fullpivot = nullptr;
-    }
     if (nrows > ncols) {
         ompIndexType lrows = nrows;
         ompIndexType lcols = ncols;
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
-        ompIndexType i = 0;
-        ompIndexType j = 0;
 
         OMP_PARALLEL_FOR_LOOP(lcols)
-        for (i = 0; i < lcols; i++) {
-            l[i + i * lrows] = 1.0;
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[col + col * lrows] = 1.0;
+            for (ompIndexType row = col + 1; row < lrows; row++) {
+                l[row + col * lrows] = a[row + col * nrows];
+            }
         }
 
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 1; i < lrows; i++) {
-            for (j = 0; j < std::min(i, lcols); j++) {
-                l[i + j * lrows] = a[i + j * nrows];
-            }
-        }
-#if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
-#endif
-        for (i = 0; i < urows; i++) {
-            for (j = i; j < ucols; j++) {
-                u[i + j * urows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < ucols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            for (ompIndexType row = 0; row <= lastRow; row++) {
+                u[row + col * urows] = a[row + col * nrows];
             }
         }
     } else {
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        ompIndexType i = 0;
-        ompIndexType j = 0;
 
         OMP_PARALLEL_FOR_LOOP(lcols)
-        for (i = 0; i < lcols; i++) {
-            l[i + i * lrows] = 1.0;
-        }
-#if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
-#endif
-        for (i = 1; i < lrows; i++) {
-            for (j = 0; j < i; j++) {
-                l[i + j * lrows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[col + col * lrows] = 1.0;
+            for (ompIndexType row = col + 1; row < lrows; row++) {
+                l[row + col * lrows] = a[row + col * nrows];
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 0; i < nrows; i++) {
-            for (j = i; j < ncols; j++) {
-                u[i + j * urows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < ncols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            for (ompIndexType row = 0; row <= lastRow; row++) {
+                u[row + col * urows] = a[row + col * nrows];
             }
         }
+    }
+    if (fullpivot) {
+        delete[] fullpivot;
+        fullpivot = nullptr;
     }
 }
 //=============================================================================
 /**
- * @brief Perform Real LU decomposition on a given matrix.
- *
- * This function performs a Real LU decomposition on the input matrix 'a'. The result
- * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
- * The function uses LAPACK functions for the decomposition. The decomposition is
- * parallelized using OpenMP if the WITH_OPENMP macro is defined.
- *
- * @tparam T             The data type of the matrix elements.
- * @param nrows         The number of rows in the matrix.
- * @param ncols         The number of columns in the matrix.
- * @param l             The output lower triangular matrix.
- * @param u             The output upper triangular matrix.
- * @param a             The input matrix to be decomposed.
- * @param lapacke_fn    LAPACK function for real LU decomposition.
+ * Fills l and u from a LAPACK LU of real 'a'. 'a' is overwritten.
  */
 template <class T>
 void
 RealLU(int nrows, int ncols, T* l, T* u, T* a,
-    lapack_int (*lapacke_fn)(
-        int matrix_order, lapack_int m, lapack_int n, T* a, lapack_int lda, lapack_int* ipiv))
+    void (*lapack_fn)(const lapack_int* m, const lapack_int* n, T* a, const lapack_int* lda,
+        lapack_int* ipiv, lapack_int* info))
 {
     ompIndexType i = 0;
     ompIndexType j = 0;
     int p = std::min(nrows, ncols);
-    std::vector<int> piv(p);
+    std::vector<lapack_int> piv(p);
 
-    lapack_int info = (lapacke_fn)(LAPACK_COL_MAJOR, nrows, ncols, a, nrows, piv.data());
+    ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+    lapack_int m = nrows;
+    lapack_int n = ncols;
+    lapack_int lda = nrows;
+    lapack_int info = 0;
+    lapack_fn(&m, &n, a, &lda, piv.data(), &info);
+
+    if (!hasPivotInterchanges(piv)) {
+        RealLUWithoutPivot(nrows, ncols, l, u, a);
+        return;
+    }
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
 
@@ -403,46 +463,41 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
         ompIndexType urows = ncols;
         ompIndexType ucols = ncols;
         OMP_PARALLEL_FOR_LOOP(lcols)
-        for (i = 0; i < lcols; i++) {
-            l[fullpivot[i] + i * lrows] = 1.0;
-        }
-#if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
-#endif
-        for (i = 1; i < lrows; i++) {
-            for (j = 0; j < std::min(i, lcols); j++) {
-                l[fullpivot[i] + j * lrows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[fullpivot[col] + col * lrows] = 1.0;
+            for (ompIndexType row = col + 1; row < lrows; row++) {
+                l[fullpivot[row] + col * lrows] = a[row + col * nrows];
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (urows > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for if (urows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 0; i < urows; i++) {
-            for (j = i; j < ucols; j++) {
-                u[i + j * urows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < ucols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            for (ompIndexType row = 0; row <= lastRow; row++) {
+                u[row + col * urows] = a[row + col * nrows];
             }
         }
     } else {
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        for (i = 0; i < lcols; i++) {
-            l[fullpivot[i] + i * lrows] = 1.0;
-        }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (lrows > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for if (lrows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 1; i < lrows; i++) {
-            for (j = 0; j < i; j++) {
-                l[fullpivot[i] + j * lrows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < lcols; col++) {
+            l[fullpivot[col] + col * lrows] = 1.0;
+            for (ompIndexType row = col + 1; row < lrows; row++) {
+                l[fullpivot[row] + col * lrows] = a[row + col * nrows];
             }
         }
 #if WITH_OPENMP
-#pragma omp parallel for private(i, j) if (nrows > OMP_DEFAULT_THRESHOLD)
+#pragma omp parallel for if (nrows > OMP_DEFAULT_THRESHOLD)
 #endif
-        for (i = 0; i < nrows; i++) {
-            for (j = i; j < ncols; j++) {
-                u[i + j * urows] = a[i + j * nrows];
+        for (ompIndexType col = 0; col < ncols; col++) {
+            ompIndexType lastRow = std::min(col, urows - 1);
+            for (ompIndexType row = 0; row <= lastRow; row++) {
+                u[row + col * urows] = a[row + col * nrows];
             }
         }
     }
@@ -453,19 +508,8 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
 }
 //=============================================================================
 /**
- * @brief Perform LU matrix factorization on a given double-precision real matrix.
- *
- * This function performs LU matrix factorization on the input matrix 'A'. The result
- * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
- * The function uses LAPACK functions for the decomposition. The number of left-hand side
- * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
- * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
- * defined.
- *
- * @param A      The input matrix to be factorized.
- * @param nLhs   The number of left-hand side matrices to be returned.
- * @return       An ArrayOfVector containing the factorized matrices.
+ * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
+ * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
  */
 ArrayOfVector
 LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
@@ -473,258 +517,280 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     ArrayOfVector retval;
 
     if (!isAllFinite<double>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
     }
-    int nrows = (int)A.getRows();
-    int ncols = (int)A.getColumns();
+    int nrows = (int)A.rows();
+    int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
 
     if (A.isEmpty()) {
+        if (nLhs <= 1) {
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, ncols), nullptr);
+            return retval;
+        }
         if (nLhs <= 2) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
 
         } else if (nLhs == 3) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
             retval << Eye(nrows, nrows, NLS_DOUBLE, false);
         }
         return retval;
     }
 
-    double* l
-        = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
-    double* u
-        = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), p * ncols, stringVector(), true);
-    if (nLhs <= 2) {
+    if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLU<double>(nrows, ncols, l, u, (double*)AA.getDataPointer(), LAPACKE_dgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+        lapack_int m = nrows;
+        lapack_int n = ncols;
+        lapack_int lda = nrows;
+        lapack_int info = 0;
+        std::vector<lapack_int> piv((size_t)p);
+        ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+        LAPACK_dgetrf(&m, &n, (double*)AA.dataPointer(), &lda, piv.data(), &info);
+        retval << AA;
+        return retval;
+    }
+
+    double* l = (double*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * p, stringVector(), true);
+    double* u = (double*)ArrayOf::allocateArrayOf(A.dataClass(), p * ncols, stringVector(), true);
+    if (nLhs == 2) {
+        ArrayOf AA(A);
+        AA.ensureSingleOwner();
+        RealLU<double>(nrows, ncols, l, u, (double*)AA.dataPointer(), LAPACK_dgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
         indexType length = (indexType)(nrows * nrows);
         double* piv
-            = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), length, stringVector(), true);
+            = (double*)ArrayOf::allocateArrayOf(A.dataClass(), length, stringVector(), true);
 
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLUP<double>(nrows, ncols, l, u, piv, (double*)AA.getDataPointer(), LAPACKE_dgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, nrows), piv);
+        RealLUP<double>(nrows, ncols, l, u, piv, (double*)AA.dataPointer(), LAPACK_dgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, nrows), piv);
     }
     return retval;
 }
 //=============================================================================
 /**
- * @brief Perform LU matrix factorization on a single-precision real matrix A.
- *
- * This function computes the LU factorization of a single-precision real matrix A such that A = P *
- * L * U, where P is a permutation matrix, L is a lower triangular matrix, and U is an upper
- * triangular matrix.
- *
- * @param A An array of single-precision real values representing the input matrix.
- * @param nLhs Number of left-hand side matrices to return. It determines the number of matrices in
- * the output ArrayOfVector. If nLhs is 1 or 2, only the factorized matrices L and U are returned.
- *             If nLhs is 3, the factorized matrices L, U, and the pivot vector Piv are returned.
- * @return An ArrayOfVector containing the factorized matrices. The order of matrices depends on the
- * value of nLhs:
- *         - If nLhs is 1 or 2, the returned ArrayOfVector contains two matrices: L (Dimensions:
- * nrows x p) and U (Dimensions: p x ncols).
- *         - If nLhs is 3, the returned ArrayOfVector contains three matrices: L (Dimensions: nrows
- * x p), U (Dimensions: p x ncols), and Piv (Dimensions: nrows x nrows).
- *
- * @note The input matrix A is modified during the factorization.
- * @warning The function checks for the presence of NaN or Inf in the input matrix A and raises an
- * error if found. It is the responsibility of the caller to handle errors appropriately.
- * @see LAPACK documentation for details on LAPACK routine LAPACKE_sgetrf.
+ * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
+ * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
  */
 ArrayOfVector
 LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
 {
     if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
     }
     ArrayOfVector retval;
 
-    if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
-    }
-    int nrows = (int)A.getRows();
-    int ncols = (int)A.getColumns();
+    int nrows = (int)A.rows();
+    int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
 
     if (A.isEmpty()) {
+        if (nLhs <= 1) {
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, ncols), nullptr);
+            return retval;
+        }
         if (nLhs <= 2) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
 
         } else if (nLhs == 3) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
             retval << Eye(nrows, nrows, NLS_SINGLE, false);
         }
         return retval;
     }
 
-    single* l
-        = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
-    single* u
-        = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), p * ncols, stringVector(), true);
-    if (nLhs <= 2) {
+    if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLU<single>(nrows, ncols, l, u, (single*)AA.getDataPointer(), LAPACKE_sgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+        lapack_int m = nrows;
+        lapack_int n = ncols;
+        lapack_int lda = nrows;
+        lapack_int info = 0;
+        std::vector<lapack_int> piv((size_t)p);
+        ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+        LAPACK_sgetrf(&m, &n, (single*)AA.dataPointer(), &lda, piv.data(), &info);
+        retval << AA;
+        return retval;
+    }
+
+    single* l = (single*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * p, stringVector(), true);
+    single* u = (single*)ArrayOf::allocateArrayOf(A.dataClass(), p * ncols, stringVector(), true);
+    if (nLhs == 2) {
+        ArrayOf AA(A);
+        AA.ensureSingleOwner();
+        RealLU<single>(nrows, ncols, l, u, (single*)AA.dataPointer(), LAPACK_sgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        single* piv = (single*)ArrayOf::allocateArrayOf(
-            A.getDataClass(), nrows * nrows, stringVector(), true);
+        single* piv
+            = (single*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * nrows, stringVector(), true);
 
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLUP<single>(nrows, ncols, l, u, piv, (single*)AA.getDataPointer(), LAPACKE_sgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, nrows), piv);
+        RealLUP<single>(nrows, ncols, l, u, piv, (single*)AA.dataPointer(), LAPACK_sgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, nrows), piv);
     }
     return retval;
 }
 //=============================================================================
 /**
- * @brief Perform LU matrix factorization on a given single-precision real matrix.
- *
- * This function performs LU matrix factorization on the input matrix 'A'. The result
- * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
- * The function uses LAPACK functions for the decomposition. The number of left-hand side
- * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
- * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
- * defined.
- *
- * @param A      The input matrix to be factorized.
- * @param nLhs   The number of left-hand side matrices to be returned.
- * @return       An ArrayOfVector containing the factorized matrices.
+ * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
+ * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
  */
 ArrayOfVector
 LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<double>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
     }
-    int nrows = (int)A.getRows();
-    int ncols = (int)A.getColumns();
+    int nrows = (int)A.rows();
+    int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
 
     if (A.isEmpty()) {
+        if (nLhs <= 1) {
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, ncols), nullptr);
+            return retval;
+        }
         if (nLhs <= 2) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
 
         } else if (nLhs == 3) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
             retval << Eye(nrows, nrows, NLS_DOUBLE, false);
         }
         return retval;
     }
 
-    double* l
-        = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
-
-    double* u
-        = (double*)ArrayOf::allocateArrayOf(A.getDataClass(), p * ncols, stringVector(), true);
-    if (nLhs <= 2) {
+    if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.getDataPointer());
+        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
+        lapack_int m = nrows;
+        lapack_int n = ncols;
+        lapack_int lda = nrows;
+        lapack_int info = 0;
+        std::vector<lapack_int> piv((size_t)p);
+        ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+        LAPACK_zgetrf(&m, &n, ptrZa, &lda, piv.data(), &info);
+        retval << AA;
+        return retval;
+    }
 
-        ComplexLU<double>(nrows, ncols, l, u, ptrZa, LAPACKE_zgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+    double* l = (double*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * p, stringVector(), true);
+
+    double* u = (double*)ArrayOf::allocateArrayOf(A.dataClass(), p * ncols, stringVector(), true);
+    if (nLhs == 2) {
+        ArrayOf AA(A);
+        AA.ensureSingleOwner();
+        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
+
+        ComplexLU<double>(nrows, ncols, l, u, ptrZa, LAPACK_zgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
         double* piv
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nrows * nrows, stringVector(), true);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.getDataPointer());
+        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
 
-        ComplexLUP<double>(nrows, ncols, l, u, piv, ptrZa, LAPACKE_zgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+        ComplexLUP<double>(nrows, ncols, l, u, piv, ptrZa, LAPACK_zgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
         retval << ArrayOf(NLS_DOUBLE, Dimensions(nrows, nrows), piv);
     }
     return retval;
 }
 //=============================================================================
 /**
- * @brief Perform LU matrix factorization on a given single-precision complex matrix.
- *
- * This function performs LU matrix factorization on the input matrix 'A'. The result
- * is decomposed into lower triangular matrix 'l' and upper triangular matrix 'u'.
- * The function uses LAPACK functions for the decomposition. The number of left-hand side
- * matrices to be returned is determined by the parameter 'nLhs'. If 'nLhs' is less than or
- * equal to 2, only 'l' and 'u' are returned. If 'nLhs' is 3, the permutation matrix 'piv' is also
- * returned. The decomposition is parallelized using OpenMP if the WITH_OPENMP macro is
- * defined.
- *
- * @param A      The input matrix to be factorized.
- * @param nLhs   The number of left-hand side matrices to be returned.
- * @return       An ArrayOfVector containing the factorized matrices.
+ * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
+ * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
  */
 ArrayOfVector
 LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
 {
     ArrayOfVector retval;
     if (!isAllFinite<single>(A)) {
-        Error(_("Input to LU must not contain NaN or Inf."), "Nelson:lu:matrixWithNaNInf");
+        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
     }
-    int nrows = (int)A.getRows();
-    int ncols = (int)A.getColumns();
+    int nrows = (int)A.rows();
+    int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
 
     if (A.isEmpty()) {
+        if (nLhs <= 1) {
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, ncols), nullptr);
+            return retval;
+        }
         if (nLhs <= 2) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
 
         } else if (nLhs == 3) {
-            retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), nullptr);
-            retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
+            retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
             retval << Eye(nrows, nrows, NLS_SINGLE, false);
         }
         return retval;
     }
 
-    single* l
-        = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), nrows * p, stringVector(), true);
-
-    single* u
-        = (single*)ArrayOf::allocateArrayOf(A.getDataClass(), p * ncols, stringVector(), true);
-    if (nLhs <= 2) {
+    if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.getDataPointer());
+        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
+        lapack_int m = nrows;
+        lapack_int n = ncols;
+        lapack_int lda = nrows;
+        lapack_int info = 0;
+        std::vector<lapack_int> piv((size_t)p);
+        ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
+        LAPACK_cgetrf(&m, &n, ptrZa, &lda, piv.data(), &info);
+        retval << AA;
+        return retval;
+    }
 
-        ComplexLU<single>(nrows, ncols, l, u, ptrZa, LAPACKE_cgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+    single* l = (single*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * p, stringVector(), true);
+
+    single* u = (single*)ArrayOf::allocateArrayOf(A.dataClass(), p * ncols, stringVector(), true);
+    if (nLhs == 2) {
+        ArrayOf AA(A);
+        AA.ensureSingleOwner();
+        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
+
+        ComplexLU<single>(nrows, ncols, l, u, ptrZa, LAPACK_cgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
         single* piv
             = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, nrows * nrows, stringVector(), true);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.getDataPointer());
+        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
 
-        ComplexLUP<single>(nrows, ncols, l, u, piv, ptrZa, LAPACKE_cgetrf);
-        retval << ArrayOf(A.getDataClass(), Dimensions(nrows, p), l);
-        retval << ArrayOf(A.getDataClass(), Dimensions(p, ncols), u);
+        ComplexLUP<single>(nrows, ncols, l, u, piv, ptrZa, LAPACK_cgetrf);
+        retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
+        retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
         retval << ArrayOf(NLS_SINGLE, Dimensions(nrows, nrows), piv);
     }
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

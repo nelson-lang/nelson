@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,13 +10,13 @@
 #include <vector>
 #include "dirBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "ListFiles.hpp"
 #include "NelsonConfiguration.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,28 +32,31 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     case 0: {
         wpath = GetCurrentDirectory();
         if (wpath.empty()) {
-            Error(_W("Impossible to get current directory."));
+            Error(L"Nelson:files_folders_functions:impossibleGetCurrentDirectory",
+                L"Impossible to get current directory.");
         }
     } break;
     case 2: {
         if (!argIn[1].isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
-        woption = argIn[1].getContentAsWideString();
+        woption = argIn[1].asWideString();
         if (woption == L"-s") {
             bSubDirectories = true;
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
     }
     case 1: {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
-        wpath = argIn[0].getContentAsWideString();
+        wpath = argIn[0].asWideString();
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
         break;
     }
     std::vector<FileInfo> res = ListFiles(wpath, bSubDirectories);
@@ -95,10 +98,10 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         dims[0] = res.size();
         dims[1] = 1;
         if (res.empty()) {
-            retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
+            retval << ArrayOf::emptyStruct(fieldnames, dims);
         } else {
-            auto* elements = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            auto* elements = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
             ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
             ArrayOfVector names;
             ArrayOfVector folder;
@@ -113,21 +116,21 @@ Nelson::FilesFoldersGateway::dirBuiltin(Evaluator* eval, int nLhs, const ArrayOf
             isdirs.reserve(res.size());
             datenums.reserve(res.size());
             for (auto& re : res) {
-                names.push_back(ArrayOf::characterArrayConstructor(re.getName()));
-                folder.push_back(ArrayOf::characterArrayConstructor(re.getFolder()));
-                dates.push_back(ArrayOf::characterArrayConstructor(re.getDate()));
+                names.push_back(ArrayOf::characterArray(re.getName()));
+                folder.push_back(ArrayOf::characterArray(re.getFolder()));
+                dates.push_back(ArrayOf::characterArray(re.getDate()));
                 double bytesval = re.getBytes();
                 if (bytesval == -1) {
-                    bytes.push_back(ArrayOf::emptyConstructor());
+                    bytes.push_back(ArrayOf::empty());
                 } else {
-                    bytes.push_back(ArrayOf::doubleConstructor(bytesval));
+                    bytes.push_back(ArrayOf::doubleScalar(bytesval));
                 }
-                isdirs.push_back(ArrayOf::logicalConstructor(re.isDir()));
+                isdirs.push_back(ArrayOf::logicalScalar(re.isDir()));
                 double datenumval = re.getDatenum();
                 if (datenumval == -1) {
-                    datenums.push_back(ArrayOf::emptyConstructor());
+                    datenums.push_back(ArrayOf::empty());
                 } else {
-                    datenums.push_back(ArrayOf::doubleConstructor(datenumval));
+                    datenums.push_back(ArrayOf::doubleScalar(datenumval));
                 }
             }
             st.setFieldAsList("name", names);

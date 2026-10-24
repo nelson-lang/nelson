@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>getNFlowBlockHandle</keyword>
+  <short_description>Renvoie le handle d'un bloc par chemin, ou -1 si introuvable.</short_description>
+  <syntax>
+    <syntax_item>h = getNFlowBlockHandle(path)</syntax_item>
+    <syntax_item>h = getNFlowBlockHandle(path, load)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>path</param_name><param_description>un chemin de bloc ('modèle/NomDeBloc'), ou un tableau de cellules de chemins de blocs.</param_description></param_input_item>
+    <param_input_item><param_name>load</param_name><param_description>booléen optionnel ; si vrai, un modèle non chargé est chargé au préalable s'il peut être trouvé.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>h</param_name><param_description>le handle numérique du bloc, ou <b>-1</b> s'il est introuvable. Pour un tableau de cellules de chemins, un tableau numérique de même forme.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>getNFlowBlockHandle</b> renvoie le handle numérique d'un bloc à
+    partir de son chemin, ou <b>-1</b> lorsque le bloc n'existe pas (aucune
+    erreur n'est levée).</p>
+    <p>Le handle est égal à <b>get_param(path, 'Handle')</b> et peut être passé à
+    <b>get_param</b> et <b>set_param</b> à la place du chemin. Un chemin qui ne
+    désigne qu'un modèle (sans bloc) vaut <b>-1</b>.</p>
+    <p>Avec un tableau de cellules de chemins, le résultat est un tableau
+    numérique de handles de même forme, chaque élément étant le handle ou
+    <b>-1</b>.</p>
+    <p>Lorsque <b>load</b> vaut vrai et que le modèle n'est pas chargé, il est
+    chargé au préalable s'il peut être trouvé ; sinon le résultat reste
+    <b>-1</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/math/gain', 'demo/Gain');
+h = getNFlowBlockHandle('demo/Gain')
+missing = getNFlowBlockHandle('demo/None')
+get_param(h, 'BlockType')
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}getfullname">getfullname</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}find_system">find_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

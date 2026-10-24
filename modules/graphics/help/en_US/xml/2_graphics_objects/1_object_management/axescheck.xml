@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>axescheck</keyword>
+  <short_description>Extract an axes handle from an argument list.</short_description>
+  <syntax>
+    <syntax_item>[ax, args, nargs] = axescheck(arg1, arg2, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>arg1, arg2, ...</param_name>
+      <param_description>an argument list, as passed to a plotting function.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>the axes handle found in the list, or <b>[]</b> if none was given.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>args</param_name>
+      <param_description>the remaining arguments, as a cell array.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>nargs</param_name>
+      <param_description>the number of remaining arguments, <b>numel(args)</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>axescheck</b> is a helper for plotting functions. It returns a leading
+      axes handle in <b>ax</b> (or <b>[]</b> when the first argument is not an
+      axes), with the remaining arguments in <b>args</b>. A
+      <b>'Parent'</b>, value pair anywhere in the list also supplies the axes
+      and is removed from <b>args</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[ax = axes();
+[cax, args, nargs] = axescheck(ax, 1, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}gca">gca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}isgraphics">isgraphics</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "__jlenv__Builtin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -27,17 +28,17 @@ Nelson::Julia_engineGateway::__jlenv__Builtin(int nLhs, const ArrayOfVector& arg
     if (argIn.size() == 0) {
         // Do nothing when no arguments are provided
     } else if (argIn.size() == 4) {
-        juliaEnvironment->setVersion(argIn[0].getContentAsWideString());
-        juliaEnvironment->setExecutable(argIn[1].getContentAsWideString());
-        juliaEnvironment->setLibrary(argIn[2].getContentAsWideString());
-        juliaEnvironment->setHome(argIn[3].getContentAsWideString());
+        juliaEnvironment->setVersion(argIn[0].asWideString());
+        juliaEnvironment->setExecutable(argIn[1].asWideString());
+        juliaEnvironment->setLibrary(argIn[2].asWideString());
+        juliaEnvironment->setHome(argIn[3].asWideString());
         juliaEnvironment->saveCurrentState();
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
     }
 
     ArrayOfVector retval;
-    retval << ArrayOf::handleConstructor((HandleGenericObject*)juliaEnvironment);
+    retval << ArrayOf::handle((HandleGenericObject*)juliaEnvironment);
     return retval;
 }
 //=============================================================================

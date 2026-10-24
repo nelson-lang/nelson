@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "history_managerBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "HistoryManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,14 +25,14 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVec
         = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (argIn.empty()) {
         if (ptrHistoryManager) {
-            retval << ArrayOf::characterArrayConstructor(L"on");
+            retval << ArrayOf::characterArray(L"on");
         } else {
-            retval << ArrayOf::characterArrayConstructor(L"off");
+            retval << ArrayOf::characterArray(L"off");
         }
     } else if (argIn.size() == 1) {
         if (argIn[0].isCharacterArray()) {
             bool bOldMode = false;
-            std::wstring arg = argIn[0].getContentAsWideString();
+            std::wstring arg = argIn[0].asWideString();
             if (ptrHistoryManager) {
                 bOldMode = true;
             } else {
@@ -48,18 +49,19 @@ Nelson::HistoryManagerGateway::history_managerBuiltin(int nLhs, const ArrayOfVec
                 }
                 NelsonConfiguration::getInstance()->setHistoryManager(nullptr);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
             }
             if (bOldMode) {
-                retval << ArrayOf::characterArrayConstructor(L"on");
+                retval << ArrayOf::characterArray(L"on");
             } else {
-                retval << ArrayOf::characterArrayConstructor(L"off");
+                retval << ArrayOf::characterArray(L"off");
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
     return retval;
 }

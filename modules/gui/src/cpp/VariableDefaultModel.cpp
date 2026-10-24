@@ -1,6 +1,14 @@
 //=============================================================================
+// Copyright (c) 2025-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
 #include "VariableDefaultModel.h"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "ClassName.hpp"
 #include <QtWidgets/QTextEdit>
 #include <QtCore/QTextStream>
@@ -31,13 +39,11 @@ VariableDefaultModel::VariableDefaultModel(
     initializeContent();
     connectTextEditSignals();
 
-    // Determine if the variable should be read-only
     m_isReadOnly = !canEdit();
     if (m_textEdit) {
         m_textEdit->setReadOnly(m_isReadOnly);
     }
 }
-
 //=============================================================================
 void
 VariableDefaultModel::initializeContent()
@@ -51,7 +57,6 @@ VariableDefaultModel::initializeContent()
         m_suppressSignals = false;
     }
 }
-
 //=============================================================================
 void
 VariableDefaultModel::connectTextEditSignals()
@@ -60,7 +65,6 @@ VariableDefaultModel::connectTextEditSignals()
         connect(m_textEdit, &QTextEdit::textChanged, this, &VariableDefaultModel::onTextChanged);
     }
 }
-
 //=============================================================================
 void
 VariableDefaultModel::disconnectTextEditSignals()
@@ -69,7 +73,6 @@ VariableDefaultModel::disconnectTextEditSignals()
         disconnect(m_textEdit, &QTextEdit::textChanged, this, &VariableDefaultModel::onTextChanged);
     }
 }
-
 //=============================================================================
 void
 VariableDefaultModel::refreshFromArray(const ArrayOf& value)
@@ -78,7 +81,6 @@ VariableDefaultModel::refreshFromArray(const ArrayOf& value)
     initializeContent();
     emit contentChanged();
 }
-
 //=============================================================================
 bool
 VariableDefaultModel::isStructureCompatible(const ArrayOf& value) const
@@ -106,7 +108,6 @@ VariableDefaultModel::forceViewUpdate()
         m_suppressSignals = false;
     }
 }
-
 //=============================================================================
 QString
 VariableDefaultModel::formatArrayContent(const ArrayOf& array) const
@@ -129,7 +130,7 @@ VariableDefaultModel::onTextChanged()
 }
 //=============================================================================
 void
-VariableDefaultModel::schedulePeristenceUpdate()
+VariableDefaultModel::schedulePersistenceUpdate()
 {
     m_pendingChanges = true;
     m_persistenceTimer->start();
@@ -166,7 +167,7 @@ VariableDefaultModel::getVariableClassAsString() const
 QString
 VariableDefaultModel::getVariableDimensionsAsString() const
 {
-    Dimensions dims = m_array.getDimensions();
+    Dimensions dims = m_array.dimensions();
     return wstringToQString(dims.toWideString());
 }
 //=============================================================================

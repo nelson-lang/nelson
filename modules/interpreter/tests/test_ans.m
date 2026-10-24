@@ -7,20 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 clear ans
-assert_isfalse(isvar('ans'));
+asserts.isfalse(isvar('ans'));
 B = 33;
 B
-assert_isfalse(isvar('ans'));
+asserts.isfalse(isvar('ans'));
 B = {33};
 B
-assert_isfalse(isvar('ans'));
+asserts.isfalse(isvar('ans'));
 33
-assert_istrue(isvar('ans'));
+asserts.istrue(isvar('ans'));
 clear ans
-st.a=1;
+st.a = 1;
 st
-assert_isfalse(isvar('ans'));
+asserts.isfalse(isvar('ans'));
 st.a
-assert_istrue(isvar('ans'));
-assert_isequal(st.a,ans);
+asserts.istrue(isvar('ans'));
+asserts.isequal(st.a, ans);

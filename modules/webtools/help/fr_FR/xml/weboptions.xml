@@ -34,7 +34,7 @@
     <p>
       <b>UserAgent</b> Identification de l&apos;agent utilisateur : chaîne ou vecteur de caractères.</p>
     <p>
-      <b>Timeout</b> Durée du timeout de connexion : scalaire numérique positif ou valeur Inf.</p>
+      <b>Timeout</b> Délai d'attente du serveur, en secondes : scalaire numérique positif ou valeur Inf (5 par défaut). Il borne la connexion et tout blocage du transfert, pas la durée totale du téléchargement.</p>
     <p>
       <b>Username</b> Identifiant utilisateur : chaîne ou vecteur de caractères.</p>
     <p>
@@ -46,7 +46,7 @@
     <p>
       <b>HeaderFields</b> Noms et valeurs des en-têtes : tableau m-by-2 de chaînes ou cellule de vecteurs de caractères.</p>
     <p>
-      <b>ContentType</b> Type de contenu : chaîne. Valeurs supportées : &apos;auto&apos;, &apos;text&apos;, &apos;audio&apos;, &apos;binary&apos;, &apos;json&apos;, &apos;raw&apos;.</p>
+      <b>ContentType</b> Type de contenu : chaîne. Valeurs supportées : &apos;auto&apos;, &apos;text&apos;, &apos;image&apos;, &apos;binary&apos;, &apos;table&apos;, &apos;audio&apos;, &apos;json&apos;, &apos;xmldom&apos;, &apos;raw&apos;.</p>
     <p>
       <b>ContentReader</b> Lecteur de contenu : handle de fonction.</p>
     <p>
@@ -56,9 +56,9 @@
     <p>
       <b>ArrayFormat</b> : &apos;csv&apos; (par défaut), &apos;json&apos;, &apos;repeating&apos; ou &apos;php&apos;.</p>
     <p>
-      <b>CertificateFilename</b> Nom de fichier des certificats racine : chaîne.</p>
+      <b>CertificateFilename</b> Nom de fichier des certificats racine : &apos;default&apos;, vide ou fichier existant.</p>
     <p>
-      <b>FollowLocation</b> indique à la bibliothèque de suivre les redirections Location: envoyées par un serveur HTTP dans une réponse 30x : logique, false par défaut.</p>
+      <b>FollowLocation</b> indique à la bibliothèque de suivre les redirections Location: envoyées par un serveur HTTP dans une réponse 30x : logique, true par défaut.</p>
   </description>
   <used_function />
   <bibliography />
@@ -88,6 +88,10 @@ options = weboptions('UserAgent', 'http://www.whoishostingthis.com/tools/user-ag
     <history_item>
       <history_version>1.6.0</history_version>
       <history_description>option &apos;FollowLocation&apos; ajoutée</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>weboptions est une classe valeur classdef</history_description>
     </history_item>
   </history>
   <authors>

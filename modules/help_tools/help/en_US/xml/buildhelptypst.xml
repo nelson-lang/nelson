@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>buildhelptypst</keyword>
+  <short_description
+  >Build help of Nelson&apos;s modules as Typst sources.</short_description>
+  <syntax>
+    <syntax_item>buildhelptypst(dirdest)</syntax_item>
+    <syntax_item>buildhelptypst(dirdest, module_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dirdest</param_name>
+      <param_description>a string: a path destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
+      >a string: module name (module must be loaded).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>buildhelptypst</b> generates the help as Typst sources, ready to be compiled to PDF.</p>
+    <p>For each available language, the pages of a module are written to <code>dirdest/&lt;lang&gt;/&lt;module&gt;/</code> with a <code>main.typ</code> root document (see <link linkend="${help_tools}xmldoctotypst">xmldoctotypst</link>). The root document <code>dirdest/&lt;lang&gt;/main.typ</code> applies the <code>nelson-style</code> page style of <code>nelson_help.typ</code> and includes, in order: the modules, then a table of contents.</p>
+    <p>With one argument, the whole manual is built: the home page, the getting started guide, the changelogs and the licenses (hand-written markdown pages of the <code>main</code> module, converted to Typst) are added around the modules, as in the markdown manual built by <link linkend="${help_tools}buildhelpmd">buildhelpmd</link>.</p>
+    <p>Compile one module with <code>typst compile dirdest/en/core/main.typ</code>, or the whole manual with <code>typst compile dirdest/en/main.typ</code>. The LaTeX fragments of the pages are typeset with the <code>mitex</code> Typst package, downloaded on first use by the typst compiler.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[buildhelptypst(tempdir(), 'core');
+dir([tempdir(), 'en/core'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelpmd">buildhelpmd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldoctotypst">xmldoctotypst</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

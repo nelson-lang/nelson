@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>typecast</keyword>
+  <short_description>Convert data type without changing underlying data.</short_description>
+  <syntax>
+    <syntax_item>Y = typecast(X, type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >a variable: noncomplex, full, numeric scalar or vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
+      >a character vector: destination numeric class name ('int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64', 'single' or 'double').</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description
+      >result of typecast: X reinterpreted as the requested type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>typecast</b> reinterprets the bytes of <b>X</b> as the numeric class
+    <b>type</b> without changing the underlying byte pattern.</p>
+    <p>Unlike <b>cast</b>, the numeric values are not converted: only the class
+    interpretation of the same memory changes. The number of bytes of the input
+    must be a whole multiple of the destination class size.</p>
+    <p>A column vector yields a column vector, otherwise the result is a row
+    vector.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[Y = typecast(single(1), 'uint32')
+Z = typecast(uint32(1065353216), 'single')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}cast">cast</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}swapbytes">swapbytes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

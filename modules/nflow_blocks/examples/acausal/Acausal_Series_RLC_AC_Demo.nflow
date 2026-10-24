@@ -1,0 +1,131 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-09-27",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal series RLC circuit driven by a sinusoidal voltage source. The source feeds a resistor, an inductor, a current sensor and a capacitor in series to ground. After the initial transient the capacitor voltage settles into a steady sinusoid, phase-shifted and scaled by the frequency response of the second-order circuit; the current sensor reports the loop current i = C dVc/dt. The Scope plots the capacitor voltage and the loop current; ToWorkspace exports both.",
+  "name": "Acausal Series RLC (AC)",
+  "blocks": [
+    {
+      "id": "V1",
+      "type": "SineVoltage",
+      "params": { "name": "Vin", "Amplitude": 1, "Frequency": 0.5, "Phase": 0 },
+      "x": 50,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 1 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "L1",
+      "type": "Inductor",
+      "params": { "name": "L1", "L": 1, "i0": 0 },
+      "x": 360,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "CS",
+      "type": "CurrentSensor",
+      "params": { "name": "Iloop" },
+      "x": 510,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "Capacitor",
+      "params": { "name": "C1", "C": 0.5, "v0": 0 },
+      "x": 650,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "VS",
+      "type": "VoltageSensor",
+      "params": { "name": "Vc" },
+      "x": 780,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 50,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "G2",
+      "type": "Ground",
+      "params": {},
+      "x": 650,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "twV",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vc", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 940,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "twI",
+      "type": "toWorkspace",
+      "params": { "VariableName": "il", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 940,
+      "y": 120,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 940,
+      "y": 320,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "VS", "to": "twV", "fromIndex": 0, "toIndex": 0 },
+    { "from": "CS", "to": "twI", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 },
+    { "from": "CS", "to": "sc", "fromIndex": 0, "toIndex": 1 }
+  ],
+  "solver": "dae",
+  "runtime": 6,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "L1.p"] },
+    { "pins": ["L1.n", "CS.p"] },
+    { "pins": ["CS.n", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n"] },
+    { "pins": ["G2.p", "C1.n", "VS.n"] }
+  ]
+}

@@ -1,0 +1,8 @@
+Rule EU 1981 max - Mar lastSun 1:00u 1:00 S
+Rule EU 1996 max - Oct lastSun 1:00u 0 -
+
+Zone Europe/London 0:00 EU GMT/BST
+Zone Europe/Paris 1:00 EU CE%sT
+Zone Europe/Berlin 1:00 EU CE%sT
+Zone Europe/Madrid 1:00 EU CE%sT
+Zone Europe/Rome 1:00 EU CE%sT

@@ -7,36 +7,35 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxCreateStructArray') == 0
-  test_dir = [tempdir(), 'mxCreateStructArray'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxCreateStructArray.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxCreateStructArray.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mxCreateStructArray();
-assert_istrue(isstruct(R));
-assert_isequal(size(R), [4 1]);
+asserts.istrue(isstruct(R));
+asserts.isequal(size(R), [4 1]);
 %=============================================================================
-assert_isequal(R(1).fullname, 'Michael B.');
-assert_isequal(R(1).date, 11122016);
+asserts.isequal(R(1).fullname, 'Michael B.');
+asserts.isequal(R(1).date, 11122016);
 %=============================================================================
-assert_isequal(R(2).fullname, 'Pierre P.');
-assert_isequal(R(2).date, 11122017);
+asserts.isequal(R(2).fullname, 'Pierre P.');
+asserts.isequal(R(2).date, 11122017);
 %=============================================================================
-assert_isequal(R(3).fullname, 'Nicolas M.');
-assert_isequal(R(3).date, 11122018);
+asserts.isequal(R(3).fullname, 'Nicolas M.');
+asserts.isequal(R(3).date, 11122018);
 %=============================================================================
-assert_isequal(R(4).fullname, 'Manu T.');
-assert_isequal(R(4).date, 11122019);
+asserts.isequal(R(4).fullname, 'Manu T.');
+asserts.isequal(R(4).date, 11122019);
 %=============================================================================

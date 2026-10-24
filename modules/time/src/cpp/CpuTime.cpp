@@ -88,7 +88,7 @@ CpuTime()
     }
 #endif
 #endif
-    return -1; /* Failed. */
+    return -1;
 }
 //=============================================================================
 } // namespace Nelson

@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+mat_dir = [fileparts(nfilename('fullpathext'), 'path'), '/mat/'];
 %=============================================================================
 clear A
 A_REF = logical(eye(3, 4));
 loadmat([mat_dir, 'test_eye_logical_7.mat']);
-assert_isequal(A, A_REF);
+asserts.isequal(A, A_REF);
 %=============================================================================

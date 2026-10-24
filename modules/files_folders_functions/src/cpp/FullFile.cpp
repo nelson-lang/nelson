@@ -53,12 +53,16 @@ FullFile(const wstringVector& parts)
 {
     std::wstring result;
     indexType nbParts = parts.size();
-    for (indexType k = 0; k < nbParts; ++k) {
-        if (k == 0) {
-            result = parts[k];
-        } else {
-            result = result + FILE_SEPW + parts[k];
-        }
+    indexType startIdx = 0;
+    while (startIdx < nbParts && parts[startIdx].empty()) {
+        startIdx++;
+    }
+    if (startIdx >= nbParts) {
+        return L"";
+    }
+    result = parts[startIdx];
+    for (indexType k = startIdx + 1; k < nbParts; ++k) {
+        result = result + FILE_SEPW + parts[k];
     }
     return FullFilename(result);
 }

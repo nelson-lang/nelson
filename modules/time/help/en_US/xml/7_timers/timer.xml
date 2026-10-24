@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timer</keyword>
+  <keyword_alias>timer object</keyword_alias>
+  <short_description>Create a timer object that runs commands after a delay or at repeated intervals.</short_description>
+  <syntax>
+    <syntax_item>t = timer()</syntax_item>
+    <syntax_item>t = timer(&apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>PropertyName</param_name>
+      <param_description>Timer property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyValue</param_name>
+      <param_description>Value assigned to the timer property.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>Timer object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>timer</b> creates a timer object. A timer object can execute a callback once, after a delay, at a future date, or repeatedly until it completes the requested number of tasks or is stopped.</p>
+    <p>The callback to execute is stored in the <b>TimerFcn</b> property. The callback can be a function handle, a cell array whose first element is a function handle, a character vector, or a string scalar. Function handle callbacks receive the timer object and an event structure.</p>
+    <p>Timer objects remain registered after the variable that held them goes out of scope. Use <b>delete</b> when a timer is no longer needed.</p>
+    <p>Important timer properties are listed below.</p>
+    <table border="1">
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>BusyMode</td>
+        <td>Action used when fixed-rate timer callbacks cannot run immediately: <b>drop</b>, <b>queue</b>, or <b>error</b>.</td>
+      </tr>
+      <tr>
+        <td>ExecutionMode</td>
+        <td>Scheduling mode: <b>singleShot</b>, <b>fixedRate</b>, <b>fixedDelay</b>, or <b>fixedSpacing</b>.</td>
+      </tr>
+      <tr>
+        <td>Period</td>
+        <td>Time in seconds between repeated timer executions.</td>
+      </tr>
+      <tr>
+        <td>StartDelay</td>
+        <td>Delay in seconds before the first timer execution.</td>
+      </tr>
+      <tr>
+        <td>TasksToExecute</td>
+        <td>Number of times to execute <b>TimerFcn</b>. The default value is <b>Inf</b>.</td>
+      </tr>
+      <tr>
+        <td>TasksExecuted</td>
+        <td>Read-only count of completed timer callback executions.</td>
+      </tr>
+      <tr>
+        <td>Running</td>
+        <td>Read-only value, <b>on</b> while the timer is active and <b>off</b> otherwise.</td>
+      </tr>
+      <tr>
+        <td>ObjectVisibility</td>
+        <td>Visibility used by <b>timerfind</b>. Hidden timers are still returned by <b>timerfindall</b>.</td>
+      </tr>
+    </table>
+    <p>Use <b>start</b> to start a timer immediately, <b>startat</b> to start it at a specific date and time, <b>stop</b> to stop it, <b>wait</b> to block until it stops, and <b>delete</b> to remove it when it is no longer needed.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a single-shot timer that runs after a short delay.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('StartDelay', 0.1, ...
+  'TimerFcn', @(src, event) disp('timer fired'));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a timer that runs three times and reports the execution count.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.05, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) disp(get(src, 'TasksExecuted')));
+start(t);
+wait(t);
+get(t, 'TasksExecuted')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}startat">startat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timerfind">timerfind</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timerfindall">timerfindall</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Timer Callback Functions">Timer Callback Functions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Timer Queuing Conflicts">Timer Queuing Conflicts</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

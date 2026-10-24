@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~any(contains(argv(), '--without_python'))
+if ~any(contains(argv(), '--without-python'))
   addmodule([nelsonroot() '/modules/' 'python_engine'], 'python_engine');
 end
 %=============================================================================

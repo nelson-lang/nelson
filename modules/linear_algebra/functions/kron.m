@@ -11,21 +11,40 @@ function varargout = kron(varargin)
   % https://en.wikipedia.org/wiki/Kronecker_product
   narginchk(2, 2);
   nargoutchk(0, 1);
-  
+
   A = varargin{1};
   B = varargin{2};
-  
-  if ~ismatrix(A) || ~ismatrix(B)
-    error(_('Inputs must be 2-D.'));
+  if islogical(A) || ischar(A)
+    A = double(A);
   end
-  
-  % need to be optimized ...
+  if islogical(B) || ischar(B)
+    B = double(B);
+  end
+
+  if ~ismatrix(A) || ~ismatrix(B)
+    error('Nelson:kron:inputMustBe2D', 'Inputs must be 2-D.');
+  end
+
   if issparse(A) || issparse(B)
     varargout{1} = sparse(kron(full(A), full(B)));
+  elseif (isa(A, 'double') || isa(A, 'single')) && ...
+      (isa(B, 'double') || isa(B, 'single')) && ...
+      isreal(A) && isreal(B)
+    varargout{1} = builtin('kron', A, B);
   else
     [m, n] = size(A);
     [p, q] = size(B);
-    result = zeros(m * p, n * q);
+    % preserve integer / single classes (aligned with expected behavior)
+    if isinteger(A)
+      outClass = class(A);
+    elseif isinteger(B)
+      outClass = class(B);
+    elseif isa(A, 'single') || isa(B, 'single')
+      outClass = 'single';
+    else
+      outClass = 'double';
+    end
+    result = zeros(m * p, n * q, outClass);
     for i = 1:m
       for j = 1:n
         a_ij = A(i, j);
@@ -36,7 +55,7 @@ function varargout = kron(varargin)
         col_end = j * q;
         result(row_start:row_end, col_start:col_end) = submatrix;
       end
-    end    
+    end
     varargout{1} = result;
   end
 end

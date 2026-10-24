@@ -17,5 +17,5 @@ namespace Nelson {
 NLSGRAPHICS_IMPEXP ArrayOf
 EqGraphicsObjects(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

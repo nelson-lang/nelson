@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -41,7 +41,7 @@ FieldCompleter(const std::wstring& prefix)
         variable = variable.substr(lastCharacterIndex + 1);
     }
 
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
         ArrayOfVector variableArray
@@ -52,14 +52,14 @@ FieldCompleter(const std::wstring& prefix)
 
         stringVector fielnames;
         if (variableArray[0].isStruct()) {
-            fielnames = variableArray[0].getFieldNames();
+            fielnames = variableArray[0].fieldNames();
         }
         for (const auto& fieldname : fielnames) {
             if (StringHelpers::starts_with(fieldname, postfix)) {
                 res.push_back(utf8_to_wstring(fieldname));
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
     return res;

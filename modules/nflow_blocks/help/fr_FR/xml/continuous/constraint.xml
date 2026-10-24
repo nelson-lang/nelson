@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>constraint</keyword>
+<keyword_alias>block:constraint</keyword_alias>
+  <short_description>Etat algebrique (differentiel-algebrique) resolu par le solveur DAE.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : constraint</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>1 port d entree : le residu de contrainte g.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie : l etat algebrique z.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Etat algebrique (differentiel-algebrique) resolu par le solveur DAE.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs continus</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>constraint</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Etiquette</td>
+          <td>Constraint</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/continuous/exports/constraint.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Le bloc Constraint introduit un etat <b>algebrique</b> <b>z</b> (sa sortie). Il n a pas de derivee propre ; le solveur DAE ajuste <b>z</b> pour annuler le signal d entree <b>g</b>. Cablez le diagramme pour que l entree calcule le residu de contrainte <b>g(z, x) = 0</b> (typiquement en utilisant la sortie z du bloc), et le solveur maintient le systeme sur cette variete.</p>
+    <p>Ce bloc n a de sens que sous le solveur differentiel-algebrique : mettez le <code>solver</code> du modele a <code>dae</code>. Sous un autre solveur, ou en code C / Rust genere, il est rejete avec un message clair (pas de lowering explicite pour un systeme differentiel-algebrique).</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Le residu de contrainte g, annule par le solveur.</td>
+          <td>gauche</td>
+          <td>x=0, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>L etat algebrique z determine par le solveur.</td>
+          <td>droite</td>
+          <td>x=80, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>InitialCondition</code>
+          </td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>La condition initiale n est qu une estimation de depart pour z ; le solveur la raffine vers une valeur coherente avec IDACalcIC.</p>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>constraint</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs continus</td>
+        </tr>
+        <tr>
+          <td>Taille rendue</td>
+          <td>80 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, OUTPUT, DERIVATIVE</td>
+        </tr>
+        <tr>
+          <td>Etat interne ou historique</td>
+          <td>un etat algebrique (masse-0)</td>
+        </tr>
+        <tr>
+          <td>Type de donnees du signal</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Equation ou regle</b>
+    </p>
+    <latex>0 = g(z, x),\qquad y = z</latex>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/continuous/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/continuous/constraint.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}continuous/integrator">integrator</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}continuous/stateSpace">stateSpace</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

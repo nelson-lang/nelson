@@ -12,25 +12,25 @@
 t = tiledlayout(2, 3);
 % tilerowcol(t, tnum)
 [r, c] = tilerowcol(t, 1);
-assert_isequal(r, 1);
-assert_isequal(c, 1);
+asserts.isequal(r, 1);
+asserts.isequal(c, 1);
 [r2, c2] = tilerowcol(t, 4);
-assert_isequal(r2, 2);
-assert_isequal(c2, 1);
+asserts.isequal(r2, 2);
+asserts.isequal(c2, 1);
 % out-of-range returns NaN
 [r3, c3] = tilerowcol(t, 10);
-assert_istrue(isnan(r3));
-assert_istrue(isnan(c3));
+asserts.istrue(isnan(r3));
+asserts.istrue(isnan(c3));
 close all;
 %=============================================================================
 t = tiledlayout(2, 2);
 ax1 = nexttile;
 ax2 = nexttile;
 [r1, c1] = tilerowcol(ax1);
-assert_isequal(r1, 1);
-assert_isequal(c1, 1);
+asserts.isequal(r1, 1);
+asserts.isequal(c1, 1);
 [r2, c2] = tilerowcol(ax2);
-assert_isequal(r2, 1);
-assert_isequal(c2, 2);
+asserts.isequal(r2, 1);
+asserts.isequal(c2, 2);
 close all;
 %=============================================================================

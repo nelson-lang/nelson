@@ -28,9 +28,8 @@ PythonRunner::runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstrin
         if (result == NULL) {
             errorMessage += msg;
             NLSPyErr_Clear();
-            resultReady = true;
             NLSPyGILState_Release(gstate);
-            resultCondition.notify_one();
+            notifyResultReady();
             return;
         } else {
             if (!msg.empty()) {
@@ -48,9 +47,8 @@ PythonRunner::runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstrin
             if (res != 0) {
                 errorMessage += msg;
                 NLSPyErr_Clear();
-                resultReady = true;
                 NLSPyGILState_Release(gstate);
-                resultCondition.notify_one();
+                notifyResultReady();
                 return;
             } else {
                 if (!msg.empty()) {
@@ -62,7 +60,16 @@ PythonRunner::runPythonCode(PyObject* globalDict, PyObject* pyCode, const wstrin
     }
 
     NLSPyGILState_Release(gstate);
-    resultReady = true;
+    notifyResultReady();
+}
+//=============================================================================
+void
+PythonRunner::notifyResultReady()
+{
+    {
+        std::lock_guard<std::mutex> lock(resultMutex);
+        resultReady = true;
+    }
     resultCondition.notify_one();
 }
 //=============================================================================
@@ -89,5 +96,5 @@ PythonRunner::getStandardOutput()
     return outputMessage;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

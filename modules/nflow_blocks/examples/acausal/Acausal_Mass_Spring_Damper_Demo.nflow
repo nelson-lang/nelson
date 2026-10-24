@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal mass-spring-damper: a mass connected to a wall through a parallel spring and damper, released from an initial offset, oscillates and decays to its equilibrium position -- a classic second-order response. The translational flanges share physical nodes. The Scope plots the mass position; ToWorkspace exports it.",
+  "name": "Acausal Mass-Spring-Damper",
+  "blocks": [
+    {
+      "id": "M1",
+      "type": "Mass",
+      "params": { "m": 1, "s0": 1, "v0": 0 },
+      "x": 150,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "K1",
+      "type": "Spring",
+      "params": { "k": 4 },
+      "x": 150,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "D1",
+      "type": "Damper",
+      "params": { "d": 1 },
+      "x": 290,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "W",
+      "type": "Fixed",
+      "params": { "s0": 0 },
+      "x": 150,
+      "y": 430,
+      "rotation": 90
+    },
+    {
+      "id": "PS",
+      "type": "PositionSensor",
+      "params": {},
+      "x": 150,
+      "y": 560,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "s" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 450,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 450,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "PS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "PS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 10,
+  "sampleTime": 0.02,
+  "physicalWires": [
+    { "pins": ["M1.flange", "K1.a", "PS.flange", "D1.a"] },
+    { "pins": ["W.flange", "K1.b", "D1.b"] }
+  ]
+}

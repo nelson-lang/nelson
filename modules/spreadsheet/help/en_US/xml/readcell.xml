@@ -15,7 +15,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>DelimitedTextImportOptions object</param_description>
+      <param_description>nelson.io.text.DelimitedTextImportOptions object</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -49,6 +49,11 @@
     </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}delimitedTextImportOptions"
+      >delimitedTextImportOptions</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${spreadsheet}writecell">writecell</link>
     </see_also_item>

@@ -10,14 +10,14 @@
 %<--INTERACTIVE TEST-->
 %=============================================================================
 try
-    disp('In try block');
-    a = 10;
-    b = 0;
-    c = a / b; % This will cause a division by zero error
-    disp(['Result: ', num2str(c)]);
+  disp('In try block');
+  a = 10;
+  b = 0;
+  c = a / b; % This will cause a division by zero error
+  disp(['Result: ', num2str(c)]);
 catch ME
-    disp('An error occurred:');
-    disp(ME.message);
+  disp('An error occurred:');
+  disp(ME.message);
 end
 disp('End of try-catch test');
 %=============================================================================

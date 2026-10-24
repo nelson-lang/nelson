@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 // Copyright (c) 2002, 2003 Samit Basu
 //=============================================================================
@@ -16,16 +16,13 @@
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * This structure implements a linked list of Scope pointers.
- */
 struct ScopeStack
 {
 public:
     Scope* data;
     ScopeStack* next;
 };
-
+//=============================================================================
 /**
  * A Context is a stack of scopes with the (peculiar) property that
  * the top and bottom of the stack (global and local scopes respectively)
@@ -36,16 +33,12 @@ public:
  */
 class NLSINTERPRETER_IMPEXP Context
 {
-    /**
-     * The normal stack of scopes.
-     */
     std::vector<Scope*> scopestack;
-    /**
-     * The stack of scopes that have been "bypassed"
-     */
+    // scopes hidden by bypassScope()
     std::vector<Scope*> bypassstack;
 
     size_t currentrecursiondepth;
+    size_t variablesClearedEpoch = 0;
 
 private:
     std::string
@@ -54,19 +47,16 @@ private:
     bool
     isInMacroFile();
 
+    bool
+    lookupFunctionWithoutImports(const std::string& funcName, FunctionDefPtr& val);
+    bool
+    resolveImportedFunction(const std::string& funcName, FunctionDefPtr& val);
+    bool
+    resolveImportCandidate(const std::string& importSpec, FunctionDefPtr& val);
+
 public:
-    /**
-     * Create a context and initialize it with a global scope and a
-     * base scope.
-     */
     Context();
-    /**
-     * Delete the context
-     */
     ~Context();
-    /**
-     * Push the given scope onto the bottom of the scope stack.
-     */
     void
     pushScope(const std::string& name);
 
@@ -76,7 +66,7 @@ public:
     /**
      * Pop the bottom scope off of the scope stack.  The scope is
      * deleted.
-     * Throws an Exception if the global scope is popped.
+     * Throws an NelsonException if the global scope is popped.
      */
     void
     popScope();
@@ -87,12 +77,21 @@ public:
      */
     bool
     insertVariable(const std::string& varName, const ArrayOf& /*var*/);
+    bool
+    insertVariableWithoutNameValidation(const std::string& varName, const ArrayOf& /*var*/);
     /**
      * Insert a variable into the local scope - do not check the
      * global list.
      */
     void
     insertVariableLocally(const std::string& varName, const ArrayOf& /*var*/);
+    /**
+     * Remove a variable from the local scope only, without touching the
+     * global/persistent redirection. Used to tear down a transient
+     * caller-context sync snapshot.
+     */
+    void
+    removeVariableLocally(const std::string& varName);
     /**
      * Return a pointer to the given variable.  The search
      * logic is:
@@ -111,23 +110,24 @@ public:
     lookupVariable(const std::string& varName);
     bool
     lookupVariable(const std::string& varName, ArrayOf& var);
-    /**
-     * Look for a variable, but only locally.
-     */
     bool
     lookupVariableLocally(const std::string& varName, ArrayOf& var);
-    /**
-     * Insert a function definition into the local scope (bottom of
-     * the scope stack).
-     */
     void insertMacroFunctionLocally(FunctionDefPtr /*f*/);
-    /**
-     * Add a built in function to the global scope with the given name.
-     */
+    void
+    removeMacroFunctionLocally(const std::string& funcName);
     bool
     lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly = false);
     bool
     lookupFunction(const std::wstring& wfuncName, FunctionDefPtr& val, bool builtinOnly = false);
+
+    bool
+    addImport(const std::string& importSpec);
+    void
+    clearImports();
+    stringVector
+    getImports();
+    bool
+    resolveImportedClassName(const std::string& className, std::string& resolvedClassName);
 
     /**
      * Add a persistent variable to the local stack.  This involves
@@ -153,76 +153,55 @@ public:
      */
     void
     deleteVariable(const std::string& var);
-    /**
-     * Get the global scope off the top of the scope stack.
-     */
+    void
+    notifyVariablesCleared()
+    {
+        ++variablesClearedEpoch;
+    }
+    size_t
+    getVariablesClearedEpoch() const
+    {
+        return variablesClearedEpoch;
+    }
     inline Scope*
     getGlobalScope()
     {
         return scopestack.empty() ? nullptr : scopestack.front();
     }
-    /**
-     * Get the current (active) scope
-     */
     inline Scope*
     getCurrentScope()
     {
         return scopestack.empty() ? nullptr : scopestack.back();
     }
-    /**
-     * Get the size of the scope stack
-     */
     inline size_t
     getScopeStackSize()
     {
         return scopestack.size();
     }
-    /**
-     * Get the number of bypassed scopes
-     */
     inline size_t
     getBypassedScopeCount()
     {
         return bypassstack.size();
     }
-    /**
-     * Print the context.
-     */
     void
     printMe();
-    /**
-     * Increment the loop depth counter in the local scope.
-     */
     inline void
     enterLoop()
     {
         scopestack.back()->enterLoop();
     }
-    /**
-     * Decrement the loop depth counter in the local scope.
-     */
     inline void
     exitLoop()
     {
         scopestack.back()->exitLoop();
     }
-    /**
-     * Returns true if the current (local) scope indicates a
-     * non-zero loop depth.
-     */
     inline bool
     inLoop()
     {
         return scopestack.back()->inLoop();
     }
-    /**
-     * Returns true if the given variable is global.
-     */
     bool
     isVariableGlobal(const std::string& varName);
-    /**
-     * Returns true if the given variable is persistent
-     */
     bool
     isVariablePersistent(const std::string& varName);
 
@@ -259,7 +238,7 @@ public:
     bool
     setRecursionDepth(size_t newDepth);
     size_t
-    getMaximumRecursionDepth();
+    maximumRecursionDepth();
 };
 //=============================================================================
 enum SCOPE_LEVEL

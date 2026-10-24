@@ -17,5 +17,6 @@ namespace Nelson {
 NLSSPREADSHEET_IMPEXP ArrayOf
 delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
     std::vector<double> range, std::wstring& errorMessage);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -9,23 +9,88 @@
 //=============================================================================
 #include <cerrno>
 #include <algorithm>
-#include <fstream>
-#include <nlohmann/json.hpp>
+#include <atomic>
+#include <chrono>
 #include "PathFunctionIndexerManager.hpp"
+#include "ClassdefParser.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
 #include "ParserInterface.hpp"
-#include "GetVariableEnvironment.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
 #include "NelsonConfiguration.hpp"
 #include "FunctionsInMemory.hpp"
 #include "FileSystemWrapper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static bool
+isEngineSentinelName(const std::string& functionName);
+//=============================================================================
+static bool
+mustPollWatchedDirectories();
+//=============================================================================
 PathFunctionIndexerManager* PathFunctionIndexerManager::m_pInstance = nullptr;
+//=============================================================================
+namespace {
+    //=============================================================================
+    std::wstring
+    packageClassFilename(const std::wstring& rootPath, const std::string& qualifiedName)
+    {
+        if (qualifiedName.empty()) {
+            return {};
+        }
+        std::wstring filename = rootPath;
+        std::string::size_type first = 0;
+        std::string::size_type dot = qualifiedName.find('.');
+        while (dot != std::string::npos) {
+            const std::string packagePart = qualifiedName.substr(first, dot - first);
+            if (packagePart.empty()) {
+                return {};
+            }
+            filename += L"/+" + utf8_to_wstring(packagePart);
+            first = dot + 1;
+            dot = qualifiedName.find('.', first);
+        }
+        const std::string className = qualifiedName.substr(first);
+        if (className.empty()) {
+            return {};
+        }
+        return filename + L"/" + utf8_to_wstring(className) + L".m";
+    }
+    //=============================================================================
+    std::string
+    overloadOwnerClassName(const std::string& functionName)
+    {
+        if (functionName.size() < 3 || functionName.front() != '@') {
+            return {};
+        }
+        size_t slash = functionName.find('/');
+        if (slash == std::string::npos || slash <= 1) {
+            return {};
+        }
+        return functionName.substr(1, slash - 1);
+    }
+    //=============================================================================
+    // The constructor of an @Class directory is registered under its plain name
+    // (e.g. "myc" for @myc/myc.m), so overloadOwnerClassName cannot find the
+    // owner. The parent @Class folder owns it, which lets a classic constructor
+    // write the object's data fields directly after class(s, 'name').
+    std::string
+    ownerClassNameFromFilename(const std::wstring& filename)
+    {
+        if (filename.empty()) {
+            return {};
+        }
+        FileSystemWrapper::Path parent = FileSystemWrapper::Path(filename).parent_path();
+        std::string dir = parent.filename().generic_string();
+        if (dir.size() < 2 || dir.front() != '@') {
+            return {};
+        }
+        return dir.substr(1);
+    }
+    //=============================================================================
+} // namespace
 //=============================================================================
 PathFunctionIndexerManager::PathFunctionIndexerManager()
 {
@@ -45,6 +110,7 @@ PathFunctionIndexerManager::~PathFunctionIndexerManager()
         delete _currentPath;
         _currentPath = nullptr;
     }
+    clearCurrentPathCache();
 }
 //=============================================================================
 PathFunctionIndexerManager*
@@ -71,6 +137,7 @@ PathFunctionIndexerManager::destroy()
 void
 PathFunctionIndexerManager::startFileWatcher()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     for (auto& pf : _pathWatchFuncVector) {
         pf->startFileWatcher();
     }
@@ -86,6 +153,10 @@ PathFunctionIndexerManager::startFileWatcher()
 bool
 PathFunctionIndexerManager::hashOnFileWatcher()
 {
+    if (!mustPollWatchedDirectories()) {
+        return false;
+    }
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     bool result = false;
     for (auto& pf : _pathWatchFuncVector) {
         if (pf->wasModified()) {
@@ -111,27 +182,52 @@ PathFunctionIndexerManager::hashOnFileWatcher()
 void
 PathFunctionIndexerManager::refreshFunctionsMap()
 {
-    _pathFuncMap.clear();
-    for (auto& pf : _pathFuncVector) {
-        auto fileFunctions = pf->getAllFileFunctions();
-        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
-        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+    // Any change of resolvable functions (addpath, cd, rehash) must
+    // invalidate caches keyed on the function tables generation.
+    FunctionsInMemory::getInstance()->bumpGeneration();
+    std::unordered_map<std::string, FileFunction*> refreshed;
+    auto gather = [&refreshed](const PathFunctionIndexer* pathFunc) {
+        if (pathFunc == nullptr) {
+            return;
+        }
+        auto fileFunctions = pathFunc->getAllFileFunctions();
+        refreshed.reserve(refreshed.size() + fileFunctions.size());
+        refreshed.insert(fileFunctions.begin(), fileFunctions.end());
+    };
+    // The current directory shadows the path, so it is gathered first (insert()
+    // keeps the first key it sees). which(...,'-all') lists it first too.
+    gather(_currentPath);
+    for (auto& pathFunc : _pathFuncVector) {
+        gather(pathFunc);
     }
-    if (_userPath) {
-        auto fileFunctions = _userPath->getAllFileFunctions();
-        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
-        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+    gather(_userPath);
+
+    // The in-memory table is read before the indexes, so a name it holds keeps
+    // resolving after its file is gone. Retire the names the indexes dropped
+    // whose file was removed. Only the key is read: rehashing already freed the
+    // file entries the old map pointed at.
+    for (const auto& entry : _pathFuncMap) {
+        if (refreshed.find(entry.first) == refreshed.end()) {
+            FunctionsInMemory::getInstance()->retireIfFileRemoved(entry.first);
+        }
     }
-    if (_currentPath) {
-        auto fileFunctions = _currentPath->getAllFileFunctions();
-        _pathFuncMap.reserve(_pathFuncMap.size() + fileFunctions.size());
-        _pathFuncMap.insert(fileFunctions.begin(), fileFunctions.end());
+
+    // A name now mapped to a different file than the in-memory copy (current
+    // directory changed, path reordered) must drop the stale definition, or the
+    // table keeps answering with the old file while which() reports the new one.
+    for (const std::string& name : FunctionsInMemory::getInstance()->getMacroAndMexNames()) {
+        auto it = refreshed.find(name);
+        if (it != refreshed.end() && it->second != nullptr) {
+            FunctionsInMemory::getInstance()->retireIfFileReplaced(name, it->second->getFilename());
+        }
     }
+    _pathFuncMap = std::move(refreshed);
 }
 //=============================================================================
 void
 PathFunctionIndexerManager::clear()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
         it != _pathFuncVector.rend(); ++it) {
         PathFunctionIndexer* pf = *it;
@@ -148,16 +244,21 @@ PathFunctionIndexerManager::clear()
 wstringVector
 PathFunctionIndexerManager::getMacrosList(bool withPrivate)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     wstringVector macros;
 
-    // Estimate size to reserve memory
     size_t estimatedSize = 0;
     if (_userPath != nullptr) {
-        estimatedSize += 100; // rough estimate
+        estimatedSize += 100;
     }
-    estimatedSize += _pathFuncVector.size() * 50; // rough estimate per path
+    estimatedSize += _pathFuncVector.size() * 50;
     macros.reserve(estimatedSize);
 
+    if (_currentPath != nullptr) {
+        wstringVector currentMacros = _currentPath->getFunctionsName(L"", withPrivate);
+        macros.insert(macros.end(), std::make_move_iterator(currentMacros.begin()),
+            std::make_move_iterator(currentMacros.end()));
+    }
     if (_userPath != nullptr) {
         wstringVector userMacros = _userPath->getFunctionsName(L"", withPrivate);
         macros.insert(macros.end(), std::make_move_iterator(userMacros.begin()),
@@ -190,11 +291,63 @@ PathFunctionIndexerManager::findAndProcessFile(const std::string& name)
 bool
 PathFunctionIndexerManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
-    ptr = findAndProcessFile(name);
-    if (ptr != nullptr) {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    if (findIndexed(name, ptr)) {
         return true;
     }
+    if (rehashWatchedPathOwningFile(name)) {
+        return findIndexed(name, ptr);
+    }
     return false;
+}
+//=============================================================================
+bool
+PathFunctionIndexerManager::findIndexed(const std::string& name, FunctionDefPtr& ptr)
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    ptr = findAndProcessFile(name);
+    return ptr != nullptr;
+}
+//=============================================================================
+// Change notifications are asynchronous, so a file written to a watched
+// directory can be looked up before the watcher sees it. On a miss, probe the
+// watched directories for a file defining the function and rehash the first
+// owner. Only plain identifiers are probed (package, class and private
+// functions have their own indexing) and frozen directories never are, so the
+// cost is a few file stats on the miss path, and nothing when the watcher is
+// disabled.
+bool
+PathFunctionIndexerManager::rehashWatchedPathOwningFile(const std::string& functionName)
+{
+    if (functionName.empty() || !NelsonConfiguration::getInstance()->isFileWatcherEnabled()
+        || functionName.find_first_of("./\\@") != std::string::npos
+        || isEngineSentinelName(functionName)) {
+        return false;
+    }
+    auto probe = [&functionName](PathFunctionIndexer* indexer) {
+        if (indexer == nullptr || !indexer->isWithWatcher()) {
+            return false;
+        }
+        std::wstring filename;
+        if (!indexer->findFuncName(functionName, filename, true)) {
+            return false;
+        }
+        indexer->rehash();
+        return true;
+    };
+    bool rehashed = probe(_currentPath) || probe(_userPath);
+    if (!rehashed) {
+        for (auto* pf : _pathWatchFuncVector) {
+            if (probe(pf)) {
+                rehashed = true;
+                break;
+            }
+        }
+    }
+    if (rehashed) {
+        refreshFunctionsMap();
+    }
+    return rehashed;
 }
 //=============================================================================
 bool
@@ -212,40 +365,98 @@ PathFunctionIndexerManager::find(const std::string& name, FileFunction** ff)
 bool
 PathFunctionIndexerManager::find(const std::string& functionName, std::wstring& filename)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     FileFunction* ff = nullptr;
     bool res = find(functionName, &ff);
     if (res) {
         filename = ff->getFilename();
+        return true;
     }
-    return res;
+    return findPackageClassFile(functionName, &filename);
 }
 //=============================================================================
 bool
-PathFunctionIndexerManager::find(const std::string& functionName, wstringVector& filesname)
+PathFunctionIndexerManager::functionFileExists(const std::string& functionName)
 {
-    filesname.clear();
-    filesname.reserve(4); // Most functions won't have more than a few definitions
-
-    std::wstring filename;
-    if (_currentPath != nullptr && _currentPath->findFuncName(functionName, filename)) {
-        filesname.emplace_back(std::move(filename));
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    FileFunction* ff = nullptr;
+    if (find(functionName, &ff)) {
+        return !ff->getFilename().empty();
     }
-    if (_userPath != nullptr && _userPath->findFuncName(functionName, filename)) {
-        filesname.emplace_back(std::move(filename));
+    return findPackageClassFile(functionName, nullptr);
+}
+//=============================================================================
+bool
+PathFunctionIndexerManager::findPackageClassFile(
+    const std::string& functionName, std::wstring* filename)
+{
+    if (functionName.find('.') == std::string::npos) {
+        return false;
+    }
+    auto tryPath = [&](PathFunctionIndexer* indexer) {
+        if (indexer == nullptr) {
+            return false;
+        }
+        std::wstring candidate = packageClassFilename(indexer->getPath(), functionName);
+        if (!candidate.empty() && FileSystemWrapper::Path::is_regular_file(candidate)) {
+            if (filename != nullptr) {
+                *filename = candidate;
+            }
+            return true;
+        }
+        return false;
+    };
+    if (tryPath(_currentPath) || tryPath(_userPath)) {
+        return true;
     }
     for (auto it = _pathFuncVector.rbegin(); it != _pathFuncVector.rend(); ++it) {
-        const auto* pf = *it;
-        if (pf->findFuncName(functionName, filename)) {
-            filesname.emplace_back(std::move(filename));
+        if (tryPath(*it)) {
+            return true;
         }
     }
-    return !filesname.empty();
+    return false;
+}
+//=============================================================================
+bool
+PathFunctionIndexerManager::find(const std::string& functionName, wstringVector& filenames)
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    auto collect = [&]() {
+        filenames.clear();
+        filenames.reserve(4);
+
+        std::wstring filename;
+        if (_currentPath != nullptr && _currentPath->findFuncName(functionName, filename, false)) {
+            filenames.emplace_back(std::move(filename));
+        }
+        if (_userPath != nullptr && _userPath->findFuncName(functionName, filename, false)) {
+            filenames.emplace_back(std::move(filename));
+        }
+        for (auto it = _pathFuncVector.rbegin(); it != _pathFuncVector.rend(); ++it) {
+            const auto* pf = *it;
+            if (pf->findFuncName(functionName, filename, false)) {
+                filenames.emplace_back(std::move(filename));
+            }
+        }
+        return !filenames.empty();
+    };
+
+    // Reading the indexes is free. The file stats that find a file written since
+    // the last rehash are paid only on a would-be miss, because which() and
+    // exist() ask this question often.
+    if (collect()) {
+        return true;
+    }
+    if (rehashWatchedPathOwningFile(functionName)) {
+        return collect();
+    }
+    return false;
 }
 //=============================================================================
 bool
 PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
-    // Use early return to avoid deep nesting
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     const auto normalizedPath = FileSystemWrapper::Path::normalize(path);
 
     auto it = std::find_if(_pathFuncVector.begin(), _pathFuncVector.end(),
@@ -266,7 +477,7 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
 
         FunctionsInMemory::getInstance()->clearMapCache();
 
-        auto* rawPtr = pf.release(); // Release ownership before insertion
+        auto* rawPtr = pf.release();
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), rawPtr);
         } else {
@@ -287,6 +498,7 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
 bool
 PathFunctionIndexerManager::removePath(const std::wstring& path)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     auto it = std::find_if(
         _pathFuncVector.begin(), _pathFuncVector.end(), [&path](const PathFunctionIndexer* x) {
             return FileSystemWrapper::Path::equivalent(x->getPath(), path);
@@ -302,7 +514,6 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
         delete pf;
         _pathFuncVector.erase(it);
 
-        // Rebuild watch vector more efficiently
         _pathWatchFuncVector.clear();
         _pathWatchFuncVector.reserve(_pathFuncVector.size());
         for (const auto* pathFunc : _pathFuncVector) {
@@ -319,6 +530,7 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
 wstringVector
 PathFunctionIndexerManager::getPathNameVector(bool watchedOnly)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     wstringVector list;
 
     if (watchedOnly) {
@@ -345,85 +557,11 @@ PathFunctionIndexerManager::getPathNameVector(bool watchedOnly)
     return list;
 }
 //=============================================================================
-std::wstring
-PathFunctionIndexerManager::getUserPath()
-{
-    std::wstring _path = L"";
-    if (_userPath != nullptr) {
-        _path = _userPath->getPath();
-    }
-    return _path;
-}
-//=============================================================================
-bool
-PathFunctionIndexerManager::setCurrentUserPath(const std::wstring& path)
-{
-    const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
-    if (_currentPath != nullptr) {
-        if (FileSystemWrapper::Path::equivalent(normalizedPath, _currentPath->getPath())) {
-            return true;
-        }
-        delete _currentPath;
-    }
-    try {
-        _currentPath = new PathFunctionIndexer(normalizedPath);
-        _currentPath->rehash();
-        if (_filesWatcherStarted) {
-            _currentPath->startFileWatcher();
-        }
-    } catch (const std::bad_alloc&) {
-        _currentPath = nullptr;
-    }
-    refreshFunctionsMap();
-    return false;
-}
-//=============================================================================
-bool
-PathFunctionIndexerManager::setUserPath(const std::wstring& path, bool saveToFile)
-{
-    clearUserPath();
-    if (_userPath == nullptr) {
-        const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
-        _userPath = new PathFunctionIndexer(normalizedPath);
-        _userPath->rehash();
-        if (_filesWatcherStarted) {
-            _currentPath->startFileWatcher();
-        }
-    }
-    if (saveToFile) {
-        saveUserPathToFile();
-    }
-    refreshFunctionsMap();
-    return true;
-}
-//=============================================================================
-void
-PathFunctionIndexerManager::clearUserPath(bool saveToFile)
-{
-    if (_userPath != nullptr) {
-        delete _userPath;
-        _userPath = nullptr;
-    }
-    if (saveToFile) {
-        saveUserPathToFile();
-    }
-    refreshFunctionsMap();
-}
-//=============================================================================
-void
-PathFunctionIndexerManager::resetUserPath()
-{
-    std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-    std::wstring userPathFile = prefDir + L"/userpath.conf";
-    FileSystemWrapper::Path p(userPathFile);
-    FileSystemWrapper::Path::remove(p);
-    userpathCompute();
-    refreshFunctionsMap();
-}
-//=============================================================================
 void
 PathFunctionIndexerManager::rehash()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    clearCurrentPathCache();
     if (_currentPath != nullptr) {
         _currentPath->rehash();
     }
@@ -443,6 +581,7 @@ PathFunctionIndexerManager::rehash()
 void
 PathFunctionIndexerManager::rehash(const std::wstring& path)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     if (_currentPath != nullptr) {
         FileSystemWrapper::Path p1 { _currentPath->getPath() }, p2 { path };
         if (FileSystemWrapper::Path::equivalent(p1, p2)) {
@@ -474,8 +613,9 @@ PathFunctionIndexerManager::rehash(const std::wstring& path)
 std::wstring
 PathFunctionIndexerManager::getPathNameAsString()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     std::wstring result;
-    result.reserve(1024); // Pre-allocate reasonable size
+    result.reserve(1024);
 
 #ifdef _MSC_VER
     constexpr wchar_t separator = L';';
@@ -504,6 +644,7 @@ PathFunctionIndexerManager::getPathNameAsString()
 bool
 PathFunctionIndexerManager::isAvailablePath(const std::wstring& path)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
     if (_currentPath != nullptr && _currentPath->getPath() == path) {
         return true;
     }
@@ -523,8 +664,23 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
     if (ff != nullptr) {
         if (ff->isMex()) {
             ptr = processMexFile(ff->getFilename(), ff->getName(), ff->isOverload());
+        } else if (!ff->isOverload() && classdefIsClassdefFile(ff->getFilename())) {
+            ptr = classdefLoadConstructor(ff->getFilename(), functionName);
         } else {
             ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher(), ff->isOverload());
+            auto* macro = dynamic_cast<MacroFunctionDef*>(ptr);
+            std::string ownerClassName = overloadOwnerClassName(functionName);
+            if (ownerClassName.empty() && ff != nullptr) {
+                // Registered under its plain name inside an @Class directory:
+                // the parent folder gives the owner.
+                ownerClassName = ownerClassNameFromFilename(ff->getFilename());
+            }
+            // Also covers classic (struct-based) classes with no classdef file:
+            // accesses inside a method then resolve against the object's own data
+            // rather than its overloaded subsref.
+            if (macro != nullptr && !ownerClassName.empty()) {
+                macro->classdefOwnerClassName = ownerClassName;
+            }
         }
     }
     return ptr;
@@ -553,7 +709,7 @@ PathFunctionIndexerManager::processMacroFile(
 {
     MacroFunctionDef* fptr = nullptr;
     try {
-        fptr = new MacroFunctionDef(script_filename, withWatcher, isOverload);
+        fptr = new MacroFunctionDef(script_filename, withWatcher, isOverload, true);
     } catch (const std::bad_alloc&) {
         fptr = nullptr;
     }
@@ -563,6 +719,8 @@ PathFunctionIndexerManager::processMacroFile(
 void
 PathFunctionIndexerManager::clearCache()
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    classdefClear();
     FunctionsInMemory::getInstance()->clear();
     refreshFunctionsMap();
 }
@@ -570,108 +728,45 @@ PathFunctionIndexerManager::clearCache()
 void
 PathFunctionIndexerManager::clearCache(const stringVector& exceptedFunctions)
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    classdefClear();
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
     refreshFunctionsMap();
 }
 //=============================================================================
-void
-PathFunctionIndexerManager::userpathCompute()
+// A name wrapped in double underscores is an engine sentinel
+// (__classdef_value__, __classdef_property_default__, ...): the interpreter
+// dispatches it itself and it never names a file. Probing the watched
+// directories for one costs two file stats per directory, and building a
+// classdef object looks one up twice (122 us with the watcher on, 10 us off,
+// at about 20 us per stat).
+static bool
+isEngineSentinelName(const std::string& functionName)
 {
-    clearUserPath();
-    std::wstring userpathEnv = GetVariableEnvironment(L"NELSON_USERPATH", L"");
-    if (!userpathEnv.empty() && FileSystemWrapper::Path::is_directory(userpathEnv)) {
-        setUserPath(userpathEnv);
-        return;
-    }
-    std::wstring prefDir;
-    try {
-        prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-    } catch (const Exception&) {
-        prefDir.clear();
-    }
-    std::wstring userPathFile = prefDir + L"/userpath.conf";
-    if (FileSystemWrapper::Path::is_regular_file(userPathFile)) {
-        std::wstring preferedUserPath = loadUserPathFromFile();
-        if (!preferedUserPath.empty() && FileSystemWrapper::Path::is_directory(preferedUserPath)) {
-            setUserPath(preferedUserPath);
-            return;
-        }
-    }
-#ifdef _MSC_VER
-    std::wstring userprofileEnv = GetVariableEnvironment(L"USERPROFILE", L"");
-    if (!userprofileEnv.empty()) {
-        std::wstring userpathDir = userprofileEnv + std::wstring(L"/Documents/Nelson");
-        if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
-            FileSystemWrapper::Path::create_directories(userpathDir);
-        }
-        if (FileSystemWrapper::Path::is_directory(userpathDir)) {
-            setUserPath(userpathDir);
-        }
-    }
-#else
-    std::wstring homeEnv = GetVariableEnvironment(L"HOME", L"");
-    if (homeEnv != L"") {
-        std::wstring userpathDir = homeEnv + std::wstring(L"/Documents/Nelson");
-        if (!FileSystemWrapper::Path::is_directory(userpathDir)) {
-            FileSystemWrapper::Path::create_directories(userpathDir);
-        }
-        if (FileSystemWrapper::Path::is_directory(userpathDir)) {
-            setUserPath(userpathDir);
-        }
-    }
-#endif
+    return functionName.size() > 4 && functionName.compare(0, 2, "__") == 0
+        && functionName.compare(functionName.size() - 2, 2, "__") == 0;
 }
 //=============================================================================
-std::wstring
-PathFunctionIndexerManager::loadUserPathFromFile()
+// The interpreter asks for a poll of the watched directories on every name
+// resolution, and a poll costs one file stat per directory, so resolution time
+// would grow with the length of the path. A new file is found by the probe on
+// the miss path, and only a removed file needs the poll, promptly but not
+// instantly. One poll per WATCHED_DIRECTORIES_POLL_INTERVAL bounds the cost to
+// a fixed rate.
+static bool
+mustPollWatchedDirectories()
 {
-    std::wstring preferedUserPath = L"";
-    std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-    std::wstring userPathFile = prefDir + L"/userpath.conf";
-    bool bIsFile = FileSystemWrapper::Path::is_regular_file(userPathFile);
-    if (bIsFile) {
-#ifdef _MSC_VER
-        std::ifstream jsonFile(userPathFile);
-#else
-        std::ifstream jsonFile(wstring_to_utf8(userPathFile));
-#endif
-        if (jsonFile.is_open()) {
-            nlohmann::json data;
-            try {
-                data = nlohmann::json::parse(jsonFile);
-                std::string _preferedUserPath = data["userpath"];
-                preferedUserPath = utf8_to_wstring(_preferedUserPath);
-            } catch (const nlohmann::json::exception&) {
-            }
-            jsonFile.close();
-        }
+    constexpr std::chrono::steady_clock::duration WATCHED_DIRECTORIES_POLL_INTERVAL
+        = std::chrono::milliseconds(500);
+    static std::atomic<std::chrono::steady_clock::rep> lastPoll { 0 };
+    const std::chrono::steady_clock::rep now
+        = std::chrono::steady_clock::now().time_since_epoch().count();
+    std::chrono::steady_clock::rep previous = lastPoll.load(std::memory_order_relaxed);
+    if (now - previous < WATCHED_DIRECTORIES_POLL_INTERVAL.count()) {
+        return false;
     }
-    return preferedUserPath;
-}
-//=============================================================================
-bool
-PathFunctionIndexerManager::saveUserPathToFile()
-{
-    std::wstring up = L"";
-    if (_userPath != nullptr) {
-        up = _userPath->getPath();
-    }
-    std::wstring prefDir = NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
-    std::wstring userPathFile = prefDir + L"/userpath.conf";
-
-    nlohmann::json data;
-    data["userpath"] = wstring_to_utf8(up);
-#ifdef _MSC_VER
-    std::ofstream out(userPathFile);
-#else
-    std::ofstream out(wstring_to_utf8(userPathFile));
-#endif
-    if (out.is_open()) {
-        out << data;
-        out.close();
-        return true;
-    }
-    return false;
+    // A poll that loses the exchange has just been done by another thread.
+    return lastPoll.compare_exchange_strong(previous, now, std::memory_order_relaxed);
 }
 //=============================================================================
 } // namespace Nelson

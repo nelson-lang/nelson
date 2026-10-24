@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -26,10 +26,10 @@ Nelson::StringGateway::num2strBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf arg1 = argIn[1];
         if (argIn[1].isNumeric()) {
-            double N = arg1.getContentAsDoubleScalar();
+            double N = arg1.asDoubleScalar();
             res = NumberToString(argIn[0], N, needToOverload);
         } else {
-            std::wstring format = arg1.getContentAsWideString();
+            std::wstring format = arg1.asWideString();
             res = NumberToString(argIn[0], format, needToOverload);
         }
     } else {

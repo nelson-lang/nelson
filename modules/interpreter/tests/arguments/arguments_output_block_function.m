@@ -9,13 +9,13 @@
 %=============================================================================
 function out = arguments_output_block_function(A, B, C)
   arguments (Input)
-    A (1,1) string
-    B (1,:) double
-    C (2,2) cell
+    A(1, 1) string
+    B(1, :) double
+    C(2, 2) cell
   end
 
   arguments (Output)
-    out (1,:) double
+    out(1, :) double
   end
 
   out = B;

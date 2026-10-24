@@ -77,7 +77,6 @@ detectBestEncoding(const std::string& data)
 std::vector<std::string>
 detectEncodings(const std::string& data)
 {
-    // Collect all candidates, most confident comes first
     std::vector<std::string> encodings;
     if (!data.empty()) {
         UErrorCode status = U_ZERO_ERROR;
@@ -101,7 +100,9 @@ bool
 utf8ToCharsetConverter(
     const std::string& utf8str, std::string& outputStr, const std::string& codeOut)
 {
-    icu::UnicodeString uStr = icu::UnicodeString::fromUTF8(utf8str.c_str());
+    // use explicit lengths from end to end: the string can contain embedded NUL characters.
+    icu::UnicodeString uStr
+        = icu::UnicodeString::fromUTF8(icu::StringPiece(utf8str.data(), (int32_t)utf8str.size()));
     if (uStr.isBogus()) {
         outputStr.clear();
         return false;
@@ -114,29 +115,24 @@ utf8ToCharsetConverter(
         outputStr.clear();
         return false;
     }
-    outputStr = std::string(target);
+    outputStr = std::string(target, (size_t)l);
     return true;
 }
 //=============================================================================
 bool
 charsetToUtf8Converter(const std::string& data, const std::string& codeIn, std::string& asUtf8)
 {
-    icu::UnicodeString uStr = icu::UnicodeString(data.c_str(), codeIn.c_str());
+    // use explicit length: the input can contain embedded NUL characters.
+    icu::UnicodeString uStr = icu::UnicodeString(data.data(), (int32_t)data.size(), codeIn.c_str());
     if (uStr.isBogus()) {
         asUtf8.clear();
         return false;
     }
+    asUtf8.clear();
     uStr.toUTF8String(asUtf8);
-    const uint8_t* src = reinterpret_cast<const uint8_t*>(asUtf8.data());
-
-    if (uStr.isBogus()) {
-        asUtf8.clear();
-        return false;
-    }
     return true;
 }
 //=============================================================================
-// convert UTF-8 string to wstring
 std::wstring
 utf8_to_wstring(const std::string& str)
 {
@@ -147,7 +143,6 @@ utf8_to_wstring(const std::string& str)
     return result;
 }
 //=============================================================================
-// convert wstring to UTF-8 string
 std::string
 wstring_to_utf8(const std::wstring& str)
 {

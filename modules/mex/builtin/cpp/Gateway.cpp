@@ -9,6 +9,8 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "mexextBuiltin.hpp"
+#include "FunctionsInMemory.hpp"
+#include "MxMemory.h"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,11 +19,28 @@ const std::wstring gatewayName = L"mex";
 static const nlsGateway gateway[]
     = { { "mexext", (ptrBuiltin)Nelson::MexGateway::mexextBuiltin, 1, 1, CPP_BUILTIN } };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeMexModule(Nelson::Evaluator* eval)
+{
+    (void)eval;
+    // Hand the core (FunctionsInMemory) our persistent-memory cleanup so
+    // 'clear mex' / 'clear all' can free it without memory_manager (an
+    // always-installed module) linking this optional mex module.
+    FunctionsInMemory::getInstance()->registerMexMemoryCleanup(mexFreeAllRegisteredPointer);
+    return true;
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+static bool
+finishMexModule(Nelson::Evaluator* eval)
+{
+    (void)eval;
+    // Drop the callback so the core never calls into this module after it is
+    // unloaded.
+    FunctionsInMemory::getInstance()->registerMexMemoryCleanup(nullptr);
+    return true;
+}
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
+NLS_GATEWAY_FUNC_EXTENDED(gateway, (void*)initializeMexModule)
 //=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishMexModule)
 //=============================================================================

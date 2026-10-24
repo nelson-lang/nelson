@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="266.5" viewBox="-153.25 -143.25 306.5 266.5">
+  <rect x="-153.25" y="-143.25" width="306.5" height="266.5" rx="50.635" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-96" y="-96" width="192" height="192" fill="#FFFFFF" stroke="#E7C98A" stroke-width="3.25"/>
+    <polyline points="0,-60 0,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,120) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">ConstantForce</text></g>
+    <polyline points="-78,80 51,80" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="81,80 51,90 51,70 81,80" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-52,-60 77,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-82,-60 -51,-50 -51,-70 -82,-60" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-75,10 75,10" fill="none" stroke="#E7C98A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,60 0,0" fill="none" stroke="#E7C98A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-75,30 75,30" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-25) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">f_constant</text></g>
+  </g>
+</svg>

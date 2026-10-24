@@ -9,18 +9,20 @@
 %=============================================================================
 R = eye([0, 3]);
 REF = eye(0, 3);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = eye([3, -3]);
 REF = eye(3, 0);
-assert_isequal(R, REF);
-assert_isequal(size(R), [3, 0]);
+asserts.isequal(R, REF);
+asserts.isequal(size(R), [3, 0]);
 %=============================================================================
 R = eye;
 REF = eye(1, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 cmd = 'eye(-3, 4, "lik", 3);';
 expectedError = sprintf(_('Wrong value for #%d argument.'), 3);
-assert_checkerror(cmd, expectedError);
+asserts.checkerror(cmd, expectedError);
+%=============================================================================
+asserts.isequal(size(eye(0)), [0 0]);
 %=============================================================================

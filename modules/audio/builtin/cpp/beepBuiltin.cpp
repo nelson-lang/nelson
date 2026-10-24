@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "beepBuiltin.hpp"
 #include "Beep.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -26,7 +27,7 @@ Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } else {
         ArrayOf param1 = argIn[0];
-        std::wstring str = param1.getContentAsWideString();
+        std::wstring str = param1.asWideString();
         if (str == L"on" || str == L"off") {
             if (str == L"on") {
                 setBeepOn();
@@ -34,16 +35,16 @@ Nelson::AudioGateway::beepBuiltin(int nLhs, const ArrayOfVector& argIn)
                 setBeepOff();
             }
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument.", 1);
         }
     }
     ArrayOfVector retval(nLhs);
     if (nLhs > 0) {
         bool beepState = getBeepState();
         if (beepState) {
-            retval << ArrayOf::characterArrayConstructor(L"on");
+            retval << ArrayOf::characterArray(L"on");
         } else {
-            retval << ArrayOf::characterArrayConstructor(L"off");
+            retval << ArrayOf::characterArray(L"off");
         }
     }
     return retval;

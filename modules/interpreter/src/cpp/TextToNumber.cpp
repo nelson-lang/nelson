@@ -20,11 +20,14 @@ static int64
 textToInt64Converter(const std::string& str)
 {
     int64 result = static_cast<int64>(0);
-    size_t idx;
     size_t startPos = (str[0] == '-') ? 1 : 0;
-    unsigned long long int v = std::stoull(str.substr(startPos), &idx, 10);
 
+    // std::stoull itself throws std::out_of_range for a magnitude wider than
+    // 64 bits, so it must stay inside the try: an integer literal too large for
+    // int64 saturates to its signed extreme instead of escaping as an exception.
     try {
+        size_t idx;
+        unsigned long long int v = std::stoull(str.substr(startPos), &idx, 10);
         if (startPos == 1) {
             if (v > static_cast<unsigned long long int>(std::numeric_limits<int64>::max()) + 1ULL) {
                 result = std::numeric_limits<int64>::min();

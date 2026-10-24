@@ -22,5 +22,6 @@ NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
 WhatListOfMacro(Evaluator* eval);
 NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
 WhatListOfMacro();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

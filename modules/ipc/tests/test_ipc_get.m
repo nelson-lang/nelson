@@ -7,11 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 REF = eye(3, 5);
 R = ipc(getpid, 'get', 'REF');
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

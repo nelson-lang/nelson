@@ -12,24 +12,24 @@
 #include <complex>
 #include <string>
 #include <vector>
+#include <memory>
 #include <cstddef>
 #include <cstdint>
 //=============================================================================
 namespace Nelson {
-
+class HandleState;
+// Array values keep HandleRef objects, never raw native pointers.
+using HandleRef = std::shared_ptr<HandleState>;
 #define PTR_TO_NELSON_HANDLE(x) (uint64_t)(uintptr_t)(x)
 #define NELSON_HANDLE_TO_PTR(x) (uintptr_t)(uint64_t)(x)
-
 #if (defined(_LP64) || defined(_WIN64))
 #define NLS_INDEX_TYPE_64
 #endif
-
 #ifdef NLS_INDEX_TYPE_64 // 64 bits
 using sizeType = size_t;
 using indexType = size_t;
 using signedIndexType = ptrdiff_t;
 using ompIndexType = long long;
-
 #define SIZE_TYPE_MAX 281474976710655UL
 #define INDEX_TYPE_MAX 281474976710655UL
 #define SIGNED_INDEX_TYPE_MAX 281474976710655UL
@@ -39,7 +39,6 @@ using sizeType = int;
 using signedIndexType = int;
 using indexType = int;
 using ompIndexType = int;
-
 #define SIZE_TYPE_MAX 2147483647UL
 #define INDEX_TYPE_MAX 2147483647UL
 #define SIGNED_INDEX_TYPE_MAX 2147483647UL
@@ -73,13 +72,8 @@ struct function_handle
 #define doublecomplex std::complex<double>
 #define singlecomplex std::complex<single>
 //=============================================================================
-#ifndef false
-#define false 0
-#endif
-#ifndef true
-#define true 1
-#endif
-//=============================================================================
+// Keep this order stable: several promotion and storage paths compare ranges
+// of values instead of testing every class.
 enum NelsonType
 {
     NLS_DOUBLE = 0,
@@ -102,6 +96,7 @@ enum NelsonType
     NLS_STRING_ARRAY,
     NLS_FUNCTION_HANDLE,
     NLS_CLASS_ARRAY,
+    NLS_CLASSDEF_ARRAY,
     NLS_HANDLE,
     NLS_GO_HANDLE,
     NLS_UNKNOWN,
@@ -137,6 +132,8 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_CHAR_STR "char"
 #define NLS_FUNCTION_HANDLE_STR "function_handle"
 #define NLS_GO_HANDLE_STR "graphics_object"
+#define NLS_GRAPHICS_OBJECT_CLASS_STR "nelson.graphics.Graphics"
+#define NLS_GRAPHICS_PLACEHOLDER_CLASS_STR "nelson.graphics.GraphicsPlaceholder"
 #define NLS_HANDLE_STR "handle"
 #define NLS_GENERIC_STR "generic"
 #define NLS_INTEGER_STR "integer"
@@ -145,6 +142,7 @@ using wstringVector = std::vector<std::wstring>;
 //=============================================================================
 #define NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR "audioplayer"
 #define NLS_HANDLE_AUDIORECORDER_CATEGORY_STR "audiorecorder"
+#define NLS_HANDLE_TIMER_CATEGORY_STR "timer"
 #define NLS_HANDLE_COM_CATEGORY_STR "COM"
 #define NLS_HANDLE_DLSYM_CATEGORY_STR "dlsym"
 #define NLS_HANDLE_DLLIB_CATEGORY_STR "dllib"
@@ -161,6 +159,8 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_JULIA_ENVIRONMENT_CATEGORY_STR "JuliaEnvironment"
 #define NLS_HANDLE_JULIA_CATEGORY_STR "jl"
 #define NLS_HANDLE_ONCLEANUP_CATEGORY_STR "onCleanup"
+#define NLS_HANDLE_TERMINAL_CATEGORY_STR "terminal"
+#define NLS_HANDLE_CONTAINERS_MAP_CATEGORY_STR "containers.Map"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

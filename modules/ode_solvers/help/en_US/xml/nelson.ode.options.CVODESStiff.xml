@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ode.options.CVODESStiff</keyword>
+  <short_description>Options object for the optional CVODES BDF solver.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.CVODESStiff()</syntax_item>
+    <syntax_item>options = nelson.ode.options.CVODESStiff(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.CVODESStiff</b> creates an options object for the <b>'cvodesstiff'</b> solver value used by the <b>ode</b> object workflow.</p>
+    <table style="width:100%">
+  <tr><th>Option group</th><th>Names</th><th>Purpose</th></tr>
+  <tr><td>Steps and tolerances</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>MaxOrder</b></td><td>Control adaptive BDF integration.</td></tr>
+  <tr><td>Output</td><td><b>Refine</b>, <b>OutputFcn</b>, <b>OutputSelection</b></td><td>Select returned points and optional output callbacks.</td></tr>
+  <tr><td>Linear algebra</td><td><b>LinearSolver</b>, <b>Preconditioner</b>, <b>Jacobian</b>, <b>JPattern</b></td><td>Supply stiff-system structure and preconditioning hints.</td></tr>
+  <tr><td>Availability</td><td><b>'cvodesstiff'</b></td><td>Uses the optional BDF backend when it is compiled and enabled.</td></tr>
+</table>
+    <p>This solver value is available only when Nelson is built with the optional SUNDIALS backend. It uses CVODES with the BDF method for stiff standard ODE problems and standard problems with a nonsingular mass matrix.</p>
+    <p>Supported options include <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>Refine</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, <b>Vectorization</b>, <b>MaxOrder</b>, <b>LinearSolver</b>, and <b>Preconditioner</b>. <b>OutputFcn</b> is called on the output points returned by the backend. <b>LinearSolver</b> accepts <b>'auto'</b>, <b>'dense'</b>, <b>'spgmr'</b>, <b>'spfgmr'</b>, <b>'spbcgs'</b>, <b>'sptfqmr'</b>, <b>'pcg'</b>, or <b>'klu'</b> when the corresponding SUNDIALS library is available. <b>Preconditioner</b> accepts <b>'auto'</b>, <b>'none'</b>, <b>'jacobi'</b>, <b>'banded'</b>, or <b>'ilu0'</b>. With a sparse <b>JPattern</b>, <b>'ilu0'</b> builds a compact sparse incomplete LU preconditioner without a dense workspace.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a stiff CVODES problem.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.CVODESStiff('MaxOrder', 5);
+problem = ode('ODEFcn', @(t,y) -20 * y, 'InitialValue', 1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESNonstiff">nelson.ode.options.CVODESNonstiff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.IDAS">nelson.ode.options.IDAS</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('iscell'), 1);
-assert_isequal(nargout('iscell'), 1);
+asserts.isequal(nargin('iscell'), 1);
+asserts.isequal(nargout('iscell'), 1);
 %=============================================================================
 A = 3;
 res = iscell(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = {'NelSon', 3, true};
 res = iscell(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = cell(3, 3, 3);
 res = iscell(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

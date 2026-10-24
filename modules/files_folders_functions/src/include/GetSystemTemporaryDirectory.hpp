@@ -18,5 +18,6 @@ NLSFILES_FOLDERS_FUNCTIONS_IMPEXP ArrayOf
 TempDir();
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
 GetSystemTemporaryDirectory();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

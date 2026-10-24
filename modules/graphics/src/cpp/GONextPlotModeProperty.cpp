@@ -17,5 +17,5 @@ static const wchar_t* NEXT_PLOT_DICT[4] = { GO_PROPERTY_VALUE_ADD_STR,
 //=============================================================================
 GONextPlotModeProperty::GONextPlotModeProperty() : GORestrictedStringProperty(NEXT_PLOT_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

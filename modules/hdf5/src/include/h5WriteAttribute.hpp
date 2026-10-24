@@ -20,5 +20,5 @@ h5WriteAttribute(const std::wstring& filename, const std::wstring& location,
     const std::wstring& attributeName, ArrayOf& attributeValue,
     const std::wstring& textEncoding = L"system");
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

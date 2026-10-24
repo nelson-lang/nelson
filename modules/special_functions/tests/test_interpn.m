@@ -9,38 +9,63 @@
 %=============================================================================
 V = [1 2; 3 4];
 R = interpn(V, 1.5, 1.5);
-assert_isapprox(R, 2.5, 1e-12);
+asserts.isapprox(R, 2.5, 1e-12);
 %=============================================================================
 R = interpn(V, 1.2, 1.8, 'nearest');
-assert_isequal(R, 2);
+asserts.isequal(R, 2);
 %=============================================================================
 R = interpn(V, 0, 1.5, 'linear', -1);
-assert_isequal(R, -1);
+asserts.isequal(R, -1);
 %=============================================================================
 Rq = interpn(V);
-assert_isequal(size(Rq), [3 3]);
-assert_isapprox(Rq(2, 2), 2.5, 1e-12);
+asserts.isequal(size(Rq), [3 3]);
+asserts.isapprox(Rq(2, 2), 2.5, 1e-12);
 %=============================================================================
 [X, Y] = ndgrid([10 20], [1 3]);
 R = interpn(X, Y, V, 15, 2);
-assert_isapprox(R, 2.5, 1e-12);
+asserts.isapprox(R, 2.5, 1e-12);
 %=============================================================================
 R = interpn(V, 0);
-assert_isequal(R, V);
+asserts.isequal(R, V);
 %=============================================================================
 R = interpn(V + 2i, 1.5, 1.5);
-assert_isapprox(R, 2.5 + 2i, 1e-12);
+asserts.isapprox(R, 2.5 + 2i, 1e-12);
 %=============================================================================
 V4 = reshape(1:16, [2 2 2 2]);
 R = interpn(V4, 1.5, 1.5, 1.5, 1.5);
-assert_isapprox(R, 8.5, 1e-12);
+asserts.isapprox(R, 8.5, 1e-12);
 %=============================================================================
 Vpages = cat(3, [1 2; 3 4], [10 20; 30 40]);
 R = interpn([1 2], [1 2], Vpages, 1.5, 1.5);
-assert_isequal(size(R), [1 1 2]);
-assert_isapprox(R(1, 1, 1), 2.5, 1e-12);
-assert_isapprox(R(1, 1, 2), 25, 1e-12);
+asserts.isequal(size(R), [1 1 2]);
+asserts.isapprox(R(1, 1, 1), 2.5, 1e-12);
+asserts.isapprox(R(1, 1, 2), 25, 1e-12);
 %=============================================================================
 R = interpn(1:4, [10 20 40 80], 2.5, 'pchip');
-assert_isapprox(R, 30, 1e-12);
+asserts.isapprox(R, 30, 1e-12);
+%=============================================================================
+% N-D 'makima' is a genuine tensor-product modified-Akima interpolant, distinct
+% from 'cubic'/'spline'.
+[X, Y] = ndgrid(1:4, 1:3);
+V = X .^ 2 + 2 * Y;
+R = interpn(1:4, 1:3, V, [1.5 2.5 3.9], [1.2 2.2 2.9], 'makima');
+asserts.isapprox(R, [4.629166666666667, 10.639583333333334, 21.02395], 1e-11);
+%=============================================================================
+% N-D 'makima' extrapolates using the boundary segment by default.
+R = interpn(1:4, 1:3, V, [0.5 4.5], [0.5 3.5], 'makima');
+asserts.isapprox(R, [1.9375, 26.93125], 1e-11);
+%=============================================================================
+% N-D 'makima' on a non-uniform 3-D grid.
+gx = [0 1 2.5 4 5];
+gy = [0 2 3 7];
+gz = [1 2 4];
+[Xg, Yg, Zg] = ndgrid(gx, gy, gz);
+W = sin(Xg) + Yg .^ 2 - Zg;
+R = interpn(gx, gy, gz, W, [1.3 3.9], [1.5 6.0], [1.5 3.2], 'makima');
+asserts.isapprox(R, [2.0421658811033937, 33.41106728022046], 1e-11);
+%=============================================================================
+% N-D 'makima' with grid-form (non matching size) queries.
+R = interpn(1:4, 1:3, V, [1.5; 2.7], [1.2 2.9], 'makima');
+asserts.isequal(size(R), [2 2]);
+asserts.isapprox(R, [4.629166666666667, 8.029166666666667; 9.70575, 13.10575], 1e-11);
 %=============================================================================

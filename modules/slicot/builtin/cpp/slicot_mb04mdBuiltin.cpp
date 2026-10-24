@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
@@ -9,7 +9,9 @@
 //=============================================================================
 #include <algorithm>
 #include "slicot_mb04mdBuiltin.hpp"
+#include "SlicotFortranAbi.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -19,8 +21,9 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-    extern int
-    mb04md_(int* N, double* MAXRED, double* A, int* LDA, double* SCALE, int* INFO);
+    extern SLICOT_SUBROUTINE
+    mb04md_(int* N, double* MAXRED, double* A, int* LDA, double* SCALE,
+        int* INFO SLICOT_STRLEN_DECL(0));
 #ifdef __cplusplus
 }
 #endif
@@ -36,44 +39,47 @@ Nelson::SlicotGateway::slicot_mb04mdBuiltin(int nLhs, const ArrayOfVector& argIn
     // INPUT VARIABLES
     // IN/OUT VARIABLES
     ArrayOf MAXRED = argIn[0];
-    Dimensions dimsMAXRED = MAXRED.getDimensions();
+    Dimensions dimsMAXRED = MAXRED.dimensions();
     MAXRED.promoteType(NLS_DOUBLE);
     ArrayOf MAXRED_output = MAXRED;
     MAXRED_output.ensureSingleOwner();
-    double* MAXRED_output_ptr = (double*)MAXRED_output.getDataPointer();
+    double* MAXRED_output_ptr = (double*)MAXRED_output.dataPointer();
     ArrayOf A = argIn[1];
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
-    double* A_output_ptr = (double*)A_output.getDataPointer();
+    double* A_output_ptr = (double*)A_output.dataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
-    int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
-    int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getColumns());
+    ArrayOf N = ArrayOf::int32RowVector(1);
+    int* N_ptr = (int*)N.dataPointer();
+    N_ptr[0] = (int)A.columns();
+    ArrayOf LDA = ArrayOf::int32RowVector(1);
+    int* LDA_ptr = (int*)LDA.dataPointer();
+    LDA_ptr[0] = std::max(1, (int)A.columns());
     // OUTPUT VARIABLES
-    ArrayOf SCALE_output
-        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
-    double* SCALE_output_ptr = (double*)SCALE_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
-    int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
+    ArrayOf SCALE_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
+    double* SCALE_output_ptr = (double*)SCALE_output.dataPointer();
+    ArrayOf INFO_output = ArrayOf::int32RowVector(1);
+    int* INFO_output_ptr = (int*)INFO_output.dataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsMAXRED.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        Error(L"Nelson:slicot:scalarExpected", L"Input argument #%d: scalar expected.", 1);
     }
-    Dimensions dimsA_expected((int)A.getRows(), (int)A.getColumns());
+    Dimensions dimsA_expected((int)A.rows(), (int)A.columns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       2)
+                + " " + dimsA_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
     // CALL EXTERN FUNCTION
     try {
-        mb04md_(N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr, INFO_output_ptr);
+        mb04md_(N_ptr, MAXRED_output_ptr, A_output_ptr, LDA_ptr, SCALE_output_ptr,
+            INFO_output_ptr SLICOT_STRLEN_ARGS(0));
     } catch (const std::runtime_error&) {
-        Error("mb04md function fails.");
+        Error("Nelson:slicot:computationFailed", "%s function fails.", "mb04md");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

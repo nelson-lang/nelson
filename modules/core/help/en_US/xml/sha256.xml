@@ -9,6 +9,7 @@
     <syntax_item>hexa_hash = sha256(filename)</syntax_item>
     <syntax_item>hexa_hash = sha256(str, &apos;-file&apos;)</syntax_item>
     <syntax_item>hexa_hash = sha256(str, &apos;-string&apos;)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha256(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,6 +40,8 @@
   <description>
     <p>
       <b>sha256</b> get sha256 checksum.</p>
+    <p>
+      <b>crypto.sha256</b> is an alias of <b>sha256</b>, in the <b>crypto</b> namespace shared with <b>crypto.ed25519.verify</b> and <b>crypto.ed25519.sign</b>.</p>
   </description>
   <used_function />
   <bibliography />

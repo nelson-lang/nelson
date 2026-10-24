@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP bool
 FileClose(FilesManager* fm, int no);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

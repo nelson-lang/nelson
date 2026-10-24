@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.mixin.Scalar</keyword>
+  <short_description>Restreindre une classe à des instances scalaires.</short_description>
+  <syntax>
+    <syntax_item>classdef MaClasse &lt; nelson.mixin.Scalar</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>objet d'une classe derivee de nelson.mixin.Scalar.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>obj</param_name><param_description>instance d'objet scalaire.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Dérivez de <b>nelson.mixin.Scalar</b> pour déclarer qu'une classe ne peut avoir que des
+    instances scalaires. Concaténer des instances de la classe en un tableau non scalaire, avec
+    <b>[a b]</b> ou <b>[a; b]</b>, lève une erreur d'identifiant
+    <b>Nelson:class:concatenationScalar</b>.</p>
+    <p>Utilisez ce mixin pour des objets représentant une entité unique et pour lesquels un tableau
+    d'objets n'a pas de sens.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Une classe scalaire uniquement.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Config < nelson.mixin.Scalar
+  properties
+    Name = ''
+  end
+end
+% a = [Config(), Config()]   % erreur : les objets ne peuvent être que scalaires]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -13,9 +13,12 @@
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
+// withUnderscore allows an underscore as the first character.
 NLSTYPES_IMPEXP bool
 IsValidVariableName(const std::string& varname, bool withUnderscore = false);
+// withUnderscore allows an underscore as the first character.
 NLSTYPES_IMPEXP bool
 IsValidVariableName(const std::wstring& varname, bool withUnderscore = false);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

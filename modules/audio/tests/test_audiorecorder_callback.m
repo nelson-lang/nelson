@@ -11,6 +11,9 @@
 % <--AUDIO INPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend does not provide microphone recorder objects yet.');
+%=============================================================================
 recObj = audiorecorder();
 recObj.StartFcn = @(src, event) disp('Recording started');
 recObj.StopFcn = @(src, event) disp('Recording stopped');

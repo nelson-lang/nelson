@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
+//=============================================================================
 #include "nlsText_editor_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -16,6 +17,8 @@ NLSTEXT_EDITOR_IMPEXP bool
 isTextEditorVisible();
 NLSTEXT_EDITOR_IMPEXP void
 showTextEditor();
+NLSTEXT_EDITOR_IMPEXP bool
+closeTextEditor();
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

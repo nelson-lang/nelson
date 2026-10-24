@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.mixin.indexing.RedefinesDot</keyword>
+  <short_description>Customize dot indexing of a class.</short_description>
+  <syntax>
+    <syntax_item>classdef MyClass &lt; nelson.mixin.indexing.RedefinesDot</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>an object of a class deriving from nelson.mixin.indexing.RedefinesDot.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>obj</param_name><param_description>an object supporting customized dot indexing.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Derive from <b>nelson.mixin.indexing.RedefinesDot</b> to give a class its own dot
+    indexing behavior for names that are not declared properties or methods. A subclass
+    implements the protected methods <b>dotReference(obj, indexOp)</b> (value of
+    <b>obj.name</b>), <b>dotAssign(obj, indexOp, value)</b> (<b>obj.name = value</b>) and
+    <b>dotListLength(obj, indexOp, indexContext)</b>.</p>
+    <p><b>indexOp</b> is a <b>nelson.indexing.IndexingOperation</b> whose <b>Name</b>
+    property holds the accessed name. Declared properties and methods keep their normal
+    behavior; only unknown names call <b>dotReference</b>/<b>dotAssign</b>.</p>
+  </description>
+  <used_function /><bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>A dynamic name/value bag.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Bag < nelson.mixin.indexing.RedefinesDot
+  properties (Access = private)
+    Store
+  end
+  methods
+    function obj = Bag()
+      obj.Store = struct();
+    end
+  end
+  methods (Access = protected)
+    function varargout = dotReference(obj, indexOp)
+      varargout{1} = obj.Store.(indexOp.Name);
+    end
+    function obj = dotAssign(obj, indexOp, val)
+      obj.Store.(indexOp.Name) = val;
+    end
+    function n = dotListLength(obj, indexOp, ctx)
+      n = 1;
+    end
+  end
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${types}nelson.mixin.indexing.RedefinesParen">nelson.mixin.indexing.RedefinesParen</link></see_also_item>
+    <see_also_item><link linkend="${types}nelson.indexing.IndexingOperation">nelson.indexing.IndexingOperation</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

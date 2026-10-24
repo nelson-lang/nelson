@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "omp_for_loop.hpp"
 #include "ArrayOf.hpp"
 #include "ParallelSort.hpp"
+#include <cmath>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,13 +31,22 @@ bool
 operator<(const UniqueRealRowsEntry<T>& a, const UniqueRealRowsEntry<T>& b)
 {
     for (ompIndexType i = 0; i < a.len; i++) {
-        if (a.data[i * a.stride] < b.data[i * b.stride]) {
+        const T x = a.data[i * a.stride];
+        const T y = b.data[i * b.stride];
+        if (x < y) {
             return true;
-        } else if (a.data[i * a.stride] > b.data[i * b.stride]) {
+        } else if (y < x) {
             return false;
         }
+        // equal values, or a NaN involved: NaN values are sorted last
+        bool xIsNaN = std::isnan(x);
+        bool yIsNaN = std::isnan(y);
+        if (xIsNaN != yIsNaN) {
+            return yIsNaN;
+        }
     }
-    return false;
+    // equal rows (NaN at the same places): the input order decides
+    return a.n < b.n;
 }
 //=============================================================================
 template <class T>
@@ -64,13 +74,13 @@ ArrayOfVector
 UniqueRealRowsOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueRealRowsEntry<T>> sp(len);
 
@@ -120,13 +130,13 @@ ArrayOfVector
 UniqueRealRowsTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueRealRowsEntry<T>> sp(len);
 
@@ -176,13 +186,13 @@ ArrayOfVector
 UniqueRealRowsThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueRealRowsEntry<T>> sp(len);
 
@@ -244,5 +254,5 @@ UniqueRealRows(const ArrayOf& input, int nLhs)
     return UniqueRealRowsThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

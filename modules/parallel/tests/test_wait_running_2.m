@@ -10,11 +10,16 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 fptr = str2func('pause');
-f = parfeval(backgroundPool, fptr, 0, 55);
+pool = backgroundPool();
+fevalqueue = pool.FevalQueue;
+cleanupQueue = onCleanup(@() cancelAll(fevalqueue)); %#ok<NLS0004>
+f = parfeval(pool, fptr, 0, 2);
 tic()
 R = wait(f, 'running', 1);
 T = toc();
-assert_isequal(f.State, 'running');
-assert_istrue(R);
+asserts.isequal(f.State, 'running');
+asserts.istrue(R);
+R = wait(f, 'finished', 3);
+asserts.istrue(R);
+cancelAll(fevalqueue);
 %=============================================================================
-

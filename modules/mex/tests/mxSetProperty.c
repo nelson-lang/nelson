@@ -12,6 +12,7 @@
 //=============================================================================
 #if MX_IS_NELSON
 #define GRAPHICS_OBJECT_TYPE "graphics_object"
+#define UI_FIGURE_OBJECT_TYPE "nelson.ui.Figure"
 #else
 #define GRAPHICS_OBJECT_TYPE "graphic"
 #endif
@@ -37,7 +38,12 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     }
 
     objectClassName = mxGetClassName(prhs[0]);
-    if (strncmp(objectClassName, GRAPHICS_OBJECT_TYPE, 15)) {
+#if MX_IS_NELSON
+    if (strcmp(objectClassName, GRAPHICS_OBJECT_TYPE) != 0
+        && strcmp(objectClassName, UI_FIGURE_OBJECT_TYPE) != 0) {
+#else
+    if (strcmp(objectClassName, GRAPHICS_OBJECT_TYPE) != 0) {
+#endif
         mexErrMsgTxt("Graphics object expected.");
     }
 
@@ -56,3 +62,4 @@ mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[])
     plhs[0] = mxDuplicateArray(prhs[0]);
     mxSetProperty(plhs[0], 0, colorProperty, value);
 }
+//=============================================================================

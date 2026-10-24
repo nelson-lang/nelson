@@ -1,0 +1,42 @@
+{
+  "id": "example.cumprod",
+  "title": "Example C++ Blocks",
+  "comment": "Example library implemented in C++ to demonstrate how to create native blocks",
+  "license": "BSD-3-Clause",
+  "version": "1.0.0",
+  "format": "nflow-1",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-03-21",
+    "tool": "Nelson nflow"
+  },
+  "native": "nflow_cumprod",
+  "blocks": [
+    {
+      "type": "cumprod",
+      "label": "Cumulative Product",
+      "phases": [
+        "INIT",
+        "ALGEBRAIC",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 60,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 30,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {}
+    }
+  ]
+}

@@ -12,16 +12,14 @@
 matver = {'-v7', '-v7.3'};
 %=============================================================================
 h = warndlg();
-REF = struct();
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_handle', v{1}, '.mat'];
-  savemat(test_file_mat, 'h', v{1});
-  clear h;
-  loadmat(test_file_mat);
-  assert_isequal(h, REF);
+  test_file_mat = [tempname(), '.mat'];
+  test_file_mat_literal = ['''', strrep(test_file_mat, '''', ''''''), ''''];
+  version_literal = ['''', v{1}, ''''];
+  asserts.checkerror(['savemat(', test_file_mat_literal, ', ''h'', ', version_literal, ');'], ...
+    sprintf(_('Cannot save variable: %s'), 'h'));
 end
 %=============================================================================
-l = lastwarn();
-assert_isequal(l, _('handle not saved.'));
+close(h);
 %=============================================================================

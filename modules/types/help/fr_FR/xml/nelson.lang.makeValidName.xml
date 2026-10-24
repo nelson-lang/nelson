@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.lang.makeValidName</keyword>
+  <short_description>Convertit du texte en noms de variables Nelson valides.</short_description>
+  <syntax>
+    <syntax_item>N = nelson.lang.makeValidName(S)</syntax_item>
+    <syntax_item>N = nelson.lang.makeValidName(S, 'ReplacementStyle', style)</syntax_item>
+    <syntax_item>N = nelson.lang.makeValidName(S, 'Prefix', prefix)</syntax_item>
+    <syntax_item>[N, modified] = nelson.lang.makeValidName(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>tableau de chaînes, vecteur de caractères ou cellule de vecteurs de caractères.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>style</param_name>
+      <param_description>style de remplacement : 'underscore', 'delete' ou 'hex'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>prefix</param_name>
+      <param_description>nom de variable valide utilisé quand un nom généré ne commence pas par une lettre.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>noms valides, renvoyés avec le même type de conteneur texte que S.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>modified</param_name>
+      <param_description>tableau logique indiquant les éléments modifiés.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.makeValidName</b> supprime les espaces, remplace les caractères non pris en charge, ajoute un préfixe si nécessaire et tronque les noms à <b>namelengthmax</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[names = nelson.lang.makeValidName({'a b', 'a-b', '1a'})
+[names, modified] = nelson.lang.makeValidName("a#b", 'ReplacementStyle', 'hex')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}isvarname">isvarname</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}nelson.lang.makeUniqueStrings">nelson.lang.makeUniqueStrings</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}namelengthmax">namelengthmax</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include <QtCore/QObject>
 #include "invokeQObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QVariantArrayOf.hpp"
@@ -31,16 +32,16 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
     ArrayOf res;
     haveReturnValue = false;
     if (params.size() > NB_PARAMS_MAX) {
-        Error(_W("Only 10 input parameters expected."));
+        Error(L"Nelson:tooManyInputParameters", L"Only %d input parameters expected.", 10);
     }
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
-    void* ptr = qmlhandleobj->getPointer();
+    void* ptr = qmlhandleobj->pointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* metaObject = qobj->metaObject();
@@ -87,13 +88,13 @@ invokeQObject(const ArrayOf& A, const std::wstring& wmethodname, const ArrayOfVe
             }
         }
         if (!ok) {
-            Error(_W("Invalid parameters"));
+            Error(L"Nelson:QObject:invalidParameters", L"Invalid parameters");
         }
     } else {
-        Error(_W("method not found."));
+        Error(L"Nelson:QObject:methodNotFound", L"method not found.");
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

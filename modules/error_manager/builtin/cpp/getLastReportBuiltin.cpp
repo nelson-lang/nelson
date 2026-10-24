@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,11 +19,11 @@ Nelson::ErrorManagerGateway::getLastReportBuiltin(
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    Exception e = eval->getLastErrorException();
-    if (e.getMessage().empty()) {
-        retval << ArrayOf::characterArrayConstructor("");
+    NelsonException e = eval->getLastErrorException();
+    if (e.message().empty()) {
+        retval << ArrayOf::characterArray("");
     } else {
-        retval << ArrayOf::characterArrayConstructor(e.getFormattedErrorMessage());
+        retval << ArrayOf::characterArray(e.formattedErrorMessage());
     }
     return retval;
 }

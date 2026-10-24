@@ -7,22 +7,40 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QPointer>
 #include "TextEditor.hpp"
 #include "QStringConverter.hpp"
 #include "QtTextEditor.h"
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "HistoryBrowser.hpp"
+#include "DesktopDocking.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static QtTextEditor* edit = nullptr;
+// QPointer: while docked, the editor is a child of the desktop and could be
+// destroyed with it at teardown; the guard avoids a double delete.
+static QPointer<QtTextEditor> edit;
 //=============================================================================
-bool
-textEditor(Evaluator* eval)
+static QtTextEditor*
+ensureTextEditor(Evaluator* eval)
 {
-    bool res = false;
-    if (edit == nullptr) {
+    if (edit.isNull()) {
         edit = new QtTextEditor(eval);
+        // re-dock the editor if it was docked when the session ended
+        edit->restoreDockState();
+    }
+    return edit.data();
+}
+//=============================================================================
+static void
+showTextEditorWindow()
+{
+    if (edit.isNull()) {
+        return;
+    }
+    if (edit->isDockedInDesktop()) {
+        DesktopShowDockedWindow(edit.data());
+        return;
     }
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(edit->winId());
@@ -30,22 +48,21 @@ textEditor(Evaluator* eval)
     edit->showNormal();
     edit->activateWindow();
     edit->raise();
-    return res;
+}
+//=============================================================================
+bool
+textEditor(Evaluator* eval)
+{
+    ensureTextEditor(eval);
+    showTextEditorWindow();
+    return false;
 }
 //=============================================================================
 bool
 textEditor(Evaluator* eval, bool importSharedText)
 {
-    if (edit == nullptr) {
-        edit = new QtTextEditor(eval);
-    }
-#ifdef _MSC_VER
-    forceWindowsTitleBarToDark(edit->winId());
-#endif
-
-    edit->showNormal();
-    edit->activateWindow();
-    edit->raise();
+    ensureTextEditor(eval);
+    showTextEditorWindow();
     if (importSharedText) {
         edit->createTabUntitledWithText(
             wstringToQString(HistoryBrowser::getTextForTextEditor(true)));
@@ -56,18 +73,22 @@ textEditor(Evaluator* eval, bool importSharedText)
 bool
 textEditor(Evaluator* eval, const std::wstring& filename)
 {
-    bool res = false;
-    if (edit == nullptr) {
-        edit = new QtTextEditor(eval);
-    }
-#ifdef _MSC_VER
-    forceWindowsTitleBarToDark(edit->winId());
-#endif
+    ensureTextEditor(eval);
     edit->loadOrCreateFile(wstringToQString(filename));
-    edit->showNormal();
-    edit->activateWindow();
-    edit->raise();
-    return res;
+    showTextEditorWindow();
+    return false;
+}
+//=============================================================================
+bool
+textEditor(Evaluator* eval, const std::wstring& filename, int lineNumber)
+{
+    ensureTextEditor(eval);
+    edit->loadOrCreateFile(wstringToQString(filename));
+    if (lineNumber > 0) {
+        edit->gotoLineNumber(lineNumber);
+    }
+    showTextEditorWindow();
+    return false;
 }
 //=============================================================================
 bool
@@ -83,8 +104,10 @@ textEditor(Evaluator* eval, const wstringVector& filenames)
 bool
 closeTextEditor()
 {
-    if (edit != nullptr) {
-        delete edit;
+    if (!edit.isNull()) {
+        // leave the desktop dock (destroyed with it) before deleting
+        DesktopUndockWindow(edit.data(), false);
+        delete edit.data();
         edit = nullptr;
         return true;
     }
@@ -94,7 +117,7 @@ closeTextEditor()
 bool
 isTextEditorVisible()
 {
-    if (edit != nullptr) {
+    if (!edit.isNull()) {
         return edit->isVisible();
     }
     return false;
@@ -103,12 +126,16 @@ isTextEditorVisible()
 void
 showTextEditor()
 {
-    if (edit != nullptr) {
+    if (!edit.isNull()) {
+        if (edit->isDockedInDesktop()) {
+            DesktopShowDockedWindow(edit.data());
+            return;
+        }
         edit->show();
         edit->activateWindow();
         edit->setWindowState(Qt::WindowActive);
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

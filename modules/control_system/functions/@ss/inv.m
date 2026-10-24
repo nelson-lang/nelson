@@ -13,7 +13,7 @@ function res = inv(sys)
   C = sys.C;
   D = sys.D;
   E = sys.E;
-  
+
   res = sys;
   m = size(B, 2);
   n = size(A, 1);

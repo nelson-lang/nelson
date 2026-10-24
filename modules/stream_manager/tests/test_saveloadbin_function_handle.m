@@ -9,12 +9,15 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % function_handle
 % variables environment for function_handle not saved here
 A = @(x) x + 1;
-savebin([tempdir(), 'test_saveload_fh.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_fh.bin']);
-assert_isequal(func2str(A), '@(x) x+1');
+loadbin(test_saveload_file);
+asserts.isequal(func2str(A), '@(x)x+1');
+rmfile(test_saveload_file);
 %=============================================================================

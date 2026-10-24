@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>integral3</keyword>
+  <short_description>Évalue numériquement une intégrale triple.</short_description>
+  <syntax>
+    <syntax_item>q = integral3(fun, xmin, xmax, ymin, ymax, zmin, zmax)</syntax_item>
+    <syntax_item>q = integral3(fun, xmin, xmax, ymin, ymax, zmin, zmax, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>Fonction à intégrer : handle de fonction de x, y et z.</param_description></param_input_item>
+    <param_input_item><param_name>xmin, xmax</param_name><param_description>Bornes d&apos;intégration en x.</param_description></param_input_item>
+    <param_input_item><param_name>ymin, ymax</param_name><param_description>Bornes en y : scalaires ou handles de fonction de x.</param_description></param_input_item>
+    <param_input_item><param_name>zmin, zmax</param_name><param_description>Bornes en z : scalaires ou handles de fonction de x et y.</param_description></param_input_item>
+    <param_input_item><param_name>name, value</param_name><param_description>Options : &apos;RelativeTolerance&apos; (défaut 1e-6), &apos;AbsoluteTolerance&apos; (défaut 1e-10), &apos;Method&apos;, &apos;Vectorized&apos; et &apos;Waypoints&apos;. Les anciens noms &apos;RelTol&apos; et &apos;AbsTol&apos; restent acceptés.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>q</param_name><param_description>Intégrale triple calculée.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>integral3</b> évalue une intégrale triple sur un domaine rectangulaire ou borné par des fonctions.</p>
+    <p>Les appels finis vectorisés utilisent une règle de Gauss-Kronrod en tuiles. Les bornes infinies et <b>Method</b> égal à <b>'iterated'</b> utilisent une quadrature adaptative imbriquée.</p>
+    <p><b>Waypoints</b> indique des points d&apos;intérêt du domaine d&apos;intégration, comme des extrema locaux ou des discontinuités, que l&apos;intégrateur utilise dans son maillage initial : un tableau à trois colonnes <b>[x y z]</b> de points, ou un tableau de cellules <b>{x y z}</b> de vecteurs de grille. Les intervalles en x, y et z sont découpés aux coordonnées correspondantes des points de passage. Les points de passage doivent être réels et finis. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt le domaine.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[q = integral3(@(x, y, z) y .* sin(x) + z .* cos(x), 0, pi, 0, 1, -1, 1)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Points de passage sur les points anguleux de la fonction (valeur exacte 0.29 * 0.26 * 0.34)</example_item_description><example_item_data><![CDATA[fun = @(x, y, z) abs(x - 0.3) .* abs(y - 0.6) .* abs(z - 0.2);
+q = integral3(fun, 0, 1, 0, 1, 0, 1, 'Waypoints', [0.3, 0.6, 0.2])]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral2">integral2</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}quadgk">quadgk</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Noms &apos;AbsoluteTolerance&apos; et &apos;RelativeTolerance&apos; ajoutés (&apos;AbsTol&apos; et &apos;RelTol&apos; restent acceptés).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Option &apos;Waypoints&apos; ajoutée : points d&apos;intérêt du domaine d&apos;intégration.</history_description>
+    </history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

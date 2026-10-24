@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+mat_dir = [fileparts(nfilename('fullpathext'), 'path'), '/mat/'];
 %=============================================================================
 loadmat([mat_dir, 'test_function_handle.mat']);
-assert_isequal(a, -3.9);
-assert_isequal(b, 52);
-assert_isequal(c, 0);
-assert_isequal(parabola, struct());
-assert_isequal(nCf, struct());
-assert_isequal(sqr, struct());
-assert_isequal(lastwarn(), [_('Cannot read variable:'), ' ', 'nCf']);
+asserts.isequal(a, -3.9);
+asserts.isequal(b, 52);
+asserts.isequal(c, 0);
+asserts.isequal(parabola, struct());
+asserts.isequal(nCf, struct());
+asserts.isequal(sqr, struct());
+asserts.isequal(lastwarn(), sprintf(_('Cannot read variable: %s'), 'nCf'));
 %=============================================================================

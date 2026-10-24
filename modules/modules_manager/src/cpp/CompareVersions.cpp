@@ -11,6 +11,7 @@
 #include "StringHelpers.hpp"
 #include "CompareVersions.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,53 +30,59 @@ CompareVersions(const std::string& versionA, const std::string& versionB, std::s
         cleanVersionB = cleanVersionB.erase(0, 1);
     }
 
-    std::string operatorSatifies;
+    std::string operatorSatisfies;
 
     if (StringHelpers::starts_with(cleanVersionB, "=")) {
-        operatorSatifies = "=";
-        cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+        operatorSatisfies = "=";
+        cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
     }
     if (StringHelpers::starts_with(cleanVersionB, ">=")) {
-        operatorSatifies = ">=";
-        cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+        operatorSatisfies = ">=";
+        cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
     } else {
         if (StringHelpers::starts_with(cleanVersionB, ">")) {
-            operatorSatifies = ">";
-            cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+            operatorSatisfies = ">";
+            cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
         }
     }
     if (StringHelpers::starts_with(cleanVersionB, "<=")) {
-        operatorSatifies = "<=";
-        cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+        operatorSatisfies = "<=";
+        cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
     } else {
         if (StringHelpers::starts_with(cleanVersionB, "<")) {
-            operatorSatifies = "<";
-            cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+            operatorSatisfies = "<";
+            cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
         }
     }
     if (StringHelpers::starts_with(cleanVersionB, "^")) {
-        operatorSatifies = "^";
-        cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+        operatorSatisfies = "^";
+        cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
     }
     if (StringHelpers::starts_with(cleanVersionB, "~")) {
-        operatorSatifies = "~";
-        cleanVersionB = cleanVersionB.erase(0, operatorSatifies.size());
+        operatorSatisfies = "~";
+        cleanVersionB = cleanVersionB.erase(0, operatorSatisfies.size());
     }
 
     if (semver_parse(cleanVersionA.c_str(), &semVersionA)) {
-        errorMessage = _("Invalid value #1");
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    "Nelson:modules_manager:invalidValue", "Invalid value #%d"),
+                1);
         return -2;
     }
     if (semver_parse(cleanVersionB.c_str(), &semVersionB)) {
         semver_free(&semVersionA);
-        errorMessage = _("Invalid value #2");
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    "Nelson:modules_manager:invalidValue", "Invalid value #%d"),
+                2);
         return -2;
     }
     int resolution;
-    if (operatorSatifies.empty()) {
+    if (operatorSatisfies.empty()) {
         resolution = semver_compare(semVersionA, semVersionB);
     } else {
-        resolution = semver_satisfies(semVersionA, semVersionB, operatorSatifies.c_str());
+        resolution = semver_satisfies(semVersionA, semVersionB, operatorSatisfies.c_str());
     }
     semver_free(&semVersionA);
     semver_free(&semVersionB);

@@ -1,0 +1,160 @@
+{
+  "blocks": [
+    {
+      "id": "L0",
+      "x": 100,
+      "y": 100,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "x": 100,
+      "y": 230,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "x": 100,
+      "y": 360,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "x": 100,
+      "y": 490,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "R0",
+      "x": 700,
+      "y": 100,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "x": 700,
+      "y": 230,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "x": 700,
+      "y": 360,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "x": 700,
+      "y": 490,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "L0",
+      "to": "R3",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "L1",
+      "to": "R2",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "L2",
+      "to": "R1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "L3",
+      "to": "R0",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "width": 1200,
+  "height": 800
+}

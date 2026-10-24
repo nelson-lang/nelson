@@ -8,13 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 A = 1:10;
-filename = [tempdir(), '漢字.nh5'];
+d = tempname();
+mkdir(d);
+filename = fullfile(d, '漢字.nh5');
 save(filename, 'A');
-assert_istrue(isfile(filename));
-clear
-filename = [tempdir(), '漢字.nh5'];
-assert_isfalse(isvar('A'));
+asserts.istrue(isfile(filename));
+clearvars('-except', 'd')
+filename = fullfile(d, '漢字.nh5');
+asserts.isfalse(isvar('A'));
 load(filename);
-assert_istrue(isvar('A'));
-assert_isequal(A, 1:10);
+asserts.istrue(isvar('A'));
+asserts.isequal(A, 1:10);
+rmdir(d, 's');
 %=============================================================================

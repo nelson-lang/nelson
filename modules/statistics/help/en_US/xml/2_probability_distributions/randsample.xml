@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>randsample</keyword>
+  <short_description>Random sample from a population.</short_description>
+  <syntax>
+    <syntax_item>y = randsample(n, k)</syntax_item>
+    <syntax_item>y = randsample(population, k)</syntax_item>
+    <syntax_item>y = randsample(..., replacement)</syntax_item>
+    <syntax_item>y = randsample(population, k, true, w)</syntax_item>
+  </syntax>
+  <description><p><b>randsample</b> samples values using Nelson&apos;s random generator. Weighted sampling is supported with replacement.</p></description>
+  <used_function>
+    <link linkend="${random}rng">rng</link>
+    <link linkend="${statistics}bootstrp">bootstrp</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Draw a reproducible sample without replacement.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(10);
+y = randsample(10, 4)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Draw a weighted sample with replacement.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[population = [10 20 30];
+w = [0 0 1];
+y = randsample(population, 5, true, w)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

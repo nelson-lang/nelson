@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="286.5" viewBox="-153.25 -133.25 306.5 286.5">
+  <rect x="-153.25" y="-133.25" width="306.5" height="286.5" rx="54.435" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="85,-110 95,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="95,-110 105,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="105,-110 115,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="85,-100 115,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-115,-110 -105,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-105,-110 -95,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-95,-110 -85,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-115,-100 -85,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-100" y="-10" width="54" height="20" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25"/>
+    <ellipse cx="-20" cy="0" rx="30" ry="80" fill="#FFFFFF" stroke="#8C5A08" stroke-width="3.25"/>
+    <rect x="-20" y="-80" width="32" height="160" fill="#FFFFFF" stroke="none"/>
+    <ellipse cx="14" cy="0" rx="30" ry="80" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25"/>
+    <ellipse cx="16" cy="0" rx="18" ry="52" fill="#E7C98A" stroke="#E7C98A" stroke-width="3.25"/>
+    <ellipse cx="16" cy="0" rx="4" ry="10" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25"/>
+    <rect x="16" y="-10" width="44" height="20" fill="#E7C98A" stroke="none"/>
+    <ellipse cx="60" cy="0" rx="4" ry="10" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25"/>
+    <g transform="translate(0,110) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">Pulley</text></g>
+    <polygon points="80,10 80,26 60,26 60,20 70,20 70,-20 60,-20 60,-26 80,-26 80,-10 90,-10 90,10 80,10" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-100,-20 -60,-20" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,-20 -100,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,20 -60,20" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="100,-90 -40,-90" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,-26 70,-50 100,-50 100,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-2.5 80) rotate(0)">
+    <polyline points="-17.5,0 17.5,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(-2.5 -80) rotate(0)">
+    <polyline points="-17.5,0 17.5,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(38 10) rotate(0)">
+    <polyline points="-22,0 22,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(38 -10) rotate(0)">
+    <polyline points="-22,0 22,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g transform="translate(0,-135) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">radius</text></g>
+  </g>
+</svg>

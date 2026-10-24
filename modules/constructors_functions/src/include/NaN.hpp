@@ -20,6 +20,8 @@ NaN(indexType m, indexType n);
 //=============================================================================
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 NaN(Dimensions& dims);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+NaN(Dimensions& dims, NelsonType destinationClass);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

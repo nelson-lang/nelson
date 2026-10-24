@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>T = readtable(filename)</syntax_item>
     <syntax_item>T = readtable(filename, opts)</syntax_item>
+    <syntax_item>T = readtable(filename, &apos;TextType&apos;, type)</syntax_item>
+    <syntax_item>T = readtable(filename, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -15,7 +17,16 @@
     </param_input_item>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>Objet DelimitedTextImportOptions</param_description>
+      <param_description>Objet nelson.io.text.DelimitedTextImportOptions</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
+      >une chaîne : <b>&apos;char&apos;</b> (défaut, colonnes de texte en tableau de cellules de vecteurs de caractères) ou <b>&apos;string&apos;</b> (colonnes de texte en tableau string).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>arguments nom-valeur optionnels. Pour un fichier JSON : FileType, TableSelector, TableNodeName, VariableSelectors, RowNamesSelector, VariableUnitsSelector, VariableDescriptionsSelector, RepeatedNodeRule, ParsingMode, AllowComments, AllowInfAndNaN, AllowTrailingCommas, MissingRule, ImportErrorRule et TextType.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,6 +40,30 @@
       <b>T = readtable(filename)</b> crée une table en important des données orientées colonne depuis un fichier texte ou tableur.</p>
     <p>
       <b>T = readtable(filename, opts)</b> crée une table en utilisant les paramètres définis dans l&apos;objet d&apos;options d&apos;importation<b>opts</b>. L&apos;objet d&apos;options d&apos;importation permet de personnaliser la façon dont <b>readtable</b> interprète le fichier, offrant un meilleur contrôle, de meilleures performances et la possibilité de réutiliser la configuration comparé à la syntaxe par défaut.</p>
+    <p>
+      <b>T = readtable(filename, &apos;Range&apos;, range)</b> lit uniquement le bloc rectangulaire du fichier sélectionné par <b>range</b>. Pour un fichier texte délimité, <b>range</b> peut être donné sous forme de cellules de coin (<b>&apos;A1:B5&apos;</b> ou un coin unique <b>&apos;A2&apos;</b>), d&apos;une plage de colonnes (<b>&apos;A:B&apos;</b>), d&apos;une plage de lignes (<b>&apos;2:4&apos;</b>) ou d&apos;un vecteur numérique <b>[premiereLigne premiereColonne derniereLigne derniereColonne]</b>. Lorsque la première ligne de la plage est composée uniquement de texte non numérique, elle est utilisée pour les noms de variables, sinon les colonnes sont nommées <b>Var1</b>, <b>Var2</b>, etc.</p>
+    <p>L&apos;option nom-valeur <b>&apos;Sheet&apos;</b> s&apos;applique uniquement aux fichiers tableur et n&apos;est pas prise en charge pour un fichier texte délimité.</p>
+    <p><b>Fichiers JSON</b> : un fichier d&apos;extension <b>.json</b>, ou tout fichier lu avec <b>&apos;FileType&apos;, &apos;json&apos;</b>, est décodé avec <b>jsondecode</b> puis converti en table.</p>
+    <ul>
+      <li>Un tableau d&apos;objets donne une ligne par objet et les clés des objets deviennent les variables. Les objets imbriqués sont aplatis : chaque valeur feuille devient une variable nommée d&apos;après sa clé.</li>
+      <li>Un objet dont toutes les valeurs sont des objets donne une ligne par clé. Utilisez <b>"Keys"</b> dans <b>VariableSelectors</b> pour lire les clés.</li>
+      <li>Lorsque la racine du fichier est un objet, le premier tableau d&apos;objets trouvé est lu.</li>
+      <li>Les nombres donnent des double, true et false des logical, le texte des string (char avec <b>&apos;TextType&apos;, &apos;char&apos;</b>), le texte de date et d&apos;heure des datetime ou duration.</li>
+      <li>Les valeurs null et les clés absentes sont des valeurs manquantes : NaN, &lt;missing&gt; ou false pour une variable logique.</li>
+      <li>Une valeur tableau JSON (noeud répété) donne une variable matrice avec une colonne par élément.</li>
+    </ul>
+    <p>Arguments nom-valeur JSON :</p>
+    <ul>
+      <li><b>TableSelector</b> : pointeur JSON RFC 6901 de la table. <b>""</b> désigne le fichier entier.</li>
+      <li><b>TableNodeName</b> : nom de la clé des données de la table.</li>
+      <li><b>VariableSelectors</b> : pointeurs JSON des variables, relatifs à un objet ligne. <b>"Keys"</b> lit les clés des objets.</li>
+      <li><b>RowNamesSelector</b> : pointeur JSON des noms de lignes.</li>
+      <li><b>VariableUnitsSelector</b>, <b>VariableDescriptionsSelector</b> : pointeurs JSON, depuis la racine du fichier, d&apos;un objet associant les noms de variables à leurs unités ou descriptions.</li>
+      <li><b>RepeatedNodeRule</b> : <b>&apos;addcol&apos;</b> (défaut), <b>&apos;ignore&apos;</b> (premier élément seulement) ou <b>&apos;error&apos;</b>.</li>
+      <li><b>ParsingMode</b> : <b>&apos;lenient&apos;</b> (défaut) ou <b>&apos;strict&apos;</b>. Il fixe <b>AllowComments</b> (commentaires <b>//</b> et <b>/* */</b>), <b>AllowInfAndNaN</b> (Inf, -Inf, Infinity, NaN) et <b>AllowTrailingCommas</b>, qui peuvent aussi être donnés un par un.</li>
+      <li><b>MissingRule</b>, <b>ImportErrorRule</b> : <b>&apos;fill&apos;</b> (défaut), <b>&apos;error&apos;</b>, <b>&apos;omitrow&apos;</b> ou <b>&apos;omitvar&apos;</b>.</li>
+    </ul>
+    <p>Avec un fichier JSON, <b>opts</b> est un objet <b>nelson.io.json.JSONImportOptions</b> (voir <b>jsonImportOptions</b>).</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,8 +82,18 @@
         runnable="cli"
       >  Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;};  Age = [28; 34; 22; 30];  Height = [175; 160; 180; 165];  Weight = [70; 55; 80; 60];  T = table(Names, Age, Height, Weight);  writetable(T, [tempdir,&apos;readtable_1.csv&apos;])  options = detectImportOptions([tempdir,&apos;readtable_1.csv&apos;]);  T1 = readtable([tempdir,&apos;readtable_1.csv&apos;], options)  options.DataLines = [1 Inf]  T2 = readtable([tempdir,&apos;readtable_1.csv&apos;], options)  </example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire un fichier JSON :</example_item_description>
+      <example_item_data runnable="cli">T = table([1; 2; NaN], ["a"; "b"; missing], &apos;VariableNames&apos;, {&apos;x&apos;, &apos;name&apos;}); f = [tempdir, &apos;readtable_json.json&apos;]; writetable(T, f); T2 = readtable(f) opts = detectImportOptions(f, &apos;VariableSelectors&apos;, &apos;/name&apos;); T3 = readtable(f, opts)</example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}delimitedTextImportOptions"
+      >delimitedTextImportOptions</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${spreadsheet}writetable">writetable</link>
     </see_also_item>
@@ -63,11 +108,18 @@
     <see_also_item>
       <link linkend="${stream_manager}fileread">fileread</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}jsonImportOptions">jsonImportOptions</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Fichiers JSON : lecture de données JSON sous forme de table.</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>inputParser</keyword>
+  <short_description>Parses and validates function inputs.</short_description>
+  <syntax>
+    <syntax_item>p = inputParser()</syntax_item>
+    <syntax_item>addRequired(p, name)</syntax_item>
+    <syntax_item>addRequired(p, name, validator)</syntax_item>
+    <syntax_item>addOptional(p, name, defaultValue)</syntax_item>
+    <syntax_item>addOptional(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>addParameter(p, name, defaultValue)</syntax_item>
+    <syntax_item>addParameter(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>addParamValue(p, name, defaultValue)</syntax_item>
+    <syntax_item>addParamValue(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>parse(p, varargin{:})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>valid identifier used as a field name in the parser results.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>defaultValue</param_name>
+      <param_description>value used when an optional or parameter input is omitted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>validator</param_name>
+      <param_description>function handle called with the candidate value. It can return a scalar logical value or raise an error.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varargin</param_name>
+      <param_description>inputs to parse. Positional inputs are matched first, then name-value inputs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>handle object that stores the input specification and the parse result.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>inputParser</b> defines required, optional, and name-value inputs and stores parsed values in <b>Results</b>.</p>
+    <p>Required inputs are consumed first and must be present. Optional inputs are consumed after required inputs when the next positional value satisfies their validator and is not recognized as a parameter name. Parameters are specified as name-value pairs and can appear after positional inputs.</p>
+    <p><b>addParameter</b> and <b>addParamValue</b> add name-value parameters. <b>addParamValue</b> is accepted as a compatibility alias.</p>
+    <p>The parser scheme is defined with <b>addRequired</b>, <b>addOptional</b>, <b>addParameter</b>, and <b>addParamValue</b>. The scheme can be built in any order, but <b>parse</b> consumes required positional inputs first, optional positional inputs next, and name-value inputs last.</p>
+    <p>When a name-value parameter is repeated, the last supplied value is kept in <b>Results</b>.</p>
+    <p>The writable properties are:</p>
+    <p><b>FunctionName</b>: text prepended to parser error messages.</p>
+    <p><b>CaseSensitive</b>: when false, parameter names are matched without case sensitivity. The default is false.</p>
+    <p><b>KeepUnmatched</b>: when true, unrecognized name-value pairs are stored in <b>Unmatched</b>. The default is false.</p>
+    <p><b>PartialMatching</b>: when true, a unique leading partial parameter name is accepted. The default is true.</p>
+    <p><b>StructExpand</b>: when true and <b>parse</b> receives one scalar struct, the struct fields are treated as name-value pairs. The default is true.</p>
+    <p>The read-only properties are:</p>
+    <p><b>Parameters</b>: names added to the parser in declaration order.</p>
+    <p><b>Results</b>: scalar struct containing parsed values and defaults.</p>
+    <p><b>Unmatched</b>: scalar struct containing unrecognized name-value pairs when <b>KeepUnmatched</b> is true.</p>
+    <p><b>UsingDefaults</b>: cell array of optional and parameter names whose default values were used.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Required input and name-value parameter.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+addRequired(p, 'width', @(x) isnumeric(x) && isscalar(x));
+addParameter(p, 'units', 'm', @(x) ischar(x) || isstring(x));
+parse(p, 10, 'units', 'cm');
+p.Results]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Optional input, defaults, and last name-value wins.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+addRequired(p, 'name', @(x) ischar(x) || isstring(x));
+addOptional(p, 'count', 1, @(x) isnumeric(x) && isscalar(x) && x > 0);
+addParameter(p, 'mode', 'fast', @(x) validatestring(x, {'fast', 'slow'}));
+parse(p, 'job', 'mode', 'slow', 'mode', 'fast');
+p.Results
+p.UsingDefaults]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Struct expansion with unmatched fields.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+p.KeepUnmatched = true;
+addParameter(p, 'width', 1, @(x) isnumeric(x) && isscalar(x));
+addParameter(p, 'height', 1, @(x) isnumeric(x) && isscalar(x));
+opts.width = 10;
+opts.height = 5;
+opts.color = 'blue';
+parse(p, opts);
+p.Results
+p.Unmatched]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}validateattributes">validateattributes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}validatestring">validatestring</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

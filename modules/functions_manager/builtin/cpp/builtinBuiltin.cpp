@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "builtinBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,9 +23,10 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
     ArrayOf param1 = argIn[0];
-    std::string fname = argIn[0].getContentAsCString();
+    std::string fname = argIn[0].asUtf8String();
     if (!context->lookupFunction(fname, funcDef, true)) {
-        Error(_W("function \'") + utf8_to_wstring(fname) + _W("\' is not a builtin."));
+        Error(L"Nelson:builtin:notABuiltin", L"function '%s' is not a builtin.",
+            utf8_to_wstring(fname));
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();
@@ -33,7 +35,7 @@ Nelson::FunctionsGateway::builtinBuiltin(Evaluator* eval, int nLhs, const ArrayO
         eval->withOverload = false;
         retval = funcDef->evaluateFunction(eval, newarg, nLhs);
         eval->withOverload = true;
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->withOverload = true;
         throw;
     }

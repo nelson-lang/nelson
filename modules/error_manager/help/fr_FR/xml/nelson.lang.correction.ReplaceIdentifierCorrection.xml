@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.lang.correction.ReplaceIdentifierCorrection</keyword>
+  <short_description>Corrige une erreur en remplacant un identifiant dans un appel de fonction.</short_description>
+  <syntax>
+    <syntax_item>correction = nelson.lang.correction.ReplaceIdentifierCorrection(identifier, replacement)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>identifier</param_name>
+      <param_description>identifiant incorrect dans l&apos;appel de fonction.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>replacement</param_name>
+      <param_description>identifiant de remplacement.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>correction</param_name>
+      <param_description>un objet nelson.lang.correction.ReplaceIdentifierCorrection.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Utilisez les objets <b>nelson.lang.correction.ReplaceIdentifierCorrection</b> dans les fonctions qui levent un objet MException.</p>
+    <p><b>correction = nelson.lang.correction.ReplaceIdentifierCorrection(identifier, replacement)</b> cree une correction qui suggere de remplacer <b>identifier</b> par <b>replacement</b> dans l&apos;appel de fonction qui a leve l&apos;objet MException.</p>
+    <p>Les proprietes en lecture seule <b>Identifier</b> et <b>Replacement</b> contiennent l&apos;identifiant incorrect et l&apos;identifiant de remplacement.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:unknownName', 'Unknown identifier.');
+correction = nelson.lang.correction.ReplaceIdentifierCorrection('oldName', 'newName');
+ME = addCorrection(ME, correction)
+ME.Correction.Replacement]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.AppendArgumentsCorrection">nelson.lang.correction.AppendArgumentsCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ConvertToFunctionNotationCorrection">nelson.lang.correction.ConvertToFunctionNotationCorrection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

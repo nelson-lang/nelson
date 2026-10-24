@@ -15,14 +15,14 @@ st.B = [2 -Inf];
 st.C = [3 NaN];
 R = evalc('st');
 REF =      '
-st =
+st = 
 
   struct with fields:
 
-    A: [1  Inf]
-    B: [2  -Inf]
-    C: [3  NaN]
+    A: [1 Inf]
+    B: [2 -Inf]
+    C: [3 NaN]
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -11,12 +11,14 @@
 //=============================================================================
 enum NELSON_ENGINE_MODE
 {
-    BASIC_ENGINE,
-    ADVANCED_ENGINE,
-    BASIC_TERMINAL,
-    ADVANCED_TERMINAL,
-    BASIC_SIO_CLIENT,
-    ADVANCED_SIO_CLIENT,
-    GUI
+    BASIC_ENGINE = 0,
+    ADVANCED_ENGINE = 1,
+    BASIC_TERMINAL = 2,
+    ADVANCED_TERMINAL = 3,
+    GUI = 4,
+    WEB_GUI = 5,
+    // Terminal hosted by a WebAssembly worker: same evaluator as BASIC_TERMINAL,
+    // the browser desktop connects through PortableInterface/WebDesktopBridge.
+    WASM_TERMINAL = 6
 };
 //=============================================================================

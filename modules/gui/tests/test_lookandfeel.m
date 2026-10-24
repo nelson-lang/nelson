@@ -9,26 +9,26 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-assert_isequal(nargin('lookandfeel'), 2);
-assert_isequal(nargout('lookandfeel'), 1);
+asserts.isequal(nargin('lookandfeel'), 2);
+asserts.isequal(nargout('lookandfeel'), 1);
 %=============================================================================
 currentlf = lookandfeel();
-assert_istrue(ischar(currentlf));
+asserts.istrue(ischar(currentlf));
 lfs = lookandfeel('available');
-assert_istrue(iscell(lfs));
+asserts.istrue(iscell(lfs));
 for lf = lfs'
   c = lookandfeel(lf{1});
 end
 if ~isempty(currentlf)
   r = lookandfeel(currentlf);
-  assert_istrue(ischar(r));
+  asserts.istrue(ischar(r));
 end
 %=============================================================================
 currentstylesheet = lookandfeel('stylesheet');
-assert_istrue(ischar(currentstylesheet));
+asserts.istrue(ischar(currentstylesheet));
 stylefilename = [modulepath('gui'), '/resources/darkstyle.qss'];
 newstyle = fileread(stylefilename);
 previousstylesheet = lookandfeel('stylesheet', newstyle);
-assert_isequal(currentstylesheet, previousstylesheet);
+asserts.isequal(currentstylesheet, previousstylesheet);
 r = lookandfeel('stylesheet', previousstylesheet);
 %=============================================================================

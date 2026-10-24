@@ -8,16 +8,29 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 names = ["Jack", "John", "Jess"];
-ages = [50, 35, 68]; 
+ages = [50, 35, 68];
 gym = dictionary(names, ages);
 gym2 = dictionary(gym);
-ages2 = [50, 35, 66]; 
+ages2 = [50, 35, 66];
 gym3 = dictionary(names, ages2);
 %=============================================================================
-assert_istrue(isequal(gym, gym));
-assert_isequal(gym, gym);
-assert_istrue(isequal(gym, gym2));
-assert_isequal(gym, gym2);
-assert_isfalse(isequal(gym, gym3));
+asserts.istrue(isequal(gym, gym));
+asserts.isequal(gym, gym);
+asserts.istrue(isequal(gym, gym2));
+asserts.isequal(gym, gym2);
+asserts.isfalse(isequal(gym, gym3));
 %=============================================================================
-
+d1 = dictionary([1 2], [3 4]);
+d2 = dictionary([2 1], [4 3]);
+asserts.istrue(isequal(d1, d2));
+%=============================================================================
+d1 = dictionary([1 1 2], [10 11 20]);
+d2 = dictionary([2 1], [20 11]);
+asserts.istrue(isequal(d1, d2));
+%=============================================================================
+d1 = dictionary(string({'a', 'b'}), {1, [2 3]});
+d2 = dictionary(string({'b', 'a'}), {[2 3], 1});
+asserts.istrue(isequal(d1, d2));
+d2.allValues = {{[2 3]}, {1}};
+asserts.istrue(isequal(d1, d2));
+%=============================================================================

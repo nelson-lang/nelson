@@ -7,32 +7,34 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('hankel'), 2)
-assert_isequal(nargout('hankel'), 1)
+asserts.isequal(nargin('hankel'), 2)
+asserts.isequal(nargout('hankel'), 1)
 %=============================================================================
 c = [1 2 3 4];
 R = hankel(c);
-REF = [1     2     3     4;
-2     3     4     0;
-3     4     0     0;
-4     0     0     0];
-assert_isequal(R, REF);
+REF = [1 2 3 4;
+  2 3 4 0;
+  3 4 0 0;
+  4 0 0 0];
+asserts.isequal(R, REF);
 %=============================================================================
 c = [2 4 6];
 r = [6 5 4 3 2 1];
 R = hankel(c, r);
-REF = [ 2     4     6     5     4     3;
-4     6     5     4     3     2;
-6     5     4     3     2     1];
-assert_isequal(R, REF);
+REF = [2 4 6 5 4 3;
+  4 6 5 4 3 2;
+  6 5 4 3 2 1];
+asserts.isequal(R, REF);
 %=============================================================================
 c = [1 2 3];
 r = [4 5 7 9];
 R = hankel(c, r);
-REF = [1     2     3     5;
-2     3     5     7;
-3     5     7     9];
-assert_isequal(R, REF);
+REF = [1 2 3 5;
+  2 3 5 7;
+  3 5 7 9];
+asserts.isequal(R, REF);
 msg = lastwarn();
-assert_isequal(_('Last element of input column does not match first element of input row.'), msg)
+asserts.isequal(_('Last element of input column does not match first element of input row.'), msg)
+%=============================================================================
+asserts.isequal(hankel([1 2 3]), [1 2 3; 2 3 0; 3 0 0]);
 %=============================================================================

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>parquetinfo</keyword>
+  <short_description>Return metadata for a Parquet file.</short_description>
+  <syntax>
+    <syntax_item>info = parquetinfo(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: Parquet file to inspect.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>a <b>nelson.io.parquet.ParquetInfo</b> object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>info = parquetinfo(filename)</b> reads Parquet metadata without importing the full table data.</p>
+    <p>The returned object exposes file-level metadata such as filename, file size, number of rows, number of variables, number of row groups, row group sizes, variable names, variable types, compression, and the writer description when available.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetinfo.parquet'];
+T = table(int32([1; 2; 3]), [10; 20; 30], 'VariableNames', {'Id', 'Value'});
+parquetwrite(filename, T, 'RowGroupHeights', 2);
+info = parquetinfo(filename);
+info.NumRows
+info.VariableNames
+info.RowGroups]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}class_ParquetInfo">nelson.io.parquet.ParquetInfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetwrite">parquetwrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

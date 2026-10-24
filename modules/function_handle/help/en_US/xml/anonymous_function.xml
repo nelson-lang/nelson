@@ -25,7 +25,7 @@
     <p>The <b>@</b> sign is a necessary part of the anonymous function definition.</p>
     <p />
     <p
-    >It&apos;s worth noting that function handles not only apply to anonymous functions but also to any function.</p>
+    >Function handles not only apply to anonymous functions but also to any function.</p>
     <p
     >The syntax for creating a function handle to a regular function is different and looks like this:</p>
     <p>function_handle = @function_name</p>
@@ -34,7 +34,7 @@
     <p
     >You have the option to store function handles along with their associated values in a MAT-file.</p>
     <p
-    >Later, in a different session, you can retrieve and utilize them using the save and load functions.</p>
+    >Later, in another session, you can retrieve them with the save and load functions.</p>
     <p>for example <b>a = 1;b = 2; f = @(x) a + b + x; save(&apos;test.nH5&apos;, f);</b>
     </p>
     <p

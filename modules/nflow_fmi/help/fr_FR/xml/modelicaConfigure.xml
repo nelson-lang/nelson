@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>modelicaConfigure</keyword>
+  <short_description>Définit ou interroge l'OpenModelica du pont Modelica de nflow.</short_description>
+  <syntax>
+    <syntax_item>modelicaConfigure(path)</syntax_item>
+    <syntax_item>omc = modelicaConfigure()</syntax_item>
+    <syntax_item>modelicaConfigure('')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>path</param_name>
+      <param_description>une chaîne&#160;: un répertoire d'installation d'OpenModelica (par exemple <b>'C:/Program Files/OpenModelica1.27.0-64bit'</b>) ou l'exécutable <b>omc</b> lui-même. Une chaîne vide efface le réglage configuré.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>omc</param_name>
+      <param_description>le chemin résolu vers l'exécutable <b>omc</b> pour la configuration courante, ou une chaîne vide si aucun n'est trouvé.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>modelicaConfigure</b> sélectionne le compilateur <b>OpenModelica</b> que le pont Modelica de nflow utilise pour transformer un modèle Modelica en FMU. À utiliser lorsque la détection automatique se trompe ou lorsque plusieurs versions d'OpenModelica sont installées.</p>
+    <p>Le réglage est persisté dans le répertoire des préférences de Nelson et est <b>prioritaire</b>&#160;: une fois configuré, seul cet emplacement est essayé, de sorte que pointer nflow vers un OpenModelica précis ne se résout jamais silencieusement vers un autre. Sans réglage, l'emplacement est détecté automatiquement à partir des variables d'environnement <b>NELSON_OPENMODELICA_HOME</b> et <b>OPENMODELICAHOME</b>, des répertoires d'installation standard, puis de <b>PATH</b>.</p>
+    <p>Appelée sans argument, <b>modelicaConfigure</b> renvoie le chemin <b>omc</b> résolu. Appelée avec une chaîne vide, elle efface le réglage et revient à la détection automatique. Définir un chemin qui ne se résout pas vers un <b>omc</b> exécutable émet un avertissement mais est tout de même enregistré, afin de pré-configurer une machine.</p>
+    <p>L'éditeur nflow écrit la même préférence via cette fonction&#160;: les réglages graphiques et la ligne de commande partagent une seule source de vérité.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Pointer nflow vers une installation d'OpenModelica précise.</example_item_description>
+      <example_item_data
+        ><![CDATA[modelicaConfigure('C:/Program Files/OpenModelica1.27.0-64bit');
+info = modelicaInfo()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Revenir à la détection automatique.</example_item_description>
+      <example_item_data
+        ><![CDATA[modelicaConfigure('')]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaInfo">modelicaInfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaToFmu">modelicaToFmu</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

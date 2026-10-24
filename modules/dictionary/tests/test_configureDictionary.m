@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 d = dictionary();
-assert_isfalse(isConfigured(d));
+asserts.isfalse(isConfigured(d));
 %=============================================================================
 d = configureDictionary("string", "double");
-assert_istrue(isConfigured(d));
-assert_isequal(d.types(), "string");
+asserts.istrue(isConfigured(d));
+asserts.isequal(d.types(), "string");
 %=============================================================================

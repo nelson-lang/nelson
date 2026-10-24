@@ -7,36 +7,46 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('ceil'), 1)
-assert_isequal(nargout('ceil'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('ceil'), 1)
+asserts.isequal(nargout('ceil'), 1)
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
 R = ceil(A);
-REF = [3     4     6    -2    -3    -5];
-assert_isequal(R, REF);
+REF = [3 4 6 -2 -3 -5];
+asserts.isequal(R, REF);
 %=============================================================================
 A = single([2.3 3.8 5.5 -2.3 -3.8 -5.5]);
 R = ceil(A);
-REF = single([3     4     6    -2    -3    -5]);
-assert_isequal(R, REF);
+REF = single([3 4 6 -2 -3 -5]);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
-REF = [3     4     6    -2    -3    -5];
+REF = [3 4 6 -2 -3 -5];
 R = ceil(sparse(A));
 REF = sparse(REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+A = sparse(single([2.3 + 4.6i 0; -2.3 - 4.6i 3.1]));
+R = ceil(A);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+REF = single([3 + 5i 0; -2 - 4i 4]);
+asserts.isapprox(full(R), REF, 1e-6);
 %=============================================================================
 A = complex([2.3 3.8 5.5 -2.3 -3.8 -5.5], [2.3 3.8 5.5 -2.3 -3.8 -5.5] * 2);
 R = ceil(A);
-REF = [3.0000+5.0000i, 4.0000+8.0000i, 6.0000+11.0000i, -2.0000-4.0000i, -3.0000-7.0000i, -5.0000-11.0000i];
-assert_isequal(R, REF);
+REF = [3.0000 + 5.0000i, 4.0000 + 8.0000i, 6.0000 + 11.0000i, -2.0000 - 4.0000i, -3.0000 - 7.0000i, -5.0000 - 11.0000i];
+asserts.isequal(R, REF);
 %=============================================================================
 A = ceil(int8(3));
 R = class(A);
-assert_isequal(R, 'int8');
+asserts.isequal(R, 'int8');
 %=============================================================================
-assert_isequal(ceil(NaN), NaN);
-assert_isequal(ceil(Inf), Inf);
-assert_isequal(ceil(-Inf), -Inf);
-assert_isequal(ceil(zeros(0, 3)), zeros(0, 3));
+asserts.isequal(ceil(NaN), NaN);
+asserts.isequal(ceil(Inf), Inf);
+asserts.isequal(ceil(-Inf), -Inf);
+asserts.isequal(ceil(zeros(0, 3)), zeros(0, 3));
+%=============================================================================
+asserts.isequal(ceil([2.3 3.8 5.5 -2.3 -3.8 -5.5]), [3 4 6 -2 -3 -5]);
 %=============================================================================

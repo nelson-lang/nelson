@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.skip</keyword>
+  <short_description>Skip the current test.</short_description>
+  <syntax>
+    <syntax_item>nelson.unittest.skip()</syntax_item>
+    <syntax_item>nelson.unittest.skip(reason)</syntax_item>
+    <syntax_item>nelson.unittest.skip(condition, reason)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson.unittest.skip</b> marks the current test as skipped. <b>skip_testsuite</b> is the
+      compatibility alias.</p>
+  </description>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}skip_testsuite">skip_testsuite</link></see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.assume">nelson.unittest.assume</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

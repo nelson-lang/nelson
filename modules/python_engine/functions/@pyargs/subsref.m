@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = subsref(varargin)
-  error(_('subsref not allowed for class ''pyargs''.'));
+  error('Nelson:pyargs:subsrefNotAllowed', 'subsref not allowed for class ''pyargs''.');
 end

@@ -27,6 +27,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeNonempty(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeScalar(const ArrayOf& arg, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeScalarOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
@@ -46,6 +49,9 @@ mustBeFile(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeVector(const ArrayOf& arg, bool allowsAllEmpties, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeVectorOrEmpty(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeFloat(const ArrayOf& arg, int argPosition, bool asCaller = false);
@@ -129,5 +135,12 @@ mustBeColumn(const ArrayOf& arg, int argPosition, bool asCaller = false);
 NLSVALIDATORS_IMPEXP void
 mustBeSparse(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
-}
+// dim == 0: first non-singleton dimension. direction, missingPlacement and
+// comparisonMethod are lower case and already validated.
+NLSVALIDATORS_IMPEXP void
+mustBeSorted(const ArrayOf& arg, indexType dim, const std::wstring& direction,
+    const std::wstring& missingPlacement, const std::wstring& comparisonMethod, int argPosition,
+    bool asCaller = false);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -9,10 +9,9 @@
 %=============================================================================
 function res = issiso(sys)
   if ~islti(sys)
-    msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'issiso');
-    error(msg);
+    error('Nelson:UndefinedFunction:incorrectArgumentType', 'Check for incorrect argument data type or missing argument in call to function ''%s''.', 'issiso');
   end
-  
+
   [p, m] = size(sys);
   res = (p == 1) && (m == 1);
 end

@@ -11,6 +11,6 @@
     <p
     >Cela inclut le support des scripts d&apos;initialisation et de terminaison définis par l&apos;utilisateur, les exigences système spécifiques à la plateforme et les directives d&apos;interpréteur pour l&apos;exécution de scripts multiplateforme.</p>
     <p
-    >Il sert d&apos;interface principale entre Nelson et le système d&apos;exploitation sous-jacent, garantissant une configuration flexible et un contrôle fluide de la manière dont le logiciel est lancé et utilisé.</p>
+    >Il sert d&apos;interface principale entre Nelson et le système d&apos;exploitation sous-jacent pour configurer et contrôler le lancement du logiciel.</p>
   </chapter_description>
 </xmldoc>

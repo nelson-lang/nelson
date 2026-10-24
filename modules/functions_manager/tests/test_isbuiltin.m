@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isfalse(isbuiltin('stdin'));
-assert_istrue(isbuiltin('isbuiltin'));
+asserts.isfalse(isbuiltin('stdin'));
+asserts.istrue(isbuiltin('isbuiltin'));
 %=============================================================================

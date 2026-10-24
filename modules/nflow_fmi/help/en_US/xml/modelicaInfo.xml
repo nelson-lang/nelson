@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>modelicaInfo</keyword>
+  <short_description>Report the OpenModelica used by the nflow Modelica bridge.</short_description>
+  <syntax>
+    <syntax_item>info = modelicaInfo()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>a scalar structure describing the OpenModelica installation, with the fields listed below.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>modelicaInfo</b> reports the <b>OpenModelica</b> compiler (<b>omc</b>) that the nflow Modelica bridge will use. A <b>modelica</b> block compiles a Modelica model to an FMU with OpenModelica and then simulates it through nflow's FMI path; <b>modelicaInfo</b> tells you whether that is possible and which OpenModelica is selected.</p>
+    <p>The returned structure <b>info</b> has the following fields:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Field</th>
+        <th>Class</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>available</td>
+        <td>logical</td>
+        <td><b>true</b> when an <b>omc</b> executable was found and runs.</td>
+      </tr>
+      <tr>
+        <td>capable</td>
+        <td>logical</td>
+        <td><b>true</b> when OpenModelica is not only present but able to export an FMU (the FMI export runtime is installed). A model simulates only when <b>capable</b> is <b>true</b>.</td>
+      </tr>
+      <tr>
+        <td>omc</td>
+        <td>char</td>
+        <td>the resolved path to the <b>omc</b> executable, or an empty string.</td>
+      </tr>
+      <tr>
+        <td>home</td>
+        <td>char</td>
+        <td>the OpenModelica home directory, or an empty string.</td>
+      </tr>
+      <tr>
+        <td>version</td>
+        <td>char</td>
+        <td>the version string reported by <b>omc</b>.</td>
+      </tr>
+      <tr>
+        <td>reason</td>
+        <td>char</td>
+        <td>a human-readable status; when not usable, it explains why and how to fix it.</td>
+      </tr>
+    </table>
+    <p>Presence is not capability: an <b>omc</b> executable can run yet be unable to build an FMU when its installation is missing the FMI export runtime. Concretely, the probe checks for the directory <b>share/omc/runtime/c/fmi</b> under the OpenModelica home; when it is absent (an incomplete install, without the C runtime / FMI export support), <b>available</b> is <b>true</b> but <b>capable</b> is <b>false</b>, and a <b>modelica</b> block blocks the simulation with a clear message. Install a complete OpenModelica, or point nflow at one with <b>modelicaConfigure</b>.</p>
+    <p>The OpenModelica location is resolved from, in order: a path configured with <b>modelicaConfigure</b> (authoritative when set), the <b>NELSON_OPENMODELICA_HOME</b> environment variable (Nelson-scoped), the <b>OPENMODELICAHOME</b> environment variable, the standard install directories, then <b>PATH</b>.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Check whether a Modelica model can be simulated.</example_item_description>
+      <example_item_data
+        ><![CDATA[info = modelicaInfo();
+if ~info.capable
+  disp(info.reason);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaConfigure">modelicaConfigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaToFmu">modelicaToFmu</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -139,7 +139,6 @@ HistoryManager::appendHeader()
     std::wstring pre = L"%% -- ";
     std::wstring post = L" -- %%";
 #ifdef __GNUC__
-    /* std::put_time only in GCC >= 5 ... */
     time_t timer = time(nullptr);
     struct tm t_result;
     const struct tm* timeptr = localtime_r(&timer, &t_result);
@@ -478,7 +477,8 @@ HistoryManager::copyPreviousFile(const std::wstring& _filename)
     FileSystemWrapper::Path dst(_filename + L".bak");
     bool bRes = FileSystemWrapper::Path::is_regular_file(src);
     if (bRes) {
-        bRes = FileSystemWrapper::Path::copy_file(src, dst);
+        std::string errorMessage;
+        bRes = FileSystemWrapper::Path::copy_file(src, dst, errorMessage);
     }
     return bRes;
 }

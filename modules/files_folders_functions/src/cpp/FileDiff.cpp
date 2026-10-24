@@ -70,7 +70,6 @@ FileDiff(const std::wstring& filename1, const std::wstring& filename2, logical e
     Diff<elem> diff(ALines, BLines);
     diff.onHuge();
     diff.compose();
-    // type unihunk definition test
     uniHunk<sesElem> hunk;
     diff.composeUnifiedHunks();
     std::ostringstream stream;

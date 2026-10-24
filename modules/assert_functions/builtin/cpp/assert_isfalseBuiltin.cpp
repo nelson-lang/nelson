@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,8 @@
 #include "assert_isfalseBuiltin.hpp"
 #include "Assert_IsFalse.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,26 +24,27 @@ Nelson::AssertFunctionsGateway::assert_isfalseBuiltin(int nLhs, const ArrayOfVec
     std::wstring modifiedmsg;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        modifiedmsg = param2.getContentAsWideString();
+        modifiedmsg = param2.asWideString();
     }
     ArrayOf param1 = argIn[0];
     if (!param1.isLogical()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
+        Error(L"Nelson:asserts:invalidArgument", L"Wrong type for argument #%d: %s expected.", (1),
+            L"logical");
     }
     if (!param1.isScalar()) {
-        Error(ERROR_SIZE_SCALAR_EXPECTED);
+        Error(L"Nelson:asserts:scalarExpected", L"A scalar expected.");
     }
-    logical res = param1.getContentAsLogicalScalar();
+    logical res = param1.asLogicalScalar();
     std::wstring msg;
     res = Assert_IsFalse(res, modifiedmsg, msg);
     if (nLhs == 0) {
         if (res == 0) {
-            Error(msg);
+            ErrorAsCaller(L"Nelson:asserts:assertionFailed", msg);
         }
     } else {
-        retval << ArrayOf::logicalConstructor(res == 0 ? false : true);
+        retval << ArrayOf::logicalScalar(res == 0 ? false : true);
         if (nLhs > 1) {
-            retval << ArrayOf::characterArrayConstructor(msg);
+            retval << ArrayOf::characterArray(msg);
         }
     }
     return retval;

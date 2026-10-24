@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,8 +11,9 @@
 #include "UniqueHelpers.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
@@ -23,13 +24,13 @@ UniqueCellOneLhs(const ArrayOf& input)
 {
     ArrayOfVector retval;
     bool isRowVector = input.isRowVector();
-    indexType len(input.getElementCount());
+    indexType len(input.elementCount());
     wstringVector values;
     try {
-        values = input.getContentAsWideStringVector(false);
-    } catch (Exception&) {
-        Error(_W("The input must be a cell array containing character vectors."),
-            L"Nelson:UNIQUE:InputClass");
+        values = input.asWideStringVector(false);
+    } catch (NelsonException&) {
+        Error(L"Nelson:unique:inputClass",
+            L"The input must be a cell array containing character vectors.");
     }
     parallelSort(values);
     values.erase(std::unique(values.begin(), values.end()), values.end());
@@ -39,7 +40,7 @@ UniqueCellOneLhs(const ArrayOf& input)
     }
     ArrayOf cell;
     if (!values.empty()) {
-        cell = ArrayOf::toCellArrayOfCharacterColumnVectors(values);
+        cell = ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(values);
         cell.reshape(dimsOut);
     } else {
         ArrayOf* op = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, 0);
@@ -72,24 +73,24 @@ static ArrayOfVector
 UniqueCellTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType len(input.getElementCount());
+    ompIndexType len(input.elementCount());
     std::vector<UniqueCellString> cellsEntry(len);
-    ArrayOf* sp = (ArrayOf*)input.getDataPointer();
+    ArrayOf* sp = (ArrayOf*)input.dataPointer();
     bool isNotCellString = false;
 #if WITH_OPENMP
 #pragma omp parallel for shared(isNotCellString) if (len > OMP_DEFAULT_THRESHOLD)
 #endif
     for (ompIndexType i = 0; i < len; i++) {
         if (sp[i].isCharacterArray()) {
-            cellsEntry[i].x = sp[i].getContentAsWideString();
+            cellsEntry[i].x = sp[i].asWideString();
         } else {
             isNotCellString = true;
         }
         cellsEntry[i].n = i;
     }
     if (isNotCellString) {
-        Error(_W("The input must be a cell array containing character vectors."),
-            L"Nelson:UNIQUE:InputClass");
+        Error(L"Nelson:unique:inputClass",
+            L"The input must be a cell array containing character vectors.");
     }
     parallelSort(cellsEntry);
     cellsEntry.erase(std::unique(cellsEntry.begin(), cellsEntry.end()), cellsEntry.end());
@@ -117,15 +118,15 @@ static ArrayOfVector
 UniqueCellThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    indexType len(input.getElementCount());
+    indexType len(input.elementCount());
     std::vector<UniqueCellString> buf(len);
-    ArrayOf* sp = (ArrayOf*)input.getDataPointer();
+    ArrayOf* sp = (ArrayOf*)input.dataPointer();
     for (int i = 0; i < len; i++) {
         if (sp[i].isCharacterArray()) {
-            buf[i].x = sp[i].getContentAsWideString();
+            buf[i].x = sp[i].asWideString();
         } else {
-            Error(_W("The input must be a cell array containing character vectors."),
-                L"Nelson:UNIQUE:InputClass");
+            Error(L"Nelson:unique:inputClass",
+                L"The input must be a cell array containing character vectors.");
         }
         buf[i].n = i;
     }
@@ -176,5 +177,5 @@ UniqueCell(const ArrayOf& input, int nLhs)
     return UniqueCellThreeLhs(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -16,5 +16,14 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 axesBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+ArrayOfVector
+polaraxesBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+uiaxesBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+yyaxisBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

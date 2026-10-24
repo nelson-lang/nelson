@@ -17,9 +17,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class Evaluator;
+//=============================================================================
 bool
-h5SaveStringArray(hid_t fid, const std::string& location, const std::string& variableName,
-    const ArrayOf& VariableValue, bool useCompression);
+h5SaveStringArray(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, const ArrayOf& VariableValue, bool useCompression);
 //=============================================================================
 bool
 h5SaveCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,

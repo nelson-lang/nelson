@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('asind'), -1);
-assert_isequal(nargout('asind'), 1);
+asserts.isequal(nargin('asind'), -1);
+asserts.isequal(nargout('asind'), 1);
 %=============================================================================
 x = [0:0.1:1];
-assert_isapprox(asind(x), 180/pi * asin (x), -10*eps());
+asserts.isapprox(asind(x), 180 / pi * asin(x), 10 * eps());
 %=============================================================================
 R = sind(asind([2 3]));
 REF = complex([2 3]);
-assert_isapprox(real(R), real(REF), 1e-4);
+asserts.isapprox(real(R), real(REF), 1e-4);
 %=============================================================================

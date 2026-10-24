@@ -20,14 +20,16 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "NelsonException.hpp"
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
 #include "i18n.hpp"
 #include "NelsonGateway.hpp"
 #include "CallMexBuiltin.hpp"
 //=============================================================================
 #ifndef _MSC_VER
-static std::jmp_buf buf;
-static int error_code = 0;
+static thread_local std::jmp_buf buf;
+static thread_local int error_code = 0;
 #endif
 //=============================================================================
 namespace Nelson {
@@ -86,14 +88,17 @@ public:
         case EXCEPTION_STACK_OVERFLOW:
             return "EXCEPTION_STACK_OVERFLOW";
         default:
-            return "UNKNOWN EXCEPTION";
+            return "UNKNOWN NelsonException";
         }
     }
     //=============================================================================
     static std::string
     information(struct _EXCEPTION_POINTERS* ep, exception_code_t code = 0)
     {
-        std::string errorSystem = _("System error detected: ") + std::string(seDescription(code));
+        std::string errorSystem
+            = formatI18nMessage(resolveMessageTemplate("Nelson:interpreter:systemErrorDetectedS",
+                                    "System error detected: %s"),
+                std::string(seDescription(code)));
         return errorSystem;
     }
     //=============================================================================
@@ -128,7 +133,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
             outputs = builtinPtr(nargout, inputs);
         } catch (const std::runtime_error& e) {
             _set_se_translator(nullptr);
-            Error(e.what());
+            RaiseError(e.what(), "Nelson:interpreter:builtinRuntimeError");
         }
         _set_se_translator(nullptr);
 
@@ -140,7 +145,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
             outputs = builtinPtr(eval, nargout, inputs);
         } catch (const std::runtime_error& e) {
             _set_se_translator(nullptr);
-            Error(e.what());
+            RaiseError(e.what(), "Nelson:interpreter:builtinRuntimeError");
         }
         _set_se_translator(nullptr);
 
@@ -149,7 +154,7 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
         CallMexBuiltin(fptr, inputs, nargout, outputs, interleavedComplex);
     } break;
     default: {
-        Error(_("BUILTIN type not managed."));
+        Error("Nelson:interpreter:unsupportedBuiltinType", "BUILTIN type not managed.");
     } break;
     }
     return outputs;
@@ -166,43 +171,76 @@ EvaluateBuiltinCatchRuntimeException(Evaluator* eval, void* fptr, const ArrayOfV
     signal(SIGSEGV, signal_handler);
     signal(SIGFPE, signal_handler);
     signal(SIGILL, signal_handler);
+    auto restoreSignals = []() {
+        signal(SIGSEGV, SIG_DFL);
+        signal(SIGFPE, SIG_DFL);
+        signal(SIGILL, SIG_DFL);
+    };
     if (!(setjmp(buf))) {
-        switch (builtinPrototype) {
-        case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
-            BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
-            outputs = builtinPtr(nargout, inputs);
-        } break;
-        case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
-            BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
-            outputs = builtinPtr(eval, nargout, inputs);
-        } break;
-        case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
-            CallMexBuiltin(fptr, inputs, nargout, outputs, interleavedComplex);
-        } break;
-        default: {
-        } break;
+        // The interpreter only propagates NelsonException. A plain C++ exception
+        // (std::out_of_range, std::bad_alloc, ...) would unwind past every Nelson
+        // try/catch and end in std::terminate, so it becomes a Nelson error here,
+        // as on the Windows path. NelsonException passes through.
+        try {
+            switch (builtinPrototype) {
+            case BUILTIN_PROTOTYPE::CPP_BUILTIN: {
+                BuiltInFuncPtr builtinPtr = (BuiltInFuncPtr)fptr;
+                outputs = builtinPtr(nargout, inputs);
+            } break;
+            case BUILTIN_PROTOTYPE::CPP_BUILTIN_WITH_EVALUATOR: {
+                BuiltInWithEvaluatorFuncPtr builtinPtr = (BuiltInWithEvaluatorFuncPtr)fptr;
+                outputs = builtinPtr(eval, nargout, inputs);
+            } break;
+            case BUILTIN_PROTOTYPE::C_MEX_BUILTIN: {
+                CallMexBuiltin(fptr, inputs, nargout, outputs, interleavedComplex);
+            } break;
+            default: {
+            } break;
+            }
+        } catch (const NelsonException&) {
+            restoreSignals();
+            throw;
+        } catch (const std::exception& e) {
+            restoreSignals();
+            RaiseError(std::string(e.what()), "Nelson:interpreter:builtinRuntimeError");
+        } catch (...) {
+            restoreSignals();
+            RaiseError(resolveMessageTemplate("Nelson:interpreter:builtinUnknownError",
+                           "An unexpected error occurred in a builtin function."),
+                "Nelson:interpreter:builtinRuntimeError");
         }
     } else {
         std::string error_message = "";
         switch (error_code) {
         case SIGSEGV: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGSEGV");
+            error_message = formatI18nMessage(
+                resolveMessageTemplate(
+                    "Nelson:interpreter:systemErrorDetectedS", "System error detected: %s"),
+                "SIGSEGV");
         } break;
         case SIGFPE: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGFPE");
+            error_message = formatI18nMessage(
+                resolveMessageTemplate(
+                    "Nelson:interpreter:systemErrorDetectedS", "System error detected: %s"),
+                "SIGFPE");
         } break;
         case SIGILL: {
-            error_message = fmt::format(_("System error detected: {0}"), "SIGILL");
+            error_message = formatI18nMessage(
+                resolveMessageTemplate(
+                    "Nelson:interpreter:systemErrorDetectedS", "System error detected: %s"),
+                "SIGILL");
         } break;
         default: {
-            error_message = fmt::format(
-                _("System error detected: Error code: {0}"), std::to_string(error_code));
+            error_message = formatI18nMessage(
+                Nelson::resolveMessageTemplate("Nelson:interpreter:systemErrorDetectedError",
+                    "System error detected: Error code: %s"),
+                std::to_string(error_code));
         } break;
         }
         signal(SIGSEGV, SIG_DFL);
         signal(SIGFPE, SIG_DFL);
         signal(SIGILL, SIG_DFL);
-        Error(error_message);
+        Error("Nelson:interpreter:systemErrorDetected", error_message);
     }
     signal(SIGSEGV, SIG_DFL);
     signal(SIGFPE, SIG_DFL);

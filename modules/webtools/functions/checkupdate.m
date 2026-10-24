@@ -15,12 +15,12 @@ function varargout = checkupdate(varargin)
   catch ME
     throw(ME)
   end
-  haveGui = shouldDisplayGui(forceNoGui);  
+  haveGui = shouldDisplayGui(forceNoGui);
   if isempty(url)
     url = getDefaultUrl();
   end
   [res, msg, html_url] = fetchLatestReleaseInfo(url, version('-semantic'));
-  
+
   if nargout > 0
     varargout{1} = res;
     varargout{2} = msg;
@@ -35,28 +35,28 @@ function varargout = checkupdate(varargin)
 end
 %=============================================================================
 function haveGui = shouldDisplayGui(forceNoGui)
-  haveGui = (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') || strcmp(getnelsonmode(), 'GUI')) && ~forceNoGui;
+  haveGui = (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') || strcmp(getnelsonmode(), 'GUI') || strcmp(getnelsonmode(), 'WEB_GUI')) && ~forceNoGui;
 end
 %=============================================================================
 function [url, forceNoGui] = parseInputArguments(inputs)
   url = '';
   forceNoGui = false;
-  
+
   if (mod(length(inputs), 2) ~= 0)
-    error(_('Wrong number of input arguments. Inputs must be name-value pairs.'));
+    error('Nelson:checkupdate:wrongNumberInputArgumentsInputs2', 'Wrong number of input arguments. Inputs must be name-value pairs.');
   end
-  
+
   for i = 1:2:length(inputs)
     name = inputs{i};
     value = inputs{i + 1};
-    
+
     switch lower(name)
       case 'url'
         url = value;
       case 'forcenogui'
         forceNoGui = value;
       otherwise
-        error(sprintf(_("Unexpected input name: '%s'."), name));
+        error('Nelson:checkupdate:unexpectedInputName', 'Unexpected input name: ''%s''.', name);
       end
     end
   end
@@ -70,7 +70,7 @@ function messageGUI(msg, html_url)
     end
   else
     msgbox(msg, _('Check Update'), 'modal');
-  end 
+  end
 end
 %=============================================================================
 function messageCLI(msg, html_url)
@@ -119,7 +119,7 @@ function [res, msg, html_url] = fetchLatestReleaseInfo(url, currentVersion)
       msg = _('Current version is up-to-date.');
       html_url = '';
     elseif res < 0
-      msg = [_('A new version is available:'), ' ', tag_name];
+      msg = sprintf(_('A new version is available: %s'), tag_name);
       res = true;
     else
       res = false;

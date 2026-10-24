@@ -7,8 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-dlgeneratecleaner(tempdir);
-assert_istrue(isfile([tempdir(), 'cleaner.m']));
-txt = fileread([tempdir(), 'cleaner.m']);
-assert_istrue(contains(txt, 'rmfile(''CMakeLists.txt'');'));
+d = tempname();
+mkdir(d);
+c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+dlgeneratecleaner(d);
+asserts.istrue(isfile(fullfile(d, 'cleaner.m')));
+txt = fileread(fullfile(d, 'cleaner.m'));
+asserts.istrue(contains(txt, 'rmfile(''CMakeLists.txt'');'));
 %=============================================================================

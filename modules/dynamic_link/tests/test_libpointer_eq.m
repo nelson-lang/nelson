@@ -9,6 +9,6 @@
 %=============================================================================
 x = 133.3;
 xPtr = libpointer('doublePtr', x);
-assert_isequal(xPtr, xPtr);
-assert_istrue(xPtr == xPtr);
+asserts.isequal(xPtr, xPtr);
+asserts.istrue(xPtr == xPtr);
 %=============================================================================

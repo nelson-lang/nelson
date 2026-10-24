@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>optimization</module_name>
+  <chapter>Optimization</chapter>
+  <chapter_description>
+    <p>The Optimization module provides scalar minimization, unconstrained minimization, zero finding, nonlinear equations, nonlinear least squares, nonnegative least squares, quadratic programming, solver options, and a first problem-based modelling layer.</p>
+    <p>The implemented algorithms are deterministic dense numerical methods intended for small and medium-size engineering models in Nelson.</p>
+  </chapter_description>
+</xmldoc>

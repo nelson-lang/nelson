@@ -9,23 +9,23 @@
 %=============================================================================
 R = strjust('      s', 'center');
 REF = '   s   ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = strjust([]);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-str = ["Nelson";     "Mir   ";   "ISS   "];
+str = ["Nelson"; "Mir   "; "ISS   "];
 R = strjust(str, 'right');
-REF = ["Nelson"; "   Mir";"   ISS"];
-assert_isequal(R, REF);
+REF = ["Nelson"; "   Mir"; "   ISS"];
+asserts.isequal(R, REF);
 %=============================================================================
-str = {'Nelson';     'Mir   ';   'ISS   '};
+str = {'Nelson'; 'Mir   '; 'ISS   '};
 R = strjust(str, 'right');
-REF = {'Nelson'; '   Mir';'   ISS'};
-assert_isequal(R, REF);
+REF = {'Nelson'; '   Mir'; '   ISS'};
+asserts.isequal(R, REF);
 %=============================================================================
 R = strjust([69, 77]);
 REF = 'EM';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

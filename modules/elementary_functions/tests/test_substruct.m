@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-R = substruct ('()', {1, 2, 3}, '{}', {':'}, '.', 'field');
-assert_isequal(size(R), [1 3]);
-assert_istrue(isstruct(R));
+R = substruct('()', {1, 2, 3}, '{}', {':'}, '.', 'field');
+asserts.isequal(size(R), [1 3]);
+asserts.istrue(isstruct(R));
 REF_1 = struct([]);
 REF_1.type = '()';
 REF_1.subs = {1 2 3};
@@ -19,7 +19,7 @@ REF_2.subs = {':'};
 REF_3 = struct([]);
 REF_3.type = '.';
 REF_3.subs = 'field';
-assert_isequal(R(1), REF_1)
-assert_isequal(R(2), REF_2)
-assert_isequal(R(3), REF_3)
+asserts.isequal(R(1), REF_1)
+asserts.isequal(R(2), REF_2)
+asserts.isequal(R(3), REF_3)
 %=============================================================================

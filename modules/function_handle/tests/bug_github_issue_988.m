@@ -12,9 +12,9 @@
 % <-- Short Description -->
 % anonymous function serialization '.^' and '^' were inversed.
 %=============================================================================
-F1 = @(f) f .^2
-assert_isequal(func2str(F1), '@(f) f.^2')
+F1 = @(f) f .^ 2
+asserts.isequal(func2str(F1), '@(f)f.^2')
 %=============================================================================
-F2 = @(f) f ^2
-assert_isequal(func2str(F2), '@(f) f^2')
+F2 = @(f) f ^ 2
+asserts.isequal(func2str(F2), '@(f)f^2')
 %=============================================================================

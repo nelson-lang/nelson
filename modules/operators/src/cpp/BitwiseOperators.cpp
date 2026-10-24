@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "BitwiseOperators.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "BitwiseInteger.hpp"
 #include "ClassName.hpp"
@@ -17,9 +18,6 @@ namespace Nelson {
 //=============================================================================
 static bool
 isSupportedAssumedType(const std::wstring& assumedType);
-//=============================================================================
-static std::wstring
-getIdPrefix(BITWISE_OPERATOR bitwiseOperator);
 //=============================================================================
 static ArrayOf
 BitwiseOperatorDoubleDouble(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayOf& B);
@@ -35,48 +33,44 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
     ArrayOf res = {};
     if (A.isDoubleType()) {
         if (!A.isIntegerValue() && !A.isEmpty()) {
-            Error(_W("finite integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            Error(L"Nelson:operators:finiteIntegerExpected", L"finite integer values expected.");
         }
         if (!A.isPositive()) {
-            Error(_W("finite positive integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            Error(L"Nelson:operators:finitePositiveIntegerExpected",
+                L"finite positive integer values expected.");
         }
     }
     if (B.isDoubleType()) {
         if (!B.isIntegerValue() && !B.isEmpty()) {
-            Error(_W("finite integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            Error(L"Nelson:operators:finiteIntegerExpected", L"finite integer values expected.");
         }
         if (!B.isPositive()) {
-            Error(_W("finite positive integer values expected."),
-                getIdPrefix(bitwiseOperator) + L"outOfRange");
+            Error(L"Nelson:operators:finitePositiveIntegerExpected",
+                L"finite positive integer values expected.");
         }
     }
     if (withAssumedType && !isSupportedAssumedType(assumedType)) {
-        Error(_W("ASSUMEDTYPE must be an integer type name."),
-            getIdPrefix(bitwiseOperator) + L"unknownTypeString");
+        Error(L"Nelson:operators:invalidAssumedType", L"ASSUMEDTYPE must be an integer type name.");
     }
     bool isSupportedTypeA = (A.isDoubleType(true) || A.isIntegerType() || A.isLogical());
     bool isSupportedTypeB = (B.isDoubleType(true) || B.isIntegerType() || B.isLogical());
     bool isSupportedType = isSupportedTypeA && isSupportedTypeB;
     if (!isSupportedType) {
-        Error(_W("Operands to BIT Ops must be numeric."),
-            getIdPrefix(bitwiseOperator) + L"operandsNotNumeric");
+        Error(L"Nelson:operators:operandsNotNumeric", L"Operands to BIT Ops must be numeric.");
     }
     if (A.isSparse() || B.isSparse()) {
-        Error(_W("Inputs must be full."), getIdPrefix(bitwiseOperator) + L"sparseArgs");
+        Error(L"Nelson:operators:sparseNotSupported", L"Inputs must be full.");
     }
     if (A.isLogical() && B.isLogical()) {
-        // assumedType not considered for compatibility
+        // assumedType is ignored
         return integer_bitwise<logical>(bitwiseOperator, NLS_LOGICAL, A, B);
     } else if (A.isDoubleType(true) && B.isDoubleType(true)) {
-        // assumedType not considered for compatibility
+        // assumedType is ignored
         return BitwiseOperatorDoubleDouble(bitwiseOperator, A, B);
     } else if (A.isIntegerType() && B.isIntegerType()) {
-        if (A.getDataClass() != B.getDataClass()) {
-            Error(_W("Input arguments must have the same class or scalar doubles."),
-                getIdPrefix(bitwiseOperator) + L"mixedClasses");
+        if (A.dataClass() != B.dataClass()) {
+            Error(L"Nelson:operators:mixedClasses",
+                L"Input arguments must have the same class or scalar doubles.");
         }
         std::wstring _assumedType = assumedType;
         if (!withAssumedType) {
@@ -87,16 +81,16 @@ BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayO
 
     NelsonType destinationType;
     if (A.isDoubleType()) {
-        if (B.getDataClass() == NLS_LOGICAL) {
+        if (B.dataClass() == NLS_LOGICAL) {
             destinationType = NLS_DOUBLE;
         } else {
-            destinationType = B.getDataClass();
+            destinationType = B.dataClass();
         }
     } else {
-        if (A.getDataClass() == NLS_LOGICAL) {
+        if (A.dataClass() == NLS_LOGICAL) {
             destinationType = NLS_DOUBLE;
         } else {
-            destinationType = A.getDataClass();
+            destinationType = A.dataClass();
         }
     }
     ArrayOf _A(A);
@@ -130,29 +124,11 @@ isSupportedAssumedType(const std::wstring& assumedType)
         != supportedType.end();
 }
 //=============================================================================
-std::wstring
-getIdPrefix(BITWISE_OPERATOR bitwiseOperator)
-{
-    std::wstring id;
-    switch (bitwiseOperator) {
-    case BITWISE_OPERATOR::BIT_AND: {
-        id = L"Nelson:Bitand:";
-    } break;
-    case BITWISE_OPERATOR::BIT_OR: {
-        id = L"Nelson:Bitor:";
-    } break;
-    case BITWISE_OPERATOR::BIT_XOR: {
-        id = L"Nelson:Bitxor:";
-    } break;
-    }
-    return id;
-}
-//=============================================================================
 ArrayOf
 BitwiseOperatorDoubleDouble(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res = {};
-    // assumedType not considered for compatibility
+    // assumedType is ignored
     ArrayOf _A(A);
     ArrayOf _B(B);
     _A.promoteType(NLS_UINT64);

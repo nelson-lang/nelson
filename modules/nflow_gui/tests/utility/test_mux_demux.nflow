@@ -1,0 +1,166 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-05-03",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Mux/Demux example",
+  "name": "test_mux_demux",
+  "blocks": [
+    {
+      "id": "const1",
+      "type": "constant",
+      "x": 70,
+      "y": 140,
+      "rotation": 0,
+      "params": {
+        "Value": 5
+      }
+    },
+    {
+      "id": "demux1",
+      "type": "demux",
+      "x": 420,
+      "y": 240,
+      "rotation": 0,
+      "params": {
+        "Outputs": 3
+      }
+    },
+    {
+      "id": "scope1",
+      "type": "scope",
+      "x": 560,
+      "y": 190,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "b14",
+      "type": "mux",
+      "x": 260,
+      "y": 240,
+      "rotation": 0,
+      "params": {
+        "Inputs": 3
+      }
+    },
+    {
+      "id": "b15",
+      "type": "constant",
+      "x": 70,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "Value": "2"
+      }
+    },
+    {
+      "id": "b16",
+      "type": "constant",
+      "x": 70,
+      "y": 230,
+      "rotation": 0,
+      "params": {
+        "Value": "1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "demux1",
+      "to": "scope1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [460, 250],
+        [540, 250],
+        [540, 230],
+        [560, 230]
+      ]
+    },
+    {
+      "from": "const1",
+      "to": "b14",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [150, 180],
+        [240, 180],
+        [240, 250],
+        [260, 250]
+      ]
+    },
+    {
+      "from": "b14",
+      "to": "demux1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 270],
+        [420, 270]
+      ]
+    },
+    {
+      "from": "b15",
+      "to": "b14",
+      "fromIndex": 0,
+      "toIndex": 2,
+      "points": [
+        [150, 360],
+        [240, 360],
+        [240, 290],
+        [260, 290]
+      ]
+    },
+    {
+      "from": "demux1",
+      "to": "scope1",
+      "fromIndex": 2,
+      "toIndex": 2,
+      "points": [
+        [460, 290],
+        [540, 290],
+        [540, 310],
+        [560, 310]
+      ]
+    },
+    {
+      "from": "demux1",
+      "to": "scope1",
+      "fromIndex": 1,
+      "toIndex": 1,
+      "points": [
+        [460, 270],
+        [560, 270]
+      ]
+    },
+    {
+      "from": "b16",
+      "to": "b14",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [150, 270],
+        [260, 270]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false,
+  "canvasBackground": "#e3d3d3"
+}

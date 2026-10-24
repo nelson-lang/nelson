@@ -61,19 +61,6 @@ XmlDocToc(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& 
     return true;
 }
 //=============================================================================
-static std::wstring
-getDestinationFileExtension(DOCUMENT_OUTPUT outputDocumentType)
-{
-    switch (outputDocumentType) {
-    case DOCUMENT_OUTPUT::HTML_WEB:
-        return L".html";
-    case DOCUMENT_OUTPUT::MARKDOWN:
-        return L".md";
-    default:
-        return L".html";
-    }
-}
-//=============================================================================
 static bool
 hasVisibleContent(const XmlDocSection& section)
 {
@@ -83,7 +70,7 @@ hasVisibleContent(const XmlDocSection& section)
 static std::string
 assembleToc(const std::vector<XmlDocSection>& xmlDocFiles, DOCUMENT_OUTPUT outputDocumentType)
 {
-    std::wstring destinationFileExtension = getDestinationFileExtension(outputDocumentType);
+    std::wstring destinationFileExtension = documentOutputExtension(outputDocumentType);
 
     xmlDocPtr doc = xmlNewDoc(BAD_CAST "1.0");
     xmlNodePtr rootNode = xmlNewNode(nullptr, BAD_CAST "toc");

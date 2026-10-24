@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>inserthtml</keyword>
-  <short_description>Insère du HTML dans la console GUI.</short_description>
+  <short_description>InsÃ¨re du HTML dans la console GUI.</short_description>
   <syntax>
     <syntax_item>inserthtml(html_txt)</syntax_item>
   </syntax>
@@ -15,7 +15,7 @@
   </param_input>
   <description>
     <p>
-      <b>inserthtml</b> insère du code HTML dans la console GUI.</p>
+      <b>inserthtml</b> insÃ¨re du code HTML dans la console GUI.</p>
   </description>
   <used_function />
   <bibliography />

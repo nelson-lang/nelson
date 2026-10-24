@@ -7,17 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 a = nfilename();
-assert_isequal(a, 'test_nfilename');
+asserts.isequal(a, 'test_nfilename');
 %=============================================================================
 p = path();
 addpath([nelsonroot(), '/modules/core/tests/']);
 a = nfilename();
-assert_isequal(a, 'test_nfilename');
+asserts.isequal(a, 'test_nfilename');
 %=============================================================================
 run('nfilename1.m');
 a = nfilename();
-assert_isequal(a, 'test_nfilename');
+asserts.isequal(a, 'test_nfilename');
 %=============================================================================
 path(p);
 %=============================================================================

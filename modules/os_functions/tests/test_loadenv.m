@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('loadenv'), 1);
-assert_isequal(nargout('loadenv'), -1);
+asserts.isequal(nargin('loadenv'), 1);
+asserts.isequal(nargout('loadenv'), -1);
 %=============================================================================
 env_file = [modulepath('os_functions', 'tests'), '/sample.env'];
 D = loadenv(env_file);
 %=============================================================================
-assert_isequal(class(D), 'dictionary');
+asserts.isequal(class(D), 'dictionary');
 REF = ["Key1";
     "Key2";
     "AWS_ACCESS_KEY_ID";
@@ -28,11 +28,11 @@ REF = ["Key1";
     "DB_PORT";
     "TEMPORARY_DOWNLOAD";
     "会意; 會意"];
-assert_isequal(D.keys, REF);
+asserts.isequal(D.keys, REF);
 %=============================================================================
-assert_isequal(getenv('Key1'), '');
+asserts.isequal(getenv('Key1'), '');
 loadenv(env_file);
-assert_isequal(getenv('Key1'), 'Value1');
+asserts.isequal(getenv('Key1'), 'Value1');
 %=============================================================================
-assert_isequal(getenv('会意; 會意'), 'OK');
+asserts.isequal(getenv('会意; 會意'), 'OK');
 %=============================================================================

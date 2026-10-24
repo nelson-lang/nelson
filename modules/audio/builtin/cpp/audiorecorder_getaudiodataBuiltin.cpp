@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audiorecorder_getaudiodataBuiltin.hpp"
 #include "AudiorecorderObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -25,17 +26,17 @@ Nelson::AudioGateway::audiorecorder_getaudiodataBuiltin(int nLhs, const ArrayOfV
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf handleArray = argIn[0];
-    if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+    if (handleArray.handleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
+        Error(L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected.");
     }
-    auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
+    auto* objRec = (AudiorecorderObject*)handleArray.asHandleScalar();
     if (!objRec) {
-        Error(_W("Invalid audiorecorder handle."));
+        Error(L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected.");
     }
 
     NelsonType destinationType = NLS_DOUBLE;
     if (argIn.size() > 1) {
-        std::wstring dataType = argIn[1].getContentAsWideString();
+        std::wstring dataType = argIn[1].asWideString();
         if (dataType == L"double") {
             destinationType = NLS_DOUBLE;
         } else if (dataType == L"single") {
@@ -47,7 +48,8 @@ Nelson::AudioGateway::audiorecorder_getaudiodataBuiltin(int nLhs, const ArrayOfV
         } else if (dataType == L"int16") {
             destinationType = NLS_INT16;
         } else {
-            Error(_W("Unsupported data type for audiorecorder getaudiodata."));
+            Error(L"Nelson:audiorecorder_getaudiodata:unsupportedDataType",
+                L"Unsupported data type for audiorecorder getaudiodata.");
         }
     }
 
@@ -55,5 +57,5 @@ Nelson::AudioGateway::audiorecorder_getaudiodataBuiltin(int nLhs, const ArrayOfV
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

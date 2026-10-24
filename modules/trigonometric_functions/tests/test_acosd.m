@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('acosd'), -1);
-assert_isequal(nargout('acosd'), 1);
+asserts.isequal(nargin('acosd'), -1);
+asserts.isequal(nargout('acosd'), 1);
 %=============================================================================
 X = [0:0.1:1];
-assert_isapprox(acosd (X), 180/pi * acos (X), -10*eps);
+asserts.isapprox(acosd(X), 180 / pi * acos(X), 10 * eps);
 %=============================================================================

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "python_interop.m",
+      "title": "Exchange data with Python",
+      "description": "Send an array to Python and retrieve a computed scalar.",
+      "tags": [
+        "interop",
+        "arrays"
+      ],
+      "requirements": [
+        "python"
+      ]
+    }
+  ]
+}

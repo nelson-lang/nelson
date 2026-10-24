@@ -9,4 +9,7 @@
 ;==============================================================================
 #include "english_messages_nelson.islu"
 #include "french_messages_nelson.islu"
+#include "nflow_messages_nelson.islu"
+#include "notebook_messages_nelson.islu"
+#include "compiler_messages_nelson.islu"
 ;==============================================================================

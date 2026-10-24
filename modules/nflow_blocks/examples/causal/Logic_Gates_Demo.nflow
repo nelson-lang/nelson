@@ -1,0 +1,359 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-05-25",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "Logic Gates Demo - AND, OR, XOR, NOT with constant inputs and scope outputs",
+  "name": "Logic Gates Demo",
+  "blocks": [
+    {
+      "id": "and_gate",
+      "type": "and",
+      "x": 220,
+      "y": 110,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "and_scope",
+      "type": "scope",
+      "x": 380,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": -0.2,
+        "YMax": 1.5,
+        "width": 260,
+        "height": 180,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "or_gate",
+      "type": "or",
+      "x": 220,
+      "y": 370,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "or_scope",
+      "type": "scope",
+      "x": 380,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": -0.2,
+        "YMax": 1.5,
+        "width": 260,
+        "height": 180,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "xor_gate",
+      "type": "xor",
+      "x": 220,
+      "y": 630,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "xor_scope",
+      "type": "scope",
+      "x": 380,
+      "y": 580,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": -0.2,
+        "YMax": 1.5,
+        "width": 260,
+        "height": 180,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "not_gate",
+      "type": "not",
+      "x": 220,
+      "y": 890,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "not_scope",
+      "type": "scope",
+      "x": 380,
+      "y": 840,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": -0.2,
+        "YMax": 1.5,
+        "width": 260,
+        "height": 180,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "b2",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 85,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b3",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 175,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b4",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 435,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b5",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 345,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b6",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 605,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b7",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 695,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    },
+    {
+      "id": "b8",
+      "type": "toggleSwitch",
+      "x": 60,
+      "y": 905,
+      "rotation": 0,
+      "params": {
+        "State": 1,
+        "OnLabel": "ON",
+        "OffLabel": "OFF",
+        "OnValue": 1,
+        "OffValue": 0,
+        "width": 80,
+        "height": 50
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "and_gate",
+      "to": "and_scope",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 150],
+        [360, 150],
+        [360, 100],
+        [380, 100]
+      ]
+    },
+    {
+      "from": "or_gate",
+      "to": "or_scope",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 410],
+        [360, 410],
+        [360, 360],
+        [380, 360]
+      ]
+    },
+    {
+      "from": "xor_gate",
+      "to": "xor_scope",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 670],
+        [360, 670],
+        [360, 620],
+        [380, 620]
+      ]
+    },
+    {
+      "from": "not_gate",
+      "to": "not_scope",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 930],
+        [360, 930],
+        [360, 880],
+        [380, 880]
+      ]
+    },
+    {
+      "from": "b2",
+      "to": "and_gate",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 110],
+        [200, 110],
+        [200, 130],
+        [220, 130]
+      ]
+    },
+    {
+      "from": "b3",
+      "to": "and_gate",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 200],
+        [200, 200],
+        [200, 170],
+        [220, 170]
+      ]
+    },
+    {
+      "from": "b5",
+      "to": "or_gate",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 460],
+        [200, 460],
+        [200, 390],
+        [220, 390]
+      ]
+    },
+    {
+      "from": "b4",
+      "to": "or_gate",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 370],
+        [170, 370],
+        [170, 430],
+        [220, 430]
+      ]
+    },
+    {
+      "from": "b6",
+      "to": "xor_gate",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 630],
+        [200, 630],
+        [200, 650],
+        [220, 650]
+      ]
+    },
+    {
+      "from": "b8",
+      "to": "not_gate",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 930],
+        [220, 930]
+      ]
+    },
+    {
+      "from": "b7",
+      "to": "xor_gate",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 720],
+        [200, 720],
+        [200, 690],
+        [220, 690]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

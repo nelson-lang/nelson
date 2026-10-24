@@ -10,12 +10,11 @@
 if ~MPI_Initialized()
   MPI_Init();
 end
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
-disp(['Hello world from rank ',int2str(my_rank), ' of total ', int2str(num_ranks)]);
+disp(['Hello world from rank ', int2str(my_rank), ' of total ', int2str(num_ranks)]);
 
 if MPI_Initialized()
   MPI_Finalize();
 end
-exit
 %=============================================================================

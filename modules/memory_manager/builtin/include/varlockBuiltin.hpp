@@ -15,5 +15,6 @@
 namespace Nelson::MemoryGateway {
 ArrayOfVector
 varlockBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

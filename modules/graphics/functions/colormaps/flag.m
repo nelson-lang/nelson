@@ -9,24 +9,12 @@
 %=============================================================================
 function varargout = flag(varargin)
   narginchk(0, 1);
-  nargoutchk(0, 1);    
-  if nargin < 1
-    R = groot();
-    f = R.CurrentFigure;
-    if isempty(f)
-      m = size(R.DefaultFigureColormap, 1);
-    else
-      m = size(f.Colormap, 1);
-    end
-  else
-    m = varargin{1};
-  end
-  f = [1 0 0;
-  1 1 1;
-  0 0 1;
-  0 0 0];
-  
-  e = ones(ceil(m / 4), 1);
-  map = kron(e, f);
-  varargout{1} = map(1:m,:);
+  nargoutchk(0, 1);
+  colorCount = requestedColorCount(varargin{:});
+  pattern = [1 0 0;
+             1 1 1;
+             0 0 1;
+             0 0 0];
+  rowIndex = rem(0:colorCount - 1, size(pattern, 1)) + 1;
+  varargout{1} = pattern(rowIndex, :);
 end

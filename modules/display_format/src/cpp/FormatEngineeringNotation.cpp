@@ -254,5 +254,5 @@ formatComplexShortEng(single realPart, single imagPart, bool trim)
     return formatComplexShortEng<single>(realPart, imagPart, trim);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

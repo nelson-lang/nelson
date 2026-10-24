@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>griddata</keyword>
+  <short_description>Interpolation de donnees dispersees</short_description>
+  <syntax>
+    <syntax_item>Vq = griddata(P, V, xq, yq)</syntax_item>
+    <syntax_item>Vq = griddata(x, y, V, xq, yq)</syntax_item>
+    <syntax_item>Vq = griddata(x, y, z, V, xq, yq, zq)</syntax_item>
+    <syntax_item>Vq = griddata(..., method)</syntax_item>
+    <syntax_item>[Xq, Yq, Vq] = griddata(x, y, V, xq, yq)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>griddata</b> interpole des echantillons disperses aux coordonnees de requete.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpolation lineaire de donnees dispersees planes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = [0; 1; 1; 0];
+y = [0; 0; 1; 1];
+V = x + y;
+Vq = griddata(x, y, V, 0.25, 0.25)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}scatteredInterpolant">scatteredInterpolant</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunayn">delaunayn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>drawnow</keyword>
+  <short_description
+  >Met à jour les figures et traite les callbacks</short_description>
+  <syntax>
+    <syntax_item>drawnow()</syntax_item>
+    <syntax_item>drawnow('limitrate')</syntax_item>
+    <syntax_item>drawnow limitrate</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>limitrate</param_name>
+      <param_description>Limite les mises &#224; jour des figures pour r&#233;duire le travail de rendu pendant les boucles d&apos;animation.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>drawnow</b> vide la file d&apos;attente des événements et met à jour la fenêtre de la figure.</p>
+    <p>
+      <b>drawnow('limitrate')</b> et <b>drawnow limitrate</b> traitent les callbacks en attente mais ignorent la mise &#224; jour des figures lorsque la mise &#224; jour pr&#233;c&#233;dente est r&#233;cente. Ce mode est utile dans les boucles d&apos;animation.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[x = -pi:pi/20:pi;
+plot(x, cos(x))
+drawnow
+title('Title Here ...')
+grid on]]></example_item_data>
+      <example_item_img src="../../../../images/drawnow_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[x = linspace(0, 2*pi, 200);
+h = plot(x, sin(x));
+for k = 1:20
+  set(h, 'YData', sin(x + k / 10));
+  drawnow limitrate
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/refresh">refresh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

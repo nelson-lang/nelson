@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>intlinprog</keyword>
+  <short_description>Mixed-integer linear programming.</short_description>
+  <syntax>
+    <syntax_item>x = intlinprog(f, intcon, A, b)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output] = intlinprog(f, intcon, A, b, Aeq, beq, lb, ub, x0, options)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output] = intlinprog(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>f</param_name><param_description>linear objective coefficients.</param_description></param_input_item>
+    <param_input_item><param_name>intcon</param_name><param_description>indices of integer variables.</param_description></param_input_item>
+    <param_input_item><param_name>A, b</param_name><param_description>linear inequality constraints A*x &lt;= b.</param_description></param_input_item>
+    <param_input_item><param_name>Aeq, beq</param_name><param_description>linear equality constraints Aeq*x = beq.</param_description></param_input_item>
+    <param_input_item><param_name>lb, ub</param_name><param_description>lower and upper variable bounds.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>solver options created with optimoptions or optimset.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>x</param_name><param_description>computed minimizer.</param_description></param_output_item>
+    <param_output_item><param_name>fval</param_name><param_description>objective value f'*x.</param_description></param_output_item>
+    <param_output_item><param_name>exitflag</param_name><param_description>termination indicator.</param_description></param_output_item>
+    <param_output_item><param_name>output</param_name><param_description>diagnostic structure.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>intlinprog</b> solves linear optimization problems where selected variables are integer-valued. Nelson uses HiGHS when available.</p>
+    <p>The accepted problem structure can contain solver, f, intcon, Aineq or A, bineq or b, Aeq, beq, lb, ub, x0 and options fields.</p>
+    <p>The <b>output</b> structure reports relative and absolute gap, number of feasible points, node count, constraint violation, iterations, elapsed time, algorithm, normalized backend status, primal solution status and backend message. The <b>exitflag</b> distinguishes optimal, infeasible, unbounded, limit-reached and early-stop statuses when the backend provides that status.</p>
+    <p>Options such as <b>MaxTime</b>, <b>MaxNodes</b>, <b>MaxIterations</b>, <b>MaxFeasiblePoints</b>, <b>AbsoluteGapTolerance</b>, <b>RelativeGapTolerance</b>, <b>IntegerTolerance</b>, <b>LPPreprocess</b>, <b>RootLPAlgorithm</b>, <b>Heuristics</b> and <b>CutGeneration</b> are mapped to HiGHS where possible. Recognized options without a direct backend equivalent are accepted and ignored.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+    <used_function_item>prob2struct</used_function_item>
+  </used_function>
+  <bibliography>Huangfu, Q. and Hall, J. A. J., Parallelizing the dual revised simplex method, Mathematical Programming Computation, 2018.
+Achterberg, T., Constraint Integer Programming, PhD thesis, Technische Universitaet Berlin, 2007.
+Nemhauser, G. L. and Wolsey, L. A., Integer and Combinatorial Optimization, Wiley, 1988.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[f = [8; 1];
+intcon = 2;
+A = [-1 -2; -4 -1; 2 1];
+b = [14; -33; 20];
+opts = optimoptions('intlinprog', 'Display', 'off');
+[x, fval, exitflag, output] = intlinprog(f, intcon, A, b, [], [], [], [], [], opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}linprog">linprog</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}prob2struct">prob2struct</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

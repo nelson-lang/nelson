@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,9 +10,9 @@
 #include "addmoduleBuiltin.hpp"
 #include "AddModule.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,18 +26,18 @@ Nelson::ModulesManagerGateway::addmoduleBuiltin(
     std::wstring modulerootpath;
     std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
-        modulerootpath = argIn[0].getContentAsWideString();
+        modulerootpath = argIn[0].asWideString();
         if (!StringHelpers::ends_with(modulerootpath, L"\\")
             && (!StringHelpers::ends_with(modulerootpath, L"/"))) {
             modulerootpath.append(L"/");
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (argIn[1].isRowVectorCharacterArray()) {
-        moduleshortname = argIn[1].getContentAsWideString();
+        moduleshortname = argIn[1].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2), L"string");
     }
     AddModule(eval, modulerootpath, moduleshortname);
     return retval;

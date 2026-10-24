@@ -9,14 +9,20 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <vector>
-#include <portaudio.h>
 #include <string>
+#ifndef NELSON_AUDIO_FILE_ONLY_BACKEND
+#define NELSON_AUDIO_FILE_ONLY_BACKEND 0
+#endif
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
+#include <portaudio.h>
+#include <vector>
+#endif
 #include "ArrayOf.hpp"
 #include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
 class AudioDeviceInfo
 {
 public:
@@ -30,6 +36,7 @@ PaDeviceIndex
 getOutputDeviceIndex(int deviceID);
 PaDeviceIndex
 getInputDeviceIndex(int deviceID);
+#endif
 NLSAUDIO_IMPEXP ArrayOf
 AudioDevInfo(std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf
@@ -46,9 +53,12 @@ NLSAUDIO_IMPEXP ArrayOf
 AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage);
 NLSAUDIO_IMPEXP ArrayOf
 AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorMessage);
+#if !NELSON_AUDIO_FILE_ONLY_BACKEND
 NLSAUDIO_IMPEXP void
 clearAudioDevicesInfo();
 NLSAUDIO_IMPEXP void
 retrieveAudioDevicesInfo();
+#endif
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

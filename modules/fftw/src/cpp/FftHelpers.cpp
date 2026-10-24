@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,10 @@
 #include <fftw3.h>
 #include "FFTWWrapper.hpp"
 #include "FftHelpers.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -237,31 +241,38 @@ dcomplex_fft_backward(int Narg, double* dp)
 ArrayOf
 scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
 {
-    bool needToConvertToComplex = (X.getDataClass() == NLS_SINGLE);
-    Dimensions inDim = X.getDimensions();
+    bool needToConvertToComplex = (X.dataClass() == NLS_SINGLE);
+    Dimensions inDim = X.dimensions();
     Dimensions outDim(inDim);
     outDim[dim] = n;
     indexType planecount = 1;
     indexType planesize = 1;
     indexType linesize = inDim[dim];
-    for (indexType d = dim + 1; d < inDim.getLength(); d++) {
+    for (indexType d = dim + 1; d < inDim.length(); d++) {
         planecount *= inDim[d];
     }
     for (indexType d = 0; d < dim; d++) {
         planesize *= inDim[d];
     }
-    single* ob = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.getElementCount());
+    single* ob = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, outDim.elementCount());
     outDim.simplify();
     ArrayOf res = ArrayOf(NLS_SCOMPLEX, outDim, ob);
 
-    single* buffer = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n);
+    // zero-initialized so that lines shorter than n are zero-padded
+    single* buffer = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n, stringVector(), true);
     indexType copyIn = n;
     if (inDim[dim] < n) {
         copyIn = inDim[dim];
     }
-    auto* datapointer = (single*)X.getDataPointer();
+    auto* datapointer = (single*)X.dataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
+            // The transform is done in place and destroys the zero padding, so
+            // the tail must be re-zeroed for every line, not just once.
+            for (indexType k = copyIn; k < n; k++) {
+                buffer[2 * k] = 0;
+                buffer[2 * k + 1] = 0;
+            }
             OMP_PARALLEL_FOR_LOOP(copyIn)
             for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
                 indexType idxBuffer = 2 * k;
@@ -294,31 +305,38 @@ scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
 ArrayOf
 dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
 {
-    bool needToConvertToComplex = (X.getDataClass() == NLS_DOUBLE);
-    Dimensions inDim = X.getDimensions();
+    bool needToConvertToComplex = (X.dataClass() == NLS_DOUBLE);
+    Dimensions inDim = X.dimensions();
     Dimensions outDim(inDim);
     outDim[dim] = n;
     indexType planecount = 1;
     indexType planesize = 1;
     indexType linesize = inDim[dim];
-    for (indexType d = dim + 1; d < inDim.getLength(); d++) {
+    for (indexType d = dim + 1; d < inDim.length(); d++) {
         planecount *= inDim[d];
     }
     for (indexType d = 0; d < dim; d++) {
         planesize *= inDim[d];
     }
-    double* ob = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.getElementCount());
+    double* ob = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, outDim.elementCount());
     outDim.simplify();
     ArrayOf res = ArrayOf(NLS_DCOMPLEX, outDim, ob);
 
-    double* buffer = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n);
+    // zero-initialized so that lines shorter than n are zero-padded
+    double* buffer = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n, stringVector(), true);
     indexType copyIn = n;
     if (inDim[dim] < n) {
         copyIn = inDim[dim];
     }
-    auto* datapointer = (double*)X.getDataPointer();
+    auto* datapointer = (double*)X.dataPointer();
     for (indexType i = 0; i < planecount; i++) {
         for (indexType j = 0; j < planesize; j++) {
+            // The transform is done in place and destroys the zero padding, so
+            // the tail must be re-zeroed for every line, not just once.
+            for (indexType k = copyIn; k < n; k++) {
+                buffer[2 * k] = 0;
+                buffer[2 * k + 1] = 0;
+            }
             OMP_PARALLEL_FOR_LOOP(copyIn)
             for (ompIndexType k = 0; k < (ompIndexType)copyIn; k++) {
                 indexType idxBuffer = 2 * k;
@@ -348,6 +366,58 @@ dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
     return res;
 }
 //=============================================================================
+ArrayOf
+prepareFftwInput(const ArrayOf& X, const std::string& functionName)
+{
+    if (X.isReferenceType() || X.isHandle() || X.isSparse()) {
+        Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+            "Undefined function '%s' for input arguments of type '%s'.", functionName,
+            ClassName(X));
+    }
+    switch (X.dataClass()) {
+    case NLS_DOUBLE:
+    case NLS_DCOMPLEX:
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX: {
+        return X;
+    } break;
+    case NLS_LOGICAL:
+    case NLS_INT8:
+    case NLS_UINT8:
+    case NLS_INT16:
+    case NLS_UINT16:
+    case NLS_INT32:
+    case NLS_UINT32: {
+        ArrayOf promoted(X);
+        promoted.promoteType(NLS_DOUBLE);
+        return promoted;
+    } break;
+    default: {
+        Error("Nelson:fftw:invalidDataTypeFirst",
+            "Invalid data type. First argument must be double, single, int8, uint8, int16, uint16, "
+            "int32, uint32, or logical.");
+    } break;
+    }
+    return {};
+}
+//=============================================================================
+ArrayOf
+emptyFftwResult(const ArrayOf& X, indexType n, indexType dim)
+{
+    NelsonType outputClass
+        = (X.dataClass() == NLS_SINGLE || X.dataClass() == NLS_SCOMPLEX) ? NLS_SINGLE : NLS_DOUBLE;
+    Dimensions outDim(X.dimensions());
+    outDim[dim] = n;
+    if (outDim.elementCount() == 0) {
+        ArrayOf res = ArrayOf::empty(outDim);
+        res.promoteType(outputClass);
+        return res;
+    }
+    // empty input padded to a non-empty length: result is all zeros
+    void* ptr = ArrayOf::allocateArrayOf(outputClass, outDim.elementCount(), stringVector(), true);
+    return ArrayOf(outputClass, outDim, ptr);
+}
+//=============================================================================
 indexType
 computeDim(const ArrayOf& X)
 {
@@ -355,8 +425,8 @@ computeDim(const ArrayOf& X)
     if (X.isScalar()) {
         d = 1;
     } else {
-        Dimensions dimsX = Dimensions(X.getDimensions());
-        indexType len = dimsX.getLength();
+        Dimensions dimsX = Dimensions(X.dimensions());
+        indexType len = dimsX.length();
         while (d < len && dimsX[d] == 1) {
             d++;
         }
@@ -372,10 +442,7 @@ getDoubleWisdomInformation()
     std::wstring res;
     if (buffer != nullptr) {
         res = utf8_to_wstring(buffer);
-        /* According to the FFTW documentation, we should free 'buffer'
-           string but doing makes Nelson crash :( !!!
-        */
-        // free(buffer);
+        // FFTW documents that 'buffer' must be freed, but freeing it crashes Nelson.
     }
     return res;
 }
@@ -387,10 +454,7 @@ getSingleWisdomInformation()
     std::wstring res;
     if (buffer != nullptr) {
         res = utf8_to_wstring(buffer);
-        /* According to the FFTW documentation, we should free 'buffer'
-        string but doing makes Nelson crash :( !!!
-        */
-        // free(buffer);
+        // FFTW documents that 'buffer' must be freed, but freeing it crashes Nelson.
     }
     return res;
 }

@@ -14,11 +14,7 @@ else
   qobj = [];
 end
 if isempty(qobj)
-  if semver(qt_version(), '>=6.0')
-    qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt6.qml'];
-  else
-    qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt5.qml'];
-  end
+  qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt6.qml'];
   qobj = qml_createqquickview(qml_file);
   qobj.title = 'Nelson demo dynamic scene';
 else

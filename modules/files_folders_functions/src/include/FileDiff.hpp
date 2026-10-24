@@ -17,5 +17,6 @@ namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
 FileDiff(const std::wstring& filename1, const std::wstring& filename2, logical eolcompare,
     std::wstring& res);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

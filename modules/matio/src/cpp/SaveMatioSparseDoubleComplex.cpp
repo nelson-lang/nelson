@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,7 +17,7 @@ namespace Nelson {
 matvar_t*
 SaveMatioSparseDoubleComplex(const std::string& variableName, const ArrayOf& variableValue)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -25,7 +25,7 @@ SaveMatioSparseDoubleComplex(const std::string& variableName, const ArrayOf& var
     }
     Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
         = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)
-              variableValue.getSparseDataPointer();
+              variableValue.sparseDataPointer();
     indexType nnz = 0;
     auto nzmax = static_cast<int32>(variableValue.nzmax());
     int njc = 0;

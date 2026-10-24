@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pagenorm</keyword>
+  <short_description>Page-wise matrix or vector norm.</short_description>
+  <syntax>
+    <syntax_item>Y = pagenorm(X)</syntax_item>
+    <syntax_item>Y = pagenorm(X, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>N-D array. Each page is X(:,:,i,...).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>norm order: 2 (default, largest singular value), 1, Inf or 'fro'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>array of the page norms, of size [1 1 size(X,3) ...].</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pagenorm(X)</b> computes the 2-norm of each page X(:,:,i,...) of the N-D array X and returns them in an array whose first two dimensions are singleton.</p>
+    <p><b>pagenorm(X, p)</b> uses the norm of order p: 1, 2, Inf or 'fro'. When a page is a vector, the corresponding vector norm is used.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = cat(3, [1 2; 3 4], [5 6; 7 8]);
+Y = pagenorm(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}norm">norm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagemtimes">pagemtimes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagetranspose">pagetranspose</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

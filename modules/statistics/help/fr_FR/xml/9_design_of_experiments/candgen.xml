@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>candgen</keyword>
+  <short_description>Generer un ensemble candidat pour les plans.</short_description>
+  <syntax>
+    <syntax_item>dC = candgen(nfactors)</syntax_item>
+    <syntax_item>[dC, C] = candgen(nfactors, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>candgen</b> genere un ensemble candidat factoriel complet a partir des bornes des facteurs et sa matrice de modele.</p></description>
+  <used_function>
+    <link linkend="${statistics}x2fx">x2fx</link>
+    <link linkend="${statistics}candexch">candexch</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Generer un ensemble candidat factoriel complet et sa matrice de modele lineaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[F = candgen(2)
+[F, C] = candgen(2, 'linear')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser des bornes explicites pour les facteurs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[bounds = [0 1 2; -1 1 1];
+[F, C] = candgen(2, 'linear', 'Bounds', bounds);
+size(F)
+size(C)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

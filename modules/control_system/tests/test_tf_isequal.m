@@ -9,8 +9,8 @@
 %=============================================================================
 sys1 = tf(1);
 sys2 = tf(2);
-assert_istrue(isequal(sys1, sys1))
-assert_isfalse(isequal(sys1, sys2))
-assert_isfalse(isequal(sys1, 1))
-assert_isfalse(isequal(1, sys1))
+asserts.istrue(isequal(sys1, sys1))
+asserts.isfalse(isequal(sys1, sys2))
+asserts.isfalse(isequal(sys1, 1))
+asserts.isfalse(isequal(1, sys1))
 %=============================================================================

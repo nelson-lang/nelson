@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isoutlier</keyword>
+  <short_description>Detecte les valeurs aberrantes dans des donnees numeriques.</short_description>
+  <syntax>
+    <syntax_item>TF = isoutlier(A)</syntax_item>
+    <syntax_item>TF = isoutlier(A, method)</syntax_item>
+    <syntax_item>TF = isoutlier(A, 'percentiles', threshold)</syntax_item>
+    <syntax_item>TF = isoutlier(A, movmethod, window)</syntax_item>
+    <syntax_item>TF = isoutlier(..., dim)</syntax_item>
+    <syntax_item>TF = isoutlier(..., Name, Value)</syntax_item>
+    <syntax_item>[TF, L, U, C] = isoutlier(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>isoutlier</b> retourne un tableau logique qui marque les elements detectes comme valeurs aberrantes.</p>
+    <p>Les methodes prises en charge sont <b>median</b>, <b>mean</b>, <b>quartiles</b>, <b>percentiles</b>, <b>grubbs</b>, <b>gesd</b>, <b>movmedian</b> et <b>movmean</b>. Les valeurs numeriques <b>NaN</b> sont ignorees pour l'estimation des seuils et ne sont pas marquees comme valeurs aberrantes.</p>
+    <p>Les arguments nom-valeur incluent <b>ThresholdFactor</b>, <b>MaxNumOutliers</b> et <b>SamplePoints</b>. Les sorties supplementaires contiennent le seuil inferieur, le seuil superieur et la valeur centrale.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [57 59 60 100 59 58 57 58 300 61 62 60 62 58 57];
+TF = isoutlier(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [60 59 49 49 58 100 61 57 48 58];
+[TF, L, U, C] = isoutlier(A, 'median')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [1 1 100 1 1];
+t = [1 2 100 101 102];
+TF = isoutlier(A, 'movmedian', 3, 'SamplePoints', t)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}zscore">zscore</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

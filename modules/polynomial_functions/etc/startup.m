@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+addgateway(modulepath('polynomial_functions', 'builtin'), 'polynomial_functions');
 addpath(modulepath('polynomial_functions', 'functions'), '-frozen');
 %=============================================================================

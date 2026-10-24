@@ -18,5 +18,5 @@ namespace Nelson {
 NLSGRAPHICS_IO_IMPEXP ArrayOfVector
 imageReader(const std::wstring& filename, int nLhs);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>day</keyword>
+  <short_description>Extract day information from date and time values.</short_description>
+  <syntax>
+    <syntax_item>d = day(t)</syntax_item>
+    <syntax_item>d = day(t, &apos;dayofmonth&apos;)</syntax_item>
+    <syntax_item>d = day(t, &apos;dayofyear&apos;)</syntax_item>
+    <syntax_item>name = day(t, &apos;name&apos;)</syntax_item>
+    <syntax_item>abbr = day(t, &apos;shortname&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>datetime values, serial date numbers, or date-compatible input, plus optional day selector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>A double day array or string day-name array.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Extract day information from date and time values.</p>
+    <p>The default is day of month. dayofyear counts from January 1. name and shortname return weekday names.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Basic usage.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 2, 29)
+day(t)
+day(t, 'dayofyear')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

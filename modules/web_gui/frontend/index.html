@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Keep the browser translation bubble away: it would also rewrite the
+         console output and variable names. -->
+    <meta name="google" content="notranslate" />
+    <title>Nelson</title>
+    <!--
+      The production postbuild step injects /webui.js before the app bundle.
+      In standalone `npm run dev` it is absent and the RPC client falls back to a mock.
+    -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

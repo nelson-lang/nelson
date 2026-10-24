@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>idivide</keyword>
+  <short_description>Integer division with rounding option.</short_description>
+  <syntax>
+    <syntax_item>C = idivide(A, B)</syntax_item>
+    <syntax_item>C = idivide(A, B, opt)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>integer arrays (at least one must be of an integer class).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opt</param_name>
+      <param_description>rounding rule: 'fix' (default), 'round', 'floor' or 'ceil'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>integer division result.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>idivide(A, B)</b> divides <b>A</b> by <b>B</b> and rounds the result toward zero (<b>'fix'</b>), keeping the integer class of the inputs.</p>
+    <p>Use <b>opt</b> to select another rounding rule: <b>'round'</b>, <b>'floor'</b> or <b>'ceil'</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[idivide(int32(7), int32(2))
+idivide(int32(7), int32(2), 'ceil')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}mod">mod</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}rem">rem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

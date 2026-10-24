@@ -11,14 +11,17 @@ function [status, message] = dlmake(destinationdir)
   status = false;
   message = '';
   if ~isdir(destinationdir)
-    error(_('Invalid directory.'));
+    error('Nelson:dynamic_link:invalidDirectory', 'Invalid directory.');
   end
   if ~isfile([destinationdir, '/CMakeLists.txt'])
-    error(_('CMakeLists.txt is missing.'));
+    error('Nelson:dlmake:cmakeListsMissing', 'CMakeLists.txt is missing.');
   end
   [status, compiler] = havecompiler();
   if ~status
-    message = _('No compiler configured. doc supported_compiler for more information.');
+    message = 'No compiler configured. doc supported_compiler for more information.';
+    if nargout == 0
+      error('Nelson:dlmake:failed', '%s', message);
+    end
     return
   end
   currentdir = pwd();
@@ -41,10 +44,30 @@ function [status, message] = dlmake(destinationdir)
     options = '''Unix Makefiles''';
     make_name = 'make';
   end
-  [status, msg] = cmake ('-G', options);
+  if strcmp(dltarget(), 'wasm32')
+    % cross build of an Emscripten side module: cmake reads the toolchain file
+    % from the environment (CMake 3.21+), so the native generator is kept.
+    emsdk = getenv('EMSDK');
+    if isempty(emsdk)
+      cd(currentdir);
+      message = _('EMSDK is not set: source temp/wasm-env.sh (see tools/wasm/bootstrap.sh).');
+      if nargout == 0
+        error('Nelson:dlmake:failed', '%s', message);
+      end
+      return
+    end
+    options = '''Unix Makefiles''';
+    make_name = 'make';
+    setenv('CMAKE_TOOLCHAIN_FILE', [emsdk, '/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake']);
+    restoreToolchain = onCleanup(@() setenv('CMAKE_TOOLCHAIN_FILE', '')); %#ok<NASGU>
+  end
+  [status, msg] = cmake('-G', options);
   message = cleanup(msg);
   if ~status
     cd(currentdir);
+    if nargout == 0
+      error('Nelson:dlmake:failed', '%s', message);
+    end
     return
   end
   existingFiles = getExistingIntermediateFiles(destinationdir);
@@ -55,6 +78,9 @@ function [status, message] = dlmake(destinationdir)
     removeIntermediateFiles(destinationdir, existingFiles);
   end
   cd(currentdir);
+  if ~status && nargout == 0
+    error('Nelson:dlmake:failed', '%s', message);
+  end
 end
 %=============================================================================
 function msgout = cleanup(msgin)
@@ -80,15 +106,16 @@ function r = getExistingIntermediateFiles(destinationdir)
       files = dir([destinationdir, '/', ext{1}]);
       for f = files'
         r = [r; [destinationdir, '/', f(1).name]];
-      end    
+      end
     end
   end
-  %=============================================================================
+end
+%=============================================================================
 function removeIntermediateFiles(destinationdir, existingFiles)
   directory = 'CMakeFiles';
   files = {'cmake_install.cmake';
-  'CMakeCache.txt';
-  'Makefile'};
+    'CMakeCache.txt';
+    'Makefile'};
   try
     [res, msg] = rmdir([destinationdir, '/', directory], 's');
     for f = files'

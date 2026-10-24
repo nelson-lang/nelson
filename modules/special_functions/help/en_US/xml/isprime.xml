@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isprime</keyword>
+  <short_description>Determine which array elements are prime.</short_description>
+  <syntax>
+    <syntax_item>TF = isprime(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>a scalar, vector, or matrix of nonnegative integers.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description>logical array, true where the corresponding element of X is a prime number.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isprime</b> returns a logical array the same size as X, containing true where the elements of X are prime numbers and false where they are not.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isprime([2 3 4 5 6 7 8 9 10 11])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}primes">primes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}factor">factor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}gcd">gcd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

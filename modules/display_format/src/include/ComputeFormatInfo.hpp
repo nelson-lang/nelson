@@ -18,5 +18,12 @@ namespace Nelson {
 FormatDisplayInformation
 computeFormatInfo(const ArrayOf& A, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
-}
+FormatDisplayInformation
+computeFormatInfo(double val, bool asSingle, NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+FormatDisplayInformation
+computeFormatInfo(
+    double realPart, double imagPart, bool asSingle, NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

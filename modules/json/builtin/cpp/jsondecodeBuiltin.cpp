@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jsondecodeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "JsonDecode.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
@@ -28,22 +29,22 @@ Nelson::JsonGateway::jsondecodeBuiltin(int nLhs, const ArrayOfVector& argIn)
         OverloadRequired("jsondecode");
     }
     if (argIn.size() > 1) {
-        argIn[1].getContentAsWideString() == L"-file" ? usingFile = true : usingFile = false;
+        argIn[1].asWideString() == L"-file" ? usingFile = true : usingFile = false;
     }
 
     ArrayOf param1 = argIn[0];
     std::string errorMessage;
     ArrayOf res;
     if (usingFile) {
-        std::wstring filename = param1.getContentAsWideString();
+        std::wstring filename = param1.asWideString();
         res = jsonDecodeFile(filename, errorMessage);
     } else {
-        std::string jsonString = param1.getContentAsCString();
+        std::string jsonString = param1.asUtf8String();
         res = jsonDecode(jsonString, errorMessage);
     }
 
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error("Nelson:jsondecode:decodeFailed", errorMessage);
     }
     retval << res;
     return retval;

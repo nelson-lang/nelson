@@ -7,15 +7,20 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('time'), 0);
-assert_isequal(nargout('time'), 1);
+asserts.isequal(nargin('time'), 0);
+asserts.isequal(nargout('time'), 1);
 %=============================================================================
-t = time();sleep(5);t2 = time();
-assert_isapprox(fix(t2 - t), 5, 1);
+t = time();
+t2 = time();
+asserts.istrue(t2 >= t);
 %=============================================================================
 t = time('s');
-assert_isequal(class(t), 'double');
+asserts.isequal(class(t), 'double');
+sleep(0.2);
+t2 = time('s');
+asserts.istrue(t2 - t >= 0.05);
+asserts.istrue(t2 - t < 2);
 %=============================================================================
 t = time('ns');
-assert_isequal(class(t), 'uint64');
+asserts.isequal(class(t), 'uint64');
 %=============================================================================

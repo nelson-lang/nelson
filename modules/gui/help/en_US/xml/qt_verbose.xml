@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
@@ -28,7 +28,7 @@
   <description>
     <p>
       <b>qt_verbose</b> how/hide Qt debug message.</p>
-    <p>This function is usefull to debug Qt and Qml.</p>
+    <p>This function is useful to debug Qt and Qml.</p>
   </description>
   <used_function />
   <bibliography />

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mahal</keyword>
+  <short_description>Squared Mahalanobis distance to reference samples.</short_description>
+  <syntax>
+    <syntax_item>d2 = mahal(Y, X)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>mahal</b> returns the squared Mahalanobis distance of each observation in <b>Y</b> to the reference sample matrix <b>X</b>.</p>
+    <p><b>X</b> and <b>Y</b> must have the same number of columns. <b>X</b> must have more rows than columns.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 2 3; 3 5; 4 4; 5 7; 6 8];
+Y = [3 4; 5 6; 8 10];
+d2 = mahal(Y, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}cov">cov</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pdist2">pdist2</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pca">pca</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -3,10 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isprop</keyword>
-  <short_description
-  >Retourne vrai si c&apos;est une propriété d&apos;un objet handle.</short_description>
+  <short_description>Renvoie true si une propriete appartient a un objet ou une classe.</short_description>
   <syntax>
     <syntax_item>res = isprop(h, propertyname)</syntax_item>
+    <syntax_item>res = isprop(obj, propertyname)</syntax_item>
+    <syntax_item>res = isprop(objArray, propertyname)</syntax_item>
+    <syntax_item>res = isprop(className, propertyname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -14,32 +16,72 @@
       <param_description>un objet handle</param_description>
     </param_input_item>
     <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe sous forme de chaine</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>propertyname</param_name>
-      <param_description>une chaîne</param_description>
+      <param_description>une chaine</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un booléen : vrai ou faux</param_description>
+      <param_description>un scalaire logique, ou un tableau logique de meme taille que le tableau d&apos;objets</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>isprop</b> renvoie vrai si l&apos;argument est un handle valide avec le nom de propriété, et faux sinon.</description>
+    <p>
+      <b>isprop</b> renvoie un logique 1 si la propriete est definie pour l&apos;objet ou la classe, et 0 sinon.</p>
+    <p>Pour les tableaux d&apos;objets classdef, le resultat a la meme taille que le tableau d&apos;objets.</p>
+    <p>Pour les classes classdef, <b>isprop</b> peut indiquer que des proprietes privees ou protegees existent. Utilisez <b>properties</b> pour lister les proprietes publiques.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tester les proprietes sur un tableau de handles classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isprop/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsPropCounter.m'], ["classdef NelsonHelpIsPropCounter < handle"; "  properties"; "    Count = 0"; "  end"; "  properties (Access = private)"; "    Secret = 1"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpIsPropCounter();
+b = NelsonHelpIsPropCounter();
+tf = isprop([a, b], 'Count')
+tfPrivate = isprop([a, b], 'Secret')
+publicNames = properties([a, b])
+delete([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${handle}isprop">isprop</link>
+      <link linkend="${handle}ismethod">ismethod</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des noms de classe classdef ajoute</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des tableaux d&apos;objets classdef ajoute</history_description>
     </history_item>
   </history>
   <authors>

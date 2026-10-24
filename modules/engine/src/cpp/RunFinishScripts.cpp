@@ -18,6 +18,7 @@
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,12 +37,14 @@ RunFinishScripts(Evaluator* eval)
             std::wstring wstr = path.generic_wstring();
             try {
                 EvaluateScriptFile(eval, wstr);
-            } catch (const Exception& e) {
+            } catch (const NelsonException& e) {
                 eval->setState(NLS_STATE_CANCEL_QUIT);
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = fmt::format(_W("'{0}' failed to run."), wstr);
+                std::wstring errmsg = formatI18nMessage(
+                    resolveMessageTemplate(L"Nelson:engine:failedRun", L"'%s' failed to run."),
+                    wstr);
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                     return false;

@@ -3,15 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>isprop</keyword>
-  <short_description
-  >Return true if property of handle object.</short_description>
+  <short_description>Return true if a property belongs to an object or class.</short_description>
   <syntax>
     <syntax_item>res = isprop(h, propertyname)</syntax_item>
+    <syntax_item>res = isprop(obj, propertyname)</syntax_item>
+    <syntax_item>res = isprop(objArray, propertyname)</syntax_item>
+    <syntax_item>res = isprop(className, propertyname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>a handle object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a classdef object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>a class name as a string</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyname</param_name>
@@ -21,25 +31,57 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a logical: true or false</param_description>
+      <param_description>a logical scalar, or a logical array with the same size as the object array</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>isprop</b> returns a logical 1 if the argument is a valid handle with property name and a logical 0 otherwise.</description>
+    <p>
+      <b>isprop</b> returns logical 1 if the property is defined for the object or class and logical 0 otherwise.</p>
+    <p>For classdef object arrays, the result has the same size as the object array.</p>
+    <p>For classdef classes, <b>isprop</b> can report private and protected properties as existing. Use <b>properties</b> to list public properties.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Test properties on a classdef handle array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isprop/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsPropCounter.m'], ["classdef NelsonHelpIsPropCounter < handle"; "  properties"; "    Count = 0"; "  end"; "  properties (Access = private)"; "    Secret = 1"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpIsPropCounter();
+b = NelsonHelpIsPropCounter();
+tf = isprop([a, b], 'Count')
+tfPrivate = isprop([a, b], 'Secret')
+publicNames = properties([a, b])
+delete([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${handle}isprop">isprop</link>
+      <link linkend="${handle}ismethod">ismethod</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef class name support added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object array support added</history_description>
     </history_item>
   </history>
   <authors>

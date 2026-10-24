@@ -20,20 +20,37 @@ fi
 #==============================================================================
 NELSON_MODE=$DEFAULT_NELSON_MODE
 #==============================================================================
-if (echo "$progname"|grep "nelson-adv-cli" 2>&1 > /dev/null;) || (echo "$@"|grep "\-adv-cli" 2>&1 > /dev/null;) then
+has_mode_argument()
+{
+    wanted="$1"
+    shift
+    for candidate do
+        [ "$candidate" = "--" ] && return 1
+        [ "$candidate" = "$wanted" ] && return 0
+    done
+    return 1
+}
+#==============================================================================
+if [ "$(basename "$progname")" = "nelson-adv-cli" ] || has_mode_argument "--adv-cli" "$@"; then
     NELSON_MODE="-adv-cli"
-elif (echo "$progname"|grep "nelson-sio-cli" 2>&1 > /dev/null;) || (echo "$@"|grep "\-sio-cli" 2>&1 > /dev/null;) then
-    NELSON_MODE="-sio-cli"
-elif (echo "$progname"|grep "nelson-cli$" 2>&1 > /dev/null;) || (echo "$@"|grep "\-cli" 2>&1 > /dev/null;) then
+elif [ "$(basename "$progname")" = "nelson-webview" ] || has_mode_argument "--webview" "$@" || has_mode_argument "--web" "$@"; then
+    NELSON_MODE="-webview"
+elif [ "$(basename "$progname")" = "nelson-cli" ] || has_mode_argument "--cli" "$@"; then
     NELSON_MODE="-cli"
-elif (echo "$progname"|grep "nelson-gui" 2>&1 > /dev/null;) || (echo "$@"|grep "\-gui" 2>&1 > /dev/null;) then
+elif [ "$(basename "$progname")" = "nelson-gui" ] || has_mode_argument "--gui" "$@"; then
     NELSON_MODE="-gui"
 fi
 #==============================================================================
+after_terminator=false
 for arg do
     shift
+    if $after_terminator; then
+        set -- "$@" "$arg"
+        continue
+    fi
     case $arg in
-        ($NELSON_MODE) : ;;
+        (--) after_terminator=true; set -- "$@" "$arg" ;;
+        (--cli|--adv-cli|--gui|--webview) : ;;
             (*) set -- "$@" "$arg" ;;
     esac
 done    
@@ -62,12 +79,28 @@ if test -d "$SCRIPT_DIRECTORY/../lib/Nelson"; then
   fi
 fi
 #==============================================================================
-if test -d "/usr/local/opt/qt6/bin"; then
-    export PATH=/usr/local/opt/qt6/bin:$PATH
+# macOS .app bundle: make Qt plugin / QML import resolution explicit for every
+# launched binary. This matters most for the nested "Nelson WebView.app"
+# webview executable, whose own bundle ships no PlugIns and would otherwise rely
+# on Qt's implicit framework-relative plugin search (the suspected cause of a
+# rare QGuiApplication platform-init abort under load). Guarded on the bundle's
+# Contents/PlugIns so the dev/build-tree layout is untouched.
+if test -d "$SCRIPT_DIRECTORY/../../PlugIns"; then
+  NLS_BUNDLE_CONTENTS=$(cd "$SCRIPT_DIRECTORY/../.."; pwd)
+  if [ "$QT_PLUGIN_PATH" = "" ]; then
+    export QT_PLUGIN_PATH="$NLS_BUNDLE_CONTENTS/PlugIns"
+  else
+    export QT_PLUGIN_PATH="$NLS_BUNDLE_CONTENTS/PlugIns:$QT_PLUGIN_PATH"
+  fi
+  export QT_QPA_PLATFORM_PLUGIN_PATH="$NLS_BUNDLE_CONTENTS/PlugIns/platforms"
+  if test -d "$NLS_BUNDLE_CONTENTS/Resources/qml"; then
+    export QML2_IMPORT_PATH="$NLS_BUNDLE_CONTENTS/Resources/qml"
+    export QML_IMPORT_PATH="$NLS_BUNDLE_CONTENTS/Resources/qml"
+  fi
 fi
 #==============================================================================
-if test -d "/usr/local/opt/qt5/bin"; then
-    export PATH=/usr/local/opt/qt5/bin:$PATH
+if test -d "/usr/local/opt/qt6/bin"; then
+    export PATH=/usr/local/opt/qt6/bin:$PATH
 fi
 #==============================================================================
 if test -d "/Applications/CMake.app/Contents/bin"; then
@@ -81,5 +114,13 @@ fi
 #==============================================================================
 export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
 export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$DYLD_LIBRARY_PATH"
-"$SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec" "$@" 
+NELSON_EXECUTABLE="$SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec"
+NELSON_GUI_BUNDLE_EXECUTABLE="$SCRIPT_DIRECTORY/Nelson.app/Contents/MacOS/nelson-gui-exec"
+NELSON_WEBVIEW_BUNDLE_EXECUTABLE="$SCRIPT_DIRECTORY/Nelson WebView.app/Contents/MacOS/nelson-webview-exec"
+if [ "$NELSON_MODE" = "-gui" ] && test -x "$NELSON_GUI_BUNDLE_EXECUTABLE"; then
+    NELSON_EXECUTABLE="$NELSON_GUI_BUNDLE_EXECUTABLE"
+elif [ "$NELSON_MODE" = "-webview" ] && test -x "$NELSON_WEBVIEW_BUNDLE_EXECUTABLE"; then
+    NELSON_EXECUTABLE="$NELSON_WEBVIEW_BUNDLE_EXECUTABLE"
+fi
+"$NELSON_EXECUTABLE" "$@"
 #==============================================================================

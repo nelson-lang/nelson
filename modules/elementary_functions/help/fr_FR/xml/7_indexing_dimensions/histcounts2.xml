@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>histcounts2</keyword>
+  <short_description>Comptage par classes d&apos;histogramme bivarie.</short_description>
+  <syntax>
+    <syntax_item>N = histcounts2(X, Y)</syntax_item>
+    <syntax_item>N = histcounts2(X, Y, nbins)</syntax_item>
+    <syntax_item>N = histcounts2(X, Y, Xedges, Yedges)</syntax_item>
+    <syntax_item>N = histcounts2(..., 'Normalization', method)</syntax_item>
+    <syntax_item>[N, Xedges, Yedges] = histcounts2(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>tableau numerique ou logique contenant la premiere coordonnee de chaque paire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>tableau numerique ou logique contenant la seconde coordonnee de chaque paire. X et Y doivent avoir le meme nombre d&apos;elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>scalaire entier positif, ou vecteur a deux elements [nx ny] donnant le nombre de classes dans chaque dimension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xedges, Yedges</param_name>
+      <param_description>vecteurs numeriques strictement croissants definissant les bornes des classes selon X et Y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>normalisation : 'count' (defaut), 'probability', 'countdensity', 'pdf', 'cumcount' ou 'cdf'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>matrice des effectifs. N(i, j) compte les paires appartenant a la i-eme classe de X et a la j-eme classe de Y.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Xedges</param_name>
+      <param_description>bornes de classes utilisees selon la dimension X.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Yedges</param_name>
+      <param_description>bornes de classes utilisees selon la dimension Y.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>histcounts2 repartit les paires (X, Y) sur une grille de classes bidimensionnelle et compte le nombre de paires dans chaque classe.</p>
+    <p>N(i, j) compte les paires pour lesquelles Xedges(i) &lt;= X &lt; Xedges(i+1) et Yedges(j) &lt;= Y &lt; Yedges(j+1). La derniere classe de chaque dimension inclut ses deux bornes.</p>
+    <p>Vous pouvez fournir un nombre de classes (scalaire ou [nx ny]) ou les vecteurs de bornes explicites Xedges et Yedges. Lorsqu&apos;un nombre de classes est demande, les bornes sont choisies sur une grille reguliere, comme <link linkend="${elementary_functions}histcounts">histcounts</link>. Les paires ayant une coordonnee NaN sont ignorees.</p>
+  </description>
+  <used_function>
+    <used_function_item>histcounts2</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compter des paires sur une grille 2-D explicite.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 3];
+y = [1 2 3];
+N = histcounts2(x, y, [0 2 4], [0 2 4])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bornes choisies automatiquement avec un nombre de classes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[N, xe, ye] = histcounts2([1 5 10 3 7], [2 4 6 8 1], 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}histcounts">histcounts</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}discretize">discretize</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

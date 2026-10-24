@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "ToSingle.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -17,11 +18,11 @@ template <class T>
 ArrayOf
 ToSingle(const ArrayOf& A)
 {
-    ompIndexType nbElements = A.getElementCount();
+    ompIndexType nbElements = A.elementCount();
     auto* pSingle = static_cast<single*>(const_cast<void*>(static_cast<const void*>(
         ArrayOf::allocateArrayOf(NLS_SINGLE, nbElements, stringVector(), false))));
-    ArrayOf r = ArrayOf(NLS_SINGLE, A.getDimensions(), pSingle, A.isSparse());
-    T* ptrA = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+    ArrayOf r = ArrayOf(NLS_SINGLE, A.dimensions(), pSingle, A.isSparse());
+    T* ptrA = static_cast<T*>(const_cast<void*>(static_cast<const void*>(A.dataPointer())));
     if (nbElements == 1) {
         pSingle[0] = static_cast<single>(ptrA[0]);
         return r;
@@ -38,11 +39,18 @@ ArrayOf
 ToSingle(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    if (A.isSparse()) {
-        needToOverload = true;
-        return {};
+    if (A.isComplex() && A.isEmpty()) {
+        // an empty complex array converts to an empty real array
+        ArrayOf r = decomplexify(A);
+        r.promoteType(NLS_SINGLE);
+        return r;
     }
-    switch (A.getDataClass()) {
+    if (A.isSparse()) {
+        ArrayOf r(A);
+        r.promoteType(A.isComplex() ? NLS_SCOMPLEX : NLS_SINGLE);
+        return r;
+    }
+    switch (A.dataClass()) {
     case NLS_LOGICAL: {
         return ToSingle<logical>(A);
     } break;
@@ -77,11 +85,11 @@ ToSingle(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_DCOMPLEX: {
-        ompIndexType nbElements = A.getElementCount();
+        ompIndexType nbElements = A.elementCount();
         single* pSingle
             = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, nbElements, stringVector(), false);
-        ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.getDimensions(), pSingle, false);
-        auto* pDouble = (double*)A.getDataPointer();
+        ArrayOf r = ArrayOf(NLS_SCOMPLEX, A.dimensions(), pSingle, false);
+        auto* pDouble = (double*)A.dataPointer();
         OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {
             pSingle[k] = static_cast<single>(pDouble[k]);

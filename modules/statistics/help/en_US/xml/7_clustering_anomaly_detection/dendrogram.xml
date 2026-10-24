@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dendrogram</keyword>
+  <short_description>Dendrogram plot for a hierarchical cluster tree.</short_description>
+  <syntax>
+    <syntax_item>dendrogram(Z)</syntax_item>
+    <syntax_item>dendrogram(Z, P)</syntax_item>
+    <syntax_item>dendrogram(ax, ...)</syntax_item>
+    <syntax_item>H = dendrogram(...)</syntax_item>
+    <syntax_item>[H, T, outperm] = dendrogram(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>dendrogram</b> plots a hierarchical binary cluster tree returned by <b>linkage</b>.</p>
+    <p>The function supports Reorder, CheckCrossing, ClusterIndices, ColorThreshold, ShowCut, ShowMarkers, Orientation, Labels, and Parent name-value options.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[X = [0 0; 1 0; 0 2; 4 4];
+Z = linkage(X);
+dendrogram(Z, 0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}linkage">linkage</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}cluster">cluster</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

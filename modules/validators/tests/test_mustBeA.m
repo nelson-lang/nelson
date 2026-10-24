@@ -9,8 +9,8 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-assert_isequal(nargin('mustBeA'), -2);
-assert_isequal(nargout('mustBeA'), 0);
+asserts.isequal(nargin('mustBeA'), -2);
+asserts.isequal(nargout('mustBeA'), 0);
 %=============================================================================
 A = 3;
 mustBeA(A, 'double')
@@ -18,5 +18,5 @@ mustBeA(A, {'double'})
 mustBeA(A, {'double', 'single'})
 mustBeA(A, ["double", "single"])
 %=============================================================================
-assert_checkerror('mustBeA(A, ''single'')', 'Value must be one of the following types: ''single''.', 'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(A, ''single'')', 'Value must have one of these types: ''single''.', 'Nelson:validators:mustBeA');
 %=============================================================================

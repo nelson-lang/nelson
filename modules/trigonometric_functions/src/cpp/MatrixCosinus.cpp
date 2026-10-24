@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include <Eigen/Dense>
 #include "MatrixCosinus.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -20,15 +21,14 @@ template <class T>
 ArrayOf
 cosmComplex(const ArrayOf& A)
 {
-    T* ptrR = (T*)ArrayOf::allocateArrayOf(
-        A.getDataClass(), A.getElementCount(), stringVector(), false);
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
+    T* ptrR = (T*)ArrayOf::allocateArrayOf(A.dataClass(), A.elementCount(), stringVector(), false);
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
     std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)ptrR);
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        Az, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+        Az, (Eigen::Index)dimsA.rows(), (Eigen::Index)dimsA.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
-        Rz, (Eigen::Index)dimsA.getRows(), (Eigen::Index)dimsA.getColumns());
+        Rz, (Eigen::Index)dimsA.rows(), (Eigen::Index)dimsA.columns());
     // [V, D] = eig(A);
     // cosm = V * diag(cos(diag(D))) * inv(V);
     Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>>
@@ -41,7 +41,7 @@ cosmComplex(const ArrayOf& A)
     }
     auto evalsdiag = evals.asDiagonal();
     matR = evects * evalsdiag * evects.inverse();
-    return ArrayOf(A.getDataClass(), A.getDimensions(), ptrR);
+    return ArrayOf(A.dataClass(), A.dimensions(), ptrR);
 }
 //=============================================================================
 ArrayOf
@@ -49,7 +49,7 @@ MatrixCos(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        Error("Nelson:trigonometric_functions:squareMatrixExpected", "Square matrix expected.");
     }
     if (A.isEmpty()) {
         ArrayOf R(A);
@@ -60,7 +60,7 @@ MatrixCos(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return {};
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     default: {
         needToOverload = true;
     } break;

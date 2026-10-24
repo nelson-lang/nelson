@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tensorprod</keyword>
+  <short_description>Produits tensoriels entre deux tableaux.</short_description>
+  <syntax>
+    <syntax_item>C = tensorprod(A, B)</syntax_item>
+    <syntax_item>C = tensorprod(A, B, dimA, dimB)</syntax_item>
+    <syntax_item>C = tensorprod(A, B, 'all')</syntax_item>
+    <syntax_item>C = tensorprod(___, 'NumDimensionsA', value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description>tableaux numeriques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dimA, dimB</param_name>
+      <param_description>vecteurs listant les dimensions de A et de B a contracter. size(A, dimA(k)) doit etre egal a size(B, dimB(k)).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>nombre de dimensions de A, utilise pour prendre en compte les dimensions singleton finales.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>produit tensoriel. Ses dimensions sont les dimensions non contractees de A suivies des dimensions non contractees de B.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tensorprod(A, B)</b> retourne le produit exterieur de A et de B, un tableau de taille [size(A) size(B)].</p>
+    <p><b>tensorprod(A, B, dimA, dimB)</b> contracte (somme les produits sur) les dimensions dimA de A avec les dimensions dimB de B. Pour des matrices, <b>tensorprod(A, B, 2, 1)</b> est le produit matriciel A*B.</p>
+    <p><b>tensorprod(A, B, 'all')</b> contracte toutes les dimensions et retourne le produit interieur complet ; A et B doivent avoir la meme taille.</p>
+    <p><b>'NumDimensionsA'</b> precise le nombre de dimensions de A afin de pouvoir contracter les dimensions singleton finales.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [1 2; 3 4];
+B = [5 6; 7 8];
+C = tensorprod(A, B, 2, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}kron">kron</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}reshape">reshape</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

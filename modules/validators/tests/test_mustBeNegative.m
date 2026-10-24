@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNegative'), -1);
-assert_isequal(nargout('mustBeNegative'), 0);
+asserts.isequal(nargin('mustBeNegative'), -1);
+asserts.isequal(nargout('mustBeNegative'), 0);
 %=============================================================================
 mustBeNegative([]);
 mustBeNegative([-1, -2]);
-assert_checkerror('mustBeNegative(Inf)', _('Value must be negative.'), 'Nelson:validators:mustBeNegative');
+asserts.checkerror('mustBeNegative(Inf)', sprintf(_('%s must be negative.'), 'Value'), 'Nelson:validators:mustBeNegative');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be negative.')];
-assert_checkerror('mustBeNegative(Inf, 3)', msg, 'Nelson:validators:mustBeNegative');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be negative.'), 'Value')];
+asserts.checkerror('mustBeNegative(Inf, 3)', msg, 'Nelson:validators:mustBeNegative');
 %=============================================================================

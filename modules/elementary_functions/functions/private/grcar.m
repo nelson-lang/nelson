@@ -9,8 +9,13 @@
 %=============================================================================
 function R = grcar(n, upperBand, className)
   if isempty(upperBand)
-    upperBand = 3;
+    activeUpperBand = 3;
+  else
+    activeUpperBand = upperBand;
   end
-  R = tril(triu(ones(n,className)), upperBand) - diag(ones(n-1,1,className), -1);
+  rowIndex = (1:n).';
+  columnIndex = 1:n;
+  R = cast(columnIndex >= rowIndex & columnIndex <= rowIndex + activeUpperBand, className);
+  R(2:n + 1:n * n) = -ones(className);
 end
 %=============================================================================

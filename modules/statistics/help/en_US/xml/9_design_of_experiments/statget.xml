@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>statget</keyword>
+  <short_description>Access field values in statistics options structures.</short_description>
+  <syntax>
+    <syntax_item>val = statget(options, field)</syntax_item>
+    <syntax_item>val = statget(options, field, defaultData)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>scalar options structure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>field</param_name>
+      <param_description>field name or unique leading characters of a field name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>defaultData</param_name>
+      <param_description>value returned when the matched field is empty.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>val</param_name>
+      <param_description>field value, default value, or an empty array when the field name is not uniquely matched.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>statget</b> returns a value from an options structure. Field names are matched case-insensitively and can be abbreviated when the abbreviation is unique.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}statset">statset</link>
+    <link linkend="${statistics}kmeans">kmeans</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read a value from an options structure.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset('kmeans');
+statget(opts, 'MaxI')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return a default value when a field is empty.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset();
+statget(opts, 'TolX', 1e-6)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

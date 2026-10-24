@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>allchild</keyword>
+  <short_description>Return all direct children of graphics objects.</short_description>
+  <syntax>
+    <syntax_item>h = allchild(objhandles)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>objhandles</param_name>
+      <param_description>graphics object or array of graphics objects.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>column array containing all direct child graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>allchild</b> returns direct children regardless of their <b>HandleVisibility</b> value.</p>
+    <p>For <b>groot</b>, it returns all figures in root child order, including figures hidden from the <b>Children</b> property while <b>ShowHiddenHandles</b> is <b>&apos;off&apos;</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[close all
+f = figure('Visible', 'off');
+ax = axes('Parent', f, 'HandleVisibility', 'off');
+h = allchild(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findall">findall</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findobj">findobj</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/groot">groot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -11,10 +11,38 @@ function varargout = colormaplist(varargin)
   % List available colormaps
   narginchk(0, 0);
   nargoutchk(0, 1);
-  mapFiles =  dir([modulepath('graphics', 'functions'), '/colormaps/*.m']);
-  maps = string(char(mapFiles.name));
-  maps = replace(maps,".m", "");
-  maps = deblank(maps);
-  varargout{1} = sort(maps);
+  orderedMaps = ["parula";
+    "turbo";
+    "hsv";
+    "hot";
+    "cool";
+    "spring";
+    "summer";
+    "autumn";
+    "winter";
+    "gray";
+    "bone";
+    "copper";
+    "pink";
+    "sky";
+    "abyss";
+    "nebula";
+    "jet";
+    "lines";
+    "colorcube";
+    "prism";
+    "flag";
+    "white"];
+  mapFiles = dir([modulepath('graphics', 'functions'), '/colormaps/*.m']);
+  availableMaps = string(char(mapFiles.name));
+  availableMaps = replace(availableMaps, ".m", "");
+  availableMaps = deblank(availableMaps);
+  maps = orderedMaps;
+  for k = 1:numel(availableMaps)
+    if ~any(availableMaps(k) == orderedMaps)
+      maps = [maps; availableMaps(k)];
+    end
+  end
+  varargout{1} = maps;
 end
 %=============================================================================

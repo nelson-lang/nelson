@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fimplicit</keyword>
+  <short_description>Plot an implicit function curve.</short_description>
+  <syntax>
+    <syntax_item>fimplicit(fun)</syntax_item>
+    <syntax_item>fimplicit({fun1, fun2, ...})</syntax_item>
+    <syntax_item>fimplicit(fun, interval)</syntax_item>
+    <syntax_item>fimplicit(fun, [xmin xmax ymin ymax])</syntax_item>
+    <syntax_item>fimplicit(..., LineSpec)</syntax_item>
+    <syntax_item>fimplicit(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fimplicit(parent, ...)</syntax_item>
+    <syntax_item>h = fimplicit(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fimplicit</b> samples <b>fun(x,y)</b> and plots the zero contour as an <b>implicitfunctionline</b> graphics object.</p>
+    <p>When a cell array of function handles is specified, one <b>implicitfunctionline</b> object is created for each function and the returned handle array is a column vector.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionline.properties">implicitfunctionline properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Plot a unit circle.</example_item_description>
+      <example_item_data><![CDATA[fimplicit(@(x, y) x.^2 + y.^2 - 1, [-2 2 -2 2]);]]></example_item_data>
+      <example_item_img src="../../../../images/fimplicit_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use a line specification and line properties.</example_item_description>
+      <example_item_data><![CDATA[h = fimplicit(@(x, y) x.^2 + y.^2 - 1, [-2 2], '--r', 'LineWidth', 2);]]></example_item_data>
+      <example_item_img src="../../../../images/fimplicit_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Plot two implicit curves.</example_item_description>
+      <example_item_data><![CDATA[f1 = @(x, y) x.^2 + y.^2 - 1;
+f2 = @(x, y) x - y;
+h = fimplicit({f1, f2});]]></example_item_data>
+      <example_item_img src="../../../../images/fimplicit_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionline.properties">implicitfunctionline properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/fcontour">fcontour</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour">contour</link></see_also_item>
+  </see_also>
+</xmldoc>

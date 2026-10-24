@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ode.Options</keyword>
+  <short_description>Classe de base des classes d'options de solveur.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.Options.makeSolverOptions(solveur)</syntax_item>
+    <syntax_item>options = nelson.ode.Options.makeSolverOptions(solveur, nom, valeur)</syntax_item>
+    <syntax_item>tf = isDefault(options)</syntax_item>
+    <syntax_item>s = struct(options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.Options</b> est la classe de base de toutes les classes <b>nelson.ode.options.*</b> utilisees par la propriete <b>SolverOptions</b> du workflow objet <b>ode</b>. Elle n'est pas destinee a etre instanciee directement ; utilisez une de ses sous-classes ou la methode statique de fabrique <b>makeSolverOptions</b>.</p>
+    <table style="width:100%">
+  <tr><th>Membre</th><th>Nature</th><th>Role</th></tr>
+  <tr><td><b>makeSolverOptions</b></td><td>methode statique</td><td>Cree la sous-classe d'options correspondant a un nom de solveur.</td></tr>
+  <tr><td><b>isDefault</b></td><td>methode</td><td>Retourne vrai lorsque chaque option publique garde sa valeur par defaut.</td></tr>
+  <tr><td><b>struct</b></td><td>methode</td><td>Convertit l'objet d'options en une structure d'options.</td></tr>
+  <tr><td><b>Refine</b></td><td>propriete cachee</td><td>Facteur de raffinement de sortie, un scalaire entier positif (par defaut vide, c'est-a-dire la valeur par defaut du solveur).</td></tr>
+  <tr><td><b>ID</b></td><td>propriete cachee</td><td>Identifiant du solveur stocke dans la structure d'options (par defaut <b>'ode45'</b>).</td></tr>
+  <tr><td><b>DefaultRefine</b></td><td>propriete cachee</td><td>Facteur de raffinement utilise lorsque <b>Refine</b> est vide (par defaut 1).</td></tr>
+</table>
+    <p><b>makeSolverOptions(solveur, nom, valeur, ...)</b> retourne une instance de la sous-classe d'options correspondant a <b>solveur</b> et transmet les paires nom-valeur a son constructeur. Les noms de solveur acceptes sont <b>'ode45'</b>, <b>'ode23'</b>, <b>'ode78'</b>, <b>'ode89'</b>, <b>'ode113'</b>, <b>'ode15s'</b>, <b>'ode23s'</b>, <b>'ode23t'</b>, <b>'ode23tb'</b>, <b>'ode15i'</b>, <b>'autoswitch'</b>, <b>'cvodesnonstiff'</b>, <b>'cvodesstiff'</b> et <b>'idas'</b>. Tout autre nom declenche une erreur. <b>'autoswitch'</b> et <b>'cvodesnonstiff'</b> correspondent tous deux a <b>nelson.ode.options.CVODESNonstiff</b>.</p>
+    <p><b>isDefault(options)</b> retourne vrai lorsque toutes les proprietes publiques de l'objet d'options conservent leurs valeurs par defaut.</p>
+    <p><b>struct(options)</b> retourne une structure d'options avec les memes noms de champs que <b>odeset</b>, remplie a partir des proprietes publiques de l'objet d'options, plus le champ <b>ID</b> et la valeur <b>Refine</b> resolue.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer des options de solveur avec la methode de fabrique et les inspecter.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.Options.makeSolverOptions('ode15s', 'MaxStep', 0.5);
+class(options)
+isDefault(options)
+s = struct(options);
+s.ID
+s.MaxStep]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE45">nelson.ode.options.ODE45</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE15s">nelson.ode.options.ODE15s</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

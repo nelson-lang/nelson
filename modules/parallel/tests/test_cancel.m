@@ -10,14 +10,23 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 p = str2func('pause');
-b = backgroundPool();
-NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-  f(k) = parfeval(b, p, 0, 5);
+previousNumThreads = maxNumCompThreads();
+cleanupThreads = onCleanup(@() maxNumCompThreads(previousNumThreads)); %#ok<NLS0004>
+if previousNumThreads > 2
+  maxNumCompThreads(2);
 end
-fToStop = f(NumWorkers + 2); 
-assert_isequal(fToStop.State, 'queued');
+b = backgroundPool();
+fevalqueue = b.FevalQueue;
+cleanupQueue = onCleanup(@() cancelAll(fevalqueue)); %#ok<NLS0004>
+NumWorkers = b.NumWorkers;
+for k = 1:((NumWorkers * 2) + 2)
+  f(k) = parfeval(b, p, 0, 1);
+end
+fToStop = f(NumWorkers + 2);
+asserts.isequal(fToStop.State, 'queued');
 cancel(fToStop);
-assert_isequal(fToStop.State, 'finished');
-assert_isequal(class(fToStop.Error), 'MException');
+asserts.isequal(fToStop.State, 'finished');
+asserts.isequal(class(fToStop.Error), 'MException');
 cancel(f);
+wait(f, 'finished', 3);
+cancelAll(fevalqueue);

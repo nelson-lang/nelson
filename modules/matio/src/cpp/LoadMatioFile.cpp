@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,10 +10,12 @@
 #include <matio.h>
 #include "LoadMatioFile.hpp"
 #include "LoadMatioVariable.hpp"
+#include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -29,20 +31,20 @@ LoadMatioFile(
         = FileSystemWrapper::Path::is_regular_file(mat_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:matio:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:matio:fileDoesNotExist", L"File does not exist.");
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:matio:fileDoesNotExist", L"File does not exist.");
     }
 
     std::string utf8filename = wstring_to_utf8(filename);
     mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
     if (!matfile) {
-        Error(_W("Cannot open .mat file."));
+        Error(L"Nelson:matio:cannotOpenFile", L"Cannot open .mat file.");
     }
 
     stringVector variableNamesInFile;
@@ -59,8 +61,12 @@ LoadMatioFile(
             std::string name = wstring_to_utf8(uname);
             if (std::find(variableNamesInFile.begin(), variableNamesInFile.end(), name)
                 == variableNamesInFile.end()) {
-                std::string msg = _("Variable not found:") + std::string(" ") + name;
-                Warning(msg);
+                std::string msg = formatI18nMessage(
+                    resolveMessageTemplate("Nelson:hdf5:variableFoundS", "Variable not found: %s"),
+                    name);
+                RaiseWarning("Nelson:matio:variableNotFound", msg);
+            } else {
+                variablesNamesToRead.push_back(name);
             }
         }
     }
@@ -69,11 +75,13 @@ LoadMatioFile(
         ArrayOf value;
         matvar_t* matVariable = Mat_VarRead(matfile, name.c_str());
         if (matVariable == nullptr) {
-            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
-                _W("Cannot read variable:") + L" " + utf8_to_wstring(name));
-            values.push_back(ArrayOf::emptyStructWithoutFields());
+            RaiseWarning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                formatI18nMessage(resolveMessageTemplate(L"Nelson:hdf5:cannotReadVariableS",
+                                      L"Cannot read variable: %s"),
+                    utf8_to_wstring(name)));
+            values.push_back(ArrayOf::emptyStruct());
         } else {
-            bool bSuccess = LoadMatioVariable(matVariable, false, value);
+            bool bSuccess = LoadMatioVariable(eval, matVariable, false, value);
             Mat_VarFree(matVariable);
             matVariable = nullptr;
             if (bSuccess) {
@@ -81,8 +89,11 @@ LoadMatioFile(
             } else {
                 Mat_Close(matfile);
                 matfile = nullptr;
-                std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-                Error(msg);
+                std::string msg
+                    = formatI18nMessage(resolveMessageTemplate("Nelson:hdf5:cannotReadVariableS",
+                                            "Cannot read variable: %s"),
+                        name);
+                Error("Nelson:load:matioError", msg);
             }
         }
     }
@@ -92,7 +103,7 @@ LoadMatioFile(
     }
 
     if (asStruct) {
-        res = ArrayOf::structScalarConstructor(variablesNamesToRead, values);
+        res = ArrayOf::structScalar(variablesNamesToRead, values);
     } else {
         for (indexType i = 0; i < variablesNamesToRead.size(); i++) {
             eval->getContext()->getCurrentScope()->insertVariable(

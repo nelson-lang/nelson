@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include <mpi.h>
 #include "MPI_AllreduceBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
@@ -28,17 +29,17 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     ArrayOf A = argIn[0];
     if (A.isSparse() || A.isReferenceType()) {
-        Error(_W("Unsupported type to reduce."));
+        Error(L"Nelson:MPI:typeNotSupported", L"Type not managed.");
     }
     ArrayOf Operation = argIn[1];
-    std::wstring op_str = Operation.getContentAsWideString();
+    std::wstring op_str = Operation.asWideString();
     MPI_Op mpi_op = stringToMpiOp(op_str);
     if (mpi_op == MPI_OP_NULL) {
-        Error(_W("Unsupported operator type."));
+        Error(L"Nelson:MPI:operatorNotSupported", L"Unsupported operator type.");
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 2) {
@@ -46,62 +47,62 @@ Nelson::MpiGateway::MPI_AllreduceBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     ArrayOf dest = A;
     dest.ensureSingleOwner();
-    NelsonType dataClass = A.getDataClass();
+    NelsonType dataClass = A.dataClass();
     switch (dataClass) {
     case NLS_LOGICAL:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_UINT8_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_UINT8_T, mpi_op, comm);
         break;
     case NLS_UINT8:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_UINT8_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_UINT8_T, mpi_op, comm);
         break;
     case NLS_INT8:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_INT8_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_INT8_T, mpi_op, comm);
         break;
     case NLS_UINT16:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_UNSIGNED_SHORT, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_UNSIGNED_SHORT, mpi_op, comm);
         break;
     case NLS_INT16:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_SHORT, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_SHORT, mpi_op, comm);
         break;
     case NLS_UINT32:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_UINT32_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_UINT32_T, mpi_op, comm);
         break;
     case NLS_INT32:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_INT32_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_INT32_T, mpi_op, comm);
         break;
     case NLS_UINT64:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_UINT64_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_UINT64_T, mpi_op, comm);
         break;
     case NLS_INT64:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_INT64_T, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_INT64_T, mpi_op, comm);
         break;
     case NLS_SINGLE:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_FLOAT, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_FLOAT, mpi_op, comm);
         break;
     case NLS_DOUBLE:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            (int)A.getElementCount(), MPI_DOUBLE, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(), (int)A.elementCount(),
+            MPI_DOUBLE, mpi_op, comm);
         break;
     case NLS_SCOMPLEX:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            2 * (int)A.getElementCount(), MPI_FLOAT, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(),
+            2 * (int)A.elementCount(), MPI_FLOAT, mpi_op, comm);
         break;
     case NLS_DCOMPLEX:
-        MPI_Allreduce((void*)A.getDataPointer(), dest.getReadWriteDataPointer(),
-            2 * (int)A.getElementCount(), MPI_DOUBLE, mpi_op, comm);
+        MPI_Allreduce((void*)A.dataPointer(), dest.readWriteDataPointer(),
+            2 * (int)A.elementCount(), MPI_DOUBLE, mpi_op, comm);
         break;
     default:
-        Error(_W("Unsupported Type: must be a numerical type."));
+        Error(L"Nelson:MPI:typeNotNumeric", L"Unsupported Type: must be a numerical type.");
     }
     retval << dest;
     return retval;

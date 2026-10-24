@@ -10,10 +10,11 @@
 #pragma once
 //=============================================================================
 #include "GORestrictedStringProperty.hpp"
+#include "nlsGraphics_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOOnOffProperty : public GORestrictedStringProperty
+class NLSGRAPHICS_IMPEXP GOOnOffProperty : public GORestrictedStringProperty
 {
 public:
     GOOnOffProperty();
@@ -23,5 +24,12 @@ public:
     void set(ArrayOf) override;
 };
 //=============================================================================
+class GOHandleVisibilityProperty : public GORestrictedStringProperty
+{
+public:
+    GOHandleVisibilityProperty();
+    ~GOHandleVisibilityProperty() override = default;
 };
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

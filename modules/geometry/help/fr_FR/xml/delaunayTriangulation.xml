@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>delaunayTriangulation</keyword>
+  <short_description>Objet de triangulation de Delaunay</short_description>
+  <syntax>
+    <syntax_item>DT = delaunayTriangulation()</syntax_item>
+    <syntax_item>DT = delaunayTriangulation(P)</syntax_item>
+    <syntax_item>DT = delaunayTriangulation(P, C)</syntax_item>
+    <syntax_item>DT = delaunayTriangulation(x, y)</syntax_item>
+    <syntax_item>DT = delaunayTriangulation(x, y, C)</syntax_item>
+    <syntax_item>DT = delaunayTriangulation(x, y, z)</syntax_item>
+    <syntax_item>K = convexHull(DT)</syntax_item>
+    <syntax_item>[V, C] = voronoiDiagram(DT)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>delaunayTriangulation</b> construit un objet de triangulation depuis des points et fournit des requetes geometriques associees.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer une triangulation et les centres inscrits des triangles.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[rng default;
+P = rand([30 2]);
+DT = delaunayTriangulation(P)
+IC = incenter(DT);
+triplot(DT)
+hold on
+plot(IC(:, 1), IC(:, 2), '*r')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}triangulation">triangulation</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunay">delaunay</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

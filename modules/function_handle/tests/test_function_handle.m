@@ -7,23 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('str2func'), 1);
-assert_isequal(nargout('str2func'), 1);
+asserts.isequal(nargin('str2func'), 1);
+asserts.isequal(nargout('str2func'), 1);
 %=============================================================================
 FH = str2func('run');
-assert_checkerror('FHS = [FH; FH; FH];', _('Nonscalar arrays of function handles are not allowed; use cell arrays instead.'));
+asserts.checkerror('FHS = [FH; FH; FH];', _('Nonscalar arrays of function handles are not allowed; use cell arrays instead.'));
 %=============================================================================
 FHS = {FH; FH; FH};
 %=============================================================================
-assert_isequal(size(FH), [1 1]);
-assert_isequal(size(FHS), [3 1]);
+asserts.isequal(size(FH), [1 1]);
+asserts.isequal(size(FHS), [3 1]);
 %=============================================================================
-assert_isequal(length(FH), 1);
-assert_isequal(length(FHS), 3);
+asserts.isequal(length(FH), 1);
+asserts.isequal(length(FHS), 3);
 %=============================================================================
-assert_isequal(length(FH), 1);
-assert_isequal(length(FHS), 3);
+asserts.isequal(length(FH), 1);
+asserts.isequal(length(FHS), 3);
 %=============================================================================
-assert_isequal(ndims(FH), 2);
-assert_isequal(ndims(FHS), 2);
+asserts.isequal(ndims(FH), 2);
+asserts.isequal(ndims(FHS), 2);
 %=============================================================================

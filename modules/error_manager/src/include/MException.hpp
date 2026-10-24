@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,63 +9,109 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <memory>
 #include <string>
+#include <utility>
 #include "nlsError_manager_exports.h"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "ArrayOf.hpp"
+#include "ClassName.hpp"
+#include "Error.hpp"
+#include "Types.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+constexpr const char* MEXCEPTION_CLASS_NAME = "MException";
+//=============================================================================
+inline stringVector
+MExceptionPropertyNames()
+{
+    return { "identifier", "message", "cause", "stack", "Correction" };
+}
+//=============================================================================
+inline stringVector
+MExceptionMethodNames()
+{
+    return { "MException", "addCause", "addCorrection", "eq", "getReport", "isequal", "last", "ne",
+        "rethrow", "throw", "throwAsCaller" };
+}
+//=============================================================================
+inline bool
+isMExceptionArray(const ArrayOf& arg)
+{
+    return arg.isClassType() && ClassName(arg) == MEXCEPTION_CLASS_NAME;
+}
+//=============================================================================
+inline bool
+isMExceptionCorrectionObject(const ArrayOf& value)
+{
+    if (!value.isClassType()) {
+        return false;
+    }
+    const std::string className = ClassName(value);
+    return className == "nelson.lang.correction.AppendArgumentsCorrection"
+        || className == "nelson.lang.correction.ConvertToFunctionNotationCorrection"
+        || className == "nelson.lang.correction.ReplaceIdentifierCorrection";
+}
+//=============================================================================
+inline ArrayOf
+NelsonExceptionCorrectionToArrayOf(const NelsonException& e)
+{
+    if (!e.hasCorrection()) {
+        return ArrayOf::empty(Dimensions(0, 0));
+    }
+    return *e.correctionHandle();
+}
+//=============================================================================
+inline void
+SetNelsonExceptionCorrection(NelsonException& e, const ArrayOf& correction)
+{
+    if (correction.isEmpty()) {
+        e.setCorrectionHandle(nullptr);
+        return;
+    }
+    e.setCorrectionHandle(std::make_shared<ArrayOf>(correction));
+}
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP bool
 isValidMExceptionIdentifier(std::wstring identifier);
 //=============================================================================
 inline ArrayOf
-ExceptionToArrayOf(const Exception& e)
+NelsonExceptionToArrayOf(const NelsonException& e)
 {
     Dimensions dimsRes(1, 1);
-    stringVector fieldnames;
-    fieldnames.reserve(5);
-    fieldnames.push_back("identifier");
-    fieldnames.push_back("message");
-    fieldnames.push_back("cause");
-    fieldnames.push_back("stack");
-    fieldnames.push_back("Correction");
+    stringVector fieldnames = MExceptionPropertyNames();
     ArrayOf* elementRes = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_CLASS_ARRAY, dimsRes.getElementCount(), fieldnames, false));
-    ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dimsRes, elementRes, false, fieldnames);
-    res.setClassType("MException");
+        ArrayOf::allocateArrayOf(NLS_CLASSDEF_ARRAY, dimsRes.elementCount(), fieldnames, false));
+    ArrayOf res = ArrayOf(NLS_CLASSDEF_ARRAY, dimsRes, elementRes, false, fieldnames);
+    res.setClassType(MEXCEPTION_CLASS_NAME);
 
-    std::vector<Exception> causeExceptions = e.getCause();
+    const std::vector<NelsonException>& causeExceptions = e.cause();
     ArrayOf causeCell;
     if (causeExceptions.empty()) {
-        Dimensions dimsEmptyCell(0, 0);
-        causeCell = ArrayOf::emptyCell(dimsEmptyCell);
+        causeCell = ArrayOf::emptyCell(Dimensions(0, 0));
     } else {
         Dimensions dims(1, causeExceptions.size());
-        ArrayOf* elements
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+        ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.elementCount());
         causeCell = ArrayOf(NLS_CELL_ARRAY, dims, elements);
         for (indexType k = 0; k < (indexType)causeExceptions.size(); ++k) {
-            elements[k] = ExceptionToArrayOf(causeExceptions[k]);
+            elements[k] = NelsonExceptionToArrayOf(causeExceptions[k]);
         }
     }
-    ArrayOf stack;
-    std::vector<PositionScript> trace = e.getTrace();
-    stringVector traceFieldnames(3);
-    traceFieldnames[0] = "file";
-    traceFieldnames[1] = "name";
-    traceFieldnames[2] = "line";
+    const std::vector<PositionScript>& trace = e.trace();
+    stringVector traceFieldnames = { "file", "name", "line" };
     Dimensions dims(trace.size(), 1);
     auto* elements = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), traceFieldnames, false));
-    stack = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, traceFieldnames);
-    ArrayOfVector files(trace.size());
-    ArrayOfVector names(trace.size());
-    ArrayOfVector lines(trace.size());
-    for (auto& k : trace) {
-        files.push_back(ArrayOf::characterArrayConstructor(k.getFilename()));
-        names.push_back(ArrayOf::characterArrayConstructor(k.getFunctionName()));
-        lines.push_back(ArrayOf::doubleConstructor(k.getLine()));
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), traceFieldnames, false));
+    ArrayOf stack = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, traceFieldnames);
+    ArrayOfVector files;
+    ArrayOfVector names;
+    ArrayOfVector lines;
+    for (const auto& k : trace) {
+        files.push_back(ArrayOf::characterArray(k.getFilename()));
+        names.push_back(ArrayOf::characterArray(k.getFunctionName()));
+        lines.push_back(ArrayOf::doubleScalar(k.getLine()));
     }
     if (!trace.empty()) {
         stack.setFieldAsList(traceFieldnames[0], files);
@@ -73,15 +119,12 @@ ExceptionToArrayOf(const Exception& e)
         stack.setFieldAsList(traceFieldnames[2], lines);
     }
 
-    Dimensions dimsEmptyCell(0, 0);
-    ArrayOf correction = ArrayOf::emptyCell(dimsEmptyCell);
-
-    ArrayOfVector identifierVector(ArrayOf::characterArrayConstructor(e.getIdentifier()));
-    ArrayOfVector messageVector(ArrayOf::characterArrayConstructor(e.getMessage()));
+    ArrayOf correction = NelsonExceptionCorrectionToArrayOf(e);
+    ArrayOfVector identifierVector(ArrayOf::characterArray(e.identifier()));
+    ArrayOfVector messageVector(ArrayOf::characterArray(e.message()));
     ArrayOfVector causeVector(causeCell);
     ArrayOfVector stackVector(stack);
     ArrayOfVector correctionVector(correction);
-
     res.setFieldAsList(fieldnames[0], identifierVector);
     res.setFieldAsList(fieldnames[1], messageVector);
     res.setFieldAsList(fieldnames[2], causeVector);
@@ -90,45 +133,44 @@ ExceptionToArrayOf(const Exception& e)
     return res;
 }
 //=============================================================================
-inline Exception
-ArrayOfToException(const ArrayOf& arg)
+inline NelsonException
+ArrayOfToNelsonException(const ArrayOf& arg)
 {
-    Exception e;
+    if (!isMExceptionArray(arg)) {
+        Error(L"Nelson:MException:invalidType", L"MException expected.");
+    }
+    NelsonException e;
     ArrayOf copyArg = arg;
-    ArrayOf idArrayOf = copyArg.getField("identifier");
-    ArrayOf msgArrayOf = copyArg.getField("message");
-    ArrayOf causeArrayOf = copyArg.getField("cause");
-    ArrayOf stackArrayOf = copyArg.getField("stack");
-    ArrayOf correctionArrayOf = copyArg.getField("Correction");
+    ArrayOf idArrayOf = copyArg.field("identifier");
+    ArrayOf msgArrayOf = copyArg.field("message");
+    ArrayOf causeArrayOf = copyArg.field("cause");
+    ArrayOf stackArrayOf = copyArg.field("stack");
+    ArrayOf correctionArrayOf = copyArg.field("Correction");
 
-    std::wstring identifier = idArrayOf.getContentAsWideString();
-    std::wstring message = msgArrayOf.getContentAsWideString();
+    e.setIdentifier(idArrayOf.asWideString());
+    e.setMessage(msgArrayOf.asWideString());
 
-    e.setIdentifier(identifier);
-    e.setMessage(message);
-
-    std::vector<Exception> cause;
-    auto* cell = (ArrayOf*)causeArrayOf.getDataPointer();
-    if (cell == nullptr) {
-        return e;
+    std::vector<NelsonException> cause;
+    auto* cell = (ArrayOf*)causeArrayOf.dataPointer();
+    if (cell != nullptr) {
+        for (indexType k = 0; k < causeArrayOf.elementCount(); ++k) {
+            cause.emplace_back(ArrayOfToNelsonException(cell[k]));
+        }
     }
-    for (indexType k = 0; k < causeArrayOf.getElementCount(); ++k) {
-        cause.emplace_back(ArrayOfToException(cell[k]));
-    }
-    e.setCause(cause);
+    e.setCause(std::move(cause));
 
-    auto* stackElement = (ArrayOf*)stackArrayOf.getDataPointer();
+    ArrayOfVector files = stackArrayOf.fieldAsList("file");
+    ArrayOfVector names = stackArrayOf.fieldAsList("name");
+    ArrayOfVector lines = stackArrayOf.fieldAsList("line");
     std::vector<PositionScript> trace;
-    for (indexType k = 0; k < stackArrayOf.getElementCount(); k++) {
-        ArrayOf fileAsArrayOf = stackElement[k].getField("file");
-        ArrayOf nameAsArrayOf = stackElement[k].getField("name");
-        ArrayOf lineAsArrayOf = stackElement[k].getField("line");
-        trace.emplace_back(nameAsArrayOf.getContentAsWideString(),
-            fileAsArrayOf.getContentAsWideString(), (int)lineAsArrayOf.getContentAsDoubleScalar());
+    for (indexType k = 0; k < stackArrayOf.elementCount(); k++) {
+        trace.emplace_back(
+            names[k].asWideString(), files[k].asWideString(), (int)lines[k].asDoubleScalar());
     }
-    e.setTrace(trace);
+    e.setTrace(std::move(trace));
+    SetNelsonExceptionCorrection(e, correctionArrayOf);
     return e;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

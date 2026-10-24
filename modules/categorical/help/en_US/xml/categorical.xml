@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>categorical</keyword>
+  <short_description>Create a categorical array.</short_description>
+  <syntax>
+    <syntax_item>C = categorical(A)</syntax_item>
+    <syntax_item>C = categorical(A, valueset)</syntax_item>
+    <syntax_item>C = categorical(A, valueset, categoryNames)</syntax_item>
+    <syntax_item>C = categorical(..., 'Ordinal', tf)</syntax_item>
+    <syntax_item>C = categorical(..., 'Protected', tf)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Input values. Text, string, numeric, logical, or categorical input is accepted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>valueset</param_name>
+      <param_description>Explicit set of input values that define categories.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>categoryNames</param_name>
+      <param_description>Names assigned to the categories defined by <b>valueset</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tf</param_name>
+      <param_description>Logical scalar that enables ordinal ordering or category protection.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>Categorical array with the same size as <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>categorical</b> stores repeated values as integer category codes plus a category name list.</p>
+    <p>Values that are empty text, missing strings, or not found in an explicit <b>valueset</b> become undefined categorical elements.</p>
+    <p>Ordinal arrays use category order for relational comparisons. Ordinal arrays are protected automatically.</p>
+    <p><b>contains</b>, <b>startsWith</b>, <b>endsWith</b> and <b>matches</b> accept a categorical array as input: they test the category name of each element against the pattern (text, cell of text, string array or pattern object, with the optional <b>'IgnoreCase'</b> option) and return a logical array of the same size. Undefined elements return false. Each category name is tested only once.</p>
+    <p>Concatenating a categorical array with text (<b>["z" C]</b>, <b>['z' C]</b>, <b>[{'z'} C]</b>) or <b>missing</b> converts the other operands: the result keeps the categories of the first categorical operand and adds new values in operand order; empty text and <b>missing</b> are undefined. Ordinal and protected arrays reject values that are not already categories, and other classes (numeric, logical, string arrays with several elements) are rejected.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create categories from text values.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[C = categorical({'red','blue','red'}); categories(C)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create an ordinal categorical array with explicit category order.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[C = categorical({'low','high','mid'}, {'low','mid','high'}, 'Ordinal', true); C > 'mid']]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find elements whose category name matches a pattern.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[C = categorical({'winter storm','fire','Thunder Storm',''}); contains(C, "storm", 'IgnoreCase', true)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}iscategorical">iscategorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isundefined">isundefined</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isordinal">isordinal</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isprotected">isprotected</link></see_also_item>
+    <see_also_item><link linkend="${string}contains">contains</link></see_also_item>
+    <see_also_item><link linkend="${string}startsWith">startsWith</link></see_also_item>
+    <see_also_item><link linkend="${string}endsWith">endsWith</link></see_also_item>
+    <see_also_item><link linkend="${string}matches">matches</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

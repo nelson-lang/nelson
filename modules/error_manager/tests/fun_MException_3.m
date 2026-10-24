@@ -16,7 +16,7 @@ function EE = fun_MException_3(n)
 end
 %=============================================================================
 function ME = test1(n);
-  ME = MException('sayHello:inputError','Input must be char.');
+  ME = MException('sayHello:inputError', 'Input must be char.');
   if (n == true)
     throwAsCaller(ME)
   else

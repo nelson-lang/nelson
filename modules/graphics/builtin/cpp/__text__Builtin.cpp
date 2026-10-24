@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__text__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOText.hpp"
 //=============================================================================
@@ -19,9 +20,9 @@ ArrayOfVector
 __text__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(GOCommonConstructorHelper(new GOText, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOText, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

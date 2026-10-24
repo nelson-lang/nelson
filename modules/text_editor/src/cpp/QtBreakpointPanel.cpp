@@ -67,11 +67,9 @@ QtBreakpointPanel::refreshBreakpoints()
         return;
     }
 
-    // Get all breakpoints from evaluator
     std::vector<Nelson::Breakpoint> breakpoints = nlsEvaluator->getBreakpoints();
 
     for (const auto& bp : breakpoints) {
-        // Skip step mode breakpoints (internal use)
         if (bp.stepMode) {
             continue;
         }
@@ -79,7 +77,6 @@ QtBreakpointPanel::refreshBreakpoints()
         int row = breakpointTable->rowCount();
         breakpointTable->insertRow(row);
 
-        // Column 0: Enabled checkbox
         QWidget* checkboxWidget = new QWidget();
         QCheckBox* checkbox = new QCheckBox();
         checkbox->setChecked(bp.enabled);
@@ -89,19 +86,16 @@ QtBreakpointPanel::refreshBreakpoints()
         layoutCheckbox->setContentsMargins(0, 0, 0, 0);
         breakpointTable->setCellWidget(row, 0, checkboxWidget);
 
-        // Column 1: Filename
         QString filename = QString::fromStdWString(bp.filename);
         QTableWidgetItem* fileItem = new QTableWidgetItem(QFileInfo(filename).fileName());
         fileItem->setToolTip(filename);
-        fileItem->setData(Qt::UserRole, filename); // Store full path
+        fileItem->setData(Qt::UserRole, filename);
         breakpointTable->setItem(row, 1, fileItem);
 
-        // Column 2: Function name
         QString functionName = QString::fromStdString(bp.functionName);
         QTableWidgetItem* funcItem = new QTableWidgetItem(functionName);
         breakpointTable->setItem(row, 2, funcItem);
 
-        // Column 3: Line number
         QTableWidgetItem* lineItem = new QTableWidgetItem(QString::number(bp.line));
         lineItem->setData(Qt::UserRole, static_cast<int>(bp.line));
         breakpointTable->setItem(row, 3, lineItem);
@@ -123,12 +117,10 @@ QtBreakpointPanel::onCellClicked(int row, int column)
         return;
     }
 
-    // If clicking on enabled checkbox, handle it
     if (column == 0) {
         return;
     }
 
-    // Navigate to breakpoint location
     QTableWidgetItem* fileItem = breakpointTable->item(row, 1);
     QTableWidgetItem* lineItem = breakpointTable->item(row, 3);
 
@@ -145,7 +137,6 @@ QtBreakpointPanel::onCellChanged(int row, int column)
     if (updatingTable) {
         return;
     }
-    // Handle cell edits if we add editable columns later
 }
 //=============================================================================
 void
@@ -179,7 +170,6 @@ QtBreakpointPanel::onRemoveAll()
         return;
     }
 
-    // Get all breakpoints and remove them
     std::vector<Nelson::Breakpoint> breakpoints = nlsEvaluator->getBreakpoints();
     for (const auto& bp : breakpoints) {
         if (!bp.stepMode) {

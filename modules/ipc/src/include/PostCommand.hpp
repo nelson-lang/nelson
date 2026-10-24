@@ -16,5 +16,5 @@ namespace Nelson {
 NLSIPC_IMPEXP bool
 postCommand(const std::wstring& commandToExecute);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

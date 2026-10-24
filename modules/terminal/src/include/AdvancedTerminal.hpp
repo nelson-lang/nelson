@@ -13,10 +13,12 @@
 #include <string>
 #include "Interface.hpp"
 #include "nlsTerminal_exports.h"
+//=============================================================================
 // Forward declaration to avoid pulling replxx headers for all consumers.
 namespace replxx {
 class Replxx;
-}
+//=============================================================================
+} // namespace replxx
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,10 +31,6 @@ private:
 public:
     AdvancedTerminal();
     ~AdvancedTerminal();
-    /**
-     *  Get a line of input from the user with the
-     *  given prompt.
-     */
     std::wstring
     getLine(const std::wstring& prompt) override;
     std::string
@@ -47,23 +45,18 @@ public:
     getTerminalWidth() override;
     size_t
     getTerminalHeight() override;
-    /**
-     *  Output the following text message.
-     */
     void
     outputMessage(const std::wstring& msg) override;
     void
     outputMessage(const std::string& msg) override;
-    /**
-     *  Output the following error message.
-     */
+    bool
+    outputStyledText(const std::wstring& msg, const TextStyle& style) override;
+    bool
+    outputAnsiText(const std::wstring& msg, bool asError) override;
     void
     errorMessage(const std::wstring& msg) override;
     void
     errorMessage(const std::string& msg) override;
-    /**
-     *  Output the following warning message.
-     */
     void
     warningMessage(const std::wstring& msg) override;
     void

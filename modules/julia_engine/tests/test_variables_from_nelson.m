@@ -9,62 +9,64 @@
 %=============================================================================
 % <--JULIA ENVIRONMENT REQUIRED-->
 %=============================================================================
+juliaRequireEngineForTest();
+%=============================================================================
 R = jlrun('', 'A', 'A', 1);
-assert_isequal(R, 1);
+asserts.isequal(R, 1);
 %=============================================================================
 R = jlrun('', 'A', 'A', 3.14);
-assert_isequal(R, 3.14);
+asserts.isequal(R, 3.14);
 %=============================================================================
 R = jlrun('', 'A', 'A', single(3.14));
-assert_isequal(R, single(3.14));
+asserts.isequal(R, single(3.14));
 %=============================================================================
 R = jlrun('', 'A', 'A', int8(42));
-assert_isequal(R, int8(42));
+asserts.isequal(R, int8(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', int16(42));
-assert_isequal(R, int16(42));
+asserts.isequal(R, int16(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', int32(42));
-assert_isequal(R, int32(42));
+asserts.isequal(R, int32(42));
 %========================================================================
 R = jlrun('', 'A', 'A', int64(42));
-assert_isequal(R, int64(42));
+asserts.isequal(R, int64(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', uint8(42));
-assert_isequal(R, uint8(42));
+asserts.isequal(R, uint8(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', uint16(42));
-assert_isequal(R, uint16(42));
+asserts.isequal(R, uint16(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', uint32(42));
-assert_isequal(R, uint32(42));
+asserts.isequal(R, uint32(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', uint64(42));
-assert_isequal(R, uint64(42));
+asserts.isequal(R, uint64(42));
 %=============================================================================
 R = jlrun('', 'A', 'A', true);
-assert_istrue(R);
+asserts.istrue(R);
 R = jlrun('', 'A', 'A', false);
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = jlrun('', 'A', 'A', 'Hello, Julia!');
-assert_isequal(R, 'Hello, Julia!');
+asserts.isequal(R, 'Hello, Julia!');
 %=============================================================================
 R = jlrun('', 'A', 'A', "Hello, Julia!");
-assert_isequal(R, 'Hello, Julia!');
+asserts.isequal(R, 'Hello, Julia!');
 %=============================================================================
 R = jlrun('', 'A', 'A', 3 + 2i);
-assert_isequal(R, 3+2i);
+asserts.isequal(R, 3 + 2i);
 %=============================================================================
 R = jlrun('', 'A', 'A', single(3 + 2i));
-assert_isequal(R, single(3+2i));
+asserts.isequal(R, single(3 + 2i));
 %=============================================================================
 names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
-d = dictionary(wheels,names);
+d = dictionary(wheels, names);
 R = jlrun('', "A", 'A', d);
-assert_isequal(R.typeof(), 'Dict{Any, Any}');
+asserts.isequal(R.typeof(), 'Dict{Any, Any}');
 %=============================================================================
 R = jlrun('', 'A', 'A', magic(4));
-assert_isequal(R.numeric(), magic(4));
+asserts.isequal(R.numeric(), magic(4));
 %=============================================================================

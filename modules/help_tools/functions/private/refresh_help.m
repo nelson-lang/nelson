@@ -12,23 +12,44 @@ function [tf, msg] = refresh_help(varargin)
   if nargin == 1
       mustBeTextScalar(varargin{1}, 1);
       modulename = varargin{1} ;
-  else 
+  else
       modulename = '';
   end
   ver_number = version('-number');
   version_string = sprintf('%d.%d.%d', ver_number(1), ver_number(2), ver_number(3));
-  help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
+  help_dir = get_help_cache_dir(version_string);
   if ~isdir(help_dir)
-    install_help(true);
+    mkdir(help_dir);
   end
   modules_help_list = get_modules_help_list();
-  if ~isempty(modulename)
+  if ~isempty(modulename) && ~any(strcmp(modulename, modules_help_list))
     modules_help_list = [modules_help_list; modulename];
   end
-   for lang = getavailablelanguages()'
-    index_help_for_language([help_dir, lang{1}], lang{1}, modules_help_list, true);
+  for lang = getavailablelanguages()'
+    lang_dir = [help_dir, lang{1}];
+    if ~isdir(lang_dir)
+      mkdir(lang_dir);
+    end
+    index_help_for_language(lang_dir, lang{1}, modules_help_list, true);
   end
     tf = true;
     msg = '';
+end
+%=============================================================================
+function help_dir = get_help_cache_dir(version_string)
+  help_dir = getenv('NELSON_HELP_CACHE_DIR');
+  if ~isempty(help_dir)
+    help_dir = ensureTrailingFileSeparator(help_dir);
+  elseif ~isempty(getenv('NELSON_PREFERENCES_PATH'))
+    help_dir = [prefdir(), '/help/'];
+  else
+    help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
+  end
+end
+%=============================================================================
+function path = ensureTrailingFileSeparator(path)
+  if ~endsWith(path, '/')
+    path = [path, '/'];
+  end
 end
 %=============================================================================

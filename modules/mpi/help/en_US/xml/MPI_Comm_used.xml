@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>MPI_Comm_used</keyword>
   <short_description
-  >Returns list of current used MPI_Comm handle.</short_description>
+  >Returns the current valid MPI_Comm handles.</short_description>
   <syntax>
     <syntax_item>r = MPI_Comm_used()</syntax_item>
   </syntax>
@@ -15,7 +15,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Returns list of current used MPI_Comm handle.</p>
+    <p>Returns the current valid MPI_Comm handles.</p>
   </description>
   <used_function />
   <bibliography />

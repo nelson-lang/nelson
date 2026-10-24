@@ -11,20 +11,20 @@
 function varargout = pole(varargin)
   % Generates poles from transfer functions or state space models
   % p = pole(sys)
-  
+
   narginchk(1, 1);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  
+
   if isa(sys, 'ss')
     p = eig(sys.A); % Eigenvalues
   elseif isa(sys, 'tf')
     if ~issiso(sys)
-      error(_('SISO LTI model expected.'));
+      error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
     end
     denominators = sys.Denominator;
     denominator = denominators{1};
@@ -32,7 +32,7 @@ function varargout = pole(varargin)
   elseif isa(sys, 'zpk')
     p = pole(zpk2tf(sys));
   else
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
   varargout{1} = p;
 end

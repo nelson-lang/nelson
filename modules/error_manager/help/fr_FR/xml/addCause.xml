@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>addCause</keyword>
+  <short_description>Ajoute une cause a MException.</short_description>
+  <syntax>
+    <syntax_item>ME = addCause(ME, causeException)</syntax_item>
+    <syntax_item>ME = ME.addCause(causeException)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ME</param_name>
+      <param_description>un objet MException scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>causeException</param_name>
+      <param_description>un objet MException scalaire a ajouter comme cause.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ME</param_name>
+      <param_description>un nouvel objet MException contenant la cause supplementaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>addCause</b> renvoie un nouvel objet MException avec <b>causeException</b> ajoutee a la propriete <b>cause</b>.</p>
+    <p>L&apos;objet MException original n&apos;est pas modifie.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[errID = 'MYFUN:BadIndex';
+msg = 'Unable to index into array.';
+baseException = MException(errID, msg);
+causeException = MException('MYFUN:BadSubscript', 'Index must be positive.');
+newException = baseException.addCause(causeException)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[errID = 'MYFUN:BadIndex';
+msg = 'Unable to index into array.';
+baseException = MException(errID, msg);
+newException = addCause(baseException, baseException)
+newException.cause{1}]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}MException">MException</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getReport">getReport</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}throw">throw</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include "SortStringHelpers.hpp"
+#include "SortHelpers.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
 namespace Nelson {
@@ -48,6 +49,9 @@ comparisonStringGreaterPlacementFirst(const StringEntry& a, const StringEntry& b
 bool
 comparisonStringGreaterPlacementLast(const StringEntry& a, const StringEntry& b)
 {
+    if (a.isMissing != b.isMissing) {
+        return !a.isMissing;
+    }
     return a.x.compare(b.x) > 0;
 }
 //=============================================================================
@@ -92,16 +96,16 @@ sortStringWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planec
     bool ascend)
 {
     ArrayOfVector res;
-    auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
+    auto* arg = (ArrayOf*)(arrayIn.dataPointer());
     ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, outDim.getElementCount(), stringVector(), false);
+        NLS_STRING_ARRAY, outDim.elementCount(), stringVector(), false);
     ArrayOf sortedValues = ArrayOf(NLS_STRING_ARRAY, outDim, ptrValue);
     double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
+        NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
     ArrayOf indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
 
     bool missingFirst = false;
-    PROC_Comparison ptrComparison = getComparisonMethod(placement, ascend, missingFirst);
+    getComparisonMethod(placement, ascend, missingFirst);
 
     std::vector<StringEntry> buf;
     buf.reserve(linesize);
@@ -116,34 +120,23 @@ sortStringWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planec
                     ce.x = L"";
                 } else {
                     ce.isMissing = false;
-                    ce.x = param.getContentAsWideString();
+                    ce.x = param.asWideString();
                 }
                 ce.n = (double)k + 1;
                 buf.push_back(ce);
             }
-            if (missingFirst) {
-                auto it = std::partition(
-                    buf.begin(), buf.end(), [](const StringEntry& i) { return i.isMissing; });
-
-                parallelSort(
-                    buf.begin(), buf.end(), [](const StringEntry& a, const StringEntry& b) {
-                        if (a.isMissing && b.isMissing) {
-                            return a.n < b.n;
-                        }
-                        return a.n != a.n;
-                    });
-                parallelSort(it, buf.end(), ptrComparison);
-            } else {
-                parallelSort(buf.begin(), buf.end(), ptrComparison);
-            }
+            sortIndexedEntries(
+                buf, missingFirst, [](const StringEntry& entry) { return entry.isMissing; },
+                [ascend](const StringEntry& a, const StringEntry& b) {
+                    return ascend ? a.x.compare(b.x) < 0 : a.x.compare(b.x) > 0;
+                });
 
             for (indexType k = 0; k < linesize; k++) {
                 if (buf[k].isMissing) {
-                    ptrValue[i * planesize * linesize + j + k * planesize]
-                        = ArrayOf::emptyConstructor();
+                    ptrValue[i * planesize * linesize + j + k * planesize] = ArrayOf::empty();
                 } else {
                     ptrValue[i * planesize * linesize + j + k * planesize]
-                        = ArrayOf::characterArrayConstructor(buf[k].x);
+                        = ArrayOf::characterArray(buf[k].x);
                 }
                 ptrIndex[i * planesize * linesize + j + k * planesize] = buf[k].n;
             }
@@ -154,16 +147,15 @@ sortStringWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planec
     return res;
 }
 //=============================================================================
-
 static ArrayOfVector
 sortStringWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecount,
     indexType planesize, Dimensions& outDim, indexType dim, MISSING_PLACEMENT placement,
     bool ascend)
 {
     ArrayOfVector res;
-    auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
+    auto* arg = (ArrayOf*)(arrayIn.dataPointer());
     ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_STRING_ARRAY, outDim.getElementCount(), stringVector(), false);
+        NLS_STRING_ARRAY, outDim.elementCount(), stringVector(), false);
     ArrayOf sortedValues = ArrayOf(NLS_STRING_ARRAY, outDim, ptrValue);
 
     bool missingFirst = false;
@@ -184,7 +176,7 @@ sortStringWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType pla
                     ce.x = L"";
                 } else {
                     ce.isMissing = false;
-                    ce.x = param.getContentAsWideString();
+                    ce.x = param.asWideString();
                 }
                 buf.push_back(ce);
             }
@@ -199,11 +191,10 @@ sortStringWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType pla
 
             for (indexType k = 0; k < linesize; k++) {
                 if (buf[k].isMissing) {
-                    ptrValue[i * planesize * linesize + j + k * planesize]
-                        = ArrayOf::emptyConstructor();
+                    ptrValue[i * planesize * linesize + j + k * planesize] = ArrayOf::empty();
                 } else {
                     ptrValue[i * planesize * linesize + j + k * planesize]
-                        = ArrayOf::characterArrayConstructor(buf[k].x);
+                        = ArrayOf::characterArray(buf[k].x);
                 }
             }
         }
@@ -225,5 +216,5 @@ sortString(const ArrayOf& arrayIn, bool withIndex, indexType linesize, indexType
         arrayIn, linesize, planecount, planesize, outDim, dim, placement, ascend);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

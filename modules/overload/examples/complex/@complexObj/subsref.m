@@ -7,16 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-
-%=============================================================================
-% Copyright (c) 2016-present Allan CORNET (Nelson)
-%=============================================================================
-% This file is part of Nelson.
-%=============================================================================
-% LICENCE_BLOCK_BEGIN
-% SPDX-License-Identifier: LGPL-3.0-or-later
-% LICENCE_BLOCK_END
-%=============================================================================
 function varargout = subsref(varargin)
   obj = varargin{1};
   s = varargin{2};
@@ -28,22 +18,19 @@ function varargout = subsref(varargin)
         indices = s.subs;
         if (length(indices) == 0)
           varargout{1} = obj;
-          return 
-        end   
-        if (length(indices) ~= 2)
-          error(_('Two indices expected.'));
+          return
         end
-        output = [];
-        output.r = indices{1};
-        output.i = indices{2};
-        varargout{1} = class(output, 'complexObj')
-      elseif length(s) == 2 && strcmp(s(2).type,'.')
+        if (length(indices) ~= 2)
+          error('Nelson:complexObj:twoIndicesExpected', 'Two indices expected.');
+        end
+        varargout{1} = complexObj(indices{1}, indices{2})
+      elseif length(s) == 2 && strcmp(s(2).type, '.')
         % Implement obj(indices).PropertyName
         indices = s(1).subs;
         st = struct(obj);
         name = s(2).sub;
         varargout{1} = st(indices{:}).(name);
-      elseif length(s) == 3 && strcmp(s(2).type,'.') && strcmp(s(3).type,'()')
+      elseif length(s) == 3 && strcmp(s(2).type, '.') && strcmp(s(3).type, '()')
         % Implement obj(indices1).PropertyName(indices2)
         indices1 = s(1).subs;
         name = s(2).subs;
@@ -60,9 +47,9 @@ function varargout = subsref(varargin)
       st = struct(obj);
       varargout{1} = st.(name);
     case '{}'
-      error(_('Illegal indexing structure argument: type ''()'' expected.'));
+      error('Nelson:complexObj:illegalIndexing', 'Illegal indexing structure argument: type ''()'' expected.');
     otherwise
       error(_('Not a valid indexing expression'));
-    end
   end
-  %=============================================================================
+end
+%=============================================================================

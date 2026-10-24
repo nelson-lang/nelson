@@ -20,10 +20,31 @@ namespace Nelson {
 static std::wstring externalModulesPath;
 //=============================================================================
 static std::wstring
+getUserDir();
+//=============================================================================
+static std::wstring
+resolveExternalModulesPath()
+{
+    std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(NELSON_PROJECT_NAME)
+        + L"/" + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING) + L"/modules";
+    std::wstring modulesDirectory
+        = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
+    FileSystemWrapper::Path modulesPath(modulesDirectory);
+    modulesDirectory = modulesPath.generic_wstring();
+    if (!StringHelpers::ends_with(modulesDirectory, L"\\")
+        && (!StringHelpers::ends_with(modulesDirectory, L"/"))) {
+        modulesDirectory = modulesDirectory + L"/";
+    }
+    return modulesDirectory;
+}
+//=============================================================================
+static std::wstring
 getUserDir()
 {
     std::wstring envValue;
-#ifdef _MSC_VER
+#if defined(__EMSCRIPTEN__)
+    envValue = L"/user-modules/";
+#elif defined(_MSC_VER)
     envValue = GetVariableEnvironment(L"USERPROFILE");
 #else
     envValue = GetVariableEnvironment(L"HOME");
@@ -39,17 +60,7 @@ getUserDir()
 bool
 CreateIfRequiredExternalModulesPath()
 {
-    std::wstring defaultExternalModulesDirectory = getUserDir() + std::wstring(NELSON_PROJECT_NAME)
-        + L"/" + utf8_to_wstring(NELSON_SEMANTIC_VERSION_STRING) + L"/modules";
-    externalModulesPath
-        = GetVariableEnvironment(L"NELSON_EXTERNAL_MODULES_PATH", defaultExternalModulesDirectory);
-    FileSystemWrapper::Path modulesPath(externalModulesPath);
-    externalModulesPath = modulesPath.generic_wstring();
-    if (!StringHelpers::ends_with(externalModulesPath, L"\\")
-        && (!StringHelpers::ends_with(externalModulesPath, L"/"))) {
-        externalModulesPath = externalModulesPath + L"/";
-    }
-
+    externalModulesPath = resolveExternalModulesPath();
     bool bOK = false;
     bool bIsDir = FileSystemWrapper::Path::is_directory(externalModulesPath);
     if (!bIsDir) {
@@ -63,6 +74,7 @@ CreateIfRequiredExternalModulesPath()
 std::wstring
 GetExternalModulesPath()
 {
+    CreateIfRequiredExternalModulesPath();
     return externalModulesPath;
 }
 //=============================================================================

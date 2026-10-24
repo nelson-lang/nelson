@@ -9,9 +9,9 @@
 //=============================================================================
 #include "sparselogical_realBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "SparseRealPart.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,10 +22,12 @@ Nelson::SparseGateway::sparselogical_realBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparse()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     if (!argIn[0].isLogical()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     retval << SparseRealPart(argIn[0]);
     return retval;

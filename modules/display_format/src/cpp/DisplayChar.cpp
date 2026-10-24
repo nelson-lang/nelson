@@ -61,7 +61,7 @@ Display2dChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
     if (A.isRowVectorCharacterArray()) {
-        std::wstring msg = A.getContentAsWideString();
+        std::wstring msg = A.asWideString();
         if (msg.empty()) {
             if (name.empty()) {
                 io->outputMessage(L"");
@@ -76,9 +76,9 @@ Display2dChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
             }
         }
     } else {
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        charType* raw = (charType*)A.getDataPointer();
+        indexType rows = A.rows();
+        indexType columns = A.columns();
+        charType* raw = (charType*)A.dataPointer();
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             if (!name.empty()) {
                 io->outputMessage(L"\n");
@@ -106,11 +106,11 @@ void
 DisplayNdChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
 {
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -124,23 +124,23 @@ DisplayNdChar(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         io->outputMessage(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
-        charType* raw = (charType*)A.getDataPointer();
+        charType* raw = (charType*)A.dataPointer();
         indexType colsPerPage = columns;
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {

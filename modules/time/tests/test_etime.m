@@ -11,5 +11,5 @@ t1 = datevec(datenum('2020-01-01'));
 t2 = datevec(datenum('2020-01-02'));
 R = etime(t2, t1);
 REF = 86400;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -13,12 +13,12 @@ function A = sampling(xSeq, className)
     seqLen = xSeq;
     xSeq = 1:cast(seqLen, className);
   end
-  
+
   xColumn = xSeq(:);
   num = xColumn;
   den = xColumn - xColumn.';
   samplingMatrix = num ./ den;
-  samplingMatrix(1:seqLen+1:seqLen^2) = 0;
+  samplingMatrix(1:seqLen + 1:seqLen ^ 2) = 0;
   samplingMatrix = samplingMatrix + diag(sum(samplingMatrix));
   A = samplingMatrix;
 end

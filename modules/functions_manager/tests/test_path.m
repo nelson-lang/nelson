@@ -7,10 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(length(path()) > 0);
+% <--WEIGHT 4-->
+asserts.istrue(length(path()) > 0);
 %=============================================================================
 REF = path();
 path(path());
 P = path();
-assert_isequal(REF, P);
+asserts.isequal(REF, P);
 %=============================================================================

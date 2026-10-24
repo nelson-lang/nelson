@@ -21,5 +21,5 @@ ArrayOfVector
 FevalFutureFetchNext(
     Evaluator* eval, const std::vector<FutureObject*>& futures, int nLhs, double timeout);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

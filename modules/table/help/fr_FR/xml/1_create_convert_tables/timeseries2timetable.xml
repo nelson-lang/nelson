@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries2timetable</keyword>
+  <short_description>Convertir des donnees de serie temporelle en timetable.</short_description>
+  <syntax>
+    <syntax_item>TT = timeseries2timetable(ts)</syntax_item>
+    <syntax_item>TT = timeseries2timetable(ts1, ..., tsN)</syntax_item>
+    <syntax_item>TT = timeseries2timetable(tsArray)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>ts</param_name><param_description>Donnees de serie temporelle.</param_description></param_input_item>
+    <param_input_item><param_name>ts1, ..., tsN</param_name><param_description>Series temporelles partageant le meme vecteur de temps, les memes TimeInfo Units et TimeInfo StartDate.</param_description></param_input_item>
+    <param_input_item><param_name>tsArray</param_name><param_description>Tableau non vide de series temporelles, converti dans l'ordre des colonnes. Il doit etre la seule entree.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>TT</param_name><param_description>Objet timetable.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>timeseries2timetable</b> convertit un objet timeseries en timetable.</p>
+    <p>Les temps numeriques relatifs deviennent des durees. Les metadonnees de temps absolu deviennent des temps datetime.</p>
+    <p>Chaque serie temporelle devient une variable, nommee d'apres la propriete <b>Name</b> de la serie, ou <b>Data</b> si elle est vide. Les noms en double sont rendus uniques. Pour combiner des series ayant des vecteurs de temps differents, convertissez-les separement puis utilisez <b>synchronize</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2; 3], [0; 1; 2], 'Name', 'speed');
+TT = timeseries2timetable(ts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

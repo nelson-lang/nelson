@@ -7,9 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 8-->
 % <--ADV-CLI MODE-->
-% <--RELEASE ONLY--> 
+% <--RELEASE ONLY-->
 %=============================================================================
 examples_directory = [modulepath('graphics', 'root'), '/', 'examples/'];
+previousDemoDuration = getenv('NELSON_DEMO_DURATION');
+setenv('NELSON_DEMO_DURATION', '1');
 run([examples_directory, 'cube/demo_cube.m']);
+setenv('NELSON_DEMO_DURATION', previousDemoDuration);
 %=============================================================================

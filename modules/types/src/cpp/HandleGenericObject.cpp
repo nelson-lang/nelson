@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "HandleGenericObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -16,20 +17,20 @@ namespace Nelson {
 HandleGenericObject::HandleGenericObject(const std::string& _category, void* _ptr, bool isScoped)
 {
     if (_category.empty()) {
-        Error(_W("handle must have a type."));
+        Error(L"Nelson:types:handleExpected", L"handle must have a %s.", L"type");
     }
     if (_ptr == nullptr) {
-        Error(_W("handle must have a pointer."));
+        Error(L"Nelson:types:handleExpected", L"handle must have a %s.", L"pointer");
     }
-    this->category = _category;
+    this->category_ = _category;
     this->ptr = _ptr;
     this->_isScoped = isScoped;
 }
 //=============================================================================
 std::string
-HandleGenericObject::getCategory()
+HandleGenericObject::category()
 {
-    return this->category;
+    return this->category_;
 }
 //=============================================================================
 void
@@ -39,7 +40,7 @@ HandleGenericObject::setPointer(void* _ptr)
 }
 //=============================================================================
 void*
-HandleGenericObject::getPointer()
+HandleGenericObject::pointer()
 {
     return this->ptr;
 }

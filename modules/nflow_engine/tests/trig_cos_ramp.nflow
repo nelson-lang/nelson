@@ -1,0 +1,66 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Trigonometric cos applied to a ramp: cos(t).",
+  "name": "trig_cos_ramp",
+  "blocks": [
+    {
+      "id": "r1",
+      "type": "ramp",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "slope": 1,
+        "start": 0
+      }
+    },
+    {
+      "id": "t1",
+      "type": "trigFunction",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Function": "cos"
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "trig_cos_ramp_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "r1",
+      "to": "t1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "t1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "autoRoute": true
+}

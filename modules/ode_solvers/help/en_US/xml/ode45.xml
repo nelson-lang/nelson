@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode45</keyword>
+  <short_description>Nonstiff ODE solver.</short_description>
+  <syntax>
+    <syntax_item>[t, y] = ode45(odefun, tspan, y0)</syntax_item>
+    <syntax_item>sol = ode45(odefun, tspan, y0, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ode45</b> solves an initial value problem with adaptive explicit steps.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Item</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Problem form</td>
+        <td><b>y' = f(t,y)</b>, with initial value <b>y0</b>.</td>
+      </tr>
+      <tr>
+        <td>Inputs</td>
+        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, and options created with <b>odeset</b>.</td>
+      </tr>
+      <tr>
+        <td>Outputs</td>
+        <td><b>[t,y]</b> arrays or a <b>sol</b> structure compatible with <b>deval</b> and <b>odextend</b>.</td>
+      </tr>
+      <tr>
+        <td>Events</td>
+        <td>The <b>Events</b> option fills <b>te</b>, <b>ye</b>, and <b>ie</b>, or the <b>xe</b>, <b>ye</b>, and <b>ie</b> structure fields.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exponential decay.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[t, y] = ode45(@(t,y) -y, [0 1], 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odeget</keyword>
+  <short_description>Lire une option EDO.</short_description>
+  <syntax>
+    <syntax_item>valeur = odeget(options, nom)</syntax_item>
+    <syntax_item>valeur = odeget(options, nom, defaut)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeget</b> renvoie une option nommee ou une valeur par defaut.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Appel</th>
+        <th>Role</th>
+      </tr>
+      <tr>
+        <td><b>value = *get(options,name)</b></td>
+        <td>Retourne la valeur stockee pour <b>name</b>.</td>
+      </tr>
+      <tr>
+        <td><b>value = *get(options,name,default)</b></td>
+        <td>Retourne <b>default</b> si l option est absente ou vide.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('RelTol', 1e-4); value = odeget(options, 'RelTol')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

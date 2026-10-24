@@ -18,7 +18,7 @@ namespace CoreGateway {
     ArrayOfVector
     maxNumCompThreadsBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace CoreGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

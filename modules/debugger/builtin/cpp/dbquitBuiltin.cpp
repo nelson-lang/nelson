@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dbquitBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,9 +21,9 @@ Nelson::DebuggerGateway::dbquitBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
     if (argIn.size() == 1) {
-        std::wstring argAll = argIn[0].getContentAsWideString();
+        std::wstring argAll = argIn[0].asWideString();
         if (argAll != L"all") {
-            Error(_W("'all' expected."));
+            Error(L"Nelson:dbquit:expectedAll", L"'%s' expected.", L"all");
         }
         eval->setState(NLS_STATE_DEBUG_QUIT_ALL);
     } else {

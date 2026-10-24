@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pyfunction</keyword>
+  <short_description>Wrap a Nelson function handle as a Python callable.</short_description>
+  <syntax>
+    <syntax_item>c = pyfunction(fun_handle)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun_handle</param_name>
+      <param_description
+      >a function handle: anonymous (for example <b>@(x) x .^ 2</b>) or named (for example <b>@sin</b>).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description
+      >a Python callable object (<b>py.builtin_function_or_method</b>) that forwards its calls to the Nelson function handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>c = pyfunction(fun_handle)</b> wraps a Nelson function handle into a
+      Python callable object. When Python code calls <b>c</b>, the wrapped Nelson
+      function handle runs synchronously in the same Nelson session and its result
+      is returned to Python.</p>
+    <p>
+      This is the reverse direction of <b
+        linkend="${python_engine}pyrun">pyrun</b>: instead of Nelson calling
+      Python, Python calls Nelson. Pass the callable to Python with the name-value
+      arguments of <b>pyrun</b> or <b
+        linkend="${python_engine}pyrunfile">pyrunfile</b>, then call it from the
+      Python code. It can be given to any Python API that expects a callable, for
+      example a scikit-learn custom scorer, kernel, or transformer.</p>
+    <p>
+      When Python calls the wrapped callable, the positional arguments are
+      converted to Nelson values (Python scalars and NumPy arrays follow the same
+      rules as the other <b>python_engine</b> conversions), the Nelson function
+      handle is evaluated, and its single output is converted back to a Python
+      object. Handles that return no value produce Python <b>None</b>.</p>
+    <p>
+      A Nelson error raised inside the callback becomes a Python exception whose
+      message contains the Nelson message, and it is then surfaced cleanly in
+      Nelson.</p>
+    <p><b>Limitations.</b> The callback is in-process and single-threaded: the
+      Nelson function handle always runs on the Nelson interpreter thread. It is
+      designed for single-threaded use only. With scikit-learn and joblib, use
+      <b>n_jobs=1</b>; backends that spawn worker processes or threads
+      (<b>n_jobs</b> greater than 1) cannot call back into the parent Nelson
+      session, and a call arriving from an unexpected thread fails with a clear
+      error instead of corrupting the session. Calling <b>pyrun</b> or
+      <b>pyrunfile</b> again from within a callback is not supported and raises an
+      error rather than deadlocking. Only a single output is supported.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Call an anonymous handle from Python.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[sq = @(x) x .^ 2;
+f = pyfunction(sq);
+y = pyrun("r = g(4.0)", "r", "g", f)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Receive a NumPy array in the callback.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[add1 = @(v) double(v) + 1;
+f = pyfunction(add1);
+o = pyrun("import numpy as np; o = g(np.array([1.0, 2.0, 3.0]))", "o", "g", f)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a named function handle.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[f = pyfunction(@sin);
+z = pyrun("r = g(0.0)", "r", "g", f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyrunfile">pyrunfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${python_engine}5_call_nelson_from_python"
+      >Call Nelson from Python</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${python_engine}3_python_types"
+      >Python types supported</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

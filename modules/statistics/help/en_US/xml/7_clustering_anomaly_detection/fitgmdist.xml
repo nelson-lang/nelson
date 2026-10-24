@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitgmdist</keyword>
+  <short_description>Fit a Gaussian mixture distribution.</short_description>
+  <syntax>
+    <syntax_item>gm = fitgmdist(X, k)</syntax_item>
+    <syntax_item>gm = fitgmdist(X, k, Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitgmdist</b> fits a Gaussian mixture model with <b>k</b> components to the rows of <b>X</b> using expectation maximization.</p>
+    <p>Name-value arguments include Start, Replicates, RegularizationValue, CovarianceType, SharedCovariance, MaxIter, TolFun, and Options.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Fit and cluster a simple mixture.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 10; 11];
+gm = fitgmdist(X, 2, 'Start', [1; 1; 2; 2]);
+idx = cluster(gm, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}gmdistribution">gmdistribution</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}kmeans">kmeans</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}clusterdata">clusterdata</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

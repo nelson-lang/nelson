@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function tf = isConfigured(obj)  
+function tf = isConfigured(obj)
   tf = ~isempty(obj.keyType);
 end
 %=============================================================================

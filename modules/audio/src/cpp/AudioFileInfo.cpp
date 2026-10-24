@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@
 #include "StringHelpers.hpp"
 #include "AudioFileInfo.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -62,10 +62,10 @@ getCompressionMethodAsString(int format)
         break; /* Sonic Foundry's 64 bit RIFF/WAV */
     case SF_FORMAT_MAT4:
         compressionMethod = L"mat4";
-        break; /* Matlab (tm) V4.2 / GNU Octave 2.0 */
+        break; /* MAT-file V4.2 / GNU Octave 2.0 */
     case SF_FORMAT_MAT5:
         compressionMethod = L"mat5";
-        break; /* Matlab (tm) V5.0 / GNU Octave 2.1 */
+        break; /* MAT-file V5.0 / GNU Octave 2.1 */
     case SF_FORMAT_PVF:
         compressionMethod = L"pvf";
         break; /* Portable Voice Format */
@@ -198,7 +198,7 @@ ArrayOf
 AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
 {
     Dimensions dims(0, 0);
-    ArrayOf res = ArrayOf::emptyConstructor(dims);
+    ArrayOf res = ArrayOf::empty(dims);
     errorMessage.clear();
     SNDFILE* file = nullptr;
     SF_INFO sfinfo;
@@ -210,7 +210,7 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     file = sf_open(ufilename.c_str(), SFM_READ, &sfinfo);
 #endif
     if (file == nullptr) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_VALUE;
+        errorMessage = Nelson::formatI18nMessage(L"Wrong value for #%d argument.", (1));
         return res;
     }
     std::wstring CompressionMethod = getCompressionMethodAsString(sfinfo.format);
@@ -242,38 +242,38 @@ AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage)
     fieldnames.reserve(10);
     ArrayOfVector fieldvalues;
     fieldnames.push_back("Filename");
-    fieldvalues << ArrayOf::characterArrayConstructor(filename);
+    fieldvalues << ArrayOf::characterArray(filename);
     fieldnames.push_back("CompressionMethod");
-    fieldvalues << ArrayOf::characterArrayConstructor(CompressionMethod);
+    fieldvalues << ArrayOf::characterArray(CompressionMethod);
     fieldnames.push_back("NumChannels");
-    fieldvalues << ArrayOf::doubleConstructor(NumChannels);
+    fieldvalues << ArrayOf::doubleScalar(NumChannels);
     fieldnames.push_back("SampleRate");
-    fieldvalues << ArrayOf::doubleConstructor(SampleRate);
+    fieldvalues << ArrayOf::doubleScalar(SampleRate);
     fieldnames.push_back("TotalSamples");
-    fieldvalues << ArrayOf::doubleConstructor(TotalSamples);
+    fieldvalues << ArrayOf::doubleScalar(TotalSamples);
     fieldnames.push_back("Duration");
-    fieldvalues << ArrayOf::doubleConstructor(Duration);
+    fieldvalues << ArrayOf::doubleScalar(Duration);
     fieldnames.push_back("Title");
     if (Title.empty()) {
-        fieldvalues << ArrayOf::emptyConstructor();
+        fieldvalues << ArrayOf::empty();
     } else {
-        fieldvalues << ArrayOf::characterArrayConstructor(Title);
+        fieldvalues << ArrayOf::characterArray(Title);
     }
     fieldnames.push_back("Comment");
     if (Comment.empty()) {
-        fieldvalues << ArrayOf::emptyConstructor();
+        fieldvalues << ArrayOf::empty();
     } else {
-        fieldvalues << ArrayOf::characterArrayConstructor(Comment);
+        fieldvalues << ArrayOf::characterArray(Comment);
     }
     fieldnames.push_back("Artist");
     if (Artist.empty()) {
-        fieldvalues << ArrayOf::emptyConstructor();
+        fieldvalues << ArrayOf::empty();
     } else {
-        fieldvalues << ArrayOf::characterArrayConstructor(Artist);
+        fieldvalues << ArrayOf::characterArray(Artist);
     }
     fieldnames.push_back("BitsPerSample");
-    fieldvalues << ArrayOf::doubleConstructor(BitsPerSample);
-    return ArrayOf::structConstructor(fieldnames, fieldvalues);
+    fieldvalues << ArrayOf::doubleScalar(BitsPerSample);
+    return ArrayOf::structArray(fieldnames, fieldvalues);
 }
 //=============================================================================
 } // namespace Nelson

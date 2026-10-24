@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jl_ispropBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,12 +20,12 @@ Nelson::Julia_engineGateway::jl_ispropBuiltin(int nLhs, const ArrayOfVector& arg
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_JULIA_CATEGORY_STR) {
-        Error(_W("Julia object expected."));
+    if (param1.handleCategory() != NLS_HANDLE_JULIA_CATEGORY_STR) {
+        Error(L"Nelson:Julia:invalidObject", L"Julia object expected.");
     }
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
-    retval << ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
+    std::wstring propertyName = param2.asWideString();
+    retval << ArrayOf::logicalScalar(param1.isHandleProperty(propertyName));
     return retval;
 }
 //=============================================================================

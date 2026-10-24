@@ -1,0 +1,36 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--ENGLISH IMPOSED-->
+% <--WEIGHT 64-->
+%=============================================================================
+skip_testsuite(~__nflow_codegen_toolchain__('C'), 'C toolchain (cmake) not available');
+haveRust = __nflow_codegen_toolchain__('rust');
+%=============================================================================
+% Family 3 -- exact int64: a beyond-int32 constant times 3 with the
+% saturating helper, converted to double only at the boundary. Raw JSON so
+% the int64 literal survives; the product (9000000033) is below 2^53 so the
+% CSV round-trip stays exact.
+dj = ['{"blocks":[', ...
+  '{"id":"c","type":"constant","inputs":0,"outputs":1,"params":{"Value":3000000011,"OutDataType":"int64"}},', ...
+  '{"id":"g","type":"gain","inputs":1,"outputs":1,"params":{"Gain":3}},', ...
+  '{"id":"cv","type":"convert","inputs":1,"outputs":1,"params":{"OutDataType":"double"}},', ...
+  '{"id":"y","type":"labelSink","inputs":1,"outputs":1,"params":{"GotoTag":"y","isExternalPort":true}},', ...
+  '{"id":"tw","type":"toWorkspace","inputs":1,"outputs":0,"params":{"VariableName":"nfi64_y","SaveFormat":"Array","Decimation":1,"MaxDataPoints":"inf"}}],', ...
+  '"connections":[', ...
+  '{"from":"c","to":"g","fromIndex":0,"toIndex":0},', ...
+  '{"from":"g","to":"cv","fromIndex":0,"toIndex":0},', ...
+  '{"from":"cv","to":"y","fromIndex":0,"toIndex":0},', ...
+  '{"from":"cv","to":"tw","fromIndex":0,"toIndex":0}],', ...
+  '"sampleTime":0.1,"duration":0.5,"variables":{}}'];
+nflow_codegen_check_numeric(dj, 'nffam_i64', 'C', {'y'}, {'nfi64_y'}, 0, 0);
+if haveRust
+  nflow_codegen_check_numeric(dj, 'nffam_i64', 'rust', {'y'}, {'nfi64_y'}, 0, 0);
+end
+%=============================================================================

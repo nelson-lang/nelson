@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>linmod</keyword>
+  <short_description>Linéarisation numérique d'un modèle nflow.</short_description>
+  <syntax>
+    <syntax_item>[A, B, C, D] = linmod(model)</syntax_item>
+    <syntax_item>[A, B, C, D] = linmod(model, x0, u0)</syntax_item>
+    <syntax_item>A = linmod(model)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>un système chargé (nom ou handle) ou le chemin d'un fichier .nflow.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>état du point de fonctionnement (longueur nx), optionnel. Absent : état après INIT.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u0</param_name>
+      <param_description>entrées du point de fonctionnement (longueur nu), optionnel. Absent : zéro.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>la jacobienne d'état nx-par-nx d(xdot)/dx au point de fonctionnement.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>la jacobienne d'entrée nx-par-nu d(xdot)/du au point de fonctionnement.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>la jacobienne de sortie ny-par-nx dy/dx au point de fonctionnement.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>la jacobienne de transmission directe ny-par-nu dy/du au point de fonctionnement.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>linmod</b> renvoie la linéarisation d'état continue de <b>model</b> autour de son point de fonctionnement après INIT.</p>
+    <p>Les jacobiennes sont obtenues par différences finies centrées du même second membre global que le solveur <b>ode4</b> / à pas variable assemble : l'état continu <b>x</b> rassemble l'état de chaque bloc continu, les entrées <b>u</b> sont les blocs Label Source de port externe (<b>isExternalPort</b>), <b>xdot = f(x, u)</b> est la dérivée du graphe et <b>y</b> les sorties Label Sink du modèle. Un modèle linéaire se linéarise en lui-même.</p>
+    <p>Une entrée qui doit participer à <b>B</b> / <b>D</b> doit être un Label Source de port externe ; un simple Label Source de routage goto/from interne n'est pas une entrée du modèle.</p>
+    <p>Les modèles plats (niveau supérieur) comme les états continus imbriqués dans des sous-systèmes sont supportés : le couplage d'un état imbriqué aux entrées externes (<b>B</b>) et aux sorties à travers la frontière du sous-système (<b>C</b>) est capturé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Linéariser un modèle d'état du premier ordre</example_item_description>
+      <example_item_data><![CDATA[d.blocks = { ...
+  struct('id','u','type','labelSource','inputs',0,'outputs',1,'params',struct('label','u','isExternalPort',true)), ...
+  struct('id','ss','type','stateSpace','inputs',1,'outputs',1,'params',struct('A',-2,'B',1,'C',1,'D',0)), ...
+  struct('id','y','type','labelSink','inputs',1,'outputs',0,'params',struct('label','y')), ...
+  struct('id','sc','type','scope','inputs',1,'outputs',0,'params',struct()) };
+d.connections = { ...
+  struct('from','u','to','ss','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','y','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','sc','fromIndex',0,'toIndex',0) };
+f = [tempdir(), 'linmod_demo.nflow'];
+fid = fopen(f,'wt'); fwrite(fid, jsonencode(d)); fclose(fid);
+[A, B, C, D] = linmod(f)  % A = -2, B = 1, C = 1, D = 0]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}trim">trim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

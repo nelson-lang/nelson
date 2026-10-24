@@ -11,9 +11,11 @@
 %=============================================================================
 f = figure();
 f = uicontrol('Style', 'text', 'String', 'Hello World!', 'Position', [100, 100, 100, 50]);
-assert_isequal(f.String, 'Hello World!');
-pause(2);
+asserts.isequal(f.String, 'Hello World!');
+drawnow();
+pause(0.1);
 f.String = 'Bye World!';
-assert_isequal(f.String, 'Bye World!');
-pause(2);
+asserts.isequal(f.String, 'Bye World!');
+drawnow();
+pause(0.1);
 %=============================================================================

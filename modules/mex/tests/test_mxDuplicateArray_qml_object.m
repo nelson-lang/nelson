@@ -9,18 +9,16 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxDuplicateArray') == 0
-  test_dir = [tempdir(), 'mxDuplicateArray_qml'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxDuplicateArray.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxDuplicateArray.c');
   addpath(pwd())
@@ -28,6 +26,6 @@ end
 %=============================================================================
 H = helpdlg();
 R = mxDuplicateArray(H);
-assert_isequal(R.className, H.className);
+asserts.isequal(class(R), class(H));
 delete(H);
 %=============================================================================

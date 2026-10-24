@@ -7,7 +7,7 @@ mt19937_seed(mt19937_state* state, uint32_t seed)
     int pos;
     seed &= 0xffffffffUL;
 
-    /* Knuth's PRNG as used in the Mersenne Twister reference implementation */
+    /* Knuth's PRNG as used in the Mersenne Twister expected behavior */
     for (pos = 0; pos < RK_STATE_LEN; pos++) {
         state->key[pos] = seed;
         seed = (1812433253UL * (seed ^ (seed >> 30)) + pos + 1) & 0xffffffffUL;

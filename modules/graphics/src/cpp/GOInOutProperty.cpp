@@ -16,5 +16,5 @@ static const wchar_t* IN_OUT_DICT[3] = { GO_PROPERTY_VALUE_IN_STR, GO_PROPERTY_V
 //=============================================================================
 GOInOutProperty::GOInOutProperty() : GORestrictedStringProperty(IN_OUT_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

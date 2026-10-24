@@ -9,8 +9,10 @@
 //=============================================================================
 #include "EvaluateInterface.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "AnsiSgr.hpp"
 //=============================================================================
 EvaluateInterface::EvaluateInterface() { outputBuffer.clear(); }
 //=============================================================================
@@ -31,7 +33,7 @@ EvaluateInterface::getLine(const std::string& prompt)
 std::wstring
 EvaluateInterface::getInput(const std::wstring& prompt)
 {
-    Error(_W("input function not allowed from evalc."));
+    Error(L"Nelson:evalc:inputNotAllowed", L"input function not allowed from evalc.");
     return L"";
 }
 //=============================================================================
@@ -57,6 +59,14 @@ void
 EvaluateInterface::outputMessage(const std::string& msg)
 {
     outputMessage(utf8_to_wstring(msg));
+}
+//=============================================================================
+bool
+EvaluateInterface::outputAnsiText(const std::wstring& msg, bool asError)
+{
+    (void)asError;
+    outputMessage(stripAnsiSgr(msg));
+    return containsAnsiEscape(msg);
 }
 //=============================================================================
 void

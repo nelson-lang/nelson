@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>thetalim</keyword>
+  <short_description>Definit ou retourne les limites angulaires des axes polaires.</short_description>
+  <syntax>
+    <syntax_item>lims = thetalim()</syntax_item>
+    <syntax_item>thetalim([thetamin, thetamax])</syntax_item>
+    <syntax_item>thetalim(&apos;auto&apos;)</syntax_item>
+    <syntax_item>thetalim(&apos;manual&apos;)</syntax_item>
+    <syntax_item>m = thetalim(&apos;mode&apos;)</syntax_item>
+    <syntax_item>thetalim(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>[thetamin, thetamax]</param_name>
+      <param_description>Vecteur a deux elements de limites angulaires en degres. La seconde valeur doit etre superieure a la premiere.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;auto&apos;</param_name>
+      <param_description>Utilise les limites angulaires automatiques, actuellement [0 360].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;manual&apos;</param_name>
+      <param_description>Conserve les limites angulaires courantes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;mode&apos;</param_name>
+      <param_description>Retourne le mode des limites angulaires.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes polaire cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lims</param_name>
+      <param_description>Vecteur a deux elements de limites angulaires en degres.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>&apos;auto&apos; ou &apos;manual&apos;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>thetalim</b> retourne ou definit les limites angulaires de l&apos;axes polaire courant. Contrairement aux angles de donnees de <b>polarplot</b>, les limites angulaires sont exprimees en degres.</p>
+    <p>La definition de limites numeriques passe le mode des limites angulaires a <b>manual</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher seulement la moitie superieure d&apos;un trace polaire.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+theta = linspace(0, pi, 100);
+polarplot(theta, sin(theta));
+thetalim([0 180]);
+lims = thetalim()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetaticks">thetaticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetaticklabels">thetaticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/rlim">rlim</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -14,8 +14,10 @@
 //=============================================================================
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message);
+MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message,
+    std::wstring& messageId);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
-MakeDirectory(const std::wstring& newDir, std::wstring& message);
+MakeDirectory(const std::wstring& newDir, std::wstring& message, std::wstring& messageId);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

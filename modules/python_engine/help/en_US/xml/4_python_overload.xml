@@ -7,7 +7,7 @@
   >The representation of Python operators in Nelson.</short_description>
   <description>
     <p
-    >Nelson facilitates the utilization of the subsequent overloaded operators:</p>
+    >Nelson supports the following overloaded operators:</p>
     <table>
       <tr>
         <th>Python Operator Symbol</th>

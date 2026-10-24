@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Couleurs et style</chapter>
+  <chapter_description>
+    <p>Fonctions pour les couleurs, palettes de couleurs, limites de couleur, ordre des couleurs et style de rendu.</p>
+  </chapter_description>
+</xmldoc>

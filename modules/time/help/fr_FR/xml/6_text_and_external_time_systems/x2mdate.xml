@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>x2mdate</keyword>
+  <short_description>Convertit des numeros de date serie tableur en dates serie Nelson ou datetime.</short_description>
+  <syntax>
+    <syntax_item>m = x2mdate(x)</syntax_item>
+    <syntax_item>t = x2mdate(x, &apos;datetime&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Numeros de date serie tableur et type de sortie optionnel datetime.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Numeros de date serie Nelson par defaut, ou tableau datetime si demande.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convertit des numeros de date serie tableur en dates serie Nelson ou datetime.</p>
+    <p>x2mdate ajoute l origine tableur 1899-12-30. Passez datetime en second argument pour construire directement une sortie datetime.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x2mdate(2)
+x2mdate(2, 'datetime')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

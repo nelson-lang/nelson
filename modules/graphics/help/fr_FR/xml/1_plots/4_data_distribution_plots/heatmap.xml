@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>heatmap</keyword>
+  <short_description>Creer une carte de chaleur depuis une matrice numerique ou une table.</short_description>
+  <syntax>
+    <syntax_item>heatmap(C)</syntax_item>
+    <syntax_item>heatmap(xvalues, yvalues, C)</syntax_item>
+    <syntax_item>heatmap(tbl, xvar, yvar)</syntax_item>
+    <syntax_item>heatmap(tbl, xvar, yvar, 'ColorVariable', cvar)</syntax_item>
+    <syntax_item>heatmap(parent, ...)</syntax_item>
+    <syntax_item>heatmap(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = heatmap(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>Matrice numerique utilisee comme donnees de couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xvalues</param_name>
+      <param_description>Etiquettes des colonnes : cellule de chaines, string, caracteres ou vecteur numerique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yvalues</param_name>
+      <param_description>Etiquettes des lignes : cellule de chaines, string, caracteres ou vecteur numerique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tbl</param_name>
+      <param_description>Table source utilisee pour calculer les valeurs de couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xvar</param_name>
+      <param_description>Variable de table utilisee pour les categories x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yvar</param_name>
+      <param_description>Variable de table utilisee pour les categories y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>cvar</param_name>
+      <param_description>Variable de table numerique moyennee pour chaque paire de categories x/y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Axes ou hggroup parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete pris en charge.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur de propriete.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Objet graphique heatmap contenant l'image, la grille, les etiquettes et l'etat de la barre de couleurs.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>heatmap</b> affiche une matrice numerique sous forme d'image avec couleurs mises a l'echelle et etiquettes de lignes et colonnes. Pour une table, les categories sont triees et les donnees de couleur sont agregees par paire de categories.</p>
+    <p>Avec <b>heatmap(tbl, xvar, yvar)</b>, les donnees de couleur contiennent les comptages et <b>ColorMethod</b> vaut <b>count</b>. Avec <b>ColorVariable</b>, les donnees de couleur contiennent les moyennes et <b>ColorMethod</b> vaut <b>mean</b>.</p>
+    <p>Cette implementation retourne un objet graphique <b>heatmap</b>. Le champ <b>UserData</b> de l'objet contient <b>ChartType</b>, <b>Image</b>, <b>Grid</b>, <b>CellLabels</b>, <b>Colorbar</b>, <b>XData</b>, <b>YData</b>, <b>ColorData</b>, <b>SourceTable</b>, <b>XVariable</b>, <b>YVariable</b>, <b>ColorVariable</b>, <b>ColorMethod</b> et <b>Options</b>.</p>
+    <p>Les proprietes name/value prises en charge sont <b>Title</b>, <b>XLabel</b>, <b>YLabel</b>, <b>SourceTable</b>, <b>XVariable</b>, <b>YVariable</b>, <b>ColorVariable</b>, <b>ColorMethod</b>, <b>XData</b>, <b>YData</b>, <b>XDisplayLabels</b>, <b>YDisplayLabels</b>, <b>ColorLimits</b>, <b>Colormap</b>, <b>ColorbarVisible</b>, <b>GridVisible</b>, <b>CellLabelFormat</b>, <b>CellLabelColor</b>, <b>MissingDataLabel</b>, <b>FontColor</b>, <b>FontSize</b> et <b>Visible</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher une carte de chaleur numerique.</example_item_description>
+      <example_item_data><![CDATA[C = [1 2 3; 4 5 6];
+heatmap(C);]]></example_item_data>
+      <example_item_img src="../../../../images/heatmap_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Utiliser des etiquettes de lignes et colonnes.</example_item_description>
+      <example_item_data><![CDATA[C = [3 7 2; 6 5 8];
+heatmap({'A', 'B', 'C'}, {'Low', 'High'}, C, ...
+  'Title', 'Scores', 'XLabel', 'Column', 'YLabel', 'Group');]]></example_item_data>
+      <example_item_img src="../../../../images/heatmap_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Creer une carte de chaleur depuis des categories de table.</example_item_description>
+      <example_item_data><![CDATA[T = table({'B'; 'A'; 'B'}, {'Y'; 'X'; 'X'}, [2; 5; 8], ...
+  'VariableNames', {'x', 'y', 'v'});
+heatmap(T, 'x', 'y', 'ColorVariable', 'v');]]></example_item_data>
+      <example_item_img src="../../../../images/heatmap_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Personnaliser les couleurs et les etiquettes.</example_item_description>
+      <example_item_data><![CDATA[C = peaks(12);
+heatmap(C, 'ColorLimits', [-6 8], 'Colormap', turbo(64), ...
+  'CellLabelFormat', '%0.1f', 'GridVisible', 'off');]]></example_item_data>
+      <example_item_img src="../../../../images/heatmap_4.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}4_images/imagesc">imagesc</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/colorbar">colorbar</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/colormaps/colormap">colormap</link></see_also_item>
+  </see_also>
+</xmldoc>

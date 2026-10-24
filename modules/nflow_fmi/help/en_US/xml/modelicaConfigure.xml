@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>modelicaConfigure</keyword>
+  <short_description>Set or query the OpenModelica used by the nflow Modelica bridge.</short_description>
+  <syntax>
+    <syntax_item>modelicaConfigure(path)</syntax_item>
+    <syntax_item>omc = modelicaConfigure()</syntax_item>
+    <syntax_item>modelicaConfigure('')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>path</param_name>
+      <param_description>a string scalar or character row vector: an OpenModelica home directory (for example <b>'C:/Program Files/OpenModelica1.27.0-64bit'</b>) or the <b>omc</b> executable itself. An empty string clears the configured override.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>omc</param_name>
+      <param_description>the resolved path to the <b>omc</b> executable for the current configuration, or an empty string when none is found.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>modelicaConfigure</b> selects the <b>OpenModelica</b> compiler that the nflow Modelica bridge uses to turn a Modelica model into an FMU. Use it when auto-detection is wrong or when several OpenModelica versions are installed.</p>
+    <p>The setting is persisted in the Nelson preferences directory and is <b>authoritative</b>: once configured, only that location is tried, so pointing nflow at a specific OpenModelica never silently resolves to a different one. When no override is configured, the location is auto-detected from the <b>NELSON_OPENMODELICA_HOME</b> and <b>OPENMODELICAHOME</b> environment variables, the standard install directories, then <b>PATH</b>.</p>
+    <p>Called with no argument, <b>modelicaConfigure</b> returns the currently resolved <b>omc</b> path. Called with an empty string, it clears the override and returns to auto-detection. Setting a path that does not resolve to a runnable <b>omc</b> raises a warning but is still stored, so a machine can be pre-configured.</p>
+    <p>The nflow editor writes the same preference through this function, so the graphical settings and the command line share one source of truth.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Point nflow at a specific OpenModelica installation.</example_item_description>
+      <example_item_data
+        ><![CDATA[modelicaConfigure('C:/Program Files/OpenModelica1.27.0-64bit');
+info = modelicaInfo()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return to auto-detection.</example_item_description>
+      <example_item_data
+        ><![CDATA[modelicaConfigure('')]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaInfo">modelicaInfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaToFmu">modelicaToFmu</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::QmlEngineGateway::qml_importpathlistBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     wstringVector res = QmlEngine::getInstance()->importPathList();
-    retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(res));
+    retval.push_back(ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res));
     return retval;
 }
 //=============================================================================

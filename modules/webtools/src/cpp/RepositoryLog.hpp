@@ -18,5 +18,5 @@ namespace Nelson {
 NLSWEBTOOLS_IMPEXP ArrayOf
 RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

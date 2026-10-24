@@ -9,12 +9,14 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 %=============================================================================
-msg = sprintf(_('Filename and function name are not same (%s vs %s).'), 'toto', 'tutu');
-assert_checkerror('tutu()', msg);
+% The filename is the callable name even when the primary function is
+% declared under a different name (standard behavior).
+R = tutu();
+asserts.isequal(R, 'hello');
 %=============================================================================
 R = toto();
-assert_isequal(R, 'hello');
+asserts.isequal(R, 'hello');
 %=============================================================================
-msg = sprintf(_('Function ''%s'' has already been declared within this scope.'), 'tata');
-assert_checkerror('tata()', msg);
+msg = strrep(_('Function ''%s'' has already been declared within this scope.'), '%s', 'tata');
+asserts.checkerror('tata()', msg);
 %=============================================================================

@@ -17,5 +17,5 @@ static const wchar_t* FONT_ANGLE_DICT[4] = { GO_PROPERTY_VALUE_NORMAL_STR,
 //=============================================================================
 GOFontAngleProperty::GOFontAngleProperty() : GORestrictedStringProperty(FONT_ANGLE_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

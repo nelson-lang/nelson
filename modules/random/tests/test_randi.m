@@ -11,14 +11,22 @@ rng('default');
 r = rng();
 %=============================================================================
 res = randi(3, 3);
-ref = [3     3     1;
-     3     2     2;
-     1     1     3];
-assert_isapprox(res, ref, 1e-4);
+ref = [3 3 1;
+     3 2 2;
+     1 1 3];
+asserts.isapprox(res, ref, 1e-4);
 %=============================================================================
 res = randi(3, 3);
-ref = [3     3     1;
-     1     2     2;
-     3     3     3];
-assert_isapprox(res, ref, 1e-4);
+ref = [3 3 1;
+     1 2 2;
+     3 3 3];
+asserts.isapprox(res, ref, 1e-4);
+%=============================================================================
+savedRandomState = rng();
+rng('default');
+integerValues = randi(5, 2, 3);
+asserts.isequal(size(integerValues), [2 3]);
+asserts.istrue(all(integerValues(:) >= 1));
+asserts.istrue(all(integerValues(:) <= 5));
+rng(savedRandomState);
 %=============================================================================

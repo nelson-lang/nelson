@@ -33,15 +33,15 @@ function varargout = damp(varargin)
     Frequency(:, k) = Frequency(idx, k);
     TimeConstant(:, k) = TimeConstant(idx, k);
   end
-  
+
   varargout{1} = Frequency;
   if nargout > 1
     varargout{2} = Damping;
   end
   if nargout > 2
-    varargout{3} = Poles;  
+    varargout{3} = Poles;
   end
   if nargout > 3
-    varargout{4} = TimeConstant;  
+    varargout{4} = TimeConstant;
   end
 end

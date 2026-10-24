@@ -10,6 +10,6 @@
     <p
     >It includes functions for querying system information, managing environment variables, executing shell commands, generating GUIDs, and performing platform-specific operations.</p>
     <p
-    >This module enables seamless integration of Nelson scripts with the underlying operating system across Windows, macOS, and Linux/Unix platforms.</p>
+    >This module lets Nelson scripts interact with the operating system on Windows, macOS, and Linux/Unix platforms.</p>
   </chapter_description>
 </xmldoc>

@@ -7,13 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(iswasm(), 'Requires a native shell and process creation, unavailable in WebAssembly.');
 cmd = 'echo hello && echo world';
 [a, b] = unix(cmd);
-assert_isequal(a, 0);
+asserts.isequal(a, 0);
 if ispc()
   REF = sprintf('%s\n%s\n', 'hello ', 'world');
 else
   REF = sprintf('%s\n%s\n', 'hello', 'world');
 end
-assert_isequal(b, REF);
+asserts.isequal(b, REF);
 %=============================================================================

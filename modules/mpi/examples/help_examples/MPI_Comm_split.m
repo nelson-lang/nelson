@@ -25,7 +25,7 @@ row_comm = MPI_Comm_split(comm, color, world_rank);
 row_rank = MPI_Comm_rank();
 row_size = MPI_Comm_size();
 
-disp(['WORLD RANK/SIZE: ',int2str(world_rank), '/', int2str(world_size), ' ROW RANK/SIZE: ', int2str(row_rank), '/', int2str(row_size)]);
+disp(['WORLD RANK/SIZE: ', int2str(world_rank), '/', int2str(world_size), ' ROW RANK/SIZE: ', int2str(row_rank), '/', int2str(row_size)]);
 if MPI_Initialized()
   MPI_Finalize();
 end

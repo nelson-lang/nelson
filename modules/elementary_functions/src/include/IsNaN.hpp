@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 IsNaN(const ArrayOf& A);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

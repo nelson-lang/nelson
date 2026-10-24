@@ -12,7 +12,7 @@
 #include <cmath>
 #include "Sleep.hpp"
 #include "NelsonConfiguration.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "RuntimeDispatch.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,7 +34,7 @@ Sleep(Evaluator* eval, double tValue)
             while (!NelsonConfiguration::getInstance()->getInterruptPending(ID)) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
                 if (eval != nullptr && eval->haveEventsLoop()) {
-                    ProcessEventsDynamicFunctionWithoutWait();
+                    Nelson::processGuiEvents(false);
                 }
             }
         } else {
@@ -48,7 +48,7 @@ Sleep(Evaluator* eval, double tValue)
                 std::chrono::nanoseconds difftime = (current_time - begin_time);
                 bContinue = !(difftime.count() > int64(tValue * 1e9));
                 if (eval != nullptr && eval->haveEventsLoop()) {
-                    ProcessEventsDynamicFunctionWithoutWait();
+                    Nelson::processGuiEvents(false);
                 }
             } while (!NelsonConfiguration::getInstance()->getInterruptPending(ID)
                 && (static_cast<int>(bContinue) == true));

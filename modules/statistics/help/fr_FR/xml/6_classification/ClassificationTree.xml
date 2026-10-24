@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ClassificationTree</keyword>
+  <short_description>Modele d&apos;arbre de classification.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitctree(X, Y)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score, cost, node] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>matrice numerique : les lignes sont les observations et les colonnes sont les predicteurs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>vecteur : etiquettes de classes, une etiquette pour chaque ligne de X.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>arguments nom-valeur optionnels acceptes par la fonction d&apos;ajustement correspondante.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>mdl</param_name>
+      <param_description>objet modele de classification renvoye par la fonction d&apos;ajustement.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>label</param_name>
+      <param_description>etiquettes de classes predites pour de nouvelles observations.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>score</param_name>
+      <param_description>scores de classes ou valeurs apparentees aux probabilites a posteriori lorsque le modele les fournit.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ClassificationTree stocke un arbre de classification construit a partir de predicteurs et d&apos;etiquettes de classes.</p>
+    <p>Creez cet objet avec fitctree. Utilisez predict pour classer de nouvelles observations.</p>
+  </description>
+  <used_function>
+    <used_function_item>fitctree</used_function_item>
+    <used_function_item>predict</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Entrainer un arbre de classification et classer deux observations.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 5 5; 5 6; 6 5];
+Y = [1; 1; 1; 2; 2; 2];
+mdl = fitctree(X, Y);
+label = predict(mdl, [0.2 0.1; 5.2 5.1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}predict">predict</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitctree">fitctree</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

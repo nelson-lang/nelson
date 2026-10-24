@@ -9,6 +9,14 @@
   </description>
   <used_function />
   <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb03md">slicot_sb03md</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

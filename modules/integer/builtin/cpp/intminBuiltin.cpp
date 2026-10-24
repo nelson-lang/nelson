@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "intminBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,33 +23,34 @@ Nelson::IntegerGateway::intminBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     if (argIn.empty()) {
         int32 v = std::numeric_limits<int32>::min();
-        retval << ArrayOf::int32Constructor(v);
+        retval << ArrayOf::int32Scalar(v);
     } else {
         ArrayOf param1 = argIn[0];
         bool isSupportedInput
             = param1.isRowVectorCharacterArray() || (param1.isStringArray() && param1.isScalar());
         if (!isSupportedInput) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
-        std::wstring classInt = param1.getContentAsWideString();
+        std::wstring classInt = param1.asWideString();
         if (classInt == L"int8") {
-            retval << ArrayOf::int8Constructor(std::numeric_limits<int8>::min());
+            retval << ArrayOf::int8Scalar(std::numeric_limits<int8>::min());
         } else if (classInt == L"uint8") {
-            retval << ArrayOf::uint8Constructor(std::numeric_limits<uint8>::min());
+            retval << ArrayOf::uint8Scalar(std::numeric_limits<uint8>::min());
         } else if (classInt == L"int16") {
-            retval << ArrayOf::int16Constructor(std::numeric_limits<int16>::min());
+            retval << ArrayOf::int16Scalar(std::numeric_limits<int16>::min());
         } else if (classInt == L"uint16") {
-            retval << ArrayOf::uint16Constructor(std::numeric_limits<uint16>::min());
+            retval << ArrayOf::uint16Scalar(std::numeric_limits<uint16>::min());
         } else if (classInt == L"int32") {
-            retval << ArrayOf::int32Constructor(std::numeric_limits<int32>::min());
+            retval << ArrayOf::int32Scalar(std::numeric_limits<int32>::min());
         } else if (classInt == L"uint32") {
-            retval << ArrayOf::uint32Constructor(std::numeric_limits<uint32>::min());
+            retval << ArrayOf::uint32Scalar(std::numeric_limits<uint32>::min());
         } else if (classInt == L"int64") {
-            retval << ArrayOf::int64Constructor(std::numeric_limits<int64>::min());
+            retval << ArrayOf::int64Scalar(std::numeric_limits<int64>::min());
         } else if (classInt == L"uint64") {
-            retval << ArrayOf::uint64Constructor(std::numeric_limits<uint64>::min());
+            retval << ArrayOf::uint64Scalar(std::numeric_limits<uint64>::min());
         } else {
-            Error(_W("The name of an integer class expected."));
+            Error(L"Nelson:integer:invalidClassName", L"The name of an integer class expected.");
         }
     }
     return retval;

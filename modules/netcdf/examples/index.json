@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "netcdf_roundtrip.m",
+      "title": "NetCDF variable round trip",
+      "description": "Create a temporary NetCDF variable and read its values back.",
+      "tags": [
+        "netcdf",
+        "data"
+      ],
+      "requirements": []
+    }
+  ]
+}

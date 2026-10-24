@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uisetfont</keyword>
+  <short_description>Opens a font selection dialog box.</short_description>
+  <syntax>
+    <syntax_item>s = uisetfont</syntax_item>
+    <syntax_item>s = uisetfont(initialFont)</syntax_item>
+    <syntax_item>s = uisetfont(initialFont, title)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>initialFont</param_name>
+      <param_description>Structure with fields such as FontName and FontSize.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>Structure with fields FontName, FontSize, FontWeight, FontAngle, and FontUnits, or 0 when canceled.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>uisetfont returns font properties selected by the user.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Preview a font selection dialog layout.</example_item_description>
+      <example_item_data><![CDATA[f = dialog('Name', 'Choose font', 'WindowStyle', 'normal', 'Position', [100 100 420 230]);
+uicontrol(f, 'Style', 'listbox', 'String', {'Arial', 'Consolas', 'Segoe UI'}, 'Value', 2, 'Position', [30 78 150 110]);
+uicontrol(f, 'Style', 'text', 'String', 'Sample Text', 'FontName', 'Consolas', 'FontSize', 16, 'Position', [210 124 150 34]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'OK', 'Position', [220 30 70 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [304 30 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/uisetfont_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Choose a font with a custom title.</example_item_description>
+      <example_item_data><![CDATA[initial.FontName = 'Consolas';
+initial.FontSize = 10;
+s = uisetfont(initial, 'Choose editor font');
+if ~isequal(s, 0), disp(s.FontSize); end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uisetcolor">uisetcolor</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Updated dialog API help.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

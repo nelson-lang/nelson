@@ -13,31 +13,34 @@ p = str2func('error');
 pool = backgroundPool();
 f = parfeval(pool, p, 0, 'test');
 wait(f);
-assert_isequal(f.State, 'finished');
+asserts.isequal(f.State, 'finished');
 %=============================================================================
 p = str2func('error');
 pool = backgroundPool();
 f = parfeval(pool, p, 0, 1);
 wait(f);
-assert_isequal(f.State, 'finished');
-assert_isequal(f.Error.message, _('Wrong type for argument #1: string expected.'));
+asserts.isequal(f.State, 'finished');
+msg = _('The message must be specified as either a character vector, string scalar, or a message structure.');
+asserts.isequal(f.Error.message, msg);
 %=============================================================================
 p = str2func('@(x) x +1');
 pool = backgroundPool();
 f = parfeval(pool, p, 1, 1);
 wait(f);
-assert_isequal(f.State, 'finished');
-assert_isequal(func2str(f.Function), '@(x) x+1');
+asserts.isequal(f.State, 'finished');
+asserts.isequal(func2str(f.Function), '@(x)x+1');
 %=============================================================================
 p = str2func('pause');
 b = backgroundPool();
+fevalqueue = b.FevalQueue;
+cleanupQueue = onCleanup(@() cancelAll(fevalqueue)); %#ok<NLS0004>
 NumWorkers = b.NumWorkers;
-for k = [1:(NumWorkers*2) + 2]
-  f(k) = parfeval(b, p, 0, 5);
+for k = [1:(NumWorkers * 2) + 2]
+  f(k) = parfeval(b, p, 0, 1);
 end
 R = {f.State};
-assert_istrue(iscellstr(R));
-assert_isequal(length(R), (NumWorkers*2) + 2);
+asserts.istrue(iscellstr(R));
+asserts.isequal(length(R), (NumWorkers * 2) + 2);
 %=============================================================================
 fevalqueue = b.FevalQueue;
 cancelAll(fevalqueue);

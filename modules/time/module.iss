@@ -13,14 +13,15 @@ Source: {#RootPath}bin\{#BinPath}\libnlsTime.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\libnlsTime_builtin.dll; DestDir: {app}\bin\{#BinPath}\;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\tzdata\*; DestDir: {app}\modules\{#MODULE_NAME}\resources\tzdata\; Flags: recursesubdirs;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@sparsedouble\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@sparsedouble\;
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@cell\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@cell\;
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@char\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@char\;
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@string\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@string\;
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\tzdata\*.*; DestDir: {app}\modules\{#MODULE_NAME}\resources\tzdata\; Flags: recursesubdirs;
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_FILES};
 ;==============================================================================

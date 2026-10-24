@@ -9,7 +9,7 @@
 %=============================================================================
 function R = compare_colon(nb_test, varargin)
   R = false;
-  switch(nb_test)
+  switch (nb_test)
     case 1
       REF = {1, 4, 7, 2, 5, 8, 3, 6, 9};
       R = isequal(varargin, REF);
@@ -27,5 +27,5 @@ function R = compare_colon(nb_test, varargin)
       R = isequal(varargin, REF);
     otherwise
       R = false;
-    end
   end
+end

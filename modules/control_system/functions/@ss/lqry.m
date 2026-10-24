@@ -13,11 +13,11 @@ function varargout = lqry(varargin)
   % [K, S, e] = lqry(sys, Q, R, N)
   narginchk(3, 4);
   nargoutchk(0, 3);
-  
+
   sys = varargin{1};
   Q = varargin{2};
   R = varargin{3};
-  
+
   mustBeNumeric(Q, 2);
   mustBeNumeric(R, 3);
   if nargin == 4
@@ -28,31 +28,31 @@ function varargout = lqry(varargin)
   mustBeNumeric(R, 4);
   E = sys.E;
   if ~isempty(E) && rcond(E) < eps()
-    error(_('Wrong value for argument #1: sys.E must not be singular.'));
+    error('Nelson:control_system:wrongValue:wrongValueArgument1SysEX', 'Wrong value for argument #1: sys.E must not be singular.');
   end
-  
+
   rA = size(sys.A, 1);
   if isempty(E)
     E = eye(rA, rA);
   end
-  
+
   nd = N' * sys.D;
-  
+
   qmod = sys.C' * Q * sys.C;
   rmod = R + sys.D' * Q * sys.D + nd + nd';
   nmod = sys.C' * (Q * sys.D + N);
-  
+
   qmod = symmetrize(qmod);
   rmod = symmetrize(rmod);
   [Veig, eigVals] = eig(rmod);
   vr = real(diag(eigVals));
   if min(vr) <= 0
-    error(_('Wrong value for input arguments #5 or #6: result must be positive definite.'));
+    error('Nelson:control_system:wrongValue:wrongValueInputArguments56', 'Wrong value for input arguments #5 or #6: result must be positive definite.');
   end
-  
+
   [Veig, eigVals] = eig([qmod, nmod; nmod', rmod]);
   vqnr = real(diag(eigVals));
-  
+
   [K, S, e] = lqr(sys.A, sys.B, qmod, rmod, nmod, sys.E);
   varargout{1} = K;
   if nargout > 1

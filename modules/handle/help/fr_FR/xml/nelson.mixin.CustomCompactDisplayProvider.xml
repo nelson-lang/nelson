@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.mixin.CustomCompactDisplayProvider</keyword>
+  <short_description>Fournir un affichage compact d'un objet dans les conteneurs.</short_description>
+  <syntax>
+    <syntax_item>classdef MaClasse &lt; nelson.mixin.CustomCompactDisplayProvider</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>objet d'une classe derivee de nelson.mixin.CustomCompactDisplayProvider.</param_description></param_input_item>
+    <param_input_item><param_name>config</param_name><param_description>configuration d'affichage utilisee pour la sortie compacte.</param_description></param_input_item>
+    <param_input_item><param_name>width</param_name><param_description>largeur maximale d'affichage.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>rep</param_name><param_description>representation d'affichage compact.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Dérivez de <b>nelson.mixin.CustomCompactDisplayProvider</b> pour contrôler l'affichage
+    compact d'un objet lorsqu'il apparaît dans un conteneur tel qu'une cellule ou une structure.</p>
+    <p>Une sous-classe implémente <b>compactRepresentationForSingleLine(obj, config, width)</b>, qui
+    renvoie un objet <b>nelson.display.CompactDisplayRepresentation</b> décrivant l'objet sur une
+    ligne. La représentation est habituellement construite avec la méthode héritée
+    <b>widthConstrainedDataRepresentation(obj, config, width, 'StringArray', texte)</b>, qui
+    assemble les données fournies avec le délimiteur défini par <b>config</b> (un
+    <b>nelson.display.DisplayConfiguration</b>) et les tronque avec les points de suspension
+    configurés lorsqu'elles dépassent <b>width</b> caractères. Lorsqu'une instance est affichée dans
+    un conteneur tel qu'une cellule, un champ de structure ou une colonne de <b>table</b>, le texte
+    obtenu est utilisé à la place du <b>[1x1 ClassName]</b> par défaut.</p>
+    <p>Une méthode compagnon <b>compactRepresentationForColumn(obj, config, width)</b> peut être
+    implémentée pour les dispositions en colonne, et <b>fullDataRepresentation(obj, config, ...)</b>
+    construit une représentation sans contrainte de largeur. Lorsque ces méthodes ne sont pas
+    surchargées, la représentation par défaut est utilisée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Une température affichée de façon compacte dans une cellule.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Temp < nelson.mixin.CustomCompactDisplayProvider
+  properties
+    Celsius = 0
+  end
+  methods
+    function obj = Temp(c)
+      if nargin > 0
+        obj.Celsius = c;
+      end
+    end
+    function rep = compactRepresentationForSingleLine(obj, config, width)
+      txt = [num2str(obj.Celsius), ' degC'];
+      rep = widthConstrainedDataRepresentation(obj, config, width, 'StringArray', string(txt));
+    end
+  end
+end
+c = {Temp(20), Temp(37)}   % affiche {20 degC}  {37 degC}]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${handle}nelson.mixin.CustomDisplay">nelson.mixin.CustomDisplay</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

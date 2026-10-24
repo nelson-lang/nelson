@@ -18,5 +18,5 @@ NLSWEBTOOLS_IMPEXP void
 RepositoryRemoveBranch(
     const std::wstring& localPath, const std::wstring& branchName, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

@@ -9,50 +9,46 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt6.qml'];
-else
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt5.qml'];
-end 
+qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt6.qml'];
 qobj = qml_loadfile(qml_file);
 %=============================================================================
-assert_isequal(class(qobj.active), 'logical');
-assert_isequal(class(qobj.children), 'QObject');
-assert_isequal(class(qobj.color), 'int32');
-assert_isequal(size(qobj.color), [1 4]);
-assert_isequal(class(qobj.contentItem), 'QObject');
-assert_isequal(class(qobj.height), 'int32');
-assert_isequal(class(qobj.maximumHeight),'int32');
-assert_isequal(class(qobj.maximumWidth),'int32');
-assert_isequal(class(qobj.minimumHeight),'int32');
-assert_isequal(class(qobj.minimumWidth),'int32');
-assert_isequal(class(qobj.objectName),'char');
-assert_isequal(class(qobj.opacity),'double');
-assert_isequal(class(qobj.title),'char');
-assert_isequal(class(qobj.visible),'logical');
-assert_isequal(class(qobj.width),'int32');
-assert_isequal(class(qobj.x),'int32');
-assert_isequal(class(qobj.y),'int32');
+asserts.isequal(class(qobj.active), 'logical');
+asserts.isequal(class(qobj.children), 'QObject');
+asserts.isequal(class(qobj.color), 'int32');
+asserts.isequal(size(qobj.color), [1 4]);
+asserts.isequal(class(qobj.contentItem), 'QObject');
+asserts.isequal(class(qobj.height), 'int32');
+asserts.isequal(class(qobj.maximumHeight), 'int32');
+asserts.isequal(class(qobj.maximumWidth), 'int32');
+asserts.isequal(class(qobj.minimumHeight), 'int32');
+asserts.isequal(class(qobj.minimumWidth), 'int32');
+asserts.isequal(class(qobj.objectName), 'char');
+asserts.isequal(class(qobj.opacity), 'double');
+asserts.isequal(class(qobj.title), 'char');
+asserts.isequal(class(qobj.visible), 'logical');
+asserts.isequal(class(qobj.width), 'int32');
+asserts.isequal(class(qobj.x), 'int32');
+asserts.isequal(class(qobj.y), 'int32');
 %=============================================================================
-assert_checkerror('qobj.active=3', _('logical expected.'));
+asserts.checkerror('qobj.active=3', _('logical expected.'));
 %=============================================================================
 qobj.active = false;
-assert_isequal(qobj.active, false);
-assert_isequal(qobj.color, int32([255 255 255 255]));
-assert_isequal(qobj.height, int32(360));
-assert_isequal(qobj.maximumHeight, int32(16777215));
-assert_isequal(qobj.maximumWidth, int32(16777215));
-assert_isequal(qobj.minimumHeight, int32(0));
-assert_isequal(qobj.minimumWidth, int32(0));
-assert_isequal(qobj.objectName, 'MyWindow');
-assert_isequal(qobj.opacity, 1);
-assert_isequal(qobj.title, 'test_qvariant');
-assert_isequal(qobj.visible, false);
-assert_isequal(qobj.width, int32(360));
+asserts.isequal(qobj.active, false);
+asserts.isequal(qobj.color, int32([255 255 255 255]));
+asserts.isequal(qobj.height, int32(360));
+asserts.isequal(qobj.maximumHeight, int32(16777215));
+asserts.isequal(qobj.maximumWidth, int32(16777215));
+asserts.isequal(qobj.minimumHeight, int32(0));
+asserts.isequal(qobj.minimumWidth, int32(0));
+asserts.isequal(qobj.objectName, 'MyWindow');
+asserts.isequal(qobj.opacity, 1);
+asserts.isequal(qobj.title, 'test_qvariant');
+asserts.isequal(qobj.visible, false);
+asserts.isequal(qobj.width, int32(360));
 qobj.x = 780;
-assert_isequal(qobj.x, int32(780));
+asserts.isequal(qobj.x, int32(780));
 qobj.y = 335;
-assert_isequal(qobj.y, int32(335));
+asserts.isequal(qobj.y, int32(335));
 %=============================================================================
 c = cell(2, 3);
 for k = 1:6
@@ -60,21 +56,41 @@ for k = 1:6
 end
 qobj.cell = c;
 C = qobj.cell;
-assert_isequal(size(C), [1 2]);
+asserts.isequal(size(C), [1 2]);
 REF = {{1, 3, 5}, {2, 4, 6}};
-assert_isequal(C, REF);
+asserts.isequal(C, REF);
 %=============================================================================
 s.a = 1;
 s.b = 'test';
 s.c = c;
 qobj.struct = s;
 C = qobj.struct;
-assert_isequal(size(C), [1 1]);
+asserts.isequal(size(C), [1 1]);
 clear REF
 REF.a = 1;
 REF.b = 'test';
 REF.c = {{1, 3, 5}, {2, 4, 6}};
-assert_isequal(C, REF);
+asserts.isequal(C, REF);
+%=============================================================================
+T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'}, 'RowNames', {'r1', 'r2'});
+qobj.table = T;
+S = qobj.table;
+asserts.isequal(class(S), 'struct');
+asserts.isequal(fieldnames(S.data), {'A'; 'B'});
+if iscell(S.data.A)
+  if isequal(size(S.data.A), [1 2])
+    asserts.isequal(S.data.A, {1, 2});
+    asserts.isequal(S.data.B, {3, 4});
+  else
+    asserts.isequal(S.data.A, {{1}, {2}});
+    asserts.isequal(S.data.B, {{3}, {4}});
+  end
+else
+  asserts.isequal(S.data.A, [1; 2]);
+  asserts.isequal(S.data.B, [3; 4]);
+end
+asserts.isequal(S.Properties.VariableNames, {'A', 'B'});
+asserts.isequal(S.Properties.RowNames, {'r1', 'r2'});
 %=============================================================================
 delete(qobj)
 %=============================================================================

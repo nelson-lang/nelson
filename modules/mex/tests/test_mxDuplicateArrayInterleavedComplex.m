@@ -7,20 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxDuplicateArrayInterleavedComplex') == 0
-  test_dir = [tempdir(), 'mxDuplicateArray_interleaved'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxDuplicateArray.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
-  mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c' );
+  mex('-output', 'mxDuplicateArrayInterleavedComplex', '-R2018a', 'mxDuplicateArray.c');
   addpath(pwd())
 end
 %=============================================================================
@@ -30,6 +29,6 @@ j = [900 1000 30];
 v = complex([10 100 20], 1);
 S = sparse(i, j, v, 1300, 1500, 30);
 R = mxDuplicateArrayInterleavedComplex(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
+asserts.isequal(R, S);
+asserts.isequal(nzmax(R), nzmax(S));
 %=============================================================================

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>theme</keyword>
+  <short_description>Set the color theme of a figure.</short_description>
+  <syntax>
+    <syntax_item>theme(themename)</syntax_item>
+    <syntax_item>theme(f, themename)</syntax_item>
+    <syntax_item>theme(f, t)</syntax_item>
+    <syntax_item>t = theme(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>themename</param_name>
+      <param_description>a string: 'light' or 'dark'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>a graphics object. Target figure. If a non-figure object is given, its ancestor figure is used. If omitted, the current figure is used.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>a theme object, as returned by the <b>Theme</b> property of a figure.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>the theme object applied to the figure.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>theme</b> sets the color theme of a figure to <b>'light'</b> or <b>'dark'</b>.</p>
+    <p>Applying a theme updates the <b>Theme</b> property of the figure and the colors of the figure and its children that use theme-managed colors.</p>
+    <p>With no figure argument, the theme is applied to the current figure returned by <b>gcf</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Apply a dark theme to a figure.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+surf(peaks);
+theme(f, 'dark');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Query the theme applied to the current figure.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+t = theme('light')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/colororder">colororder</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

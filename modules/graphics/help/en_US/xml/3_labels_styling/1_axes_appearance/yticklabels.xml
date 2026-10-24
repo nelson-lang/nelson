@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>yticklabels</keyword>
+  <short_description>Set or query y-axis tick labels.</short_description>
+  <syntax>
+    <syntax_item>yticklabels(labels)</syntax_item>
+    <syntax_item>yticklabels('auto')</syntax_item>
+    <syntax_item>yticklabels('manual')</syntax_item>
+    <syntax_item>mode = yticklabels('mode')</syntax_item>
+    <syntax_item>labels = yticklabels</syntax_item>
+    <syntax_item>yticklabels(ax, ...)</syntax_item>
+    <syntax_item>labels = yticklabels(ax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description>string array, cell array of character vectors, or character vector used as y-axis tick labels.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes object. If omitted, the current axes is used.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>labels</param_name>
+      <param_description>current y-axis tick labels.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>mode</param_name>
+      <param_description>current y-axis tick label mode: 'auto' or 'manual'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>yticklabels</b> sets or queries the <b>YTickLabel</b> property of an axes.</p>
+    <p>Assigning labels switches <b>YTickLabelMode</b> to <b>manual</b>. Use <b>yticklabels('auto')</b> to return to automatic labels.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Set y-axis tick labels for a horizontal bar graph.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+barh([10 20 30 41]);
+yticklabels({'April', 'May', 'June', 'July'});
+]]></example_item_data>
+      <example_item_img src="../../../../images/yticklabels_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Set labels on specified axes and query the mode.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+ax = axes('Parent', f);
+plot(ax, 1:4, [2 4 3 5]);
+ax.YTick = 2:5;
+yticklabels(ax, ["low"; "mid"; "high"; "top"]);
+mode = yticklabels(ax, 'mode')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/axes">axes</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/barh">barh</link></see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

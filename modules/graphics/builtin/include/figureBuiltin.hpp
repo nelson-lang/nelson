@@ -16,5 +16,5 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 figureBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

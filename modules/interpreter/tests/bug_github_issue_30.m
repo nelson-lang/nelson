@@ -14,15 +14,15 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/interpreter/tests/issue_#30_1']);
 r = func1()
-assert_isequal(r, 1);
+asserts.isequal(r, 1);
 clear('func1')
 %=============================================================================
 addpath([nelsonroot(), '/modules/interpreter/tests/issue_#30_2']);
 r = func1()
-assert_isequal(r, 2);
+asserts.isequal(r, 2);
 clear('func1')
 %=============================================================================
 rmpath([nelsonroot(), '/modules/interpreter/tests/issue_#30_2']);
 r = func1()
-assert_isequal(r, 1);
+asserts.isequal(r, 1);
 %=============================================================================

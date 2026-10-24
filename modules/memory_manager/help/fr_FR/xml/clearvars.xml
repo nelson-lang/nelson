@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>clearvars</keyword>
+  <short_description>Supprime des variables de l&apos;espace de travail courant.</short_description>
+  <syntax>
+    <syntax_item>clearvars</syntax_item>
+    <syntax_item>clearvars variable_name_1 ... variable_name_N</syntax_item>
+    <syntax_item>clearvars(&apos;-except&apos;, keep_variable_1, ..., keep_variable_N)</syntax_item>
+    <syntax_item>clearvars(variable_name_1, ..., variable_name_N, &apos;-except&apos;, keep_variable_1, ..., keep_variable_N)</syntax_item>
+    <syntax_item>clearvars(&apos;-regexp&apos;, expression_1, ..., expression_N)</syntax_item>
+    <syntax_item>clearvars(..., &apos;-except&apos;, &apos;-regexp&apos;, keep_expression_1, ..., keep_expression_N)</syntax_item>
+    <syntax_item>clearvars(&apos;-global&apos;, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>variable_name</param_name>
+      <param_description>un vecteur de caracteres ou un scalaire string : nom de variable ou motif avec le joker *.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>keep_variable</param_name>
+      <param_description>un vecteur de caracteres ou un scalaire string : nom de variable ou motif avec le joker * a conserver.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-regexp</param_name>
+      <param_description>selectionne les variables dont le nom correspond a l&apos;une des expressions regulieres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-except</param_name>
+      <param_description>conserve les variables correspondantes et supprime les autres variables selectionnees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-global</param_name>
+      <param_description>supprime les variables globales correspondantes. Cette option doit etre le premier argument.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>clearvars</b> supprime des variables de l&apos;espace de travail courant. Sans argument, toutes les variables de l&apos;espace de travail courant sont supprimees.</p>
+    <p>
+      Les variables nommees peuvent etre passees sous forme commande ou sous forme fonction. Les options sont passees sous forme fonction.</p>
+    <p>
+      Les motifs avec joker utilisent <b>*</b> pour correspondre a toute suite de caracteres. Les expressions regulieres sont activees avec <b>-regexp</b>.</p>
+    <p>
+      Quand une variable est globale, <b>clearvars</b> sans <b>-global</b> la retire seulement de l&apos;espace de travail courant. Avec <b>-global</b>, les variables globales correspondantes sont supprimees de l&apos;espace global.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer des variables nommees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[a = 1;
+b = 2;
+c = 3;
+clearvars a c
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer toutes les variables sauf celles indiquees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 1;
+B = 2;
+C = 3;
+clearvars('-except', 'A', 'C')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer des variables avec un joker et en conserver une.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[alpha = 1;
+angle = 2;
+beta = 3;
+clearvars('a*', '-except', 'angle')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer des variables avec des expressions regulieres.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[MonValue = 1;
+TueValue = 2;
+KeepValue = 3;
+clearvars('-regexp', '^(Mon|Tue)')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer des variables globales sauf celles indiquees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[global gx gy
+gx = 1;
+gy = 2;
+clearvars('-global', '-except', 'gx')
+isglobal('gx')
+isglobal('gy')
+clear global gx gy]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${memory_manager}clear">clear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}who">who</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}isglobal">isglobal</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

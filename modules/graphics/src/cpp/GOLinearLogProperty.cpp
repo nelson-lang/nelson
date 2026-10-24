@@ -17,5 +17,5 @@ static const wchar_t* LINEAR_LOG_DICT[3]
 //=============================================================================
 GOLinearLogProperty::GOLinearLogProperty() : GORestrictedStringProperty(LINEAR_LOG_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

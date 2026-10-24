@@ -7,14 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 if ispc()
   try
     js = vswhere();
-    assert_istrue(isstruct(js))
+    asserts.istrue(isstruct(js))
   catch
     err = lasterror();
-    assert_isequal(err.message, _('vswhere not found.'));
+    asserts.isequal(err.message, _('vswhere not found.'));
   end
 else
-  assert_checkerror('vswhere', _('Not implemented on this platform.'));
+  asserts.checkerror('vswhere', _('Not implemented on this platform.'));
 end

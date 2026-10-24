@@ -6,10 +6,10 @@
   <chapter>Linear algebra</chapter>
   <chapter_description>
     <p
-    >The Linear Algebra module provides comprehensive tools for performing matrix and vector computations in Nelson.</p>
+    >The Linear Algebra module provides matrix and vector computation functions in Nelson.</p>
     <p
     >It includes functions for matrix factorization, decomposition, inversion, and analysis, as well as operations on eigenvalues, singular values, and subspaces.</p>
     <p
-    >The module supports advanced numerical methods for evaluating matrix properties, condition numbers, and transformations, enabling efficient and accurate solutions for a wide range of linear algebra problems.</p>
+    >The module includes numerical methods for evaluating matrix properties, condition numbers, and transformations used in linear algebra problems.</p>
   </chapter_description>
 </xmldoc>

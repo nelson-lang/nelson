@@ -23,7 +23,7 @@ namespace Nelson {
 //=============================================================================
 #define BLANKS_INTEGER_AT_BOL L"   "
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
-//============================================================================
+//=============================================================================
 static void
 DisplayEmptyDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
@@ -77,7 +77,7 @@ DisplayScalarDoubleComplex(Interface* io, const ArrayOf& A, const std::wstring& 
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     std::wstring msg;
-    const double* ptrValue = (const double*)A.getDataPointer();
+    const double* ptrValue = (const double*)A.dataPointer();
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
     formatInfo.trim = false;
     msg.append(formatScalarComplexNumber(ptrValue[0], ptrValue[1], false, formatInfo));
@@ -93,11 +93,11 @@ Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     const std::wstring& name, NumericFormatDisplay currentNumericFormat,
     LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    Dimensions dims = A.getDimensions();
-    const double* pValues = (const double*)A.getDataPointer();
+    Dimensions dims = A.dimensions();
+    const double* pValues = (const double*)A.dataPointer();
 
-    indexType rows = dims.getRows();
-    indexType columns = dims.getColumns();
+    indexType rows = dims.rows();
+    indexType columns = dims.columns();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
 
@@ -118,7 +118,7 @@ Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     indexType pageCount = (colsPerPage > 0)
         ? static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))))
         : 1;
-    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+    bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
@@ -142,7 +142,7 @@ Display2dDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
                 buffer.append(L"\n");
             }
         }
-        if (withColumsHeader) {
+        if (withColumnsHeader) {
             buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
             buffer.append(isLoose ? L"\n\n" : L"\n");
         }
@@ -184,11 +184,11 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
@@ -206,7 +206,7 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
     std::wstring buffer;
 
     indexType nominalWidth = getNominalWidth(formatInfo);
-    const double* pValues = (const double*)A.getDataPointer();
+    const double* pValues = (const double*)A.dataPointer();
     auto config = NelsonConfiguration::getInstance();
     sizeType termHeight = io->getTerminalHeight();
     bool isLoose = (currentLineSpacing == NLS_LINE_SPACING_LOOSE);
@@ -223,7 +223,7 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
             }
         }
         buffer.append(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             buffer.append(fmt::format(L",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         buffer.append(L") =\n");
@@ -237,7 +237,7 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
         int pageCount = (colsPerPage > 0)
             ? static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))))
             : 1;
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
             if (config->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
@@ -245,7 +245,7 @@ DisplayNdDoubleComplex(size_t evaluatorID, Interface* io, const ArrayOf& A,
             }
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (isLoose) {

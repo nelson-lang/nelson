@@ -15,5 +15,6 @@
 namespace Nelson::DynamicLinkGateway {
 ArrayOfVector
 dllib_deleteBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

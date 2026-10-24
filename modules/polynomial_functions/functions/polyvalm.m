@@ -7,25 +7,25 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function y = polyvalm (c, x)
+function y = polyvalm(c, x)
   narginchk(2, 2);
   nargoutchk(0, 1);
-  
-  if ~(isvector (c) || isempty (c))
-    error ('Nelson:polyvalm:InvalidP', _('First argument must be a vector.'));
+
+  if ~(isvector(c) || isempty(c))
+    error('Nelson:polyvalm:InvalidP', 'First argument must be a vector.');
   end
-  
+
   [m, n] = size(x);
   if m ~= n
-    error ('Nelson:polyvalm:NonSquareMatrix', _('Second argument must be a square matrix.'));
+    error('Nelson:polyvalm:NonSquareMatrix', 'Second argument must be a square matrix.');
   end
-  
-  n = length (c);
+
+  n = length(c);
   r = size(x, 1);
   if (n == 0)
-    y = zeros(r, class (x));
+    y = zeros(r, class(x));
   else
-    id = eye(r, class (x));
+    id = eye(r, class(x));
     y = c(1) * id;
     for i = 2:n
       y = y * x + c(i) * id;

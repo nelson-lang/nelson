@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>del2</keyword>
+  <short_description>Discrete Laplacian.</short_description>
+  <syntax>
+    <syntax_item>L = del2(U)</syntax_item>
+    <syntax_item>L = del2(U, h)</syntax_item>
+    <syntax_item>L = del2(U, hx, hy)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>U</param_name>
+      <param_description>Input array: vector, matrix or multidimensional array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>Uniform scalar spacing between points in every direction, 1 (default).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>hx, hy</param_name>
+      <param_description>Scalar spacing between points, hx along the columns (x direction) and hy along the rows (y direction).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Discrete Laplacian, an array the same size and class as U.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>del2(U)</b> returns a discrete approximation of the Laplacian of U divided by 2*ndims(U).</p>
+    <p>For an interior element of a matrix, the value is the average of its four neighbours minus the element itself: L(i,j) = (U(i-1,j) + U(i+1,j) + U(i,j-1) + U(i,j+1))/4 - U(i,j).</p>
+    <p>At the borders, a second-difference extrapolation is used so that L has the same size as U.</p>
+    <p><b>del2(U, h)</b> uses the uniform spacing h in every direction, and <b>del2(U, hx, hy)</b> uses the spacing hx along the columns and hy along the rows.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[L = del2(magic(4))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}gradient">gradient</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}diff">diff</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

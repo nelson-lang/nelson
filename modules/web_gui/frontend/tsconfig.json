@@ -1,0 +1,34 @@
+{
+  "extends": "../../frontend-tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2021",
+    "useDefineForClassFields": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "types": [],
+    "module": "ESNext",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@nelson/dialogs": ["../../webview/frontend/dialogs/index.ts"],
+      "@nelson/native-menu": ["../../webview/frontend/native-menu/index.ts"],
+      "@nelson/example-gallery/*": ["../../webview/frontend/examples/*"],
+      "@nelson/package-manager/*": ["../../nmm_gui/frontend/src/*"],
+      "@nelson/wasm-client": ["../../../tools/wasm/nelson-worker-client.mjs"],
+      "react": ["node_modules/@types/react"],
+      "react/jsx-runtime": ["node_modules/@types/react/jsx-runtime"],
+      "react-dom": ["node_modules/@types/react-dom"],
+      "react-dom/client": ["node_modules/@types/react-dom/client"]
+    }
+  },
+  "include": [
+    "src",
+    "vite.config.ts",
+    "../../webview/frontend/dialogs",
+    "../../webview/frontend/native-menu",
+    "../../webview/frontend/examples",
+    "../../nmm_gui/frontend/src"
+  ]
+}

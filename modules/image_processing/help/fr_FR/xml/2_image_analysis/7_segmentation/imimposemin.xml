@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imimposemin</keyword>
+  <short_description>Impose des minima regionaux aux pixels marqueurs.</short_description>
+  <syntax>
+    <syntax_item>J = imimposemin(I, BW)</syntax_item>
+    <syntax_item>J = imimposemin(I, BW, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image 2-D reelle finie.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Masque binaire de marqueurs de meme taille que I.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Image dont les pixels marqueurs sont forces a devenir des minima.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imimposemin modifie une image pour que les pixels marqueurs deviennent les minima les plus bas. Cette operation est utile avant watershed quand des marqueurs connus doivent initialiser les bassins.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser des marqueurs avant watershed</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=[5 4 5;4 3 4;5 4 5];
+markers=false(3,3); markers(1,1)=true;
+J=imimposemin(I,markers);
+L=watershed(J,4);
+figure; subplot(1,3,1); imagesc(I); title('Entree');
+subplot(1,3,2); imagesc(J); title('Imposee');
+subplot(1,3,3); imagesc(L); title('Watershed');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imimposemin_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imextendedmin">imextendedmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}activecontour">activecontour</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

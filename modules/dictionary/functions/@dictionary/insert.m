@@ -12,7 +12,7 @@ function varargout = insert(varargin)
   nargoutchk(0, 1);
   narginchk(3, 5);
   if (nargin == 4)
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:wrongNumberOfInputs', 'Wrong number of input arguments.');
   end
   obj = varargin{1};
   key = varargin{2};
@@ -21,7 +21,7 @@ function varargout = insert(varargin)
   if nargin == 5
     overwriteArgument = varargin{4};
     if (~strcmp(overwriteArgument, 'Overwrite'))
-      error(_('Parameter name must be ''Overwrite''.'));
+      error('Nelson:dictionary:invalidParameterName', 'Parameter name must be ''%s''.', 'Overwrite');
     end
     overwrite = varargin{5};
     mustBeLogicalScalar(overwrite, 5);
@@ -30,45 +30,38 @@ function varargout = insert(varargin)
     varargout{1} = dictionary(key, value);
     return
   end
-  
+
   if overwrite
-    for k = key
-      obj(key) = value;
-    end
+    obj(key) = value;
   else
-    for k = 1:numel(key)
-      currentKey = key(k);
-      if (~isa(currentKey, obj.keyType))
-        currentKey = convertDataType (obj.keyType, currentKey);
-      end
-      h = dec2hex (keyHash (currentKey));
-      if (isa(value, 'value') && isequal(size (value), [0 0]))
-        if isfield(obj.map, h)
-          obj.map = rmfield (obj.map, h);
-          obj.allKeys(cellfun (@(x) isequal (x, currentKey), obj.allKeys)) = [];
-        end
-        continue;
-      end
-      if (~isfield(obj.map, h))
-        obj.allKeys{end + 1} = currentKey;
-      else
-        continue
-      end
-      if (numel(value) == 1)
-        if isa(val, obj.valueType)
-          obj.map.(h) = value;
-        else
-          obj.map.(h) = convertDataType(obj.valueType, value);
-        end
-      else
-        if isa(value, obj.valueType)
-          obj.map.(h) = value(k);
-        else
-          obj.map.(h) = convertDataType(obj.valueType, value(k));
-        end
-      end
+    % Resolve all keys in one bulk pass (linear for numeric/string keys); a
+    % per-key findKeyIndex loop would be O(numel(key) * nEntries).
+    missing = reshape(dictionary.findKeyIndices(obj, key) == 0, size(key));
+    if ~any(missing)
+      varargout{1} = obj;
+      return
+    end
+    if numel(value) == 1
+      valueToInsert = value;
+    elseif iscell(value)
+      valueToInsert = value(missing);
+    else
+      valueToInsert = value(missing);
+    end
+    if strcmp(obj.keyType, 'cell')
+      obj(dictionarySubset(key, missing)) = valueToInsert;
+    else
+      obj(dictionarySubset(key, missing)) = valueToInsert;
     end
   end
   varargout{1} = obj;
+end
+%=============================================================================
+function values = dictionarySubset(values, mask)
+  if iscell(values)
+    values = values(mask);
+  else
+    values = values(mask);
+  end
 end
 %=============================================================================

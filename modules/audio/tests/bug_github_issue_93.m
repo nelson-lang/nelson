@@ -15,6 +15,9 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend validates blocking playback ranges with browser-supported portable fixtures; this issue fixture uses a codec not enabled there.');
+%=============================================================================
 flac_audio = [modulepath('audio'), '/examples/kaneda.flac'];
 [y, fs] = audioread(flac_audio);
 playObj = audioplayer(y, fs);

@@ -24,7 +24,7 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 format short
 R = evalc('A');
@@ -36,9 +36,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format long 
+format long
 R = evalc('A');
 REF =   '
 A =
@@ -48,9 +48,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format shortE 
+format shortE
 R = evalc('A');
 REF =  '
 A =
@@ -60,9 +60,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format longE 
+format longE
 R = evalc('A');
 REF =  '
 A =
@@ -72,9 +72,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format shortEng 
+format shortEng
 R = evalc('A');
 REF =  '
 A =
@@ -84,9 +84,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format longEng 
+format longEng
 R = evalc('A');
 REF =  '
 A =
@@ -96,9 +96,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format('+') 
+format('+')
 R = evalc('A');
 REF =  '
 A =
@@ -108,9 +108,9 @@ A =
     {[+]}    {[+]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format rational 
+format rational
 R = evalc('A');
 REF =  '
 A =
@@ -120,9 +120,9 @@ A =
     {[18446744073709551615]}    {[4294967295]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-format hex 
+format hex
 R = evalc('A');
 REF =  '
 A =
@@ -132,5 +132,5 @@ A =
     {[43f0000000000000]}    {[41efffffffe00000]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

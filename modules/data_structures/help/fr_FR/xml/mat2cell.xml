@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright><language>fr_FR</language><keyword>mat2cell</keyword>
+  <short_description>Decoupe un tableau en tableau de cellules.</short_description>
+  <syntax><syntax_item>C = mat2cell(A, rowSizes)</syntax_item><syntax_item>C = mat2cell(A, rowSizes, colSizes, ...)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>A</param_name><param_description>Tableau d'entree.</param_description></param_input_item><param_input_item><param_name>rowSizes</param_name><param_description>Tailles de blocs pour la premiere dimension.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>C</param_name><param_description>Tableau de cellules contenant les blocs de A.</param_description></param_output_item></param_output>
+  <description><p><b>mat2cell</b> decoupe <b>A</b> en cellules dont les tailles sont donnees pour chaque dimension.</p></description>
+  <used_function /><bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[C = mat2cell(reshape(1:12, [3 4]), [1 2], [3 1])]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${data_structures}num2cell">num2cell</link></see_also_item><see_also_item><link linkend="${data_structures}cell2mat">cell2mat</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history><authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

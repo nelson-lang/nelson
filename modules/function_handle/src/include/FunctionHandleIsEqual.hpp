@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSFUNCTION_HANDLE_IMPEXP bool
 FunctionHandleIsEqual(const ArrayOf& A, const ArrayOf& B);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

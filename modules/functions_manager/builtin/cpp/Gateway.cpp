@@ -28,6 +28,8 @@
 #include "whatBuiltin.hpp"
 #include "whichBuiltin.hpp"
 #include "inmemBuiltin.hpp"
+#include "importBuiltin.hpp"
+#include "localfunctionsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -56,15 +58,15 @@ static const nlsGateway gateway[] = {
     { "rehash", (ptrBuiltin)Nelson::FunctionsGateway::rehashBuiltin, 0, 0 },
     { "userpath", (ptrBuiltin)Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
     { "inmem", (ptrBuiltin)Nelson::FunctionsGateway::inmemBuiltin, 2, 0 },
+    { "import", (ptrBuiltin)Nelson::FunctionsGateway::importBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "ismex", (ptrBuiltin)Nelson::FunctionsGateway::ismexBuiltin, 1, 1, CPP_BUILTIN },
+    { "localfunctions", (ptrBuiltin)Nelson::FunctionsGateway::localfunctionsBuiltin, 1, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
 
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

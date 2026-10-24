@@ -10,7 +10,7 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-assert_isfalse(ishold());
+asserts.isfalse(ishold());
 hold on
-assert_istrue(ishold());
+asserts.istrue(ishold());
 %=============================================================================

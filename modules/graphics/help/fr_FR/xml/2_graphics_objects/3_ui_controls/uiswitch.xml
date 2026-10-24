@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uiswitch</keyword>
+  <short_description>Crée un interrupteur (slider, rocker, toggle).</short_description>
+  <syntax>
+    <syntax_item>h = uiswitch()</syntax_item>
+    <syntax_item>h = uiswitch(parent)</syntax_item>
+    <syntax_item>h = uiswitch(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI component object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sw = uiswitch(parent, style)</b> crée un interrupteur à deux états : styles <b>'slider'</b> (défaut), <b>'rocker'</b>, <b>'toggle'</b>. <b>Items</b> contient les deux libellés ; <b>Value</b>/<b>ValueIndex</b>/<b>ItemsData</b> suivent les règles habituelles ; <b>ValueChangedFcn</b> signale les changements.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Switches', 'Position', [100 100 520 300]);
+sw = uiswitch(f, 'Position', [120 135 90 32]);
+sw.Value = 'On';
+rsw = uiswitch(f, 'rocker');
+rsw.Position = [300 90 48 100];
+rsw.Value = 'On';
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uiswitch_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uiswitch</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+sw = uiswitch(f, 'Items', {'Stop', 'Go'});
+sw.Value = 'Go';
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

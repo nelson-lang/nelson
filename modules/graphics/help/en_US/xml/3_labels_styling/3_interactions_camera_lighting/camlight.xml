@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camlight</keyword>
+  <short_description>Create or position a light relative to the camera.</short_description>
+  <syntax>
+    <syntax_item>camlight()</syntax_item>
+    <syntax_item>camlight('headlight')</syntax_item>
+    <syntax_item>camlight('left')</syntax_item>
+    <syntax_item>camlight('right')</syntax_item>
+    <syntax_item>camlight(az, el)</syntax_item>
+    <syntax_item>go = camlight(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>camlight</b> creates or repositions an infinite light using the current axes camera or a relative angular position.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+surf(peaks(30), 'EdgeColor', 'none', 'FaceLighting', 'gouraud');
+camlight('headlight');
+material('shiny');
+view(35, 28);
+]]></example_item_data>
+      <example_item_img src="../../../../images/camlight_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/light">light</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/lightangle">lightangle</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

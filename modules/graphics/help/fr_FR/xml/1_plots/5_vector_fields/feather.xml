@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>feather</keyword>
+  <short_description>Afficher des vecteurs depuis une ligne de base.</short_description>
+  <syntax>
+    <syntax_item>feather(Z)</syntax_item>
+    <syntax_item>feather(U, V)</syntax_item>
+    <syntax_item>feather(..., LineSpec)</syntax_item>
+    <syntax_item>feather(..., nomPropriete, valeurPropriete)</syntax_item>
+    <syntax_item>feather(parent, ...)</syntax_item>
+    <syntax_item>h = feather(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>feather</b> affiche des vecteurs 2-D depuis y = 0. Une entree complexe utilise la partie reelle comme composante horizontale et la partie imaginaire comme composante verticale.</p>
+    <p>La sortie est un vecteur colonne d'objets graphiques <b>line</b>: une ligne par fleche et une ligne pour la base.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des vecteurs depuis des valeurs complexes.</example_item_description>
+      <example_item_data><![CDATA[z = [1 + 2i, 2 - 1i, -1 + 1i];
+feather(z);]]></example_item_data>
+      <example_item_img src="../../../../images/feather_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Utiliser un style de ligne et des proprietes de ligne.</example_item_description>
+      <example_item_data><![CDATA[u = [1 3 2];
+v = [2 1 -1];
+h = feather(u, v, '-or', 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img src="../../../../images/feather_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">proprietes de line</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/compassplot">compassplot</link></see_also_item>
+  </see_also>
+</xmldoc>

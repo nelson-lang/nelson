@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="3.25" stroke-dasharray="21 13"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#B5D4F4" stroke="#0C447C" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#0C447C">Discrete State-Space</text></g>
+    <g transform="translate(-52.5,52.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="60" fill="#0C447C">A</text></g>
+    <g transform="translate(52.5,52.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="60" fill="#0C447C">B</text></g>
+    <g transform="translate(1,4) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="38.4" fill="#0C447C">z</text></g>
+    <g transform="translate(-52.5,-52.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="60" fill="#0C447C">C</text></g>
+    <g transform="translate(52.5,-52.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="60" fill="#0C447C">D</text></g>
+  </g>
+</svg>

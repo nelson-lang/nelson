@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rlocus</keyword>
+  <short_description>Root locus of a SISO model.</short_description>
+  <syntax>
+    <syntax_item>rlocus(sys)</syntax_item>
+    <syntax_item>rlocus(sys, k)</syntax_item>
+    <syntax_item>rlocus(sys1, sys2, ...)</syntax_item>
+    <syntax_item>[r, k] = rlocus(sys)</syntax_item>
+    <syntax_item>[r, k] = rlocus(sys, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>SISO dynamic system</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>Vector of feedback gains</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>Complex closed-loop pole locations, one column per gain</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>k</param_name>
+      <param_description>Vector of gains used</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The root locus function, <b>rlocus(sys)</b>, computes and plots the locus of the closed-loop poles of the feedback loop <b>feedback(k*sys, 1)</b>, that is the roots of <b>den + k*num</b>, as the gain <b>k</b> sweeps from 0 to infinity.</p>
+    <p
+    >Each branch starts at an open-loop pole (marked <b>x</b>) for <b>k = 0</b> and ends at a finite open-loop zero (marked <b>o</b>) or goes to infinity as <b>k</b> grows.</p>
+    <p
+    >When a gain vector <b>k</b> is supplied, those gains are used instead of the automatically selected range.</p>
+    <p
+    >With output arguments, <b>[r, k] = rlocus(sys)</b> returns the closed-loop pole locations and the gains without plotting.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+sys = tf([1 3], [1 3 2]);
+rlocus(sys);
+]]></example_item_data>
+      <example_item_img
+        src="../../images/rlocus_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[G = tf(1, [1 3 2]);
+[r, k] = rlocus(G);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}nyquist">nyquist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

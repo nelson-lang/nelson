@@ -7,22 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 figure;
-H = line(0,0);
-axis([0 2*pi -1 1]);
+H = line(0, 0);
+axis([0 2 * pi -1 1]);
 grid on;
-x = linspace(0, 2*pi, 200);
+x = linspace(0, 2 * pi, 200);
 y = sin(x);
-for k = 1:length(x)
-    H.XData = x(1:k);
-    H.YData = y(1:k);
-    drawnow;
+for k = 10:10:length(x)
+  H.XData = x(1:k);
+  H.YData = y(1:k);
+  drawnow;
 end
-%=============================================================================
-figure;
-H = line(0,0);
-H.XData = 0:.1:1;
-H.YData = 0:.1:1;
+H.XData = x;
+H.YData = y;
+drawnow;
 %=============================================================================

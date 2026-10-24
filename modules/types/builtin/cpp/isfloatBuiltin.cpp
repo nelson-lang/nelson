@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,9 +18,9 @@ Nelson::TypeGateway::isfloatBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bRes = (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX
-        || argIn[0].getDataClass() == NLS_SINGLE || argIn[0].getDataClass() == NLS_SCOMPLEX);
-    retval << ArrayOf::logicalConstructor(bRes);
+    bool bRes = (argIn[0].dataClass() == NLS_DOUBLE || argIn[0].dataClass() == NLS_DCOMPLEX
+        || argIn[0].dataClass() == NLS_SINGLE || argIn[0].dataClass() == NLS_SCOMPLEX);
+    retval << ArrayOf::logicalScalar(bRes);
     return retval;
 }
 //=============================================================================

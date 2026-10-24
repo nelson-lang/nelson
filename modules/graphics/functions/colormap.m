@@ -33,46 +33,53 @@ function m = colorMapNoRhs()
 end
 %=============================================================================
 function m = colorMapOneRhs(arg)
-  if isgraphics(arg, 'axes') 
+  if isgraphics(arg, 'axes')
     ax = arg;
     m = ax.Colormap;
     return
   elseif isgraphics(arg, 'figure')
-    f =  arg;
+    f = arg;
     m = f.Colormap;
     return
   else
     f = gcf();
     map = arg;
-    if ischar(map) || isStringScalar(map)
-      map = convertStringsToChars(map);
-      if strcmp(map, 'default')
-        map = 'parula';
-      end
-      m = eval(map);
-      f.Colormap = m;
-    else
-      m = map;
-      f.Colormap = map;
+    m = resolveColormapValue(map);
+    if isequal(f.Colormap, m)
+      return
     end
+    f.Colormap = m;
     refresh(f);
   end
-  %=============================================================================
+end
+%=============================================================================
 function m = colorMapTwoRhs(go, map)
+  m = resolveColormapValue(map);
+  if isequal(go.Colormap, m)
+    return
+  end
+  go.Colormap = m;
+  if ~isgraphics(go, 'Figure')
+    go = ancestor(go, 'Figure');
+  end
+  refresh(go);
+end
+%=============================================================================
+function m = resolveColormapValue(map)
   if ischar(map) || isStringScalar(map)
     map = convertStringsToChars(map);
     if strcmp(map, 'default')
       map = 'parula';
     end
-    m = eval(map);
-    go.Colormap = m;
+    % Built-in colormap names are resolved case-insensitively; the exact
+    % spelling is tried first so a user colormap function keeps priority.
+    try
+      m = eval(map);
+    catch
+      m = eval(lower(map));
+    end
   else
     m = map;
-    go.Colormap = map;
   end
-  if ~isgraphics(go, 'Figure')
-    go = ancestor(go, 'Figure');
-  end
-  refresh(go);
 end
 %=============================================================================

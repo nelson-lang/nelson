@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dashboardQuarterGauge</keyword>
+  <keyword_alias>block:dashboardQuarterGauge</keyword_alias>
+  <short_description>Displays a bound signal on a 90-degree quarter scale.</short_description>
+  <syntax>
+    <syntax_item>Block type: dashboardQuarterGauge</syntax_item>
+  </syntax>
+  <description>
+    <p>Displays a bound signal on a 90-degree quarter scale.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Dashboard blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>dashboardQuarterGauge</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Quarter Gauge</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/dashboard/exports/dashboardQuarterGauge.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>The Quarter Gauge block shows the value of the bound signal on a quarter-circle (90 degree) scale between the configured limits.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <p>This block declares no input ports.</p>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <p>This block declares no output ports.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>LabelPosition</code>
+          </td>
+          <td>Top</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Binding</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>ShowInitialText</code>
+          </td>
+          <td>on</td>
+        </tr>
+        <tr>
+          <td>
+            <code>ScaleColors</code>
+          </td>
+          <td>[]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Limits</code>
+          </td>
+          <td>[0, -1, 100]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>FontColor</code>
+          </td>
+          <td>[0, 0, 0]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Opacity</code>
+          </td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>
+            <code>ScaleDirection</code>
+          </td>
+          <td>Clockwise</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>LabelPosition</code>
+      </li>
+      <li>
+        <code>Binding</code>
+      </li>
+      <li>
+        <code>ShowInitialText</code>
+      </li>
+      <li>
+        <code>ScaleColors</code>
+      </li>
+      <li>
+        <code>Limits</code>
+      </li>
+      <li>
+        <code>FontColor</code>
+      </li>
+      <li>
+        <code>Opacity</code>
+      </li>
+      <li>
+        <code>ScaleDirection</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>dashboardQuarterGauge</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Dashboard blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>140 x 160</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, AFTER_STEP</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>INIT resets the widget to its initial reading.</li>
+      <li>AFTER_STEP samples the bound signal and refreshes the display.</li>
+      <li>The block visualizes the signal only; it declares no input or output signal ports.</li>
+    </ul>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/dashboard/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/DashboardHandlers.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardRadioButton">dashboardRadioButton</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardRockerSwitch">dashboardRockerSwitch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardRotarySwitch">dashboardRotarySwitch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardSlider">dashboardSlider</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

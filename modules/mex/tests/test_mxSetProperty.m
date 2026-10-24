@@ -9,26 +9,23 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxSetProperty') == 0
-  test_dir = [tempdir(), 'mxSetProperty'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxSetProperty.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxSetProperty.c');
   addpath(pwd())
 end
 %=============================================================================
 F = figure(44);
-REF =  F.Color / 4;
+REF = F.Color / 4;
 R = mxSetProperty(F);
-assert_isapprox(R.Color, REF, 1e-4);
+asserts.isapprox(R.Color, REF, 1e-4);
 %=============================================================================
-

@@ -13,13 +13,16 @@
 //=============================================================================
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
+#include "BytecodeArtifact.hpp"
 #include "ParserInterface.hpp"
 #include "IsEmptyScriptFile.hpp"
 #include "NelsonConfiguration.hpp"
 #include "ChangeDirectory.hpp"
 #include <cstdio>
+#include <memory>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,10 +32,13 @@ mustBeExistingFile(const std::wstring& filename)
     bool permissionDenied;
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(filename, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        Error(L"Nelson:run:permissionDenied", L"Permission denied.");
     }
     if (!bIsFile) {
-        Error(_W("File does not exist.") + L"\n" + filename);
+        RaiseError(
+            Nelson::resolveMessageTemplate(L"Nelson:core:fileDoesExist", L"File does not exist.")
+                + L"\n" + filename,
+            L"Nelson:run:fileDoesNotExist");
     }
 }
 //=============================================================================
@@ -53,7 +59,6 @@ filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
     fpos_t pos;
     fgetpos(fr, &pos);
     const char* utf8bom = "\xef\xbb\xbf";
-    // UTF-8 bom
     indexType nread = fread(_buffer, sizeof(char), strlen(utf8bom), fr);
     if (nread == 0) {
         fsetpos(fr, &pos);
@@ -82,12 +87,59 @@ filePointerWithoutShebang(const FileSystemWrapper::Path& absolutePath)
     return fr;
 }
 //=============================================================================
+static bool
+evaluateBytecodeFile(Evaluator* eval, const std::wstring& filename, bool changeDirectory)
+{
+    const auto originalDirectory = FileSystemWrapper::Path::current_path();
+    const auto path = FileSystemWrapper::Path::absolute(FileSystemWrapper::Path(filename));
+    std::shared_ptr<MacroFunctionDef> function;
+    bool changed = false;
+    bool pushed = false;
+    bool registered = false;
+    const auto restore = [&]() {
+        if (registered) {
+            unregisterTransientScriptOwner(function.get());
+            registered = false;
+        }
+        if (pushed) {
+            eval->popEvaluateFilenameList();
+            pushed = false;
+        }
+        if (changed) {
+            changed = false;
+            ChangeDirectory(originalDirectory.generic_wstring(), false);
+        }
+    };
+    try {
+        if (changeDirectory) {
+            ChangeDirectory(path.parent_path().generic_wstring(), false);
+            changed = true;
+        }
+        eval->pushEvaluateFilenameList(path.generic_wstring());
+        pushed = true;
+        function = std::shared_ptr<MacroFunctionDef>(
+            new MacroFunctionDef(path.generic_wstring(), false, false),
+            [](MacroFunctionDef* definition) { destroyMacroFunctionDef(definition); });
+        registerTransientScriptOwner(function);
+        registered = true;
+        function->evaluateFunction(eval, ArrayOfVector(), 0);
+        restore();
+    } catch (...) {
+        restore();
+        throw;
+    }
+    return true;
+}
+//=============================================================================
 bool
 EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDirectory)
 {
     bool bNeedToRestoreDirectory = false;
 
     mustBeExistingFile(filename);
+    if (isBytecodeArtifact(filename)) {
+        return evaluateBytecodeFile(eval, filename, bChangeDirectory);
+    }
     if (IsEmptyScriptFile(filename)) {
         return true;
     }
@@ -95,9 +147,9 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     FileSystemWrapper::Path initialDir = FileSystemWrapper::Path::current_path();
     FileSystemWrapper::Path fileToEvaluate(filename);
     FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::absolute(fileToEvaluate);
-    if (fileToEvaluate.has_parent_path() && bChangeDirectory) {
+    if (absolutePath.has_parent_path() && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
-        FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
+        FileSystemWrapper::Path newDir = absolutePath.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);
@@ -115,7 +167,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     try {
         pstate = parseFile(eval->lexerContext, fr, absolutePath.generic_string());
         pt = AbstractSyntaxTree::getReferences();
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->popEvaluateFilenameList();
         AbstractSyntaxTree::deleteReferences();
         fclose(fr);
@@ -125,19 +177,31 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
         throw;
     }
 
-    Exception currentException;
+    NelsonException currentException;
     bool needThrowException = false;
-    MacroFunctionDef* fptr = nullptr;
+    // Registered as a transient script owner while it runs, so anonymous function
+    // handles created during the run can keep the local functions alive after the
+    // script returns (onCleanup task, handle in the shared workspace). See
+    // registerTransientScriptOwner / lookupTransientScriptOwner.
+    // The last reference frees it through destroyMacroFunctionDef, not plain delete,
+    // so the retain a capturing handle takes on the exact definition is honoured.
+    std::shared_ptr<MacroFunctionDef> fptr;
     try {
-        fptr = new MacroFunctionDef(absolutePath.generic_wstring(), true, false);
+        fptr = std::shared_ptr<MacroFunctionDef>(
+            new MacroFunctionDef(absolutePath.generic_wstring(), true, false),
+            [](MacroFunctionDef* definition) { destroyMacroFunctionDef(definition); });
+        registerTransientScriptOwner(fptr);
         try {
             ArrayOfVector argIn;
             fptr->evaluateFunction(eval, argIn, 0);
         } catch (std::bad_alloc&) {
         }
-    } catch (const Exception& ce) {
+    } catch (const NelsonException& ce) {
         currentException = ce;
         needThrowException = true;
+    }
+    if (fptr != nullptr) {
+        unregisterTransientScriptOwner(fptr.get());
     }
 
     eval->popEvaluateFilenameList();
@@ -145,10 +209,7 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     AbstractSyntaxTree::deleteReferences(pt);
     AbstractSyntaxTree::clearReferences();
 
-    if (fptr != nullptr) {
-        delete fptr;
-        fptr = nullptr;
-    }
+    fptr.reset();
 
     if (fr) {
         fclose(fr);

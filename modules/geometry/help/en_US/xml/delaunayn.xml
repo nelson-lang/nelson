@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>delaunayn</keyword>
+  <short_description>Delaunay triangulation in N dimensions</short_description>
+  <syntax>
+    <syntax_item>T = delaunayn(P)</syntax_item>
+    <syntax_item>T = delaunayn(P, options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>delaunayn</b> computes a Delaunay triangulation for the points in <b>P</b>.</p>
+    <p>Rows of <b>T</b> contain one-based indices into <b>P</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Delaunay triangulation of planar points.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+T = delaunayn(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}delaunay">delaunay</link></see_also_item>
+    <see_also_item><link linkend="${geometry}triangulation">triangulation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

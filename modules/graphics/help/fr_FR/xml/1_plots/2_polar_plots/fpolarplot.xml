@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fpolarplot</keyword>
+  <short_description>Trace une fonction en coordonnees polaires.</short_description>
+  <syntax>
+    <syntax_item>fpolarplot(fun)</syntax_item>
+    <syntax_item>fpolarplot(fun, [tmin tmax])</syntax_item>
+    <syntax_item>fpolarplot(..., LineSpec)</syntax_item>
+    <syntax_item>fpolarplot(..., Nom, Valeur)</syntax_item>
+    <syntax_item>fpolarplot(parent, ...)</syntax_item>
+    <syntax_item>h = fpolarplot(...)</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Objet graphique functionline trace dans des axes polaires.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fpolarplot</b> echantillonne une fonction sur un intervalle d'angles et trace les rayons obtenus en coordonnees polaires. L'objet retourne est un <b>functionline</b>.</p>
+    <p>Les paires nom-valeur peuvent definir les proprietes de ligne et les proprietes de functionline comme <b>MeshDensity</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer une fonction polaire.</example_item_description>
+      <example_item_data><![CDATA[fpolarplot(@(t) 1 + sin(4*t), [0 2*pi], 'r-');]]></example_item_data>
+      <example_item_img src="../../../../images/fpolarplot_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/fplot">fplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link></see_also_item>
+  </see_also>
+</xmldoc>

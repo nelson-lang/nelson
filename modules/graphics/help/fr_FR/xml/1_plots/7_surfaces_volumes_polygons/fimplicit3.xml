@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fimplicit3</keyword>
+  <short_description>Tracer une approximation de surface implicite 3-D.</short_description>
+  <syntax>
+    <syntax_item>fimplicit3(fun)</syntax_item>
+    <syntax_item>fimplicit3(fun, interval)</syntax_item>
+    <syntax_item>fimplicit3(fun, [xmin xmax ymin ymax zmin zmax])</syntax_item>
+    <syntax_item>fimplicit3(..., LineSpec)</syntax_item>
+    <syntax_item>fimplicit3(..., nomPropriete, valeurPropriete)</syntax_item>
+    <syntax_item>fimplicit3(parent, ...)</syntax_item>
+    <syntax_item>h = fimplicit3(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fimplicit3</b> echantillonne <b>fun(x,y,z)</b> sur une grille reguliere et affiche une surface de niveau zero approchee comme objet graphique <b>implicitfunctionsurface</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionsurface.properties">proprietes de implicitfunctionsurface</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer une approximation de sphere.</example_item_description>
+      <example_item_data><![CDATA[fimplicit3(@(x, y, z) x.^2 + y.^2 + z.^2 - 1, [-1.5 1.5]);]]></example_item_data>
+      <example_item_img src="../../../../images/fimplicit3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Utiliser un style de ligne et des proprietes de surface.</example_item_description>
+      <example_item_data><![CDATA[h = fimplicit3(@(x, y, z) x.^2 + y.^2 + z.^2 - 1, [-1.5 1.5], 'r', 'FaceAlpha', 0.5);]]></example_item_data>
+      <example_item_img src="../../../../images/fimplicit3_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionsurface.properties">proprietes de implicitfunctionsurface</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fimplicit">fimplicit</link></see_also_item>
+  </see_also>
+</xmldoc>

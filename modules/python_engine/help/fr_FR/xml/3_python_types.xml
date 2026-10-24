@@ -100,7 +100,30 @@
         <td>py.dict</td>
         <td>struct</td>
       </tr>
+      <tr>
+        <td>py.pandas.DataFrame</td>
+        <td>table</td>
+      </tr>
+      <tr>
+        <td>py.pandas.Series</td>
+        <td>table (une seule colonne)</td>
+      </tr>
     </table>
+    <p />
+    <p>Un <b>py.pandas.DataFrame</b> est converti avec la fonction <b>table</b> :
+    chaque colonne du DataFrame devient une variable de la table et conserve son
+    nom ; les colonnes numériques deviennent des colonnes numériques Nelson et
+    les colonnes textuelles deviennent des colonnes <b>string</b> Nelson. Un
+    index non par défaut est déplacé dans une variable <b>index</b> en tête,
+    tandis qu'un <b>RangeIndex</b> par défaut est ignoré. Une
+    <b>py.pandas.Series</b> devient une table avec une seule variable nommée
+    d'après la Series (une Series sans nom utilise l'étiquette de colonne
+    <b>0</b>). Les étiquettes de colonnes qui ne sont pas des noms de variables
+    Nelson valides sont rendues valides, et les étiquettes d'origine sont
+    conservées dans <b>VariableDescriptions</b> de la table. Les colonnes
+    datetime sont converties en leur représentation textuelle (ISO). Ces
+    conversions nécessitent que le paquet <b>pandas</b> soit installé dans
+    l'environnement Python.</p>
     <p />
     <p>
       <b>Passer un scalaire Nelson à Python :</b>
@@ -183,7 +206,18 @@
         <td>struct</td>
         <td>py.dict</td>
       </tr>
+      <tr>
+        <td>table</td>
+        <td>py.pandas.DataFrame (py.dict si pandas n'est pas installé)</td>
+      </tr>
     </table>
+    <p />
+    <p>Une <b>table</b> Nelson passée à Python est implicitement convertie en
+    <b>py.pandas.DataFrame</b> : les noms de variables de la table deviennent les
+    colonnes du DataFrame et les noms de lignes, lorsqu'ils existent, deviennent
+    l'index du DataFrame. Lorsque le paquet <b>pandas</b> n'est pas disponible,
+    la table est convertie en un dictionnaire avec les champs <b>data</b> et
+    <b>Properties</b>.</p>
     <p />
     <p>
       <b>Passer un vecteur 1-by-N Nelson à Python :</b>

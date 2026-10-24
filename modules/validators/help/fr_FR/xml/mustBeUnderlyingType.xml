@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mustBeUnderlyingType</keyword>
+  <short_description>Valide que la valeur a un type sous-jacent spécifié</short_description>
+  <syntax>
+    <syntax_item>mustBeUnderlyingType(A, typename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>valeur à valider.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>typename</param_name>
+      <param_description>chaîne scalaire nommant le type sous-jacent requis.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>none</param_name><param_description>cette fonction de validation ne retourne aucune valeur.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>mustBeUnderlyingType</b> lève une erreur si le type sous-jacent de A (tel que retourné par underlyingType) n'est pas égal à typename. Cette fonction ne retourne pas de valeur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[mustBeUnderlyingType(int32(5), 'int32')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}mustBeA">mustBeA</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}underlyingType">underlyingType</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

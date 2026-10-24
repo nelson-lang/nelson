@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.mixin.CustomDisplay</keyword>
+  <short_description>Personnaliser l'affichage d'un objet.</short_description>
+  <syntax>
+    <syntax_item>classdef MaClasse &lt; nelson.mixin.CustomDisplay</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>objet d'une classe derivee de nelson.mixin.CustomDisplay.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>txt</param_name><param_description>texte d'affichage personnalise produit par les methodes de la classe derivee.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Dérivez de <b>nelson.mixin.CustomDisplay</b> pour personnaliser l'affichage des instances
+    d'une classe. Une sous-classe peut surcharger l'une de ces méthodes protégées et laisser la
+    composition par défaut afficher le reste :</p>
+    <p><b>getHeader(obj)</b> - le texte d'en-tête (un vecteur de caractères ou une string scalaire).
+    Par défaut : le nom de la classe suivi de <b>with properties:</b>.</p>
+    <p><b>getFooter(obj)</b> - le texte de pied (char ou string). Par défaut : vide.</p>
+    <p><b>getPropertyGroups(obj)</b> - un tableau d'objets <b>nelson.mixin.util.PropertyGroup</b>
+    décrivant quelles propriétés sont affichées et comment elles sont groupées. Par défaut : un seul
+    groupe avec toutes les propriétés publiques.</p>
+    <p><b>displayScalarObject(obj)</b>, <b>displayNonScalarObject(obj)</b> et
+    <b>displayEmptyObject(obj)</b> - prennent le contrôle complet de l'affichage d'un objet scalaire,
+    d'un tableau d'objets, ou d'un tableau d'objets vide respectivement.</p>
+    <p>Lorsque aucune des méthodes d'affichage n'est surchargée, l'objet est affiché comme
+    <b>getHeader</b>, puis les groupes de propriétés, puis <b>getFooter</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Surcharger seulement l'en-tête et le pied.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Point < nelson.mixin.CustomDisplay
+  properties
+    X = 0
+    Y = 0
+  end
+  methods (Access = protected)
+    function h = getHeader(obj)
+      h = "A 2-D point:";
+    end
+    function f = getFooter(obj)
+      f = '(cartesian)';
+    end
+  end
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${types}nelson.mixin.util.PropertyGroup">nelson.mixin.util.PropertyGroup</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

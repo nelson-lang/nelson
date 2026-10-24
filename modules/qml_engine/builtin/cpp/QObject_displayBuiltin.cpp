@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -30,7 +30,7 @@ Nelson::QmlEngineGateway::QObject_displayBuiltin(
     }
     std::string name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsCString();
+        name = argIn[1].asUtf8String();
     }
     DispQObjectHandleObject(io, param1, name);
     return retval;

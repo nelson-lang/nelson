@@ -4,7 +4,7 @@
 
 #define PHILOX4X32_ROUNDS 10
 
-// Philox constants - verified against reference implementation
+// Philox constants - verified against expected behavior
 static const uint32_t PHILOX_M4x32_0 = 0xD2511F53;
 static const uint32_t PHILOX_M4x32_1 = 0xCD9E8D57;
 static const uint32_t PHILOX_W32_0 = 0x9E3779B9;

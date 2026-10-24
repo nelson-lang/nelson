@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,9 @@
 //=============================================================================
 #include "ndimsBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "ClassName.hpp"
+#include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -21,7 +23,7 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    switch (param1.getDataClass()) {
+    switch (param1.dataClass()) {
     case NLS_LOGICAL:
     case NLS_UINT8:
     case NLS_INT8:
@@ -40,17 +42,22 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(int nLhs, const ArrayOfVector& 
     case NLS_CELL_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_MISSING_ARRAY:
-    case NLS_STRUCT_ARRAY: {
+    case NLS_STRUCT_ARRAY:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
+    case NLS_HANDLE:
+    case NLS_GO_HANDLE: {
+        // The interpreter dispatches to an overload when one exists. ndims is at least 2.
         double ndims = static_cast<double>(param1.nDims());
         if (ndims < 2) {
             ndims = 2;
         }
-        retval << ArrayOf::doubleConstructor(ndims);
+        retval << ArrayOf::doubleScalar(ndims);
     } break;
-    case NLS_CLASS_ARRAY:
     default: {
-        Error(_("Undefined function 'ndims' for input arguments of type") + " '" + ClassName(param1)
-            + "'.");
+        Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+            "Undefined function '%s' for input arguments of type '%s'.", "ndims",
+            ClassName(param1));
     } break;
     }
     return retval;

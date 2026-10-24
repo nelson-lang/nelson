@@ -7,18 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mexLock') == 0
-  test_dir = [tempdir(), 'mexLock'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexLock.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexLock.c');
   addpath(pwd())
@@ -26,9 +24,9 @@ end
 %=============================================================================
 mexLock();
 R = evalc('clear mex');
-assert_isequal(R, '');
+asserts.isequal(R, '');
 R = evalc('clear mexLock');
-assert_isequal(R, '');
+asserts.isequal(R, '');
 R = evalc('clear all');
-assert_isequal(R, '');
+asserts.isequal(R, '');
 %=============================================================================

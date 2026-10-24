@@ -1,0 +1,70 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Integrated pulse train (period 2 s, 50% duty): rising staircase.",
+  "name": "pulse_integrator",
+  "blocks": [
+    {
+      "id": "pu",
+      "type": "pulse",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Period": 2,
+        "Width": 50,
+        "StartTime": 0,
+        "Offset": 0
+      }
+    },
+    {
+      "id": "i1",
+      "type": "integrator",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "pulse_integrator_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "pu",
+      "to": "i1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "i1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.02,
+  "autoRoute": true,
+  "solver": "ode45"
+}

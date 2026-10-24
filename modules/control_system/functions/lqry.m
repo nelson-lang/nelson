@@ -13,7 +13,7 @@ function varargout = lqry(varargin)
   % [K, S, e] = lqry(A, B, C, D, Q, R, N)
   narginchk(6, 7);
   nargoutchk(0, 3);
-  
+
   A = varargin{1};
   mustBeNumeric(A, 1);
   B = varargin{2};

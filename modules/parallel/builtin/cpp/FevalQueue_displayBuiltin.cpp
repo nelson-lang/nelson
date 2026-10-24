@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "FevalQueue_displayBuiltin.hpp"
 #include "FevalQueueObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -29,20 +30,20 @@ Nelson::ParallelGateway::FevalQueue_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name;
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
-                Error(_W("FevalQueue handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_FEVALQUEUE_CATEGORY_STR) {
+                Error(L"Nelson:fevalQueue:handleExpected", L"FevalQueue handle expected.");
             }
-            auto* fevalQueueObject = (FevalQueueObject*)param1.getContentAsHandleScalar();
+            auto* fevalQueueObject = (FevalQueueObject*)param1.asHandleScalar();
             fevalQueueObject->display(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("FevalQueue handle expected."));
+        Error(L"Nelson:fevalQueue:handleExpected", L"FevalQueue handle expected.");
     }
     return retval;
 }

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "modulepathBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ModulePath.hpp"
 #include "ModulesHelpers.hpp"
@@ -50,32 +51,35 @@ Nelson::ModulesManagerGateway::modulepathBuiltin(int nLhs, const ArrayOfVector& 
         std::wstring moduleshortname;
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            moduleshortname = argIn[0].getContentAsWideString();
+            moduleshortname = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
-        retval << ArrayOf::characterArrayConstructor(ModulePath(moduleshortname));
+        retval << ArrayOf::characterArray(ModulePath(moduleshortname));
     } break;
     case 2: {
         std::wstring moduleshortname;
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            moduleshortname = argIn[0].getContentAsWideString();
+            moduleshortname = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         std::wstring option;
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
-            option = argIn[1].getContentAsWideString();
+            option = argIn[1].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
         MODULEPATH_OPTION modulePathOption;
         if (!isModulePathOption(option, modulePathOption)) {
-            Error(_W("Argument #2 must be a valid option."));
+            Error(L"Nelson:modulepath:invalidOption", L"Argument #2 must be a valid option.");
         }
-        retval << ArrayOf::characterArrayConstructor(ModulePath(moduleshortname, modulePathOption));
+        retval << ArrayOf::characterArray(ModulePath(moduleshortname, modulePathOption));
     } break;
     default: {
     } break;

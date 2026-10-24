@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dbstepBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "characters_encoding.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,7 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
 
-    int steps = 1; // Default: step 1 statement
+    int steps = 1;
     enum Mode
     {
         Normal,
@@ -34,47 +35,43 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         = Normal;
 
     if (argIn.size() == 1) {
-        // Check if it's a number or string
         if (argIn[0].isNumeric()) {
-            steps = (int)argIn[0].getContentAsScalarIndex(false);
+            steps = (int)argIn[0].asScalarIndex(false);
             if (steps < 1) {
                 steps = 1;
             }
             mode = Normal;
         } else if (argIn[0].isScalarStringArray() || argIn[0].isRowVectorCharacterArray()) {
-            std::wstring modeStr = argIn[0].getContentAsWideString();
+            std::wstring modeStr = argIn[0].asWideString();
             if (modeStr == _W("in")) {
                 mode = In;
             } else if (modeStr == _W("out")) {
                 mode = Out;
             } else {
-                Error(_W("Invalid string argument for dbstep. Expected 'in' or 'out'."));
+                Error(L"Nelson:dbstep:invalidArgument",
+                    L"Invalid string argument for dbstep. Expected 'in' or 'out'.");
             }
         } else {
-            Error(_W("Invalid argument type for dbstep. Expected numeric or string."));
+            Error(L"Nelson:dbstep:invalidArgumentType",
+                L"Invalid argument type for dbstep. Expected numeric or string.");
         }
     }
 
     if (!eval->isBreakpointActive()) {
-        Error(_W("Debugger is not active."));
+        Error(L"Nelson:dbstep:debuggerNotActive", L"Debugger is not active.");
     }
     if (!(eval->stepBreakpoint.has_value())) {
-        // If no step breakpoint is set but we're active, we might be at a persistent
-        // user breakpoint that wasn't properly matched. Try to create one from current context.
-        // If that also fails, then the script has truly finished.
         eval->bpActive = false;
-        Error(_W("No step breakpoint is set."));
+        Error(L"Nelson:dbstep:noStepBreakpoint", L"No step breakpoint is set.");
     }
 
     eval->stepMode = true;
     const Breakpoint& currentStepBreakPoint = *eval->stepBreakpoint;
     switch (mode) {
     case Mode::In: {
-        // dbstep in: break at first executed line after current, and allow stepping into functions.
-        // Use stepNext to avoid landing on non-executed branches.
+        // stepNext avoids landing on non-executed branches.
         Breakpoint stepBp;
         stepBp.filename = currentStepBreakPoint.filename;
-        // For scripts and robustness, always use empty functionName for stepNext
         stepBp.functionName = "";
         stepBp.maxLines = currentStepBreakPoint.maxLines;
         stepBp.enabled = true;
@@ -82,18 +79,14 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.stepMode = true;
         stepBp.stepNext = true;
         stepBp.stepInto = true;
-        // For step-into, allow breaking in deeper functions; depth check is not needed
+        // -1: no depth limit, so deeper functions can break
         stepBp.targetDepth = -1;
-        // Start after current line
         stepBp.fromLine = currentStepBreakPoint.line;
         eval->addBreakpoint(stepBp);
         eval->setState(NLS_STATE_DEBUG_STEP);
-        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the next
-        // line
+        // stepBreakpoint is updated by onBytecodeBreakpoint() on the next hit.
     } break;
     case Mode::Out: {
-        // dbstep out: run the rest of the current function and pause just after leaving.
-        // Set a step breakpoint that triggers when we return to a shallower call depth.
         Breakpoint stepBp;
         stepBp.filename = currentStepBreakPoint.filename;
         stepBp.functionName = currentStepBreakPoint.functionName;
@@ -102,11 +95,10 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.line = 0; // Line 0 means "any line at target depth"
         stepBp.stepMode = true;
         stepBp.stepOut = true;
-        // targetDepth: we want to stop when callstack depth is less than current
+        // stop once the call depth drops below the current one
         stepBp.targetDepth = static_cast<int>(eval->callstack.size()) - 1;
         eval->addBreakpoint(stepBp);
         eval->setState(NLS_STATE_DEBUG_CONTINUE);
-        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we return
     } break;
     case Mode::Normal: {
         if (steps == 1) {
@@ -116,7 +108,7 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
     } break;
     default: {
-        Error(_W("Unknown mode for dbstep."));
+        Error(L"Nelson:dbstep:unknownMode", L"Unknown mode for dbstep.");
     }
     }
 
@@ -126,17 +118,16 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 void
 handleNormalSingleStep(Evaluator* eval, const Breakpoint& currentStepBreakPoint)
 {
-    // Always use stepNext to properly handle all control flow (loops, conditionals)
-    // This ensures we break at the next executed line, regardless of source order
+    // stepNext breaks at the next executed line whatever the control flow.
     Breakpoint stepBp;
     stepBp.filename = currentStepBreakPoint.filename;
-    // Stay in the current function for plain dbstep; dbstep in uses stepInto instead
     stepBp.functionName = currentStepBreakPoint.functionName;
     if (stepBp.functionName.empty()) {
-        // If missing, default to current scope to ensure step-over behavior
-        stepBp.functionName = eval->getContext()->getCurrentScope()->getName();
+        Scope* scope = eval->getContext()->getCurrentScope();
+        if (scope != nullptr) {
+            stepBp.functionName = scope->getName();
+        }
         if (stepBp.functionName.empty()) {
-            // As a last fallback, use the function name from the current breakpoint
             stepBp.functionName = currentStepBreakPoint.functionName;
         }
     }
@@ -145,19 +136,16 @@ handleNormalSingleStep(Evaluator* eval, const Breakpoint& currentStepBreakPoint)
     stepBp.line = 0;
     stepBp.stepMode = true;
     stepBp.stepNext = true;
-    stepBp.stepInto = false; // Explicitly disable step-into for step-over behavior
-    // Stop in this function or when callstack unwinds back to this depth (step-over)
+    stepBp.stepInto = false;
     stepBp.targetDepth = static_cast<int>(eval->callstack.size());
     stepBp.fromLine = currentStepBreakPoint.line;
     eval->addBreakpoint(stepBp);
     eval->setState(NLS_STATE_DEBUG_STEP);
-    // Don't set bpActive false - it should remain true for stepping
 }
 //=============================================================================
 void
 handleNormalMultiStep(Evaluator* eval, const Breakpoint& currentStepBreakPoint, int steps)
 {
-    // Fallback for multi-step: scan forward for executable lines
     size_t nextLine = currentStepBreakPoint.line + static_cast<size_t>(steps);
     size_t actualNextLine = nextLine;
     std::wstring errorMsg;
@@ -183,7 +171,5 @@ handleNormalMultiStep(Evaluator* eval, const Breakpoint& currentStepBreakPoint, 
         eval->bpActive = false;
         eval->setState(NLS_STATE_DEBUG_CONTINUE);
     }
-    // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the
-    // next line
 }
 //=============================================================================

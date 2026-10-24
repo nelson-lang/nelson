@@ -11,9 +11,16 @@
 % Ts > 0: Discrete-time model.
 % Ts = 0: Continuous-time model.
 % Ts = -1: Discrete-time model with unspecified sampling time.
-% Ts = -2: Static gain model.
 function res = isstatic(sys)
-  res = isequal(sys.Ts, -2);
+  res = false;
+  try
+    if isfield(sys.Internal, 'IsStatic')
+      res = sys.Internal.IsStatic;
+      return
+    end
+  catch
+    res = isequal(sys.Ts, -2);
+  end
 end
 %=============================================================================
 

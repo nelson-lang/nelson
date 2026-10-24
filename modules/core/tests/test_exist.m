@@ -7,19 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('exist'), -1);
-assert_isequal(nargout('exist'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('exist'), -1);
+asserts.isequal(nargout('exist'), 1);
 %=============================================================================
 r = exist('toto');
-assert_isequal(r, 0);
+asserts.isequal(r, 0);
 toto = 3;
-assert_isequal(exist('toto'), 1);
+asserts.isequal(exist('toto'), 1);
 clear toto
-assert_isequal(exist('toto'), 0);
-assert_isequal(exist('toto', 'builtin'), 0);
-assert_isequal(exist('exist', 'builtin'), 0);
-assert_isequal(exist('who', 'builtin'), 5);
-assert_isequal(exist('exist', 'file'), 2);
-assert_isequal(exist('exist'), 2);
-assert_isequal(exist(nelsonroot(), 'dir'), 7);
+asserts.isequal(exist('toto'), 0);
+asserts.isequal(exist('toto', 'builtin'), 0);
+asserts.isequal(exist('exist', 'builtin'), 0);
+asserts.isequal(exist('who', 'builtin'), 5);
+asserts.isequal(exist('exist', 'file'), 2);
+asserts.isequal(exist('exist'), 2);
+asserts.isequal(exist(nelsonroot(), 'dir'), 7);
+%=============================================================================
+addpath([modulepath('functions_manager'), '/tests']);
+asserts.isequal(exist('sum', 'builtin'), 5);
+asserts.isequal(exist('common_functions_matrix', 'file'), 2);
 %=============================================================================

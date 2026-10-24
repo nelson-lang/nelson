@@ -7,16 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('angle'), 1)
-assert_isequal(nargout('angle'), 1)
+asserts.isequal(nargin('angle'), 1)
+asserts.isequal(nargout('angle'), 1)
 %=============================================================================
-V = [ 2+1i   3-4i   1+3i   33-1i];
+V = [2 + 1i 3 - 4i 1 + 3i 33 - 1i];
 R = angle(V);
-REF = [ 0.4636   -0.9273    1.2490   -0.0303];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.4636 -0.9273 1.2490 -0.0303];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-V = single([ 2+1i   3-4i   1+3i   33-1i]);
+V = single([2 + 1i 3 - 4i 1 + 3i 33 - 1i]);
 R = angle(V);
-REF = single([ 0.4636   -0.9273    1.2490   -0.0303]);
-assert_isapprox(R, REF, 1e-4);
+REF = single([0.4636 -0.9273 1.2490 -0.0303]);
+asserts.isapprox(R, REF, 1e-4);
+%=============================================================================
+asserts.isapprox(angle(1 + i), pi / 4, 1e-12);
 %=============================================================================

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = properties(obj)
-  props = {'Numerator'; 'Denominator'; 'Variable'; 'Ts'; 'TimeUnit'; 'UserData'};
+  props = ltiPropertyNames(class(obj));
   if (nargout == 0)
     currentFormat = format();
     if strcmp(currentFormat.LineSpacing, 'loose')

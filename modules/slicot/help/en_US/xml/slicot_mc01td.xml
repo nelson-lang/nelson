@@ -72,6 +72,11 @@ P = [2.0  0.0  1.0  -1.0  1.0];
 [DP, STABLE, NZ, IWARN, INFO] = slicot_mc01td(DICO, DP_IN, P)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}pole">pole</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

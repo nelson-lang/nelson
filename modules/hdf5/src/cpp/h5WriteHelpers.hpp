@@ -21,5 +21,5 @@ namespace Nelson {
 void*
 h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstring& error);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="226.5" viewBox="-153.25 -103.25 306.5 226.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="226.5" rx="43.035" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-60 0,-101" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-100,10 20,10 20,41 90,0 20,-41 20,-10 -100,-10 -100,10" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-115,-47) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">f</text></g>
+    <g transform="translate(0,70) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">SineForce</text></g>
+    <polygon points="50,-54 -30,-54 -30,-46 -60,-60 -30,-74 -30,-66 50,-66 50,-54" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-50 -55) rotate(0)">
+    <path d="M-33.6 0 Q-28.85 14.36 -27.34 18.33 Q-25.83 22.3 -24.485 25.095 Q-23.14 27.89 -21.945 29.61 Q-20.75 31.33 -19.575 32.275 Q-18.4 33.22 -17.22 33.37 Q-16.04 33.52 -14.865 32.845 Q-13.69 32.17 -12.495 30.72 Q-11.3 29.27 -10.125 27.11 Q-8.95 24.95 -7.605 21.735 Q-6.26 18.52 -4.565 13.71 Q-2.87 8.9 0.685 -2.02 Q4.24 -12.94 5.755 -17.01 Q7.27 -21.08 8.61 -24.02 Q9.95 -26.96 11.13 -28.83 Q12.31 -30.7 13.505 -31.815 Q14.7 -32.93 15.875 -33.265 Q17.05 -33.6 18.225 -33.095 Q19.4 -32.59 20.6 -31.31 Q21.8 -30.03 22.975 -28.015 Q24.15 -26 25.495 -22.91 Q26.84 -19.82 28.54 -15.12 Q30.24 -10.42 33.6 0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

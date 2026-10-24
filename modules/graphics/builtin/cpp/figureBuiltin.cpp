@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "figureBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
@@ -35,21 +36,26 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     int64 currentFigureID;
     if (argIn.size() == 0) {
         currentFigureID = createNewFigure();
-        retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
+        GOFigure* fig = findGOFigure(currentFigureID);
+        if (!fig) {
+            Error(L"Nelson:graphics:invalidFigureHandle", L"Invalid figure handle.");
+        }
+        retval << graphicsObjectHandle(currentFigureID);
         return retval;
     }
     size_t pos = 0;
     if (argIn[0].isNumeric()) {
-        int64 fignum = argIn[0].getContentAsInteger64Scalar();
+        int64 fignum = argIn[0].asInt64Scalar();
         if ((fignum <= 0) || (fignum > MAX_FIGS)) {
-            Error(_("figure number is out of range - it must be between 1 and 2147483647."));
+            Error("Nelson:figure:numberOutOfRange",
+                "figure number is out of range - it must be between 1 and 2147483647.");
         }
         currentFigureID = selectFigure(fignum - 1, false);
         pos = pos + 1;
     } else if (argIn[0].isGraphicsObject()) {
-        int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
+        int64 handle = argIn[0].asGraphicsObjectScalar();
         if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT) {
-            Error(_("figure graphics object expected."));
+            Error("Nelson:figure:expectedFigure", "figure graphics object expected.");
         } else {
             currentFigureID = selectFigure(handle, false);
             pos = pos + 1;
@@ -59,26 +65,34 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     GOFigure* fig = findGOFigure(currentFigureID);
     if (!fig) {
-        Error(_W("Invalid Figure handle."));
+        Error(L"Nelson:graphics:invalidFigureHandle", L"Invalid figure handle.");
     }
     if ((argIn.size() - pos) % 2 == 0) {
         GraphicsObject* go = static_cast<GraphicsObject*>(fig);
         for (size_t k = pos; k < argIn.size(); k = k + 2) {
             if ((argIn[k].isStringArray() && argIn[k].isScalar())
                 || argIn[k].isRowVectorCharacterArray()) {
-                const std::wstring propertyName = argIn[k].getContentAsWideString();
+                const std::wstring propertyName
+                    = go->resolvePartialPropertyName(argIn[k].asWideString());
                 if (!go->isWritable(propertyName) && go->haveProperty(propertyName)) {
-                    Error(_W("Property is readable only: ") + propertyName);
+                    Error(L"Nelson:figure:readOnlyProperty", L"Property is read-only: %s",
+                        propertyName);
                 }
-                GOGenericProperty* propertyValue = go->findProperty(propertyName);
-                propertyValue->set(argIn[k + 1]);
+                if (propertyName == GO_THEME_PROPERTY_NAME_STR) {
+                    fig->setTheme(argIn[k + 1].asWideString(), true);
+                } else if (propertyName == GO_THEME_MODE_PROPERTY_NAME_STR) {
+                    fig->setThemeMode(argIn[k + 1].asWideString());
+                } else {
+                    GOGenericProperty* propertyValue = go->findProperty(propertyName);
+                    propertyValue->set(argIn[k + 1]);
+                }
             }
         }
         fig->updateState(true);
     } else {
-        Error(_("Wrong number of input parameters."));
+        Error("Nelson:wrongNumberOfInputs", "Wrong number of input arguments.");
     }
-    retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
+    retval << graphicsObjectHandle(currentFigureID);
 
     GOCallbackProperty* goCallback
         = (GOCallbackProperty*)fig->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR);
@@ -89,5 +103,5 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

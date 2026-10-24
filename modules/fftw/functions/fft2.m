@@ -11,22 +11,31 @@ function y = fft2(x, r, c)
   % 2-D fast Fourier transform
   % y = fft2(X)
   % Y = fft2(X, m, n)
-  if ~(nargin() == 1 || nargin() == 3)
-    error(_('Wrong number of input arguments.'));
+  inputCount = nargin();
+  if inputCount < 1
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if inputCount == 2
+    error('Nelson:wrongNumberOfInputs', 'Wrong number of input arguments.');
   end
   nargoutchk(0, 1);
-  if ~ismatrix(x)
-    if nargin == 1
-      y = fft(fft(x, [], 2), [], 1);
-    else
-      y = fft(fft(x, c, 2), r, 1);
-    end
+  if inputCount == 1
+    y = transformFirstTwoDimensions(x, [], []);
   else
-    if nargin==1
-      y = fftn(x);
-    else
-      y = fftn(x, [r, c]);
-    end
-  end   
-  %=============================================================================
-  
+    y = transformFirstTwoDimensions(x, r, c);
+  end
+end
+%=============================================================================
+function y = transformFirstTwoDimensions(x, rowCount, columnCount)
+  if isempty(columnCount)
+    transformedColumns = fft(x, [], 2);
+  else
+    transformedColumns = fft(x, columnCount, 2);
+  end
+  if isempty(rowCount)
+    y = fft(transformedColumns, [], 1);
+  else
+    y = fft(transformedColumns, rowCount, 1);
+  end
+end
+%=============================================================================

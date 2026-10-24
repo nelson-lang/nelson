@@ -7,17 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-width = 1024;
-height = 768;
-%=============================================================================
-minimum_age = 35;
-gender = 'female';
-%=============================================================================
-for i = 1:1000
-  info = webread('https://fakeface.rest/face/json', 'gender', gender, 'minimum_age', minimum_age)
-  result_filename = websave([tempdir(), info.filename], info.image_url);
-  html_line = ['<img src="', result_filename, '" width="', int2str(width), '" height="', int2str(height), '">'];
-  clc
-  inserthtml(html_line)
+% Inspect one response and save its referenced image in the temporary directory.
+options = weboptions('Timeout', 15);
+try
+  info = webread('https://fakeface.rest/face/json', options);
+  destination = fullfile(tempdir(), info.filename);
+  resultFilename = websave(destination, info.image_url, options);
+catch exception
+  error(['This example requires network access to the public image service: ', exception.message]);
 end
-
+disp(['Downloaded image: ', resultFilename]);

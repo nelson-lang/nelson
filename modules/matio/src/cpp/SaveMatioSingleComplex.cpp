@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,7 +15,7 @@ namespace Nelson {
 matvar_t*
 SaveMatioSingleComplex(const std::string& variableName, const ArrayOf& variableValue)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -26,7 +26,7 @@ SaveMatioSingleComplex(const std::string& variableName, const ArrayOf& variableV
     single* re = nullptr;
     single* im = nullptr;
     if (!variableDims.isEmpty(false)) {
-        indexType nbElements = variableDims.getElementCount();
+        indexType nbElements = variableDims.elementCount();
         try {
             re = new single[nbElements];
         } catch (const std::bad_alloc&) {
@@ -38,7 +38,7 @@ SaveMatioSingleComplex(const std::string& variableName, const ArrayOf& variableV
             delete[] re;
             return nullptr;
         }
-        auto* ptrZ = reinterpret_cast<singlecomplex*>((single*)variableValue.getDataPointer());
+        auto* ptrZ = reinterpret_cast<singlecomplex*>((single*)variableValue.dataPointer());
         for (indexType k = 0; k < nbElements; ++k) {
             re[k] = ptrZ[k].real();
             im[k] = ptrZ[k].imag();

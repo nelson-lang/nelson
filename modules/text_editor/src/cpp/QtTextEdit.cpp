@@ -13,11 +13,15 @@
 #include "i18n.hpp"
 #include <QtCore/QStringListModel>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QTextCharFormat>
 #include <QtGui/QTextBlock>
 #include <QtWidgets/QAbstractItemView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCompleter>
 #include <QtWidgets/QScrollBar>
+#include <QtWidgets/QToolTip>
+#include <algorithm>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,6 +29,7 @@ QtTextEdit::QtTextEdit()
 {
     setLineWrapMode(QTextEdit::NoWrap);
     setAcceptDrops(false);
+    setMouseTracking(true);
 }
 //=============================================================================
 QtTextEdit::~QtTextEdit() = default;
@@ -88,11 +93,10 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
 {
     bool tab = false;
     int keycode = e->key();
-    if ((keycode == Qt::Key_S) && QApplication::keyboardModifiers() & Qt::ControlModifier) {
+    if ((keycode == Qt::Key_S) && (e->modifiers() & Qt::ControlModifier)) {
         e->accept();
     } else {
         if (qCompleter && qCompleter->popup()->isVisible()) {
-            // The following keys are forwarded by the completer to the widget
             switch (e->key()) {
             case Qt::Key_Enter:
             case Qt::Key_Return:
@@ -100,7 +104,7 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
             case Qt::Key_Tab:
             case Qt::Key_Backtab:
                 e->ignore();
-                return; // let the completer do default behavior
+                return;
             default:
                 break;
             }
@@ -109,12 +113,11 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
             complete(completionPrefix);
         } else {
             if ((e->key() == Qt::Key_Tab)
-                || (QApplication::keyboardModifiers() && Qt::ControlModifier
-                    && (e->key() == Qt::Key_Space))) {
+                || ((e->modifiers() & Qt::ControlModifier) && (e->key() == Qt::Key_Space))) {
                 QString completionPrefix = textUnderCursor();
                 complete(completionPrefix);
             } else {
-                if ((e->key() == Qt::Key_A) && Qt::ControlModifier) {
+                if ((e->key() == Qt::Key_A) && (e->modifiers() & Qt::ControlModifier)) {
                     QTextEdit::keyPressEvent(e);
                     return;
                 }
@@ -127,12 +130,50 @@ QtTextEdit::keyPressEvent(QKeyEvent* e)
                     QTextCursor cursor = textCursor();
                     cursor.beginEditBlock();
                     QTextEdit::keyPressEvent(e);
+                    // automatic indentation is emitted inside the edit block so
+                    // that the keystroke and the indentation share a single undo
+                    // step; the indenter places the cursor itself.
+                    const bool autoIndent = isAutoIndentTrigger(e);
+                    if (autoIndent) {
+                        emit indent();
+                    }
                     cursor.endEditBlock();
-                    setTextCursor(cursor);
+                    if (!autoIndent) {
+                        setTextCursor(cursor);
+                    }
                 }
             }
         }
     }
+}
+//=============================================================================
+bool
+QtTextEdit::isAutoIndentTrigger(QKeyEvent* event) const
+{
+    if (event == nullptr) {
+        return false;
+    }
+    const Qt::KeyboardModifiers modifiers
+        = event->modifiers() & ~(Qt::ShiftModifier | Qt::KeypadModifier);
+    if (modifiers != Qt::NoModifier) {
+        return false;
+    }
+    if ((event->key() == Qt::Key_Return) || (event->key() == Qt::Key_Enter)) {
+        return true;
+    }
+    if (event->text().isEmpty()) {
+        return false;
+    }
+    // re-indent as soon as a block keyword is the only thing typed on the line
+    static const QStringList deindentKeywords
+        = { QStringLiteral("end"), QStringLiteral("else"), QStringLiteral("elseif"),
+              QStringLiteral("catch"), QStringLiteral("case"), QStringLiteral("otherwise") };
+    QTextCursor cursor(textCursor());
+    if (cursor.hasSelection()) {
+        return false;
+    }
+    const QString typed = cursor.block().text().left(cursor.positionInBlock()).trimmed();
+    return deindentKeywords.contains(typed);
 }
 //=============================================================================
 void
@@ -182,8 +223,9 @@ void
 QtTextEdit::insertCompletion(const QString& completion)
 {
     QString FILE_OR_DIR = QString(" (") + wstringToQString(POSTFIX_FILES) + QString(")");
-    bool isPathCompletion = (completion.lastIndexOf(FILE_OR_DIR) != -1);
+    bool isPathCompletion = completion.endsWith(FILE_OR_DIR);
     wstringVector postfixStrings;
+    postfixStrings.push_back(POSTFIX_FILES);
     postfixStrings.push_back(POSTFIX_BUILTIN);
     postfixStrings.push_back(POSTFIX_MACRO);
     postfixStrings.push_back(POSTFIX_VARIABLE);
@@ -191,27 +233,26 @@ QtTextEdit::insertCompletion(const QString& completion)
     postfixStrings.push_back(POSTFIX_PROPERTY);
     postfixStrings.push_back(POSTFIX_METHOD);
 
+    // Strip the decoration defensively: lastIndexOf returns -1 when the
+    // postfix is absent and must never be fed to remove().
     QString cleanedCompletion = completion;
     for (const std::wstring& postfix : postfixStrings) {
-        QString beforeString = wstringToQString(std::wstring(L" (") + postfix + std::wstring(L")"));
-        cleanedCompletion = cleanedCompletion.replace(
-            cleanedCompletion.lastIndexOf(beforeString), beforeString.size(), QString());
+        const QString decoration
+            = wstringToQString(std::wstring(L" (") + postfix + std::wstring(L")"));
+        const qsizetype index = cleanedCompletion.lastIndexOf(decoration);
+        if (index >= 0) {
+            cleanedCompletion.remove(index, decoration.size());
+        }
     }
-    cleanedCompletion = cleanedCompletion.replace(
-        cleanedCompletion.lastIndexOf(FILE_OR_DIR), FILE_OR_DIR.size(), QString());
 
     if (qCompleter->widget() != this) {
         return;
     }
     QTextCursor tc = textCursor();
-    QString completionPrefix = qCompleter->completionPrefix();
     std::wstring currentLineW = QStringTowstring(textUnderCursor());
 
     std::wstring cleanedCompletionW = QStringTowstring(cleanedCompletion);
-    std::wstring fileSearchedPattern = getPartialLineAsPath(currentLineW);
-    std::wstring searchedPattern = getPartialLine(currentLineW);
-    std::wstring newLine = completerLine(
-        currentLineW, cleanedCompletionW, fileSearchedPattern, searchedPattern, isPathCompletion);
+    std::wstring newLine = completerLine(currentLineW, cleanedCompletionW, isPathCompletion);
     tc.beginEditBlock();
     tc.select(QTextCursor::LineUnderCursor);
     tc.removeSelectedText();
@@ -343,14 +384,14 @@ void
 QtTextEdit::setDebugLine(int line)
 {
     currentDebugLine = line;
-    updateDebugLineHighlight();
+    updateExtraSelections();
 }
 //=============================================================================
 void
 QtTextEdit::clearDebugLine()
 {
     currentDebugLine = -1;
-    updateDebugLineHighlight();
+    updateExtraSelections();
 }
 //=============================================================================
 int
@@ -364,23 +405,54 @@ QtTextEdit::setDebugLineColor(const QColor& color)
 {
     debugLineColor = color;
     if (currentDebugLine > 0) {
-        updateDebugLineHighlight();
+        updateExtraSelections();
     }
 }
 //=============================================================================
 void
-QtTextEdit::updateDebugLineHighlight()
+QtTextEdit::setCodeAnalyzerDiagnostics(
+    const std::vector<Nelson::CodeAnalyzerDiagnostic>& diagnostics)
+{
+    codeAnalyzerDiagnostics = diagnostics;
+    updateExtraSelections();
+}
+//=============================================================================
+std::vector<Nelson::CodeAnalyzerDiagnostic>
+QtTextEdit::getCodeAnalyzerDiagnostics() const
+{
+    return codeAnalyzerDiagnostics;
+}
+//=============================================================================
+void
+QtTextEdit::setSearchHighlights(const QList<QPair<int, int>>& ranges, int currentIndex)
+{
+    searchHighlights = ranges;
+    currentSearchHighlight = currentIndex;
+    updateExtraSelections();
+}
+//=============================================================================
+void
+QtTextEdit::clearSearchHighlights()
+{
+    if (searchHighlights.isEmpty() && (currentSearchHighlight == -1)) {
+        return;
+    }
+    searchHighlights.clear();
+    currentSearchHighlight = -1;
+    updateExtraSelections();
+}
+//=============================================================================
+void
+QtTextEdit::updateExtraSelections()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
 
     if (currentDebugLine > 0) {
         QTextEdit::ExtraSelection selection;
 
-        // Use configurable color for debug line
         selection.format.setBackground(debugLineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
 
-        // Move cursor to the debug line
         QTextBlock block = document()->findBlockByLineNumber(currentDebugLine - 1);
         if (block.isValid()) {
             QTextCursor cursor(block);
@@ -389,8 +461,80 @@ QtTextEdit::updateDebugLineHighlight()
             extraSelections.append(selection);
         }
     }
+    // search occurrences are appended after the debug line and before the code
+    // analyzer diagnostics: the wave underlines stay visible on top of them.
+    if (!searchHighlights.isEmpty()) {
+        const int lastPosition = std::max(document()->characterCount() - 1, 0);
+        const QColor matchColor(255, 213, 79, 140);
+        const QColor currentMatchColor(255, 145, 0, 190);
+        int index = 0;
+        for (const auto& range : searchHighlights) {
+            const int start = range.first;
+            const int length = range.second;
+            if ((length <= 0) || (start < 0) || (start >= lastPosition)) {
+                ++index;
+                continue;
+            }
+            QTextEdit::ExtraSelection selection;
+            selection.format.setBackground(
+                (index == currentSearchHighlight) ? currentMatchColor : matchColor);
+            QTextCursor cursor(document());
+            cursor.setPosition(start);
+            cursor.setPosition(std::min(start + length, lastPosition), QTextCursor::KeepAnchor);
+            selection.cursor = cursor;
+            extraSelections.append(selection);
+            ++index;
+        }
+    }
+    for (const auto& diagnostic : codeAnalyzerDiagnostics) {
+        if (diagnostic.suppressed || diagnostic.lineStart <= 0) {
+            continue;
+        }
+        QTextBlock block = document()->findBlockByLineNumber(diagnostic.lineStart - 1);
+        if (!block.isValid()) {
+            continue;
+        }
+        QTextEdit::ExtraSelection selection;
+        QColor color = QColor(74, 144, 226);
+        if (diagnostic.severity == "error") {
+            color = QColor(206, 51, 51);
+        } else if (diagnostic.severity == "warning") {
+            color = QColor(222, 143, 35);
+        }
+        QTextCharFormat format;
+        format.setUnderlineColor(color);
+        format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
+        selection.format = format;
+        QTextCursor cursor(block);
+        int column = std::max(diagnostic.columnStart - 1, 0);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, column);
+        int width = std::max(diagnostic.columnEnd - diagnostic.columnStart + 1, 1);
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, width);
+        selection.cursor = cursor;
+        extraSelections.append(selection);
+    }
 
     setExtraSelections(extraSelections);
     viewport()->update();
+}
+//=============================================================================
+void
+QtTextEdit::mouseMoveEvent(QMouseEvent* event)
+{
+    QTextCursor cursor = cursorForPosition(event->pos());
+    int line = cursor.blockNumber() + 1;
+    QStringList messages;
+    for (const auto& diagnostic : codeAnalyzerDiagnostics) {
+        if (!diagnostic.suppressed && diagnostic.lineStart == line) {
+            messages << QString::fromStdString(
+                diagnostic.checkId + " " + diagnostic.severity + ": " + diagnostic.message);
+        }
+    }
+    if (!messages.isEmpty()) {
+        QToolTip::showText(event->globalPosition().toPoint(), messages.join("\n"), this);
+    } else {
+        QToolTip::hideText();
+    }
+    QTextEdit::mouseMoveEvent(event);
 }
 //=============================================================================

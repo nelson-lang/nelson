@@ -14,4 +14,6 @@
 namespace Nelson::FilesFoldersGateway {
 ArrayOfVector
 userdirBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 //=============================================================================
 #include "execstrBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "EvaluateCommand.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -28,15 +29,16 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     ArrayOfVector retval(nLhs);
     std::wstring line;
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-        line = argIn[0].getContentAsWideString();
+        line = argIn[0].asWideString();
     } else {
-        Error(_W("#1 string expected."));
+        Error(L"Nelson:types:wrongArgumentTypeExpected",
+            L"Wrong type for argument #%d: %s expected.", 1, L"string");
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
             std::wstring catchstr;
-            catchstr = argIn[1].getContentAsWideString();
+            catchstr = argIn[1].asWideString();
             if ((catchstr == L"errcatch") || (catchstr == L"nocatch")) {
                 if (catchstr == L"errcatch") {
                     bErrorCatch = true;
@@ -44,20 +46,24 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
                     bErrorCatch = false;
                 }
             } else {
-                Error(_W("#2 'errcatch' or 'nocatch' expected."));
+                Error(L"Nelson:core:invalidOption", L"%s expected.", L"#2 'errcatch' or 'nocatch'");
             }
         } else {
-            Error(_W("#2 string expected."));
+            Error(L"Nelson:types:wrongArgumentTypeExpected",
+                L"Wrong type for argument #%d: %s expected.", 2, L"string");
         }
     }
     if (bErrorCatch) {
         bool bRes = true;
         try {
             EvaluateCommand(eval, line, true);
-        } catch (const Exception&) {
+        } catch (const NelsonException&) {
+            if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                throw;
+            }
             bRes = false;
         }
-        retval << ArrayOf::logicalConstructor(bRes);
+        retval << ArrayOf::logicalScalar(bRes);
     } else {
         EvaluateCommand(eval, line, false);
     }

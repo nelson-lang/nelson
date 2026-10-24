@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>indexation de r&#233;sultat temporaire</keyword>
+  <keyword_alias>indexation de r&#233;sultat de fonction</keyword_alias>
+  <short_description>indexer directement le r&#233;sultat d&apos;un appel de fonction ou d&apos;une expression.</short_description>
+  <syntax>
+    <syntax_item>f().field</syntax_item>
+    <syntax_item>f()(index)</syntax_item>
+    <syntax_item>f(){index}</syntax_item>
+    <syntax_item>(expression).field</syntax_item>
+    <syntax_item>(expression)(index)</syntax_item>
+    <syntax_item>(expression){index}</syntax_item>
+  </syntax>
+  <description>
+    <p>L&apos;indexation de r&#233;sultat temporaire applique directement une indexation par champ, parenth&#232;ses ou accolades au r&#233;sultat d&apos;un appel de fonction ou d&apos;une expression.</p>
+    <p>Cette syntaxe &#233;vite de cr&#233;er une variable interm&#233;diaire lorsqu&apos;un seul champ ou &#233;l&#233;ment est n&#233;cessaire.</p>
+    <p>Les formes support&#233;es incluent l&apos;indexation par point, l&apos;indexation de tableau avec parenth&#232;ses et l&apos;indexation de contenu de cellule avec accolades.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Indexer le r&#233;sultat d&apos;un appel de fonction.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+names = dir(nelsonroot())(3).name;
+secondCharacter = dir(nelsonroot())(3).name(2);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Indexer des valeurs temporaires litt&#233;rales.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = [10 20 30](2);
+y = {10, 20}{2};
+z = 'abc'(2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}function">function</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}name_value_syntax">name=value</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fmuMe</keyword>
+  <keyword_alias>block:fmuMe</keyword_alias>
+  <short_description>Intègre une FMU d'échange de modèle avec le solveur NFlow.</short_description>
+  <syntax><syntax_item>Type de bloc : fmuMe</syntax_item></syntax>
+  <description>
+    <p>La version navigateur WebAssembly prend en charge les composants FMI 3.0 Model Exchange dans binaries/wasm32-wasip2. NFlow intègre leurs états et traite les passages par zéro et les réinitialisations lors des événements. Les démos de référence contiennent les binaires Wasm.</p>
+    <p>Le bloc <b>FMU (ME)</b> charge l'archive d'échange de modèle sélectionnée par <b>path</b>. NFlow évalue ses dérivées, passages par zéro et événements pendant que le solveur NFlow sélectionné intègre les états continus.</p>
+    <p>Après l'import, les ports et paramètres suivent les variables exposées par la description du modèle FMU.</p>
+    <p><img src="../../../../libraries/fmi/exports/fmu.svg" align="middle"/></p>
+  </description>
+  <see_also><see_also_item><link linkend="${nflow_fmi}fmuToBlock">fmuToBlock</link></see_also_item></see_also>
+</xmldoc>

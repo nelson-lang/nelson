@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>polyarea</keyword>
+  <short_description>Area of a polygon.</short_description>
+  <syntax>
+    <syntax_item>a = polyarea(x, y)</syntax_item>
+    <syntax_item>a = polyarea(x, y, dim)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x, y</param_name>
+      <param_description
+      >the vertex coordinates of the polygon, as vectors or matrices of the same size.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >a positive integer: the dimension along which the vertices run (default: the first non-singleton dimension).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>a</param_name>
+      <param_description>the area of the polygon.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>polyarea</b> returns the area of the polygon whose vertices are given
+      by <b>x</b> and <b>y</b>, computed with the shoelace formula. When the
+      inputs are matrices, the area is computed for each polygon along the chosen
+      dimension.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[a = polyarea([0 1 1 0], [0 0 1 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}convhull">convhull</link></see_also_item>
+    <see_also_item><link linkend="${geometry}boundary">boundary</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

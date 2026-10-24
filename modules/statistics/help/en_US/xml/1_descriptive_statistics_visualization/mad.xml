@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mad</keyword>
+  <short_description>Mean or median absolute deviation.</short_description>
+  <syntax>
+    <syntax_item>y = mad(X)</syntax_item>
+    <syntax_item>y = mad(X, flag)</syntax_item>
+    <syntax_item>y = mad(X, flag, dim)</syntax_item>
+    <syntax_item>y = mad(X, flag, vecdim)</syntax_item>
+    <syntax_item>y = mad(X, flag, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>mad</b> computes mean absolute deviation when <b>flag</b> is 0, and median absolute deviation when <b>flag</b> is 1. <b>NaN</b> values are omitted.</p>
+    <p>The operating dimensions can be a scalar dimension, a vector of dimensions, or <b>all</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 4 NaN 6; 7 8 9];
+y = mad(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

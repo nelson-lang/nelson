@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>edge</keyword>
+  <short_description>Detecte les contours dans une image en niveaux de gris.</short_description>
+  <syntax>
+    <syntax_item>BW = edge(I)</syntax_item>
+    <syntax_item>BW = edge(I, method)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh, direction)</syntax_item>
+    <syntax_item>BW = edge(I, method, thresh, sigma)</syntax_item>
+    <syntax_item>[BW, thresh] = edge(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree en niveaux de gris ou RGB.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode de detection : 'sobel', 'prewitt', 'roberts', 'log' ou 'canny'. La valeur par defaut est 'sobel'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>thresh</param_name>
+      <param_description>Seuil de detection. Pour 'canny', il peut etre un scalaire ou un vecteur a deux elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description>Direction utilisee avec 'sobel', 'prewitt' et 'roberts' : 'horizontal', 'vertical' ou 'both'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>Echelle gaussienne positive utilisee avec 'log' et 'canny'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Image logique dont les pixels vrais indiquent les contours detectes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>thresh</param_name>
+      <param_description>Seuil utilise par le detecteur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Detecte les contours dans une image en niveaux de gris. Les methodes prises en charge sont sobel, prewitt, roberts, log et canny. Les methodes sobel, prewitt et roberts acceptent horizontal, vertical ou both comme direction. Les methodes log et canny acceptent un sigma scalaire positif. Le seuil canny peut etre scalaire ou un vecteur a deux elements.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detecter les contours</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=exp(-4*(X.^2+Y.^2));
+BW=edge(I,'sobel');
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(BW); g=linspace(0,1,64)'; colormap([g g g]); title('Edges');]]></example_item_data>
+      <example_item_img
+        src="../../../images/edge_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}fspecial">fspecial</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

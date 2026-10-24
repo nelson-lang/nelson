@@ -15,6 +15,7 @@
 #endif
 #include "AudioHelpers.hpp"
 #include "AudioDevInfo.hpp"
+#include "AudioStream.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,7 +45,6 @@ disableJackError()
 }
 #endif
 //=============================================================================
-
 bool
 initializeAudio()
 {
@@ -68,6 +68,7 @@ bool
 terminateAudio()
 {
     if (audioInitialized) {
+        AudioStream::closeAll();
         PaError err = Pa_Terminate();
         if (err == paNoError) {
             clearAudioDevicesInfo();

@@ -10,14 +10,14 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_addimportpath'), 1);
-assert_isequal(nargout('qml_addimportpath'), 0);
+asserts.isequal(nargin('qml_addimportpath'), 1);
+asserts.isequal(nargout('qml_addimportpath'), 0);
 %=============================================================================
 l1 = qml_importpathlist();
 qml_addimportpath(nelsonroot());
 l2 = qml_importpathlist();
-assert_istrue(length(l2) > length(l1))
+asserts.istrue(length(l2) > length(l1))
 for k = l2
-  assert_istrue(length(k) > 0);
+  asserts.istrue(length(k) > 0);
 end
 %=============================================================================

@@ -27,6 +27,10 @@ use or performance of this software.
  */
 #pragma once
 
+#if defined(_MSC_VER)
+#pragma warning(disable : 4244 4267 4311 4312)
+#endif
+
 #ifdef __STDC__
 #undef KR_headers
 #endif

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries.set</keyword>
+  <short_description>Définit les valeurs des propriétés d&apos;un timeseries.</short_description>
+  <syntax>
+    <syntax_item>tsOut = set(ts, &apos;PropertyName&apos;, value)</syntax_item>
+    <syntax_item>tsOut = set(ts, &apos;Name1&apos;, value1, &apos;Name2&apos;, value2)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Objet timeseries.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyName</param_name>
+      <param_description>Propriété à définir, telle que Name, Data, Time, DataInfo, TimeInfo ou UserData.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>Nouvelle valeur de la propriété.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsOut</param_name>
+      <param_description>Objet timeseries en sortie avec les propriétés mises à jour.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>set</b> retourne une copie de l&apos;objet timeseries avec une ou plusieurs propriétés modifiées.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2; 3], [10; 11; 12], 'Name', 'speed');
+ts = set(ts, 'Name', 'velocity');
+ts.Name
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

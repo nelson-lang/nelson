@@ -54,7 +54,6 @@
             fftwFloat
             icu
             zlib
-            boost
             openssl
             hdf5
             curl
@@ -91,7 +90,6 @@
                   fftwFloat
                   openblasCompat
                   icu
-                  boost
                   openssl
                   mpi
                   hdf5

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uisetcolor</keyword>
+  <short_description>Ouvre une boite de dialogue de selection de couleur.</short_description>
+  <syntax>
+    <syntax_item>c = uisetcolor</syntax_item>
+    <syntax_item>c = uisetcolor(initialColor)</syntax_item>
+    <syntax_item>c = uisetcolor(initialColor, title)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>initialColor</param_name>
+      <param_description>Initial RGB color vector with values between 0 and 1. If omitted, white is used.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>Selected 1-by-3 RGB color vector, or 0 when canceled.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>uisetcolor returns a color selected by the user.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Apercu d une boite de selection de couleur.</example_item_description>
+      <example_item_data><![CDATA[f = dialog('Name', 'Choose color', 'WindowStyle', 'normal', 'Position', [100 100 380 210]);
+uicontrol(f, 'Style', 'text', 'String', 'Current color', 'Position', [35 146 120 22]);
+uicontrol(f, 'Style', 'text', 'String', ' ', 'BackgroundColor', [0 0.45 0.74], 'Position', [180 130 90 48]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'OK', 'Position', [190 30 70 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [272 30 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/uisetcolor_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Choose a color with a custom title.</example_item_description>
+      <example_item_data><![CDATA[c = uisetcolor([1 0 0], 'Choose highlight color');
+if ~isequal(c, 0), disp(c); end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uisetfont">uisetfont</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise a jour.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

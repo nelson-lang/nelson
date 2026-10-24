@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cmdscale</keyword>
+  <short_description>Classical multidimensional scaling.</short_description>
+  <syntax>
+    <syntax_item>Y = cmdscale(D)</syntax_item>
+    <syntax_item>Y = cmdscale(D, p)</syntax_item>
+    <syntax_item>[Y, e] = cmdscale(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>cmdscale</b> computes a classical multidimensional scaling configuration from a distance, dissimilarity, or similarity matrix.</p>
+    <p>D can be a square matrix or a distance vector accepted by squareform. If p is specified, only coordinates associated with positive eigenvalues among the first p dimensions are returned.</p>
+    <p>The vector e contains the ordered eigenvalues of the centered inner-product matrix. When p is specified, e contains at most p values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 2 2];
+D = squareform(pdist(X));
+[Y, e] = cmdscale(D)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}squareform">squareform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

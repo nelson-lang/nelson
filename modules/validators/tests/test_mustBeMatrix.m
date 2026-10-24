@@ -7,15 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeMatrix'), -1);
-assert_isequal(nargout('mustBeMatrix'), 0);
+asserts.isequal(nargin('mustBeMatrix'), -1);
+asserts.isequal(nargout('mustBeMatrix'), 0);
 %=============================================================================
 mustBeMatrix([]);
 mustBeMatrix(single(3));
 %=============================================================================
-assert_checkerror('mustBeMatrix(ones(2, 3, 2))', _('Value must be a matrix.'));
+asserts.checkerror('mustBeMatrix(ones(2, 3, 2))', sprintf(_('%s must be a 2-D matrix.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be a matrix.')];
-assert_checkerror('mustBeMatrix(ones(2, 3, 2), 3)', msg);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a 2-D matrix.'), 'Value')];
+asserts.checkerror('mustBeMatrix(ones(2, 3, 2), 3)', msg);
 %=============================================================================
 

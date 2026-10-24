@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audiodevinfoBuiltin.hpp"
 #include "AudioDevInfo.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -40,76 +41,76 @@ Nelson::AudioGateway::audiodevinfoBuiltin(int nLhs, const ArrayOfVector& argIn)
         // devinfo = audiodevinfo('default')
         ArrayOf param1 = argIn[0];
         if (param1.isCharacterArray()) {
-            std::wstring str = param1.getContentAsWideString();
+            std::wstring str = param1.asWideString();
             if (str == L"default") {
                 res = AudioDevInfoDefault(errorMessage);
             } else {
-                Error(_W("Wrong value for #1 argument."));
+                Error(L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument.", 1);
             }
         } else {
-            int io = param1.getContentAsInteger32Scalar();
+            int io = param1.asInt32Scalar();
             res = AudioDevInfo(io, errorMessage);
         }
     } break;
     case 2: {
         ArrayOf param1 = argIn[0];
-        int io = param1.getContentAsInteger32Scalar();
+        int io = param1.asInt32Scalar();
         ArrayOf param2 = argIn[1];
         if (param2.isRowVectorCharacterArray()) {
             // devinfo = audiodevinfo(io, name)
-            std::wstring name = param2.getContentAsWideString();
+            std::wstring name = param2.asWideString();
             res = AudioDevInfo(io, name, errorMessage);
         } else {
             // devinfo = audiodevinfo(io, id)
-            int id = param2.getContentAsInteger32Scalar();
+            int id = param2.asInt32Scalar();
             res = AudioDevInfo(io, id, errorMessage);
         }
     } break;
     case 3: {
         // devinfo = audiodevinfo(io, id, 'DriverVersion')
         ArrayOf param3 = argIn[2];
-        std::wstring str3 = param3.getContentAsWideString();
+        std::wstring str3 = param3.asWideString();
         if (str3 != L"DriverVersion") {
-            Error(_W("Wrong value for #3 argument."));
+            Error(L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument.", 3);
         }
         ArrayOf param1 = argIn[0];
-        int io = param1.getContentAsInteger32Scalar();
+        int io = param1.asInt32Scalar();
         ArrayOf param2 = argIn[1];
-        int id = param2.getContentAsInteger32Scalar();
+        int id = param2.asInt32Scalar();
         res = AudioDevInfoDriverVersion(io, id, errorMessage);
     } break;
     case 4: {
         // devinfo = audiodevinfo(io, rate, bits, chans)
         ArrayOf param1 = argIn[0];
-        int io = param1.getContentAsInteger32Scalar();
+        int io = param1.asInt32Scalar();
         ArrayOf param2 = argIn[1];
-        int rate = param2.getContentAsInteger32Scalar();
+        int rate = param2.asInt32Scalar();
         ArrayOf param3 = argIn[2];
-        int bits = param3.getContentAsInteger32Scalar();
+        int bits = param3.asInt32Scalar();
         ArrayOf param4 = argIn[3];
-        int chans = param4.getContentAsInteger32Scalar();
+        int chans = param4.asInt32Scalar();
         res = AudioDevInfo(io, rate, bits, chans, errorMessage);
     } break;
     case 5: {
         // devinfo = audiodevinfo(io, id, rate, bits, chans)
         ArrayOf param1 = argIn[0];
-        int io = param1.getContentAsInteger32Scalar();
+        int io = param1.asInt32Scalar();
         ArrayOf param2 = argIn[1];
-        int id = param2.getContentAsInteger32Scalar();
+        int id = param2.asInt32Scalar();
         ArrayOf param3 = argIn[2];
-        int rate = param3.getContentAsInteger32Scalar();
+        int rate = param3.asInt32Scalar();
         ArrayOf param4 = argIn[3];
-        int bits = param4.getContentAsInteger32Scalar();
+        int bits = param4.asInt32Scalar();
         ArrayOf param5 = argIn[4];
-        int chans = param5.getContentAsInteger32Scalar();
+        int chans = param5.asInt32Scalar();
         res = AudioDevInfo(io, id, rate, bits, chans, errorMessage);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:audiodevinfo:queryFailed", errorMessage);
     }
     retval << res;
     return retval;

@@ -10,7 +10,10 @@
 #define MODULE_NAME "commons"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsCommons.dll; DestDir: {app}\bin\{#BinPath}\;
+Source: {#RootPath}bin\{#BinPath}\libnlsCommons.lib; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\Nelson_VERSION.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nlsBuildConfig.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "interpolation_methods.m",
+      "title": {
+        "en_US": "Compare interpolation methods",
+        "fr_FR": "Comparer les méthodes d’interpolation"
+      },
+      "description": {
+        "en_US": "Reconstruct a smooth signal from sparse samples with four interpolation methods.",
+        "fr_FR": "Reconstruire un signal lisse à partir d’échantillons espacés avec quatre méthodes d’interpolation."
+      },
+      "tags": [
+        "interpolation",
+        "interp1",
+        "comparison"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

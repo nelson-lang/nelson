@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ode.Options</keyword>
+  <short_description>Base class of the solver options classes.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.Options.makeSolverOptions(solver)</syntax_item>
+    <syntax_item>options = nelson.ode.Options.makeSolverOptions(solver, name, value)</syntax_item>
+    <syntax_item>tf = isDefault(options)</syntax_item>
+    <syntax_item>s = struct(options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.Options</b> is the base class of all <b>nelson.ode.options.*</b> classes used by the <b>SolverOptions</b> property of the <b>ode</b> object workflow. It is not meant to be instantiated directly; use one of its subclasses or the static factory method <b>makeSolverOptions</b>.</p>
+    <table style="width:100%">
+  <tr><th>Member</th><th>Kind</th><th>Purpose</th></tr>
+  <tr><td><b>makeSolverOptions</b></td><td>static method</td><td>Creates the options subclass matching a solver name.</td></tr>
+  <tr><td><b>isDefault</b></td><td>method</td><td>Returns true when every public option keeps its default value.</td></tr>
+  <tr><td><b>struct</b></td><td>method</td><td>Converts the options object to an option structure.</td></tr>
+  <tr><td><b>Refine</b></td><td>hidden property</td><td>Output refinement factor, a positive integer scalar (default empty, meaning the solver default).</td></tr>
+  <tr><td><b>ID</b></td><td>hidden property</td><td>Solver identifier stored in the option structure (default <b>'ode45'</b>).</td></tr>
+  <tr><td><b>DefaultRefine</b></td><td>hidden property</td><td>Refinement factor used when <b>Refine</b> is empty (default 1).</td></tr>
+</table>
+    <p><b>makeSolverOptions(solver, name, value, ...)</b> returns an instance of the options subclass matching <b>solver</b> and forwards the name-value pairs to its constructor. Accepted solver names are <b>'ode45'</b>, <b>'ode23'</b>, <b>'ode78'</b>, <b>'ode89'</b>, <b>'ode113'</b>, <b>'ode15s'</b>, <b>'ode23s'</b>, <b>'ode23t'</b>, <b>'ode23tb'</b>, <b>'ode15i'</b>, <b>'autoswitch'</b>, <b>'cvodesnonstiff'</b>, <b>'cvodesstiff'</b>, and <b>'idas'</b>. Any other name raises an error. <b>'autoswitch'</b> and <b>'cvodesnonstiff'</b> both map to <b>nelson.ode.options.CVODESNonstiff</b>.</p>
+    <p><b>isDefault(options)</b> returns true when all the public properties of the options object still hold their default values.</p>
+    <p><b>struct(options)</b> returns an option structure with the same field names as <b>odeset</b>, filled from the public properties of the options object, plus the <b>ID</b> field and the resolved <b>Refine</b> value.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create solver options with the factory method and inspect them.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.Options.makeSolverOptions('ode15s', 'MaxStep', 0.5);
+class(options)
+isDefault(options)
+s = struct(options);
+s.ID
+s.MaxStep]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE45">nelson.ode.options.ODE45</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE15s">nelson.ode.options.ODE15s</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>surfc</keyword>
+  <short_description>Display a surface with contour lines below it.</short_description>
+  <syntax>
+    <syntax_item>surfc(Z)</syntax_item>
+    <syntax_item>surfc(X, Y, Z)</syntax_item>
+    <syntax_item>surfc(parent, ...)</syntax_item>
+    <syntax_item>h = surfc(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>surfc</b> displays a surface and contour lines projected at the base of the surface.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Surface with contours.</example_item_description>
+      <example_item_data><![CDATA[surfc(peaks(30));]]></example_item_data>
+      <example_item_img src="../../../../images/surfc_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour3">contour3</link></see_also_item>
+  </see_also>
+</xmldoc>

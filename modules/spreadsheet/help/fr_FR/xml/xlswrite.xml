@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xlswrite</keyword>
+  <short_description>Ecrire des donnees dans un fichier tableur Open XML.</short_description>
+  <syntax>
+    <syntax_item>status = xlswrite(filename, A)</syntax_item>
+    <syntax_item>status = xlswrite(filename, A, sheet)</syntax_item>
+    <syntax_item>status = xlswrite(filename, A, sheet, range)</syntax_item>
+    <syntax_item>[status, message] = xlswrite(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaine : nom de fichier .xlsx.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau, cellule, table ou timetable a ecrire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sheet</param_name>
+      <param_description>nom de feuille ou indice de feuille positif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>range</param_name>
+      <param_description>cellule de depart ou plage en notation A1.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>valeur logique indiquant si l&apos;ecriture a reussi.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description>chaine vide en cas de succes, sinon message d&apos;erreur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xlswrite</b> ecrit les valeurs Nelson prises en charge dans un fichier .xlsx avec le backend Open XML.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ecrire puis relire une matrice.</example_item_description>
+      <example_item_data runnable="cli">filename = [tempdir(), &apos;xlswrite_example.xlsx&apos;]; [status, message] = xlswrite(filename, magic(3), &apos;Data&apos;, &apos;A1&apos;); values = xlsread(filename, &apos;Data&apos;, &apos;A1:C3&apos;)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${spreadsheet}xlsread">xlsread</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}xlsfinfo">xlsfinfo</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}writematrix">writematrix</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support .xlsx Open XML ajoute.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

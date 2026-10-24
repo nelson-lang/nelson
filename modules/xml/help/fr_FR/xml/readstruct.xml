@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>readstruct</keyword>
+  <short_description>Lire des données XML comme structure</short_description>
+  <syntax>
+    <syntax_item>s = readstruct(filename)</syntax_item>
+    <syntax_item>s = readstruct(filename, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : chemin vers le fichier XML.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>paires optionnelles : &apos;FileType&apos;, &apos;StructNodeName&apos;, &apos;StructSelector&apos;, &apos;ImportAttributes&apos;, &apos;AttributeSuffix&apos;, &apos;RegisteredNamespaces&apos; ou &apos;DateLocale&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>une structure, une valeur scalaire, un tableau de cellules ou un tableau de structures selon le contenu XML.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>readstruct lit les éléments XML sous forme de valeurs Nelson. Les attributs sont importés par défaut avec le suffixe &apos;Attribute&apos;.</p>
+    <p>Les noms XML qui ne sont pas des noms de champs valides sont convertis en noms de champs Nelson valides. Les espaces de noms peuvent être utilisés dans &apos;StructSelector&apos; au moyen de &apos;RegisteredNamespaces&apos;.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire des données XML dans une structure Nelson.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'readstruct_books.xml'];
+xml_text = ['<catalog source="local">', ...
+            '<book id="b1"><title>Numerical Methods</title><year>2026</year></book>', ...
+            '<book id="b2"><title>Signal Processing</title><year>2025</year></book>', ...
+            '</catalog>'];
+filewrite(filename, xml_text);
+s = readstruct(filename);
+s.sourceAttribute
+s.book(1).idAttribute
+s.book(1).title
+s.book(1).year]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire un élément XML sélectionné avec un sélecteur XPath.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'readstruct_selected_book.xml'];
+xml_text = ['<catalog>', ...
+            '<book id="b1"><title>Numerical Methods</title></book>', ...
+            '<book id="b2"><title>Signal Processing</title></book>', ...
+            '</catalog>'];
+filewrite(filename, xml_text);
+book = readstruct(filename, 'StructSelector', '//book');
+book.idAttribute
+book.title]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}writestruct">writestruct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlread">xmlread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

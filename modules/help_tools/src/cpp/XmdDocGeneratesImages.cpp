@@ -18,6 +18,7 @@
 #include "FileSystemWrapper.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,20 +28,27 @@ using xmlInfo = std::tuple<std::wstring, std::string, std::wstring>;
 static bool
 extractExamplesFromXmlDocFile(
     const std::wstring& xmlFilename, std::vector<xmlInfo>& infos, std::wstring& errorMessage);
+static bool
+imageNeedsGeneration(
+    const FileSystemWrapper::Path& xmlFilePath, const FileSystemWrapper::Path& imageDestPath);
+static std::wstring
+scriptBaseNameForImage(const FileSystemWrapper::Path& imageDestPath);
 //=============================================================================
 bool
 xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outputDir,
-    wstringVector& outputScriptFilenames, std::wstring& errorMessage)
+    wstringVector& outputScriptFilenames, std::wstring& errorMessage, bool force)
 {
     errorMessage.clear();
     FileSystemWrapper::Path xmlFileOrDirPath(xmlFileOrDir);
     if (!(xmlFileOrDirPath.is_regular_file() || xmlFileOrDirPath.is_directory())) {
-        errorMessage = _W("First argument must be an existing XML file or directory.");
+        errorMessage = resolveMessageTemplate(L"Nelson:help_tools:firstExistingXmlFile",
+            L"First argument must be an existing XML file or directory.");
         return false;
     }
     FileSystemWrapper::Path outputDirPath(outputDir);
     if (!outputDirPath.is_directory()) {
-        errorMessage = _W("Second argument must be an existing directory.");
+        errorMessage = resolveMessageTemplate(L"Nelson:help_tools:secondExistingDirectory",
+            L"Second argument must be an existing directory.");
         return false;
     }
 
@@ -48,20 +56,22 @@ xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outpu
 
     if (xmlFileOrDirPath.is_regular_file()) {
         xmlFiles.push_back(xmlFileOrDirPath.generic_wstring());
-    }
-    for (const auto& entry : std::filesystem::directory_iterator(xmlFileOrDirPath.wstring())) {
-        if (entry.is_regular_file()) {
-            std::wstring path = entry.path().wstring();
-            if (path.size() > 4) {
-                std::wstring ext = path.substr(path.size() - 4);
-                if (ext == L".xml") {
-                    xmlFiles.push_back(entry.path().generic_wstring());
+    } else {
+        for (const auto& entry : std::filesystem::directory_iterator(xmlFileOrDirPath.wstring())) {
+            if (entry.is_regular_file()) {
+                std::wstring path = entry.path().wstring();
+                if (path.size() > 4) {
+                    std::wstring ext = path.substr(path.size() - 4);
+                    if (ext == L".xml") {
+                        xmlFiles.push_back(entry.path().generic_wstring());
+                    }
                 }
             }
         }
     }
     if (xmlFiles.empty()) {
-        errorMessage = _W("No XML files found.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:help_tools:xmlFilesFound", L"No XML files found.");
         return false;
     }
 
@@ -75,16 +85,20 @@ xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outpu
             return false;
         }
         if (infos.empty()) {
-            continue; // No examples to process
+            continue;
         }
         infosAllFiles.insert(infosAllFiles.end(), infos.begin(), infos.end());
     }
     outputScriptFilenames.reserve(infosAllFiles.size());
     for (const auto& [xmlFile, exampleContent, imageDestination] : infosAllFiles) {
+        FileSystemWrapper::Path xmlFilePath(xmlFile);
         FileSystemWrapper::Path imageDestPath
-            = FileSystemWrapper::Path(xmlFile).parent_path() / imageDestination;
+            = (xmlFilePath.parent_path() / imageDestination).lexically_normal();
+        if (!force && !imageNeedsGeneration(xmlFilePath, imageDestPath)) {
+            continue;
+        }
         std::wstring scriptFilename = outputDirPath.generic_wstring() + L"/example_help_"
-            + imageDestPath.stem().wstring() + L".m";
+            + scriptBaseNameForImage(imageDestPath) + L".m";
         std::ofstream fileOutput;
 #if _MSC_VER
         fileOutput.open(scriptFilename, std::ios::binary);
@@ -92,20 +106,69 @@ xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outpu
         fileOutput.open(wstring_to_utf8(scriptFilename), std::ios::binary);
 #endif
         if (!fileOutput.is_open()) {
-            errorMessage = _W("Cannot read file: ") + scriptFilename;
+            errorMessage = formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                scriptFilename);
             return false;
         }
         fileOutput << exampleContent;
         fileOutput << "\n";
-        fileOutput << "f = gcf();\n";
+        fileOutput << "imageFigure = [];\n";
+        fileOutput << "if exist('f', 'var') && isgraphics(f) && ~isempty(get(f, 'Children'))\n";
+        fileOutput << "  imageFigure = f;\n";
+        fileOutput
+            << "elseif exist('fig', 'var') && isgraphics(fig) && ~isempty(get(fig, 'Children'))\n";
+        fileOutput << "  imageFigure = fig;\n";
+        fileOutput << "else\n";
+        fileOutput << "  imageFigure = gcf();\n";
+        fileOutput << "end\n";
         fileOutput << "sleep(1);\n";
-        fileOutput << "saveas(f, \"" << imageDestPath.generic_string() << "\");\n";
+        fileOutput << "imageDestination = \"" << imageDestPath.generic_string() << "\";\n";
+        fileOutput << "imageDestination = char(imageDestination);\n";
+        fileOutput << "imageDestinationDirectory = fileparts(imageDestination);\n";
+        fileOutput << "if ~isdir(imageDestinationDirectory)\n";
+        fileOutput << "  mkdir(imageDestinationDirectory);\n";
+        fileOutput << "end\n";
+        fileOutput << "saveas(imageFigure, imageDestination);\n";
+        fileOutput << "if ~isempty(imageFigure) && isgraphics(imageFigure)\n";
+        fileOutput << "  close(imageFigure);\n";
+        fileOutput << "end\n";
         fileOutput << "exit(0);\n";
 
         fileOutput.close();
         outputScriptFilenames.push_back(scriptFilename);
     }
     return true;
+}
+//=============================================================================
+bool
+imageNeedsGeneration(
+    const FileSystemWrapper::Path& xmlFilePath, const FileSystemWrapper::Path& imageDestPath)
+{
+    if (!imageDestPath.is_regular_file()) {
+        return true;
+    }
+
+    std::string errorMessage;
+    uintmax_t imageSize = FileSystemWrapper::Path::file_size(imageDestPath, errorMessage);
+    if (!errorMessage.empty() || imageSize == 0) {
+        return true;
+    }
+
+    errorMessage.clear();
+    std::time_t imageTime = FileSystemWrapper::Path::last_write_time(imageDestPath, errorMessage);
+    if (!errorMessage.empty()) {
+        return true;
+    }
+
+    errorMessage.clear();
+    std::time_t xmlTime = FileSystemWrapper::Path::last_write_time(xmlFilePath, errorMessage);
+    if (!errorMessage.empty()) {
+        return true;
+    }
+
+    return imageTime < xmlTime;
 }
 //=============================================================================
 bool
@@ -120,37 +183,48 @@ extractExamplesFromXmlDocFile(
     file.open(xmlFilenameUtf8, std::ios::binary);
 #endif
     if (!file.is_open()) {
-        errorMessage = _W("Cannot read file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                xmlFilename);
         return false;
     }
 
     std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     if (buffer.empty()) {
-        errorMessage = _W("Cannot read file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                xmlFilename);
         return false;
     }
     xmlDocPtr doc
         = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFilenameUtf8.c_str(), nullptr, 0);
     if (!doc) {
-        errorMessage = _W("Cannot parse XML file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotParseXmlFile",
+                                    L"Cannot parse XML file: %s"),
+                xmlFilename);
         return false;
     }
 
     xmlXPathContextPtr xpathCtx = xmlXPathNewContext(doc);
     if (!xpathCtx) {
         xmlFreeDoc(doc);
-        errorMessage = _W("Cannot create XPath context");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:help_tools:cannotCreateXpathContext", L"Cannot create XPath context");
         return false;
     }
 
-    // Find all example_item_img elements with generate="true"
     const xmlChar* xpathExpr = BAD_CAST "//example_item_img[@generate='true']";
     xmlXPathObjectPtr xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
 
     if (!xpathObj) {
         xmlXPathFreeContext(xpathCtx);
         xmlFreeDoc(doc);
-        errorMessage = _W("Error evaluating XPath expression");
+        errorMessage
+            = Nelson::resolveMessageTemplate(L"Nelson:help_tools:errorEvaluatingXpathExpression",
+                L"Error evaluating XPath expression");
         return false;
     }
 
@@ -159,17 +233,14 @@ extractExamplesFromXmlDocFile(
             xmlNodePtr imgNode = xpathObj->nodesetval->nodeTab[i];
             xmlChar* src = xmlGetProp(imgNode, BAD_CAST "src");
 
-            // Get the parent example_item node
             xmlNodePtr parentNode = imgNode->parent;
             if (parentNode) {
-                // Find example_item_data node among siblings
                 xmlNodePtr dataNode = parentNode->children;
                 while (dataNode) {
                     if (xmlStrcmp(dataNode->name, BAD_CAST "example_item_data") == 0) {
                         xmlChar* content = xmlNodeGetContent(dataNode);
                         if (content) {
                             xmlInfo info;
-                            // xmlFile, exampleContent, imageDestination
 
                             std::get<0>(info) = xmlFilename;
                             std::get<1>(info) = content ? (const char*)content : "";
@@ -193,6 +264,36 @@ extractExamplesFromXmlDocFile(
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
     return true;
+}
+//=============================================================================
+static bool
+isScriptBaseNameCharacter(wchar_t c)
+{
+    return (c >= L'a' && c <= L'z') || (c >= L'A' && c <= L'Z') || (c >= L'0' && c <= L'9')
+        || c == L'_';
+}
+//=============================================================================
+static std::wstring
+scriptBaseNameForImage(const FileSystemWrapper::Path& imageDestPath)
+{
+    FileSystemWrapper::Path parent = imageDestPath.parent_path();
+    FileSystemWrapper::Path grandParent = parent.parent_path();
+    std::wstring baseName;
+    std::wstring grandParentName = grandParent.filename().wstring();
+    if (!grandParentName.empty()) {
+        baseName += grandParentName + L"_";
+    }
+    std::wstring parentName = parent.filename().wstring();
+    if (!parentName.empty()) {
+        baseName += parentName + L"_";
+    }
+    baseName += imageDestPath.stem().wstring();
+    for (auto& c : baseName) {
+        if (!isScriptBaseNameCharacter(c)) {
+            c = L'_';
+        }
+    }
+    return baseName;
 }
 //=============================================================================
 } // namespace Nelson

@@ -15,14 +15,15 @@
 #include <stdexcept>
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
-//===================================================================================
+#include "ErrorID.hpp"
+//=============================================================================
 namespace Nelson {
-//===================================================================================
+//=============================================================================
 namespace {
-    //===================================================================================
+    //=============================================================================
     library_handle nlsGuiHandleDynamicLibrary = nullptr;
     std::once_flag guiLibraryInitFlag;
-    //===================================================================================
+    //=============================================================================
     void
     logErrorAndExit(const std::string& message)
     {
@@ -34,7 +35,7 @@ namespace {
         }
         exit(1);
     }
-    //===================================================================================
+    //=============================================================================
     template <typename FuncPtr>
     FuncPtr
     getFunctionPointer(const char* functionName)
@@ -42,13 +43,14 @@ namespace {
         auto funcPtr
             = reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
         if (funcPtr == nullptr) {
-            logErrorAndExit(_("Gui Function not loaded."));
+            logErrorAndExit(Nelson::resolveMessageTemplate(
+                "Nelson:engine:guiFunctionLoaded", "Gui Function not loaded."));
         }
         return funcPtr;
     }
-    //===================================================================================
-}
-//===================================================================================
+    //=============================================================================
+} // namespace
+//=============================================================================
 static void
 initGuiDynamicLibrary()
 {
@@ -65,7 +67,7 @@ initGuiDynamicLibrary()
         }
     });
 }
-//===================================================================================
+//=============================================================================
 void
 InitGuiObjectsDynamic()
 {
@@ -78,7 +80,7 @@ InitGuiObjectsDynamic()
     }
     InitGuiObjectsPtr();
 }
-//===================================================================================
+//=============================================================================
 void*
 CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE mode, bool minimizeWindow, size_t ID)
 {
@@ -91,7 +93,7 @@ CreateGuiEvaluatorDynamic(void* vcontext, NELSON_ENGINE_MODE mode, bool minimize
     }
     return CreateGuiEvaluatorPtr(vcontext, mode, minimizeWindow, ID);
 }
-//===================================================================================
+//=============================================================================
 void
 DestroyMainGuiObjectDynamic(void* term)
 {
@@ -105,7 +107,7 @@ DestroyMainGuiObjectDynamic(void* term)
     }
     DestroyMainGuiObjectPtr(term);
 }
-//===================================================================================
+//=============================================================================
 void*
 GetMainGuiObjectDynamic()
 {
@@ -118,6 +120,6 @@ GetMainGuiObjectDynamic()
     }
     return GetMainGuiObjectPtr();
 }
-//===================================================================================
+//=============================================================================
 } // namespace Nelson
-//===================================================================================
+//=============================================================================

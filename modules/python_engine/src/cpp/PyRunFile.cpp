@@ -10,15 +10,19 @@
 #include "PyRunFile.hpp"
 #include "PyRun.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PythonLibraryWrapper.hpp"
 #include "PythonEnvironment.hpp"
 #include "PythonEngine.hpp"
 #include "PythonFileRunner.hpp"
 #include "characters_encoding.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "RuntimeDispatch.hpp"
 #include "PythonTypesWrapper.hpp"
 #include "PythonObjectHandle.hpp"
+#include "PyNelsonCallback.hpp"
+#include "NelsonConfiguration.hpp"
+#include "MainThreadTaskQueue.hpp"
 #include <thread>
 //=============================================================================
 namespace Nelson {
@@ -67,8 +71,15 @@ PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
 {
     initializePythonEngine();
 
+    if (isExecutingNelsonPythonCallback()) {
+        Error(L"Nelson:Python:ReentrantCallback",
+            L"%s cannot be called from within a Nelson function handle that was invoked from "
+            L"Python.",
+            L"pyrunfile");
+    }
+
     if (names.size() != values.size()) {
-        Error(_W("Same name, value numbers expected."));
+        Error(L"Nelson:Python:nameValueMismatch", L"Same name, value numbers expected.");
     }
 
     ArrayOfVector retval = {};
@@ -94,8 +105,14 @@ PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
     std::thread thread([&runner, &filename, &arguments]() { runner.runFile(filename, arguments); });
     thread.detach();
 
+    // Drain pyfunction callbacks marshalled from the worker thread.
+    Evaluator* mainEvaluator
+        = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     while (!runner.isResultReady()) {
-        ProcessEventsDynamicFunctionWithoutWait();
+        if (mainEvaluator != nullptr) {
+            MainThreadTaskQueue::getInstance()->processTasks(mainEvaluator);
+        }
+        Nelson::processGuiEvents(false);
     }
 
     NLSPyEval_RestoreThread(_save);
@@ -116,7 +133,7 @@ PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
                 NLSPy_DECREF(main_copy);
             }
         }
-        Error(errorMessage, L"Nelson:Python:Exception");
+        Error(L"Nelson:Python:NelsonException", errorMessage);
     }
 
     for (auto output : outputs) {
@@ -139,5 +156,5 @@ PyRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

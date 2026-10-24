@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isoutlier</keyword>
+  <short_description>Find outliers in numeric data.</short_description>
+  <syntax>
+    <syntax_item>TF = isoutlier(A)</syntax_item>
+    <syntax_item>TF = isoutlier(A, method)</syntax_item>
+    <syntax_item>TF = isoutlier(A, 'percentiles', threshold)</syntax_item>
+    <syntax_item>TF = isoutlier(A, movmethod, window)</syntax_item>
+    <syntax_item>TF = isoutlier(..., dim)</syntax_item>
+    <syntax_item>TF = isoutlier(..., Name, Value)</syntax_item>
+    <syntax_item>[TF, L, U, C] = isoutlier(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>isoutlier</b> returns a logical array that marks elements detected as outliers.</p>
+    <p>The supported methods are <b>median</b>, <b>mean</b>, <b>quartiles</b>, <b>percentiles</b>, <b>grubbs</b>, <b>gesd</b>, <b>movmedian</b>, and <b>movmean</b>. Numeric <b>NaN</b> values are omitted from threshold estimation and are not marked as outliers.</p>
+    <p>Name-value arguments include <b>ThresholdFactor</b>, <b>MaxNumOutliers</b>, and <b>SamplePoints</b>. The additional outputs contain the lower threshold, upper threshold, and center value.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [57 59 60 100 59 58 57 58 300 61 62 60 62 58 57];
+TF = isoutlier(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [60 59 49 49 58 100 61 57 48 58];
+[TF, L, U, C] = isoutlier(A, 'median')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [1 1 100 1 1];
+t = [1 2 100 101 102];
+TF = isoutlier(A, 'movmedian', 3, 'SamplePoints', t)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}zscore">zscore</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

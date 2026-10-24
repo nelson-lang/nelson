@@ -43,7 +43,8 @@ namespace {
         }
         return std::pow(10.0, scaleFactor);
     }
-}
+    //=============================================================================
+} // namespace
 //=============================================================================
 static std::wstring
 padRight(const std::wstring& s, indexType width)
@@ -153,8 +154,7 @@ formatIntegerReal(T val, const FormatDisplayInformation& formatInfo)
 static void
 fixFormatNonFinite(std::wstring& s)
 {
-    // nan/inf always land at the tail of a formatted float string
-    // e.g. "   nan", "  -inf" — no need to scan, just index from end
+    // nan/inf always sit at the tail of the formatted string ("   nan", "  -inf")
     if (s.size() < 3) {
         return;
     }
@@ -164,12 +164,10 @@ fixFormatNonFinite(std::wstring& s)
     if (a == L'n' && b == L'a' && c == L'n') {
         s[tail] = L'N';
         s[tail + 2] = L'N';
-        // 'a' stays
         return;
     }
     if (a == L'i' && b == L'n' && c == L'f') {
         s[tail] = L'I';
-        // 'n', 'f' stay — only first char changes
     }
 }
 //=============================================================================
@@ -179,7 +177,6 @@ formatReal(T val, const FormatDisplayInformation& formatInfo)
 {
     std::wstring result;
     if (std::isnan(val)) {
-        // force NaN representation
         val = std::nan("NaN");
     }
     if (val == 0) {
@@ -607,5 +604,5 @@ formatScalarComplexNumber(
     return formatScalarComplexNumberT<double>(realPart, imagPart, asSingle, formatInfo);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "mustBeRealBuiltin.hpp"
 #include "ValidatorsInternal.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,9 +25,10 @@ Nelson::ValidatorsGateway::mustBeRealBuiltin(int nLhs, const ArrayOfVector& argI
     int argPos = -1;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        argPos = param2.getContentAsInteger32Scalar();
+        argPos = param2.asInt32Scalar();
         if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
+            Error(L"Nelson:validators:invalidPosition",
+                L"The last argument must be a positive integer.");
         }
     }
     mustBeReal(argIn[0], argPos, true);

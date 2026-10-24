@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>localfunctions</keyword>
+  <short_description>Return handles to local functions in the current file.</short_description>
+  <syntax>
+    <syntax_item>fh = localfunctions()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>fh</param_name>
+      <param_description>a cell array of function handles.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>localfunctions</b> returns a cell array of handles to local functions defined in the current file.</p>
+    <p>If the current context is not a file with local functions, the result is an empty cell array.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Call <b>localfunctions</b> from the command context.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[fh = localfunctions()
+isequal(fh, {})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return and call handles to local functions from a file.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[% Save this code in a file named localfunctions_demo.m:
+%
+% function names = localfunctions_demo()
+%   fh = localfunctions();
+%   names = {func2str(fh{1}); func2str(fh{2})};
+%   disp(fh{1}(3))
+%   disp(fh{2}(3))
+% end
+%
+% function y = add_one(x)
+%   y = x + 1;
+% end
+%
+% function y = double_value(x)
+%   y = 2 * x;
+% end
+
+names = localfunctions_demo()
+% Expected names:
+% {'add_one'; 'double_value'}]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${functions_manager}which">which</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${function_handle}func2str">func2str</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jl_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaObjectHandle.hpp"
@@ -26,7 +27,7 @@ Nelson::Julia_engineGateway::jl_displayBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        Error(L"Nelson:julia:evaluatorNotAvailable", L"Evaluator not available.");
     }
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
@@ -34,11 +35,11 @@ Nelson::Julia_engineGateway::jl_displayBuiltin(
     ArrayOf param1 = argIn[0];
     std::wstring name;
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsWideString();
+        name = argIn[1].asWideString();
     }
-    if (param1.isHandle() && param1.getHandleCategory() == NLS_HANDLE_JULIA_CATEGORY_STR) {
+    if (param1.isHandle() && param1.handleCategory() == NLS_HANDLE_JULIA_CATEGORY_STR) {
         Interface* io = eval->getInterface();
-        JuliaObjectHandle* poh = (JuliaObjectHandle*)param1.getContentAsHandleScalar();
+        JuliaObjectHandle* poh = (JuliaObjectHandle*)param1.asHandleScalar();
         DisplayJlVariableHeader(io, poh, name, name.empty());
 
         if (poh) {
@@ -46,7 +47,7 @@ Nelson::Julia_engineGateway::jl_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("Julia object expected."));
+        Error(L"Nelson:Julia:invalidObject", L"Julia object expected.");
     }
     return retval;
 }

@@ -6,15 +6,20 @@
   <short_description
   >Internationalization (i18n) utility functions</short_description>
   <syntax>
-    <syntax_item>i18nHelpers(&apos;convert&apos;, potFile, jsonFile)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;extractUI&apos;, sourceRoot, jsonFile)</syntax_item>
+    <syntax_item
+    >i18nHelpers(&apos;extractErrors&apos;, sourceRoot, jsonFile)</syntax_item>
     <syntax_item>i18nHelpers(&apos;merge&apos;, jsonFile1, jsonFile2)</syntax_item>
     <syntax_item>i18nHelpers(&apos;sort&apos;, jsonFileA, jsonFileB)</syntax_item>
+    <syntax_item
+    >i18nHelpers(&apos;register&apos;, moduleName, moduleRoot)</syntax_item>
+    <syntax_item>i18nHelpers(&apos;unregister&apos;, moduleName)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>potFile</param_name>
+      <param_name>sourceRoot</param_name>
       <param_description
-      >String: Path to the source .po/.pot translation template file</param_description>
+      >String: Path to the source tree to scan (C/C++ and .m files, tests directories excluded)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>jsonFile</param_name>
@@ -41,13 +46,42 @@
       <param_description
       >String: Path to the sorted JSON file</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>moduleName</param_name>
+      <param_description
+      >String: The module name whose locale catalog is registered or unregistered</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>moduleRoot</param_name>
+      <param_description
+      >String: The module root directory (typically modulepath(moduleName)), holding locale/&lt;moduleName&gt;-ui-&lt;locale&gt;.json and locale/&lt;moduleName&gt;-errors-&lt;locale&gt;.json</param_description>
+    </param_input_item>
   </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description
+      >Logical: for &apos;register&apos;/&apos;unregister&apos;, true on success. Requesting this output makes the call report a status instead of raising, so no try/catch is needed.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description
+      >Character vector: for &apos;register&apos;/&apos;unregister&apos; with two outputs, an error message when status is false, empty otherwise.</param_description>
+    </param_output_item>
+  </param_output>
   <description>
     <p>
       <b>i18nHelpers</b> provides essential utility functions for managing internationalization files. The main functions include:</p>
     <p>-<b>
-        &apos;convert&apos;
-      </b>: Converts a .po/.pot translation template file into JSON format for easier manipulation.</p>
+        &apos;extractUI&apos;
+      </b>: Scans the sources under<code
+      >sourceRoot</code>for translatable user-interface text and writes the text-keyed catalog to<code
+      >jsonFile</code>. The extraction is native (no gettext tooling involved).</p>
+    <p>-<b>
+        &apos;extractErrors&apos;
+      </b>: Scans the sources under<code
+      >sourceRoot</code>for identifier-keyed error/warning templates and writes the errors catalog to<code
+      >jsonFile</code>.</p>
     <p>-<b>
         &apos;merge&apos;
       </b>: Merges two JSON translation files. The entries from<code
@@ -59,6 +93,31 @@
       </b>: Sorts and organizes entries in a JSON translation file.<code
       >jsonFileA</code>and<code
       >jsonFileB</code>may refer to the same file if in-place sorting is desired.</p>
+    <p>-<b>
+        &apos;register&apos;
+      </b>: Registers an external module&apos;s locale catalog at runtime, so its<code
+      >_()</code>source strings and its<code
+      >&lt;moduleName&gt;:*</code>error templates get localized. The module ships<code
+      >locale/&lt;moduleName&gt;-ui-&lt;locale&gt;.json</code>and<code
+      >locale/&lt;moduleName&gt;-errors-&lt;locale&gt;.json</code>; the catalog for the current locale is merged immediately and re-merged on every locale change. It is an opt-in call, typically placed in the module&apos;s<code
+      >etc/startup.m</code>.</p>
+    <p><b>External-module error identifier convention.</b> An error or warning raised by an external module must use the module&apos;s own namespace as the identifier prefix, i.e.<code
+      >error(&apos;&lt;moduleName&gt;:&lt;mnemonic&gt;&apos;, &apos;literal English template&apos;, args...)</code>. Only messages that are generic and reusable across Nelson keep the<code
+      >Nelson:</code>prefix (these belong to the core catalog, not the module). For a message to be extracted and localized:</p>
+    <p>- the identifier must start with<code
+      >&lt;moduleName&gt;:</code>(the same name used in<code
+      >module.json</code>and in the catalog file prefix);</p>
+    <p>- the template must be a single string literal; a dynamic part is a<code
+      >printf</code>-style placeholder filled by trailing arguments, e.g.<code
+      >error(&apos;mymod:invalidInput&apos;, &apos;%s must be a scalar logical.&apos;, name)</code>rather than<code
+      >error(&apos;mymod:invalidInput&apos;, [name, &apos; must be a scalar logical.&apos;])</code>;</p>
+    <p>- each identifier maps to exactly one template (an identifier reused with several different messages is dropped as overloaded). At runtime the inline literal is replaced by the localized template only when it matches the catalog exactly, then the arguments are applied. Generate the catalogs with<code
+      >nmm(&apos;i18n&apos;, moduleRoot)</code>(or<code
+      >ngen.i18n</code>).</p>
+    <p>-<b>
+        &apos;unregister&apos;
+      </b>: Drops a previously registered module catalog and rebuilds the in-memory catalogs, typically from the module&apos;s<code
+      >etc/finish.m</code>.</p>
     <p
     >This utility is intended for internal use and may be updated over time.</p>
   </description>
@@ -76,6 +135,11 @@
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>Initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >native source extraction (extractUI, extractErrors); convert removed with the gettext tooling</history_description>
     </history_item>
   </history>
   <authors>

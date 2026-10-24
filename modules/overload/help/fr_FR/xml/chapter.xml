@@ -10,6 +10,6 @@
     <p
     >Il permet aux utilisateurs de définir comment les opérations standard ou les fonctions intégrées doivent se comporter lorsqu&apos;elles sont appliquées à des types ou objets définis par l&apos;utilisateur.</p>
     <p
-    >Cette fonctionnalité permet d&apos;étendre les capacités du langage Nelson, favorisant une utilisation plus naturelle et expressive des structures de données personnalisées.</p>
+    >Cette fonctionnalité étend les capacités du langage Nelson pour les structures de données personnalisées.</p>
   </chapter_description>
 </xmldoc>

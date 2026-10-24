@@ -12,21 +12,22 @@ if ispc() && ~havecompiler()
 end
 skip_testsuite(~havecompiler())
 %=============================================================================
-destinationdir = [tempdir(), 'test_cmake_3'];
+destinationdir = tempname();
 mkdir(destinationdir);
+cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NASGU>
 %=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
 copyfile([currentpath, '/test_build_c.c'], [destinationdir, '/test_build_c.c']);
 copyfile([currentpath, '/test_build_c.h'], [destinationdir, '/test_build_c.h']);
 %=============================================================================
 [status, message] = dlgeneratemake(destinationdir, ...
-'test_c', ...
-[destinationdir, '/test_build_c.c'], ...
-[destinationdir, '/']);
+  'test_c', ...
+  [destinationdir, '/test_build_c.c'], ...
+  [destinationdir, '/']);
 if ~status
   error(message);
 end
-assert_istrue(isfile([destinationdir, '/CMakeLists.txt']));
+asserts.istrue(isfile([destinationdir, '/CMakeLists.txt']));
 txt = fileread([destinationdir, '/CMakeLists.txt']);
-assert_istrue(contains(txt, 'set(module_library_name test_c)'));
+asserts.istrue(contains(txt, 'set(module_library_name test_c)'));
 %=============================================================================

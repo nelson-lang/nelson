@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uiaxes</keyword>
+  <short_description>Crée des axes pour les applications de style App Designer.</short_description>
+  <syntax>
+    <syntax_item>ax = uiaxes()</syntax_item>
+    <syntax_item>ax = uiaxes(parent)</syntax_item>
+    <syntax_item>ax = uiaxes(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>axes object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ax = uiaxes</b> crée des axes adaptés aux applications basées sur uifigure et retourne l'objet axes. Se comporte comme <b>axes</b> avec les défauts UIAxes : <b>Units</b> = 'pixels', <b>Position</b> = [10 10 400 300], <b>NextPlot</b> = 'replacechildren', <b>FontUnits</b> = 'pixels'. Passez les axes aux fonctions de tracé : <b>plot(ax, ...)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Axes UI', 'Position', [100 100 420 260]);
+f.HandleVisibility = 'on';
+ax = uiaxes(f, 'Position', [45 45 330 175]);
+x = 0:0.1:2*pi;
+plot(ax, x, sin(x), 'LineWidth', 1.5);
+title(ax, 'Sine');
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uiaxes_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uiaxes</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+ax = uiaxes(f, 'Position', [30 30 400 300]);
+plot(ax, 1:10, (1:10).^2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

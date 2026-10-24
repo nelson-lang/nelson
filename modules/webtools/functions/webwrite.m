@@ -9,10 +9,10 @@
 %=============================================================================
 function varargout = webwrite(varargin)
   if nargin < 2
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   if nargout > 1
-    error(_('Wrong number of output arguments.'));
+    error('Nelson:webwrite:wrongNumberOutputArguments2', 'Wrong number of output arguments.');
   end
   options = [];
   url = getArgumentAsCharactersVector(varargin{1});
@@ -28,7 +28,7 @@ function varargout = webwrite(varargin)
       options = weboptions();
     case 3
       if ~isWebOptions(varargin{3})
-        error(_('Invalid #3 Argument: weboptions expected.'));
+        error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 3, 'weboptions');
       end
       options = varargin{3};
       if ischar(varargin{2}) || (isstring(varargin{2}) && isscalar(varargin{2}))
@@ -51,7 +51,7 @@ function varargout = webwrite(varargin)
         options_position = -1;
       end
       if ~(options_position == -1 || options_position == nargin)
-        error(_('weboptions must be last argument.'));
+        error('Nelson:webtools:weboptionsMustBeLast', 'weboptions must be last argument.');
       end
       if options_position == -1
         last = nargin;
@@ -84,7 +84,7 @@ function varargout = webwrite(varargin)
         varargout{1} = res{1};
         varargout{2} = res{2};
       otherwise
-        error(_('unmanaged case.'));
+        error('Nelson:webwrite:unmanagedCase2', 'unmanaged case.');
       end
     end
     %=============================================================================
@@ -96,6 +96,13 @@ function res = convertContentType(filename, contentType, characterEncoding)
     case 'text'
       txt = fileread(filename, 'char', 'native', characterEncoding);
       res = {txt};
+    case 'image'
+      [img, map] = imread(filename);
+      if isempty(map)
+        res = {img};
+      else
+        res = {img, map};
+      end
     case 'audio'
       [y, fs] = audioread(filename);
       res = {y, fs};
@@ -108,6 +115,11 @@ function res = convertContentType(filename, contentType, characterEncoding)
       txt = fileread(filename, 'char', 'native', characterEncoding);
       json = jsondecode(txt);
       res = {json};
+    case 'table'
+      res = {readtable(filename)};
+    case 'xmldom'
+      txt = fileread(filename, 'char', 'native', characterEncoding);
+      res = {txt};
     case 'raw'
       fid = fopen(filename, 'r');
       data = fread(fid, 'uint8');
@@ -164,7 +176,7 @@ function str = getArgumentAsCharactersVector(arg)
   str = arg;
   supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
   if (~supported)
-    error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, '''char'' or ''string''');
   end
   str = convertStringsToChars(str);
 end

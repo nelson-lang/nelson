@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>axtoolbar</keyword>
+  <short_description>Obtient ou configure la barre d'outils des axes.</short_description>
+  <syntax>
+    <syntax_item>tb = axtoolbar()</syntax_item>
+    <syntax_item>tb = axtoolbar(buttons)</syntax_item>
+    <syntax_item>tb = axtoolbar(ax)</syntax_item>
+    <syntax_item>tb = axtoolbar(ax, buttons)</syntax_item>
+    <syntax_item>tb = axtoolbar(..., name, value, ...)</syntax_item>
+    <syntax_item>[tb, btns] = axtoolbar(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Un objet graphique scalaire : des axes. Par défaut : les axes courants.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>buttons</param_name>
+      <param_description>Un vecteur de caractères, un tableau de chaînes ou un tableau de cellules de caractères : &apos;default&apos;, &apos;export&apos;, &apos;brush&apos;, &apos;datacursor&apos;, &apos;rotate&apos;, &apos;pan&apos;, &apos;zoom&apos;, &apos;restoreview&apos;, &apos;zoomin&apos; ou &apos;zoomout&apos;. Les noms sont seulement validés : la barre d'outils de la figure de Nelson est partagée par tous les axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>Propriétés de la barre d'outils des axes, par exemple 'Visible', 'Tag', 'UserData'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tb</param_name>
+      <param_description>Un objet graphique scalaire : la barre d'outils des axes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>btns</param_name>
+      <param_description>Un tableau d'objets graphiques vide : Nelson n'a pas de boutons par axes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>axtoolbar</b> renvoie l'objet <b>Toolbar</b> d'un axes et lui applique les propriétés indiquées.</p>
+    <p>Utilisez <b>axtoolbar('Visible', 'off')</b> pour masquer la barre d'outils des axes courants.</p>
+    <p>Si la propriété <b>Toolbar</b> de la cible a été mise à vide, appelez <b>reset</b> sur la cible pour la restaurer avant <b>axtoolbar</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks(40), 'EdgeColor', 'none');
+tb = axtoolbar('Visible', 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">propriétés des axes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

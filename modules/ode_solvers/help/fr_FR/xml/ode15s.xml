@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ode15s</keyword>
+  <short_description>Entree de solveur EDO raide.</short_description>
+  <syntax>
+    <syntax_item>[t, y] = ode15s(odefun, tspan, y0)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ode15s</b> fournit l'interface pour problemes raides avec le moteur interne partage.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Element</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Forme du probleme</td>
+        <td><b>y' = f(t,y)</b>, avec valeur initiale <b>y0</b>.</td>
+      </tr>
+      <tr>
+        <td>Entrees</td>
+        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, et options creees avec <b>odeset</b>.</td>
+      </tr>
+      <tr>
+        <td>Sorties</td>
+        <td><b>[t,y]</b> pour les tableaux ou <b>sol</b> pour une structure compatible avec <b>deval</b> et <b>odextend</b>.</td>
+      </tr>
+      <tr>
+        <td>Evenements</td>
+        <td>Les options <b>Events</b> renseignent <b>te</b>, <b>ye</b> et <b>ie</b> ou les champs <b>xe</b>, <b>ye</b> et <b>ie</b> de la structure.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[[t, y] = ode15s(@(t,y) -20*y, [0 1], 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

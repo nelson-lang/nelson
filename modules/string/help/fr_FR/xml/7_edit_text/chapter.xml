@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>string</module_name>
+  <chapter>Edition de texte</chapter>
+  <chapter_description>
+    <p>Fonctions pour rogner, completer, inserer, inverser et changer la casse du texte.</p>
+  </chapter_description>
+</xmldoc>

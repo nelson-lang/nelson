@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cell2table</keyword>
+  <short_description
+  >Convertir un tableau de cellules en table.</short_description>
+  <syntax>
+    <syntax_item>T = cell2table(C)</syntax_item>
+    <syntax_item>T = cell2table(C, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>Tableau de cellules 2-D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Arguments nom-valeur, dans un ordre quelconque : 'VariableNames' (tableau de chaines ou tableau de cellules de vecteurs de caracteres, un nom par colonne de C), 'RowNames' (tableau de chaines ou tableau de cellules de noms non vides, un nom par ligne de C), 'DimensionNames' (deux noms). Les noms sont insensibles a la casse.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Objet Table.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>T = cell2table(C)</b> convertit le contenu d&apos;un tableau de cellules m-by-n <b>C</b> en une table m-by-n.</p>
+    <p
+    >Chaque colonne du tableau de cellules d&apos;entrée devient les données d&apos;une variable correspondante dans la table de sortie.</p>
+    <p>Pour générer des noms de variables dans la table de sortie, <b>cell2table</b> ajoute les numéros de colonne au nom du tableau d&apos;entrée.</p>
+    <p>Si le tableau d&apos;entrée n&apos;a pas de nom,<b>cell2table</b> attribue des noms de variables par défaut au format<b>
+        &quot;Var1&quot;, &quot;Var2&quot;, ... , &quot;VarN&quot;
+      </b>, où<b>N</b> est le nombre de colonnes dans le tableau de cellules.</p>
+    <p>
+      <b>T = cell2table(C, Name, Value)</b> cree la table avec les arguments nom-valeur <b>VariableNames</b>, <b>RowNames</b> et <b>DimensionNames</b>. Ces valeurs sont validees comme celles passees a <b>table</b> ; tout autre nom provoque une erreur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = {'John', 28, true; 'Alice', 35, false; 'Bob', 42, true};
+% Convert the cell array to a table
+T = cell2table(C)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Noms de variables et de lignes</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = {'John', 28; 'Alice', 35};
+T = cell2table(C, 'VariableNames', {'Name', 'Age'}, 'RowNames', {'r1', 'r2'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table2cell">table2cell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

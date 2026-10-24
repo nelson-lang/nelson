@@ -7,4 +7,4 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-tic();R = repmat(1, 3000); toc()
+tic(); R = repmat(1, 3000); toc()

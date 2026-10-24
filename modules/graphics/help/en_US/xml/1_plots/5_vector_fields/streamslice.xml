@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>streamslice</keyword>
+  <short_description>Display vector field direction on a slice or plane.</short_description>
+  <syntax>
+    <syntax_item>streamslice(U, V)</syntax_item>
+    <syntax_item>streamslice(X, Y, U, V)</syntax_item>
+    <syntax_item>streamslice(X, Y, Z, U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamslice(parent, ...)</syntax_item>
+    <syntax_item>h = streamslice(...)</syntax_item>
+    <syntax_item>[vertices, arrowVertices] = streamslice(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>streamslice</b> displays vector field direction using line objects for stream paths and direction arrows.</p>
+    <p>With two outputs, <b>streamslice</b> returns cell arrays of streamline vertices and arrow vertices instead of drawing.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display direction in a 2-D field.</example_item_description>
+      <example_item_data><![CDATA[[x, y] = meshgrid(-2:2, -2:2);
+streamslice(x, y, -y, x);]]></example_item_data>
+      <example_item_img src="../../../../images/streamslice_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

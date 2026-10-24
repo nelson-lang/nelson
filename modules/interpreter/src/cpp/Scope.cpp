@@ -27,6 +27,7 @@ Scope::Scope(const Scope& scopeOrigin)
     , filename(scopeOrigin.filename)
     , isInMacro(scopeOrigin.isInMacro)
     , directory(scopeOrigin.directory)
+    , importList(scopeOrigin.importList)
 {
 }
 //=============================================================================
@@ -39,7 +40,8 @@ Scope::Scope(const std::string& scopeName, const std::wstring& fullfilename)
     : name(scopeName)
     , loopLevel(0)
     , filename(fullfilename)
-    , isInMacro(StringHelpers::ends_with(fullfilename, L".m"))
+    , isInMacro(StringHelpers::ends_with(fullfilename, L".m")
+          || StringHelpers::ends_with(fullfilename, L".nbc"))
 {
     FileSystemWrapper::Path fullPath(fullfilename);
     directory = fullPath.parent_path().generic_wstring();
@@ -61,6 +63,12 @@ Scope::insertMacroFunctionLocally(FunctionDefPtr a)
     currentLocalFunctions.add(a->getName(), a);
 }
 //=============================================================================
+void
+Scope::removeMacroFunctionLocally(const std::string& funcName)
+{
+    currentLocalFunctions.remove(funcName);
+}
+//=============================================================================
 bool
 Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
@@ -70,30 +78,40 @@ Scope::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
     return currentLocalFunctions.find(funcName, val);
 }
 //=============================================================================
+std::vector<std::pair<std::string, FunctionDefPtr>>
+Scope::getLocalFunctionsList()
+{
+    return currentLocalFunctions.getAll();
+}
+//=============================================================================
 ArrayOf*
 Scope::lookupVariable(const std::string& varName)
 {
-    ArrayOf* var = variablesTab.findVariable(varName);
-    if (var) {
-        var->name(varName);
-    }
-    return var;
+    return variablesTab.findVariable(varName);
 }
 //=============================================================================
 bool
 Scope::lookupVariable(const std::string& varName, ArrayOf& val)
 {
-    bool found = variablesTab.findVariable(varName, val);
-    if (found) {
-        val.name(varName);
-    }
-    return found;
+    return variablesTab.findVariable(varName, val);
+}
+//=============================================================================
+void
+Scope::clearVariables()
+{
+    variablesTab.clearVariables();
 }
 //=============================================================================
 bool
 Scope::insertVariable(const std::string& varName, const ArrayOf& var)
 {
     return variablesTab.insertVariable(varName, var);
+}
+//=============================================================================
+bool
+Scope::insertVariableWithoutNameValidation(const std::string& varName, const ArrayOf& var)
+{
+    return variablesTab.insertVariableWithoutNameValidation(varName, var);
 }
 //=============================================================================
 void
@@ -254,6 +272,42 @@ bool
 Scope::isInMacroFile()
 {
     return isInMacro;
+}
+//=============================================================================
+bool
+Scope::addImport(const std::string& importSpec)
+{
+    if (std::find(importList.begin(), importList.end(), importSpec) != importList.end()) {
+        return false;
+    }
+    importList.push_back(importSpec);
+    return true;
+}
+//=============================================================================
+void
+Scope::clearImports()
+{
+    importList.clear();
+}
+//=============================================================================
+stringVector
+Scope::getImports()
+{
+    return importList;
+}
+//=============================================================================
+void
+Scope::addCleanupTask(const ArrayOf& task)
+{
+    cleanupTasks.push_back(task);
+}
+//=============================================================================
+ArrayOfVector
+Scope::takeCleanupTasks()
+{
+    ArrayOfVector tasks = cleanupTasks;
+    cleanupTasks.clear();
+    return tasks;
 }
 //=============================================================================
 } // namespace Nelson

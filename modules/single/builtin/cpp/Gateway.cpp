@@ -22,11 +22,7 @@ static const nlsGateway gateway[] = {
     { "single", (ptrBuiltin)Nelson::SingleGateway::singleBuiltin, 1, 1, CPP_BUILTIN },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

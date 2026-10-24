@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>istft</keyword>
+  <short_description>Inverse short-time Fourier transform.</short_description>
+  <syntax>
+    <syntax_item>X = istft(S)</syntax_item>
+    <syntax_item>X = istft(S, Fs)</syntax_item>
+    <syntax_item>X = istft(S, Fs, 'Window', window, 'OverlapLength', overlap, 'FFTLength', nfft)</syntax_item>
+    <syntax_item>X = istft(..., 'FrequencyRange', range)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>S</param_name><param_description>short-time transform matrix.</param_description></param_input_item>
+    <param_input_item><param_name>Fs</param_name><param_description>sample rate accepted for API compatibility.</param_description></param_input_item>
+    <param_input_item><param_name>window</param_name><param_description>synthesis window.</param_description></param_input_item>
+    <param_input_item><param_name>overlap</param_name><param_description>overlap length. It must be less than the window length.</param_description></param_input_item>
+    <param_input_item><param_name>nfft</param_name><param_description>FFT length. It must be greater than or equal to the window length.</param_description></param_input_item>
+    <param_input_item><param_name>range</param_name><param_description>frequency range of S: 'centered', 'twosided', or 'onesided'.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>X</param_name><param_description>reconstructed time-domain vector.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>istft</b> reconstructs a time-domain vector from short-time spectra using inverse FFT and overlap-add normalization.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+x = sin((0:31)' * 0.2);
+[s, f, t] = stft(x, 10, 'Window', hamming(8), 'OverlapLength', 4, 'FFTLength', 16, 'FrequencyRange', 'onesided');
+y = istft(s, 10, 'Window', hamming(8), 'OverlapLength', 4, 'FFTLength', 16, 'FrequencyRange', 'onesided');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${signal_processing}stft">stft</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}spectrogram">spectrogram</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitcecoc</keyword>
+  <short_description>Fit a multiclass error-correcting output code classifier.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitcecoc(X, Y)</syntax_item>
+    <syntax_item>mdl = fitcecoc(X, Y, Name, Value)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitcecoc</b> creates a <b>ClassificationECOC</b> object from numeric predictors <b>X</b> and class labels <b>Y</b>.</p>
+    <p>The current classifier uses one-versus-one binary <b>fitcsvm</b> learners. Name-value arguments include <b>ClassNames</b>, <b>KernelFunction</b>, <b>KernelScale</b>, <b>PolynomialOrder</b>, <b>BoxConstraint</b>, <b>Standardize</b>, <b>IterationLimit</b>, and <b>Tolerance</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6; 10 0; 10 1];
+Y = [1; 1; 2; 2; 3; 3];
+mdl = fitcecoc(X, Y);
+[label, score] = predict(mdl, [0.2 0.2; 5.2 5.2; 10.2 0.2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitcsvm">fitcsvm</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitcknn">fitcknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitctree">fitctree</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

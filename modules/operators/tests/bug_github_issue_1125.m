@@ -14,9 +14,9 @@
 %=============================================================================
 R = 'A':1:'Z';
 REF = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 'Z':-1:'A';
 REF = 'ZYXWVUTSRQPONMLKJIHGFEDCBA';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>kmeans</keyword>
+  <short_description>Classification k-means.</short_description>
+  <syntax>
+    <syntax_item>idx = kmeans(X, k)</syntax_item>
+    <syntax_item>idx = kmeans(X, k, &apos;Distance&apos;, distance)</syntax_item>
+    <syntax_item>idx = kmeans(X, k, &apos;Start&apos;, start)</syntax_item>
+    <syntax_item>[idx, C, sumd, D] = kmeans(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>matrice numerique reelle pleine. Les lignes sont les observations et les colonnes sont les variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>entier positif indiquant le nombre de groupes. Utiliser [] uniquement lorsque Start est un tableau numerique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>distance</param_name>
+      <param_description>nom de distance : &apos;sqeuclidean&apos;, &apos;squaredeuclidean&apos;, &apos;cityblock&apos;, &apos;cosine&apos;, &apos;correlation&apos; ou &apos;hamming&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>start</param_name>
+      <param_description>choix des centroides initiaux : &apos;plus&apos;, &apos;sample&apos;, &apos;uniform&apos;, &apos;cluster&apos;, une matrice k-par-p ou un tableau k-par-p-par-r.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>idx</param_name>
+      <param_description>vecteur colonne double des indices de groupe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>matrice k-par-p des centroides.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>sumd</param_name>
+      <param_description>vecteur k-par-1 des sommes des distances intra-groupe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>matrice n-par-k des distances entre chaque observation et chaque centroide.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>kmeans</b> partitionne les observations en k groupes en affectant iterativement chaque observation au centroide le plus proche puis en recalculant les centroides.</p>
+    <p>Les initialisations aleatoires utilisent le generateur global de Nelson. Utiliser <b>rng</b> avant <b>kmeans</b>, ou transmettre <b>Options</b> cree avec <b>statset</b> et un <b>RandStream</b> dans <b>Streams</b>, pour obtenir une initialisation reproductible.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}statset">statset</link>
+    <link linkend="${statistics}statget">statget</link>
+    <link linkend="${random}rng">rng</link>
+    <link linkend="${table}table">table</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Classer deux groupes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6];
+[idx, C] = kmeans(X, 2, 'Start', [0 0; 5 5])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer trois groupes et leurs centroides.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+X = [-2.0 -1.1;
+     -1.7 -0.8;
+     -1.4 -1.2;
+     -1.5 -0.6;
+      0.2  1.8;
+      0.5  2.1;
+      0.8  1.7;
+      0.4  1.4;
+      2.4 -0.2;
+      2.7  0.1;
+      3.0 -0.3;
+      2.5 -0.6];
+start = [-1.7 -0.8; 0.5 2.1; 2.7 0.1];
+[idx, C] = kmeans(X, 3, 'Start', start);
+scatter(X(:, 1), X(:, 2), 48, idx, 'filled');
+hold on;
+plot(C(:, 1), C(:, 2), 'kx', 'MarkerSize', 12, 'LineWidth', 3);
+axis equal;
+title('Groupes k-means et centroides');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/kmeans_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer une initialisation aleatoire reproductible.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(4);
+t = linspace(0, 2 * pi, 24)';
+X1 = [cos(t) - 2, 0.4 * sin(t)];
+X2 = [0.5 * cos(t) + 1.5, sin(t) + 1.2];
+X3 = [0.6 * cos(t) + 2.7, 0.6 * sin(t) - 1.2];
+X = [X1; X2; X3];
+[idx, C] = kmeans(X, 3, 'Start', 'plus', 'Replicates', 4);
+scatter(X(:, 1), X(:, 2), 36, idx, 'filled');
+hold on;
+plot(C(:, 1), C(:, 2), 'kx', 'MarkerSize', 12, 'LineWidth', 3);
+axis equal;
+title('Depart aleatoire k-means reproductible');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/kmeans_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer des groupes calcules avec la distance cityblock.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+X = [-3 -1;
+     -2 -1;
+     -2  0;
+     -1 -1;
+      0  2;
+      1  2;
+      1  3;
+      2  2;
+      3 -2;
+      4 -2;
+      4 -1;
+      5 -2];
+start = [-2 -1; 1 2; 4 -2];
+[idx, C, sumd] = kmeans(X, 3, 'Start', start, 'Distance', 'cityblock');
+scatter(X(:, 1), X(:, 2), 48, idx, 'filled');
+hold on;
+plot(C(:, 1), C(:, 2), 'kx', 'MarkerSize', 12, 'LineWidth', 3);
+axis equal;
+title('k-means avec distance cityblock');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/kmeans_3.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+</xmldoc>

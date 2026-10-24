@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
+#include "ErrorID.hpp"
 #include "LoadMatioEmpty.hpp"
 #include "matioHelpers.hpp"
 #include "Warning.hpp"
@@ -25,21 +26,23 @@ LoadMatioEmpty(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableVa
     }
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         bSuccess = true;
     }
     if (fromCellOrStruct && !bSuccess) {
-        VariableValue = ArrayOf::emptyConstructor();
+        VariableValue = ArrayOf::empty();
         bSuccess = true;
     } else {
         if (matVariable != nullptr) {
-            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
-                _W("Cannot read variable:") + L" " + utf8_to_wstring(matVariable->name));
+            RaiseWarning(WARNING_MATIO_TYPE_NOT_SUPPORTED,
+                formatI18nMessage(resolveMessageTemplate(L"Nelson:hdf5:cannotReadVariableS",
+                                      L"Cannot read variable: %s"),
+                    utf8_to_wstring(matVariable->name)));
         } else {
-            Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
+            Warning(L"Nelson:matio:type-not-supported", L"Cannot read variable.");
         }
     }
-    VariableValue = ArrayOf::emptyStructWithoutFields();
+    VariableValue = ArrayOf::emptyStruct();
     return true;
 }
 //=============================================================================

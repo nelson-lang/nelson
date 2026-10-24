@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camup</keyword>
+  <short_description>Set or query the camera up vector.</short_description>
+  <syntax>
+    <syntax_item>camup</syntax_item>
+    <syntax_item>u = camup</syntax_item>
+    <syntax_item>camup([x y z])</syntax_item>
+    <syntax_item>camup('auto')</syntax_item>
+    <syntax_item>camup('manual')</syntax_item>
+    <syntax_item>mode = camup('mode')</syntax_item>
+    <syntax_item>camup(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphics object value: an axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[x y z]</param_name>
+      <param_description>the camera up vector, specified as a three-element vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>u</param_name>
+      <param_description>the current camera up vector, a three-element vector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>camup</b> sets or queries the <b>CameraUpVector</b> property of an axes.</p>
+    <p>Specifying an up vector switches <b>CameraUpVectorMode</b> to <b>manual</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks(40), 'EdgeColor', 'none');
+camup([0 0 1]);
+u = camup()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/campos">campos</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camroll">camroll</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

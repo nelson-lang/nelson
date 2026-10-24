@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -192,12 +192,12 @@ ErrorFunction(const ArrayOf& arrayIn, ErrorFunctionType functionType)
 {
     ArrayOf res;
     if (!arrayIn.isEmpty()) {
-        Dimensions dimsIn = arrayIn.getDimensions();
-        if (arrayIn.getDataClass() == NLS_DOUBLE) {
+        Dimensions dimsIn = arrayIn.dimensions();
+        if (arrayIn.dataClass() == NLS_DOUBLE) {
             double* ptrOut = (double*)ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, dimsIn.getElementCount(), stringVector(), false);
-            auto* ptrIn = (double*)arrayIn.getDataPointer();
-            indexType elementCount = dimsIn.getElementCount();
+                NLS_DOUBLE, dimsIn.elementCount(), stringVector(), false);
+            auto* ptrIn = (double*)arrayIn.dataPointer();
+            indexType elementCount = dimsIn.elementCount();
 #if WITH_OPENMP
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {
@@ -212,9 +212,9 @@ ErrorFunction(const ArrayOf& arrayIn, ErrorFunctionType functionType)
             res = ArrayOf(NLS_DOUBLE, dimsIn, ptrOut);
         } else {
             single* ptrOut = (single*)ArrayOf::allocateArrayOf(
-                NLS_SINGLE, dimsIn.getElementCount(), stringVector(), false);
-            auto* ptrIn = (single*)arrayIn.getDataPointer();
-            indexType elementCount = dimsIn.getElementCount();
+                NLS_SINGLE, dimsIn.elementCount(), stringVector(), false);
+            auto* ptrIn = (single*)arrayIn.dataPointer();
+            indexType elementCount = dimsIn.elementCount();
 #if WITH_OPENMP
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < (ompIndexType)elementCount; ++k) {

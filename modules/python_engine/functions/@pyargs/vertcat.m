@@ -9,5 +9,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = vertcat(varargin)
-  error(_('vertcat not allowed for class ''pyargs''.'));
+  error('Nelson:pyargs:vertcatNotAllowed', 'vertcat not allowed for class ''pyargs''.');
 end

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tabulate</keyword>
+  <short_description>Table de frequences.</short_description>
+  <syntax>
+    <syntax_item>tabulate(x)</syntax_item>
+    <syntax_item>tbl = tabulate(x)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>tabulate</b> renvoie les effectifs et pourcentages des valeurs uniques d&apos;un vecteur.</p>
+    <p>Une entree numerique renvoie une matrice numerique. Les entrees texte, logiques et categorielles renvoient un tableau de cellules. Une entree numerique d&apos;entiers positifs inclut les lignes de compte nul de 1 a la valeur maximale.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 3 3 4];
+tbl = tabulate(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}crosstab">crosstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}groupcounts">groupcounts</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

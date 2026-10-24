@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
 DeterminantMatrix(const ArrayOf& A, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

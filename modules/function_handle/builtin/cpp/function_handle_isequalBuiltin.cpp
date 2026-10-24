@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,23 +22,23 @@ Nelson::FunctionHandleGateway::function_handle_isequalBuiltin(int nLhs, const Ar
 
     ArrayOf param1 = argIn[0];
     if (!param1.isFunctionHandle()) {
-        return ArrayOf::logicalConstructor(false);
+        return ArrayOf::logicalScalar(false);
     }
-    Dimensions dims1 = param1.getDimensions();
+    Dimensions dims1 = param1.dimensions();
 
     for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOf param2 = argIn[k];
         if (!param2.isFunctionHandle()) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
-        Dimensions dims2 = param2.getDimensions();
+        Dimensions dims2 = param2.dimensions();
         if (!dims1.equals(dims2)) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
         if (!FunctionHandleIsEqual(param1, param2)) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
     }
-    return ArrayOf::logicalConstructor(true);
+    return ArrayOf::logicalScalar(true);
 }
 //=============================================================================

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <chapter>Rotational (acausal)</chapter>
+  <chapter_description>
+    <p>Acausal (physical) blocks with undirected pins, simulated natively through the differential-algebraic engine.</p>
+  </chapter_description>
+</xmldoc>

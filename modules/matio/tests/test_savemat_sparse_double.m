@@ -7,16 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-matver = { '-v7', '-v7.3'};
+matver = {'-v7', '-v7.3'};
 %=============================================================================
 R = sparse(eye(4, 6));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_sparse_double', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================

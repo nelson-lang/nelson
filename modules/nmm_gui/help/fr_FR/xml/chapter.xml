@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>nmm_gui</module_name>
+  <chapter>Fenêtre du gestionnaire de paquets</chapter>
+  <chapter_description>
+    <p>Interface graphique du gestionnaire de paquets nmm.</p>
+  </chapter_description>
+</xmldoc>

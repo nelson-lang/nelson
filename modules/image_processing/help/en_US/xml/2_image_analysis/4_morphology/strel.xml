@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>strel</keyword>
+  <short_description>Create a structuring element.</short_description>
+  <syntax>
+    <syntax_item>SE = strel(nhood)</syntax_item>
+    <syntax_item>SE = strel('arbitrary', nhood)</syntax_item>
+    <syntax_item>SE = strel(shape, size)</syntax_item>
+    <syntax_item>SE = strel('disk', radius, n)</syntax_item>
+    <syntax_item>SE = strel('diamond', radius)</syntax_item>
+    <syntax_item>SE = strel('octagon', radius)</syntax_item>
+    <syntax_item>SE = strel('line', len, deg)</syntax_item>
+    <syntax_item>SE = strel('cube', n)</syntax_item>
+    <syntax_item>SE = strel('cuboid', [m n p])</syntax_item>
+    <syntax_item>SE = strel('sphere', radius)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nhood</param_name>
+      <param_description>Logical neighborhood for an arbitrary structuring element.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>shape</param_name>
+      <param_description>Shape name: 'arbitrary', 'square', 'rectangle', 'line', 'disk', 'diamond', 'octagon', 'cube', 'cuboid', or 'sphere'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>size</param_name>
+      <param_description>Positive scalar or size vector used by square, rectangle, cube, or cuboid shapes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>radius</param_name>
+      <param_description>Nonnegative integer radius used by disk, diamond, octagon, and sphere shapes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>len</param_name>
+      <param_description>Positive integer length used by the line shape.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>deg</param_name>
+      <param_description>Line angle in degrees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Optional disk decomposition count, accepted as 0, 4, 6, or 8.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>SE</param_name>
+      <param_description>Structuring element structure with type and nhood fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Create a flat structuring element. Supported 2-D shapes include arbitrary, square, rectangle, line, disk, diamond and octagon. Supported 3-D shapes include arbitrary, cube, cuboid and sphere. The optional disk decomposition count n can be 0, 4, 6 or 8; Nelson currently returns the exact disk neighborhood. The octagon radius must be a nonnegative multiple of 3.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display a structuring element</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[SE=strel('disk',8);
+figure; imagesc(SE.nhood); g=linspace(0,1,64)'; colormap([g g g]); title('Structuring element');]]></example_item_data>
+      <example_item_img
+        src="../../../images/strel_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create diamond and arbitrary neighborhoods</example_item_description>
+      <example_item_data><![CDATA[D = strel('diamond', 1);
+A = strel([0 1 0; 1 1 1; 0 1 0])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a 3-D sphere neighborhood</example_item_description>
+      <example_item_data><![CDATA[SE = strel('sphere', 1);
+sum(SE.nhood(:))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imdilate">imdilate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imerode">imerode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imopen">imopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imclose">imclose</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

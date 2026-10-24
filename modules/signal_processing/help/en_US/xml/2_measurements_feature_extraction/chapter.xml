@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>signal_processing</module_name>
+  <chapter>Measurements and Feature Extraction</chapter>
+  <chapter_description>
+    <p>Signal measurements, features, and quality metrics.</p>
+  </chapter_description>
+</xmldoc>

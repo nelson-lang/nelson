@@ -25,7 +25,7 @@ public:
     explicit FutureStateGuardRead(std::shared_mutex& m) : mutex(m) { mutex.lock_shared(); }
     ~FutureStateGuardRead() { mutex.unlock_shared(); }
 };
-
+//=============================================================================
 class FutureStateGuardWrite
 {
 private:
@@ -35,8 +35,7 @@ public:
     explicit FutureStateGuardWrite(std::shared_mutex& m) : mutex(m) { mutex.lock(); }
     ~FutureStateGuardWrite() { mutex.unlock(); }
 };
-
-// Legacy alias for backward compatibility with read operations
+//=============================================================================
 using FutureStateGuard = FutureStateGuardRead;
 //=============================================================================
 NLSPARALLEL_IMPEXP
@@ -44,5 +43,5 @@ bool
 WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_STATE expectedState,
     double timeoutSeconds);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

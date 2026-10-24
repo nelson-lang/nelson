@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "onCleanup_cancelBuiltin.hpp"
 #include "OnCleanupObjectHandle.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "usedHandle.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,10 +22,10 @@ Nelson::InterpreterGateway::onCleanup_cancelBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
-        Error(_W("onCleanup handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_ONCLEANUP_CATEGORY_STR) {
+        Error(L"Nelson:onCleanup:invalidType", L"onCleanup handle expected.");
     }
-    auto* obj = (OnCleanupObjectHandle*)param1.getContentAsHandleScalar();
+    auto* obj = (OnCleanupObjectHandle*)param1.asHandleScalar();
     if (obj) {
         obj->cancel();
     }

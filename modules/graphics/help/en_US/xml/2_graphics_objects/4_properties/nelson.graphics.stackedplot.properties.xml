@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stackedplot properties</keyword>
+  <short_description>stackedplot graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>stackedplot</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>AxesProperties</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: structure array. Supported values: [] or structure fields for composed axes or lines, such as limits, scale, labels, color, line style, line width, marker, and marker size.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>CombineMatchingNames</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar, string array, or cell array of text. Supported values: empty text or labels matching the related ticks, categories, variables, lines, or displayed values.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayLabels</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar, string array, or cell array of text. Supported values: empty text or labels matching the related ticks, categories, variables, lines, or displayed values.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayVariables</b></td>
+        <td>changes which variables are displayed by the chart.</td>
+        <td>Type: variable name list. Supported values: string array, cell array of character row vectors, numeric indices, logical vector, or empty value.</td>
+      </tr>
+      <tr>
+        <td><b>EventsVisible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: a system font name or 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>GridVisible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LegendLabels</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar, string array, or cell array of text. Supported values: empty text or labels matching the related ticks, categories, variables, lines, or displayed values.</td>
+      </tr>
+      <tr>
+        <td><b>LegendOrientation</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'vertical', 'horizontal'.</td>
+      </tr>
+      <tr>
+        <td><b>LegendVisible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>LineProperties</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: structure array. Supported values: [] or structure fields for composed axes or lines, such as limits, scale, labels, color, line style, line width, marker, and marker size.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric scalar. Supported values: value greater than or equal to 0.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'o', '+', '*', '.', 'x', '_', '|', 'square', 'diamond', '^', 'v', '&gt;', '&lt;', 'pentagram', 'hexagram', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or marker color keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'auto', 'none', 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or marker color keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'auto', 'none', 'flat'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: table or empty array. Supported values: [] or a table used by variable-name properties.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>updates the displayed title or the title object associated with the graphics item.</td>
+        <td>Type: text graphics object or text value, depending on the object class. Supported values: a title text object, character row vector, string scalar, or empty text.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>XLabel</b></td>
+        <td>updates the x-axis label object and refreshes axis decoration.</td>
+        <td>Type: text graphics object. Supported values: a text object used as the x-axis label.</td>
+      </tr>
+      <tr>
+        <td><b>XLimits</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: two finite increasing values [min max].</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>InnerPosition</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>updates the object placement requested from the parent layout manager.</td>
+        <td>Type: layout options object or empty value. Supported values: layout information stored by parent layout managers, including tile placement data where the object supports tiled layouts.</td>
+      </tr>
+      <tr>
+        <td><b>OuterPosition</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PositionConstraint</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the graphics object and list its properties.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+h = stackedplot(f, (1:5)', [(1:5)' (2:6)']);
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/stackedplot">stackedplot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Property page added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

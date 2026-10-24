@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NaN.hpp"
 #include "ReciprocalConditionNumber.hpp"
@@ -21,6 +22,8 @@
 #include "GeneralizedEigenDecomposition.hpp"
 #include "EigenDecomposition.hpp"
 #include "IsHermitian.hpp"
+#include <algorithm>
+#include <cmath>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -36,6 +39,9 @@ isDiagonal(const ArrayOf& A);
 static bool
 isAllFinite(const ArrayOf& A);
 //=============================================================================
+static double
+maxAbsoluteValue(const ArrayOf& A);
+//=============================================================================
 static ArrayOf
 ExpDiagonalMatrix(const ArrayOf& A);
 //=============================================================================
@@ -46,8 +52,11 @@ performEigenDecomposition(
 static ArrayOf
 ExpScalarMatrix(const ArrayOf& A);
 //=============================================================================
+static bool
+tryExpMatrixSafelyDiagonalizable(const ArrayOf& A, ArrayOf& R);
+//=============================================================================
 static ArrayOf
-ExpSingularMatrix(const ArrayOf& A);
+ExpMatrixFromEigenDecomposition(const ArrayOf& A, ArrayOf& V, ArrayOf& D);
 //=============================================================================
 template <class T>
 ArrayOf
@@ -62,18 +71,19 @@ ExpMatrix(const ArrayOf& _A)
 {
     checkIsSupportedType(_A);
     checkIsSquare(_A);
-    if (_A.isEmpty()) {
-        ArrayOf RES(_A);
-        RES.ensureSingleOwner();
-        return RES;
-    }
     ArrayOf A(_A);
     A.ensureSingleOwner();
     if (A.isSparse()) {
         A.makeDense();
     }
+    if (A.isEmpty()) {
+        return A;
+    }
+    if (A.isComplex() && A.allReal()) {
+        A.promoteType(A.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
+    }
     if (!isAllFinite(A)) {
-        return NaN(A.getRows(), A.getColumns());
+        return NaN(A.rows(), A.columns());
     }
     if (A.isScalar()) {
         return ExpScalarMatrix(A);
@@ -81,17 +91,11 @@ ExpMatrix(const ArrayOf& _A)
     if (isDiagonal(A)) {
         return ExpDiagonalMatrix(A);
     }
-    ArrayOf rcond = ReciprocalConditionNumber(A);
-    bool isSingular = false;
-    if (A.isDoubleType()) {
-        isSingular = rcond.getContentAsDoubleScalar() < DBL_EPSILON;
-    } else {
-        isSingular = rcond.getContentAsSingleScalar() < FLT_EPSILON;
-    }
-    if (isSingular) {
-        return ExpSingularMatrix(A);
-    }
-    switch (A.getDataClass()) {
+    // The scaling-and-squaring Pade method below is valid for every square
+    // matrix, including singular and defective ones. An eigenvector-based
+    // path (V*diag(exp(D))*inv(V)) cannot handle defective matrices such as
+    // [0 1; 0 0], whose eigenvector matrix is singular.
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
         return ExpMatrixReal<double>(A);
     } break;
@@ -104,6 +108,8 @@ ExpMatrix(const ArrayOf& _A)
     case NLS_SCOMPLEX: {
         return ExpMatrixComplex<single>(A, NLS_SINGLE);
     } break;
+    default:
+        break;
     }
     return {};
 }
@@ -111,11 +117,11 @@ ExpMatrix(const ArrayOf& _A)
 void
 checkIsSupportedType(const ArrayOf& A)
 {
-    bool isSupportedTypes = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
-        || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX);
+    bool isSupportedTypes = (A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_SINGLE
+        || A.dataClass() == NLS_DCOMPLEX || A.dataClass() == NLS_SCOMPLEX);
     if (!isSupportedTypes) {
-        Error(_("Undefined function 'expm' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+            "Undefined function '%s' for input arguments of type '%s'.", "expm", ClassName(A));
     }
 }
 //=============================================================================
@@ -123,7 +129,7 @@ void
 checkIsSquare(const ArrayOf& A)
 {
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");
     }
 }
 //=============================================================================
@@ -131,15 +137,15 @@ template <typename OriginCType, typename destinationCType, typename EigenMatrixT
 bool
 isMatrixDiagonal(const ArrayOf& A)
 {
-    destinationCType* ptrA = reinterpret_cast<destinationCType*>((OriginCType*)A.getDataPointer());
-    Eigen::Map<EigenMatrixType> matA(ptrA, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    destinationCType* ptrA = reinterpret_cast<destinationCType*>((OriginCType*)A.dataPointer());
+    Eigen::Map<EigenMatrixType> matA(ptrA, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     return matA.isDiagonal();
 }
 //=============================================================================
 bool
 isDiagonal(const ArrayOf& A)
 {
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE:
         return isMatrixDiagonal<double, double, Eigen::MatrixXd>(A);
     case NLS_DCOMPLEX:
@@ -157,15 +163,15 @@ template <typename OriginCType, typename destinationCType, typename EigenMatrixT
 bool
 isMatrixAllFinite(const ArrayOf& A)
 {
-    destinationCType* ptrA = reinterpret_cast<destinationCType*>((OriginCType*)A.getDataPointer());
-    Eigen::Map<EigenMatrixType> matA(ptrA, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+    destinationCType* ptrA = reinterpret_cast<destinationCType*>((OriginCType*)A.dataPointer());
+    Eigen::Map<EigenMatrixType> matA(ptrA, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     return matA.allFinite();
 }
 //=============================================================================
 bool
 isAllFinite(const ArrayOf& A)
 {
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE:
         return isMatrixAllFinite<double, double, Eigen::MatrixXd>(A);
     case NLS_DCOMPLEX:
@@ -180,59 +186,103 @@ isAllFinite(const ArrayOf& A)
     return false;
 }
 //=============================================================================
-template <typename OriginCType, typename destinationCType, typename EigenMatrixType>
+template <typename T>
+double
+maxAbsoluteValueReal(const ArrayOf& A)
+{
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    indexType elementCount = A.elementCount();
+    double maxValue = 0.;
+    for (size_t k = 0; k < elementCount; ++k) {
+        maxValue = std::max(maxValue, std::abs(static_cast<double>(ptrA[k])));
+    }
+    return maxValue;
+}
+//=============================================================================
+double
+maxAbsoluteValue(const ArrayOf& A)
+{
+    switch (A.dataClass()) {
+    case NLS_DOUBLE:
+        return maxAbsoluteValueReal<double>(A);
+    case NLS_SINGLE:
+        return maxAbsoluteValueReal<single>(A);
+    default:
+        return 0.;
+    }
+}
+//=============================================================================
+template <typename OriginCType, typename destinationCType>
 ArrayOf
 ExpDiagonalMatrixImp(const ArrayOf& A)
 {
     ArrayOf R(A);
-    destinationCType* ptrR = reinterpret_cast<destinationCType*>((OriginCType*)R.getDataPointer());
-    Eigen::Map<EigenMatrixType> matR(ptrR, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
-    matR.diagonal() = matR.diagonal().array().exp().matrix();
+    destinationCType* ptrR = reinterpret_cast<destinationCType*>((OriginCType*)R.dataPointer());
+    indexType rows = R.rows();
+    indexType columns = R.columns();
+    indexType stride = rows + 1;
+    indexType diagonalLength = std::min(rows, columns);
+    for (indexType k = 0; k < diagonalLength; ++k) {
+        indexType offset = k * stride;
+        ptrR[offset] = std::exp(ptrR[offset]);
+    }
     return R;
 }
 //=============================================================================
 ArrayOf
 ExpDiagonalMatrix(const ArrayOf& A)
 {
-    switch (A.getDataClass()) {
+    ArrayOf R;
+    switch (A.dataClass()) {
     case NLS_DOUBLE:
-        return ExpDiagonalMatrixImp<double, double, Eigen::MatrixXd>(A);
+        R = ExpDiagonalMatrixImp<double, double>(A);
+        break;
     case NLS_DCOMPLEX:
-        return ExpDiagonalMatrixImp<double, std::complex<double>, Eigen::MatrixXcd>(A);
+        R = ExpDiagonalMatrixImp<double, std::complex<double>>(A);
+        break;
     case NLS_SINGLE:
-        return ExpDiagonalMatrixImp<single, single, Eigen::MatrixXf>(A);
+        R = ExpDiagonalMatrixImp<single, single>(A);
+        break;
     case NLS_SCOMPLEX:
-        return ExpDiagonalMatrixImp<single, std::complex<single>, Eigen::MatrixXcf>(A);
+        R = ExpDiagonalMatrixImp<single, std::complex<single>>(A);
+        break;
     default:
         return {};
     }
-    return {};
+    if (R.allReal()) {
+        R.promoteType(R.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
+    }
+    return R;
 }
 //=============================================================================
 ArrayOf
 ExpScalarMatrix(const ArrayOf& A)
 {
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        return ArrayOf::doubleConstructor(std::exp(A.getContentAsDoubleScalar()));
+        return ArrayOf::doubleScalar(std::exp(A.asDoubleScalar()));
     } break;
     case NLS_DCOMPLEX: {
-        std::complex<double> v = std::exp(A.getContentAsDoubleComplexScalar());
-        if (v.imag() == 0.) {
-            return ArrayOf::doubleConstructor(v.real());
+        std::complex<double> scalar = A.asDoubleComplexScalar();
+        if (scalar.imag() == 0.) {
+            return ArrayOf::doubleScalar(std::exp(scalar.real()));
         }
-        return ArrayOf::dcomplexConstructor(v.real(), v.imag());
+        std::complex<double> v = std::exp(scalar);
+        if (v.imag() == 0.) {
+            return ArrayOf::doubleScalar(v.real());
+        }
+        return ArrayOf::dsingleComplexScalar(v.real(), v.imag());
     } break;
     case NLS_SINGLE: {
-        return ArrayOf::singleConstructor(std::exp(A.getContentAsSingleScalar()));
+        return ArrayOf::singleScalar(std::exp(A.asSingleScalar()));
     } break;
     case NLS_SCOMPLEX: {
-        std::complex<single> v = A.getContentAsSingleComplexScalar();
-        v = std::exp(v);
-        if (v.imag() == 0.) {
-            return ArrayOf::singleConstructor(v.real());
+        std::complex<single> scalar = A.asSingleComplexScalar();
+        if (scalar.imag() == 0.) {
+            return ArrayOf::singleScalar(std::exp(scalar.real()));
         }
-        return ArrayOf::complexConstructor(v.real(), v.imag());
+        std::complex<single> v = std::exp(scalar);
+        return ArrayOf::singleComplexScalar(v.real(), v.imag());
     } break;
     default:
         return {};
@@ -252,21 +302,39 @@ performEigenDecomposition(
     }
 }
 //=============================================================================
+bool
+tryExpMatrixSafelyDiagonalizable(const ArrayOf& A, ArrayOf& R)
+{
+    bool needToOverload = false;
+    ArrayOf V, D;
+    std::wstring errorMessage;
+    if (!performEigenDecomposition(A, V, D, needToOverload, errorMessage)) {
+        return false;
+    }
+    double rcond = ReciprocalConditionNumber(V).asDoubleScalar();
+    double threshold = A.isDoubleClass() ? 1e-12 : 1e-5;
+    if (!std::isfinite(rcond) || rcond <= threshold) {
+        return false;
+    }
+    R = ExpMatrixFromEigenDecomposition(A, V, D);
+    return true;
+}
+//=============================================================================
 template <typename OriginCType, typename destinationCType, typename EigenMatrixType>
 void
 computeMatrixExponential(const ArrayOf& V, const ArrayOf& D, const ArrayOf& invV, ArrayOf& R)
 {
-    destinationCType* ptrR = reinterpret_cast<destinationCType*>((OriginCType*)R.getDataPointer());
-    destinationCType* ptrV = reinterpret_cast<destinationCType*>((OriginCType*)V.getDataPointer());
+    destinationCType* ptrR = reinterpret_cast<destinationCType*>((OriginCType*)R.dataPointer());
+    destinationCType* ptrV = reinterpret_cast<destinationCType*>((OriginCType*)V.dataPointer());
     destinationCType* ptrInvV
-        = reinterpret_cast<destinationCType*>((OriginCType*)invV.getDataPointer());
-    destinationCType* ptrD = reinterpret_cast<destinationCType*>((OriginCType*)D.getDataPointer());
+        = reinterpret_cast<destinationCType*>((OriginCType*)invV.dataPointer());
+    destinationCType* ptrD = reinterpret_cast<destinationCType*>((OriginCType*)D.dataPointer());
 
-    Eigen::Map<EigenMatrixType> matR(ptrR, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
-    Eigen::Map<EigenMatrixType> matV(ptrV, (Eigen::Index)V.getRows(), (Eigen::Index)V.getColumns());
+    Eigen::Map<EigenMatrixType> matR(ptrR, (Eigen::Index)R.rows(), (Eigen::Index)R.columns());
+    Eigen::Map<EigenMatrixType> matV(ptrV, (Eigen::Index)V.rows(), (Eigen::Index)V.columns());
     Eigen::Map<EigenMatrixType> matInvV(
-        ptrInvV, (Eigen::Index)invV.getRows(), (Eigen::Index)invV.getColumns());
-    Eigen::Map<EigenMatrixType> matD(ptrD, (Eigen::Index)D.getRows(), (Eigen::Index)D.getColumns());
+        ptrInvV, (Eigen::Index)invV.rows(), (Eigen::Index)invV.columns());
+    Eigen::Map<EigenMatrixType> matD(ptrD, (Eigen::Index)D.rows(), (Eigen::Index)D.columns());
 
     OMP_PARALLEL_FOR_LOOP(matD.rows())
     for (ompIndexType i = 0; i < (ompIndexType)matD.rows(); ++i) {
@@ -277,21 +345,13 @@ computeMatrixExponential(const ArrayOf& V, const ArrayOf& D, const ArrayOf& invV
 }
 //=============================================================================
 ArrayOf
-ExpSingularMatrix(const ArrayOf& A)
+ExpMatrixFromEigenDecomposition(const ArrayOf& A, ArrayOf& V, ArrayOf& D)
 {
-    // [V, D] = eig(A);
     bool needToOverload = false;
-    ArrayOf V, D;
-    std::wstring errorMessage;
-
-    if (!performEigenDecomposition(A, V, D, needToOverload, errorMessage)) {
-        Error(errorMessage);
-    }
     ArrayOf R(A);
 
     ArrayOf invV = InverseMatrix(V, needToOverload);
 
-    // expm = V * diag(exp(diag(D))) * inv(V);
     NelsonType commonType;
     if (V.isComplex() || D.isComplex() || invV.isComplex()) {
         commonType = A.isDoubleType() ? NLS_DCOMPLEX : NLS_SCOMPLEX;
@@ -317,7 +377,7 @@ ExpSingularMatrix(const ArrayOf& A)
         computeMatrixExponential<single, std::complex<single>, Eigen::MatrixXcf>(V, D, invV, R);
     } break;
     default: {
-        Error(_W("Unsupported matrix type."));
+        Error(L"Nelson:linear_algebra:unsupportedValue", L"Unsupported %s.", L"matrix type");
     } break;
     }
     if (A.isDoubleType(true)) {
@@ -338,12 +398,19 @@ template <class T>
 ArrayOf
 ExpMatrixReal(const ArrayOf& A)
 {
+    constexpr double EIGEN_FALLBACK_MAGNITUDE = 1e8;
+    if (maxAbsoluteValue(A) > EIGEN_FALLBACK_MAGNITUDE) {
+        ArrayOf R;
+        if (tryExpMatrixSafelyDiagonalizable(A, R)) {
+            return R;
+        }
+    }
     ArrayOf R(A);
     R.ensureSingleOwner();
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+        (T*)A.dataPointer(), (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matR(
-        (T*)R.getDataPointer(), (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
+        (T*)R.dataPointer(), (Eigen::Index)R.rows(), (Eigen::Index)R.columns());
     matR = matA.exp();
     return R;
 }
@@ -354,25 +421,14 @@ ExpMatrixComplex(const ArrayOf& A, NelsonType destinationType)
 {
     ArrayOf R(A);
     R.ensureSingleOwner();
-    auto* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    auto* Rz = reinterpret_cast<std::complex<T>*>((T*)R.getDataPointer());
+    auto* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
+    auto* Rz = reinterpret_cast<std::complex<T>*>((T*)R.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+        Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
-        Rz, (Eigen::Index)R.getRows(), (Eigen::Index)R.getColumns());
-    // [V, D] = eig(A);
-    // expm = V * diag(exp(diag(D))) * inv(V);
-    Eigen::ComplexEigenSolver<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> es(
-        matA);
-    auto evects = es.eigenvectors();
-    auto evals = es.eigenvalues();
-    OMP_PARALLEL_FOR_LOOP(evals.rows())
-    for (ompIndexType i = 0; i < static_cast<ompIndexType>(evals.rows()); ++i) {
-        evals(i) = std::exp(evals(i));
-    }
-    auto evalsdiag = evals.asDiagonal();
-    matR = evects * evalsdiag * evects.inverse();
-    if (A.getDataClass() == destinationType) {
+        Rz, (Eigen::Index)R.rows(), (Eigen::Index)R.columns());
+    matR = matA.exp();
+    if (A.dataClass() == destinationType) {
         R.promoteType(destinationType);
         return R;
     }

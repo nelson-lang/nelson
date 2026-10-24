@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -24,15 +24,15 @@ Nelson::FilesFoldersGateway::diff_fileBuiltin(int nLhs, const ArrayOfVector& arg
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     logical eolCompare = true;
-    std::wstring filename1 = param1.getContentAsWideString();
-    std::wstring filename2 = param2.getContentAsWideString();
+    std::wstring filename1 = param1.asWideString();
+    std::wstring filename2 = param2.asWideString();
     if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
-        eolCompare = param3.getContentAsLogicalScalar();
+        eolCompare = param3.asLogicalScalar();
     }
     std::wstring res;
     FileDiff(filename1, filename2, eolCompare, res);
-    retval << ArrayOf::characterArrayConstructor(res);
+    retval << ArrayOf::characterArray(res);
     return retval;
 }
 //=============================================================================

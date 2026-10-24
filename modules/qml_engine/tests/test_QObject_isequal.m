@@ -10,8 +10,9 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-h = msgbox({'Operation' 'Completed'});
-assert_isfalse(h.minimized);
-assert_isequal(h.className, 'QMessageBox');
-assert_isequal(h.visible, true);
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
+qobj = qml_loadfile(qml_file_ok);
+asserts.istrue(QObject_iswindowtype(qobj));
+asserts.isequal(qobj, qobj);
+delete(qobj);
 %=============================================================================

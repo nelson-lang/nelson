@@ -14,5 +14,5 @@
 clear('R');
 REF = 3333;
 OUTPUT = ipc(getpid, 'eval', 'R = 3333');
-assert_isequal(acquirevar('base', 'R'), REF);
+asserts.isequal(acquirevar('base', 'R'), REF);
 %=============================================================================

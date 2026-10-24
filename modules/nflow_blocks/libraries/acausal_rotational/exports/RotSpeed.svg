@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="226.5" viewBox="-153.25 -103.25 306.5 226.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="226.5" rx="43.035" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-40,-45) scale(1,-1)"><text x="0" y="0" text-anchor="end" dominant-baseline="central" font-size="24" fill="#1E6B2E">w_ref</text></g>
+    <g transform="translate(90,-45) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#1E6B2E">exact=</text></g>
+    <g transform="translate(90,-75) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#1E6B2E">false</text></g>
+    <rect x="-100" y="-20" width="200" height="40" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="-30,-32 30,-32" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,52 0,32" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-29,32 30,32" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-32 0,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">RotSpeed</text></g>
+  </g>
+</svg>

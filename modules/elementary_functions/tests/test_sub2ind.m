@@ -11,19 +11,22 @@ row = [1 2 3 1];
 col = [2 2 2 3];
 sz = [3 3];
 ind = sub2ind(sz, row, col);
-REF = [ 4     5     6     7];
-assert_isequal(ind, REF);
+REF = [4 5 6 7];
+asserts.isequal(ind, REF);
 %=============================================================================
 I1 = [1 2 1 2];
 I2 = [2 2 1 1];
 I3 = [1 1 2 2];
 sz = [2 2 2];
 ind = sub2ind(sz, I1, I2, I3);
-REF = [3     4     5     6];
-assert_isequal(ind, REF);
+REF = [3 4 5 6];
+asserts.isequal(ind, REF);
 %=============================================================================
 A = rand(3, 4, 2);
 R = sub2ind(size(A), 2, 1, 2);
 REF = 14;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(sub2ind([3 3], [1 2 3], [2 2 2]), [4 5 6]);
+asserts.checkerror('sub2ind([3 3], 0, 1)', _('Indexing arguments are out of range of an array of the given size.'));
 %=============================================================================

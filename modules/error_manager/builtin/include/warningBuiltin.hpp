@@ -15,5 +15,6 @@
 namespace Nelson::ErrorManagerGateway {
 ArrayOfVector
 warningBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -17,6 +17,7 @@ mod minimal_tests 'just/minimal_tests_windows.just'
 mod benchmarks 'just/benchmarks_windows.just'
 mod package 'just/package_windows.just'
 import 'just/format.just'
+import 'just/lint_windows.just'
 mod update_localization 'just/update_localization_windows.just'
 
 

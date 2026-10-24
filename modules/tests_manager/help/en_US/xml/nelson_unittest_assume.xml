@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.assume</keyword>
+  <short_description>Skip a test when a runtime assumption is not satisfied.</short_description>
+  <syntax>
+    <syntax_item>nelson.unittest.assume(condition)</syntax_item>
+    <syntax_item>nelson.unittest.assume(condition, reason)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>condition</param_name>
+      <param_description>logical scalar that must be true to continue the current test.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>reason</param_name>
+      <param_description>optional text explaining why the test is skipped.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>nelson.unittest.assume</b> marks the current test as skipped when a runtime prerequisite is false.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson.unittest.assume(ispc(), 'Requires Windows');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.skip">nelson.unittest.skip</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}skip_testsuite">skip_testsuite</link></see_also_item>
+  </see_also>
+</xmldoc>

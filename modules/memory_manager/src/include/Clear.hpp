@@ -20,5 +20,6 @@ NLSMEMORY_MANAGER_IMPEXP bool
 ClearVariable(Evaluator* eval, const std::string& variable);
 NLSMEMORY_MANAGER_IMPEXP bool
 ClearAllVariables(Evaluator* eval);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

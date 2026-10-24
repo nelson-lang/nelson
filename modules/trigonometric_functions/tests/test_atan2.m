@@ -7,83 +7,83 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('atan2'), 2);
-assert_isequal(nargout('atan2'), 1);
+asserts.isequal(nargin('atan2'), 2);
+asserts.isequal(nargout('atan2'), 1);
 %=============================================================================
 A = [1 2; 3 4];
 B = [4 3; 2 1];
 C = atan2(A, B);
-REF = [0.2450    0.5880;
-0.9828    1.3258];
-assert_isapprox(C, REF, 1e-4);
+REF = [0.2450 0.5880;
+  0.9828 1.3258];
+asserts.isapprox(C, REF, 1e-4);
 %=============================================================================
 A = [1 2; 3 4];
 B = 2;
 C = atan2(A, B);
-REF = [ 0.4636    0.7854;
-0.9828    1.1071];
-assert_isapprox(C, REF, 1e-4);
+REF = [0.4636 0.7854;
+  0.9828 1.1071];
+asserts.isapprox(C, REF, 1e-4);
 %=============================================================================
 A = 2;
 B = [1 2; 3 4];
 C = atan2(A, B);
-REF = [1.1071      0.7854;
-0.5880      0.4636];
-assert_isapprox(C, REF, 1e-4);
+REF = [1.1071 0.7854;
+  0.5880 0.4636];
+asserts.isapprox(C, REF, 1e-4);
 %=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 B = [8; 7; 6; 5];
 C = atan2(A, B);
-REF = [  0.1244      0.2450;
-0.4049      0.5191;
-0.6947      0.7854;
-0.9505      1.0122];
-assert_isapprox(C, REF, 1e-4);
+REF = [0.1244 0.2450;
+  0.4049 0.5191;
+  0.6947 0.7854;
+  0.9505 1.0122];
+asserts.isapprox(C, REF, 1e-4);
 %=============================================================================
 A = [1; 2];
 B = [3 4 5];
 C = atan2(A, B);
 REF1 = [atan2(A(1), B(1)), atan2(A(1), B(2)), atan2(A(1), B(3));
-atan2(A(2), B(1)), atan2(A(2), B(2)), atan2(A(2), B(3))];
-REF2 = [0.3218    0.2450    0.1974;
-0.5880    0.4636    0.3805];
-assert_isapprox(C, REF2, 1e-4);
-assert_isapprox(REF1, REF2, 1e-4);
+  atan2(A(2), B(1)), atan2(A(2), B(2)), atan2(A(2), B(3))];
+REF2 = [0.3218 0.2450 0.1974;
+  0.5880 0.4636 0.3805];
+asserts.isapprox(C, REF2, 1e-4);
+asserts.isapprox(REF1, REF2, 1e-4);
 %=============================================================================
 A = [3 4 5];
 B = [1; 2];
 C = atan2(A, B);
-REF = [1.2490      1.3258      1.3734;
-0.9828      1.1071      1.1903];
-assert_isapprox(C, REF, 1e-4);
+REF = [1.2490 1.3258 1.3734;
+  0.9828 1.1071 1.1903];
+asserts.isapprox(C, REF, 1e-4);
 %=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 B = [8 7 6 5 4];
-assert_checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
+asserts.checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
 %=============================================================================
 A = [1 2; 3 4; 5 6; 7 8];
 B = [8 7 6 5];
-assert_checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
+asserts.checkerror('atan2(A, B)', [_('Size mismatch on arguments to arithmetic operator'), ' ', 'atan2'])
 %=============================================================================
-R = atan2(NaN,Inf);
+R = atan2(NaN, Inf);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = atan2([],2);
-assert_isequal(R, []);
+R = atan2([], 2);
+asserts.isequal(R, []);
 %=============================================================================
-R = atan2(3,[]);
-assert_isequal(R, []);
+R = atan2(3, []);
+asserts.isequal(R, []);
 %=============================================================================
-R = atan2(zeros(3,0), zeros(3, 0));
+R = atan2(zeros(3, 0), zeros(3, 0));
 REF = zeros(3, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 C = 4 + 3i;
 R = atan2(imag(C), real(C));
 REF = 0.6435;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = atan2(0, 0);
-assert_isequal(R, 0);
+asserts.isequal(R, 0);
 %=============================================================================

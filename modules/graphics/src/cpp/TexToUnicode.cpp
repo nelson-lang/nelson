@@ -16,9 +16,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// This is not a TeX parser
-// Only used to replace commons Tex by Unicode equivalent
-// Use natively unicode support is the recommended way
+// Not a TeX parser. Replaces common TeX sequences by their Unicode equivalent.
 //=============================================================================
 static std::wstring
 replaceTexSpecialCharacters(const std::wstring& text);
@@ -38,44 +36,43 @@ texToUnicode(const wstringVector& strs)
 static std::wstring
 replaceSubScript(const std::wstring& str)
 {
-    // Some characters have not unicode equivalent with Unicode 4.0
-    // only available are listed
-    std::unordered_map<std::wstring, std::wstring> subcript;
-    subcript[L"0"] = L"\u2080";
-    subcript[L"1"] = L"\u2081";
-    subcript[L"2"] = L"\u2082";
-    subcript[L"3"] = L"\u2083";
-    subcript[L"4"] = L"\u2084";
-    subcript[L"5"] = L"\u2085";
-    subcript[L"6"] = L"\u2086";
-    subcript[L"7"] = L"\u2087";
-    subcript[L"8"] = L"\u2088";
-    subcript[L"9"] = L"\u2089";
-    subcript[L"a"] = L"\u2090";
-    subcript[L"e"] = L"\u2091";
-    subcript[L"h"] = L"\u2095";
-    subcript[L"i"] = L"\u1d62";
-    subcript[L"j"] = L"\u2c7c";
-    subcript[L"k"] = L"\u2096";
-    subcript[L"l"] = L"\u2097";
-    subcript[L"m"] = L"\u2098";
-    subcript[L"n"] = L"\u2099";
-    subcript[L"o"] = L"\u2092";
-    subcript[L"p"] = L"\u209a";
-    subcript[L"r"] = L"\u1d63";
-    subcript[L"s"] = L"\u209b";
-    subcript[L"t"] = L"\u209c";
-    subcript[L"u"] = L"\u1d64";
-    subcript[L"v"] = L"\u1d65";
-    subcript[L"x"] = L"\u2093";
-    subcript[L"+"] = L"\u208A";
-    subcript[L"-"] = L"\u208B";
-    subcript[L"="] = L"\u208C";
-    subcript[L"("] = L"\u208D";
-    subcript[L")"] = L"\u208E";
-    subcript[L"β"] = L"\u1d66";
-    subcript[L"ψ"] = L"\u1d69";
-    subcript[L"χ"] = L"\u1d6a";
+    // Some characters have no Unicode 4.0 equivalent. Only the available ones are listed.
+    std::unordered_map<std::wstring, std::wstring> subscript;
+    subscript[L"0"] = L"\u2080";
+    subscript[L"1"] = L"\u2081";
+    subscript[L"2"] = L"\u2082";
+    subscript[L"3"] = L"\u2083";
+    subscript[L"4"] = L"\u2084";
+    subscript[L"5"] = L"\u2085";
+    subscript[L"6"] = L"\u2086";
+    subscript[L"7"] = L"\u2087";
+    subscript[L"8"] = L"\u2088";
+    subscript[L"9"] = L"\u2089";
+    subscript[L"a"] = L"\u2090";
+    subscript[L"e"] = L"\u2091";
+    subscript[L"h"] = L"\u2095";
+    subscript[L"i"] = L"\u1d62";
+    subscript[L"j"] = L"\u2c7c";
+    subscript[L"k"] = L"\u2096";
+    subscript[L"l"] = L"\u2097";
+    subscript[L"m"] = L"\u2098";
+    subscript[L"n"] = L"\u2099";
+    subscript[L"o"] = L"\u2092";
+    subscript[L"p"] = L"\u209a";
+    subscript[L"r"] = L"\u1d63";
+    subscript[L"s"] = L"\u209b";
+    subscript[L"t"] = L"\u209c";
+    subscript[L"u"] = L"\u1d64";
+    subscript[L"v"] = L"\u1d65";
+    subscript[L"x"] = L"\u2093";
+    subscript[L"+"] = L"\u208A";
+    subscript[L"-"] = L"\u208B";
+    subscript[L"="] = L"\u208C";
+    subscript[L"("] = L"\u208D";
+    subscript[L")"] = L"\u208E";
+    subscript[L"β"] = L"\u1d66";
+    subscript[L"ψ"] = L"\u1d69";
+    subscript[L"χ"] = L"\u1d6a";
 
     std::wstring result = str;
     if (StringHelpers::contains(result, L"_{")) {
@@ -89,8 +86,8 @@ replaceSubScript(const std::wstring& str)
                     std::wstring exponent = match[2];
                     for (size_t k = 0; k < exponent.size(); ++k) {
                         std::wstring search = std::wstring(1, exponent[k]);
-                        if (subcript.count(search) > 0) {
-                            StringHelpers::replace_all(exponent, search, subcript[search]);
+                        if (subscript.count(search) > 0) {
+                            StringHelpers::replace_all(exponent, search, subscript[search]);
                         }
                     }
                     result = match[1].str() + exponent;
@@ -105,8 +102,7 @@ replaceSubScript(const std::wstring& str)
 static std::wstring
 replaceSuperScript(const std::wstring& str)
 {
-    // Some characters have not unicode equivalent with Unicode 4.0
-    // only available are listed
+    // Some characters have no Unicode 4.0 equivalent. Only the available ones are listed.
     std::unordered_map<std::wstring, std::wstring> superscript;
     superscript[L"0"] = L"\u2070";
     superscript[L"1"] = L"\u00B9";
@@ -134,7 +130,6 @@ replaceSuperScript(const std::wstring& str)
     superscript[L"n"] = L"\u207f";
     superscript[L"o"] = L"\u1d52";
     superscript[L"p"] = L"\u1d56";
-    // superscript[L"q"] = L"?";
     superscript[L"r"] = L"\u02b3";
     superscript[L"s"] = L"\u02e2";
     superscript[L"t"] = L"\u1d57";
@@ -146,10 +141,8 @@ replaceSuperScript(const std::wstring& str)
     superscript[L"z"] = L"\u1DBB";
     superscript[L"A"] = L"\u1d2c";
     superscript[L"B"] = L"\u1d2e";
-    // superscript[L"C"] = L"\ua7fd";
     superscript[L"D"] = L"\u1d30";
     superscript[L"E"] = L"\u1d31";
-    // superscript[L"F"] = "?";
     superscript[L"G"] = L"\u1d33";
     superscript[L"H"] = L"\u1d34";
     superscript[L"I"] = L"\u1d35";
@@ -160,9 +153,7 @@ replaceSuperScript(const std::wstring& str)
     superscript[L"N"] = L"\u1d3a";
     superscript[L"O"] = L"\u1d3c";
     superscript[L"P"] = L"\u1d3e";
-    // superscript[L"Q"] = "?";
     superscript[L"R"] = L"\u1d3f";
-    // superscript[L"S"] = "?";
     superscript[L"T"] = L"\u1d40";
     superscript[L"U"] = L"\u1d41";
     superscript[L"V"] = L"\u2c7d";
@@ -217,6 +208,80 @@ texToUnicode(const std::wstring& str)
     std::wstring result = replaceTexSpecialCharacters(str);
     result = replaceSuperScript(result);
     return replaceSubScript(result);
+}
+//=============================================================================
+bool
+texHasScript(const std::wstring& str)
+{
+    // A '^' or '_' produces a run only when a character follows it. A trailing lone marker is
+    // left literal by texToRuns, so it must not trigger the run-layout branch.
+    for (size_t k = 0; k + 1 < str.size(); ++k) {
+        if (str[k] == L'^' || str[k] == L'_') {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+// Splits a symbol-resolved string, whose whole content sits at 'level', into left-to-right
+// runs. A ^ or _ nests one level deeper and its group (braced or one character) is parsed
+// recursively. 'level' is cumulative: 0 = baseline, +N = N superscripts, -N = N subscripts.
+static void
+splitTexRuns(const std::wstring& s, int level, std::vector<TexRun>& runs)
+{
+    std::wstring base;
+    auto flushBase = [&]() {
+        if (!base.empty()) {
+            runs.push_back({ base, level });
+            base.clear();
+        }
+    };
+    const size_t n = s.size();
+    size_t i = 0;
+    while (i < n) {
+        const wchar_t c = s[i];
+        if ((c == L'^' || c == L'_') && (i + 1 < n)) {
+            const int childLevel = level + ((c == L'^') ? 1 : -1);
+            const size_t j = i + 1;
+            std::wstring group;
+            if (s[j] == L'{') {
+                // Read up to the matching closing brace, tracking nesting.
+                int depth = 1;
+                size_t k = j + 1;
+                for (; k < n; ++k) {
+                    if (s[k] == L'{') {
+                        ++depth;
+                    } else if (s[k] == L'}') {
+                        --depth;
+                        if (depth == 0) {
+                            break;
+                        }
+                    }
+                }
+                group = s.substr(j + 1, (k < n ? k : n) - (j + 1));
+                i = (k < n) ? (k + 1) : n;
+            } else {
+                group = std::wstring(1, s[j]);
+                i = j + 1;
+            }
+            if (!group.empty()) {
+                flushBase();
+                splitTexRuns(group, childLevel, runs);
+            }
+        } else {
+            base.push_back(c);
+            ++i;
+        }
+    }
+    flushBase();
+}
+//=============================================================================
+std::vector<TexRun>
+texToRuns(const std::wstring& str)
+{
+    std::vector<TexRun> runs;
+    splitTexRuns(replaceTexSpecialCharacters(str), 0, runs);
+    return runs;
 }
 //=============================================================================
 std::wstring
@@ -328,5 +393,5 @@ replaceTexSpecialCharacters(const std::wstring& text)
     return modifiedText;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

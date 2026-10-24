@@ -8,15 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = hilb(n, classname)
-  % https://nhigham.com/2020/06/30/what-is-the-hilbert-matrix/
   narginchk(1, 2);
   if nargin < 2
-    classname = 'double';
+    outputClass = 'double';
+  else
+    outputClass = classname;
   end
-  if (isStringScalar(classname)) || (~strcmp(classname, 'double') && ~strcmp(classname,'single'))
-    error('Nelson:hilb:notSupportedClass', _('#2 argument must be ''double'' or ''single''.'));
+  if (isStringScalar(outputClass)) || (~strcmp(outputClass, 'double') && ~strcmp(outputClass, 'single'))
+    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', 'single');
   end
-  j = 1:cast(n(1), classname);
-  r = 1 ./ (j' + j - 1);
+  index = 1:cast(n(1), outputClass);
+  r = 1 ./ (index.' + index - 1);
 end
 %=============================================================================

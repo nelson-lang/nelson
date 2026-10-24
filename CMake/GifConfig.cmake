@@ -56,13 +56,8 @@ endmacro()
 # ==============================================================================
 set(_NELSON_MACOS_SONOMA FALSE)
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-  if(CMAKE_SYSTEM_VERSION
-    MATCHES
-    "^23\\."
-    OR
-    CMAKE_HOST_SYSTEM_VERSION
-    MATCHES
-    "^23\\."
+  if(CMAKE_SYSTEM_VERSION MATCHES "^23\\."
+    OR CMAKE_HOST_SYSTEM_VERSION MATCHES "^23\\."
   )
     set(_NELSON_MACOS_SONOMA TRUE)
   else()
@@ -99,13 +94,8 @@ if(NOT WITHOUT_GIF)
     _nelson_check_gif_prefix("$ENV{CONDA_PREFIX}")
   endif()
 
-  if(CMAKE_SYSTEM_NAME
-    MATCHES
-    "Darwin"
-    AND
-    GIF_INCLUDE_DIR
-    MATCHES
-    "/Library/Frameworks/Mono.framework/Headers"
+  if(CMAKE_SYSTEM_NAME MATCHES "Darwin"
+    AND GIF_INCLUDE_DIR MATCHES "/Library/Frameworks/Mono.framework/Headers"
   )
     unset(GIF_INCLUDE_DIR CACHE)
     unset(GIF_INCLUDE_DIR)
@@ -142,13 +132,8 @@ if(NOT WITHOUT_GIF)
   if(NOT GIF_INCLUDE_DIR OR NOT GIF_LIBRARIES)
     include(FindGIF)
     find_package(GIF REQUIRED)
-    if(CMAKE_SYSTEM_NAME
-      MATCHES
-      "Darwin"
-      AND
-      GIF_INCLUDE_DIR
-      MATCHES
-      "/Library/Frameworks/Mono.framework/Headers"
+    if(CMAKE_SYSTEM_NAME MATCHES "Darwin"
+      AND GIF_INCLUDE_DIR MATCHES "/Library/Frameworks/Mono.framework/Headers"
     )
       foreach(_nelson_gif_library IN LISTS GIF_LIBRARIES GIF_LIBRARY)
         _nelson_check_gif_include_from_library("${_nelson_gif_library}")
@@ -161,24 +146,43 @@ else()
   set(GIF_FOUND FALSE CACHE BOOL "GIF library disabled" FORCE)
 endif()
 # ==============================================================================
-if(NOT
-  WITHOUT_GIF
-  AND
-  GIF_FOUND
-  AND
-  CMAKE_SYSTEM_NAME
-  MATCHES
-  "Darwin"
-  AND
-  GIF_INCLUDE_DIR
-  MATCHES
-  "/Library/Frameworks/Mono.framework/Headers"
+if(NOT WITHOUT_GIF
+  AND GIF_FOUND
+  AND CMAKE_SYSTEM_NAME MATCHES "Darwin"
+  AND GIF_INCLUDE_DIR MATCHES "/Library/Frameworks/Mono.framework/Headers"
 )
   message(FATAL_ERROR
     "Found Mono's incompatible gif_lib.h at ${GIF_INCLUDE_DIR}. Install giflib with Homebrew or set GIF_INCLUDE_DIR/GIF_LIBRARIES to a giflib 5+ installation."
   )
 endif()
 # ==============================================================================
+if(GIF_FOUND AND CMAKE_SYSTEM_NAME MATCHES "Darwin" AND GIF_INCLUDE_DIR)
+  # A bare Homebrew prefix include (e.g. /opt/homebrew/include) also exposes
+  # other kegs' headers - notably unicode/ from a different ICU major than the
+  # one Nelson links against. Adding it with include_directories(BEFORE ...)
+  # would shadow those headers, so narrow it down to the keg-specific giflib
+  # include directory, which only contains gif_lib.h.
+  foreach(_nelson_gif_brew_prefix
+    "$ENV{HOMEBREW_PREFIX}"
+    "/opt/homebrew"
+    "/usr/local"
+  )
+    if(_nelson_gif_brew_prefix
+      AND GIF_INCLUDE_DIR STREQUAL "${_nelson_gif_brew_prefix}/include"
+      AND EXISTS "${_nelson_gif_brew_prefix}/opt/giflib/include/gif_lib.h"
+    )
+      set(
+        GIF_INCLUDE_DIR
+        "${_nelson_gif_brew_prefix}/opt/giflib/include"
+        CACHE
+          STRING
+          "Path to giflib include directory"
+        FORCE
+      )
+      break()
+    endif()
+  endforeach()
+endif()
 if(GIF_FOUND)
   include_directories(BEFORE ${GIF_INCLUDE_DIR})
   message(STATUS "libgif include directory: ${GIF_INCLUDE_DIR}")

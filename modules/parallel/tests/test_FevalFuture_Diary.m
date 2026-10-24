@@ -13,13 +13,13 @@ addpath([nelsonroot(), '/modules/parallel/tests/functions'])
 fptr = str2func('func_diary');
 f = parfeval(backgroundPool, fptr, 0, 5, 1000);
 R = f.Diary;
-assert_isequal(R, '')
+asserts.isequal(R, '')
 %=============================================================================
 sleep(6);
 R = f.Diary;
-assert_istrue(length(R) >= 8);
+asserts.istrue(length(R) >= 8);
 %=============================================================================
 sleep(6);
 R = f.Diary;
-assert_istrue(length(R) >= 16);
+asserts.istrue(length(R) >= 16);
 %=============================================================================

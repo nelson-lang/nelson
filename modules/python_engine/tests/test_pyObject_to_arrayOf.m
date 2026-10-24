@@ -10,35 +10,35 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 C = pyrun('A = 1', 'A');
-assert_isequal(class(C), 'py.int');
-% assert_isequal(C, 1);
+asserts.isequal(class(C), 'py.int');
+% asserts.isequal(C, 1);
 %=============================================================================
 C = pyrun('A = 1.2', 'A');
-assert_isapprox(C, 1.2, 1e-4);
+asserts.isapprox(C, 1.2, 1e-4);
 %=============================================================================
 C = pyrun('A = True', 'A');
-assert_istrue(C);
+asserts.istrue(C);
 %=============================================================================
-C = pyrun('A = complex(3, 4)','A');
-assert_isequal(C, 3+4i);
+C = pyrun('A = complex(3, 4)', 'A');
+asserts.isequal(C, 3 + 4i);
 %=============================================================================
-C = pyrun("A = 'hello'",'A');
-assert_isequal(class(C), 'py.str');
-assert_isequal(C.char, 'hello');
+C = pyrun("A = 'hello'", 'A');
+asserts.isequal(class(C), 'py.str');
+asserts.isequal(C.char, 'hello');
 %=============================================================================
 C = pyrun("A = u'鍝堝搱'", 'A');
-assert_isequal(C.char, '鍝堝搱');
+asserts.isequal(C.char, '鍝堝搱');
 %=============================================================================
 C = pyrun("A = dict(); A['a'] = 1; A['b'] = True; A['c'] = 3.14;", 'A');
-assert_isequal(class(C), 'py.dict');
+asserts.isequal(class(C), 'py.dict');
 %=============================================================================
 C = pyrun('', 'A', 'A', {1 2});
-assert_isequal(C.double(),  [1 2]);
+asserts.isequal(C.double(), [1 2]);
 %=============================================================================
 C = pyrun('', 'A', 'A', {1, 'nelson', 2});
 R = C.cell();
-assert_istrue(iscell(R));
-assert_isequal(R{1},  1);
-assert_isequal(R{2}.char(),  'nelson');
-assert_isequal(R{3},  2);
+asserts.istrue(iscell(R));
+asserts.isequal(R{1}, 1);
+asserts.isequal(R{2}.char(), 'nelson');
+asserts.isequal(R{3}, 2);
 %=============================================================================

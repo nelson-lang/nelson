@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>donutchart</keyword>
+  <short_description>Objet graphique en anneau.</short_description>
+  <syntax>
+    <syntax_item>donutchart(data)</syntax_item>
+    <syntax_item>donutchart(data, names)</syntax_item>
+    <syntax_item>donutchart(fig, ...)</syntax_item>
+    <syntax_item>donutchart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>d = donutchart(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>Vecteur numerique des valeurs des secteurs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>Tableau de chaines, chaine de caracteres ou cellule de chaines utilisee comme noms des secteurs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Figure parente.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete du graphique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur assignee a la propriete nommee.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>Objet graphique donutchart.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>donutchart(data)</b> cree un objet graphique en anneau dans la figure courante.</p>
+    <p><b>InnerRadius</b> controle le rayon du trou comme fraction du rayon externe. <b>CenterLabel</b> affiche un texte au centre de l'anneau.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.donutchart.properties">proprietes de donutchart</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Graphique en anneau avec texte central.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+d = donutchart([4 3 2], ["A", "B", "C"], 'CenterLabel', '9');]]></example_item_data>
+      <example_item_img src="../../../../images/donutchart_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rayon interne et couleurs personnalises.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+d = donutchart([5 4 3 2], 'InnerRadius', 0.35, 'FaceAlpha', 0.75, ...
+  'ColorOrder', [0.8 0.2 0.2; 0.2 0.7 0.3; 0.2 0.4 0.8]);]]></example_item_data>
+      <example_item_img src="../../../../images/donutchart_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.donutchart.properties">proprietes de donutchart</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/piechart">piechart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/pie">pie</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

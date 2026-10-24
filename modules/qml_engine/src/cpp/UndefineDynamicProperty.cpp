@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "UndefineDynamicProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -24,20 +25,20 @@ void
 UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
 {
     ArrayOf res;
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
-    void* ptr = qmlhandleobj->getPointer();
+    void* ptr = qmlhandleobj->pointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
-        Error(_W("'parent' can not modified."));
+        Error(L"Nelson:QObject:readOnlyProperty", L"'%s' can not modified.", L"parent");
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        Error(_W("'children' can not modified."));
+        Error(L"Nelson:QObject:readOnlyProperty", L"'%s' can not modified.", L"children");
     } else {
         bool isDynamicProperty = false;
         QList<QByteArray> names = qobj->dynamicPropertyNames();
@@ -53,10 +54,10 @@ UndefineDynamicProperty(const ArrayOf& A, const std::wstring& propertyName)
             QVariant undefined = QVariant();
             qobj->setProperty(upropertyname.c_str(), undefined);
         } else {
-            Error(_W("'" + upropertyname + "'" + " can not modified."));
+            Error(L"Nelson:QObject:readOnlyProperty", L"'%s' can not modified.", propertyName);
         }
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

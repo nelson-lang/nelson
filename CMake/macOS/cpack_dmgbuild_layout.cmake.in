@@ -1,0 +1,60 @@
+# ==============================================================================
+# CPack post-build script for macOS DMG Finder layout via dmgbuild.
+# ==============================================================================
+# CPack's native DragNDrop layout script uses Finder Apple Events.  On locked
+# down macOS sessions this can fail with TCC error -1743.  dmgbuild writes the
+# Finder .DS_Store records directly while the image is mounted, so background
+# image and icon positions remain reproducible without controlling Finder.
+# ==============================================================================
+set(_python "@Python3_EXECUTABLE@")
+set(_pythonpath "@NELSON_DMGBUILD_PYTHONPATH@")
+set(_settings "@CMAKE_BINARY_DIR@/dmgbuild_settings.py")
+set(_volume_name "@CPACK_DMG_VOLUME_NAME@")
+
+if(NOT EXISTS "${_settings}")
+  message(FATAL_ERROR "CPack dmgbuild layout: settings not found: ${_settings}")
+endif()
+
+set(_dmgbuild_env)
+if(_pythonpath)
+  list(APPEND _dmgbuild_env "PYTHONPATH=${_pythonpath}")
+endif()
+
+foreach(_package_file IN LISTS CPACK_PACKAGE_FILES)
+  if(NOT _package_file MATCHES "\\.dmg$")
+    continue()
+  endif()
+
+  set(_replacement "${_package_file}.dmgbuild.dmg")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}" -E rm -f "${_replacement}"
+    RESULT_VARIABLE _rm_result
+  )
+  if(NOT _rm_result EQUAL 0)
+    message(FATAL_ERROR
+      "CPack dmgbuild layout: failed to remove ${_replacement}")
+  endif()
+
+  message(STATUS "CPack dmgbuild layout: generating ${_package_file}")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}" -E env ${_dmgbuild_env}
+      "${_python}" -m dmgbuild -s "${_settings}" --detach-retries 12
+      "${_volume_name}" "${_replacement}"
+    RESULT_VARIABLE _dmgbuild_result
+    OUTPUT_VARIABLE _dmgbuild_output
+    ERROR_VARIABLE _dmgbuild_error
+  )
+  if(NOT _dmgbuild_result EQUAL 0)
+    message(FATAL_ERROR
+      "CPack dmgbuild layout failed: ${_dmgbuild_output}${_dmgbuild_error}")
+  endif()
+
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}" -E rename "${_replacement}" "${_package_file}"
+    RESULT_VARIABLE _rename_result
+  )
+  if(NOT _rename_result EQUAL 0)
+    message(FATAL_ERROR
+      "CPack dmgbuild layout: failed to replace ${_package_file}")
+  endif()
+endforeach()

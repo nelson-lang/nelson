@@ -19,6 +19,8 @@ NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Inf(indexType m, indexType n = 1);
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Inf(Dimensions& dims);
+NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
+Inf(Dimensions& dims, NelsonType destinationClass);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

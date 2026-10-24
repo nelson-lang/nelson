@@ -19,6 +19,7 @@
     <syntax_item>s = rng</syntax_item>
     <syntax_item>s = rng(generator)</syntax_item>
     <syntax_item>rng(s)</syntax_item>
+    <syntax_item>rng(stream)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -29,12 +30,12 @@
     <param_input_item>
       <param_name>generator</param_name>
       <param_description
-      >a string: &apos;twister&apos;, &apos;twister64&apos;, &apos;simdTwister&apos;, &apos;combRecursive&apos;, &apos;philox&apos;, &apos;laggedfibonacci607&apos;
+      >a string: &apos;twister&apos;, &apos;twister64&apos;, &apos;simdTwister&apos;, &apos;combRecursive&apos;, &apos;philox&apos;, &apos;threefry&apos;, &apos;laggedfibonacci607&apos;, &apos;pcg&apos;, &apos;xoshiro&apos;. The keywords &apos;pcg64dxsm&apos; and &apos;xoshiro256pp&apos; are also accepted.
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>s</param_name>
-      <param_description>a struct</param_description>
+      <param_description>a struct or RandStream object</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -73,7 +74,7 @@
     <p>
       <b>s = rng</b> returns current generator as an struct.</p>
     <p>
-      <b>rng(s)</b> restores the settings of the random number generator using a previous struct returned by<b>s = rng</b>.</p>
+      <b>rng(s)</b> restores the settings of the random number generator using a previous struct returned by<b>s = rng</b>. <b>rng(stream)</b> restores the generator from a <b>RandStream</b> object.</p>
     <p />
     <p>Available generators are:</p>
     <table>
@@ -117,7 +118,22 @@
         <td>Philox 4x32 generator with 10 rounds</td>
         <td>philox4x32_10</td>
       </tr>
+      <tr>
+        <td>
+          &quot;pcg&quot;
+        </td>
+        <td>64-bit permuted congruential generator with double xor-shift multiply</td>
+        <td>pcg64dxsm</td>
+      </tr>
+      <tr>
+        <td>
+          &quot;xoshiro&quot;
+        </td>
+        <td>Xor-shift-rotate generator with 256-bit state and double addition</td>
+        <td>xoshiro256pp</td>
+      </tr>
     </table>
+    <p>The &quot;pcg&quot; and &quot;xoshiro&quot; generators produce 64-bit outputs: each double uses 53 random bits and <b>randn</b> uses the inversion method (inverse normal cumulative distribution of a uniform value). Their state (<b>s.State</b>) is a uint64 column vector: the engine words (128-bit state and increment for &quot;pcg&quot;, 256-bit state for &quot;xoshiro&quot;), the precision mode (0: full precision, 1: reduced precision set by the <b>FullPrecision</b> property of <b>RandStream</b>) and a cached 32-bit half output used by the reduced precision mode. The seed is expanded into the engine state with the SplitMix64 generator.</p>
     <p>Default generator is &quot;twister&quot;.</p>
   </description>
   <used_function />
@@ -132,6 +148,19 @@
 r = rng()
 lst = rng('enginelist')]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reproducible numbers with the xoshiro256++ generator</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[rng(42, 'xoshiro');
+s = rng();
+a = rand(1, 3);
+rng(s);
+b = rand(1, 3);
+isequal(a, b)
+s.Type]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -143,6 +172,9 @@ lst = rng('enginelist')]]></example_item_data>
     <see_also_item>
       <link linkend="${random}randi">randi</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${random}RandStream">RandStream</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
@@ -153,6 +185,11 @@ lst = rng('enginelist')]]></example_item_data>
       <history_version>1.15.0</history_version>
       <history_description
       >New random number generator: simdTwister, combRecursive, philox</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >New random number generators: pcg (pcg64dxsm) and xoshiro (xoshiro256pp)</history_description>
     </history_item>
   </history>
   <authors>

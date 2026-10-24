@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imref2d</keyword>
+  <short_description>Create a 2-D spatial reference structure.</short_description>
+  <syntax>
+    <syntax_item>R = imref2d()</syntax_item>
+    <syntax_item>R = imref2d(imageSize)</syntax_item>
+    <syntax_item>R = imref2d(imageSize, pixelExtentInWorldX, pixelExtentInWorldY)</syntax_item>
+    <syntax_item>R = imref2d(imageSize, xWorldLimits, yWorldLimits)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>imageSize</param_name>
+      <param_description>Positive integer vector that specifies the image size as rows and columns.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pixelExtentInWorldX, pixelExtentInWorldY</param_name>
+      <param_description>Positive finite scalar pixel extents in world coordinates.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xWorldLimits</param_name>
+      <param_description>Two increasing finite values that define the world-coordinate limits along columns.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yWorldLimits</param_name>
+      <param_description>Two increasing finite values that define the world-coordinate limits along rows.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>2-D spatial reference structure with image size, intrinsic limits, world limits, world extents and pixel extents.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Create a 2-D spatial reference structure with image size, world limits, intrinsic limits, world extents and pixel extents. The structure can be used as the OutputView value for imwarp or as the source reference in imwarp.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Warp an image into a larger referenced view</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(48,48); I(16:32,16:32)=1;
+R=imref2d([60 72],[0.5 72.5],[0.5 60.5]);
+J=imwarp(I,affine2d([1 0 0;0 1 0;12 8 1]),'nearest','OutputView',R);
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(J); title('Referenced');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imref2d_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a reference from pixel extents</example_item_description>
+      <example_item_data><![CDATA[R = imref2d([2 3], 2, 3);
+R.XWorldLimits
+R.YWorldLimits]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imref3d">imref3d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imwarp">imwarp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

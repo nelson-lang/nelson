@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,13 +10,13 @@
 #include <cstring>
 #include "LoadMatioCell.hpp"
 #include "LoadMatioVariable.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-LoadMatioCell(matvar_t* matVariable, ArrayOf& VariableValue)
+LoadMatioCell(Evaluator* eval, matvar_t* matVariable, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
@@ -24,24 +24,24 @@ LoadMatioCell(matvar_t* matVariable, ArrayOf& VariableValue)
     }
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(NLS_CELL_ARRAY);
         bSuccess = true;
     } else {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         ArrayOf* elements = nullptr;
         try {
             elements = new ArrayOf[nbElements];
             ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, dims, elements);
             for (indexType k = 0; k < nbElements; k++) {
                 matvar_t* elementMatVar = Mat_VarGetCell(matVariable, (int)k);
-                if (!LoadMatioVariable(elementMatVar, true, elements[k])) {
+                if (!LoadMatioVariable(eval, elementMatVar, true, elements[k])) {
                     return false;
                 }
             }
             VariableValue = cell;
             bSuccess = true;
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
     }

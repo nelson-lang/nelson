@@ -7,29 +7,25 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-dest = [tempdir(), 'test_filewrite.txt'];
-if isfile(dest)
-  rmfile(dest);
-end
+dest = [tempname(), '.txt'];
 R1 = {['nel', char(10)], ['son', char(13), char(10)], ['soft', char(13), 'ware', char(10)]};
 filewrite(dest, R1);
 R2 = fileread(dest);
+rmfile(dest);
 %=============================================================================
-dest = [tempdir(), 'test_filewrite_string.txt'];
-if isfile(dest)
-  rmfile(dest);
-end
+dest = [tempname(), '.txt'];
 R3 = ["Nelson"; "is"; "open"];
 filewrite(dest, R3);
 R4 = fileread(dest, "string");
-assert_isequal(R3, R4);
+asserts.isequal(R3, R4);
+rmfile(dest);
 %=============================================================================
-dest = [tempdir(), 'test_filewrite_encoding.txt'];
-if isfile(dest)
-  rmfile(dest);
-end
+dest = [tempname(), '.txt'];
 str = 'живете зело, земля, и иже и како люди';
+skip_testsuite(iswasm(), ...
+  'WebAssembly reduced characters_encoding backend does not provide Windows-1251 conversion.');
 filewrite(dest, str, 'native', 'windows-1251');
-R = fileread(dest,'char','native','windows-1251');
-assert_isequal(R, str);
+R = fileread(dest, 'char', 'native', 'windows-1251');
+asserts.isequal(R, str);
+rmfile(dest);
 %=============================================================================

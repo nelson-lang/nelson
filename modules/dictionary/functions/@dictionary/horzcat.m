@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = horzcat (varargin)
-  error(_("Combining 'dictionary' objects is not allowed as they are designed to be scalar."));
+function varargout = horzcat(varargin)
+  error('Nelson:dictionary:cannotCombine', 'Combining ''dictionary'' objects is not allowed as they are designed to be scalar.');
 end
 %=============================================================================

@@ -48,5 +48,5 @@ RepositoryIsTag(const std::wstring& localPath, const std::wstring& tagName)
     return found;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

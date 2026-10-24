@@ -1,0 +1,326 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-09-14",
+    "lastSavedBy": "allan",
+    "lastSavedAt": "2026-09-14T00:00:00.000Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Bi-level (PC-AC) mechanical ventilation on a single-compartment lung. Airway pressure alternates between Pinsp and PEEP; the lung (resistance R, compliance C) responds as a first-order system, giving the decelerating inspiratory flow and the tidal volume of pressure-controlled ventilation. A periodic patient effort (Pmus) is added at each inspiration onset to emulate an assisted breath. Scopes show Pressure / Flow / Volume like a ventilator screen; the XY scope draws the dynamic pressure-volume loop. Settings: PEEP 5, Pinsp 18 cmH2O, RR 15/min, Ti 1.2 s (Width 30%), R 10 cmH2O.s/L, C 0.05 L/cmH2O (tau = R*C = 0.5 s) -> Vt ~ 0.6 L.",
+  "name": "Medical Ventilator - Bi-level (PC-AC) with simulated patient",
+  "blocks": [
+    {
+      "id": "pv",
+      "type": "pulse",
+      "x": 60,
+      "y": 160,
+      "rotation": 0,
+      "params": { "Amplitude": 13, "Period": 4, "Width": 30, "StartTime": 0, "Offset": 0 }
+    },
+    {
+      "id": "pm",
+      "type": "pulse",
+      "x": 60,
+      "y": 340,
+      "rotation": 0,
+      "params": { "Amplitude": 3, "Period": 4, "Width": 15, "StartTime": 0, "Offset": 0 }
+    },
+    {
+      "id": "bP",
+      "type": "bias",
+      "x": 240,
+      "y": 60,
+      "rotation": 0,
+      "params": { "Bias": 5 }
+    },
+    {
+      "id": "ps",
+      "type": "sum",
+      "x": 240,
+      "y": 240,
+      "rotation": 0,
+      "params": { "Inputs": "++" }
+    },
+    {
+      "id": "es",
+      "type": "sum",
+      "x": 420,
+      "y": 240,
+      "rotation": 0,
+      "params": { "Inputs": "-+" }
+    },
+    {
+      "id": "gR",
+      "type": "gain",
+      "x": 580,
+      "y": 240,
+      "rotation": 0,
+      "params": { "Gain": 0.1 }
+    },
+    {
+      "id": "iV",
+      "type": "integrator",
+      "x": 760,
+      "y": 240,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0,
+        "ExternalReset": "none",
+        "InitialConditionSource": "internal",
+        "LowerSaturationLimit": "-inf",
+        "UpperSaturationLimit": "inf"
+      }
+    },
+    {
+      "id": "gC",
+      "type": "gain",
+      "x": 560,
+      "y": 560,
+      "rotation": 0,
+      "params": { "Gain": 20 }
+    },
+    {
+      "id": "gQ",
+      "type": "gain",
+      "x": 880,
+      "y": 100,
+      "rotation": 0,
+      "params": { "Gain": 60 }
+    },
+    {
+      "id": "gVml",
+      "type": "gain",
+      "x": 880,
+      "y": 440,
+      "rotation": 0,
+      "params": { "Gain": 1000 }
+    },
+    {
+      "id": "scP",
+      "type": "scope",
+      "x": 1000,
+      "y": 40,
+      "rotation": 0,
+      "params": { "TMin": "", "TMax": "", "YMin": 0, "YMax": 22, "width": 300, "height": 150, "ShowTickLabels": true }
+    },
+    {
+      "id": "scF",
+      "type": "scope",
+      "x": 1000,
+      "y": 240,
+      "rotation": 0,
+      "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "width": 300, "height": 150, "ShowTickLabels": true }
+    },
+    {
+      "id": "scV",
+      "type": "scope",
+      "x": 1000,
+      "y": 440,
+      "rotation": 0,
+      "params": { "TMin": "", "TMax": "", "YMin": 0, "YMax": "", "width": 300, "height": 150, "ShowTickLabels": true }
+    },
+    {
+      "id": "xy",
+      "type": "xyScope",
+      "x": 1360,
+      "y": 240,
+      "rotation": 0,
+      "params": { "XMin": 0, "XMax": 22, "YMin": 0, "YMax": "", "width": 260, "height": 220, "ShowTickLabels": true }
+    },
+    {
+      "id": "sl_dP",
+      "type": "dashboardSlider",
+      "x": 80,
+      "y": 720,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Inspiratory pressure dP (cmH2O)",
+        "Binding": { "kind": "parameter", "blockPath": ["pv"], "paramName": "Amplitude", "element": "" },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [0, -1, 25],
+        "DashboardValue": 13
+      }
+    },
+    {
+      "id": "sl_peep",
+      "type": "dashboardSlider",
+      "x": 360,
+      "y": 720,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "PEEP / EPAP (cmH2O)",
+        "Binding": { "kind": "parameter", "blockPath": ["bP"], "paramName": "Bias", "element": "" },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [0, -1, 15],
+        "DashboardValue": 5
+      }
+    },
+    {
+      "id": "sl_E",
+      "type": "dashboardSlider",
+      "x": 640,
+      "y": 720,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Lung elastance 1/C (cmH2O/L)",
+        "Binding": { "kind": "parameter", "blockPath": ["gC"], "paramName": "Gain", "element": "" },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [5, -1, 40],
+        "DashboardValue": 20
+      }
+    },
+    {
+      "id": "sl_R",
+      "type": "dashboardSlider",
+      "x": 920,
+      "y": 720,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Airway conductance 1/R (L/s per cmH2O)",
+        "Binding": { "kind": "parameter", "blockPath": ["gR"], "paramName": "Gain", "element": "" },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [0.03, -1, 0.4],
+        "DashboardValue": 0.1
+      }
+    },
+    {
+      "id": "md_P",
+      "type": "dashboardDisplay",
+      "x": 1340,
+      "y": 470,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Airway pressure Paw (cmH2O)",
+        "Binding": { "kind": "signal", "blockPath": ["bP"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%.1f",
+        "GridColor": [0.502, 0.502, 0.502],
+        "ShowGrid": "on"
+      }
+    },
+    {
+      "id": "md_F",
+      "type": "dashboardDisplay",
+      "x": 1340,
+      "y": 570,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Flow (L/min)",
+        "Binding": { "kind": "signal", "blockPath": ["gQ"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%.1f",
+        "GridColor": [0.502, 0.502, 0.502],
+        "ShowGrid": "on"
+      }
+    },
+    {
+      "id": "mg_V",
+      "type": "dashboardGauge",
+      "x": 1340,
+      "y": 670,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Label": "Tidal volume (mL)",
+        "Binding": { "kind": "signal", "blockPath": ["gVml"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [0, -1, 900],
+        "FontColor": [0, 0, 0],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "pv", "to": "bP", "fromIndex": 0, "toIndex": 0,
+      "points": [[160, 180], [240, 180], [240, 80], [320, 80]]
+    },
+    {
+      "from": "pv", "to": "ps", "fromIndex": 0, "toIndex": 1,
+      "points": [[160, 180], [250, 180], [250, 255], [280, 255]]
+    },
+    {
+      "from": "pm", "to": "ps", "fromIndex": 0, "toIndex": 0,
+      "points": [[160, 380], [250, 380], [250, 265], [280, 265]]
+    },
+    {
+      "from": "ps", "to": "es", "fromIndex": 0, "toIndex": 1,
+      "points": [[300, 260], [380, 260], [380, 255], [440, 255]]
+    },
+    {
+      "from": "es", "to": "gR", "fromIndex": 0, "toIndex": 0,
+      "points": [[460, 260], [490, 260], [490, 250], [520, 250]]
+    },
+    {
+      "from": "gR", "to": "iV", "fromIndex": 0, "toIndex": 0,
+      "points": [[620, 250], [700, 250]]
+    },
+    {
+      "from": "iV", "to": "gC", "fromIndex": 0, "toIndex": 0,
+      "points": [[780, 250], [820, 250], [820, 340], [560, 340], [560, 460], [600, 460]]
+    },
+    {
+      "from": "gC", "to": "es", "fromIndex": 0, "toIndex": 0,
+      "points": [[700, 460], [740, 460], [740, 540], [410, 540], [410, 265], [440, 265]]
+    },
+    {
+      "from": "gR", "to": "gQ", "fromIndex": 0, "toIndex": 0,
+      "points": [[620, 250], [660, 250], [660, 120], [760, 120]]
+    },
+    {
+      "from": "iV", "to": "gVml", "fromIndex": 0, "toIndex": 0,
+      "points": [[780, 250], [900, 250], [900, 440], [760, 440]]
+    },
+    {
+      "from": "bP", "to": "scP", "fromIndex": 0, "toIndex": 0,
+      "points": [[400, 80], [940, 80], [940, 115], [980, 115]]
+    },
+    {
+      "from": "gQ", "to": "scF", "fromIndex": 0, "toIndex": 0,
+      "points": [[860, 120], [930, 120], [930, 305], [980, 305]]
+    },
+    {
+      "from": "gVml", "to": "scV", "fromIndex": 0, "toIndex": 0,
+      "points": [[860, 440], [930, 440], [930, 495], [980, 495]]
+    },
+    {
+      "from": "bP", "to": "xy", "fromIndex": 0, "toIndex": 0,
+      "points": [[400, 80], [430, 80], [430, 620], [1300, 620], [1300, 270], [1340, 270]]
+    },
+    {
+      "from": "gVml", "to": "xy", "fromIndex": 0, "toIndex": 1,
+      "points": [[860, 440], [1010, 440], [1010, 660], [1320, 660], [1320, 330], [1340, 330]]
+    }
+  ],
+  "variables": "",
+  "runtime": "12",
+  "sampleTime": 0.005,
+  "solver": "ode4",
+  "autoRoute": true,
+  "locked": true,
+  "realTime": true
+}

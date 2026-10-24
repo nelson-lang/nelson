@@ -1,0 +1,120 @@
+{
+  "version": "2.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Interactive dashboard slider controlling a gain during simulation",
+  "name": "Dashboard Runtime Demo",
+  "blocks": [
+    {
+      "id": "source",
+      "type": "constant",
+      "x": 60,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Value": 2,
+        "OutDataType": "double"
+      }
+    },
+    {
+      "id": "gain",
+      "type": "gain",
+      "x": 220,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Gain": 1
+      }
+    },
+    {
+      "id": "numeric_sink",
+      "type": "display",
+      "x": 400,
+      "y": 70,
+      "rotation": 0,
+      "params": {
+        "Label": "Display",
+        "Format": "short",
+        "Decimation": 1,
+        "Floating": false,
+        "width": 120,
+        "height": 60
+      }
+    },
+    {
+      "id": "dashboard_display",
+      "type": "dashboardDisplay",
+      "x": 120,
+      "y": 220,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": ["gain"],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%d",
+        "GridColor": [0.502, 0.502, 0.502],
+        "ShowGrid": "on"
+      }
+    },
+    {
+      "id": "gain_slider",
+      "type": "dashboardSlider",
+      "x": 400,
+      "y": 225,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": ["gain"],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [0, -1, 10],
+        "DashboardValue": 1
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "source",
+      "to": "gain",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 100],
+        [220, 100]
+      ]
+    },
+    {
+      "from": "gain",
+      "to": "numeric_sink",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [320, 100],
+        [400, 100]
+      ]
+    }
+  ],
+  "variables": "",
+  "sampleTime": 0.05,
+  "runtime": 10,
+  "solver": "discrete"
+}

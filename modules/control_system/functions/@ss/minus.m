@@ -10,7 +10,7 @@
 function sys = minus(sys1, sys2)
   sysA = ss(sys1);
   sysB = ss(sys2);
-  
+
   % smart version
   sys = sysA + (-sysB);
 end

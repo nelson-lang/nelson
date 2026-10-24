@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 32-->
 % <--GUI MODE-->
 % <--IPC REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
@@ -18,13 +19,13 @@ if ~ismac()
   ipc(getpid, 'minimize', true);
   sleep(2); % wait for minimize
   R = ipc(getpid, 'minimize');
-  assert_isequal(R, true)
+  asserts.isequal(R, true)
 end
 %=============================================================================
 if ismac() || ispc()
   ipc(getpid, 'minimize', false);
   sleep(2); % wait for minimize
   R = ipc(getpid, 'minimize');
-  assert_isequal(R, false)
+  asserts.isequal(R, false)
 end
 %=============================================================================

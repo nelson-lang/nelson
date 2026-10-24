@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include <cstring>
 //=============================================================================
@@ -18,18 +19,21 @@ namespace Nelson {
 bool
 ArrayOf::isSingleClass() const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_SINGLE;
+    }
     if (dp) {
         return (dp->dataClass == NLS_SINGLE || dp->dataClass == NLS_SCOMPLEX);
     }
     return false;
 }
 //=============================================================================
-/**
- * Returns TRUE if it is a single type (not ndarray, not sparse)
- */
 bool
 ArrayOf::isSingleType(bool realOnly) const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_SINGLE && is2D();
+    }
     bool res = false;
     if (dp) {
         if (realOnly) {
@@ -44,6 +48,9 @@ ArrayOf::isSingleType(bool realOnly) const
 bool
 ArrayOf::isNdArraySingleType(bool realOnly) const
 {
+    if (hasScalarStorage()) {
+        return scalarType_ == NLS_SINGLE && !is2D();
+    }
     bool res = false;
     if (dp) {
         if (realOnly) {
@@ -56,16 +63,17 @@ ArrayOf::isNdArraySingleType(bool realOnly) const
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleConstructor(float aval)
+ArrayOf::singleScalar(float aval)
 {
-    Dimensions dim;
-    dim.makeScalar();
-    return ArrayOf(NLS_SINGLE, dim, static_cast<const void*>(&aval), sizeof(float));
+    return ArrayOf(Representation::InlineScalar, aval);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleRowVectorConstructor(indexType len)
+ArrayOf::singleRowVector(indexType len)
 {
+    if (len == 1) {
+        return singleScalar(0.f);
+    }
     Dimensions dim;
     dim.makeScalar();
     dim[1] = len;
@@ -74,7 +82,7 @@ ArrayOf::singleRowVectorConstructor(indexType len)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleComplexRowVectorConstructor(const std::vector<std::complex<single>>& values)
+ArrayOf::singleComplexRowVector(const std::vector<std::complex<single>>& values)
 {
     const size_t count = values.size();
     single* data
@@ -84,8 +92,11 @@ ArrayOf::singleComplexRowVectorConstructor(const std::vector<std::complex<single
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleRowVectorConstructor(const std::vector<single>& values)
+ArrayOf::singleRowVector(const std::vector<single>& values)
 {
+    if (values.size() == 1) {
+        return singleScalar(values.front());
+    }
     const size_t count = values.size();
     single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, count, stringVector(), false));
     std::memcpy(data, values.data(), count * sizeof(single));
@@ -93,14 +104,17 @@ ArrayOf::singleRowVectorConstructor(const std::vector<single>& values)
 }
 //=============================================================================
 ArrayOf
-ArrayOf::singleMatrix2dConstructor(indexType m, indexType n)
+ArrayOf::singleMatrix2d(indexType m, indexType n)
 {
+    if (m == 1 && n == 1) {
+        return singleScalar(0.f);
+    }
     single* data = static_cast<single*>(allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
     return ArrayOf(NLS_SINGLE, Dimensions(m, n), data);
 }
 //=============================================================================
 ArrayOf
-ArrayOf::complexConstructor(float aval, float bval)
+ArrayOf::singleComplexScalar(float aval, float bval)
 {
     Dimensions dim;
     dim.makeScalar();
@@ -109,50 +123,50 @@ ArrayOf::complexConstructor(float aval, float bval)
 }
 //=============================================================================
 single
-ArrayOf::getContentAsSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
+ArrayOf::asSingleScalar(bool arrayAsScalar, bool checkIsIntegerValue) const
 {
     single value = 0;
 
     if (isComplex() || isReferenceType() || isCharacterArray() || isSparse() || isEmpty()
         || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real value scalar."));
+        Error(L"Nelson:types:scalarExpected", L"A scalar expected.");
     }
-    if (getDataClass() != NLS_SINGLE) {
+    if (dataClass() != NLS_SINGLE) {
         single* qp = nullptr;
         ArrayOf P = *this;
         P.promoteType(NLS_SINGLE);
-        qp = (single*)P.getDataPointer();
+        qp = (single*)P.dataPointer();
         value = qp[0];
 
     } else {
         single* qp = nullptr;
-        qp = (single*)dp->getData();
+        qp = (single*)dataPointer();
         value = qp[0];
     }
 
     if (checkIsIntegerValue) {
         single f = std::floor(value);
         if (std::abs(f - value) >= std::numeric_limits<double>::epsilon()) {
-            Error(_W("A real integer value scalar expected."));
+            Error(L"Nelson:integerValueExpected", L"A real integer value scalar expected.");
         }
     }
     return value;
 }
 //=============================================================================
 std::complex<single>
-ArrayOf::getContentAsSingleComplexScalar(bool arrayAsScalar) const
+ArrayOf::asSingleComplexScalar(bool arrayAsScalar) const
 {
     if (isReferenceType() || isCharacterArray() || isEmpty() || (!arrayAsScalar && !isScalar())) {
-        Error(_W("Expected a real valued scalar"));
+        Error(L"Nelson:types:scalarExpected", L"A scalar expected.");
     }
-    if (getDataClass() != NLS_SCOMPLEX) {
+    if (dataClass() != NLS_SCOMPLEX) {
         ArrayOf P(*this);
         P.promoteType(NLS_SCOMPLEX);
-        auto* qp = (single*)P.getDataPointer();
+        auto* qp = (single*)P.dataPointer();
         std::complex<single> cx(qp[0], qp[1]);
         return cx;
     }
-    auto* qp = (single*)dp->getData();
+    auto* qp = (single*)dp->data();
     std::complex<single> cx(qp[0], qp[1]);
     return cx;
 }

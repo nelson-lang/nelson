@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/352
 % <-- Short Description -->
 % add nb input check on macros
 %=============================================================================
-assert_checkerror('magic(1, 1)', _('Wrong number of input arguments.'));
+asserts.checkerror('magic(1, 1)', _('Too many input arguments.'));
 %=============================================================================

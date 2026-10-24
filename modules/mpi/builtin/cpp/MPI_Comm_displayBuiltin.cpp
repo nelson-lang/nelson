@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include <mpi.h>
 #include "MPI_Comm_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
@@ -29,7 +30,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     ArrayOf param1 = argIn[0];
     if (eval == nullptr) {
@@ -44,13 +45,12 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
-                Error(_W("MPI_Comm handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
+                Error(L"Nelson:MPI:commHandleExpected", L"MPI_Comm handle expected.");
             }
-            MPI_CommHandleObject* mpicommhandleobj
-                = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
+            MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)param1.asHandleScalar();
             if (mpicommhandleobj != nullptr) {
-                MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+                MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->pointer();
                 if (obj != nullptr) {
                     io->outputMessage("\n");
                     std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
@@ -60,7 +60,7 @@ Nelson::MpiGateway::MPI_Comm_dispBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("MPI_Comm handle expected."));
+        Error(L"Nelson:MPI:commHandleExpected", L"MPI_Comm handle expected.");
     }
     return retval;
 }
@@ -74,7 +74,7 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     ArrayOf param1 = argIn[0];
     if (eval == nullptr) {
@@ -86,19 +86,18 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
     }
     std::wstring name = argIn[0].wname();
     if (argIn.size() == 2) {
-        name = argIn[1].getContentAsWideString();
+        name = argIn[1].asWideString();
     }
     if (param1.isHandle()) {
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
-                Error(_W("MPI_Comm handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_MPI_COMM_CATEGORY_STR) {
+                Error(L"Nelson:MPI:commHandleExpected", L"MPI_Comm handle expected.");
             }
-            MPI_CommHandleObject* mpicommhandleobj
-                = (MPI_CommHandleObject*)param1.getContentAsHandleScalar();
+            MPI_CommHandleObject* mpicommhandleobj = (MPI_CommHandleObject*)param1.asHandleScalar();
             if (mpicommhandleobj != nullptr) {
-                MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->getPointer();
+                MPI_CommObject* obj = (MPI_CommObject*)mpicommhandleobj->pointer();
                 if (obj != nullptr) {
                     io->outputMessage("\n");
                     std::wstring description = utf8_to_wstring(getMpiCommName(obj->getComm()));
@@ -108,7 +107,7 @@ Nelson::MpiGateway::MPI_Comm_displayBuiltin(Evaluator* eval, int nLhs, const Arr
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("MPI_Comm handle expected."));
+        Error(L"Nelson:MPI:commHandleExpected", L"MPI_Comm handle expected.");
     }
     return retval;
 }

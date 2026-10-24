@@ -40,5 +40,6 @@
 namespace Nelson {
 NLSSTREAM_MANAGER_IMPEXP bool
 FileSeek(File* fp, int64 offset, int origin);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

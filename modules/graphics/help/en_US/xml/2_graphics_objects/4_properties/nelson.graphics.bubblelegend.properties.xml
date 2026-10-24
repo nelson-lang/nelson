@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bubblelegend properties</keyword>
+  <short_description>bubblelegend graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by properties for a bubblelegend graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Box</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>BubbleSizeOrder</b></td>
+        <td>changes the order used for bubble size labels in the bubble legend.</td>
+        <td>Type: text keyword. Supported values: 'ascending' or 'descending'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches the menu used for context-click actions.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value or color mode keyword. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FontAngle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'italic'.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: a system font name or 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>FontWeight</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>includes or excludes the object from mouse hit testing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interpreter</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'tex', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>updates the object placement requested from the parent layout manager.</td>
+        <td>Type: layout options object or empty value. Supported values: layout information stored by parent layout managers, including tile placement data where the object supports tiled layouts.</td>
+      </tr>
+      <tr>
+        <td><b>LimitLabels</b></td>
+        <td>updates the minimum and maximum labels displayed by the bubble legend.</td>
+        <td>Type: text value, string array, or cell array of character row vectors. Supported values: two labels, or empty value for automatic labels.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric scalar. Supported values: value greater than or equal to 0.</td>
+      </tr>
+      <tr>
+        <td><b>Location</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'north', 'south', 'east', 'west', 'northoutside', 'southoutside', 'eastoutside', 'westoutside', 'best', 'none', 'layout', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>NumBubbles</b></td>
+        <td>changes the number of reference bubbles displayed in the bubble legend.</td>
+        <td>Type: positive integer scalar. Supported values: finite integer greater than or equal to 1.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>selects which visible or invisible parts can receive mouse hits.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Style</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: style names defined by this object, such as UI styles, light styles, chart styles, or line styles.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>TextColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>updates the displayed title or the title object associated with the graphics item.</td>
+        <td>Type: text graphics object or text value, depending on the object class. Supported values: a title text object, character row vector, string scalar, or empty text.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the graphics object and list its properties.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+ax = axes('Parent', f);
+bubblechart(ax, 1:3, [2 4 3], [10 30 20]);
+h = bubblelegend(ax, 'Size');
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/4_data_distribution_plots/bubblelegend">bubblelegend</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/4_data_distribution_plots/bubblechart">bubblechart</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/4_data_distribution_plots/bubblesize">bubblesize</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}get">get</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}set">set</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

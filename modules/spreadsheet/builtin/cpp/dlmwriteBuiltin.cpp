@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dlmwriteBuiltin.hpp"
 #include "DelimitedFileWriter.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -75,7 +76,7 @@ dlmwriteBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isPcEOL = DEFAULT_EOF_ISPC;
     res.isAppend = DEFAULT_APPEND_MODE;
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     if (paramStr == L"-append") {
         res.isAppend = true;
     } else {
@@ -99,14 +100,14 @@ dlmwriteBuiltinFourRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isPcEOL = DEFAULT_EOF_ISPC;
     res.isAppend = DEFAULT_APPEND_MODE;
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     if (paramStr == L"-append") {
         res.isAppend = true;
     } else {
-        Error(_W("'-append' expected."));
+        Error(L"Nelson:dlmwrite:invalidOption", L"'%s' expected.", L"-append");
     }
     ArrayOf param4 = argIn[3];
-    paramStr = param4.getContentAsWideString();
+    paramStr = param4.asWideString();
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
     StringHelpers::replace_all(paramStr, L"\\r", L"\r");
@@ -126,9 +127,9 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isPcEOL = DEFAULT_EOF_ISPC;
     res.isAppend = DEFAULT_APPEND_MODE;
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     if (paramStr == L"-append") {
-        Error(_W("a valid delimiter expected."));
+        Error(L"Nelson:dlmwrite:invalidDelimiter", L"a valid delimiter expected.");
     }
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
@@ -136,8 +137,8 @@ dlmwriteBuiltinFiveRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.delimiter = paramStr;
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
-    res.rowsOffset = param4.getContentAsInteger64Scalar();
-    res.colsOffset = param5.getContentAsInteger64Scalar();
+    res.rowsOffset = param4.asInt64Scalar();
+    res.colsOffset = param5.asInt64Scalar();
     return res;
 }
 //=============================================================================
@@ -152,20 +153,20 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isPcEOL = DEFAULT_EOF_ISPC;
     res.isAppend = DEFAULT_APPEND_MODE;
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     if (paramStr == L"-append") {
         // dlmwrite(filename, M, '-append', delimiter, r, c) rhs == 6
         res.isAppend = true;
         ArrayOf param4 = argIn[3];
-        paramStr = param4.getContentAsWideString();
+        paramStr = param4.asWideString();
         StringHelpers::replace_all(paramStr, L"\\t", L"\t");
         StringHelpers::replace_all(paramStr, L"\\n", L"\n");
         StringHelpers::replace_all(paramStr, L"\\r", L"\r");
         res.delimiter = paramStr;
         ArrayOf param5 = argIn[4];
         ArrayOf param6 = argIn[5];
-        res.rowsOffset = param5.getContentAsInteger64Scalar();
-        res.colsOffset = param6.getContentAsInteger64Scalar();
+        res.rowsOffset = param5.asInt64Scalar();
+        res.colsOffset = param6.asInt64Scalar();
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol) rhs == 6
         StringHelpers::replace_all(paramStr, L"\\t", L"\t");
@@ -174,14 +175,14 @@ dlmwriteBuiltinSixRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         res.delimiter = paramStr;
         ArrayOf param4 = argIn[3];
         ArrayOf param5 = argIn[4];
-        res.rowsOffset = param4.getContentAsInteger64Scalar();
-        res.colsOffset = param5.getContentAsInteger64Scalar();
+        res.rowsOffset = param4.asInt64Scalar();
+        res.colsOffset = param5.asInt64Scalar();
         ArrayOf param6 = argIn[5];
-        std::wstring eolStr = param6.getContentAsWideString();
+        std::wstring eolStr = param6.asWideString();
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            Error(_W("'pc' or 'unix' expected."));
+            Error(L"Nelson:dlmwrite:invalidLineEnding", L"%s expected.", L"'pc' or 'unix'");
         }
     }
     return res;
@@ -192,22 +193,22 @@ dlmwriteBuiltinSevenRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     dlmOptions res = dlmwriteBuiltinSixRhs(eval, nLhs, argIn);
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     ArrayOf param7 = argIn[6];
     if (paramStr == L"-append") {
         // dlmwrite(filename, M, '-append', delimiter, r, c, eol) rhs == 7
-        std::wstring eolStr = param7.getContentAsWideString();
+        std::wstring eolStr = param7.asWideString();
         if (eolStr == L"pc" || eolStr == L"unix") {
             res.isPcEOL = (eolStr == L"pc");
         } else {
-            Error(_W("'pc' or 'unix' expected."));
+            Error(L"Nelson:dlmwrite:invalidLineEnding", L"%s expected.", L"'pc' or 'unix'");
         }
     } else {
         // dlmwrite(filename, M, delimiter, r, c, eol, precision) rhs == 7
         if (param7.isCharacterArray()) {
-            res.fmt = param7.getContentAsWideString();
+            res.fmt = param7.asWideString();
         } else {
-            indexType precision = param7.getContentAsScalarIndex(true);
+            indexType precision = param7.asScalarIndex(true);
             res.fmt = L"%." + std::to_wstring(precision) + L"g";
         }
     }
@@ -226,33 +227,33 @@ dlmwriteBuiltinEightRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     res.isPcEOL = DEFAULT_EOF_ISPC;
     res.isAppend = DEFAULT_APPEND_MODE;
     ArrayOf param3 = argIn[2];
-    std::wstring paramStr = param3.getContentAsWideString();
+    std::wstring paramStr = param3.asWideString();
     if (paramStr != L"-append") {
-        Error(_W("'-append' expected."));
+        Error(L"Nelson:dlmwrite:invalidOption", L"'%s' expected.", L"-append");
     }
     res.isAppend = true;
     ArrayOf param4 = argIn[3];
-    paramStr = param4.getContentAsWideString();
+    paramStr = param4.asWideString();
     StringHelpers::replace_all(paramStr, L"\\t", L"\t");
     StringHelpers::replace_all(paramStr, L"\\n", L"\n");
     StringHelpers::replace_all(paramStr, L"\\r", L"\r");
     res.delimiter = paramStr;
     ArrayOf param5 = argIn[4];
     ArrayOf param6 = argIn[5];
-    res.rowsOffset = param5.getContentAsInteger64Scalar();
-    res.colsOffset = param6.getContentAsInteger64Scalar();
+    res.rowsOffset = param5.asInt64Scalar();
+    res.colsOffset = param6.asInt64Scalar();
     ArrayOf param7 = argIn[6];
-    std::wstring eolStr = param7.getContentAsWideString();
+    std::wstring eolStr = param7.asWideString();
     if (eolStr == L"pc" || eolStr == L"unix") {
         res.isPcEOL = (eolStr == L"pc");
     } else {
-        Error(_W("'pc' or 'unix' expected."));
+        Error(L"Nelson:dlmwrite:invalidLineEnding", L"%s expected.", L"'pc' or 'unix'");
     }
     ArrayOf param8 = argIn[7];
     if (param8.isCharacterArray()) {
-        res.fmt = param8.getContentAsWideString();
+        res.fmt = param8.asWideString();
     } else {
-        indexType precision = param8.getContentAsScalarIndex(true);
+        indexType precision = param8.asScalarIndex(true);
         res.fmt = L"%." + std::to_wstring(precision) + L"g";
     }
     return res;
@@ -278,18 +279,19 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
                 try {
                     ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                     if (resVect.size() != 1) {
-                        Error(_W("cell2mat returns more than one output argument."));
+                        Error(L"Nelson:dlmwrite:cell2matMultipleOutputs",
+                            L"cell2mat returns more than one output argument.");
                     }
                     param2 = resVect[0];
-                } catch (const Exception&) {
+                } catch (const NelsonException&) {
                     throw;
                 }
             }
         } else {
-            Error("cell2mat function not found.");
+            Error("Nelson:dlmwrite:cell2matNotFound", "cell2mat function not found.");
         }
     }
-    std::wstring filename = param1.getContentAsWideString();
+    std::wstring filename = param1.asWideString();
     dlmOptions opts;
     switch (argIn.size()) {
     case 2: {
@@ -314,7 +316,7 @@ Nelson::SpreadsheetGateway::dlmwriteBuiltin(Evaluator* eval, int nLhs, const Arr
         opts = dlmwriteBuiltinEightRhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     delimitedFileWriter(param2, filename, opts.isAppend, opts.delimiter, opts.rowsOffset,

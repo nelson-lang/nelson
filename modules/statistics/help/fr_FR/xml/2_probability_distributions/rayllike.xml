@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rayllike</keyword>
+  <short_description>Log-vraisemblance negative Rayleigh</short_description>
+  <syntax>
+    <syntax_item>nlogL = rayllike(b, x)</syntax_item>
+    <syntax_item>[nlogL, avar] = rayllike(b, x, censoring, freq)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>b</param_name><param_description>scalaire positif : parametre d'echelle.</param_description></param_input_item>
+    <param_input_item><param_name>x</param_name><param_description>tableau reel non negatif fini non vide : donnees d'echantillon.</param_description></param_input_item>
+    <param_input_item><param_name>censoring</param_name><param_description>tableau contenant les valeurs 0 ou 1 : indicateurs de censure a droite.</param_description></param_input_item>
+    <param_input_item><param_name>freq</param_name><param_description>tableau de valeurs finies non negatives : frequences des observations.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>nlogL</param_name><param_description>scalaire : log-vraisemblance negative.</param_description></param_output_item>
+    <param_output_item><param_name>avar</param_name><param_description>scalaire : variance approchee.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>rayllike</b> evalue la log-vraisemblance negative de la distribution Rayleigh.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = [0.5 1 2 3 5 8];
+b = raylfit(x);
+nlogL = rayllike(b, x);]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}raylfit">raylfit</link></see_also_item>
+    <see_also_item><link linkend="${statistics}raylpdf">raylpdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}raylcdf">raylcdf</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

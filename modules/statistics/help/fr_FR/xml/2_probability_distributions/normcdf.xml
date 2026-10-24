@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>normcdf</keyword>
+  <short_description>Fonction de repartition normale</short_description>
+  <syntax>
+    <syntax_item>p = normcdf(x)</syntax_item>
+    <syntax_item>p = normcdf(x, mu, sigma)</syntax_item>
+    <syntax_item>p = normcdf(..., &apos;upper&apos;)</syntax_item>
+    <syntax_item>[p, pLo, pUp] = normcdf(x, mu, sigma, pCov)</syntax_item>
+    <syntax_item>[p, pLo, pUp] = normcdf(x, mu, sigma, pCov, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>scalaire reel ou tableau : valeurs ou evaluer la distribution.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description>scalaire reel ou tableau, 0 par defaut : moyenne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>scalaire reel positif ou tableau, 1 par defaut : ecart-type.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pCov</param_name>
+      <param_description>matrice de covariance 2-par-2 pour les parametres estimes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>scalaire ou tableau : probabilites cumulees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pLo</param_name>
+      <param_description>borne inferieure de confiance.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pUp</param_name>
+      <param_description>borne superieure de confiance.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>normcdf</b> evalue la fonction de repartition de la loi normale.</p>
+    <p>Les scalaires sont etendus pour correspondre aux tableaux. Une entree en simple precision donne une sortie en simple precision.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [-2 -1 0 1 2];
+p = normcdf(x);
+upperTail = normcdf(x, 0, 1, 'upper');
+[p, pLo, pUp] = normcdf(0, 0, 1, [0.04 0; 0 0.01]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}normpdf">normpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}norminv">norminv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

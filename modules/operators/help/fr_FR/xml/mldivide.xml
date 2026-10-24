@@ -12,11 +12,11 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>une variable</param_description>
+      <param_description>une variable, une table ou une timetable. Lorsque l&apos;autre opérande est une table ou une timetable, cet argument doit être un scalaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>une variable</param_description>
+      <param_description>une variable, une table ou une timetable. Lorsque l&apos;autre opérande est une table ou une timetable, cet argument doit être un scalaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,6 +28,15 @@
   <description>
     <p>
       <b>C = mldivide(A, B)</b> retourne la division matricielle gauche de A et B.</p>
+    <p>
+      Pour les matrices sparse flottantes, Nelson utilise les solveurs sparse Eigen disponibles. Les systemes symetriques definis positifs utilisent des chemins de Cholesky sparse, les systemes hermitiens ou symetriques indefinis peuvent utiliser LDLT sparse, les systemes carres generaux utilisent LU sparse, et les systemes rectangulaires utilisent QR sparse ou un repli iteratif de moindres carres.</p>
+    <p>
+      Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Les entrees reelles et complexes compatibles sont promues vers la classe complexe correspondante. Les seconds membres sparse conservent le stockage sparse lorsque le resultat peut etre represente de cette maniere.</p>
+    <p>
+      Les systemes sparse rectangulaires retournent une solution de moindres carres pour les systemes surdetermines et une solution sparse compatible pour les systemes sous-determines lorsque le systeme est exactement satisfiable.</p>
+    <p>
+      Les diagonales singulieres et les systemes sparse structurellement nuls emettent des avertissements clairs et retournent des valeurs <b>Inf</b> ou <b>NaN</b> lorsque les divisions scalaires les imposent.</p>
+    <p>Lorsqu&apos;un opérande est une table ou une timetable et que l&apos;autre est un scalaire, <b>A \ B</b> est une opération élément par élément appliquée à chaque variable, identique à <b>A .\ B</b> : les noms de variables, les unités et les temps de ligne sont conservés. Toute autre combinaison avec une table ou une timetable (deux tables, ou une table et un tableau non scalaire) provoque une erreur : utilisez <b>.\</b> à la place.</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,6 +50,53 @@
 A = B *2
 A \ B]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resolution sparse single.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1; 2 3]));
+b = single([1; 2]);
+x = A \ b]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resolution sparse single complexe avec second membre sparse.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([3 + 1i 1; 0 2 - 1i]));
+B = sparse(single([4 + 2i 0; 3 - 1i 1]));
+X = A \ B
+full(A * X)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resolution sparse single complexe hermitienne indefinie.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([0 1 + 2i; 1 - 2i 3]));
+B = sparse(single([1 + 1i 0; 2 - 1i 1]));
+X = A \ B
+full(A * X)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resolution sparse rectangulaire au sens des moindres carres.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+x = A \ b
+norm(A * x - b)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Systeme sparse sous-determine avec solution sparse exacte.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 2 0; 0 4 3]);
+b = sparse([8; 18]);
+x = A \ b
+full(A * x)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Opération élément par élément entre une table et un scalaire.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [4; 8]);
+2 \ T]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -49,11 +105,25 @@ A \ B]]></example_item_data>
     <see_also_item>
       <link linkend="${operators}mrdivide">mrdivide</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>documentation des resolutions sparse Eigen pour les cas single, single complexes, carres, rectangulaires, sous-determines et avec second membre sparse.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>opérandes table et timetable combinés avec un scalaire (opération élément par élément).</history_description>
     </history_item>
   </history>
   <authors>

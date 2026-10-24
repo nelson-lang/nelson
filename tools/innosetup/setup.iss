@@ -8,8 +8,13 @@
 ; LICENCE_BLOCK_END
 ;==============================================================================
 UsedUserAreasWarning=false
+; Default to a per-user install (no elevation / no UAC). The dialog still lets
+; the user pick an all-users install, which then elevates.
+PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline dialog
 ChangesEnvironment=yes
+; Nelson 2.0 targets Windows 10 and later (x64 / ARM64).
+MinVersion=10.0
 #ifdef NELSON_WOA64
 ArchitecturesAllowed=arm64
 ArchitecturesInstallIn64BitMode=arm64
@@ -43,7 +48,6 @@ OutputBaseFilename={#APPLICATION_NAME}-{#APPLICATION_VERSION}-{#ARCH_SUFFIX}
 ; Modern UI settings
 ;==============================================================================
 WizardStyle=modern
-WizardResizable=yes
 WizardSizePercent=110
 WizardImageFile={#RootPath}tools\innosetup\wizard_image.bmp
 WizardSmallImageFile={#RootPath}tools\innosetup\wizard_small_image.bmp

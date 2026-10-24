@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uidatepicker</keyword>
+  <short_description>Create date picker component.</short_description>
+  <syntax>
+    <syntax_item>h = uidatepicker()</syntax_item>
+    <syntax_item>h = uidatepicker(parent)</syntax_item>
+    <syntax_item>h = uidatepicker(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent container.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI component object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>d = uidatepicker</b> creates a date picker whose <b>Value</b> is a datetime scalar (NaT when empty). Properties: <b>DisplayFormat</b> (LDML), <b>Limits</b>, <b>DisabledDates</b>, <b>DisabledDaysOfWeek</b>, <b>Editable</b>, <b>ValueChangedFcn</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI component for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Date picker', 'Position', [100 100 420 260]);
+dp = uidatepicker(f, 'Position', [120 115 180 24]);
+dp.Value = datetime(2026, 7, 19);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uidatepicker_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uidatepicker</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+d = uidatepicker(f, 'Value', datetime(2026, 7, 18));
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

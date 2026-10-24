@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,8 @@
 #include "createGUIDBuiltin.hpp"
 #include "CreateGUID.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,15 +22,16 @@ Nelson::OsFunctionsGateway::createGUIDBuiltin(int nLhs, const ArrayOfVector& arg
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     if (argIn.empty()) {
-        retval << ArrayOf::characterArrayConstructor(CreateGUID());
+        retval << ArrayOf::characterArray(CreateGUID());
     } else {
         ArrayOf arg1 = argIn[0];
         if (arg1.isNumeric()) {
-            indexType idx = arg1.getContentAsScalarIndex();
+            indexType idx = arg1.asScalarIndex();
             wstringVector strs = CreateGUID(static_cast<size_t>(idx));
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(strs);
+            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(strs);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"double");
         }
     }
     return retval;

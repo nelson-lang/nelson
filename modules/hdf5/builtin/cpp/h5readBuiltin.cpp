@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "h5readBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "h5ReadDataset.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,17 +22,15 @@ Nelson::Hdf5Gateway::h5readBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 2, 2);
     std::wstring filename;
     std::wstring datasetname;
     switch (argIn.size()) {
     case 2: {
         ArrayOf param1 = argIn[0];
         ArrayOf param2 = argIn[1];
-        filename = param1.getContentAsWideString();
-        datasetname = param2.getContentAsWideString();
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        filename = param1.asWideString();
+        datasetname = param2.asWideString();
     } break;
     }
     retval << h5ReadDataset(filename, datasetname);

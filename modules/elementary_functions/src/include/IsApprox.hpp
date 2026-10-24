@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP bool
 IsApprox(ArrayOf A, ArrayOf B, double precision);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

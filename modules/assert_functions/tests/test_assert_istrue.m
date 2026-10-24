@@ -7,42 +7,46 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+assert_isequal(nargin('assert_istrue'), -1);
+assert_isequal(nargout('assert_istrue'), 2);
+%=============================================================================
 assert_istrue(true);
+assert_checkerror('assert_istrue(false)', _('Assertion failed: found false entry in condition = false.'), 'Nelson:asserts:assertionFailed');
 r = assert_istrue(true);
 if (r ~= true)
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(true);
 if (r ~= true)
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 if strcmp(msg, '') == false
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 r = assert_istrue(false);
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(false);
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 if strcmp(msg, _('Assertion failed: found false entry in condition = false.')) == false
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 [r, msg] = assert_istrue(false, _('your error message'));
 if (r ~= false)
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 if strcmp(msg, _('your error message')) == false
-  error(_('assert_istrue fails.'));
+  error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
 end
 %=============================================================================
 try
@@ -50,7 +54,7 @@ try
 catch
   err = lasterror();
   if strcmp(err.message, _('Assertion failed: found false entry in condition = false.')) == false
-    error(_('assert_istrue fails.'));
+    error('Nelson:asserts:testFailure', _('assert_istrue fails.'));
   end
 end
 %=============================================================================

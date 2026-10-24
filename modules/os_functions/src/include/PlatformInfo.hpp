@@ -19,12 +19,16 @@ NLSOS_FUNCTIONS_IMPEXP ArrayOf
 IsMac();
 NLSOS_FUNCTIONS_IMPEXP ArrayOf
 IsUnix();
+NLSOS_FUNCTIONS_IMPEXP ArrayOf
+IsWasm();
 NLSOS_FUNCTIONS_IMPEXP bool
 IsPcPlatform();
 NLSOS_FUNCTIONS_IMPEXP bool
 IsMacPlatform();
 NLSOS_FUNCTIONS_IMPEXP bool
 IsUnixPlatform();
+NLSOS_FUNCTIONS_IMPEXP bool
+IsWasmPlatform();
 NLSOS_FUNCTIONS_IMPEXP std::wstring
 GetArchitecture();
 NLSOS_FUNCTIONS_IMPEXP std::wstring
@@ -33,5 +37,6 @@ NLSOS_FUNCTIONS_IMPEXP double
 GetMaxArrayOfSizeSupported();
 NLSOS_FUNCTIONS_IMPEXP bool
 IsBigEndian();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

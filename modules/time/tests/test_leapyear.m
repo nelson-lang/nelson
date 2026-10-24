@@ -9,9 +9,9 @@
 %=============================================================================
 years = [120 140 150 158 1582 1584 160 1602 180 190 195 200 201 2004 2021];
 tf = leapyear(years);
-REF = [true    true    false   false   false   true    true    false   true    false   false   false   false   true    false ];
-assert_isequal(tf, REF);
+REF = [true true false false false true true false true false false false false true false];
+asserts.isequal(tf, REF);
 %=============================================================================
 tf = leapyear([]);
-assert_isequal(tf, logical([]));
+asserts.isequal(tf, logical([]));
 %=============================================================================

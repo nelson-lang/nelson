@@ -12,15 +12,11 @@
 #include <string>
 #include "nlsGui_exports.h"
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
-#else
-#include <QtWidgets/QAction>
-#endif
 #include <QtWidgets/QListWidget>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QDockWidget>
-#include <QtWidgets/QSizeGrip>
 //=============================================================================
 class QtHistoryBrowser : public QDockWidget
 {
@@ -47,23 +43,29 @@ public:
 
 private:
     QListWidget* m_listWidget;
+    QLineEdit* m_searchLineEdit;
     QMenu* m_popup;
-    QAction *m_execute, *m_clearall, *m_copy, *m_delete, *m_toEditor;
+    QAction *m_execute, *m_clearall, *m_copy, *m_delete, *m_toEditor, *m_toCommandLine;
 
     QStatusBar* statusBar;
-    QSizeGrip* sizeGrip;
 
     void
     createContextMenu();
+
+    void
+    applySearchFilter();
+
+    QStringList
+    selectedCommands();
 
 protected:
     void
     keyPressEvent(QKeyEvent* event) override;
 
     void
-    contextMenuEvent(QContextMenuEvent* e);
+    contextMenuEvent(QContextMenuEvent* e) override;
     void
-    closeEvent(QCloseEvent*);
+    closeEvent(QCloseEvent*) override;
 public slots:
     void
     addCommand(const QStringList& lines);
@@ -82,11 +84,13 @@ public slots:
     void
     toTextEditor();
     void
-    handleDockLocationChanged(Qt::DockWidgetArea area);
+    toCommandLine();
 
 signals:
     void
     sendCommands(const QStringList& t);
+    void
+    sendToCommandLine(const QStringList& t);
     void
     sendToTextEditor();
     void

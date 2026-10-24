@@ -34,7 +34,7 @@ def findFolder(folder, libName):
 
 # =============================================================================
 # Function to find the library in the executable folder.
-def findLibrayWithExecutable(libName):
+def findLibraryWithExecutable(libName):
     # Get the path of the folder containing the executable.
     executableFolder = os.path.split(sys.executable)[0]
     # Search for the library in the executable folder.
@@ -42,7 +42,7 @@ def findLibrayWithExecutable(libName):
 
 # =============================================================================
 # Function to find the library in various system directories.
-def findLibrayWithPrefix(libName):
+def findLibraryWithPrefix(libName):
     # Get possible locations where the library might be installed.
     # https://docs.python.org/3/library/sys.html
     possibleHomes = [getattr(sys, prefix, '') for prefix in ['prefix', 'exec_prefix', 'base_prefix', 'base_exec_prefix']]
@@ -66,7 +66,7 @@ def findLibrayWithPrefix(libName):
 
 # =============================================================================
 # Function to find the library using ctypes.
-def findLibrayWithCTypes(libName):
+def findLibraryWithCTypes(libName):
     # Use ctypes to find the library.
     if os.name == 'nt':
         libPath = find_library(libName) or find_library(libName + '.dll')
@@ -85,9 +85,9 @@ def searchLocations(libName):
     else:
         libName = f'python{sys.version_info[0]}.{sys.version_info[1]}'
     # Add methods for finding the library.
-    locations.append(findLibrayWithExecutable)
-    locations.append(findLibrayWithPrefix)
-    locations.append(findLibrayWithCTypes)
+    locations.append(findLibraryWithExecutable)
+    locations.append(findLibraryWithPrefix)
+    locations.append(findLibraryWithCTypes)
     return locations
 
 # =============================================================================

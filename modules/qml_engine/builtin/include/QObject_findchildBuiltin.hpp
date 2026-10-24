@@ -15,7 +15,6 @@
 namespace Nelson::QmlEngineGateway {
 ArrayOfVector
 QObject_findchildBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
-}
-; // namespace Nelson
+//=============================================================================
+} // namespace Nelson::QmlEngineGateway
 //=============================================================================

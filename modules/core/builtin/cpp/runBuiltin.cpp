@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,12 +13,43 @@
 //=============================================================================
 #include "runBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "EvaluateScriptFile.hpp"
+#include "EvaluateCommand.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include <algorithm>
+#include <cwctype>
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+// A Notebook document (.nlx) is not a plain script: it is handed to the
+// notebook module's builtin, resolved at run time (core does not depend on
+// that optional module).
+static bool
+isNotebookDocument(const std::wstring& filename)
+{
+    if (filename.size() < 4) {
+        return false;
+    }
+    std::wstring ext = filename.substr(filename.size() - 4);
+    std::transform(ext.begin(), ext.end(), ext.begin(),
+        [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+    return ext == L".nlx";
+}
+//=============================================================================
+static std::wstring
+quoteForNelson(const std::wstring& filename)
+{
+    std::wstring escaped;
+    for (const wchar_t c : filename) {
+        escaped += c;
+        if (c == L'\'') {
+            escaped += L'\'';
+        }
+    }
+    return L"notebook('" + escaped + L"');";
+}
 //=============================================================================
 static ArrayOfVector
 runBuiltinCommon(
@@ -27,8 +58,15 @@ runBuiltinCommon(
     ArrayOfVector retval;
     bool bSuccess = false;
     try {
-        bSuccess = EvaluateScriptFile(eval, filename, changeDirectory);
-    } catch (Exception& e) {
+        if (isNotebookDocument(filename)) {
+            bSuccess = EvaluateCommand(eval, quoteForNelson(filename), false);
+        } else {
+            bSuccess = EvaluateScriptFile(eval, filename, changeDirectory);
+        }
+    } catch (NelsonException& e) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            throw;
+        }
         if (errorCatch) {
             eval->setLastErrorException(e);
             bSuccess = false;
@@ -37,7 +75,7 @@ runBuiltinCommon(
         }
     }
     if (errorCatch) {
-        retval << ArrayOf::logicalConstructor(bSuccess);
+        retval << ArrayOf::logicalScalar(bSuccess);
     }
     return retval;
 }
@@ -49,27 +87,27 @@ runBuiltinThreeRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     bool bChangeDir = true;
     std::wstring wpath;
     if (argIn[2].isLogical()) {
-        bChangeDir = (argIn[2].getContentAsLogicalScalar() == 0) ? false : true;
+        bChangeDir = (argIn[2].asLogicalScalar() == 0) ? false : true;
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"logical");
     }
     if (argIn[1].isRowVectorCharacterArray()) {
-        std::wstring arg2 = argIn[1].getContentAsWideString();
+        std::wstring arg2 = argIn[1].asWideString();
         if (arg2.compare(L"errcatch") == 0) {
             bErrorCatch = true;
             nargoutcheck(nLhs, 0, 1);
         } else if (arg2.compare(L"nocatch") == 0) {
             bErrorCatch = false;
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (argIn[0].isRowVectorCharacterArray()) {
-        wpath = argIn[0].getContentAsWideString();
+        wpath = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -82,26 +120,27 @@ runBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     std::wstring wpath;
     if (argIn[1].isLogical()) {
         nargoutcheck(nLhs, 0, 0);
-        bChangeDir = (argIn[1].getContentAsLogicalScalar() == 0) ? false : true;
+        bChangeDir = (argIn[1].asLogicalScalar() == 0) ? false : true;
     } else {
         if (argIn[1].isRowVectorCharacterArray()) {
-            std::wstring arg2 = argIn[1].getContentAsWideString();
+            std::wstring arg2 = argIn[1].asWideString();
             if (arg2.compare(L"errcatch") == 0) {
                 bErrorCatch = true;
                 nargoutcheck(nLhs, 0, 1);
             } else if (arg2.compare(L"nocatch") == 0) {
                 bErrorCatch = false;
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"logical or string");
         }
     }
     if (argIn[0].isRowVectorCharacterArray()) {
-        wpath = argIn[0].getContentAsWideString();
+        wpath = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return runBuiltinCommon(eval, wpath, bErrorCatch, bChangeDir);
 }
@@ -112,9 +151,9 @@ runBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     std::wstring wpath;
     if (argIn[0].isRowVectorCharacterArray()) {
-        wpath = argIn[0].getContentAsWideString();
+        wpath = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return runBuiltinCommon(eval, wpath, false, true);
 }
@@ -123,6 +162,7 @@ ArrayOfVector
 Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
+    nargincheck(argIn, 1, 3);
     if (argIn.size() == 1) {
         return runBuiltinOneRhs(eval, nLhs, argIn);
     }
@@ -132,8 +172,6 @@ Nelson::CoreGateway::runBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     if (argIn.size() == 3) {
         return runBuiltinThreeRhs(eval, nLhs, argIn);
     }
-    Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-
     return retval;
 }
 //=============================================================================

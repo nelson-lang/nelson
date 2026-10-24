@@ -11,23 +11,23 @@
 %=============================================================================
 R = pyrun("message = 'Python is fun';byte_message = bytes(message, 'utf-8')", "byte_message");
 %=============================================================================
-REF = [80   121   116   104   111   110    32   105   115    32   102   117   110];
+REF = [80 121 116 104 111 110 32 105 115 32 102 117 110];
 %=============================================================================
-assert_isequal(class(R), 'py.bytes');
-assert_isequal(double(R), REF);
-assert_isequal(R.double, REF);
+asserts.isequal(class(R), 'py.bytes');
+asserts.isequal(double(R), REF);
+asserts.isequal(R.double, REF);
 %=============================================================================
-assert_isequal(R.char(), 'b''Python is fun''');
-assert_isequal(R.int8(), int8(REF));
-assert_isequal(R.int16(), int16(REF));
-assert_isequal(R.int32(), int32(REF));
-assert_isequal(R.int64(), int64(REF));
-assert_isequal(R.uint8(), uint8(REF));
-assert_isequal(R.uint16(), uint16(REF));
-assert_isequal(R.uint32(), uint32(REF));
-assert_isequal(R.uint64(), uint64(REF));
-assert_isequal(R.single(), single(REF));
-assert_checkerror('R.struct()', _('Wrong value for #2 argument. struct'));
-assert_checkerror('R.string()', _('Wrong value for #2 argument. string'));
+asserts.isequal(R.char(), 'b''Python is fun''');
+asserts.isequal(R.int8(), int8(REF));
+asserts.isequal(R.int16(), int16(REF));
+asserts.isequal(R.int32(), int32(REF));
+asserts.isequal(R.int64(), int64(REF));
+asserts.isequal(R.uint8(), uint8(REF));
+asserts.isequal(R.uint16(), uint16(REF));
+asserts.isequal(R.uint32(), uint32(REF));
+asserts.isequal(R.uint64(), uint64(REF));
+asserts.isequal(R.single(), single(REF));
+asserts.checkerror('R.struct()', sprintf(_('Invalid property: %s.'), 'struct'));
+asserts.checkerror('R.string()', sprintf(_('Invalid property: %s.'), 'string'));
 %=============================================================================
 

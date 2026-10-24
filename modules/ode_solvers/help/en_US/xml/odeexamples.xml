@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeexamples</keyword>
+  <short_description>ODE examples entry point.</short_description>
+  <syntax>
+    <syntax_item>odeexamples()</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeexamples</b> opens the ODE workflow help page, which contains runnable examples and tutorials.</p>
+    <table style="width:100%">
+  <tr><th>Example</th><th>Focus</th><th>Output</th></tr>
+  <tr><td>Basic ODE</td><td>Initial value solve and dense output.</td><td>Solution curves and sampled values.</td></tr>
+  <tr><td>Events and mass matrix</td><td>Event localization, mass matrices, and solver options.</td><td>Event points and diagnostic plots.</td></tr>
+  <tr><td>DDE/BVP added features</td><td>Delay equations and boundary value problems.</td><td>Plots and solution structures.</td></tr>
+</table>
+    <p>The <b>ode_solvers/examples</b> directory also contains complete scripts for events and interpolation, fully implicit equations, delay sensitivities, DDE/BVP workflows, and optional SUNDIALS sparse preconditioning.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open the examples entry point.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[odeexamples()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run the event and interpolation example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/ode_object_event_interpolation_example.m'])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run the DDE and BVP example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run the optional SUNDIALS sparse preconditioner example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/ode_sundials_sparse_preconditioner_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}1_ode_workflows">ode workflows</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}dde23">dde23</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvp4c">bvp4c</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESStiff">nelson.ode.options.CVODESStiff</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

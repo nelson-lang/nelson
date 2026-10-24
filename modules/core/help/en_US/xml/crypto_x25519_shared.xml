@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>crypto.x25519.shared</keyword>
+  <short_description>Compute an X25519 shared secret.</short_description>
+  <syntax>
+    <syntax_item>sharedSecret = crypto.x25519.shared(secretKey, peerPublicKey)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>secretKey</param_name>
+      <param_description>a uint8 vector of 32 bytes or 64 hexadecimal characters: your private key.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>peerPublicKey</param_name>
+      <param_description>a uint8 vector of 32 bytes or 64 hexadecimal characters: the other party public key.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>sharedSecret</param_name>
+      <param_description>a character vector: 64 lowercase hexadecimal characters (32 bytes).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>crypto.x25519.shared</b> computes the Diffie-Hellman shared secret (RFC 7748) from your secret key and a peer public key. Both parties obtain the same value.</p>
+    <p>Do not use the raw shared secret as an encryption key: hash it first, for example with <b>crypto.blake2b(shared, [], 32)</b>.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://www.rfc-editor.org/rfc/rfc7748, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>both peers agree on the same secret</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[aPub, aSec] = crypto.x25519.keypair();
+[bPub, bSec] = crypto.x25519.keypair();
+isequal(crypto.x25519.shared(aSec, bPub), crypto.x25519.shared(bSec, aPub))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.x25519.public">crypto.x25519.public</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.x25519.keypair">crypto.x25519.keypair</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.aead.encrypt">crypto.aead.encrypt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

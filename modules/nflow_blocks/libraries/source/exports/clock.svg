@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="307" viewBox="-153.5 -153.5 307 307">
+  <rect x="-153.5" y="-153.5" width="307" height="307" rx="58.33" fill="#FAEEDA" stroke="#FAC775" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#633806" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">Clock</text></g>
+    <ellipse cx="0" cy="0" rx="80" ry="80" fill="none" stroke="#FAC775" stroke-width="3.25"/>
+    <polyline points="0,80 0,60" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="80,0 60,0" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-80 0,-60" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,0 -60,0" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="37,70 26,50" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,38 49,26" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="71,-37 52,-27" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="39,-70 29,-51" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-39,-70 -29,-52" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-71,-37 -50,-26" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-71,37 -54,28" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-38,70 -28,51" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,0 -50,50" fill="none" stroke="#633806" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,0 40,0" fill="none" stroke="#633806" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">startTime</text></g>
+  </g>
+</svg>

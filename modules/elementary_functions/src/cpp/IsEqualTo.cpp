@@ -117,14 +117,14 @@ static bool
 sparsecomplex_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)B.sparseDataPointer();
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -169,15 +169,15 @@ static bool
 sparsereal_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.sparseDataPointer();
 
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -220,14 +220,14 @@ static bool
 sparselogical_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.sparseDataPointer();
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -244,8 +244,8 @@ sparselogical_IsEqualTo(const ArrayOf& A, const ArrayOf& B)
 static bool
 string_IsEqualto(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 {
-    auto* elementA = (ArrayOf*)A.getDataPointer();
-    auto* elementB = (ArrayOf*)B.getDataPointer();
+    auto* elementA = (ArrayOf*)A.dataPointer();
+    auto* elementB = (ArrayOf*)B.dataPointer();
     for (ompIndexType k = 0; k < nbElements; k++) {
         ArrayOf el1 = elementA[k];
         ArrayOf el2 = elementB[k];
@@ -257,8 +257,8 @@ string_IsEqualto(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
         if (isMissingEl1 || isMissingEl2) {
             return false;
         }
-        std::wstring strA = el1.getContentAsWideString();
-        std::wstring strB = el2.getContentAsWideString();
+        std::wstring strA = el1.asWideString();
+        std::wstring strB = el2.asWideString();
         if (strA != strB) {
             return false;
         }
@@ -269,9 +269,9 @@ string_IsEqualto(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 static bool
 cell_IsEqualto(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
-    for (size_t k = 0; k < A.getElementCount(); ++k) {
+    ArrayOf* elementsA = (ArrayOf*)A.dataPointer();
+    ArrayOf* elementsB = (ArrayOf*)B.dataPointer();
+    for (size_t k = 0; k < A.elementCount(); ++k) {
         bool res = isEqualTo(eval, elementsA[k], elementsB[k], needToOverload);
         if (!res) {
             return false;
@@ -283,15 +283,16 @@ cell_IsEqualto(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needTo
 static bool
 struct_IsEqualto(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    stringVector fieldnamesA = A.getFieldNames();
-    stringVector fieldnamesB = B.getFieldNames();
-    if (!std::equal(
+    stringVector fieldnamesA = A.fieldNames();
+    stringVector fieldnamesB = B.fieldNames();
+    if (fieldnamesA.size() != fieldnamesB.size()
+        || !std::equal(
             fieldnamesA.begin(), fieldnamesA.end(), fieldnamesB.begin(), fieldnamesB.end())) {
         return false;
     }
     for (auto& name : fieldnamesA) {
-        ArrayOfVector fieldsA = A.getFieldAsList(name);
-        ArrayOfVector fieldsB = B.getFieldAsList(name);
+        ArrayOfVector fieldsA = A.fieldAsList(name);
+        ArrayOfVector fieldsB = B.fieldAsList(name);
         for (size_t k = 0; k < fieldsA.size(); ++k) {
             bool res = isEqualTo(eval, fieldsA[k], fieldsB[k], needToOverload);
             if (!res) {
@@ -302,14 +303,23 @@ struct_IsEqualto(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& need
     return true;
 }
 //=============================================================================
+static bool
+class_IsEqualto(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    if (A.classType() != B.classType()) {
+        return false;
+    }
+    return struct_IsEqualto(eval, A, B, needToOverload);
+}
+//=============================================================================
 bool
 isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    if (A.getElementCount() != B.getElementCount()) {
+    if (A.elementCount() != B.elementCount()) {
         return false;
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_MISSING_ARRAY: {
         return true;
     } break;
@@ -317,69 +327,69 @@ isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverl
         if (A.isSparse()) {
             return sparsereal_IsEqualTo(A, B);
         }
-        return real_IsEqualto<double>((const double*)A.getDataPointer(),
-            (const double*)B.getDataPointer(), A.getElementCount());
+        return real_IsEqualto<double>(
+            (const double*)A.dataPointer(), (const double*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_SINGLE: {
-        return real_IsEqualto<single>((const single*)A.getDataPointer(),
-            (const single*)B.getDataPointer(), A.getElementCount());
+        return real_IsEqualto<single>(
+            (const single*)A.dataPointer(), (const single*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
             return sparsecomplex_IsEqualTo(A, B);
         }
-        return complex_IsEqualto<double>((const double*)A.getDataPointer(),
-            (const double*)B.getDataPointer(), A.getElementCount());
+        return complex_IsEqualto<double>(
+            (const double*)A.dataPointer(), (const double*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_SCOMPLEX: {
-        return complex_IsEqualto<single>((const single*)A.getDataPointer(),
-            (const single*)B.getDataPointer(), A.getElementCount());
+        return complex_IsEqualto<single>(
+            (const single*)A.dataPointer(), (const single*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_INT8: {
-        return integer_IsEqualto<int8>((const int8*)A.getDataPointer(),
-            (const int8*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<int8>(
+            (const int8*)A.dataPointer(), (const int8*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT16: {
-        return integer_IsEqualto<int16>((const int16*)A.getDataPointer(),
-            (const int16*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<int16>(
+            (const int16*)A.dataPointer(), (const int16*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT32: {
-        return integer_IsEqualto<int32>((const int32*)A.getDataPointer(),
-            (const int32*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<int32>(
+            (const int32*)A.dataPointer(), (const int32*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT64: {
-        return integer_IsEqualto<int64>((const int64*)A.getDataPointer(),
-            (const int64*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<int64>(
+            (const int64*)A.dataPointer(), (const int64*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT8: {
-        return integer_IsEqualto<uint8>((const uint8*)A.getDataPointer(),
-            (const uint8*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<uint8>(
+            (const uint8*)A.dataPointer(), (const uint8*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT16: {
-        return integer_IsEqualto<uint16>((const uint16*)A.getDataPointer(),
-            (const uint16*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<uint16>((const uint16*)A.dataPointer(),
+            (const uint16*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT32: {
-        return integer_IsEqualto<uint32>((const uint32*)A.getDataPointer(),
-            (const uint32*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<uint32>((const uint32*)A.dataPointer(),
+            (const uint32*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT64: {
-        return integer_IsEqualto<uint64>((const uint64*)A.getDataPointer(),
-            (const uint64*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<uint64>((const uint64*)A.dataPointer(),
+            (const uint64*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             return sparselogical_IsEqualTo(A, B);
         }
-        return integer_IsEqualto<logical>((const logical*)A.getDataPointer(),
-            (const logical*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<logical>((const logical*)A.dataPointer(),
+            (const logical*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_CHAR: {
-        return integer_IsEqualto<charType>((const charType*)A.getDataPointer(),
-            (const charType*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualto<charType>((const charType*)A.dataPointer(),
+            (const charType*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_STRING_ARRAY: {
-        return string_IsEqualto(A, B, A.getElementCount());
+        return string_IsEqualto(A, B, A.elementCount());
     } break;
     case NLS_STRUCT_ARRAY: {
         return struct_IsEqualto(eval, A, B, needToOverload);
@@ -387,8 +397,21 @@ isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverl
     case NLS_CELL_ARRAY: {
         return cell_IsEqualto(eval, A, B, needToOverload);
     } break;
-    case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        bool overloadWasFound = false;
+        ArrayOfVector args;
+        args << A;
+        args << B;
+        std::string commonTypeName = ClassName(A);
+        ArrayOf res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, args, "isequalto",
+            commonTypeName, A.dataClass(), overloadWasFound);
+        if (overloadWasFound) {
+            return res.asLogicalScalar();
+        }
+        return class_IsEqualto(eval, A, B, needToOverload);
+    } break;
+    case NLS_FUNCTION_HANDLE:
     case NLS_HANDLE:
     case NLS_GO_HANDLE: {
         bool overloadWasFound = false;
@@ -397,9 +420,9 @@ isEqualTo(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverl
         args << B;
         std::string commonTypeName = ClassName(A);
         ArrayOf res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, args, "isequalto",
-            commonTypeName, A.getDataClass(), overloadWasFound);
+            commonTypeName, A.dataClass(), overloadWasFound);
         if (overloadWasFound) {
-            return res.getContentAsLogicalScalar();
+            return res.asLogicalScalar();
         }
         needToOverload = true;
     } break;
@@ -416,11 +439,10 @@ IsEqualTo(Evaluator* eval, const ArrayOfVector& args, bool& needToOverload)
     needToOverload = false;
     ArrayOf firstElement = args[0];
     bool commonIsSparse = firstElement.isSparse();
-    NelsonType commmonType = args[0].getDataClass();
-    Dimensions commonDimensions = args[0].getDimensions();
+    NelsonType commonType = args[0].dataClass();
+    Dimensions commonDimensions = args[0].dimensions();
     for (auto k = 1; k < args.size(); ++k) {
-        if ((args[k].getDataClass() != commmonType)
-            || (!args[k].getDimensions().equals(commonDimensions))
+        if ((args[k].dataClass() != commonType) || (!args[k].dimensions().equals(commonDimensions))
             || (args[k].isSparse() != commonIsSparse)) {
             return false;
         }

@@ -7,21 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 run([modulepath('mex'), '/examples/mex_engine_demo_1.m'])
-filename = [tempdir(), 'mex_engine_demo_1/mex_engine_demo_1'];
+filename = generated_executable;
 if ispc()
   filename = [filename, '.exe'];
 end
-assert_istrue(isfile(filename));
+asserts.istrue(isfile(filename));
 %=============================================================================
 run([modulepath('mex'), '/examples/mex_engine_demo_2.m']);
-filename = [tempdir(), 'mex_engine_demo_2/mex_engine_demo_2'];
+filename = generated_executable;
 if ispc()
   filename = [filename, '.exe'];
 end
-assert_istrue(isfile(filename));
+asserts.istrue(isfile(filename));
 %=============================================================================

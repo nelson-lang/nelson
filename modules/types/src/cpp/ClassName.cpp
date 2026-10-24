@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "ClassName.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "characters_encoding.hpp"
 #include "ClassToString.hpp"
 //=============================================================================
@@ -19,18 +20,19 @@ std::string
 ClassName(const ArrayOf& In)
 {
     std::string classString = {};
-    switch (In.getDataClass()) {
+    switch (In.dataClass()) {
     case NLS_HANDLE: {
         classString = NLS_HANDLE_STR;
-        /* handle can be 'handle' or another type but not mixed */
-        auto* qp = (nelson_handle*)In.getDataPointer();
+        auto* qp = (HandleRef*)In.dataPointer();
+        if (In.elementCount() == 0) {
+            const std::string handleClassName = In.handleClassName();
+            return handleClassName.empty() ? classString : handleClassName;
+        }
         if (qp) {
-            indexType elementCount = In.getElementCount();
+            indexType elementCount = In.elementCount();
             for (indexType k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj != nullptr) {
-                    std::string current = hlObj->getCategory();
+                if (qp[k]) {
+                    std::string current = qp[k]->category();
                     if (classString != current && current != NLS_HANDLE_STR) {
                         classString = std::move(current);
                     }
@@ -42,14 +44,18 @@ ClassName(const ArrayOf& In)
     case NLS_FUNCTION_HANDLE: {
         classString = NLS_FUNCTION_HANDLE_STR;
     } break;
-    case NLS_CLASS_ARRAY: {
-        classString = In.getClassType();
+    case NLS_GO_HANDLE: {
+        classString = In.graphicsObjectClassName();
+    } break;
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        classString = In.classType();
     } break;
     default: {
         if (In.isSparse()) {
-            return std::string(NLS_SPARSE_STR) + ClassToString(In.getDataClass());
+            return std::string(NLS_SPARSE_STR) + ClassToString(In.dataClass());
         }
-        classString = ClassToString(In.getDataClass());
+        classString = ClassToString(In.dataClass());
     } break;
     }
     return classString;

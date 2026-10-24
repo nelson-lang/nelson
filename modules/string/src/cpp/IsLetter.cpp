@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include <cwctype>
 #include "IsLetter.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -21,7 +22,7 @@ namespace Nelson {
 static inline ArrayOf
 isWideCharAlpha(const ArrayOf& A)
 {
-    std::wstring str = A.getContentAsWideString();
+    std::wstring str = A.asWideString();
     logical* ptrRes = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, str.length());
     ArrayOf result = ArrayOf(NLS_LOGICAL, Dimensions(1, str.length()), ptrRes);
     ompIndexType nbElements = (ompIndexType)str.length();
@@ -42,12 +43,13 @@ IsLetter(const ArrayOf& A)
         if (A.isScalar()) {
             result = isWideCharAlpha(A);
         } else {
-            Error(_W("Input must be a text scalar."));
+            Error(L"Nelson:validators:mustBeTextScalar",
+                L"%s must be a character vector or string scalar.", L"Input");
         }
     } else {
         logical* ptrRes = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), true);
-        result = ArrayOf(NLS_LOGICAL, A.getDimensions(), ptrRes);
+            NLS_LOGICAL, A.elementCount(), stringVector(), true);
+        result = ArrayOf(NLS_LOGICAL, A.dimensions(), ptrRes);
     }
     return result;
 }

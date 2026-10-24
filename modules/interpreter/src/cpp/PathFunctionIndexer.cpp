@@ -11,12 +11,9 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "nlsBuildConfig.h"
-#if WITH_FILE_WATCHER
-#include <FileWatcher/FileWatcher.h>
-#include <mutex>
-#endif
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexer.hpp"
+#include "BytecodeArtifact.hpp"
 #include "characters_encoding.hpp"
 #include "MxGetExtension.hpp"
 #include "Error.hpp"
@@ -27,47 +24,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#if WITH_FILE_WATCHER
-class UpdateListener : public FW::FileWatchListener
-{
-public:
-    UpdateListener() { updated = false; }
-    void
-    handleFileAction(
-        FW::WatchID watchid, const FW::String& dir, const FW::String& filename, FW::Action action)
-    {
-        lock();
-        updated = true;
-    }
-
-    bool
-    readLastState()
-    {
-        lock();
-        if (updated) {
-            updated = false;
-            return true;
-        }
-        return false;
-    }
-
-private:
-    bool updated;
-    std::mutex m_mutex;
-    void
-    lock()
-    {
-        std::scoped_lock<std::mutex> _lock { m_mutex };
-    }
-};
-#endif
-//=============================================================================
 PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatcher)
 {
     this->withWatcher = withWatcher;
-    fileWatcher = nullptr;
-    watcherID = 0;
-    updateFileWatcherListener = nullptr;
+    this->watching = false;
     if (FileSystemWrapper::Path::is_directory(path)) {
         _path = path;
     } else {
@@ -86,26 +46,9 @@ void
 PathFunctionIndexer::startFileWatcher()
 {
 #if WITH_FILE_WATCHER
-    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher && !fileWatcher
-        && !updateFileWatcherListener) {
-        FW::FileWatcher* _fileWatcher = nullptr;
-        UpdateListener* _updateListener = nullptr;
-        try {
-            _fileWatcher = new FW::FileWatcher();
-            _updateListener = new UpdateListener();
-#if _MSC_VER
-            watcherID = _fileWatcher->addWatch(_path, _updateListener, false);
-#else
-            watcherID = _fileWatcher->addWatch(wstring_to_utf8(_path), _updateListener, false);
-#endif
-            fileWatcher = (void*)(_fileWatcher);
-            updateFileWatcherListener = (void*)(_updateListener);
-        } catch (const FW::Exception&) {
-            delete _fileWatcher;
-            delete _updateListener;
-            NelsonConfiguration::getInstance()->disableFileWatcher();
-            watcherID = 0;
-        }
+    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher) {
+        recordLastWriteTime();
+        watching = true;
     }
 #endif
 }
@@ -117,17 +60,42 @@ PathFunctionIndexer::getAllFileFunctions() const
 }
 //=============================================================================
 bool
-PathFunctionIndexer::wasModified() const
+PathFunctionIndexer::wasModified()
 {
 #if WITH_FILE_WATCHER
-    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher) {
-        if (fileWatcher && updateFileWatcherListener) {
-            static_cast<FW::FileWatcher*>(fileWatcher)->update();
-            return static_cast<UpdateListener*>(updateFileWatcherListener)->readLastState();
-        }
+    if (!watching || !withWatcher || !NelsonConfiguration::getInstance()->isFileWatcherEnabled()) {
+        return false;
     }
-#endif
+    std::error_code errorCode;
+    const nfs::file_time_type currentWriteTime = nfs::last_write_time(_path, errorCode);
+    if (errorCode) {
+        // The directory is gone or unreadable; rmpath and rehash deal with that.
+        return false;
+    }
+    if (currentWriteTime == lastWriteTime) {
+        return false;
+    }
+    lastWriteTime = currentWriteTime;
+    return true;
+#else
     return false;
+#endif
+}
+//=============================================================================
+bool
+PathFunctionIndexer::directoryUnchanged() const
+{
+    std::error_code errorCode;
+    const nfs::file_time_type currentWriteTime = nfs::last_write_time(_path, errorCode);
+    return !errorCode && currentWriteTime == lastWriteTime;
+}
+//=============================================================================
+void
+PathFunctionIndexer::recordLastWriteTime()
+{
+    std::error_code errorCode;
+    const nfs::file_time_type writeTime = nfs::last_write_time(_path, errorCode);
+    lastWriteTime = errorCode ? nfs::file_time_type {} : writeTime;
 }
 //=============================================================================
 bool
@@ -146,27 +114,13 @@ PathFunctionIndexer::~PathFunctionIndexer()
     mapRecentFiles.clear();
     mapAllFiles.clear();
     _path.clear();
-#if WITH_FILE_WATCHER
-    if (fileWatcher) {
-        FW::FileWatcher* _fileWatcher = static_cast<FW::FileWatcher*>(fileWatcher);
-        _fileWatcher->removeWatch(watcherID);
-        delete _fileWatcher;
-        fileWatcher = nullptr;
-    }
-    if (updateFileWatcherListener) {
-        UpdateListener* _updateFileWatcherListener
-            = static_cast<UpdateListener*>(updateFileWatcherListener);
-        delete _updateFileWatcherListener;
-        updateFileWatcherListener = nullptr;
-    }
-#endif
 }
 //=============================================================================
 wstringVector
 PathFunctionIndexer::getFunctionsName(const std::wstring& prefix, bool withPrivate) const
 {
     wstringVector functionsName;
-    functionsName.reserve(mapAllFiles.size()); // Reserve memory to avoid reallocations
+    functionsName.reserve(mapAllFiles.size());
 
     const bool hasPrefix = !prefix.empty();
 
@@ -211,7 +165,6 @@ PathFunctionIndexer::getPath() const
 bool
 PathFunctionIndexer::isSupportedFuncFilename(const std::wstring& name)
 {
-    // Use range-based for with auto for better performance
     for (wchar_t c : name) {
         if (!((c >= L'A' && c <= L'Z') || (c >= L'a' && c <= L'z') || c == L'_'
                 || (c >= L'0' && c <= L'9'))) {
@@ -227,12 +180,26 @@ getFunctionName(const std::wstring& objectName, const std::wstring& name)
     if (objectName.empty() || objectName == name) {
         return name;
     }
+    const size_t dotPosition = objectName.find_last_of(L'.');
+    if (dotPosition != std::wstring::npos && dotPosition + 1 < objectName.size()
+        && objectName.substr(dotPosition + 1) == name) {
+        return objectName;
+    }
     return L"@" + objectName + L"/" + name;
 }
 //=============================================================================
+inline std::wstring
+qualifiedPackageName(const std::wstring& packagePrefix, const std::wstring& name)
+{
+    if (packagePrefix.empty()) {
+        return name;
+    }
+    return packagePrefix + L"." + name;
+}
+//=============================================================================
 void
-PathFunctionIndexer::rehash(
-    const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate)
+PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& prefix,
+    bool isPrivate, const std::wstring& packagePrefix)
 {
     try {
         const FileSystemWrapper::Path path(pathToScan);
@@ -240,27 +207,36 @@ PathFunctionIndexer::rehash(
             return;
         }
 
-        // Pre-compute commonly used values
         const std::wstring mexExt = L"." + getMexExtension();
         const std::wstring macroExt = L".m";
         const std::wstring privateDir = L"private";
 
         std::wstring objectName;
         if (prefix.length() > 1) {
-            objectName = prefix.substr(1); // More efficient than erase
+            objectName = prefix.substr(1);
+            objectName = qualifiedPackageName(packagePrefix, objectName);
         }
 
         nfs::directory_iterator end_iter;
         for (nfs::directory_iterator dir_iter(path.native()); dir_iter != end_iter; ++dir_iter) {
             const FileSystemWrapper::Path current(dir_iter->path().native());
 
-            if (current.is_directory()) {
+            // The entry carries the attributes the enumeration returned;
+            // asking the file again would cost one stat per entry.
+            std::error_code entryError;
+            if (dir_iter->is_directory(entryError)) {
                 const std::wstring stemDirectory = current.stem().wstring();
                 if (!stemDirectory.empty()) {
                     if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
-                        rehash(current.generic_wstring(), stemDirectory, false);
+                        rehash(current.generic_wstring(), stemDirectory, false, packagePrefix);
+                    } else if (stemDirectory[0] == L'+') {
+                        const std::wstring packageName = stemDirectory.substr(1);
+                        if (isSupportedFuncFilename(packageName)) {
+                            rehash(current.generic_wstring(), L"", false,
+                                qualifiedPackageName(packagePrefix, packageName));
+                        }
                     } else if (stemDirectory == privateDir) {
-                        rehash(current.generic_wstring(), L"", true);
+                        rehash(current.generic_wstring(), L"", true, packagePrefix);
                     }
                 }
                 continue;
@@ -269,14 +245,19 @@ PathFunctionIndexer::rehash(
             const std::wstring ext = current.extension().generic_wstring();
             const bool isMacro = (ext == macroExt);
             const bool isMex = (ext == mexExt);
+            const bool isBytecode = !isMacro && !isMex && ext == L".nbc";
 
-            if (!(isMacro || isMex)) {
+            if (!(isMacro || isMex || isBytecode)) {
                 continue;
             }
 
-            const std::wstring stemName = current.stem().generic_wstring();
+            std::wstring stemName = current.stem().generic_wstring();
             if (!isSupportedFuncFilename(stemName)) {
                 continue;
+            }
+            const std::wstring localStemName = stemName;
+            if (prefix.empty()) {
+                stemName = qualifiedPackageName(packagePrefix, stemName);
             }
 
             const std::wstring name = getFunctionName(objectName, stemName);
@@ -285,24 +266,41 @@ PathFunctionIndexer::rehash(
                 : nfs::path(pathToScan).parent_path().generic_wstring();
 
             bool isOverload = !prefix.empty() && !isPrivate;
-            if (!prefix.empty() && prefix.substr(1) == name) {
+            if (!prefix.empty() && prefix.substr(1) == localStemName) {
                 isOverload = false;
             }
 
             try {
                 auto ff = std::make_unique<FileFunction>(
                     pathName, objectName, name, isMex, withWatcher, isOverload, isPrivate);
+                if (isBytecode) {
+                    ff->setFilename(current.generic_wstring());
+                }
 
-                const std::string key
-                    = isPrivate ? wstring_to_utf8(pathName + L"/" + name) : wstring_to_utf8(name);
+                const std::wstring keyName = isPrivate && prefix.empty() ? localStemName : name;
+                const std::string key = isPrivate ? wstring_to_utf8(pathName + L"/" + keyName)
+                                                  : wstring_to_utf8(name);
 
-                mapAllFiles.emplace(std::move(key), ff.release());
+                const auto inserted = mapAllFiles.emplace(key, ff.get());
+                if (inserted.second) {
+                    ff.release();
+                } else {
+                    const auto* previous = inserted.first->second;
+                    const int previousRank = previous->isMex()        ? 3
+                        : isBytecodeArtifact(previous->getFilename()) ? 1
+                                                                      : 2;
+                    const int rank = isMex ? 3 : isMacro ? 2 : 1;
+                    if (rank > previousRank) {
+                        delete inserted.first->second;
+                        inserted.first->second = ff.release();
+                    }
+                }
             } catch (const std::bad_alloc&) {
-                // Handle allocation failure gracefully
+                // The entry is skipped.
             }
         }
     } catch (const nfs::filesystem_error&) {
-        // Handle filesystem errors gracefully
+        // An unreadable directory contributes no entries.
     }
 }
 //=============================================================================
@@ -312,24 +310,25 @@ PathFunctionIndexer::rehash()
     if (_path.empty()) {
         return;
     }
+    // Read the reference before the scan: a file written while it runs then
+    // shows up as a change instead of being missed.
+    recordLastWriteTime();
 
-    // Clear existing data
     for (const auto& pair : mapAllFiles) {
         delete pair.second;
     }
     mapAllFiles.clear();
     mapRecentFiles.clear();
 
-    // Reserve some space to reduce rehashing
     mapAllFiles.reserve(128);
 
     rehash(_path, L"", false);
 }
 //=============================================================================
 bool
-PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring& filename) const
+PathFunctionIndexer::findFuncName(
+    const std::string& functionName, std::wstring& filename, bool probeDisk) const
 {
-    // Use const iterator for better performance
     const auto found = mapAllFiles.find(functionName);
     if (found != mapAllFiles.end()) {
         filename = found->second->getFilename();
@@ -338,21 +337,22 @@ PathFunctionIndexer::findFuncName(const std::string& functionName, std::wstring&
         }
     }
 
-    if (!withWatcher) {
+    if (!probeDisk || !withWatcher) {
         return false;
     }
 
-    // Cache the converted function name to avoid repeated conversions
     const std::wstring wFunctionName = utf8_to_wstring(functionName);
 
-    // Check for MEX file
     filename = _path + L"/" + wFunctionName + L"." + getMexExtension();
     if (FileSystemWrapper::Path::is_regular_file(filename)) {
         return true;
     }
 
-    // Check for macro file
     filename = _path + L"/" + wFunctionName + L".m";
+    if (FileSystemWrapper::Path::is_regular_file(filename)) {
+        return true;
+    }
+    filename = _path + L"/" + wFunctionName + L".nbc";
     return FileSystemWrapper::Path::is_regular_file(filename);
 }
 //=============================================================================

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timeseries.getqualitydesc</keyword>
+  <short_description>Return quality descriptions for quality codes.</short_description>
+  <syntax>
+    <syntax_item>desc = getqualitydesc(ts, codes)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Input timeseries object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>codes</param_name>
+      <param_description>Quality codes to describe.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>desc</param_name>
+      <param_description>Quality code descriptions.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>getqualitydesc</b> Looks up quality code descriptions from ts.QualityInfo.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2], [1; 2]);
+ts.QualityInfo = tsdata.qualmetadata('Code', [0 1], 'Description', {'ok', 'bad'});
+getqualitydesc(ts, [0 1])
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

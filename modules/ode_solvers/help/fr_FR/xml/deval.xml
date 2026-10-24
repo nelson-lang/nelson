@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>deval</keyword>
+  <short_description>Evaluer une solution EDO.</short_description>
+  <syntax>
+    <syntax_item>y = deval(sol, t)</syntax_item>
+    <syntax_item>[y, yp] = deval(sol, t)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>deval</b> interpole une structure de solution ou un objet resultat retourne par un solveur EDO.</p>
+    <table style="width:100%">
+  <tr><th>Element</th><th>Details</th></tr>
+  <tr><td>Solution en entree</td><td>Structure ou objet resultat retourne par les solveurs ODE, DDE ou BVP.</td></tr>
+  <tr><td>Points d'evaluation</td><td>Valeurs <b>t</b> ou <b>x</b> dans l'intervalle calcule.</td></tr>
+  <tr><td>Sorties</td><td>Valeurs <b>y</b> et derivees optionnelles <b>yp</b>, une colonne par point d'evaluation.</td></tr>
+  <tr><td>Usage</td><td>Sortie dense, trace, post-traitement et comparaison de solutions.</td></tr>
+</table>
+    <p>Le resultat contient une ligne par variable d'etat et une colonne par point d'evaluation. Cette forme est utilisee pour les vecteurs ligne et colonne de temps d'evaluation. Les points d'evaluation doivent rester dans l'intervalle de la solution. La seconde sortie optionnelle retourne la derivee aux memes points.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 1], 1);
+[y, yp] = deval(sol, [0; 0.5; 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odextend">odextend</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

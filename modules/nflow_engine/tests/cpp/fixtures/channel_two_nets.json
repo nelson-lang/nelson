@@ -1,0 +1,102 @@
+{
+  "blocks": [
+    {
+      "id": "p",
+      "x": 100,
+      "y": 150,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "q",
+      "x": 100,
+      "y": 450,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "u",
+      "x": 700,
+      "y": 150,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "v",
+      "x": 700,
+      "y": 450,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "wallTop",
+      "x": 300,
+      "y": 0,
+      "width": 200,
+      "height": 280,
+      "rotation": 0,
+      "ports": []
+    },
+    {
+      "id": "wallBottom",
+      "x": 300,
+      "y": 360,
+      "width": 200,
+      "height": 280,
+      "rotation": 0,
+      "ports": []
+    }
+  ],
+  "connections": [
+    {
+      "from": "p",
+      "to": "u",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "q",
+      "to": "v",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "width": 1200,
+  "height": 800
+}

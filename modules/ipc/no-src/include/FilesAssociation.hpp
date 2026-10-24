@@ -30,5 +30,10 @@ bool
 ExecuteFilesAssociated(
     NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
 //=============================================================================
-}
+NLSIPC_IMPEXP
+bool
+OpenAssociatedFiles(
+    NELSON_ENGINE_MODE currentMode, const wstringVector& filesToOpen, bool sendByIPC);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

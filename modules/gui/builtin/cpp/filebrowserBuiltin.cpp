@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include "filebrowserBuiltin.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FileBrowser.hpp"
 #include "NelsonConfiguration.hpp"
@@ -31,25 +31,25 @@ Nelson::GuiGateway::filebrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
         FileBrowser::showFileBrowser();
     } break;
     case 1: {
-        std::wstring param = argIn[0].getContentAsWideString();
+        std::wstring param = argIn[0].asWideString();
         if (param == L"sync") {
             FileBrowser::updateFileBrowser();
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 1);
         }
     } break;
     case 2: {
-        std::wstring param1 = argIn[0].getContentAsWideString();
+        std::wstring param1 = argIn[0].asWideString();
         if (param1 == L"visible") {
             if (argIn[1].isRowVectorCharacterArray()) {
-                std::wstring param2 = argIn[1].getContentAsWideString();
+                std::wstring param2 = argIn[1].asWideString();
                 if (param2 == L"toggle") {
                     FileBrowser::toggleVisibilityFileBrowser();
                 } else {
-                    Error(_W("Wrong value for #2 argument."));
+                    Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 2);
                 }
             } else {
-                logical visibility = argIn[1].getContentAsLogicalScalar();
+                logical visibility = argIn[1].asLogicalScalar();
                 if (visibility) {
                     FileBrowser::showFileBrowser();
                 } else {
@@ -57,7 +57,7 @@ Nelson::GuiGateway::filebrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 1);
         }
     } break;
     }

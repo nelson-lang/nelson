@@ -15,26 +15,30 @@
 namespace Nelson {
 //=============================================================================
 bool
-MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message)
+MakeDirectory(const std::wstring& parentDir, const std::wstring& newDir, std::wstring& message,
+    std::wstring& messageId)
 {
     FileSystemWrapper::Path fullpath = parentDir;
     fullpath /= newDir;
-    return MakeDirectory(fullpath.wstring(), message);
+    return MakeDirectory(fullpath.wstring(), message, messageId);
 }
 //=============================================================================
 bool
-MakeDirectory(const std::wstring& newDir, std::wstring& message)
+MakeDirectory(const std::wstring& newDir, std::wstring& message, std::wstring& messageId)
 {
     bool bOK = false;
     message = L"";
+    messageId = L"";
     if (FileSystemWrapper::Path::is_directory(newDir)) {
         bOK = true;
         message = _W("Directory already exists.");
+        messageId = L"Nelson:mkdir:directoryExists";
     } else {
         std::string errorMessage;
         bOK = FileSystemWrapper::Path::create_directories(newDir, errorMessage);
         if (!bOK) {
             message = utf8_to_wstring(errorMessage);
+            messageId = L"Nelson:mkdir:OSError";
         }
     }
     return bOK;

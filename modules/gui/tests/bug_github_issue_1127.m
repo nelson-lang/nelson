@@ -15,5 +15,5 @@
 % <--GUI MODE-->
 A = 'g';
 B = 'Test';
-C = [B;B]
+C = [B; B]
 disp(C);

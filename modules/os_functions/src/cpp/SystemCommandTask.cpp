@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,6 +22,7 @@
 #include "SystemCommandTask.hpp"
 #include <thread>
 #include <fstream>
+#include <sstream>
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -48,6 +49,61 @@ namespace Nelson {
 //=============================================================================
 static const int SLEEP_DURATION_MS = 10;
 //=============================================================================
+static std::string
+jsonEscape(const std::string& value)
+{
+    std::ostringstream escaped;
+    for (char c : value) {
+        switch (c) {
+        case '\\':
+            escaped << "\\\\";
+            break;
+        case '"':
+            escaped << "\\\"";
+            break;
+        case '\n':
+            escaped << "\\n";
+            break;
+        case '\r':
+            escaped << "\\r";
+            break;
+        case '\t':
+            escaped << "\\t";
+            break;
+        default:
+            escaped << c;
+            break;
+        }
+    }
+    return escaped.str();
+}
+//=============================================================================
+static std::string
+registerProcess(uint64 pid, const std::wstring& command, uint64 timeout, const std::string& policy)
+{
+    auto registryFile = FileSystemWrapper::Path::temp_directory_path()
+        / ("nelson_process_registry_" + std::to_string(pid) + ".json");
+    std::ofstream stream(registryFile.string(), std::ios::out | std::ios::trunc);
+    if (stream.is_open()) {
+        stream << "{\n";
+        stream << "  \"pid\": " << pid << ",\n";
+        stream << "  \"timeout\": " << timeout << ",\n";
+        stream << "  \"state\": \"running\",\n";
+        stream << "  \"process_policy\": \"" << policy << "\",\n";
+        stream << "  \"command\": \"" << jsonEscape(wstring_to_utf8(command)) << "\"\n";
+        stream << "}\n";
+    }
+    return registryFile.string();
+}
+//=============================================================================
+static void
+unregisterProcess(const std::string& registryFile)
+{
+    if (!registryFile.empty()) {
+        FileSystemWrapper::Path::remove(registryFile);
+    }
+}
+//=============================================================================
 void
 SystemCommandTask::evaluateCommand(const std::wstring& command, uint64 timeout)
 {
@@ -63,15 +119,17 @@ SystemCommandTask::evaluateCommand(const std::wstring& command, uint64 timeout)
     try {
         bool mustDetach = false;
         std::wstring _command = detectDetachProcess(command, mustDetach);
-        // On Windows we need a command line that launches cmd.exe; on POSIX
-        // we should pass the raw command to execl("/bin/sh", "sh", "-c", ...).
         std::wstring cmd;
 #ifdef _MSC_VER
         cmd = buildCommandString(_command);
 #else
         cmd = _command;
 #endif
-        executeAttachedProcess(cmd, *tempOutputFile, *tempErrorFile, timeout);
+        if (mustDetach) {
+            executeDetachedProcess(cmd);
+        } else {
+            executeAttachedProcess(cmd, *tempOutputFile, *tempErrorFile, timeout);
+        }
     } catch (const std::exception& e) {
         _message = utf8_to_wstring(e.what());
         _exitCode = -1;
@@ -132,14 +190,12 @@ std::wstring
 SystemCommandTask::buildCommandString(const std::wstring& _command)
 {
 #ifdef _MSC_VER
-    // Use plain cmd.exe token (no surrounding quotes) so CreateProcess can correctly find the
-    // executable
+    // Plain cmd.exe token without quotes, so CreateProcess can find the executable.
     std::wstring shell = L"cmd.exe";
 #else
     std::wstring shell = L"/bin/sh";
 #endif
     std::wstring argsShell = getPlatformSpecificShellArgs();
-    // produce: cmd.exe /a /c "command"
     return shell + L" " + argsShell + L"\"" + _command + L"\"";
 }
 //=============================================================================
@@ -147,28 +203,27 @@ void
 SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
 {
 #ifdef _WIN32
-    // If cmd starts with cmd.exe, call CreateProcess with application name and args to avoid
-    // cmd.exe parsing issues with quoted parameters and 'start'.
+    // An explicit application name avoids cmd.exe parsing issues with quoted parameters and
+    // 'start'.
     std::wstring commandLine = cmd;
     std::wstring appName;
-    std::wstring args;
     auto lower = [](std::wstring s) {
         std::transform(s.begin(), s.end(), s.begin(), ::towlower);
         return s;
     };
     std::wstring lc = lower(commandLine);
     size_t pos = std::wstring::npos;
-    // look for cmd.exe or "cmd.exe"
     size_t p1 = lc.find(L"cmd.exe");
     if (p1 != std::wstring::npos) {
-        // find first space after cmd.exe
         pos = commandLine.find(L' ', p1);
         if (pos == std::wstring::npos) {
             pos = commandLine.size();
         }
-        appName = L"cmd.exe";
-        if (pos < commandLine.size()) {
-            args = commandLine.substr(pos + 1);
+        wchar_t systemDirectory[MAX_PATH] = { 0 };
+        if (GetSystemDirectoryW(systemDirectory, MAX_PATH) != 0) {
+            appName = std::wstring(systemDirectory) + L"\\cmd.exe";
+        } else {
+            appName = L"cmd.exe";
         }
     }
     STARTUPINFOW si {};
@@ -176,16 +231,14 @@ SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
     si.cb = sizeof(si);
     BOOL ok = FALSE;
     if (!appName.empty()) {
-        // use CreateProcess with explicit app name and args
-        std::vector<wchar_t> cmdargs(args.begin(), args.end());
+        std::vector<wchar_t> cmdargs(commandLine.begin(), commandLine.end());
         cmdargs.push_back(0);
         ok = CreateProcessW(appName.c_str(), cmdargs.data(), nullptr, nullptr, FALSE,
-            CREATE_NEW_CONSOLE, nullptr, nullptr, &si, &pi);
+            CREATE_NO_WINDOW, nullptr, nullptr, &si, &pi);
     } else {
-        // fallback: let system parse the whole command line
         std::vector<wchar_t> cmdw(commandLine.begin(), commandLine.end());
         cmdw.push_back(0);
-        ok = CreateProcessW(nullptr, cmdw.data(), nullptr, nullptr, FALSE, CREATE_NEW_CONSOLE,
+        ok = CreateProcessW(nullptr, cmdw.data(), nullptr, nullptr, FALSE, CREATE_NO_WINDOW,
             nullptr, nullptr, &si, &pi);
     }
     if (ok) {
@@ -204,23 +257,19 @@ SystemCommandTask::executeDetachedProcess(const std::wstring& cmd)
         return;
     }
     if (pid == 0) {
-        // child: detach
         if (setsid() < 0) {
             _exitCode = -1;
         }
-        // redirect stdin to /dev/null to avoid blocking on interactive commands
         FILE* in = fopen("/dev/null", "r");
         if (in) {
             dup2(fileno(in), STDIN_FILENO);
             fclose(in);
         }
-        // execute shell -c cmd
         std::string utf8cmd = wstring_to_utf8(cmd);
         execl("/bin/sh", "sh", "-c", utf8cmd.c_str(), (char*)nullptr);
         _exitCode = exitCodeAbort();
         exit(127);
     } else {
-        // parent returns immediately
         _exitCode = 0;
     }
 #endif
@@ -232,7 +281,6 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     uint64 timeout)
 {
 #ifdef _WIN32
-    // Open files for redirect
     HANDLE hOut = CreateFileW(tempOutputFile.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ,
         nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     HANDLE hErr = CreateFileW(tempErrorFile.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ,
@@ -248,21 +296,17 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
         _message = L"Cannot open temp files for redirect.";
         return;
     }
-    // Make handles inheritable so child can inherit them
     SetHandleInformation(hOut, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
     SetHandleInformation(hErr, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
 
-    // Open NUL for child stdin to avoid interactive commands blocking
     HANDLE hIn = CreateFileW(L"NUL", GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
         FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hIn == INVALID_HANDLE_VALUE) {
-        // fallback to non-inheritable stdin if NUL cannot be opened
         hIn = GetStdHandle(STD_INPUT_HANDLE);
     } else {
         SetHandleInformation(hIn, HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
     }
 
-    // Setup STARTUPINFO
     STARTUPINFOW si {};
     si.cb = sizeof(si);
     si.dwFlags = STARTF_USESTDHANDLES;
@@ -270,11 +314,27 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     si.hStdError = hErr;
     si.hStdInput = hIn;
 
+    HANDLE job = CreateJobObjectW(nullptr, nullptr);
+    if (job != nullptr) {
+        JOBOBJECT_EXTENDED_LIMIT_INFORMATION jobInfo {};
+        jobInfo.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+        if (!SetInformationJobObject(
+                job, JobObjectExtendedLimitInformation, &jobInfo, sizeof(jobInfo))) {
+            CloseHandle(job);
+            job = nullptr;
+        }
+    }
+
     PROCESS_INFORMATION pi {};
     std::wstring commandLine = cmd; // CreateProcessW may modify buffer
-    BOOL ok = CreateProcessW(
-        nullptr, &commandLine[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &pi);
+    bool startSuspended = job != nullptr;
+    DWORD creationFlags = startSuspended ? CREATE_SUSPENDED : 0;
+    BOOL ok = CreateProcessW(nullptr, &commandLine[0], nullptr, nullptr, TRUE, creationFlags,
+        nullptr, nullptr, &si, &pi);
     if (!ok) {
+        if (job != nullptr) {
+            CloseHandle(job);
+        }
         if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE
             && hIn != GetStdHandle(STD_INPUT_HANDLE)) {
             CloseHandle(hIn);
@@ -285,7 +345,15 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
         _message = utf8_to_wstring(get_last_error_message());
         return;
     }
-    // we can close our copies of the handles; child has its own inherited handles
+    if (job != nullptr) {
+        if (!AssignProcessToJobObject(job, pi.hProcess)) {
+            CloseHandle(job);
+            job = nullptr;
+        }
+    }
+    if (startSuspended) {
+        ResumeThread(pi.hThread);
+    }
     if (hIn != nullptr && hIn != INVALID_HANDLE_VALUE && hIn != GetStdHandle(STD_INPUT_HANDLE)) {
         CloseHandle(hIn);
     }
@@ -294,7 +362,10 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
 
     PROCESS_CHILD child;
     child.processHandle = pi.hProcess;
+    child.jobHandle = job;
     child.processId = pi.dwProcessId;
+    child.registryFile = registerProcess(child.processId, cmd, timeout,
+        child.jobHandle != nullptr ? "windows-job-object" : "windows-process");
     CloseHandle(pi.hThread);
 
     monitorChildProcess(child, timeout);
@@ -309,8 +380,11 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
             _message = utf8_to_wstring(get_last_error_message());
         }
     }
-    // ensure process handle closed
     CloseHandle(child.processHandle);
+    if (child.jobHandle != nullptr) {
+        CloseHandle(child.jobHandle);
+    }
+    unregisterProcess(child.registryFile);
 #else
     pid_t pid = fork();
     if (pid < 0) {
@@ -319,15 +393,12 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
         return;
     }
     if (pid == 0) {
-        // child process
         // Run the command in its own process group so timeout/abort can kill the whole tree.
         setpgid(0, 0);
-        // open files
         // Always redirect stdin to /dev/null to avoid child blocking on interactive input.
         FILE* in = fopen("/dev/null", "r");
         FILE* out = fopen(tempOutputFile.string().c_str(), "w");
         FILE* err = fopen(tempErrorFile.string().c_str(), "w");
-        // consider missing out/err/in an error
         if (!out || !err || !in) {
             _exitCode = -1;
         }
@@ -343,21 +414,22 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
             dup2(fileno(err), STDERR_FILENO);
             fclose(err);
         }
-        // execute shell -c cmd
         std::string utf8cmd = wstring_to_utf8(cmd);
         execl("/bin/sh", "sh", "-c", utf8cmd.c_str(), (char*)nullptr);
-        // if exec fails
         exit(127);
     } else {
-        // parent
         PROCESS_CHILD child;
         child.pid = pid;
+        child.registryFile
+            = registerProcess(static_cast<uint64>(child.pid), cmd, timeout, "posix-process-group");
         monitorChildProcess(child, timeout);
         if (!_terminate) {
-            // monitorChildProcess now sets _exitCode for normal termination,
-            // so just read the process output here.
             _message = readProcessOutput(tempOutputFile, tempErrorFile);
+            // Match Windows Job Object cleanup: if the shell exited but left descendants in
+            // its process group, do not let them outlive the runner.
+            kill(-child.pid, SIGKILL);
         }
+        unregisterProcess(child.registryFile);
     }
 #endif
 }
@@ -372,7 +444,6 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
     while (!_terminate) {
         DWORD res = WaitForSingleObject(childProcess.processHandle, 0);
         if (res == WAIT_OBJECT_0) {
-            // process finished
             break;
         }
         auto _currentTimePoint = std::chrono::steady_clock::now();
@@ -388,8 +459,11 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
     if (_terminate) {
         _duration = this->getDuration();
         _exitCode = exitCodeAbort();
-        // terminate process
-        TerminateProcess(childProcess.processHandle, (UINT)_exitCode);
+        if (childProcess.jobHandle != nullptr) {
+            TerminateJobObject(childProcess.jobHandle, (UINT)_exitCode);
+        } else {
+            TerminateProcess(childProcess.processHandle, (UINT)_exitCode);
+        }
     }
 #else
     if (!childProcess.valid()) {
@@ -399,7 +473,6 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
     while (!_terminate) {
         pid_t r = waitpid(childProcess.pid, &status, WNOHANG);
         if (r == childProcess.pid) {
-            // process finished: record exit code based on status
             if (WIFEXITED(status)) {
                 _exitCode = WEXITSTATUS(status);
             } else if (WIFSIGNALED(status)) {
@@ -422,7 +495,7 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
     if (_terminate) {
         _duration = this->getDuration();
         _exitCode = exitCodeAbort();
-        // Kill the whole process group first, then ensure the direct child is gone and reaped.
+        // Kill the process group first, then reap the direct child.
         kill(-childProcess.pid, SIGKILL);
         kill(childProcess.pid, SIGKILL);
         while (waitpid(childProcess.pid, &status, 0) == -1 && errno == EINTR) { }
@@ -459,7 +532,7 @@ std::wstring
 SystemCommandTask::getPlatformSpecificShellArgs()
 {
 #ifdef _MSC_VER
-    return L" /a /c ";
+    return L" /a /s /c ";
 #else
     return L" -c ";
 #endif
@@ -470,32 +543,32 @@ SystemCommandTask::detectDetachProcess(const std::wstring& command, bool& haveDe
 {
     std::wstring _command = cleanCommand(command);
     if (_command.empty()) {
-        // empty command should not be treated as a detached job
         haveDetach = false;
         return _command;
     }
     if (*_command.rbegin() == L'&') {
-        // remove trailing '&'
         _command.pop_back();
         _command = cleanCommand(_command);
-        // if removing '&' leaves an empty command (original was just "&"),
-        // treat it as a no-op to avoid producing " &" which is a shell syntax error
+        // A lone "&" is a no-op: " &" would be a shell syntax error.
         if (_command.empty()) {
             haveDetach = false;
             return _command;
         }
         haveDetach = true;
+#ifdef _MSC_VER
+    } else if (StringHelpers::istarts_with(_command, L"start ")
+        || StringHelpers::istarts_with(_command, L"start\t")) {
+        haveDetach = true;
+#endif
     } else {
         haveDetach = false;
     }
     if (haveDetach) {
-#ifdef _MSC_VER
-        // Use an explicit empty title for 'start' to avoid treating the first quoted
-        // argument as a window title: start "" command args
-        _command = L"start \"\" " + _command;
-#else
+#ifndef _MSC_VER
         _command = _command + L" &";
 #endif
+        // On Windows a trailing '&' runs the command hidden (CREATE_NO_WINDOW) without waiting.
+        // It is not wrapped with 'start', which always opens a visible console window.
     }
     return _command;
 }
@@ -506,42 +579,76 @@ SystemCommandTask::cleanCommand(const std::wstring& command)
     return StringHelpers::trim_right_copy(command);
 }
 //=============================================================================
+#ifdef _MSC_VER
+static bool
+isValidUtf8(const std::string& str)
+{
+    if (str.empty()) {
+        return true;
+    }
+    int result = MultiByteToWideChar(
+        CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), static_cast<int>(str.size()), nullptr, 0);
+    return result > 0;
+}
+//=============================================================================
+static std::wstring
+decodeProcessOutput(const std::string& raw)
+{
+    if (raw.empty()) {
+        return {};
+    }
+
+    if (isValidUtf8(raw)) {
+        std::wstring wresult;
+        if (utf8_to_wstring_Windows(raw, wresult)) {
+            return wresult;
+        }
+    }
+
+    // Legacy OEM output (old cmd, batch scripts).
+    std::string ansi = raw;
+    OemToCharBuffA(ansi.c_str(), ansi.data(), static_cast<DWORD>(ansi.size()));
+
+    int wlen
+        = MultiByteToWideChar(CP_ACP, 0, ansi.c_str(), static_cast<int>(ansi.size()), nullptr, 0);
+    if (wlen <= 0) {
+        return utf8_to_wstring(raw);
+    }
+    std::wstring wresult(wlen, L'\0');
+    MultiByteToWideChar(
+        CP_ACP, 0, ansi.c_str(), static_cast<int>(ansi.size()), wresult.data(), wlen);
+    return wresult;
+}
+#endif
+//=============================================================================
 std::wstring
 SystemCommandTask::readFile(const FileSystemWrapper::Path& filePath)
 {
     std::string result;
 #ifdef _MSC_VER
-    FILE* pFile = _wfopen(filePath.wstring().c_str(), L"r");
+    FILE* pFile = _wfopen(filePath.wstring().c_str(), L"rb"); // binary: preserve raw bytes
 #else
     FILE* pFile = fopen(filePath.string().c_str(), "r");
 #endif
     if (pFile != nullptr) {
         constexpr std::streamsize bufferSize = 16384;
         char buffer[bufferSize];
-
-        while (fgets(buffer, bufferSize * sizeof(char), pFile)) {
-#ifdef _MSC_VER
-            std::string str = std::string(buffer);
-            StringHelpers::replace_all(str, "\r\n", "\n");
-            OemToCharBuffA(str.c_str(), const_cast<char*>(str.c_str()), (DWORD)str.size());
-            result.append(str);
-#else
+        while (fgets(buffer, static_cast<int>(bufferSize), pFile)) {
             result.append(buffer);
-#endif
         }
         if (!result.empty() && result.back() != '\n') {
             result.push_back('\n');
         }
         fclose(pFile);
     }
+
 #ifdef _MSC_VER
-    std::wstring wresult;
-    if (utf8_to_wstring_Windows(result, wresult)) {
-        return wresult;
-    }
-#endif
+    StringHelpers::replace_all(result, "\r\n", "\n");
+    return decodeProcessOutput(result);
+#else
     return utf8_to_wstring(result);
+#endif
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

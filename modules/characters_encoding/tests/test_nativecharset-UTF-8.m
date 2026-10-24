@@ -7,15 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('nativecharset'), 1);
-assert_isequal(nargout('nativecharset'), 1);
+skip_if_reduced_characters_encoding_backend();
+%=============================================================================
+asserts.isequal(nargin('nativecharset'), 1);
+asserts.isequal(nargout('nativecharset'), 1);
 %=============================================================================
 utf8 = [modulepath('characters_encoding', 'tests'), '/shisei_UTF-8.txt'];
 F = fopen(utf8, 'rt');
-R = fread(F,'uint8');
+R = fread(F, 'uint8');
 fclose(F);
 ce = nativecharset(R');
-assert_istrue(iscell(ce));
-assert_istrue(iscellstr(ce));
-assert_istrue(any(contains(ce, 'UTF-8')));
+asserts.istrue(iscell(ce));
+asserts.istrue(iscellstr(ce));
+asserts.istrue(any(contains(ce, 'UTF-8')));
 %=============================================================================

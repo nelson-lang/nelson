@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nanmax</keyword>
+  <short_description>Maximum, ignoring NaN values.</short_description>
+  <syntax>
+    <syntax_item>y = nanmax(X)</syntax_item>
+    <syntax_item>[y, idx] = nanmax(X)</syntax_item>
+    <syntax_item>y = nanmax(X, Y)</syntax_item>
+    <syntax_item>[y, idx] = nanmax(X, [], dim)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanmax</b> returns the maximum after removing <b>NaN</b> values; a slice made only of <b>NaN</b> yields <b>NaN</b>.</p>
+    <p><b>nanmax(X, Y)</b> returns the element-wise maximum of <b>X</b> and <b>Y</b>, ignoring <b>NaN</b>.</p>
+    <p>The optional second output <b>idx</b> holds the indices of the maxima. It is equivalent to <b>max(X, ..., 'omitnan')</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[[y, idx] = nanmax([1 NaN 5 NaN 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}max">max</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmin">nanmin</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nansum">nansum</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

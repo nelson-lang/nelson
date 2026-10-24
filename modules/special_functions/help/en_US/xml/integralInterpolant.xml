@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>integralInterpolant</keyword>
+  <short_description>Definite integral with variable upper limit (integral interpolant object)</short_description>
+  <syntax>
+    <syntax_item>F = integralInterpolant(integrand, lower, upper)</syntax_item>
+    <syntax_item>F = integralInterpolant(integrand, lower, upper, name, value)</syntax_item>
+    <syntax_item>Fq = F(xq)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>integrand</param_name>
+      <param_description>function handle of the integrand, with the same requirements as for <b>integral</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower</param_name>
+      <param_description>lower limit of integration: real scalar, finite or infinite.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>upper</param_name>
+      <param_description>upper limit of integration: real scalar, finite or infinite, different from <b>lower</b>. It can be less than <b>lower</b> (backward integration).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>one or more name/value pairs: &apos;AbsoluteTolerance&apos; (default 1e-10), &apos;RelativeTolerance&apos; (default 1e-6), &apos;ArrayValued&apos; (default false), &apos;Vectorized&apos; (default true), &apos;Waypoints&apos; (vector of real points used in the initial mesh).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xq</param_name>
+      <param_description>real numeric array of query points.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>F</param_name>
+      <param_description>an integralInterpolant object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Fq</param_name>
+      <param_description>values of the integral from <b>lower</b> to each query point: an array of the size of <b>xq</b>, or, when <b>ArrayValued</b> is true, an array with one row per query point.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>integralInterpolant</b> evaluates a definite integral with a variable upper limit: the returned object <b>F</b> gives <b>F(x)</b>, the integral of <b>integrand</b> from <b>lower</b> to <b>x</b>, for any <b>x</b> between <b>lower</b> and <b>upper</b>.</p>
+    <p>The integral from <b>lower</b> to <b>upper</b> is computed once with the adaptive Gauss-Kronrod quadrature of <b>integral</b>. Querying <b>F(xq)</b> adds the partial sums of the mesh intervals located before each query point to the Gauss-Kronrod rule applied on the part of the interval that contains it, so the queried values have the accuracy of the integral. Query points outside the integration interval return <b>NaN</b>.</p>
+    <p>The object has the read-only properties <b>Integrand</b>, <b>LowerLimit</b>, <b>UpperLimit</b>, <b>Integral</b> (value of the integral from <b>lower</b> to <b>upper</b>), <b>ErrorBound</b> (approximate upper bound on the absolute error), <b>AbsoluteTolerance</b>, <b>RelativeTolerance</b> and <b>Subintervals</b> (row vector of the mesh points, from <b>lower</b> to <b>upper</b>, including the waypoints). <b>F(F.Subintervals)</b> returns the partial sums of the integral.</p>
+    <p>Specify discontinuities of the integrand as <b>Waypoints</b>. Do not use waypoints to specify singularities at the integration limits. For faster but less accurate evaluations, sample <b>F</b> and build a <b>griddedInterpolant</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Integral of 1 + cos(x)^2 with a variable upper limit.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) 1 + cos(x).^2;
+F = integralInterpolant(f, 0, 5)
+xq = linspace(1, 3, 5);
+Fq = F(xq)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Improper integral.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) x.^5 .* exp(-x) .* sin(x);
+F = integralInterpolant(f, 0, Inf, 'RelativeTolerance', 1e-8, 'AbsoluteTolerance', 1e-13);
+Fq = F([0 Inf])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Partial sums of an array-valued integrand.</example_item_description>
+      <example_item_data
+      ><![CDATA[k = 1:5;
+f = @(x) sin(k * x);
+F = integralInterpolant(f, 0, 1, 'ArrayValued', true);
+partialSums = F(F.Subintervals(end-5:end))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Conversion to a gridded interpolant.</example_item_description>
+      <example_item_data
+      ><![CDATA[f = @(x) x.^x;
+F = integralInterpolant(f, 1, 2);
+x = linspace(1, 2, 11);
+G = griddedInterpolant(x, F(x), 'cubic');
+Fq = F(1.88)
+Gq = G(1.88)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}cumtrapz">cumtrapz</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}griddedInterpolant">griddedInterpolant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

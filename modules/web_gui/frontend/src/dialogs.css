@@ -1,0 +1,343 @@
+/* --- native GUI dialogs (inputdlg / uialert / uiconfirm) ---------------- */
+.nelson-shell .dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(1px);
+}
+.nelson-shell .dialog-card {
+  min-width: 320px;
+  max-width: 520px;
+  padding: 18px 20px 14px;
+  border-radius: 8px;
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.nelson-shell .dialog-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.nelson-shell .dialog-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.nelson-shell .dialog-card__body--message {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+}
+.nelson-shell .dialog-card__icon {
+  font-size: 22px;
+  line-height: 1.2;
+}
+.nelson-shell .dialog-card__message {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  color: var(--fg);
+}
+.nelson-shell .dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nelson-shell .dialog-field__label {
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+.nelson-shell .dialog-field input,
+.nelson-shell .dialog-field textarea {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+.nelson-shell .dialog-field input:focus,
+.nelson-shell .dialog-field textarea:focus {
+  outline: none;
+  border-color: var(--focus);
+}
+.nelson-shell .dialog-list {
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+}
+.nelson-shell .dialog-list__item {
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nelson-shell .dialog-list__item:hover {
+  background: var(--bg-elev);
+}
+.nelson-shell .dialog-list__item--sel {
+  background: var(--selection);
+  color: var(--fg);
+}
+.nelson-shell .dialog-field--color {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.nelson-shell .dialog-field--color input[type='color'] {
+  width: 48px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.nelson-shell .dialog-file__path {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.nelson-shell .dialog-file__cwd {
+  font-size: 12px;
+  color: var(--fg-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  direction: rtl;
+  text-align: left;
+}
+.nelson-shell .dialog-file__list {
+  min-width: 380px;
+  max-height: 300px;
+}
+.nelson-shell .dialog-file__name {
+  margin-top: 8px;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+.nelson-shell .dialog-font__preview {
+  margin-top: 6px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  text-align: center;
+  color: var(--fg);
+  overflow: hidden;
+}
+.nelson-shell .dialog-card__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.nelson-shell .dialog-btn {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.nelson-shell .dialog-btn:hover {
+  border-color: var(--focus);
+}
+.nelson-shell .dialog-btn--default {
+  background: var(--focus);
+  color: #fff;
+  border-color: var(--focus);
+}
+.nelson-shell .dialog-btn--default:hover {
+  filter: brightness(1.1);
+}
+.nelson-shell .dialog-btn--danger {
+  background: #c0392b;
+  border-color: #c0392b;
+}
+
+/* --- preferences modal -------------------------------------------------- */
+.nelson-shell .prefs-card {
+  min-width: 380px;
+}
+.nelson-shell .prefs-section {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  margin: 6px 0 2px;
+}
+.nelson-shell .prefs-section:first-child {
+  margin-top: 0;
+}
+.nelson-shell .prefs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 0;
+}
+.nelson-shell .prefs-row__label {
+  color: var(--fg);
+}
+.nelson-shell .prefs-row input[type='number'],
+.nelson-shell .prefs-row select {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 13px;
+  min-width: 160px;
+}
+.nelson-shell .prefs-row--check {
+  justify-content: flex-start;
+  gap: 8px;
+}
+.nelson-shell .prefs-row--check input {
+  margin: 0;
+}
+
+/* --- about modal -------------------------------------------------------- */
+.nelson-shell .about-card {
+  min-width: 340px;
+  max-width: 420px;
+  text-align: center;
+}
+.nelson-shell .about-card__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.nelson-shell .about-card__version {
+  font-size: 12px;
+  color: var(--fg-dim);
+  margin-top: 2px;
+}
+.nelson-shell .about-card__badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 1px 8px;
+  border: 1px solid var(--fg-dim);
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-dim);
+}
+.nelson-shell .about-card__desc {
+  margin: 14px 0;
+  line-height: 1.5;
+  color: var(--fg);
+}
+.nelson-shell .about-card__links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.nelson-shell .about-card__links a {
+  color: var(--focus);
+  text-decoration: none;
+}
+.nelson-shell .about-card__links a:hover {
+  text-decoration: underline;
+}
+.nelson-shell .about-card .dialog-card__buttons {
+  justify-content: center;
+}
+
+/* uicontrols rendered as real HTML over the figure canvas */
+.nelson-shell .figure-uicontrol {
+  position: absolute;
+  font-family: inherit;
+  z-index: 2;
+}
+.nelson-shell .figure-uicontrol--label {
+  pointer-events: none;
+}
+.nelson-shell .figure-uicontrol--pressed {
+  border-style: inset;
+}
+
+/* Group collapse chevron, mirroring the Qt dock title bar. */
+.nelson-shell .group-collapse {
+  background: transparent;
+  border: none;
+  color: var(--fg-dim);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  padding: 0 6px;
+  height: 100%;
+}
+.nelson-shell .group-collapse:hover {
+  color: var(--fg);
+}
+
+/* Console find bar (Ctrl+F). */
+.nelson-shell .console-find-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.nelson-shell .console-find-bar__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--fg);
+  font-size: 12px;
+  padding: 2px 6px;
+}
+.nelson-shell .console-find-bar__count {
+  color: var(--fg-dim);
+  font-size: 11px;
+  min-width: 32px;
+  text-align: right;
+}
+.nelson-shell .console-find-bar button {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--fg-dim);
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+.nelson-shell .console-find-bar button:hover {
+  color: var(--fg);
+  border-color: var(--border);
+}
+.nelson-shell .console-find {
+  background: #a86a00;
+  color: #fff;
+  border-radius: 2px;
+}
+.nelson-shell .console-find--current {
+  background: #e5a30a;
+  color: #000;
+}
+.nelson-shell .console-host--nowrap .console-line {
+  white-space: pre;
+}
+.nelson-shell .console-menu__sep {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}

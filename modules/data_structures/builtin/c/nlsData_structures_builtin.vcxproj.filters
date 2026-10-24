@@ -24,6 +24,9 @@
     <ClCompile Include="..\cpp\cellBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\cell2matBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\fieldnamesBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,6 +45,15 @@
     <ClCompile Include="..\cpp\isfieldBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\orderfieldsBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpp\OrderFields.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\mat2cellBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\namedargs2cellBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,7 +66,7 @@
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\__num2cell__Builtin.cpp">
+    <ClCompile Include="..\cpp\num2cellBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\class_subsagnBuiltin.cpp">
@@ -72,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\cellBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cell2matBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\iscellstrBuiltin.hpp">
@@ -95,7 +110,19 @@
     <ClInclude Include="..\include\cellfunBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\FunctionHandleCallback.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\isfieldBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\orderfieldsBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\include\OrderFields.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\mat2cellBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\namedargs2cellBuiltin.hpp">
@@ -107,7 +134,7 @@
     <ClInclude Include="..\include\rmfieldBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\__num2cell__Builtin.hpp">
+    <ClInclude Include="..\include\num2cellBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\cell_vertcat_cellBuiltin.hpp">

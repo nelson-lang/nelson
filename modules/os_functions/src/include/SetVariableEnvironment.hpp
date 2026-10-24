@@ -17,5 +17,10 @@ NLSOS_FUNCTIONS_IMPEXP bool
 SetVariableEnvironmentW(const std::wstring& envVarName, const std::wstring& Value = L"");
 NLSOS_FUNCTIONS_IMPEXP bool
 SetVariableEnvironmentU(const std::string& envVarName, const std::string& Value = "");
+NLSOS_FUNCTIONS_IMPEXP bool
+RemoveVariableEnvironmentW(const std::wstring& envVarName);
+NLSOS_FUNCTIONS_IMPEXP bool
+RemoveVariableEnvironmentU(const std::string& envVarName);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -9,28 +9,31 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % logical
 A = logical(eye(5, 4));
-savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_logical.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % sparse logical
-A = sparse(logical(eye(3,3)));
-savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
+A = sparse(logical(eye(3, 3)));
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_logical.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % nd array logical
 A = ones(3, 4, 6);
 A = logical(A);
-savebin([tempdir(), 'test_saveload_logical.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_logical.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

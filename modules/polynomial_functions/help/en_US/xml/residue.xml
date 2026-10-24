@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>residue</keyword>
+  <short_description>Partial fraction expansion (residues)</short_description>
+  <syntax>
+    <syntax_item>[r, p, k] = residue(b, a)</syntax_item>
+    <syntax_item>[b, a] = residue(r, p, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>vector: numerator polynomial coefficients.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>vector: denominator polynomial coefficients.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>r</param_name>
+      <param_description>column vector: residues.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>column vector: poles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>row vector: direct term (empty when the rational function is proper).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>column vector: residues.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>column vector: poles.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>k</param_name>
+      <param_description>row vector: direct term.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>residue</b> computes the partial fraction expansion of the ratio of two polynomials b(s) / a(s).</p>
+    <p>With two inputs, it returns the residues r, the poles p and the direct term k such that</p>
+    <p>b(s) / a(s) = r(1) / (s - p(1)) + ... + r(n) / (s - p(n)) + k(s).</p>
+    <p>For a pole of multiplicity m repeated in p, the corresponding terms are r(j) / (s - p) ^ 1, ..., r(j + m - 1) / (s - p) ^ m.</p>
+    <p>With three inputs, <b>residue</b> performs the reverse operation and returns the numerator b and the denominator a of the equivalent rational function.</p>
+  </description>
+  <used_function />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[[r, p, k] = residue([1 0], [1 -3 2])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[[r, p, k] = residue([2 5 3 6], [1 6 11 6]);
+[b, a] = residue(r, p, k)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}poly">poly</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}roots">roots</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}deconv">deconv</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

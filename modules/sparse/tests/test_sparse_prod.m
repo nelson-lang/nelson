@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-x = sparse([1+i,-i;i,2i]);
+x = sparse([1 + i, -i; i, 2i]);
 r = prod(x);
-ref =  sparse([ -1.0 + i, 2]);
-assert_isequal(r, ref);
+ref = sparse([-1.0 + i, 2]);
+asserts.isequal(r, ref);
 %=============================================================================
 x = sparse([true, false; true, false]);
 r = prod(x);
-assert_isequal(size(r), [1 2]);
-assert_isequal(full(r), [1 0]);
+asserts.isequal(size(r), [1 2]);
+asserts.isequal(full(r), [1 0]);
 %=============================================================================

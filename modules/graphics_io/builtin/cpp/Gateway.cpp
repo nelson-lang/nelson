@@ -20,6 +20,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"graphics_io";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "__web_export_graphics__", (ptrBuiltin)Nelson::GraphicsIoGateway::webExportGraphicsBuiltin, 0,
+        3, CPP_BUILTIN },
     { "saveas", (ptrBuiltin)Nelson::GraphicsIoGateway::saveasBuiltin, 0, 2, CPP_BUILTIN },
     { "copygraphics", (ptrBuiltin)Nelson::GraphicsIoGateway::copygraphicsBuiltin, 0, 1,
         CPP_BUILTIN },
@@ -41,11 +43,7 @@ finishGraphicsIoModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeGraphicsIoModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeGraphicsIoModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishGraphicsIoModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishGraphicsIoModule)
 //=============================================================================

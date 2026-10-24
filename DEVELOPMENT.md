@@ -12,22 +12,41 @@ If you have any questions after reading this page, please feel free to contact [
 We track [bugs and features](https://github.com/nelson-lang/nelson/issues) so that anyone who wants to help can start with something that's not too overwhelming.
 We can absolutely use your help, no matter what level of programming skill you have at the moment.
 
-# Development setup
+This guide covers the repository layout, the entry points for building, and
+the project-wide code conventions. It complements:
 
-## How to build Nelson ?
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribution process and commit style.
+- [BUILDING.md](BUILDING.md) and the per-platform BUILDING files: dependencies and first build.
 
-see [BUILDING.md](https://github.com/nelson-lang/nelson/blob/master/BUILDING.md) for detailed information.
+# Repository map
 
-## Indent C/C++ code
-
-- easy way, available on all platforms (just and rust installed if you have installed [dependencies](https://github.com/nelson-lang/nelson/tree/master/tools/install_dependencies):
+`modules/` contains about 100 self-contained modules. Each module follows the
+same canonical layout:
 
 ```
-just format
+modules/<module>/
+  src/         C++ implementation (logic in src/cpp, public headers in src/include)
+  builtin/     registration and thin marshalling of native functions
+  functions/   .m functions (the root of this folder is PUBLIC API)
+  tests/       .m unit tests for the module
+  help/        documentation sources (XML)
+  etc/         module configuration (loader.m, ...)
 ```
 
-Indentation uses webkit coding style see .clang-format
+# Building
 
-- How to debug on macOs and Linux
+See [BUILDING.md](BUILDING.md) for dependencies and first-time setup, then
+the per-platform guides for the developer recipes:
 
-Edit line 58 of main `CMakeLists.txt` and replaces `Release` by `Debug`. Build nelson and launch with gdb.
+- [BUILDING_Windows.md](BUILDING_Windows.md): full MSBuild command line.
+- [BUILDING_Linux.md](BUILDING_Linux.md) and
+  [BUILDING_Macos.md](BUILDING_Macos.md): CMake options, debug and
+  sanitizer builds.
+
+# Code formatting
+
+- C/C++ uses the WebKit style defined in `.clang-format`. Format everything
+  with `just format` (requires `just` and `rust`); never submit unformatted
+  C/C++ code.
+- Nelson `.m` code is formatted with the built-in `nelson_format` function.
+  Files listed in `nelson-format-ignore.json` must not be reformatted.

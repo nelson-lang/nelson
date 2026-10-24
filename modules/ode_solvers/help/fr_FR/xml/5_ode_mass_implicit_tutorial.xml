@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tutoriel masse implicite edo</keyword>
+  <short_description>Resoudre des problemes EDO avec matrice de masse ou forme implicite.</short_description>
+  <description>
+    <p>Utilisez l'option <b>Mass</b> quand le systeme est ecrit <b>M(t,y)y'=f(t,y)</b>. Une matrice constante, un scalaire ou un handle de fonction peut definir la matrice de masse.</p>
+    <table style="width:100%">
+  <tr><th>Forme du probleme</th><th>Entree</th><th>Donnees requises</th></tr>
+  <tr><td><b>M(t,y)y' = f(t,y)</b></td><td><b>ode15s</b>, <b>ode23t</b>, <b>ode23tb</b></td><td>Option <b>Mass</b> et valeur initiale.</td></tr>
+  <tr><td><b>F(t,y,yp) = 0</b></td><td><b>ode15i</b></td><td>Valeur initiale et pente initiale.</td></tr>
+  <tr><td>Workflow objet</td><td><b>ode</b> avec <b>EquationType</b></td><td>Fonction residuelle, valeur initiale et pente initiale optionnelle.</td></tr>
+</table>
+    <p>Utilisez <b>ode15i</b> pour les equations residuelles implicites <b>F(t,y,yp)=0</b>. La forme fonction utilise la valeur initiale et la pente initiale fournies. Dans le workflow objet, <b>ComputeConsistentInitialConditions</b> peut ajuster la pente initiale en gardant la valeur initiale fixe.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Matrice de masse constante.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Mass', 2, 'Jacobian', 1);
+[t, y] = ode15s(@(t,y) y, [0 0.5], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Equation residuelle implicite.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y,yp) yp + y;
+[t, y] = ode15i(f, [0 1], 1, -1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15s">ode15s</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeMassMatrix">odeMassMatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeJacobian">odeJacobian</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

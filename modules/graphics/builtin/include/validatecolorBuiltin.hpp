@@ -16,5 +16,5 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 validatecolorBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

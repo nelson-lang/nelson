@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,8 +23,6 @@ template <class T>
 std::complex<T>
 NaturalLogarithmComplexScalar(std::complex<T> z)
 {
-    // log(sqrt((real(z) * real(z)) + (imag(z) * imag(z)) + (i * atan2(imag(z),
-    // real(z)))
     T sqrtRes = sqrt((z.real() * z.real()) + (z.imag() * z.imag()));
     T angleRes = atan2(z.imag(), z.real());
     std::complex<T> res(log(sqrtRes), angleRes);
@@ -54,11 +52,11 @@ template <class T>
 static ArrayOf
 NaturalLogarithmReal(NelsonType classDestination, const ArrayOf& A)
 {
-    Dimensions dimsA = A.getDimensions();
-    T* ptrIn = (T*)A.getDataPointer();
+    Dimensions dimsA = A.dimensions();
+    T* ptrIn = (T*)A.dataPointer();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
-        classDestination, dimsA.getElementCount(), stringVector(), false);
-    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+        classDestination, dimsA.elementCount(), stringVector(), false);
+    ompIndexType elementCount = (ompIndexType)dimsA.elementCount();
 #if defined(_NLS_WITH_VML)
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matEigen(ptrIn, elementCount);
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> matRes(ptrOut, elementCount);
@@ -76,12 +74,12 @@ template <class T>
 static ArrayOf
 NaturalLogarithmComplex(NelsonType classDestination, const ArrayOf& A)
 {
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
-        classDestination, dimsA.getElementCount(), stringVector(), false);
+        classDestination, dimsA.elementCount(), stringVector(), false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    ompIndexType elementCount = (ompIndexType)dimsA.getElementCount();
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
+    ompIndexType elementCount = (ompIndexType)dimsA.elementCount();
 #if defined(_NLS_WITH_VML)
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matEigen(Az, elementCount);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(Cz, elementCount);
@@ -100,15 +98,15 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    NelsonType classA = A.getDataClass();
+    NelsonType classA = A.dataClass();
     if (classA == NLS_DOUBLE || classA == NLS_DCOMPLEX) {
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
+            Dimensions dimsA = A.dimensions();
             if (classA == NLS_DOUBLE) {
-                auto* ptrIn = (double*)A.getDataPointer();
-                if (haveNegativeValue<double>(ptrIn, dimsA.getElementCount())) {
+                auto* ptrIn = (double*)A.dataPointer();
+                if (haveNegativeValue<double>(ptrIn, dimsA.elementCount())) {
                     A.promoteType(NLS_DCOMPLEX);
                     res = NaturalLogarithmComplex<double>(NLS_DCOMPLEX, A);
                 } else {
@@ -122,10 +120,10 @@ NaturalLogarithm(ArrayOf A, bool& needToOverload)
         if (A.isSparse()) {
             needToOverload = true;
         } else {
-            Dimensions dimsA = A.getDimensions();
+            Dimensions dimsA = A.dimensions();
             if (classA == NLS_SINGLE) {
-                auto* ptrIn = (single*)A.getDataPointer();
-                if (haveNegativeValue<single>(ptrIn, dimsA.getElementCount())) {
+                auto* ptrIn = (single*)A.dataPointer();
+                if (haveNegativeValue<single>(ptrIn, dimsA.elementCount())) {
                     A.promoteType(NLS_SCOMPLEX);
                     res = NaturalLogarithmComplex<single>(NLS_SCOMPLEX, A);
                 } else {

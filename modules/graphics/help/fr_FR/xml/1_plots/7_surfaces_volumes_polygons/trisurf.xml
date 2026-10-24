@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>trisurf</keyword>
+  <short_description>Trace de surface triangulaire</short_description>
+  <syntax>
+    <syntax_item>trisurf(T, x, y, z)</syntax_item>
+    <syntax_item>trisurf(TO)</syntax_item>
+    <syntax_item>trisurf(..., c)</syntax_item>
+    <syntax_item>trisurf(..., Name, Value)</syntax_item>
+    <syntax_item>h = trisurf(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>trisurf</b> trace une surface triangulaire 3-D depuis une matrice de connectivite ou un objet de triangulation.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer les facettes de l'enveloppe convexe de points 3-D aleatoires.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[rng(0);
+P = randn(30, 3);
+T = convhulln(P);
+trisurf(T, P(:, 1), P(:, 2), P(:, 3), 'FaceAlpha', 0.4)]]></example_item_data>
+      <example_item_img src="../../../../images/trisurf_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+<example_item_data runnable="gui"><![CDATA[
+N = 5e3;
+g = randn(3,N);
+p = g./vecnorm(g);
+k = convhull(p');
+c = @(x) sparse(k(:,x)*[1,1,1],k,1,N,N);
+t = c(1) | c(2) | c(3);
+w = spdiags(-sum(t,2)+1, 0, double(t));
+Y = rand(N,1);
+A = speye(N);
+smoothness  = 10;
+x   = (A + smoothness *w' * w) \ Y;
+p2 = p .* x';
+trisurf(k,p2(1,:),p2(2,:),p2(3,:),'FaceC', 'w', 'EdgeC', 'none','AmbientS',0,'DiffuseS',0.6,'SpecularS',1);
+light;
+axis equal
+axis off]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/triplot">triplot</link></see_also_item>
+    <see_also_item><link linkend="${geometry}triangulation">triangulation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

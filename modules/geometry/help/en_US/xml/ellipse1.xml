@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ellipse1</keyword>
+  <short_description>Points on a small ellipse on a sphere.</short_description>
+  <syntax>
+    <syntax_item>[lat, lon] = ellipse1(lat0, lon0, ellipse)</syntax_item>
+    <syntax_item>[lat, lon] = ellipse1(lat0, lon0, ellipse, offset)</syntax_item>
+    <syntax_item>[lat, lon] = ellipse1(lat0, lon0, ellipse, offset, npts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lat0</param_name>
+      <param_description>latitude of the ellipse center, in degrees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lon0</param_name>
+      <param_description>longitude of the ellipse center, in degrees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ellipse</param_name>
+      <param_description>two-element vector <b>[semimajor eccentricity]</b>; the semimajor axis is a spherical distance in degrees of arc.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>offset</param_name>
+      <param_description>azimuth of the semimajor axis, in degrees (default 0).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>npts</param_name>
+      <param_description>number of points used to trace the ellipse (default 100).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lat</param_name>
+      <param_description>latitudes of the ellipse boundary points, in degrees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lon</param_name>
+      <param_description>longitudes of the ellipse boundary points, in degrees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ellipse1</b> returns the latitude and longitude of points tracing a
+      small ellipse on a sphere, centered at <b>(lat0, lon0)</b>. The ellipse is
+      described by its semimajor axis (a spherical distance in degrees of arc)
+      and its eccentricity. A zero eccentricity produces a small circle whose
+      radius equals the semimajor axis. The boundary points are obtained with
+      <b>reckon</b>, so the first and last points coincide.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[lat, lon] = ellipse1(0, 0, [10 0.8], 30);
+f = figure();
+plot(lon, lat);
+axis equal]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${geometry}reckon">reckon</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${geometry}axes2ecc">axes2ecc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

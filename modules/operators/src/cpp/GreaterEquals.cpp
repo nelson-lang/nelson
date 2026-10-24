@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,7 +10,6 @@
 #include <cstring>
 #include "GreaterEquals.hpp"
 #include "RelationOperator.hpp"
-#include "complex_abs.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -91,16 +90,15 @@ complexComparatorGreaterEquals(
 {
     switch (commonClass) {
     case NLS_SCOMPLEX: {
+        // Ordered comparisons use the real part only.
         auto* ptrA = static_cast<single*>(vptrA);
         auto* ptrB = static_cast<single*>(vptrB);
-        return static_cast<Nelson::logical>(complex_abs<single>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            >= complex_abs<single>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
+        return static_cast<Nelson::logical>(ptrA[2 * idxA] >= ptrB[2 * idxB]);
     } break;
     case NLS_DCOMPLEX: {
         auto* ptrA = static_cast<double*>(vptrA);
         auto* ptrB = static_cast<double*>(vptrB);
-        return static_cast<Nelson::logical>(complex_abs<double>(ptrA[2 * idxA], ptrA[2 * idxA + 1])
-            >= complex_abs<double>(ptrB[2 * idxB], ptrB[2 * idxB + 1]));
+        return static_cast<Nelson::logical>(ptrA[2 * idxA] >= ptrB[2 * idxB]);
     } break;
     default: {
     } break;
@@ -117,7 +115,7 @@ stringArrayComparatorGreaterEquals(
         auto* ptrB = static_cast<ArrayOf*>(vptrB);
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
             return static_cast<Nelson::logical>(
-                ptrA[idxA].getContentAsWideString() >= ptrB[idxB].getContentAsWideString());
+                ptrA[idxA].asWideString() >= ptrB[idxB].asWideString());
         }
     }
     return 0;
@@ -127,13 +125,17 @@ ArrayOf
 GreaterEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    void* ptrA = const_cast<void*>(A.getDataPointer());
-    void* ptrB = const_cast<void*>(B.getDataPointer());
-    if (ptrA == ptrB) {
-        Dimensions dimsA = A.getDimensions();
+    if (A.isSparse() || B.isSparse()) {
+        return relationOperator(A, B, L">=", &realComparatorGreaterEquals,
+            &complexComparatorGreaterEquals, &stringArrayComparatorGreaterEquals, needToOverload);
+    }
+    void* ptrA = const_cast<void*>(A.dataPointer());
+    void* ptrB = const_cast<void*>(B.dataPointer());
+    if (ptrA == ptrB && ptrA != nullptr) {
+        Dimensions dimsA = A.dimensions();
         logical* res = static_cast<logical*>(
-            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
-        memset(res, 1, dimsA.getElementCount());
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.elementCount(), stringVector(), false));
+        memset(res, 1, dimsA.elementCount());
         return ArrayOf(NLS_LOGICAL, dimsA, res);
     }
     return relationOperator(A, B, L">=", &realComparatorGreaterEquals,

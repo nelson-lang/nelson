@@ -10,18 +10,14 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
 %=============================================================================
 H = [qobj; qobj];
-assert_isequal(size(H), [2 1]);
+asserts.isequal(size(H), [2 1]);
 %=============================================================================
 V = [qobj, qobj];
-assert_isequal(size(V), [1 2]);
+asserts.isequal(size(V), [1 2]);
 %=============================================================================
 delete(qobj);
 %=============================================================================

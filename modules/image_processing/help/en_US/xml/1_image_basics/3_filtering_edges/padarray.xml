@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>padarray</keyword>
+  <short_description>Pad an array before image filtering or morphology.</short_description>
+  <syntax>
+    <syntax_item>B = padarray(A, padSize)</syntax_item>
+    <syntax_item>B = padarray(A, padSize, method)</syntax_item>
+    <syntax_item>B = padarray(A, padSize, method, direction)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>2-D numeric/logical image or RGB image to pad.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>padSize</param_name>
+      <param_description>Nonnegative integer scalar or two-element vector that specifies row and column padding.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Padding method: numeric/logical constant, replicate, symmetric or circular.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description>Padding direction: pre, post or both. The default value is both.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Padded image or array, preserving the input class.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Pad an array before image filtering or morphology. Supported padding methods include numeric constants, replicate, symmetric and circular. Direction can be pre, post or both. Text options are case-insensitive.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Pad an image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=eye(32);
+P=padarray(I,[8 12],'replicate');
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(P); g=linspace(0,1,64)'; colormap([g g g]); title('Padded');]]></example_item_data>
+      <example_item_img
+        src="../../../images/padarray_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}medfilt2">medfilt2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

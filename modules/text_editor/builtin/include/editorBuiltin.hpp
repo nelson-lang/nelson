@@ -17,7 +17,8 @@ namespace Nelson {
 namespace TextEditorGateway {
     ArrayOfVector
     editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
+    //=============================================================================
+} // namespace TextEditorGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lsmr</keyword>
+  <short_description>LSMR method for sparse linear equations and least squares.</short_description>
+  <syntax>
+    <syntax_item>x = lsmr(A, b)</syntax_item>
+    <syntax_item>x = lsmr(A, b, tol, maxit)</syntax_item>
+    <syntax_item>x = lsmr(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec, lsvec] = lsmr(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a sparse real or complex floating-point matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>a real or complex floating-point right-hand side vector compatible with A.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>a finite real scalar convergence tolerance. Default is 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>a non-negative integer maximum iteration count.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>optional right preconditioners: sparse or full square matrices, diagonal vectors, or function handles. Function handles must accept a vector and a transpose flag.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>optional initial guess vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>computed solution vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 when convergence is reached, 1 when maxit is reached, 4 on numerical breakdown.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>relative residual norm.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>iteration count.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>residual norm history.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lsvec</param_name>
+      <param_description>normal-equation residual norm history.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>lsmr</b> solves sparse linear equations and least-squares problems using a Golub-Kahan bidiagonalization method.</p>
+    <p>The method supports square and rectangular sparse double, single, complex double, and complex single matrices.</p>
+    <p><b>M1</b> and <b>M2</b> are right preconditioners. They can be diagonal vectors, sparse or dense square matrices, or function handles accepting a vector and the transpose flag <b>'notransp'</b> or <b>'transp'</b>.</p>
+    <p>If any compatible input, preconditioner, or initial guess is complex, the iteration is performed in the matching complex class.</p>
+    <p><b>resvec</b> stores residual norms and <b>lsvec</b> stores least-squares residual estimates for each iteration.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+[x, flag, relres, iter] = lsmr(A, b, 1e-12, 20)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Least-squares solve with split right preconditioners.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+M1 = [2 0; 0 1];
+M2 = [1 0.5; 0 3];
+[x, flag, relres, iter] = lsmr(A, b, 1e-12, 20, M1, M2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqr">lsqr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}gmres">gmres</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added single, complex single, right-preconditioner, initial guess, and residual-history coverage</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>optimization</module_name>
+  <chapter>Optimization</chapter>
+  <chapter_description>
+    <p>Le module Optimization fournit la minimisation scalaire, la minimisation sans contrainte, la recherche de zéro, les systèmes non linéaires, les moindres carrés non linéaires, les moindres carrés non négatifs, la programmation quadratique, les options de solveurs et une première couche de modélisation par problème.</p>
+    <p>Les algorithmes fournis sont des méthodes numériques denses déterministes pour des modèles de petite et moyenne taille dans Nelson.</p>
+  </chapter_description>
+</xmldoc>

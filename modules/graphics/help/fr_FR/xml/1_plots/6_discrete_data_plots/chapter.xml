@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Graphiques de donnees discretes</chapter>
+  <chapter_description>
+    <p>Fonctions pour les diagrammes en barres, traces en tiges, diagrammes circulaires et autres affichages de donnees discretes.</p>
+  </chapter_description>
+</xmldoc>

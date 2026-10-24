@@ -123,6 +123,23 @@ C_IN = [25.0  24.0  15.0;
 [U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb03od">slicot_sb03od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb04md">slicot_sb04md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lyap">lyap</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dlyap">dlyap</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

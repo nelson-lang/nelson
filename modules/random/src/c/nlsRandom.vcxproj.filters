@@ -128,6 +128,12 @@
     <ClInclude Include="..\cpp\LaggedFibonacci607Engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\MersenneTwister64Engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\ZigguratNormal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\cpp\RandomMRG32k3a.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -141,6 +147,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\RandomThreefry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\Random64BitEngine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RandomPcg64Dxsm.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\RandomXoshiro256pp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\ziggurat_normal_tables.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

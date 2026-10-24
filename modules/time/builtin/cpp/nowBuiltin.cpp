@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::TimeGateway::nowBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << ArrayOf::doubleConstructor(Now());
+    retval << ArrayOf::doubleScalar(Now());
     return retval;
 }
 //=============================================================================

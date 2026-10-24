@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>webview</module_name>
+  <chapter>Web view</chapter>
+  <chapter_description>
+    <p>Le module WebView ouvre du HTML local, du texte HTML, des adresses web et la galerie d’exemples depuis Nelson.</p>
+  </chapter_description>
+</xmldoc>

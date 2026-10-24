@@ -1,4 +1,4 @@
-%=============================================================================
+﻿%=============================================================================
 % Copyright (c) 2016-present Allan CORNET (Nelson)
 %=============================================================================
 % This file is part of Nelson.
@@ -8,32 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = skip_testsuite(varargin)
-  narginchk(0, 2);
-  nargoutchk(0, 0);
-  
-  varargout = {};
-  condition = false;
-  reason = '';
-  
-  if nargin == 0
-    condition = true;
-  elseif nargin == 1
-    if islogical(varargin{1})
-      condition = varargin{1};
-    else
-      reason = varargin{1};
-      condition = true;
-    end
+  if nargout == 0
+    nelson.unittest.skip(varargin{:}); %#ok<NLS0005>
+    varargout = {};
   else
-    condition = varargin{1};
-    reason = varargin{2};
-  end
-  
-  if condition
-    if isempty(reason)
-      reason = _('Testsuite skipped');
-    end
-    error('Nelson:tests_manager:testsuite_skipped', reason);
+    [varargout{1:nargout}] = nelson.unittest.skip(varargin{:});
   end
 end
 %=============================================================================

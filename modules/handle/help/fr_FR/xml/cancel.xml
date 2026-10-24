@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cancel</keyword>
+  <short_description>Annuler un objet annulable.</short_description>
+  <syntax>
+    <syntax_item>cancel(obj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>objet prenant en charge l&apos;annulation, par exemple un objet d&apos;evaluation asynchrone.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>cancel demande l&apos;annulation d&apos;un objet qui prend en charge un travail asynchrone. Le type de l&apos;objet fournit le comportement concret.</p>
+    <p>Si le premier argument n&apos;implemente pas l&apos;annulation, Nelson signale que la fonction n&apos;est pas implementee pour ce type.</p>
+  </description>
+  <used_function>
+    <used_function_item>cancel</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Annuler une evaluation asynchrone.</example_item_description>
+      <example_item_data><![CDATA[f = parfeval(@pause, 0, 10);
+cancel(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${parallel}parfeval">parfeval</link></see_also_item>
+    <see_also_item><link linkend="${parallel}afterEach">afterEach</link></see_also_item>
+    <see_also_item><link linkend="${parallel}afterAll">afterAll</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

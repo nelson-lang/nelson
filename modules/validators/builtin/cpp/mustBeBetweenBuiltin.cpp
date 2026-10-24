@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -40,7 +40,7 @@ isIntervalType(const ArrayOf& value)
     if (!isTextScalar(value)) {
         return false;
     }
-    std::wstring text = toLower(value.getContentAsWideString());
+    std::wstring text = toLower(value.asWideString());
     return text == L"closed" || text == L"open" || text == L"openleft" || text == L"openright"
         || text == L"closedleft" || text == L"closedright";
 }
@@ -64,7 +64,7 @@ isPositiveIntegerScalar(const ArrayOf& value, int& scalar)
     if (!value.isNumeric() || !value.isScalar()) {
         return false;
     }
-    scalar = value.getContentAsInteger32Scalar();
+    scalar = value.asInt32Scalar();
     return scalar > 0;
 }
 //=============================================================================

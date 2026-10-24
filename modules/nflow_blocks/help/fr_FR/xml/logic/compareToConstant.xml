@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compareToConstant</keyword>
+  <keyword_alias>block:compareToConstant</keyword_alias>
+  <short_description>Compare une entree a un seuil constant.</short_description>
+  <syntax>
+    <syntax_item>Block type: compareToConstant</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Compare une entree a un seuil constant.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs logiques</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>compareToConstant</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Compare Const</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/logic/exports/compareToConstant.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Compare une entree a un seuil constant.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique produit par le bloc.</td>
+          <td>right</td>
+          <td>x=100, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>operator</code>
+          </td>
+          <td>ge</td>
+        </tr>
+        <tr>
+          <td>
+            <code>threshold</code>
+          </td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Cles de l inspecteur</b>
+    </p>
+    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <ul>
+      <li>
+        <code>operator</code>
+      </li>
+      <li>
+        <code>threshold</code>
+      </li>
+    </ul>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>compareToConstant</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs logiques</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>100 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>non observe dans le code documente</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>Bloc algebrique. Le premier port d entree est requis.</li>
+      <li>Les operateurs pris en charge sont ge, gt et ne; les valeurs inconnues reviennent a ge.</li>
+      <li>threshold est resolu numeriquement.</li>
+    </ul>
+    <p>
+      <b>Equation ou regle</b>
+    </p>
+    <latex>y = \operatorname{compare}(u,\,threshold,\,operator)</latex>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/compareToConstant.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}logic/compareToZero">compareToZero</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}logic/relationalOperator">relationalOperator</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

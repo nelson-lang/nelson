@@ -7,11 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('cputime'), 0);
-assert_isequal(nargout('cputime'), 1);
+asserts.isequal(nargin('cputime'), 0);
+asserts.isequal(nargout('cputime'), 1);
 %=============================================================================
 t1 = cputime;
-sleep(5);
+A = rand(100, 100);
+value = sum(A(:));
 t2 = cputime;
-% no real test to do here ...
+asserts.istrue(value >= 0);
+asserts.istrue(t2 >= t1);
 %=============================================================================

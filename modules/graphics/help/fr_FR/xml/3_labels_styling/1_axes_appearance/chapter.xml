@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Apparence des axes</chapter>
+  <chapter_description>
+    <p>Fonctions pour les limites d'axes, graduations, grilles, boites et rapports d'aspect.</p>
+  </chapter_description>
+</xmldoc>

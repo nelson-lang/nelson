@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::ParallelGateway::backgroundPoolBuiltin(int nLhs, const ArrayOfVector& ar
     ArrayOfVector retval;
     nargincheck(nLhs, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::handleConstructor(BackgroundPoolObject::getInstance());
+    retval << ArrayOf::handle(BackgroundPoolObject::getInstance());
     return retval;
 }
 //=============================================================================

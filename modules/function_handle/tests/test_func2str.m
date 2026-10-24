@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 F = str2func('cos');
-assert_isequal(func2str(F), 'cos');
+asserts.isequal(func2str(F), 'cos');
 %=============================================================================
 F = str2func('@cos');
-assert_isequal(func2str(F), 'cos');
+asserts.isequal(func2str(F), 'cos');
 %=============================================================================
 F = str2func('@(x) x*sqrt(x);    ');
-assert_isequal(func2str(F), '@(x) x*sqrt(x)');
+asserts.isequal(func2str(F), '@(x)x*sqrt(x)');
 %=============================================================================
 F = str2func('@(x) @(y) x+1');
-assert_isequal(func2str(F), '@(x) @(y) x+1');
+asserts.isequal(func2str(F), '@(x)@(y)x+1');
 %=============================================================================
 F = str2func('@(x) x.y(1).z');
-assert_isequal(func2str(F), '@(x) x.y(1).z');
+asserts.isequal(func2str(F), '@(x)x.y(1).z');
 %=============================================================================

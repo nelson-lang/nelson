@@ -9,11 +9,17 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#if _MSC_VER
+#pragma warning(disable : 4275)
+#endif
+//=============================================================================
+#include "nlsGraphics_exports.h"
+//=============================================================================
 #include "GOFixedVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOScalarProperty : public GOFixedVectorProperty
+class NLSGRAPHICS_IMPEXP GOScalarProperty : public GOFixedVectorProperty
 {
 private:
     bool haveLimits = false;
@@ -36,6 +42,8 @@ public:
     void set(ArrayOf) override;
 
     ~GOScalarProperty() override = default;
+    ArrayOf
+    get() override;
     void
     data(double x);
     double
@@ -44,5 +52,5 @@ public:
     toWideString() override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

@@ -164,7 +164,7 @@ semver_parse (const char *str, semver_t *ver) {
 }
 
 /**
-* Parses a string to retreived semver and operation string
+* Parses a string to retrieved semver and operation string
 *
 * Returns:
 *
@@ -329,7 +329,7 @@ semver_compare_prerelease (semver_t x, semver_t y) {
  *
  * Returns:
  *
- * `0` - If versiona are equal
+ * `0` - If versions are equal
  * `1` - If x is higher than y
  * `-1` - If x is lower than y
  */

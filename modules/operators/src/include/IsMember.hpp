@@ -17,5 +17,8 @@ namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
 IsMember(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-}
+NLSOPERATORS_IMPEXP ArrayOf
+IsMember(const ArrayOf& A, const ArrayOf& B, ArrayOf& locations, bool& needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

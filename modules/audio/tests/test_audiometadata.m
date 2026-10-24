@@ -8,9 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--RELEASE ONLY-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-assert_isequal(nargin('audiometadata'), -1);
-assert_isequal(nargout('audiometadata'), 1);
+asserts.isequal(nargin('audiometadata'), -1);
+asserts.isequal(nargout('audiometadata'), 1);
 %=============================================================================
 wav_file = [modulepath('audio'), '/tests/6_Channel_ID.wav'];
 try
@@ -22,40 +23,40 @@ catch ex
     throw(ex);
   end
 end
-assert_isequal(size(info), [1 1]);
-assert_istrue(isempty(fieldnames(info)));
-assert_istrue(iscell(fieldnames(info)));
+asserts.isequal(size(info), [1 1]);
+asserts.istrue(isempty(fieldnames(info)));
+asserts.istrue(iscell(fieldnames(info)));
 %=============================================================================
 flac_file = [modulepath('audio'), '/tests/handel.flac'];
 info = audiometadata(flac_file);
-assert_isequal(info.ALBUM, 'album name')
-assert_isequal(info.DESCRIPTION, 'some comments')
-assert_isequal(info.GENRE, 'music')
-assert_isequal(info.TITLE, 'handel (title)')
-assert_isequal(info.TRACKNUMBER, '3')
+asserts.isequal(info.ALBUM, 'album name')
+asserts.isequal(info.DESCRIPTION, 'some comments')
+asserts.isequal(info.GENRE, 'music')
+asserts.isequal(info.TITLE, 'handel (title)')
+asserts.isequal(info.TRACKNUMBER, '3')
 %=============================================================================
 wav_file = [modulepath('audio'), '/tests/DynoA3.wav'];
 info = audiometadata(wav_file);
-assert_isequal(info.ALBUM, 'album test');
-assert_isequal(info.ALBUMARTIST, 'artist 3 3');
-assert_isequal(info.ARTIST, 'artist test');
-assert_isequal(info.COMMENT, 'test comments');
-assert_isequal(info.COMPOSER, 'none');
-assert_isequal(info.DATE, '1900');
-assert_isequal(info.DISCNUMBER, '44');
-assert_isequal(info.GENRE, 'Acoustic');
-assert_isequal(info.TITLE, 'title test');
-assert_isequal(info.TRACKNUMBER, '42');
+asserts.isequal(info.ALBUM, 'album test');
+asserts.isequal(info.ALBUMARTIST, 'artist 3 3');
+asserts.isequal(info.ARTIST, 'artist test');
+asserts.isequal(info.COMMENT, 'test comments');
+asserts.isequal(info.COMPOSER, 'none');
+asserts.isequal(info.DATE, '1900');
+asserts.isequal(info.DISCNUMBER, '44');
+asserts.isequal(info.GENRE, 'Acoustic');
+asserts.isequal(info.TITLE, 'title test');
+asserts.isequal(info.TRACKNUMBER, '42');
 %=============================================================================
 ogg_file = [modulepath('audio'), '/examples/drums.ogg'];
 info = audiometadata(ogg_file);
-assert_isequal(info.ENCODER, 'Lavc58.9.100 libvorbis');
-assert_isequal(info.LANGUAGE, 'fra');
-assert_isequal(info.LANGUAGE_2_LETTER, '-FR');
-assert_isequal(info.ORGANIZATION, 'Parlophone');
-assert_isequal(info.RELEASE_TYPE, 'Normal release');
-assert_isequal(info.RIP_DATE, '2014-10-08');
-assert_isequal(info.RIPPING_TOOL, 'EAC');
-assert_isequal(info.SOURCE, 'CD (LP)');
-assert_isequal(info.TITLE, 'drums');
+asserts.isequal(info.ENCODER, 'Lavc58.9.100 libvorbis');
+asserts.isequal(info.LANGUAGE, 'fra');
+asserts.isequal(info.LANGUAGE_2_LETTER, '-FR');
+asserts.isequal(info.ORGANIZATION, 'Parlophone');
+asserts.isequal(info.RELEASE_TYPE, 'Normal release');
+asserts.isequal(info.RIP_DATE, '2014-10-08');
+asserts.isequal(info.RIPPING_TOOL, 'EAC');
+asserts.isequal(info.SOURCE, 'CD (LP)');
+asserts.isequal(info.TITLE, 'drums');
 %=============================================================================

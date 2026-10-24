@@ -27,5 +27,6 @@ NLSLINEAR_ALGEBRA_IMPEXP void
 SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S);
 NLSLINEAR_ALGEBRA_IMPEXP void
 SVD(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, ArrayOf& V);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

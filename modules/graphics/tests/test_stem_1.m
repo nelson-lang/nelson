@@ -12,34 +12,17 @@
 f = figure();
 Y = linspace(-2 * pi, 2 * pi, 50);
 h = stem(Y);
-%=============================================================================
-f = figure();
-X = linspace(0, 2 * pi, 50)';
-Y = cos(X);
-h = stem(X, Y)
-%=============================================================================
-f = figure();
-X = linspace(0, 2 * pi, 50)';
-Y = cos(X);
-h = stem(X, Y, 'filled');
-%=============================================================================
-f = figure();
-X = linspace(0,2*pi,50);
-Y = exp(0.3 * X) .* sin(3 * X);
-h = stem(X, Y);
-%=============================================================================
-f = figure();
-x1 = linspace(0, 2 * pi, 50)';
-x2 = linspace(pi, 3 * pi, 50)';
-X = [x1, x2];
-Y = [cos(x1), 0.5 * sin(x2)];
-h = stem(X, Y);
-%=============================================================================
-f = figure();
-x1 = linspace(0, 2 * pi, 50)';
-x2 = linspace(pi, 3 * pi, 50)';
-X = [x1, x2];
-Y = [cos(x1), 0.5*sin(x2)];
-h = stem(X, Y, 'filled');
-assert_isequal(size(h), [1 2]);
+asserts.istrue(isgraphics(h, 'stem'));
+asserts.isequal(h.Type, 'stem');
+asserts.isequal(h.XData, 1:50);
+asserts.isequal(h.YData, Y);
+asserts.isequal(h.XDataMode, 'auto');
+asserts.isequal(h.YDataMode, 'manual');
+asserts.isequal(h.MarkerFaceColor, 'none');
+asserts.isequal(h.MarkerEdgeColor, 'auto');
+asserts.isequal(h.UserData, []);
+markerLine = h.RendererState.MarkerLine;
+asserts.isequal(markerLine.XData(:), (1:50)');
+asserts.isapprox(gca().XLim, [0.02 50.98], 1e-12);
+close all;
 %=============================================================================

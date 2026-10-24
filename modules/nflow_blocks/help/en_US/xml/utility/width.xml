@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>width</keyword>
+  <keyword_alias>block:width</keyword_alias>
+  <short_description>Outputs the number of elements (width) of its input signal, as a scalar.</short_description>
+  <syntax>
+    <syntax_item>Block type: width</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs the number of elements (width) of its input signal, as a scalar.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Utility</td></tr>
+        <tr><td>Type</td><td><code>width</code></td></tr>
+        <tr><td>Label</td><td>Width</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/width.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Outputs the number of elements of the input signal as a scalar constant (Width). A modeling / introspection aid, e.g. to drive a gain or a loop bound by a bus or vector width. The output is always scalar regardless of the input width. Interpreter-only: the code generator flattens vector signals to scalar wires before per-block emission, so a model containing a width block is reported as not code-generatable.</p>
+    <p><b>Ports</b></p>
+    <p><b>Input(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=80, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><i>none</i></td><td></td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>width</td></tr>
+        <tr><td>Family</td><td>Utility</td></tr>
+        <tr><td>Rendered size</td><td>80 x 50</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Internal state or history</td><td>no</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>ALGEBRAIC: out = number of elements of the input signal (scalar).</li>
+    </ul>
+    <p><b>Extended Capabilities</b></p>
+    <p>Native runtime only (this block is not code-generated).</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/width.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>A constant [10 20 30] (width 3) into a width block outputs 3.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','c','type','constant','inputs',0,'outputs',1,'params',struct('Value',[10 20 30])), struct('id','wd','type','width','inputs',1,'outputs',1,'params',struct()), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','c','to','wd','fromIndex',0,'toIndex',0), struct('from','wd','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}utility/mux">mux</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/demux">demux</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

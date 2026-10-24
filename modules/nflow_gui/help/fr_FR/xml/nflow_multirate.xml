@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_multirate</keyword>
+  <short_description>Exécuter des blocs à des cadences différentes (multi-rate).</short_description>
+  <syntax>
+    <syntax_item>Page concept : sample time par bloc, cadence sous-échantillonnée, bloqueur d'ordre zéro</syntax_item>
+  </syntax>
+  <description>
+    <p>Par défaut, tous les blocs d'un diagramme s'exécutent au pas de base du modèle (le <b>sampleTime</b> du diagramme). Un diagramme peut être <b>multi-rate</b> : certains blocs s'exécutent plus lentement que le pas de base, ne se mettant à jour qu'à leurs propres échéances d'échantillonnage.</p>
+    <p>
+      <b>Sample time par bloc</b>
+    </p>
+    <p>Donnez à un bloc discret un paramètre <b>SampleTime</b> pour le faire tourner à cette cadence. Lorsque <b>SampleTime</b> vaut un multiple <b>N</b> du pas de base, le bloc ne fait sa mise à jour que tous les <b>N</b> échantillons ; entre les échéances sa sortie est tenue (bloqueur d'ordre zéro). Un bloc sans <b>SampleTime</b>, ou dont la valeur est inférieure ou égale au pas de base, s'exécute à chaque pas exactement comme avant &#8212; le multi-rate est une extension purement optionnelle, un diagramme mono-cadence est donc inchangé.</p>
+    <p>Le comportement est identique sous le moteur à pas fixe et sous un solveur continu (ode1/ode4/CVODES) : dans les deux cas un bloc discret plus lent sous-échantillonne et tient sa sortie entre les échéances.</p>
+    <p>
+      <b>Exemple</b>
+    </p>
+    <p>Un retard unitaire alimenté par une rampe de pente 1 suit la rampe à chaque pas à la cadence de base ; à quatre fois le pas de base il échantillonne un pas sur quatre, produisant un escalier grossier. Voir <b>Multirate_Demo.m</b> dans les exemples du module.</p>
+    <p>
+      <b>Blocs liés</b>
+    </p>
+    <p>Le bloc <b>rateTransition</b> est une primitive d'échantillonnage-blocage dédiée au franchissement entre deux cadences à une frontière de signal ; un <b>SampleTime</b> par bloc fixe directement la cadence propre d'un bloc.</p>
+    <p>
+      <b>Portée actuelle</b>
+    </p>
+    <p>La cadence sous-échantillonnée s'applique aux blocs de premier niveau qui tiennent un état entre les mises à jour (leur sortie tenue découle de l'état). Un <b>SampleTime</b> qui ne peut pas être honoré est signalé par une erreur plutôt qu'appliqué silencieusement : celui qui n'est pas un multiple entier du pas de base, celui posé sur un bloc feedthrough sans état, et celui posé sur un bloc imbriqué dans un sous-système (le multi-rate ne couvre que les blocs de premier niveau). La génération de code honore un <b>SampleTime</b> par bloc sur <b>unitDelay</b> et <b>difference</b> (le C/Rust généré garde l'avance d'état sur l'index de pas majeur), et les blocs discrets à <b>Ts</b> propre (zoh, ddelay, dtf, dstateSpace, foh) s'auto-cadencent dans le code généré ; un <b>SampleTime</b> sur tout autre type de bloc est rejeté plutôt qu'ignoré silencieusement. Pas encore couvert : la propagation automatique du sample time dans le graphe, et l'échantillonnage-blocage de sortie pour les blocs sans état (feedthrough).</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}discrete/rateTransition">rateTransition</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}discrete/unitDelay">unitDelay</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

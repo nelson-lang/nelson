@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "hdf5_roundtrip.m",
+      "title": "HDF5 dataset round trip",
+      "description": "Create a dataset in a temporary HDF5 file and read it back.",
+      "tags": [
+        "hdf5",
+        "data"
+      ],
+      "requirements": []
+    }
+  ]
+}

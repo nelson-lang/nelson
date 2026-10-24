@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOColorProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GOColorHelpers.hpp"
 #include "GOPropertyValues.hpp"
@@ -28,8 +29,9 @@ void
 GOColorProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
-    if (!ParseColorToRGB(arg, _data)) {
-        Error(_W("Expecting a color spec: either a color name or a 3-vector or RGB values"));
+    if (!ParseColorToRGB(arg, _data, true)) {
+        Error(L"Nelson:color:invalidColorSpec",
+            L"Expecting a color spec: either a color name or a 3-vector or RGB values");
     }
 }
 //=============================================================================
@@ -37,10 +39,10 @@ ArrayOf
 GOColorProperty::get()
 {
     if (_data[0] == -1) {
-        return ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_NONE_STR);
+        return ArrayOf::characterArray(GO_PROPERTY_VALUE_NONE_STR);
     }
     return GOVectorProperty::get();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

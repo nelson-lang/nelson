@@ -9,8 +9,8 @@
 %=============================================================================
 function varargout = ylabel(varargin)
   nargoutchk(0, 1);
-  if (nargin < 1) 
-    error(_('ylabel needs at least one argument.'));
+  if (nargin < 1)
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   inputArguments = convertStringToCharArgs(varargin);
   if (isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'tiledlayout'))
@@ -18,11 +18,10 @@ function varargout = ylabel(varargin)
     inputArguments = inputArguments(2:end);
     h = t.YLabel;
     set(h, 'String', inputArguments{1}, ...
-    'HorizontalAlignment', 'center', ...
-    'VerticalAlignment', 'bottom', ...
-    'Position', [0, 0.5, 0], ...
-    'Rotation', 90, ...
-    inputArguments{2:end});
+      'HorizontalAlignment', 'center', ...
+      'VerticalAlignment', 'bottom', ...
+      'Rotation', 90, ...
+      inputArguments{2:end});
     if nargout == 1
       varargout{1} = h;
     end
@@ -33,17 +32,40 @@ function varargout = ylabel(varargin)
   else
     ax = gca();
   end
-  visibility = ax.Visible;
-  h = __text__('String', inputArguments{1}, ...
-  'Parent', ax, ...
-  'HorizontalAlignment', 'center', ...
-  'VerticalAlignment', 'middle', ...
-  'AutoParent', 'off', ...
-  'Visible', visibility, ...
-  inputArguments{2:end});
+  % Label stays visible independently of the axes 'Visible' state.
+  visibility = 'on';
+  h = ax.YLabel;
+  if ~(isscalar(h) && isgraphics(h, 'text'))
+    h = __text__('Parent', ax, 'AutoParent', 'off');
+  end
+  if isEmptyTextString(h.String)
+    % Rotation and alignment are owned by the axes and re-derived from the View
+    % (auto RotationMode semantics), so they update when the view changes.
+    set(h, ...
+      'Parent', ax, ...
+      'AffectAutoLimits', 'off', ...
+      'Visible', visibility);
+  end
   ax.YLabel = h;
+  removeChild(ax, h);
+  set(h, 'String', inputArguments{1}, inputArguments{2:end});
   if nargout == 1
     varargout{1} = h;
   end
+end
+%=============================================================================
+function removeChild(parent, h)
+  if ~isgraphics(h)
+    return;
+  end
+  children = allchild(parent);
+  if ~isempty(children)
+    children(children == h) = [];
+    parent.Children = children;
+  end
+end
+%=============================================================================
+function tf = isEmptyTextString(value)
+  tf = length(value) == 0 || strcmp(value, '');
 end
 %=============================================================================

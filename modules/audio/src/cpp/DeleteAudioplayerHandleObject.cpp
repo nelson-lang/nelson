@@ -11,6 +11,7 @@
 #include "AudioplayerObject.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,7 +19,10 @@ bool
 DeleteAudioplayerHandleObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<AudioplayerObject>(A, NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR,
-        _W("audioplayer handle expected."), _W("audioplayer valid handle expected."));
+        Nelson::resolveMessageTemplate(
+            L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected."),
+        resolveMessageTemplate(
+            L"Nelson:audio:audioplayerValidHandle", L"audioplayer valid handle expected."));
 }
 //=============================================================================
 } // namespace Nelson

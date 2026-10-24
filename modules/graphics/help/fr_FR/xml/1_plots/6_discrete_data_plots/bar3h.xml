@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bar3h</keyword>
+  <short_description>Afficher un diagramme en barres horizontales 3-D.</short_description>
+  <syntax>
+    <syntax_item>bar3h(Y)</syntax_item>
+    <syntax_item>bar3h(Z, Y)</syntax_item>
+    <syntax_item>bar3h(..., width)</syntax_item>
+    <syntax_item>bar3h(..., 'detached')</syntax_item>
+    <syntax_item>bar3h(..., 'grouped')</syntax_item>
+    <syntax_item>bar3h(..., 'stacked')</syntax_item>
+    <syntax_item>bar3h(..., color)</syntax_item>
+    <syntax_item>bar3h(parent, ...)</syntax_item>
+    <syntax_item>h = bar3h(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Vecteur ou matrice numerique des longueurs de barres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>positions des lignes de barres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>width</param_name>
+      <param_description>Largeur relative des barres. La valeur par defaut est 0.8.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description>nom de couleur ou nom court de couleur pour les faces.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet graphique surface ou vecteur d'objets graphiques surface.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bar3h</b> affiche des barres 3-D horizontales qui partent de x = 0.</p>
+    <p>Utiliser <b>'grouped'</b> pour grouper les colonnes de matrice a chaque position de ligne et <b>'stacked'</b> pour les empiler.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D detachees depuis une matrice.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+Y = [1 3; 2 4; 5 2];
+bar3h(Y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D depuis un vecteur.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [50 40 30 20 10];
+bar3h(y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D avec positions explicites.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = [1950 1960 1970 1980 1990];
+y = [16 8 4 2 1];
+bar3h(z, y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D depuis une matrice.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 4 7; 2 5 8; 3 6 9; 4 7 10];
+bar3h(y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D depuis une matrice avec positions explicites.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = [1 2 3 4];
+y = [1 5 9; 2 6 10; 3 7 11; 4 8 12];
+bar3h(z, y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_5.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D avec largeur et couleur.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+z = 0:pi/16:pi;
+y = [sin(z') / 4, sin(z') / 2, sin(z')];
+bar3h(z, y, 1, "r");
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_6.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D groupees.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 2; 3 4; 5 6];
+bar3h(y, 'grouped');
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_7.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Barres horizontales 3-D empilees avec valeurs positives et negatives.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 -2; -3 4];
+bar3h(y, 'stacked');
+]]></example_item_data>
+      <example_item_img src="../../../../images/bar3h_8.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/barh">barh</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/bar3">bar3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surface">surface</link></see_also_item>
+  </see_also>
+</xmldoc>

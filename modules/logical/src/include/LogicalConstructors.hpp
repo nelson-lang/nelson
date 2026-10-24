@@ -10,12 +10,16 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "ArrayOfVector.hpp"
 #include "nlsLogical_exports.h"
 //=============================================================================
 namespace Nelson {
+NLSLOGICAL_IMPEXP Dimensions
+LogicalConstructorDimensions(const ArrayOfVector& argIn, sizeType nRhs);
 NLSLOGICAL_IMPEXP ArrayOf
 TrueConstructor(Dimensions& dim, bool bIsSparse = false);
 NLSLOGICAL_IMPEXP ArrayOf
 FalseConstructor(Dimensions& dim, bool bIsSparse = false);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>modelicaToFmu</keyword>
+  <short_description>Compile un modèle Modelica en FMU avec OpenModelica.</short_description>
+  <syntax>
+    <syntax_item>fmu = modelicaToFmu(model)</syntax_item>
+    <syntax_item>fmu = modelicaToFmu(model, modelName)</syntax_item>
+    <syntax_item>fmu = modelicaToFmu(model, modelName, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>une chaîne&#160;: le chemin d'un fichier <b>.mo</b>, ou du code source Modelica en ligne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>modelName</param_name>
+      <param_description>une chaîne&#160;: la classe Modelica à construire. Optionnel&#160;; s'il est omis, c'est le nom de base du fichier <b>.mo</b> (entrée fichier) ou il est analysé depuis la première déclaration model / block / class / package (source en ligne).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>paires d'options&#160;: <b>'FmiVersion'</b> (<b>'2.0'</b> par défaut, ou <b>'3.0'</b>), <b>'FmuType'</b> (<b>'cs'</b> par défaut co-simulation, <b>'me'</b>, ou <b>'me_cs'</b>), <b>'Libraries'</b> (une chaîne ou un tableau de cellules de fichiers <b>.mo</b> supplémentaires à charger), <b>'Rebuild'</b> (<b>false</b> par défaut&#160;; <b>true</b> ignore le cache).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fmu</param_name>
+      <param_description>le chemin du fichier <b>.fmu</b> produit.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>modelicaToFmu</b> compile un modèle Modelica en <b>unité de maquette fonctionnelle</b> (FMU) à l'aide d'un compilateur <b>OpenModelica</b> installé et renvoie le chemin de la <b>.fmu</b> produite. C'est la moitié « compilation » du pont Modelica de nflow&#160;: un bloc <b>modelica</b> l'appelle pour que la FMU résultante soit simulée via le chemin FMI de nflow.</p>
+    <p>Le résultat est mis en cache dans le répertoire temporaire, indexé par une empreinte de la source, du nom de modèle, de la version d'OpenModelica et des options FMU, de sorte qu'un modèle inchangé n'est compilé qu'une fois.</p>
+    <p>Pour qu'une variable Modelica devienne un port de sortie exploitable après import, déclarez-la <b>output</b> (par exemple <b>output Real vC;</b>)&#160;; une variable ordinaire est exportée avec la causalité <b>local</b>.</p>
+    <p>Deux erreurs typées peuvent être levées. <b>Nelson:nflow_fmi:modelicaUnavailable</b> lorsqu'OpenModelica est absent ou incapable d'exporter une FMU (la construction est bloquée) -- un <b>omc</b> présent reste incapable d'exporter lorsque le runtime FMI <b>share/omc/runtime/c/fmi</b> est absent de l'installation&#160;; vérifiez l'installation avec <b>modelicaInfo</b> et définissez-la avec <b>modelicaConfigure</b>. <b>Nelson:nflow_fmi:modelicaCompileFailed</b> lorsqu'<b>omc</b> s'est exécuté sans produire la FMU&#160;; le message contient les diagnostics d'OpenModelica.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compiler un modèle du premier ordre en ligne.</example_item_description>
+      <example_item_data
+        ><![CDATA[src = sprintf('model FO\n  output Real x(start = 1.0);\nequation\n  der(x) = -x;\nend FO;\n');
+fmu = modelicaToFmu(src);
+info = fmiInfo(fmu)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compiler un modèle depuis un fichier .mo.</example_item_description>
+      <example_item_data
+        ><![CDATA[moFile = [modulepath('nflow_fmi'), '/examples/modelica/RLC.mo'];
+fmu = modelicaToFmu(moFile, 'RLC')]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaInfo">modelicaInfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaConfigure">modelicaConfigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiInfo">fmiInfo</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

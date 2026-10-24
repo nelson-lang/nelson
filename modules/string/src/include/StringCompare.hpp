@@ -14,8 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// strncmp with a count below one compares no character at all
+constexpr indexType STRNCMP_ZERO_LENGTH = static_cast<indexType>(-1);
+//=============================================================================
 NLSSTRING_IMPEXP ArrayOf
 StringCompare(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive = true, indexType len = 0);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

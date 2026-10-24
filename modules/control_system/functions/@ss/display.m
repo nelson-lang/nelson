@@ -29,24 +29,30 @@ function display(varargin)
   displayMatrix(SS.C, 'C', currentFormat);
   displayMatrix(SS.D, 'D', currentFormat);
   displayMatrix(SS.E, 'E', currentFormat);
-  
+
   if strcmp(currentFormat.LineSpacing, 'loose')
     disp(' ');
   end
-  
+
   if (isstatic(SS))
-    disp(_('     Static gain.'));
+    disp(['     ', _('Static gain.')]);
+    if isscalar(SS.D)
+      ltiDisplayModelProperties(SS, [_('Model Properties'), char(10)]);
+    end
   else
     if isdt(SS)
       if SS.Ts == -1
-        disp(sprintf(_('Sample time: %s'), _('unspecified'))); 
+        disp(sprintf(_('Sample time: %s'), _('unspecified')));
       else
-        disp(sprintf(_('Sample time: %.4f %s'), SS.Ts, SS.TimeUnit)); 
+        disp(sprintf(_('Sample time: %.4f %s'), SS.Ts, SS.TimeUnit));
       end
       disp(_('Discrete-time state-space model.'));
     end
     if isct(SS)
       disp(_('Continuous-time state-space model.'));
+    end
+    if isscalar(SS.D)
+      ltiDisplayModelProperties(SS, '');
     end
   end
   if strcmp(currentFormat.LineSpacing, 'loose')
@@ -63,7 +69,7 @@ function displayMatrix(M, name, format)
   else
     display(M, ['   ', name])
   end
-  
+
 end
 %=============================================================================
 function str = sizeToString(sz)

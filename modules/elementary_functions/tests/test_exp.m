@@ -7,34 +7,37 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('exp'), 1)
-assert_isequal(nargout('exp'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('exp'), 1)
+asserts.isequal(nargout('exp'), 1)
 %=============================================================================
 A = 3;
 R = exp(A);
 REF = 20.0855;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 A = single(3);
 R = exp(A);
 REF = single(20.0855);
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 A = 3 - i;
 R = exp(A);
 REF = complex(10.8523, -16.9014);
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-assert_isequal(exp(NaN), NaN);
-assert_isequal(exp(Inf), Inf);
-assert_isequal(exp(-Inf), 0);
-assert_isequal(exp(zeros(0, 3)), zeros(0, 3));
-assert_isequal(exp([]), []);
+asserts.isequal(exp(NaN), NaN);
+asserts.isequal(exp(Inf), Inf);
+asserts.isequal(exp(-Inf), 0);
+asserts.isequal(exp(zeros(0, 3)), zeros(0, 3));
+asserts.isequal(exp([]), []);
 %=============================================================================
 R = exp(sparse(eye(2, 2)));
-REF =  sparse([2.7183  1.0000; 1.0000  2.7183]);
-assert_isapprox(full(R), full(REF), 1e-4);
+REF = sparse([2.7183 1.0000; 1.0000 2.7183]);
+asserts.isapprox(full(R), full(REF), 1e-4);
 %=============================================================================
 R = exp(ones(2, 2, 2));
-assert_isapprox(R(1), 2.71828, 1e-4);
+asserts.isapprox(R(1), 2.71828, 1e-4);
+%=============================================================================
+asserts.isequal(exp(0), 1);
 %=============================================================================

@@ -12,7 +12,7 @@
 #include "NelSon_engine_mode.h"
 #include "QtMainWindow.h"
 #include "NelsonConfiguration.hpp"
-//===================================================================================
+//=============================================================================
 bool
 setNelsonMinimized(bool minimize)
 {
@@ -28,7 +28,7 @@ setNelsonMinimized(bool minimize)
 
             QTimer::singleShot(0, nelsonQtMainWindow, [nelsonQtMainWindow]() {
                 nelsonQtMainWindow->setWindowState(Qt::WindowNoState);
-                // On some Ubuntu/Linux systems, we might need a second attempt
+                // Some Ubuntu/Linux systems need a second attempt.
                 QTimer::singleShot(100, nelsonQtMainWindow, [nelsonQtMainWindow]() {
                     nelsonQtMainWindow->activateWindow();
                     nelsonQtMainWindow->raise();
@@ -40,7 +40,7 @@ setNelsonMinimized(bool minimize)
     }
     return false;
 }
-//===================================================================================
+//=============================================================================
 bool
 getNelsonMinimized()
 {
@@ -49,18 +49,8 @@ getNelsonMinimized()
         QtMainWindow* nelsonQtMainWindow = static_cast<QtMainWindow*>(
             Nelson::NelsonConfiguration::getInstance()->getMainGuiObject());
 
-        // Check multiple properties to determine if minimized
-        // Use bitwise check for WindowMinimized flag
-        bool isStateMinimized = (nelsonQtMainWindow->windowState() & Qt::WindowMinimized) != 0;
-
-        // On some Linux window managers, a minimized window might report a different state
-        bool isHidden = !nelsonQtMainWindow->isActiveWindow() && nelsonQtMainWindow->isVisible();
-
-        // Some window managers might use iconification
-        bool isIconified = nelsonQtMainWindow->isMinimized();
-
-        return isStateMinimized || isIconified || isHidden;
+        return nelsonQtMainWindow->isMinimized();
     }
     return false;
 }
-//===================================================================================
+//=============================================================================

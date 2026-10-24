@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bubblechart</keyword>
+  <short_description>Display bubble chart.</short_description>
+  <syntax>
+    <syntax_item>bubblechart(x, y, sz)</syntax_item>
+    <syntax_item>bubblechart(x, y, sz, c)</syntax_item>
+    <syntax_item>bubblechart(tbl, xvar, yvar, sizevar)</syntax_item>
+    <syntax_item>bubblechart(tbl, xvar, yvar, sizevar, cvar)</syntax_item>
+    <syntax_item>bubblechart(parent, ...)</syntax_item>
+    <syntax_item>bubblechart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = bubblechart(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>bubblechart</b> displays a chart whose circular marker sizes are controlled by <b>sz</b>.</p>
+    <p><b>x</b>, <b>y</b>, and <b>sz</b> can be vectors or matrices. Vector <b>x</b> and <b>y</b> with scalar <b>sz</b> create one bubblechart object per point. Matrix inputs create one object per data series.</p>
+    <p><b>c</b> specifies bubble colors. It can be a color name, short color name, RGB triplet, color vector, or RGB matrix.</p>
+    <p>Table syntax reads variables from <b>tbl</b>. Variable selectors can be names, string arrays, cell arrays of names, numeric indices, or logical vectors.</p>
+
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">bubblechart properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display a bubble chart.</example_item_description>
+      <example_item_data><![CDATA[bubblechart(1:5, [3 5 2 8 4], [20 50 30 80 40], 'r');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblechart_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display several series from matrix data.</example_item_description>
+      <example_item_data><![CDATA[x = [1 2 3; 4 5 6];
+y = [2 4 3; 5 6 4];
+sz = [20 40 60; 50 30 70];
+bubblechart(x, y, sz);]]></example_item_data>
+      <example_item_img src="../../../../images/bubblechart_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use table variables.</example_item_description>
+      <example_item_data><![CDATA[t = table((1:4)', [4; 2; 6; 3], [20; 60; 30; 80], [1; 2; 3; 4], ...
+  'VariableNames', {'x', 'y', 's', 'c'});
+bubblechart(t, 'x', 'y', 's', 'c');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblechart_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">bubblechart properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/scatter">scatter</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblechart3">bubblechart3</link></see_also_item>
+  </see_also>
+</xmldoc>

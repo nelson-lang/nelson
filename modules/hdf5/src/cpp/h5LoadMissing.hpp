@@ -21,5 +21,5 @@ bool
 h5LoadMissing(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
     const Dimensions& dims, ArrayOf& VariableValue);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

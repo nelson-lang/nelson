@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>elementary_functions</module_name>
+  <chapter>Conversions de base</chapter>
+  <chapter_description>
+    <p>Fonctions pour conversion de base numerique, conversion de type et ordre des octets.</p>
+  </chapter_description>
+</xmldoc>

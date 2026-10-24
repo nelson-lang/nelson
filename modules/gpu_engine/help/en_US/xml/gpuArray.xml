@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gpuArray</keyword>
+  <short_description>Copy an array to the GPU device.</short_description>
+  <syntax>
+    <syntax_item>G = gpuArray(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a real, logical, complex or small-integer numeric array.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>G</param_name>
+      <param_description>a gpuArray stored on the device.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>G = gpuArray(A)</b> copies the array <b>A</b> to the GPU and returns a <b>gpuArray</b> object. Operations on <b>G</b> run on the device; use <b>gather</b> to bring the result back to the host.</p>
+    <p>The device stores data in single precision: a <b>double</b> input is downcast to <b>single</b>. Real, <b>logical</b> and complex inputs are supported; sparse inputs are not.</p>
+    <p>The small integer classes <b>int8</b>, <b>uint8</b>, <b>int16</b> and <b>uint16</b> are preserved: their values are exact in single precision, arithmetic saturates to the class range and <b>gather</b> returns the original class.</p>
+    <p><b>int32</b> and <b>uint32</b> are also preserved (stored as raw 32-bit integer bits): round-trip, saturating <b>+</b>, <b>-</b>, <b>.*</b>, <b>./</b>, <b>.\</b>, unary minus, <b>abs</b>, <b>max</b>/<b>min</b> (element-wise and reductions), <b>sum</b>, <b>prod</b>, <b>mean</b>, <b>cumsum</b>, <b>cumprod</b>, <b>sort</b>, <b>find</b>, integer power (<b>.^</b> with a non-negative exponent), relational operators and the reshaping/indexing operations are supported. Operations that have no integer meaning (the transcendental elementwise math functions) raise a clear error. The 64-bit integer classes are not supported.</p>
+    <p>A compatible GPU is required (see <b>canUseGPU</b>).</p>
+    <p>A device array can also be created directly with <b>zeros(sz, 'gpuArray')</b> / <b>ones(sz, 'gpuArray')</b>, or with the <b>'like'</b> form <b>zeros(sz, 'like', G)</b> where <b>G</b> is a gpuArray.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = single(rand(1000));
+G = gpuArray(A);
+R = gather(G .* G + sqrt(G));
+class(G)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gather">gather</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}isgpuarray">isgpuarray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}canUseGPU">canUseGPU</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

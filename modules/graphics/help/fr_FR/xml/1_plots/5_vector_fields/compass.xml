@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compass</keyword>
+  <short_description>Afficher des fleches depuis l'origine sur une grille polaire.</short_description>
+  <syntax>
+    <syntax_item>compass(Z)</syntax_item>
+    <syntax_item>compass(U, V)</syntax_item>
+    <syntax_item>compass(..., LineSpec)</syntax_item>
+    <syntax_item>compass(..., nomPropriete, valeurPropriete)</syntax_item>
+    <syntax_item>compass(parent, ...)</syntax_item>
+    <syntax_item>h = compass(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>compass</b> trace des fleches partant de l'origine vers les points cartesiens definis par les composantes fournies, sur une grille polaire.</p>
+    <p>Avec une seule entree complexe <b>Z</b>, les parties reelles sont les composantes horizontales et les parties imaginaires les composantes verticales; cela equivaut a <b>compass(real(Z), imag(Z))</b>.</p>
+    <p>Avec deux entrees reelles <b>U</b> et <b>V</b>, chaque couple (U, V) est un point cartesien et la fleche va de l'origine vers ce point. Lorsque <b>U</b> et <b>V</b> sont des matrices, une fleche est tracee pour chaque element.</p>
+    <p>Chaque vecteur est trace comme un objet <b>Line</b> compose d'une hampe partant de l'origine et d'une pointe de fleche a deux segments, sur une grille polaire de reference. <b>h = compass(...)</b> retourne un vecteur colonne d'objets <b>Line</b>, un par vecteur.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des fleches depuis des valeurs complexes.</example_item_description>
+      <example_item_data><![CDATA[Z = [1 + 2i, 2 - 1i, -1 + 1i];
+compass(Z);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Utiliser des composantes cartesiennes avec un style et des proprietes de ligne.</example_item_description>
+      <example_item_data><![CDATA[U = [1 3 2];
+V = [2 1 -1];
+h = compass(U, V, '-r');
+set(h, 'LineWidth', 1.5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/compassplot">compassplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/feather">feather</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -14,7 +14,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Map of keyword tokens to their string representations
 static const std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BREAK, "break" },
     { NLS_KEYWORD_CASE, "case" }, { NLS_KEYWORD_CATCH, "catch" },
     { NLS_KEYWORD_CONTINUE, "continue" }, { NLS_KEYWORD_ELSE, "else" },
@@ -22,10 +21,8 @@ static const std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BRE
     { NLS_KEYWORD_FUNCTION, "function" }, { NLS_KEYWORD_IF, "if" },
     { NLS_KEYWORD_KEYBOARD, "keyboard" }, { NLS_KEYWORD_OTHERWISE, "otherwise" },
     { NLS_KEYWORD_ABORT, "abort" }, { NLS_KEYWORD_RETURN, "return" },
-    { NLS_KEYWORD_SWITCH, "switch" }, { NLS_KEYWORD_TRY, "try" }, { NLS_KEYWORD_WHILE, "while" },
-    { NLS_KEYWORD_ENDFUNCTION, "endfunction" } };
+    { NLS_KEYWORD_SWITCH, "switch" }, { NLS_KEYWORD_TRY, "try" }, { NLS_KEYWORD_WHILE, "while" } };
 //=============================================================================
-// Map of binary operators to their string representations
 static const std::unordered_map<int, std::string> binaryOperators
     = { { OP_ASSIGN, "=" }, { OP_PLUS, "+" }, { OP_SUBTRACT, "-" }, { OP_TIMES, "*" },
           { OP_RDIV, "/" }, { OP_LDIV, "\\" }, { OP_POWER, ".^" }, { OP_MPOWER, "^" },
@@ -33,7 +30,6 @@ static const std::unordered_map<int, std::string> binaryOperators
           { OP_OR, "|" }, { OP_SAND, "&&" }, { OP_SOR, "||" }, { OP_LT, "<" }, { OP_LEQ, "<=" },
           { OP_GT, ">" }, { OP_GEQ, ">=" }, { OP_EQ, "==" }, { OP_NEQ, "~=" } };
 //=============================================================================
-// Map of unary operators to their string representations and position (left or right)
 struct UnaryOpInfo
 {
     std::string op;
@@ -43,14 +39,12 @@ struct UnaryOpInfo
 static const std::unordered_map<int, UnaryOpInfo> unaryOperators
     = { { OP_DOT_TRANSPOSE, { ".'", true } }, { OP_TRANSPOSE, { "'", true } },
           { OP_NOT, { "~", false } }, { OP_UMINUS, { "-", false } }, { OP_UPLUS, { "+", false } } };
-
-//=============================================================================
-// Forward declarations for helper methods
 //=============================================================================
 static std::string
 formatUnaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool isRight);
 static std::string
-formatBinaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool firstLevel);
+formatBinaryOperator(
+    AbstractSyntaxTreePtr node, const std::string& op, bool firstLevel, bool isPower);
 static std::string
 formatConstantNode(const AbstractSyntaxTree& node);
 static std::string
@@ -59,23 +53,31 @@ static std::string
 formatFunctionCall(AbstractSyntaxTreePtr node, bool firstLevel);
 static std::string
 formatRange(AbstractSyntaxTreePtr node, bool firstLevel);
+static std::string
+formatPostfix(AbstractSyntaxTreePtr node, bool firstLevel);
+static bool
+isRangeNode(AbstractSyntaxTreePtr node);
+static std::string
+formatArgument(AbstractSyntaxTreePtr node);
+static std::string
+formatTightOperand(AbstractSyntaxTreePtr node);
+static std::string
+formatIndexSuffixes(AbstractSyntaxTreePtr suffix);
 //=============================================================================
 std::string
 AbstractSyntaxTree::toString(bool firstLevel)
 {
-    // Check if this is a binary operator that can be handled by the map
     auto binaryOpIt = binaryOperators.find(opNum);
     if (binaryOpIt != binaryOperators.end()) {
-        return formatBinaryOperator(down, binaryOpIt->second, firstLevel);
+        bool isPower = (opNum == OP_POWER || opNum == OP_MPOWER);
+        return formatBinaryOperator(down, binaryOpIt->second, firstLevel, isPower);
     }
 
-    // Check if this is a unary operator that can be handled by the map
     auto unaryOpIt = unaryOperators.find(opNum);
     if (unaryOpIt != unaryOperators.end()) {
         return formatUnaryOperator(down, unaryOpIt->second.op, unaryOpIt->second.isRight);
     }
 
-    // Handle constant nodes
     if (type == const_character_array_node || type == const_string_node || type == const_int_node
         || type == const_uint64_node || type == const_uint32_node || type == const_uint16_node
         || type == const_uint8_node || type == const_int64_node || type == const_int32_node
@@ -84,7 +86,6 @@ AbstractSyntaxTree::toString(bool firstLevel)
         return formatConstantNode(*this);
     }
 
-    // Handle other node types and operators
     std::string result;
 
     switch (type) {
@@ -96,20 +97,13 @@ AbstractSyntaxTree::toString(bool firstLevel)
     } break;
 
     case id_node: {
-        result = text;
-        if (down) {
-            result += down->toString(false);
-        } else if (right) {
-            result += right->toString(false);
-        }
+        result = text + formatIndexSuffixes(down ? down : right);
         return result;
     }
 
     case non_terminal:
-        // Handle non-terminal nodes based on operator type
         switch (opNum) {
         case OP_BLOCK: {
-            // Block of statements separated by newlines
             AbstractSyntaxTreePtr current = down;
             while (current != nullptr) {
                 result += current->toString(false);
@@ -121,23 +115,29 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         case OP_COLON: {
+            // ':' binds looser than every arithmetic operator: as an operand
+            // it must stay parenthesized, or "(1:5)*x" re-parses as "1:(5*x)".
             result = formatRange(down, false);
+            if (!firstLevel) {
+                result = "(" + result + ")";
+            }
+        } break;
+
+        case OP_ALL: {
+            result = ":";
         } break;
 
         case OP_PARENS: {
             result = "(";
             if (down) {
-                result += down->toString(false);
+                result += formatArgument(down);
                 AbstractSyntaxTreePtr c = down->right;
                 while (c) {
-                    result += "," + c->toString(false);
+                    result += "," + formatArgument(c);
                     c = c->right;
                 }
             }
-            result += ")";
-            if (right) {
-                result += right->toString(false);
-            }
+            result += ")" + formatIndexSuffixes(right);
         } break;
 
         case OP_EMPTY: {
@@ -157,24 +157,14 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         case OP_DOT: {
-            // Structure field access: expr.field
-            result = "." + (down ? down->toString(false) : "");
-            if (right) {
-                result += right->toString(false);
-            }
+            result = "." + (down ? down->toString(false) : "") + formatIndexSuffixes(right);
         } break;
 
         case OP_DOTDYN: {
-            // Dynamic field access: expr.(expr)
-            result = ".(" + (down ? down->toString(false) : "");
-            if (right) {
-                result += right->toString(false);
-            }
-            result += ")";
+            result = ".(" + (down ? down->toString(false) : "") + ")" + formatIndexSuffixes(right);
         } break;
 
         case OP_FUNCTION_HANDLE_ANONYMOUS: {
-            // Anonymous function: @(args) expr
             if (down) {
                 stringVector arguments = down->toStringList();
                 result = "@(";
@@ -192,9 +182,26 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         case OP_FUNCTION_HANDLE_NAMED: {
-            // Named function handle: @function_name
             if (down) {
                 result = "@" + down->toString(false);
+            }
+        } break;
+
+        case OP_POSTFIX: {
+            result = formatPostfix(down, firstLevel);
+        } break;
+
+        case OP_SUPERCLASS_CALL: {
+            // obj@Super(args): left operand, then the super reference
+            if (down != nullptr && down->right != nullptr) {
+                result = down->toString(false) + "@" + down->right->toString(false);
+            }
+        } break;
+
+        case OP_ARGUMENTS: {
+            // Opaque arguments validation block: render the captured source.
+            if (down != nullptr) {
+                result = down->text;
             }
         } break;
 
@@ -203,7 +210,6 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         case OP_MULTICALL: {
-            // Multiple outputs: [out1, out2] = func(args)
             if (down && down->right) {
                 result = "[";
                 AbstractSyntaxTreePtr outputs = down;
@@ -221,7 +227,6 @@ AbstractSyntaxTree::toString(bool firstLevel)
         } break;
 
         default:
-            // If we don't know how to handle this operator, try to output text or child nodes
             if (!text.empty()) {
                 result = text;
             } else if (down) {
@@ -235,37 +240,38 @@ AbstractSyntaxTree::toString(bool firstLevel)
             }
         }
         break;
+    default:
+        break;
     }
     return result;
 }
 //=============================================================================
-// Helper methods implementation
-//=============================================================================
-// Format constant nodes based on their type
 static std::string
 formatConstantNode(const AbstractSyntaxTree& node)
 {
+    // the text of a literal is unescaped: a quote is doubled again
+    std::string text = node.text;
     switch (node.type) {
     case const_character_array_node:
-        return "'" + node.text + "'";
+        StringHelpers::replace_all(text, "'", "''");
+        return "'" + text + "'";
     case const_string_node:
-        return "\"" + node.text + "\"";
+        StringHelpers::replace_all(text, "\"", "\"\"");
+        return "\"" + text + "\"";
     case const_complex_node:
     case const_dcomplex_node:
         return node.text + "i";
     default:
-        // Other numeric types
         return node.text;
     }
 }
 //=============================================================================
-// Format binary operators with proper parentheses based on precedence
 static std::string
-formatBinaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool firstLevel)
+formatBinaryOperator(
+    AbstractSyntaxTreePtr node, const std::string& op, bool firstLevel, bool isPower)
 {
     if (node && node->right) {
-        // For second-level operations, add parentheses around child expressions
-        std::string leftStr = node->toString(false);
+        std::string leftStr = isPower ? formatTightOperand(node) : node->toString(false);
         std::string rightStr = node->right->toString(false);
 
         std::string result = leftStr + op + rightStr;
@@ -274,17 +280,17 @@ formatBinaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool fir
     return "";
 }
 //=============================================================================
-// Format unary operators with proper placement (prefix or postfix)
 static std::string
 formatUnaryOperator(AbstractSyntaxTreePtr node, const std::string& op, bool isRight)
 {
     if (!node) {
         return "";
     }
-    return isRight ? node->toString(true) + op : op + node->toString(true);
+    // The operand is serialized with firstLevel=false so a lower-precedence
+    // binary operand stays parenthesized: "-(a+b)" must not become "-a+b".
+    return isRight ? formatTightOperand(node) + op : op + node->toString(false);
 }
 //=============================================================================
-// Format arrays with brackets or braces
 static std::string
 formatBracesOrBrackets(AbstractSyntaxTreePtr node, bool isBrackets)
 {
@@ -298,7 +304,6 @@ formatBracesOrBrackets(AbstractSyntaxTreePtr node, bool isBrackets)
             result += "; ";
         }
 
-        // Handle row content
         if (rowNode->opNum == OP_SEMICOLON) {
             AbstractSyntaxTreePtr col = rowNode->down;
             bool firstCol = true;
@@ -311,7 +316,6 @@ formatBracesOrBrackets(AbstractSyntaxTreePtr node, bool isBrackets)
                 firstCol = false;
             }
         } else {
-            // Single row case
             AbstractSyntaxTreePtr col = rowNode;
             bool firstCol = true;
             while (col) {
@@ -322,7 +326,7 @@ formatBracesOrBrackets(AbstractSyntaxTreePtr node, bool isBrackets)
                 col = col->right;
                 firstCol = false;
             }
-            break; // Done with single-row matrix
+            break;
         }
 
         rowNode = rowNode->right;
@@ -333,7 +337,6 @@ formatBracesOrBrackets(AbstractSyntaxTreePtr node, bool isBrackets)
     return result;
 }
 //=============================================================================
-// Format function calls with arguments
 static std::string
 formatFunctionCall(AbstractSyntaxTreePtr node, bool firstLevel)
 {
@@ -358,7 +361,6 @@ formatFunctionCall(AbstractSyntaxTreePtr node, bool firstLevel)
     return result;
 }
 //=============================================================================
-// Format range expressions (start:step:end or start:end)
 static std::string
 formatRange(AbstractSyntaxTreePtr node, bool firstLevel)
 {
@@ -366,7 +368,9 @@ formatRange(AbstractSyntaxTreePtr node, bool firstLevel)
         return "";
     }
 
-    std::string result = node->toString(firstLevel);
+    // "a:b:c" is parsed as the range "(a:b)" followed by ":c": the inner range
+    // is written bare, otherwise "(a:b):c" would no longer be a stepped range.
+    std::string result = node->toString(firstLevel || isRangeNode(node));
     AbstractSyntaxTreePtr current = node->right;
 
     while (current != nullptr) {
@@ -375,6 +379,62 @@ formatRange(AbstractSyntaxTreePtr node, bool firstLevel)
     }
 
     return result;
+}
+//=============================================================================
+static std::string
+formatPostfix(AbstractSyntaxTreePtr node, bool firstLevel)
+{
+    if (node == nullptr) {
+        return "";
+    }
+    std::string result = "(" + node->toString(firstLevel) + ")";
+    AbstractSyntaxTreePtr suffix = node->right;
+    while (suffix != nullptr) {
+        result += suffix->toString(false);
+        suffix = suffix->right;
+    }
+    return result;
+}
+//=============================================================================
+static bool
+isRangeNode(AbstractSyntaxTreePtr node)
+{
+    return node != nullptr && node->type == non_terminal && node->opNum == OP_COLON;
+}
+//=============================================================================
+// An index argument is delimited by ',' and ')': a range needs no parentheses.
+static std::string
+formatArgument(AbstractSyntaxTreePtr node)
+{
+    return node->toString(isRangeNode(node));
+}
+//=============================================================================
+// Power and postfix transpose bind tighter than a prefix '-', '+' or '~':
+// "(-x)^2" written bare would re-parse as "-(x^2)".
+static std::string
+formatTightOperand(AbstractSyntaxTreePtr node)
+{
+    std::string result = node->toString(false);
+    if (node->type == non_terminal
+        && (node->opNum == OP_UMINUS || node->opNum == OP_UPLUS || node->opNum == OP_NOT)) {
+        return "(" + result + ")";
+    }
+    return result;
+}
+//=============================================================================
+// Index suffixes a(1).b{2}(3) are chained through 'right'. A brace index shares
+// OP_BRACES with a cell literal, whose 'right' is its next peer: it is written
+// here with the suffixes that follow it.
+static std::string
+formatIndexSuffixes(AbstractSyntaxTreePtr suffix)
+{
+    if (suffix == nullptr) {
+        return "";
+    }
+    if (suffix->type == non_terminal && suffix->opNum == OP_BRACES) {
+        return formatBracesOrBrackets(suffix->down, false) + formatIndexSuffixes(suffix->right);
+    }
+    return suffix->toString(false);
 }
 //=============================================================================
 } // namespace Nelson

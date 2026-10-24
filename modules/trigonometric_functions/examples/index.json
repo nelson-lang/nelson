@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "coordinate_transforms.m",
+      "title": {
+        "en_US": "Coordinate-system round trip",
+        "fr_FR": "Aller-retour entre repères"
+      },
+      "description": {
+        "en_US": "Convert planar and spatial points between Cartesian, polar and spherical coordinates.",
+        "fr_FR": "Convertir des points plans et spatiaux entre coordonnées cartésiennes, polaires et sphériques."
+      },
+      "tags": [
+        "coordinates",
+        "polar",
+        "spherical"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -12,7 +12,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Constants for unit conversions
 const double DEFAULT_DPI = 96.0;
 const double POINTS_PER_INCH = 72.0;
 const double CM_PER_INCH = 2.54;
@@ -20,7 +19,6 @@ const double CHAR_WIDTH_PIXELS = 8.0;
 const double CHAR_HEIGHT_PIXELS = 16.0;
 const double DATA_UNIT_PIXELS = 1.0;
 //=============================================================================
-// Helper function to convert between different unit systems
 struct UnitConversionFactors
 {
     double xFactor;
@@ -31,11 +29,9 @@ UnitConversionFactors
 getConversionFactors(
     const std::wstring& fromUnit, const std::wstring& toUnit, double width, double height)
 {
-    // Factors to convert from fromUnit to pixels
     double xFactorToPixels = 1.0;
     double yFactorToPixels = 1.0;
 
-    // Convert source unit to pixels
     if (fromUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
         xFactorToPixels = width;
         yFactorToPixels = height;
@@ -56,11 +52,9 @@ getConversionFactors(
         yFactorToPixels = DATA_UNIT_PIXELS;
     }
 
-    // Factors to convert from pixels to target unit
     double xFactorFromPixels = 1.0;
     double yFactorFromPixels = 1.0;
 
-    // Convert pixels to target unit
     if (toUnit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
         xFactorFromPixels = 1.0 / width;
         yFactorFromPixels = 1.0 / height;
@@ -81,31 +75,25 @@ getConversionFactors(
         yFactorFromPixels = 1.0 / DATA_UNIT_PIXELS;
     }
 
-    // Calculate combined conversion factors
     return { xFactorToPixels * xFactorFromPixels, yFactorToPixels * yFactorFromPixels };
 }
 //=============================================================================
-// Unified conversion function for point values
 std::pair<double, double>
 convertUnitsPair(const std::wstring& fromUnit, const std::wstring& toUnit, double x, double y,
     double width, double height)
 {
-    // If units are the same, no conversion needed
     if (fromUnit == toUnit) {
         return { x, y };
     }
 
-    // For other conversions, get conversion factors and apply them
     UnitConversionFactors factors = getConversionFactors(fromUnit, toUnit, width, height);
     return { x * factors.xFactor, y * factors.yFactor };
 }
 //=============================================================================
-// Function for rectangle values
 std::vector<double>
 convertUnitsVector(const std::wstring& fromUnit, const std::wstring& toUnit, double x, double y,
     double w, double h, double width, double height)
 {
-    // If units are the same, no conversion needed
     if (fromUnit == toUnit) {
         return { x, y, w, h };
     }
@@ -115,7 +103,6 @@ convertUnitsVector(const std::wstring& fromUnit, const std::wstring& toUnit, dou
     return { newX, newY, newW, newH };
 }
 //=============================================================================
-// Maintain original function signatures
 const std::pair<double, double>
 convertToPixels(const std::wstring& fromUnit, double x, double y, double width, double height)
 {
@@ -150,5 +137,5 @@ convertPosition(const std::wstring& from, const std::wstring& to, std::vector<do
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

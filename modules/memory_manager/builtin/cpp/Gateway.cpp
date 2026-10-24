@@ -12,9 +12,11 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "acquirevarBuiltin.hpp"
 #include "assigninBuiltin.hpp"
 #include "clearBuiltin.hpp"
+#include "clearvarsBuiltin.hpp"
 #include "globalBuiltin.hpp"
 #include "isglobalBuiltin.hpp"
 #include "isvarBuiltin.hpp"
@@ -32,6 +34,8 @@ const std::wstring gatewayName = L"memory_manager";
 //=============================================================================
 static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGateway::clearBuiltin, 0,
                                           1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "clearvars", (ptrBuiltin)Nelson::MemoryGateway::clearvarsBuiltin, 0, 1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "who", (ptrBuiltin)Nelson::MemoryGateway::whoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "whos", (ptrBuiltin)Nelson::MemoryGateway::whosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "global", (ptrBuiltin)Nelson::MemoryGateway::globalBuiltin, 0, -1,
@@ -53,11 +57,17 @@ static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGatew
     { "isvar", (ptrBuiltin)Nelson::MemoryGateway::isvarBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "memory", (ptrBuiltin)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN } };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeMemoryManagerModule(Nelson::Evaluator* eval)
+{
+    auto* manager = BuiltInFunctionDefManager::getInstance();
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::clearBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::clearvarsBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::assigninBuiltin, true);
+    return true;
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeMemoryManagerModule)
 //=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

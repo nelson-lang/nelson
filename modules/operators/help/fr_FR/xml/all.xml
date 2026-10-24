@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>all</keyword>
   <short_description
-  >all of the elements of a matrix satisfy some condition.</short_description>
+  >tous les éléments d&apos;une matrice satisfont une condition.</short_description>
   <syntax>
     <syntax_item>R = all(M)</syntax_item>
     <syntax_item>R = all(M, dim)</syntax_item>
@@ -13,29 +13,32 @@
   <param_input>
     <param_input_item>
       <param_name>M</param_name>
-      <param_description>a matrix.</param_description>
+      <param_description>une matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dim</param_name>
       <param_description
-      >a integer value: dimension along it works.</param_description>
+      >un entier : dimension le long de laquelle elle opère.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>
         &apos;all&apos;
       </param_name>
-      <param_description>tests over all elements of M.</param_description>
+      <param_description>teste sur tous les éléments de M.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>a logical matrix.</param_description>
+      <param_description>une matrice de booléens.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>all</b> returns true if all of the elements of a matrix satisfy some condition.</p>
+      <b>all</b> renvoie true si tous les éléments d&apos;une matrice satisfont une condition.</p>
+    <p>
+      Les matrices sparse single et sparse single complexes sont prises en charge. Les zéros
+      implicites du sparse participent au test logique comme des valeurs nulles.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,6 +51,12 @@
       ><![CDATA[all([33, 22; 11, 0])
 all([33, 22; 11, 0], 2)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Test logique sur une matrice sparse single.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[S = sparse(single([1 0; 2 3]));
+R = all(S, 1)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -58,6 +67,10 @@ all([33, 22; 11, 0], 2)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
     </history_item>
   </history>
   <authors>

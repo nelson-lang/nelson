@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "sparse_poisson.m",
+      "title": "Solve a sparse Poisson system",
+      "description": "Assemble a banded sparse operator and solve a boundary-value discretization.",
+      "tags": [
+        "sparse",
+        "linear-system"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "sparsity_ordering.m",
+      "title": {
+        "en_US": "Reduce sparse matrix bandwidth",
+        "fr_FR": "Réduire la largeur de bande creuse"
+      },
+      "description": {
+        "en_US": "Visualize a shuffled Poisson matrix and reduce its bandwidth with reverse Cuthill-McKee ordering.",
+        "fr_FR": "Visualiser une matrice de Poisson mélangée et réduire sa largeur de bande par l’ordre de Cuthill-McKee inverse."
+      },
+      "tags": [
+        "sparse",
+        "ordering",
+        "spy",
+        "bandwidth"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

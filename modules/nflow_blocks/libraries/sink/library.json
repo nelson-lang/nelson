@@ -1,0 +1,297 @@
+{
+  "id": "builtin.sink",
+  "title": "Sinks",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-03-21",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Blocks for visualizing or exporting simulation results",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "scope",
+      "label": "Scope",
+      "icon": "scope.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 220,
+      "height": 160,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 80,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 120,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      },
+      "render": {
+        "type": "plot",
+        "path": "M{axisX} {axisTop} L{axisX} {axisY} L{axisRight-2} {axisY}"
+      }
+    },
+    {
+      "type": "xyScope",
+      "icon": "xyScope.svg",
+      "label": "XY Scope",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 220,
+      "height": 160,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 110,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "XMin": "",
+        "XMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      },
+      "render": {
+        "type": "plot",
+        "path": "M{axisX} {axisY} L{axisRight-2} {axisTop+8}"
+      }
+    },
+    {
+      "type": "xyzScope",
+      "label": "XYZ Scope",
+      "icon": "xyzScope.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 220,
+      "height": 180,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 90,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 130,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "XMin": "",
+        "XMax": "",
+        "YMin": "",
+        "YMax": "",
+        "ZMin": "",
+        "ZMax": "",
+        "width": 220,
+        "height": 180,
+        "RotationX": 30,
+        "RotationY": 45
+      },
+      "render": {
+        "type": "plot",
+        "path": "M{axisX} {axisY} L{axisRight-2} {axisY-20}"
+      }
+    },
+    {
+      "type": "fileSink",
+      "icon": "fileSink.svg",
+      "label": "Output File",
+      "phases": [],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "FileName": "output.csv"
+      },
+      "render": {
+        "type": "image",
+        "src": "fileSink.svg"
+      }
+    },
+    {
+      "type": "labelSink",
+      "icon": "labelSink.svg",
+      "label": "Label Sink",
+      "phases": [],
+      "width": 40,
+      "height": 40,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 20,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "GotoTag": "x",
+        "ShowNode": true
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-label-sink-formula",
+        "formula": "{params.GotoTag}"
+      }
+    },
+    {
+      "type": "display",
+      "icon": "display.svg",
+      "label": "Display",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 120,
+      "height": 60,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "Label": "Display",
+        "Format": "short",
+        "Decimation": 1,
+        "Floating": false
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-display-formula",
+        "formula": "\\mathsf{Disp}"
+      }
+    },
+    {
+      "type": "toWorkspace",
+      "label": "To Workspace",
+      "icon": "toWorkspace.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 80,
+      "height": 48,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 24,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {
+        "VariableName": "simout",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Structure With Time",
+        "SampleTime": "-1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "\\mathtt{{params.VariableName}}",
+        "textSize": 14
+      }
+    },
+    {
+      "type": "terminator",
+      "label": "Terminator",
+      "icon": "terminator.svg",
+      "phases": [],
+      "width": 40,
+      "height": 40,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 20,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {},
+      "render": {
+        "type": "image",
+        "src": "exports/terminator.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 40,
+        "height": 40
+      }
+    },
+    {
+      "type": "stopSimulation",
+      "label": "Stop",
+      "icon": "stopSimulation.svg",
+      "phases": [
+        "AFTER_STEP"
+      ],
+      "width": 40,
+      "height": 40,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 20,
+          "side": "left"
+        }
+      ],
+      "outputs": [],
+      "defaultParams": {}
+    }
+  ]
+}

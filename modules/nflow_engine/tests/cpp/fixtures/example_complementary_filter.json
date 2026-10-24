@@ -1,0 +1,346 @@
+{
+  "blocks": [
+    {
+      "id": "b1",
+      "x": 440,
+      "y": 200,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "x": 620,
+      "y": 360,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "x": 1060,
+      "y": 60,
+      "width": 220,
+      "height": 160,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 80,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 0,
+          "y": 120,
+          "type": "in",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "x": 800,
+      "y": 360,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b3",
+      "x": 940,
+      "y": 240,
+      "width": 20,
+      "height": 20,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": -30,
+          "y": 10,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 10,
+          "y": -30,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 10,
+          "y": 50,
+          "type": "in",
+          "index": 2
+        },
+        {
+          "x": 50,
+          "y": 10,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b4",
+      "x": 240,
+      "y": 360,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b5",
+      "x": 60,
+      "y": 60,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b6",
+      "x": 60,
+      "y": 440,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b7",
+      "x": 60,
+      "y": 200,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b8",
+      "x": 240,
+      "y": 200,
+      "width": 20,
+      "height": 20,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": -30,
+          "y": 10,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 10,
+          "y": -30,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 10,
+          "y": 50,
+          "type": "in",
+          "index": 2
+        },
+        {
+          "x": 50,
+          "y": 10,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b9",
+      "x": 440,
+      "y": 360,
+      "width": 20,
+      "height": 20,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": -30,
+          "y": 10,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 10,
+          "y": -30,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 10,
+          "y": 50,
+          "type": "in",
+          "index": 2
+        },
+        {
+          "x": 50,
+          "y": 10,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "b1",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 2
+    },
+    {
+      "from": "b10",
+      "to": "b2",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b6",
+      "to": "b9",
+      "fromIndex": 0,
+      "toIndex": 2
+    },
+    {
+      "from": "b9",
+      "to": "b10",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b8",
+      "to": "b1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b7",
+      "to": "b8",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b5",
+      "to": "b8",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "b5",
+      "to": "b4",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b4",
+      "to": "b9",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b5",
+      "to": "b11",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b3",
+      "to": "b11",
+      "fromIndex": 0,
+      "toIndex": 2
+    }
+  ],
+  "width": 1500,
+  "height": 800
+}

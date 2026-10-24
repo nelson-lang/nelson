@@ -14,5 +14,6 @@
 namespace Nelson::StreamGateway {
 ArrayOfVector
 sscanfBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

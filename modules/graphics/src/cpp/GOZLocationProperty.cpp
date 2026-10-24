@@ -17,5 +17,5 @@ static const wchar_t* Z_LOCATION_DICT[4]
 //=============================================================================
 GOZLocationProperty::GOZLocationProperty() : GORestrictedStringScalarProperty(Z_LOCATION_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

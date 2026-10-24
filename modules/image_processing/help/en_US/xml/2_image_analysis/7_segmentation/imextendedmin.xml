@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imextendedmin</keyword>
+  <short_description>Find extended minima in a 2-D image.</short_description>
+  <syntax>
+    <syntax_item>BW = imextendedmin(I, h)</syntax_item>
+    <syntax_item>BW = imextendedmin(I, h, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input finite real 2-D image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>Nonnegative finite height for the h-minima transform.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity, either 4, 8, or an equivalent 3-by-3 matrix.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Logical mask of regional minima after h-minima suppression.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imextendedmin applies imhmin and then finds regional minima. It helps build marker masks that ignore minima shallower than h.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find extended minima</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=[5 5 5 5 5;5 1 5 2 5;5 5 5 5 5];
+BW=imextendedmin(I,2);
+figure; subplot(1,2,1); imagesc(I); title('Image');
+subplot(1,2,2); imagesc(BW); title('Extended minima');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imextendedmin_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imimposemin">imimposemin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

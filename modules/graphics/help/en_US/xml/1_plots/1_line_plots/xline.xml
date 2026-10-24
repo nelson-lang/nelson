@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xline</keyword>
+  <short_description>Vertical constant line.</short_description>
+  <syntax>
+    <syntax_item>xline(xvalue)</syntax_item>
+    <syntax_item>xline(xvalue, LineSpec)</syntax_item>
+    <syntax_item>xline(xvalue, LineSpec, label)</syntax_item>
+    <syntax_item>xline(xvalue, propertyName, propertyValue)</syntax_item>
+    <syntax_item>xline(ax, xvalue)</syntax_item>
+    <syntax_item>cl = xline(xvalue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>xvalue</param_name>
+      <param_description
+      >a real numeric scalar or vector: location of the vertical line(s) on the x-axis.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description
+      >a row vector character or a scalar string: line style and color, for example <b>'--r'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>label</param_name>
+      <param_description
+      >a row vector character, a scalar string or a cell of character vectors: text displayed next to the line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes: axes object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
+      >a scalar string or row vector character.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>cl</param_name>
+      <param_description
+      >a graphics object: ConstantLine type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xline(xvalue)</b> draws a vertical line at the value <b>xvalue</b> on
+    the current axes. The line spans the full height of the axes.</p>
+    <p>Use a <b>LineSpec</b> to set the line style and color, and a <b>label</b>
+    to annotate the line.</p>
+    <p>When <b>xvalue</b> is a vector, one vertical line is created for each
+    value.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+plot(1:10, (1:10).^2);
+xline(5, '--r', 'threshold');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+plot(-10:10, (-10:10).^2);
+xline([-3 3], 'Color', [0 0 1], 'LineWidth', 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/yline">yline</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/line">line</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

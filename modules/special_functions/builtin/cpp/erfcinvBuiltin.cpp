@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "erfcinvBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "ErrorFunctions.hpp"
 #include "OverloadRequired.hpp"
 #include "i18n.hpp"
@@ -22,11 +23,11 @@ Nelson::SpecialFunctionsGateway::erfcinvBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isSparse() || argIn[0].getDataClass() == NLS_DCOMPLEX
-        || argIn[0].getDataClass() == NLS_SCOMPLEX) {
-        Error(_W("Input argument must be dense and real."));
+    if (argIn[0].isSparse() || argIn[0].dataClass() == NLS_DCOMPLEX
+        || argIn[0].dataClass() == NLS_SCOMPLEX) {
+        Error(L"Nelson:types:denseRealExpected", L"Input argument must be dense and real.");
     }
-    if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_SINGLE) {
+    if (argIn[0].dataClass() == NLS_DOUBLE || argIn[0].dataClass() == NLS_SINGLE) {
         retval << ErrorFunction(argIn[0], ErrorFunctionType::ErfcInv);
     } else {
         OverloadRequired("erfcinv");

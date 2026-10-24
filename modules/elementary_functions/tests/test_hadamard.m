@@ -7,31 +7,33 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('hadamard'), -1);
-assert_isequal(nargout('hadamard'), 1);
+asserts.isequal(nargin('hadamard'), -1);
+asserts.isequal(nargout('hadamard'), 1);
 %=============================================================================
 R = hadamard(1);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = hadamard (2);
+R = hadamard(2);
 REF = [1, 1; 1, -1];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hadamard(4);
-REF = [1     1     1     1;
-1    -1     1    -1;
-1     1    -1    -1;
-1    -1    -1     1];
-assert_isequal(R, REF);
+REF = [1 1 1 1;
+  1 -1 1 -1;
+  1 1 -1 -1;
+  1 -1 -1 1];
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('hadamard(3)', _('N must be 2^k*p, with p = 1, 12, 20.'));
+asserts.checkerror('hadamard(3)', _('N must be 2^k*p, with p = 1, 12, 20.'));
 %=============================================================================
 R = hadamard(4, 'single');
-REF = [1     1     1     1;
-1    -1     1    -1;
-1     1    -1    -1;
-1    -1    -1     1];
+REF = [1 1 1 1;
+  1 -1 1 -1;
+  1 1 -1 -1;
+  1 -1 -1 1];
 REF = single(REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(hadamard(2), [1 1; 1 -1]);
 %=============================================================================

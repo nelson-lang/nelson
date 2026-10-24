@@ -7,21 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isletter'), 1);
-assert_isequal(nargout('isletter'), 1);
+asserts.isequal(nargin('isletter'), 1);
+asserts.isequal(nargout('isletter'), 1);
 %=============================================================================
 A = 'Nelson';
 R = isletter(A);
 REF = logical(ones(1, 6));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = "Nelson";
 R = isletter(A);
 REF = logical(ones(1, 6));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = isletter("六書 six writings");
-REF  = logical([1     1     0     1     1     1     0     1     1     1     1     1     1     1     1]);
-assert_isequal(R, REF);
+REF = logical([1 1 0 1 1 1 0 1 1 1 1 1 1 1 1]);
+asserts.isequal(R, REF);
 %=============================================================================
 

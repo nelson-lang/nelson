@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>time</module_name>
+  <chapter>Timers and Timing</chapter>
+  <chapter_description>
+    <p>Timer objects, scheduling, waits, and timing utilities.</p>
+  </chapter_description>
+</xmldoc>

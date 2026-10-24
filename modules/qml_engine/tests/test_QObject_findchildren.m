@@ -10,17 +10,13 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
 %=============================================================================
 child = QObject_findchildren(qobj, 'text1', true);
-assert_isequal(class(child), 'QObject');
-assert_isequal(size(child), [1 1]);
-assert_isequal(child.className, 'QQuickText');
+asserts.isequal(class(child), 'QObject');
+asserts.isequal(size(child), [1 1]);
+asserts.isequal(child.className, 'QQuickText');
 %=============================================================================
 delete(qobj);
 %=============================================================================

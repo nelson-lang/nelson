@@ -10,15 +10,14 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "nlsError_manager_exports.h"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
 IsErrorStruct(const ArrayOf& arg);
 bool
-IsErrorStruct(const ArrayOf& arg, Exception& e);
+IsErrorStruct(const ArrayOf& arg, NelsonException& e);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

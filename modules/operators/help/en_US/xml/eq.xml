@@ -30,6 +30,8 @@
     <p />
     <p>
       <b>eq</b> compares both real and imaginary parts of numeric arrays.</p>
+    <p>
+      When inputs are sparse numeric or logical arrays, the result is a sparse logical array. Sparse <b>single</b> and single-complex operands are supported.</p>
   </description>
   <used_function />
   <bibliography />
@@ -74,6 +76,14 @@
         runnable="cli"
       ><![CDATA[eq(0.8-0.6-0.2, 0)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([1 + 2i 0; 0 3]));
+R = S == single([1 + 2i 5; 0 0])]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -96,6 +106,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and single-complex operands supported.</history_description>
     </history_item>
   </history>
   <authors>

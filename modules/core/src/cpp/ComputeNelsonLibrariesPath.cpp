@@ -15,6 +15,7 @@
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 #include "DynamicLibrary.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,11 +32,22 @@ ComputeNelsonLibrariesPath(std::wstring& errorMessage)
             return true;
         }
     }
+    FileSystemWrapper::Path configuredPath
+        = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
+    if (configuredPath.is_directory()) {
+        return true;
+    }
+#ifdef __EMSCRIPTEN__
+    NelsonConfiguration::getInstance()->setNelsonLibraryDirectory(L"/");
+    SetVariableEnvironmentW(NELSON_LIBRARIES_PATH_ENV, L"/");
+    return true;
+#endif
     FileSystemWrapper::Path libraryPath;
     // build current library name safely to avoid using operator+ with temporaries
     std::wstring ext = get_dynamic_library_extensionW();
     if (ext.empty()) {
-        errorMessage = _W("Cannot determine dynamic library extension.");
+        errorMessage = resolveMessageTemplate(L"Nelson:core:cannotDetermineDynamicLibrary",
+            L"Cannot determine dynamic library extension.");
         return false;
     }
     std::wstring currentLibraryName = std::wstring(CORE_MODULE_NAME) + ext;
@@ -47,7 +59,9 @@ ComputeNelsonLibrariesPath(std::wstring& errorMessage)
             NELSON_LIBRARIES_PATH_ENV, libraryPath.getFinalPathname().generic_wstring());
         return true;
     }
-    errorMessage = _W("Cannot find Nelson libraries path.");
+    errorMessage = formatI18nMessage(
+        resolveMessageTemplate(L"Nelson:core:cannotFindNelsonPath", L"Cannot find Nelson %s path."),
+        L"libraries");
     return false;
 }
 //=============================================================================

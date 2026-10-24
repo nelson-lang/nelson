@@ -9,7 +9,7 @@
 %=============================================================================
 matver = {'-v4', '-v6', '-v7', '-v7.3'};
 arch = computer('arch');
-if strcmp(arch, 'woa64')
+if strcmp(arch, 'woa64') || iswasm()
   matver(1) = []; % '-v4' is not supported on Windows on ARM64
 end
 %=============================================================================
@@ -17,22 +17,24 @@ R = eye(3, 4);
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_double', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = eye(0, 4);
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_double_empty', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = rand(3, 4, 5);
@@ -40,11 +42,12 @@ R_REF = R;
 matver = {'-v7', '-v7.3'};
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_double_rand', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isapprox(R, R_REF, 1e-4);
+  asserts.isapprox(R, R_REF, 1e-4);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = rand(3, 4) + i;
@@ -53,12 +56,13 @@ R_REF_I = imag(R);
 matver = {'-v7', '-v7.3'};
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_rand_cplx', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isapprox(real(R), R_REF_R, 1e-4);
-  assert_isapprox(imag(R), R_REF_I, 1e-4);
+  asserts.isapprox(real(R), R_REF_R, 1e-4);
+  asserts.isapprox(imag(R), R_REF_I, 1e-4);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = rand(3, 4, 5) + i;
@@ -67,11 +71,12 @@ R_REF_I = imag(R);
 matver = {'-v7', '-v7.3'};
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_rand_dcplx', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isapprox(real(R), R_REF_R, 1e-4);
-  assert_isapprox(imag(R), R_REF_I, 1e-4);
+  asserts.isapprox(real(R), R_REF_R, 1e-4);
+  asserts.isapprox(imag(R), R_REF_I, 1e-4);
+  rmfile(test_file_mat);
 end
 %=============================================================================

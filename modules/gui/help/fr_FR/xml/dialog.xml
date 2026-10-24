@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dialog</keyword>
+  <short_description>Cree une fenetre de dialogue de type figure.</short_description>
+  <syntax>
+    <syntax_item>f = dialog</syntax_item>
+    <syntax_item>f = dialog(Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Paires nom-valeur de proprietes de figure. dialog applique MenuBar = 'none', ToolBar = 'auto', NumberTitle = 'off', Resize = 'off' et WindowStyle = 'modal' avant les proprietes fournies. Les proprietes courantes incluent 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize' et 'CloseRequestFcn'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>Graphics figure handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>dialog creates a graphics figure configured for dialog content. The returned handle can be used with get, set, close, delete, and waitfor.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer une boite de dialogue avec des controles.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = dialog('Name', 'Settings', 'WindowStyle', 'normal', 'Position', [100 100 300 150]);
+uicontrol(f, 'Style', 'text', 'String', 'Dialog content', 'Position', [30 82 150 22]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Close', 'Position', [200 30 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/dialog_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a dialog with a title and close it.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = dialog('Name', 'Progress', 'Visible', 'off', 'Position', [300 300 240 100]);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}msgbox">msgbox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}waitbar">waitbar</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise a jour.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

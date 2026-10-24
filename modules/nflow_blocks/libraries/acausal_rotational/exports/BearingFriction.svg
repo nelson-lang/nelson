@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -133.25 306.5 256.5">
+  <rect x="-153.25" y="-133.25" width="306.5" height="256.5" rx="48.735" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-100" y="-10" width="200" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-60" y="-60" width="120" height="50" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-60" y="-25" width="120" height="15" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-60" y="-61" width="120" height="16" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-50" y="-50" width="100" height="32" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polygon points="60,-60 60,-70 75,-70 75,-80 -75,-80 -75,-70 -60,-70 -60,-60 60,-60" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-75,-10 -75,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="75,-10 75,-70" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-60" y="10" width="120" height="50" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-60" y="45" width="120" height="15" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-60" y="10" width="120" height="15" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-50" y="19" width="100" height="32" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="-75,70 -75,10" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="60,60 60,70 75,70 75,80 -75,80 -75,70 -60,70 -60,60 60,60" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="75,70 75,10" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,110) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">BearingFriction</text></g>
+    <polyline points="0,-80 0,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

@@ -10,8 +10,11 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 % function available for compatibility.
-x = -pi:pi/20:pi;
+x = -pi:pi / 20:pi;
 plot(x, cos(x))
 drawnow
+drawnow('limitrate')
+drawnow limitrate
 title('Title Here ...')
 grid on
+asserts.checkerror('drawnow(''badoption'')', getString(message('Nelson:drawnow:unknownOption')));

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>colorbar</keyword>
+  <short_description>Ajoute une echelle de couleurs aux axes.</short_description>
+  <syntax>
+    <syntax_item>colorbar</syntax_item>
+    <syntax_item>colorbar(location)</syntax_item>
+    <syntax_item>colorbar(target, ...)</syntax_item>
+    <syntax_item>colorbar(&apos;peer&apos;, target, ...)</syntax_item>
+    <syntax_item>colorbar(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>colorbar(&apos;off&apos;)</syntax_item>
+    <syntax_item>colorbar(&apos;delete&apos;)</syntax_item>
+    <syntax_item>colorbar(&apos;hide&apos;)</syntax_item>
+    <syntax_item>colorbar(target, &apos;off&apos;)</syntax_item>
+    <syntax_item>colorbar(c, &apos;off&apos;)</syntax_item>
+    <syntax_item>c = colorbar(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>Emplacement de la barre de couleur : &apos;eastoutside&apos;, &apos;westoutside&apos;, &apos;northoutside&apos;, &apos;southoutside&apos;, &apos;east&apos;, &apos;west&apos;, &apos;north&apos;, &apos;south&apos; ou &apos;manual&apos;. Les valeurs &apos;horizontal&apos; et &apos;vertical&apos; sont acceptees comme alias de compatibilite de &apos;southoutside&apos; et &apos;eastoutside&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>target</param_name>
+      <param_description>Axes auxquels appartient l&apos;echelle de couleurs. Si la cible est omise, les axes courants sont utilises.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description>Objet graphique colorbar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>Paires nom-valeur appliquees aux proprietes de la barre de couleur lors de sa creation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;off&apos;, &apos;delete&apos;, &apos;hide&apos;</param_name>
+      <param_description>Supprime la barre de couleur associee aux axes courants, aux axes specifies ou a la barre de couleur specifiee.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>Objet graphique colorbar.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>colorbar</b> ajoute une echelle de couleurs a un graphique. La barre de couleur est un objet graphique rattache a la figure et associe a des axes.</p>
+    <p>L&apos;emplacement par defaut est <b>eastoutside</b>. Les emplacements externes reservent de la place pres des axes. Les emplacements internes dessinent la barre de couleur dans la zone des axes. Affecter la propriete <b>Position</b> passe <b>Location</b> a <b>manual</b>.</p>
+    <p>La propriete <b>Location</b> accepte aussi <b>layout</b> pour les dispositions en tuiles. Utilisez <b>colorbar(ax, &apos;Location&apos;, &apos;layout&apos;)</b> puis affectez <b>c.Layout.Tile</b> avec un numero de tuile ou avec &apos;east&apos;, &apos;west&apos;, &apos;north&apos; ou &apos;south&apos;. La forme positionnelle <b>colorbar(ax, &apos;layout&apos;)</b> n&apos;est pas acceptee.</p>
+    <p>Les proprietes visuelles importantes incluent <b>Box</b>, <b>Color</b>, <b>Direction</b>, <b>FontAngle</b>, <b>FontName</b>, <b>FontSize</b>, <b>FontWeight</b>, <b>Limits</b>, <b>LineWidth</b>, <b>AxisLocation</b>, <b>TickDirection</b>, <b>TickLabelInterpreter</b>, <b>TickLabels</b>, <b>TickLength</b>, <b>Ticks</b>, <b>Units</b>, <b>Visible</b> et <b>Label</b>.</p>
+    <p>Les valeurs automatiques de <b>Limits</b>, <b>Ticks</b> et <b>TickLabels</b> sont mises a jour depuis les limites de couleur et la palette des axes associes. Affecter <b>Limits</b>, <b>Ticks</b>, <b>TickLabels</b>, <b>AxisLocation</b> ou <b>Position</b> passe la propriete de mode correspondante en manuel lorsque c&apos;est approprie.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.colorbar.properties">proprietes de colorbar</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher une barre de couleur verticale pour une surface.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure();
+surf(peaks);
+colormap('summer');
+colorbar;]]></example_item_data>
+      <example_item_img src="../../../../images/colorbar_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Placer une barre horizontale sous des contours remplis.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure();
+contourf(peaks);
+colormap('parula');
+colorbar('southoutside');]]></example_item_data>
+      <example_item_img src="../../../../images/colorbar_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Personnaliser les graduations, leurs textes et le libelle de la barre.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure();
+imagesc(peaks);
+cb = colorbar('Ticks', [-6 -3 0 3 6], ...
+  'TickLabels', {'low'; '-3'; '0'; '3'; 'high'});
+cb.Label.String = 'Scale';
+cb.Direction = 'reverse';]]></example_item_data>
+      <example_item_img src="../../../../images/colorbar_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Associer une barre de couleur au bord d&apos;une disposition en tuiles.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure();
+t = tiledlayout(1, 2);
+ax1 = nexttile(t);
+imagesc(peaks);
+title(ax1, 'Tile 1');
+ax2 = nexttile(t);
+contourf(peaks);
+title(ax2, 'Tile 2');
+cb = colorbar(ax2, 'Location', 'layout');
+cb.Layout.Tile = 'east';]]></example_item_data>
+      <example_item_img src="../../../../images/colorbar_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Essayer tous les emplacements standards.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[locations = {'north'; 'south'; 'east'; 'west'; ...
+  'northoutside'; 'southoutside'; 'eastoutside'; 'westoutside'};
+figure();
+surf(peaks);
+colormap('jet');
+for k = 1:length(locations)
+  colorbar(locations{k});
+  pause(1);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.colorbar.properties">proprietes de colorbar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/2_color_styling/colormaps/colormap">colormap</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/2_color_styling/clim">clim</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/3_contour_plots/contourf">contourf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/2_layout_objects/tiledlayout">tiledlayout</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.15.0</history_version>
+      <history_description>ajout du support de l&apos;argument location</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>reimplementation comme objet graphique colorbar natif</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

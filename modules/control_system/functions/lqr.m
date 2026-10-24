@@ -9,17 +9,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = lqr(varargin)
-  % Compute the LQR gain matrix control law L with the weighing matricies Q and R
+  % Compute the LQR gain matrix control law L with the weighing matrices Q and R
   % [K, S, e] = LQR(A, B, Q, R, N)
-  
+
   narginchk(4, 6);
   nargoutchk(0, 3);
-  
+
   A = varargin{1};
   B = varargin{2};
   Q = varargin{3};
   R = varargin{4};
-  
+
   msg = abcdchk(A, B);
   if ~isempty(msg)
     error(msg.id, msg.message);
@@ -38,7 +38,7 @@ function varargout = lqr(varargin)
     E = eye(rB, rB);
   end
   [K, S, e] = lqr(sys, Q, R, N, E);
-  
+
   varargout{1} = K;
   if nargout > 1
     varargout{2} = S;

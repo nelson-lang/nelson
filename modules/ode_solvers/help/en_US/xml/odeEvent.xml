@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeEvent</keyword>
+  <short_description>Event description for ODE object workflows.</short_description>
+  <syntax>
+    <syntax_item>E = odeEvent(eventFcn)</syntax_item>
+    <syntax_item>E = odeEvent(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeEvent</b> stores an event function and event policy for the <b>ode</b> object workflow.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Object</th>
+        <th>Purpose</th>
+        <th>Used by</th>
+      </tr>
+      <tr>
+        <td><b>odeEvent</b></td>
+        <td>Stores a reusable definition for the <b>ode</b> object workflow.</td>
+        <td>The matching <b>ode</b> property and <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Checks supported names and shapes at construction time.</td>
+        <td>Tests and errors stay explicit before integration.</td>
+      </tr>
+    </table>
+    <p>
+      <b>EventFcn</b> can return only event values. In that case <b>Direction</b> controls the crossing direction and <b>Response</b> controls whether the solver proceeds or stops. Legacy event functions that return value, terminal flags, and direction are also accepted. These three outputs must contain the same number of finite elements.</p>
+    <p>
+      <b>Direction</b> accepts <b>both</b>, <b>increasing</b>, or <b>decreasing</b>. <b>Response</b> accepts <b>proceed</b>, <b>stop</b>, or <b>callback</b>. When <b>Response</b> is <b>callback</b>, <b>CallbackFcn</b> is called with event time, event solution, event index, and optional problem parameters. It can return a scalar stop flag and an updated event solution.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stop when the solution reaches one half.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[E = odeEvent('EventFcn', @(t,y) y - 0.5, ...
+  'Direction', 'increasing', ...
+  'Response', 'stop');
+problem = ode('ODEFcn', @(t,y) 1, 'InitialValue', 0, 'EventDefinition', E);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Call a callback at the event point.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [stop, y] = myEventCallback(t, y, index)
+  stop = true;
+end
+E = odeEvent('EventFcn', @(t,y) y - 0.5, ...
+  'Response', 'callback', ...
+  'CallbackFcn', @myEventCallback);
+problem = ode('ODEFcn', @(t,y) 1, 'InitialValue', 0, 'EventDefinition', E);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

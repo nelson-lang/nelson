@@ -22,5 +22,6 @@ FilePartsExtension(const std::wstring& fullpath);
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP void
 FileParts(const std::wstring& fullpath, std::wstring& path, std::wstring& filename,
     std::wstring& extension);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

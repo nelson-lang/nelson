@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,9 +13,16 @@
 #include "GORoot.hpp"
 #include "GOHelpers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::string
+graphicsPlaceholderClassName()
+{
+    return std::string("mat") + "lab" + ".graphics.GraphicsPlaceholder";
+}
 //=============================================================================
 GOGObjectsProperty::GOGObjectsProperty() { }
 //=============================================================================
@@ -31,9 +38,19 @@ GOGObjectsProperty::data(const std::vector<int64>& m)
     _data = m;
 }
 //=============================================================================
+void
+GOGObjectsProperty::append(int64 handle)
+{
+    _data.push_back(handle);
+}
+//=============================================================================
 ArrayOf
 GOGObjectsProperty::get()
 {
+    if (_data.empty()) {
+        Dimensions dims(0, 0);
+        return ArrayOf::emptyGraphicsObject(graphicsPlaceholderClassName(), dims);
+    }
     nelson_handle* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, _data.size());
     ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(_data.size(), 1), dp);
     for (size_t i = 0; i < _data.size(); i++) {
@@ -51,17 +68,17 @@ GOGObjectsProperty::set(ArrayOf arg)
         return;
     }
     if (!arg.isGraphicsObject()) {
-        Error(_W("Expecting handle for property."));
+        Error(L"Nelson:graphics:expectedHandleProperty", L"Expecting handle for property.");
     }
-    const int64* dp = static_cast<const int64*>(
-        const_cast<void*>(static_cast<const void*>(arg.getDataPointer())));
+    const int64* dp
+        = static_cast<const int64*>(const_cast<void*>(static_cast<const void*>(arg.dataPointer())));
 
-    for (indexType i = 0; i < arg.getElementCount(); i++) {
+    for (indexType i = 0; i < arg.elementCount(); i++) {
         validateGO(dp[i]);
     }
     _data.clear();
-    _data.reserve(arg.getElementCount());
-    for (indexType i = 0; i < arg.getElementCount(); i++) {
+    _data.reserve(arg.elementCount());
+    for (indexType i = 0; i < arg.elementCount(); i++) {
         _data.push_back(dp[i]);
     }
     GOGenericProperty::set(arg);
@@ -74,7 +91,10 @@ GOGObjectsProperty::toWideString()
     for (size_t k = 0; k < _data.size(); k++) {
         GraphicsObject* fp = nullptr;
 
-        if (_data[k] == HANDLE_ROOT_OBJECT) {
+        if (isUnassignedGraphicsObject(_data[k])) {
+            typeStr = _W("Unassigned graphics_object");
+            break;
+        } else if (_data[k] == HANDLE_ROOT_OBJECT) {
             fp = getGraphicsRootObject();
             fp->updateState();
         } else if (_data[k] >= HANDLE_OFFSET_OBJECT) {
@@ -83,11 +103,15 @@ GOGObjectsProperty::toWideString()
             fp = static_cast<GraphicsObject*>(findGOFigure(_data[k]));
         }
         if (fp) {
-            GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR);
+            // Some objects (e.g. the numeric ruler exposed through Axes.YAxis) have no public
+            // 'Type' property. Fall back to the virtual getType() so summarizing never raises on
+            // them.
+            GOGenericProperty* hpType = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
+            std::wstring objectType = hpType ? hpType->get().asWideString() : fp->getType();
             if (k == 0) {
-                typeStr = hpType->get().getContentAsWideString();
+                typeStr = objectType;
             } else {
-                if (typeStr != hpType->get().getContentAsWideString()) {
+                if (typeStr != objectType) {
                     typeStr = GO_CHILDREN_PROPERTY_NAME_STR;
                     break;
                 }
@@ -111,5 +135,5 @@ GOGObjectsProperty::toWideString()
     return text;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

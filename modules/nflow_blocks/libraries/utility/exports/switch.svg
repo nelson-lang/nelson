@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="313.5" height="263.5" viewBox="-156.75 -156.75 313.5 263.5">
+  <rect x="-156.75" y="-156.75" width="313.5" height="263.5" rx="50.065" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#B4B2A9" stroke="#444441" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#444441">Switch</text></g>
+    <polyline points="12,0 100,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,0 -40,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,-80 -40,-80 -40,-80" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-40,12 -40,-12" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,80 -38,80" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-38,80 6,2" fill="none" stroke="#444441" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="10" cy="0" rx="8" ry="8" fill="#444441" stroke="none"/>
+  </g>
+</svg>

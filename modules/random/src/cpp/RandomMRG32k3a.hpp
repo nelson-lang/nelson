@@ -35,10 +35,10 @@ public:
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override;
 
     void
-    setMinMaxUniformIntDistribution(int min, int max) override;
+    setMinMaxUniformIntDistribution(int64 min, int64 max) override;
 
     void
-    getMinMaxUniformIntDistribution(int& min, int& max) override;
+    getMinMaxUniformIntDistribution(int64& min, int64& max) override;
 
     size_t
     getStateSize() override;
@@ -49,8 +49,8 @@ public:
     getSeed() override;
     double
     nextUniform();
-    int
-    nextInt(int min, int max);
+    int64
+    nextInt(int64 min, int64 max);
     double
     nextNormal();
     std::vector<uint32_t>
@@ -59,10 +59,16 @@ public:
     setState(const uint32* _state, size_t len) override;
 
 private:
+    double
+    mrgStep();
+
     double s10, s11, s12; // First component state
     double s20, s21, s22; // Second component state
     uint32_t seed;
-    int minInt, maxInt;
+    int64 minInt = 1;
+    int64 maxInt = 1000;
+    bool has_gauss = false;
+    double cached_gauss = 0.0;
 };
 //=============================================================================
 } // namespace Nelson

@@ -10,7 +10,11 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 R = pyrun("R = 'Hello from Python'", "R");
-assert_isequal(R.char, 'Hello from Python');
-assert_isequal(R.string, "Hello from Python");
-assert_checkerror('R.struct()', _('Wrong value for #2 argument. struct'));
+asserts.isequal(R.char, 'Hello from Python');
+asserts.isequal(R.string, "Hello from Python");
+asserts.checkerror('R.struct()', sprintf(_('Invalid property: %s.'), 'struct'));
+TXT = evalc('R');
+asserts.istrue(contains(TXT, 'Python str with no properties.'));
+asserts.istrue(contains(TXT, '    Hello from Python'));
+asserts.isfalse(contains(TXT, '''Hello from Python'''));
 %=============================================================================

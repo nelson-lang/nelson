@@ -16,11 +16,11 @@ B_REF = 10;
 C_REF = [20; 1];
 D_REF = [0; 0];
 
-assert_isequal(sysa.Ts, Ts_REF);
-assert_isequal(sysa.A, A_REF);
-assert_isequal(sysa.B, B_REF);
-assert_isequal(sysa.C, C_REF);
-assert_isequal(sysa.D, D_REF);
+asserts.isequal(sysa.Ts, Ts_REF);
+asserts.isequal(sysa.A, A_REF);
+asserts.isequal(sysa.B, B_REF);
+asserts.isequal(sysa.C, C_REF);
+asserts.isequal(sysa.D, D_REF);
 %=============================================================================
 A = -1;
 B = 1;
@@ -33,14 +33,14 @@ Ba_REF = 1;
 Ca_REF = [2; 1];
 Da_REF = [0; 0];
 
-assert_isequal(Aa, Aa_REF);
-assert_isequal(Ba, Ba_REF);
-assert_isequal(Ca, Ca_REF);
-assert_isequal(Da, Da_REF);
+asserts.isequal(Aa, Aa_REF);
+asserts.isequal(Ba, Ba_REF);
+asserts.isequal(Ca, Ca_REF);
+asserts.isequal(Da, Da_REF);
 %=============================================================================
 sys = ss();
 
 sysa = augstate(sys);
 
-assert_istrue(isstatic(sysa));
+asserts.istrue(isstatic(sysa));
 %=============================================================================

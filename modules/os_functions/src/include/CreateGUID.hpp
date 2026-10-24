@@ -18,5 +18,6 @@ NLSOS_FUNCTIONS_IMPEXP std::wstring
 CreateGUID();
 NLSOS_FUNCTIONS_IMPEXP wstringVector
 CreateGUID(size_t nbGUID);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

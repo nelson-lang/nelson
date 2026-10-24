@@ -15,5 +15,6 @@
 namespace Nelson::AssertFunctionsGateway {
 ArrayOfVector
 assert_checkerrorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

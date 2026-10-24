@@ -7,20 +7,27 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('tic'), 0);
-assert_isequal(nargout('tic'), 0);
-assert_isequal(nargin('toc'), 0);
-assert_isequal(nargout('toc'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('tic'), 0);
+asserts.isequal(nargout('tic'), 0);
+asserts.isequal(nargin('toc'), 0);
+asserts.isequal(nargout('toc'), 1);
 %=============================================================================
 tic();
-sleep(5);
+sleep(0.2);
 t = toc();
-assert_isapprox(t, 5, 1e-1);
+asserts.isapprox(t, 0.2, 0.15);
 tic();
-sleep(5)
+sleep(0.2)
 t = toc();
-assert_isapprox(t, 5, 1e-1);
-sleep(5)
+asserts.isapprox(t, 0.2, 0.15);
+sleep(0.2)
 t = toc();
-assert_isapprox(t, 10, 1e-1);
+asserts.isapprox(t, 0.4, 0.2);
+%=============================================================================
+tic();
+msg = evalc('toc()');
+msgPattern = _('Elapsed time is {0:.6f} seconds.');
+asserts.istrue(contains(msg, msgPattern(1:strfind(msgPattern, '{0') - 1)));
+asserts.istrue(contains(msg, msgPattern(strfind(msgPattern, '}') + 1:end)));
 %=============================================================================

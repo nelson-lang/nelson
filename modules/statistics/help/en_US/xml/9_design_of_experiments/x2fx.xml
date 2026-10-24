@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>x2fx</keyword>
+  <short_description>Convert factor settings to a design matrix.</short_description>
+  <syntax>
+    <syntax_item>D = x2fx(X, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>x2fx</b> creates a design matrix with a constant column and terms requested by the model specification.</p></description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create common model matrices from factor settings.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
+Dlinear = x2fx(X, 'linear')
+Dquadratic = x2fx(X, 'quadratic')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use an explicit model specification matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
+modelspec = [1 0; 0 2; 1 1];
+D = x2fx(X, modelspec)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

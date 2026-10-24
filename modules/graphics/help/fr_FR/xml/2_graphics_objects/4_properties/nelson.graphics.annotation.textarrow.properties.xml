@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>annotation textarrow properties</keyword>
+  <short_description>Proprietes de l'annotation textarrow.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour une annotation <b>textarrow</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s&apos;execute lors d&apos;un clic sur l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>associe le menu contextuel affiche au clic droit.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle vide ou handle d&apos;objet menu contextuel.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+      </tr>
+      <tr>
+        <td><b>FontAngle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'italic'.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de police systeme ou 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recalcule la geometrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+      </tr>
+      <tr>
+        <td><b>FontUnits</b></td>
+        <td>change la conversion de FontSize pour le texte rendu.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'points', 'inches', 'centimeters', 'normalized' ou 'pixels'.</td>
+      </tr>
+      <tr>
+        <td><b>FontWeight</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si le handle de l&apos;objet est liste par les recherches de handles.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'callback', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HeadLength</b></td>
+        <td>change la longueur de la tete de fleche d'annotation.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: scalaire positif fini en points.</td>
+      </tr>
+      <tr>
+        <td><b>HeadStyle</b></td>
+        <td>change la forme de la tete de fleche d'annotation.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'plain', 'ellipse', 'vback1', 'vback2', 'vback3', 'cback1', 'cback2', 'cback3', 'fourstar', 'rectangle', 'diamond', 'rose', 'hypocycloid', 'astroid', 'deltoid' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>HeadWidth</b></td>
+        <td>change la largeur de la tete de fleche d'annotation.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: scalaire positif fini en points.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controle si l&apos;objet peut capturer les clics souris.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HorizontalAlignment</b></td>
+        <td>aligne horizontalement le texte de l&apos;annotation.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'left', 'center' ou 'right'.</td>
+      </tr>
+      <tr>
+        <td><b>Interpreter</b></td>
+        <td>change l&apos;interpretation du balisage du texte d&apos;annotation.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'tex', 'latex' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle quelles parties de l&apos;objet peuvent capturer les clics souris.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>met a jour la position et la taille de l&apos;annotation; les annotations de type ligne mettent aussi X et Y a jour.</td>
+        <td>Type: vecteur numerique a quatre elements. Valeurs prises en charge: [x y width height] pour les annotations de forme et textbox, ou [xstart ystart dx dy] pour les annotations de type ligne.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>indique si l&apos;objet est actuellement selectionne.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle si les poignees de selection sont dessinees quand l&apos;objet est selectionne.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>String</b></td>
+        <td>met a jour le contenu texte affiche.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres, chaine scalaire, tableau de chaines ou tableau de cellules de vecteurs ligne de caracteres.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+      </tr>
+      <tr>
+        <td><b>TextBackgroundColor</b></td>
+        <td>met a jour le fond de la boite de texte de l&apos;etiquette textarrow.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: 'none', noms et raccourcis de couleurs, triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextColor</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextEdgeColor</b></td>
+        <td>met a jour le contour de la boite de texte de l&apos;etiquette textarrow.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: 'none', noms et raccourcis de couleurs, triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextLineWidth</b></td>
+        <td>change la largeur du contour de la boite de texte de l&apos;etiquette textarrow.</td>
+        <td>Type: scalaire numerique positif fini. Valeurs prises en charge: valeur superieure a 0 en points.</td>
+      </tr>
+      <tr>
+        <td><b>TextMargin</b></td>
+        <td>change l&apos;espacement entre le texte textarrow et le contour de sa boite.</td>
+        <td>Type: scalaire numerique fini non negatif. Valeurs prises en charge: valeur superieure ou egale a 0 en pixels.</td>
+      </tr>
+      <tr>
+        <td><b>TextRotation</b></td>
+        <td>fait pivoter le libelle textarrow.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: angle de rotation en degres.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>change l&apos;interpretation des valeurs de position et convertit Position, X et Y.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'normalized', 'inches', 'centimeters', 'characters', 'points' ou 'pixels'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+      </tr>
+      <tr>
+        <td><b>VerticalAlignment</b></td>
+        <td>aligne verticalement le texte de l&apos;annotation.</td>
+        <td>Type: mot-cle texte. Valeurs prises en charge: 'top', 'cap', 'middle', 'baseline' ou 'bottom'.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>X</b></td>
+        <td>met a jour les extremites horizontales de l'annotation et recalcule sa position.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: coordonnees x finies [xstart xend] en unites normalisees ou selon Units pour les annotations de type ligne.</td>
+      </tr>
+      <tr>
+        <td><b>Y</b></td>
+        <td>met a jour les extremites verticales de l'annotation et recalcule sa position.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: coordonnees y finies [ystart yend] en unites normalisees ou selon Units pour les annotations de type ligne.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer l'annotation et lister ses proprietes.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+h = annotation(f, 'textarrow');
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/annotation">annotation</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}get">get</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}set">set</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

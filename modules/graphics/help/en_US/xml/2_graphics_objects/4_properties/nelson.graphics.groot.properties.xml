@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>groot properties</keyword>
+  <short_description>groot graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>groot</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>CallbackObject</b></td>
+        <td>reports callback execution context.</td>
+        <td>Type: graphics handle. Supported values: handle of the object whose callback is executing, or empty graphics handle outside callback execution.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>CommandWindowSize</b></td>
+        <td>reports the command window size used to lay out displayed output.</td>
+        <td>Type: read-only two-element numeric vector. Supported values: [columns rows] in characters.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentFigure</b></td>
+        <td>changes or reports the root current figure used by plotting commands.</td>
+        <td>Type: figure graphics handle. Supported values: current figure handle, or empty graphics handle when no current figure exists.</td>
+      </tr>
+      <tr>
+        <td><b>FixedWidthFontName</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: a system font name or 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>Format</b></td>
+        <td>reports the current numeric display format.</td>
+        <td>Type: read-only text scalar. Supported values: 'short', 'long', 'shortE', 'longE', 'shortG', 'longG', 'shortEng', 'longEng', '+', 'bank', 'hex', 'rational'.</td>
+      </tr>
+      <tr>
+        <td><b>FormatSpacing</b></td>
+        <td>reports the current line spacing used when displaying output.</td>
+        <td>Type: read-only text scalar. Supported values: 'loose', 'compact'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>MonitorPositions</b></td>
+        <td>reports the primary display rectangle, refreshed on every query (display scale or resolution changes included).</td>
+        <td>Type: four-element numeric vector (read-only). Supported values: [left bottom width height] in the root Units; in pixels, logical pixels (1 pixel = 1/96 inch).</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>PointerLocation</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>ScreenDepth</b></td>
+        <td>reports screen color depth used by graphics display code.</td>
+        <td>Type: numeric scalar. Supported values: positive integer bit depth reported by the display.</td>
+      </tr>
+      <tr>
+        <td><b>ScreenPixelsPerInch</b></td>
+        <td>reports the logical resolution used to convert pixels to inches, centimeters, and points.</td>
+        <td>Type: finite numeric scalar. Supported values: 96 on Windows, whatever the display scale.</td>
+      </tr>
+      <tr>
+        <td><b>ScreenSize</b></td>
+        <td>reports the primary display rectangle used for figure placement, refreshed on every query.</td>
+        <td>Type: four-element numeric vector (read-only). Supported values: [left bottom width height] in the root Units; in pixels, logical pixels (1 pixel = 1/96 inch): a 1920x1080 display at 125 % scale reports [1 1 1536 864], and figures on it report a DevicePixelRatio of 1.25.</td>
+      </tr>
+      <tr>
+        <td><b>ShowHiddenHandles</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the graphics object and list its properties.</example_item_description>
+      <example_item_data><![CDATA[h = groot();
+names = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/groot">groot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Property page added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

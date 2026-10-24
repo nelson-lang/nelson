@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,13 +10,22 @@
 #include "GOStringOnOffProperty.hpp"
 #include "GOPropertyValues.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static const wchar_t* ON_OFF_DICT[3] = { GO_PROPERTY_VALUE_ON_STR, GO_PROPERTY_VALUE_OFF_STR, 0 };
 //=============================================================================
+static const wchar_t* HANDLE_VISIBILITY_DICT[4]
+    = { GO_PROPERTY_VALUE_ON_STR, L"callback", GO_PROPERTY_VALUE_OFF_STR, 0 };
+//=============================================================================
 GOOnOffProperty::GOOnOffProperty() : GORestrictedStringProperty(ON_OFF_DICT) { }
+//=============================================================================
+GOHandleVisibilityProperty::GOHandleVisibilityProperty()
+    : GORestrictedStringProperty(HANDLE_VISIBILITY_DICT)
+{
+}
 //=============================================================================
 bool
 GOOnOffProperty::asBool()
@@ -27,24 +36,25 @@ GOOnOffProperty::asBool()
 void
 GOOnOffProperty::set(ArrayOf arg)
 {
-    GOGenericProperty::set(arg);
+    // get() reports a pure on/off property as a nelson.lang.OnOffSwitchState
+    // enumeration; accept it back so set(h, 'P', get(h, 'P')) round-trips. Its
+    // 'on'/'off' member name is read from the classdef "Name" field (no Evaluator
+    // needed on this path).
+    if (arg.isClassType() && arg.classType() == "nelson.lang.OnOffSwitchState") {
+        arg = arg.field("Name");
+    }
     if (arg.isScalar() && arg.isLogical()) {
-        bool logicalValue = arg.getContentAsLogicalScalar();
-        ArrayOf strArrayOf = logicalValue
-            ? ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_ON_STR)
-            : ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_OFF_STR);
+        GOGenericProperty::set(arg);
+        bool logicalValue = arg.asLogicalScalar();
+        ArrayOf strArrayOf = logicalValue ? ArrayOf::characterArray(GO_PROPERTY_VALUE_ON_STR)
+                                          : ArrayOf::characterArray(GO_PROPERTY_VALUE_OFF_STR);
         GOStringProperty::set(strArrayOf);
         return;
     }
-    if (!arg.isRowVectorCharacterArray() && !(arg.isStringArray() && arg.isScalar())) {
-        Error(_W("Expecting a string for property."));
-    }
-    std::wstring tst(arg.getContentAsWideString());
-    if (std::find(m_dictionary.begin(), m_dictionary.end(), tst) == m_dictionary.end()) {
-        Error(_W("Illegal selection for property."));
-    }
-    GOStringProperty::set(arg);
+    // The base class handles the string path (case-insensitive and shortest
+    // unambiguous prefix, e.g. Visible 'of' -> 'off').
+    GORestrictedStringProperty::set(arg);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
 TraceMatrix(const ArrayOf& A);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

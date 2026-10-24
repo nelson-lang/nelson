@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sortrows</keyword>
+  <short_description>Trier les lignes d&apos;une table ou d&apos;une timetable.</short_description>
+  <syntax>
+    <syntax_item>B = sortrows(A)</syntax_item>
+    <syntax_item>[B, I] = sortrows(A, vars, direction)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Table ou timetable d&apos;entree.</param_description></param_input_item>
+    <param_input_item><param_name>vars</param_name><param_description>Variables ou dimension des temps utilisees pour le tri.</param_description></param_input_item>
+    <param_input_item><param_name>direction</param_name><param_description>Sens du tri : 'ascend' (par defaut) ou 'descend', ou un tableau de cellules ou de chaines avec un sens par variable de tri.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>B</param_name><param_description>Table ou timetable triee.</param_description></param_output_item>
+    <param_output_item><param_name>I</param_name><param_description>Indices de tri.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>sortrows</b> trie les lignes d&apos;une table selon les variables selectionnees, ou les lignes d&apos;une timetable par temps de lignes ou variables selectionnees.</p><p>Les lignes sont comparees variable apres variable. Chaque variable est triee dans l&apos;ordre de son propre type (numerique, logique, texte, categorical, datetime, duration) ; une variable a plusieurs colonnes est comparee colonne par colonne. Les valeurs manquantes sont placees en dernier en ordre croissant comme decroissant. Les egalites conservent leur ordre d&apos;origine.</p></description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([2; 1]), [20; 10], 'VariableNames', {'A'});
+sortrows(TT)
+T = table([10; 9; 2], {'a'; 'b'; 'c'});
+[B, I] = sortrows(T, {'Var1', 'Var2'}, {'descend', 'ascend'})
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}issortedrows">issortedrows</link></see_also_item>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

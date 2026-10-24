@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>regstats</keyword>
+  <short_description>Statistiques de diagnostic de regression.</short_description>
+  <syntax>
+    <syntax_item>stats = regstats(y, X)</syntax_item>
+    <syntax_item>stats = regstats(y, X, modelspec)</syntax_item>
+    <syntax_item>stats = regstats(y, X, modelspec, StatNames)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>regstats</b> ajuste un modele de regression lineaire du vecteur reponse <b>y</b> sur la matrice de predicteurs <b>X</b> et retourne des statistiques de diagnostic dans une structure.</p>
+    <p>Le modele inclut une constante par defaut. Les specifications de modele supportees sont <b>linear</b>, <b>additive</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b>, un degre entier positif ou une matrice numerique d'exposants de termes.</p>
+    <p><b>StatNames</b> peut etre <b>all</b>, un scalaire texte ou un tableau cellulaire de noms. Les noms supportes incluent <b>Q</b>, <b>R</b>, <b>beta</b>, <b>covb</b>, <b>yhat</b>, <b>r</b>, <b>mse</b>, <b>rsquare</b>, <b>adjrsquare</b>, <b>leverage</b>, <b>hatmat</b>, <b>s2_i</b>, <b>beta_i</b>, <b>standres</b>, <b>studres</b>, <b>dfbetas</b>, <b>dffit</b>, <b>dffits</b>, <b>covratio</b>, <b>cookd</b>, <b>tstat</b>, <b>fstat</b> et <b>dwstat</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 5; 2 4; 3 6; 4 8; 5 7; 6 9];
+y = [3.2; 4.1; 5.9; 7.8; 8.4; 10.2];
+stats = regstats(y, X, 'linear', {'beta', 'rsquare', 'tstat'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 5; 2 4; 3 6; 4 8; 5 7; 6 9];
+y = [3.2; 4.1; 5.9; 7.8; 8.4; 10.2];
+stats = regstats(y, X, 'interactions', {'yhat', 'r'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}robustfit">robustfit</link></see_also_item>
+    <see_also_item><link linkend="${statistics}ridge">ridge</link></see_also_item>
+    <see_also_item><link linkend="${statistics}lasso">lasso</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

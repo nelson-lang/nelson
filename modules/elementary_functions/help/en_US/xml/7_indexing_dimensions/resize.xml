@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>resize</keyword>
+  <short_description>Resize an array by truncating or padding.</short_description>
+  <syntax>
+    <syntax_item>B = resize(A, m)</syntax_item>
+    <syntax_item>B = resize(A, sz)</syntax_item>
+    <syntax_item>B = resize(A, sz, 'FillValue', v)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>the array to resize.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>a scalar length, used to resize a vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>a size vector <b>[m n ...]</b> giving the size of the result.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>the value used to fill added elements (default <b>0</b> for a numeric array).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>the resized array, of the requested size and the class of <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>resize</b> returns an array of the requested size. Along each
+      dimension, elements of <b>A</b> beyond the new size are dropped and
+      positions beyond the original data are filled with a fill value, which is
+      <b>0</b> for a numeric array unless <b>'FillValue'</b> is given. A scalar
+      size resizes the length of a vector and keeps its orientation.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[resize([1 2 3], 6)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}reshape">reshape</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

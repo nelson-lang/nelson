@@ -10,19 +10,19 @@
 %<--INTERACTIVE TEST-->
 %=============================================================================
 if true
-    disp('Condition is true');
+  disp('Condition is true');
+  disp('next line');
+  if false
+    disp('Nested condition is false');
     disp('next line');
-    if false
-        disp('Nested condition is false');
-        disp('next line');
-    end
+  end
 else
-    disp('Condition is false');
+  disp('Condition is false');
+  disp('next line');
+  if true
+    disp('Nested condition is true');
     disp('next line');
-    if true
-        disp('Nested condition is true');
-        disp('next line');
-    end
+  end
 end
 disp('after if else end')
 %=============================================================================

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>gpu_engine</module_name>
+  <chapter>GPU computing</chapter>
+  <chapter_description>
+    <p>The GPU engine module runs array computations on the GPU through WebGPU (Dawn), portably on Windows, Linux and macOS without a proprietary CUDA dependency.</p>
+    <p>Arrays are moved to the device with <b>gpuArray</b> and back to the host with <b>gather</b>. Operators and many functions are overloaded so that expressions on a <b>gpuArray</b> run on the device and keep their result device-resident.</p>
+    <p>Device arrays are stored in single precision (WebGPU has no double compute type yet); real, logical and complex data are supported. Use <b>canUseGPU</b> to check availability and <b>gpuDevice</b> to inspect the selected device.</p>
+    <p>Many functions are supported on a <b>gpuArray</b>: the operators, the element-wise math functions (including the rounding and hyperbolic/inverse-trigonometric ones), the reductions and scans (<b>sum</b>, <b>prod</b>, <b>mean</b>, <b>var</b>, <b>std</b>, <b>cumsum</b>, <b>cumprod</b>, <b>sort</b>, <b>find</b>), the complex-extraction functions, the shape and predicate functions, and the constructors <b>zeros</b>/<b>ones</b>/<b>rand</b>/<b>randn</b> through the <b>'gpuArray'</b> / <b>'like'</b> forms. Call <b>gpuArrayFunctions</b> for the exact, always-current list.</p>
+  </chapter_description>
+</xmldoc>

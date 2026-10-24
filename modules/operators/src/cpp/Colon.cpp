@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,48 +8,43 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cmath>
+#include <type_traits>
 #include "Colon.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
-#include "Warning.hpp"
+#include "NelsonException.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "ClassName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// The step is signed whatever the integer class: uint8(1):-1:uint8(0) counts
+// down. Differences and products are computed in the unsigned companion type
+// (exact, no overflow); 64-bit classes keep every bit.
 template <class T>
 static ArrayOf
-integer_colon(NelsonType destinationClass, T low, T high, T step)
+integer_colon(NelsonType destinationClass, T low, T high, int64 step)
 {
-    if (step == 0) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+    if (step == 0 || (low < high && step < 0) || (low > high && step > 0)) {
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(destinationClass);
         return res;
     }
-    if (low < high) {
-        if (IS_SIGNED_INTEGER_TYPE(destinationClass)) {
-            if (step < 0) {
-                ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-                res.promoteType(destinationClass);
-                return res;
-            }
-        }
-    }
-    if (low > high) {
-        if (step > 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
-            res.promoteType(destinationClass);
-            return res;
-        }
-    }
-    double dn = (double)((((high - low) / step) + 1));
-    indexType n = (indexType)std::trunc(dn);
+    using UT = typename std::make_unsigned<T>::type;
+    uint64 absStep
+        = (step < 0) ? (static_cast<uint64>(-(step + 1)) + 1) : static_cast<uint64>(step);
+    uint64 range = (low <= high)
+        ? static_cast<uint64>(static_cast<UT>(static_cast<UT>(high) - static_cast<UT>(low)))
+        : static_cast<uint64>(static_cast<UT>(static_cast<UT>(low) - static_cast<UT>(high)));
+    auto n = static_cast<indexType>(range / absStep) + 1;
     T* pV = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
     OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType k = 0; k < (ompIndexType)n; k++) {
-        pV[k] = (T)(low + (k * step));
+        auto offset = static_cast<UT>(static_cast<uint64>(k) * absStep);
+        pV[k] = (step < 0) ? static_cast<T>(static_cast<UT>(static_cast<UT>(low) - offset))
+                           : static_cast<T>(static_cast<UT>(static_cast<UT>(low) + offset));
     }
     return ArrayOf(destinationClass, Dimensions(1, n), pV);
 }
@@ -58,13 +53,13 @@ static ArrayOf
 char_colon(charType low, charType high, int64 step)
 {
     if (step == 0) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
 
     if ((low < high && step < 0) || (low > high && step > 0)) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
@@ -73,7 +68,7 @@ char_colon(charType low, charType high, int64 step)
     int64 elementCount = (range / step) + 1;
 
     if (elementCount <= 0) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
@@ -84,12 +79,12 @@ char_colon(charType low, charType high, int64 step)
     try {
         pV = static_cast<charType*>(ArrayOf::allocateArrayOf(NLS_CHAR, n, stringVector(), false));
         if (!pV) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            ArrayOf res = ArrayOf::empty(1, 0);
             res.promoteType(NLS_CHAR);
             return res;
         }
     } catch (const std::exception&) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
@@ -112,7 +107,7 @@ char_colon(charType low, charType high, int64 step)
     try {
         return ArrayOf(NLS_CHAR, Dimensions(1, n), pV);
     } catch (const std::exception&) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(NLS_CHAR);
         return res;
     }
@@ -123,60 +118,60 @@ static ArrayOf
 real_colon(NelsonType destinationClass, T low, T high, T step)
 {
     if (step == 0) {
-        ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+        ArrayOf res = ArrayOf::empty(1, 0);
         res.promoteType(destinationClass);
         return res;
     }
     if (std::isnan(low) || std::isnan(high) || std::isnan(step)) {
         Dimensions Cdim(1, 1);
         if (destinationClass == NLS_SINGLE) {
-            return ArrayOf::singleConstructor(nanf(""));
+            return ArrayOf::singleScalar(nanf(""));
         }
-        return ArrayOf::doubleConstructor(nan(""));
+        return ArrayOf::doubleScalar(nan(""));
     }
     if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(step)) {
         if (!std::isfinite(low) && !std::isfinite(step)) {
             if ((low > 0 && step < 0) || (low < 0 && step > 0)) {
                 if (destinationClass == NLS_SINGLE) {
-                    return ArrayOf::singleConstructor(nanf(""));
+                    return ArrayOf::singleScalar(nanf(""));
                 }
-                return ArrayOf::doubleConstructor(nan(""));
+                return ArrayOf::doubleScalar(nan(""));
             }
         }
         if (!std::isfinite(low)) {
             if (low > 0) {
                 Dimensions dims(1, 0);
-                return ArrayOf::emptyConstructor(dims);
+                return ArrayOf::empty(dims);
             }
         }
         if (!std::isfinite(step)) {
             if (step < 0) {
                 Dimensions dims(1, 0);
-                return ArrayOf::emptyConstructor(dims);
+                return ArrayOf::empty(dims);
             }
             if (destinationClass == NLS_SINGLE) {
-                return ArrayOf::singleConstructor((single)low);
+                return ArrayOf::singleScalar((single)low);
             }
-            return ArrayOf::doubleConstructor((double)low);
+            return ArrayOf::doubleScalar((double)low);
         }
         if (!std::isfinite(high)) {
             if (high < 0) {
                 Dimensions dims(1, 0);
-                return ArrayOf::emptyConstructor(dims);
+                return ArrayOf::empty(dims);
             }
         }
-        Error(_W("Invalid range."));
+        Error(L"Nelson:operators:invalidRange", L"Invalid range.");
     }
     if (low < high) {
         if (step < 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            ArrayOf res = ArrayOf::empty(1, 0);
             res.promoteType(destinationClass);
             return res;
         }
     }
     if (low > high) {
         if (step > 0) {
-            ArrayOf res = ArrayOf::emptyConstructor(1, 0);
+            ArrayOf res = ArrayOf::empty(1, 0);
             res.promoteType(destinationClass);
             return res;
         }
@@ -201,12 +196,20 @@ real_colon(NelsonType destinationClass, T low, T high, T step)
     return V;
 }
 //=============================================================================
+static void
+checkColonOperandIsScalarOrEmpty(const ArrayOf& operand)
+{
+    if (!operand.isEmpty() && !operand.isScalar()) {
+        Error(L"Nelson:operators:invalidColonOperand", L"Colon operands must be real scalars.");
+    }
+}
+//=============================================================================
 ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& K, bool& needOverload)
 {
-    ArrayOf I = ArrayOf::doubleConstructor(1);
+    ArrayOf I = ArrayOf::doubleScalar(1);
     if (!J.isCharacterArray()) {
-        I.promoteType(J.getDataClass());
+        I.promoteType(J.dataClass());
     }
     return Colon(J, I, K, needOverload);
 }
@@ -215,194 +218,112 @@ NLSOPERATORS_IMPEXP ArrayOf
 Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
 {
     needOverload = false;
-    bool warningArrayAsScalar = false;
-    switch (J.getDataClass()) {
+    checkColonOperandIsScalarOrEmpty(J);
+    checkColonOperandIsScalarOrEmpty(I);
+    checkColonOperandIsScalarOrEmpty(K);
+    switch (J.dataClass()) {
     case NLS_UINT8: {
-        uint8 step;
+        int64 step;
         uint8 low;
         uint8 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
             low = static_cast<uint8>(1);
             high = static_cast<uint8>(0);
-            step = static_cast<uint8>(1);
+            step = 1;
         } else {
-            step = I.getContentAsUnsignedInteger8Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger8Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger8Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asUint8Scalar(true);
+            high = K.asUint8Scalar(true);
         }
         return integer_colon<uint8>(NLS_UINT8, low, high, step);
     } break;
     case NLS_INT8: {
-        int8 step;
+        int64 step;
         int8 low;
         int8 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
             low = static_cast<int8>(1);
             high = static_cast<int8>(0);
-            step = static_cast<int8>(1);
+            step = 1;
         } else {
-            step = I.getContentAsInteger8Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger8Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger8Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asInt8Scalar(true);
+            high = K.asInt8Scalar(true);
         }
         return integer_colon<int8>(NLS_INT8, low, high, step);
     } break;
     case NLS_UINT16: {
-        uint16 step;
+        int64 step;
         uint16 low;
         uint16 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint16>(1);
+            step = 1;
             low = static_cast<uint16>(1);
             high = static_cast<uint16>(0);
         } else {
-            step = I.getContentAsUnsignedInteger16Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger16Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger16Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asUint16Scalar(true);
+            high = K.asUint16Scalar(true);
         }
         return integer_colon<uint16>(NLS_UINT16, low, high, step);
     } break;
     case NLS_INT16: {
-        int16 step;
+        int64 step;
         int16 low;
         int16 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int16>(1);
+            step = 1;
             low = static_cast<int16>(1);
             high = static_cast<int16>(0);
         } else {
-            step = I.getContentAsInteger16Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger16Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger16Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asInt16Scalar(true);
+            high = K.asInt16Scalar(true);
         }
         return integer_colon<int16>(NLS_INT16, low, high, step);
     } break;
     case NLS_UINT32: {
-        uint32 step;
+        int64 step;
         uint32 low;
         uint32 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint32>(1);
+            step = 1;
             low = static_cast<uint32>(1);
             high = static_cast<uint32>(0);
         } else {
-            step = I.getContentAsUnsignedInteger32Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger32Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger32Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asUint32Scalar(true);
+            high = K.asUint32Scalar(true);
         }
         return integer_colon<uint32>(NLS_UINT32, low, high, step);
     } break;
     case NLS_INT32: {
-        auto step = static_cast<int32>(1);
+        int64 step;
         int32 low;
         int32 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int32>(1);
+            step = 1;
             low = static_cast<int32>(1);
             high = static_cast<int32>(0);
         } else {
-            step = I.getContentAsInteger32Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger32Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger32Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asInt32Scalar(true);
+            high = K.asInt32Scalar(true);
         }
         return integer_colon<int32>(NLS_INT32, low, high, step);
     } break;
     case NLS_UINT64: {
-        auto step = static_cast<uint64>(1);
+        int64 step;
         uint64 low;
         uint64 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<uint64>(1);
+            step = 1;
             low = static_cast<uint64>(1);
             high = static_cast<uint64>(0);
         } else {
-            step = I.getContentAsUnsignedInteger64Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsUnsignedInteger64Scalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsUnsignedInteger64Scalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asUint64Scalar(true);
+            high = K.asUint64Scalar(true);
         }
         return integer_colon<uint64>(NLS_UINT64, low, high, step);
     } break;
@@ -411,25 +332,13 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
         int64 low;
         int64 high;
         if (J.isEmpty() || K.isEmpty() || I.isEmpty()) {
-            step = static_cast<int64>(1);
+            step = 1;
             low = static_cast<int64>(1);
             high = static_cast<int64>(0);
         } else {
-            step = I.getContentAsInteger32Scalar(true, true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsInteger32Scalar(true, true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsInteger32Scalar(true, true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asInt64Scalar(true);
+            low = J.asInt64Scalar(true, true);
+            high = K.asInt64Scalar(true, true);
         }
         return integer_colon<int64>(NLS_INT64, low, high, step);
     } break;
@@ -442,21 +351,9 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             low = static_cast<single>(1);
             high = static_cast<single>(0);
         } else {
-            step = I.getContentAsSingleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsSingleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsSingleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asSingleScalar(true);
+            low = J.asSingleScalar(true);
+            high = K.asSingleScalar(true);
         }
         return real_colon<single>(NLS_SINGLE, low, high, step);
     } break;
@@ -469,21 +366,9 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             low = static_cast<double>(1);
             high = static_cast<double>(0);
         } else {
-            step = I.getContentAsDoubleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = J.getContentAsDoubleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = K.getContentAsDoubleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = I.asDoubleScalar(true);
+            low = J.asDoubleScalar(true);
+            high = K.asDoubleScalar(true);
         }
         return real_colon<double>(NLS_DOUBLE, low, high, step);
     } break;
@@ -502,21 +387,9 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             II.promoteType(NLS_SINGLE);
             JJ.promoteType(NLS_SINGLE);
             KK.promoteType(NLS_SINGLE);
-            step = II.getContentAsSingleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = JJ.getContentAsSingleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = KK.getContentAsSingleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = II.asSingleScalar(true);
+            low = JJ.asSingleScalar(true);
+            high = KK.asSingleScalar(true);
         }
         return real_colon<single>(NLS_SINGLE, low, high, step);
     } break;
@@ -535,21 +408,9 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             II.promoteType(NLS_DOUBLE);
             JJ.promoteType(NLS_DOUBLE);
             KK.promoteType(NLS_DOUBLE);
-            step = II.getContentAsDoubleScalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            low = JJ.getContentAsDoubleScalar(true);
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            high = KK.getContentAsDoubleScalar(true);
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
+            step = II.asDoubleScalar(true);
+            low = JJ.asDoubleScalar(true);
+            high = KK.asDoubleScalar(true);
         }
         return real_colon<double>(NLS_DOUBLE, low, high, step);
     } break;
@@ -562,23 +423,11 @@ Colon(const ArrayOf& J, const ArrayOf& I, const ArrayOf& K, bool& needOverload)
             low = static_cast<charType>(1);
             high = static_cast<charType>(0);
         } else {
-            step = I.getContentAsInteger64Scalar(true);
-            if (!I.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            std::wstring content = J.getContentAsWideString();
+            step = I.asInt64Scalar(true);
+            std::wstring content = J.asWideString();
             low = content[0];
-            if (!J.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-            content = K.getContentAsWideString();
+            content = K.asWideString();
             high = content[0];
-            if (!K.isScalar()) {
-                warningArrayAsScalar = true;
-            }
-        }
-        if (warningArrayAsScalar) {
-            Warning(WARNING_COLON_ARRAY_AS_SCALAR, _W("Array used as scalar."));
         }
         return char_colon(low, high, step);
     } break;

@@ -38,7 +38,6 @@ local_time_to_wstring(const std::tm* local_time)
 FileInfo::FileInfo(const std::wstring& filename)
 {
     FileSystemWrapper::Path _path(filename);
-    // uniformize path separator
     _path = _path.generic_wstring();
     this->folder = _path.parent_path().wstring();
     this->name = _path.filename().wstring();

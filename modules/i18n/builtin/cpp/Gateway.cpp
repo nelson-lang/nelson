@@ -21,11 +21,7 @@ static const nlsGateway gateway[] = {
     { "i18nHelpers", (ptrBuiltin)Nelson::I18nGateway::i18nHelpersBuiltin, 1, -1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

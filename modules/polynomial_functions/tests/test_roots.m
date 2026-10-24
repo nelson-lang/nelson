@@ -7,43 +7,55 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+asserts.istrue(isbuiltin('roots'));
+%=============================================================================
 p = [3 -2 -4];
 R = roots(p);
 REF = [1.5352; -0.8685];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 p = [1 0 0 0 -1];
 R = roots(p);
-REF = [  -1.0000 + 0.0000i;
-0.0000 + 1.0000i;
-0.0000 - 1.0000i;
-1.0000 + 0.0000i];
-assert_isapprox(R, REF, 1e-4);
+REF = [-1.0000 + 0.0000i;
+  0.0000 + 1.0000i;
+  0.0000 - 1.0000i;
+  1.0000 + 0.0000i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 P = [1, 0, -5];
-R = roots (P);
-REF = [2.2361; -2.2361];
-assert_isapprox(abs(R), abs(REF), 1e-4);
-%=============================================================================
-P = [1.0000 0.1818 -31.1818 6.4786] 
 R = roots(P);
-REF = [-5.7753; 5.3851;  0.2083];
-assert_isapprox(R, REF, 1e-4);
+REF = [2.2361; -2.2361];
+asserts.isapprox(abs(R), abs(REF), 1e-4);
+%=============================================================================
+P = [1.0000 0.1818 -31.1818 6.4786]
+R = roots(P);
+REF = [-5.7753; 5.3851; 0.2083];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = roots([]);
 REF = [];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-R = roots ([1, -6, 11, -6])
+R = roots([1, -6, 11, -6])
 REF = [3; 2; 1];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-R = roots([1.0000   -9.4248   29.6088  -31.0063]);
-REF = [3.2080 + 0.0000i;3.1084 + 0.0561i;3.1084 - 0.0561i];
-assert_isapprox(real(R), real(REF), 1e-4);
-assert_isapprox(imag(R), imag(REF), 1e-3);
+R = roots([1.0000 -9.4248 29.6088 -31.0063]);
+REF = [3.2080 + 0.0000i; 3.1084 + 0.0561i; 3.1084 - 0.0561i];
+asserts.isapprox(real(R), real(REF), 1e-4);
+asserts.isapprox(imag(R), imag(REF), 1e-3);
 %=============================================================================
-R = roots([- 6.    11.  - 6.    1.  ]);
+R = roots([-6. 11. - 6. 1.]);
 REF = [1.0000; -0.1667];
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
+%=============================================================================
+asserts.isapprox(sort(roots([1, -3, 2])), [1; 2], 1e-12);
+%=============================================================================
+R = roots(single([1 -3 2]));
+asserts.isequal(class(R), 'single');
+asserts.isapprox(sort(R), single([1; 2]), single(1e-6));
+%=============================================================================
+% domain errors carry stable identifiers
+asserts.checkerror('roots([1 NaN 1])', _('Input to roots function must not contain NaN or Inf.'), 'Nelson:roots:inputMustBeFinite');
+asserts.checkerror('roots([1 2; 3 4])', _('Input must be a vector.'), 'Nelson:roots:inputMustBeVector');
 %=============================================================================

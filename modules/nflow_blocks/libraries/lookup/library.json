@@ -1,0 +1,385 @@
+{
+  "id": "builtin.lookup",
+  "title": "Lookup Tables",
+  "version": "0.1.0",
+  "format": "nflow-2",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "lookup1D",
+      "label": "1-D Lookup Table",
+      "icon": "lookup1D.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "BreakpointsForDimension1": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "Table": [
+          0,
+          1,
+          4,
+          9,
+          16
+        ],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/lookup1D.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "lookup2D",
+      "label": "2-D Lookup Table",
+      "icon": "lookup2D.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "BreakpointsForDimension1": [
+          1,
+          2,
+          3
+        ],
+        "BreakpointsForDimension2": [
+          1,
+          2,
+          3
+        ],
+        "Table": [
+          4,
+          5,
+          6,
+          5,
+          7,
+          8,
+          6,
+          8,
+          10
+        ],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/lookup2D.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "lookupND",
+      "label": "n-D Lookup Table",
+      "icon": "lookupND.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "NumberOfTableDimensions": 2,
+        "BreakpointsForDimension1": [
+          1,
+          2,
+          3
+        ],
+        "BreakpointsForDimension2": [
+          1,
+          2,
+          3
+        ],
+        "Table": [
+          4,
+          5,
+          6,
+          5,
+          7,
+          8,
+          6,
+          8,
+          10
+        ],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/lookupND.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "directLookup",
+      "label": "Direct Lookup Table (n-D)",
+      "icon": "directLookup.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "NumberOfTableDimensions": 2,
+        "TableDimensions": [
+          2,
+          3
+        ],
+        "Table": [
+          0,
+          1,
+          10,
+          11,
+          20,
+          21
+        ]
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/directLookup.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "prelookup",
+      "label": "Prelookup",
+      "icon": "prelookup.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 30,
+          "side": "right"
+        },
+        {
+          "x": 90,
+          "y": 50,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "BreakpointsForDimension1": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/prelookup.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "interpolationPrelookup",
+      "label": "Interpolation Using Prelookup",
+      "icon": "interpolationPrelookup.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 50,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Table": [
+          0,
+          1,
+          4,
+          9,
+          16
+        ]
+      },
+      "render": {
+        "type": "image",
+        "src": "exports/interpolationPrelookup.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "type": "lookupDynamic",
+      "label": "Lookup Table Dynamic",
+      "icon": "lookupDynamic.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 90,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 20,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        },
+        {
+          "x": 0,
+          "y": 60,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 90,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {},
+      "render": {
+        "type": "image",
+        "src": "exports/lookupDynamic.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 90,
+        "height": 80
+      }
+    }
+  ]
+}

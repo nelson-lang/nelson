@@ -738,7 +738,7 @@ SIMDJSON_PUSH_DISABLE_ALL_WARNINGS
 # define nssv_CONFIG_CONSTEXPR11_STD_SEARCH  1
 #endif
 
-// Control presence of exception handling (try and auto discover):
+// Control presence of NelsonException handling (try and auto discover):
 
 #ifndef nssv_CONFIG_NO_EXCEPTIONS
 # if defined(_MSC_VER)
@@ -2573,11 +2573,11 @@ inline const char *error_message(error_code error) noexcept;
 inline std::ostream& operator<<(std::ostream& out, error_code error) noexcept;
 
 /**
- * Exception thrown when an exception-supporting simdjson method is called
+ * NelsonException thrown when an NelsonException-supporting simdjson method is called
  */
 struct simdjson_error : public std::exception {
   /**
-   * Create an exception from a simdjson error code.
+   * Create an NelsonException from a simdjson error code.
    * @param error The error code
    */
   simdjson_error(error_code error) noexcept : _error{error} { }
@@ -2599,7 +2599,7 @@ namespace internal {
  * to avoid some compilation issue. Thus, if you modify this class, please ensure that the ondemand
  * implementation_simdjson_result_base<T> is also modified.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -2723,7 +2723,7 @@ struct simdjson_result_base : protected std::pair<T, error_code> {
    *   // handle error
    * }
    *
-   * Or you may call 'value()' which will raise an exception
+   * Or you may call 'value()' which will raise an NelsonException
    * in case of error:
    *
    * T value = result.value();
@@ -2745,7 +2745,7 @@ struct simdjson_result_base : protected std::pair<T, error_code> {
    *   // use value here.
    * }
    *
-   * Or you may call 'value()' which will raise an exception
+   * Or you may call 'value()' which will raise an NelsonException
    * in case of error:
    *
    * T value = result.value();
@@ -2761,7 +2761,7 @@ struct simdjson_result_base : protected std::pair<T, error_code> {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  */
 template<typename T>
 struct simdjson_result : public internal::simdjson_result_base<T> {
@@ -9985,7 +9985,7 @@ namespace arm64 {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -16483,7 +16483,7 @@ namespace haswell {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -22836,7 +22836,7 @@ namespace icelake {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -29346,7 +29346,7 @@ namespace ppc64 {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -36215,7 +36215,7 @@ namespace westmere {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -42906,7 +42906,7 @@ namespace lsx {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -49043,7 +49043,7 @@ namespace lasx {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.
@@ -54772,7 +54772,7 @@ namespace fallback {
 /**
  * The result of a simdjson operation that could fail.
  *
- * Gives the option of reading error codes, or throwing an exception by casting to the desired result.
+ * Gives the option of reading error codes, or throwing an NelsonException by casting to the desired result.
  *
  * This is a base class for implementations that want to add functions to the result type for
  * chaining.

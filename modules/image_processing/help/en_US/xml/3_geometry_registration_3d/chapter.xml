@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>image_processing</module_name>
+  <chapter>Geometry, Registration, and 3-D</chapter>
+  <chapter_description>
+    <p>Functions for geometric transforms, spatial referencing, image registration, volumetric filtering, resizing, and 3-D measurements.</p>
+  </chapter_description>
+</xmldoc>

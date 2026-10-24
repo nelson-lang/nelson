@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "fixed_width_integers.m",
+      "title": {
+        "en_US": "Fixed-width integer arithmetic",
+        "fr_FR": "Arithmétique entière à largeur fixe"
+      },
+      "description": {
+        "en_US": "Inspect integer ranges and saturation during conversion and arithmetic.",
+        "fr_FR": "Examiner les plages entières et la saturation pendant les conversions et les calculs."
+      },
+      "tags": [
+        "integer",
+        "conversion",
+        "saturation"
+      ],
+      "requirements": []
+    }
+  ]
+}

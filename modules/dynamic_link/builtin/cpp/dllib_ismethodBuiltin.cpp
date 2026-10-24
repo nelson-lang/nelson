@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dllib_ismethodBuiltin.hpp"
 #include "DynamicLinkLibraryObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -24,13 +25,13 @@ Nelson::DynamicLinkGateway::dllib_ismethodBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
-        Error(_W("dllib handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_DLLIB_CATEGORY_STR) {
+        Error(L"Nelson:dynamic_link:dllibHandle", L"dllib handle expected.");
     }
     ArrayOf param2 = argIn[1];
-    std::wstring methodName = param2.getContentAsWideString();
-    auto* objDllib = (DynamicLinkLibraryObject*)param1.getContentAsHandleScalar();
-    retval << ArrayOf::logicalConstructor(objDllib->isMethod(methodName));
+    std::wstring methodName = param2.asWideString();
+    auto* objDllib = (DynamicLinkLibraryObject*)param1.asHandleScalar();
+    retval << ArrayOf::logicalScalar(objDllib->isMethod(methodName));
     return retval;
 }
 //=============================================================================

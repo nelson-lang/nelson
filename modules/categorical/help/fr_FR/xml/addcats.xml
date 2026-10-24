@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>addcats</keyword>
+  <short_description>Ajouter des categories a un tableau categoriel.</short_description>
+  <syntax>
+    <syntax_item>B = addcats(A, names)</syntax_item>
+    <syntax_item>B = addcats(A, names, 'Before', anchor)</syntax_item>
+    <syntax_item>B = addcats(A, names, 'After', anchor)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
+    <param_input_item><param_name>names</param_name><param_description>Nom ou liste de noms de categories a ajouter. Les noms deja presents sont ignores.</param_description></param_input_item>
+    <param_input_item><param_name>anchor</param_name><param_description>Categorie existante utilisee comme point d'insertion avec <b>Before</b> ou <b>After</b>.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>B</param_name><param_description>Tableau categoriel avec les memes valeurs que <b>A</b> et une liste de categories mise a jour.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>addcats</b> ajoute des categories sans modifier les elements stockes.</p>
+    <p>Pour un tableau categoriel ordinal, la position doit etre precisee car l'ordre des categories definit les comparaisons.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Ajouter une categorie a la fin.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = addcats(A, 'green'); categories(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Inserer une categorie avant une categorie existante.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'low','high'}, {'low','high'}, 'Ordinal', true); B = addcats(A, 'mid', 'Before', 'high'); categories(B)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categorical">categorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}removecats">removecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}mergecats">mergecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}reordercats">reordercats</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

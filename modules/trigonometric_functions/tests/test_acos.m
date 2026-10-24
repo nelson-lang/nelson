@@ -7,40 +7,40 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('acos'), 1);
-assert_isequal(nargout('acos'), 1);
+asserts.isequal(nargin('acos'), 1);
+asserts.isequal(nargout('acos'), 1);
 %=============================================================================
-assert_isequal(acos(NaN), NaN);
-assert_isequal(acos(-NaN), NaN);
-assert_isequal(acos(Inf), complex(0, -Inf));
-assert_isequal(acos(-Inf), complex(pi, -Inf));
+asserts.isequal(acos(NaN), NaN);
+asserts.isequal(acos(-NaN), NaN);
+asserts.isequal(acos(Inf), complex(0, Inf));
+asserts.isequal(acos(-Inf), complex(pi, -Inf));
 %=============================================================================
 n = 100;
-A = rand(n,n);
+A = rand(n, n);
 B = acos(-A) - asin(A);
-e = pi * 0.5 *ones(n,n);
-assert_isapprox(real(B), e, 4 * eps);
+e = pi * 0.5 * ones(n, n);
+asserts.isapprox(real(B), e, 4 * eps);
 %=============================================================================
-v = [1.   0.8660254   0.7071068   0.5   0.   0.  -0.5  -0.7071068  -0.8660254  -1];
+v = [1. 0.8660254 0.7071068 0.5 0. 0. -0.5 -0.7071068 -0.8660254 -1];
 r = acos(v);
-ref = [0.   0.5235988   0.7853981   1.0471976   1.5707963   1.5707963   2.0943951   2.3561945   2.6179939   3.1415927];
-assert_isapprox(real(r), ref, 1e-7);
+ref = [0. 0.5235988 0.7853981 1.0471976 1.5707963 1.5707963 2.0943951 2.3561945 2.6179939 3.1415927];
+asserts.isapprox(real(r), ref, 1e-7);
 %=============================================================================
 x = acos(0i);
 ref = 1.5708;
-assert_isapprox(x, ref, 1e-4);
+asserts.isapprox(x, ref, 1e-4);
 %=============================================================================
 X = acos(ones(3, 3, 3));
 REF = zeros(3, 3, 3);
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
 S = sparse(ones(3, 3));
 X = acos(S);
 REF = sparse(zeros(3, 3));
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
-assert_isequal(acos([]), []);
+asserts.isequal(acos([]), []);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'acos');
-assert_checkerror('acos(''a'')', msg);
+asserts.checkerror('acos(''a'')', msg);
 %=============================================================================

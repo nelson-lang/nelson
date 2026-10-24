@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>openfig</keyword>
+  <short_description>Ouvre un fichier FIG Nelson.</short_description>
+  <syntax>
+    <syntax_item>openfig()</syntax_item>
+    <syntax_item>openfig(filename)</syntax_item>
+    <syntax_item>openfig(filename, copies)</syntax_item>
+    <syntax_item>openfig(filename, visibility)</syntax_item>
+    <syntax_item>openfig(filename, copies, visibility)</syntax_item>
+    <syntax_item>fig = openfig(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Vecteur de caracteres ou chaine scalaire designant un fichier Nelson <b>.fig</b>. Si le nom n&apos;a pas d&apos;extension, <b>openfig</b> ajoute <b>.fig</b>. La valeur par defaut est <b>Untitled.fig</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>copies</param_name>
+      <param_description><b>'new'</b> ou <b>'reuse'</b>. La valeur par defaut est <b>'new'</b>. Utilisez <b>'reuse'</b> pour retourner une figure deja ouverte dont la propriete <b>FileName</b> correspond au fichier demande.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>visibility</param_name>
+      <param_description><b>'visible'</b> ou <b>'invisible'</b>. Cette option remplace l&apos;etat visible enregistre apres restauration ou reutilisation de la figure.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fig</param_name>
+      <param_description>Objet graphique figure ouvert ou tableau d&apos;objets graphiques figure. Si le fichier contient plusieurs figures enregistrees, toutes les figures restaurees sont retournees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>openfig()</b> ouvre <b>Untitled.fig</b>.</p>
+    <p><b>openfig(filename)</b> ouvre la ou les figures stockees dans <b>filename</b> et cree de nouveaux objets figure.</p>
+    <p><b>openfig(filename, 'new')</b> cree toujours de nouveaux objets figure. C&apos;est le comportement par defaut.</p>
+    <p><b>openfig(filename, 'reuse')</b> cherche d&apos;abord les figures ouvertes dont la propriete <b>FileName</b> correspond au chemin resolu. Si elles existent, elles sont retournees au lieu de charger une nouvelle copie.</p>
+    <p><b>openfig(filename, visibility)</b> ou <b>openfig(filename, copies, visibility)</b> controle si les figures restaurees ou reutilisees sont visibles.</p>
+    <p>Chaque figure restauree recoit une propriete <b>FileName</b> egale au chemin <b>.fig</b> resolu. Cela permet aux appels suivants avec <b>'reuse'</b> de la retrouver.</p>
+    <p><b>Avertissement :</b> les fichiers <b>.fig</b> Nelson sont specifiques a Nelson. Les fichiers qui n&apos;ont pas ete generes par Nelson ne sont pas pris en charge.</p>
+    <p>Les objets restaures sont de nouveaux objets graphiques. La plupart des proprietes persistantes enregistrees par <b>savefig</b> sont restaurees, tandis que les valeurs par defaut courantes et l&apos;etat d&apos;execution peuvent encore influencer les figures creees.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Enregistrer une figure, la fermer, puis la rouvrir plus tard.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+x = linspace(0, 10);
+y = sin(x);
+f = figure('Visible', 'off');
+plot(x, y);
+title('Sine Wave');
+xlabel('x ranges from 0 to 10');
+ylabel('y = sin(x)');
+figfile = [tempname(), '_SineWave.fig'];
+savefig(f, figfile);
+close(f);
+restored = openfig(figfile, 'invisible');
+assert(isgraphics(restored, 'figure'));
+close(restored);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir une figure enregistree invisible en etat visible.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot(1:5);
+figfile = [tempname(), '_visible_on_open.fig'];
+savefig(f, figfile);
+close(f);
+restored = openfig(figfile, 'visible');
+assert(strcmp(char(get(restored, 'Visible')), 'on'));
+close(restored);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reutiliser une figure deja ouverte.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot([3 1 4 1 5]);
+figfile = [tempname(), '_reuse_example.fig'];
+savefig(f, figfile);
+close(f);
+first = openfig(figfile, 'invisible');
+second = openfig(figfile, 'reuse', 'invisible');
+assert(isequal(first, second));
+close(first);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir un fichier contenant plusieurs figures.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+figs(1) = figure('Visible', 'off');
+plot(1:4);
+figs(2) = figure('Visible', 'off');
+stairs([4 2 3]);
+figfile = [tempname(), '_many_figures.fig'];
+savefig(figs, figfile);
+close(figs);
+restored = openfig(figfile, 'invisible');
+assert(isequal(numel(restored), 2));
+close(restored);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}5_printing_saving/savefig">savefig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/close">close</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}loadnh5">loadnh5</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

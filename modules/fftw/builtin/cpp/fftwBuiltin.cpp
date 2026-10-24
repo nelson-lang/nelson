@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "fftwBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FftHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -30,48 +30,48 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval(nLhs);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        std::wstring infoDesired = param1.getContentAsWideString();
+        std::wstring infoDesired = param1.asWideString();
         ArrayOf res;
         if (infoDesired == L"dwisdom") {
-            res = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
+            res = ArrayOf::characterArray(getDoubleWisdomInformation());
         } else if (infoDesired == L"swisdom") {
-            res = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
+            res = ArrayOf::characterArray(getSingleWisdomInformation());
         } else if (infoDesired == L"planner") {
-            res = ArrayOf::characterArrayConstructor(getPlannerInformation());
+            res = ArrayOf::characterArray(getPlannerInformation());
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
         }
         retval << res;
     } else {
         ArrayOf param1 = argIn[0];
-        std::wstring fieldname = param1.getContentAsWideString();
+        std::wstring fieldname = param1.asWideString();
         ArrayOf param2 = argIn[1];
         std::wstring fieldvalue;
         bool doReset = param2.isEmpty(true);
         if (!doReset) {
-            fieldvalue = param2.getContentAsWideString();
+            fieldvalue = param2.asWideString();
         }
         ArrayOf previousvalue;
         if (fieldname == L"dwisdom") {
-            previousvalue = ArrayOf::characterArrayConstructor(getDoubleWisdomInformation());
+            previousvalue = ArrayOf::characterArray(getDoubleWisdomInformation());
             if (doReset) {
                 resetDoubleWisdom();
             } else {
                 if (!setDoubleWisdomInformation(fieldvalue)) {
-                    Error(_W("Cannot apply wisdom."));
+                    Error(L"Nelson:fftw:cannotApplyWisdom", L"Cannot apply wisdom.");
                 }
             }
         } else if (fieldname == L"swisdom") {
-            previousvalue = ArrayOf::characterArrayConstructor(getSingleWisdomInformation());
+            previousvalue = ArrayOf::characterArray(getSingleWisdomInformation());
             if (doReset) {
                 resetSingleWisdom();
             } else {
                 if (!setSingleWisdomInformation(fieldvalue)) {
-                    Error(_W("Cannot apply wisdom."));
+                    Error(L"Nelson:fftw:cannotApplyWisdom", L"Cannot apply wisdom.");
                 }
             }
         } else if (fieldname == L"planner") {
-            previousvalue = ArrayOf::characterArrayConstructor(getPlannerInformation());
+            previousvalue = ArrayOf::characterArray(getPlannerInformation());
             if (doReset) {
                 resetPlanner();
             } else {
@@ -86,11 +86,11 @@ Nelson::FftwGateway::fftwBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else if (fieldvalue == L"hybrid") {
                     setPlannerInformation(FftPlannerMethod::HYBRID);
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                    Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
                 }
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
         }
         retval << previousvalue;
     }

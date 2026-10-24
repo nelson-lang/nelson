@@ -11,7 +11,7 @@
 %=============================================================================
 f = figure();
 ax = gca();
-assert_istrue(isgraphics(ax, 'axes'));
-assert_isequal(size(f.Children), [1 1]);
-assert_isequal(ax, f.Children);
+asserts.istrue(isgraphics(ax, 'axes'));
+asserts.isequal(size(f.Children), [1 1]);
+asserts.isequal(ax, f.Children);
 %=============================================================================

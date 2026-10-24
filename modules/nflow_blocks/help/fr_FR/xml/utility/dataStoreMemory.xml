@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dataStoreMemory</keyword>
+  <keyword_alias>block:dataStoreMemory</keyword_alias>
+  <short_description>Declare une memoire scalaire nommee partagee dans tout le modele (valeur initiale).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : dataStoreMemory</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>Aucun port d entree (ce bloc n en a aucun).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>Aucun port de sortie (ce bloc n en a aucun).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Declare une memoire scalaire nommee partagee dans tout le modele (valeur initiale).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Type</td><td><code>dataStoreMemory</code></td></tr>
+        <tr><td>Libelle</td><td>Data Store Memory</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/dataStoreMemory.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Declare une memoire scalaire nommee (<code>DataStoreName</code>) avec une <code>InitialValue</code>, sans aucun fil. La memoire est ecrite par des blocs <code>dataStoreWrite</code> et lue par des blocs <code>dataStoreRead</code> referencant le meme nom, permettant une communication a l'echelle du modele sans lignes de routage. Le magasin est une map par thread re-initialisee a chaque run par l'INIT de ce bloc.</p>
+    <p>Natif seulement ; scalaire. Les lectures voient l'ecriture du pas precedent (latence d'un pas, comme un retard unitaire).</p>
+    <p><b>Ports</b></p>
+    <p>Ce bloc n'a aucun port d'entree.</p>
+    <p>Ce bloc n'a aucun port de sortie.</p>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>DataStoreName</code></td><td>A</td></tr>
+        <tr><td><code>InitialValue</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>dataStoreMemory</td></tr>
+        <tr><td>Famille</td><td>Utilitaires</td></tr>
+        <tr><td>Taille rendue</td><td>70 x 60</td></tr>
+        <tr><td>Phases</td><td>INIT</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>INIT : store[DataStoreName] = InitialValue. Le bloc n'a pas de ports.</li>
+    </ul>
+    <p><b>Capacites etendues</b></p>
+    <p>Execution native seulement (ce bloc n'est pas genere en code).</p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/dataStore.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Declarer la memoire 'M', y ecrire une rampe et la relire avec une latence d'un pas.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','mem','type','dataStoreMemory','inputs',0,'outputs',0,'params',struct('DataStoreName','M','InitialValue',0)), struct('id','r','type','ramp','inputs',0,'outputs',1,'params',struct('slope',1)), struct('id','wr','type','dataStoreWrite','inputs',1,'outputs',0,'params',struct('DataStoreName','M')), struct('id','rd','type','dataStoreRead','inputs',0,'outputs',1,'params',struct('DataStoreName','M')), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','r','to','wr','fromIndex',0,'toIndex',0), struct('from','rd','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=1.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreWrite">dataStoreWrite</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreRead">dataStoreRead</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

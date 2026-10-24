@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mergecats</keyword>
+  <short_description>Merge categories in a categorical array.</short_description>
+  <syntax>
+    <syntax_item>B = mergecats(A, oldCategories)</syntax_item>
+    <syntax_item>B = mergecats(A, oldCategories, newCategory)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Input categorical array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>oldCategories</param_name>
+      <param_description>Categories whose elements are merged.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>newCategory</param_name>
+      <param_description>Name of the merged category. If omitted, the first category in <b>oldCategories</b> is kept.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Categorical array with merged category codes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>mergecats</b> replaces multiple categories by a single category and remaps all matching elements.</p>
+    <p>Categories not listed in <b>oldCategories</b> keep their values and relative order.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Merge several categories into one category.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','green'}); B = mergecats(A, {'blue','green'}, 'other'); categories(B)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}addcats">addcats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}removecats">removecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}renamecats">renamecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}setcats">setcats</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

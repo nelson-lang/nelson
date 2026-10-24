@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "description": "Vocabulary of capability names usable in a module examples/index.json 'requirements' field. 'baseline' true means the capability is always present in a standard Nelson build, so its gallery example does not need a runtime error() guard; false means the capability is optional or environment-dependent and its example must guard against the capability being unavailable.",
+  "requirements": [
+    {
+      "name": "gui",
+      "baseline": true
+    },
+    {
+      "name": "plots",
+      "baseline": true
+    },
+    {
+      "name": "control-system",
+      "baseline": true
+    },
+    {
+      "name": "graphics-io",
+      "baseline": true
+    },
+    {
+      "name": "fft",
+      "baseline": true
+    },
+    {
+      "name": "hdf5",
+      "baseline": true
+    },
+    {
+      "name": "ode-solvers",
+      "baseline": true
+    },
+    {
+      "name": "gif",
+      "baseline": true
+    },
+    {
+      "name": "nflow",
+      "baseline": true
+    },
+    {
+      "name": "native-fmi",
+      "baseline": true
+    },
+    {
+      "name": "web_gui",
+      "baseline": false
+    },
+    {
+      "name": "network",
+      "baseline": false
+    },
+    {
+      "name": "credentials",
+      "baseline": false
+    },
+    {
+      "name": "compiler",
+      "baseline": false
+    },
+    {
+      "name": "mpi",
+      "baseline": false
+    },
+    {
+      "name": "windows",
+      "baseline": false
+    },
+    {
+      "name": "python",
+      "baseline": false
+    },
+    {
+      "name": "julia",
+      "baseline": false
+    },
+    {
+      "name": "audio-input",
+      "baseline": false
+    },
+    {
+      "name": "audio-output",
+      "baseline": false
+    },
+    {
+      "name": "audio-flac",
+      "baseline": false
+    },
+    {
+      "name": "audio-ogg",
+      "baseline": false
+    },
+    {
+      "name": "audio-mpeg",
+      "baseline": false
+    },
+    {
+      "name": "external-application",
+      "baseline": false
+    }
+  ]
+}

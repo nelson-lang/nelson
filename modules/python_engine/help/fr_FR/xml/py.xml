@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>py</keyword>
+  <short_description>Proxy d&apos;espace de noms Python.</short_description>
+  <syntax>
+    <syntax_item>p = py()</syntax_item>
+    <syntax_item>p.module.function(...)</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>objet proxy d&apos;espace de noms Python.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pyValue</param_name>
+      <param_description>objet Python renvoye par la fonction appelee.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>py renvoie un objet proxy utilise pour acceder aux fonctions integrees et aux modules Python depuis Nelson.</p>
+    <p>Utilisez l&apos;acces par attribut sur l&apos;objet renvoye pour importer des modules ou appeler des fonctions Python.</p>
+  </description>
+  <used_function>
+    <used_function_item>pyenv</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Appeler une fonction integree Python via le proxy d&apos;espace de noms.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = py();
+pyValue = p.int(42)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${python_engine}pyenv">pyenv</link></see_also_item>
+    <see_also_item><link linkend="${python_engine}pyrun">pyrun</link></see_also_item>
+    <see_also_item><link linkend="${python_engine}pyrunfile">pyrunfile</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

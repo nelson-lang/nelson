@@ -7,18 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-__dir1  = [tempdir(), 'bug_dir_1'];
+__dir1 = tempname();
 mkdir(__dir1);
+c = onCleanup(@() rmdir(__dir1, 's')); %#ok<NASGU>
 for k = 1:10
-  file_name_to_create = [tempdir(), 'bug_dir_1/file_', int2str(k)];
+  file_name_to_create = [__dir1, '/file_', int2str(k)];
   if ~isfile(file_name_to_create)
     fp = fopen(file_name_to_create, 'wt');
     fclose(fp);
   end
 end
 
-A = dir([tempdir(), 'bug_dir_1']);
-B = dir([tempdir(), 'bug_dir_1/']);
-assert_isequal(A, B);
-assert_isequal(size(A), [12 1]);
+A = dir(__dir1);
+B = dir([__dir1, '/']);
+asserts.isequal(A, B);
+asserts.isequal(size(A), [12 1]);
 %=============================================================================

@@ -20,5 +20,5 @@ jsonDecode(const std::string& stringToDecode, std::string& errorMessage);
 NLSJSON_IMPEXP ArrayOf
 jsonDecodeFile(const std::wstring& filename, std::string& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

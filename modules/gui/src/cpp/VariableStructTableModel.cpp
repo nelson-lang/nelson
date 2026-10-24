@@ -10,7 +10,7 @@
 #include "VariableStructTableModel.h"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 #include "EvaluateCommand.hpp"
@@ -29,19 +29,12 @@ namespace Nelson {
 //=============================================================================
 VariableStructTableModel::VariableStructTableModel(
     const QString& name, ArrayOf array, Evaluator* evaluator, QObject* parent)
-    : VariableAbstractTableModel(name, array, evaluator, parent)
-    , m_persistenceTimer(new QTimer(this))
+    : VariableFieldedTableModel(name, array, evaluator, parent)
 {
-
     initializeDimensions();
     initializeEditData();
     updateFieldNames();
-
-    m_persistenceTimer->setSingleShot(true);
-    m_persistenceTimer->setInterval(100);
-    connect(m_persistenceTimer, &QTimer::timeout, this,
-        &VariableStructTableModel::performBatchedPersistence);
-    saveCurrentStateForUndo();
+    clearUndoState();
 }
 //=============================================================================
 void
@@ -56,10 +49,10 @@ VariableStructTableModel::initializeDimensions()
     }
 
     if (m_array.isStruct()) {
-        Dimensions dims = m_array.getDimensions();
-        m_rows = static_cast<int>(dims.getElementCount());
+        Dimensions dims = m_array.dimensions();
+        m_rows = static_cast<int>(dims.elementCount());
 
-        stringVector fieldNames = m_array.getFieldNames();
+        stringVector fieldNames = m_array.fieldNames();
         m_cols = static_cast<int>(fieldNames.size());
 
         m_rows_display = std::max(m_rows, MIN_DISPLAY_SIZE);
@@ -72,31 +65,16 @@ VariableStructTableModel::initializeDimensions()
     }
 }
 //=============================================================================
-void
-VariableStructTableModel::initializeEditData()
+bool
+VariableStructTableModel::isCompatibleArrayType(const ArrayOf& array) const
 {
-    m_editData.clear();
-    m_editData.resize(m_rows_display * m_cols_display);
+    return array.isStruct();
 }
 //=============================================================================
-void
-VariableStructTableModel::updateFieldNames()
+stringVector
+VariableStructTableModel::rawFieldNames(const ArrayOf& array) const
 {
-    m_fieldNames.clear();
-
-    if (m_array.isStruct() && !m_array.isEmpty()) {
-        stringVector fieldNames = m_array.getFieldNames();
-        for (const auto& fieldName : fieldNames) {
-            m_fieldNames << QString::fromStdWString(utf8_to_wstring(fieldName));
-        }
-    }
-}
-//=============================================================================
-int
-VariableStructTableModel::rowCount(const QModelIndex& parent) const
-{
-    Q_UNUSED(parent);
-    return m_rows_display;
+    return array.fieldNames();
 }
 //=============================================================================
 int
@@ -131,7 +109,6 @@ VariableStructTableModel::data(const QModelIndex& index, int role) const
             return QVariant();
         }
     } else {
-        // Adjust column index for actual data columns
         int dataCol = col - 1;
 
         switch (role) {
@@ -166,7 +143,6 @@ VariableStructTableModel::setData(const QModelIndex& index, const QVariant& valu
         return false;
     }
 
-    // Adjust column index for actual data columns
     int dataCol = col - 1;
 
     if (!isValidPosition(row, dataCol)) {
@@ -179,18 +155,18 @@ VariableStructTableModel::setData(const QModelIndex& index, const QVariant& valu
     bool asStr = false;
     try {
         results = EvaluateCommand(m_evaluator, 1, command, L"");
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         emitError = true;
         const int idx = row + col * m_rows;
-        if (idx >= 0 && idx < m_array.getElementCount()) {
-            ArrayOf* data = (ArrayOf*)(m_array.getDataPointer());
+        if (idx >= 0 && idx < m_array.elementCount()) {
+            ArrayOf* data = (ArrayOf*)(m_array.dataPointer());
             if (data) {
-                NelsonType destinationType = data[idx].getDataClass();
+                NelsonType destinationType = data[idx].dataClass();
                 emitError = false;
                 if (destinationType == NLS_CHAR || destinationType == NLS_STRING_ARRAY) {
                     asStr = true;
                     results.clear();
-                    results << ArrayOf::characterArrayConstructor(command);
+                    results << ArrayOf::characterArray(command);
                 }
             }
         }
@@ -222,7 +198,7 @@ VariableStructTableModel::setData(const QModelIndex& index, const QVariant& valu
 
     updateEditData(row, dataCol, value);
 
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
 
     emit dataChanged(index, index);
     emit modelChanged();
@@ -258,34 +234,6 @@ VariableStructTableModel::expandDisplayIfNeeded(int row, int col)
 //=============================================================================
 // Private helper methods
 //=============================================================================
-QVariant
-VariableStructTableModel::getDisplayValue(int row, int col) const
-{
-    return getCellDisplayValue(row, col);
-}
-//=============================================================================
-bool
-VariableStructTableModel::hasOriginalData() const
-{
-    return !m_array.isEmpty();
-}
-//=============================================================================
-bool
-VariableStructTableModel::isValidPosition(int row, int col) const
-{
-    return row >= 0 && row < m_rows && col >= 0 && col < m_cols;
-}
-//=============================================================================
-bool
-VariableStructTableModel::resizeArrayIfNeeded(int row, int col)
-{
-    if (row < m_rows && col < m_cols) {
-        return true;
-    }
-
-    return expandArrayIfNeeded(row, col);
-}
-//=============================================================================
 bool
 VariableStructTableModel::setArrayMissingValue(int row, int col)
 {
@@ -293,7 +241,7 @@ VariableStructTableModel::setArrayMissingValue(int row, int col)
         return false;
     }
 
-    return setFieldValue(row, col, ArrayOf::emptyConstructor());
+    return setFieldValue(row, col, ArrayOf::empty());
 }
 //=============================================================================
 bool
@@ -306,41 +254,30 @@ VariableStructTableModel::setArrayValue(int row, int col, const std::wstring& va
     try {
         ArrayOf parsedValue = parseInputToArrayOf(QString::fromStdWString(value), row, col);
         return setFieldValue(row, col, parsedValue);
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+    } catch (const NelsonException& e) {
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
 }
 //=============================================================================
-void
-VariableStructTableModel::updateEditData(int row, int col, const QVariant& value)
-{
-    if (row >= 0 && row < m_rows_display && col >= 0 && col < m_cols_display) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            m_editData[index] = value;
-        }
-    }
-}
-//=============================================================================
 ArrayOf
-VariableStructTableModel::getFieldValue(int structIndex, int fieldIndex) const
+VariableStructTableModel::fieldValue(int structIndex, int fieldIndex) const
 {
     if (!isValidPosition(structIndex, fieldIndex)) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     try {
-        stringVector fieldNames = m_array.getFieldNames();
+        stringVector fieldNames = m_array.fieldNames();
         if (fieldIndex < static_cast<int>(fieldNames.size())) {
-            ArrayOfVector results = m_array.getFieldAsList(fieldNames[fieldIndex]);
+            ArrayOfVector results = m_array.fieldAsList(fieldNames[fieldIndex]);
             return results[structIndex];
         }
-    } catch (const Exception& e) {
-        qDebug() << "Error getting field value:" << QString::fromStdWString(e.getMessage());
+    } catch (const NelsonException& e) {
+        qDebug() << "Error getting field value:" << QString::fromStdWString(e.message());
     }
 
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 bool
@@ -351,207 +288,26 @@ VariableStructTableModel::setFieldValue(int structIndex, int fieldIndex, const A
     }
 
     try {
-        stringVector fieldNames = m_array.getFieldNames();
+        stringVector fieldNames = m_array.fieldNames();
         if (fieldIndex < static_cast<int>(fieldNames.size())) {
-            ArrayOfVector list = m_array.getFieldAsList(fieldNames[fieldIndex]);
+            ArrayOfVector list = m_array.fieldAsList(fieldNames[fieldIndex]);
             if (static_cast<size_t>(structIndex) < list.size()) {
                 list[structIndex] = value;
                 m_array.setFieldAsList(fieldNames[fieldIndex], list);
                 return true;
             }
         }
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+    } catch (const NelsonException& e) {
+        emit errorOccurred(QString::fromStdWString(e.message()));
     }
 
     return false;
 }
 //=============================================================================
-QString
-VariableStructTableModel::getFieldName(int fieldIndex) const
-{
-    if (fieldIndex >= 0 && fieldIndex < m_fieldNames.size()) {
-        return m_fieldNames[fieldIndex];
-    }
-    return QString();
-}
-//=============================================================================
-int
-VariableStructTableModel::getFieldIndex(const QString& fieldName) const
-{
-    return m_fieldNames.indexOf(fieldName);
-}
-//=============================================================================
-void
-VariableStructTableModel::persistChangesToContext()
-{
-    if (m_evaluator && !m_variableName.isEmpty()) {
-        try {
-            Context* context = m_evaluator->getContext();
-            if (context) {
-                context->insertVariable(m_variableName.toStdString(), m_array);
-            }
-        } catch (const Exception& e) {
-            emit errorOccurred(QString::fromStdWString(e.getMessage()));
-        }
-    }
-}
-//=============================================================================
-void
-VariableStructTableModel::schedulePeristenceUpdate()
-{
-    m_pendingChanges = true;
-    if (m_persistenceTimer && !m_persistenceTimer->isActive()) {
-        m_persistenceTimer->start();
-    }
-}
-//=============================================================================
-void
-VariableStructTableModel::performBatchedPersistence()
-{
-    if (m_pendingChanges) {
-        persistChangesToContext();
-        m_pendingChanges = false;
-    }
-}
-//=============================================================================
-VariableStructTableModel::SelectionBounds
-VariableStructTableModel::getSelectionBounds(const QModelIndexList& selectedIndexes) const
-{
-    SelectionBounds bounds;
-
-    if (selectedIndexes.isEmpty()) {
-        return bounds;
-    }
-
-    bounds.minRow = selectedIndexes.first().row();
-    bounds.maxRow = selectedIndexes.first().row();
-    bounds.minCol = selectedIndexes.first().column();
-    bounds.maxCol = selectedIndexes.first().column();
-
-    for (const QModelIndex& index : selectedIndexes) {
-        bounds.minRow = std::min(bounds.minRow, index.row());
-        bounds.maxRow = std::max(bounds.maxRow, index.row());
-        bounds.minCol = std::min(bounds.minCol, index.column());
-        bounds.maxCol = std::max(bounds.maxCol, index.column());
-    }
-
-    bounds.isValid = true;
-    return bounds;
-}
-//=============================================================================
-VariableStructTableModel::PasteData
-VariableStructTableModel::parsePasteText(const QString& text) const
-{
-    PasteData data;
-
-    if (text.isEmpty()) {
-        return data;
-    }
-
-    QStringList lines = text.split(QRegularExpression("[\r\n]"), Qt::SkipEmptyParts);
-    if (lines.isEmpty()) {
-        return data;
-    }
-
-    data.rows = lines.size();
-    data.cols = 0;
-
-    for (const QString& line : lines) {
-        QStringList cells = line.split('\t');
-        data.cols = std::max((int)data.cols, (int)cells.size());
-        data.cells.append(QVector<QString>(cells.begin(), cells.end()));
-    }
-    for (auto& row : data.cells) {
-        while (row.size() < data.cols) {
-            row.append(QString());
-        }
-    }
-
-    data.isValid = true;
-    return data;
-}
-//=============================================================================
 bool
-VariableStructTableModel::validatePasteData(const PasteData& data, int startRow, int startCol) const
+VariableStructTableModel::writePastedValue(int row, int col, const ArrayOf& value)
 {
-    if (!data.isValid) {
-        return false;
-    }
-
-    if (startRow < 0 || startCol < 0) {
-        return false;
-    }
-
-    if (startRow + data.rows > MAX_PASTE_SIZE || startCol + data.cols > MAX_PASTE_SIZE) {
-        return false;
-    }
-
-    return true;
-}
-//=============================================================================
-bool
-VariableStructTableModel::applyPasteData(const PasteData& data, int startRow, int startCol)
-{
-    if (!validatePasteData(data, startRow, startCol)) {
-        return false;
-    }
-
-    try {
-        expandDisplayIfNeeded(startRow + data.rows - 1, startCol + data.cols - 1);
-
-        if (!expandArrayIfNeeded(startRow + data.rows - 1, startCol + data.cols - 1)) {
-            return false;
-        }
-
-        for (int row = 0; row < data.rows; ++row) {
-            for (int col = 0; col < data.cols; ++col) {
-                int targetRow = startRow + row;
-                int targetCol = startCol + col;
-
-                if (targetRow < m_rows && targetCol < m_cols) {
-                    QString cellText = data.cells[row][col];
-                    ArrayOf parsedValue = parseInputToArrayOf(cellText, targetRow, targetCol);
-
-                    if (!setFieldValue(targetRow, targetCol, parsedValue)) {
-                        continue;
-                    }
-
-                    updateEditData(targetRow, targetCol, QVariant(cellText));
-                }
-            }
-        }
-
-        QModelIndex topLeft = createIndex(startRow, startCol);
-        QModelIndex bottomRight = createIndex(startRow + data.rows - 1, startCol + data.cols - 1);
-        emit dataChanged(topLeft, bottomRight);
-
-        schedulePeristenceUpdate();
-        emit modelChanged();
-
-        return true;
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
-        return false;
-    }
-}
-//=============================================================================
-int
-VariableStructTableModel::indexToFlat(int row, int col) const
-{
-    return row * m_cols_display + col;
-}
-//=============================================================================
-std::pair<int, int>
-VariableStructTableModel::flatToIndex(int flatIndex) const
-{
-    if (m_cols_display == 0) {
-        return { 0, 0 };
-    }
-
-    int row = flatIndex / m_cols_display;
-    int col = flatIndex % m_cols_display;
-    return { row, col };
+    return setFieldValue(row, col, value);
 }
 //=============================================================================
 bool
@@ -565,7 +321,7 @@ VariableStructTableModel::expandArrayIfNeeded(int row, int col)
         int newRows = std::max(m_rows, row + 1);
         int newCols = std::max(m_cols, col + 1);
 
-        stringVector oldFieldNames = m_array.getFieldNames();
+        stringVector oldFieldNames = m_array.fieldNames();
         stringVector newFieldNames = oldFieldNames;
 
         while (static_cast<int>(newFieldNames.size()) < newCols) {
@@ -575,13 +331,13 @@ VariableStructTableModel::expandArrayIfNeeded(int row, int col)
 
         Dimensions dims(newRows, 1);
 
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldNames, false));
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), newFieldNames, false));
         ArrayOf newArray(NLS_STRUCT_ARRAY, dims, ptr, false, newFieldNames);
 
         for (size_t j = 0; j < oldFieldNames.size(); ++j) {
             const std::string& field = oldFieldNames[j];
-            ArrayOfVector oldList = m_array.getFieldAsList(field);
+            ArrayOfVector oldList = m_array.fieldAsList(field);
             ArrayOfVector newList;
             newList.reserve(newRows);
 
@@ -589,7 +345,7 @@ VariableStructTableModel::expandArrayIfNeeded(int row, int col)
                 if (i < static_cast<int>(oldList.size())) {
                     newList.push_back(oldList[i]);
                 } else {
-                    newList.push_back(ArrayOf::emptyConstructor());
+                    newList.push_back(ArrayOf::empty());
                 }
             }
 
@@ -602,7 +358,7 @@ VariableStructTableModel::expandArrayIfNeeded(int row, int col)
             list.reserve(newRows);
 
             for (int i = 0; i < newRows; ++i) {
-                list.push_back(ArrayOf::emptyConstructor());
+                list.push_back(ArrayOf::empty());
             }
 
             newArray.setFieldAsList(field, list);
@@ -615,74 +371,10 @@ VariableStructTableModel::expandArrayIfNeeded(int row, int col)
         updateFieldNames();
         return true;
 
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+    } catch (const NelsonException& e) {
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
-}
-//=============================================================================
-bool
-VariableStructTableModel::expandDisplay(int row, int col)
-{
-    return expandDisplayIfNeeded(row, col);
-}
-//=============================================================================
-bool
-VariableStructTableModel::resizeArray(int row, int col)
-{
-    return expandArrayIfNeeded(row, col);
-}
-//=============================================================================
-void
-VariableStructTableModel::resizeEditData(int oldRows, int oldCols)
-{
-    QVector<QVariant> newEditData(m_rows_display * m_cols_display);
-
-    for (int row = 0; row < std::min(oldRows, m_rows_display); ++row) {
-        for (int col = 0; col < std::min(oldCols, m_cols_display); ++col) {
-            int oldIndex = row * oldCols + col;
-            int newIndex = row * m_cols_display + col;
-
-            if (oldIndex < m_editData.size() && newIndex < newEditData.size()) {
-                newEditData[newIndex] = m_editData[oldIndex];
-            }
-        }
-    }
-
-    m_editData = newEditData;
-}
-//=============================================================================
-QVariant
-VariableStructTableModel::getCellDisplayValue(int row, int col) const
-{
-    if (!isValidPosition(row, col)) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            QVariant editValue = m_editData[index];
-            if (editValue.isValid() && !editValue.toString().isEmpty()) {
-                return editValue;
-            }
-        }
-        return QVariant();
-    }
-
-    ArrayOf fieldValue = getFieldValue(row, col);
-    return formatStructForDisplay(fieldValue);
-}
-//=============================================================================
-QVariant
-VariableStructTableModel::getCellEditValue(int row, int col) const
-{
-    if (!isValidPosition(row, col)) {
-        int index = indexToFlat(row, col);
-        if (index >= 0 && index < m_editData.size()) {
-            return m_editData[index];
-        }
-        return QVariant();
-    }
-
-    ArrayOf fieldValue = getFieldValue(row, col);
-    return formatCellForEdit(fieldValue);
 }
 //=============================================================================
 bool
@@ -696,74 +388,64 @@ VariableStructTableModel::setCellValue(int row, int col, const ArrayOf& cellValu
 }
 //=============================================================================
 QVariant
-VariableStructTableModel::formatStructForDisplay(const QVariant& cellData) const
-{
-    if (!cellData.isValid()) {
-        return QString();
-    }
-
-    return cellData.toString();
-}
-//=============================================================================
-QVariant
 VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
 {
     if (cellArray.isEmpty() && cellArray.isDoubleType()) {
         return QVariant(tr("[]"));
     }
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
 
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -779,7 +461,7 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 6)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -788,7 +470,7 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -804,7 +486,7 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 6)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -813,17 +495,17 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -832,97 +514,65 @@ VariableStructTableModel::formatStructForDisplay(const ArrayOf& cellArray) const
     }
     std::wstring classname;
     ClassName(cellArray, classname);
-    return wstringToQString(
-        L"[" + cellArray.getDimensions().toWideString() + L" " + classname + L"]");
-}
-//=============================================================================
-ArrayOf
-VariableStructTableModel::parseInputToArrayOf(const QString& input, int row, int col) const
-{
-    Q_UNUSED(row);
-    Q_UNUSED(col);
-
-    if (input.isEmpty()) {
-        return ArrayOf::emptyConstructor();
-    }
-
-    try {
-        bool ok;
-        double numValue = input.toDouble(&ok);
-        if (ok) {
-            return ArrayOf::doubleConstructor(numValue);
-        }
-
-        QString lowerInput = input.toLower();
-        if (lowerInput == "true" || lowerInput == "1") {
-            return ArrayOf::logicalConstructor(true);
-        } else if (lowerInput == "false" || lowerInput == "0") {
-            return ArrayOf::logicalConstructor(false);
-        }
-
-        std::wstring wstr = utf8_to_wstring(input.toStdString());
-        return ArrayOf::characterArrayConstructor(wstr);
-    } catch (const Exception&) {
-        return ArrayOf::emptyConstructor();
-    }
+    return wstringToQString(L"[" + cellArray.dimensions().toWideString() + L" " + classname + L"]");
 }
 //=============================================================================
 QVariant
 VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
 {
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
 
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -931,7 +581,7 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 15)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -940,7 +590,7 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -949,7 +599,7 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 15)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -958,17 +608,17 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -976,31 +626,6 @@ VariableStructTableModel::formatCellForEdit(const ArrayOf& cellArray) const
         break;
     }
     return QVariant("");
-}
-//=============================================================================
-QVariant
-VariableStructTableModel::formatCellForEdit(const QVariant& cellData) const
-{
-    return cellData;
-}
-//=============================================================================
-bool
-VariableStructTableModel::isValidStructArray(const ArrayOf& array) const
-{
-    if (array.isEmpty()) {
-        return true;
-    }
-
-    return array.isStruct();
-}
-//=============================================================================
-bool
-VariableStructTableModel::hasConsistentFields(const ArrayOf& array) const
-{
-    if (!array.isStruct()) {
-        return false;
-    }
-    return true;
 }
 //=============================================================================
 Qt::ItemFlags
@@ -1024,7 +649,7 @@ VariableStructTableModel::flags(const QModelIndex& index) const
 
         QString name = m_fieldNames[dataCol];
         const std::string fieldName = name.toStdString();
-        ArrayOfVector list = m_array.getFieldAsList(fieldName);
+        ArrayOfVector list = m_array.fieldAsList(fieldName);
         if (row < static_cast<int>(list.size())) {
             const ArrayOf& value = list[row];
 
@@ -1076,7 +701,7 @@ VariableStructTableModel::setHeaderData(
     }
 
     try {
-        stringVector currentFields = m_array.getFieldNames();
+        stringVector currentFields = m_array.fieldNames();
         if (fieldIndex >= static_cast<int>(currentFields.size())) {
             return false;
         }
@@ -1086,18 +711,18 @@ VariableStructTableModel::setHeaderData(
         std::string oldFieldname = currentFields[fieldIndex];
         currentFields[fieldIndex] = newFieldname;
 
-        Dimensions dims = m_array.getDimensions();
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), currentFields, false));
+        Dimensions dims = m_array.dimensions();
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), currentFields, false));
         ArrayOf newArray(NLS_STRUCT_ARRAY, dims, ptr, false, currentFields);
 
         for (size_t i = 0; i < currentFields.size(); ++i) {
             const std::string& field = currentFields[i];
             std::string srcField = (i == static_cast<size_t>(fieldIndex)) ? oldFieldname : field;
 
-            int64 idx = m_array.getFieldIndex(srcField);
+            int64 idx = m_array.fieldIndex(srcField);
             if (idx != -1) {
-                ArrayOfVector list = m_array.getFieldAsList(srcField);
+                ArrayOfVector list = m_array.fieldAsList(srcField);
                 newArray.setFieldAsList(field, list);
             }
         }
@@ -1107,64 +732,13 @@ VariableStructTableModel::setHeaderData(
 
         emit headerDataChanged(Qt::Horizontal, section, section);
         emit modelChanged();
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
         return true;
 
-    } catch (const Exception& e) {
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+    } catch (const NelsonException& e) {
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
-}
-//=============================================================================
-void
-VariableStructTableModel::refreshFromArray(ArrayOf& value)
-{
-    if (!isValidStructArray(value)) {
-        return;
-    }
-
-    beginResetModel();
-
-    m_array = value;
-    initializeDimensions();
-    initializeEditData();
-    updateFieldNames();
-
-    endResetModel();
-
-    emit modelChanged();
-}
-//=============================================================================
-bool
-VariableStructTableModel::isStructureCompatible(const ArrayOf& value)
-{
-    if (!isValidStructArray(value)) {
-        return false;
-    }
-
-    if (m_array.isStruct() && value.isStruct()) {
-        stringVector currentFields = m_array.getFieldNames();
-        stringVector newFields = value.getFieldNames();
-
-        if (currentFields.size() != newFields.size()) {
-            return false;
-        }
-
-        for (size_t i = 0; i < currentFields.size(); ++i) {
-            if (currentFields[i] != newFields[i]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-//=============================================================================
-void
-VariableStructTableModel::forceViewUpdate()
-{
-    beginResetModel();
-    endResetModel();
 }
 //=============================================================================
 QString
@@ -1197,12 +771,6 @@ VariableStructTableModel::getSelectedDataAsText(const QModelIndexList& selectedI
 }
 //=============================================================================
 bool
-VariableStructTableModel::pasteDataFromExcel(int startRow, int startCol, const QString& text)
-{
-    return pasteDataFromClipboard(startRow, startCol, text);
-}
-//=============================================================================
-bool
 VariableStructTableModel::pasteDataFromClipboard(int startRow, int startCol, const QString& text)
 {
     startCol = startCol - 1;
@@ -1222,38 +790,16 @@ VariableStructTableModel::pasteDataFromClipboard(int startRow, int startCol, con
     return applyPasteData(data, startRow, startCol);
 }
 //=============================================================================
-bool
-VariableStructTableModel::canPasteAt(int startRow, int startCol, const QString& text) const
-{
-    PasteData data = parsePasteText(text);
-    if (!data.isValid) {
-        return false;
-    }
-
-    return validatePasteData(data, startRow, startCol);
-}
-//=============================================================================
-QSize
-VariableStructTableModel::getPasteSize(const QString& text) const
-{
-    PasteData data = parsePasteText(text);
-    if (!data.isValid) {
-        return QSize(0, 0);
-    }
-
-    return QSize(data.cols, data.rows);
-}
-//=============================================================================
 ArrayOf
 VariableStructTableModel::createArrayFromSelection(const QModelIndexList& selectedIndexes) const
 {
     if (selectedIndexes.isEmpty()) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     SelectionBounds bounds = getSelectionBounds(selectedIndexes);
     if (!bounds.isValid) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
 
     try {
@@ -1266,7 +812,7 @@ VariableStructTableModel::createArrayFromSelection(const QModelIndexList& select
         }
 
         Dimensions dims(selRows, 1);
-        indexType elementCount = dims.getElementCount();
+        indexType elementCount = dims.elementCount();
 
         ArrayOf* ptr = static_cast<ArrayOf*>(
             ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, elementCount, fieldNames, false));
@@ -1279,7 +825,7 @@ VariableStructTableModel::createArrayFromSelection(const QModelIndexList& select
             for (int row = 0; row < selRows; ++row) {
                 int srcRow = bounds.minRow + row;
                 int srcCol = bounds.minCol + static_cast<int>(f);
-                ArrayOf val = getFieldValue(srcRow, srcCol);
+                ArrayOf val = fieldValue(srcRow, srcCol);
                 values.push_back(val);
             }
 
@@ -1288,23 +834,10 @@ VariableStructTableModel::createArrayFromSelection(const QModelIndexList& select
 
         return result;
 
-    } catch (const Exception& e) {
-        qDebug() << "Error creating array from selection:"
-                 << QString::fromStdWString(e.getMessage());
-        return ArrayOf::emptyConstructor();
+    } catch (const NelsonException& e) {
+        qDebug() << "Error creating array from selection:" << QString::fromStdWString(e.message());
+        return ArrayOf::empty();
     }
-}
-//=============================================================================
-bool
-VariableStructTableModel::isValidSelectionForExtraction(
-    const QModelIndexList& selectedIndexes) const
-{
-    if (selectedIndexes.isEmpty()) {
-        return false;
-    }
-
-    SelectionBounds bounds = getSelectionBounds(selectedIndexes);
-    return bounds.isValid;
 }
 //=============================================================================
 bool
@@ -1318,27 +851,27 @@ VariableStructTableModel::insertRowAt(int row)
     beginInsertRows(QModelIndex(), row, row);
 
     try {
-        stringVector fieldNames = m_array.getFieldNames();
+        stringVector fieldNames = m_array.fieldNames();
         Dimensions newDims(m_rows + 1, 1);
 
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, newDims.getElementCount(), fieldNames, false));
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newDims.elementCount(), fieldNames, false));
         ArrayOf newArray(NLS_STRUCT_ARRAY, newDims, ptr, false, fieldNames);
 
         for (const auto& field : fieldNames) {
-            ArrayOfVector list = m_array.getFieldAsList(field);
+            ArrayOfVector list = m_array.fieldAsList(field);
             ArrayOfVector newList;
-            newList.reserve(newDims.getElementCount());
+            newList.reserve(newDims.elementCount());
 
-            for (int i = 0; i < newDims.getElementCount(); ++i) {
+            for (int i = 0; i < newDims.elementCount(); ++i) {
                 if (i == row) {
-                    newList.push_back(ArrayOf::emptyConstructor());
+                    newList.push_back(ArrayOf::empty());
                 } else {
                     int srcIndex = (i < row) ? i : i - 1;
                     if (srcIndex < static_cast<int>(list.size())) {
                         newList.push_back(list[srcIndex]);
                     } else {
-                        newList.push_back(ArrayOf::emptyConstructor());
+                        newList.push_back(ArrayOf::empty());
                     }
                 }
             }
@@ -1350,15 +883,15 @@ VariableStructTableModel::insertRowAt(int row)
         m_rows++;
         m_rows_display = std::max(m_rows, MIN_DISPLAY_SIZE);
 
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
 
         endInsertRows();
         emit modelChanged();
         return true;
 
-    } catch (const Exception& e) {
+    } catch (const NelsonException& e) {
         endInsertRows();
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
 }
@@ -1386,7 +919,7 @@ VariableStructTableModel::insertColumnAt(int col)
         QString newFieldName = QString("Field%1").arg(col);
         std::string unewFieldName = newFieldName.toStdString();
 
-        stringVector oldFieldNames = m_array.getFieldNames();
+        stringVector oldFieldNames = m_array.fieldNames();
         stringVector newFieldNames;
 
         for (int i = 0; i <= static_cast<int>(oldFieldNames.size()); ++i) {
@@ -1400,25 +933,25 @@ VariableStructTableModel::insertColumnAt(int col)
 
         Dimensions dims(m_rows, 1);
 
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldNames, false));
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), newFieldNames, false));
         ArrayOf newArray(NLS_STRUCT_ARRAY, dims, ptr, false, newFieldNames);
 
         for (int i = 0; i < m_rows; ++i) {
             for (size_t j = 0; j < oldFieldNames.size(); ++j) {
                 std::string oldField = oldFieldNames[j];
-                ArrayOfVector list = m_array.getFieldAsList(oldField);
+                ArrayOfVector list = m_array.fieldAsList(oldField);
                 if (i < static_cast<int>(list.size())) {
                     size_t targetIndex = (static_cast<int>(j) >= col) ? j + 1 : j;
-                    std::string targetField = newFieldNames[targetIndex];
-                    ArrayOfVector newList = newArray.getFieldAsList(targetField);
+                    std::string tarfield = newFieldNames[targetIndex];
+                    ArrayOfVector newList = newArray.fieldAsList(tarfield);
                     newList[i] = list[i];
-                    newArray.setFieldAsList(targetField, newList);
+                    newArray.setFieldAsList(tarfield, newList);
                 }
             }
 
-            ArrayOfVector insertedList = newArray.getFieldAsList(unewFieldName);
-            insertedList[i] = ArrayOf::emptyConstructor();
+            ArrayOfVector insertedList = newArray.fieldAsList(unewFieldName);
+            insertedList[i] = ArrayOf::empty();
             newArray.setFieldAsList(unewFieldName, insertedList);
         }
 
@@ -1427,15 +960,15 @@ VariableStructTableModel::insertColumnAt(int col)
         m_cols_display = std::max(m_cols, MIN_DISPLAY_SIZE);
 
         updateFieldNames();
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
 
         endInsertColumns();
         emit modelChanged();
         return true;
 
-    } catch (const Exception& e) {
+    } catch (const NelsonException& e) {
         endInsertColumns();
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
 }
@@ -1451,16 +984,16 @@ VariableStructTableModel::deleteRowAt(int row)
     beginRemoveRows(QModelIndex(), row, row);
 
     try {
-        stringVector fieldNames = m_array.getFieldNames();
+        stringVector fieldNames = m_array.fieldNames();
         Dimensions newDims(m_rows - 1, 1);
 
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, newDims.getElementCount(), fieldNames, false));
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, newDims.elementCount(), fieldNames, false));
 
         ArrayOf newArray(NLS_STRUCT_ARRAY, newDims, ptr, false, fieldNames);
 
         for (const auto& field : fieldNames) {
-            ArrayOfVector list = m_array.getFieldAsList(field);
+            ArrayOfVector list = m_array.fieldAsList(field);
             ArrayOfVector newList;
 
             for (int i = 0; i < m_rows; ++i) {
@@ -1476,15 +1009,15 @@ VariableStructTableModel::deleteRowAt(int row)
         m_rows--;
         m_rows_display = std::max(m_rows, MIN_DISPLAY_SIZE);
 
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
 
         endRemoveRows();
         emit modelChanged();
         return true;
 
-    } catch (const Exception& e) {
+    } catch (const NelsonException& e) {
         endRemoveRows();
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
 }
@@ -1500,7 +1033,7 @@ VariableStructTableModel::deleteColumnAt(int col)
 
     beginRemoveColumns(QModelIndex(), col + 1, col + 1);
     try {
-        stringVector oldFieldNames = m_array.getFieldNames();
+        stringVector oldFieldNames = m_array.fieldNames();
         stringVector newFieldNames;
 
         for (int i = 0; i < static_cast<int>(oldFieldNames.size()); ++i) {
@@ -1511,13 +1044,13 @@ VariableStructTableModel::deleteColumnAt(int col)
 
         Dimensions dims(m_rows, 1);
 
-        ArrayOf* ptr = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dims.getElementCount(), newFieldNames, false));
+        ArrayOf* ptr = static_cast<ArrayOf*>(
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), newFieldNames, false));
 
         ArrayOf newArray(NLS_STRUCT_ARRAY, dims, ptr, false, newFieldNames);
 
         for (const auto& field : newFieldNames) {
-            ArrayOfVector list = m_array.getFieldAsList(field);
+            ArrayOfVector list = m_array.fieldAsList(field);
             newArray.setFieldAsList(field, list);
         }
 
@@ -1526,74 +1059,18 @@ VariableStructTableModel::deleteColumnAt(int col)
         m_cols_display = std::max(m_cols, MIN_DISPLAY_SIZE);
 
         updateFieldNames();
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
 
         endRemoveColumns();
         emit modelChanged();
         return true;
 
-    } catch (const Exception& e) {
+    } catch (const NelsonException& e) {
         endRemoveColumns();
-        emit errorOccurred(QString::fromStdWString(e.getMessage()));
+        emit errorOccurred(QString::fromStdWString(e.message()));
         return false;
     }
 }
 //=============================================================================
-bool
-VariableStructTableModel::shouldDisplayAsTable() const
-{
-    return m_array.isStruct() && !m_array.isEmpty();
-}
-//=============================================================================
-void
-VariableStructTableModel::undo()
-{
-
-    if (!m_hasUndoState) {
-        return; // No undo state available
-    }
-
-    try {
-        m_isPerformingUndo = true;
-
-        // Store current state as redo state (reuse the same variable)
-        ArrayOf redoArray = m_array;
-        redoArray.ensureSingleOwner();
-
-        // Restore the previous state
-        beginResetModel();
-        m_array = m_undoArray;
-        m_array.ensureSingleOwner();
-
-        // Update dimensions
-        initializeDimensions();
-        initializeEditData();
-
-        endResetModel();
-
-        // Store the current (now previous) state for redo
-        m_undoArray = std::move(redoArray);
-        // m_hasUndoState remains true for redo
-
-        // Persist the restored state
-        persistChangesToContext();
-
-        // Notify views of the change
-        emit modelChanged();
-
-        m_isPerformingUndo = false;
-
-    } catch (const std::exception& e) {
-        m_isPerformingUndo = false;
-        emit errorOccurred(tr("Failed to undo: %1").arg(e.what()));
-    }
-}
-//=============================================================================
-void
-VariableStructTableModel::redo()
-{
-    undo();
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

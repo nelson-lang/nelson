@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -259,8 +259,8 @@ DateString(std::vector<double> epochValues, const Dimensions& dimensionsIn, bool
     bool hasDateVector = false;
     bool noHMNS = true;
 
-    indexType rows = dimensionsIn.getRows();
-    indexType columns = dimensionsIn.getColumns();
+    indexType rows = dimensionsIn.rows();
+    indexType columns = dimensionsIn.columns();
 
     if ((columns % 6) == 0) {
         hasDateVector = true;
@@ -310,7 +310,18 @@ DateString(std::vector<double> epochValues, const Dimensions& dimensionsIn, bool
         }
     } else {
         results.resize(epochValues.size());
-        bool forceFullFormat = !areAllIntegers(epochValues);
+        // Show the time part only if at least one value has a non zero
+        // (rounded) time of day: values within rounding distance of midnight
+        // are displayed as date only.
+        bool forceFullFormat = false;
+        for (const double& value : epochValues) {
+            double Y, M, D, H, MN, S, MS;
+            DateVector(value, Y, M, D, H, MN, S, MS, true);
+            if (H != 0. || MN != 0. || S != 0. || MS != 0.) {
+                forceFullFormat = true;
+                break;
+            }
+        }
         for (size_t k = 0; k < epochValues.size(); ++k) {
             results[k] = epochToDateTimeString(
                 epochValues[k], forceFullFormat, isLocalized, predefinedFormatOutValue);

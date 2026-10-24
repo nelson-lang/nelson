@@ -1,0 +1,7 @@
+Rule US 2007 max - Mar Sun>=8 2:00 1:00 D
+Rule US 2007 max - Nov Sun>=1 2:00 0 S
+
+Zone America/New_York -5:00 US E%sT
+Zone America/Chicago -6:00 US C%sT
+Zone America/Denver -7:00 US M%sT
+Zone America/Los_Angeles -8:00 US P%sT

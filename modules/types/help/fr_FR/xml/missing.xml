@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>missing</keyword>
-  <short_description>Return a missing value.</short_description>
+  <short_description>Renvoie une valeur manquante.</short_description>
   <syntax>
     <syntax_item>m = missing()</syntax_item>
   </syntax>
@@ -15,7 +15,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <b>missing</b> renvoie une valeur spéciale représentant une donnée manquante (non définie). Lorsqu&apos;elle est assignée dans un tableau ou une table, la valeur <b>missing</b> est automatiquement convertie en la valeur manquante standard utilisée par le type de données du tableau.      </description>
+    <b>missing</b> renvoie une valeur spéciale représentant une donnée manquante (non définie). Lorsqu&apos;elle est assignée dans un tableau ou une table, la valeur <b>missing</b> est automatiquement convertie en la valeur manquante standard utilisée par le type de données du tableau.
+    <p>Une affectation indexée comme <b>A(k) = missing</b> ou <b>A(:) = missing</b> conserve la classe de <b>A</b> : <b>missing</b> devient <b>NaN</b> dans un tableau <b>double</b> ou <b>single</b>, <b>&lt;missing&gt;</b> dans un tableau <b>string</b>, <b>NaN</b> dans un tableau <b>duration</b> et <b>NaT</b> dans un tableau <b>datetime</b>. Les tableaux des autres classes (char, logical, entiers, cell) n&apos;ont pas de valeur manquante et l&apos;affectation lève une erreur.</p>
+    <p>La concaténation suit les mêmes règles : <b>[missing missing]</b> est un tableau <b>missing</b> 1x2, <b>[missing 1]</b> vaut <b>[NaN 1]</b>, <b>[missing []]</b> vaut <b>NaN</b>, <b>[missing "a"]</b> est un tableau string, et concaténer <b>missing</b> avec une valeur char, logical, entière, cell, struct ou function handle lève une erreur.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>
@@ -29,6 +32,11 @@ A = missing()
 A = double([1, 2, missing()])
 B = string(["foo", missing()])
 C = struct("Name", "Alice", "Age", missing())
+S = strings(1, 3);
+S(2:3) = missing
+X = [1 2 3];
+X(:) = missing
+M = [missing missing]
 ]]></example_item_data>
     </example_item>
   </examples>

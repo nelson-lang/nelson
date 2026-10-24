@@ -13,32 +13,35 @@ R = 'Nelson supports character array';
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_char_vector', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = ['Nel'; 'son'];
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_char_array', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = char(zeros(3, 0));
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_char_empty', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================

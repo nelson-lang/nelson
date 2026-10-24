@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "sortBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "Sort.hpp"
@@ -46,7 +47,8 @@ isValidMissingPlacement(
             placement = MISSING_PLACEMENT::LAST_PLACEMENT;
             res = true;
         } else {
-            Error(_W("'auto', 'first', or 'last' for 'MissingPlacement' parameter."));
+            Error(L"Nelson:data_analysis:autoFirstLastMissingPlacementParameter",
+                L"'auto', 'first', or 'last' for 'MissingPlacement' parameter.");
         }
     }
     return res;
@@ -68,237 +70,139 @@ isValidComparisonMethod(
             comparisonMethod = COMPARISON_METHOD::ABS_METHOD;
             res = true;
         } else {
-            Error(_W("'auto', 'real', or 'abs' for 'ComparisonMethod' parameter."));
+            Error(L"Nelson:data_analysis:autoRealAbsComparisonMethodParameter",
+                L"'auto', 'real', or 'abs' for 'ComparisonMethod' parameter.");
         }
     }
     return res;
 }
 //=============================================================================
+struct SortOptions
+{
+    indexType dim = 0;
+    bool ascend = true;
+    MISSING_PLACEMENT placement = MISSING_PLACEMENT::AUTO_PLACEMENT;
+    COMPARISON_METHOD comparisonMethod = COMPARISON_METHOD::AUTO_METHOD;
+};
+//=============================================================================
+static indexType
+parseSortDimension(const ArrayOf& value)
+{
+    indexType dim = value.asScalarIndex();
+    if (dim < 1) {
+        Error(L"Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar",
+            L"%s must be a positive integer scalar.", L"Dimension argument");
+    }
+    return dim;
+}
+//=============================================================================
+static bool
+parseSortDirection(const ArrayOf& value)
+{
+    bool ascend = true;
+    std::wstring direction = value.asWideString();
+    if (!isValidDirection(direction, ascend)) {
+        Error(L"Nelson:data_analysis:invalidSortDirection",
+            L"Sort direction must be either the string 'ascend' or 'descend'");
+    }
+    return ascend;
+}
+//=============================================================================
+static void
+parseSortDimensionOrDirection(const ArrayOf& value, SortOptions& options)
+{
+    if (value.isNumeric()) {
+        options.dim = parseSortDimension(value);
+    } else {
+        options.ascend = parseSortDirection(value);
+    }
+}
+//=============================================================================
+static void
+parseSortOption(const ArrayOfVector& argIn, size_t nameIndex, SortOptions& options)
+{
+    std::wstring name = argIn[nameIndex].asWideString();
+    std::wstring value = argIn[nameIndex + 1].asWideString();
+    bool res = isValidComparisonMethod(name, value, options.comparisonMethod);
+    if (!res) {
+        res = isValidMissingPlacement(name, value, options.placement);
+    }
+    if (!res) {
+        Error(L"Nelson:data_analysis:comparisonMethodMissingPlacementExpected", L"%s expected.",
+            L"'ComparisonMethod' or 'MissingPlacement'");
+    }
+}
+//=============================================================================
+static SortOptions
+parseSortArguments(const ArrayOfVector& argIn)
+{
+    SortOptions options;
+    switch (argIn.size()) {
+    case 1:
+        break;
+    case 2:
+        parseSortDimensionOrDirection(argIn[1], options);
+        break;
+    case 3:
+        if (argIn[1].isNumeric()) {
+            options.dim = parseSortDimension(argIn[1]);
+            options.ascend = parseSortDirection(argIn[2]);
+        } else {
+            parseSortOption(argIn, 1, options);
+        }
+        break;
+    case 4:
+        parseSortDimensionOrDirection(argIn[1], options);
+        parseSortOption(argIn, 2, options);
+        break;
+    case 5:
+        if (argIn[1].isNumeric()) {
+            options.dim = parseSortDimension(argIn[1]);
+            options.ascend = parseSortDirection(argIn[2]);
+        } else {
+            parseSortOption(argIn, 1, options);
+        }
+        parseSortOption(argIn, 3, options);
+        break;
+    case 6:
+        parseSortDimensionOrDirection(argIn[1], options);
+        parseSortOption(argIn, 2, options);
+        parseSortOption(argIn, 4, options);
+        break;
+    case 7:
+        options.dim = parseSortDimension(argIn[1]);
+        options.ascend = parseSortDirection(argIn[2]);
+        parseSortOption(argIn, 3, options);
+        parseSortOption(argIn, 5, options);
+        break;
+    default:
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
+        break;
+    }
+    return options;
+}
+//=============================================================================
 ArrayOfVector
 Nelson::DataAnalysisGateway::sortBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 2);
     nargincheck(argIn, 1);
-    MISSING_PLACEMENT placement = MISSING_PLACEMENT::AUTO_PLACEMENT;
-    COMPARISON_METHOD comparisonMethod = COMPARISON_METHOD::AUTO_METHOD;
-
-    ArrayOf A;
-    indexType dim = 0;
-    bool ascend = true;
-    std::wstring name;
-    std::wstring value;
-    switch (argIn.size()) {
-    case 0: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
-    case 1: {
-        // sort(A)
-        A = argIn[0];
-    } break;
-    case 2: {
-        // sort(A, 'ascend')
-        // sort(A, 'descend')
-        // sort(A, dim)
-        // sort(A, dim)
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param2.isNumeric()) {
-            dim = param2.getContentAsScalarIndex();
-            if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
-            }
-        } else {
-            std::wstring direction = param2.getContentAsWideString();
-            if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-            }
-        }
-    } break;
-    case 3: {
-        // sort(A, 'MissingPlacement', value)
-        // sort(A, 'ComparisonMethod', value)
-        // sort(A, dim, 'ascend')
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param2.isNumeric()) {
-            dim = param2.getContentAsScalarIndex();
-            if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
-            }
-            ArrayOf param3 = argIn[2];
-            std::wstring direction = param3.getContentAsWideString();
-            if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-            }
-        } else {
-            name = argIn[1].getContentAsWideString();
-            value = argIn[2].getContentAsWideString();
-            bool res = isValidComparisonMethod(name, value, comparisonMethod);
-            if (!res) {
-                res = isValidMissingPlacement(name, value, placement);
-            }
-            if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-            }
-        }
-    } break;
-    case 4: {
-        // sort(A, 'ascend', 'MissingPlacement', value)
-        // sort(A, 'ascend', 'ComparisonMethod', value)
-        // sort(A, dim, 'MissingPlacement', value)
-        // sort(A, dim, 'ComparisonMethod', value)
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param2.isNumeric()) {
-            dim = param2.getContentAsScalarIndex();
-            if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
-            }
-        } else {
-            std::wstring direction = param2.getContentAsWideString();
-            if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-            }
-        }
-        name = argIn[2].getContentAsWideString();
-        value = argIn[3].getContentAsWideString();
-        bool res = isValidComparisonMethod(name, value, comparisonMethod);
-        if (!res) {
-            res = isValidMissingPlacement(name, value, placement);
-        }
-        if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-        }
-    } break;
-    case 5: {
-        // sort(A, 'MissingPlacement', value, 'ComparisonMethod', value)
-        // sort(A, 'ComparisonMethod', value, 'MissingPlacement', value)
-        // sort(A, dim, ascend, 'ComparisonMethod', value);
-        // sort(A, dim, ascend, 'MissingPlacement', value);
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param2.isNumeric()) {
-            dim = param2.getContentAsScalarIndex();
-            if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
-            }
-            std::wstring direction = argIn[2].getContentAsWideString();
-            if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-            }
-
-            name = argIn[2].getContentAsWideString();
-            value = argIn[3].getContentAsWideString();
-            bool res = isValidComparisonMethod(name, value, comparisonMethod);
-            if (!res) {
-                res = isValidMissingPlacement(name, value, placement);
-            }
-            if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-            }
-        } else {
-            name = argIn[1].getContentAsWideString();
-            value = argIn[2].getContentAsWideString();
-            bool res = isValidComparisonMethod(name, value, comparisonMethod);
-            if (!res) {
-                res = isValidMissingPlacement(name, value, placement);
-            }
-            if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-            }
-
-            name = argIn[3].getContentAsWideString();
-            value = argIn[4].getContentAsWideString();
-            res = isValidComparisonMethod(name, value, comparisonMethod);
-            if (!res) {
-                res = isValidMissingPlacement(name, value, placement);
-            }
-            if (!res) {
-                Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-            }
-        }
-    } break;
-    case 6: {
-        // sort(A, 'ascend', 'MissingPlacement', value, 'ComparisonMethod', value)
-        // sort(A, 'ascend', 'ComparisonMethod', value, 'MissingPlacement', value)
-        // sort(A, dim, 'MissingPlacement', value, 'ComparisonMethod', value)
-        // sort(A, dim, 'ComparisonMethod', value, 'MissingPlacement', value)
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        if (param2.isNumeric()) {
-            dim = param2.getContentAsScalarIndex();
-            if (dim < 1) {
-                Error(_W("Dimension argument to sort should be positive"));
-            }
-        } else {
-            std::wstring direction = param2.getContentAsWideString();
-            if (!isValidDirection(direction, ascend)) {
-                Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-            }
-        }
-        name = argIn[2].getContentAsWideString();
-        value = argIn[3].getContentAsWideString();
-        bool res = isValidComparisonMethod(name, value, comparisonMethod);
-        if (!res) {
-            res = isValidMissingPlacement(name, value, placement);
-        }
-        if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-        }
-        name = argIn[4].getContentAsWideString();
-        value = argIn[5].getContentAsWideString();
-        res = isValidComparisonMethod(name, value, comparisonMethod);
-        if (!res) {
-            res = isValidMissingPlacement(name, value, placement);
-        }
-        if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-        }
-    } break;
-    case 7: {
-        // sort(A, dim, 'ascend', 'MissingPlacement', value, 'ComparisonMethod', value)
-        // sort(A, dim, 'ascend', 'ComparisonMethod', value, 'MissingPlacement', value)
-        A = argIn[0];
-        ArrayOf param2 = argIn[1];
-        dim = param2.getContentAsScalarIndex();
-        if (dim < 1) {
-            Error(_W("Dimension argument to sort should be positive"));
-        }
-        std::wstring direction = argIn[2].getContentAsWideString();
-        if (!isValidDirection(direction, ascend)) {
-            Error(_W("Sort direction must be either the string 'ascend' or 'descend'"));
-        }
-        name = argIn[3].getContentAsWideString();
-        value = argIn[4].getContentAsWideString();
-        bool res = isValidComparisonMethod(name, value, comparisonMethod);
-        if (!res) {
-            res = isValidMissingPlacement(name, value, placement);
-        }
-        if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-        }
-
-        name = argIn[5].getContentAsWideString();
-        value = argIn[6].getContentAsWideString();
-        res = isValidComparisonMethod(name, value, comparisonMethod);
-        if (!res) {
-            res = isValidMissingPlacement(name, value, placement);
-        }
-        if (!res) {
-            Error(_W("'ComparisonMethod' or 'MissingPlacement' expected."));
-        }
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
-    }
-
+    SortOptions options = parseSortArguments(argIn);
     bool needToOverload;
-    retval = Sort(
-        A, argIn.size(), nLhs == 2, dim, ascend, placement, comparisonMethod, needToOverload);
+    // a sparse input is sorted densely; the sorted values stay sparse, the
+    // index output is a full array
+    ArrayOf input(argIn[0]);
+    bool wasSparse = input.isSparse();
+    if (wasSparse) {
+        input.makeDense();
+    }
+    ArrayOfVector retval = Sort(input, argIn.size(), nLhs == 2, options.dim, options.ascend,
+        options.placement, options.comparisonMethod, needToOverload);
     if (needToOverload) {
         OverloadRequired("sort");
+    }
+    if (wasSparse && !retval.empty()) {
+        retval[0].makeSparse();
     }
     return retval;
 }

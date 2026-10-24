@@ -7,11 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(iswasm(), 'Requires a native shell and process creation, unavailable in WebAssembly.');
 if ispc()
   cmd = 'time';
 else
   cmd = 'read v';
 end
 [a, b] = unix(cmd);
-assert_isequal(a, 1);
+asserts.isequal(a, 1);
 %=============================================================================

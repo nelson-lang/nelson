@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>clearvars</keyword>
+  <short_description>Remove variables from the current workspace.</short_description>
+  <syntax>
+    <syntax_item>clearvars</syntax_item>
+    <syntax_item>clearvars variable_name_1 ... variable_name_N</syntax_item>
+    <syntax_item>clearvars(&apos;-except&apos;, keep_variable_1, ..., keep_variable_N)</syntax_item>
+    <syntax_item>clearvars(variable_name_1, ..., variable_name_N, &apos;-except&apos;, keep_variable_1, ..., keep_variable_N)</syntax_item>
+    <syntax_item>clearvars(&apos;-regexp&apos;, expression_1, ..., expression_N)</syntax_item>
+    <syntax_item>clearvars(..., &apos;-except&apos;, &apos;-regexp&apos;, keep_expression_1, ..., keep_expression_N)</syntax_item>
+    <syntax_item>clearvars(&apos;-global&apos;, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>variable_name</param_name>
+      <param_description>a character vector or string scalar: variable name or wildcard pattern using *.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>keep_variable</param_name>
+      <param_description>a character vector or string scalar: variable name or wildcard pattern to preserve.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-regexp</param_name>
+      <param_description>selects variables whose names match one of the regular expressions.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-except</param_name>
+      <param_description>keeps matching variables and removes the other selected variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-global</param_name>
+      <param_description>removes matching global variables. This option must be the first argument.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>clearvars</b> removes variables from the current workspace. Without input arguments, it removes all variables in the current workspace.</p>
+    <p>
+      Named variables can be passed in command form or function form. Option arguments are passed in function form.</p>
+    <p>
+      Wildcard patterns use <b>*</b> to match any sequence of characters. Regular expressions are enabled with <b>-regexp</b>.</p>
+    <p>
+      When a variable is global, <b>clearvars</b> without <b>-global</b> removes it from the current workspace only. With <b>-global</b>, matching global variables are removed from the global workspace.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clear named variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[a = 1;
+b = 2;
+c = 3;
+clearvars a c
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clear all variables except selected variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 1;
+B = 2;
+C = 3;
+clearvars('-except', 'A', 'C')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clear variables using a wildcard and preserve one variable.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[alpha = 1;
+angle = 2;
+beta = 3;
+clearvars('a*', '-except', 'angle')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clear variables using regular expressions.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[MonValue = 1;
+TueValue = 2;
+KeepValue = 3;
+clearvars('-regexp', '^(Mon|Tue)')
+who]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clear global variables except selected variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[global gx gy
+gx = 1;
+gy = 2;
+clearvars('-global', '-except', 'gx')
+isglobal('gx')
+isglobal('gy')
+clear global gx gy]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${memory_manager}clear">clear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}who">who</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${memory_manager}isglobal">isglobal</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

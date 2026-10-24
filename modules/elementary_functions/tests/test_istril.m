@@ -7,17 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(istril(ones(2, 0)));
+asserts.istrue(istril(ones(2, 0)));
 %=============================================================================
-assert_istrue(istril([]));
+asserts.istrue(istril([]));
 %=============================================================================
-assert_isfalse(istril([3 2]));
+asserts.isfalse(istril([3 2]));
 %=============================================================================
-assert_isfalse(istril(ones(2, 2, 2)));
+asserts.isfalse(istril(ones(2, 2, 2)));
 %=============================================================================
-assert_istrue(istril(eye(10, 10)));
+asserts.istrue(istril(eye(10, 10)));
 %=============================================================================
-assert_istrue(istril(tril(magic(5))));
+asserts.istrue(istril(tril(magic(5))));
 %=============================================================================
-assert_isfalse(istril(triu(magic(5))));
+asserts.isfalse(istril(triu(magic(5))));
 %=============================================================================

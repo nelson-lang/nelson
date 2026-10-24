@@ -16,5 +16,5 @@ namespace Nelson::ImageProcessingGateway {
 ArrayOfVector
 imrotateBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::ImageProcessingGateway
 //=============================================================================

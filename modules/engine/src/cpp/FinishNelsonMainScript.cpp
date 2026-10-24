@@ -15,6 +15,7 @@
 #include "NelsonConfiguration.hpp"
 #include "GatewaysManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 bool
 FinishNelsonMainScript(Evaluator* eval)
@@ -29,11 +30,12 @@ FinishNelsonMainScript(Evaluator* eval)
             std::wstring wstr = path.generic_wstring();
             try {
                 EvaluateScriptFile(eval, wstr);
-            } catch (const Exception& e) {
+            } catch (const NelsonException& e) {
                 CloseAllFiles();
                 Interface* io = eval->getInterface();
                 eval->setLastErrorException(e);
-                std::wstring errmsg = _W("Main finish.m failed to run.");
+                std::wstring errmsg = resolveMessageTemplate(
+                    L"Nelson:engine:mainFinishMFailed", L"Main finish.m failed to run.");
                 if (io != nullptr) {
                     io->errorMessage(errmsg);
                 } else {

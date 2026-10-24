@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uipanel</keyword>
+  <short_description>Crée un panneau conteneur.</short_description>
+  <syntax>
+    <syntax_item>h = uipanel()</syntax_item>
+    <syntax_item>h = uipanel(parent)</syntax_item>
+    <syntax_item>h = uipanel(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent (uifigure, figure, uipanel, uitab, uibuttongroup, uigridlayout).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet conteneur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>p = uipanel</b> crée un panneau dans une nouvelle figure (uifigure). Un panneau regroupe des composants UI ; les enfants sont positionnés relativement au panneau. Propriétés principales : <b>Title</b>, <b>TitlePosition</b> ('lefttop', 'centertop', 'righttop'), <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>BorderType</b> ('line', 'none'), <b>BorderWidth</b>, <b>BorderColor</b>, <b>Position</b>, <b>Scrollable</b>, <b>AutoResizeChildren</b>, <b>SizeChangedFcn</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Panel', 'Position', [100 100 420 260]);
+p = uipanel(f, 'Title', 'Settings', 'Position', [80 45 260 170]);
+uicheckbox(p, 'Text', 'Enabled', 'Value', true, 'Position', [25 95 120 24]);
+uibutton(p, 'Text', 'Apply', 'Position', [25 45 100 28]);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uipanel_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uipanel</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+p = uipanel(f, 'Title', 'Options', 'Position', [20 20 260 221]);
+b = uibutton(p, 'Text', 'OK', 'Position', [20 20 100 22]);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

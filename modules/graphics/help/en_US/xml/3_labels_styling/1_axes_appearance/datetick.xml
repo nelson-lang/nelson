@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>datetick</keyword>
+  <short_description>Date formatted tick labels.</short_description>
+  <syntax>
+    <syntax_item>datetick()</syntax_item>
+    <syntax_item>datetick(tickaxis)</syntax_item>
+    <syntax_item>datetick(tickaxis, dateFormat)</syntax_item>
+    <syntax_item>datetick(..., &apos;keeplimits&apos;)</syntax_item>
+    <syntax_item>datetick(..., &apos;keepticks&apos;)</syntax_item>
+    <syntax_item>datetick(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tickaxis</param_name>
+      <param_description>Axis to label: &apos;x&apos; (default), &apos;y&apos; or &apos;z&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dateFormat</param_name>
+      <param_description>Date format, given as a <b>datestr</b> format string (for example &apos;yyyy&apos;) or format number.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;keeplimits&apos;</param_name>
+      <param_description>Keep the current axis limits.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;keepticks&apos;</param_name>
+      <param_description>Keep the current tick locations.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes. Default is the current axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>datetick</b> labels the ticks of an axis using dates, treating the tick values as serial date numbers (see <b>datenum</b>).</p>
+    <p>When no format is given, a format is chosen from the range spanned by the ticks. Use <b>keepticks</b> to preserve the current tick locations and <b>keeplimits</b> to preserve the current limits.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Label the x-axis with years.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+t = datenum(2000, 1, 1):365:datenum(2010, 1, 1);
+plot(t, rand(1, numel(t)));
+datetick('x', 'yyyy');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticks">xticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticklabels">xticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xtickformat">xtickformat</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

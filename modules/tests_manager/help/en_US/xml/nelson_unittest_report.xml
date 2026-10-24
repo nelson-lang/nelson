@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.report</keyword>
+  <short_description>Write test and benchmark runner reports.</short_description>
+  <syntax>
+    <syntax_item>status = nelson.unittest.report(results, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>results</param_name>
+      <param_description>TestRunResult returned by nelson.unittest.run.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>report options: Format, OutputFile, and Verbose. Format accepts console, json,
+        junit, tap, and html.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>true when the report was written successfully.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.report</b> writes console, JSON, JUnit XML, TAP13, or standalone HTML reports.</p>
+    <p>JUnit reports place skipped, failure, error, stdout, and stderr nodes under each testcase.</p>
+    <p>HTML reports are single-file artifacts with inline style and script, summary metrics, runner
+      configuration, environment information, filters, case details, stdout, stderr, diagnostics, and embedded
+      JSON data.</p>
+    <p>The HTML report includes a top ten slowest tests and benches section, a compact module summary, visual
+      module separators, sortable columns, and quick filters for failed, skipped, bench, and slow cases.</p>
+    <p>Failed, timeout, and error cases are expanded by default. Each case detail includes a reproduction
+      command when the test filename is available.</p>
+    <p>Benchmark rows use the bench outcome and display the measured duration directly in the badge.</p>
+    <p>When an HTML report is written to <b>report.html</b>, a JSON sidecar <b>report.json</b> is written next
+      to it. The HTML file remains standalone because it also embeds the JSON data.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+nelson.unittest.report(results, 'Format', 'tap', 'OutputFile', [tempdir(), 'tests.tap']);
+nelson.unittest.report(results, 'Format', 'html', 'OutputFile', [tempdir(), 'tests.html']);
+% The HTML call also writes [tempdir(), 'tests.json'].
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}test_run">test_run</link></see_also_item>
+  </see_also>
+</xmldoc>

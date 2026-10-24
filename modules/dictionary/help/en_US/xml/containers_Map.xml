@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>containers.Map</keyword>
+  <short_description>Object that maps unique keys to values.</short_description>
+  <syntax>
+    <syntax_item>m = containers.Map()</syntax_item>
+    <syntax_item>m = containers.Map(keys, values)</syntax_item>
+    <syntax_item>m = containers.Map('KeyType', keyType, 'ValueType', valueType)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>keys</param_name>
+      <param_description>cell array of character vectors, character vector, string array, or numeric array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description>scalar, array, or cell array of values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>keyType</param_name>
+      <param_description>character vector or string scalar that specifies the key type: char, double, single, int32, uint32, int64, or uint64.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>valueType</param_name>
+      <param_description>character vector or string scalar that specifies the value type: any, char, double, single, int32, uint32, int64, uint64, logical, int8, or uint8.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>scalar containers.Map object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>m = containers.Map()</b> creates an empty map with character-vector keys and values of any type.</p>
+    <p>
+      <b>m = containers.Map(keys, values)</b> creates a scalar map from key-value pairs. Keys must be unique in the resulting map. If the same key appears more than once during construction, only the last value is kept.</p>
+    <p>
+      If <b>values</b> is scalar and several keys are provided, the scalar value is assigned to each key. Otherwise the number of keys and values must match.</p>
+    <p>
+      <b>m = containers.Map('KeyType', keyType, 'ValueType', valueType)</b> creates an empty typed map. The properties <b>Count</b>, <b>KeyType</b>, and <b>ValueType</b> are read-only.</p>
+    <p>
+      When keys are provided as logical, int8, uint8, int16, or uint16 arrays, the inferred key type is <b>double</b>.</p>
+    <p>
+      Values are accessed with parenthesis indexing, for example <b>m('name')</b>. Assigning <b>m(key) = value</b> inserts a new entry or replaces an existing value. The <b>remove</b> method deletes entries.</p>
+    <p>
+      The <b>keys</b> and <b>values</b> methods return cell arrays. The <b>isKey</b> method checks whether keys are present and accepts a scalar key or a cell array of keys.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and query a map.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[m = containers.Map({'apple', 'banana'}, [10 20])
+m('apple')
+m('banana') = 25
+isKey(m, {'apple', 'kiwi'})
+keys(m)
+values(m)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a typed map.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[m = containers.Map('KeyType', 'char', 'ValueType', 'any')
+m('payload') = struct('name', 'Nelson', 'value', [1 2 3])
+m.Count
+m.ValueType]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use numeric keys.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[m = containers.Map([1 2 3], {'one', 'two', 'three'})
+m(2)
+remove(m, 1)
+m.Count]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}keys">keys</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}values">values</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}isKey">isKey</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}remove">remove</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>containers.Map class</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

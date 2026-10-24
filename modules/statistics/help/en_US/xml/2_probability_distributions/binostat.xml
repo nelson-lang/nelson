@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright><language>en_US</language><keyword>binostat</keyword>
+  <short_description>Binomial mean and variance</short_description>
+  <syntax><syntax_item>[m, v] = binostat(n, p)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>n</param_name><param_description>nonnegative integer scalar or array: number of trials.</param_description></param_input_item><param_input_item><param_name>p</param_name><param_description>scalar or array in the range [0, 1]: probability of success.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>m</param_name><param_description>array: mean values.</param_description></param_output_item><param_output_item><param_name>v</param_name><param_description>array: variance values.</param_description></param_output_item></param_output>
+  <description><p><b>binostat</b> returns the mean and variance of the binomial distribution.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[[m, v] = binostat([10 20], [0.25 0.5]);]]></example_item_data></example_item></examples>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

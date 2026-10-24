@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "getmodulesBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,18 +26,20 @@ Nelson::ModulesManagerGateway::getmodulesBuiltin(int nLhs, const ArrayOfVector& 
     if (argIn.size() == 1) {
         std::wstring param;
         if (argIn[0].isRowVectorCharacterArray()) {
-            param = argIn[0].getContentAsWideString();
+            param = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         if (param != L"reverse") {
-            Error(_W("Wrong value for #1 argument, \'reverse\' expected."));
+            Error(L"Nelson:getmodules:invalidValue",
+                L"Wrong value for #%d argument, \'reverse\' expected.", 1);
         }
         bReverse = true;
     }
-    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(GetModulesName(bReverse));
+    retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(GetModulesName(bReverse));
     if (nLhs > 1) {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(GetModulesPath(bReverse));
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(GetModulesPath(bReverse));
     }
     if (nLhs > 2) {
         std::vector<versionElement> versionList = GetModulesVersion(bReverse);

@@ -9,8 +9,11 @@
 //=============================================================================
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "NelsonPalette.hpp"
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QWidget>
 //=============================================================================
 #include <dwmapi.h>
+#include <windows.h>
 //=============================================================================
 #pragma comment(lib, "Dwmapi.lib")
 //=============================================================================
@@ -68,13 +71,13 @@ using fnSetWindowCompositionAttribute = BOOL(WINAPI*)(HWND hwnd, WINDOWCOMPOSITI
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-void
-forceWindowsTitleBarToDark(WId winId)
+static void
+applyTitleBarTheme(WId winId, bool darkMode)
 {
-    if (!isDarkPalette()) {
+    HWND hwnd = reinterpret_cast<HWND>(winId);
+    if (!hwnd) {
         return;
     }
-    HWND hwnd = reinterpret_cast<HWND>(winId);
     HMODULE hUxtheme = LoadLibraryExW(L"uxtheme.dll", NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
     if (!hUxtheme) {
         return;
@@ -91,15 +94,59 @@ forceWindowsTitleBarToDark(WId winId)
     fnSetWindowCompositionAttribute SetWindowCompositionAttribute
         = reinterpret_cast<fnSetWindowCompositionAttribute>(
             GetProcAddress(hUser32, "SetWindowCompositionAttribute"));
+    if (!AllowDarkModeForWindow || !SetPreferredAppMode || !SetWindowCompositionAttribute) {
+        return;
+    }
 
-    SetPreferredAppMode(AllowDark);
-    BOOL dark = TRUE;
+    SetPreferredAppMode(darkMode ? AllowDark : ForceLight);
+    BOOL dark = darkMode ? TRUE : FALSE;
     AllowDarkModeForWindow(hwnd, dark);
     WINDOWCOMPOSITIONATTRIBDATA data = { WCA_USEDARKMODECOLORS, &dark, sizeof(dark) };
     SetWindowCompositionAttribute(hwnd, &data);
 }
 //=============================================================================
+void
+forceWindowsUseAppWindow(WId winId)
+{
+#ifdef _MSC_VER
+    HWND hwnd = reinterpret_cast<HWND>(winId);
+    if (!hwnd) {
+        return;
+    }
+    LONG_PTR ex = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+    if (!(ex & WS_EX_APPWINDOW)) {
+        SetWindowLongPtrW(hwnd, GWL_EXSTYLE, ex | WS_EX_APPWINDOW);
+        // Refresh window frame so style change takes effect
+        SetWindowPos(
+            hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+    }
+#endif
 }
+//=============================================================================
+void
+forceWindowsTitleBarToDark(WId winId)
+{
+    if (!isDarkPalette()) {
+        return;
+    }
+    applyTitleBarTheme(winId, true);
+}
+//=============================================================================
+void
+refreshWindowsTitleBarsTheme()
+{
+    const bool darkMode = isDarkPalette();
+    const QWidgetList topLevelWidgets = QApplication::topLevelWidgets();
+    for (QWidget* widget : topLevelWidgets) {
+        if (widget && widget->isWindow()) {
+            applyTitleBarTheme(widget->winId(), darkMode);
+            // the non client area is only redrawn on the next frame
+            widget->update();
+        }
+    }
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
 #endif
 //=============================================================================

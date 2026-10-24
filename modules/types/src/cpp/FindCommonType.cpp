@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ namespace Nelson {
 static bool
 isObject(const ArrayOf& A);
 static NelsonType
-getConcatenateCommonType(NelsonType type1, NelsonType type2);
+getArithmeticCommonType(NelsonType type1, NelsonType type2);
 //=============================================================================
 bool
 FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
@@ -42,8 +42,8 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
     }
     if (argIn.size() == 1) {
         if (argIn[0].isClassType()) {
-            typeName = argIn[0].getClassType();
-            commonType = NLS_CLASS_ARRAY;
+            typeName = argIn[0].classType();
+            commonType = argIn[0].dataClass();
             isSparse = false;
             isComplex = false;
             return true;
@@ -52,7 +52,7 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
             if (argIn[0].isEmpty()) {
                 typeName = NLS_HANDLE_STR;
             } else {
-                typeName = argIn[0].getHandleCategory();
+                typeName = argIn[0].handleCategory();
             }
             commonType = NLS_HANDLE;
             isSparse = false;
@@ -67,7 +67,7 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
             return true;
         }
 
-        commonType = argIn[0].getDataClass();
+        commonType = argIn[0].dataClass();
         if (commonType == NLS_DCOMPLEX) {
             commonType = NLS_DOUBLE;
             isComplex = true;
@@ -84,25 +84,28 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
         return true;
     }
     if (argIn.size() == 2) {
-        if (argIn[0].getDataClass() == argIn[1].getDataClass()) {
+        if (argIn[0].dataClass() == argIn[1].dataClass()) {
             if (argIn[0].isHandle()) {
                 if (argIn[0].isEmpty()) {
                     typeName = NLS_HANDLE_STR;
                 } else {
-                    typeName = argIn[0].getHandleCategory();
+                    typeName = argIn[0].handleCategory();
                 }
                 commonType = NLS_HANDLE;
                 return true;
             }
             if (argIn[0].isClassType()) {
-                typeName = argIn[0].getClassType();
-                commonType = NLS_CLASS_ARRAY;
+                typeName = argIn[0].classType();
+                commonType = argIn[0].dataClass();
                 isSparse = false;
                 isComplex = false;
                 return true;
             }
 
-            commonType = argIn[0].getDataClass();
+            commonType = argIn[0].dataClass();
+            if (commonType == NLS_CHAR) {
+                commonType = NLS_DOUBLE;
+            }
             if (commonType == NLS_DCOMPLEX) {
                 commonType = NLS_DOUBLE;
                 isComplex = true;
@@ -121,9 +124,9 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
     }
     for (size_t i = 0; i < argIn.size(); i++) {
         if (i == 0) {
-            commonType = argIn[i].getDataClass();
+            commonType = argIn[i].dataClass();
         } else {
-            commonType = getConcatenateCommonType(commonType, argIn[i].getDataClass());
+            commonType = getArithmeticCommonType(commonType, argIn[i].dataClass());
         }
 
         if (charactersOnly && !argIn[i].isCharacterArray()) {
@@ -162,12 +165,12 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
         // currently, first object type will be used
         // superiorto function need to be added to manage full compatibility
         for (size_t k = 0; k < argIn.size(); k++) {
-            NelsonType currentType = argIn[k].getDataClass();
+            NelsonType currentType = argIn[k].dataClass();
             if (currentType == NLS_HANDLE) {
                 if (argIn[k].isEmpty()) {
                     typeName = NLS_HANDLE_STR;
                 } else {
-                    typeName = argIn[k].getHandleCategory();
+                    typeName = argIn[k].handleCategory();
                 }
                 commonType = NLS_HANDLE;
                 return true;
@@ -179,7 +182,12 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
             }
             if (currentType == NLS_CLASS_ARRAY) {
                 commonType = NLS_CLASS_ARRAY;
-                typeName = argIn[k].getClassType();
+                typeName = argIn[k].classType();
+                return true;
+            }
+            if (currentType == NLS_CLASSDEF_ARRAY) {
+                commonType = NLS_CLASSDEF_ARRAY;
+                typeName = argIn[k].classType();
                 return true;
             }
         }
@@ -206,13 +214,16 @@ FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSpars
 static bool
 isObject(const ArrayOf& A)
 {
-    return A.getDataClass() >= NLS_CLASS_ARRAY;
+    return A.dataClass() >= NLS_CLASS_ARRAY;
 }
 //=============================================================================
 static NelsonType
-getConcatenateCommonType(NelsonType type1, NelsonType type2)
+getArithmeticCommonType(NelsonType type1, NelsonType type2)
 {
     if (type1 == type2) {
+        if (type1 == NLS_CHAR) {
+            return NLS_DOUBLE;
+        }
         return type1;
     } else if (type1 == NLS_HANDLE || type2 == NLS_HANDLE) {
         return NLS_HANDLE;
@@ -220,6 +231,8 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
         return NLS_GO_HANDLE;
     } else if (type1 == NLS_CELL_ARRAY || type2 == NLS_CELL_ARRAY) {
         return NLS_CELL_ARRAY;
+    } else if (type1 == NLS_CLASSDEF_ARRAY || type2 == NLS_CLASSDEF_ARRAY) {
+        return NLS_CLASSDEF_ARRAY;
     } else if (type1 == NLS_STRUCT_ARRAY || type2 == NLS_STRUCT_ARRAY) {
         return NLS_STRUCT_ARRAY;
     } else if (type1 == NLS_MISSING_ARRAY || type2 == NLS_MISSING_ARRAY) {
@@ -248,10 +261,18 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
         bool type2IsBasicType = (type2IsInteger || type2IsCharacter || type2IsDouble
             || type2IsSingle || type2IsLogical);
 
-        if (type1IsCharacter && type2IsBasicType) {
-            return type1;
-        } else if (type2IsCharacter && type1IsBasicType) {
+        if (type1IsCharacter && type2IsInteger) {
             return type2;
+        } else if (type2IsCharacter && type1IsInteger) {
+            return type1;
+        } else if (type1IsCharacter && type2IsSingle) {
+            return type2;
+        } else if (type2IsCharacter && type1IsSingle) {
+            return type1;
+        } else if (type1IsCharacter && type2IsBasicType) {
+            return NLS_DOUBLE;
+        } else if (type2IsCharacter && type1IsBasicType) {
+            return NLS_DOUBLE;
         } else if (type1IsInteger && type2IsBasicType) {
             return type1;
         } else if (type2IsInteger && type1IsBasicType) {
@@ -278,17 +299,14 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
     commonType = NLS_UNKNOWN;
     typeName = NLS_UNKNOWN_STR;
 
-    // Use const references instead of copies
     const ArrayOf& A = args[0];
     const ArrayOf& B = args[1];
 
-    // Cache type queries to avoid multiple method calls
-    NelsonType Aclass = A.getDataClass();
-    NelsonType Bclass = B.getDataClass();
+    NelsonType Aclass = A.dataClass();
+    NelsonType Bclass = B.dataClass();
     isSparse = A.isSparse() || B.isSparse();
     isComplex = A.isComplex() || B.isComplex();
 
-    // Early return for same types (most common case)
     if ((Aclass == Bclass) && (Aclass <= NLS_CHAR)) {
         commonType = Aclass;
         typeName = ClassToString(commonType);
@@ -298,18 +316,16 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         return true;
     }
 
-    // Check if types are objects (inlined to avoid function call overhead)
     bool AisObject = (Aclass >= NLS_CLASS_ARRAY);
     bool BisObject = (Bclass >= NLS_CLASS_ARRAY);
 
-    // Handle A being an object
     if (AisObject) {
         if (Aclass == NLS_HANDLE) {
             commonType = NLS_HANDLE;
             if (A.isEmpty()) {
                 typeName = NLS_HANDLE_STR;
             } else {
-                typeName = A.getHandleCategory();
+                typeName = A.handleCategory();
             }
             return true;
         }
@@ -318,22 +334,21 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
             typeName = NLS_GO_HANDLE_STR;
             return true;
         }
-        if (Aclass == NLS_CLASS_ARRAY) {
-            commonType = NLS_CLASS_ARRAY;
-            typeName = A.getClassType();
+        if (Aclass == NLS_CLASS_ARRAY || Aclass == NLS_CLASSDEF_ARRAY) {
+            commonType = Aclass;
+            typeName = A.classType();
             return true;
         }
         return false;
     }
 
-    // Handle B being an object
     if (BisObject) {
         if (Bclass == NLS_HANDLE) {
             commonType = NLS_HANDLE;
             if (B.isEmpty()) {
                 typeName = NLS_HANDLE_STR;
             } else {
-                typeName = B.getHandleCategory();
+                typeName = B.handleCategory();
             }
             return true;
         }
@@ -342,15 +357,14 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
             typeName = NLS_GO_HANDLE_STR;
             return true;
         }
-        if (Bclass == NLS_CLASS_ARRAY) {
-            commonType = NLS_CLASS_ARRAY;
-            typeName = B.getClassType();
+        if (Bclass == NLS_CLASS_ARRAY || Bclass == NLS_CLASSDEF_ARRAY) {
+            commonType = Bclass;
+            typeName = B.classType();
             return true;
         }
         return false;
     }
 
-    // Check for integer types (cache the result)
     bool AisInteger = A.isIntegerType();
     bool BisInteger = B.isIntegerType();
 
@@ -359,8 +373,19 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         typeName = ClassToString(commonType);
         return true;
     }
+    // an integer compared with a logical or a char keeps the integer class
+    // (int8(5) == true compares 5 with 1)
+    if (AisInteger && (Bclass == NLS_LOGICAL || Bclass == NLS_CHAR)) {
+        commonType = Aclass;
+        typeName = ClassToString(commonType);
+        return true;
+    }
+    if (BisInteger && (Aclass == NLS_LOGICAL || Aclass == NLS_CHAR)) {
+        commonType = Bclass;
+        typeName = ClassToString(commonType);
+        return true;
+    }
 
-    // Handle complex type promotion
     if ((Aclass == NLS_SCOMPLEX) && ((Bclass == NLS_DOUBLE) || (Bclass < NLS_SINGLE))) {
         Bclass = NLS_DCOMPLEX;
     }
@@ -368,9 +393,11 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         Aclass = NLS_DCOMPLEX;
     }
 
-    // Check double and single types (use bitwise OR for efficiency)
+    // a char compared with a logical compares the code points as doubles
     bool isDoubleType = (Aclass == NLS_DOUBLE || Aclass == NLS_DCOMPLEX || Bclass == NLS_DOUBLE
-        || Bclass == NLS_DCOMPLEX);
+                            || Bclass == NLS_DCOMPLEX)
+        || ((Aclass == NLS_CHAR && Bclass == NLS_LOGICAL)
+            || (Aclass == NLS_LOGICAL && Bclass == NLS_CHAR));
     bool isSingleType = (Aclass == NLS_SINGLE || Aclass == NLS_SCOMPLEX || Bclass == NLS_SINGLE
         || Bclass == NLS_SCOMPLEX);
 
@@ -386,7 +413,6 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
         return true;
     }
 
-    // Determine the dominant type
     if (Aclass > Bclass) {
         commonType = Aclass;
         typeName = (Aclass < NLS_CLASS_ARRAY) ? ClassToString(Aclass) : ClassName(A);
@@ -398,4 +424,5 @@ FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonT
     return (commonType != NLS_UNKNOWN);
 }
 //=============================================================================
-}
+} // namespace Nelson
+//=============================================================================

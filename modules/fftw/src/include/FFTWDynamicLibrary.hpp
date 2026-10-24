@@ -23,5 +23,5 @@ loadFFTWLibrary(const std::wstring& fftwLibraryName, const std::wstring& fftwfLi
 NLSFFTW_IMPEXP bool
 freeFFTWLibrary();
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

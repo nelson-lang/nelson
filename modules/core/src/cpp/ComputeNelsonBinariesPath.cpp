@@ -15,6 +15,7 @@
 #include "i18n.hpp"
 #include "DynamicLibrary.hpp"
 #include "StringHelpers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,6 +31,16 @@ ComputeNelsonBinariesPath(std::wstring& errorMessage)
             return true;
         }
     }
+    FileSystemWrapper::Path configuredPath
+        = NelsonConfiguration::getInstance()->getNelsonBinaryDirectory();
+    if (configuredPath.is_directory()) {
+        return true;
+    }
+#ifdef __EMSCRIPTEN__
+    NelsonConfiguration::getInstance()->setNelsonBinaryDirectory(L"/");
+    SetVariableEnvironmentW(NELSON_BINARIES_PATH_ENV, L"/");
+    return true;
+#endif
     FileSystemWrapper::Path libraryPath
         = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
     // ../prefix/lib/nelson or ../nelson/bin/arch  --> nelson libraries path
@@ -63,7 +74,9 @@ ComputeNelsonBinariesPath(std::wstring& errorMessage)
             NELSON_BINARIES_PATH_ENV, binaryPath.getFinalPathname().generic_wstring());
         return true;
     }
-    errorMessage = _W("Cannot find Nelson binary path.");
+    errorMessage = formatI18nMessage(
+        resolveMessageTemplate(L"Nelson:core:cannotFindNelsonPath", L"Cannot find Nelson %s path."),
+        L"binary");
     return false;
 }
 //=============================================================================

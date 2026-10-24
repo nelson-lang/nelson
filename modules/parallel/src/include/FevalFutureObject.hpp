@@ -19,6 +19,18 @@ class NLSPARALLEL_IMPEXP FevalFutureObject : public HandleGenericObject, public 
 {
 public:
     FevalFutureObject(const std::wstring& functionName);
+
+    void
+    onDelete(Evaluator* eval) override
+    {
+        cancel();
+    }
+
+    bool
+    destroyOnInvalidate() const override
+    {
+        return false;
+    }
 };
 //=============================================================================
 } // namespace Nelson

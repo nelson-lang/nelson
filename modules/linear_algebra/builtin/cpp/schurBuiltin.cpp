@@ -9,9 +9,10 @@
 //=============================================================================
 #include "schurBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
-#include "SchurDecompostion.hpp"
+#include "SchurDecomposition.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -29,13 +30,14 @@ Nelson::LinearAlgebraGateway::schurBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool asComplex = false;
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
-        std::wstring str = param2.getContentAsWideString();
+        std::wstring str = param2.asWideString();
         if (str == L"complex" || str == L"real") {
             if (str == L"complex") {
                 asComplex = true;
             }
         } else {
-            Error(_W("Second input argument must be 'real' or 'complex'."));
+            Error(L"Nelson:schur:invalidOption",
+                L"Second input argument must be 'real' or 'complex'.");
         }
     }
     if (nLhs == 2) {

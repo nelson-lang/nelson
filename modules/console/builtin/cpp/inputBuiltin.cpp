@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,8 @@
 //=============================================================================
 #include "inputBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -23,18 +23,19 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     std::wstring param1;
     std::wstring param2;
     if (argIn[0].isRowVectorCharacterArray()) {
-        param1 = argIn[0].getContentAsWideString();
+        param1 = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()) {
-            param2 = argIn[1].getContentAsWideString();
+            param2 = argIn[1].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
         if (param2.compare(L"s") != 0) {
-            Error(_W("Unrecognized option. \"s\" expected."));
+            Error(L"Nelson:input:unrecognizedOption", L"Unrecognized option. \"s\" expected.");
         }
     }
     Interface* io = eval->getInterface();
@@ -43,7 +44,7 @@ Nelson::ConsoleGateway::inputBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
         curline = io->getInput(param1);
     }
     ArrayOfVector retval(1);
-    retval << ArrayOf::characterArrayConstructor(curline);
+    retval << ArrayOf::characterArray(curline);
     return retval;
 }
 //=============================================================================

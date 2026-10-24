@@ -7,6 +7,19 @@
 #ifndef F2C_INCLUDE
 #define F2C_INCLUDE
 
+#if defined(__clang__)
+// Generated Fortran-to-C sources use legacy declarations and expression
+// idioms whose signatures and precedence are fixed by the generator.
+#pragma clang diagnostic ignored "-Wdangling-else"
+#pragma clang diagnostic ignored "-Wdeprecated-non-prototype"
+#pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wshift-op-parentheses"
+#endif
+
+#if defined(_MSC_VER)
+#pragma warning(disable : 4244 4554 4723)
+#endif
+
 #ifdef _MSC_VER
 #define EXPORTSYMBOL __declspec(dllexport)
 #else

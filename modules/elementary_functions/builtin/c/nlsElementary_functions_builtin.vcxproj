@@ -1,13 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
       <Configuration>Debug</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -16,10 +12,6 @@
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -33,58 +25,39 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
@@ -94,11 +67,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
@@ -108,11 +76,6 @@
     <TargetName>lib$(ProjectName)</TargetName>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>lib$(ProjectName)</TargetName>
@@ -124,27 +87,6 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/vml/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
@@ -153,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -174,7 +116,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -184,31 +126,6 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/vml/lib</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4190</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/vml/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -222,7 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -248,7 +165,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSELEMENTARY_FUNCTIONS_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/elementary_functions/builtin/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/sparse/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/linear_algebra/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/mkl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -266,9 +183,12 @@
   <ItemGroup>
     <ClCompile Include="..\cpp\absBuiltin.cpp" />
     <ClCompile Include="..\cpp\allfiniteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__is_elementwise_broadcastable__Builtin.cpp" />
     <ClCompile Include="..\cpp\base2decBuiltin.cpp" />
     <ClCompile Include="..\cpp\bin2numBuiltin.cpp" />
     <ClCompile Include="..\cpp\castBuiltin.cpp" />
+    <ClCompile Include="..\cpp\typecastBuiltin.cpp" />
+    <ClCompile Include="..\cpp\catBuiltin.cpp" />
     <ClCompile Include="..\cpp\ceilBuiltin.cpp" />
     <ClCompile Include="..\cpp\complexBuiltin.cpp" />
     <ClCompile Include="..\cpp\conjBuiltin.cpp" />
@@ -280,12 +200,14 @@
     <ClCompile Include="..\cpp\flipudBuiltin.cpp" />
     <ClCompile Include="..\cpp\floorBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\histcBuiltin.cpp" />
     <ClCompile Include="..\cpp\hypotBuiltin.cpp" />
     <ClCompile Include="..\cpp\imagBuiltin.cpp" />
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\isequaltoBuiltin.cpp" />
+    <ClCompile Include="..\cpp\isequalwithequalnansBuiltin.cpp" />
     <ClCompile Include="..\cpp\isfiniteBuiltin.cpp" />
     <ClCompile Include="..\cpp\isinfBuiltin.cpp" />
     <ClCompile Include="..\cpp\isnanBuiltin.cpp" />
@@ -293,19 +215,26 @@
     <ClCompile Include="..\cpp\isvectorBuiltin.cpp" />
     <ClCompile Include="..\cpp\lengthBuiltin.cpp" />
     <ClCompile Include="..\cpp\linspaceBuiltin.cpp" />
+    <ClCompile Include="..\cpp\rosserBuiltin.cpp" />
     <ClCompile Include="..\cpp\log10Builtin.cpp" />
     <ClCompile Include="..\cpp\log1pBuiltin.cpp" />
     <ClCompile Include="..\cpp\log2Builtin.cpp" />
     <ClCompile Include="..\cpp\logBuiltin.cpp" />
+    <ClCompile Include="..\cpp\meshgridBuiltin.cpp" />
     <ClCompile Include="..\cpp\modBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ndgridBuiltin.cpp" />
     <ClCompile Include="..\cpp\ndimsBuiltin.cpp" />
     <ClCompile Include="..\cpp\normBuiltin.cpp" />
     <ClCompile Include="..\cpp\num2binBuiltin.cpp" />
     <ClCompile Include="..\cpp\numelBuiltin.cpp" />
     <ClCompile Include="..\cpp\permuteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ratBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ratsBuiltin.cpp" />
     <ClCompile Include="..\cpp\realBuiltin.cpp" />
     <ClCompile Include="..\cpp\remBuiltin.cpp" />
     <ClCompile Include="..\cpp\repmatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\repelemBuiltin.cpp" />
+    <ClCompile Include="..\cpp\idivideBuiltin.cpp" />
     <ClCompile Include="..\cpp\reshapeBuiltin.cpp" />
     <ClCompile Include="..\cpp\roundBuiltin.cpp" />
     <ClCompile Include="..\cpp\signBuiltin.cpp" />
@@ -315,7 +244,10 @@
     <ClCompile Include="..\cpp\trilBuiltin.cpp" />
     <ClCompile Include="..\cpp\triuBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\__rot90_matrix_2D__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__flip__Builtin.cpp" />
+    <ClCompile Include="..\cpp\rot90Builtin.cpp" />
+    <ClCompile Include="..\cpp\__rat__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__filter__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
@@ -343,9 +275,12 @@
   <ItemGroup>
     <ClInclude Include="..\include\absBuiltin.hpp" />
     <ClInclude Include="..\include\allfiniteBuiltin.hpp" />
+    <ClInclude Include="..\include\__is_elementwise_broadcastable__Builtin.hpp" />
     <ClInclude Include="..\include\base2decBuiltin.hpp" />
     <ClInclude Include="..\include\bin2numBuiltin.hpp" />
     <ClInclude Include="..\include\castBuiltin.hpp" />
+    <ClInclude Include="..\include\typecastBuiltin.hpp" />
+    <ClInclude Include="..\include\catBuiltin.hpp" />
     <ClInclude Include="..\include\ceilBuiltin.hpp" />
     <ClInclude Include="..\include\complexBuiltin.hpp" />
     <ClInclude Include="..\include\conjBuiltin.hpp" />
@@ -356,12 +291,14 @@
     <ClInclude Include="..\include\fliplrBuiltin.hpp" />
     <ClInclude Include="..\include\flipudBuiltin.hpp" />
     <ClInclude Include="..\include\floorBuiltin.hpp" />
+    <ClInclude Include="..\include\histcBuiltin.hpp" />
     <ClInclude Include="..\include\hypotBuiltin.hpp" />
     <ClInclude Include="..\include\imagBuiltin.hpp" />
     <ClInclude Include="..\include\isapproxBuiltin.hpp" />
     <ClInclude Include="..\include\isequalBuiltin.hpp" />
     <ClInclude Include="..\include\isequalnBuiltin.hpp" />
     <ClInclude Include="..\include\isequaltoBuiltin.hpp" />
+    <ClInclude Include="..\include\isequalwithequalnansBuiltin.hpp" />
     <ClInclude Include="..\include\isfiniteBuiltin.hpp" />
     <ClInclude Include="..\include\isinfBuiltin.hpp" />
     <ClInclude Include="..\include\isnanBuiltin.hpp" />
@@ -369,20 +306,27 @@
     <ClInclude Include="..\include\isvectorBuiltin.hpp" />
     <ClInclude Include="..\include\lengthBuiltin.hpp" />
     <ClInclude Include="..\include\linspaceBuiltin.hpp" />
+    <ClInclude Include="..\include\rosserBuiltin.hpp" />
     <ClInclude Include="..\include\log10Builtin.hpp" />
     <ClInclude Include="..\include\log1pBuiltin.hpp" />
     <ClInclude Include="..\include\log2Builtin.hpp" />
     <ClInclude Include="..\include\logBuiltin.hpp" />
+    <ClInclude Include="..\include\meshgridBuiltin.hpp" />
     <ClInclude Include="..\include\modBuiltin.hpp" />
+    <ClInclude Include="..\include\ndgridBuiltin.hpp" />
     <ClInclude Include="..\include\ndimsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsElementary_functions_builtin_exports.h" />
     <ClInclude Include="..\include\normBuiltin.hpp" />
     <ClInclude Include="..\include\num2binBuiltin.hpp" />
     <ClInclude Include="..\include\numelBuiltin.hpp" />
     <ClInclude Include="..\include\permuteBuiltin.hpp" />
+    <ClInclude Include="..\include\ratBuiltin.hpp" />
+    <ClInclude Include="..\include\ratsBuiltin.hpp" />
     <ClInclude Include="..\include\realBuiltin.hpp" />
     <ClInclude Include="..\include\remBuiltin.hpp" />
     <ClInclude Include="..\include\repmatBuiltin.hpp" />
+    <ClInclude Include="..\include\repelemBuiltin.hpp" />
+    <ClInclude Include="..\include\idivideBuiltin.hpp" />
     <ClInclude Include="..\include\reshapeBuiltin.hpp" />
     <ClInclude Include="..\include\roundBuiltin.hpp" />
     <ClInclude Include="..\include\signBuiltin.hpp" />
@@ -391,7 +335,10 @@
     <ClInclude Include="..\include\swapbytesBuiltin.hpp" />
     <ClInclude Include="..\include\trilBuiltin.hpp" />
     <ClInclude Include="..\include\triuBuiltin.hpp" />
-    <ClInclude Include="..\include\__rot90_matrix_2D__Builtin.hpp" />
+    <ClInclude Include="..\include\__flip__Builtin.hpp" />
+    <ClInclude Include="..\include\rot90Builtin.hpp" />
+    <ClInclude Include="..\include\__rat__Builtin.hpp" />
+    <ClInclude Include="..\include\__filter__Builtin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />

@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isint16'), 1);
-assert_isequal(nargout('isint16'), 1);
+asserts.isequal(nargin('isint16'), 1);
+asserts.isequal(nargout('isint16'), 1);
 %=============================================================================
 A = 3;
 res = isint16(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = int16(3);
 res = isint16(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

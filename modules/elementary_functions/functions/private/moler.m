@@ -14,10 +14,11 @@ function A = moler(nSize, alphaVal, className)
   %   - alphaVal: scalar multiplier used in triw (default: -1).
   %   - className: optional numeric class for output (e.g. 'double').
   if isempty(alphaVal)
-    alphaVal = -ones(className);
+    activeAlpha = -ones(className);
+  else
+    activeAlpha = alphaVal;
   end
-  % Build T and compute A = T' * T
-  T = triw(nSize, alphaVal, [], className);
+  T = triw(nSize, activeAlpha, [], className);
   A = T' * T;
 end
 %=============================================================================
@@ -35,16 +36,19 @@ function T = triw(nSize, alphaVal, upperBand, className)
     mRows = nSize(1);
     nCols = nSize(end);
   end
-  
-  % default upperBand covers full width of the (square) matrix
+
   if isempty(upperBand)
-    upperBand = nCols - 1;
+    activeUpperBand = nCols - 1;
+  else
+    activeUpperBand = upperBand;
   end
-  % default alphaVal is ones of requested class (if empty)
   if isempty(alphaVal)
-    alphaVal = ones(className);
+    activeAlpha = ones(className);
+  else
+    activeAlpha = alphaVal;
   end
-  % Build T: identity plus alpha*strict-upper-triangular ones, then take lower part
-  T = tril( eye(mRows,nCols,className) + alphaVal * triu(ones(mRows,nCols,className), 1), upperBand);
+  T = eye(mRows, nCols, className);
+  T(triu(true(mRows, nCols), 1)) = activeAlpha;
+  T = tril(T, activeUpperBand);
 end
 %=============================================================================

@@ -18,5 +18,5 @@ namespace Nelson {
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
 InterpolationND(const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

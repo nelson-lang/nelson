@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timeseries.rdivide</keyword>
+  <short_description>Element-wise right division of timeseries data.</short_description>
+  <syntax>
+    <syntax_item>tsOut = rdivide(a, b)</syntax_item>
+    <syntax_item>tsOut = a ./ b</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>Left timeseries object or scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>Right timeseries object or scalar.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsOut</param_name>
+      <param_description>Resulting timeseries object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rdivide</b> Divides data values element by element and preserves the time axis from a timeseries input.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([10; 20], [1; 2]);
+out = ts ./ 10;
+out.Data
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

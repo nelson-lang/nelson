@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include <cstdint>
 #include <string_view>
 //=============================================================================
 namespace Nelson {
@@ -23,21 +24,46 @@ private:
     std::vector<std::string> context;
     std::vector<std::string> detail;
     std::vector<size_t> id;
+    std::vector<uint8_t> directScript;
     size_t IDX = 0;
     //=============================================================================
     void
-    pushEntry(std::string_view _context, std::string_view _detail, size_t _id)
+    pushEntry(std::string_view _context, std::string_view _detail, size_t _id, bool _directScript)
     {
         if (IDX >= context.size()) {
             context.emplace_back(_context);
             detail.emplace_back(_detail);
             id.emplace_back(_id);
+            directScript.emplace_back(static_cast<uint8_t>(_directScript ? 1 : 0));
         } else {
             context[IDX].assign(_context);
             detail[IDX].assign(_detail);
             id[IDX] = _id;
+            directScript[IDX] = _directScript ? 1 : 0;
         }
         IDX++;
+    }
+    //=============================================================================
+    // Index of the debug entry (id == 0) governing position pos: pos itself
+    // when it is a debug entry, else the nearest debug entry below. ID entries
+    // (statement markers) carry no strings of their own; their context/detail
+    // are those of the enclosing debug entry. Returns npos when there is none
+    // (ID entries pushed on an empty stack).
+    [[nodiscard]] size_t
+    ownerEntry(size_t pos) const noexcept
+    {
+        size_t k = pos;
+        while (k > 0 && id[k] != 0) {
+            --k;
+        }
+        return (id[k] == 0) ? k : static_cast<size_t>(-1);
+    }
+    //=============================================================================
+    [[nodiscard]] static const std::string&
+    baseEntryString() noexcept
+    {
+        static const std::string base { "base" };
+        return base;
     }
     //=============================================================================
 public:
@@ -46,10 +72,15 @@ public:
         context.reserve(2048);
         detail.reserve(2048);
         id.reserve(2048);
+        directScript.reserve(2048);
     }
     //=============================================================================
     CallStack(const CallStack& other)
-        : context(other.context), detail(other.detail), id(other.id), IDX(other.IDX)
+        : context(other.context)
+        , detail(other.detail)
+        , id(other.id)
+        , directScript(other.directScript)
+        , IDX(other.IDX)
     {
     }
     //=============================================================================
@@ -57,6 +88,7 @@ public:
         : context(std::move(other.context))
         , detail(std::move(other.detail))
         , id(std::move(other.id))
+        , directScript(std::move(other.directScript))
         , IDX(other.IDX)
     {
         other.IDX = 0;
@@ -69,6 +101,7 @@ public:
             context = other.context;
             detail = other.detail;
             id = other.id;
+            directScript = other.directScript;
             IDX = other.IDX;
         }
         return *this;
@@ -81,6 +114,7 @@ public:
             context = std::move(other.context);
             detail = std::move(other.detail);
             id = std::move(other.id);
+            directScript = std::move(other.directScript);
             IDX = other.IDX;
             other.IDX = 0;
         }
@@ -95,6 +129,7 @@ public:
         context.clear();
         detail.clear();
         id.clear();
+        directScript.clear();
         IDX = 0;
     }
     //=============================================================================
@@ -115,13 +150,15 @@ public:
     [[nodiscard]] const std::string&
     getContext(size_t pos) const noexcept
     {
-        return context[pos];
+        size_t k = ownerEntry(pos);
+        return (k == static_cast<size_t>(-1)) ? baseEntryString() : context[k];
     }
     //=============================================================================
     [[nodiscard]] const std::string&
     getDetail(size_t pos) const noexcept
     {
-        return detail[pos];
+        size_t k = ownerEntry(pos);
+        return (k == static_cast<size_t>(-1)) ? baseEntryString() : detail[k];
     }
     //=============================================================================
     [[nodiscard]] size_t
@@ -130,12 +167,19 @@ public:
         return id[pos];
     }
     //=============================================================================
+    [[nodiscard]] bool
+    isDirectScript(size_t pos) const noexcept
+    {
+        size_t k = ownerEntry(pos);
+        return k != static_cast<size_t>(-1) && directScript[k] != 0;
+    }
+    //=============================================================================
     [[nodiscard]] const std::string&
     getLastContext() const noexcept
     {
         static const std::string empty {};
         if (IDX > 0) {
-            return context[IDX - 1];
+            return getContext(IDX - 1);
         }
         return empty;
     }
@@ -145,7 +189,7 @@ public:
     {
         static const std::string empty {};
         if (IDX > 0) {
-            return detail[IDX - 1];
+            return getDetail(IDX - 1);
         }
         return empty;
     }
@@ -157,9 +201,9 @@ public:
     }
     //=============================================================================
     void
-    pushDebug(std::string_view _name, std::string_view _detail)
+    pushDebug(std::string_view _name, std::string_view _detail, bool _directScript = false)
     {
-        pushEntry(_name, _detail, 0);
+        pushEntry(_name, _detail, 0, _directScript);
     }
     //=============================================================================
     void
@@ -171,11 +215,19 @@ public:
     void
     pushID(size_t _id)
     {
-        if (IDX == 0) {
-            pushEntry("base", "base", _id);
+        // ID entries carry no strings: getContext/getDetail resolve them to
+        // the enclosing debug entry (or "base"). Recycled slots may keep stale
+        // text, which is never read.
+        if (IDX >= context.size()) {
+            context.emplace_back();
+            detail.emplace_back();
+            id.emplace_back(_id);
+            directScript.emplace_back(static_cast<uint8_t>(0));
         } else {
-            pushEntry(context[IDX - 1], detail[IDX - 1], _id);
+            id[IDX] = _id;
+            directScript[IDX] = 0;
         }
+        IDX++;
     }
     //=============================================================================
     void
@@ -194,6 +246,5 @@ public:
     //=============================================================================
 };
 //=============================================================================
-
-}
+} // namespace Nelson
 //=============================================================================

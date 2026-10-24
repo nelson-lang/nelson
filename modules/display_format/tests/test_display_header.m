@@ -17,7 +17,7 @@ A =
   0×0 empty int8 matrix
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = int8(zeros(0, 1));
 R = evalc('A');
@@ -27,7 +27,7 @@ A =
   0×1 empty int8 column vector
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = int8(zeros(0, 1, 1));
 R = evalc('A');
@@ -37,7 +37,7 @@ A =
   0×1 empty int8 column vector
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = int8(1);
 R = evalc('A');
@@ -49,7 +49,7 @@ A =
    1
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = int8([1 1]);
 R = evalc('A');
@@ -61,7 +61,7 @@ A =
    1   1
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = int8([1, 2]);
 R = evalc('A');
@@ -73,9 +73,9 @@ A =
    1   2
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = int8(eye(2,2));
+A = int8(eye(2, 2));
 R = evalc('A');
 REF =  '
 A =
@@ -86,9 +86,9 @@ A =
    0   1
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = int8(ones(2,1,2));
+A = int8(ones(2, 1, 2));
 R = evalc('A');
 REF = '
   2×1×2 int8 array
@@ -105,9 +105,9 @@ A(:,:,2) =
    1
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = ['hello';'olleh'];
+A = ['hello'; 'olleh'];
 R = evalc('A');
 REF = '
 A =
@@ -118,7 +118,7 @@ A =
     ''olleh''
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = logical([]);
 R = evalc('A');
@@ -128,7 +128,7 @@ A =
   0×0 empty logical array
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = [true, false];
 R = evalc('A');
@@ -140,7 +140,7 @@ A =
      true    false
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = {'f'};
 R = evalc('A');
@@ -152,26 +152,26 @@ A =
     {''f''}
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = struct([]);
 R = evalc('A');
 REF = '
-A =
+A = 
 
   0×0 empty struct array with no fields.
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = struct();
 R = evalc('A');
 REF = '
-A =
+A = 
 
   struct with no fields.
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 

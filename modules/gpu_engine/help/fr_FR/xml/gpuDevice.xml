@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gpuDevice</keyword>
+  <short_description>Interroge le périphérique GPU sélectionné.</short_description>
+  <syntax>
+    <syntax_item>d = gpuDevice()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>une structure décrivant le périphérique GPU sélectionné.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>d = gpuDevice()</b> renvoie une structure décrivant le périphérique GPU sélectionné, avec les champs suivants :</p>
+    <p><b>Index</b> : l'indice du périphérique.</p>
+    <p><b>Name</b> : le nom de l'adaptateur.</p>
+    <p><b>Vendor</b> : le fabricant du matériel.</p>
+    <p><b>Architecture</b> : l'architecture du périphérique.</p>
+    <p><b>Backend</b> : le backend graphique utilisé (Vulkan, Metal ou D3D12).</p>
+    <p><b>MaxBufferSize</b> : la taille maximale en octets d'un tampon unique du périphérique.</p>
+    <p>Une erreur est déclenchée lorsqu'aucun périphérique GPU compatible n'est disponible.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[if canUseGPU()
+  d = gpuDevice()
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gpuDeviceCount">gpuDeviceCount</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}canUseGPU">canUseGPU</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

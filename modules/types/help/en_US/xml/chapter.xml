@@ -8,8 +8,10 @@
     <p
     >The Types module provides tools for managing and inspecting data types in Nelson.</p>
     <p
-    >It allows users to query the nature of variables, distinguish between numeric, logical, string, and object types, and work with specialized types such as sparse or integer arrays.</p>
+    >It provides functions to query variable types, distinguish numeric, logical, string, and object values, and work with specialized types such as sparse or integer arrays.</p>
     <p
     >The module also supports creation of objects and validation of variable names, helping ensure type safety and consistency across scripts and functions.</p>
+    <p
+    >For C++ extension and embedding code, see <link linkend="${types}cpp_api">C++ value API</link>.</p>
   </chapter_description>
 </xmldoc>

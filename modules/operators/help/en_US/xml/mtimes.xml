@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a variable</param_description>
+      <param_description>a variable, a table or a timetable. When the other operand is a table or timetable, it must be a scalar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>a variable</param_description>
+      <param_description>a variable, a table or a timetable. When the other operand is a table or timetable, it must be a scalar.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,6 +27,7 @@
   <description>
     <p>
       <b>C = mtimes(A, B)</b> performs matrix multiplication operation: A * B.</p>
+    <p>When one operand is a table or timetable and the other operand is a scalar, <b>A * B</b> is an element-wise operation applied to every variable, identical to <b>A .* B</b>: variable names, units and row times are kept. Any other combination with a table or timetable (two tables, or a table and a non-scalar array) is an error: use <b>.*</b> instead.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,16 +49,35 @@
 M2 = [-25 88 1; 23 29 41; 24 40 0];
 M1 * M2]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Element-wise operation between a table and a scalar.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [3; 4]);
+T * 2
+0.5 * T]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${operators}times">times</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>table and timetable operands combined with a scalar (element-wise operation).</history_description>
     </history_item>
   </history>
   <authors>

@@ -14,7 +14,7 @@
 #include "HorzCatSparseLogical.hpp"
 #include "CtransposeSparseLogical.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,10 +23,12 @@ VertCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     if (!B.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+            L"sparse logical");
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);

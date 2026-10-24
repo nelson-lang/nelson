@@ -212,7 +212,7 @@
                             <span class="keyword-title">
                                 <xsl:value-of select="."/>
                             </span>
-                            <xsl:for-each select="../keyword_alias">
+                            <xsl:for-each select="../keyword_alias[not(starts-with(., 'block:'))]">
                                  <xsl:text>, </xsl:text>
                                 <span class="keyword-alias">
                                     <xsl:value-of select="."/>
@@ -229,6 +229,11 @@
                     </div>
                 </xsl:when>
                 <xsl:when test="name() = 'short_description'">
+                    <xsl:for-each select="../description/p[img[contains(@src, 'libraries/') and contains(@src, 'exports/')]]">
+                        <div class="section" style="text-align:center;">
+                            <xsl:apply-templates select="img"/>
+                        </div>
+                    </xsl:for-each>
                     <div class="section syntax-section">
                         <div class="subtitle"><xsl:value-of select="."/></div>
                     </div>
@@ -331,12 +336,12 @@
             <div class="section">
                 <div class="section-title"><span class="syntax-icon">📄</span> <xsl:value-of select="$description-text"/></div>
                 <div>
-                    <xsl:apply-templates select="description/node()"/>
+                    <xsl:apply-templates select="description/node()[not(self::p[img[contains(@src, 'libraries/') and contains(@src, 'exports/')]])]"/>
                 </div>
             </div>
         </xsl:if>
 
-        <!-- Examples Section with Copy Button and MATLAB syntax highlighting -->
+        <!-- Examples Section with Copy Button and Nelson syntax highlighting -->
         <xsl:if test="examples">
             <div class="section">
                 <div class="section-title"><span class="syntax-icon">💡</span> <xsl:value-of select="$examples-text"/></div>
@@ -357,7 +362,8 @@
                             </div>
                         </xsl:if>
                         <xsl:if test="example_item_img">
-                            <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src)"/>
+                            <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src, example_item_img/@generate)"/>
+                            <xsl:if test="string-length($imgsrc) &gt; 0">
                             <xsl:choose>
                                 <xsl:when test="substring($imgsrc, string-length($imgsrc) - 3) = '.svg'">
                                     <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="width:960px;height:580px;display:block;margin:12px auto;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
@@ -366,6 +372,7 @@
                                     <img src="{$imgsrc}" align="{example_item_img/@align}" alt="Example illustration" style="max-width:960px;max-height:580px;display:block;margin:12px 0;background:#f9fafb;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;"/>
                                 </xsl:otherwise>
                             </xsl:choose>
+                            </xsl:if>
                         </xsl:if>
                     </div>
                 </xsl:for-each>
@@ -380,7 +387,9 @@
                     <xsl:for-each select="see_also/see_also_item">
                         <a class="see-also-link">
                           <xsl:attribute name="href">
-                            <xsl:value-of select="/*/@rootpath"/><xsl:value-of select="ext:replace(link/@linkend)"/>
+                            <xsl:for-each select="link">
+                                <xsl:call-template name="link-href"/>
+                            </xsl:for-each>
                           </xsl:attribute>
                           <xsl:value-of select="link"/>
                         </a>
@@ -440,36 +449,51 @@
 <xsl:template match="b">
     <b><xsl:apply-templates/></b>
 </xsl:template>
+
+<!-- Render inline <code> as a compact monospace token -->
+<xsl:template match="code">
+    <code style="font-family:Consolas, Menlo, Monaco, monospace;font-size:0.92em;background:rgba(127,127,127,0.12);border:1px solid rgba(127,127,127,0.22);border-radius:4px;padding:1px 4px;white-space:break-spaces;"><xsl:apply-templates/></code>
+</xsl:template>
+
 <!-- Render <a> as HTML anchor -->
 <xsl:template match="a">
     <a>
         <xsl:attribute name="href">
             <xsl:value-of select="@href"/>
         </xsl:attribute>
+        <xsl:if test="@target">
+            <xsl:attribute name="target"><xsl:value-of select="@target"/></xsl:attribute>
+            <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
+        </xsl:if>
         <xsl:apply-templates/>
     </a>
 </xsl:template>
-<!-- Render inline <link> as an HTML anchor using linkend -->
-<xsl:template match="link">
-    <xsl:variable name="linkend" select="@linkend"/>
-    <xsl:variable name="rootpath" select="/*/@rootpath"/>
-    <xsl:variable name="module">
-        <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
-            <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
-        </xsl:if>
-    </xsl:variable>
-    <xsl:variable name="function">
-        <xsl:choose>
-            <xsl:when test="contains($linkend, '}')">
-                <xsl:value-of select="substring-after($linkend, '}')"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$linkend"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-    <a>
-        <xsl:attribute name="href">
+<!-- Destination of a <link> (context node): the href resolved by the help builder
+     from the keyword index when available, otherwise the legacy
+     "<rootpath>../<module>/<name>.html" guess built from the linkend. -->
+<xsl:template name="link-href">
+    <xsl:choose>
+        <xsl:when test="@href">
+            <xsl:value-of select="@href"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:variable name="linkend" select="@linkend"/>
+            <xsl:variable name="rootpath" select="/*/@rootpath"/>
+            <xsl:variable name="module">
+                <xsl:if test="contains($linkend, '{') and contains($linkend, '}')">
+                    <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+                </xsl:if>
+            </xsl:variable>
+            <xsl:variable name="function">
+                <xsl:choose>
+                    <xsl:when test="contains($linkend, '}')">
+                        <xsl:value-of select="substring-after($linkend, '}')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$linkend"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
             <xsl:choose>
                 <xsl:when test="string-length($module) &gt; 0">
                     <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
@@ -478,6 +502,14 @@
                     <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/><xsl:text>.html</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
+        </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+<!-- Render inline <link> as an HTML anchor -->
+<xsl:template match="link">
+    <a>
+        <xsl:attribute name="href">
+            <xsl:call-template name="link-href"/>
         </xsl:attribute>
         <xsl:apply-templates/>
     </a>
@@ -490,6 +522,18 @@
 <xsl:template match="img">
   <xsl:variable name="imgsrc" select="ext:copy_img(@src)"/>
   <xsl:choose>
+    <!-- Block library icons are small assets referenced from library exports,
+         including icons shipped by external block libraries. -->
+    <xsl:when test="substring($imgsrc, string-length($imgsrc) - 3) = '.svg' and contains(@src, 'libraries/') and contains(@src, 'exports/')">
+      <img>
+        <xsl:attribute name="src"><xsl:value-of select="$imgsrc"/></xsl:attribute>
+        <xsl:if test="@align"><xsl:attribute name="align"><xsl:value-of select="@align"/></xsl:attribute></xsl:if>
+        <xsl:if test="@alt"><xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute></xsl:if>
+        <xsl:if test="@width"><xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute></xsl:if>
+        <xsl:if test="@height"><xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute></xsl:if>
+        <xsl:attribute name="style">max-width:192px;max-height:144px;width:auto;height:auto;display:block;margin:12px auto;background:#fff;border:1px solid #e2e8f0;border-radius:4px;box-shadow:0 1px 4px rgba(44,82,130,0.07);object-fit:contain;</xsl:attribute>
+      </img>
+    </xsl:when>
     <!-- Special styling for SVG (keeps large fixed view) -->
     <xsl:when test="substring($imgsrc, string-length($imgsrc) - 3) = '.svg'">
       <img>
@@ -525,6 +569,22 @@
     <li>
         <xsl:apply-templates/>
     </li>
+</xsl:template>
+
+<!-- Render <source_code> as a collapsible code panel. -->
+<xsl:template match="source_code">
+    <details style="border:1px solid #d8dee4;border-radius:6px;background:rgba(127,127,127,0.04);overflow:hidden;margin:10px 0;">
+        <summary style="cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 10px;font-weight:600;">
+            <span>
+                <xsl:choose>
+                    <xsl:when test="@label"><xsl:value-of select="@label"/></xsl:when>
+                    <xsl:otherwise>Source</xsl:otherwise>
+                </xsl:choose>
+            </span>
+            <code style="font-family:Consolas, Menlo, Monaco, monospace;font-size:0.92em;background:rgba(127,127,127,0.12);border:1px solid rgba(127,127,127,0.22);border-radius:4px;padding:1px 4px;white-space:break-spaces;"><xsl:value-of select="@path"/></code>
+        </summary>
+        <pre style="margin:0;padding:12px;overflow:auto;border-top:1px solid #d8dee4;background:rgba(0,0,0,0.035);font-size:0.9em;line-height:1.45;"><code><xsl:attribute name="class"><xsl:choose><xsl:when test="@language"><xsl:text>language-</xsl:text><xsl:value-of select="@language"/></xsl:when><xsl:when test="contains(@path, '.json')">language-json</xsl:when><xsl:when test="contains(@path, '.cpp') or contains(@path, '.hpp') or contains(@path, '.h')">language-cpp</xsl:when><xsl:otherwise>language-plaintext</xsl:otherwise></xsl:choose></xsl:attribute><xsl:value-of select="ext:source_code(@path, string(@start), string(@end))"/></code></pre>
+    </details>
 </xsl:template>
 
 <!-- Render <table> as HTML table -->

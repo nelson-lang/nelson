@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timeseries.isequalwithequalnans</keyword>
+  <short_description>Compare timeseries objects treating missing numeric values as equal.</short_description>
+  <syntax>
+    <syntax_item>tf = isequalwithequalnans(ts1, ts2, ts3)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts1</param_name>
+      <param_description>First timeseries object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ts2</param_name>
+      <param_description>Timeseries object to compare.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>Logical result of the comparison.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isequalwithequalnans</b> Compares timeseries objects and treats matching missing numeric values as equal.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts1 = timeseries([1; NaN], [1; 2]);
+ts2 = timeseries([1; NaN], [1; 2]);
+isequalwithequalnans(ts1, ts2)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

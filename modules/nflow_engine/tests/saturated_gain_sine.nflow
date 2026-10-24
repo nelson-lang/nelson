@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Saturated amplifier: sin*2 through gain 1.5 clipped to +/-1.",
+  "name": "saturated_gain_sine",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "sine",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 2,
+        "Frequency": 0.2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "g1",
+      "type": "gain",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Gain": 1.5
+      }
+    },
+    {
+      "id": "sa",
+      "type": "saturation",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "LowerLimit": -1,
+        "UpperLimit": 1
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 580,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "saturated_gain_sine_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "s1",
+      "to": "g1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "g1",
+      "to": "sa",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "sa",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.02,
+  "autoRoute": true
+}

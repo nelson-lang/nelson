@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,10 +19,10 @@ Nelson::Hdf5Gateway::whonh5Builtin(Evaluator* eval, int nLhs, const ArrayOfVecto
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1);
-    std::wstring filename = argIn[0].getContentAsWideString();
+    std::wstring filename = argIn[0].asWideString();
     wstringVector names;
     for (indexType k = 1; k < (indexType)argIn.size(); k++) {
-        names.push_back(argIn[k].getContentAsWideString());
+        names.push_back(argIn[k].asWideString());
     }
     Interface* io = eval->getInterface();
     ArrayOf ce = whoNh5File(io, filename, names, nLhs == 1);

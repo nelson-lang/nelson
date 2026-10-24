@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>intlinprog</keyword>
+  <short_description>Programmation lin&#233;aire mixte en nombres entiers.</short_description>
+  <syntax>
+    <syntax_item>x = intlinprog(f, intcon, A, b)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output] = intlinprog(f, intcon, A, b, Aeq, beq, lb, ub, x0, options)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output] = intlinprog(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>f</param_name><param_description>coefficients de l&apos;objectif lin&#233;aire.</param_description></param_input_item>
+    <param_input_item><param_name>intcon</param_name><param_description>indices des variables enti&#232;res.</param_description></param_input_item>
+    <param_input_item><param_name>A, b</param_name><param_description>contraintes lin&#233;aires A*x &lt;= b.</param_description></param_input_item>
+    <param_input_item><param_name>Aeq, beq</param_name><param_description>contraintes lin&#233;aires Aeq*x = beq.</param_description></param_input_item>
+    <param_input_item><param_name>lb, ub</param_name><param_description>bornes inf&#233;rieures et sup&#233;rieures.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>options du solveur cr&#233;&#233;es avec optimoptions ou optimset.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>x</param_name><param_description>minimiseur calcul&#233;.</param_description></param_output_item>
+    <param_output_item><param_name>fval</param_name><param_description>valeur de l&apos;objectif f&apos;*x.</param_description></param_output_item>
+    <param_output_item><param_name>exitflag</param_name><param_description>indicateur de terminaison.</param_description></param_output_item>
+    <param_output_item><param_name>output</param_name><param_description>structure de diagnostic.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>intlinprog</b> r&#233;sout des probl&#232;mes d&apos;optimisation lin&#233;aire o&#249; certaines variables sont enti&#232;res. Nelson utilise HiGHS lorsque disponible.</p>
+    <p>La structure de probl&#232;me accept&#233;e peut contenir les champs solver, f, intcon, Aineq ou A, bineq ou b, Aeq, beq, lb, ub, x0 et options.</p>
+    <p>La structure <b>output</b> indique l&apos;&#233;cart relatif et absolu, le nombre de points faisables, le nombre de noeuds, la violation des contraintes, les it&#233;rations, le temps &#233;coul&#233;, l&apos;algorithme, le statut backend normalis&#233;, le statut de solution primale et le message du backend. <b>exitflag</b> distingue les statuts optimal, infaisable, non born&#233;, limite atteinte et arr&#234;t anticip&#233; lorsque le backend fournit ce statut.</p>
+    <p>Les options comme <b>MaxTime</b>, <b>MaxNodes</b>, <b>MaxIterations</b>, <b>MaxFeasiblePoints</b>, <b>AbsoluteGapTolerance</b>, <b>RelativeGapTolerance</b>, <b>IntegerTolerance</b>, <b>LPPreprocess</b>, <b>RootLPAlgorithm</b>, <b>Heuristics</b> et <b>CutGeneration</b> sont converties en options HiGHS lorsque possible. Les options reconnues sans &#233;quivalent direct dans le backend sont accept&#233;es et ignor&#233;es.</p>
+  </description>
+  <used_function><used_function_item>optimoptions</used_function_item><used_function_item>prob2struct</used_function_item></used_function>
+  <bibliography>Huangfu, Q. et Hall, J. A. J., Parallelizing the dual revised simplex method, Mathematical Programming Computation, 2018.
+Achterberg, T., Constraint Integer Programming, th&#232;se de doctorat, Technische Universitaet Berlin, 2007.
+Nemhauser, G. L. et Wolsey, L. A., Integer and Combinatorial Optimization, Wiley, 1988.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[f = [8; 1];
+intcon = 2;
+A = [-1 -2; -4 -1; 2 1];
+b = [14; -33; 20];
+opts = optimoptions('intlinprog', 'Display', 'off');
+[x, fval, exitflag, output] = intlinprog(f, intcon, A, b, [], [], [], [], [], opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also><see_also_item><link linkend="${optimization}linprog">linprog</link></see_also_item><see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item><see_also_item><link linkend="${optimization}prob2struct">prob2struct</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

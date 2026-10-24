@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::TimeGateway::cputimeBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(nLhs);
-    retval << ArrayOf::doubleConstructor(CpuTime());
+    retval << ArrayOf::doubleScalar(CpuTime());
     return retval;
 }
 //=============================================================================

@@ -13,7 +13,6 @@
 //
 #define IDI_ICON1 101
 #define IDI_ICON_LOGO 101
-
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
@@ -24,3 +23,4 @@
 #define _APS_NEXT_SYMED_VALUE 101
 #endif
 #endif
+//=============================================================================

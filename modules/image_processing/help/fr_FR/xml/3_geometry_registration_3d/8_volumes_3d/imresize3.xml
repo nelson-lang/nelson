@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imresize3</keyword>
+  <short_description>Redimensionner un volume 3-D</short_description>
+  <syntax>
+    <syntax_item>B = imresize3(V, scale)</syntax_item>
+    <syntax_item>B = imresize3(V, [numrows numcols numplanes])</syntax_item>
+    <syntax_item>B = imresize3(__, method)</syntax_item>
+    <syntax_item>B = imresize3(__, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Volume d'entree, tableau 3-D reel, non sparse, numerique ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>Facteur de redimensionnement scalaire positif et fini applique aux lignes, colonnes et plans.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[numrows numcols numplanes]</param_name>
+      <param_description>Taille de sortie du volume. Les valeurs sont arrondies en dimensions entieres positives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode d'interpolation : 'linear' par defaut, ou 'nearest'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Les options prises en charge sont 'Method' et 'Antialiasing'. L'option antialiasing est analysee pour compatibilite.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Volume redimensionne, renvoye avec la meme classe que V.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>imresize3</b> redimensionne des donnees d'image volumetriques par facteur scalaire ou vers une taille de sortie explicite a trois elements.</p>
+    <p>La methode linear utilise une interpolation trilineaire separable. La methode nearest utilise l'echantillon le plus proche et preserve exactement les volumes logiques.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Redimensionner un volume synthetique et afficher une tranche centrale.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[X, Y, Z] = meshgrid(linspace(-1, 1, 48), linspace(-1, 1, 40), linspace(-1, 1, 20));
+V = exp(-6 * (X .^ 2 + Y .^ 2 + Z .^ 2));
+B = imresize3(V, [64 64 32], 'linear');
+figure;
+imshow(B(:, :, 16), []);
+title('Resized central slice');]]></example_item_data>
+      <example_item_img src="../../../images/imresize3_1.png" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/8_volumes_3d/imgaussfilt3">imgaussfilt3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imresize">imresize</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

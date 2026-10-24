@@ -103,7 +103,7 @@ namespace {
     static int const REPLXX_MAX_HINT_ROWS(4);
     /*
      * All whitespaces and all non-alphanumerical characters from ASCII range
-     * with an exception of an underscore ('_').
+     * with an NelsonException of an underscore ('_').
      */
     char const defaultWordBreakChars[] = " \t\v\f\a\b\r\n`~!@#$%^&*()-=+[{]}\\|;:'\",<.>/?";
     /*
@@ -420,9 +420,9 @@ Replxx::ReplxxImpl::~ReplxxImpl(void)
 {
     try {
         disable_bracketed_paste();
-    } catch (std::runtime_error const&) {
-        // suppress "write failed" errors (see Terminal::write8()).
-        // in case of i.e. broken pipe.
+    } catch (std::exception const&) {
+        // suppress terminal shutdown errors, for example broken pipes or
+        // invalid terminal state in non-interactive sessions.
     }
 }
 
@@ -935,7 +935,20 @@ void
 Replxx::ReplxxImpl::print(char const* str_, int size_)
 {
     std::unique_lock<std::mutex> l(_mutex);
-    if ((_currentThread == std::thread::id()) || (_currentThread == std::this_thread::get_id())) {
+    if ((_currentThread != std::thread::id()) && (_currentThread == std::this_thread::get_id())) {
+        // Reentrant output from a callback running on the active input() thread
+        // (e.g. a Nelson QML/graphics callback pumped while parked at the
+        // prompt). Erase the prompt line, emit the text where the prompt was,
+        // then repaint the prompt and buffer below it, so the prompt is never
+        // left stale (no manual Return needed to restore it). Mirrors the
+        // same-thread branch of set_prompt().
+        l.unlock();
+        clear_self_to_end_of_screen();
+        _terminal.write8(str_, size_);
+        _lastRefreshTime = 0;
+        repaint();
+    } else if (_currentThread == std::thread::id()) {
+        // No input() in progress: plain passthrough.
 #ifndef _WIN32
         l.unlock();
 #endif
@@ -1602,6 +1615,14 @@ Replxx::ReplxxImpl::do_complete_line(bool showCompletions_)
     return 0;
 }
 
+#ifdef _WIN32
+static bool
+canStartPendingPaste(char32_t c)
+{
+    return (c < static_cast<int>(Replxx::KEY::BASE)) && (!is_control_code(c));
+}
+#endif
+
 int
 Replxx::ReplxxImpl::get_input_line(bool& isAction)
 {
@@ -1662,6 +1683,21 @@ Replxx::ReplxxImpl::get_input_line(bool& isAction)
                 move_cursor();
             }
         } else {
+#ifdef _WIN32
+            UnicodeString pendingPaste;
+            if (canStartPendingPaste(c) && (_terminal.read_pending_characters(pendingPaste) > 0)) {
+                UnicodeString text;
+                text.push_back(c);
+                text.append(pendingPaste);
+                next = insert_characters(text);
+                call_modify_callback();
+                update_after_action(RESET_KILL_ACTION | HISTORY_RECALL_MOST_RECENT | WANT_REFRESH);
+                if (_modifiedState) {
+                    refresh_line();
+                }
+                continue;
+            }
+#endif
             next = action(RESET_KILL_ACTION | HISTORY_RECALL_MOST_RECENT,
                 &Replxx::ReplxxImpl::insert_character, c);
         }
@@ -1681,6 +1717,13 @@ Replxx::ReplxxImpl::action(
 {
     Replxx::ACTION_RESULT res((this->*handler_)(code_));
     call_modify_callback();
+    update_after_action(actionTrait_);
+    return (res);
+}
+
+void
+Replxx::ReplxxImpl::update_after_action(action_trait_t actionTrait_)
+{
     if (actionTrait_ & HISTORY_RECALL_MOST_RECENT) {
         _history.reset_recall_most_recent();
     }
@@ -1714,7 +1757,6 @@ Replxx::ReplxxImpl::action(
                     != (_oldPos < _data.length() && isIdentifier((char)_data[_oldPos]))));
         _moveCursor = _pos != _oldPos;
     }
-    return (res);
 }
 
 Replxx::ACTION_RESULT
@@ -1759,6 +1801,18 @@ Replxx::ReplxxImpl::insert_character(char32_t c)
         refresh_line();
     }
     _lastRefreshTime = now_us();
+    return (Replxx::ACTION_RESULT::CONTINUE);
+}
+
+Replxx::ACTION_RESULT
+Replxx::ReplxxImpl::insert_characters(UnicodeString const& text)
+{
+    if (text.is_empty()) {
+        return (Replxx::ACTION_RESULT::CONTINUE);
+    }
+    _oldPos = _pos;
+    _data.insert(_pos, text, 0, text.length());
+    _pos += text.length();
     return (Replxx::ACTION_RESULT::CONTINUE);
 }
 

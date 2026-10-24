@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>robustfit</keyword>
+  <short_description>Regression lineaire robuste.</short_description>
+  <syntax>
+    <syntax_item>b = robustfit(X, y)</syntax_item>
+    <syntax_item>b = robustfit(X, y, wfun, tune, const)</syntax_item>
+    <syntax_item>[b, stats] = robustfit(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>robustfit</b> ajuste un modele de regression lineaire par moindres carres iterativement reponderes.</p>
+    <p>Par defaut, une colonne constante est ajoutee avant l'ajustement. Les fonctions de poids prises en charge incluent <b>bisquare</b>, <b>huber</b>, <b>fair</b>, <b>cauchy</b>, <b>welsch</b>, <b>talwar</b>, <b>andrews</b>, <b>logistic</b>, <b>ols</b> et les handles de fonction.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = (1:10)';
+y = 10 - 2*x + randn(10,1);
+[b, stats] = robustfit(x, y)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}corr">corr</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

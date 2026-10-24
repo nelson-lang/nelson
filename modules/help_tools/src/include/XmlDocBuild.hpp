@@ -20,5 +20,14 @@ NLSHELP_TOOLS_IMPEXP bool
 xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstring& mainTitle,
     DOCUMENT_OUTPUT documentOutput, bool overwrite, std::wstring& errorMessage);
 //=============================================================================
-}
+// indexDirectories: XML help roots of every module whose pages may be linked
+// from srcDir (srcDir is always indexed). <link linkend="..."> elements are
+// resolved against this index; links that cannot be resolved are reported in
+// warnings and rendered with the legacy "<module>/<name>" path.
+NLSHELP_TOOLS_IMPEXP bool
+xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstring& mainTitle,
+    DOCUMENT_OUTPUT documentOutput, bool overwrite, std::wstring& errorMessage,
+    const wstringVector& indexDirectories, wstringVector& warnings);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

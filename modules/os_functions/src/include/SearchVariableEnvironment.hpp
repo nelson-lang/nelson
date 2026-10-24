@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSOS_FUNCTIONS_IMPEXP wstringVector
 SearchVariableEnvironmentW(const std::wstring& fileToSearch, const std::wstring& envVarName);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>intervalTestDynamic</keyword>
+  <keyword_alias>block:intervalTestDynamic</keyword_alias>
+  <short_description>Like intervalTest but the bounds come from input ports (lo, u, up).</short_description>
+  <syntax>
+    <syntax_item>Block type: intervalTestDynamic</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>3 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Like intervalTest but the bounds come from input ports (lo, u, up).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Logic / Bit Operations</td></tr>
+        <tr><td>Type</td><td><code>intervalTestDynamic</code></td></tr>
+        <tr><td>Label</td><td>Interval Test Dynamic</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/logic/exports/intervalTestDynamic.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Signal-driven variant of <code>intervalTest</code>: instead of parameters, the lower bound, the value and the upper bound are read from input ports 1, 2 and 3 respectively, so the acceptance window can move at run time. Output is 1 when <code>lo &lt;= u &lt;= up</code>. <code>IntervalClosedLeft</code>/<code>IntervalClosedRight</code> control end inclusivity. Element-wise over the value width; scalar bounds broadcast.</p>
+    <p><b>Ports</b></p>
+    <p><b>Input(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=20</td></tr>
+        <tr><td>Port_2</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_3</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=60</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=100, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>IntervalClosedLeft</code></td><td>1</td></tr>
+        <tr><td><code>IntervalClosedRight</code></td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>intervalTestDynamic</td></tr>
+        <tr><td>Family</td><td>Logic / Bit Operations</td></tr>
+        <tr><td>Rendered size</td><td>100 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Internal state or history</td><td>no</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>ALGEBRAIC: reads port 0 = lower, port 1 = value, port 2 = upper; out = 1 when the value is inside the (possibly open) interval.</li>
+    </ul>
+    <p><b>Equation or Rule</b></p>
+    <latex>y = \begin{cases} 1 &amp; \text{lo} \le u \le \text{up} \\ 0 &amp; \text{otherwise} \end{cases}</latex>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/intervalTestDynamic.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Feed lo=1, u=ramp, up=3 and record when the ramp enters the window.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','lo','type','constant','inputs',0,'outputs',1,'params',struct('Value',1)), struct('id','u','type','ramp','inputs',0,'outputs',1,'params',struct('slope',1)), struct('id','up','type','constant','inputs',0,'outputs',1,'params',struct('Value',3)), struct('id','it','type','intervalTestDynamic','inputs',3,'outputs',1,'params',struct()), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','lo','to','it','fromIndex',0,'toIndex',0), struct('from','u','to','it','fromIndex',0,'toIndex',1), struct('from','up','to','it','fromIndex',0,'toIndex',2), struct('from','it','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=1.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}logic/intervalTest">intervalTest</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

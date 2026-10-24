@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::SparseGateway::nzmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
 
-    switch (argIn[0].getDataClass()) {
+    switch (argIn[0].dataClass()) {
     case NLS_LOGICAL:
     case NLS_INT8:
     case NLS_UINT8:
@@ -35,7 +35,7 @@ Nelson::SparseGateway::nzmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
     case NLS_DOUBLE:
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
-        return ArrayOf::doubleConstructor(static_cast<double>(argIn[0].nzmax()));
+        return ArrayOf::doubleScalar(static_cast<double>(argIn[0].nzmax()));
         break;
     default: {
         OverloadRequired("nzmax");

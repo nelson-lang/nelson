@@ -16,7 +16,7 @@ namespace Nelson {
 NLSGUI_IMPEXP void
 ProcessEvents(bool bWaitEvents = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 extern "C"
 {

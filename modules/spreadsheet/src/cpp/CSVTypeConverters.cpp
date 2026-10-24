@@ -139,10 +139,8 @@ ConvertStringToUInt64(const std::string& pStr, uint64& Val)
 //=============================================================================
 struct ComplexPatterns
 {
-    // Regex for special values (Inf, NaN)
     static inline const std::string special_re = R"((?:[Nn][Aa][Nn]|[Ii][Nn][Ff]))";
 
-    // Full regex patterns combining numbers and special values
     static inline const std::regex full_complex { R"(([+-]?(?:\d*\.?\d+|)" + special_re
             + R"())([+-](?:\d*\.?\d+|)" + special_re + R"())[ij])",
         std::regex::optimize };
@@ -242,5 +240,5 @@ ConvertToDoubleComplex(const std::string& str, std::complex<double>& pVal)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

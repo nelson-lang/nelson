@@ -14,12 +14,12 @@
 %=============================================================================
 [p, f, e] = fileparts('c:/');
 if ispc()
-  assert_isequal(p, 'c:/');
-  assert_isequal(f, '');
-  assert_isequal(e, '');
+  asserts.isequal(p, 'c:/');
+  asserts.isequal(f, '');
+  asserts.isequal(e, '');
 else
-  assert_isequal('c:', p);
-  assert_isequal('', f);
-  assert_isequal('', e);
+  asserts.isequal('c:', p);
+  asserts.isequal('', f);
+  asserts.isequal('', e);
 end
 %=============================================================================

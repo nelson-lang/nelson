@@ -7,69 +7,88 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('max'), 4)
-assert_isequal(nargout('max'), 2)
+asserts.isequal(nargin('max'), 4)
+asserts.isequal(nargout('max'), 2)
 %=============================================================================
 R = max([]);
-assert_isequal(R, []);
+asserts.isequal(R, []);
 %=============================================================================
 [R, I] = max([]);
-assert_isequal(R, []);
-assert_isequal(I, []);
+asserts.isequal(R, []);
+asserts.isequal(I, []);
 %=============================================================================
 [R, I] = max(5);
-assert_isequal(R, 5);
-assert_isequal(I, 1);
+asserts.isequal(R, 5);
+asserts.isequal(I, 1);
 %=============================================================================
 [R, I] = max([1 NaN 3 Inf -Inf 4]);
-assert_isequal(R, Inf);
-assert_isequal(I, 4);
+asserts.isequal(R, Inf);
+asserts.isequal(I, 4);
 %=============================================================================
 A = [23 42 37 18 52];
 R = max(A);
-assert_isequal(R, 52);
+asserts.isequal(R, 52);
 %=============================================================================
 A = [23 42 37 18 52];
 [R, I] = max(A);
-assert_isequal(R, 52);
-assert_isequal(I, 5);
+asserts.isequal(R, 52);
+asserts.isequal(I, 5);
 %=============================================================================
-A = [-2+2i, 4+i, -1-3i];
+A = [-2 + 2i, 4 + i, -1 - 3i];
 [R, I] = max(A);
-assert_isequal(R, 4+i);
-assert_isequal(I, 2);
+asserts.isequal(R, 4 + i);
+asserts.isequal(I, 2);
 %=============================================================================
-A = [-2+2i, 4+i, -1-5i];
+A = [-2 + 2i, 4 + i, -1 - 5i];
 [R, I] = max(A);
-assert_isequal(R, -1-5i);
-assert_isequal(I, 3);
+asserts.isequal(R, -1 - 5i);
+asserts.isequal(I, 3);
 %=============================================================================
 A = [2 8 4; 7 3 9];
 R = max(A);
-assert_isequal(R, [7 8 9]);
+asserts.isequal(R, [7 8 9]);
 %=============================================================================
 A = [1.7 1.2 1.5; 1.3 1.6 1.99];
 R = max(A, [], 2);
-assert_isequal(R, [1.7; 1.99]);
+asserts.isequal(R, [1.7; 1.99]);
 %=============================================================================
 A = [1 9 -2; 8 4 -5];
 [R, I] = max(A);
-assert_isequal(R, [8 9 -2]);
-assert_isequal(I, [2 1 1]);
+asserts.isequal(R, [8 9 -2]);
+asserts.isequal(I, [2 1 1]);
 %=============================================================================
 A = [1 7 3; 6 2 9];
 B = 5;
 R = max(A, B);
 REF = [5 7 5; 6 5 9];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [8 2 4; 7 3 9];
 [R, I] = max(A(:));
-assert_isequal(R, 9);
-assert_isequal(I, 6);
+asserts.isequal(R, 9);
+asserts.isequal(I, 6);
 %=============================================================================
 A = 'Nelson';
 [R, I] = max(A);
-assert_isequal(R, 115);
-assert_isequal(I, 4);
+asserts.isequal(R, 115);
+asserts.isequal(I, 4);
+%=============================================================================
+B = [3 1; 2 4; 5 0];
+[columnMax, columnMaxIndices] = max(B);
+asserts.isequal(columnMax, [5 4]);
+asserts.isequal(columnMaxIndices, [3 2]);
+%=============================================================================
+% 'all' with index output
+[m, i] = max([1 2 3; 4 5 6], [], 'all');
+assert_isequal(m, 6);
+assert_isequal(i, 6);
+[m, i] = max([1 NaN; 3 4], [], 'all', 'omitnan');
+assert_isequal(m, 4);
+assert_isequal(i, 4);
+%=============================================================================
+% vector of dimensions (vecdim)
+A = reshape(1:24, 2, 3, 4);
+assert_isequal(max(A, [], [1 2]), reshape([6 12 18 24], 1, 1, 4));
+assert_isequal(max(A, [], [1 3]), [20 22 24]);
+assert_checkerror('[m, i] = max(A, [], [1 2])', 'Specify ''linear'' option when returning two outputs and the operating dimension is a vector.');
 %=============================================================================

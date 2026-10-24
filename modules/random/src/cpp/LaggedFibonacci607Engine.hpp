@@ -62,7 +62,6 @@ public:
         return std::numeric_limits<result_type>::max();
     }
     //=============================================================================
-    // Save/load state
     friend std::ostream&
     operator<<(std::ostream& os, const LaggedFibonacci607Engine& eng)
     {

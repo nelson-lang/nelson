@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>time</module_name>
+  <chapter>Timers et mesure du temps</chapter>
+  <chapter_description>
+    <p>Objets timer, planification, attentes et utilitaires de mesure du temps.</p>
+  </chapter_description>
+</xmldoc>

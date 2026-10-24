@@ -1,0 +1,112 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Unity-feedback PI control of a first-order plant: step -> (+/-) -> PI(2,1) -> 1/(s+1).",
+  "name": "pi_closed_loop",
+  "blocks": [
+    {
+      "id": "r1",
+      "type": "step",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "er",
+      "type": "sum",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Inputs": "+-"
+      }
+    },
+    {
+      "id": "pi",
+      "type": "pid",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "P": 2,
+        "I": 1,
+        "D": 0
+      }
+    },
+    {
+      "id": "pl",
+      "type": "tf",
+      "x": 580,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 760,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "pi_closed_loop_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "r1",
+      "to": "er",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "er",
+      "to": "pi",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "pi",
+      "to": "pl",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "pl",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "pl",
+      "to": "er",
+      "fromIndex": 0,
+      "toIndex": 1
+    }
+  ],
+  "variables": "",
+  "runtime": 20,
+  "sampleTime": 0.05,
+  "autoRoute": true,
+  "solver": "ode45"
+}

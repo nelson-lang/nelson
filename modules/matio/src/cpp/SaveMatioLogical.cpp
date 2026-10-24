@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,7 +15,7 @@ namespace Nelson {
 matvar_t*
 SaveMatioLogical(const std::string& variableName, const ArrayOf& variableValue)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -23,7 +23,7 @@ SaveMatioLogical(const std::string& variableName, const ArrayOf& variableValue)
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = const_cast<void*>(variableValue.getDataPointer());
+        ptrValue = const_cast<void*>(variableValue.dataPointer());
     }
     matvar_t* matVariable = Mat_VarCreate(
         variableName.c_str(), MAT_C_UINT8, MAT_T_UINT8, (int)rank, dims, ptrValue, MAT_F_LOGICAL);

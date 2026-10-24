@@ -7,116 +7,86 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isreal'), 1);
-assert_isequal(nargout('isreal'), 1);
+% <--WEIGHT 4-->
+asserts.isequal(nargin('isreal'), 1);
+asserts.isequal(nargout('isreal'), 1);
 %=============================================================================
 R = complex(13);
-assert_isfalse(isreal(R));
+asserts.isfalse(isreal(R));
 %=============================================================================
 R = complex([]);
-assert_istrue(isreal(R));
+asserts.isfalse(isreal(R));
 %=============================================================================
-R = complex([]);
-assert_istrue(isreal(ones(3, 0)));
+asserts.istrue(isreal(ones(3, 0)));
 %=============================================================================
 R1 = 3 + 14i;
 R2 = 5 - 14i;
 R = R1 + R2;
-assert_isfalse(isreal(R1));
-assert_isfalse(isreal(R2));
-assert_istrue(isreal(R));
+asserts.isfalse(isreal(R1));
+asserts.isfalse(isreal(R2));
+asserts.istrue(isreal(R));
 %=============================================================================
 R1 = 3 - 14i;
 R2 = 5 - 14i;
 R = R2 - R1;
-assert_isfalse(isreal(R1));
-assert_isfalse(isreal(R2));
-assert_istrue(isreal(R));
+asserts.isfalse(isreal(R1));
+asserts.isfalse(isreal(R2));
+asserts.istrue(isreal(R));
 %=============================================================================
-R = isreal(1+0i);
-assert_istrue(R);
+R = isreal(1 + 0i);
+asserts.istrue(R);
 %=============================================================================
 R = isreal([]);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = isreal(complex([]));
-assert_istrue(R);
+asserts.isfalse(R);
 %=============================================================================
 R = isreal(complex(ones(3, 0)));
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = isreal([1]);
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
-R = isreal([1,2,3]);
-assert_istrue(R);
+R = isreal([1, 2, 3]);
+asserts.istrue(R);
 %=============================================================================
-R = isreal([1;2;3]);
-assert_istrue(R);
+R = isreal([1; 2; 3]);
+asserts.istrue(R);
 %=============================================================================
-R = isreal([1,2,3;4,5,6]);
-assert_istrue(R);
+R = isreal([1, 2, 3; 4, 5, 6]);
+asserts.istrue(R);
 %=============================================================================
 R = isreal([i]);
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
-R = isreal([i,2i,3i]);
-assert_isfalse(R);
+R = isreal([i, 2i, 3i]);
+asserts.isfalse(R);
 %=============================================================================
-R = isreal([i;2i;3i]);
-assert_isfalse(R);
+R = isreal([i; 2i; 3i]);
+asserts.isfalse(R);
 %=============================================================================
-R = isreal([i,2i,3i;4i,5i,6i]);
-assert_isfalse(R);
+R = isreal([i, 2i, 3i; 4i, 5i, 6i]);
+asserts.isfalse(R);
 %=============================================================================
-R = isreal(['s']);
-assert_istrue(R);
+% an empty array stored as complex is not real
+asserts.isfalse(isreal(complex(zeros(0, 1))));
+asserts.isfalse(isreal(complex(single([]))));
+asserts.isfalse(isreal(complex([], [])));
+asserts.isfalse(isreal(complex(zeros(0, 0, 2))));
+asserts.isfalse(isreal(sparse(complex([]))));
+asserts.isfalse(isreal(ones(0, 0, 'like', 1i)));
+asserts.isfalse(isreal(zeros(0, 0, 'like', 1i)));
+asserts.isfalse(isreal([1i, []]));
+asserts.isfalse(isreal([complex([]), []]));
 %=============================================================================
-R = isreal(['str1']);
-assert_istrue(R);
-%=============================================================================
-R = isreal(['str1','str2','str3']);
-assert_istrue(R);
-%=============================================================================
-R = isreal(['str1';'str2';'str3']);
-assert_istrue(R);
-%=============================================================================
-R = isreal(['str1','str2','str3';'str4','str5','str6']);
-assert_istrue(R);
-%=============================================================================
-R = isreal([[1]==[1]]);
-assert_istrue(R);
-%=============================================================================
-R = isreal([[1,2,3]==[1,0,3]]);
-assert_istrue(R);
-%=============================================================================
-R = isreal([[1;2;3]==[1;0;3]]);
-assert_istrue(R);
-%=============================================================================
-R = isreal([[1,2,3;4,5,6]==[1,0,3;4,5,0]]);
-assert_istrue(R);
-%=============================================================================
-R = isreal(rand(3,3,3));
-assert_istrue(R);
-%=============================================================================
-R = isreal(sparse(4 + 3i));
-assert_isfalse(R);
-%=============================================================================
-R = isreal(sparse(true));
-assert_istrue(R);
-%=============================================================================
-R = isreal({});
-assert_isfalse(R);
-%=============================================================================
-R = isreal(struct());
-assert_isfalse(R);
-%=============================================================================
-R = single([3, i]);
-assert_isfalse(isreal(R));
-%=============================================================================
-R = [3, i];
-assert_isfalse(isreal(R));
-%=============================================================================
-R = [3, 0i];
-assert_istrue(isreal(R));
+% results of operations on empty arrays are real
+asserts.istrue(isreal(zeros(0, 0) + 1i));
+asserts.istrue(isreal(1i * []));
+x = 1i;
+x(1) = [];
+asserts.istrue(isreal(x));
+x = [1i, 2i];
+asserts.istrue(isreal(x([])));
+asserts.istrue(isreal(repmat(1i, 0, 0)));
 %=============================================================================

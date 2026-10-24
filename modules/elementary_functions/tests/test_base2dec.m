@@ -7,46 +7,49 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('base2dec'), 2)
-assert_isequal(nargout('base2dec'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('base2dec'), 2)
+asserts.isequal(nargout('base2dec'), 1)
 %=============================================================================
 R = base2dec('212', 3);
 REF = 23;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = base2dec('', 3);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = base2dec('11120', 3);
 REF = 123;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 cmd = 'base2dec(''-14'', 2);';
-assert_checkerror(cmd, [_('Cannot convert: '), '-14']);
+asserts.checkerror(cmd, sprintf(_('Cannot convert: %s'), '-14'));
 %=============================================================================
 R = base2dec({'A2', '42A'}, 16);
-REF =  [162; 1066];
-assert_isequal(R, REF);
+REF = [162; 1066];
+asserts.isequal(R, REF);
 %=============================================================================
 R = base2dec('WIKIPEDIA', 36);
 REF = 9.173073869129800e+13;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = ['01010101'; '10101010'; ' 101010 '];
 R = base2dec(M, 2);
 REF = [85; 170; 42];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(1,		      base2dec('1', 36));
-assert_isequal(10,		      base2dec('A', 36));
-assert_isequal(100,		      base2dec('2S', 36));
-assert_isequal(1000,		  base2dec('RS', 36));
-assert_isequal(10000,	      base2dec('7PS', 36));
-assert_isequal(100000,		  base2dec('255S', 36));
-assert_isequal(1000000,		  base2dec('LFLS', 36));
-assert_isequal(1000000000,	  base2dec('GJDGXS', 36));
-assert_isequal(1000000000000, base2dec('CRE66I9S', 36));
+asserts.isequal(1, base2dec('1', 36));
+asserts.isequal(10, base2dec('A', 36));
+asserts.isequal(100, base2dec('2S', 36));
+asserts.isequal(1000, base2dec('RS', 36));
+asserts.isequal(10000, base2dec('7PS', 36));
+asserts.isequal(100000, base2dec('255S', 36));
+asserts.isequal(1000000, base2dec('LFLS', 36));
+asserts.isequal(1000000000, base2dec('GJDGXS', 36));
+asserts.isequal(1000000000000, base2dec('CRE66I9S', 36));
 %=============================================================================
-assert_isequal(base2dec(' 1 1 1 ', 2), 7);
+asserts.isequal(base2dec(' 1 1 1 ', 2), 7);
+%=============================================================================
+asserts.isequal(base2dec({'A', '10'}, 16), [10; 16]);
 %=============================================================================

@@ -11,33 +11,33 @@ A = ones(2, 3);
 B = [1 2 3; 4 5 6];
 R1 = B .\ A;
 R2 = ldivide(B, A);
-assert_isequal(R1, R2);
-REF = [1.0000    0.5000    0.3333; 0.2500    0.2000    0.1667];
-assert_isapprox(R1, REF, 1e-4);
+asserts.isequal(R1, R2);
+REF = [1.0000 0.5000 0.3333; 0.2500 0.2000 0.1667];
+asserts.isapprox(R1, REF, 1e-4);
 %=============================================================================
 B = 2;
 A = [1 2 3; 4 5 6];
 R = A .\ B;
-REF = [ 2.0000    1.0000    0.6667; 0.5000    0.4000    0.3333];
-assert_isapprox(R, REF, 1e-4);
+REF = [2.0000 1.0000 0.6667; 0.5000 0.4000 0.3333];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 A = 1:2;
 B = (1:3)';
 R = B .\ A;
-REF = [  1.0000    2.0000; 0.5000    1.0000; 0.3333    0.6667];
-assert_isapprox(R, REF, 1e-4);
+REF = [1.0000 2.0000; 0.5000 1.0000; 0.3333 0.6667];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 B = [2, 3];
 A = [1 2 3; 4 5 6];
-assert_checkerror('R = A .\ B', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
+asserts.checkerror('R = A .\ B', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
 %=============================================================================
 B = [2, 3];
 A = [1 2 3; 4 5 6];
-assert_checkerror('R = B .\ A', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
+asserts.checkerror('R = B .\ A', [_('Size mismatch on arguments to arithmetic operator'), ' ', './']);
 %=============================================================================
 A = 1:2;
 B = (1:3)';
 R = int32(B) .\ int32(A);
 REF = int32([1 2; 1 1; 0 1]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

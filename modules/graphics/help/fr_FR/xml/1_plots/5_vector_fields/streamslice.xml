@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>streamslice</keyword>
+  <short_description>Afficher la direction d'un champ vectoriel sur un plan.</short_description>
+  <syntax>
+    <syntax_item>streamslice(U, V)</syntax_item>
+    <syntax_item>streamslice(X, Y, U, V)</syntax_item>
+    <syntax_item>streamslice(X, Y, Z, U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamslice(parent, ...)</syntax_item>
+    <syntax_item>h = streamslice(...)</syntax_item>
+    <syntax_item>[vertices, arrowVertices] = streamslice(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>streamslice</b> affiche la direction d'un champ vectoriel au moyen d'objets line pour les chemins de courant et les fleches de direction.</p>
+    <p>Avec deux sorties, <b>streamslice</b> retourne des tableaux de cellules de sommets de lignes de courant et de sommets de fleches au lieu de tracer.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher la direction dans un champ 2-D.</example_item_description>
+      <example_item_data><![CDATA[[x, y] = meshgrid(-2:2, -2:2);
+streamslice(x, y, -y, x);]]></example_item_data>
+      <example_item_img src="../../../../images/streamslice_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

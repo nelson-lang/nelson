@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,10 @@
 //=============================================================================
 #include "IsValidHandle.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "HandleState.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,31 +21,22 @@ IsValidHandle(const ArrayOf& A)
 {
     ArrayOf res;
     if (A.isHandle()) {
-        Dimensions dimsA = A.getDimensions();
-        auto* qp = (nelson_handle*)A.getDataPointer();
+        Dimensions dimsA = A.dimensions();
+        auto* qp = (HandleRef*)A.dataPointer();
         if (qp != nullptr) {
-            logical* resArray = static_cast<logical*>(ArrayOf::allocateArrayOf(
-                NLS_LOGICAL, dimsA.getElementCount(), stringVector(), false));
-            indexType elementCount = dimsA.getElementCount();
+            logical* resArray = static_cast<logical*>(
+                ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.elementCount(), stringVector(), false));
+            indexType elementCount = dimsA.elementCount();
             for (indexType k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-                if (hlObj != nullptr) {
-                    if (hlObj->getPointer() != nullptr) {
-                        resArray[k] = true;
-                    } else {
-                        resArray[k] = false;
-                    }
-                } else {
-                    resArray[k] = false;
-                }
+                resArray[k] = qp[k] && qp[k]->isValid();
             }
             res = ArrayOf(NLS_LOGICAL, dimsA, resArray);
         } else {
-            res = ArrayOf::emptyConstructor(dimsA);
+            res = ArrayOf::empty(dimsA);
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((1)), L"handle");
     }
     return res;
 }

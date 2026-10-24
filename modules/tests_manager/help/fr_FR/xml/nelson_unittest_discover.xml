@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.unittest.discover</keyword>
+  <short_description>Decouvrir les fichiers de test et retourner une suite structuree.</short_description>
+  <syntax>
+    <syntax_item>suite = nelson.unittest.discover(targets)</syntax_item>
+    <syntax_item>suite = nelson.unittest.discover(targets, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>nom de module, dossier, nom de fichier ou tableau de cellules de
+        cibles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>option de selection <b>Kind</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>suite</param_name>
+      <param_description>structure TestSuite contenant les entrees TestCase decouvertes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.discover</b> trouve les fichiers <b>test_*.m</b>, <b>bug_*.m</b> et <b>bench_*.m</b>.</p>
+    <p>La decouverte relit les tags des fichiers a chaque appel et renseigne les champs TestCase stables comme
+      id, module, file, name, kind, tags, mode, resources, timeout et weight.</p>
+    <p>Pour un module externe, le champ module provient du manifeste module.json et la racine est
+      repérée par le fichier etc/startup.m englobant. Les installations versionnées, les dossiers
+      temporaires de préparation des paquets et les tests imbriqués sont pris en charge. Les modules
+      fournis avec Nelson et les anciens modules enregistrés sont identifiés par leur racine.
+      Un nom de dossier seul ne suffit pas ; sans identité valide, le champ module est vide.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+suite = nelson.unittest.discover('string', 'Kind', 'all_tests');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest">nelson.unittest</link></see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.select">nelson.unittest.select</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

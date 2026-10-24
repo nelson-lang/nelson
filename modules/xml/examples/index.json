@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "xml_roundtrip.m",
+      "title": "XML document round trip",
+      "description": "Write XML to a temporary file, parse it and serialize the document.",
+      "tags": [
+        "xml",
+        "data"
+      ],
+      "requirements": []
+    }
+  ]
+}

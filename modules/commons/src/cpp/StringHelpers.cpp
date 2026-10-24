@@ -570,5 +570,5 @@ count(const std::string& string, const std::string& subString)
     return count;
 }
 //=============================================================================
-}
+} // namespace Nelson::StringHelpers
 //=============================================================================

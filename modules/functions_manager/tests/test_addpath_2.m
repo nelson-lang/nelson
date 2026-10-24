@@ -16,4 +16,4 @@ else
   REF = [r, ':/'];
 end
 np = path();
-assert_isequal(np, REF);
+asserts.isequal(np, REF);

@@ -9,7 +9,7 @@
 %=============================================================================
 % creates ref h5 file with all types supported by Nelson
 %=============================================================================
-current_schema_file = [tempdir(), 'schema.nh5'];
+current_schema_file = [tempname(), '.nh5'];
 if isfile(current_schema_file)
   rmfile(current_schema_file);
 end
@@ -36,23 +36,23 @@ B = eye(5, 4);
 savenh5(H5_FILE, 'B', '-append');
 %=============================================================================
 % double complex
-C = eye(5,4) + 2i;
+C = eye(5, 4) + 2i;
 savenh5(H5_FILE, 'C', '-append');
 %=============================================================================
 % double empty
-D = ones(0,3);
+D = ones(0, 3);
 savenh5(H5_FILE, 'D', '-append');
 %=============================================================================
 % single
-E = single(eye(5,4));
+E = single(eye(5, 4));
 savenh5(H5_FILE, 'E', '-append');
 %=============================================================================
 % complex single
-F = single(eye(5,4) + 2i);
+F = single(eye(5, 4) + 2i);
 savenh5(H5_FILE, 'F', '-append');
 %=============================================================================
 % single empty
-G = single(ones(0,3));
+G = single(ones(0, 3));
 savenh5(H5_FILE, 'G', '-append');
 %=============================================================================
 % unicode characters
@@ -61,9 +61,9 @@ savenh5(H5_FILE, 'H', '-append');
 %=============================================================================
 % unicode
 I = ['NelSon';
-'is    ';
-'not   ';
-'LensOn'];
+  'is    ';
+  'not   ';
+  'LensOn'];
 savenh5(H5_FILE, 'I', '-append');
 %=============================================================================
 % function_handle
@@ -71,31 +71,31 @@ J = @sin;
 savenh5(H5_FILE, 'J', '-append');
 %=============================================================================
 % sparse double
-K = sparse(eye(3,3));
+K = sparse(eye(3, 3));
 savenh5(H5_FILE, 'K', '-append');
 %=============================================================================
 % sparse double complex
-L = sparse(eye(3,3) + 2i );
+L = sparse(eye(3, 3) + 2i);
 savenh5(H5_FILE, 'L', '-append');
 %=============================================================================
 % sparse logical
-M = sparse(logical(eye(3,3)));
+M = sparse(logical(eye(3, 3)));
 savenh5(H5_FILE, 'M', '-append');
 %=============================================================================
 % nd array double
-N = ones(3,4,2);
+N = ones(3, 4, 2);
 savenh5(H5_FILE, 'N', '-append');
 %=============================================================================
 % nd array double complex
-O = complex(ones(3,4,2), 2);
+O = complex(ones(3, 4, 2), 2);
 savenh5(H5_FILE, 'O', '-append');
 %=============================================================================
 % empty 2D cell
-P = cell(3,4);
+P = cell(3, 4);
 savenh5(H5_FILE, 'P', '-append');
 %=============================================================================
 % cell
-Q = {'jim', 89, [5 2 1] ; 'george', pi, 3i};
+Q = {'jim', 89, [5 2 1]; 'george', pi, 3i};
 savenh5(H5_FILE, 'Q', '-append');
 %=============================================================================
 % nd array cell
@@ -130,7 +130,7 @@ W = uint16(W);
 savenh5(H5_FILE, 'W', '-append');
 %=============================================================================
 % nd array int32
-X = ones(3,4,6);
+X = ones(3, 4, 6);
 X = int32(X);
 savenh5(H5_FILE, 'X', '-append');
 %=============================================================================
@@ -213,21 +213,21 @@ savenh5(H5_FILE, 'AP', '-append');
 AQ = struct([]);
 savenh5(H5_FILE, 'AQ', '-append');
 %=============================================================================
-AR = struct(ones(1,0));
+AR = struct(ones(1, 0));
 savenh5(H5_FILE, 'AR', '-append');
 %=============================================================================
-AS = struct(ones(0,1));
+AS = struct(ones(0, 1));
 savenh5(H5_FILE, 'AS', '-append');
 %=============================================================================
 AT = struct(ones(3, 0, 2));
 savenh5(H5_FILE, 'AT', '-append');
 %=============================================================================
 c = {'tree', 37.4, 'birch'};
-f = {'category','height','name'};
+f = {'category', 'height', 'name'};
 AU = cell2struct(c, f, 2);
 savenh5(H5_FILE, 'AU', '-append');
 %=============================================================================
-c = {'birch','betula',65;  'maple','acer',50};
+c = {'birch', 'betula', 65; 'maple', 'acer', 50};
 f = {'name', 'genus', 'height'};
 AV = cell2struct(c, f, 2);
 savenh5(H5_FILE, 'AV', '-append');
@@ -237,23 +237,23 @@ AW = cell2struct(cell(size(my_cell_array)), my_cell_array, 2);
 savenh5(H5_FILE, 'AW', '-append');
 %=============================================================================
 clear C;
-C{1}='tim';
-C{2}='love';
-C{3}=1.73;
-AX=cell2struct(C,{'firstname','familyname','height'},2);
+C{1} = 'tim';
+C{2} = 'love';
+C{3} = 1.73;
+AX = cell2struct(C, {'firstname', 'familyname', 'height'}, 2);
 savenh5(H5_FILE, 'AX', '-append');
 %=============================================================================
 clear C;
-C{1}='tim';
-C{2}='love';
-C{3}=1.73;
-AY=cell2struct(C,{'firstname'});
+C{1} = 'tim';
+C{2} = 'love';
+C{3} = 1.73;
+AY = cell2struct(C, {'firstname'});
 savenh5(H5_FILE, 'AY', '-append');
 %=============================================================================
 AZ = ["NelSon";
-"is";
-"not";
-"LensOn"];
+  "is";
+  "not";
+  "LensOn"];
 savenh5(H5_FILE, 'AZ', '-append');
 %=============================================================================
 addpath([nelsonroot(), '/modules/overload/examples/complex']);

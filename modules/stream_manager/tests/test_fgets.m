@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('fgets'), 2);
-assert_isequal(nargout('fgets'), 1);
+asserts.isequal(nargin('fgets'), 2);
+asserts.isequal(nargout('fgets'), 1);
 %=============================================================================
-f = [nelsonroot(), '/etc/startup.m'];
+f = [tempname(), '.txt'];
+filewrite(f, ['abcdef', newline(), 'ghijk', newline(), 'lmn']);
+cleanupFile = onCleanup(@() rmfile(f)); %#ok<NLS0004>
 %=============================================================================
 fid = fopen(f, 'rt');
 i = 0;
@@ -22,7 +24,7 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_isequal(i,  26);
+asserts.isequal(i, 3);
 %=============================================================================
 fid = fopen(f, 'rt');
 i = 0;
@@ -34,5 +36,5 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_isequal(i, 220);
+asserts.isequal(i, 5);
 %=============================================================================

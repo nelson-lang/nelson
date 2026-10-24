@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dbscan</keyword>
+  <short_description>Density-based spatial clustering.</short_description>
+  <syntax>
+    <syntax_item>idx = dbscan(X, epsilon, minpts)</syntax_item>
+    <syntax_item>idx = dbscan(X, epsilon, minpts, &apos;Distance&apos;, distance)</syntax_item>
+    <syntax_item>idx = dbscan(X, epsilon, minpts, &apos;Distance&apos;, &apos;minkowski&apos;, &apos;P&apos;, p)</syntax_item>
+    <syntax_item>idx = dbscan(X, epsilon, minpts, &apos;Distance&apos;, &apos;seuclidean&apos;, &apos;Scale&apos;, scale)</syntax_item>
+    <syntax_item>idx = dbscan(X, epsilon, minpts, &apos;Distance&apos;, &apos;mahalanobis&apos;, &apos;Cov&apos;, cov)</syntax_item>
+    <syntax_item>idx = dbscan(D, epsilon, minpts, &apos;Distance&apos;, &apos;precomputed&apos;)</syntax_item>
+    <syntax_item>idx = dbscan(B, [], minpts, &apos;Distance&apos;, &apos;precomputed&apos;)</syntax_item>
+    <syntax_item>[idx, corepts] = dbscan(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>real full numeric matrix. Each row is one observation and each column is one variable. Empty input with zero rows is accepted and returns empty outputs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>D</param_name>
+      <param_description>real full precomputed distance data. D can be a square n-by-n matrix or a vector containing the lower triangular distances in column order: d(2,1), d(3,1), ..., d(n,1), d(3,2), ..., d(n,n-1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>logical full precomputed neighborhood data. True values mark observations that are neighbors. B can be a square matrix or the same compact lower triangular vector form as D. The diagonal is always treated as true because each observation is its own neighbor.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>epsilon</param_name>
+      <param_description>positive scalar neighborhood radius. A distance exactly equal to epsilon is inside the neighborhood. Use [] only when the precomputed input is logical.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>minpts</param_name>
+      <param_description>positive integer minimum number of observations in an epsilon-neighborhood for a core point. The observation itself is included in this count.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>distance</param_name>
+      <param_description>distance name or function handle. Names can be abbreviated when the abbreviation is not ambiguous.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>positive scalar exponent used only with &apos;minkowski&apos;. The default exponent is 2.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>positive finite vector used only with &apos;seuclidean&apos;. Its length must match the number of columns in X. When omitted, the scale is computed from X.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>cov</param_name>
+      <param_description>symmetric positive definite matrix used only with &apos;mahalanobis&apos;. Its size must match the number of columns in X. When omitted, the covariance matrix is computed from X.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>idx</param_name>
+      <param_description>double column vector of cluster labels. Cluster labels start at 1 in discovery order. Noise observations are labeled -1.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>corepts</param_name>
+      <param_description>logical column vector. True means that the corresponding observation has at least minpts observations in its epsilon-neighborhood.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>dbscan</b> groups observations by density connectivity. The algorithm first finds all observations within epsilon of a candidate observation. A candidate is a core point when this neighborhood contains at least minpts observations. Clusters are expanded from core points and include all density-reachable core and border points.</p>
+    <p>Distances are compared with an inclusive test: distance &lt;= epsilon. This matters for points exactly on the boundary. Points that are not density-reachable from any core point are returned as noise with label -1.</p>
+    <p>Supported built-in distance values are &apos;euclidean&apos;, &apos;squaredeuclidean&apos;, &apos;seuclidean&apos;, &apos;cityblock&apos;, &apos;chebychev&apos;, &apos;minkowski&apos;, &apos;mahalanobis&apos;, &apos;cosine&apos;, &apos;correlation&apos;, &apos;spearman&apos;, &apos;hamming&apos;, &apos;jaccard&apos;, and &apos;precomputed&apos;. Built-in distances are usually faster than a function handle.</p>
+    <p>A distance function handle must accept two inputs: one row observation and the complete data matrix. It must return one real numeric distance for each row of X. The returned vector can be a row or column vector.</p>
+    <p>For &apos;squaredeuclidean&apos;, epsilon is compared to the squared Euclidean distance. For &apos;precomputed&apos; numeric input, epsilon is still required and is compared to the values stored in D. For &apos;precomputed&apos; logical input, epsilon must be [] because B already encodes the neighborhood relation.</p>
+    <p>The order of cluster labels follows the order in which clusters are discovered from the input rows. Border observations that are reachable from more than one cluster are assigned to the first discovered cluster that reaches them.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}pdist2">pdist2</link>
+    <link linkend="${statistics}kmeans">kmeans</link>
+    <link linkend="${statistics}kmedoids">kmedoids</link>
+    <link linkend="${statistics}silhouette">silhouette</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Cluster two dense groups and one noise observation.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0 0.1; 5 5; 5 5.1; 10 10];
+[idx, corepts] = dbscan(X, 0.2, 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return only the cluster labels.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0 0.1; 5 5; 5 5.1];
+idx = dbscan(X, 0.2, 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a larger minpts value to mark all observations as noise.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0; 0.1];
+[idx, corepts] = dbscan(X, 1, 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Points exactly at epsilon are included in the neighborhood.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0; 1; 2];
+idx = dbscan(X, 1, 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Cluster duplicate rows with a very small radius.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 1; 1 1; 1 1; 5 5];
+[idx, corepts] = dbscan(X, 1e-12, 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use squared Euclidean distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 1, 2, 'Distance', 'squaredeuclidean')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use city block distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 0.2, 2, 'Distance', 'cityblock')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Chebychev distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 0.1, 2, 'Distance', 'chebychev')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Minkowski distance with exponent 1.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 0.2, 2, 'Distance', 'minkowski', 'P', 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use standardized Euclidean distance with an explicit scale.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 0.2, 2, 'Distance', 'seuclidean', 'Scale', [1 1])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Mahalanobis distance with an explicit covariance matrix.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
+idx = dbscan(X, 0.2, 2, 'Distance', 'mahalanobis', 'Cov', eye(2))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use cosine distance to group observations with the same direction.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 0; 2 0; 0 1; 0 2];
+idx = dbscan(X, 0.01, 2, 'Distance', 'cosine')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use correlation distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 2; 2 3; 10 9; 11 10];
+idx = dbscan(X, 0.01, 2, 'Distance', 'correlation')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Spearman distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 2; 2 3; 10 9; 11 10];
+idx = dbscan(X, 0.01, 2, 'Distance', 'spearman')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Hamming distance on binary-valued rows.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 0 0; 1 0 0; 0 1 0; 0 1 0];
+idx = dbscan(X, 0.01, 2, 'Distance', 'hamming')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use Jaccard distance on sparse-pattern rows.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [1 0 0; 1 0 0; 0 1 0; 0 1 0];
+idx = dbscan(X, 0.01, 2, 'Distance', 'jaccard')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a custom distance function handle.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0 0; 0 0.1; 5 5; 5 5.1; 10 10];
+f = @(row, A) sqrt((A(:, 1) - row(1)).^2 + (A(:, 2) - row(2)).^2);
+idx = dbscan(X, 0.2, 2, 'Distance', f)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a square precomputed distance matrix.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = [0; 0.1; 5; 5.1; 10];
+D = abs(X - X');
+idx = dbscan(D, 0.2, 2, 'Distance', 'precomputed')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a compact precomputed distance vector.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[Dv = [0.1 5 5.1 10 4.9 5 9.9 0.1 5 4.9];
+idx = dbscan(Dv, 0.2, 2, 'Distance', 'precomputed')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a logical precomputed neighborhood matrix.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[B = [true true false; true true true; false true true];
+idx = dbscan(B, [], 2, 'Distance', 'precomputed')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a compact logical precomputed neighborhood vector.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[Bv = [true false false true false true];
+idx = dbscan(Bv, [], 2, 'Distance', 'precomputed')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot elongated clusters with outliers.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(11);
+n = 70;
+u = 2 * rand(n, 1) - 1;
+v = 2 * rand(n, 1) - 1;
+X1 = [1.2 * u - 1.4, 0.35 * u + 0.12 * rand(n, 1)];
+X2 = [0.25 * v + 2.0, 1.2 * v + 0.18 * rand(n, 1) + 1.2];
+X3 = [4.8 * rand(18, 1) - 2.2, 3.8 * rand(18, 1) - 1.3];
+X = [X1; X2; X3];
+idx = dbscan(X, 0.32, 6);
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Elongated clusters with outliers');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot clusters with different shapes and sizes.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(12);
+n1 = 90;
+n2 = 55;
+n3 = 70;
+theta = 2 * pi * rand(n1, 1);
+r = 0.35 * sqrt(rand(n1, 1));
+X1 = [r .* cos(theta) - 1.6, r .* sin(theta) + 1.0];
+X2 = [0.9 * rand(n2, 1) + 1.2, 0.25 * rand(n2, 1) - 1.1];
+X3 = [0.35 * (rand(n3, 1) - 0.5) + 0.5, 1.2 * (rand(n3, 1) - 0.5) + 1.6];
+X = [X1; X2; X3];
+idx = dbscan(X, 0.28, 5);
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Clusters with different shapes and sizes');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot two sinusoidal bands.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(13);
+n = 140;
+t = linspace(-2.5, 2.5, n)';
+X1 = [t, sin(1.3 * t)] + 0.08 * (rand(n, 2) - 0.5);
+X2 = [t, sin(1.3 * t) - 1.1] + 0.08 * (rand(n, 2) - 0.5);
+X = [X1; X2];
+idx = dbscan(X, 0.18, 5);
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Sinusoidal bands');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_3.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot separated arc-shaped clusters.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(14);
+t1 = linspace(0.2 * pi, 1.55 * pi, 150)';
+t2 = linspace(1.85 * pi, 3.15 * pi, 130)';
+r1 = 1 + 0.05 * (rand(150, 1) - 0.5);
+r2 = 1 + 0.05 * (rand(130, 1) - 0.5);
+X1 = [r1 .* cos(t1), r1 .* sin(t1)] + [-1.2, 0.2];
+X2 = [1.1 * r2 .* cos(t2), 0.65 * r2 .* sin(t2)] + [1.4, -0.3];
+X3 = [4 * rand(20, 1) - 2, 2.6 * rand(20, 1) - 1.3];
+X = [X1; X2; X3];
+idx = dbscan(X, 0.18, 5);
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Separated arc-shaped clusters');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_4.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot a wavy ribbon and a dense island.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(15);
+n = 220;
+t = linspace(0, 4 * pi, n)';
+X1 = [t / (2 * pi) - 1, 0.5 * sin(t)] + 0.07 * (rand(n, 2) - 0.5);
+X2 = 0.18 * (rand(80, 2) - 0.5) + [0.8, 1.0];
+X3 = [2.8 * rand(20, 1) - 1.4, 2.6 * rand(20, 1) - 1.1];
+X = [X1; X2; X3];
+idx = dbscan(X, 0.14, 5);
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Wavy ribbon and dense island');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_5.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot right-angled clusters with the city block distance.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+rng(16);
+n = 70;
+t = linspace(0, 1, n)';
+X1 = [[t, zeros(n, 1)]; [ones(n, 1), t]] + 0.04 * (rand(2 * n, 2) - 0.5) - [1.7, 0.4];
+X2 = [[-t, zeros(n, 1)]; [-ones(n, 1), t]] + 0.04 * (rand(2 * n, 2) - 0.5) + [1.7, -0.4];
+X = [X1; X2];
+idx = dbscan(X, 0.16, 4, 'Distance', 'cityblock');
+c = idx;
+c(c < 0) = 0;
+scatter(X(:, 1), X(:, 2), 36, c, 'filled');
+axis equal;
+title('Right-angled clusters with city block distance');
+xlabel('x1');
+ylabel('x2');]]></example_item_data>
+      <example_item_img
+        src="../../images/dbscan_6.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Cluster two rings with the default distance.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[N = 90;
+theta = linspace(0, 2 * pi, N)';
+X = [[0.5 * cos(theta), 0.5 * sin(theta)]; [5 * cos(theta), 5 * sin(theta)]];
+idx = dbscan(X, 1, 5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Handle an empty data matrix.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[idx = dbscan(zeros(0, 2), 1, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also />
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

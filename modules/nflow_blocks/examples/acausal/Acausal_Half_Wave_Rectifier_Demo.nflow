@@ -1,0 +1,120 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal half-wave rectifier: a sine AC source (via a SignalVoltage) feeds a diode into an RC load. The diode conducts only on positive half-cycles and the capacitor smooths the output, so the load voltage is a rectified, ripple-smoothed waveform. The Scope plots the output voltage; ToWorkspace exports it.",
+  "name": "Acausal Half-Wave Rectifier",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "params": { "Amplitude": 2, "Frequency": 1 },
+      "inputs": 0,
+      "outputs": 1,
+      "x": -140,
+      "y": 150,
+      "rotation": 0
+    },
+    {
+      "id": "Vac",
+      "type": "SignalVoltage",
+      "params": { "name": "Vac" },
+      "x": 50,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "D1",
+      "type": "Diode",
+      "params": { "name": "D1", "Is": 1e-9, "Vt": 0.04 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 1000 },
+      "x": 350,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "C1",
+      "type": "Capacitor",
+      "params": { "name": "C1", "C": 0.001, "v0": 0 },
+      "x": 490,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "VS",
+      "type": "VoltageSensor",
+      "params": { "name": "Vout" },
+      "x": 630,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 50,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "G2",
+      "type": "Ground",
+      "params": {},
+      "x": 350,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vout" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 790,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 790,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "src", "to": "Vac", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 3,
+  "sampleTime": 0.005,
+  "physicalWires": [
+    { "pins": ["Vac.p", "D1.p"] },
+    { "pins": ["D1.n", "R1.p", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "Vac.n"] },
+    { "pins": ["G2.p", "R1.n", "C1.n", "VS.n"] }
+  ]
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uihtml</keyword>
+  <short_description>Cree un composant HTML.</short_description>
+  <syntax>
+    <syntax_item>h = uihtml()</syntax_item>
+    <syntax_item>h = uihtml(parent)</syntax_item>
+    <syntax_item>h = uihtml(..., nomPropriete, valeurPropriete)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>objet parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nomPropriete, valeurPropriete</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet graphique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>h = uihtml()</b> cree un composant qui affiche une page HTML dans une figure et echange des donnees avec elle.</p>
+    <p><b>uihtml necessite le bureau WebView.</b> Ailleurs, il leve <b>Nelson:uihtml:webviewDesktopRequired</b>, car aucune page ne peut y etre affichee. Demarrez le bureau WebView pour l'utiliser.</p>
+    <p><b>HTMLSource</b> accepte deux formes : du balisage HTML, ou le nom d'un fichier HTML (relatif ou absolu). La valeur est conservee telle quelle. Une URL n'est pas acceptee.</p>
+    <p>La page doit definir une fonction globale <b>setup</b> prenant un argument. Elle s'execute une fois le contenu charge, puis a chaque fois que <b>HTMLSource</b> prend une valeur differente. Reaffecter la meme valeur ne change rien.</p>
+    <p>L'objet passe a <b>setup</b> porte la propriete <b>Data</b>, les methodes <b>addEventListener</b> et <b>removeEventListener</b>, et la methode <b>sendEventToNelson(nom, donnees)</b>. Les pages ecrites pour d'autres environnements nomment cette derniere methode autrement et doivent etre modifiees.</p>
+    <p>La notification est asymetrique. Ecrire <b>Data</b> depuis Nelson leve l'evenement <b>DataChanged</b> dans la page et n'execute <b>pas</b> <b>DataChangedFcn</b>. L'ecrire depuis la page execute <b>DataChangedFcn</b>, dont l'evenement porte <b>Data</b> et <b>PreviousData</b>, et n'est pas renvoyee vers la page. Ecrire une valeur egale a la valeur courante ne notifie personne.</p>
+    <p><b>Data</b> transite en JSON dans les deux sens : une valeur revient donc telle que <b>jsonencode</b> puis <b>jsondecode</b> la laissent. Les entiers reviennent en double, les vecteurs ligne reviennent en colonne, <b>datetime</b> et <b>categorical</b> reviennent en texte, et les valeurs complexes ne peuvent pas etre transmises.</p>
+    <p><b>sendEventToHTMLSource</b> envoie un evenement nomme a la page, que celle-ci recoit via <b>addEventListener</b>. Un evenement de la page parvient a Nelson via <b>HTMLEventReceivedFcn</b>, dont l'evenement porte <b>HTMLEventName</b> et <b>HTMLEventData</b>. Les evenements de la page sont delivres dans l'ordre ou elle les a envoyes.</p>
+    <p>La page conserve son etat lorsqu'elle est masquee, lorsque son onglet n'est pas selectionne, et lors d'un changement de parent au sein du bureau. Deplacer une figure entre sa propre fenetre et le bureau docke n'en fait pas partie : la page change de document, elle est reconstruite et <b>setup</b> s'execute a nouveau.</p>
+    <p>Ecrivez une page capable de se reconstruire. <b>Data</b> conserve sa valeur au travers d'une telle reconstruction : lisez-la dans <b>setup</b> et affichez a partir d'elle, plutot que d'attendre <b>DataChanged</b>, une notification qu'une page neuve a deja manquee. Une page qui n'affiche que sur <b>DataChanged</b> revient vide, et rejouer la poignee de main ne la sauve pas : ecrire la valeur deja publiee ne notifie personne.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>une page qui lit Data et repond par un evenement</example_item_description>
+      <example_item_data><![CDATA[
+f = uifigure();
+page = ['<html><body><p id="out">waiting</p><script>', ...
+  'function setup(h) {', ...
+  '  h.addEventListener("DataChanged", function () {', ...
+  '    document.getElementById("out").textContent = JSON.stringify(h.Data);', ...
+  '  });', ...
+  '  h.sendEventToNelson("ready", {});', ...
+  '}</script></body></html>'];
+h = uihtml(f, 'Position', [10 10 400 200], 'HTMLSource', page);
+h.HTMLEventReceivedFcn = @(src, evt) disp(evt.HTMLEventName);
+h.Data = struct('temperature', 21.5);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${json}jsonencode">jsonencode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

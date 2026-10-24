@@ -3,55 +3,69 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>sum</keyword>
-  <short_description>Somme des éléments d&apos;un tableau.</short_description>
+  <short_description>Somme des &#233;l&#233;ments d&apos;un tableau.</short_description>
   <syntax>
     <syntax_item>R = sum(M)</syntax_item>
     <syntax_item>R = sum(M, d)</syntax_item>
-    <syntax_item>R = sum(M, d)</syntax_item>
+    <syntax_item>R = sum(M, &apos;all&apos;)</syntax_item>
+    <syntax_item>R = sum(M, ___, f)</syntax_item>
     <syntax_item>R = sum(M, d, t)</syntax_item>
-    <syntax_item>R = sum(M, d, t, f)</syntax_item>
+    <syntax_item>R = sum(M, &apos;all&apos;, t, f)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>M</param_name>
-      <param_description
-      >un tableau de double, single, entiers, ...</param_description>
+      <param_description>un tableau de double, single, entiers, ...</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>d</param_name>
-      <param_description
-      >dimension le long de laquelle opérer : entier positif scalaire.</param_description>
+      <param_description>dimension le long de laquelle op&#233;rer : entier positif scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;all&apos;</param_name>
+      <param_description>somme tous les &#233;l&#233;ments de M et renvoie un scalaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description
-      >une chaîne : &apos;default&apos;, &apos;double&apos; ou &apos;native&apos;.</param_description>
+      <param_description>cha&#238;ne : &apos;default&apos;, &apos;double&apos; ou &apos;native&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>f</param_name>
-      <param_description
-      >une chaîne : &apos;includenan&apos; ou &apos;omitnan&apos;.</param_description>
+      <param_description>cha&#238;ne : &apos;includenan&apos; ou &apos;omitnan&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>Somme des éléments du tableau.</param_description>
+      <param_description>somme des &#233;l&#233;ments du tableau.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>R = sum(M)</b> renvoie la somme des éléments du tableau M.</p>
+    <p><b>R = sum(M)</b> renvoie la somme selon la premi&#232;re dimension non singleton de M.</p>
+    <p><b>R = sum(M, d)</b> somme selon la dimension d. <b>R = sum(M, &apos;all&apos;)</b> somme tous les &#233;l&#233;ments de M et renvoie un scalaire.</p>
+    <p>Les arguments texte optionnels contr&#244;lent le type de sortie (<b>&apos;default&apos;</b>, <b>&apos;double&apos;</b> ou <b>&apos;native&apos;</b>) et le traitement des NaN (<b>&apos;includenan&apos;</b> ou <b>&apos;omitnan&apos;</b>).</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);
+      <example_item_description>Sommer selon une dimension.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [1 2; 3 4];
+R = sum(M, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sommer tous les &#233;l&#233;ments.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [1 2; 3 4];
+R = sum(M, 'all')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Conserver le type entier natif.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = uint8([10:30:70;20:30:80;30:30:90]);
 R = sum(M, 'native')]]></example_item_data>
     </example_item>
   </examples>

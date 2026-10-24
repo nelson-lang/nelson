@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
 MatrixTan(const ArrayOf& A, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

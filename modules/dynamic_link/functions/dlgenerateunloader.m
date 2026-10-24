@@ -12,12 +12,12 @@ function dlgenerateunloader(destinationdir, libraryname, ismexfunction)
     ismexfunction = false;
   end
   if ~isdir(destinationdir)
-    error(_('A valid destination directory expected.'));
+    error('Nelson:dynamic_link:invalidDestinationDirectory', 'A valid destination directory expected.');
   end
   if ~ischar(libraryname) && ~iscellstr(libraryname)
-    error(_('#2 input argument: A string or cell of strings expected.'));
+    error('Nelson:types:stringOrCellExpected', '#%d argument: A string or cell of strings expected.', 2);
   end
-  
+
   mexFunctionsListFilename = [destinationdir, '/mexFunctionsList.json'];
   mexFunctionsList = struct();
   if isfile(mexFunctionsListFilename)

@@ -13,10 +13,10 @@ end
 %=============================================================================
 [status, compiler] = loadcompilerconf();
 if ispc()
-  assert_istrue(islogical(status));
-  assert_istrue(strcmp(compiler, '') || strcmp(compiler, 'mingw') ||  strcmp(compiler, 'msvc'));
+  asserts.istrue(islogical(status));
+  asserts.istrue(strcmp(compiler, '') || strcmp(compiler, 'mingw') || strcmp(compiler, 'msvc'));
 else
-  assert_isfalse(status);
-  assert_isequal(compiler, 'unix');
+  asserts.isfalse(status);
+  asserts.isequal(compiler, 'unix');
 end
 %=============================================================================

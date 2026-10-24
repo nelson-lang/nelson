@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fliplightness</keyword>
+  <short_description>Darken light colors and lighten dark colors.</short_description>
+  <syntax>
+    <syntax_item>newcolors = fliplightness(colors)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>colors</param_name>
+      <param_description
+      >colors to flip: m-by-3 matrix of RGB triplets, m-by-n-by-3 truecolor array, hexadecimal color code ('#FF8800' or '#F80'), color name ('red', 'r', ...), cell array of character vectors or string array. Numeric values are single or double in the range [0, 1], or integers spanning the whole range of their integer type.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newcolors</param_name>
+      <param_description
+      >flipped colors, with the same size and type as colors. Hexadecimal color codes are returned as hexadecimal color codes; color names are returned as an m-by-3 matrix of RGB triplets.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fliplightness</b> darkens the light colors and lightens the dark colors specified in <b>colors</b>, which is useful to adapt a set of colors to a dark background.</p>
+    <p>Each color is converted to the Oklab color space and its lightness <b>L</b> is replaced so that <b>L^(3/2)</b> becomes <b>1 - L^(3/2)</b>: black becomes white, white becomes black. Hue and chroma are kept. When the new color falls outside the sRGB gamut, its chroma is reduced to the largest value inside the gamut, keeping its lightness and hue.</p>
+    <p>Calling <b>fliplightness</b> twice may not return the original colors, because of the chroma reduction.</p>
+  </description>
+  <used_function />
+  <bibliography>Bjorn Ottosson, A perceptual color space for image processing (Oklab), 2020.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Flip RGB triplets and hexadecimal color codes.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[newcolors = fliplightness([0 0 0; 1 1 1; 0.2 0.4 0.6])
+newhex = fliplightness(["#FF8800", "#000000"])
+newrgb = fliplightness(uint8([200 180 160]))
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Original and flipped parula colormap.</example_item_description>
+      <example_item_data
+      ><![CDATA[C = parula(256);
+f = figure();
+image(cat(1, reshape(C, [1, 256, 3]), reshape(fliplightness(C), [1, 256, 3])));
+axis off
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/validatecolor">validatecolor</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/colororder">colororder</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/theme">theme</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

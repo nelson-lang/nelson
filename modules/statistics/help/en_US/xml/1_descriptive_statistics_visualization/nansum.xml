@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nansum</keyword>
+  <short_description>Sum, ignoring NaN values.</short_description>
+  <syntax>
+    <syntax_item>y = nansum(X)</syntax_item>
+    <syntax_item>y = nansum(X, dim)</syntax_item>
+    <syntax_item>y = nansum(X, vecdim)</syntax_item>
+    <syntax_item>y = nansum(X, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nansum</b> computes the sum after removing <b>NaN</b> values from each operated slice; a slice made only of <b>NaN</b> sums to <b>0</b>.</p>
+    <p>The default operating dimension is the first nonsingleton dimension.</p>
+    <p>It is equivalent to <b>sum(X, ..., 'omitnan')</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = nansum([1 NaN 3 NaN 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}sum">sum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmean">nanmean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmax">nanmax</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmin">nanmin</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

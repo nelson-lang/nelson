@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="207" viewBox="-153.5 -103.5 307 207">
+  <rect x="-153.5" y="-103.5" width="307" height="207" rx="39.33" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-60,-20 40,-20" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,20 40,20" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,0 -60,-20" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,0 -60,20" fill="none" stroke="#9C2A1A" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="40,0 40,40 70,20 40,0" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="40,-40 40,0 70,-20 40,-40" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="70" y="-40" width="20" height="80" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">PrescribedHeatFlow</text></g>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>ode_solvers</module_name>
+  <chapter>Resolution d'EDO</chapter>
+  <chapter_description>
+    <p>Le module ODE Solvers fournit des fonctions d'integration en temps pour les problemes differentiels explicites, raides et implicites dans Nelson.</p>
+    <p>Il inclut les points d'entree des solveurs, les wrappers pour equations a retard et problemes aux limites, la gestion des options, l'interpolation, l'extension des solutions, la detection d'evenements et les definitions de problemes orientees objet.</p>
+    <p>Quand le backend optionnel SUNDIALS est construit, le workflow objet peut aussi selectionner des valeurs de solveur CVODES et IDAS.</p>
+    <p>Le module vise les experiences numeriques, les simulations et les exemples pedagogiques qui demandent une configuration compacte et des objets de resultats reproductibles.</p>
+    <p>Les tutoriels couvrent le choix du solveur, les evenements, les tolerances, les matrices de masse, les equations implicites, les equations a retard, les problemes aux limites, l'interpolation, l'extension, les workflows objet et les etats complexes.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Domaine</th>
+        <th>Entrees principales</th>
+      </tr>
+      <tr>
+        <td>Problemes a valeur initiale</td>
+        <td>
+          <b>ode23</b>, <b>ode45</b>, <b>ode78</b>, <b>ode89</b>, <b>ode113</b>, <b>ode15s</b>, <b>ode15i</b></td>
+      </tr>
+      <tr>
+        <td>Equations a retard et problemes aux limites</td>
+        <td>
+          <b>dde23</b>, <b>ddesd</b>, <b>ddensd</b>, <b>bvp4c</b>, <b>bvp5c</b></td>
+      </tr>
+      <tr>
+        <td>Utilitaires</td>
+        <td>
+          <b>odeset</b>, <b>deval</b>, <b>odextend</b>, <b>ode</b>, <b>odeEvent</b>, <b>odeSensitivity</b></td>
+      </tr>
+    </table>
+  </chapter_description>
+</xmldoc>

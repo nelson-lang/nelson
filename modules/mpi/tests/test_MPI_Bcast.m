@@ -9,10 +9,12 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
-my_rank = MPI_Comm_rank ();
+my_rank = MPI_Comm_rank();
 num_ranks = MPI_Comm_size();
 root = 0;
 if (my_rank == 0)
@@ -23,7 +25,7 @@ end
 disp(['rank: ', int2str(my_rank), ': before Bcast, buff is ', int2str(buff)])
 buff = MPI_Bcast(buff, root);
 disp(['rank: ', int2str(my_rank), ': after Bcast, buff is ', int2str(buff)])
-assert_isequal(buff, 777);
+asserts.isequal(buff, 777);
 if MPI_Initialized()
   MPI_Finalize();
 end

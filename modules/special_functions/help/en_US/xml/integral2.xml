@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>integral2</keyword>
+  <short_description>Numerically evaluate double integral</short_description>
+  <syntax>
+    <syntax_item>q = integral2(fun, xmin, xmax, ymin, ymax)</syntax_item>
+    <syntax_item>q = integral2(fun, xmin, xmax, ymin, ymax, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>Integrand: function handle of two variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xmin, xmax</param_name>
+      <param_description>Limits of integration in x: real or infinite scalars.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ymin, ymax</param_name>
+      <param_description>Limits of integration in y: real scalars or function handles of x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>One or more name/value pairs: &apos;RelativeTolerance&apos;, &apos;AbsoluteTolerance&apos;, &apos;Vectorized&apos;, &apos;Waypoints&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>q</param_name>
+      <param_description>Value of the double integral.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>q = integral2(fun, xmin, xmax, ymin, ymax)</b> numerically integrates the function <b>fun(x, y)</b> over the region <b>xmin &lt;= x &lt;= xmax</b> and <b>ymin(x) &lt;= y &lt;= ymax(x)</b>.
+    </p>
+    <p>
+      The y limits <b>ymin</b> and <b>ymax</b> may be scalars, or function handles of <b>x</b> to describe a non-rectangular region.
+    </p>
+    <p>
+      The integration is performed with nested adaptive Gauss-Kronrod quadrature. The name/value pairs <b>RelativeTolerance</b> (default <b>1e-6</b>) and <b>AbsoluteTolerance</b> (default <b>1e-10</b>) control the accuracy; the former names <b>RelTol</b> and <b>AbsTol</b> are still accepted.
+    </p>
+    <p>
+      By default (<b>Vectorized</b> set to <b>true</b>) <b>fun</b> must accept arrays and operate element-wise. Set <b>Vectorized</b> to <b>false</b> when <b>fun</b> accepts only scalar arguments: it is then evaluated point by point, which is slower.
+    </p>
+    <p>
+      <b>Waypoints</b> specifies points of interest of the integration region, such as local extrema or discontinuities, that the integrator uses in its initial mesh: a two-column array <b>[x y]</b> of points, or a cell array <b>{x y}</b> of grid vectors. The x interval is split at the x values of the waypoints, and each y interval at their y values. Waypoints must be real and finite. Do not use waypoints to specify singularities; split the region instead.
+    </p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[q = integral2(@(x, y) x .* y, 0, 1, 0, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[q = integral2(@(x, y) x .* y, 0, 1, 0, @(x) x)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Integrand written for scalar inputs</example_item_description>
+      <example_item_data
+      ><![CDATA[fun = @(x, y) log(x^2 + y^2);
+q = integral2(fun, 0, 2, 0, 2, 'Vectorized', false)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Waypoints on the kinks of the integrand (exact value 0.29 * 0.26)</example_item_description>
+      <example_item_data
+      ><![CDATA[fun = @(x, y) abs(x - 0.3) .* abs(y - 0.6);
+q = integral2(fun, 0, 1, 0, 1, 'Waypoints', [0.3, 0.6])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}integral">integral</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'Vectorized' option added: integrate functions written for scalar inputs.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'AbsoluteTolerance' and 'RelativeTolerance' names added ('AbsTol' and 'RelTol' still accepted).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'Waypoints' option added: points of interest in the integration region.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

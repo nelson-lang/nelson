@@ -17,5 +17,6 @@ NLSHELP_TOOLS_IMPEXP bool
 HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename);
 NLSHELP_TOOLS_IMPEXP bool
 HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

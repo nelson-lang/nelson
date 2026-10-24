@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include <limits>
 #include "realminBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -24,21 +25,21 @@ Nelson::DoubleGateway::realminBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        std::wstring paramStr = param1.getContentAsWideString();
+        std::wstring paramStr = param1.asWideString();
         if ((paramStr == L"double" || paramStr == L"single")) {
             if (paramStr == L"double") {
                 double realmin = std::numeric_limits<double>::min();
-                retval << ArrayOf::doubleConstructor(realmin);
+                retval << ArrayOf::doubleScalar(realmin);
             } else {
                 single realmin = std::numeric_limits<single>::min();
-                retval << ArrayOf::singleConstructor(realmin);
+                retval << ArrayOf::singleScalar(realmin);
             }
         } else {
-            Error(_W("#1 'double' or 'single' expected."));
+            Error(L"Nelson:double:invalidClassName", L"%s expected.", L"#1 'double' or 'single'");
         }
     } else {
         double realmin = std::numeric_limits<double>::min();
-        retval << ArrayOf::doubleConstructor(realmin);
+        retval << ArrayOf::doubleScalar(realmin);
     }
     return retval;
 }

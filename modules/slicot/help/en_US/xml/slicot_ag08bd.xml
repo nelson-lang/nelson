@@ -194,6 +194,17 @@ M = 3; P = 0;
 ]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_ab08nd">slicot_ab08nd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb10jd">slicot_sb10jd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}tzero">tzero</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

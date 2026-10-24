@@ -7,17 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-H = tf([1 -1],[1 1 1],-1);
+% <--WEIGHT 2-->
+H = tf([1 -1], [1 1 1], -1);
 z = 1 + j;
 frsp = evalfr(H, z);
 REF = 0.2308 + 0.1538i;
-assert_isapprox(frsp, REF, 1e-3);
+asserts.isapprox(frsp, REF, 1e-3);
 %=============================================================================
 numerator = {[2, 0], [1, 3]};
-denominator = {[4, 0, 3, -1], [1 , 3, 5]};
+denominator = {[4, 0, 3, -1], [1, 3, 5]};
 sys = tf(numerator, denominator);
 z = 1 + j;
 frsp = evalfr(sys, z);
-REF = [0.0637-0.2166i,   0.4157-0.1348i];
-assert_isapprox(frsp, REF, 1e-3);
+REF = [0.0637 - 0.2166i, 0.4157 - 0.1348i];
+asserts.isapprox(frsp, REF, 1e-3);
 %=============================================================================

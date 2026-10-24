@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>une variable</param_description>
+      <param_description>une variable, une table ou une timetable. Lorsque l&apos;autre opérande est une table ou une timetable, cet argument doit être un scalaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>une variable</param_description>
+      <param_description>une variable, une table ou une timetable. Lorsque l&apos;autre opérande est une table ou une timetable, cet argument doit être un scalaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,6 +27,7 @@
   <description>
     <p>
       <b>C = mtimes(A, B)</b> effectue l&apos;opération de multiplication matricielle : A * B.</p>
+    <p>Lorsqu&apos;un opérande est une table ou une timetable et que l&apos;autre est un scalaire, <b>A * B</b> est une opération élément par élément appliquée à chaque variable, identique à <b>A .* B</b> : les noms de variables, les unités et les temps de ligne sont conservés. Toute autre combinaison avec une table ou une timetable (deux tables, ou une table et un tableau non scalaire) provoque une erreur : utilisez <b>.*</b> à la place.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,16 +49,35 @@
 M2 = [-25 88 1; 23 29 41; 24 40 0];
 M1 * M2]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Opération élément par élément entre une table et un scalaire.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [3; 4]);
+T * 2
+0.5 * T]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${operators}times">times</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>opérandes table et timetable combinés avec un scalaire (opération élément par élément).</history_description>
     </history_item>
   </history>
   <authors>

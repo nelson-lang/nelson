@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fliplightness</keyword>
+  <short_description>Assombrir les couleurs claires et éclaircir les couleurs sombres.</short_description>
+  <syntax>
+    <syntax_item>newcolors = fliplightness(colors)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>colors</param_name>
+      <param_description
+      >couleurs à inverser : matrice m-par-3 de triplets RGB, tableau truecolor m-par-n-par-3, code couleur hexadécimal ('#FF8800' ou '#F80'), nom de couleur ('red', 'r', ...), tableau de cellules de vecteurs de caractères ou tableau de chaînes. Les valeurs numériques sont de type single ou double dans l'intervalle [0, 1], ou entières sur toute la plage de leur type entier.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newcolors</param_name>
+      <param_description
+      >couleurs inversées, de même taille et de même type que colors. Les codes couleur hexadécimaux sont renvoyés sous forme de codes hexadécimaux ; les noms de couleur sont renvoyés sous forme de matrice m-par-3 de triplets RGB.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fliplightness</b> assombrit les couleurs claires et éclaircit les couleurs sombres spécifiées dans <b>colors</b>, ce qui permet d'adapter un ensemble de couleurs à un fond sombre.</p>
+    <p>Chaque couleur est convertie dans l'espace colorimétrique Oklab et sa luminosité <b>L</b> est remplacée de sorte que <b>L^(3/2)</b> devienne <b>1 - L^(3/2)</b> : le noir devient blanc, le blanc devient noir. La teinte et la chroma sont conservées. Lorsque la nouvelle couleur sort de la gamme sRGB, sa chroma est réduite à la plus grande valeur dans la gamme, en conservant sa luminosité et sa teinte.</p>
+    <p>Appeler <b>fliplightness</b> deux fois peut ne pas redonner les couleurs d'origine, à cause de la réduction de chroma.</p>
+  </description>
+  <used_function />
+  <bibliography>Bjorn Ottosson, A perceptual color space for image processing (Oklab), 2020.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inverser des triplets RGB et des codes couleur hexadécimaux.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[newcolors = fliplightness([0 0 0; 1 1 1; 0.2 0.4 0.6])
+newhex = fliplightness(["#FF8800", "#000000"])
+newrgb = fliplightness(uint8([200 180 160]))
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Carte de couleurs parula d'origine et inversée.</example_item_description>
+      <example_item_data
+      ><![CDATA[C = parula(256);
+f = figure();
+image(cat(1, reshape(C, [1, 256, 3]), reshape(fliplightness(C), [1, 256, 3])));
+axis off
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/validatecolor">validatecolor</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/colororder">colororder</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/2_color_styling/theme">theme</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

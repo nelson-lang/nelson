@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>makima</keyword>
+  <short_description>Interpolation cubique d&apos;Akima modifiee.</short_description>
+  <syntax>
+    <syntax_item>yq = makima(x, y, xq)</syntax_item>
+    <syntax_item>pp = makima(x, y)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>x</param_name><param_description>Points d&apos;echantillonnage.</param_description></param_input_item>
+    <param_input_item><param_name>y</param_name><param_description>Valeurs d&apos;echantillonnage.</param_description></param_input_item>
+    <param_input_item><param_name>xq</param_name><param_description>Points de requete.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>yq</param_name><param_description>Valeurs interpolees.</param_description></param_output_item>
+    <param_output_item><param_name>pp</param_name><param_description>Structure polynomiale par morceaux.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>makima</b> est une fonction de commodite pour l&apos;interpolation d&apos;Akima modifiee en une dimension.</p>
+    <p>Avec deux entrees, elle retourne une structure polynomiale par morceaux evaluable avec <b>ppval</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[x = [0 1 2.5 3.6 5 7 8.1 10];
+y = cos(x);
+yq = makima(x, y, 0:0.25:10)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}interp1">interp1</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}pchip">pchip</link></see_also_item>
+    <see_also_item><link linkend="${polynomial_functions}ppval">ppval</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

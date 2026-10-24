@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>corr</keyword>
+  <short_description>Linear or rank correlation.</short_description>
+  <syntax>
+    <syntax_item>rho = corr(X)</syntax_item>
+    <syntax_item>rho = corr(X, Y)</syntax_item>
+    <syntax_item>[rho, pval] = corr(...)</syntax_item>
+    <syntax_item>[rho, pval] = corr(..., Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>corr</b> computes pairwise correlations between columns of <b>X</b>, or between columns of <b>X</b> and <b>Y</b>.</p>
+    <p>Supported options are <b>Type</b> with <b>pearson</b>, <b>spearman</b>, or <b>kendall</b>; <b>Rows</b> with <b>all</b>, <b>complete</b>, or <b>pairwise</b>; <b>Tail</b> with <b>both</b>, <b>right</b>, or <b>left</b>; and <b>Weights</b> for observation weights.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 2 4 1; 3 NaN 2; 4 8 4; 5 10 5];
+rho = corr(X, 'Rows', 'pairwise')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}corrcoef">corrcoef</link></see_also_item>
+    <see_also_item><link linkend="${statistics}cov">cov</link></see_also_item>
+    <see_also_item><link linkend="${statistics}tiedrank">tiedrank</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

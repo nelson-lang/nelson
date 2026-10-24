@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
 CtransposeSparseDouble(const ArrayOf& A);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

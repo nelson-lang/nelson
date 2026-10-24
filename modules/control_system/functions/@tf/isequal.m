@@ -11,7 +11,7 @@ function varargout = isequal(varargin)
   % compares two tf model
   narginchk(2, 1000);
   nargoutchk(0, 1);
-  
+
   sysA = varargin{1};
   typenameA = class(sysA);
   for k = 2:nargin

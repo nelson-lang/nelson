@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.mixin.Heterogeneous</keyword>
+  <short_description>Allow arrays that mix related classes.</short_description>
+  <syntax>
+    <syntax_item>classdef MyBase &lt; nelson.mixin.Heterogeneous</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>an object of a class deriving from nelson.mixin.Heterogeneous.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>obj</param_name><param_description>an object that can participate in a heterogeneous array.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Derive a class from <b>nelson.mixin.Heterogeneous</b> to allow arrays that contain a mix of
+    objects of that class and of its subclasses. Such an array takes the class of the nearest common
+    <b>nelson.mixin.Heterogeneous</b> ancestor of its elements.</p>
+    <p>Without this mixin, concatenating objects of different classes is an error. With it, related
+    classes sharing a heterogeneous root can be stored together in one array.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>A heterogeneous shape hierarchy.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Shape < nelson.mixin.Heterogeneous
+end
+% classdef Circle < Shape ... end
+% classdef Square < Shape ... end
+% shapes = [Circle(), Square()];   % a Shape array]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

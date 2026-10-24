@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,10 +11,10 @@
 //=============================================================================
 #include "parsefileBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "ParseFile.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,20 +26,23 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
     nargincheck(argIn, 1, 1);
     std::wstring filename;
     if (argIn[0].isRowVectorCharacterArray()) {
-        filename = argIn[0].getContentAsWideString();
+        filename = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     ParserState parserState = ParseFile(eval, filename);
     switch (parserState) {
     case ScriptBlock: {
-        retval << ArrayOf::characterArrayConstructor("script");
+        retval << ArrayOf::characterArray("script");
     } break;
     case FuncDef: {
-        retval << ArrayOf::characterArrayConstructor("function");
+        retval << ArrayOf::characterArray("function");
+    } break;
+    case ClassDef: {
+        retval << ArrayOf::characterArray("classdef");
     } break;
     default: {
-        retval << ArrayOf::characterArrayConstructor("error");
+        retval << ArrayOf::characterArray("error");
     } break;
     }
     return retval;

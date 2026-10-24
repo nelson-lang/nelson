@@ -7,76 +7,47 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('unique'), -1);
-assert_isequal(nargout('unique'), -1);
+% unique deduplicates complex values with equal magnitude (regression)
+asserts.isequal(unique([1 + 1i 1 - 1i 1 + 1i]), [1 - 1i 1 + 1i]);
+asserts.isequal(unique([2i 1i 2i]), [1i 2i]);
 %=============================================================================
-A_REALPART = magic(5);
-A_IMAGPART = reshape(1:25, 5, 5);
-A = complex(A_REALPART, A_IMAGPART);
-R = unique(A);
-REF = [4.0000+3.0000i;
-    5.0000+7.0000i;
-    6.0000+8.0000i;
-   10.0000+4.0000i;
-    1.0000+11.0000i;
-   11.0000+5.0000i;
-    7.0000+12.0000i;
-   12.0000+9.0000i;
-   17.0000+1.0000i;
-    8.0000+16.0000i;
-   13.0000+13.0000i;
-    2.0000+20.0000i;
-   18.0000+10.0000i;
-   14.0000+17.0000i;
-   23.0000+2.0000i;
-   19.0000+14.0000i;
-    3.0000+24.0000i;
-   24.0000+6.0000i;
-   15.0000+21.0000i;
-    9.0000+25.0000i;
-   20.0000+18.0000i;
-   16.0000+22.0000i;
-   21.0000+19.0000i;
-   25.0000+15.0000i;
-   22.0000+23.0000i];
-assert_isequal(R, REF);
+% the expected order: sort by magnitude, then by angle
+asserts.isequal(unique([1 + 2i 1 + 1i 1 + 2i 2 + 0i]), [1 + 1i 2 + 0i 1 + 2i]);
+asserts.isequal(unique([3 + 0i 1 + 2i 1 + 1i 2 + 2i 1 + 2i]), [1 + 1i 1 + 2i 2 + 2i 3 + 0i]);
 %=============================================================================
-A_REALPART = magic(5);
-A_IMAGPART = reshape(1:25, 5, 5);
-A = complex(A_REALPART, A_IMAGPART);
-R = unique(A, 'rows');
-REF = [4.0000+3.0000i   6.0000+8.0000i  13.0000+13.0000i  20.0000+18.0000i  22.0000+23.0000i;
-10.0000+4.0000i  12.0000+9.0000i  19.0000+14.0000i  21.0000+19.0000i   3.0000+24.0000i;
-11.0000+5.0000i  18.0000+10.0000i  25.0000+15.0000i   2.0000+20.0000i   9.0000+25.0000i;
-17.0000+1.0000i  24.0000+6.0000i   1.0000+11.0000i   8.0000+16.0000i  15.0000+21.0000i;
-23.0000+2.0000i   5.0000+7.0000i   7.0000+12.0000i  14.0000+17.0000i  16.0000+22.0000i];
-assert_isequal(R, REF);
+% two outputs: u follows input orientation, ia is always a column
+[u, ia] = unique([2i 2i 1]);
+asserts.isequal(u, [1 2i]);
+asserts.isequal(ia, [3; 1]);
+asserts.isequal(size(ia), [2 1]);
 %=============================================================================
-A_REALPART = magic(5);
-A_IMAGPART = reshape(1:25, 5, 5);
-A = complex(A_REALPART, A_IMAGPART);
-[R, ia] = unique(A, 'rows');
-REF = [4.0000+3.0000i   6.0000+8.0000i  13.0000+13.0000i  20.0000+18.0000i  22.0000+23.0000i;
-10.0000+4.0000i  12.0000+9.0000i  19.0000+14.0000i  21.0000+19.0000i   3.0000+24.0000i;
-11.0000+5.0000i  18.0000+10.0000i  25.0000+15.0000i   2.0000+20.0000i   9.0000+25.0000i;
-17.0000+1.0000i  24.0000+6.0000i   1.0000+11.0000i   8.0000+16.0000i  15.0000+21.0000i;
-23.0000+2.0000i   5.0000+7.0000i   7.0000+12.0000i  14.0000+17.0000i  16.0000+22.0000i];
-assert_isequal(R, REF);
-ia_REF = [3; 4; 5; 1; 2];
-assert_isequal(ia, ia_REF);
+% three outputs: values, ia (first occurrence), ic
+[u, ia, ic] = unique([2i 2i 1]);
+asserts.isequal(u, [1 2i]);
+asserts.isequal(ia, [3; 1]);
+asserts.isequal(ic, [2; 2; 1]);
 %=============================================================================
-A_REALPART = magic(5);
-A_IMAGPART = reshape(1:25, 5, 5);
-A = complex(A_REALPART, A_IMAGPART);
-[R, ia, ic] = unique(A, 'rows');
-REF = [4.0000+3.0000i   6.0000+8.0000i  13.0000+13.0000i  20.0000+18.0000i  22.0000+23.0000i;
-10.0000+4.0000i  12.0000+9.0000i  19.0000+14.0000i  21.0000+19.0000i   3.0000+24.0000i;
-11.0000+5.0000i  18.0000+10.0000i  25.0000+15.0000i   2.0000+20.0000i   9.0000+25.0000i;
-17.0000+1.0000i  24.0000+6.0000i   1.0000+11.0000i   8.0000+16.0000i  15.0000+21.0000i;
-23.0000+2.0000i   5.0000+7.0000i   7.0000+12.0000i  14.0000+17.0000i  16.0000+22.0000i];
-assert_isequal(R, REF);
-ia_REF = [3; 4; 5; 1; 2];
-assert_isequal(ia, ia_REF);
-ic_REF = [4;5;1;2;3];
-assert_isequal(ia, ia_REF);
+% stable option
+asserts.isequal(unique([2i 1i 2i], 'stable'), [2i 1i]);
+[u, ia, ic] = unique([2i 1i 2i], 'stable');
+asserts.isequal(u, [2i 1i]);
+asserts.isequal(ia, [1; 2]);
+asserts.isequal(ic, [1; 2; 1]);
+%=============================================================================
+% column orientation preserved
+asserts.isequal(unique([2i; 2i; 1]), [1; 2i]);
+%=============================================================================
+% single precision complex
+[u, ia, ic] = unique(single([2i 2i 1]));
+asserts.isequal(class(u), 'single');
+asserts.isequal(u, single([1 2i]));
+asserts.isequal(ia, [3; 1]);
+asserts.isequal(ic, [2; 2; 1]);
+%=============================================================================
+% real path unchanged
+asserts.isequal(unique([3 1 2 1 3]), [1 2 3]);
+[u, ia, ic] = unique([3 1 2 1 3]);
+asserts.isequal(u, [1 2 3]);
+asserts.isequal(ia, [2; 3; 1]);
+asserts.isequal(ic, [3; 1; 2; 1; 3]);
 %=============================================================================

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Champs de vecteurs</chapter>
+  <chapter_description>
+    <p>Fonctions pour les champs de vecteurs et les visualisations de flux.</p>
+  </chapter_description>
+</xmldoc>

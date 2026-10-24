@@ -12,12 +12,12 @@ B = [0; 1];
 C = [1 0];
 D = 0;
 sys = ss(A, B, C, D);
-assert_istrue(issiso(sys))
+asserts.istrue(issiso(sys))
 %=============================================================================
 A = [1 2; 3 4];
 B = [1 0; 0 1];
 C = [1 1; 1 1];
 D = [0 0; 0 0];
 sys = ss(A, B, C, D);
-assert_isfalse(issiso(sys))
+asserts.isfalse(issiso(sys))
 %=============================================================================

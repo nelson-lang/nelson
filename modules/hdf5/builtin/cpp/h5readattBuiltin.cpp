@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,9 +25,9 @@ Nelson::Hdf5Gateway::h5readattBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     ArrayOf param3 = argIn[2];
-    std::wstring filename = param1.getContentAsWideString();
-    std::wstring location = param2.getContentAsWideString();
-    std::wstring attribute = param3.getContentAsWideString();
+    std::wstring filename = param1.asWideString();
+    std::wstring location = param2.asWideString();
+    std::wstring attribute = param3.asWideString();
     retval << h5ReadAttribute(filename, location, attribute);
     return retval;
 }

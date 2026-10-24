@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gain</keyword>
+  <keyword_alias>block:gain</keyword_alias>
+  <short_description>Multiplie l entree par un gain scalaire.</short_description>
+  <syntax>
+    <syntax_item>Block type: gain</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Multiplie l entree par un gain scalaire.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs mathematiques</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>gain</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Gain</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/math/exports/gain.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Multiplie l entree par un gain scalaire.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique produit par le bloc.</td>
+          <td>right</td>
+          <td>x=100, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>gain</code>
+          </td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Cles de l inspecteur</b>
+    </p>
+    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <ul>
+      <li>
+        <code>gain</code>
+      </li>
+    </ul>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>gain</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs mathematiques</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>100 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>Bloc algebrique.</li>
+      <li>Si l entree 1 est deconnectee, la sortie memorisee est emise; sinon gain est resolu et multiplie par l entree.</li>
+    </ul>
+    <p>
+      <b>Equation ou regle</b>
+    </p>
+    <latex>y = gain\,u</latex>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/gain.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/bias">bias</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/mult">mult</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/sum">sum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

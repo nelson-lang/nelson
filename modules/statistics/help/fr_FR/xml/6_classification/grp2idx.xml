@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>grp2idx</keyword>
+  <short_description>Cree un vecteur d'indices depuis une variable de groupe.</short_description>
+  <syntax>
+    <syntax_item>[g, gN] = grp2idx(s)</syntax_item>
+    <syntax_item>[g, gN, gL] = grp2idx(s)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>grp2idx</b> convertit une variable de groupe en indices numeriques.</p>
+    <p><b>gN</b> est un tableau de cellules de noms de groupes. <b>gL</b> contient les niveaux de groupes dans un type proche de l'entree lorsque c'est possible. Les valeurs de groupe manquantes produisent des indices <b>NaN</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[s = {'red', 'blue', 'red', ''};
+[g, gN, gL] = grp2idx(s)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}grpstats">grpstats</link></see_also_item>
+    <see_also_item><link linkend="${statistics}tabulate">tabulate</link></see_also_item>
+    <see_also_item><link linkend="${statistics}crosstab">crosstab</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

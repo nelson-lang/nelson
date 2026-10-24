@@ -13,10 +13,8 @@
 #include "nlsOperators_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * Element-wise compare (gt).
- */
 NLSOPERATORS_IMPEXP ArrayOf
 GreaterThan(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

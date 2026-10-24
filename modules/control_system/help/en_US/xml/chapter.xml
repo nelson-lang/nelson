@@ -10,8 +10,8 @@
     <p
     >It supports state-space and transfer function models, system transformations between continuous and discrete time, and computation of poles, zeros, and frequency responses.</p>
     <p
-    >The module also includes functionality for system balancing, controllability and observability analysis, regulator and estimator design, and simulation of dynamic system responses.</p>
+    >The module also includes system balancing, controllability and observability analysis, regulator and estimator design, and simulation of dynamic responses.</p>
     <p
-    >These tools enable robust modeling, analysis, and control of linear dynamic systems for engineering and research applications.</p>
+    >These tools are used to model, analyze, and control linear dynamic systems in engineering and research code.</p>
   </chapter_description>
 </xmldoc>

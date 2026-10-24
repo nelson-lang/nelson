@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uitextarea</keyword>
+  <short_description>Crée une zone de texte multiligne.</short_description>
+  <syntax>
+    <syntax_item>h = uitextarea()</syntax_item>
+    <syntax_item>h = uitextarea(parent)</syntax_item>
+    <syntax_item>h = uitextarea(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet composant UI.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ta = uitextarea</b> crée une zone de texte multiligne. <b>Value</b> est un cell array de chaînes (une par ligne). Propriétés : <b>Editable</b>, <b>WordWrap</b>, <b>HorizontalAlignment</b>, <b>Placeholder</b>, <b>ValueChangedFcn</b>, <b>ValueChangingFcn</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Text area', 'Position', [100 100 420 260]);
+ta = uitextarea(f, 'Position', [95 75 230 115]);
+ta.Value = {'Line one'; 'Line two'; 'Line three'};
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uitextarea_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uitextarea</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+ta = uitextarea(f, 'Value', {'première ligne', 'seconde ligne'});
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

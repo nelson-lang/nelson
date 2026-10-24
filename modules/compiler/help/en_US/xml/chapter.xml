@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>compiler</module_name>
+  <chapter>Standalone application compiler</chapter>
+  <chapter_description>
+    <p>The optional compiler module analyzes dependencies and builds native applications from .m files.</p>
+    <p>Use ncc to load the module on demand. compiler.build provides console and no-console standalone builds, shared options and read-only results with runtime dependency tables. The nelson.compiler interfaces retain the existing bundled-runtime path. Tutorials cover multiple functions, embedded data and both build interfaces.</p>
+  </chapter_description>
+</xmldoc>

@@ -17,7 +17,7 @@
   <description>
     <p>
       <b>requiremodule</b> returns an error if desired module is not loaded.</p>
-    <p>This function is usefull to verify a dependency on another module.</p>
+    <p>This function is useful to verify a dependency on another module.</p>
   </description>
   <used_function />
   <bibliography />

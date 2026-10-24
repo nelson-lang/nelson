@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>area</keyword>
+  <short_description>Creer des graphes d'aires.</short_description>
+  <syntax>
+    <syntax_item>area(Y)</syntax_item>
+    <syntax_item>area(X, Y)</syntax_item>
+    <syntax_item>area(..., basevalue)</syntax_item>
+    <syntax_item>area(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>area(ax, ...)</syntax_item>
+    <syntax_item>go = area(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnees x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Donnees d'aire. Les colonnes d'une matrice creent des objets area empiles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>basevalue</param_name>
+      <param_description>Valeur de base. Par defaut : 0.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Handles graphiques de type area.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>area</b> cree un objet graphique area natif par colonne de donnees. Les objets area utilisent un rendu par polygones remplis et acceptent les proprietes de face, bord, ligne, alpha, valeur de base et interaction.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.area.properties">proprietes de area</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[y = [1 2; 3 1; 2 4];
+area(y);]]></example_item_data>
+      <example_item_img src="../../../../images/area_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.area.properties">proprietes de area</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fill">fill</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

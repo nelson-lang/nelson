@@ -11,7 +11,7 @@
 //=============================================================================
 #include "nlsOperators_exports.h"
 #include "ArrayOf.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 /**
@@ -19,5 +19,6 @@ namespace Nelson {
  */
 NLSOPERATORS_IMPEXP ArrayOf
 LessEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

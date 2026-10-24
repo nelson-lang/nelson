@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="1.5"/>
+  <text x="36" y="24" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="11" fill="#3C3489">n-D <tspan font-style="italic">T[k]</tspan></text>
+  <g stroke="#3C3489" stroke-width="1.2" fill="none">
+    <rect x="24" y="34" width="24" height="20"/>
+    <line x1="32" y1="34" x2="32" y2="54"/>
+    <line x1="40" y1="34" x2="40" y2="54"/>
+    <line x1="24" y1="44" x2="48" y2="44"/>
+  </g>
+  <rect x="32" y="44" width="8" height="10" fill="#AFA9EC" opacity="0.6"/>
+  <polygon points="-1,24 -1,32 5,28" fill="#3C3489" opacity="0.7"/>
+  <polygon points="-1,40 -1,48 5,44" fill="#3C3489" opacity="0.7"/>
+  <polygon points="67,32 67,40 73,36" fill="#3C3489" opacity="0.7"/>
+</svg>

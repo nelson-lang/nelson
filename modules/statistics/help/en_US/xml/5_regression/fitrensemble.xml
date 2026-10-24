@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitrensemble</keyword>
+  <short_description>Fit an ensemble regression model.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitrensemble(X, Y)</syntax_item>
+    <syntax_item>mdl = fitrensemble(X, Y, Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitrensemble</b> creates a <b>RegressionEnsemble</b> object from numeric predictors <b>X</b> and numeric response <b>Y</b>.</p>
+    <p>The current implementation supports <b>Bag</b> and <b>LSBoost</b> ensembles of tree learners. Name-value arguments include <b>Method</b>, <b>Learners</b>, <b>NumLearningCycles</b>, <b>LearnRate</b>, <b>MaxNumSplits</b>, <b>MinLeafSize</b>, <b>MinParentSize</b>, <b>PredictorNames</b>, and <b>ResponseName</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 2; 3; 4; 5];
+Y = [1; 1.2; 3; 3.2; 9; 9.1];
+mdl = fitrensemble(X, Y, 'NumLearningCycles', 5);
+yfit = predict(mdl, [1.5; 4.5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitrtree">fitrtree</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrknn">fitrknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrsvm">fitrsvm</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

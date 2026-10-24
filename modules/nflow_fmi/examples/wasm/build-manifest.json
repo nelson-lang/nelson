@@ -1,0 +1,19 @@
+{
+  "source": "https://github.com/modelica/fmi-ls-wasm",
+  "revision": "7ee00c5e002c0a4a0bc79a0fd9baf1d32dbf11b4",
+  "platform": "wasm32-wasip2",
+  "files": [
+    {
+      "file": "adder-c-fmu.fmu",
+      "sha256": "b7bd79a7199d16431761537c7f764be29e8c76a2bab645249e94bf9188d54d18"
+    },
+    {
+      "file": "adder-rust-fmu.fmu",
+      "sha256": "b72d97584c8c4179c086a72c9e8acae2bfd31a6fabb8051c89b7d0f3a7a77e25"
+    },
+    {
+      "file": "adder-wat-fmu.fmu",
+      "sha256": "20e32632766678f81f2b7dcd4e41d15ab8fba9b362050ef39769075280308269"
+    }
+  ]
+}

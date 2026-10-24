@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>signtest</keyword>
+  <short_description>Sign test.</short_description>
+  <syntax>
+    <syntax_item>p = signtest(x)</syntax_item>
+    <syntax_item>p = signtest(x, y)</syntax_item>
+    <syntax_item>p = signtest(x, m)</syntax_item>
+    <syntax_item>p = signtest(x, y, Name, Value)</syntax_item>
+    <syntax_item>[p, h, stats] = signtest(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>signtest</b> performs a sign test for a median or paired difference. If <b>y</b> is omitted, values of <b>x</b> are tested against zero. If <b>y</b> is a scalar, values of <b>x</b> are tested against that scalar.</p>
+    <p>Name-value arguments include <b>Alpha</b>, <b>Method</b>, and <b>Tail</b>. Zero differences and <b>NaN</b> values are omitted.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 -3 4 -5];
+[p, h, stats] = signtest(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}signrank">signrank</link></see_also_item>
+    <see_also_item><link linkend="${statistics}ranksum">ranksum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}binocdf">binocdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

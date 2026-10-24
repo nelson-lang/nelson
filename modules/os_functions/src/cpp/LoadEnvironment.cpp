@@ -16,6 +16,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "SetVariableEnvironment.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +28,10 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
         cppenv::EnvManager envManager;
         bool loaded = envManager.load_from_file(filename);
         if (!loaded) {
-            errorMessage = _W("Failed to load environment file: ") + filename;
+            errorMessage = formatI18nMessage(
+                resolveMessageTemplate(L"Nelson:os_functions:failedLoadEnvironmentFile",
+                    L"Failed to load environment file: %s"),
+                filename);
             return {};
         }
 
@@ -35,7 +39,6 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
         result.reserve(keys.size());
 
         auto trim_and_unquote = [](std::wstring s) -> std::wstring {
-            // trim whitespace
             const std::wstring ws = L" \t\r\n";
             auto start = s.find_first_not_of(ws);
             if (start == std::wstring::npos) {
@@ -43,7 +46,6 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
             }
             auto end = s.find_last_not_of(ws);
             s = s.substr(start, end - start + 1);
-            // remove matching surrounding single or double quotes
             if (s.size() >= 2) {
                 if ((s.front() == L'\'' && s.back() == L'\'')
                     || (s.front() == L'"' && s.back() == L'"')) {
@@ -71,10 +73,16 @@ LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& err
         }
     } catch (const std::exception& ex) {
         errorMessage
-            = _W("Exception while loading environment: ") + utf8_to_wstring(std::string(ex.what()));
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:os_functions:nelsonexceptionWhileLoadingEnvironment",
+                                    L"NelsonException while loading environment: %s"),
+                utf8_to_wstring(std::string(ex.what())));
         return {};
     } catch (...) {
-        errorMessage = _W("Unknown error while loading environment file: ") + filename;
+        errorMessage = formatI18nMessage(
+            resolveMessageTemplate(L"Nelson:os_functions:unknownErrorWhileLoadingFile",
+                L"Unknown error while loading environment file: %s"),
+            filename);
         return {};
     }
 

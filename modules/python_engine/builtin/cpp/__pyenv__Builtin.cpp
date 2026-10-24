@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "__pyenv__Builtin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -27,17 +28,17 @@ Nelson::Python_engineGateway::__pyenv__Builtin(int nLhs, const ArrayOfVector& ar
     if (argIn.size() == 0) {
         // Do nothing when no arguments are provided
     } else if (argIn.size() == 4) {
-        pythonEnvironment->setVersion(argIn[0].getContentAsWideString());
-        pythonEnvironment->setExecutable(argIn[1].getContentAsWideString());
-        pythonEnvironment->setLibrary(argIn[2].getContentAsWideString());
-        pythonEnvironment->setHome(argIn[3].getContentAsWideString());
+        pythonEnvironment->setVersion(argIn[0].asWideString());
+        pythonEnvironment->setExecutable(argIn[1].asWideString());
+        pythonEnvironment->setLibrary(argIn[2].asWideString());
+        pythonEnvironment->setHome(argIn[3].asWideString());
         pythonEnvironment->saveCurrentState();
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
     }
 
     ArrayOfVector retval;
-    retval << ArrayOf::handleConstructor((HandleGenericObject*)pythonEnvironment);
+    retval << ArrayOf::handle((HandleGenericObject*)pythonEnvironment);
     return retval;
 }
 //=============================================================================

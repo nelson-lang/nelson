@@ -10,20 +10,20 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 R = pyrun('P = 3', "P");
-assert_isequal(class(R), 'py.int');
-assert_isequal(R.char, '3');
-assert_isequal(R.int8(), int8(3));
-assert_isequal(R.int16(), int16(3));
-assert_isequal(R.int32(), int32(3));
-assert_isequal(R.int64(), int64(3));
-assert_isequal(R.uint8(), uint8(3));
-assert_isequal(R.uint16(), uint16(3));
-assert_isequal(R.uint32(), uint32(3));
-assert_isequal(R.uint64(), uint64(3));
-assert_isequal(R.single(), single(3));
-assert_isequal(R.double(), double(3));
+asserts.isequal(class(R), 'py.int');
+asserts.isequal(R.char, '3');
+asserts.isequal(R.int8(), int8(3));
+asserts.isequal(R.int16(), int16(3));
+asserts.isequal(R.int32(), int32(3));
+asserts.isequal(R.int64(), int64(3));
+asserts.isequal(R.uint8(), uint8(3));
+asserts.isequal(R.uint16(), uint16(3));
+asserts.isequal(R.uint32(), uint32(3));
+asserts.isequal(R.uint64(), uint64(3));
+asserts.isequal(R.single(), single(3));
+asserts.isequal(R.double(), double(3));
 %=============================================================================
-assert_checkerror('R.cell()', [_('Wrong value for #2 argument.'), ' ', 'cell']);
-assert_checkerror('R.struct()', [_('Wrong value for #2 argument.'), ' ', 'struct']);
-assert_checkerror('R.numeric()', [_('Wrong value for #2 argument.'), ' ', 'numeric']);
+asserts.checkerror('R.cell()', sprintf(_('Invalid property: %s.'), 'cell'));
+asserts.checkerror('R.struct()', sprintf(_('Invalid property: %s.'), 'struct'));
+asserts.checkerror('R.numeric()', sprintf(_('Invalid property: %s.'), 'numeric'));
 %=============================================================================

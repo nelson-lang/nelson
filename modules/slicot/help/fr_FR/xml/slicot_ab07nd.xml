@@ -91,6 +91,17 @@ D_IN = [4.0   0.0;
 [A_OUT, B_OUT, C_OUT, D_OUT, RCOND, INFO] = slicot_ab07nd(A_IN, B_IN, C_IN, D_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_ab04md">slicot_ab04md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ss">ss</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}feedback">feedback</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

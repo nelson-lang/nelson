@@ -7,156 +7,176 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mod'), 2)
-assert_isequal(nargout('mod'), 1)
+% <--WEIGHT 8-->
+asserts.isequal(nargin('mod'), 2)
+asserts.isequal(nargout('mod'), 1)
 %=============================================================================
 R = mod(6, uint64(4));
 REF = uint64(2);
-assert_isequal(R, REF);
-assert_isequal(class(R), 'uint64');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'uint64');
 %=============================================================================
 R = mod(uint64(6), 4);
 REF = uint64(2);
-assert_isequal(R, REF);
-assert_isequal(class(R), 'uint64');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'uint64');
 %=============================================================================
 R = mod(uint64(6), uint64(4));
 REF = uint64(2);
-assert_isequal(R, REF);
-assert_isequal(class(R), 'uint64');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'uint64');
 %=============================================================================
 R = mod(single([-6, 6, 0]), [4, 0, 4]);
 REF = single([2 6 0]);
-assert_isequal(R, REF);
-assert_isequal(class(R), 'single');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'single');
+%=============================================================================
+R = mod(single(6), 4);
+REF = single(2);
+asserts.isequal(R, REF);
+asserts.isequal(size(R), [1 1]);
+asserts.isequal(class(R), 'single');
 %=============================================================================
 R = mod([], []);
 REF = [];
-assert_isequal(R, REF);
-assert_isequal(class(R), 'double');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = mod(0.94, 0.01);
 REF = 0;
-assert_isequal(R, REF);
-assert_isequal(class(R), 'double');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = mod(66, 44);
 REF = 22;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+asserts.isequal(size(R), [1 1]);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = mod(NaN, 44);
 REF = NaN,
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(Inf, 44);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(-Inf, 44);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(-66, 44);
 REF = 22;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(-6, 4);
 REF = 2;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+R = mod(6, -4);
+REF = -2;
+asserts.isequal(R, REF);
+%=============================================================================
+R = mod(-6, -4);
+REF = -2;
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(0, 4);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6, 6, 0], [4, 4, 4]);
 REF = [2 2 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6; 6; 0], [4; 4; 4]);
 REF = [2; 2; 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod([-6, 6; 0, 4], [4, 4 ; 4, 1]);
-REF =  [2 2; 0 0];
-assert_isequal(R, REF);
+R = mod([-6, 6; 0, 4], [4, 4; 4, 1]);
+REF = [2 2; 0 0];
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(6, 0);
 REF = 6;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(-6, 0);
 REF = -6;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6, 6, 0], [4, 0, 4]);
 REF = [2 6 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6; 6; 0], [4; 0; 4]);
 REF = [2; 6; 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6; 6; 0], single([4; 0; 4]));
 REF = single([2; 6; 0]);
-assert_isequal(R, REF);
-assert_isequal(class(R), 'single');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'single');
 %=============================================================================
-R = mod([-6, 6; 0, 4], [4, 0 ; 4, 1]);
+R = mod([-6, 6; 0, 4], [4, 0; 4, 1]);
 REF = [2 6; 0 0];
-assert_isequal(R, REF);
-assert_isequal(class(R), 'double');
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'double');
 %=============================================================================
-R = mod([-6, 6; 0, 4], [0, 0 ; 0, 0]);
+R = mod([-6, 6; 0, 4], [0, 0; 0, 0]);
 REF = [-6, 6; 0, 4];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6, 6; 0, 4], 0);
 REF = [-6, 6; 0, 4];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod([-6, 6; 0, 4], 4);
 REF = [2 2; 0 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod(-6, [0,0; 0,0]);
+R = mod(-6, [0, 0; 0, 0]);
 REF = [-6 -6; -6 -6];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod(-6, [4,0; 4,1]);
+R = mod(-6, [4, 0; 4, 1]);
 REF = [2 -6; 2 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod(-6, [4,2; 4,1]);
+R = mod(-6, [4, 2; 4, 1]);
 REF = [2 0; 2 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod(-6, [4,2; 4,1]);
+R = mod(-6, [4, 2; 4, 1]);
 REF = [2 0; 2 0];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = mod(uint64 (6), uint64 (4));
-REF = uint64 (2);
-assert_isequal(R, REF);
+R = mod(uint64(6), uint64(4));
+REF = uint64(2);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(uint64([1:6]), uint64(4));
-REF = uint64([1   2   3   0   1   2]);
-assert_isequal(R, REF);
+REF = uint64([1 2 3 0 1 2]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(uint64([1:6]), uint64(0));
-REF = uint64([ 1   2   3   4   5   6]);
-assert_isequal(R, REF);
+REF = uint64([1 2 3 4 5 6]);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = mod(uint64(6), int64(4));', _('Integers must be combined with integers of the same class.'));
+asserts.checkerror('R = mod(uint64(6), int64(4));', _('Integers must be combined with integers of the same class.'));
 %=============================================================================
 R = mod(uint64(6), 4);
 REF = uint64(2);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(2.1, 0.1);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = mod(2.1, 0.2);
 REF = 0.1;
-assert_isapprox(R, REF, 1e-5);
+asserts.isapprox(R, REF, 1e-5);
+%=============================================================================
+asserts.isequal(mod([-6 6 0], [4 0 4]), [2 6 0]);
+asserts.isequal(mod(uint64(6), uint64(4)), uint64(2));
 %=============================================================================

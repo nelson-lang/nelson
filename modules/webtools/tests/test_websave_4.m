@@ -7,14 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Use raw.githubusercontent.com to fetch the binary directly and add retries
-url = 'https://raw.githubusercontent.com/nelson-lang/nelson-website/master/images/qml_demos.png';
-filename = fullfile(tempdir(), 'qml_demos.png');
+url = 'https://jsonplaceholder.typicode.com/users/1';
+filename = fullfile(tempdir(), 'test_websave_4.json');
 options = weboptions('Timeout', 30);
 
-% retry logic
 MAX_ATTEMPTS = 3;
-PAUSE_SECS = [0, 5, 10];
+PAUSE_SECS = [0, 1, 2];
 destination_filename = '';
 lastErrorMsg = '';
 success = false;
@@ -32,12 +30,12 @@ for attempt = 1:MAX_ATTEMPTS
   try
     destination_filename = websave(filename, url, options);
     if isfile(destination_filename)
-      info = dir(destination_filename);
-      if info.bytes > 1000
+      R = jsondecode(fileread(destination_filename));
+      if isstruct(R) && R.id == 1
         success = true;
         break;
       else
-        lastErrorMsg = sprintf('Downloaded file too small (%d bytes).', info.bytes);
+        lastErrorMsg = 'Downloaded content did not contain expected user.';
       end
     else
       lastErrorMsg = 'websave did not create the file.';
@@ -53,7 +51,8 @@ if ~success
   skip_testsuite(true, ['Could not obtain test data: ' lastErrorMsg]);
 end
 
-assert_istrue(isfile(destination_filename));
-info = dir(destination_filename);
-assert_istrue(info.bytes > 0);
+asserts.istrue(isfile(destination_filename));
+R = jsondecode(fileread(destination_filename));
+asserts.isequal(R.id, 1);
+asserts.isequal(R.email, 'Sincere@april.biz');
 %=============================================================================

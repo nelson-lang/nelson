@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uieditfield</keyword>
+  <short_description>Crée un champ d'édition texte ou numérique.</short_description>
+  <syntax>
+    <syntax_item>h = uieditfield()</syntax_item>
+    <syntax_item>h = uieditfield(parent)</syntax_item>
+    <syntax_item>h = uieditfield(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet composant UI.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ef = uieditfield</b> crée un champ texte ; <b>uieditfield(parent, 'numeric')</b> crée un champ numérique. Style texte : <b>Value</b> (char), <b>CharacterLimits</b>, <b>InputType</b>, <b>ValueChangingFcn</b>. Style numérique : <b>Value</b> (double), <b>Limits</b>, <b>LowerLimitInclusive</b>/<b>UpperLimitInclusive</b>, <b>RoundFractionalValues</b>, <b>ValueDisplayFormat</b>, <b>AllowEmpty</b>. Communs : <b>Editable</b>, <b>HorizontalAlignment</b>, <b>Placeholder</b>, <b>ValueChangedFcn</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Edit fields', 'Position', [100 100 420 260]);
+ef = uieditfield(f, 'Position', [95 135 230 24]);
+ef.Value = 'Sample text';
+nf = uieditfield(f, 'numeric', 'Position', [95 90 120 24]);
+nf.Value = 42.5;
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uieditfield_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uieditfield</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+ef = uieditfield(f, 'Value', 'bonjour');
+nef = uieditfield(f, 'numeric', 'Limits', [0 100], 'Value', 42);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

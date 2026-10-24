@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>checkcode</keyword>
+  <short_description>Analyse les fichiers source Nelson et signale les problemes de code.</short_description>
+  <syntax>
+    <syntax_item>issues = checkcode(filename)</syntax_item>
+    <syntax_item>issues = checkcode(names, option1, ..., optionN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaine : fichier source Nelson a analyser.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>une chaine, un tableau de chaines ou un tableau de cellules de chaines : fichiers a analyser.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>une option parmi &apos;-id&apos;, &apos;-fullpath&apos;, &apos;-notok&apos;, &apos;-cyc&apos;, &apos;-modcyc&apos;, &apos;-config=file&apos;, &apos;-struct&apos; et &apos;-string&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>issues</param_name>
+      <param_description>un tableau de structures avec les champs id, message, fix, line et column, ou une chaine formatee lorsque &apos;-string&apos; est utilise.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>checkcode</b> analyse les fichiers source Nelson et signale les problemes de syntaxe, de style, de flux de donnees, de nommage et de complexite.</p>
+    <p>L&apos;option &apos;-notok&apos; inclut les diagnostics supprimes par les commentaires <b>%#ok</b> ou <b>%#ok&lt;NLS0001&gt;</b>.</p>
+    <p>L&apos;option &apos;-config=file&apos; charge un fichier de configuration JSON. Le nom par defaut utilise par les workflows en ligne de commande est <b>nelson-lint.json</b>.</p>
+    <p>La configuration JSON doit declarer <b>version</b> egale a 2. Elle peut contenir <b>extends</b>, <b>files.include</b>, <b>files.exclude</b>, <b>rules</b> et <b>ci.failOn</b>.</p>
+    <p><b>rules</b> associe des identifiants de regle comme <b>NLS0001</b> a un objet contenant <b>level</b> (<b>allow</b>, <b>info</b>, <b>warning</b> ou <b>error</b>) et des <b>options</b> propres a la regle.</p>
+  </description>
+  <used_function>codeAnalyzerRules</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Analyser un fichier et retourner un tableau de structures.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[issues = checkcode([nelsonroot(), '/etc/startup.m'], '-struct', '-id')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple de fichier de configuration JSON.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[{
+  "version": 2,
+  "files": {
+    "include": ["**/*.m", "**/*.xml"],
+    "exclude": [".git", "build", "target", "bin", "x64", "generated"]
+  },
+  "rules": {
+    "NLS0001": { "level": "error" },
+    "NLS0013": { "level": "error" },
+    "NLS0012": { "level": "warning", "options": { "maxLineLength": 120 } },
+    "NLS0014": { "level": "warning", "options": { "warning": 10, "error": 50 } }
+  },
+  "ci": { "failOn": "warning" }
+}]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

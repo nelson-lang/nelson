@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Contour Plots</chapter>
+  <chapter_description>
+    <p>Functions for contour computation, contour plots, and contour labels.</p>
+  </chapter_description>
+</xmldoc>

@@ -33,6 +33,11 @@ public:
     ~FileFunction();
     const std::wstring&
     getFilename() const;
+    void
+    setFilename(const std::wstring& filename)
+    {
+        _fullfilename = filename;
+    }
     const std::wstring&
     getName() const;
     bool

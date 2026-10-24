@@ -13,7 +13,7 @@ function varargout = sphere(varargin)
   n = 20;
   if nargin == 0
     ax = [];
-  else 
+  else
     if nargin == 1
       v = varargin{1};
       if isgraphics(v)
@@ -35,11 +35,11 @@ function varargout = sphere(varargin)
   sintheta = sin(theta);
   sintheta(n + 1) = 0;
   sintheta(1) = 0;
-  
+
   x = cosphi * cos(theta);
   y = cosphi * sintheta;
   z = sin(phi) * ones(1, n + 1);
-  
+
   if nargout == 0
     ax = newplot(ax);
     surf(x, y, z, 'Parent', ax);

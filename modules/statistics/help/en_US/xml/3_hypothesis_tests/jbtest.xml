@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>jbtest</keyword>
+  <short_description>Jarque-Bera normality test.</short_description>
+  <syntax>
+    <syntax_item>h = jbtest(x)</syntax_item>
+    <syntax_item>h = jbtest(x, alpha)</syntax_item>
+    <syntax_item>h = jbtest(x, alpha, mctol)</syntax_item>
+    <syntax_item>[h, p, jbstat, critval] = jbtest(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>jbtest</b> performs a Jarque-Bera test for normality with unknown mean and variance. <b>NaN</b> observations are omitted.</p>
+    <p>The optional <b>alpha</b> argument sets the significance level. The optional <b>mctol</b> argument is accepted for syntax compatibility; this implementation uses the deterministic chi-square approximation.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 3 4 5];
+[h, p, jbstat, critval] = jbtest(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}chi2gof">chi2gof</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kstest">kstest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}normcdf">normcdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

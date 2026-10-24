@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('lin2mu'), 1)
-assert_isequal(nargout('lin2mu'), 1)
+asserts.isequal(nargin('lin2mu'), 1)
+asserts.isequal(nargout('lin2mu'), 1)
 %=============================================================================
-R = lin2mu (-1:0.1:1);
+R = lin2mu(-1:0.1:1);
 REF = [0, 3, 6, 9, 12, 15, 22, 28, 37, 53, 255, 181, 165, 156, 150, 143, 140, 137, 134, 131, 128];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

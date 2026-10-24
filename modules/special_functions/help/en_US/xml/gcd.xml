@@ -6,6 +6,7 @@
   <short_description>Greatest common divisor</short_description>
   <syntax>
     <syntax_item>G = gcd(A, B)</syntax_item>
+    <syntax_item>[G, C, D] = gcd(A, B)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,10 +26,19 @@
       <param_description
       >result of gcd function (Greatest common divisor).</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>C, D</param_name>
+      <param_description
+      >Bezout coefficients such that C .* A + D .* B == G.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>G = gcd(A, B)</b> computes the greatest common divisor using the Euclidian algorithm.</p>
+    <p>
+      <b>[G, C, D] = gcd(A, B)</b> also returns the Bezout coefficients <b>C</b>
+      and <b>D</b> such that <b>C .* A + D .* B == G</b>. Unsigned integer inputs
+      are not supported by this syntax.</p>
   </description>
   <used_function />
   <bibliography

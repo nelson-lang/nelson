@@ -36,6 +36,7 @@
   <description>
     <p>
       <b>any</b> returns true if any of the elements of a matrix satisfy some condition.</p>
+    <p>Sparse logical, double, single, complex double, and complex single inputs are supported. Sparse numeric zeros are treated as false and nonzero real or complex entries are treated as true.</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,6 +48,15 @@
         runnable="cli"
       ><![CDATA[any([33, 22; 11, 0])
 any([33, 22; 11, 0], 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([0 0; 2 + 1i 3]));
+any(S)
+any(S, 'all')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -63,6 +73,10 @@ any([33, 22; 11, 0], 2)]]></example_item_data>
       <history_version>1.6.0</history_version>
       <history_description>manages input argument &apos;all&apos;
       </history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added sparse single and complex single support</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>norminv</keyword>
+  <short_description>Normal inverse cumulative distribution function</short_description>
+  <syntax>
+    <syntax_item>x = norminv(p)</syntax_item>
+    <syntax_item>x = norminv(p, mu, sigma)</syntax_item>
+    <syntax_item>[x, xLo, xUp] = norminv(p, mu, sigma, pCov)</syntax_item>
+    <syntax_item>[x, xLo, xUp] = norminv(p, mu, sigma, pCov, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>real scalar or array: probabilities.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description>real scalar or array, 0 by default: mean.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>positive real scalar or array, 1 by default: standard deviation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pCov</param_name>
+      <param_description>2-by-2 covariance matrix for the estimated parameters.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalar in (0,1), 0.05 by default: significance level for confidence bounds.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>scalar or array: quantiles.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>xLo</param_name>
+      <param_description>lower confidence bound.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>xUp</param_name>
+      <param_description>upper confidence bound.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>norminv</b> evaluates quantiles of the normal distribution.</p>
+    <p>Probabilities outside [0,1] return NaN. Probabilities 0 and 1 return infinite endpoints.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[p = [0.025 0.5 0.975];
+x = norminv(p);
+[x, xLo, xUp] = norminv(0.5, 0, 1, [0.04 0; 0 0.01]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}normcdf">normcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}normrnd">normrnd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

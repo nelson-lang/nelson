@@ -10,29 +10,25 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('isprop'), 2);
-assert_isequal(nargout('isprop'), 1);
+asserts.isequal(nargin('isprop'), 2);
+asserts.isequal(nargout('isprop'), 1);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end 
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
-assert_istrue(isprop(qobj, 'x'));
-assert_istrue(isprop(qobj, 'y'));
+asserts.istrue(isprop(qobj, 'x'));
+asserts.istrue(isprop(qobj, 'y'));
 if (semver(qt_version(), '6.7.0') < 0)
-  assert_isfalse(isprop(qobj, 'z'));
+  asserts.isfalse(isprop(qobj, 'z'));
   qobj.z = 1;
-  assert_istrue(isprop(qobj, 'z'));
+  asserts.istrue(isprop(qobj, 'z'));
 else
   if (semver(qt_version(), '6.8.0') < 0)
-    assert_istrue(isprop(qobj, 'z'));
-    assert_isequal(qobj.z, 0);
+    asserts.istrue(isprop(qobj, 'z'));
+    asserts.isequal(qobj.z, 0);
   else
-    assert_isfalse(isprop(qobj, 'z'));
+    asserts.isfalse(isprop(qobj, 'z'));
     qobj.z = 1;
-    assert_istrue(isprop(qobj, 'z'));
+    asserts.istrue(isprop(qobj, 'z'));
   end
 end
 %=============================================================================

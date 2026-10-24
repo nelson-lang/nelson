@@ -13,5 +13,5 @@ f = figure();
 surf(peaks);
 colormap('copper');
 r = f.Colormap;
-assert_isapprox(r(1, :), [0, 0, 0], 1e-3); 
+asserts.isapprox(r(1, :), [0, 0, 0], 1e-3);
 %=============================================================================

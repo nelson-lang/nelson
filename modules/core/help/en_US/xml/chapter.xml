@@ -12,7 +12,7 @@
     <p
     >Through this module, users can evaluate code dynamically, manage execution flow, query program state, and access key system information such as versioning, configuration, and licensing.</p>
     <p
-    >It also offers basic utilities for file identification, checksums, and terminal capabilities.</p>
+    >It also offers basic utilities for file identification, checksums, cryptography (the <b>crypto</b> namespace: hashes, HMAC, Ed25519 and X25519, Argon2, authenticated encryption and secure random), and terminal capabilities.</p>
     <p
     >Together, these features form the foundation upon which all other modules and user-level functionality in Nelson are built.</p>
   </chapter_description>

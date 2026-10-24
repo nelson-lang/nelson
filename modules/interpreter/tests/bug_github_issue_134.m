@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/134
 % <-- Short Description -->
@@ -14,64 +16,64 @@
 %=============================================================================
 R = [];
 if [false, false], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if [true, false], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if [false, true], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if [true, true], R = true; else, R = false; end
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 if [], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
-if ones(3,0), R = true; else, R = false; end
-assert_isfalse(R);
+if ones(3, 0), R = true; else, R = false; end
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if sparse([false]), R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if sparse([true]), R = true; else, R = false; end
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = [];
 if sparse([false, false]), R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if sparse([true, false]), R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if sparse([true, true]), R = true; else, R = false; end
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = [];
 if [true, false, true], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if [false, true, false], R = true; else, R = false; end
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = [];
 if eps, R = true; else, R = false; end
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = [];
 cmd = 'if sparse([0+i, 0+i]), R = true; else, R = false; end';
-assert_checkerror(cmd, _('Complex cannot be converted to logical.'));
+asserts.checkerror(cmd, _('Complex cannot be converted to logical.'));
 %=============================================================================
 R = [];
 cmd = 'if [0+i, 0+i], R = true; else, R = false; end';
-assert_checkerror(cmd, _('Complex cannot be converted to logical.'));
+asserts.checkerror(cmd, _('Complex cannot be converted to logical.'));
 %=============================================================================
 

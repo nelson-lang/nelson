@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sim</keyword>
+  <short_description>Simule un modèle nflow et retourne ses résultats.</short_description>
+  <syntax>
+    <syntax_item>out = sim(model)</syntax_item>
+    <syntax_item>out = sim(model, 'StopTime', T)</syntax_item>
+    <syntax_item>out = sim(model, 'StopTime', T, 'SampleTime', dt)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>un système chargé (nom ou handle) ou le chemin d'un fichier .nflow.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>StopTime</param_name>
+      <param_description>scalaire numérique fini optionnel ; remplace la durée totale simulée du modèle.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>SampleTime</param_name>
+      <param_description>scalaire numérique fini optionnel ; remplace le pas d'échantillonnage du modèle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>out</param_name>
+      <param_description>une structure avec un champ par bloc To Workspace (son VariableName) plus 'tout' (le vecteur temps).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sim</b> simule le modèle <b>model</b> et retourne ses résultats.</p>
+    <p>Les blocs From Workspace lisent leur signal dans le workspace de base : définissez ces variables avant d'appeler <b>sim</b>. Les blocs To Workspace écrivent leur résultat dans le workspace de base (comme lors d'un run interactif) et sont aussi exposés comme champs de <b>out</b> (par exemple <b>out.simout</b>).</p>
+    <p>C'est un raccourci au-dessus du moteur headless <b>__nflow_simulate__</b> : il lit le document du modèle, applique les surcharges optionnelles <b>StopTime</b> / <b>SampleTime</b>, lance le moteur et collecte les résultats.</p>
+    <p><b>Callback StopFcn.</b> Si le modèle porte un champ de premier niveau <b>stopFcn</b> (un texte de commandes Nelson), il s'exécute dans le workspace de base une fois la simulation arrêtée, avec le résultat exposé comme <b>out</b>. Il ne se déclenche que lors d'un run de simulation (jamais au chargement du modèle) et s'exécute même sans sortie demandée : un modèle dont le <b>stopFcn</b> est <b>NFlow.plotScopes(out)</b> ouvre ainsi ses scopes automatiquement. Le bouton Run de l'éditeur nflow déclenche le même <b>stopFcn</b>. Un callback en échec émet un avertissement sans interrompre le run déjà terminé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lancer une démo autonome et relire le signal journalisé</example_item_description>
+      <example_item_data><![CDATA[model = [modulepath('nflow_blocks'), '/examples/workspace/To_Workspace_Demo.nflow'];
+out = sim(model, 'StopTime', 5);
+plot(out.simout.time, out.simout.signals.values);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Alimenter un bloc From Workspace depuis le workspace de base</example_item_description>
+      <example_item_data><![CDATA[t = (0:0.01:10)';
+simin = [t, sin(2*pi*0.5*t)];
+out = sim([modulepath('nflow_blocks'), '/examples/workspace/From_Workspace_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}sink/toWorkspace">toWorkspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}NFlow.plotScopes">NFlow.plotScopes</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

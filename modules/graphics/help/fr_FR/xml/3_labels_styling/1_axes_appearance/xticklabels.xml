@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xticklabels</keyword>
+  <short_description>Definir ou obtenir les etiquettes de l'axe des x.</short_description>
+  <syntax>
+    <syntax_item>labels = xticklabels()</syntax_item>
+    <syntax_item>xticklabels(labels)</syntax_item>
+    <syntax_item>xticklabels(&apos;auto&apos;)</syntax_item>
+    <syntax_item>xticklabels(&apos;manual&apos;)</syntax_item>
+    <syntax_item>m = xticklabels(&apos;mode&apos;)</syntax_item>
+    <syntax_item>xticklabels(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description>Tableau de cellules de chaines ou tableau de chaines des etiquettes de l'axe des x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;auto&apos;</param_name>
+      <param_description>Active les etiquettes automatiques de l'axe des x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;manual&apos;</param_name>
+      <param_description>Fige les etiquettes courantes de l'axe des x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;mode&apos;</param_name>
+      <param_description>Retourne le mode des etiquettes de l'axe des x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes cibles. Par defaut, les axes courants.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>labels</param_name>
+      <param_description>Tableau de cellules de chaines des etiquettes de l'axe des x.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>&apos;auto&apos; ou &apos;manual&apos;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xticklabels</b> obtient ou definit les etiquettes de l'axe des x des axes courants.</p>
+    <p>Specifier des etiquettes bascule le mode des etiquettes de l'axe des x sur <b>manual</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Definir les etiquettes de l'axe des x.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+bar([10 20 30 41]);
+xticks(1:4);
+xticklabels({'A','B','C','D'});
+labels = xticklabels()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticks">xticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xtickangle">xtickangle</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/yticklabels">yticklabels</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

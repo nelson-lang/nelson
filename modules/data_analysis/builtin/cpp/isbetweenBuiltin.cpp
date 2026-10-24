@@ -10,13 +10,14 @@
 #include "isbetweenBuiltin.hpp"
 #include "IsBetween.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include <limits>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
 Nelson::DataAnalysisGateway::isbetweenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 3);
+    nargincheck(argIn, 3, std::numeric_limits<int>::max());
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     retval << IsBetween(eval, argIn);

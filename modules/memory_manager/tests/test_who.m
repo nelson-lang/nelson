@@ -7,36 +7,41 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('who'), 1);
-assert_isequal(nargout('who'), 1);
+asserts.isequal(nargin('who'), 1);
+asserts.isequal(nargout('who'), 1);
 %=============================================================================
 A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);
-save([tempdir(), 'test_who.mat'], 'A', 'B', 'C', 'D')
-save([tempdir(), 'test_who.nh5'], 'A', 'B', 'C', 'D')
+matFile = [tempname(), '.mat'];
+nh5File = [tempname(), '.nh5'];
+save(matFile, 'A', 'B', 'C', 'D')
+save(nh5File, 'A', 'B', 'C', 'D')
 %=============================================================================
-who('-file', [tempdir(), 'test_who.mat'])
-c = who('-file', [tempdir(), 'test_who.mat']);
+who('-file', matFile)
+c = who('-file', matFile);
 REF = {'A'; 'B'; 'C'; 'D'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
-who('-file', [tempdir(), 'test_who.mat'], 'A', 'C')
-c = who('-file', [tempdir(), 'test_who.mat'], 'A', 'C');
+who('-file', matFile, 'A', 'C')
+c = who('-file', matFile, 'A', 'C');
 REF = {'A'; 'C'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
-who('-file', [tempdir(), 'test_who.nh5'])
-c = who('-file', [tempdir(), 'test_who.nh5']);
+who('-file', nh5File)
+c = who('-file', nh5File);
 REF = {'A'; 'B'; 'C'; 'D'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
-who('-file', [tempdir(), 'test_who.nh5'], 'A', 'C')
-c = who('-file', [tempdir(), 'test_who.nh5'], 'A', 'C');
+who('-file', nh5File, 'A', 'C')
+c = who('-file', nh5File, 'A', 'C');
 REF = {'A'; 'C'}
-assert_isequal(c, REF);
+asserts.isequal(c, REF);
 %=============================================================================
 who()
 who('global')
+%=============================================================================
+rmfile(matFile);
+rmfile(nh5File);
 %=============================================================================

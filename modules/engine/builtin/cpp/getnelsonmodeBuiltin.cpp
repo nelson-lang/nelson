@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "getnelsonmodeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NelSon_engine_mode.h"
 #include "NelsonConfiguration.hpp"
@@ -25,28 +26,28 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(int nLhs, const ArrayOfVector& argIn
     auto _mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
     switch (_mode) {
     case BASIC_ENGINE: {
-        retval << ArrayOf::characterArrayConstructor("BASIC_ENGINE");
+        retval << ArrayOf::characterArray("BASIC_ENGINE");
     } break;
     case ADVANCED_ENGINE: {
-        retval << ArrayOf::characterArrayConstructor("ADVANCED_ENGINE");
+        retval << ArrayOf::characterArray("ADVANCED_ENGINE");
     } break;
     case BASIC_TERMINAL: {
-        retval << ArrayOf::characterArrayConstructor("BASIC_TERMINAL");
+        retval << ArrayOf::characterArray("BASIC_TERMINAL");
     } break;
     case ADVANCED_TERMINAL: {
-        retval << ArrayOf::characterArrayConstructor("ADVANCED_TERMINAL");
-    } break;
-    case BASIC_SIO_CLIENT: {
-        retval << ArrayOf::characterArrayConstructor("BASIC_SIO_CLIENT");
-    } break;
-    case ADVANCED_SIO_CLIENT: {
-        retval << ArrayOf::characterArrayConstructor("ADVANCED_SIO_CLIENT");
+        retval << ArrayOf::characterArray("ADVANCED_TERMINAL");
     } break;
     case GUI: {
-        retval << ArrayOf::characterArrayConstructor("GUI");
+        retval << ArrayOf::characterArray("GUI");
+    } break;
+    case WEB_GUI: {
+        retval << ArrayOf::characterArray("WEB_GUI");
+    } break;
+    case WASM_TERMINAL: {
+        retval << ArrayOf::characterArray("WASM_TERMINAL");
     } break;
     default: {
-        Error(_W("unknown mode."));
+        Error(L"Nelson:getnelsonmode:unknownMode", L"unknown mode.");
     } break;
     }
     return retval;

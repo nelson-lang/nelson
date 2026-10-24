@@ -10,10 +10,10 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_setofflinestoragepath'), 1);
-assert_isequal(nargout('qml_setofflinestoragepath'), 0);
+asserts.isequal(nargin('qml_setofflinestoragepath'), 1);
+asserts.isequal(nargout('qml_setofflinestoragepath'), 0);
 %=============================================================================
 qml_setofflinestoragepath(nelsonroot());
 r = qml_offlinestoragepath();
-assert_isequal(r, nelsonroot());
+asserts.isequal(r, nelsonroot());
 %=============================================================================

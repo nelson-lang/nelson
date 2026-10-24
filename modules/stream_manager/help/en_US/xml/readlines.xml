@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>readlines</keyword>
+  <short_description>Read lines of a text file as a string array.</short_description>
+  <syntax>
+    <syntax_item>S = readlines(filename)</syntax_item>
+    <syntax_item>S = readlines(filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a character vector or a string scalar: name of the text file to read.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineEnding</param_name>
+      <param_description
+      >a character vector, a string array or a cell array of character vectors: line terminators. Default: {&apos;\n&apos;, &apos;\r&apos;, &apos;\r\n&apos;}. Escape sequences \n, \r, \t, \b, \f, \v and \\ are interpreted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Whitespace</param_name>
+      <param_description
+      >a character vector or a string scalar: characters treated as whitespace. Default: &apos; \b\t&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>WhitespaceRule</param_name>
+      <param_description
+      >&apos;preserve&apos; (default), &apos;trim&apos;, &apos;trimleading&apos; or &apos;trimtrailing&apos;: removal of the leading and/or trailing whitespace of each line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>EmptyLineRule</param_name>
+      <param_description
+      >&apos;read&apos; (default), &apos;skip&apos; or &apos;error&apos;: handling of the empty lines. A line that contains only whitespace is empty.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Encoding</param_name>
+      <param_description
+      >a character vector or a string scalar: &apos;&apos; (default, the encoding is detected), &apos;system&apos;, &apos;UTF-8&apos;, &apos;ISO-8859-1&apos;, &apos;windows-1251&apos;, &apos;windows-1252&apos;, ...</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>a N-by-1 string array: one element per line.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>S = readlines(filename)</b> reads the text file <b>filename</b> and returns its lines as a column string array. The line terminators are not part of the lines.</p>
+    <p>By default, a line ends with a line feed, a carriage return or a carriage return followed by a line feed. When the file ends with a line terminator, the last element of <b>S</b> is an empty string. An empty file returns a 1-by-1 empty string.</p>
+    <p>With <b>EmptyLineRule</b> set to &apos;skip&apos;, empty lines are removed. With &apos;error&apos;, an error is raised on the first empty line, giving its row. In both cases, the empty text after a final line terminator is ignored.</p>
+    <p>A UTF-8 byte order mark at the beginning of the file is not returned.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read the lines of a text file.</example_item_description>
+      <example_item_data><![CDATA[filename = [tempdir(), 'example_readlines.txt'];
+filewrite(filename, ["  Paris"; ""; "  Berlin"; "Rome  "]);
+S = readlines(filename)
+S = readlines(filename, 'EmptyLineRule', 'skip')
+S = readlines(filename, 'WhitespaceRule', 'trim')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fileread">fileread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fgetl">fgetl</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>im2uint8</keyword>
+  <short_description>Convert image to 8-bit unsigned integer.</short_description>
+  <syntax>
+    <syntax_item>J = im2uint8(I)</syntax_item>
+    <syntax_item>J = im2uint8(I, 'indexed')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input image. Supported intensity classes are double, single, logical, uint8, uint16, and int16.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'indexed'</param_name>
+      <param_description>Optional mode for indexed images. Floating-point inputs use one-based indices and integer inputs use zero-based indices.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Image converted to uint8.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convert image to 8-bit unsigned integer.</p>
+    <p>For indexed images, integer inputs are treated as zero-based indices and double inputs are treated as one-based indices.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convert uint16 array to uint8</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=reshape(uint16(linspace(0,65535,25)),[5 5]);
+J=im2uint8(I);
+figure; imagesc(J); g=linspace(0,1,64)'; colormap([g g g]); title('uint8 image');]]></example_item_data>
+      <example_item_img
+        src="../../../images/im2uint8_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}im2uint16">im2uint16</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}im2single">im2single</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}im2double">im2double</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "imformatsBuiltin.hpp"
 #include "ImageFormats.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,9 +30,9 @@ GraphicsIoGateway::imformatsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     }
 
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-        return imageSupport(eval, argIn[0].getContentAsWideString());
+        return imageSupport(eval, argIn[0].asWideString());
     } else {
-        Error(_W("The input argument must be a string."));
+        Error(L"Nelson:imformats:invalidArgument", L"The input argument must be a string.");
     }
     return retval;
 }

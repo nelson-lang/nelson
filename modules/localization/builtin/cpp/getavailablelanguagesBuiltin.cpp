@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::LocalizationGateway::getavailablelanguagesBuiltin(int nLhs, const ArrayO
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 0);
     Localization::Instance()->getManagedLanguages(langs);
-    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(langs);
+    retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(langs);
     return retval;
 }
 //=============================================================================

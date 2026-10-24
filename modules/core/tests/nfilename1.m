@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 a = nfilename();
-assert_isequal(a, 'nfilename1');
+asserts.isequal(a, 'nfilename1');
 r = nfilename2(3, 4);
-assert_isequal(r, 1);
+asserts.isequal(r, 1);

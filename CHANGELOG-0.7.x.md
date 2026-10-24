@@ -87,7 +87,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - axis limits recalculate with `hggroup`.
 - `axes` forces focus on current axe.
-- function_handle parenthese precedence.
+- function_handle parentheses precedence.
 - `patch` and `fill` manages `FaceAlpha`.
 - visibility title and labels.
 - object constructor must be in '@' directory and no more in parent directory (compatibility).
@@ -322,7 +322,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - [#823](https://github.com/nelson-lang/nelson/issues/823): default LineStyle for a line was wrong with marker.
-- `CTRL+C` was not catched on advanced cli for linux and macos.
+- `CTRL+C` was not caught on advanced cli for linux and macos.
 - colors in `colorbar` were not in the good order.
 - warnings detected by CodeQL.
 - [#824](https://github.com/nelson-lang/nelson/issues/824): VariableCompleter was not filtered by prefix.

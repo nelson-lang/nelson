@@ -14,7 +14,7 @@ function varargout = minreal(varargin)
   % sysOut = minreal(sysIn, tol)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  
+
   sysIn = varargin{1};
   [a, b, c, d] = ssdata(sysIn);
   if nargin < 2
@@ -22,7 +22,7 @@ function varargout = minreal(varargin)
   else
     tol = varargin{2};
   end
-  
+
   [am, bm, cm, dm] = minreal(a, b, c, d);
   sysOut = ss(am, bm, cm, dm, sysIn.Ts);
   varargout{1} = tf(sysOut);

@@ -12,14 +12,24 @@ function [status, message] = cmake(varargin)
   message = '';
   [status, pathcmake] = findcmake();
   if status == false
-    error(_('cmake not found.'));
+    error('Nelson:cmake:notFound', 'cmake not found.');
   end
   cmd = ['"', pathcmake, '"'];
   for k = [1:length(varargin)]
     if ~ischar(varargin{k})
-      error(_('only string expected as input argument.'));
+      error('Nelson:types:onlyStringExpected', 'only string expected as input argument.');
     end
     cmd = [cmd, ' ', varargin{k}];
+  end
+  % Guard against a polluted RC environment variable. cmake reads RC as the
+  % resource compiler; if an install script leaks a robocopy exit code (e.g.
+  % RC=2) configuration aborts with "Could not find the compiler specified in
+  % the environment variable RC". When RC does not point to an existing file,
+  % clear it for this call so cmake auto-detects rc.exe from the toolchain.
+  previousRC = getenv('RC');
+  if ~isempty(previousRC) && ~isfile(previousRC)
+    setenv('RC', '');
+    restoreRC = onCleanup(@() setenv('RC', previousRC)); %#ok<NASGU>
   end
   [status, message] = unix(cmd);
   status = (status == 0);

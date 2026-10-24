@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "inputnameBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -23,17 +24,17 @@ Nelson::CoreGateway::inputnameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 1, 1);
     Context* context = eval->getContext();
     if (context->getCurrentScope()->getName() == "base") {
-        Error(_W("Cannot return input name if not in an active function."),
-            L"Nelson:inputname:notInAfunction");
+        Error(L"Nelson:inputname:notInAfunction",
+            L"Cannot return input name if not in an active function.");
     }
-    double pos = argIn[0].getContentAsDoubleScalar();
+    double pos = argIn[0].asDoubleScalar();
     int ipos = (int)pos;
     if ((double)ipos != pos) {
-        Error(_W("Scalar integer value required, but value is not integral."), L"Nelson:IntVal");
+        Error(L"Nelson:IntVal", L"Scalar integer value required, but value is not integral.");
     }
     int nargin = context->getCurrentScope()->getNargIn();
     if (ipos > nargin || ipos < 1) {
-        Error(_W("Argument number is not valid."), L"Nelson:inputname:argNumberNotValid");
+        Error(L"Nelson:inputname:argNumberNotValid", L"Argument number is not valid.");
     }
     stringVector inputNames = context->getCurrentScope()->getInputArgumentNames();
     std::string name;
@@ -41,7 +42,7 @@ Nelson::CoreGateway::inputnameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     if (ipos < inputNames.size()) {
         name = inputNames[ipos];
     }
-    retval << ArrayOf::characterArrayConstructor(name);
+    retval << ArrayOf::characterArray(name);
     return retval;
 }
 //=============================================================================

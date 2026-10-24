@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ddesd</keyword>
+  <short_description>Solve delay equations with state-dependent delayed times.</short_description>
+  <syntax>
+    <syntax_item>sol = ddesd(ddefun, delays, history, tspan)</syntax_item>
+    <syntax_item>sol = ddesd(ddefun, delays, history, tspan, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ddesd</b> solves delay equations where <b>delays(t,y)</b> returns delayed times. Constant delay vectors are interpreted as positive lags.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Item</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Delay type</td>
+        <td>Delayed times depending on <b>t</b> and <b>y</b>.</td>
+      </tr>
+      <tr>
+        <td>Callback</td>
+        <td><b>f(t,y,z)</b></td>
+      </tr>
+      <tr>
+        <td>History</td>
+        <td>Scalar, vector, solution structure, or function depending on the call form.</td>
+      </tr>
+      <tr>
+        <td>Solution</td>
+        <td><b>sol</b> structure with <b>x</b>, <b>y</b>, <b>yp</b>, <b>solver</b>, and <b>deval</b> interpolation.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Complete DDE and BVP added features example.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}dde23">dde23</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ddensd">ddensd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

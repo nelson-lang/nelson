@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "usability-tests",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "INTENTIONALLY BROKEN: sum -> gain -> sum forms a direct-feedthrough algebraic loop (no state block breaks it). Used to assert nflow reports the loop instead of failing silently.",
+  "name": "algebraic_loop",
+  "blocks": [
+    {
+      "id": "c1",
+      "type": "constant",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Value": 1
+      }
+    },
+    {
+      "id": "e1",
+      "type": "sum",
+      "x": 200,
+      "y": 190,
+      "rotation": 0,
+      "params": {
+        "Inputs": "+-"
+      }
+    },
+    {
+      "id": "g1",
+      "type": "gain",
+      "x": 360,
+      "y": 190,
+      "rotation": 0,
+      "params": {
+        "Gain": 1
+      }
+    },
+    {
+      "id": "sc1",
+      "type": "scope",
+      "x": 540,
+      "y": 190,
+      "rotation": 0,
+      "params": {}
+    }
+  ],
+  "connections": [
+    {
+      "from": "c1",
+      "to": "e1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "e1",
+      "to": "g1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "g1",
+      "to": "e1",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "g1",
+      "to": "sc1",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.1,
+  "solver": "ode45",
+  "autoRoute": true,
+  "locked": false
+}

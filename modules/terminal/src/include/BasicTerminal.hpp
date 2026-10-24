@@ -20,10 +20,6 @@ class NLSTERMINAL_IMPEXP BasicTerminal : public Interface
 public:
     BasicTerminal();
     ~BasicTerminal() override;
-    /**
-     *  Get a line of input from the user with the
-     *  given prompt.
-     */
     std::wstring
     getLine(const std::wstring& prompt) override;
     std::string
@@ -38,23 +34,18 @@ public:
     getTerminalWidth() override;
     size_t
     getTerminalHeight() override;
-    /**
-     *  Output the following text message.
-     */
     void
     outputMessage(const std::wstring& msg) override;
     void
     outputMessage(const std::string& msg) override;
-    /**
-     *  Output the following error message.
-     */
+    bool
+    outputStyledText(const std::wstring& msg, const TextStyle& style) override;
+    bool
+    outputAnsiText(const std::wstring& msg, bool asError) override;
     void
     errorMessage(const std::wstring& msg) override;
     void
     errorMessage(const std::string& msg) override;
-    /**
-     *  Output the following warning message.
-     */
     void
     warningMessage(const std::wstring& msg) override;
     void
@@ -73,6 +64,15 @@ private:
     getTextLine(const std::wstring& prompt, bool bIsInput);
     std::string
     getTextLine(const std::string& prompt, bool bIsInput);
+    void
+    markPromptInterrupted();
+    void
+    redrawPromptIfNeeded();
+    void
+    clearPromptState();
     bool atPrompt;
+    bool promptRedrawPending;
+    bool promptRedrawNeedsNewline;
+    std::string currentPrompt;
 };
 //=============================================================================

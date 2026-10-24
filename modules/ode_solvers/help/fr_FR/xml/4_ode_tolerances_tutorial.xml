@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tutoriel tolerances edo</keyword>
+  <short_description>Controler la precision et les statistiques EDO.</short_description>
+  <description>
+    <p>Utilisez <b>RelTol</b> pour la precision relative et <b>AbsTol</b> pour les composantes de petite amplitude. Utilisez <b>InitialStep</b>, <b>MaxStep</b> et <b>MinStep</b> pour borner le controle de pas adaptatif.</p>
+    <table style="width:100%">
+  <tr><th>Option</th><th>Effet</th><th>Usage typique</th></tr>
+  <tr><td><b>RelTol</b></td><td>Adapte le test d'erreur a la taille de la solution.</td><td>Controle principal de precision.</td></tr>
+  <tr><td><b>AbsTol</b></td><td>Fixe un plancher pour les petites composantes.</td><td>Protege les variables proches de zero.</td></tr>
+  <tr><td><b>NormControl</b></td><td>Utilise une norme vectorielle dans le test adaptatif.</td><td>Systemes couples avec echelle partagee.</td></tr>
+  <tr><td><b>Stats</b></td><td>Affiche les compteurs solveur.</td><td>Diagnostics et tests de regression.</td></tr>
+</table>
+    <p>Placez <b>Stats</b> a <b>on</b> pour afficher les compteurs, ou lisez le champ <b>stats</b> d'une structure de solution.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparer deux tolerances.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[loose = odeset('RelTol', 1e-3, 'AbsTol', 1e-6);
+tight = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
+solLoose = ode45(@(t,y) y, [0 1], 1, loose);
+solTight = ode45(@(t,y) y, [0 1], 1, tight);
+[solLoose.stats.nsteps solTight.stats.nsteps] ]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher les statistiques.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Stats', 'on', 'MaxStep', 0.1);
+[t, y] = ode45(@(t,y) -y, [0 1], 1, options);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeget">odeget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

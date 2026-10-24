@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>accumarray</keyword>
+  <short_description>Construit un tableau par accumulation.</short_description>
+  <syntax>
+    <syntax_item>A = accumarray(subs, val)</syntax_item>
+    <syntax_item>A = accumarray(subs, val, sz)</syntax_item>
+    <syntax_item>A = accumarray(subs, val, sz, fun)</syntax_item>
+    <syntax_item>A = accumarray(subs, val, sz, fun, fillval)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>subs</param_name>
+      <param_description>indices : vecteur colonne ou matrice d'entiers positifs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>val</param_name>
+      <param_description>valeurs a accumuler : vecteur colonne ou scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>taille de la sortie : vecteur ligne ou [].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>fonction d'accumulation : handle de fonction (defaut @sum).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fillval</param_name>
+      <param_description>valeur des positions vides (defaut 0).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>tableau accumule.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>accumarray(subs, val)</b> regroupe les elements de <b>val</b> selon les indices de <b>subs</b> et applique <b>@sum</b> a chaque groupe.</p>
+    <p>Chaque ligne de <b>subs</b> designe la position de sortie ou la valeur correspondante de <b>val</b> est accumulee.</p>
+    <p><b>fun</b> remplace la somme par defaut, et <b>fillval</b> fixe la valeur des positions ne recevant aucune contribution.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[accumarray([1;2;1;3], [10;20;30;40])
+accumarray([1;1;2], [3;5;7], [], @max)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}sum">sum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

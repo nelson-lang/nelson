@@ -9,6 +9,7 @@
 //=============================================================================
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
+#include "ErrorID.hpp"
 #include <fmt/xchar.h>
 #include "FileSystemWrapper.hpp"
 #include "addpathBuiltin.hpp"
@@ -19,6 +20,34 @@
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static std::wstring
+getPathSeparator()
+{
+#ifdef _MSC_VER
+    return L";";
+#else
+    return L":";
+#endif
+}
+//=============================================================================
+static void
+appendPathArguments(wstringVector& params, const std::wstring& value)
+{
+    const std::wstring separator = getPathSeparator();
+    size_t begin = 0;
+    while (begin <= value.length()) {
+        size_t end = value.find(separator, begin);
+        std::wstring item = value.substr(begin, end == std::wstring::npos ? end : end - begin);
+        if (!item.empty()) {
+            params.push_back(item);
+        }
+        if (end == std::wstring::npos) {
+            break;
+        }
+        begin = end + separator.length();
+    }
+}
 //=============================================================================
 ArrayOfVector
 Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -34,7 +63,7 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         lastpos = argIn.size() - 1;
         ArrayOf lastParam = argIn[lastpos];
         if (lastParam.isRowVectorCharacterArray()) {
-            std::wstring option = lastParam.getContentAsWideString();
+            std::wstring option = lastParam.asWideString();
             if ((option == L"-begin") || (option == L"-end") || option == L"-frozen") {
                 withOption = true;
                 if (option == L"-begin") {
@@ -51,14 +80,14 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 lastpos = argIn.size();
             }
         } else {
-            Error(fmt::format(
-                ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.",
+                (static_cast<int>(lastpos) + 1), L"string");
         }
         if (withOption) {
             lastpos = argIn.size() - 2;
             ArrayOf lastParam = argIn[lastpos];
             if (lastParam.isRowVectorCharacterArray()) {
-                std::wstring option = lastParam.getContentAsWideString();
+                std::wstring option = lastParam.asWideString();
                 if ((option == L"-begin") || (option == L"-end") || option == L"-frozen") {
                     if (option == L"-begin") {
                         beginOption = true;
@@ -73,8 +102,8 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
                     lastpos = argIn.size() - 1;
                 }
             } else {
-                Error(fmt::format(
-                    ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(lastpos) + 1));
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.",
+                    (static_cast<int>(lastpos) + 1), L"string");
             }
         }
     }
@@ -82,10 +111,10 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
     for (size_t k = 0; k < lastpos; k++) {
         ArrayOf param = argIn[k];
         if (param.isRowVectorCharacterArray()) {
-            params.push_back(param.getContentAsWideString());
+            appendPathArguments(params, param.asWideString());
         } else {
-            Error(
-                fmt::format(ERROR_WRONG_ARGUMENT_X_TYPE_STRING_EXPECTED, static_cast<int>(k) + 1));
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.",
+                (static_cast<int>(k) + 1), L"string");
         }
     }
     std::wstring previousPaths = PathFunctionIndexerManager::getInstance()->getPathNameAsString();
@@ -93,11 +122,14 @@ Nelson::FunctionsGateway::addpathBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (FileSystemWrapper::Path::is_directory(param)) {
             PathFunctionIndexerManager::getInstance()->addPath(param, beginOption, frozenOption);
         } else {
-            Warning(_W("Warning: Not a directory:") + L" " + param + L"\n");
+            RaiseWarning(L"Nelson:addpath:notADirectory",
+                resolveMessageTemplate(
+                    L"Nelson:functions_manager:warningDirectory", L"Warning: Not a directory:")
+                    + L" " + param + L"\n");
         }
     }
     if (nLhs == 1) {
-        retval << ArrayOf::characterArrayConstructor(previousPaths);
+        retval << ArrayOf::characterArray(previousPaths);
     }
     return retval;
 }

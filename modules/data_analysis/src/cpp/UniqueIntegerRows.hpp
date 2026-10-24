@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -64,13 +64,13 @@ ArrayOfVector
 UniqueIntegerRowsOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueIntegerRowsEntry<T>> sp(len);
 
@@ -120,13 +120,13 @@ ArrayOfVector
 UniqueIntegerRowsTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueIntegerRowsEntry<T>> sp(len);
 
@@ -178,13 +178,13 @@ ArrayOfVector
 UniqueIntegerRowsThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
 
     indexType len = rows;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     int cnt;
     std::vector<UniqueIntegerRowsEntry<T>> sp(len);
 
@@ -246,5 +246,5 @@ UniqueIntegerRows(const ArrayOf& input, int nLhs)
     return UniqueIntegerRowsThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

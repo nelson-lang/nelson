@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "jlrunfileBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "JuliaRunFile.hpp"
@@ -22,11 +23,11 @@ ArrayOfVector
 Nelson::Julia_engineGateway::jlrunfileBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     if (!eval) {
-        Error(_W("Evaluator not available."));
+        Error(L"Nelson:julia:evaluatorNotAvailable", L"Evaluator not available.");
     }
     ArrayOfVector retval = {};
     nargincheck(argIn, 1);
-    std::wstring filename = argIn[0].getContentAsWideString();
+    std::wstring filename = argIn[0].asWideString();
     wstringVector arguments;
 
     wstringVector outputs;
@@ -35,7 +36,7 @@ Nelson::Julia_engineGateway::jlrunfileBuiltin(Evaluator* eval, int nLhs, const A
     size_t positionNameValue = argIn.size();
     if (argIn.size() == 2) {
         // jlrunfile(file, outputs)
-        outputs = argIn[1].getContentAsWideStringVector(false);
+        outputs = argIn[1].asWideStringVector(false);
         positionNameValue = argIn.size();
     } else if (argIn.size() == 3) {
         // jlrunfile(file, outputs, jlName = jlValue)
@@ -44,7 +45,7 @@ Nelson::Julia_engineGateway::jlrunfileBuiltin(Evaluator* eval, int nLhs, const A
         if (argIn.size() % 2 == 0) {
             // outvars = jlrunfile(file, outputs, jlName, jlValue)
             // outvars = jlrunfile(file, outputs, jlName, jlValue, jlName, jlValue)
-            outputs = argIn[1].getContentAsWideStringVector(false);
+            outputs = argIn[1].asWideStringVector(false);
             positionNameValue = 2;
         } else {
             // outvars = jlrunfile(file, jlName, jlValue, jlName, jlValue)
@@ -54,16 +55,16 @@ Nelson::Julia_engineGateway::jlrunfileBuiltin(Evaluator* eval, int nLhs, const A
 
     for (size_t k = positionNameValue; k < argIn.size(); k = k + 2) {
         if (argIn[k].isRowVectorCharacterArray() || argIn[k].isScalarStringArray()) {
-            names.push_back(argIn[k].getContentAsWideString());
+            names.push_back(argIn[k].asWideString());
             values.push_back(argIn[k + 1]);
         } else {
-            Error(_W("Field names must be string scalars or character vectors."),
-                L"Nelson:Juliarunfile:NonStringFieldNames");
+            Error(L"Nelson:julia_engine:NonStringFieldNames",
+                L"Field names must be string scalars or character vectors.");
         }
     }
 
     if (nLhs > outputs.size()) {
-        Error(_W("Wrong number of output arguments."));
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
     }
 
     return JuliaRunFile(

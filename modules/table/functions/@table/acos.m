@@ -7,11 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function A = acos(X)
-  try
-    A = feval('@table/unaryFunctionTableHelper', X, @acos);
-  catch Exception
-    throwAsCaller(Exception);
-  end
+function R = acos(A)
+  R = table.applyUnary(A, @acos, 'acos');
 end
 %=============================================================================

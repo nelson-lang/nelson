@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ode.options.ODE15i</keyword>
+  <short_description>Options object for the ode15i solver.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.ODE15i()</syntax_item>
+    <syntax_item>options = nelson.ode.options.ODE15i(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.ODE15i</b> creates a compatible option class for the <b>'ode15i'</b> solver value used by the <b>ode</b> object workflow.</p>
+    <table style="width:100%">
+  <tr><th>Option group</th><th>Names</th><th>Purpose</th></tr>
+  <tr><td>Steps</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b></td><td>Bound the adaptive step size selection.</td></tr>
+  <tr><td>Error control</td><td><b>NormControl</b></td><td>Switch between componentwise and norm based error control.</td></tr>
+  <tr><td>Method</td><td><b>MaxOrder</b></td><td>Bound the order of the backward differentiation formulas.</td></tr>
+  <tr><td>Consistent initials</td><td><b>ComputeConsistentInitialConditions</b></td><td>Request consistent <b>y0</b> and <b>yp0</b> before integration.</td></tr>
+  <tr><td>Evaluation</td><td><b>Vectorization</b></td><td>Declare vectorization of the residual function with respect to <b>y</b> and <b>yp</b>.</td></tr>
+  <tr><td>Output</td><td><b>OutputFcn</b>, <b>OutputSelection</b></td><td>Select output callbacks and returned components.</td></tr>
+</table>
+    <p>The <b>'ode15i'</b> solver value uses a variable order implicit method for fully implicit residual problems <b>F(t,y,yp)=0</b>, including stiff differential algebraic equations.</p>
+    <p>Supported properties are <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, <b>Vectorization</b>, <b>MaxOrder</b>, and <b>ComputeConsistentInitialConditions</b>. <b>InitialStep</b>, <b>MaxStep</b>, and <b>MinStep</b> are positive scalars bounding the adaptive step size; their default value is empty, which lets the solver choose them automatically. <b>NormControl</b> accepts <b>'on'</b> or <b>'off'</b> (default <b>'off'</b>) and enables error control based on the norm of the solution instead of componentwise control. <b>Vectorization</b> is a two-element cell array such as {<b>'off'</b>, <b>'off'</b>} (the default) declaring vectorization of the residual function with respect to <b>y</b> and <b>yp</b>; a single <b>'on'</b> or <b>'off'</b> value applies to both arguments. <b>MaxOrder</b> is an integer between 1 and 5 (default 5) bounding the order of the formulas. <b>ComputeConsistentInitialConditions</b> is a logical scalar (default <b>true</b>); when enabled, the solver adjusts the initial value and initial slope so that the residual is consistent at the initial time. <b>OutputFcn</b> is a function handle called on each output point (default empty). <b>OutputSelection</b> is a vector of indices selecting which solution components are passed to the output function (default empty, all components). The default <b>Refine</b> value for this solver is 1.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a fully implicit residual problem solved with ode15i options.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.ODE15i('MaxOrder', 4);
+problem = ode('EquationType', 'fullyimplicit', ...
+  'ODEFcn', @(t,y,yp) yp + y, ...
+  'InitialValue', 1, ...
+  'InitialSlope', -1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE15s">nelson.ode.options.ODE15s</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

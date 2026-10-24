@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "inserthtmlBuiltin.hpp"
 #include "Error.hpp"
-#include "GuiTerminal.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 #include "Interface.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -24,14 +24,17 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     ArrayOf param1 = argIn[0];
 
     if (!(param1.isRowVectorCharacterArray() || param1.isScalarStringArray())) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     if (eval) {
         Interface* io = eval->getInterface();
         if (io) {
-            std::wstring msg = param1.getContentAsWideString();
-            auto* gtio = (GuiTerminal*)io;
-            gtio->insertHtml(msg);
+            // Through the Interface: casting to the Qt terminal was undefined
+            // behaviour under any other front end (web desktop, adv-cli).
+            if (!io->insertHtml(param1.asWideString())) {
+                Error(L"Nelson:inserthtml:notSupportedTerminal",
+                    L"HTML display is not supported by this terminal.");
+            }
         }
     }
     ArrayOfVector retval;

@@ -98,6 +98,14 @@
           &apos;table&apos;
         </code>).</li>
     </ul>
+    <p><b>Fichiers JSON</b> (extension <b>.json</b> ou <b>&apos;FileType&apos;, &apos;json&apos;</b>) : la table est écrite comme un tableau JSON avec un objet par ligne ; les clés sont les noms des variables.</p>
+    <ul>
+      <li>Les nombres et valeurs logiques sont écrits comme nombres JSON et true ou false, les valeurs texte, categorical, datetime et duration comme chaînes JSON (datetime et duration utilisent leur format d&apos;affichage).</li>
+      <li>Les valeurs manquantes (&lt;missing&gt;, NaT, &lt;undefined&gt;) sont écrites null. Une variable à plusieurs colonnes donne un tableau JSON par ligne.</li>
+      <li><b>PrettyPrint</b> : indente le texte avec quatre espaces (défaut : <code>true</code>).</li>
+      <li><b>PreserveInfAndNaN</b> : écrit les valeurs Inf et NaN sous la forme Inf, -Inf et NaN (défaut : <code>true</code>) ; avec <code>false</code> elles sont écrites null.</li>
+      <li><b>WriteRowNames</b> : écrit les noms de lignes comme première valeur de chaque objet, avec pour clé le premier nom de dimension.</li>
+    </ul>
   </description>
   <examples>
     <example_item>
@@ -120,6 +128,11 @@ writetable(T, 'data.xml', 'RowNodeName', 'record', 'TableNodeName', 'dataset')
 % Append to existing file with row names
 writetable(T, 'data.txt', 'WriteMode', 'append', 'WriteRowNames', true)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire une table dans un fichier JSON :</example_item_description>
+      <example_item_data runnable="cli">T = table([1; NaN], ["a"; missing], [true; false], &apos;VariableNames&apos;, {&apos;x&apos;, &apos;name&apos;, &apos;ok&apos;}); f = [tempdir, &apos;writetable_json.json&apos;]; writetable(T, f); fileread(f) writetable(T, f, &apos;PrettyPrint&apos;, false, &apos;PreserveInfAndNaN&apos;, false); fileread(f)</example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -130,6 +143,10 @@ writetable(T, 'data.txt', 'WriteMode', 'append', 'WriteRowNames', true)]]></exam
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>version initiale.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Fichiers JSON : FileType json, PrettyPrint et PreserveInfAndNaN.</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="206.5" viewBox="-153.25 -103.25 306.5 206.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="206.5" rx="39.235" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-90,0 -60,0" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,-30 -60,30" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,-30 60,-30" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,30 60,30" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-60" y="-30" width="90" height="60" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="30,0 90,0" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,60) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">RotDamper</text></g>
+    <g transform="translate(0,-70) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">d</text></g>
+  </g>
+</svg>

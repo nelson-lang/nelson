@@ -7,17 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-A.a = 1;A.b = 2;A.c = 3;
-B.a = 3;B.b = 2;B.c = 1;
-C.a = 2;C.b = 3;C.c = 1;
+A.a = 1; A.b = 2; A.c = 3;
+B.a = 3; B.b = 2; B.c = 1;
+C.a = 2; C.b = 3; C.c = 1;
 %=============================================================================
 D = [A, B];
 E = [A, C];
-assert_isfalse(isequaln(D, E));
-assert_istrue(isequaln(D, D));
+asserts.isfalse(isequaln(D, E));
+asserts.istrue(isequaln(D, D));
 %=============================================================================
 D = [A; B];
 E = [A; C];
-assert_isfalse(isequaln(D, E));
-assert_istrue(isequaln(D, D));
+asserts.isfalse(isequaln(D, E));
+asserts.istrue(isequaln(D, D));
 %=============================================================================

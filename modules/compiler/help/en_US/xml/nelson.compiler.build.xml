@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.compiler.build</keyword>
+  <keyword_alias>nelson.compiler.build</keyword_alias>
+  <short_description>Build a native executable from structured options.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.compiler.build(options)</syntax_item>
+    <syntax_item>nelson.compiler.build(options)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>options</param_name><param_description>One scalar nelson.compiler.BuildOptions object. No additional overrides are accepted.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>result</param_name><param_description>nelson.compiler.BuildResult containing output paths, dependency reports and executable digest.</param_description></param_output_item></param_output>
+  <description>
+    <p>This is the structured build entry point of the optional compiler module. <b>ncc(options)</b> is equivalent. Use ncc('options', ...) to load the module and construct the configuration.</p>
+    <p>The builder analyzes dependencies, compiles application .m files into .nbc bytecode, packages code and data into the executable, and selects runtime dependencies. A precompiled launcher is required; no C++ compiler is needed on the build machine.</p>
+    <p>The output uses the host's native executable format: .exe on Windows and an executable file on supported Unix platforms. This is not cross-compilation. NoConsole selects the Windows windowed launcher; Mode independently selects graphics capabilities.</p>
+    <p>With <b>RuntimeMode='bundled'</b>, distribute both the executable and the adjacent .runtime directory listed in result.Files. The runtime is selected from the dependency plan, not an unrestricted copy of the development installation. Dynamic dependencies and graphics may require larger sets of modules.</p>
+    <p>With <b>RuntimeMode='installed'</b>, only the executable is produced. The receiving machine needs an installation matching the required architecture and engine fingerprint. A version number alone is insufficient. Runtime selection supports <b>NELSONC_RUNTIME_ROOT</b> and <b>NELSON_RUNTIME_PATH</b>; consult ncc for search rules.</p>
+    <p>The destination directory is created if needed. An existing output executable or bundled runtime destination is rejected, not overwritten. The entry source files are not needed by the deployed application after packaging.</p>
+    <p>Calling without an output still builds. Verbose controls diagnostic printing. The result is not an installer. Packaging does not promise faster numerical execution; bytecode uses the normal execution engine.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Build using an installed runtime</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', 'app_entry.m', ...
+  'RuntimeMode', 'installed', 'OutputDir', 'application-build');
+result = nelson.compiler.build(options);
+disp(result.Executable);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildResult">nelson.compiler.BuildResult</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.analyze">nelson.compiler.analyze</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

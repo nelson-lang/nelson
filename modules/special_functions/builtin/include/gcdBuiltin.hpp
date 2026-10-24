@@ -15,5 +15,6 @@
 namespace Nelson::SpecialFunctionsGateway {
 ArrayOfVector
 gcdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -48,5 +48,5 @@ formatComplexHex(single realPart, single imgPart, bool trim)
     return formatHex(realPart, trim) + L"   " + formatHex(imgPart, trim) + L"i";
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

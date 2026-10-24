@@ -9,107 +9,107 @@
 %=============================================================================
 R = ones(0, 1) + ones(1, 0);
 REF = ones(0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1) + ones(0, 0);
+R = ones(0, 1) + ones(0, 0);
 REF = ones(0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R =  ones(0,1,0,1) + ones(0,0,0,0);
+R = ones(0, 1, 0, 1) + ones(0, 0, 0, 0);
 REF = zeros(0, 0, 0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1,0,1) + ones(0,0,0,30);
+R = ones(0, 1, 0, 1) + ones(0, 0, 0, 30);
 REF = zeros(0, 0, 0, 30);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1,0,1) + ones(0,0,1,30);
+R = ones(0, 1, 0, 1) + ones(0, 0, 1, 30);
 REF = zeros(0, 0, 0, 30);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1,0,1) + ones(0,0,0,0);
+R = ones(0, 1, 0, 1) + ones(0, 0, 0, 0);
 REF = zeros(0, 0, 0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1,0,1) + ones(0,0,0,0);
+R = ones(0, 1, 0, 1) + ones(0, 0, 0, 0);
 REF = zeros(0, 0, 0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1) + ones(0, 0);
+R = ones(0, 1) + ones(0, 0);
 REF = zeros(0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(30, 0) + ones(30, 0);
 REF = ones(30, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(30,0) + ones(1, 0);
+R = ones(30, 0) + ones(1, 0);
 REF = ones(30, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(1,0)+ones(30,0);
+R = ones(1, 0) + ones(30, 0);
 REF = ones(30, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1) + ones(0,30);
+R = ones(0, 1) + ones(0, 30);
 REF = ones(0, 30);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,1,0,1) + ones(0,0,0,0);
-REF = ones(0,0,0,0);
-assert_isequal(R, REF);
+R = ones(0, 1, 0, 1) + ones(0, 0, 0, 0);
+REF = ones(0, 0, 0, 0);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(0, 0, 0, 0) + ones(0, 1, 0, 1);
 REF = ones(0, 0, 0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ones(0,0,0) + ones(0,1,0,1);
-REF = ones(0,0,0);
-assert_isequal(R, REF);
+R = ones(0, 0, 0) + ones(0, 1, 0, 1);
+REF = ones(0, 0, 0);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(0, 1, 0, 1) + ones(0, 30);
 REF = ones(0, 30, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R =  ones(0,1,0,1) + ones(3,0,0,0)', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R =  ones(0,1,0,1) + ones(3,0,0,0)', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
-assert_checkerror('R = ones(30, 0) + ones(0, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R = ones(30, 0) + ones(0, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
-assert_checkerror('R = ones(30, 0, 0, 0) + ones(0, 1, 0, 1);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R = ones(30, 0, 0, 0) + ones(0, 1, 0, 1);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
-assert_checkerror('R = ones(0,1) + ones(30, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R = ones(0,1) + ones(30, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
 R = ones(0, 1) - ones(1, 0);
 REF = ones(0, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(0, 4) / 3;
 REF = ones(0, 4);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(3, 0) / ones(1, 0);
-R = [0;0;0];
+R = [0; 0; 0];
 REF = zeros(3, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ones(3, 0) / ones(6, 0);
 REF = zeros(3, 6);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = ones(3, 0) / ones(3, 1);',  [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
+asserts.checkerror('R = ones(3, 0) / ones(3, 1);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
 %=============================================================================
-assert_checkerror('R = ones(1,0,0) / ones(1,0,30)', _('Wrong size for input arguments: 2D matrix expected.'));
+asserts.checkerror('R = ones(1,0,0) / ones(1,0,30)', sprintf(_('%s must be 2-D.'), 'Input arguments'));
 %=============================================================================
-assert_checkerror('R = 3 / ones(0, 4);',  [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
+asserts.checkerror('R = 3 / ones(0, 4);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
 %=============================================================================
-assert_checkerror('R = 3 / ones(0, 1, 2)',  [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
+asserts.checkerror('R = 3 / ones(0, 1, 2)', [_('Size mismatch on arguments to arithmetic operator'), ' ', '/']);
 %=============================================================================
-R = zeros(2,0) * zeros(0, 4);
+R = zeros(2, 0) * zeros(0, 4);
 REF = zeros(2, 4);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-p = 0; A = ones(3,2); B = ones(3,p); C = ones(2,3); D = ones(p,3);
-R = [A B]*[C; D];
+p = 0; A = ones(3, 2); B = ones(3, p); C = ones(2, 3); D = ones(p, 3);
+R = [A B] * [C; D];
 REF = ones(3, 3) * 2;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

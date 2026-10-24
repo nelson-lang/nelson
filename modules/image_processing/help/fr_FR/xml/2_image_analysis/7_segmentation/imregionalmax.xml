@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imregionalmax</keyword>
+  <short_description>Trouve les maxima regionaux dans une image 2-D.</short_description>
+  <syntax>
+    <syntax_item>BW = imregionalmax(I)</syntax_item>
+    <syntax_item>BW = imregionalmax(I, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image 2-D reelle finie.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Masque logique dont les pixels vrais appartiennent aux maxima regionaux.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imregionalmax marque les zones plates connectees qui n'ont aucun voisin de valeur plus elevee selon la connectivite choisie.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver les maxima regionaux</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=[1 1 1;1 3 3;1 3 3];
+BW=imregionalmax(I);
+figure; subplot(1,2,1); imagesc(I); title('Image');
+subplot(1,2,2); imagesc(BW); title('Maxima regionaux');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imregionalmax_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmax">imhmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imextendedmax">imextendedmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

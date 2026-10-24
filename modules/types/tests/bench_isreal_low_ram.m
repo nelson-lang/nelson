@@ -10,4 +10,4 @@
 N = 3500; % works on all platforms with at least 4 Go Ram
 A = eye(N);
 A(N, N) = i;
-tic();isreal(A),toc()
+tic(); isreal(A), toc()

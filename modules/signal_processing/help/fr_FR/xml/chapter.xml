@@ -6,10 +6,10 @@
   <chapter>Traitement du signal</chapter>
   <chapter_description>
     <p
-    >Le module Traitement du signal fournit des outils pour analyser et manipuler des signaux échantillonnés dans Nelson.</p>
+    >Le module Traitement du signal fournit des outils pour analyser, filtrer, transformer et reechantillonner des signaux echantillonnes dans Nelson.</p>
     <p
-    >Il inclut des fonctions de fenêtrage, filtrage numérique, corrélation croisée, et des conversions entre représentations en magnitude, puissance et décibels.</p>
+    >Il inclut des fonctions de fenetrage, de conception de filtres FIR et IIR, de filtrage numerique, de conversions poles-zeros et sections du second ordre, de correlation croisee, et de conversions entre representations en magnitude, puissance et decibels.</p>
     <p
-    >Le module prend également en charge la transformation entre représentations pôles-zéros et fonctions de transfert, permettant une conception et une analyse efficaces des systèmes de traitement du signal en temps discret.</p>
+    >Le module prend egalement en charge le traitement multirate, l'estimation spectrale, l'analyse temps-frequence, la generation de formes d'onde et les mesures courantes de signal.</p>
   </chapter_description>
 </xmldoc>

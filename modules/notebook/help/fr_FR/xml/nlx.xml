@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nlx</keyword>
+  <short_description>Le format de document Notebook de Nelson (.nlx).</short_description>
+  <description>
+    <p>Un fichier <b>.nlx</b> est le document Notebook natif de Nelson. C'est un conteneur <b>zip</b> (de type OPC) qui garde séparés la source, les résultats sauvegardés et les figures dans un seul fichier portable.</p>
+    <p>Le conteneur comporte ces entrées :</p>
+    <p
+    ><b>manifest.json</b> - le marqueur de format : <b>format</b> (<b>nelson-notebook</b>) et <b>version</b>.</p>
+    <p
+    ><b>document.json</b> - la source : un objet avec un tableau <b>blocks</b> (le contenu ordonné du Notebook). Cette partie reste légère et se compare proprement, et le lecteur headless l'analyse directement.</p>
+    <p
+    ><b>output.json</b> - les résultats sauvegardés : pour chaque cellule de code, sa dernière sortie texte, son erreur et ses références de figures, indexés par identifiant de bloc. Régénérables en réexécutant le document, et tenus à part pour ne jamais polluer la source.</p>
+    <p
+    ><b>media/</b> - les figures produites par une cellule de code, extraites en fichiers image (par exemple <b>media/fig0.png</b>) pour garder les parties JSON légères et conserver les images sans perte.</p>
+    <p>Chaque élément de <b>blocks</b> est un objet avec un <b>type</b> et un objet <b>props</b> :</p>
+    <p
+    ><b>heading</b> / <b>paragraph</b> - texte mis en forme (un titre porte <b>props.level</b>).</p>
+    <p
+    ><b>codecell</b> - une cellule de code Nelson ; <b>props.code</b> est le code. Ses résultats vivent dans <b>output.json</b>, pas dans la cellule.</p>
+    <p
+    ><b>equation</b> - une équation LaTeX (<b>props.latex</b>).</p>
+    <p
+    >les contrôles interactifs (slider, liste déroulante, case à cocher, ...) et les live tasks - stockés avec leur variable liée et leur valeur dans <b>props</b>.</p>
+    <p>Seules les cellules <b>codecell</b> sont exécutables. <b>notebook</b> et <b>run</b> évaluent leur <b>props.code</b> dans l'ordre dans l'espace de travail de base ; <b>edit</b> ouvre le document dans l'éditeur Notebook.</p>
+    <p>Un Notebook peut aussi être enregistré en texte brut <b>.m</b>, où chaque bloc est écrit sous un marqueur <b>%% [kind]</b> : il s'ouvre dans n'importe quel éditeur et s'exécute comme un script ordinaire.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Les entrées d'un conteneur .nlx.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+manifest.json
+document.json
+output.json
+media/fig0.png
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Un document.json minimal.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "blocks": [
+    { "type": "heading", "props": { "level": 1 }, "content": "Mon Notebook" },
+    { "type": "paragraph", "content": "Une courte description." },
+    { "type": "codecell", "props": { "code": "x = linspace(0, 1, 10);\nplot(x)" } }
+  ]
+}
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${notebook}notebook">notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}run">run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

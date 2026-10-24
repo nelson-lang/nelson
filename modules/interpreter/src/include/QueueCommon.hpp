@@ -41,17 +41,11 @@ namespace detail {
     };
     //=============================================================================
     /**
-     * @brief A thread-safe queue implementation that supports customizable behavior for processing
-     * callbacks.
+     * @brief Thread-safe queue of callbacks.
      *
      * @tparam CallbackType The type of the callback objects stored in the queue.
-     * @tparam Traits A traits class that defines the behavior of the queue, such as how callbacks
-     * are executed, whether they can interrupt each other, and whether waiting callbacks should be
-     * dropped when busy. Defaults to QueueDefaultTraits<CallbackType>.
-     *
-     * This class provides a base implementation for managing a queue of callbacks with thread-safe
-     * operations. It supports enqueuing callbacks, processing them, and handling scenarios where
-     * callbacks may interrupt or replace each other based on the provided traits.
+     * @tparam Traits Defines how callbacks are executed, whether they can interrupt each other,
+     * and whether waiting callbacks are dropped when busy.
      */
     template <typename CallbackType, typename Traits = QueueDefaultTraits<CallbackType>>
     class QueueCommon

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
@@ -11,6 +11,7 @@
     <syntax_item>status = test_run(&apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules)</syntax_item>
     <syntax_item>status = test_run(file_to_test)</syntax_item>
+    <syntax_item>status = test_run(module_name, test_name)</syntax_item>
     <syntax_item>status = test_run(modules, &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(file_to_test, &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules, option)</syntax_item>
@@ -32,22 +33,33 @@
     <param_input_item>
       <param_name>module_name</param_name>
       <param_description
-      >a string ou une cellule de chaînes : nom du module ou liste de modules.</param_description>
+      >une chaîne ou une cellule de chaînes : nom du module ou liste de modules. Les cellules sont
+        parcourues dans l&apos;ordre des indices linéaires, y compris les vecteurs ligne et colonne.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>file_to_test</param_name>
       <param_description
-      >une string ou une cellule de chaînes : fichier à tester ou liste de noms de fichiers.</param_description>
+      >une chaîne ou une cellule de chaînes : fichier à tester ou liste de noms de fichiers. Les cellules
+        sont parcourues dans l&apos;ordre des indices linéaires, y compris les vecteurs ligne et colonne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>test_name</param_name>
+      <param_description
+      >une string ou une cellule de chaines : nom de fichier de test dans le repertoire tests du module.
+        L&apos;extension .m est optionnelle.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>options</param_name>
       <param_description
-      >une string ou une cellule de chaînes : options supportées &apos;all&apos;, &apos;all_tests&apos;, &apos;unitary_tests&apos;, &apos;nonreg_tests&apos; ou &apos;benchs&apos;.</param_description>
+      >une string ou une cellule de chaînes : options supportées &apos;all&apos;, &apos;all_tests&apos;,
+        &apos;unitary_tests&apos;, &apos;nonreg_tests&apos; ou &apos;benchs&apos;. La valeur par défaut est
+        &apos;all_tests&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xunitfile</param_name>
       <param_description
-      >une string : nom de fichier pour exporter les résultats en .xml ou .json compatible avec le format Xunit.</param_description>
+      >une string : nom de fichier pour exporter les résultats en .xml ou .json compatible avec le format
+        Xunit.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>
@@ -55,6 +67,12 @@
       </param_name>
       <param_description
       >une string : arrêter l&apos;exécution des tests à la première erreur détectée.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Launcher&apos;, value</param_name>
+      <param_description
+      >paire nom/valeur optionnelle : <b>&apos;default&apos;</b> (défaut) ou <b>&apos;webview&apos;</b> pour
+        exécuter les tests tagués ADV-CLI via <b>nelson-adv-cli --webview</b> (backend figures web/RenderWeb).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -65,16 +83,27 @@
     </param_output_item>
   </param_output>
   <description>
+    <p><b>test_run</b> est un wrapper de compatibilite au dessus de <b>nelson.unittest.run</b>.</p>
+    <p>La paire optionnelle <b>&apos;Launcher&apos;, &apos;webview&apos;</b> peut être placée n&apos;importe où
+      dans la liste d&apos;arguments. Elle route les tests tagués ADV-CLI vers <b>nelson-adv-cli --webview</b>
+      afin que les figures utilisent le backend web headless (RenderWeb) ; les tags CLI et GUI sont inchangés.
+      Le même choix peut être fixé via la variable d&apos;environnement <b>NELSON_UNITTEST_LAUNCHER</b>.</p>
     <p>
-      <b>test_run</b> recherche les fichiers &apos;test_*.m&apos;, &apos;bug_*.m&apos; et &apos;bench_*.m&apos;, les exécute et affiche un rapport sur les succès ou les échecs.</p>
-    <p
-    >Chaque test ou bench est exécuté dans un processus séparé en utilisant la commande &apos;unix&apos;.</p>
+      <b>test_run</b> recherche par défaut les fichiers &apos;test_*.m&apos; et &apos;bug_*.m&apos;,
+        les exécute et affiche un rapport sur les succès ou les échecs.</p>
+    <p>Utilisez l&apos;option explicite <b>all</b> pour inclure les fichiers &apos;bench_*.m&apos; ou
+      utilisez <b>bench_run</b> pour exécuter les benchmarks séparément.</p>
+    <p>Chaque test ou bench est execute par un processus enfant supervise. La reutilisation exige le tag
+      explicite <b>&lt;--REUSE PROCESS--&gt;</b>.</p>
     <p
     >Cela permet à la commande courante de continuer, même si le test a créé un environnement instable.</p>
     <p
     >Cela permet également aux tests d&apos;être indépendants les uns des autres.</p>
+    <p>Utilisez <b>test_run(module_name, test_name)</b> pour executer un fichier de test du repertoire tests
+      d&apos;un module.</p>
     <p
-    >Certains tags spéciaux peuvent être insérés dans les fichiers .m pour aider au traitement du test correspondant.</p>
+    >Certains tags spéciaux peuvent être insérés dans les fichiers .m pour aider au traitement du test
+      correspondant.</p>
     <p>Ces tags doivent être trouvés dans les commentaires Nelson :</p>
     <p>
       <b>
@@ -99,7 +128,8 @@
     <p>
       <b>
         &lt;--CHECK REF--&gt;
-      </b> This test will compare .ref available in same directory with output generated. see <b>test_makeref</b> to generate .ref file.</p>
+      </b> This test will compare .ref available in same directory with output generated. see
+        <b>test_makeref</b> to generate .ref file.</p>
     <p>
       <b>
         &lt;--ENGLISH IMPOSED--&gt;
@@ -142,6 +172,10 @@
       </b> This test will be executed if an audio output is available.</p>
     <p>
       <b>
+        &lt;--AUDIO REQUIRED--&gt;
+      </b> This test requires the audio module (its file functions such as audioread and audiowrite) but no physical audio device. The module is loaded even in a test that belongs to another module; the test is not skipped when no audio device is present.</p>
+    <p>
+      <b>
         &lt;--C/C++ COMPILER REQUIRED--&gt;
       </b> This test will be executed if an C/C++ compiler is available.</p>
     <p>
@@ -176,16 +210,46 @@
       <b>
         &lt;--JULIA ENVIRONMENT REQUIRED--&gt;
       </b> This test will be executed if julia              environment is available and configured.</p>
+    <p>
+      <b>
+        &lt;--REUSE PROCESS--&gt;
+      </b> Ce test ou bench autorise le runner a reutiliser le meme processus enfant pour plusieurs fichiers
+      tagues.</p>
+    <p><b>nelson.unittest.tuneReuse</b> audite ces tags avec des campagnes natives isolees et reutilisees.
+      L&apos;ajout exige l&apos;option explicite <b>AllowAdd</b> ; les modifications exigent <b>Apply</b>.</p>
+    <p>
+      <b>
+        &lt;--WEIGHT N--&gt;
+      </b> Poids positif de planification. La file dynamique demarre les fichiers les plus lourds en premier.</p>
+    <p><b>nelson.unittest.tuneWeights</b> peut proposer ou mettre explicitement a jour ces tags depuis les
+      resultats mesures.</p>
+    <p>
+      <b>
+        &lt;--TIMEOUT N--&gt;
+      </b> Delai d&apos;execution positif par fichier, en secondes, qui remplace le minuteur par defaut pour ce
+      seul fichier. Il ne modifie pas la priorite de planification (c&apos;est <b>&lt;--WEIGHT N--&gt;</b>).
+      A utiliser pour un test ou un bench legitimement long qui serait sinon interrompu par le minuteur par
+      defaut. L&apos;option globale <b>Timeout</b>, lorsqu&apos;elle est definie, reste prioritaire sur le tag.</p>
     <p
     >Les tests peuvent également être sautés dynamiquement en utilisant la fonction <b>skip_testsuite</b>.</p>
     <p
-    >Pour éviter de bloquer l&apos;application, les tests ont un temps d&apos;exécution de 2 minutes et les benchs ont un temps de 6 minutes.</p>
+    >Pour éviter de bloquer l&apos;application, les tests ont un temps d&apos;exécution de 2 minutes et les
+      benchs ont un temps de 6 minutes, sauf si un tag <b>&lt;--TIMEOUT N--&gt;</b> fixe une valeur par
+      fichier.</p>
     <p>
-      <b>test_run</b> utilise n workers pour exécuter et accélérer l&apos;exécution des tests.</p>
+      <b>test_run</b> utilise des workers pour executer les tests. Les fichiers non tagues sont executes dans
+      des processus enfants separes ; les fichiers tagues avec <b>&lt;--REUSE PROCESS--&gt;</b> peuvent partager
+      un processus enfant.</p>
+    <p>Les resultats sont affiches progressivement dans un ordre stable. Chaque ligne contient une icone de
+      statut et son temps d&apos;execution au format <b>🟢[   9.800s]</b>.</p>
     <p>Les tests avec<b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
       </b> sont évalués en dernier.</p>
-    <p>Les benchs sont évalués séquentiellement.</p>
+    <p>Les benchs utilisent un worker lorsque cinq threads ou moins sont disponibles, et deux workers sinon.</p>
+    <p>Pour l&apos;API namespaced, utilisez <b>nelson.unittest.discover</b>, <b>nelson.unittest.select</b>,
+      <b>nelson.unittest.plan</b>, <b>nelson.unittest.run</b>, <b>nelson.unittest.tuneWeights</b>,
+      <b>nelson.unittest.tuneReuse</b> et <b>nelson.unittest.report</b>.</p>
+    <p>L&apos;executeur interne de fichier de test est prive et n&apos;est pas documente comme fonction utilisateur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -202,6 +266,13 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
+      ><![CDATA[test_run('string', 'test_strfind')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
       ><![CDATA[test_run({'string', 'time'})]]></example_item_data>
     </example_item>
     <example_item>
@@ -211,8 +282,23 @@
         runnable="cli"
       ><![CDATA[test_run({'string', 'time'}, 'all', [tempdir(), 'tests.xml'])]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calibrer les tags de reutilisation des processus et les poids de planification
+        des tests et benches de tous les modules. Une cible vide selectionne tous les modules. Ces commandes
+        modifient les fichiers sources.</example_item_description>
+      <example_item_data><![CDATA[
+nelson.unittest.tuneReuse([], ...
+  'Trials', 3, 'AllowAdd', true, 'Apply', true);
+nelson.unittest.tuneWeights([], ...
+  'Apply', true, 'Workers', 1);
+]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}bench_run">bench_run</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${assert_functions}assert">assert</link>
     </see_also_item>
@@ -221,6 +307,15 @@
     </see_also_item>
     <see_also_item>
       <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson_unittest">nelson.unittest</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneReuse">nelson.unittest.tuneReuse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneWeights">nelson.unittest.tuneWeights</link>
     </see_also_item>
   </see_also>
   <history>

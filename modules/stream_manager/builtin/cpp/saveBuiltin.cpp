@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "saveBuiltin.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "IsValidVariableName.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
@@ -36,7 +37,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
 {
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 1);
-    std::wstring paramFilename = argIn[0].getContentAsWideString();
+    std::wstring paramFilename = argIn[0].asWideString();
     if (paramFilename.empty()) {
         paramFilename = L"nelson.nh5";
     }
@@ -48,7 +49,7 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     std::wstring version;
     for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOf paramK = argIn[k];
-        std::wstring param = paramK.getContentAsWideString();
+        std::wstring param = paramK.asWideString();
         if (isOption(param)) {
             if (param == L"-mat" && !forceAsNh5) {
                 forceAsMat = true;
@@ -63,13 +64,14 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 version = param;
                 forceAsMat = true;
             } else {
-                Error(_W("Valid option expected."));
+                Error(L"Nelson:stream_manager:invalidOption", L"Valid option expected.");
             }
         } else {
             if (IsValidVariableName(param)) {
                 names.push_back(param);
             } else {
-                Error(_W("Valid variable name expected."));
+                Error(
+                    L"Nelson:stream_manager:invalidVariableName", L"Valid variable name expected.");
             }
         }
     }
@@ -95,29 +97,29 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         saveFunctionName = "savemat";
     }
     if (saveFunctionName.empty()) {
-        Error(_W("save function expected."));
+        Error(L"Nelson:save:functionExpected", L"%s function expected.", L"save");
     }
 
     FunctionDef* funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(saveFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(saveFunctionName, funcDef)) {
-            Error(_W("load function expected."));
+            Error(L"Nelson:save:functionExpected", L"%s function expected.", L"load");
         }
     }
 
     ArrayOfVector inputArguments;
-    inputArguments.push_back(ArrayOf::characterArrayConstructor(paramFilename));
+    inputArguments.push_back(ArrayOf::characterArray(paramFilename));
     for (const std::wstring& name : names) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
+        inputArguments.push_back(ArrayOf::characterArray(name));
     }
     if (!version.empty()) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(version));
+        inputArguments.push_back(ArrayOf::characterArray(version));
     }
     if (append) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor("-append"));
+        inputArguments.push_back(ArrayOf::characterArray("-append"));
     }
     if (nocompression) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor("-nocompression"));
+        inputArguments.push_back(ArrayOf::characterArray("-nocompression"));
     }
     return funcDef->evaluateFunction(eval, inputArguments, nLhs);
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.unittest.assume</keyword>
+  <short_description>Sauter un test quand une precondition runtime n'est pas satisfaite.</short_description>
+  <syntax>
+    <syntax_item>nelson.unittest.assume(condition)</syntax_item>
+    <syntax_item>nelson.unittest.assume(condition, reason)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>condition</param_name>
+      <param_description>scalaire logique qui doit etre vrai pour continuer le test courant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>reason</param_name>
+      <param_description>texte optionnel expliquant pourquoi le test est ignore.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>nelson.unittest.assume</b> marque le test courant comme ignore quand une precondition runtime est fausse.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[nelson.unittest.assume(ispc(), 'Requires Windows');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.skip">nelson.unittest.skip</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}skip_testsuite">skip_testsuite</link></see_also_item>
+  </see_also>
+</xmldoc>

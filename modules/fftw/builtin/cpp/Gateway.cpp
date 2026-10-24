@@ -24,11 +24,7 @@ static const nlsGateway gateway[] = {
     { "FFTWwrapper", (ptrBuiltin)Nelson::FftwGateway::FFTWwrapperBuiltin, 1, 3 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

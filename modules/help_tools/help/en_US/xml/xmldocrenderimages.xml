@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmldocrenderimages</keyword>
+  <short_description>Render the example images of Nelson help files.</short_description>
+  <syntax>
+    <syntax_item>xmldocrenderimages()</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, language)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, language, force)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, [], force)</syntax_item>
+    <syntax_item>xmldocrenderimages([], [], force)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
+      >a string: module name (module must be loaded). An empty numeric value [] selects every module that has help files.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>language</param_name>
+      <param_description
+      >a string: language of the help files, for example &apos;en_US&apos; or &apos;fr_FR&apos;. An empty value [] selects every available language.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>force</param_name>
+      <param_description
+      >a logical: when true, every image is rendered again, even one that is already up to date. Default: false.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>xmldocrenderimages</b> runs the examples of the help files that declare an image with <code>example_item_img</code> and <code>generate=&quot;true&quot;</code>, and saves the resulting figure next to the XML file.</p>
+    <p
+    >An image is rendered when it is missing, empty, or older than its XML file. Use <code>force</code> to render it again in every case.</p>
+    <p
+    >Each example runs in a separate <code>nelson-adv-cli</code> process with a 120 second timeout, several at a time. A failed example is retried up to five times before an error is raised.</p>
+    <p
+    >Without argument, the images of every module are rendered for every available language. The function sets the language of the session while it works and restores it when done.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Render the missing or outdated images of one module in the current language set.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xmldocrenderimages('graphics');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Render every image of every module in every language, even the ones already up to date.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xmldocrenderimages([], [], true);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldocchecker">xmldocchecker</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

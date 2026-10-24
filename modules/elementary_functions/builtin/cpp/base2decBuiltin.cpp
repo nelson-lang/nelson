@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -27,7 +27,7 @@ Nelson::ElementaryFunctionsGateway::bin2decBuiltin(int nLhs, const ArrayOfVector
     }
     bool needToOverload;
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = ArrayOf::doubleConstructor(2.);
+    ArrayOf param2 = ArrayOf::doubleScalar(2.);
     ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
     if (needToOverload) {
         OverloadRequired("bin2dec");
@@ -49,7 +49,7 @@ Nelson::ElementaryFunctionsGateway::hex2decBuiltin(int nLhs, const ArrayOfVector
     }
     bool needToOverload;
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = ArrayOf::doubleConstructor(16.);
+    ArrayOf param2 = ArrayOf::doubleScalar(16.);
     ArrayOf res = BaseToDecimal(param1, param2, needToOverload);
     if (needToOverload) {
         OverloadRequired("hex2dec");

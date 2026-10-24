@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>print</keyword>
+  <short_description>Exporte une figure vers un fichier image ou document.</short_description>
+  <syntax>
+    <syntax_item>print(filename)</syntax_item>
+    <syntax_item>print(filename, formatoption)</syntax_item>
+    <syntax_item>print(fig, filename)</syntax_item>
+    <syntax_item>print(fig, filename, formatoption)</syntax_item>
+    <syntax_item>print(fig, filename, formatoption, resolution)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Objet graphique figure. Si omis, la figure courante renvoyee par <b>gcf()</b> est utilisee.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Vecteur de caracteres ou chaine scalaire : nom du fichier de destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>formatoption</param_name>
+      <param_description>Vecteur de caracteres ou chaine scalaire : une option de peripherique <b>-d</b> (par exemple <b>'-dpng'</b>, <b>'-dpdf'</b>, <b>'-dsvg'</b>). Si omis, le format est deduit de l'extension du fichier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>resolution</param_name>
+      <param_description>Vecteur de caracteres ou chaine scalaire : une option de resolution <b>-r</b> (par exemple <b>'-r150'</b>). Acceptee pour compatibilite ; l'export suit la taille de la figure.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>print</b> exporte une figure vers un fichier image ou document. C'est une enveloppe legere autour de <b>saveas</b> : l'option de peripherique <b>-d</b> selectionne le format de sortie et la figure est exportee via le moteur de rendu partage bureau, web et sans affichage.</p>
+    <p>Si aucune option <b>-d</b> n'est fournie, le format est deduit de l'extension du fichier, et PNG est utilise lorsque le nom de fichier n'a pas d'extension. Une option de resolution <b>-r</b> est acceptee pour compatibilite mais ne reechantillonne pas la sortie.</p>
+    <p>L'option de peripherique correspond au meme registre de formats que <b>saveas</b> :</p>
+    <table style="width:100%">
+      <tr><th>Option de peripherique</th><th>Format</th><th>Extension</th></tr>
+      <tr><td>-dpng</td><td>Portable Network Graphics</td><td>.png</td></tr>
+      <tr><td>-djpeg, -djpg</td><td>JPEG</td><td>.jpg</td></tr>
+      <tr><td>-dtiff, -dtiffn, -dtif</td><td>TIFF</td><td>.tif</td></tr>
+      <tr><td>-dbmp</td><td>Bitmap</td><td>.bmp</td></tr>
+      <tr><td>-dgif</td><td>Graphics Interchange Format</td><td>.gif</td></tr>
+      <tr><td>-dwebp</td><td>WebP</td><td>.webp</td></tr>
+      <tr><td>-dsvg</td><td>Scalable Vector Graphics</td><td>.svg</td></tr>
+      <tr><td>-dpdf</td><td>Portable Document Format</td><td>.pdf</td></tr>
+    </table>
+    <p><b>Arriere-plan :</b> comme pour <b>saveas</b>, tant que la propriete <b>InvertHardcopy</b> de la figure vaut <b>'on'</b> (valeur par defaut), l'arriere-plan exporte est blanc quelle que soit la couleur <b>Color</b> de la figure a l'ecran.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exporter la figure courante en PNG, PDF et SVG.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot(1:10, (1:10) .^ 2);
+title('Donnees quadratiques');
+print(f, [tempname(), '.png'], '-dpng');
+print(f, [tempname(), '.pdf'], '-dpdf');
+print(f, [tempname(), '.svg'], '-dsvg', '-r150');
+close(f);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Deduire le format de l'extension du fichier.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure('Visible', 'off');
+plot(1:5);
+pngfile = [tempname(), '.png'];
+print(pngfile);
+assert(isfile(pngfile));
+close(f);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics_io}saveas">saveas</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}5_printing_saving/savefig">savefig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

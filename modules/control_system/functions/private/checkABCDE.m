@@ -18,49 +18,49 @@ function msg = checkABCDE(varargin)
   B = varargin{2};
   C = varargin{3};
   D = varargin{4};
-  
+
   [mA, nA] = size(A);
   [mB, nB] = size(B);
   [mC, nC] = size(C);
   [mD, nD] = size(D);
   [mE, nE] = size(E);
-  
+
   msg.message = '';
   msg.identifier = '';
   msg = msg(zeros(0, 1));
-  
+
   if (mA ~= nA)
-    msg.message = _('Matrix A must be square.');
-    msg.identifier = 'Nelson:control_system:AMustBeSquare';
+    msg.message = sprintf(_('%s must be square.'), 'Matrix A');
+    msg.identifier = 'Nelson:expectedSquare';
     return
   end
-  
+
   if (mB ~= mA)
-    msg.message = _('The number of rows in matrices A and B must be equal.');
+    msg.message = sprintf(_('The number of rows in matrices %s and %s must be equal.'), 'A', 'B');
     msg.identifier = 'Nelson:control_system:AAndBNumRowsMismatch';
     return
   end
-  
+
   if (nC ~= nA)
-    msg.message = _('Matrices A and C should have an identical number of columns.');
+    msg.message = sprintf(_('Matrices %s and %s should have an identical number of columns.'), 'A', 'C');
     msg.identifier = 'Nelson:control_system:AAndCNumColumnsMismatch';
     return
   end
-  
+
   if (nB ~= nD)
-    msg.message = _('Matrices B and D should have an identical number of columns.');
+    msg.message = sprintf(_('Matrices %s and %s should have an identical number of columns.'), 'B', 'D');
     msg.identifier = 'Nelson:control_system:BAndDNumColumnsMismatch';
     return
   end
-  
+
   if (mC ~= mD)
-    msg.message = _('The number of rows in matrices C and D must be equal.');
+    msg.message = sprintf(_('The number of rows in matrices %s and %s must be equal.'), 'C', 'D');
     msg.identifier = 'Nelson:control_system:CAndDNumRowsMismatch';
     return
   end
-  
+
   if ~isempty(E) && (mA ~= mE || nA ~= nE)
-    msg.message = _('Matrices A and E should have an identical size.');
+    msg.message = sprintf(_('Matrices %s and %s should have an identical size.'), 'A', 'E');
     msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
   end
 end

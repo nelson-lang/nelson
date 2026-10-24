@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -40,20 +41,21 @@ GOScalarPositiveIntegerValueProperty::toWideString()
 ArrayOf
 GOScalarPositiveIntegerValueProperty::get()
 {
-    return ArrayOf::doubleConstructor(_data);
+    return ArrayOf::doubleScalar(_data);
 }
 //=============================================================================
 void
 GOScalarPositiveIntegerValueProperty::set(ArrayOf arg)
 {
-    double value = arg.getContentAsDoubleScalar();
+    double value = arg.asDoubleScalar();
 
     if (value != (int)value || !std::isfinite(value) || value < 1) {
-        Error(_("Value should be an positive integer value > 0."));
+        Error("Nelson:graphics:expectedPositiveInteger",
+            "Value should be an positive integer value > 0.");
     }
     GOGenericProperty::set(arg);
     _data = value;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,16 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+asserts.checkerror('bwtraceboundary(single([NaN 0]), [1 1])', _('Conversion to logical with NaN is not possible.'));
+%=============================================================================
+asserts.checkerror('bwtraceboundary(logical([1 0]), [1 1], ''bad'')', sprintf(_('Unsupported "%s" option.'), 'trace direction'));
+%=============================================================================
+asserts.checkerror('bwtraceboundary(logical([1 0]), [1 2])', _('Starting point must be a foreground pixel.'));
+%=============================================================================
+asserts.checkerror('bwtraceboundary(true(3, 3), [2 2])', _('Starting point must be a boundary pixel.'));

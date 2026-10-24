@@ -9,13 +9,15 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object();
 R = [comm, comm];
-assert_isequal(length(R),  2);
-assert_isequal(class(R), 'MPI_Comm');
+asserts.isequal(length(R), 2);
+asserts.isequal(class(R), 'MPI_Comm');
 %=============================================================================
 if MPI_Initialized()
   MPI_Finalize();

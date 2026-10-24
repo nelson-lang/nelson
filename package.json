@@ -1,6 +1,20 @@
 {
   "name": "nelson",
-  "version": "1.17.0",
+  "version": "2.0.0",
   "description": "Nelson, an array programming language",
-  "copyright": "Copyright 2018-present Allan CORNET"
+  "copyright": "Copyright 2018-present Allan CORNET",
+  "type": "module",
+  "scripts": {
+    "build": "npm --prefix modules/nflow_gui run build",
+    "prepare-dist": "node modules/nflow_gui/scripts/prepare-dist.mjs",
+    "postbuild": "npm run prepare-dist",
+    "build:ts": "tsc -p modules/nflow_gui/src/ts",
+    "lint": "eslint modules/nflow_gui/src/ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "eslint": "10.12.0",
+    "typescript-eslint": "8.67.0",
+    "typescript": "5.9.3"
+  }
 }

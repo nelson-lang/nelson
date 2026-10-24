@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uimenu</keyword>
+  <short_description>Creer un objet graphique menu ou entree de menu.</short_description>
+  <syntax>
+    <syntax_item>m = uimenu()</syntax_item>
+    <syntax_item>m = uimenu(parent)</syntax_item>
+    <syntax_item>m = uimenu(propertyName, propertyValue, ...)</syntax_item>
+    <syntax_item>m = uimenu(parent, propertyName, propertyValue, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Objet graphique figure, menu contextuel ou menu. Si cet argument est omis, la figure courante est utilisee.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete : chaine scalaire ou vecteur ligne de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur compatible avec le nom de propriete.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>Objet graphique menu.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>uimenu</b> cree un menu dans la barre de menus d'une figure, un sous-menu ou une entree de menu contextuel selon le parent.</p>
+    <p>La propriete <b>Text</b> controle le libelle affiche. Les caracteres esperluette sont conserves afin que la boite a outils native expose les mnemoniques clavier.</p>
+    <p>La propriete <b>Position</b> ordonne les menus freres. La propriete <b>Children</b> liste les enfants dans la hierarchie graphique.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uimenu.properties">proprietes de uimenu</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un menu de figure.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+fileMenu = uimenu(f, 'Text', '&File');
+uimenu(fileMenu, 'Text', 'Open', 'Accelerator', 'O');
+uimenu(fileMenu, 'Text', 'Checked item', 'Checked', 'on', 'Separator', 'on');
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uimenu.properties">proprietes de uimenu</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

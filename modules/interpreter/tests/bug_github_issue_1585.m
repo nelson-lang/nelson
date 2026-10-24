@@ -18,7 +18,7 @@ clear all;
 %=============================================================================
 N_ITER = 100000;
 %=============================================================================
-% Lightweight leak smoke tests. memory() is not a precise RAM usage oracle, so
+% Lightweight leak smoke tests. memory() is not a precise RAM usage measurement, so
 % these checks only guard against obvious repeated growth after warm-up.
 %=============================================================================
 [u0, s0] = memory();
@@ -36,7 +36,7 @@ delta_second = u2.MemUsedNelson - u1.MemUsedNelson;
 disp(['First pass memory difference: ', num2str(delta_first), ' bytes']);
 disp(['Second pass memory difference: ', num2str(delta_second), ' bytes']);
 %=============================================================================
-assert_istrue(delta_second < 1024 * 1024);
+asserts.istrue(delta_second < 1024 * 1024);
 %=============================================================================
 % A(:) = B used to replace the internal data pointer without releasing the
 % previous value. Use two warm-up passes, then verify that another pass does not
@@ -65,5 +65,5 @@ disp(['A(:)=B first pass memory difference: ', num2str(delta_first), ' bytes']);
 disp(['A(:)=B second pass memory difference: ', num2str(delta_second), ' bytes']);
 disp(['A(:)=B third pass memory difference: ', num2str(delta_third), ' bytes']);
 %=============================================================================
-assert_istrue(delta_third < 1024 * 1024);
+asserts.istrue(delta_third < 1024 * 1024);
 %=============================================================================

@@ -1,0 +1,39 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+fixtureDirectory = tempname();
+mkdir(fixtureDirectory);
+addpath(fixtureDirectory);
+%=============================================================================
+filewrite([fixtureDirectory, '/ClassdefSetPropertiesHandle.m'], ...
+  ['classdef ClassdefSetPropertiesHandle < handle', newline(), ...
+  '  properties', newline(), ...
+  '    Value = 1', newline(), ...
+  '  end', newline(), ...
+  '  methods', newline(), ...
+  '    function obj = ClassdefSetPropertiesHandle(varargin)', newline(), ...
+  '      setProperties(obj, nargin, varargin{:});', newline(), ...
+  '    end', newline(), ...
+  '  end', newline(), ...
+  'end']);
+rehash();
+%=============================================================================
+obj = ClassdefSetPropertiesHandle();
+asserts.isequal(obj.Value, 1);
+obj = ClassdefSetPropertiesHandle('Value', 5);
+asserts.isequal(obj.Value, 5);
+asserts.checkerror('ClassdefSetPropertiesHandle("Value");', ...
+  _('Property arguments must be name-value pairs.'));
+asserts.checkerror('setProperties(obj, 3, "Value", 6);', ...
+  sprintf(_('Wrong value for argument #%d: expected number of property arguments.'), 2));
+%=============================================================================
+clear classes;
+rmpath(fixtureDirectory);
+rmdir(fixtureDirectory, 's');
+%=============================================================================

@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSGUI_IMPEXP std::wstring
 GetQtPath(const std::wstring& libraryLocation);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -10,24 +10,24 @@
 function varargout = orth(varargin)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  
+
   A = varargin{1};
   [O, s] = svd(A, 'econ');
   d = diag(s);
-  
+
   if ~isempty(d) && isnan(d(1))
-    error(_('Input argument must not contain NaN or Inf.'));
+    error('Nelson:linear_algebra:inputMustBeFinite', '%s must not contain NaN or Inf.', 'Input argument');
   end
-  
+
   if nargin == 2
     tol = varargin{2};
     if ~(isscalar(tol) && isnumeric(tol) && isreal(tol))
-      error(_('Input argument must be a real numeric scalar tolerance'));
+      error('Nelson:orth:invalidTolerance', 'Input argument must be a real numeric scalar tolerance');
     end
   else
-    tol = max(size(A)) * eps(norm(d,inf));        
+    tol = max(size(A)) * eps(norm(d, inf));
   end
-  
+
   r = sum(d > tol);
   O(:, r + 1:end) = [];
   varargout{1} = O;

@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-X = ones(5000,5000);
-tic();R = bitand(X, X); toc();
+X = ones(5000, 5000);
+tic(); R = bitand(X, X); toc();

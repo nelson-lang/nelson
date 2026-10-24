@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-test_file = [tempdir() , '/test.txt'];
+test_file = [tempdir(), '/test.txt'];
 r = rmfile(test_file);
 f = fopen(test_file, 'wt');
-fwrite(f, ones(3,3));
+fwrite(f, ones(3, 3));
 fclose(f);
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,11 +10,11 @@
 #include <unordered_map>
 #include <functional>
 #include <cstring>
-#include <Eigen/Sparse>
 #include "JuliaTypesHelpers.hpp"
 #include "JuliaObjectHandle.hpp"
 #include "characters_encoding.hpp"
 #include "JuliaHelpers.hpp"
+#include "SparseType.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 #ifdef _MSC_VER
@@ -27,28 +27,28 @@ namespace Nelson {
 const std::unordered_map<std::string, std::function<ArrayOf(jl_value_t*)>> TYPE_CONVERTERS = {
     { JL_BOOL_TYPE_STR,
         [](jl_value_t* value) {
-            return ArrayOf::logicalConstructor(NLSjl_unbox_bool(value) != 0 ? true : false);
+            return ArrayOf::logicalScalar(NLSjl_unbox_bool(value) != 0 ? true : false);
         } },
     { JL_FLOAT32_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::singleConstructor(NLSjl_unbox_float32(value)); } },
+        [](jl_value_t* value) { return ArrayOf::singleScalar(NLSjl_unbox_float32(value)); } },
     { JL_FLOAT64_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::doubleConstructor(NLSjl_unbox_float64(value)); } },
+        [](jl_value_t* value) { return ArrayOf::doubleScalar(NLSjl_unbox_float64(value)); } },
     { JL_INT8_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::int8Constructor(NLSjl_unbox_int8(value)); } },
+        [](jl_value_t* value) { return ArrayOf::int8Scalar(NLSjl_unbox_int8(value)); } },
     { JL_INT16_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::int16Constructor(NLSjl_unbox_int16(value)); } },
+        [](jl_value_t* value) { return ArrayOf::int16Scalar(NLSjl_unbox_int16(value)); } },
     { JL_INT32_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::int32Constructor(NLSjl_unbox_int32(value)); } },
+        [](jl_value_t* value) { return ArrayOf::int32Scalar(NLSjl_unbox_int32(value)); } },
     { JL_INT64_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::int64Constructor(NLSjl_unbox_int64(value)); } },
+        [](jl_value_t* value) { return ArrayOf::int64Scalar(NLSjl_unbox_int64(value)); } },
     { JL_UINT8_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::uint8Constructor(NLSjl_unbox_uint8(value)); } },
+        [](jl_value_t* value) { return ArrayOf::uint8Scalar(NLSjl_unbox_uint8(value)); } },
     { JL_UINT16_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::uint16Constructor(NLSjl_unbox_uint16(value)); } },
+        [](jl_value_t* value) { return ArrayOf::uint16Scalar(NLSjl_unbox_uint16(value)); } },
     { JL_UINT32_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::uint32Constructor(NLSjl_unbox_uint32(value)); } },
+        [](jl_value_t* value) { return ArrayOf::uint32Scalar(NLSjl_unbox_uint32(value)); } },
     { JL_UINT64_TYPE_STR,
-        [](jl_value_t* value) { return ArrayOf::uint64Constructor(NLSjl_unbox_uint64(value)); } },
+        [](jl_value_t* value) { return ArrayOf::uint64Scalar(NLSjl_unbox_uint64(value)); } },
     { JL_STRING_TYPE_STR,
         [](jl_value_t* value) {
             const char* str_data = NLSjl_string_ptr(value);
@@ -56,7 +56,7 @@ const std::unordered_map<std::string, std::function<ArrayOf(jl_value_t*)>> TYPE_
             if (str_data) {
                 ustr = std::string(str_data);
             }
-            return ArrayOf::characterArrayConstructor(utf8_to_wstring(ustr));
+            return ArrayOf::characterArray(utf8_to_wstring(ustr));
         } },
     { JL_COMPLEX_FLOAT64_TYPE_SHORT_STR,
         [](jl_value_t* value) {
@@ -72,7 +72,7 @@ const std::unordered_map<std::string, std::function<ArrayOf(jl_value_t*)>> TYPE_
             if (imagPart != nullptr) {
                 im = NLSjl_unbox_float64(imagPart);
             }
-            return ArrayOf::dcomplexConstructor(re, im);
+            return ArrayOf::dsingleComplexScalar(re, im);
         } },
     { JL_COMPLEX_FLOAT32_TYPE_SHORT_STR,
         [](jl_value_t* value) {
@@ -88,7 +88,7 @@ const std::unordered_map<std::string, std::function<ArrayOf(jl_value_t*)>> TYPE_
             if (imagPart != nullptr) {
                 im = NLSjl_unbox_float32(imagPart);
             }
-            return ArrayOf::complexConstructor(re, im);
+            return ArrayOf::singleComplexScalar(re, im);
         } },
     { JL_COMPLEX_INT64_TYPE_LONG_STR,
         [](jl_value_t* value) {
@@ -104,7 +104,7 @@ const std::unordered_map<std::string, std::function<ArrayOf(jl_value_t*)>> TYPE_
             if (imagPart != nullptr) {
                 im = NLSjl_unbox_int64(imagPart);
             }
-            return ArrayOf::dcomplexConstructor((double)re, (double)im);
+            return ArrayOf::dsingleComplexScalar((double)re, (double)im);
         } },
 };
 //=============================================================================
@@ -117,7 +117,7 @@ jl_value_tToArrayOf(jl_value_t* value)
         return scalarConverter->second(value);
     }
     JuliaObjectHandle* juliaObjectHandle = new JuliaObjectHandle(value);
-    return ArrayOf::handleConstructor(juliaObjectHandle);
+    return ArrayOf::handle(juliaObjectHandle);
 }
 //=============================================================================
 template <typename T>
@@ -153,30 +153,25 @@ convertSparseMatrixComplexToArrayOf(jl_value_t* value, NelsonType nelsonType, bo
     indexType nnz = jl_array_len(nzval);
     indexType colPtrLen = jl_array_len(colptr);
 
-    std::vector<Eigen::Triplet<std::complex<T>>> tripletList;
-    tripletList.reserve(nnz);
+    std::vector<indexType> I(nnz);
+    std::vector<indexType> J(nnz);
+    std::vector<doublecomplex> V(nnz);
 
     std::complex<T>* jl_data = (std::complex<T>*)jl_array_data_(nzval);
+    indexType idx = 0;
     for (indexType j = 0; j < colPtrLen - 1; j++) {
         indexType start = colPointers[j] - 1;
         indexType end = colPointers[j + 1] - 1;
         for (indexType k = start; k < end; k++) {
-            tripletList.emplace_back(rowIndices[k] - 1, j, jl_data[k]);
+            I[idx] = rowIndices[k];
+            J[idx] = j + 1;
+            V[idx] = jl_data[k];
+            idx++;
         }
     }
 
-    void* spdata = nullptr;
-    try {
-        auto* spMat = new Eigen::SparseMatrix<std::complex<T>, Eigen::ColMajor, signedIndexType>(
-            rows, cols);
-        spMat->setFromTriplets(tripletList.begin(), tripletList.end());
-        spMat->makeCompressed();
-        spdata = static_cast<void*>(spMat);
-    } catch (const std::bad_alloc&) {
-        wasConverted = false;
-        return ArrayOf();
-    }
-
+    void* spdata = Eigen_makeSparseFromIJV(
+        nelsonType, rows, cols, idx, I.data(), 1, J.data(), 1, V.data(), 1, false);
     if (spdata == nullptr) {
         wasConverted = false;
         return ArrayOf();
@@ -232,29 +227,15 @@ convertSparseMatrixRealToArrayOf(jl_value_t* value, NelsonType nelsonType, bool&
         indexType start = colPointers[j] - 1;
         indexType end = colPointers[j + 1] - 1;
         for (indexType k = start; k < end; k++) {
-            I[idx] = rowIndices[k] - 1;
-            J[idx] = j;
+            I[idx] = rowIndices[k];
+            J[idx] = j + 1;
             V[idx] = values[k];
             idx++;
         }
     }
 
-    void* spdata = nullptr;
-    try {
-        std::vector<Eigen::Triplet<T>> tripletList;
-        tripletList.reserve(nnz);
-        for (indexType k = 0; k < nnz; ++k) {
-            tripletList.push_back(Eigen::Triplet<T>(I[k], J[k], V[k]));
-        }
-        auto* spMat = new Eigen::SparseMatrix<T, Eigen::ColMajor, signedIndexType>(rows, cols);
-        spMat->setFromTriplets(tripletList.begin(), tripletList.end());
-        spMat->makeCompressed();
-        spdata = static_cast<void*>(spMat);
-    } catch (const std::bad_alloc&) {
-        wasConverted = false;
-        return ArrayOf();
-    }
-
+    void* spdata = Eigen_makeSparseFromIJV(
+        nelsonType, rows, cols, idx, I.data(), 1, J.data(), 1, V.data(), 1, false);
     if (spdata == nullptr) {
         wasConverted = false;
         return ArrayOf();
@@ -293,10 +274,10 @@ convertMatrixComplexToArrayOf(jl_value_t* value, NelsonType nelsonType, bool& wa
 
     Dimensions dims(dimsVector);
     T* data = (T*)jl_array_data_(value);
-    T* ptr = (T*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
+    T* ptr = (T*)ArrayOf::allocateArrayOf(nelsonType, dims.elementCount());
     ArrayOf res = ArrayOf(nelsonType, dims, ptr);
 
-    std::memcpy(ptr, data, dims.getElementCount() * sizeof(T) * 2);
+    std::memcpy(ptr, data, dims.elementCount() * sizeof(T) * 2);
 
     wasConverted = true;
     return res;
@@ -325,9 +306,9 @@ convertMatrixRealToArrayOf(jl_value_t* value, NelsonType nelsonType, bool& wasCo
     }
     T* data = (T*)jl_array_data_(value);
     Dimensions dims(dimsVector);
-    T* ptr = (T*)ArrayOf::allocateArrayOf(nelsonType, dims.getElementCount());
+    T* ptr = (T*)ArrayOf::allocateArrayOf(nelsonType, dims.elementCount());
     ArrayOf res = ArrayOf(nelsonType, dims, ptr);
-    std::memcpy(ptr, data, dims.getElementCount() * sizeof(T));
+    std::memcpy(ptr, data, dims.elementCount() * sizeof(T));
     wasConverted = true;
     return res;
 }
@@ -449,18 +430,18 @@ convertMatrixStringToArrayOf(jl_value_t* value, bool& wasConverted)
         dimsVector[ndims - 1] = 1;
     }
     Dimensions dims(dimsVector);
-    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dims.getElementCount());
+    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dims.elementCount());
     ArrayOf res = ArrayOf(NLS_STRING_ARRAY, dims, ptr);
 
     jl_array_t* arr = (jl_array_t*)value;
     jl_value_t** data = (jl_value_t**)jl_array_data_(arr);
 
-    for (size_t i = 0; i < dims.getElementCount(); i++) {
+    for (size_t i = 0; i < dims.elementCount(); i++) {
         if (data[i] != nullptr) {
             const char* str = NLSjl_string_ptr(data[i]);
-            ptr[i] = ArrayOf::characterArrayConstructor(std::string(str));
+            ptr[i] = ArrayOf::characterArray(std::string(str));
         } else {
-            ptr[i] = ArrayOf::doubleConstructor(std::nan(""));
+            ptr[i] = ArrayOf::doubleScalar(std::nan(""));
         }
     }
     wasConverted = true;
@@ -474,6 +455,11 @@ convertCellToArrayOf(jl_value_t* value, bool& wasConverted)
         wasConverted = false;
         return ArrayOf();
     }
+    // `data` points into `value` (or the collect() result for a Set/Tuple), and the
+    // per-element jl_value_tToArrayOf() below allocates as it recurses. Without the
+    // collector held off, a collection could free the backing array mid-loop and
+    // leave `data` dangling.
+    NLSjlGcDisableGuard gcGuard;
     std::string typeOf = jl_get_type_of_as_string(value);
     bool isSet = StringHelpers::starts_with(typeOf, "Set{");
     bool isTuple = StringHelpers::starts_with(typeOf, "Tuple{");
@@ -535,7 +521,7 @@ convertCellToArrayOf(jl_value_t* value, bool& wasConverted)
 #else
         elementCount = NLSjl_unbox_int32(len);
 #endif
-        dimsVector = { static_cast<indexType>(elementCount), 1 }; // Convert set to Nx1 cell array
+        dimsVector = { static_cast<indexType>(elementCount), 1 };
 
         jl_function_t* collect_func = NLSjl_get_function(jl_base_module, "collect");
         if (!collect_func) {
@@ -550,7 +536,7 @@ convertCellToArrayOf(jl_value_t* value, bool& wasConverted)
         }
 
         data = (jl_value_t**)jl_array_data_(set_array);
-    } else { // isArray
+    } else {
         size_t ndims = jl_array_ndims(value);
         bool extendDims = false;
         if (ndims == 1) {
@@ -573,14 +559,14 @@ convertCellToArrayOf(jl_value_t* value, bool& wasConverted)
     }
     Dimensions dims(dimsVector);
 
-    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.getElementCount());
+    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, dims.elementCount());
     ArrayOf res = ArrayOf(NLS_CELL_ARRAY, dims, ptr);
 
-    for (size_t i = 0; i < dims.getElementCount(); i++) {
+    for (size_t i = 0; i < dims.elementCount(); i++) {
         if (data[i]) {
             ptr[i] = jl_value_tToArrayOf(data[i]);
         } else {
-            ptr[i] = ArrayOf::emptyConstructor();
+            ptr[i] = ArrayOf::empty();
         }
     }
     wasConverted = true;
@@ -603,5 +589,207 @@ jl_value_tGetProperty(jl_value_t* value, const std::string& propertyName, bool& 
     return jl_value_tToArrayOf(m);
 }
 //=============================================================================
+static ArrayOf
+convertMatrixBoolToArrayOf(jl_value_t* value, bool& wasConverted)
+{
+    // A Julia Bool is a single byte holding 0 or 1, matching Nelson's logical
+    // (uint8), so the generic byte-wise copy yields a logical column directly.
+    return convertMatrixRealToArrayOf<logical>(value, NLS_LOGICAL, wasConverted);
 }
+//=============================================================================
+static jl_function_t*
+mainFunction(const char* name)
+{
+    jl_module_t* jl_main_module = (jl_module_t*)NLSjl_eval_string("Main");
+    return jl_main_module ? NLSjl_get_function(jl_main_module, name) : nullptr;
+}
+//=============================================================================
+static ArrayOf
+juliaTextColumnToArrayOf(jl_value_t* column)
+{
+    // Stringify every element (missing -> "missing") and separately fetch the
+    // missing mask, so masked rows become a <missing> gap (a non-char element,
+    // stored as NaN) instead of the literal text "missing".
+    jl_function_t* stringify_func = mainFunction("__nelson_stringify_col__");
+    jl_function_t* mask_func = mainFunction("__nelson_col_missingmask__");
+    if (!stringify_func) {
+        return ArrayOf::empty();
+    }
+    jl_value_t* textColumn = NLSjl_call1(stringify_func, column);
+    jl_value_t* maskColumn = mask_func ? NLSjl_call1(mask_func, column) : nullptr;
+    if (!textColumn || NLSjl_exception_occurred()) {
+        NLSjl_exception_clear();
+        return ArrayOf::empty();
+    }
+    size_t nbRows = jl_array_len(textColumn);
+    jl_value_t** textData = (jl_value_t**)jl_array_data_(textColumn);
+    const uint8_t* maskData = maskColumn ? (const uint8_t*)jl_array_data_(maskColumn) : nullptr;
+    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
+    ArrayOf res(NLS_STRING_ARRAY, Dimensions(nbRows, 1), elements);
+    for (size_t k = 0; k < nbRows; ++k) {
+        if (maskData && maskData[k]) {
+            elements[k] = ArrayOf::doubleScalar(std::nan(""));
+        } else {
+            const char* str = textData[k] ? NLSjl_string_ptr(textData[k]) : nullptr;
+            elements[k] = ArrayOf::characterArray(str ? std::string(str) : std::string());
+        }
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+juliaColumnToArrayOf(jl_value_t* column)
+{
+    if (!column) {
+        return ArrayOf::empty();
+    }
+    static const std::unordered_map<std::string, ArrayOf (*)(jl_value_t*, bool&)> COLUMN_CONVERTERS
+        = {
+              { "Vector{Bool}", convertMatrixBoolToArrayOf },
+              { "Vector{Float64}", convertMatrixFloat64ToArrayOf },
+              { "Vector{Float32}", convertMatrixFloat32ToArrayOf },
+              { "Vector{ComplexF64}", convertMatrixComplexFloat64ToArrayOf },
+              { "Vector{ComplexF32}", convertMatrixComplexFloat32ToArrayOf },
+              { "Vector{Int8}", convertMatrixInt8ToArrayOf },
+              { "Vector{Int16}", convertMatrixInt16ToArrayOf },
+              { "Vector{Int32}", convertMatrixInt32ToArrayOf },
+              { "Vector{Int64}", convertMatrixInt64ToArrayOf },
+              { "Vector{UInt8}", convertMatrixUInt8ToArrayOf },
+              { "Vector{UInt16}", convertMatrixUInt16ToArrayOf },
+              { "Vector{UInt32}", convertMatrixUInt32ToArrayOf },
+              { "Vector{UInt64}", convertMatrixUInt64ToArrayOf },
+              { "Vector{String}", convertMatrixStringToArrayOf },
+          };
+    std::string typeOf = jl_get_type_of_as_string(column);
+    bool wasConverted = false;
+    auto it = COLUMN_CONVERTERS.find(typeOf);
+    if (it != COLUMN_CONVERTERS.end()) {
+        ArrayOf res = it->second(column, wasConverted);
+        if (wasConverted) {
+            return res;
+        }
+    }
+    // A column whose element type is Union{Missing, T}: a numeric column becomes
+    // double (or complex) with NaN for the missing entries; anything else becomes
+    // a string column whose missing entries are <missing>.
+    if (StringHelpers::starts_with(typeOf, "Vector{Union{")
+        && typeOf.find("Missing") != std::string::npos) {
+        jl_function_t* kind_func = mainFunction("__nelson_col_kind__");
+        long long kind = 3;
+        if (kind_func) {
+            jl_value_t* kindValue = NLSjl_call1(kind_func, column);
+            if (kindValue && !NLSjl_exception_occurred()) {
+                kind = (long long)NLSjl_unbox_int64(kindValue);
+            }
+            if (NLSjl_exception_occurred()) {
+                NLSjl_exception_clear();
+            }
+        }
+        if (kind == 1 || kind == 2) {
+            const char* materializer
+                = (kind == 2) ? "__nelson_col_complexmissing__" : "__nelson_col_realmissing__";
+            jl_function_t* materialize_func = mainFunction(materializer);
+            if (materialize_func) {
+                jl_value_t* numeric = NLSjl_call1(materialize_func, column);
+                if (numeric && !NLSjl_exception_occurred()) {
+                    ArrayOf res = (kind == 2)
+                        ? convertMatrixComplexFloat64ToArrayOf(numeric, wasConverted)
+                        : convertMatrixFloat64ToArrayOf(numeric, wasConverted);
+                    if (wasConverted) {
+                        return res;
+                    }
+                }
+                if (NLSjl_exception_occurred()) {
+                    NLSjl_exception_clear();
+                }
+            }
+        }
+        return juliaTextColumnToArrayOf(column);
+    }
+    // Any other column type (dates, categorical, ...) is exported as text.
+    return juliaTextColumnToArrayOf(column);
+}
+//=============================================================================
+static ArrayOf
+cellFromArrayOfVector(const ArrayOfVector& values)
+{
+    size_t n = values.size();
+    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, n);
+    Dimensions dims(n == 0 ? 0 : 1, n);
+    ArrayOf res(NLS_CELL_ARRAY, dims, elements);
+    for (size_t k = 0; k < n; ++k) {
+        elements[k] = values[k];
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+cellstrRowFromStringVector(const stringVector& values)
+{
+    size_t n = values.size();
+    ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, n);
+    Dimensions dims(n == 0 ? 0 : 1, n);
+    ArrayOf res(NLS_CELL_ARRAY, dims, elements);
+    for (size_t k = 0; k < n; ++k) {
+        elements[k] = ArrayOf::characterArray(values[k]);
+    }
+    return res;
+}
+//=============================================================================
+bool
+JuliaDataFrameToTableData(
+    jl_value_t* value, ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames)
+{
+    if (!isJuliaDataFrame(value) || !jl_ensure_dataframes()) {
+        return false;
+    }
+    // The names vector, its element pointers, and each fetched column are unrooted
+    // while the column converters below allocate; keep the collector off for the
+    // whole extraction (also covers the static column helpers reached from here).
+    NLSjlGcDisableGuard gcGuard;
+    jl_module_t* jl_main_module = (jl_module_t*)NLSjl_eval_string("Main");
+    if (!jl_main_module) {
+        return false;
+    }
+    jl_function_t* names_func = NLSjl_get_function(jl_main_module, "__nelson_df_names__");
+    jl_function_t* ncol_func = NLSjl_get_function(jl_main_module, "__nelson_df_ncol__");
+    jl_function_t* getcol_func = NLSjl_get_function(jl_main_module, "__nelson_df_getcol__");
+    if (!names_func || !ncol_func || !getcol_func) {
+        return false;
+    }
+
+    jl_value_t* namesVector = NLSjl_call1(names_func, value);
+    jl_value_t* ncolValue = NLSjl_call1(ncol_func, value);
+    if (!namesVector || !ncolValue || NLSjl_exception_occurred()) {
+        NLSjl_exception_clear();
+        return false;
+    }
+    int64 nbColumns = NLSjl_unbox_int64(ncolValue);
+
+    stringVector names;
+    jl_value_t** namesData = (jl_value_t**)jl_array_data_(namesVector);
+    size_t namesCount = jl_array_len(namesVector);
+    for (size_t j = 0; j < namesCount; ++j) {
+        const char* label = namesData[j] ? NLSjl_string_ptr(namesData[j]) : nullptr;
+        names.push_back(label ? std::string(label) : std::string());
+    }
+
+    ArrayOfVector columnValues;
+    for (int64 j = 1; j <= nbColumns; ++j) {
+        jl_value_t* column = NLSjl_call2(getcol_func, value, NLSjl_box_int64(j));
+        if (!column || NLSjl_exception_occurred()) {
+            NLSjl_exception_clear();
+            columnValues.push_back(ArrayOf::empty());
+            continue;
+        }
+        columnValues.push_back(juliaColumnToArrayOf(column));
+    }
+
+    columns = cellFromArrayOfVector(columnValues);
+    variableNames = cellstrRowFromStringVector(names);
+    rowNames = cellstrRowFromStringVector(stringVector());
+    return true;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

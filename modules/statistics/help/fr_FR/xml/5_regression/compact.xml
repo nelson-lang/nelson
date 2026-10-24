@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compact</keyword>
+  <short_description>Retourne un modele predictif compact.</short_description>
+  <syntax>
+    <syntax_item>compactModel = compact(model)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>compact</b> retourne un modele predictif qui conserve les predictions pour les objets statistiques pris en charge.</p>
+  </description>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitensemble">fitensemble</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrensemble">fitrensemble</link></see_also_item>
+  </see_also>
+</xmldoc>

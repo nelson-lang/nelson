@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>surf2patch</keyword>
+  <short_description>Convert surface data to patch data.</short_description>
+  <syntax>
+    <syntax_item>fvc = surf2patch(Z)</syntax_item>
+    <syntax_item>fvc = surf2patch(X, Y, Z)</syntax_item>
+    <syntax_item>fvc = surf2patch(X, Y, Z, C)</syntax_item>
+    <syntax_item>fvc = surf2patch(h)</syntax_item>
+    <syntax_item>fvc = surf2patch(..., 'triangles')</syntax_item>
+    <syntax_item>[F, V] = surf2patch(...)</syntax_item>
+    <syntax_item>[F, V, C] = surf2patch(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description
+      >the surface coordinates. X and Y may be vectors or matrices; Z is a matrix with at least two rows and two columns.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
+      >the color data; defaults to Z when omitted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>a surface object whose data is converted.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fvc</param_name>
+      <param_description
+      >a structure with the fields &apos;faces&apos;, &apos;vertices&apos; and &apos;facevertexcdata&apos;, suitable for <b>patch</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>F, V, C</param_name>
+      <param_description
+      >the faces, vertices and face/vertex color data returned separately.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>surf2patch</b> converts the geometry of a surface into the faces and
+      vertices of a patch. The grid of a <b>(m)</b>-by-<b>(n)</b> surface becomes
+      <b>(m-1)*(n-1)</b> quadrilateral faces (or twice as many triangular faces
+      with the <b>&apos;triangles&apos;</b> option).</p>
+    <p>Called with a single output, the result is a structure that can be passed
+      directly to <b>patch</b>; with several outputs the faces, vertices and
+      color data are returned separately.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+colormap(jet);
+patch(surf2patch(peaks(20)), 'FaceColor', 'interp', 'EdgeColor', 'none');
+view(3);
+axis equal]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nansum</keyword>
+  <short_description>Somme, en ignorant les valeurs NaN.</short_description>
+  <syntax>
+    <syntax_item>y = nansum(X)</syntax_item>
+    <syntax_item>y = nansum(X, dim)</syntax_item>
+    <syntax_item>y = nansum(X, vecdim)</syntax_item>
+    <syntax_item>y = nansum(X, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nansum</b> calcule la somme apres suppression des valeurs <b>NaN</b> de chaque tranche traitee ; une tranche uniquement composee de <b>NaN</b> a pour somme <b>0</b>.</p>
+    <p>La dimension de travail par defaut est la premiere dimension non singuliere.</p>
+    <p>Equivalent a <b>sum(X, ..., 'omitnan')</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = nansum([1 NaN 3 NaN 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}sum">sum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmean">nanmean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmax">nanmax</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmin">nanmin</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

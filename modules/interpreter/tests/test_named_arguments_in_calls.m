@@ -7,36 +7,39 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
+% <--REUSE PROCESS-->
+%=============================================================================
 captureArgs = @(varargin) varargin;
 %=============================================================================
 A = captureArgs(B = 1);
-assert_isequal(A{1}, "B");
-assert_isequal(A{2}, 1);
+asserts.isequal(A{1}, "B");
+asserts.isequal(A{2}, 1);
 %=============================================================================
-args = captureArgs(   B   =    1   );
-assert_isequal(args{1}, "B");
-assert_isequal(args{2}, 1);
+args = captureArgs(B   = 1);
+asserts.isequal(args{1}, "B");
+asserts.isequal(args{2}, 1);
 %=============================================================================
 args = captureArgs(B = 1, C = 2);
-assert_isequal(args{1}, "B");
-assert_isequal(args{2}, 1);
-assert_isequal(args{3}, "C");
-assert_isequal(args{4}, 2);
+asserts.isequal(args{1}, "B");
+asserts.isequal(args{2}, 1);
+asserts.isequal(args{3}, "C");
+asserts.isequal(args{4}, 2);
 %=============================================================================
 args = captureArgs(42, D = 10);
-assert_isequal(args{1}, 42);
-assert_isequal(args{2}, "D");
-assert_isequal(args{3}, 10);
+asserts.isequal(args{1}, 42);
+asserts.isequal(args{2}, "D");
+asserts.isequal(args{3}, 10);
 %=============================================================================
 nested = captureArgs(captureArgs(C = 3));
-assert_isequal(nested{1}{1}, "C");
-assert_isequal(nested{1}{2}, 3);
+asserts.isequal(nested{1}{1}, "C");
+asserts.isequal(nested{1}{2}, 3);
 %=============================================================================
 B = 5;
 logicArgs = captureArgs(B == 5);
-assert_istrue(logicArgs{1});
+asserts.istrue(logicArgs{1});
 %=============================================================================
-nested = captureArgs(captureArgs(C = 3*2));
-assert_isequal(nested{1}{1}, "C");
-assert_isequal(nested{1}{2}, 6);
+nested = captureArgs(captureArgs(C = 3 * 2));
+asserts.isequal(nested{1}{1}, "C");
+asserts.isequal(nested{1}{2}, 6);
 %=============================================================================

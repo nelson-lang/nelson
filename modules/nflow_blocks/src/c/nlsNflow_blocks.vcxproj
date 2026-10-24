@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7CC209AC-EF99-4B13-868A-94AE93C5F4E0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>nlsNflow_blocks</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <TargetName>lib$(ProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNFLOW_BLOCKS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNFLOW_BLOCKS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNFLOW_BLOCKS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNFLOW_BLOCKS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\BlockRegistry.cpp" />
+    <ClCompile Include="..\cpp\DashboardHandlers.cpp" />
+    <ClCompile Include="..\cpp\FmuComponent.cpp" />
+    <ClCompile Include="..\cpp\fmuBlock.cpp" />
+    <ClCompile Include="..\cpp\fmuMeBlock.cpp" />
+    <ClCompile Include="..\cpp\SourceHandlers.cpp" />
+    <ClCompile Include="..\cpp\MathHandlers.cpp" />
+    <ClCompile Include="..\cpp\LookupHandlers.cpp" />
+    <ClCompile Include="..\cpp\lookup\lookup1D.cpp" />
+    <ClCompile Include="..\cpp\lookup\lookup2D.cpp" />
+    <ClCompile Include="..\cpp\lookup\lookupND.cpp" />
+    <ClCompile Include="..\cpp\lookup\directLookup.cpp" />
+    <ClCompile Include="..\cpp\lookup\prelookup.cpp" />
+    <ClCompile Include="..\cpp\lookup\interpolationPrelookup.cpp" />
+    <ClCompile Include="..\cpp\lookup\lookupDynamic.cpp" />
+    <ClCompile Include="..\cpp\lookup\luScalar.cpp" />
+    <ClCompile Include="..\cpp\math\complexOps.cpp" />
+    <ClCompile Include="..\cpp\math\gain.cpp" />
+    <ClCompile Include="..\cpp\math\sum.cpp" />
+    <ClCompile Include="..\cpp\math\mult.cpp" />
+    <ClCompile Include="..\cpp\math\atan2.cpp" />
+    <ClCompile Include="..\cpp\math\mathFunction.cpp" />
+    <ClCompile Include="..\cpp\math\roundingFunction.cpp" />
+    <ClCompile Include="..\cpp\math\sign.cpp" />
+    <ClCompile Include="..\cpp\math\sqrt.cpp" />
+    <ClCompile Include="..\cpp\math\trigFunction.cpp" />
+    <ClCompile Include="..\cpp\math\abs.cpp" />
+    <ClCompile Include="..\cpp\math\divide.cpp" />
+    <ClCompile Include="..\cpp\math\negate.cpp" />
+    <ClCompile Include="..\cpp\math\bias.cpp" />
+    <ClCompile Include="..\cpp\math\wrapToZero.cpp" />
+    <ClCompile Include="..\cpp\math\polynomial.cpp" />
+    <ClCompile Include="..\cpp\math\min.cpp" />
+    <ClCompile Include="..\cpp\math\max.cpp" />
+    <ClCompile Include="..\cpp\source\chirp.cpp" />
+    <ClCompile Include="..\cpp\source\clock.cpp" />
+    <ClCompile Include="..\cpp\source\constant.cpp" />
+    <ClCompile Include="..\cpp\source\fileSource.cpp" />
+    <ClCompile Include="..\cpp\source\fromWorkspace.cpp" />
+    <ClCompile Include="..\cpp\source\impulse.cpp" />
+    <ClCompile Include="..\cpp\source\labelSource.cpp" />
+    <ClCompile Include="..\cpp\source\noise.cpp" />
+    <ClCompile Include="..\cpp\source\periodic.cpp" />
+    <ClCompile Include="..\cpp\source\ramp.cpp" />
+    <ClCompile Include="..\cpp\source\sine.cpp" />
+    <ClCompile Include="..\cpp\source\step.cpp" />
+    <ClCompile Include="..\cpp\source\enumeratedConstant.cpp" />
+    <ClCompile Include="..\cpp\source\counterFreeRunning.cpp" />
+    <ClCompile Include="..\cpp\source\counterLimited.cpp" />
+    <ClCompile Include="..\cpp\source\repeatingSequenceStair.cpp" />
+    <ClCompile Include="..\cpp\source\repeatingSequenceInterpolated.cpp" />
+    <ClCompile Include="..\cpp\source\signalGenerator.cpp" />
+    <ClCompile Include="..\cpp\source\toggleSwitch.cpp" />
+    <ClCompile Include="..\cpp\continuous\delay.cpp" />
+    <ClCompile Include="..\cpp\continuous\derivative.cpp" />
+    <ClCompile Include="..\cpp\continuous\hpf.cpp" />
+    <ClCompile Include="..\cpp\continuous\constraint.cpp" />
+    <ClCompile Include="..\cpp\continuous\integrator.cpp" />
+    <ClCompile Include="..\cpp\continuous\mechanicalIsland.cpp" />
+    <ClCompile Include="..\cpp\continuous\planarIsland.cpp" />
+    <ClCompile Include="..\cpp\continuous\physicalIsland.cpp" />
+    <ClCompile Include="..\cpp\continuous\physicalIslandLayout.cpp" />
+    <ClCompile Include="..\cpp\continuous\physicalIslandSolve.cpp" />
+    <ClCompile Include="..\cpp\continuous\physicalIslandCodegen.cpp" />
+    <ClCompile Include="..\cpp\continuous\physicalIslandCodegenSupport.cpp" />
+    <ClCompile Include="..\cpp\continuous\lpf.cpp" />
+    <ClCompile Include="..\cpp\continuous\pid.cpp" />
+    <ClCompile Include="..\cpp\continuous\stateSpace.cpp" />
+    <ClCompile Include="..\cpp\continuous\tf.cpp" />
+    <ClCompile Include="..\cpp\discrete\ddelay.cpp" />
+    <ClCompile Include="..\cpp\discrete\difference.cpp" />
+    <ClCompile Include="..\cpp\discrete\detectChange.cpp" />
+    <ClCompile Include="..\cpp\discrete\detectIncrease.cpp" />
+    <ClCompile Include="..\cpp\discrete\detectDecrease.cpp" />
+    <ClCompile Include="..\cpp\discrete\risingEdge.cpp" />
+    <ClCompile Include="..\cpp\discrete\fallingEdge.cpp" />
+    <ClCompile Include="..\cpp\discrete\dstateSpace.cpp" />
+    <ClCompile Include="..\cpp\discrete\dtf.cpp" />
+    <ClCompile Include="..\cpp\discrete\foh.cpp" />
+    <ClCompile Include="..\cpp\discrete\rateTransition.cpp" />
+    <ClCompile Include="..\cpp\discrete\unitDelay.cpp" />
+    <ClCompile Include="..\cpp\discrete\zoh.cpp" />
+    <ClCompile Include="..\cpp\logic\and.cpp" />
+    <ClCompile Include="..\cpp\logic\ifBlock.cpp" />
+    <ClCompile Include="..\cpp\logic\compareToConstant.cpp" />
+    <ClCompile Include="..\cpp\logic\intervalTest.cpp" />
+    <ClCompile Include="..\cpp\logic\intervalTestDynamic.cpp" />
+    <ClCompile Include="..\cpp\logic\bitwiseOperator.cpp" />
+    <ClCompile Include="..\cpp\logic\bitSet.cpp" />
+    <ClCompile Include="..\cpp\logic\bitClear.cpp" />
+    <ClCompile Include="..\cpp\logic\extractBits.cpp" />
+    <ClCompile Include="..\cpp\logic\shiftArithmetic.cpp" />
+    <ClCompile Include="..\cpp\logic\logicalOperator.cpp" />
+    <ClCompile Include="..\cpp\logic\combinatorialLogic.cpp" />
+    <ClCompile Include="..\cpp\logic\compareToZero.cpp" />
+    <ClCompile Include="..\cpp\logic\not.cpp" />
+    <ClCompile Include="..\cpp\logic\or.cpp" />
+    <ClCompile Include="..\cpp\logic\relationalOperator.cpp" />
+    <ClCompile Include="..\cpp\logic\switchCase.cpp" />
+    <ClCompile Include="..\cpp\logic\xor.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\backlash.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\deadZone.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\coulombViscousFriction.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\hysteresis.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\hitCrossing.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\quantizer.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\rate.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\saturation.cpp" />
+    <ClCompile Include="..\cpp\nonlinear\switch.cpp" />
+    <ClCompile Include="..\cpp\sink\display.cpp" />
+    <ClCompile Include="..\cpp\sink\labelSink.cpp" />
+    <ClCompile Include="..\cpp\sink\scope.cpp" />
+    <ClCompile Include="..\cpp\sink\toWorkspace.cpp" />
+    <ClCompile Include="..\cpp\sink\stopSimulation.cpp" />
+    <ClCompile Include="..\cpp\sink\fileSink.cpp" />
+    <ClCompile Include="..\cpp\sink\terminator.cpp" />
+    <ClCompile Include="..\cpp\sink\xyScope.cpp" />
+    <ClCompile Include="..\cpp\sink\xyzScope.cpp" />
+    <ClCompile Include="..\cpp\NonlinearHandlers.cpp" />
+    <ClCompile Include="..\cpp\LogicHandlers.cpp" />
+    <ClCompile Include="..\cpp\ContinuousHandlers.cpp" />
+    <ClCompile Include="..\cpp\DiscreteHandlers.cpp" />
+    <ClCompile Include="..\cpp\SinkHandlers.cpp" />
+    <ClCompile Include="..\cpp\UserDefinedHandlers.cpp" />
+    <ClCompile Include="..\cpp\userdefined\nelsonFunction.cpp" />
+    <ClCompile Include="..\cpp\userdefined\expression.cpp" />
+    <ClCompile Include="..\cpp\NFlowComplexLower.cpp" />
+    <ClCompile Include="..\cpp\NFlowVectorExpand.cpp" />
+    <ClCompile Include="..\cpp\NFlowCondLowering.cpp" />
+    <ClCompile Include="..\cpp\RoutingHandlers.cpp" />
+    <ClCompile Include="..\cpp\routing\mux.cpp" />
+    <ClCompile Include="..\cpp\routing\demux.cpp" />
+    <ClCompile Include="..\cpp\routing\selector.cpp" />
+    <ClCompile Include="..\cpp\routing\reshape.cpp" />
+    <ClCompile Include="..\cpp\routing\concatenate.cpp" />
+    <ClCompile Include="..\cpp\routing\merge.cpp" />
+    <ClCompile Include="..\cpp\routing\busCreator.cpp" />
+    <ClCompile Include="..\cpp\routing\busSelector.cpp" />
+    <ClCompile Include="..\cpp\routing\busAssignment.cpp" />
+    <ClCompile Include="..\cpp\routing\convert.cpp" />
+    <ClCompile Include="..\cpp\routing\initialCondition.cpp" />
+    <ClCompile Include="..\cpp\routing\width.cpp" />
+    <ClCompile Include="..\cpp\routing\signalConversion.cpp" />
+    <ClCompile Include="..\cpp\routing\assignment.cpp" />
+    <ClCompile Include="..\cpp\routing\dataStore.cpp" />
+    <ClCompile Include="..\cpp\routing\iterator.cpp" />
+    <ClCompile Include="..\cpp\routing\multiportSwitch.cpp" />
+    <ClCompile Include="..\cpp\matrix\matmul.cpp" />
+    <ClCompile Include="..\cpp\matrix\vectorMath.cpp" />
+    <ClCompile Include="..\cpp\SubsystemBuild.cpp" />
+    <ClCompile Include="..\cpp\SubsystemHandlers.cpp" />
+    <ClCompile Include="..\cpp\NelsonWorkspaceBridge.cpp" />
+    <ClCompile Include="..\cpp\SimEngineHelpers.cpp" />
+    <ClCompile Include="..\cpp\StateLayout.cpp" />
+    <ClCompile Include="..\cpp\FixedStepBackend.cpp" />
+    <ClCompile Include="..\cpp\NFlowCodegenHelpers.cpp" />
+    <ClCompile Include="..\cpp\ExprEngine.cpp" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\module.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\BlockPlugin.h" />
+    <ClInclude Include="..\include\BlockRegistry.hpp" />
+    <ClInclude Include="..\include\NFlowCodegenLang.hpp" />
+    <ClInclude Include="..\include\ExprEngine.hpp" />
+    <ClInclude Include="..\include\FieldNames.hpp" />
+    <ClInclude Include="..\include\NFlowBlockDescriptor.hpp" />
+    <ClInclude Include="..\include\NFlowCodegenHelpers.hpp" />
+    <ClInclude Include="..\include\NFlowCodegenPolynomial.hpp" />
+    <ClInclude Include="..\include\NelsonWorkspaceBridge.hpp" />
+    <ClInclude Include="..\include\ProgressPublishScheduler.hpp" />
+    <ClInclude Include="..\include\SimEngineTypes.hpp" />
+    <ClInclude Include="..\include\StateLayout.hpp" />
+    <ClInclude Include="..\include\SolverBackend.hpp" />
+    <ClInclude Include="..\include\FmuComponent.hpp" />
+    <ClInclude Include="..\include\nlsNflow_blocks_exports.h" />
+    <ClInclude Include="..\cpp\math\math_blocks.hpp" />
+    <ClInclude Include="..\cpp\source\source_blocks.hpp" />
+    <ClInclude Include="..\cpp\continuous\continuous_blocks.hpp" />
+    <ClInclude Include="..\cpp\continuous\physicalIslandShared.hpp" />
+    <ClInclude Include="..\cpp\discrete\discrete_blocks.hpp" />
+    <ClInclude Include="..\cpp\logic\logic_blocks.hpp" />
+    <ClInclude Include="..\cpp\nonlinear\nonlinear_blocks.hpp" />
+    <ClInclude Include="..\cpp\sink\sink_blocks.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

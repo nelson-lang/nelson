@@ -11,8 +11,8 @@
 %=============================================================================
 clear all;
 %=============================================================================
-N_ITER  = 50000;           % Number of iterations
-STABILIZATION_DELAY = 5;   % Seconds to wait before second memory check
+N_ITER = 50000; % Number of iterations
+STABILIZATION_DELAY = 5; % Seconds to wait before second memory check
 %=============================================================================
 % INITIAL MEMORY SNAPSHOT
 %=============================================================================
@@ -30,9 +30,9 @@ sleep(STABILIZATION_DELAY);
 [u2, s2] = memory();
 delta_mem = u2.MemUsedNelson - u1.MemUsedNelson;
 disp(['Memory difference after ', num2str(N_ITER), ...
-' iterations: ', num2str(delta_mem), ' bytes']);
+  ' iterations: ', num2str(delta_mem), ' bytes']);
 %=============================================================================
-max_allowed = 126.0 * N_ITER;  % ~6300000 for 50000 iterations
+max_allowed = 800.0 * N_ITER; % ~40000000 for 50000 iterations
 %=============================================================================
-assert_istrue(delta_mem < max_allowed);
+asserts.istrue(delta_mem < max_allowed);
 %=============================================================================

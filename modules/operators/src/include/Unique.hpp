@@ -17,5 +17,5 @@ namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOfVector
 Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "QtHighlighter.h"
 #include "Keywords.hpp"
+#include "NelsonPalette.hpp"
 #include "Operators.hpp"
 #include "QStringConverter.hpp"
 #include "What.hpp"
@@ -18,59 +19,92 @@ using namespace Nelson;
 //=============================================================================
 Highlighter::Highlighter(QTextDocument* parent) : QSyntaxHighlighter(parent)
 {
-    HighlightingRule rule;
-    keywordFormat.setForeground(Qt::darkBlue);
+    const bool darkMode = Nelson::isDarkPalette();
+
+    keywordColor = darkMode ? QColor(QStringLiteral("#569CD6")) : QColor(Qt::darkBlue);
+    builtinColor = darkMode ? QColor(QStringLiteral("#4EC9B0")) : QColor(Qt::darkCyan);
+    macroColor = builtinColor;
+    singleLineCommentColor = darkMode ? QColor(QStringLiteral("#6A9955")) : QColor(Qt::darkGreen);
+    multilineCommentColor = singleLineCommentColor;
+    quotationColor = darkMode ? QColor(QStringLiteral("#CE9178")) : QColor(Qt::darkMagenta);
+    operatorColor = darkMode ? QColor(QStringLiteral("#D4D4D4")) : QColor(Qt::black);
+
+    keywordFormat.setForeground(keywordColor);
     keywordFormat.setFontWeight(QFont::Bold);
-    QStringList keywordPatterns;
+    builtinFormat.setForeground(builtinColor);
+    macroFormat.setForeground(macroColor);
+    singleLineCommentFormat.setForeground(singleLineCommentColor);
+    multilineCommentFormat.setForeground(multilineCommentColor);
+    quotationFormat.setForeground(quotationColor);
+
+    // one single regular expression tokenizes the identifiers of a line,
+    // the identifier kind is then resolved with a hash lookup.
+    identifierExpression = QRegularExpression(QStringLiteral("\\b[A-Za-z_]\\w*\\b"));
+    identifierExpression.optimize();
+
     wstringVector keywordsVector = GetKeywords();
     for (auto& k : keywordsVector) {
-        keywordPatterns << wstringToQString(L"\\b" + k + L"\\b");
+        keywords.insert(wstringToQString(k));
     }
     // "arguments" is a contextual keyword not in the parser keyword table
-    keywordPatterns << QStringLiteral("\\barguments\\b");
-    foreach (const QString& pattern, keywordPatterns) {
-        rule.pattern = QRegularExpression(pattern);
-        rule.format = keywordFormat;
-        highlightingRules.append(rule);
-    }
-    builtinFormat.setForeground(Qt::darkCyan);
-    QStringList builtinPatterns;
+    keywords.insert(QStringLiteral("arguments"));
+
     wstringVector builtinVector = WhatListOfBuiltin();
     for (auto& k : builtinVector) {
-        builtinPatterns << wstringToQString(L"\\b" + k + L"\\b");
+        builtins.insert(wstringToQString(k));
     }
-    foreach (const QString& pattern, builtinPatterns) {
-        rule.pattern = QRegularExpression(pattern);
-        rule.format = builtinFormat;
-        highlightingRules.append(rule);
-    }
-    macroFormat.setForeground(Qt::darkCyan);
-    QStringList macroPatterns;
+
     wstringVector macroVector = WhatListOfMacro();
     for (auto& k : macroVector) {
-        macroPatterns << wstringToQString(L"\\b" + k + L"\\b");
+        macros.insert(wstringToQString(k));
     }
-    foreach (const QString& pattern, macroPatterns) {
-        rule.pattern = QRegularExpression(pattern);
-        rule.format = macroFormat;
-        highlightingRules.append(rule);
-    }
-    singleLineCommentFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegularExpression("%[^\n]*");
+
+    HighlightingRule rule;
+    rule.pattern = QRegularExpression(QStringLiteral("%[^\n]*"));
+    rule.pattern.optimize();
     rule.format = singleLineCommentFormat;
     highlightingRules.append(rule);
 
-    // Multiline comment %{ ... %}
-    multilineCommentFormat.setForeground(Qt::darkGreen);
-    multilineCommentColor = Qt::darkGreen;
-    rule.pattern = QRegularExpression("%\\{[\\s\\S]*?%\\}");
+    rule.pattern = QRegularExpression(QStringLiteral("%\\{[\\s\\S]*?%\\}"));
+    rule.pattern.optimize();
     rule.format = multilineCommentFormat;
     highlightingRules.append(rule);
-    quotationFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegularExpression("'.*'");
+
+    rule.pattern = QRegularExpression(QStringLiteral("'.*'"));
+    rule.pattern.optimize();
     rule.format = quotationFormat;
     highlightingRules.append(rule);
     isEnabled = false;
+}
+//=============================================================================
+void
+Highlighter::applyIdentifierRules(const QString& segment, int offset)
+{
+    QRegularExpressionMatchIterator matchIterator = identifierExpression.globalMatch(segment);
+    while (matchIterator.hasNext()) {
+        QRegularExpressionMatch match = matchIterator.next();
+        const QString identifier = match.captured();
+        if (keywords.contains(identifier)) {
+            setFormat(offset + match.capturedStart(), match.capturedLength(), keywordFormat);
+        } else if (builtins.contains(identifier)) {
+            setFormat(offset + match.capturedStart(), match.capturedLength(), builtinFormat);
+        } else if (macros.contains(identifier)) {
+            setFormat(offset + match.capturedStart(), match.capturedLength(), macroFormat);
+        }
+    }
+}
+//=============================================================================
+void
+Highlighter::applyRulesOnRange(const QString& segment, int offset)
+{
+    applyIdentifierRules(segment, offset);
+    foreach (const HighlightingRule& rule, highlightingRules) {
+        QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(segment);
+        while (matchIterator.hasNext()) {
+            QRegularExpressionMatch match = matchIterator.next();
+            setFormat(offset + match.capturedStart(), match.capturedLength(), rule.format);
+        }
+    }
 }
 //=============================================================================
 void
@@ -80,79 +114,56 @@ Highlighter::highlightBlock(const QString& text)
         return;
     }
 
-    QRegularExpression startExpr("%\\{");
-    QRegularExpression endExpr("%\\}");
+    static const QRegularExpression startExpr(QStringLiteral("%\\{"));
+    static const QRegularExpression endExpr(QStringLiteral("%\\}"));
 
-    auto applyRulesOnRange = [&](const QString& segment, int offset) {
-        foreach (const HighlightingRule& rule, highlightingRules) {
-            QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(segment);
-            while (matchIterator.hasNext()) {
-                QRegularExpressionMatch match = matchIterator.next();
-                setFormat(offset + match.capturedStart(), match.capturedLength(), rule.format);
-            }
-        }
-    };
-
-    // If we are not already inside a multiline comment, look for an opening marker
     int startIndex = -1;
     if (previousBlockState() != 1) {
         QRegularExpressionMatch startMatch = startExpr.match(text);
         startIndex = startMatch.hasMatch() ? startMatch.capturedStart() : -1;
     } else {
-        startIndex = 0; // continuation of a previous block
+        startIndex = 0;
     }
 
-    // Find a closing marker after startIndex when possible
     int endIndex = -1;
     if (startIndex >= 0) {
         QRegularExpressionMatch endMatch
             = endExpr.match(text, startIndex + (startIndex == 0 ? 0 : 2));
         endIndex = endMatch.hasMatch() ? endMatch.capturedEnd() : -1;
     } else {
-        // Not starting a new block; look for any closing marker (for continued block)
         QRegularExpressionMatch endMatch = endExpr.match(text);
         endIndex = endMatch.hasMatch() ? endMatch.capturedEnd() : -1;
     }
 
     if (startIndex >= 0) {
-        // We have an opening on this line (or continuation)
         if (endIndex >= 0 && endIndex > startIndex) {
-            // Comment opens and closes on this line
             setFormat(startIndex, endIndex - startIndex, multilineCommentFormat);
             setCurrentBlockState(0);
-            // Highlight the rest of the line after the comment
             if (endIndex < text.length()) {
                 QString rest = text.mid(endIndex);
                 applyRulesOnRange(rest, endIndex);
             }
         } else {
-            // Comment opens but does not close on this line
             setFormat(startIndex, text.length() - startIndex, multilineCommentFormat);
             setCurrentBlockState(1);
-            // Highlight the portion before the comment
             if (startIndex > 0) {
                 QString before = text.left(startIndex);
                 applyRulesOnRange(before, 0);
             }
         }
     } else if (previousBlockState() == 1) {
-        // This block is a continuation from previous line
         if (endIndex >= 0) {
-            // Comment closes on this line
             setFormat(0, endIndex, multilineCommentFormat);
             setCurrentBlockState(0);
-            // Highlight the remainder after the closing marker
             if (endIndex < text.length()) {
                 QString rest = text.mid(endIndex);
                 applyRulesOnRange(rest, endIndex);
             }
         } else {
-            // Still inside multiline comment
             setFormat(0, text.length(), multilineCommentFormat);
             setCurrentBlockState(1);
         }
     } else {
-        // No multiline comment involvement on this line
         applyRulesOnRange(text, 0);
     }
 }

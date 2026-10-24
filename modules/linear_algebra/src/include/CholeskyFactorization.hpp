@@ -14,6 +14,7 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload);
-}
+CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload, int& info);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

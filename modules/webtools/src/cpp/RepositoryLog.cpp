@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -62,14 +62,14 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         char oidstr[10] = { 0 };
         git_commit_lookup(&c, repo, &oid);
         git_oid_tostr(oidstr, 9, &oid);
-        sha1s.push_back(ArrayOf::characterArrayConstructor(oidstr));
+        sha1s.push_back(ArrayOf::characterArray(oidstr));
         std::string message = std::string(git_commit_message(c));
         if (StringHelpers::ends_with(message, "\n")) {
             message.pop_back();
         }
-        msgs.push_back(ArrayOf::characterArrayConstructor(message));
+        msgs.push_back(ArrayOf::characterArray(message));
         const git_signature* author = git_commit_author(c);
-        authors.push_back(ArrayOf::characterArrayConstructor(
+        authors.push_back(ArrayOf::characterArray(
             std::string(author->name) + " <" + std::string(author->email) + ">"));
         time_t time = git_commit_time(c);
 #if _MSC_VER
@@ -81,7 +81,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
         if (StringHelpers::ends_with(strtime, "\n")) {
             strtime.pop_back();
         }
-        times.push_back(ArrayOf::characterArrayConstructor(strtime));
+        times.push_back(ArrayOf::characterArray(strtime));
         git_commit_free(c);
     }
     git_revwalk_free(walk);
@@ -96,7 +96,7 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
     fieldnames.push_back("author");
     fieldnames.push_back("date");
     auto* elements = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
     logs = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
     logs.setFieldAsList("sha1", sha1s);
     logs.setFieldAsList("message", msgs);
@@ -105,5 +105,5 @@ RepositoryLog(const std::wstring& localPath, std::wstring& errorMessage)
     return logs;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

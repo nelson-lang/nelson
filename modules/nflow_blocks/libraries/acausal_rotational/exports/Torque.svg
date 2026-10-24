@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -113.25 306.5 256.5">
+  <rect x="-153.25" y="-113.25" width="306.5" height="256.5" rx="48.735" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0 -40) rotate(0)">
+    <path d="M76.604 64.279 A100 100 0 0 1 -86.603 50" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(0 -80) rotate(0)">
+    <path d="M45.963 38.567 A60 60 0 0 1 -45.963 38.567" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-101.5,-49.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32.8" fill="#1E6B2E">tau</text></g>
+    <polygon points="90,10 66,60 40,34 90,10" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="0,-20 0,-101" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-54,-54 -30,-38 -44,-26 -54,-54" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(0,90) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">Torque</text></g>
+  </g>
+</svg>

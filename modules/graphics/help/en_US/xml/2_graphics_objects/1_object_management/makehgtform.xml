@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>makehgtform</keyword>
+  <short_description>Create a 4-by-4 transform matrix.</short_description>
+  <syntax>
+    <syntax_item>M = makehgtform()</syntax_item>
+    <syntax_item>M = makehgtform('translate', [tx ty tz])</syntax_item>
+    <syntax_item>M = makehgtform('scale', s)</syntax_item>
+    <syntax_item>M = makehgtform('xrotate', r)</syntax_item>
+    <syntax_item>M = makehgtform('yrotate', r)</syntax_item>
+    <syntax_item>M = makehgtform('zrotate', r)</syntax_item>
+    <syntax_item>M = makehgtform(transform1, value1, transform2, value2, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'translate'</param_name>
+      <param_description>a three-element vector [tx ty tz]: a translation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'scale'</param_name>
+      <param_description
+      >a scalar or a three-element vector: a uniform or per-axis scaling.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'xrotate', 'yrotate', 'zrotate'</param_name>
+      <param_description>a scalar angle in radians: a rotation about that axis.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>a 4-by-4 transformation matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>makehgtform</b> builds a 4-by-4 transformation matrix from a sequence
+      of translation, scaling and rotation transforms. The transforms are
+      multiplied left to right, so the first one listed is applied last to a
+      point. The result is suitable for the <b>Matrix</b> property of a transform
+      object.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[M = makehgtform('translate', [1 0 0], 'zrotate', pi / 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/hggroup">hggroup</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

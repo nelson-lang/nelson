@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.compiler.analyze</keyword>
+  <keyword_alias>nelson.compiler.analyze</keyword_alias>
+  <short_description>Examiner les dependances sans produire d'executable.</short_description>
+  <syntax>
+    <syntax_item>plan = nelson.compiler.analyze(options)</syntax_item>
+    <syntax_item>nelson.compiler.analyze(options)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>options</param_name><param_description>Un objet scalaire nelson.compiler.BuildOptions.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>plan</param_name><param_description>Structure scalaire decrivant dependances resolues, diagnostics et besoins du runtime.</param_description></param_output_item></param_output>
+  <description>
+    <p>Cette fonction est equivalente a <b>ncc(options, '--explain-link')</b>. Elle lit les sources, les ressources incluses et le catalogue des fonctions chargees. Elle n'execute pas le point d'entree, ne cree pas le dossier de sortie, ne construit pas d'executable et ne copie pas de runtime.</p>
+    <p><b>plan.complete</b> indique si l'analyse s'est terminee sans dependance non resolue. Examiner les diagnostics lorsque cette valeur est false. Un plan statique complet ne prouve pas que tous les appels dynamiques et chemins de ressources possibles sont couverts.</p>
+    <p><b>plan.runtime</b> decrit les besoins du runtime ; <b>plan.runtime.modules</b> liste les modules selectionnes. plan.noConsole et plan.executableVersion refletent la configuration du lanceur. Les autres champs decrivent les fonctions et ressources resolues, les exclusions et les raisons d'inclusion.</p>
+    <p>Utiliser AdditionalFiles pour les chemins calcules dynamiquement et examiner les diagnostics avant construction. L'analyse reflete les fichiers et l'environnement courants. Elle ne fige pas les entrees : build effectue une nouvelle analyse.</p>
+    <p>Sans sortie, le plan est affiche. Avec une sortie, la structure peut etre examinee ou convertie avec jsonencode. Le rapport peut contenir des chemins absolus de la machine de construction.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Examiner une configuration</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', 'app_entry.m', 'RuntimeMode', 'installed');
+plan = nelson.compiler.analyze(options);
+disp(plan.complete);
+disp(plan.runtime.modules);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

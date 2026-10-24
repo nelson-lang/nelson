@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#3C3489" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#3C3489">Sqrt</text></g>
+    <polyline points="-90,-80 68,-80" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,-80 68,-72 68,-88 90,-80" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <path d="M-80 -80 Q-79.2 -68.7 -78.8 -66.35 Q-78.4 -64 -77.6 -60.65 Q-76.8 -57.3 -75.2 -52.6 Q-73.6 -47.9 -70.75 -42 Q-67.9 -36.1 -63.5 -29.15 Q-59.1 -22.2 -52.65 -14.345 Q-46.2 -6.49 -37.35 2.105 Q-28.5 10.7 -16.46 20.35 Q-4.42 30 11.64 40.65 Q27.7 51.3 48.6 63 Q69.5 74.7 80 80" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-80,90 -88,68 -72,68 -80,90" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-80,-88 -80,68" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(28,-28) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="38.4" fill="#3C3489">sqrt</text></g>
+  </g>
+</svg>

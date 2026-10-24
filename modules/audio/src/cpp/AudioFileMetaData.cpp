@@ -19,6 +19,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include <filesystem>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,15 +41,14 @@ revertFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix
 static bool
 openAudioFile(const std::wstring& filename, TagLib::FileRef& f, std::wstring& errorMessage)
 {
-    // Check if file exists
     if (!std::filesystem::exists(filename)) {
-        errorMessage = _W("File not found.");
+        errorMessage = resolveMessageTemplate(L"Nelson:audio:fileFound", L"File not found.");
         return false;
     }
 
-    // Check if file is readable
     if (!std::filesystem::is_regular_file(filename)) {
-        errorMessage = _W("Invalid file path.");
+        errorMessage
+            = resolveMessageTemplate(L"Nelson:audio:invalidFilePath", L"Invalid file path.");
         return false;
     }
 
@@ -59,12 +59,15 @@ openAudioFile(const std::wstring& filename, TagLib::FileRef& f, std::wstring& er
 #endif
 
     if (f.isNull()) {
-        errorMessage = _W("Unsupported audio format or corrupted file.");
+        errorMessage
+            = Nelson::resolveMessageTemplate(L"Nelson:audio:unsupportedAudioFormatCorrupted",
+                L"Unsupported audio format or corrupted file.");
         return false;
     }
 
     if (!f.tag()) {
-        errorMessage = _W("No tags available in this audio file.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:audio:tagsAvailableAudioFile", L"No tags available in this audio file.");
         return false;
     }
 
@@ -104,7 +107,8 @@ AudioFileMetaData(const std::wstring& filename, wstringVector& fieldnames,
     }
     return true;
 #else
-    errorMessage = _W("Taglib not available.");
+    errorMessage
+        = Nelson::resolveMessageTemplate(L"Nelson:audio:taglibAvailable", L"Taglib not available.");
     return false;
 #endif
 }
@@ -116,7 +120,8 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
     errorMessage.clear();
 #if WITH_TAGLIB
     if (fieldnames.size() != fieldvalues.size()) {
-        errorMessage = _W("Field names and values size mismatch.");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:audio:fieldNamesSizeMismatch", L"Field names and values size mismatch.");
         return false;
     }
 
@@ -143,10 +148,12 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
     if (f.save()) {
         return true;
     }
-    errorMessage = _W("Cannot save file.");
+    errorMessage
+        = Nelson::resolveMessageTemplate(L"Nelson:audio:cannotSaveFile", L"Cannot save file.");
     return false;
 #else
-    errorMessage = _W("Taglib not available.");
+    errorMessage
+        = Nelson::resolveMessageTemplate(L"Nelson:audio:taglibAvailable", L"Taglib not available.");
     return false;
 #endif
 }
@@ -175,13 +182,16 @@ deleteAudioFileMetaData(
         if (f.save()) {
             return true;
         }
-        errorMessage = _W("Cannot save file.");
+        errorMessage
+            = Nelson::resolveMessageTemplate(L"Nelson:audio:cannotSaveFile", L"Cannot save file.");
         return false;
     }
-    errorMessage = _W("Field not found in metadata.");
+    errorMessage = resolveMessageTemplate(
+        L"Nelson:audio:fieldFoundMetadata", L"Field not found in metadata.");
     return false;
 #else
-    errorMessage = _W("Taglib not available.");
+    errorMessage
+        = Nelson::resolveMessageTemplate(L"Nelson:audio:taglibAvailable", L"Taglib not available.");
     return false;
 #endif
 }

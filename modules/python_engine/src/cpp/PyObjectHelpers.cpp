@@ -14,6 +14,7 @@
 #include "PyObjectHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PythonEngine.hpp"
 //=============================================================================
@@ -131,13 +132,13 @@ getPyObjectMethods(PyObject* po, bool withUnderscoreMethods)
                     bool callable = method && NLSPyCallable_Check(method);
                     NLSPy_XDECREF(method);
                     if (callable) {
-                        std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind('_', 0) == 0);
+                        std::string attributeName = std::string(attr_name);
+                        bool startWithUnderscore = (attributeName.rfind('_', 0) == 0);
                         if (withUnderscoreMethods) {
-                            methodNames.push_back(utf8_to_wstring(attributName));
+                            methodNames.push_back(utf8_to_wstring(attributeName));
                         } else {
                             if (!startWithUnderscore) {
-                                methodNames.push_back(utf8_to_wstring(attributName));
+                                methodNames.push_back(utf8_to_wstring(attributeName));
                             }
                         }
                     }
@@ -166,13 +167,13 @@ getPyObjectProperties(PyObject* po, bool withUnderscoreMethods)
                     bool callable = method && NLSPyCallable_Check(method);
                     NLSPy_XDECREF(method);
                     if (!callable) {
-                        std::string attributName = std::string(attr_name);
-                        bool startWithUnderscore = (attributName.rfind("__", 0) == 0);
+                        std::string attributeName = std::string(attr_name);
+                        bool startWithUnderscore = (attributeName.rfind("__", 0) == 0);
                         if (withUnderscoreMethods) {
-                            propertiesNames.push_back(utf8_to_wstring(attributName));
+                            propertiesNames.push_back(utf8_to_wstring(attributeName));
                         } else {
                             if (!startWithUnderscore) {
-                                propertiesNames.push_back(utf8_to_wstring(attributName));
+                                propertiesNames.push_back(utf8_to_wstring(attributeName));
                             }
                         }
                     }
@@ -326,9 +327,11 @@ PyGetHashValue(PyObject* pyObject)
     PyObject* method = NLSPyObject_GetAttrString(pyObject, "__hash__");
     if (!method || !NLSPyCallable_Check(method)) {
         NLSPy_XDECREF(method);
-        std::wstring errorMessage
-            = fmt::format(_W("TypeError: unhashable type: '{0}'"), TypeName(pyObject));
-        Error(errorMessage, L"Nelson:Python:PyException");
+        std::wstring errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:python_engine:typeerrorUnhashableType",
+                L"TypeError: unhashable type: '%s'"),
+            TypeName(pyObject));
+        Error(L"Nelson:Python:PyException", errorMessage);
     }
 
     PyObject* pyObjectResult = NLSPyObject_CallNoArgs(method);
@@ -342,23 +345,25 @@ PyGetHashValue(PyObject* pyObject)
         }
         NLSPy_DECREF(pyObjectResult);
         if (NLSPyErr_Occurred()) {
-            std::wstring errorMessage = _W("Error calling method.");
+            std::wstring errorMessage = resolveMessageTemplate(
+                L"Nelson:python_engine:errorCallingMethod", L"Error calling method.");
             NLSPyErr_Print();
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
-            Error(errorMessage, L"Nelson:Python:PyException");
+            Error(L"Nelson:Python:PyException", errorMessage);
         }
     } else {
-        std::wstring errorMessage = _W("Error calling method.");
+        std::wstring errorMessage = resolveMessageTemplate(
+            L"Nelson:python_engine:errorCallingMethod", L"Error calling method.");
         if (NLSPyErr_Occurred()) {
             NLSPyErr_Print();
             errorMessage = getPythonStandardError();
             NLSPyErr_Clear();
         }
-        Error(errorMessage, L"Nelson:Python:PyException");
+        Error(L"Nelson:Python:PyException", errorMessage);
     }
     return hashValue;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

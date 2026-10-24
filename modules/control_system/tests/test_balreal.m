@@ -10,39 +10,39 @@
 sys = ss([-1, 0; 0.1, -3], [1, 0]', [0, 1], 0);
 [sysb, g, T, Ti] = balreal(sys);
 
-A_REF = [-0.4881   -1.1339;  1.1339   -3.5119];
-B_REF = [0.1375;   -0.1375];
-C_REF = [0.1375    0.1375];
+A_REF = [-0.4881 -1.1339; 1.1339 -3.5119];
+B_REF = [0.1375; -0.1375];
+C_REF = [0.1375 0.1375];
 D_REF = 0;
 T_REF = 0;
 
-assert_isapprox(sysb.A, A_REF, 1e-4);
-assert_isapprox(sysb.B, B_REF, 1e-3);
-assert_isapprox(sysb.C, C_REF, 1e-3);
-assert_isapprox(sysb.D, D_REF, 1e-4);
-assert_isapprox(sysb.Ts, T_REF, 1e-4);
+asserts.isapprox(sysb.A, A_REF, 1e-4);
+asserts.isapprox(sysb.B, B_REF, 1e-3);
+asserts.isapprox(sysb.C, C_REF, 1e-3);
+asserts.isapprox(sysb.D, D_REF, 1e-4);
+asserts.isapprox(sysb.Ts, T_REF, 1e-4);
 
 g_REF = [0.0194; 0.0027];
-T_REF = [0.1375    2.2624; -0.1375    5.0118];
-Ti_REF = [5.0118   -2.2624; 0.1375    0.1375];
+T_REF = [0.1375 2.2624; -0.1375 5.0118];
+Ti_REF = [5.0118 -2.2624; 0.1375 0.1375];
 
-assert_isapprox(g, g_REF, 1e-2);
-assert_isapprox(T, T_REF, 1e-2);
-assert_isapprox(Ti, Ti_REF, 1e-2);
+asserts.isapprox(g, g_REF, 1e-2);
+asserts.isapprox(T, T_REF, 1e-2);
+asserts.isapprox(Ti, Ti_REF, 1e-2);
 %=============================================================================
-A = [-1     0     0     0     0;
-      0    -2     0     0     0;
-      0     0    -3     0     0;
-      0     0     0    -4     0;
-      0     0     0     0    -5];
+A = [-1 0 0 0 0;
+      0 -2 0 0 0;
+      0 0 -3 0 0;
+      0 0 0 -4 0;
+      0 0 0 0 -5];
 
-B = [0.9593    0.8407;
-     0.5472    0.2543;
-     0.1386    0.8143;
-     0.1493    0.2435;
-     0.2575    0.9293];
+B = [0.9593 0.8407;
+     0.5472 0.2543;
+     0.1386 0.8143;
+     0.1493 0.2435;
+     0.2575 0.9293];
 
-C = [0.3500    0.1966    0.2511    0.6160    0.4733];
+C = [0.3500 0.1966 0.2511 0.6160 0.4733];
 
 D = [0 0];
 

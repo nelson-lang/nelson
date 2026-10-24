@@ -21,6 +21,5 @@ refreshFigure(go_handle go);
 NLSGRAPHICS_IMPEXP void
 refreshFigure(GOFigure* fig);
 //=============================================================================
-
-}
+} // namespace Nelson
 //=============================================================================

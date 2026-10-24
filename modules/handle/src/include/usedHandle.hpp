@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSHANDLE_IMPEXP ArrayOf
 usedHandle(const std::string& category);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

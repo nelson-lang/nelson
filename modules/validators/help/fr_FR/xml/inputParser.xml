@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>inputParser</keyword>
+  <short_description>Analyse et verifie les entrees de fonction.</short_description>
+  <syntax>
+    <syntax_item>p = inputParser()</syntax_item>
+    <syntax_item>addRequired(p, name)</syntax_item>
+    <syntax_item>addRequired(p, name, validator)</syntax_item>
+    <syntax_item>addOptional(p, name, defaultValue)</syntax_item>
+    <syntax_item>addOptional(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>addParameter(p, name, defaultValue)</syntax_item>
+    <syntax_item>addParameter(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>addParamValue(p, name, defaultValue)</syntax_item>
+    <syntax_item>addParamValue(p, name, defaultValue, validator)</syntax_item>
+    <syntax_item>parse(p, varargin{:})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>identifiant valide utilise comme nom de champ dans les resultats de l'analyseur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>defaultValue</param_name>
+      <param_description>valeur utilisee lorsqu'une entree optionnelle ou un parametre est absent.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>validator</param_name>
+      <param_description>fonction appelee avec la valeur candidate. Elle peut renvoyer un scalaire logique ou emettre une erreur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varargin</param_name>
+      <param_description>entrees a analyser. Les entrees positionnelles sont associees d'abord, puis les entrees nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>objet handle qui stocke le schema d'entrees et le resultat de l'analyse.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>inputParser</b> definit des entrees requises, optionnelles et nom-valeur, puis stocke les valeurs analysees dans <b>Results</b>.</p>
+    <p>Le schema est defini avec <b>addRequired</b>, <b>addOptional</b>, <b>addParameter</b> et <b>addParamValue</b>. <b>addParamValue</b> est accepte comme alias de compatibilite pour <b>addParameter</b>.</p>
+    <p>Le schema peut etre construit dans n'importe quel ordre, mais <b>parse</b> consomme d'abord les entrees positionnelles requises, ensuite les entrees positionnelles optionnelles, puis les entrees nom-valeur.</p>
+    <p>Une entree requise doit etre presente. Une entree optionnelle est consommee lorsque la prochaine valeur positionnelle satisfait son validateur et n'est pas reconnue comme nom de parametre. Les parametres sont fournis sous forme de paires nom-valeur.</p>
+    <p>Si un parametre nom-valeur est fourni plusieurs fois, la derniere valeur fournie est conservee dans <b>Results</b>.</p>
+    <p>Les proprietes modifiables sont :</p>
+    <p><b>FunctionName</b> : texte ajoute au debut des messages d'erreur de l'analyseur.</p>
+    <p><b>CaseSensitive</b> : si cette propriete vaut false, les noms de parametres sont compares sans tenir compte de la casse. La valeur par defaut est false.</p>
+    <p><b>KeepUnmatched</b> : si cette propriete vaut true, les paires nom-valeur non reconnues sont stockees dans <b>Unmatched</b>. La valeur par defaut est false.</p>
+    <p><b>PartialMatching</b> : si cette propriete vaut true, un prefixe unique de nom de parametre est accepte. La valeur par defaut est true.</p>
+    <p><b>StructExpand</b> : si cette propriete vaut true et que <b>parse</b> recoit une seule structure scalaire, les champs de la structure sont traites comme des paires nom-valeur. La valeur par defaut est true.</p>
+    <p>Les proprietes en lecture seule sont :</p>
+    <p><b>Parameters</b> : noms ajoutes a l'analyseur dans l'ordre de declaration.</p>
+    <p><b>Results</b> : structure scalaire contenant les valeurs analysees et les valeurs par defaut.</p>
+    <p><b>Unmatched</b> : structure scalaire contenant les paires nom-valeur non reconnues lorsque <b>KeepUnmatched</b> vaut true.</p>
+    <p><b>UsingDefaults</b> : cellule de noms d'entrees optionnelles et de parametres pour lesquels la valeur par defaut a ete utilisee.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Entree requise et parametre nom-valeur.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+addRequired(p, 'width', @(x) isnumeric(x) && isscalar(x));
+addParameter(p, 'units', 'm', @(x) ischar(x) || isstring(x));
+parse(p, 10, 'units', 'cm');
+p.Results]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Entree optionnelle, valeurs par defaut et derniere valeur nom-valeur prioritaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+addRequired(p, 'name', @(x) ischar(x) || isstring(x));
+addOptional(p, 'count', 1, @(x) isnumeric(x) && isscalar(x) && x > 0);
+addParameter(p, 'mode', 'fast', @(x) validatestring(x, {'fast', 'slow'}));
+parse(p, 'job', 'mode', 'slow', 'mode', 'fast');
+p.Results
+p.UsingDefaults]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Expansion de structure avec champs non reconnus conserves.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = inputParser();
+p.KeepUnmatched = true;
+addParameter(p, 'width', 1, @(x) isnumeric(x) && isscalar(x));
+addParameter(p, 'height', 1, @(x) isnumeric(x) && isscalar(x));
+opts.width = 10;
+opts.height = 5;
+opts.color = 'blue';
+parse(p, opts);
+p.Results
+p.Unmatched]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}validateattributes">validateattributes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}validatestring">validatestring</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

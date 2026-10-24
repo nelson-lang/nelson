@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('strings'), -1);
-assert_isequal(nargout('string'), 1);
+asserts.isequal(nargin('strings'), -1);
+asserts.isequal(nargout('string'), 1);
 %=============================================================================
 R = strings();
 REF = "";
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = strings(3, 2);
 REF = ["", ""; "", ""; "", ""];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = strings([3, 2]);
 REF = ["", ""; "", ""; "", ""];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

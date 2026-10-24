@@ -9,12 +9,25 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/vector.hpp>
 #include "nlsStream_manager_exports.h"
 #include "ArrayOf.hpp"
+#include "BinaryStream.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// A function_handle stores its definition behind a raw pointer, which is
+// meaningless in another process. To serialize one, a consumer registers an
+// encoder that turns it into a plain class array tagged with this marker, and a
+// decoder that rebuilds it. The walker applies them recursively so handles
+// nested inside cells/structs are handled too.
+#define NLS_FUNCTION_HANDLE_SERIALIZATION_MARKER "__nls_function_handle__"
+//=============================================================================
+using FunctionHandleSerializationEncoder = ArrayOf (*)(const ArrayOf&);
+using FunctionHandleSerializationDecoder = ArrayOf (*)(const ArrayOf&, bool&);
+//=============================================================================
+NLSSTREAM_MANAGER_IMPEXP void
+registerFunctionHandleSerializers(
+    FunctionHandleSerializationEncoder encoder, FunctionHandleSerializationDecoder decoder);
 //=============================================================================
 class NLSSTREAM_MANAGER_IMPEXP ArrayOfSerialization
 {
@@ -36,10 +49,17 @@ public:
     bool
     isFullySerialized();
     //=============================================================================
+    void
+    write(BinaryWriter& writer) const;
+    //=============================================================================
+    bool
+    read(BinaryReader& reader);
+    //=============================================================================
 private:
     bool fullySerialized;
     int nelsonObjectClass;
     bool isSparse;
+    std::string classTypeName;
     std::vector<indexType> dims;
     std::vector<std::string> fieldnames;
     std::vector<int8> asInt8;
@@ -57,73 +77,7 @@ private:
     std::vector<uint64> I;
     std::vector<uint64> J;
     std::vector<ArrayOfSerialization> subArrayOf;
-    //=============================================================================
-    friend class boost::serialization::access;
-    //=============================================================================
-    template <class Archive>
-    void
-    serialize(Archive& ar, const unsigned int version)
-    {
-        ar & fullySerialized;
-        ar & nelsonObjectClass;
-        ar & isSparse;
-        ar & dims;
-        ar & fieldnames;
-        if (isSparse) {
-            ar & I;
-            ar & J;
-            ar & nzmax;
-        }
-        switch ((NelsonType)nelsonObjectClass) {
-        case NLS_UNKNOWN:
-        case NLS_GO_HANDLE:
-        case NLS_HANDLE:
-        default: {
-        } break;
-        case NLS_CELL_ARRAY:
-        case NLS_STRUCT_ARRAY:
-        case NLS_STRING_ARRAY: {
-            ar & subArrayOf;
-        } break;
-        case NLS_LOGICAL:
-        case NLS_UINT8: {
-            ar & asUint8;
-        } break;
-        case NLS_INT8: {
-            ar & asInt8;
-        } break;
-        case NLS_UINT16: {
-            ar & asUint16;
-        } break;
-        case NLS_INT16: {
-            ar & asInt16;
-        } break;
-        case NLS_UINT32: {
-            ar & asUint32;
-        } break;
-        case NLS_INT32: {
-            ar & asInt32;
-        } break;
-        case NLS_UINT64: {
-            ar & asUint64;
-        } break;
-        case NLS_INT64: {
-            ar & asInt64;
-        } break;
-        case NLS_SCOMPLEX:
-        case NLS_SINGLE: {
-            ar & asSingle;
-        } break;
-        case NLS_DCOMPLEX:
-        case NLS_DOUBLE: {
-            ar & asDouble;
-        } break;
-        case NLS_CHAR: {
-            ar & asCharacter;
-        } break;
-        }
-    }
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,66 @@
+{
+  "version": 2,
+  "files": {
+    "include": [
+      "**/*.m",
+      "**/*.xml"
+    ],
+    "exclude": [
+      ".git",
+      "build",
+      "target",
+      "bin",
+      "x64",
+      "generated"
+    ]
+  },
+  "rules": {
+    "NLS0001": {
+      "level": "error"
+    },
+    "NLS0013": {
+      "level": "error"
+    },
+    "NLS0012": {
+      "level": "warning",
+      "options": {
+        "maxLineLength": 120
+      }
+    },
+    "NLS0014": {
+      "level": "warning",
+      "options": {
+        "warning": 10,
+        "error": 50
+      }
+    },
+    "NLS0015": {
+      "level": "warning",
+      "options": {
+        "warning": 10,
+        "error": 50
+      }
+    },
+    "NLS0020": {
+      "level": "warning",
+      "options": {
+        "maxFileLines": 900
+      }
+    },
+    "NLS0021": {
+      "level": "warning",
+      "options": {
+        "maxFunctionLines": 150
+      }
+    },
+    "NLS0022": {
+      "level": "warning"
+    },
+    "NLS0023": {
+      "level": "info"
+    }
+  },
+  "ci": {
+    "failOn": "warning"
+  }
+}

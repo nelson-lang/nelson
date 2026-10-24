@@ -14,6 +14,12 @@ for module_state = modules_list'
     run([nelsonroot(), '/modules/', module_state{1}{1}, '/loader.m']);
   end
 end
+if iswasm()
+  root_temp_dir = [nelsonroot(), '/temp'];
+  if ~isdir(root_temp_dir)
+    mkdir(root_temp_dir);
+  end
+end
 %==============================================================================
 if (isquietmode() == false)
   banner();

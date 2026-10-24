@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>enumeration</keyword>
+  <short_description>Renvoie les membres d&apos;une classe d&apos;enumeration classdef.</short_description>
+  <syntax>
+    <syntax_item>c = enumeration(obj)</syntax_item>
+    <syntax_item>c = enumeration(className)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet d&apos;enumeration classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe d&apos;enumeration sous forme de chaine</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>un tableau (cell) de chaines</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>enumeration</b> renvoie les membres publics declares par une classe d&apos;enumeration classdef.</p>
+    <p>Les membres d&apos;enumeration peuvent etre lus avec <b>ClassName.MemberName</b>.</p>
+    <p>Les membres d&apos;enumeration peuvent passer des arguments au constructeur ; les proprietes stockees initialisees par le constructeur sont copiees dans la valeur du membre.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister les membres d&apos;une enumeration.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_enumeration/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpColor.m'], ["classdef NelsonHelpColor"; "  enumeration"; "    Red"; "    Blue"; "  end"; "end"]);
+addpath(d);
+members = enumeration('NelsonHelpColor')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser des arguments de constructeur dans les membres d&apos;enumeration.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_enumeration_ctor/'];
+if ~isdir(d)
+  mkdir(d);
+end
+filewrite([d, '/NelsonHelpLevel.m'], ["classdef NelsonHelpLevel"; "  properties"; "    Code = 0"; "  end"; "  methods"; "    function obj = NelsonHelpLevel(code)"; "      if nargin > 0"; "        obj.Code = code;"; "      end"; "    end"; "  end"; "  enumeration"; "    Low(1)"; "    High(2)"; "  end"; "end"]);
+addpath(d);
+high = eval('NelsonHelpLevel.High');
+high.Code]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des enumerations classdef ajoute</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

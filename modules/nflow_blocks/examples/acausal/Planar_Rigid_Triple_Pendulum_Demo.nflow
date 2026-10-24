@@ -1,0 +1,368 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-25",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Runnable planar multibody demo stored as a native mechanical island: three uniform rigid rods are connected in series by frictionless revolute joints and released horizontally under gravity. Keeping the already-lowered island in the example avoids an interpreter-thread dependency when Run is pressed. The real-time XY Scope animates the end-point trajectory while the Scope overlays all three absolute rod angles.",
+  "name": "Planar Rigid Triple Pendulum",
+  "blocks": [
+    {
+      "id": "mechanism",
+      "type": "subsystem",
+      "inputs": 0,
+      "outputs": 5,
+      "params": {
+        "name": "Rigid triple pendulum",
+        "width": 240,
+        "height": 200,
+        "externalInputs": [],
+        "externalOutputs": [
+          {
+            "id": "outPhi1",
+            "name": "phi1"
+          },
+          {
+            "id": "outPhi2",
+            "name": "phi2"
+          },
+          {
+            "id": "outPhi3",
+            "name": "phi3"
+          },
+          {
+            "id": "outXTip",
+            "name": "xTip"
+          },
+          {
+            "id": "outYTip",
+            "name": "yTip"
+          }
+        ],
+        "subsystem": {
+          "blocks": [
+            {
+              "id": "island",
+              "type": "planarMechanicalIsland",
+              "inputs": 0,
+              "outputs": 5,
+              "params": {
+                "domain": "planar",
+                "bodies": 3,
+                "gravity": 9.81,
+                "baumgarte": 30,
+                "components": [
+                  {
+                    "kind": "body",
+                    "body": 0,
+                    "m": 1,
+                    "I": 0.08333333333333333,
+                    "x0": 0.5,
+                    "y0": 0,
+                    "phi0": 0,
+                    "vx0": 0,
+                    "vy0": 0,
+                    "w0": 0
+                  },
+                  {
+                    "kind": "body",
+                    "body": 1,
+                    "m": 1,
+                    "I": 0.08333333333333333,
+                    "x0": 1.5,
+                    "y0": 0,
+                    "phi0": 0,
+                    "vx0": 0,
+                    "vy0": 0,
+                    "w0": 0
+                  },
+                  {
+                    "kind": "body",
+                    "body": 2,
+                    "m": 1,
+                    "I": 0.08333333333333333,
+                    "x0": 2.5,
+                    "y0": 0,
+                    "phi0": 0,
+                    "vx0": 0,
+                    "vy0": 0,
+                    "w0": 0
+                  },
+                  {
+                    "body": 0,
+                    "ax": -0.5,
+                    "ay": 0,
+                    "body2": -1,
+                    "px": 0,
+                    "py": 0,
+                    "kind": "revolute"
+                  },
+                  {
+                    "body": 0,
+                    "ax": 0.5,
+                    "ay": 0,
+                    "body2": 1,
+                    "ax2": -0.5,
+                    "ay2": 0,
+                    "kind": "revolute"
+                  },
+                  {
+                    "body": 1,
+                    "ax": 0.5,
+                    "ay": 0,
+                    "body2": 2,
+                    "ax2": -0.5,
+                    "ay2": 0,
+                    "kind": "revolute"
+                  },
+                  {
+                    "body": 0,
+                    "ax": 0,
+                    "ay": 0,
+                    "outPort": 0,
+                    "kind": "positionSensorPhi"
+                  },
+                  {
+                    "body": 1,
+                    "ax": 0,
+                    "ay": 0,
+                    "outPort": 1,
+                    "kind": "positionSensorPhi"
+                  },
+                  {
+                    "body": 2,
+                    "ax": 0,
+                    "ay": 0,
+                    "outPort": 2,
+                    "kind": "positionSensorPhi"
+                  },
+                  {
+                    "body": 2,
+                    "ax": 0.5,
+                    "ay": 0,
+                    "outPort": 3,
+                    "kind": "framePositionX"
+                  },
+                  {
+                    "body": 2,
+                    "ax": 0.5,
+                    "ay": 0,
+                    "outPort": 4,
+                    "kind": "framePositionY"
+                  }
+                ]
+              },
+              "x": 120,
+              "y": 240,
+              "rotation": 0
+            },
+            {
+              "id": "outPhi1",
+              "type": "labelSink",
+              "inputs": 1,
+              "outputs": 1,
+              "params": {
+                "GotoTag": "phi1"
+              },
+              "x": 420,
+              "y": 80,
+              "rotation": 0
+            },
+            {
+              "id": "outPhi2",
+              "type": "labelSink",
+              "inputs": 1,
+              "outputs": 1,
+              "params": {
+                "GotoTag": "phi2"
+              },
+              "x": 420,
+              "y": 150,
+              "rotation": 0
+            },
+            {
+              "id": "outPhi3",
+              "type": "labelSink",
+              "inputs": 1,
+              "outputs": 1,
+              "params": {
+                "GotoTag": "phi3"
+              },
+              "x": 420,
+              "y": 220,
+              "rotation": 0
+            },
+            {
+              "id": "outXTip",
+              "type": "labelSink",
+              "inputs": 1,
+              "outputs": 1,
+              "params": {
+                "GotoTag": "xTip"
+              },
+              "x": 420,
+              "y": 290,
+              "rotation": 0
+            },
+            {
+              "id": "outYTip",
+              "type": "labelSink",
+              "inputs": 1,
+              "outputs": 1,
+              "params": {
+                "GotoTag": "yTip"
+              },
+              "x": 420,
+              "y": 330,
+              "rotation": 0
+            }
+          ],
+          "connections": [
+            {
+              "from": "island",
+              "to": "outPhi1",
+              "fromIndex": 0,
+              "toIndex": 0
+            },
+            {
+              "from": "island",
+              "to": "outPhi2",
+              "fromIndex": 1,
+              "toIndex": 0
+            },
+            {
+              "from": "island",
+              "to": "outPhi3",
+              "fromIndex": 2,
+              "toIndex": 0
+            },
+            {
+              "from": "island",
+              "to": "outXTip",
+              "fromIndex": 3,
+              "toIndex": 0
+            },
+            {
+              "from": "island",
+              "to": "outYTip",
+              "fromIndex": 4,
+              "toIndex": 0
+            }
+          ],
+          "externalInputs": [],
+          "externalOutputs": [
+            {
+              "id": "outPhi1",
+              "name": "phi1"
+            },
+            {
+              "id": "outPhi2",
+              "name": "phi2"
+            },
+            {
+              "id": "outPhi3",
+              "name": "phi3"
+            },
+            {
+              "id": "outXTip",
+              "name": "xTip"
+            },
+            {
+              "id": "outYTip",
+              "name": "yTip"
+            }
+          ]
+        }
+      },
+      "x": 360,
+      "y": 280,
+      "rotation": 0
+    },
+    {
+      "id": "description",
+      "type": "comment",
+      "x": 120,
+      "y": 80,
+      "rotation": 0,
+      "params": {
+        "CommentText": "Rigid triple pendulum\n3 rods: m = 1 kg, L = 1 m, I = 1/12 kg.m^2\n3 frictionless pivots, gravity = 9.81 m/s^2\nNative planar island, DAE solver",
+        "ShowBorder": true,
+        "width": 440,
+        "height": 150
+      }
+    },
+    {
+      "id": "angles",
+      "type": "scope",
+      "params": {
+        "Title": "Rigid-rod angles",
+        "TMin": 0,
+        "TMax": 6,
+        "YMin": "",
+        "YMax": "",
+        "width": 360,
+        "height": 250,
+        "ShowTickLabels": true
+      },
+      "x": 760,
+      "y": 170,
+      "rotation": 0
+    },
+    {
+      "id": "trajectory",
+      "type": "xyScope",
+      "params": {
+        "XMin": -3.2,
+        "XMax": 3.2,
+        "YMin": -3.2,
+        "YMax": 0.2,
+        "width": 360,
+        "height": 250,
+        "ShowTickLabels": true
+      },
+      "x": 760,
+      "y": 520,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    {
+      "from": "mechanism",
+      "to": "angles",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "mechanism",
+      "to": "angles",
+      "fromIndex": 1,
+      "toIndex": 1
+    },
+    {
+      "from": "mechanism",
+      "to": "angles",
+      "fromIndex": 2,
+      "toIndex": 2
+    },
+    {
+      "from": "mechanism",
+      "to": "trajectory",
+      "fromIndex": 3,
+      "toIndex": 0
+    },
+    {
+      "from": "mechanism",
+      "to": "trajectory",
+      "fromIndex": 4,
+      "toIndex": 1
+    }
+  ],
+  "solver": "dae",
+  "runtime": 6,
+  "sampleTime": 0.02,
+  "realTime": true,
+  "autoRoute": true
+}

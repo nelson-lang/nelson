@@ -12,7 +12,7 @@ function rotate3d(varargin)
   % rotate3d
   % rotate3d(fig, ...)
   % rotate3d(ax, ...)
-  
+
   narginchk(0, 2);
   if (nargin == 0)
     ax = gca();
@@ -40,7 +40,7 @@ function rotate3d(varargin)
     mustBeMember(tolower(option), {'on', 'off', 'toggle'}, optionPosition);
     __rotate3d__(ax, option);
   else
-    error(_('Wrong type for input arguments.'));
+    error('Nelson:graphics:wrongTypeForInput', 'Wrong type for input arguments.');
   end
 end
 %=============================================================================

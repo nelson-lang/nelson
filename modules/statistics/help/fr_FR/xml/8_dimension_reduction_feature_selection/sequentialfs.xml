@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sequentialfs</keyword>
+  <short_description>Selection sequentielle de variables avec un critere utilisateur.</short_description>
+  <syntax>
+    <syntax_item>tf = sequentialfs(fun, X, y)</syntax_item>
+    <syntax_item>tf = sequentialfs(fun, X1, ..., XN, Name, Value)</syntax_item>
+    <syntax_item>[tf, history] = sequentialfs(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>sequentialfs</b> selectionne des variables parmi les colonnes de la premiere entree de donnees avec une fonction critere fournie par l'utilisateur.</p>
+    <p>Les options supportees incluent CV, Direction, KeepIn, KeepOut, NFeatures, NullModel et Options. CV peut etre un entier positif, none ou resubstitution.</p>
+    <p>La structure history contient les champs In et Crit qui decrivent le masque de variables selectionnees et la valeur du critere a chaque etape.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 0 0; 2 0 1; 3 1 0; 4 1 1; 5 2 0; 6 2 1];
+y = X(:,1);
+fun = @(Xt,yt,Xv,yv) sum((yv - Xv(:,1)).^2);
+[tf, history] = sequentialfs(fun, X, y, 'CV', 'resubstitution', 'NFeatures', 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}relieff">relieff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}statset">statset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

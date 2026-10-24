@@ -18,10 +18,11 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QScrollBar>
-
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "QtTranslation.hpp"
 #include "QtVariablesEditor.h"
+#include "QtWaitCursor.hpp"
+#include "QtDockTitleBar.h"
 #include "WorkspaceBrowser.hpp"
 #include "VariableDoubleTableModel.h"
 #include "VariableSingleTableModel.h"
@@ -37,10 +38,35 @@
 #include "IsValidVariableName.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Nelson_VERSION.h"
+#include "NelsonSettingsScope.hpp"
 #include "EvaluateCommand.hpp"
 #include "KeyHash.hpp"
+#include "DefaultFont.hpp"
+#include "QStringConverter.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 const QString SETTING_VARIABLES_EDITOR_GEOMETRY = "ve_Geometry";
+//=============================================================================
+// Suffix appended to the tab title of variables which cannot be edited.
+static QString
+readOnlyTabSuffix()
+{
+    return QString(" ") + TR("(read-only)");
+}
+//=============================================================================
+// Monospaced font used by the read-only text views (module default font).
+static QFont
+defaultReadOnlyFont()
+{
+    std::wstring fontName = Nelson::getDefaultFontName();
+    if (fontName.empty()) {
+        fontName = L"Monospace";
+    }
+    QFont font(wstringToQString(fontName));
+    font.setStyleHint(QFont::Monospace);
+    font.setFixedPitch(true);
+    return font;
+}
 //=============================================================================
 QtVariablesEditor::QtVariablesEditor(QWidget* parent)
     : m_evaluator(nullptr), QDockWidget(TR("Variables Editor"), parent)
@@ -48,6 +74,7 @@ QtVariablesEditor::QtVariablesEditor(QWidget* parent)
     setObjectName("VariablesEditorDockWidget");
 
     setupUI();
+    setTitleBarWidget(new QtDockTitleBar(this, "ve"));
     hide();
 }
 //=============================================================================
@@ -66,18 +93,15 @@ QtVariablesEditor::setupUI()
     forceWindowsTitleBarToDark(this->winId());
 #endif
 
-    // Widget central pour le dock
     QWidget* centralWidget = new QWidget(this);
     QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
 
-    // Create toolbar
     m_toolBar = new QToolBar(TR("Variables Editor Toolbar"), centralWidget);
     m_toolBar->setIconSize(QSize(18, 18));
     m_toolBar->setMovable(false);
     m_toolBar->setFloatable(false);
     m_toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    // Create refresh action
     QString refreshIcon = wstringToQString(
         NelsonConfiguration::getInstance()->getNelsonRootDirectory() + L"/resources/refresh.svg");
     m_refreshAction = new QAction(TR("Refresh"), this);
@@ -100,36 +124,14 @@ QtVariablesEditor::setupUI()
     m_replaceByEmptyAction->setToolTip(TR("Replace selected items with missing values"));
     connect(m_replaceByEmptyAction, &QAction::triggered, this, &QtVariablesEditor::replaceByEmpty);
 
-    // Add actions to toolbar
-    m_toolBar->addAction(m_refreshAction);
-    m_toolBar->addAction(m_createVariableAction);
-
-    // Add toolbar to layout
-    mainLayout->addWidget(m_toolBar);
-
-    m_tabWidget = new QTabWidget(centralWidget);
-    m_tabWidget->setTabsClosable(true);
-    m_tabWidget->setMovable(true);
-    connect(m_tabWidget, &QTabWidget::tabCloseRequested, this, &QtVariablesEditor::closeTab);
-
-    mainLayout->addWidget(m_tabWidget);
-
-    m_sizeGrip = new QSizeGrip(centralWidget);
-    mainLayout->addWidget(m_sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
-
-    centralWidget->setLayout(mainLayout);
-    this->setWidget(centralWidget);
-    hide();
-
-    setFocusPolicy(Qt::StrongFocus);
-
-    // Copy & Paste actions
     m_copyAction = new QAction(TR("Copy"), this);
     m_copyAction->setShortcut(QKeySequence::Copy);
+    m_copyAction->setToolTip(TR("Copy selected cells"));
     connect(m_copyAction, &QAction::triggered, this, &QtVariablesEditor::copySelectedCells);
 
     m_pasteAction = new QAction(TR("Paste"), this);
     m_pasteAction->setShortcut(QKeySequence::Paste);
+    m_pasteAction->setToolTip(TR("Paste clipboard content"));
     connect(m_pasteAction, &QAction::triggered, this, &QtVariablesEditor::pasteDataFromClipboard);
 
     m_pasteExcelDataAction = new QAction(TR("Paste Excel Data"), this);
@@ -139,30 +141,138 @@ QtVariablesEditor::setupUI()
     connect(m_pasteExcelDataAction, &QAction::triggered, this,
         &QtVariablesEditor::pasteExcelDataFromClipboard);
 
-    // Handle docking location changes
-    connect(this, &QDockWidget::dockLocationChanged, this,
-        &QtVariablesEditor::handleDockLocationChanged);
-
     m_undoAction = new QAction(TR("Undo"), this);
     m_undoAction->setShortcut(QKeySequence::Undo);
+    m_undoAction->setToolTip(TR("Undo last change"));
     connect(m_undoAction, &QAction::triggered, this, &QtVariablesEditor::undo);
 
     m_redoAction = new QAction(TR("Redo"), this);
     m_redoAction->setShortcut(QKeySequence::Redo);
+    m_redoAction->setToolTip(TR("Redo last undone change"));
     connect(m_redoAction, &QAction::triggered, this, &QtVariablesEditor::redo);
+
+    // Table edition actions shared by every tab (created once to avoid leaking
+    // a new set of QAction for each opened variable).
+    m_insertRowAboveAction = new QAction(TR("Insert Row Above"), this);
+    m_insertRowBelowAction = new QAction(TR("Insert Row Below"), this);
+    m_insertColLeftAction = new QAction(TR("Insert Column Left"), this);
+    m_insertColRightAction = new QAction(TR("Insert Column Right"), this);
+    m_deleteRowAction = new QAction(TR("Delete Row"), this);
+    m_deleteColAction = new QAction(TR("Delete Column"), this);
+
+    connect(m_insertRowAboveAction, &QAction::triggered, this, &QtVariablesEditor::insertRowAbove);
+    connect(m_insertRowBelowAction, &QAction::triggered, this, &QtVariablesEditor::insertRowBelow);
+    connect(m_insertColLeftAction, &QAction::triggered, this, &QtVariablesEditor::insertColumnLeft);
+    connect(
+        m_insertColRightAction, &QAction::triggered, this, &QtVariablesEditor::insertColumnRight);
+    connect(m_deleteRowAction, &QAction::triggered, this, &QtVariablesEditor::deleteRow);
+    connect(m_deleteColAction, &QAction::triggered, this, &QtVariablesEditor::deleteColumn);
+
+    m_toolBar->addAction(m_refreshAction);
+    m_toolBar->addAction(m_createVariableAction);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_copyAction);
+    m_toolBar->addAction(m_pasteAction);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_undoAction);
+    m_toolBar->addAction(m_redoAction);
+
+    mainLayout->addWidget(m_toolBar);
+
+    m_tabWidget = new QTabWidget(centralWidget);
+    m_tabWidget->setTabsClosable(true);
+    m_tabWidget->setMovable(true);
+    connect(m_tabWidget, &QTabWidget::tabCloseRequested, this, &QtVariablesEditor::closeTab);
+    connect(
+        m_tabWidget, &QTabWidget::currentChanged, this, [this](int) { this->updateEditActions(); });
+
+    mainLayout->addWidget(m_tabWidget);
+
+    m_statusBar = new QStatusBar(centralWidget);
+    m_statusBar->setSizeGripEnabled(false);
+    mainLayout->addWidget(m_statusBar);
+
+    centralWidget->setLayout(mainLayout);
+    this->setWidget(centralWidget);
+    hide();
+
+    setFocusPolicy(Qt::StrongFocus);
+
+    updateEditActions();
+}
+//=============================================================================
+void
+QtVariablesEditor::updateEditActions()
+{
+    VariableAbstractTableModel* model = nullptr;
+    QWidget* currentWidget = m_tabWidget ? m_tabWidget->currentWidget() : nullptr;
+    QTableView* tableView = qobject_cast<QTableView*>(currentWidget);
+    if (tableView) {
+        model = qobject_cast<VariableAbstractTableModel*>(tableView->model());
+    }
+
+    if (m_undoAction) {
+        m_undoAction->setEnabled(model ? model->canUndo() : false);
+    }
+    if (m_redoAction) {
+        m_redoAction->setEnabled(model ? model->canRedo() : false);
+    }
+    if (m_copyAction) {
+        m_copyAction->setEnabled(model != nullptr);
+    }
+    if (m_pasteAction) {
+        m_pasteAction->setEnabled(model != nullptr);
+    }
+}
+//=============================================================================
+void
+QtVariablesEditor::showStatusMessage(const QString& message, bool isError)
+{
+    if (message.isEmpty()) {
+        return;
+    }
+    if (m_statusBar) {
+        m_statusBar->showMessage(message, isError ? 10000 : 5000);
+        return;
+    }
+    // No status bar available: fall back to a modal notification.
+    if (isError) {
+        QMessageBox::warning(this, TR("Variables Editor"), message);
+    } else {
+        QMessageBox::information(this, TR("Variables Editor"), message);
+    }
+}
+//=============================================================================
+void
+QtVariablesEditor::connectModelSignals(QObject* model)
+{
+    if (!model) {
+        return;
+    }
+    // All variable models declare the same errorOccurred(QString) signal but do
+    // not share it through a common base class: use the runtime connection.
+    const auto connectionType
+        = static_cast<Qt::ConnectionType>(Qt::AutoConnection | Qt::UniqueConnection);
+    if (model->metaObject()->indexOfSignal("errorOccurred(QString)") >= 0) {
+        connect(model, SIGNAL(errorOccurred(QString)), this, SLOT(onModelError(QString)),
+            connectionType);
+    }
+    if (model->metaObject()->indexOfSignal("modelChanged()") >= 0) {
+        connect(model, SIGNAL(modelChanged()), this, SLOT(updateEditActions()), connectionType);
+    }
 }
 //=============================================================================
 void
 QtVariablesEditor::restorePosition()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     restoreGeometry(settings.value(SETTING_VARIABLES_EDITOR_GEOMETRY).toByteArray());
 }
 //=============================================================================
 void
 QtVariablesEditor::savePosition()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     settings.setValue(SETTING_VARIABLES_EDITOR_GEOMETRY, saveGeometry());
 }
 //=============================================================================
@@ -182,7 +292,7 @@ QtVariablesEditor::updateVariables()
         const std::string variableNameUtf8 = wstring_to_utf8(QStringTowstring(variableName));
 
         ArrayOf currentValue;
-        bool found = m_evaluator->getContext()->getBaseScope()->lookupVariable(
+        bool found = m_evaluator->getContext()->getCurrentScope()->lookupVariable(
             variableNameUtf8, currentValue);
 
         if (!found) {
@@ -229,55 +339,120 @@ QtVariablesEditor::updateVariables()
 }
 //=============================================================================
 bool
+QtVariablesEditor::isVariableExisting(const QString& variableName) const
+{
+    if (!m_evaluator || !m_evaluator->getContext() || variableName.isEmpty()) {
+        return false;
+    }
+    ArrayOf value;
+    return m_evaluator->getContext()->getCurrentScope()->lookupVariable(
+        wstring_to_utf8(QStringTowstring(variableName)), value);
+}
+//=============================================================================
+bool
+QtVariablesEditor::isGraphicsObjectExisting(long long handle) const
+{
+    if (!m_evaluator || !m_evaluator->getContext()) {
+        return false;
+    }
+    FunctionDefPtr functionDef = nullptr;
+    if (!m_evaluator->getContext()->lookupFunction("isgraphics", functionDef) || !functionDef) {
+        return false;
+    }
+    ArrayOfVector inputs;
+    inputs << ArrayOf::graphicsObject(static_cast<go_handle>(handle));
+    ArrayOfVector outputs = functionDef->evaluateFunction(m_evaluator, inputs, 1);
+    if (outputs.empty() || !outputs[0].isLogical()) {
+        return false;
+    }
+    return outputs[0].asLogicalScalar();
+}
+//=============================================================================
+bool
 QtVariablesEditor::openVariable(const QString& variableName)
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    restorePosition();
-    setVisible(true);
+    if (!m_evaluator || !m_evaluator->getContext()) {
+        return false;
+    }
 
     ArrayOf value;
-    bool found = m_evaluator->getContext()->getBaseScope()->lookupVariable(
-        wstring_to_utf8(QStringTowstring(variableName)), value);
+    const std::string variableNameUtf8 = wstring_to_utf8(QStringTowstring(variableName));
+    // look the variable up in the scope the user is actually in: openvar() is
+    // callable from a script or from a function being debugged, where the
+    // variable does not live in the base scope.
+    bool found
+        = m_evaluator->getContext()->getCurrentScope()->lookupVariable(variableNameUtf8, value);
+    if (!found) {
+        found = m_evaluator->getContext()->getBaseScope()->lookupVariable(variableNameUtf8, value);
+    }
 
     bool containsVariable = m_openedVariables.contains(variableName);
 
-    if (!found && containsVariable) {
-        closeVariableTab(variableName);
-        QApplication::restoreOverrideCursor();
-        return true;
+    if (!found) {
+        if (containsVariable) {
+            closeVariableTab(variableName);
+            return true;
+        }
+        // never a modal box here: openvar() is a scriptable builtin and a modal
+        // dialog would block any non interactive run.
+        showStatusMessage(wstringToQString(Nelson::resolveMessageTemplate(
+                                               L"Nelson:gui:variableDoesExistWorkspace",
+                                               L"Variable '%1' does not exist in the workspace."))
+                              .arg(variableName),
+            true);
+        return false;
     }
+
+    if (!containsVariable) {
+        // Each displayed cell costs a QVariant: warn, but never block waiting
+        // for an answer, for the same reason as above.
+        constexpr double LARGE_VARIABLE_ELEMENT_COUNT = 1.0e6;
+        const double elementCount = static_cast<double>(value.elementCount());
+        if (elementCount > LARGE_VARIABLE_ELEMENT_COUNT) {
+            showStatusMessage(TR("Variable '%1' has %2 elements, displaying it may take a while.")
+                                  .arg(variableName)
+                                  .arg(elementCount, 0, 'f', 0),
+                true);
+        }
+    }
+
+    Nelson::setApplicationWaitCursor();
+    restorePosition();
+    setVisible(true);
 
     if (containsVariable) {
         m_tabWidget->setCurrentWidget(m_openedVariables[variableName]);
-        QTableView* tableView = (QTableView*)(m_tabWidget->currentWidget());
+        QTableView* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
         VariableAbstractTableModel* model
-            = qobject_cast<VariableAbstractTableModel*>(tableView->model());
+            = tableView ? qobject_cast<VariableAbstractTableModel*>(tableView->model()) : nullptr;
         if (model) {
             size_t hash1 = KeyHash(m_evaluator, model->array());
             size_t hash2 = KeyHash(m_evaluator, value);
-            if (hash1 == hash2) {
-                QApplication::restoreOverrideCursor();
-                return true;
+            if (hash1 != hash2) {
+                refreshCurrentVariable();
             }
-            refreshCurrentVariable();
-            QApplication::restoreOverrideCursor();
+            updateEditActions();
+            Nelson::restoreApplicationWaitCursor();
             return true;
         }
-        QApplication::restoreOverrideCursor();
-        return false;
+        refreshVariable(variableName);
+        updateEditActions();
+        Nelson::restoreApplicationWaitCursor();
+        return true;
     }
 
     QWidget* viewWidget = nullptr;
 
-    NelsonType variableType = value.getDataClass();
+    NelsonType variableType = value.dataClass();
     if (value.isSparse() || !value.is2D()) {
         variableType = NLS_UNKNOWN;
     }
 
     QString tabTitle = variableName;
     switch (variableType) {
+    case NLS_CLASSDEF_ARRAY:
     case NLS_CLASS_ARRAY: {
-        if (value.getClassType() == NLS_TABLE_TYPE) {
+        if (value.isTable()) {
             QTableView* tableView = new QTableView();
             tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -288,6 +463,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
             VariableTableTableModel* model
                 = new VariableTableTableModel(variableName, value, m_evaluator, tableView);
             tableView->setModel(model);
+            connectModelSignals(model);
             connect(model, &VariableTableTableModel::modelChanged, this, [this, tableView]() {
                 VariableAbstractTableModel* model
                     = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -296,7 +472,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
                 }
             });
 
-            // Set up context menu for the table view
             createTableContextMenu(tableView);
             viewWidget = tableView;
             tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -358,16 +533,16 @@ QtVariablesEditor::openVariable(const QString& variableName)
             QtVariableTextEdit* textEdit = new QtVariableTextEdit(variableName, value, m_evaluator);
             textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             textEdit->setReadOnly(true);
-            textEdit->setFont(QFont("Courier", 10));
+            textEdit->setFont(defaultReadOnlyFont());
+            connectModelSignals(textEdit);
             createTextEditContextMenu(textEdit);
             viewWidget = textEdit;
             tabTitle += " [" + textEdit->getVariableClassAsString() + " "
-                + textEdit->getVariableDimensionsAsString() + "]";
+                + textEdit->getVariableDimensionsAsString() + "]" + readOnlyTabSuffix();
         }
 
     } break;
     case NLS_STRUCT_ARRAY: {
-        // Create table view for struct type
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -378,6 +553,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableStructTableModel* model
             = new VariableStructTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableStructTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -386,7 +562,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
             }
         });
 
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -396,7 +571,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         connect(tableView->horizontalHeader(), &QHeaderView::sectionDoubleClicked, this,
             [tableView](int logicalIndex) {
                 if (logicalIndex == 0) {
-                    return; // Skip the index column
+                    return;
                 }
 
                 auto* model = qobject_cast<VariableStructTableModel*>(tableView->model());
@@ -423,7 +598,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
     } break;
 
     case NLS_CELL_ARRAY: {
-        // Create table view for cell type
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -434,6 +608,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableCellTableModel* model
             = new VariableCellTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableCellTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -442,7 +617,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
             }
         });
 
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -452,7 +626,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
     } break;
 
     case NLS_STRING_ARRAY: {
-        // Create table view for string type
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -463,6 +636,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableStringTableModel* model
             = new VariableStringTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableStringTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -471,7 +645,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
             }
         });
 
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -480,7 +653,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
 
     } break;
     case NLS_LOGICAL: {
-        // Create table view for logical type
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -491,6 +663,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableLogicalTableModel* model
             = new VariableLogicalTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableLogicalTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -498,7 +671,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
                 this->updateTabTitle(model->variableName());
             }
         });
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -515,7 +687,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
     case NLS_UINT16:
     case NLS_UINT32:
     case NLS_UINT64: {
-        // Create table view for integer type
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -526,6 +697,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableIntegerTableModel* model
             = new VariableIntegerTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableIntegerTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -533,7 +705,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
                 this->updateTabTitle(model->variableName());
             }
         });
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -553,6 +724,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableSingleTableModel* model
             = new VariableSingleTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableSingleTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -561,7 +733,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
             }
         });
 
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -570,7 +741,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
     } break;
     case NLS_DOUBLE:
     case NLS_DCOMPLEX: {
-        // Create table view for double and double complex types
         QTableView* tableView = new QTableView();
         tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -581,6 +751,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
         VariableDoubleTableModel* model
             = new VariableDoubleTableModel(variableName, value, m_evaluator, tableView);
         tableView->setModel(model);
+        connectModelSignals(model);
         connect(model, &VariableDoubleTableModel::modelChanged, this, [this, tableView]() {
             VariableAbstractTableModel* model
                 = qobject_cast<VariableAbstractTableModel*>(tableView->model());
@@ -589,7 +760,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
             }
         });
 
-        // Set up context menu for the table view
         createTableContextMenu(tableView);
         viewWidget = tableView;
         tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -609,6 +779,7 @@ QtVariablesEditor::openVariable(const QString& variableName)
             VariableRowCharactersTableModel* model
                 = new VariableRowCharactersTableModel(variableName, value, m_evaluator, tableView);
             tableView->setModel(model);
+            connectModelSignals(model);
             connect(
                 model, &VariableRowCharactersTableModel::modelChanged, this, [this, tableView]() {
                     VariableAbstractTableModel* model
@@ -618,7 +789,6 @@ QtVariablesEditor::openVariable(const QString& variableName)
                     }
                 });
 
-            // Set up context menu for the table view
             createTableContextMenu(tableView);
             viewWidget = tableView;
             tabTitle += " [" + model->getVariableClassAsString() + " "
@@ -629,30 +799,33 @@ QtVariablesEditor::openVariable(const QString& variableName)
             QtVariableTextEdit* textEdit = new QtVariableTextEdit(variableName, value, m_evaluator);
             textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             textEdit->setReadOnly(true);
-            textEdit->setFont(QFont("Courier", 10));
+            textEdit->setFont(defaultReadOnlyFont());
+            connectModelSignals(textEdit);
             createTextEditContextMenu(textEdit);
             viewWidget = textEdit;
             tabTitle += " [" + textEdit->getVariableClassAsString() + " "
-                + textEdit->getVariableDimensionsAsString() + "]";
+                + textEdit->getVariableDimensionsAsString() + "]" + readOnlyTabSuffix();
         }
     } break;
     default: {
         QtVariableTextEdit* textEdit = new QtVariableTextEdit(variableName, value, m_evaluator);
         textEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         textEdit->setReadOnly(true);
-        textEdit->setFont(QFont("Courier", 10));
+        textEdit->setFont(defaultReadOnlyFont());
+        connectModelSignals(textEdit);
         createTextEditContextMenu(textEdit);
         viewWidget = textEdit;
         tabTitle += " [" + textEdit->getVariableClassAsString() + " "
-            + textEdit->getVariableDimensionsAsString() + "]";
+            + textEdit->getVariableDimensionsAsString() + "]" + readOnlyTabSuffix();
     } break;
     }
 
     m_tabWidget->addTab(viewWidget, tabTitle);
     m_tabWidget->setCurrentWidget(viewWidget);
     m_openedVariables.insert(variableName, viewWidget);
+    updateEditActions();
 
-    QApplication::restoreOverrideCursor();
+    Nelson::restoreApplicationWaitCursor();
     return true;
 }
 //=============================================================================
@@ -699,7 +872,6 @@ QtVariablesEditor::updateTabTitle(const QString& variableName)
 
     QWidget* widget = m_openedVariables[variableName];
 
-    // Find the tab index
     int tabIndex = -1;
     for (int i = 0; i < m_tabWidget->count(); ++i) {
         if (m_tabWidget->widget(i) == widget) {
@@ -727,6 +899,9 @@ QtVariablesEditor::updateTabTitle(const QString& variableName)
             if (model) {
                 newTabTitle = newTabTitle + " [" + model->getVariableClassAsString() + " "
                     + model->getVariableDimensionsAsString() + "]";
+                if (textEdit->isReadOnly()) {
+                    newTabTitle += readOnlyTabSuffix();
+                }
                 m_tabWidget->setTabText(tabIndex, newTabTitle);
             }
         }
@@ -741,7 +916,7 @@ QtVariablesEditor::refreshVariable(const QString& variableName)
     }
 
     ArrayOf value;
-    bool found = m_evaluator->getContext()->getBaseScope()->lookupVariable(
+    bool found = m_evaluator->getContext()->getCurrentScope()->lookupVariable(
         wstring_to_utf8(QStringTowstring(variableName)), value);
 
     if (!found) {
@@ -823,21 +998,22 @@ QtVariablesEditor::refreshVariable(const QString& variableName)
         } else if (value.isCell()) {
             newModel = createOrReuseModel(
                 new VariableCellTableModel(variableName, value, m_evaluator, tableView));
-        } else if (value.isClassType() && value.getClassType() == NLS_TABLE_TYPE) {
+        } else if (value.isTable()) {
             newModel = createOrReuseModel(
                 new VariableTableTableModel(variableName, value, m_evaluator, tableView));
         }
 
         if (newModel) {
             tableView->setModel(newModel);
+            connectModelSignals(newModel);
             delete currentModel;
         }
 
         updateTabTitle(variableName);
+        updateEditActions();
         return;
     }
 
-    // fallback
     closeVariableTab(variableName);
     openVariable(variableName);
 }
@@ -847,7 +1023,9 @@ QtVariablesEditor::createVariableFromSelection()
 {
     QTableView* currentTableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
     if (!currentTableView) {
-        QMessageBox::warning(this, TR("Create Variable"), TR("No table is currently active."));
+        QMessageBox::warning(this, TR("Create Variable"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:tableCurrentlyActive", L"No table is currently active.")));
         return;
     }
 
@@ -855,38 +1033,42 @@ QtVariablesEditor::createVariableFromSelection()
         = qobject_cast<VariableAbstractTableModel*>(currentTableView->model());
 
     if (!model) {
-        QMessageBox::warning(
-            this, TR("Create Variable"), TR("Current view does not support variable creation."));
+        QMessageBox::warning(this, TR("Create Variable"),
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:currentViewDoesSupport",
+                L"Current view does not support variable creation.")));
         return;
     }
 
     QModelIndexList selected = currentTableView->selectionModel()->selectedIndexes();
     if (!model->isValidSelectionForExtraction(selected)) {
-        QMessageBox::information(
-            this, TR("Create Variable"), TR("Invalid selection for variable creation."));
+        QMessageBox::information(this, TR("Create Variable"),
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:invalidSelectionVariableCreation",
+                    L"Invalid selection for variable creation.")));
         return;
     }
-    // Prompt for new variable name
     QString newVarName
         = QInputDialog::getText(this, TR("New Variable"), TR("Enter new variable name:"));
     if (newVarName.isEmpty() || !IsValidVariableName(QStringTowstring(newVarName))) {
-        QMessageBox::critical(this, TR("Error"), TR("Valid variable name expected."));
+        QMessageBox::critical(this, TR("Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:validVariableNameExpected", L"Valid variable name expected.")));
         return;
     }
 
-    // Create new variable using model
     ArrayOf newVar;
     if (model) {
         newVar = model->createArrayFromSelection(selected);
     }
     if (newVar.isEmpty()) {
-        QMessageBox::critical(this, TR("Error"), TR("Failed to create variable from selection."));
+        QMessageBox::critical(this, TR("Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:failedCreateVariableFrom",
+                L"Failed to create variable from selection.")));
         return;
     }
 
-    // Inject new variable into context
     if (m_evaluator && m_evaluator->getContext()) {
-        m_evaluator->getContext()->getBaseScope()->insertVariable(
+        m_evaluator->getContext()->getCurrentScope()->insertVariable(
             wstring_to_utf8(QStringTowstring(newVarName)), newVar);
         openVariable(newVarName);
         WorkspaceBrowser::updateWorkspaceBrowser();
@@ -922,7 +1104,6 @@ QtVariablesEditor::copySelectedCells()
 void
 QtVariablesEditor::pasteDataFromClipboard()
 {
-    // Get the current table view
     QTableView* currentTableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
     if (!currentTableView) {
         return;
@@ -940,10 +1121,8 @@ QtVariablesEditor::pasteDataFromClipboard()
         return;
     }
 
-    // Use a common interface or determine which model to use
     auto model = static_cast<QAbstractItemModel*>(modelAbstract);
 
-    // Check clipboard content
     QClipboard* clipboard = QApplication::clipboard();
     if (!clipboard) {
         return;
@@ -956,26 +1135,23 @@ QtVariablesEditor::pasteDataFromClipboard()
         return;
     }
 
-    // Get selection information
     QItemSelectionModel* selectionModel = currentTableView->selectionModel();
     if (!selectionModel) {
-        QMessageBox::warning(this, TR("Paste Error"), TR("No selection model available."));
+        QMessageBox::warning(this, TR("Paste Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:selectionModelAvailable", L"No selection model available.")));
         return;
     }
 
-    // Use the current/focused item as the paste position instead of selected items
     QModelIndex currentIndex = currentTableView->currentIndex();
     int startRow, startCol;
 
     if (currentIndex.isValid()) {
-        // Use the focused cell as the starting position
         startRow = currentIndex.row();
         startCol = currentIndex.column();
     } else {
-        // If no current index, check if we have any selection
         QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
         if (!selectedIndexes.isEmpty()) {
-            // Sort selected indexes to get the top-left corner
             std::sort(selectedIndexes.begin(), selectedIndexes.end(),
                 [](const QModelIndex& a, const QModelIndex& b) {
                     if (a.row() != b.row()) {
@@ -986,19 +1162,18 @@ QtVariablesEditor::pasteDataFromClipboard()
             startRow = selectedIndexes.first().row();
             startCol = selectedIndexes.first().column();
         } else {
-            // Default to top-left corner if nothing is selected or focused
             startRow = 0;
             startCol = 0;
         }
     }
 
-    // Validate paste position
     if (startRow < 0 || startCol < 0) {
-        QMessageBox::warning(this, TR("Paste Error"), TR("Invalid paste position."));
+        QMessageBox::warning(this, TR("Paste Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:invalidPastePosition", L"Invalid paste position.")));
         return;
     }
 
-    // Calculate the required size for the paste data
     QSize pasteSize;
     try {
         if (modelAbstract) {
@@ -1006,16 +1181,20 @@ QtVariablesEditor::pasteDataFromClipboard()
         }
     } catch (const std::exception& e) {
         QMessageBox::critical(this, TR("Paste Error"),
-            TR("Error analyzing clipboard data: %1").arg(QString::fromStdString(e.what())));
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:errorAnalyzingClipboardData",
+                    L"Error analyzing clipboard data: %1"))
+                .arg(QString::fromStdString(e.what())));
         return;
     }
 
     if (!pasteSize.isValid() || pasteSize.width() <= 0 || pasteSize.height() <= 0) {
-        QMessageBox::warning(this, TR("Paste Error"), TR("Invalid clipboard data format."));
+        QMessageBox::warning(this, TR("Paste Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:invalidClipboardDataFormat", L"Invalid clipboard data format.")));
         return;
     }
 
-    // Check if we need to extend the table and do so if necessary
     int currentRowCount = model->rowCount();
     int currentColCount = model->columnCount();
     int requiredRows = startRow + pasteSize.height();
@@ -1023,55 +1202,65 @@ QtVariablesEditor::pasteDataFromClipboard()
 
     bool needsExtension = false;
 
-    // Extend rows if necessary
     if (requiredRows > currentRowCount) {
         int rowsToAdd = requiredRows - currentRowCount;
         try {
             for (int i = 0; i < rowsToAdd; ++i) {
                 if (!modelAbstract->insertRowAt(currentRowCount + i)) {
                     QMessageBox::warning(this, TR("Paste Error"),
-                        TR("Failed to extend table rows. Paste may be incomplete."));
+                        wstringToQString(
+                            Nelson::resolveMessageTemplate(L"Nelson:gui:failedExtendTableRows",
+                                L"Failed to extend table rows. Paste may be incomplete.")));
                     break;
                 }
             }
             needsExtension = true;
         } catch (const std::exception& e) {
             QMessageBox::warning(this, TR("Paste Error"),
-                TR("Error extending table rows: %1").arg(QString::fromStdString(e.what())));
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(
+                        L"Nelson:gui:errorExtendingTableRows", L"Error extending table rows: %1"))
+                    .arg(QString::fromStdString(e.what())));
         } catch (...) {
             QMessageBox::warning(this, TR("Paste Error"),
-                TR("Cannot extend table rows. Paste area may extend beyond table boundaries."));
+                wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:cannotExtendTableRows",
+                    L"Cannot extend table rows. Paste area may extend beyond table boundaries.")));
         }
     }
 
-    // Extend columns if necessary
     if (requiredCols > currentColCount) {
         int colsToAdd = requiredCols - currentColCount;
         try {
             for (int i = 0; i < colsToAdd; ++i) {
                 if (!modelAbstract->insertColumnAt(currentColCount + i)) {
                     QMessageBox::warning(this, TR("Paste Error"),
-                        TR("Failed to extend table columns. Paste may be incomplete."));
+                        wstringToQString(
+                            Nelson::resolveMessageTemplate(L"Nelson:gui:failedExtendTableColumns",
+                                L"Failed to extend table columns. Paste may be incomplete.")));
                     break;
                 }
             }
             needsExtension = true;
         } catch (const std::exception& e) {
             QMessageBox::warning(this, TR("Paste Error"),
-                TR("Error extending table columns: %1").arg(QString::fromStdString(e.what())));
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(L"Nelson:gui:errorExtendingTableColumns",
+                        L"Error extending table columns: %1"))
+                    .arg(QString::fromStdString(e.what())));
         } catch (...) {
             QMessageBox::warning(this, TR("Paste Error"),
-                TR("Cannot extend table columns. Paste area may extend beyond table boundaries."));
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(L"Nelson:gui:cannotExtendTableColumns",
+                        L"Cannot extend table columns. Paste area may extend beyond table "
+                        L"boundaries.")));
         }
     }
 
-    // Refresh the model if we extended the table
     if (needsExtension) {
         currentTableView->reset();
         currentTableView->update();
     }
 
-    // Attempt to paste data
     bool pasteSuccess = false;
 
     try {
@@ -1080,22 +1269,22 @@ QtVariablesEditor::pasteDataFromClipboard()
         }
     } catch (const std::exception& e) {
         QMessageBox::critical(this, TR("Paste Error"),
-            TR("An error occurred while pasting: %1").arg(QString::fromStdString(e.what())));
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:errorOccurredWhilePasting",
+                                 L"An error occurred while pasting: %1"))
+                .arg(QString::fromStdString(e.what())));
         return;
     } catch (...) {
-        QMessageBox::critical(
-            this, TR("Paste Error"), TR("An unknown error occurred while pasting data."));
+        QMessageBox::critical(this, TR("Paste Error"),
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:unknownErrorOccurredWhile",
+                L"An unknown error occurred while pasting data.")));
         return;
     }
 
     if (pasteSuccess) {
-        // Refresh the view
         currentTableView->reset();
         currentTableView->update();
 
-        // Update selection to highlight pasted area
         if (pasteSize.isValid() && pasteSize.width() > 0 && pasteSize.height() > 0) {
-            // Ensure we don't go beyond model bounds (though we should have extended if needed)
             int maxRow = std::min(startRow + pasteSize.height() - 1, model->rowCount() - 1);
             int maxCol = std::min(startCol + pasteSize.width() - 1, model->columnCount() - 1);
 
@@ -1107,13 +1296,11 @@ QtVariablesEditor::pasteDataFromClipboard()
                     selectionModel->select(
                         QItemSelection(topLeft, bottomRight), QItemSelectionModel::ClearAndSelect);
 
-                    // Set the current index to the top-left of the pasted area
                     currentTableView->setCurrentIndex(topLeft);
                 }
             }
         }
 
-        // Update tab title in case dimensions changed
         QString currentVariableName;
         QWidget* currentWidget = m_tabWidget->currentWidget();
         for (auto it = m_openedVariables.begin(); it != m_openedVariables.end(); ++it) {
@@ -1127,21 +1314,21 @@ QtVariablesEditor::pasteDataFromClipboard()
             updateTabTitle(currentVariableName);
         }
 
-        // Update workspace browser
         WorkspaceBrowser::updateWorkspaceBrowser();
+
+        updateEditActions();
 
     } else {
         QMessageBox::warning(this, TR("Paste Error"),
-            TR("Could not paste data. Please check that:\n"
-               "� The data format is compatible with the table\n"
-               "� The clipboard contains valid data"));
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:couldPasteDataPlease",
+                L"Could not paste data. Please check that:\n The data format is compatible with "
+                L"the table\n The clipboard contains valid data")));
     }
 }
 //=============================================================================
 void
 QtVariablesEditor::refreshCurrentVariable()
 {
-    // Get currently active tab
     int currentIndex = m_tabWidget->currentIndex();
     if (currentIndex < 0 || m_openedVariables.isEmpty()) {
         return;
@@ -1152,7 +1339,6 @@ QtVariablesEditor::refreshCurrentVariable()
         return;
     }
 
-    // Find the variable name for the current widget
     QString currentVariableName;
     for (auto it = m_openedVariables.begin(); it != m_openedVariables.end(); ++it) {
         if (it.value() == currentWidget) {
@@ -1191,19 +1377,20 @@ QtVariablesEditor::closeTab(int index)
 }
 //=============================================================================
 void
-QtVariablesEditor::handleDockLocationChanged(Qt::DockWidgetArea area)
-{
-    m_sizeGrip->setVisible(area == Qt::NoDockWidgetArea);
-}
-//=============================================================================
-void
 QtVariablesEditor::onModelSelectionCreated(const QString& suggestedName, const ArrayOf& newArray)
 {
+    // Reserved slot: the selectionCreated() signal is declared by the models but
+    // is never emitted today. Variable creation from a selection is handled
+    // synchronously by createVariableFromSelection(). Kept (and intentionally
+    // not connected) so that models can later notify the editor asynchronously.
+    Q_UNUSED(suggestedName);
+    Q_UNUSED(newArray);
 }
 //=============================================================================
 void
 QtVariablesEditor::onModelError(const QString& message)
 {
+    showStatusMessage(message, true);
 }
 //=============================================================================
 void
@@ -1215,7 +1402,6 @@ QtVariablesEditor::closeVariableTab(const QString& variableName)
 
     QWidget* widget = m_openedVariables[variableName];
 
-    // Find the tab index
     int tabIndex = -1;
     for (int i = 0; i < m_tabWidget->count(); ++i) {
         if (m_tabWidget->widget(i) == widget) {
@@ -1235,7 +1421,7 @@ bool
 QtVariablesEditor::shouldDisplayAsText(const ArrayOf& value)
 {
     bool asText = false;
-    switch (value.getDataClass()) {
+    switch (value.dataClass()) {
     case NLS_INT8:
     case NLS_INT16:
     case NLS_INT32:
@@ -1275,6 +1461,9 @@ void
 QtVariablesEditor::insertRowAbove()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1293,6 +1482,9 @@ void
 QtVariablesEditor::insertRowBelow()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1311,6 +1503,9 @@ void
 QtVariablesEditor::insertColumnLeft()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1330,6 +1525,9 @@ void
 QtVariablesEditor::insertColumnRight()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1348,6 +1546,9 @@ void
 QtVariablesEditor::deleteRow()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1366,6 +1567,9 @@ void
 QtVariablesEditor::deleteColumn()
 {
     auto* tableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
+    if (!tableView) {
+        return;
+    }
     const QModelIndex currentIndex = tableView->currentIndex();
     if (!currentIndex.isValid()) {
         return;
@@ -1392,11 +1596,17 @@ QtVariablesEditor::createTableContextMenu(QTableView* tableView)
     tableView->addAction(m_copyAction);
     tableView->addAction(m_pasteAction);
 
-    auto addSeparator = [this, tableView]() {
-        QAction* sep = new QAction(this);
+    // Separators are parented to the table view so that they are destroyed
+    // together with the tab they belong to.
+    auto addSeparator = [tableView]() {
+        QAction* sep = new QAction(tableView);
         sep->setSeparator(true);
         tableView->addAction(sep);
     };
+
+    addSeparator();
+    tableView->addAction(m_undoAction);
+    tableView->addAction(m_redoAction);
 
     if (tableModel) {
         return;
@@ -1408,21 +1618,6 @@ QtVariablesEditor::createTableContextMenu(QTableView* tableView)
         tableView->addAction(m_pasteExcelDataAction);
         addSeparator();
     }
-
-    m_insertRowAboveAction = new QAction(TR("Insert Row Above"), this);
-    m_insertRowBelowAction = new QAction(TR("Insert Row Below"), this);
-    m_insertColLeftAction = new QAction(TR("Insert Column Left"), this);
-    m_insertColRightAction = new QAction(TR("Insert Column Right"), this);
-    m_deleteRowAction = new QAction(TR("Delete Row"), this);
-    m_deleteColAction = new QAction(TR("Delete Column"), this);
-
-    connect(m_insertRowAboveAction, &QAction::triggered, this, &QtVariablesEditor::insertRowAbove);
-    connect(m_insertRowBelowAction, &QAction::triggered, this, &QtVariablesEditor::insertRowBelow);
-    connect(m_insertColLeftAction, &QAction::triggered, this, &QtVariablesEditor::insertColumnLeft);
-    connect(
-        m_insertColRightAction, &QAction::triggered, this, &QtVariablesEditor::insertColumnRight);
-    connect(m_deleteRowAction, &QAction::triggered, this, &QtVariablesEditor::deleteRow);
-    connect(m_deleteColAction, &QAction::triggered, this, &QtVariablesEditor::deleteColumn);
 
     tableView->addAction(m_insertRowAboveAction);
     tableView->addAction(m_insertRowBelowAction);
@@ -1483,10 +1678,8 @@ QtVariablesEditor::replaceByEmpty()
     QModelIndexList selectedIndexes = tableView->selectionModel()->selectedIndexes();
 
     if (!selectedIndexes.isEmpty()) {
-        // Use selected items
         indexesToReplace = selectedIndexes;
     } else {
-        // Use current item if nothing is selected
         QModelIndex currentIndex = tableView->currentIndex();
         if (currentIndex.isValid()) {
             indexesToReplace.append(currentIndex);
@@ -1498,30 +1691,32 @@ QtVariablesEditor::replaceByEmpty()
         }
     }
 
-    // Perform the replacement
     try {
         if (stringModel->replaceSelectedWithMissing(indexesToReplace)) {
-            // Refresh the view
             tableView->reset();
             tableView->update();
 
-            // Update the tab title in case dimensions changed
             QString variableName = stringModel->variableName();
             updateTabTitle(variableName);
 
-            // Update workspace browser if available
             WorkspaceBrowser::updateWorkspaceBrowser();
         } else {
-            QMessageBox::warning(
-                this, TR("Replace by Empty"), TR("Failed to replace items with missing values."));
+            QMessageBox::warning(this, TR("Replace by Empty"),
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(L"Nelson:gui:failedReplaceItemsMissing",
+                        L"Failed to replace items with missing values.")));
         }
     } catch (const std::exception& e) {
         QMessageBox::critical(this, TR("Replace by Empty Error"),
-            TR("An error occurred while replacing items: %1")
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:errorOccurredWhileReplacing",
+                    L"An error occurred while replacing items: %1"))
                 .arg(QString::fromStdString(e.what())));
     } catch (...) {
         QMessageBox::critical(this, TR("Replace by Empty Error"),
-            TR("An unknown error occurred while replacing items."));
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:unknownErrorOccurredWhileReplacing",
+                    L"An unknown error occurred while replacing items.")));
     }
 }
 //=============================================================================
@@ -1536,13 +1731,13 @@ QtVariablesEditor::eventFilter(QObject* obj, QEvent* event)
         if (tableView && m_tabWidget && tableView == m_tabWidget->currentWidget()
             && keyEvent->key() == Qt::Key_V
             && keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-            event->accept(); // This prevents the QAction from handling it
+            event->accept();
             return true;
         }
         if (tableView && m_tabWidget && tableView == m_tabWidget->currentWidget()
             && keyEvent->key() == Qt::Key_C
             && keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-            event->accept(); // This prevents the QAction from handling it
+            event->accept();
             return true;
         }
         if (keyEvent->key() == Qt::Key_V && keyEvent->modifiers().testFlag(Qt::ControlModifier)
@@ -1554,26 +1749,23 @@ QtVariablesEditor::eventFilter(QObject* obj, QEvent* event)
         if (tableView && m_tabWidget && tableView == m_tabWidget->currentWidget()
             && keyEvent->key() == Qt::Key_Z
             && keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-            event->accept(); // This prevents the QAction from handling it
+            event->accept();
             return true;
         }
         if (tableView && m_tabWidget && tableView == m_tabWidget->currentWidget()
             && keyEvent->key() == Qt::Key_Y
             && keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-            event->accept(); // This prevents the QAction from handling it
+            event->accept();
             return true;
         }
     }
 
-    // Early return if event is null or not a key press
     if (!event || event->type() != QEvent::KeyPress) {
         return QDockWidget::eventFilter(obj, event);
     }
 
-    // Safe cast to QKeyEvent (already verified type above)
     const QKeyEvent* keyEvent = static_cast<const QKeyEvent*>(event);
 
-    // Check if object is a QTableView and matches current widget
     QTableView* tableView = qobject_cast<QTableView*>(obj);
     if (!tableView || !m_tabWidget || tableView != m_tabWidget->currentWidget()) {
         return QDockWidget::eventFilter(obj, event);
@@ -1595,7 +1787,6 @@ QtVariablesEditor::eventFilter(QObject* obj, QEvent* event)
         return true;
     }
 
-    // Handle paste - now this should work since ShortcutOverride intercepted it
     if (keyEvent->key() == Qt::Key_V && keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
         pasteDataFromClipboard();
         return true;
@@ -1619,14 +1810,12 @@ QtVariablesEditor::eventFilter(QObject* obj, QEvent* event)
         }
     }
 
-    // Let parent handle other events
     return QDockWidget::eventFilter(obj, event);
 }
 //=============================================================================
 void
 QtVariablesEditor::pasteExcelDataFromClipboard()
 {
-    // Get the current table view
     QTableView* currentTableView = qobject_cast<QTableView*>(m_tabWidget->currentWidget());
     if (!currentTableView) {
         return;
@@ -1643,13 +1832,11 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         return;
     }
 
-    // Check clipboard content
     QClipboard* clipboard = QApplication::clipboard();
     if (!clipboard) {
         return;
     }
 
-    // Try to get Excel-specific formats first
     QString clipboardText;
     const QMimeData* mimeData = clipboard->mimeData();
 
@@ -1657,18 +1844,12 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         return;
     }
 
-    // Check for Excel-specific MIME types
-    bool hasExcelData = false;
-
     // Excel uses these MIME types for rich data
-    if (mimeData->hasFormat("application/x-qt-windows-mime;value=\"Biff12\"")
+    const bool hasExcelData = mimeData->hasFormat("application/x-qt-windows-mime;value=\"Biff12\"")
         || mimeData->hasFormat("application/x-qt-windows-mime;value=\"Biff8\"")
         || mimeData->hasFormat("application/x-qt-windows-mime;value=\"Biff5\"")
-        || mimeData->hasFormat("text/html")) {
-        hasExcelData = true;
-    }
+        || mimeData->hasFormat("text/html");
 
-    // Get the text data (this works for most Excel copy operations)
     clipboardText = clipboard->text().trimmed();
 
     if (clipboardText.isEmpty()) {
@@ -1678,16 +1859,15 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         return;
     }
 
-    // Show info about Excel data detection
     if (hasExcelData) {
-        QMessageBox::information(this, TR("Paste Excel Data"),
-            TR("Excel formatting detected. Processing Excel data..."));
+        showStatusMessage(TR("Excel formatting detected."));
     }
 
-    // Get paste position
     QItemSelectionModel* selectionModel = currentTableView->selectionModel();
     if (!selectionModel) {
-        QMessageBox::warning(this, TR("Paste Excel Data"), TR("No selection model available."));
+        QMessageBox::warning(this, TR("Paste Excel Data"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:selectionModelAvailable", L"No selection model available.")));
         return;
     }
 
@@ -1716,32 +1896,36 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
     }
 
     if (startRow < 0 || startCol < 0) {
-        QMessageBox::warning(this, TR("Paste Excel Data"), TR("Invalid paste position."));
+        QMessageBox::warning(this, TR("Paste Excel Data"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                L"Nelson:gui:invalidPastePosition", L"Invalid paste position.")));
         return;
     }
 
-    // Process Excel-specific formatting
     QString processedText = preprocessExcelData(clipboardText);
 
-    // Calculate required size
     QSize pasteSize;
     try {
         pasteSize = modelAbstract->getPasteSize(processedText);
     } catch (const std::exception& e) {
         QMessageBox::critical(this, TR("Paste Excel Data"),
-            TR("Error analyzing Excel clipboard data: %1").arg(QString::fromStdString(e.what())));
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:errorAnalyzingExcelClipboard",
+                    L"Error analyzing Excel clipboard data: %1"))
+                .arg(QString::fromStdString(e.what())));
         return;
     }
 
     if (!pasteSize.isValid() || pasteSize.width() <= 0 || pasteSize.height() <= 0) {
         QMessageBox::warning(this, TR("Paste Excel Data"),
-            TR("Invalid Excel data format.\n"
-               "Please ensure you copied a valid range from Excel."));
+            wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:invalidExcelDataFormat",
+                L"Invalid Excel data format.\nPlease ensure you copied a valid range from "
+                L"Excel.")));
         return;
     }
 
-    // Show preview dialog for large pastes
-    if (pasteSize.width() > 10 || pasteSize.height() > 20) {
+    constexpr int LARGE_PASTE_CELL_COUNT = 10000;
+    if ((qint64)pasteSize.width() * (qint64)pasteSize.height() > LARGE_PASTE_CELL_COUNT) {
         int ret = QMessageBox::question(this, TR("Paste Excel Data"),
             TR("You are about to paste %1 rows and %2 columns of Excel data.\n"
                "This may take some time. Continue?")
@@ -1754,7 +1938,6 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         }
     }
 
-    // Extend table if necessary
     auto model = static_cast<QAbstractItemModel*>(modelAbstract);
     int currentRowCount = model->rowCount();
     int currentColCount = model->columnCount();
@@ -1763,64 +1946,70 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
 
     bool needsExtension = false;
 
-    // Extend rows if necessary
     if (requiredRows > currentRowCount) {
         int rowsToAdd = requiredRows - currentRowCount;
         try {
             for (int i = 0; i < rowsToAdd; ++i) {
                 if (!modelAbstract->insertRowAt(currentRowCount + i)) {
                     QMessageBox::warning(this, TR("Paste Excel Data"),
-                        TR("Failed to extend table rows. Paste may be incomplete."));
+                        wstringToQString(
+                            Nelson::resolveMessageTemplate(L"Nelson:gui:failedExtendTableRows",
+                                L"Failed to extend table rows. Paste may be incomplete.")));
                     break;
                 }
             }
             needsExtension = true;
         } catch (const std::exception& e) {
             QMessageBox::warning(this, TR("Paste Excel Data"),
-                TR("Error extending table rows: %1").arg(QString::fromStdString(e.what())));
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(
+                        L"Nelson:gui:errorExtendingTableRows", L"Error extending table rows: %1"))
+                    .arg(QString::fromStdString(e.what())));
         }
     }
 
-    // Extend columns if necessary
     if (requiredCols > currentColCount) {
         int colsToAdd = requiredCols - currentColCount;
         try {
             for (int i = 0; i < colsToAdd; ++i) {
                 if (!modelAbstract->insertColumnAt(currentColCount + i)) {
                     QMessageBox::warning(this, TR("Paste Excel Data"),
-                        TR("Failed to extend table columns. Paste may be incomplete."));
+                        wstringToQString(
+                            Nelson::resolveMessageTemplate(L"Nelson:gui:failedExtendTableColumns",
+                                L"Failed to extend table columns. Paste may be incomplete.")));
                     break;
                 }
             }
             needsExtension = true;
         } catch (const std::exception& e) {
             QMessageBox::warning(this, TR("Paste Excel Data"),
-                TR("Error extending table columns: %1").arg(QString::fromStdString(e.what())));
+                wstringToQString(
+                    Nelson::resolveMessageTemplate(L"Nelson:gui:errorExtendingTableColumns",
+                        L"Error extending table columns: %1"))
+                    .arg(QString::fromStdString(e.what())));
         }
     }
 
-    // Refresh model if extended
     if (needsExtension) {
         currentTableView->reset();
         currentTableView->update();
     }
 
-    // Attempt to paste the processed Excel data
     bool pasteSuccess = false;
     try {
         pasteSuccess = modelAbstract->pasteDataFromExcel(startRow, startCol, processedText);
     } catch (const std::exception&) {
-        QMessageBox::critical(
-            this, TR("Paste Excel Data"), TR("An error occurred while pasting Excel data."));
+        QMessageBox::critical(this, TR("Paste Excel Data"),
+            wstringToQString(
+                Nelson::resolveMessageTemplate(L"Nelson:gui:errorOccurredWhilePastingExcel",
+                    L"An error occurred while pasting Excel data.")));
         return;
     }
 
     if (pasteSuccess) {
-        // Refresh the view
         currentTableView->reset();
         currentTableView->update();
 
-        // Update selection to highlight pasted area
         if (pasteSize.isValid() && pasteSize.width() > 0 && pasteSize.height() > 0) {
             int maxRow = std::min(startRow + pasteSize.height() - 1, model->rowCount() - 1);
             int maxCol = std::min(startCol + pasteSize.width() - 1, model->columnCount() - 1);
@@ -1837,7 +2026,6 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
             }
         }
 
-        // Update tab title and workspace
         QString currentVariableName;
         QWidget* currentWidget = m_tabWidget->currentWidget();
         for (auto it = m_openedVariables.begin(); it != m_openedVariables.end(); ++it) {
@@ -1852,6 +2040,7 @@ QtVariablesEditor::pasteExcelDataFromClipboard()
         }
 
         WorkspaceBrowser::updateWorkspaceBrowser();
+        updateEditActions();
     }
 }
 //=============================================================================
@@ -1860,14 +2049,14 @@ QtVariablesEditor::preprocessExcelData(const QString& rawData)
 {
     QString processedData = rawData;
 
+    // Unicode minus sign used by some locales
     processedData.replace(QChar(0x2212), QChar('-'));
 
-    processedData.replace("\t\t", "\t\t");
-
-    QRegularExpression thousandSep("(\\d{1,3}),(\\d{3})");
-    while (thousandSep.match(processedData).hasMatch()) {
-        processedData.replace(thousandSep, "\\1\\2");
-    }
+    // Remove thousand separators only when the whole cell is unambiguously a
+    // grouped integer such as "1,234" or "12,345,678". A comma used as a
+    // decimal separator (FR locale, "3,14") is left untouched: corrupting the
+    // data would be much worse than not normalizing it.
+    static const QRegularExpression groupedNumber("\\A[+-]?\\d{1,3}(,\\d{3})+(\\.\\d+)?\\z");
 
     processedData.replace("E+", "e+");
     processedData.replace("E-", "e-");
@@ -1889,6 +2078,9 @@ QtVariablesEditor::preprocessExcelData(const QString& rawData)
         QStringList cells = line.split('\t');
         for (QString& cell : cells) {
             cell = cell.trimmed();
+            if (groupedNumber.match(cell).hasMatch()) {
+                cell.remove(QLatin1Char(','));
+            }
         }
         line = cells.join('\t');
     }
@@ -1907,6 +2099,10 @@ QtVariablesEditor::undo()
 
     if (auto* tableView = qobject_cast<QTableView*>(currentWidget)) {
         if (auto* model = qobject_cast<VariableAbstractTableModel*>(tableView->model())) {
+            if (!model->canUndo()) {
+                showStatusMessage(TR("Nothing to undo."));
+                return;
+            }
             model->undo();
             tableView->reset();
             tableView->update();
@@ -1914,6 +2110,7 @@ QtVariablesEditor::undo()
     } else if (auto* textEdit = qobject_cast<QtVariableTextEdit*>(currentWidget)) {
         textEdit->undo();
     }
+    updateEditActions();
 }
 //=============================================================================
 void
@@ -1926,6 +2123,10 @@ QtVariablesEditor::redo()
 
     if (auto* tableView = qobject_cast<QTableView*>(currentWidget)) {
         if (auto* model = qobject_cast<VariableAbstractTableModel*>(tableView->model())) {
+            if (!model->canRedo()) {
+                showStatusMessage(TR("Nothing to redo."));
+                return;
+            }
             model->redo();
             tableView->reset();
             tableView->update();
@@ -1933,5 +2134,6 @@ QtVariablesEditor::redo()
     } else if (auto* textEdit = qobject_cast<QtVariableTextEdit*>(currentWidget)) {
         textEdit->redo();
     }
+    updateEditActions();
 }
 //=============================================================================

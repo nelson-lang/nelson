@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fsolve</keyword>
+  <short_description>Résoudre un système d'équations non linéaires.</short_description>
+  <syntax>
+    <syntax_item>x = fsolve(fun, x0)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output, jacobian] = fsolve(fun, x0, options)</syntax_item>
+    <syntax_item>x = fsolve(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>fonction retournant les résidus des équations.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>point initial.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>options du solveur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>racine estimée, avec la forme de x0.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fval</param_name>
+      <param_description>résidu en x, avec la forme retournée par fun.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>exitflag</param_name>
+      <param_description>raison de l'arrêt : 1 (valeurs de fonction proches de zéro), 2 (pas inférieur à StepTolerance), 3 (variation du résidu inférieure à FunctionTolerance), 4 (direction de recherche inférieure à StepTolerance), 0 (limite d'itérations ou d'évaluations), -1 (arrêt par la fonction de sortie), -2 (convergence vers un point qui n'est pas une racine), -3 (effondrement de la région de confiance ou de la régularisation).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>structure avec les champs iterations, funcCount, algorithm, firstorderopt et message.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>jacobian</param_name>
+      <param_description>approximation finale de la jacobienne.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>fsolve</b> résout des systèmes d'équations non linéaires F(x) = 0.</p>
+    <p>L'option <b>Algorithm</b> sélectionne le moteur : <b>'trust-region-dogleg'</b> (défaut, systèmes carrés), <b>'trust-region'</b> ou <b>'levenberg-marquardt'</b>. Les systèmes non carrés basculent automatiquement sur Levenberg-Marquardt avec un avertissement.</p>
+    <p>Le défaut de <b>MaxFunctionEvaluations</b> est <b>100*numberOfVariables</b>, <b>MaxIterations</b> vaut 400 et <b>FunctionTolerance</b> et <b>StepTolerance</b> valent 1e-6. L'option <b>Display</b> accepte 'off', 'none', 'final', 'final-detailed', 'notify', 'notify-detailed', 'iter' et 'iter-detailed'.</p>
+    <p>Si <b>Jacobian</b> vaut 'on' ou si <b>SpecifyObjectiveGradient</b> vaut true, fun doit aussi retourner la jacobienne des résidus.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+    <used_function_item>lsqnonlin</used_function_item>
+  </used_function>
+  <bibliography>M. J. D. Powell, "A hybrid method for nonlinear equations", Numerical Methods for Nonlinear Algebraic Equations, 1970.
+J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) [x(1) - 3; x(2) + 4];
+[x, fval] = fsolve(fun, [0; 0])
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}fzero">fzero</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}lsqnonlin">lsqnonlin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

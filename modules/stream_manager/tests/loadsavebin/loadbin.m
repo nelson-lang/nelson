@@ -9,7 +9,7 @@
 %=============================================================================
 function loadbin(varargin)
   if (nargin == 0)
-    error(_('Wrong number of input arguments.'))
+    error(_('Not enough input arguments.'))
   end
   S = {};
   filename = varargin{1};
@@ -49,7 +49,7 @@ function loadbin(varargin)
     names_to_read = {};
     for k = 2:nargin()
       if (~ischar(varargin{k}))
-        error(_('Wrong type for argument #1. string expected.'))
+        error(sprintf(_('Wrong type for argument #%d: string expected.'), 1))
       end
       names_to_read{k - 1} = varargin{k};
       emptyCells = all(cellfun('isempty', strfind(varname, names_to_read{k - 1})));
@@ -303,8 +303,8 @@ end
 %=============================================================================
 function res = load_data(fr)
   typenum = fread(fr, 1, 'int64', 'l');
-  classstr = typeofbin(typenum);
-  function_load = ['load_data_', classstr];
+  classestr = typeofbin(typenum);
+  function_load = ['load_data_', classestr];
   res = feval(function_load, fr);
 end
 %=============================================================================

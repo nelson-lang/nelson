@@ -16,7 +16,7 @@
 namespace Nelson {
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
-closeCurrentFigure();
+closeCurrentFigure(bool forceClose = false);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
 closeFigureByID(go_handle ID);
@@ -28,7 +28,7 @@ NLSGRAPHICS_IMPEXP bool
 closeFigureByName(const wstringVector& names);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
-closeAllFigures();
+closeAllFigures(bool forceClose = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

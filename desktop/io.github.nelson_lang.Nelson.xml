@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-nelson-script">
+    <comment>Nelson script</comment>
+    <glob pattern="*.m" weight="80"/>
+  </mime-type>
+  <mime-type type="application/x-nelson-workspace">
+    <comment>Nelson workspace</comment>
+    <glob pattern="*.nh5" weight="80"/>
+  </mime-type>
+  <mime-type type="application/x-nelson-data">
+    <comment>Numerical data file</comment>
+    <glob pattern="*.mat" weight="80"/>
+  </mime-type>
+  <mime-type type="application/x-nflow-model">
+    <comment>NFlow model</comment>
+    <glob pattern="*.nflow" weight="80"/>
+  </mime-type>
+  <mime-type type="application/x-nelson-notebook">
+    <comment>Nelson Notebook</comment>
+    <glob pattern="*.nlx" weight="80"/>
+  </mime-type>
+</mime-info>

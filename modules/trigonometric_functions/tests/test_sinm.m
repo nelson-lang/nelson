@@ -7,51 +7,51 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sinm'), 1);
-assert_isequal(nargout('sinm'), 1);
+asserts.isequal(nargin('sinm'), 1);
+asserts.isequal(nargout('sinm'), 1);
 %=============================================================================
-assert_isequal(sinm(NaN), NaN);
-assert_isequal(sinm(-NaN), NaN);
-assert_isequal(sinm(Inf), NaN);
-assert_isequal(sinm(-Inf), NaN);
+asserts.isequal(sinm(NaN), NaN);
+asserts.isequal(sinm(-NaN), NaN);
+asserts.isequal(sinm(Inf), NaN);
+asserts.isequal(sinm(-Inf), NaN);
 %=============================================================================
 x = sinm(0i);
 ref = 0;
-assert_isequal(x, ref);
+asserts.isequal(x, ref);
 %=============================================================================
 X = sinm(zeros(3, 3));
 REF = zeros(3, 3);
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
-assert_isequal(sinm([]), []);
+asserts.isequal(sinm([]), []);
 %=============================================================================
-A = [1,2;3,4];
+A = [1, 2; 3, 4];
 R = sinm(A);
-REF = [ -0.4656     -0.1484
--0.2226     -0.6882];
-assert_isapprox(R, REF, 1e-4);
+REF = [-0.4656 -0.1484
+  -0.2226 -0.6882];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-A = single([1,2;3,4]);
+A = single([1, 2; 3, 4]);
 R = sinm(A);
-REF = [ -0.4656     -0.1484
--0.2226     -0.6882];
-assert_isapprox(R, REF, 1e-4);
-assert_isequal(class(R), 'single');
+REF = [-0.4656 -0.1484
+  -0.2226 -0.6882];
+asserts.isapprox(R, REF, 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
-A = [1,2;3,4] + i;
+A = [1, 2; 3, 4] + i;
 R = sinm(A);
-REF = [ -1.0832 + 0.3850i,    -1.0001 + 0.5069i;
--1.2988 + 0.9096i    -1.9793 + 1.5933i];
-assert_isapprox(R, REF, 1e-4);
+REF = [-1.0832 + 0.3850i, -1.0001 + 0.5069i;
+  -1.2988 + 0.9096i -1.9793 + 1.5933i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-A = single([1,2;3,4] + i);
+A = single([1, 2; 3, 4] + i);
 R = sinm(A);
-REF = [ -1.0832 + 0.3850i,    -1.0001 + 0.5069i;
--1.2988 + 0.9096i    -1.9793 + 1.5933i];
-assert_isapprox(R, REF, 1e-4);
-assert_isequal(class(R), 'single');
+REF = [-1.0832 + 0.3850i, -1.0001 + 0.5069i;
+  -1.2988 + 0.9096i -1.9793 + 1.5933i];
+asserts.isapprox(R, REF, 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
-assert_checkerror('sinm([1 , 2])', _('Square matrix expected.'));
+asserts.checkerror('sinm([1 , 2])', _('Square matrix expected.'));
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sinm');
-assert_checkerror('sinm(''a'')', msg);
+asserts.checkerror('sinm(''a'')', msg);
 %=============================================================================

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rat</keyword>
+  <short_description>Approximation par une fraction rationnelle.</short_description>
+  <syntax>
+    <syntax_item>[N, D] = rat(X)</syntax_item>
+    <syntax_item>[N, D] = rat(X, tol)</syntax_item>
+    <syntax_item>S = rat(X)</syntax_item>
+    <syntax_item>S = rat(X, tol)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >Tableau d'entrée : réel ou complexe, scalaire, vecteur ou matrice (single ou double).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description
+      >Tolérance : scalaire. La valeur par défaut est <b>1e-6 * norm(X(:), 1)</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description
+      >Numérateur : tableau de même taille que <b>X</b>, ou le tableau de caractères de la fraction continue lorsqu'une seule sortie est demandée.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>Dénominateur : tableau de même taille que <b>X</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[N, D] = rat(X)</b> renvoie deux tableaux d'entiers tels que <b
+      >N ./ D</b> soit proche de <b>X</b> au sens où <b
+      >abs(N ./ D - X) &lt;= tol</b>.</p>
+    <p>Les approximations rationnelles sont obtenues en tronquant des développements en fraction continue.</p>
+    <p><b>S = rat(X)</b> renvoie la représentation en fraction continue sous forme d'un tableau de caractères.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[N, D] = rat(pi)
+S = rat(pi)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}rats">rats</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}format">format</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

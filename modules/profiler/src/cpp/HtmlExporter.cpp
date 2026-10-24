@@ -60,7 +60,7 @@ copyHtmlDependencies(
     const std::wstring& moduleProfilerPath, const std::wstring& directoryDestination)
 {
     if (!moduleProfilerPath.empty()) {
-        std::wstring ressourcesPath = moduleProfilerPath + L"/resources/";
+        std::wstring resourcesPath = moduleProfilerPath + L"/resources/";
         wstringVector files;
         files.push_back(L"highlight.pack.js");
         files.push_back(L"sort.js");
@@ -69,7 +69,7 @@ copyHtmlDependencies(
             FileSystemWrapper::Path dstFile = FileSystemWrapper::Path(directoryDestination);
             dstFile = dstFile / file;
             if (!dstFile.exists()) {
-                FileSystemWrapper::Path srcFile = FileSystemWrapper::Path(ressourcesPath);
+                FileSystemWrapper::Path srcFile = FileSystemWrapper::Path(resourcesPath);
                 srcFile = srcFile / file;
                 bool bIsFile = srcFile.is_regular_file();
                 if (bIsFile) {

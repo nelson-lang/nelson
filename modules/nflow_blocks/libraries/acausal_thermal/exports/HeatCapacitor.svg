@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="216.5" viewBox="-153.25 -113.25 306.5 216.5">
+  <rect x="-153.25" y="-113.25" width="306.5" height="216.5" rx="41.135" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <g transform="translate(0,90) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">HeatCapacitor</text></g>
+    <polygon points="0,67 -20,63 -40,57 -52,43 -58,35 -68,25 -72,13 -76,-1 -78,-15 -76,-31 -76,-43 -76,-53 -70,-65 -64,-73 -48,-77 -30,-83 -18,-83 -2,-85 8,-89 22,-89 32,-87 42,-81 54,-75 56,-73 66,-61 68,-53 70,-51 72,-35 76,-21 78,-13 78,3 74,15 66,25 54,33 44,41 36,57 26,65 0,67" fill="#F0A99D" stroke="#F0A99D" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="-58,35 -68,25 -72,13 -76,-1 -78,-15 -76,-31 -76,-43 -76,-53 -70,-65 -64,-73 -48,-77 -30,-83 -18,-83 -2,-85 8,-89 22,-89 32,-87 42,-81 54,-75 42,-77 40,-77 30,-79 20,-81 18,-81 10,-81 2,-77 -12,-73 -22,-73 -30,-71 -40,-65 -50,-55 -56,-43 -58,-35 -58,-25 -60,-13 -60,-5 -60,7 -58,17 -56,19 -52,27 -48,35 -44,45 -40,57 -58,35" fill="#F0A99D" stroke="#9C2A1A" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(1,-8.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24.8" fill="#9C2A1A">C</text></g>
+  </g>
+</svg>

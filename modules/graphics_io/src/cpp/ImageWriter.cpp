@@ -7,351 +7,298 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QImage>
-#include <QtGui/QImageWriter>
 #include "ImageWriter.hpp"
+#include "RasterCodec.hpp"
 #include "Error.hpp"
-#include "i18n.hpp"
+#include "ErrorID.hpp"
 #include "RealPart.hpp"
-#include "QStringConverter.hpp"
 #include "StringHelpers.hpp"
-#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
-#include "nlsBuildConfig.h"
-#include "omp_for_loop.hpp"
-#if WITH_GIF
-#include "qgifimage.h"
-#endif
-#if WITH_TIFF
-#include "TiffFileHandler.hpp"
-#endif
-#include "PcxFileHandler.hpp"
-#include "ImageFormats.hpp"
+#include "i18n.hpp"
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static QImage
-imwriteRGB32(const ArrayOf& A);
-//=============================================================================
-static QImage
-imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap);
-//=============================================================================
-static QImage
-imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaMap);
-//=============================================================================
-static ArrayOf
-convertImageToUint(const ArrayOf& image);
-//=============================================================================
-static void
-setTextInfo(QImageWriter& qimagewriter, const std::map<std::wstring, wstringVector>& nameValue);
-//=============================================================================
-void
-writePcx(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
-    const ArrayOf& alphaMap, int quality, const std::map<std::wstring, wstringVector>& nameValue)
-{
-    QImage qImage;
-    bool hasAlpha = !alphaMap.isEmpty(true);
-    Dimensions dimensionsA = A.getDimensions();
-
-    if (dimensionsA.getLength() == 2) {
-        qImage = imwriteIndexed8(A, colorMap, alphaMap);
-    } else if (dimensionsA.getLength() == 3) {
-        if (!hasAlpha) {
-            qImage = imwriteRGB32(A);
-        } else {
-            qImage = imwriteRGBA32(A, alphaMap);
-        }
-    } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
-        return;
-    }
-
-    int result = PcxFileHandler::savePCX(wstringToQString(filename), qImage);
-    if (result != PcxFileHandler::PCX_ERROR_NONE) {
-        Error(_W("Cannot save image file: ") + filename);
-    }
-}
-//=============================================================================
-#if WITH_GIF
-void
-writeGif(const std::wstring& filename, bool append, const ArrayOf& A, const ArrayOf& colorMap,
-    const ArrayOf& alphaMap, int quality, int delayTime, int loopCount,
-    const std::map<std::wstring, wstringVector>& nameValue)
-{
-    if (!append) {
-        FileSystemWrapper::Path pathFileName(filename);
-        if (pathFileName.is_regular_file()) {
-            FileSystemWrapper::Path::remove(pathFileName);
+namespace {
+    template <class T>
+    void
+    scaleNormalized(ArrayOf& array)
+    {
+        auto* values = const_cast<T*>(static_cast<const T*>(array.dataPointer()));
+        for (indexType i = 0; i < array.elementCount(); ++i) {
+            values[i] = std::clamp<T>(values[i], 0, 1) * 255;
         }
     }
-
-    QImage qImage;
-    bool hasAlpha = !alphaMap.isEmpty(true);
-    Dimensions dimensionsA = A.getDimensions();
-    if (dimensionsA.getLength() == 2) {
-        qImage = imwriteIndexed8(A, colorMap, alphaMap);
-    } else if (dimensionsA.getLength() == 3) {
-        if (!hasAlpha) {
-            qImage = imwriteRGB32(A);
-        } else {
-            qImage = imwriteRGBA32(A, alphaMap);
+    //=============================================================================
+    ArrayOf
+    asUint8(const ArrayOf& source)
+    {
+        ArrayOf result(source);
+        result.ensureSingleOwner();
+        switch (result.dataClass()) {
+        case NLS_UINT8:
+            break;
+        case NLS_LOGICAL:
+            result.promoteType(NLS_UINT8);
+            for (indexType i = 0; i < result.elementCount(); ++i) {
+                const_cast<uint8*>(static_cast<const uint8*>(result.dataPointer()))[i] *= 255;
+            }
+            break;
+        case NLS_SCOMPLEX:
+            result = RealPart(result);
+            scaleNormalized<single>(result);
+            result.promoteType(NLS_UINT8);
+            break;
+        case NLS_DCOMPLEX:
+            result = RealPart(result);
+            scaleNormalized<double>(result);
+            result.promoteType(NLS_UINT8);
+            break;
+        case NLS_SINGLE:
+            scaleNormalized<single>(result);
+            result.promoteType(NLS_UINT8);
+            break;
+        case NLS_DOUBLE:
+            scaleNormalized<double>(result);
+            result.promoteType(NLS_UINT8);
+            break;
+        default:
+            result.promoteType(NLS_UINT8);
+            break;
         }
-    } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
+        return result;
     }
-    QGifImage gif(QSize(qImage.width(), qImage.height()));
-
-    if (append) {
-        gif.load(wstringToQString(filename));
-    } else {
-        gif.setLoopCount(loopCount);
-    }
-    gif.addFrame(qImage, delayTime);
-    if (!gif.save(wstringToQString(filename))) {
-        Error(_W("Cannot save image file: ") + filename);
-    }
-}
-#endif
-//=============================================================================
-#if WITH_TIFF
-void
-writeTiff(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
-    const ArrayOf& alphaMap, const std::map<std::wstring, wstringVector>& nameValue)
-{
-    FileSystemWrapper::Path pathFileName(filename);
-    if (pathFileName.is_regular_file()) {
-        FileSystemWrapper::Path::remove(pathFileName);
-    }
-
-    QImage qImage;
-    bool hasAlpha = !alphaMap.isEmpty(true);
-    Dimensions dimensionsA = A.getDimensions();
-    if (dimensionsA.getLength() == 2) {
-        qImage = imwriteIndexed8(A, colorMap, alphaMap);
-    } else if (dimensionsA.getLength() == 3) {
-        if (!hasAlpha) {
-            qImage = imwriteRGB32(A);
-        } else {
-            qImage = imwriteRGBA32(A, alphaMap);
-        }
-    } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
-    }
-    QString errorMessage;
-    if (!TiffFileHandler::writeTiff(wstringToQString(filename), qImage, errorMessage)) {
-        Error(_W("Cannot save image file: ") + filename);
-    }
-}
-#endif
-//=============================================================================
-void
-writeImage(const std::wstring& filename, const ArrayOf& A, const ArrayOf& colorMap,
-    const std::wstring& format, const ArrayOf& alphaMap, int quality,
-    const std::map<std::wstring, wstringVector>& nameValue)
-{
-    if (!isImageFormatWritable(format)) {
-        Error(_W("Not supported format: ") + format);
-    }
-
-    FileSystemWrapper::Path pathFileName(filename);
-    if (pathFileName.is_regular_file()) {
-        FileSystemWrapper::Path::remove(pathFileName);
-    }
-    bool hasAlpha = !alphaMap.isEmpty(true);
-
-    QImageWriter imgWriter(wstringToQString(filename));
-    if (!imgWriter.canWrite()) {
-        Error(_W("Cannot write ") + filename);
-    }
-    imgWriter.setFormat(wstringToQString(format).toUtf8());
-    imgWriter.setQuality(quality);
-
-    setTextInfo(imgWriter, nameValue);
-
-    QImage qImage;
-
-    Dimensions dimensionsA = A.getDimensions();
-
-    if (dimensionsA.getLength() == 2) {
-        qImage = imwriteIndexed8(A, colorMap, alphaMap);
-    } else if (dimensionsA.getLength() == 3) {
-        if (!hasAlpha) {
-            qImage = imwriteRGB32(A);
-        } else {
-            qImage = imwriteRGBA32(A, alphaMap);
-        }
-    } else {
-        Error(_W("Image data must be either MxN or MxNx3."));
-    }
-
-    if (!imgWriter.write(qImage)) {
-        Error(_W("Cannot save image file: ") + filename);
-    }
-}
-//=============================================================================
-QImage
-imwriteRGBA32(const ArrayOf& A, const ArrayOf& alphaMap)
-{
-    ArrayOf imageAsUint = convertImageToUint(A);
-    ArrayOf alphaAsUint = convertImageToUint(alphaMap);
-    uint8* data = (uint8*)imageAsUint.getDataPointer();
-    uint8* alpha = (uint8*)alphaAsUint.getDataPointer();
-    QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_ARGB32);
-    ompIndexType imageSlice = static_cast<ompIndexType>(qImage.height()) * qImage.width();
-    OMP_PARALLEL_FOR_LOOP(imageSlice)
-    for (ompIndexType idx = 0; idx < imageSlice; idx++) {
-        ompIndexType row = idx % qImage.height();
-        ompIndexType col = idx / qImage.height();
-        QRgb* p = (QRgb*)qImage.scanLine(row);
-        int ndx = row + col * qImage.height();
-        p[col]
-            = qRgba(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice], alpha[ndx]);
-    }
-    return qImage;
-}
-//=============================================================================
-QImage
-imwriteRGB32(const ArrayOf& A)
-{
-    ArrayOf imageAsUint = convertImageToUint(A);
-    uint8* data = (uint8*)imageAsUint.getDataPointer();
-    QImage qImage(int(imageAsUint.getColumns()), int(imageAsUint.getRows()), QImage::Format_RGB32);
-
-    ompIndexType imageSlice = static_cast<ompIndexType>(qImage.height()) * qImage.width();
-    OMP_PARALLEL_FOR_LOOP(imageSlice)
-    for (ompIndexType idx = 0; idx < imageSlice; idx++) {
-        ompIndexType row = idx % qImage.height();
-        ompIndexType col = idx / qImage.height();
-        QRgb* p = (QRgb*)qImage.scanLine(row);
-        ompIndexType ndx = row + col * qImage.height();
-        p[col] = qRgb(data[ndx], data[ndx + 1 * imageSlice], data[ndx + 2 * imageSlice]);
-    }
-    return qImage;
-}
-//=============================================================================
-QImage
-imwriteIndexed8(const ArrayOf& A, const ArrayOf& colorMap, const ArrayOf& alphaMap)
-{
-    QImage image(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
-    ArrayOf imageAsUint = convertImageToUint(A);
-    uint8* data = (uint8*)imageAsUint.getDataPointer();
-
-    ArrayOf colorMapAsUint = convertImageToUint(colorMap);
-    uint8* colors = colorMapAsUint.isEmpty() ? nullptr : (uint8*)colorMapAsUint.getDataPointer();
-
-    ArrayOf alphaMapAsUint = convertImageToUint(alphaMap);
-    uint8* alpha = alphaMapAsUint.isEmpty() ? nullptr : (uint8*)alphaMapAsUint.getDataPointer();
-
-    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
-    OMP_PARALLEL_FOR_LOOP(imageCounter)
-    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
-        ompIndexType row = idx % image.height();
-        ompIndexType col = idx / image.height();
-        uchar* p = image.scanLine(row);
-        p[col] = data[row + col * image.height()];
-    }
-
-    if (alpha) {
-        QImage qAlpha(int(A.getColumns()), int(A.getRows()), QImage::Format_Indexed8);
-        ompIndexType alphaImageCounter = (ompIndexType)qAlpha.height() * qAlpha.width();
-        OMP_PARALLEL_FOR_LOOP(alphaImageCounter)
-        for (ompIndexType i = 0; i < alphaImageCounter; i++) {
-            ompIndexType row = i / qAlpha.width();
-            ompIndexType col = i % qAlpha.width();
-            uchar* p = qAlpha.scanLine(row);
-            p[col] = alpha[row + col * image.height()];
-        }
-        image.setAlphaChannel(qAlpha);
-    }
-
-    if (colors) {
-        QVector<QRgb> colorVector(int(colorMapAsUint.getElementCount() / 3));
-        int numcol = colorVector.size();
-        OMP_PARALLEL_FOR_LOOP(numcol)
-        for (int i = 0; i < numcol; i++) {
-            colorVector[i]
-                = qRgb(int(colors[i]), int(colors[i + numcol]), int(colors[i + 2 * numcol]));
-        }
-        image.setColorTable(colorVector);
-    } else {
-        int numrow = 256;
-        QVector<QRgb> colorVector(numrow);
-        OMP_PARALLEL_FOR_LOOP(numrow)
-        for (int i = 0; i < numrow; i++) {
-            colorVector[i] = qRgb(i, i, i);
-        }
-        image.setColorTable(colorVector);
-    }
-    return image;
-}
-//=============================================================================
-template <class T>
-static void
-toUint8(const ArrayOf& A)
-{
-    T* ptrA = (T*)A.getDataPointer();
-    ompIndexType elementCount = A.getElementCount();
-    OMP_PARALLEL_FOR_LOOP(elementCount)
-    for (ompIndexType k = 0; k < elementCount; ++k) {
-        ptrA[k] = ptrA[k] * 255;
-    }
-}
-//=============================================================================
-ArrayOf
-convertImageToUint(const ArrayOf& A)
-{
-    ArrayOf modifiedA(A);
-    modifiedA.ensureSingleOwner();
-    switch (A.getDataClass()) {
-    case NLS_UINT8: {
-        return modifiedA;
-    } break;
-    case NLS_LOGICAL: {
-        modifiedA.promoteType(NLS_UINT8);
-    } break;
-    case NLS_SCOMPLEX: {
-        modifiedA = RealPart(A);
-        toUint8<single>(modifiedA);
-        modifiedA.promoteType(NLS_UINT8);
-    } break;
-    case NLS_DCOMPLEX: {
-        modifiedA = RealPart(A);
-        toUint8<double>(modifiedA);
-        modifiedA.promoteType(NLS_UINT8);
-    } break;
-    case NLS_SINGLE: {
-        toUint8<single>(modifiedA);
-        modifiedA.promoteType(NLS_UINT8);
-    } break;
-    case NLS_DOUBLE: {
-        toUint8<double>(modifiedA);
-        modifiedA.promoteType(NLS_UINT8);
-    } break;
-    default: {
-    } break;
-    }
-    return modifiedA;
-}
-//=============================================================================
-void
-setTextInfo(QImageWriter& qimagewriter, const std::map<std::wstring, wstringVector>& nameValue)
-{
-    for (auto element : nameValue) {
-        std::wstring name = element.first;
-        wstringVector value = element.second;
-        std::wstring line;
-        bool bFirst = true;
-        for (auto s : value) {
-            if (bFirst) {
-                line = s + L"\n";
-                bFirst = false;
-            } else {
-                line = line + L"\n" + s;
+    //=============================================================================
+    RasterImage
+    indexedRaster(const ArrayOf& source, const ArrayOf& map, const ArrayOf& alpha)
+    {
+        RasterImage image;
+        image.width = static_cast<int>(source.columns());
+        image.height = static_cast<int>(source.rows());
+        image.format = RasterPixelFormat::Indexed8;
+        ArrayOf indices = asUint8(source);
+        const auto* input = static_cast<const uint8*>(indices.dataPointer());
+        image.pixels.resize(static_cast<size_t>(image.width) * image.height);
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                image.pixels[static_cast<size_t>(y) * image.width + x]
+                    = input[y + static_cast<size_t>(x) * image.height];
             }
         }
-        qimagewriter.setText(wstringToQString(name), wstringToQString(line));
+        ArrayOf colors = asUint8(map);
+        const auto* colorData = static_cast<const uint8*>(colors.dataPointer());
+        const size_t colorCount = map.isEmpty() ? 256 : static_cast<size_t>(map.rows());
+        image.palette.resize(colorCount * 4, 255);
+        for (size_t i = 0; i < colorCount; ++i) {
+            if (map.isEmpty()) {
+                image.palette[i * 4] = image.palette[i * 4 + 1] = image.palette[i * 4 + 2]
+                    = static_cast<uint8_t>(i);
+            } else {
+                image.palette[i * 4] = colorData[i];
+                image.palette[i * 4 + 1] = colorData[i + colorCount];
+                image.palette[i * 4 + 2] = colorData[i + colorCount * 2];
+            }
+        }
+        if (!alpha.isEmpty()) {
+            ArrayOf alphaBytes = asUint8(alpha);
+            const auto* alphaData = static_cast<const uint8*>(alphaBytes.dataPointer());
+            std::vector<int> paletteAlpha(colorCount, -1);
+            bool paletteCompatible = true;
+            for (size_t i = 0; i < image.pixels.size(); ++i) {
+                const int y = static_cast<int>(i / image.width);
+                const int x = static_cast<int>(i % image.width);
+                const size_t color = image.pixels[i];
+                const int value = alphaData[y + static_cast<size_t>(x) * image.height];
+                if (color >= paletteAlpha.size()
+                    || (paletteAlpha[color] >= 0 && paletteAlpha[color] != value)) {
+                    paletteCompatible = false;
+                    break;
+                }
+                paletteAlpha[color] = value;
+            }
+            if (paletteCompatible) {
+                for (size_t color = 0; color < paletteAlpha.size(); ++color) {
+                    if (paletteAlpha[color] >= 0) {
+                        image.palette[color * 4 + 3] = static_cast<uint8_t>(paletteAlpha[color]);
+                    }
+                }
+                return image;
+            }
+            RasterImage rgba;
+            rgba.width = image.width;
+            rgba.height = image.height;
+            rgba.format = RasterPixelFormat::RGBA8;
+            rgba.pixels.resize(image.pixels.size() * 4);
+            for (size_t i = 0; i < image.pixels.size(); ++i) {
+                const int y = static_cast<int>(i / image.width);
+                const int x = static_cast<int>(i % image.width);
+                const size_t paletteOffset = static_cast<size_t>(image.pixels[i]) * 4;
+                rgba.pixels[i * 4] = image.palette[paletteOffset];
+                rgba.pixels[i * 4 + 1] = image.palette[paletteOffset + 1];
+                rgba.pixels[i * 4 + 2] = image.palette[paletteOffset + 2];
+                rgba.pixels[i * 4 + 3] = alphaData[y + static_cast<size_t>(x) * image.height];
+            }
+            return rgba;
+        }
+        return image;
     }
+    //=============================================================================
+    RasterImage
+    directRaster(const ArrayOf& source, const ArrayOf& alpha)
+    {
+        RasterImage image;
+        image.width = static_cast<int>(source.columns());
+        image.height = static_cast<int>(source.rows());
+        if (source.dataClass() == NLS_UINT16 && source.dimensions().length() == 2) {
+            if (!alpha.isEmpty()) {
+                Error(L"Nelson:imwrite:alphaUint16Unsupported",
+                    L"Alpha is not supported with uint16 image data.");
+            }
+            image.format = RasterPixelFormat::Gray16;
+            image.pixels.resize(static_cast<size_t>(image.width) * image.height * 2);
+            const auto* input = static_cast<const uint16*>(source.dataPointer());
+            auto* output = reinterpret_cast<uint16_t*>(image.pixels.data());
+            for (int y = 0; y < image.height; ++y) {
+                for (int x = 0; x < image.width; ++x) {
+                    output[static_cast<size_t>(y) * image.width + x]
+                        = input[y + static_cast<size_t>(x) * image.height];
+                }
+            }
+            return image;
+        }
+        ArrayOf bytes = asUint8(source);
+        const auto* input = static_cast<const uint8*>(bytes.dataPointer());
+        const bool gray = source.dimensions().length() == 2;
+        const bool withAlpha = !alpha.isEmpty();
+        image.format = withAlpha ? RasterPixelFormat::RGBA8
+                                 : (gray ? RasterPixelFormat::Gray8 : RasterPixelFormat::RGB8);
+        image.pixels.resize(static_cast<size_t>(image.width) * image.height * image.channels());
+        ArrayOf alphaBytes = alpha.isEmpty() ? ArrayOf::empty(0, 0) : asUint8(alpha);
+        const auto* alphaData
+            = alpha.isEmpty() ? nullptr : static_cast<const uint8*>(alphaBytes.dataPointer());
+        const size_t slice = static_cast<size_t>(image.width) * image.height;
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                const size_t columnMajor = y + static_cast<size_t>(x) * image.height;
+                const size_t rowMajor = static_cast<size_t>(y) * image.width + x;
+                if (gray) {
+                    if (withAlpha) {
+                        image.pixels[rowMajor * 4] = input[columnMajor];
+                        image.pixels[rowMajor * 4 + 1] = input[columnMajor];
+                        image.pixels[rowMajor * 4 + 2] = input[columnMajor];
+                        image.pixels[rowMajor * 4 + 3] = alphaData[columnMajor];
+                    } else {
+                        image.pixels[rowMajor] = input[columnMajor];
+                    }
+                } else {
+                    image.pixels[rowMajor * image.channels()] = input[columnMajor];
+                    image.pixels[rowMajor * image.channels() + 1] = input[columnMajor + slice];
+                    image.pixels[rowMajor * image.channels() + 2] = input[columnMajor + slice * 2];
+                    if (withAlpha) {
+                        image.pixels[rowMajor * 4 + 3] = alphaData[columnMajor];
+                    }
+                }
+            }
+        }
+        return image;
+    }
+    //=============================================================================
+    RasterImage
+    toRaster(const ArrayOf& source, const ArrayOf& map, const ArrayOf& alpha)
+    {
+        return source.dimensions().length() == 2 && !map.isEmpty()
+            ? indexedRaster(source, map, alpha)
+            : directRaster(source, alpha);
+    }
+    //=============================================================================
+    RasterImage
+    withMetadata(RasterImage image, const std::map<std::wstring, wstringVector>& nameValue)
+    {
+        for (const auto& item : nameValue) {
+            if (item.second.empty()) {
+                continue;
+            }
+            std::string key;
+            if (StringHelpers::iequals(item.first, L"Comment")
+                || StringHelpers::iequals(item.first, L"Comments")) {
+                key = "Comment";
+            } else if (StringHelpers::iequals(item.first, L"Author")) {
+                key = "Author";
+            }
+            if (!key.empty()) {
+                std::wstring value;
+                for (const std::wstring& line : item.second) {
+                    if (!value.empty()) {
+                        value += L'\n';
+                    }
+                    value += line;
+                }
+                image.metadata[key] = wstring_to_utf8(value);
+            }
+        }
+        return image;
+    }
+    //=============================================================================
+    void
+    writeRasterOrError(const std::wstring& filename, const std::wstring& format,
+        const RasterImage& image, int quality)
+    {
+        std::string error;
+        if (!writeRasterImageAtomic(filename, wstring_to_utf8(format), image, quality, error)) {
+            Error(L"Nelson:imwrite:cannotWriteFile", L"Cannot save image file: %s (%s)", filename,
+                utf8_to_wstring(error));
+        }
+    }
+    //=============================================================================
+} // namespace
+//=============================================================================
+void
+writeGif(const std::wstring& filename, bool append, const ArrayOf& source, const ArrayOf& map,
+    const ArrayOf& alpha, int, int delayTime, int loopCount,
+    const std::map<std::wstring, wstringVector>& nameValue)
+{
+    RasterImage image = withMetadata(toRaster(source, map, alpha), nameValue);
+    std::string error;
+#ifdef NELSON_GRAPHICS_IO_STB_ONLY
+    (void)append;
+    (void)delayTime;
+    (void)loopCount;
+    error = "GIF writing is unavailable in this build";
+    Error(L"Nelson:imwrite:cannotWriteFile", L"Cannot save image file: %s (%s)", filename,
+        utf8_to_wstring(error));
+#else
+    if (!writeRasterGif(
+            filename, image, append, delayTime < 0 ? 1000 : delayTime, loopCount, error)) {
+        Error(L"Nelson:imwrite:cannotWriteFile", L"Cannot save image file: %s (%s)", filename,
+            utf8_to_wstring(error));
+    }
+#endif
 }
 //=============================================================================
+void
+writeTiff(const std::wstring& filename, const ArrayOf& source, const ArrayOf& map,
+    const ArrayOf& alpha, const std::map<std::wstring, wstringVector>& nameValue)
+{
+    writeRasterOrError(
+        filename, L"tiff", withMetadata(toRaster(source, map, alpha), nameValue), DEFAULT_QUALITY);
 }
+//=============================================================================
+void
+writePcx(const std::wstring& filename, const ArrayOf& source, const ArrayOf& map,
+    const ArrayOf& alpha, int quality, const std::map<std::wstring, wstringVector>& nameValue)
+{
+    writeRasterOrError(
+        filename, L"pcx", withMetadata(toRaster(source, map, alpha), nameValue), quality);
+}
+//=============================================================================
+void
+writeImage(const std::wstring& filename, const ArrayOf& source, const ArrayOf& map,
+    const std::wstring& format, const ArrayOf& alpha, int quality,
+    const std::map<std::wstring, wstringVector>& nameValue)
+{
+    writeRasterOrError(
+        filename, format, withMetadata(toRaster(source, map, alpha), nameValue), quality);
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

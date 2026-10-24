@@ -42,5 +42,11 @@ updateVariablesEditor();
 NLSGUI_IMPEXP bool
 openVariable(const std::wstring& variableName);
 //=============================================================================
+NLSGUI_IMPEXP bool
+isVariableExisting(const std::wstring& variableName);
+//=============================================================================
+NLSGUI_IMPEXP bool
+isGraphicsObjectExisting(long long handle);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

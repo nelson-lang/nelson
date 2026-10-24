@@ -20,7 +20,7 @@ function varargout = mpower(varargin)
     varargout{1} = ss(1);
     return;
   end
-  
+
   if (n < 0)
     n = -n;
     sysA = inv(sysA);

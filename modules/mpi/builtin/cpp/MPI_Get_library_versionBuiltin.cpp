@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::MpiGateway::MPI_Get_library_versionBuiltin(int nLhs, const ArrayOfVector
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::characterArrayConstructor(getMpiLibraryVersion());
+    retval << ArrayOf::characterArray(getMpiLibraryVersion());
     return retval;
 }
 //=============================================================================

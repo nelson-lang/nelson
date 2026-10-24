@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 %=============================================================================
 % Copyright (c) 2016-present Allan CORNET (Nelson)
 %=============================================================================
@@ -101,6 +101,9 @@
       <xsl:with-param name="text" select="keyword"/>
     </xsl:call-template>
     <xsl:text>&#10;&#10;</xsl:text>
+    <xsl:for-each select="description/p[img[contains(@src, 'libraries/') and contains(@src, 'exports/')]]">
+      <xsl:apply-templates select="img" mode="centered"/>
+    </xsl:for-each>
     <xsl:call-template name="escape-description-text">
       <xsl:with-param name="text" select="short_description"/>
     </xsl:call-template>
@@ -157,7 +160,7 @@
     <!-- Only show description section if it's not empty -->
     <xsl:if test="description">
     <xsl:text>&#10;## </xsl:text><xsl:value-of select="$description-text"/><xsl:text>&#10;</xsl:text>
-    <xsl:apply-templates select="description"/>
+    <xsl:apply-templates select="description/node()[not(self::p[img[contains(@src, 'libraries/') and contains(@src, 'exports/')]])]"/>
     <xsl:text>&#10;</xsl:text>
     </xsl:if>
 
@@ -193,7 +196,8 @@
         <xsl:text>&#10;```&#10;</xsl:text>
       </xsl:if>
       <xsl:if test="example_item_img">
-        <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src)"/>
+        <xsl:variable name="imgsrc" select="ext:copy_img(example_item_img/@src, example_item_img/@generate)"/>
+        <xsl:if test="string-length($imgsrc) &gt; 0">
         <xsl:text>&lt;img src="</xsl:text>
         <xsl:value-of select="substring-after($imgsrc, './')"/>
         <xsl:text>"</xsl:text>
@@ -203,6 +207,7 @@
           <xsl:text>"</xsl:text>
         </xsl:if>
         <xsl:text>/&gt;&#10;</xsl:text>
+        </xsl:if>
       </xsl:if>
     </xsl:for-each>
     </xsl:if>
@@ -212,40 +217,8 @@
     <xsl:text>&#10;&#10;## </xsl:text><xsl:value-of select="$see-also-text"/><xsl:text>&#10;&#10;</xsl:text>
     <xsl:for-each select="see_also/see_also_item/link">
       <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
-      <!-- Extract module and function name from linkend -->
-      <xsl:variable name="linkend" select="@linkend"/>
-      <xsl:variable name="rootpath" select="/*/@rootpath"/>
-      <xsl:variable name="module">
-        <xsl:choose>
-          <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
-            <xsl:value-of select="substring-before(substring-after($linkend, '${'), '}')"/>
-          </xsl:when>
-          <xsl:when test="contains($linkend, '{') and contains($linkend, '}')">
-            <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
-          </xsl:when>
-        </xsl:choose>
-      </xsl:variable>
-      <xsl:variable name="function">
-        <xsl:choose>
-          <xsl:when test="contains($linkend, '}')">
-            <xsl:value-of select="substring-after($linkend, '}')"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="$linkend"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
-      
-      <!-- Create the proper relative path with module reference -->
-      <xsl:choose>
-        <xsl:when test="string-length($module) > 0">
-          <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/>
-        </xsl:otherwise>
-      </xsl:choose>
-      <xsl:text>.md)</xsl:text>
+      <xsl:call-template name="link-target"/>
+      <xsl:text>)</xsl:text>
       <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
     </xsl:for-each>
     <xsl:text>.</xsl:text>
@@ -348,40 +321,55 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- Render inline <link> elements in markdown -->
-  <xsl:template match="link">
-    <xsl:variable name="linkend" select="@linkend"/>
-    <xsl:variable name="rootpath" select="/*/@rootpath"/>
-    <xsl:variable name="module">
-      <xsl:choose>
-        <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
-          <xsl:value-of select="substring-before(substring-after($linkend, '${'), '}')"/>
-        </xsl:when>
-        <xsl:when test="contains($linkend, '{') and contains($linkend, '}')">
-          <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="function">
-      <xsl:choose>
-        <xsl:when test="contains($linkend, '}')">
-          <xsl:value-of select="substring-after($linkend, '}')"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$linkend"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
+  <!-- Destination of a <link> (context node): the href resolved by the help
+       builder from the keyword index when available, otherwise the legacy
+       "<rootpath>../<module>/<name>.md" guess built from the linkend. -->
+  <xsl:template name="link-target">
     <xsl:choose>
-      <xsl:when test="string-length($module) &gt; 0">
-        <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+      <xsl:when test="@href">
+        <xsl:value-of select="@href"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/>
+        <xsl:variable name="linkend" select="@linkend"/>
+        <xsl:variable name="rootpath" select="/*/@rootpath"/>
+        <xsl:variable name="module">
+          <xsl:choose>
+            <xsl:when test="contains($linkend, '${') and contains($linkend, '}')">
+              <xsl:value-of select="substring-before(substring-after($linkend, '${'), '}')"/>
+            </xsl:when>
+            <xsl:when test="contains($linkend, '{') and contains($linkend, '}')">
+              <xsl:value-of select="substring-before(substring-after($linkend, '{'), '}')"/>
+            </xsl:when>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="function">
+          <xsl:choose>
+            <xsl:when test="contains($linkend, '}')">
+              <xsl:value-of select="substring-after($linkend, '}')"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$linkend"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+          <xsl:when test="string-length($module) &gt; 0">
+            <xsl:value-of select="$rootpath"/><xsl:text>../</xsl:text><xsl:value-of select="$module"/><xsl:text>/</xsl:text><xsl:value-of select="$function"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$rootpath"/><xsl:value-of select="$function"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>.md</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:text>.md)</xsl:text>
+  </xsl:template>
+
+  <!-- Render inline <link> elements in markdown -->
+  <xsl:template match="link">
+    <xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>](</xsl:text>
+    <xsl:call-template name="link-target"/>
+    <xsl:text>)</xsl:text>
   </xsl:template>
 
   <xsl:template match="example_item">
@@ -404,6 +392,13 @@
     <xsl:apply-templates/>
   </xsl:template>
 
+  <!-- Block library icons (SVG exports of libraries/<lib>/exports/) are
+       small assets: shown centered and capped in width, as in the HTML and
+       PDF manuals. -->
+  <xsl:template match="img[substring(@src, string-length(@src) - 3) = '.svg' and contains(@src, 'libraries/') and contains(@src, 'exports/')]">
+    <xsl:apply-templates select="." mode="centered"/>
+  </xsl:template>
+
   <!-- Template for <img> tag -->
   <xsl:template match="img">
     <xsl:variable name="imgsrc" select="ext:copy_img(@src)"/>
@@ -424,6 +419,85 @@
       <xsl:text> height="</xsl:text><xsl:value-of select="@height"/><xsl:text>"</xsl:text>
     </xsl:if>
     <xsl:text>/&gt;&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for centered block-library images -->
+  <xsl:template match="img" mode="centered">
+    <xsl:variable name="imgsrc" select="ext:copy_img(@src)"/>
+    <xsl:text>&#10;&lt;p align="center"&gt;&#10;</xsl:text>
+    <xsl:text>&lt;img src="</xsl:text>
+    <xsl:value-of select="substring-after($imgsrc, './')"/>
+    <xsl:text>"</xsl:text>
+    <xsl:if test="@alt">
+      <xsl:text> alt="</xsl:text><xsl:value-of select="@alt"/><xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:if test="substring(@src, string-length(@src) - 3) = '.svg' and contains(@src, 'libraries/') and contains(@src, 'exports/')">
+      <!-- Markdown cannot cap a width, so the width attribute is set from
+           the SVG's own width, read from the copy that copy_img just placed
+           in the output directory: small icons keep their size, larger ones
+           are reduced to 192 px. -->
+      <!-- document() needs a URI: a native path such as D:\a\b fails to
+           parse (drive letter read as a scheme, backslashes), so the path is
+           turned into file:///D:/a/b (file:///a/b on POSIX). -->
+      <xsl:variable name="svgpath" select="translate(concat(/*/@outputdir, '/', substring-after($imgsrc, './')), '\', '/')"/>
+      <xsl:variable name="svguri">
+        <xsl:choose>
+          <xsl:when test="starts-with($svgpath, '/')">
+            <xsl:value-of select="concat('file://', $svgpath)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="concat('file:///', $svgpath)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="svgwidth" select="number(document(string($svguri))/*[local-name() = 'svg']/@width)"/>
+      <xsl:text> width="</xsl:text>
+      <xsl:choose>
+        <xsl:when test="$svgwidth &gt; 0 and $svgwidth &lt; 192">
+          <xsl:value-of select="round($svgwidth)"/>
+        </xsl:when>
+        <xsl:otherwise>192</xsl:otherwise>
+      </xsl:choose>
+      <xsl:text>"</xsl:text>
+    </xsl:if>
+    <xsl:text>/&gt;&#10;</xsl:text>
+    <xsl:text>&lt;/p&gt;&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Whole-file listings (no start/end bounds) are only referenced by path:
+       the full manifests and handlers are kept out of the markdown manual
+       (they weighed more than the rest of the pages and are available in the
+       HTML help). Bounded excerpts are printed in a folded section. -->
+  <xsl:template match="source_code[not(@start) and not(@end)]">
+    <xsl:text>&#10;&#10;**</xsl:text>
+    <xsl:choose>
+      <xsl:when test="@label"><xsl:value-of select="@label"/></xsl:when>
+      <xsl:otherwise>Source</xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>:** `</xsl:text>
+    <xsl:value-of select="@path"/>
+    <xsl:text>`&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Template for source_code injected at build time -->
+  <xsl:template match="source_code">
+    <xsl:text>&#10;&#10;&lt;details&gt;&#10;&lt;summary&gt;</xsl:text>
+    <xsl:choose>
+      <xsl:when test="@label"><xsl:value-of select="@label"/></xsl:when>
+      <xsl:otherwise>Source</xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>: &lt;code&gt;</xsl:text>
+    <xsl:value-of select="@path"/>
+    <xsl:text>&lt;/code&gt;&lt;/summary&gt;&#10;&#10;```</xsl:text>
+    <xsl:choose>
+      <xsl:when test="@language"><xsl:value-of select="@language"/></xsl:when>
+      <xsl:when test="contains(@path, '.json')">json</xsl:when>
+      <xsl:when test="contains(@path, '.cpp') or contains(@path, '.hpp') or contains(@path, '.h')">cpp</xsl:when>
+      <xsl:otherwise>text</xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>&#10;</xsl:text>
+    <xsl:value-of select="ext:source_code(@path, string(@start), string(@end))"/>
+    <xsl:text>&#10;```&#10;&#10;&lt;/details&gt;&#10;</xsl:text>
   </xsl:template>
 
   <!-- Template for <latex> tag -->
@@ -465,8 +539,30 @@
       <xsl:text>&#10;</xsl:text>
     </xsl:if>
     <xsl:text>&#10;</xsl:text>
-    <xsl:apply-templates select="tr[1]" mode="header"/>
-    <xsl:apply-templates select="tr[position() > 1]"/>
+    <xsl:choose>
+      <xsl:when test="thead/tr">
+        <xsl:apply-templates select="thead/tr[1]" mode="header"/>
+        <xsl:apply-templates select="tbody/tr | tr"/>
+      </xsl:when>
+      <xsl:when test="count(tbody/tr[1]/td | tr[1]/td) = 2">
+        <xsl:text>| </xsl:text>
+        <xsl:choose>
+          <xsl:when test="/xmldoc/language = 'fr_FR'">Champ</xsl:when>
+          <xsl:otherwise>Field</xsl:otherwise>
+        </xsl:choose>
+        <xsl:text> | </xsl:text>
+        <xsl:choose>
+          <xsl:when test="/xmldoc/language = 'fr_FR'">Valeur</xsl:when>
+          <xsl:otherwise>Value</xsl:otherwise>
+        </xsl:choose>
+        <xsl:text> |&#10;| --- | --- |&#10;</xsl:text>
+        <xsl:apply-templates select="tbody/tr | tr"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="tbody/tr[1] | tr[1]" mode="header"/>
+        <xsl:apply-templates select="tbody/tr[position() > 1] | tr[position() > 1]"/>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 
@@ -518,7 +614,7 @@
     </xsl:call-template>
     <xsl:text>**</xsl:text>
   </xsl:template>
-  
+
   <xsl:template match="table//i">
     <xsl:text>*</xsl:text>
     <xsl:call-template name="escape-markdown-text">

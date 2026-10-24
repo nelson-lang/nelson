@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "LinearInterpolation1D.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -54,7 +55,7 @@ parseMethodName(const std::wstring& methodName)
         || methodName == L"spline") {
         return Interp1DMethod::HERMITE;
     }
-    Error(_W("Interpolation method not supported by the native 1-D engine."));
+    Error(L"Nelson:interp:unsupportedMethod", L"Unsupported interpolation method.");
     return Interp1DMethod::LINEAR;
 }
 //=============================================================================
@@ -181,15 +182,15 @@ getRealScalarOrNaN(const ArrayOf* value)
         return numericNaN<T>();
     }
     ArrayOf scalar(*value);
-    if (scalar.getElementCount() != 1) {
-        Error(_W("Scalar extrapolation value expected."));
+    if (scalar.elementCount() != 1) {
+        Error(L"Nelson:interp:invalidExtrapolation", L"Scalar extrapolation value expected.");
     }
     if (std::is_same<T, single>::value) {
         scalar.promoteType(NLS_SINGLE);
-        return static_cast<T>(scalar.getContentAsSingleScalar());
+        return static_cast<T>(scalar.asSingleScalar());
     }
     scalar.promoteType(NLS_DOUBLE);
-    return static_cast<T>(scalar.getContentAsDoubleScalar());
+    return static_cast<T>(scalar.asDoubleScalar());
 }
 //=============================================================================
 template <class T>
@@ -223,7 +224,8 @@ interpolateReal(const T* x, const T* y, indexType n, const T* q, indexType nq, T
         case Interp1DMethod::NEAREST: {
             T dl = std::abs(qk - x[left]);
             T dr = std::abs(x[left + 1] - qk);
-            out[k] = (dl <= dr) ? y[left] : y[left + 1];
+            // on a tie, the expected behavior takes the right neighbor
+            out[k] = (dl < dr) ? y[left] : y[left + 1];
         } break;
         case Interp1DMethod::PREVIOUS: {
             if (qk <= x[0]) {
@@ -302,7 +304,8 @@ interpolateComplex(const T* x, const T* y, indexType n, const T* q, indexType nq
         if (method == Interp1DMethod::NEAREST) {
             T dl = std::abs(qk - x[left]);
             T dr = std::abs(x[left + 1] - qk);
-            valueIndex = (dl <= dr) ? left : left + 1;
+            // on a tie, the expected behavior takes the right neighbor
+            valueIndex = (dl < dr) ? left : left + 1;
         } else if (method == Interp1DMethod::NEXT && qk != x[left] && qk < x[n - 1]) {
             valueIndex = left + 1;
         } else if (method == Interp1DMethod::NEXT && qk >= x[n - 1]) {
@@ -337,17 +340,17 @@ getComplexScalarPartOrNaN(const ArrayOf* value, bool imaginary)
         return numericNaN<T>();
     }
     ArrayOf scalar(*value);
-    if (scalar.getElementCount() != 1) {
-        Error(_W("Scalar extrapolation value expected."));
+    if (scalar.elementCount() != 1) {
+        Error(L"Nelson:interp:invalidExtrapolation", L"Scalar extrapolation value expected.");
     }
     if (!scalar.isComplex()) {
         return imaginary ? static_cast<T>(0) : getRealScalarOrNaN<T>(value);
     }
-    if (scalar.getDataClass() == NLS_SCOMPLEX) {
-        const single* data = (const single*)scalar.getDataPointer();
+    if (scalar.dataClass() == NLS_SCOMPLEX) {
+        const single* data = (const single*)scalar.dataPointer();
         return static_cast<T>(imaginary ? data[1] : data[0]);
     }
-    const double* data = (const double*)scalar.getDataPointer();
+    const double* data = (const double*)scalar.dataPointer();
     return static_cast<T>(imaginary ? data[1] : data[0]);
 }
 //=============================================================================
@@ -368,10 +371,10 @@ LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ, const std::wstring& m
     const std::wstring& extrapolationMode, const ArrayOf* extrapolationValue)
 {
     ArrayOf X;
-    indexType len = V.isVector() ? V.getElementCount() : V.getRows();
+    indexType len = V.isVector() ? V.elementCount() : V.rows();
     NelsonType destinationClass = V.isSingleClass() ? NLS_SINGLE : NLS_DOUBLE;
     if (!(V.isSingleClass() || V.isDoubleClass())) {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:interp1:typeNotSupported", L"Type not supported.");
     }
     Dimensions dims(1, len);
     if (destinationClass == NLS_SINGLE) {
@@ -399,22 +402,25 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ,
 {
     if (!(X.isSingleClass() || X.isDoubleClass()) || !(XQ.isSingleClass() || XQ.isDoubleClass())
         || !(V.isSingleClass() || V.isDoubleClass())) {
-        Error(_W("'double' or 'single' type for all input arguments expected."));
+        Error(L"Nelson:interp1:typeNotSupported", L"Type not supported.");
     }
     if (X.isSparse() || V.isSparse() || XQ.isSparse()) {
-        Error(_W("dense type for all input arguments expected."));
+        Error(L"Nelson:special_functions:denseExpected",
+            L"dense type for all input arguments expected.");
     }
     if (X.isComplex() || XQ.isComplex()) {
-        Error(_W("Inputs arguments must be real."));
+        Error(L"Nelson:interp:mustBeReal", L"Inputs arguments must be real.");
     }
     if (!V.isVector()) {
-        Error(_W("Vector V expected by native 1-D interpolation engine."));
+        Error(L"Nelson:interp:vectorExpected",
+            L"Vector V expected by native 1-D interpolation engine.");
     }
-    if (X.getElementCount() != V.getElementCount()) {
-        Error(_W("X and V must be of the same length."));
+    if (X.elementCount() != V.elementCount()) {
+        Error(L"Nelson:dimagree:xVLength", L"X and V must be of the same length.");
     }
-    if (X.getElementCount() < 2) {
-        Error(_W("At least two sample points expected."));
+    if (X.elementCount() < 2) {
+        Error(L"Nelson:special_functions:notEnoughSamplePoints",
+            L"At least two sample points expected.");
     }
 
     Interp1DMethod method = parseMethodName(methodName);
@@ -432,59 +438,63 @@ LinearInterpolation1D(const ArrayOf& X, const ArrayOf& V, const ArrayOf& XQ,
     }
 
     ArrayOf res;
-    switch (y1.getDataClass()) {
+    switch (y1.dataClass()) {
     case NLS_DOUBLE: {
-        const double* x = (const double*)x1.getDataPointer();
-        if (!isStrictlyIncreasing(x, x1.getElementCount())) {
-            Error(_W("Sample points must be strictly increasing."));
+        const double* x = (const double*)x1.dataPointer();
+        if (!isStrictlyIncreasing(x, x1.elementCount())) {
+            Error(L"Nelson:interp:samplePointsNotIncreasing",
+                L"Sample points must be strictly increasing.");
         }
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, xi.getElementCount());
-        interpolateReal<double>(x, (const double*)y1.getDataPointer(), x1.getElementCount(),
-            (const double*)xi.getDataPointer(), xi.getElementCount(), ptr, method, extrap,
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, xi.elementCount());
+        interpolateReal<double>(x, (const double*)y1.dataPointer(), x1.elementCount(),
+            (const double*)xi.dataPointer(), xi.elementCount(), ptr, method, extrap,
             getRealScalarOrNaN<double>(extrapolationValue));
-        res = ArrayOf(NLS_DOUBLE, xi.getDimensions(), ptr);
+        res = ArrayOf(NLS_DOUBLE, xi.dimensions(), ptr);
     } break;
     case NLS_SINGLE: {
-        const single* x = (const single*)x1.getDataPointer();
-        if (!isStrictlyIncreasing(x, x1.getElementCount())) {
-            Error(_W("Sample points must be strictly increasing."));
+        const single* x = (const single*)x1.dataPointer();
+        if (!isStrictlyIncreasing(x, x1.elementCount())) {
+            Error(L"Nelson:interp:samplePointsNotIncreasing",
+                L"Sample points must be strictly increasing.");
         }
-        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, xi.getElementCount());
-        interpolateReal<single>(x, (const single*)y1.getDataPointer(), x1.getElementCount(),
-            (const single*)xi.getDataPointer(), xi.getElementCount(), ptr, method, extrap,
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, xi.elementCount());
+        interpolateReal<single>(x, (const single*)y1.dataPointer(), x1.elementCount(),
+            (const single*)xi.dataPointer(), xi.elementCount(), ptr, method, extrap,
             getRealScalarOrNaN<single>(extrapolationValue));
-        res = ArrayOf(NLS_SINGLE, xi.getDimensions(), ptr);
+        res = ArrayOf(NLS_SINGLE, xi.dimensions(), ptr);
     } break;
     case NLS_DCOMPLEX: {
-        const double* x = (const double*)x1.getDataPointer();
-        if (!isStrictlyIncreasing(x, x1.getElementCount())) {
-            Error(_W("Sample points must be strictly increasing."));
+        const double* x = (const double*)x1.dataPointer();
+        if (!isStrictlyIncreasing(x, x1.elementCount())) {
+            Error(L"Nelson:interp:samplePointsNotIncreasing",
+                L"Sample points must be strictly increasing.");
         }
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, xi.getElementCount());
-        interpolateComplex<double>(x, (const double*)y1.getDataPointer(), x1.getElementCount(),
-            (const double*)xi.getDataPointer(), xi.getElementCount(), ptr, method, extrap,
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, xi.elementCount());
+        interpolateComplex<double>(x, (const double*)y1.dataPointer(), x1.elementCount(),
+            (const double*)xi.dataPointer(), xi.elementCount(), ptr, method, extrap,
             getComplexScalarPartOrNaN<double>(extrapolationValue, false),
             getComplexScalarPartOrNaN<double>(extrapolationValue, true));
-        res = ArrayOf(NLS_DCOMPLEX, xi.getDimensions(), ptr);
+        res = ArrayOf(NLS_DCOMPLEX, xi.dimensions(), ptr);
     } break;
     case NLS_SCOMPLEX: {
-        const single* x = (const single*)x1.getDataPointer();
-        if (!isStrictlyIncreasing(x, x1.getElementCount())) {
-            Error(_W("Sample points must be strictly increasing."));
+        const single* x = (const single*)x1.dataPointer();
+        if (!isStrictlyIncreasing(x, x1.elementCount())) {
+            Error(L"Nelson:interp:samplePointsNotIncreasing",
+                L"Sample points must be strictly increasing.");
         }
-        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, xi.getElementCount());
-        interpolateComplex<single>(x, (const single*)y1.getDataPointer(), x1.getElementCount(),
-            (const single*)xi.getDataPointer(), xi.getElementCount(), ptr, method, extrap,
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, xi.elementCount());
+        interpolateComplex<single>(x, (const single*)y1.dataPointer(), x1.elementCount(),
+            (const single*)xi.dataPointer(), xi.elementCount(), ptr, method, extrap,
             getComplexScalarPartOrNaN<single>(extrapolationValue, false),
             getComplexScalarPartOrNaN<single>(extrapolationValue, true));
-        res = ArrayOf(NLS_SCOMPLEX, xi.getDimensions(), ptr);
+        res = ArrayOf(NLS_SCOMPLEX, xi.dimensions(), ptr);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:interp1:typeNotSupported", L"Type not supported.");
     } break;
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

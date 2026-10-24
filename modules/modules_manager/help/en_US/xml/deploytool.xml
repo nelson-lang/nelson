@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>deploytool</keyword>
+  <keyword_alias>deploytool</keyword_alias>
+  <short_description>Open the standalone application project editor.</short_description>
+  <syntax><syntax_item>deploytool</syntax_item></syntax>
+  <description>
+    <p>Loads the optional compiler module and opens its singleton project editor in a graphical Nelson session. Calling the command again reuses the existing window and preserves its project. It accepts no input or output arguments.</p>
+    <p>Application and installer settings, resources, dependency analysis, construction, project persistence and build-script export share the programmatic compiler services. Unsupported options are not silently enabled. Verified previous outputs can be rebuilt; unrelated or modified files are not overwritten.</p>
+    <p>The commands deploytool and standaloneApplicationCompiler open the same editor. Legacy -build and -package arguments are not supported; use compiler.build and compiler.package functions.</p>
+    <p>Saved .ncproj projects use relative paths for files inside the project directory, so this directory can be moved with its sources. External files retain absolute paths. See compiler_project_tutorial for path handling and existing-project support.</p>
+    <p>Save after building to retain the build reference. Reopening restores verified build outputs for installer creation without rebuilding. If the report or outputs changed, the project still opens but its saved build is unavailable. A restored build is the previous application snapshot, not a rebuild of modified sources.</p>
+    <p>Source fingerprints distinguish unchanged inputs from confirmed changes, which disable Installer until rebuilding. Missing or unanalyzable sources are reported as unavailable; older saved builds can have unknown source freshness. Their verified output remains distributable as a saved snapshot, not as a confirmed up-to-date build. Analyze refreshes this state; Installer checks it again. See compiler_project_tutorial for coverage and limits.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="false"><![CDATA[deploytool]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}standaloneApplicationCompiler">standaloneApplicationCompiler</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_project_tutorial">compiler_project_tutorial</link></see_also_item>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

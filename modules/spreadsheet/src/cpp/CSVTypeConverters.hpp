@@ -57,5 +57,5 @@ ConvertStringToUInt32(const std::string& pStr, uint32& Val);
 void
 ConvertStringToUInt64(const std::string& pStr, uint64& Val);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -16,5 +16,5 @@ namespace Nelson::ImageProcessingGateway {
 ArrayOfVector
 imresizeBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::ImageProcessingGateway
 //=============================================================================

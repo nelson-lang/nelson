@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,6 +15,7 @@
 #include "IntegerOperations.hpp"
 #include "BitwiseOperators.hpp"
 #include "MatrixCheck.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -54,13 +55,13 @@ scalar_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     OMP_PARALLEL_FOR_LOOP(Clen)
@@ -76,12 +77,12 @@ matrix_scalar_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     OMP_PARALLEL_FOR_LOOP(Clen)
@@ -97,12 +98,12 @@ matrix_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     OMP_PARALLEL_FOR_LOOP(Clen)
@@ -118,20 +119,20 @@ row_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDes
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     indexType q = 0;
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsA.rows();
             ptrC[m] = op(ptrA[q], ptrB[m]);
         }
         q++;
@@ -145,18 +146,18 @@ column_matrix_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = B.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsB = B.getDimensions();
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    Dimensions dimsB = B.dimensions();
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsB.rows();
             ptrC[m] = op(ptrA[j], ptrB[m]);
         }
     }
@@ -169,22 +170,22 @@ matrix_row_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDes
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
 
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
 
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     indexType q = 0;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsB.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsB.rows();
             ptrC[m] = op(ptrA[m], ptrB[q]);
         }
         q++;
@@ -198,19 +199,19 @@ matrix_column_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType class
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsC = A.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * dimsA.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * dimsA.rows();
             ptrC[m] = op(ptrA[m], ptrB[j]);
         }
     }
@@ -223,21 +224,21 @@ row_column_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDes
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    indexType rows = std::max(dimsA.rows(), dimsB.rows());
+    indexType columns = std::max(dimsA.columns(), dimsB.columns());
     Dimensions dimsC(rows, columns);
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     indexType m = 0;
-    for (indexType i = 0; i < dimsA.getColumns(); i++) {
-        for (indexType j = 0; j < dimsB.getRows(); j++) {
+    for (indexType i = 0; i < dimsA.columns(); i++) {
+        for (indexType j = 0; j < dimsB.rows(); j++) {
             ptrC[m] = op(ptrA[i], ptrB[j]);
             m++;
         }
@@ -251,20 +252,20 @@ column_row_integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDes
     const ArrayOf& A, const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    indexType rows = std::max(dimsA.getRows(), dimsB.getRows());
-    indexType columns = std::max(dimsA.getColumns(), dimsB.getColumns());
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    indexType rows = std::max(dimsA.rows(), dimsB.rows());
+    indexType columns = std::max(dimsA.columns(), dimsB.columns());
     Dimensions dimsC(rows, columns);
-    indexType Clen = dimsC.getElementCount();
+    indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
     res = ArrayOf(classDestination, dimsC, Cp, false);
-    const T* ptrA = static_cast<const T*>(A.getDataPointer());
-    const T* ptrB = static_cast<const T*>(B.getDataPointer());
+    const T* ptrA = static_cast<const T*>(A.dataPointer());
+    const T* ptrB = static_cast<const T*>(B.dataPointer());
     T* ptrC = static_cast<T*>(Cp);
     indexType m = 0;
-    indexType elementCountA = dimsA.getElementCount();
-    indexType elementCountB = dimsB.getElementCount();
+    indexType elementCountA = dimsA.elementCount();
+    indexType elementCountB = dimsB.elementCount();
 
     BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
     for (indexType i = 0; i < elementCountB; i++) {
@@ -282,18 +283,14 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
     const ArrayOf& B)
 {
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
     if (SameSizeCheck(dimsA, dimsB)) {
-        // A.isRowVector() && B.isRowVector() with same size
-        // A.isColumnVector() && B.isColumnVector() with same size
-        // A.isScalar() && B.isScalar() with same size
-        // A.isMatrix() && B.isMatrix() with same size
         if (A.isScalar()) {
             T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(classDestination, 1));
             ptrC[0] = scalar_scalar_integer_bitwise<T>(bitwiseOperator,
-                static_cast<const T*>(A.getDataPointer())[0],
-                static_cast<const T*>(B.getDataPointer())[0]);
+                static_cast<const T*>(A.dataPointer())[0],
+                static_cast<const T*>(B.dataPointer())[0]);
             return ArrayOf(classDestination, Dimensions(1, 1), ptrC, false);
         }
         return matrix_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
@@ -306,44 +303,10 @@ integer_bitwise(BITWISE_OPERATOR bitwiseOperator, NelsonType classDestination, c
         return matrix_scalar_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
     }
 
-    if (A.isVector() || B.isVector()) {
-        if ((A.isRowVector() && B.isRowVector()) || (A.isColumnVector() && B.isColumnVector())) {
-            Error(_("Size mismatch on arguments."));
-        }
-        if (A.isRowVector() && B.isColumnVector()) {
-            return row_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-        }
-        if (A.isColumnVector() && B.isRowVector()) {
-            return column_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-        }
-        if (A.getRows() == B.getRows()) {
-            if (A.isVector()) {
-                if (!B.is2D()) {
-                    Error(_("Size mismatch on arguments."));
-                }
-                return row_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-            }
-            if (!A.is2D()) {
-                Error(_("Size mismatch on arguments."));
-            }
-            return matrix_row_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-        }
-        if (A.getColumns() == B.getColumns()) {
-            if (A.isVector()) {
-                if (!B.is2D()) {
-                    Error(_("Size mismatch on arguments."));
-                }
-                return column_matrix_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-            }
-            if (!A.is2D()) {
-                Error(_("Size mismatch on arguments."));
-            }
-            return matrix_column_integer_bitwise<T>(bitwiseOperator, classDestination, A, B);
-        }
-        Error(_("Size mismatch on arguments."));
-    }
-    return res;
+    BitwiseOperation<T> op = getBitwiseOperation<T>(bitwiseOperator);
+    return binaryOperatorBroadcastNumeric<T>(
+        A, B, classDestination, "bitwise", [op](T a, T b) { return op(a, b); });
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

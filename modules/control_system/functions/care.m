@@ -13,28 +13,28 @@ function varargout = care(varargin)
   % [X, L, G] = care(A, B, Q)
   % [X, L, G] = care(A, B, Q, R)
   % [X, L, G] = care(A, B, Q, R, S, E)
-  
+
   narginchk(3, 6);
   nargoutchk(0, 3);
-  
+
   A = varargin{1};
   B = varargin{2};
   Q = varargin{3};
   mustBeNumeric(A, 1);
   mustBeNumeric(B, 2);
   mustBeNumeric(Q, 3);
-  
+
   [m, n] = size(B);
-  
+
   R = [];
   S = [];
   E = [];
-  
+
   if nargin > 3
     R = varargin{4};
     mustBeNumeric(R, 4);
     if ~issymmetric(R, 0)
-      error(_('Wrong value for argument #4: Symmetric matrix expected.'));
+      error('Nelson:control_system:wrongValue', 'Wrong value for argument #%d: %s expected.', 4, 'symmetric matrix');
     end
   else
     R = eye(n, n);
@@ -51,45 +51,45 @@ function varargout = care(varargin)
   end
   mustBeNumeric(S, 5);
   mustBeNumeric(E, 6);
-  
+
   [rA, cA] = size(A);
   if (rA ~= m) || (cA ~= m)
-    error(_('Wrong size for argument #1: Square matrix expected.'));
+    error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 1, 'square matrix');
   end
-  
+
   if ((size(Q, 1) ~= size(Q, 2)) || (size(R, 1) ~= size(R, 2)))
-    error(_('Wrong size for arguments: Q, R square matrix expected.'));
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsQRSquare', 'Wrong size for arguments: Q, R square matrix expected.');
   end
-  
+
   if (size(A, 1) ~= m)
-    error(_('Wrong size for arguments #1 and #2: Same number of rows expected.'));
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', 'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 2);
   end
-  
+
   if (size(R, 2) ~= n)
-    error(_('Wrong size for arguments #2 and #4: Same number of columns expected.'));
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumber', 'Wrong size for arguments #%d and #%d: Same number of columns expected.', 2, 4);
   end
-  
-  if ~isempty(S) && ((size(S,1) ~= m) || (size(S,2) ~= n))
-    error(_('Wrong size for arguments #2 and #5: Same size expected.'));
+
+  if ~isempty(S) && ((size(S, 1) ~= m) || (size(S, 2) ~= n))
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', 'Wrong size for arguments #%d and #%d: Same size expected.', 2, 5);
   end
-  
-  if ~isempty(E) && ((size(E,1) ~= size(A,1)) || (size(E,2) ~= size(A,2)))
-    error(_('Wrong size for arguments #1 and #6: Same number of rows expected.'));
+
+  if ~isempty(E) && ((size(E, 1) ~= size(A, 1)) || (size(E, 2) ~= size(A, 2)))
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', 'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 6);
   end
-  
+
   if (size(A, 1) ~= size(Q, 1)) && (size(A, 2) ~= size(Q, 2))
-    error(_('Wrong size for arguments #1 and #3: Same size expected.'));
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', 'Wrong size for arguments #%d and #%d: Same size expected.', 1, 3);
   end
-  
+
   mustBeFinite(A, 1);
   mustBeFinite(B, 2);
   mustBeFinite(Q, 3);
   mustBeFinite(R, 4);
-  
+
   X = [];
   L = [];
   G = [];
-  
+
   DICO = 'C';
   JOBB = 'B';
   FACT = 'N';
@@ -97,28 +97,28 @@ function varargout = care(varargin)
   SORT = 'S';
   P = 0;
   TOL = 0;
-  
+
   JOBL = 'N';
   SorB = S;
   if isempty(S)
     JOBL = 'Z';
     SorB = B;
   end
-  
+
   if isempty(E)
     [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, SorB, TOL);
     if (INFO(1) ~= 0)
-      error(_('Unable to solve the specified Riccati equation.'));
+      error('Nelson:control_system:riccatiSolveFailure', 'Unable to solve the specified Riccati equation.');
     end
   else
     SCAL = 'N';
     ACC = 'N';
     [RCONDU, X, ALFAR, ALFAI, BETA, S_OUT, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, SorB, TOL);
     if (INFO(1) ~= 0)
-      error(_('Unable to solve the specified Riccati equation.'));
+      error('Nelson:control_system:riccatiSolveFailure', 'Unable to solve the specified Riccati equation.');
     end
-    if (IWARN(1) == 1) 
-      warning(_("The accuracy of the solution could be compromised by inadequate scaling or eigenvalues that are in close proximity to the stability domain's boundary."));
+    if (IWARN(1) == 1)
+      warning('Nelson:control_system:accuracyCompromised', 'The accuracy of the solution could be compromised by inadequate scaling or eigenvalues that are in close proximity to the stability domain''s boundary.');
     end
   end
   N = size(A, 1);

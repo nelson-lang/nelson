@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>place</keyword>
+  <short_description
+  >Placement de pôles par retour d&apos;état avec assignation robuste.</short_description>
+  <syntax>
+    <syntax_item>K = place(A, B, p)</syntax_item>
+    <syntax_item>[K, prec] = place(A, B, p)</syntax_item>
+    <syntax_item>[K, prec, message] = place(A, B, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Matrice d&apos;état : matrice Nx-par-Nx.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
+      >Matrice d&apos;entrée vers l&apos;état : matrice Nx-par-Nu.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description
+      >Vecteur des pôles désirés en boucle fermée, de longueur Nx.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>K</param_name>
+      <param_description
+      >Matrice de gain du retour d&apos;état : matrice Nu-par-Nx.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>prec</param_name>
+      <param_description
+      >Précision estimée des pôles assignés, exprimée comme un nombre approximatif de décimales exactes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description
+      >Message d&apos;avertissement renvoyé lorsqu&apos;un ou plusieurs pôles n&apos;ont pas pu être placés à la précision demandée (vide sinon).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction <b>place</b> calcule la matrice de gain <b>K</b> telle que les pôles en boucle fermée de <b>A - B*K</b> soient les éléments du vecteur <b>p</b>, c&apos;est-à-dire <b>p = eig(A - B*K)</b>.</p>
+    <p>Contrairement à <b>acker</b>, limitée aux systèmes mono-entrée, <b>place</b> prend en charge les systèmes multi-entrées (<b>B</b> à plusieurs colonnes) et choisit les vecteurs propres en boucle fermée de façon à rendre l&apos;assignation aussi peu sensible que possible aux perturbations.</p>
+    <p>Les pôles complexes désirés doivent être fournis par paires conjuguées. La multiplicité d&apos;un pôle ne peut pas dépasser le rang de <b>B</b>. Pour des <b>A</b>, <b>B</b> et <b>p</b> réels, le gain <b>K</b> obtenu est réel.</p>
+    <p
+    >L&apos;algorithme est la méthode de mise à jour de rang un décrite dans J. Kautsky, N. K. Nichols et P. Van Dooren, &quot;Robust pole assignment in linear state feedback&quot;, International Journal of Control, vol. 41, no. 5, pp. 1129-1155, 1985.</p>
+  </description>
+  <used_function />
+  <bibliography
+  >J. Kautsky, N. K. Nichols et P. Van Dooren, &quot;Robust pole assignment in linear state feedback&quot;, International Journal of Control, 41(5):1129-1155, 1985.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [-0.5 0 0; 0 -2 10; 0 1 -2];
+B = [1 0; 0 0; 0 1];
+p = [-3; -5; -7];
+[K, prec] = place(A, B, p)
+eig(A - B * K)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}acker">acker</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lqr">lqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

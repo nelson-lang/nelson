@@ -10,14 +10,14 @@
 #include "NelsonMinimizedDynamicFunction.hpp"
 #include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
+#include "RuntimeDispatch.hpp"
 #include <cstdlib>
 #include <string>
 #include <mutex>
-//===================================================================================
+//=============================================================================
 namespace {
 Nelson::library_handle nlsGuiHandleDynamicLibrary = nullptr;
 std::once_flag guiLibraryInitFlag;
-
 template <typename FuncPtr>
 FuncPtr
 getFunctionPointer(const char* functionName)
@@ -25,11 +25,15 @@ getFunctionPointer(const char* functionName)
     return reinterpret_cast<FuncPtr>(
         Nelson::get_function(nlsGuiHandleDynamicLibrary, functionName));
 }
-}
-//===================================================================================
+//=============================================================================
+} // namespace
+//=============================================================================
 static void
 initGuiDynamicLibrary()
 {
+    if (!Nelson::hasGuiServices()) {
+        return;
+    }
     std::call_once(guiLibraryInitFlag, []() {
         const std::wstring fullpathGuiSharedLibrary
             = L"libnlsGui" + Nelson::get_dynamic_library_extensionW();
@@ -40,7 +44,7 @@ initGuiDynamicLibrary()
         nlsGuiHandleDynamicLibrary = Nelson::load_dynamic_libraryW(libraryPath);
     });
 }
-//===================================================================================
+//=============================================================================
 bool
 setNelsonMinimizedDynamicFunction(bool minimize)
 {
@@ -56,7 +60,7 @@ setNelsonMinimizedDynamicFunction(bool minimize)
     }
     return setNelsonMinimizedPtr(minimize);
 }
-//===================================================================================
+//=============================================================================
 bool
 getNelsonMinimizedDynamicFunction()
 {
@@ -71,4 +75,4 @@ getNelsonMinimizedDynamicFunction()
     }
     return getNelsonMinimizedPtr();
 }
-//===================================================================================
+//=============================================================================

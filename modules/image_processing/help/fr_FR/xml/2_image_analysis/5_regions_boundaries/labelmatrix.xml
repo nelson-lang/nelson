@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>labelmatrix</keyword>
+  <short_description>Cree une matrice d etiquettes depuis des composants connexes.</short_description>
+  <syntax>
+    <syntax_item>L = labelmatrix(CC)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>CC</param_name>
+      <param_description>Structure de composantes connexes renvoyee par bwconncomp.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>Matrice d'etiquettes avec une etiquette positive par composante.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Cree une matrice d etiquettes depuis des composants connexes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher les etiquettes de composants</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(8:20,8:20)=true; BW(36:52,32:48)=true;
+CC=bwconncomp(BW);
+L=labelmatrix(CC);
+figure; imagesc(L); title('Label matrix');]]></example_item_data>
+      <example_item_img
+        src="../../../images/labelmatrix_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}bwconncomp">bwconncomp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}bwlabel">bwlabel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}regionprops">regionprops</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
