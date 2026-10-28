@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>linsolve</keyword>
+  <short_description>Solve a linear system of equations.</short_description>
+  <syntax>
+    <syntax_item>X = linsolve(A, B)</syntax_item>
+    <syntax_item>X = linsolve(A, B, opts)</syntax_item>
+    <syntax_item>[X, r] = linsolve(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a coefficient matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>the right-hand side.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>a structure of options; field <b>TRANSA</b> solves <b>A&apos;*X = B</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>the solution of <b>A*X = B</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>the reciprocal condition number estimate of <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = linsolve(A, B)</b> solves the linear system <b>A*X = B</b>.</p>
+    <p><b>X = linsolve(A, B, opts)</b> uses the options in <b>opts</b>; set <b>opts.TRANSA = true</b> to solve <b>A&apos;*X = B</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = linsolve([2 0; 0 4], [6; 8])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}inv">inv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}rref">rref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

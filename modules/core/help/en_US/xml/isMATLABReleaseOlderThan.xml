@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isMATLABReleaseOlderThan</keyword>
+  <short_description>Compare current release to a MATLAB release.</short_description>
+  <syntax>
+    <syntax_item>tf = isMATLABReleaseOlderThan(release)</syntax_item>
+    <syntax_item>tf = isMATLABReleaseOlderThan(release, &apos;update&apos;, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>release</param_name>
+      <param_description>a release name of the form <b>&apos;RYYYYa&apos;</b> or <b>&apos;RYYYYb&apos;</b>, such as <b>&apos;R2023b&apos;</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>a nonnegative integer: update number.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical: <b>true</b> when the current release is older than the requested one.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = isMATLABReleaseOlderThan(release)</b> compares the current release to <b>release</b>.</p>
+    <p>Nelson emulates a recent release, so checks against older releases resolve to <b>false</b> and compatibility code takes its current path.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = isMATLABReleaseOlderThan('R2020b')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}verLessThan">verLessThan</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}ver">ver</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
