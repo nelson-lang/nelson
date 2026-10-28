@@ -17,17 +17,17 @@ function varargout = subsref(varargin)
       return
     end
     indices = s(1).subs;
-    numerator = ltiSubscriptGet(obj, 'Numerator');
-    denominator = ltiSubscriptGet(obj, 'Denominator');
-    sampleTime = ltiSubscriptGet(obj, 'Ts');
+    numerator = subscriptGet(obj, 'Numerator');
+    denominator = subscriptGet(obj, 'Denominator');
+    sampleTime = subscriptGet(obj, 'Ts');
     sys = tf(numerator(indices{:}), denominator(indices{:}), sampleTime);
-    sys.Variable = ltiSubscriptGet(obj, 'Variable');
-    sys.TimeUnit = ltiSubscriptGet(obj, 'TimeUnit');
-    sys.UserData = ltiSubscriptGet(obj, 'UserData');
-    sys.InputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputName'), indices, 2);
-    sys.InputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputUnit'), indices, 2);
-    sys.OutputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputName'), indices, 1);
-    sys.OutputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputUnit'), indices, 1);
+    sys.Variable = subscriptGet(obj, 'Variable');
+    sys.TimeUnit = subscriptGet(obj, 'TimeUnit');
+    sys.UserData = subscriptGet(obj, 'UserData');
+    sys.InputName = lti.selectIOProperty(subscriptGet(obj, 'InputName'), indices, 2);
+    sys.InputUnit = lti.selectIOProperty(subscriptGet(obj, 'InputUnit'), indices, 2);
+    sys.OutputName = lti.selectIOProperty(subscriptGet(obj, 'OutputName'), indices, 1);
+    sys.OutputUnit = lti.selectIOProperty(subscriptGet(obj, 'OutputUnit'), indices, 1);
     varargout{1} = sys;
     return
   end
@@ -37,7 +37,7 @@ function varargout = subsref(varargin)
   if ~strcmp(s(1).type, '.')
     error('Nelson:control_system:invalidSubscript:notAValidIndexingExpression', 'Not a valid indexing expression');
   end
-  value = ltiSubscriptGet(obj, s(1).subs);
+  value = subscriptGet(obj, s(1).subs);
   if length(s) > 1
     [varargout{1:nargout}] = subsref(value, s(2:end));
   else

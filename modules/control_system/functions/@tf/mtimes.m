@@ -23,16 +23,16 @@ function sys = mtimes(sys1, sys2)
   numerator = conv(numeratorA, numeratorB);
   denominator = conv(denominatorA, denominatorB);
 
-  Ts = ltiResolveSampleTime(sysA, sysB);
+  Ts = lti.resolveSampleTime(sysA, sysB);
   sys = tf(numerator, denominator, Ts);
 
-  variable = ltiMergeTfVariable(sysA, sysB);
+  variable = mergeTfVariable(sysA, sysB);
   if ~isempty(variable)
     sys.Variable = variable;
   end
-  sys = ltiApplySeriesMetadata(sys, sysA, sysB);
+  sys = applySeriesMetadata(sys, sysA, sysB);
 
-  userData = ltiMergeUserData(sysA, sysB);
+  userData = mergeUserData(sysA, sysB);
   if ~isempty(userData)
     sys.UserData = userData;
   end

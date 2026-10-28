@@ -19,7 +19,7 @@ function varargout = parallel(varargin)
   if ~islti(sys1) || ~islti(sys2)
     error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  ltiCheckSampleTimeCompatibility(sys1, sys2);
+  lti.checkSampleTimeCompatibility(sys1, sys2);
 
   if isa(sys1, 'ss') || isa(sys2, 'ss')
     sys1 = ss(sys1);

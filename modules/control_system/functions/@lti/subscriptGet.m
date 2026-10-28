@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiSubscriptGet(obj, name)
+function value = subscriptGet(obj, name)
   className = class(obj);
   switch className
     case 'tf'

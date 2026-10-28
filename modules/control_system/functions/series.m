@@ -22,11 +22,11 @@ function model = series(varargin)
   if (nargin == 2)
     if isa(sys1, 'ss')
       sys2 = ss(sys2);
-      ltiCheckSampleTimeCompatibility(sys1, sys2);
+      lti.checkSampleTimeCompatibility(sys1, sys2);
       model = sys2 * sys1;
     elseif isa(sys1, 'tf')
       sys2 = tf(sys2);
-      ltiCheckSampleTimeCompatibility(sys1, sys2);
+      lti.checkSampleTimeCompatibility(sys1, sys2);
       model = sys2 * sys1;
     end
     return

@@ -7,33 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function variable = ltiMergeTfVariable(left, right, fallback)
-  if nargin < 3
-    fallback = '';
-  end
-  if strcmp(left.Variable, right.Variable)
-    variable = right.Variable;
+function userData = mergeUserData(left, right)
+  userData = [];
+  if ~isempty(left.UserData) && ~isempty(right.UserData)
+    userData = right.UserData;
     return
   end
-  if isstatic(left) && ~isstatic(right)
-    variable = right.Variable;
+  if ~isempty(left.UserData)
+    userData = left.UserData;
     return
   end
-  if isstatic(right) && ~isstatic(left)
-    variable = left.Variable;
-    return
-  end
-  if strcmp(left.Variable, 'z^-1') || strcmp(right.Variable, 'z^-1')
-    variable = 'z^-1';
-    return
-  end
-  switch fallback
-    case 'left'
-      variable = left.Variable;
-    case 'right'
-      variable = right.Variable;
-    otherwise
-      variable = '';
+  if ~isempty(right.UserData)
+    userData = right.UserData;
   end
 end
 %=============================================================================

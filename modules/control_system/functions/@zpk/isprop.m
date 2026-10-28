@@ -11,6 +11,6 @@ function tf = isprop(obj, propertyName)
   if ~ischar(propertyName)
     error('Nelson:control_system:wrongType', 'Wrong type for argument #%d: %s expected.', 2, 'string');
   end
-  tf = any(strcmp(ltiPropertyNames(class(obj)), propertyName));
+  tf = any(strcmp(lti.propertyNames(class(obj)), propertyName));
 end
 %=============================================================================

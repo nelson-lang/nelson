@@ -16,12 +16,12 @@ function sys = plus(sysA, sysB)
 
   sys = plus_siso(sysA, sysB);
 
-  variable = ltiMergeTfVariable(sysA, sysB);
+  variable = mergeTfVariable(sysA, sysB);
   if ~isempty(variable)
     sys.Variable = variable;
   end
-  sys = ltiApplyCommonMetadata(sys, sysA, sysB);
-  userData = ltiMergeUserData(sysA, sysB);
+  sys = applyCommonMetadata(sys, sysA, sysB);
+  userData = mergeUserData(sysA, sysB);
   if ~isempty(userData)
     sys.UserData = userData;
   end
@@ -29,7 +29,7 @@ end
 %=============================================================================
 function sys = plus_siso(sysA, sysB)
 
-  Ts = ltiResolveSampleTime(sysA, sysB);
+  Ts = lti.resolveSampleTime(sysA, sysB);
   numerator = [];
   denominator = [];
   for idx = 1:size(sysA.Numerator{1}, 1)

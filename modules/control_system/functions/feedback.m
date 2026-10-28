@@ -46,7 +46,7 @@ function model = feedback(varargin)
   % Check if there is a TF or SS model
   if (isa(sys1, 'ss'))
     sys2 = ss(sys2);
-    ltiCheckSampleTimeCompatibility(sys1, sys2);
+    lti.checkSampleTimeCompatibility(sys1, sys2);
     [ny1, nu1] = size(sys1.D);
     [ny2, nu2] = size(sys2.D);
     inputs1 = [1:nu1] * sgn;
@@ -58,7 +58,7 @@ function model = feedback(varargin)
     model = ssselect(sys, [1:nu1], [1:ny1]);
   elseif isa(sys1, 'tf')
     sys2 = tf(sys2);
-    Ts = ltiResolveSampleTime(sys1, sys2);
+    Ts = lti.resolveSampleTime(sys1, sys2);
     num = conv(sys1.Numerator{1}, sys2.Denominator{1});
     den = conv(sys1.Denominator{1}, sys2.Denominator{1}) - sgn * conv(sys1.Numerator{1}, sys2.Numerator{1});
     model = tf(num, den, Ts);

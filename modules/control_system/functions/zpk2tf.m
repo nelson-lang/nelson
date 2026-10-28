@@ -23,6 +23,6 @@ function sys = zpk2tf(zpkObj)
   end
   sys = tf(numerator, denominator, zpkObj.Ts);
   sys.Variable = zpkObj.Variable;
-  sys = ltiCopyModelMetadata(sys, zpkObj);
+  sys = lti.copyModelMetadata(sys, zpkObj);
 end
 %=============================================================================

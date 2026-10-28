@@ -7,13 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function sys = ltiApplySeriesMetadata(sys, left, right)
-  [pLeft, ~] = size(left);
-  [~, mRight] = size(right);
-  sys.TimeUnit = ltiMergeTimeUnit(left, right);
-  sys.InputName = ltiCopyCellMetadata(right.InputName, mRight);
-  sys.InputUnit = ltiCopyCellMetadata(right.InputUnit, mRight);
-  sys.OutputName = ltiCopyCellMetadata(left.OutputName, pLeft);
-  sys.OutputUnit = ltiCopyCellMetadata(left.OutputUnit, pLeft);
+function value = validateSampleTime(value)
+  if isempty(value)
+    return
+  end
+  if ~isnumeric(value) || ~isscalar(value) || ~(value == -1 || value >= 0)
+    error('Nelson:control_system:invalidSampleTimeProperty', 'Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.');
+  end
 end
 %=============================================================================

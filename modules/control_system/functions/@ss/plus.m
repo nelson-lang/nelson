@@ -17,11 +17,11 @@ function sys = plus(sys1, sys2)
   C = [sysA.C, sysB.C];
   D = sysA.D + sysB.D;
 
-  Ts = ltiResolveSampleTime(sysA, sysB);
+  Ts = lti.resolveSampleTime(sysA, sysB);
   sys = ss(A, B, C, D, Ts);
-  sys = ltiApplyCommonMetadata(sys, sysA, sysB);
+  sys = applyCommonMetadata(sys, sysA, sysB);
 
-  userData = ltiMergeUserData(sysA, sysB);
+  userData = mergeUserData(sysA, sysB);
   if ~isempty(userData)
     sys.UserData = userData;
   end

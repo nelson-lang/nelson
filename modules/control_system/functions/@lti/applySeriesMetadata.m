@@ -7,18 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function userData = ltiMergeUserData(left, right)
-  userData = [];
-  if ~isempty(left.UserData) && ~isempty(right.UserData)
-    userData = right.UserData;
-    return
-  end
-  if ~isempty(left.UserData)
-    userData = left.UserData;
-    return
-  end
-  if ~isempty(right.UserData)
-    userData = right.UserData;
-  end
+function sys = applySeriesMetadata(sys, left, right)
+  [pLeft, ~] = size(left);
+  [~, mRight] = size(right);
+  sys.TimeUnit = mergeTimeUnit(left, right);
+  sys.InputName = lti.copyCellMetadata(right.InputName, mRight);
+  sys.InputUnit = lti.copyCellMetadata(right.InputUnit, mRight);
+  sys.OutputName = lti.copyCellMetadata(left.OutputName, pLeft);
+  sys.OutputUnit = lti.copyCellMetadata(left.OutputUnit, pLeft);
 end
 %=============================================================================

@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiValidateTimeUnit(value)
-  value = ltiValidateTextScalar('TimeUnit', value);
+function value = validateTimeUnit(value)
+  value = lti.validateTextScalar('TimeUnit', value);
   supported = {'nanoseconds', 'microseconds', 'milliseconds', 'seconds', ...
     'minutes', 'hours', 'days', 'weeks', 'months', 'years'};
   if ~any(strcmp(value, supported))

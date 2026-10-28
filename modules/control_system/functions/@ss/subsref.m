@@ -22,10 +22,10 @@ function varargout = subsref(varargin)
     end
     outputs = indices{1};
     inputs = indices{2};
-    A = ltiSubscriptGet(obj, 'A');
-    B = ltiSubscriptGet(obj, 'B');
-    C = ltiSubscriptGet(obj, 'C');
-    D = ltiSubscriptGet(obj, 'D');
+    A = subscriptGet(obj, 'A');
+    B = subscriptGet(obj, 'B');
+    C = subscriptGet(obj, 'C');
+    D = subscriptGet(obj, 'D');
     if ~isempty(B)
       B = B(:, inputs);
     end
@@ -35,15 +35,15 @@ function varargout = subsref(varargin)
     if ~isempty(D)
       D = D(outputs, inputs);
     end
-    sys = ss(A, B, C, D, ltiSubscriptGet(obj, 'Ts'));
-    sys.E = ltiSubscriptGet(obj, 'E');
-    sys.Scaled = ltiSubscriptGet(obj, 'Scaled');
-    sys.TimeUnit = ltiSubscriptGet(obj, 'TimeUnit');
-    sys.UserData = ltiSubscriptGet(obj, 'UserData');
-    sys.InputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputName'), inputs);
-    sys.InputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputUnit'), inputs);
-    sys.OutputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputName'), outputs);
-    sys.OutputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputUnit'), outputs);
+    sys = ss(A, B, C, D, subscriptGet(obj, 'Ts'));
+    sys.E = subscriptGet(obj, 'E');
+    sys.Scaled = subscriptGet(obj, 'Scaled');
+    sys.TimeUnit = subscriptGet(obj, 'TimeUnit');
+    sys.UserData = subscriptGet(obj, 'UserData');
+    sys.InputName = lti.selectIOProperty(subscriptGet(obj, 'InputName'), inputs);
+    sys.InputUnit = lti.selectIOProperty(subscriptGet(obj, 'InputUnit'), inputs);
+    sys.OutputName = lti.selectIOProperty(subscriptGet(obj, 'OutputName'), outputs);
+    sys.OutputUnit = lti.selectIOProperty(subscriptGet(obj, 'OutputUnit'), outputs);
     varargout{1} = sys;
     return
   end
@@ -53,7 +53,7 @@ function varargout = subsref(varargin)
   if ~strcmp(s(1).type, '.')
     error('Nelson:control_system:invalidSubscript:notAValidIndexingExpression', 'Not a valid indexing expression');
   end
-  value = ltiSubscriptGet(obj, s(1).subs);
+  value = subscriptGet(obj, s(1).subs);
   if length(s) > 1
     [varargout{1:nargout}] = subsref(value, s(2:end));
   else
