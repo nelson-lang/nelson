@@ -80,7 +80,7 @@ end
 function displayTrailer(sys, currentFormat)
   if isstatic(sys)
     disp(['     ', _('Static gain.')]);
-    ltiDisplayModelProperties(sys, [_('Model Properties'), char(10)]);
+    displayModelProperties(sys, [_('Model Properties'), char(10)]);
   else
     if isdt(sys)
       disp(sprintf(_('Sample time: %.4f %s'), sys.Ts, sys.TimeUnit));
@@ -88,7 +88,7 @@ function displayTrailer(sys, currentFormat)
     else
       disp(_('Continuous-time zero-pole-gain model.'));
     end
-    ltiDisplayModelProperties(sys, '');
+    displayModelProperties(sys, '');
   end
   if strcmp(currentFormat.LineSpacing, 'loose')
     disp(' ');

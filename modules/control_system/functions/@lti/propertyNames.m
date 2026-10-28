@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function props = ltiPropertyNames(className)
+function props = propertyNames(className)
   switch className
     case 'tf'
       props = {'Numerator'; 'Denominator'; 'Variable'; 'IODelay'; ...

@@ -7,12 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiValidateSampleTime(value)
-  if isempty(value)
+function value = selectIOProperty(value, indices, dim)
+  if nargin > 2
+    if length(indices) < dim
+      return
+    end
+    indices = indices{dim};
+  end
+  if isempty(value) || ~iscell(value) || ischar(indices)
     return
   end
-  if ~isnumeric(value) || ~isscalar(value) || ~(value == -1 || value >= 0)
-    error('Nelson:control_system:invalidSampleTimeProperty', 'Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.');
-  end
+  value = value(indices);
 end
 %=============================================================================

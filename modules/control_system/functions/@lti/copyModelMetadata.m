@@ -7,12 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function sys = ltiApplyCommonMetadata(sys, left, right)
-  [p, m] = size(left);
-  sys.TimeUnit = ltiMergeTimeUnit(left, right);
-  sys.InputName = ltiMergeCellMetadata(left.InputName, m, right.InputName, m, 'match');
-  sys.InputUnit = ltiMergeCellMetadata(left.InputUnit, m, right.InputUnit, m, 'match');
-  sys.OutputName = ltiMergeCellMetadata(left.OutputName, p, right.OutputName, p, 'match');
-  sys.OutputUnit = ltiMergeCellMetadata(left.OutputUnit, p, right.OutputUnit, p, 'match');
+function out = copyModelMetadata(out, in)
+  out.TimeUnit = in.TimeUnit;
+  out.InputName = in.InputName;
+  out.InputUnit = in.InputUnit;
+  out.InputGroup = in.InputGroup;
+  out.OutputName = in.OutputName;
+  out.OutputUnit = in.OutputUnit;
+  out.OutputGroup = in.OutputGroup;
+  out.Notes = in.Notes;
+  out.UserData = in.UserData;
+  if ~isempty(in.Name)
+    out.Name = in.Name;
+  end
+  out.SamplingGrid = in.SamplingGrid;
 end
 %=============================================================================

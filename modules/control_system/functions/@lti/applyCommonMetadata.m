@@ -7,15 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiCopyCellMetadata(value, count)
-  if isempty(value)
-    value = {};
-    return
-  end
-  if ~iscell(value) || numel(value) ~= count
-    value = {};
-    return
-  end
-  value = value(:)';
+function sys = applyCommonMetadata(sys, left, right)
+  [p, m] = size(left);
+  sys.TimeUnit = mergeTimeUnit(left, right);
+  sys.InputName = lti.mergeCellMetadata(left.InputName, m, right.InputName, m, 'match');
+  sys.InputUnit = lti.mergeCellMetadata(left.InputUnit, m, right.InputUnit, m, 'match');
+  sys.OutputName = lti.mergeCellMetadata(left.OutputName, p, right.OutputName, p, 'match');
+  sys.OutputUnit = lti.mergeCellMetadata(left.OutputUnit, p, right.OutputUnit, p, 'match');
 end
 %=============================================================================

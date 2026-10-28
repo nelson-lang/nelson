@@ -7,12 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiValidateTextScalar(name, value)
-  if isStringScalar(value)
-    value = char(value);
+function value = copyCellMetadata(value, count)
+  if isempty(value)
+    value = {};
+    return
   end
-  if ~ischar(value) || size(value, 1) ~= 1
-    error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', name);
+  if ~iscell(value) || numel(value) ~= count
+    value = {};
+    return
   end
+  value = value(:)';
 end
 %=============================================================================

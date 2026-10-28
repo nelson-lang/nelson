@@ -26,14 +26,14 @@ function sysOut = horzcat(varargin)
     sys.Numerator = [sysA.Numerator, sysB.Numerator];
     sys.Denominator = [sysA.Denominator, sysB.Denominator];
 
-    sys.Ts = ltiResolveSampleTime(sysA, sysB);
-    sys.Variable = ltiMergeTfVariable(sysA, sysB, 'left');
-    sys.TimeUnit = ltiMergeTimeUnit(sysA, sysB);
-    sys.InputName = ltiMergeCellMetadata(sysA.InputName, mA, sysB.InputName, mB, 'concat');
-    sys.InputUnit = ltiMergeCellMetadata(sysA.InputUnit, mA, sysB.InputUnit, mB, 'concat');
-    sys.OutputName = ltiMergeCellMetadata(sysA.OutputName, pA, sysB.OutputName, pB, 'match');
-    sys.OutputUnit = ltiMergeCellMetadata(sysA.OutputUnit, pA, sysB.OutputUnit, pB, 'match');
-    userData = ltiMergeUserData(sysA, sysB);
+    sys.Ts = lti.resolveSampleTime(sysA, sysB);
+    sys.Variable = mergeTfVariable(sysA, sysB, 'left');
+    sys.TimeUnit = mergeTimeUnit(sysA, sysB);
+    sys.InputName = lti.mergeCellMetadata(sysA.InputName, mA, sysB.InputName, mB, 'concat');
+    sys.InputUnit = lti.mergeCellMetadata(sysA.InputUnit, mA, sysB.InputUnit, mB, 'concat');
+    sys.OutputName = lti.mergeCellMetadata(sysA.OutputName, pA, sysB.OutputName, pB, 'match');
+    sys.OutputUnit = lti.mergeCellMetadata(sysA.OutputUnit, pA, sysB.OutputUnit, pB, 'match');
+    userData = mergeUserData(sysA, sysB);
     if ~isempty(userData)
       sys.UserData = userData;
     end

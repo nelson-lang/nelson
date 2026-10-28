@@ -32,20 +32,20 @@ function varargout = subsasgn(varargin)
     error('Nelson:control_system:unknownProperty', sprintf(msg, 'ss', name));
   end
   if length(s) > 1
-    currentValue = ltiSubscriptGet(obj, name);
+    currentValue = subscriptGet(obj, name);
     value = subsasgn(currentValue, s(2:end), value);
   end
   switch name
     case 'Ts'
-      obj.Ts = ltiValidateSampleTime(value);
+      obj.Ts = lti.validateSampleTime(value);
       obj.Internal.Ts = obj.Ts;
       obj.Internal.IsStatic = false;
     case 'TimeUnit'
-      obj.TimeUnit = ltiValidateTimeUnit(value);
+      obj.TimeUnit = lti.validateTimeUnit(value);
     case 'Name'
-      obj.Name = ltiValidateTextScalar('Name', value);
+      obj.Name = lti.validateTextScalar('Name', value);
     otherwise
-      obj = ltiSubscriptSet(obj, name, value);
+      obj = subscriptSet(obj, name, value);
   end
   varargout{1} = obj;
 end
@@ -55,7 +55,7 @@ function obj = assignSubsystem(obj, indices, value)
     error('Nelson:control_system:invalidSubscript', '%s expected.', 'Two indices');
   end
   value = ss(value);
-  ltiCheckSampleTimeCompatibility(obj, value);
+  lti.checkSampleTimeCompatibility(obj, value);
   outputs = indices{1};
   inputs = indices{2};
   D = obj.D;

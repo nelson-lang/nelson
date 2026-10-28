@@ -11,7 +11,7 @@ function sys = mtimes(sys1, sys2)
   sysA = ss(sys1);
   sysB = ss(sys2);
 
-  Ts = ltiResolveSampleTime(sysA, sysB);
+  Ts = lti.resolveSampleTime(sysA, sysB);
   if isempty(sysA.A) && isempty(sysA.B) && isempty(sysA.C) && isscalar(sysA.D)
     A = sysB.A;
     B = sysA.D * sysB.B;
@@ -38,8 +38,8 @@ function sys = mtimes(sys1, sys2)
 
   sys = ss(A, B, C, D, Ts);
   sys.E = computesE(sysA.E, sysB.E, size(sysA.A, 1), size(sysB.A, 1));
-  sys = ltiApplySeriesMetadata(sys, sysA, sysB);
-  userData = ltiMergeUserData(sysA, sysB);
+  sys = applySeriesMetadata(sys, sysA, sysB);
+  userData = mergeUserData(sysA, sysB);
   if ~isempty(userData)
     sys.UserData = userData;
   end

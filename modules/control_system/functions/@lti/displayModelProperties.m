@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function ltiDisplayModelProperties(sys, plainFallback)
+function displayModelProperties(sys, plainFallback)
   if nargin < 2
     plainFallback = '';
   end
-  props = ltiPropertyNames(class(sys));
+  props = lti.propertyNames(class(sys));
   expandedText = '';
   width = 0;
   for k = 1:numel(props)

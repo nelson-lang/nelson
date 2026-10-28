@@ -7,10 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function timeUnit = ltiMergeTimeUnit(left, right)
-  timeUnit = left.TimeUnit;
-  if strcmp(left.TimeUnit, right.TimeUnit)
-    timeUnit = right.TimeUnit;
+function Ts = resolveSampleTime(left, right)
+  lti.checkSampleTimeCompatibility(left, right);
+  if isstatic(left)
+    Ts = right.Ts;
+    return
   end
+  if isstatic(right)
+    Ts = left.Ts;
+    return
+  end
+  if left.Ts == -1 && right.Ts ~= -1
+    Ts = right.Ts;
+    return
+  end
+  if right.Ts == -1 && left.Ts ~= -1
+    Ts = left.Ts;
+    return
+  end
+  Ts = left.Ts;
 end
 %=============================================================================

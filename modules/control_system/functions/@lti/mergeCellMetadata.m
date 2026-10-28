@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiMergeCellMetadata(left, leftCount, right, rightCount, mode)
+function value = mergeCellMetadata(left, leftCount, right, rightCount, mode)
   switch mode
     case 'concat'
       value = concatMetadata(left, leftCount, right, rightCount);

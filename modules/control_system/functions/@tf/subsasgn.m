@@ -32,7 +32,7 @@ function varargout = subsasgn(varargin)
     error('Nelson:control_system:unknownProperty', sprintf(msg, 'tf', name));
   end
   if length(s) > 1
-    currentValue = ltiSubscriptGet(obj, name);
+    currentValue = subscriptGet(obj, name);
     value = subsasgn(currentValue, s(2:end), value);
   end
   switch name
@@ -49,22 +49,22 @@ function varargout = subsasgn(varargin)
     case 'Variable'
       obj.Variable = validateVariable(obj, value);
     case 'Ts'
-      obj.Ts = ltiValidateSampleTime(value);
+      obj.Ts = lti.validateSampleTime(value);
       obj.Internal.Ts = obj.Ts;
       obj.Internal.IsStatic = false;
     case 'TimeUnit'
-      obj.TimeUnit = ltiValidateTimeUnit(value);
+      obj.TimeUnit = lti.validateTimeUnit(value);
     case 'Name'
-      obj.Name = ltiValidateTextScalar('Name', value);
+      obj.Name = lti.validateTextScalar('Name', value);
     otherwise
-      obj = ltiSubscriptSet(obj, name, value);
+      obj = subscriptSet(obj, name, value);
   end
   varargout{1} = obj;
 end
 %=============================================================================
 function obj = assignSubsystem(obj, indices, value)
   value = tf(value);
-  ltiCheckSampleTimeCompatibility(obj, value);
+  lti.checkSampleTimeCompatibility(obj, value);
   numerator = obj.Numerator;
   denominator = obj.Denominator;
   replacementNumerator = expandReplacement(value.Numerator, numerator(indices{:}));
@@ -91,7 +91,7 @@ function replacement = expandReplacement(replacement, target)
   error('Nelson:control_system:dimagree:matrixDimensionsAgree', 'Matrix dimensions must agree.');
 end
 function value = validateVariable(obj, value)
-  value = ltiValidateTextScalar('Variable', value);
+  value = lti.validateTextScalar('Variable', value);
   supported = {'s', 'p', 'z', 'q', 'z^-1', 'q^-1'};
   if ~any(strcmp(value, supported))
     error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");

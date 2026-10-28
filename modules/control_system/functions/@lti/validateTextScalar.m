@@ -7,16 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function value = ltiSelectIOProperty(value, indices, dim)
-  if nargin > 2
-    if length(indices) < dim
-      return
-    end
-    indices = indices{dim};
+function value = validateTextScalar(name, value)
+  if isStringScalar(value)
+    value = char(value);
   end
-  if isempty(value) || ~iscell(value) || ischar(indices)
-    return
+  if ~ischar(value) || size(value, 1) ~= 1
+    error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', name);
   end
-  value = value(indices);
 end
 %=============================================================================

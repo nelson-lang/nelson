@@ -8,15 +8,15 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 sys = ss(1, 2, 3, 4, 'StateName', {'x'});
-R = evalc('ltiDisplayModelProperties(sys, [''Model Properties'', char(10)])');
+R = evalc('displayModelProperties(sys, [''Model Properties'', char(10)])');
 asserts.istrue(contains(R, 'Model Properties'));
 asserts.isfalse(contains(R, 'StateName:'));
 %=============================================================================
-R = evalc('ltiDisplayModelProperties(sys, '''')');
+R = evalc('displayModelProperties(sys, '''')');
 asserts.isequal(R, '');
 %=============================================================================
 sys = tf(1, [1 2]);
-R = evalc('ltiDisplayModelProperties(sys, [''Model Properties'', char(10)])');
+R = evalc('displayModelProperties(sys, [''Model Properties'', char(10)])');
 asserts.istrue(contains(R, 'Model Properties'));
 asserts.isfalse(contains(R, 'Numerator:'));
 %=============================================================================

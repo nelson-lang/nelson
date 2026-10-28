@@ -15,7 +15,7 @@ function varargout = mrdivide(varargin)
   if ~issiso(sysA) && ~issiso(sysB)
     error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
-  Ts = ltiResolveSampleTime(sysA, sysB);
+  Ts = lti.resolveSampleTime(sysA, sysB);
 
   numeratorA = sysA.Numerator{1};
   denominatorA = sysA.Denominator{1};
@@ -35,13 +35,13 @@ function varargout = mrdivide(varargin)
     sys = tf(numerator, denominator, Ts);
   end
 
-  variable = ltiMergeTfVariable(sysA, sysB);
+  variable = mergeTfVariable(sysA, sysB);
   if ~isempty(variable)
     sys.Variable = variable;
   end
-  sys = ltiApplyCommonMetadata(sys, sysA, sysB);
+  sys = applyCommonMetadata(sys, sysA, sysB);
 
-  userData = ltiMergeUserData(sysA, sysB);
+  userData = mergeUserData(sysA, sysB);
   if ~isempty(userData)
     sys.UserData = userData;
   end

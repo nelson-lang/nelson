@@ -37,7 +37,7 @@ function display(varargin)
   if (isstatic(SS))
     disp(['     ', _('Static gain.')]);
     if isscalar(SS.D)
-      ltiDisplayModelProperties(SS, [_('Model Properties'), char(10)]);
+      displayModelProperties(SS, [_('Model Properties'), char(10)]);
     end
   else
     if isdt(SS)
@@ -52,7 +52,7 @@ function display(varargin)
       disp(_('Continuous-time state-space model.'));
     end
     if isscalar(SS.D)
-      ltiDisplayModelProperties(SS, '');
+      displayModelProperties(SS, '');
     end
   end
   if strcmp(currentFormat.LineSpacing, 'loose')

@@ -8,7 +8,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-classdef ss
+classdef ss < lti
   properties
     A = []
     B = []
@@ -66,7 +66,7 @@ classdef ss
     end
 
     function obj = set.Ts(obj, value)
-      value = ltiValidateSampleTime(value);
+      value = lti.validateSampleTime(value);
       obj.TsValue = value;
       obj.Internal.Ts = value;
       obj.Internal.IsStatic = false;
@@ -77,7 +77,7 @@ classdef ss
     end
 
     function obj = set.TimeUnit(obj, value)
-      value = ltiValidateTimeUnit(value);
+      value = lti.validateTimeUnit(value);
       obj.TimeUnitValue = value;
     end
 
@@ -86,12 +86,12 @@ classdef ss
     end
 
     function obj = set.Name(obj, value)
-      obj.NameValue = ltiValidateTextScalar('Name', value);
+      obj.NameValue = lti.validateTextScalar('Name', value);
     end
 
     function st = struct(obj)
       st = builtin('struct');
-      names = ltiPropertyNames('ss');
+      names = lti.propertyNames('ss');
       for k = 1:length(names)
         name = names{k};
         st.(name) = obj.(name);
@@ -145,7 +145,7 @@ function obj = ssOneArgument(obj, value)
 end
 %=============================================================================
 function obj = ssFromABCD(obj, A, B, C, D, Ts)
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   obj = ssABCD(obj, A, B, C, D, Ts);
 end
 %=============================================================================
@@ -174,7 +174,7 @@ function obj = tfToSs(sysIn)
     [A, B, C, D] = compreal(numerator, denominator);
   end
   obj = ss(A, B, C, D, Ts);
-  obj = ltiCopyModelMetadata(obj, sysIn);
+  obj = lti.copyModelMetadata(obj, sysIn);
 end
 %=============================================================================
 function obj = ssABCD(obj, A, B, C, D, Ts)
@@ -274,7 +274,7 @@ function obj = applyPropertyPairs(obj, args)
     error('Nelson:control_system:nameValuePair', '%s expected.', 'Name-value arguments');
   end
   for k = 1:2:length(args)
-    name = resolvePropertyName(args{k}, ltiPropertyNames('ss'));
+    name = resolvePropertyName(args{k}, lti.propertyNames('ss'));
     obj.(name) = args{k + 1};
   end
 end
@@ -282,7 +282,7 @@ function tf = isTextScalar(value)
   tf = ischar(value) || isStringScalar(value);
 end
 function name = resolvePropertyName(value, supported)
-  value = ltiValidateTextScalar('Name', value);
+  value = lti.validateTextScalar('Name', value);
   matches = startsWith(upper(supported), upper(value));
   if sum(matches) == 0
     error('Nelson:control_system:unknownParameter', '"%s" is not a recognized parameter.', value);

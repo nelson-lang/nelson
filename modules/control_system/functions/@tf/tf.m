@@ -8,7 +8,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-classdef tf
+classdef tf < lti
   properties
     IODelay = 0
     InputDelay = 0
@@ -84,7 +84,7 @@ classdef tf
     end
 
     function obj = set.Variable(obj, value)
-      value = ltiValidateTextScalar('Variable', value);
+      value = lti.validateTextScalar('Variable', value);
       supported = {'s', 'p', 'z', 'q', 'z^-1', 'q^-1'};
       if ~any(strcmp(value, supported))
         error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");
@@ -103,7 +103,7 @@ classdef tf
     end
 
     function obj = set.Ts(obj, value)
-      value = ltiValidateSampleTime(value);
+      value = lti.validateSampleTime(value);
       obj.TsValue = value;
       obj.Internal.Ts = value;
       obj.Internal.IsStatic = false;
@@ -114,7 +114,7 @@ classdef tf
     end
 
     function obj = set.TimeUnit(obj, value)
-      value = ltiValidateTimeUnit(value);
+      value = lti.validateTimeUnit(value);
       obj.TimeUnitValue = value;
     end
 
@@ -123,12 +123,12 @@ classdef tf
     end
 
     function obj = set.Name(obj, value)
-      obj.NameValue = ltiValidateTextScalar('Name', value);
+      obj.NameValue = lti.validateTextScalar('Name', value);
     end
 
     function st = struct(obj)
       st = builtin('struct');
-      names = ltiPropertyNames('tf');
+      names = lti.propertyNames('tf');
       for k = 1:length(names)
         name = names{k};
         st.(name) = obj.(name);
@@ -210,7 +210,7 @@ function obj = tfTwoArguments(obj, first, second)
 end
 %=============================================================================
 function obj = tfNumeratorDenominator(obj, numerator, denominator, Ts)
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   [num, den, variableName, isStatic] = adjustTransferFunctionParameters(numerator, denominator, Ts);
   obj = tfConstructor(obj, num, den, Ts, variableName, isStatic);
 end
@@ -225,11 +225,11 @@ function obj = tfStaticGain(obj, value)
 end
 %=============================================================================
 function obj = tfVariable(obj, value, Ts)
-  value = ltiValidateTextScalar('Variable', value);
+  value = lti.validateTextScalar('Variable', value);
   if nargin < 3
     Ts = defaultSampleTimeForVariable(value);
   end
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   obj = tfConstructor(obj, [1 0], [1], Ts, value, false);
 end
 %=============================================================================
@@ -244,7 +244,7 @@ end
 function obj = ssToTf(sysIn)
   if isstatic(sysIn)
     obj = tf(sysIn.D);
-    obj = ltiCopyModelMetadata(obj, sysIn);
+    obj = lti.copyModelMetadata(obj, sysIn);
     return
   end
   [A, B, C, D, Ts] = ssdata(sysIn);
@@ -259,7 +259,7 @@ function obj = ssToTf(sysIn)
     end
   end
   obj.Ts = sysIn.Ts;
-  obj = ltiCopyModelMetadata(obj, sysIn);
+  obj = lti.copyModelMetadata(obj, sysIn);
 end
 %=============================================================================
 function [numerator, denominator, variableName, isStaticGain] = adjustTransferFunctionParameters(numerator, denominator, Ts)
@@ -303,7 +303,7 @@ function [numerator, denominator, variableName, isStaticGain] = adjustTransferFu
 end
 %=============================================================================
 function obj = tfConstructor(obj, numerator, denominator, Ts, variableName, isStaticGain)
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   numerator = checkFractionPart(numerator);
   denominator = checkFractionPart(denominator);
   if length(numerator) == 1
@@ -382,7 +382,7 @@ function obj = applyPropertyPairs(obj, args)
     error('Nelson:control_system:nameValuePair', '%s expected.', 'Name-value arguments');
   end
   for k = 1:2:length(args)
-    name = resolvePropertyName(args{k}, ltiPropertyNames('tf'));
+    name = resolvePropertyName(args{k}, lti.propertyNames('tf'));
     obj.(name) = args{k + 1};
   end
 end
@@ -398,7 +398,7 @@ function tf = isTextScalar(value)
   tf = ischar(value) || isStringScalar(value);
 end
 function name = resolvePropertyName(value, supported)
-  value = ltiValidateTextScalar('Name', value);
+  value = lti.validateTextScalar('Name', value);
   matches = startsWith(upper(supported), upper(value));
   if sum(matches) == 0
     error('Nelson:control_system:unknownParameter', '"%s" is not a recognized parameter.', value);

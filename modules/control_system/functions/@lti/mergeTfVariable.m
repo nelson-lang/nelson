@@ -7,13 +7,33 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function ltiCheckSampleTimeCompatibility(left, right)
-  if isstatic(left) || isstatic(right) || left.Ts == right.Ts
+function variable = mergeTfVariable(left, right, fallback)
+  if nargin < 3
+    fallback = '';
+  end
+  if strcmp(left.Variable, right.Variable)
+    variable = right.Variable;
     return
   end
-  if left.Ts == -1 || right.Ts == -1
+  if isstatic(left) && ~isstatic(right)
+    variable = right.Variable;
     return
   end
-  error('Nelson:control_system:sampleTimeMismatch', 'Sampling times must agree.');
+  if isstatic(right) && ~isstatic(left)
+    variable = left.Variable;
+    return
+  end
+  if strcmp(left.Variable, 'z^-1') || strcmp(right.Variable, 'z^-1')
+    variable = 'z^-1';
+    return
+  end
+  switch fallback
+    case 'left'
+      variable = left.Variable;
+    case 'right'
+      variable = right.Variable;
+    otherwise
+      variable = '';
+  end
 end
 %=============================================================================

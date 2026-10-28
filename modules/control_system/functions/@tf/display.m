@@ -99,7 +99,7 @@ function display(varargin)
   if (isstatic(TF))
     disp(['     ', _('Static gain.')]);
     if isscalar(TF.Numerator)
-      ltiDisplayModelProperties(TF, [_('Model Properties'), char(10)]);
+      displayModelProperties(TF, [_('Model Properties'), char(10)]);
     end
   else
     if isdt(TF)
@@ -110,7 +110,7 @@ function display(varargin)
       disp(_('Continuous-time transfer function.'));
     end
     if isscalar(TF.Numerator)
-      ltiDisplayModelProperties(TF, '');
+      displayModelProperties(TF, '');
     end
   end
   if strcmp(currentFormat.LineSpacing, 'loose')

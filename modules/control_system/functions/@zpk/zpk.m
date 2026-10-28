@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-classdef zpk
+classdef zpk < lti
   properties
     IODelay = 0
     InputDelay = 0
@@ -102,7 +102,7 @@ classdef zpk
     end
 
     function obj = set.Variable(obj, value)
-      value = ltiValidateTextScalar('Variable', value);
+      value = lti.validateTextScalar('Variable', value);
       supported = {'s', 'p', 'z', 'q', 'z^-1', 'q^-1'};
       if ~any(strcmp(value, supported))
         error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");
@@ -115,7 +115,7 @@ classdef zpk
     end
 
     function obj = set.Ts(obj, value)
-      value = ltiValidateSampleTime(value);
+      value = lti.validateSampleTime(value);
       obj.TsValue = value;
       obj.Internal.Ts = value;
       obj.Internal.IsStatic = false;
@@ -126,7 +126,7 @@ classdef zpk
     end
 
     function obj = set.TimeUnit(obj, value)
-      value = ltiValidateTimeUnit(value);
+      value = lti.validateTimeUnit(value);
       obj.TimeUnitValue = value;
     end
 
@@ -135,12 +135,12 @@ classdef zpk
     end
 
     function obj = set.Name(obj, value)
-      obj.NameValue = ltiValidateTextScalar('Name', value);
+      obj.NameValue = lti.validateTextScalar('Name', value);
     end
 
     function st = struct(obj)
       st = builtin('struct');
-      names = ltiPropertyNames('zpk');
+      names = lti.propertyNames('zpk');
       for k = 1:length(names)
         name = names{k};
         st.(name) = obj.(name);
@@ -212,7 +212,7 @@ function obj = zpkOneArgument(obj, value)
 end
 %=============================================================================
 function obj = zpkVariable(obj, value, Ts)
-  value = ltiValidateTextScalar('Variable', value);
+  value = lti.validateTextScalar('Variable', value);
   if nargin < 3
     if any(strcmp(value, {'z', 'q'}))
       Ts = -1;
@@ -220,7 +220,7 @@ function obj = zpkVariable(obj, value, Ts)
       Ts = 0;
     end
   end
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   obj.Z = {0};
   obj.P = {zeros(0, 1)};
   obj.K = 1;
@@ -243,7 +243,7 @@ function obj = zpkStaticGain(obj, value)
 end
 %=============================================================================
 function obj = zpkFromZPK(obj, z, p, k, Ts)
-  ltiValidateSampleTime(Ts);
+  lti.validateSampleTime(Ts);
   if ~isnumeric(k) || ~isscalar(k)
     error('Nelson:control_system:invalidType', '%s expected.', 'scalar gain');
   end
@@ -289,7 +289,7 @@ function obj = ltiToZpk(obj, sysIn)
   if isstatic(tfSys)
     obj.Internal.Ts = -2;
   end
-  obj = ltiCopyModelMetadata(obj, tfSys);
+  obj = lti.copyModelMetadata(obj, tfSys);
 end
 %=============================================================================
 function obj = applyPropertyPairs(obj, args)
@@ -300,7 +300,7 @@ function obj = applyPropertyPairs(obj, args)
     error('Nelson:control_system:nameValuePair', '%s expected.', 'Name-value arguments');
   end
   for k = 1:2:length(args)
-    name = resolvePropertyName(args{k}, ltiPropertyNames('zpk'));
+    name = resolvePropertyName(args{k}, lti.propertyNames('zpk'));
     obj.(name) = args{k + 1};
   end
 end
@@ -318,7 +318,7 @@ function tf = isTextScalar(value)
 end
 %=============================================================================
 function name = resolvePropertyName(value, supported)
-  value = ltiValidateTextScalar('Name', value);
+  value = lti.validateTextScalar('Name', value);
   matches = startsWith(upper(supported), upper(value));
   if sum(matches) == 0
     error('Nelson:control_system:unknownParameter', '"%s" is not a recognized parameter.', value);
