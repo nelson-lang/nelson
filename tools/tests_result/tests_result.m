@@ -28,6 +28,9 @@ try
   if strcmp(arch_name, 'glnxa64') == true
     platform = 'linux-x86-64';
   end
+  if strcmp(arch_name, 'glnxa64arm') == true
+    platform = 'linux-arm64';
+  end
   if strcmp(arch_name, 'glnxa32') == true
     platform = 'linux-x86-32';
   end

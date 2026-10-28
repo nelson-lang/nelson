@@ -16,6 +16,7 @@ platform_map.('glnxa32') = 'linux-x86-32';
 platform_map.('maci64') = 'mac-x86-64';
 platform_map.('maci32') = 'mac-x86-32';
 platform_map.('maca64') = 'mac-arm64';
+platform_map.('glnxa64arm') = 'linux-arm64';
 platform_map.('?') = 'unknown-platform';
 platform = platform_map.(computer('arch'));
 TESTS_RESULT_DIR = getenv('TESTS_RESULT_DIR');

@@ -82,7 +82,7 @@ function check_installer()
   asserts.isfalse(isfile(fullfile(destination, '.nelson-runtime', 'uninstall')));
   asserts.istrue(isfile(fullfile(destination, 'user.txt')));
   asserts.isfalse(isfile(interpreter));
-  asserts.isfalse(isfile(fullfile(config, 'nelson', 'runtimes', 'glnxa64', [expected.engineFingerprint, '.root'])));
+  asserts.isfalse(isfile(fullfile(config, 'nelson', 'runtimes', computer('arch'), [expected.engineFingerprint, '.root'])));
   asserts.istrue(isfile(fullfile(applications, 'runtime_a')));
   clear restore cleanup;
 end

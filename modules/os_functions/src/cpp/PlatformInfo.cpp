@@ -102,7 +102,9 @@ GetArchitecture()
     if (IsWasmPlatform()) {
         return std::wstring(L"wasm32");
     }
-#if defined(__x86_64__) || defined(__aarch64__)
+#if defined(__aarch64__)
+    return std::wstring(L"glnxa64arm");
+#elif defined(__x86_64__)
     return std::wstring(L"glnxa64");
 #else
     return std::wstring(L"glnxa32");
@@ -137,7 +139,9 @@ GetArchitectureType()
     if (IsWasmPlatform()) {
         return std::wstring(L"WASM32");
     }
-#ifdef __x86_64__
+#if defined(__aarch64__)
+    return std::wstring(L"GLNXA64ARM");
+#elif defined(__x86_64__)
     return std::wstring(L"GLNXA64");
 #else
     return std::wstring(L"GLNXA32");

@@ -13,6 +13,6 @@ function platforms = nmm_valid_platforms()
   % and used as a key of a binary package "artifacts" map.
   % 'wasm32' is the WebAssembly (browser) engine; its binary packages are
   % Emscripten side modules loaded by the same gateway manager.
-  platforms = {'all', 'win32', 'woa64', 'win64', 'maci64', 'maci32', 'maca64', 'glnxa64', 'glnxa32', 'wasm32'};
+  platforms = {'all', 'win32', 'woa64', 'win64', 'maci64', 'maci32', 'maca64', 'glnxa64', 'glnxa64arm', 'glnxa32', 'wasm32'};
 end
 %=============================================================================
