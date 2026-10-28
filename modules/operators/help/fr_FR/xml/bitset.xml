@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bitset</keyword>
+  <short_description>Positionne un bit à une position donnée.</short_description>
+  <syntax>
+    <syntax_item>r = bitset(A, pos)</syntax_item>
+    <syntax_item>r = bitset(A, pos, val)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau d&apos;entiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pos</param_name>
+      <param_description>la position du bit (1 est le bit de poids faible).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>val</param_name>
+      <param_description>la valeur du bit, <b>0</b> ou <b>1</b> (par défaut <b>1</b>).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description><b>A</b> avec le bit en position <b>pos</b> fixé à <b>val</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>r = bitset(A, pos)</b> met à <b>1</b> le bit en position <b>pos</b> de <b>A</b>.</p>
+    <p><b>r = bitset(A, pos, val)</b> met ce bit à <b>val</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[bitset(uint8(0), 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}bitget">bitget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitand">bitand</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

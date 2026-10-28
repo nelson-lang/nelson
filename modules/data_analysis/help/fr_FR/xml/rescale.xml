@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rescale</keyword>
+  <short_description>Met à l&apos;échelle les éléments dans un intervalle fixé.</short_description>
+  <syntax>
+    <syntax_item>Y = rescale(X)</syntax_item>
+    <syntax_item>Y = rescale(X, a, b)</syntax_item>
+    <syntax_item>Y = rescale(..., &apos;InputMin&apos;, lo, &apos;InputMax&apos;, hi)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>un tableau numérique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>a, b</param_name>
+      <param_description>les bornes de l&apos;intervalle de sortie (par défaut <b>0</b> et <b>1</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lo, hi</param_name>
+      <param_description>limites d&apos;entrée optionnelles associées à <b>a</b> et <b>b</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>le tableau mis à l&apos;échelle, de même taille que <b>X</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>Y = rescale(X)</b> met les éléments de <b>X</b> à l&apos;échelle sur l&apos;intervalle <b>[0, 1]</b>.</p>
+    <p><b>Y = rescale(X, a, b)</b> met les éléments à l&apos;échelle sur l&apos;intervalle <b>[a, b]</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[Y = rescale([1 2 3 4 5])
+Z = rescale([1 2 3 4 5], 0, 10)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}bounds">bounds</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>splitapply</keyword>
+  <short_description>Découpe les données en groupes et applique une fonction.</short_description>
+  <syntax>
+    <syntax_item>Y = splitapply(func, A, G)</syntax_item>
+    <syntax_item>Y = splitapply(func, A1, ..., An, G)</syntax_item>
+    <syntax_item>[Y1, ..., Ym] = splitapply(func, ..., G)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>func</param_name>
+      <param_description>un handle de fonction appliqué à chaque groupe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A, A1, ..., An</param_name>
+      <param_description>les données à découper par groupe (lignes).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>G</param_name>
+      <param_description>numéros de groupe, généralement issus de <b>findgroups</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>les résultats, avec une ligne par groupe.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>Y = splitapply(func, A, G)</b> découpe <b>A</b> en groupes selon <b>G</b> et applique <b>func</b> à chaque groupe, puis concatène les résultats.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[G = findgroups([1; 2; 1; 2; 1]);
+Y = splitapply(@sum, [10; 20; 30; 40; 50], G)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}findgroups">findgroups</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}accumarray">accumarray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

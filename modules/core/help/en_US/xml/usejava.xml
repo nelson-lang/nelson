@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>usejava</keyword>
+  <short_description>Check whether a Java feature is available.</short_description>
+  <syntax>
+    <syntax_item>tf = usejava(feature)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>feature</param_name>
+      <param_description>one of <b>&apos;awt&apos;</b>, <b>&apos;jvm&apos;</b> or <b>&apos;swing&apos;</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical scalar.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = usejava(feature)</b> returns whether the given Java <b>feature</b> is available.</p>
+    <p>Nelson embeds no Java virtual machine, so <b>usejava</b> always returns <b>false</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = usejava('jvm')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}version">version</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>stdout</keyword>
+  <short_description>Identifiant du flux de sortie standard.</short_description>
+  <syntax>
+    <syntax_item>fd = stdout()</syntax_item>
+  </syntax>
+  <param_input />
+  <param_output>
+    <param_output_item>
+      <param_name>fd</param_name>
+      <param_description>la valeur <b>1</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fd = stdout()</b> renvoie <b>1</b>, l&apos;identifiant du flux de sortie standard.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[fprintf(stdout(), 'Hello\n');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}stdin">stdin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}stderr">stderr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fopen">fopen</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

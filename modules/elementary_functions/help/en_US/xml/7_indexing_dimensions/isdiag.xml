@@ -2,7 +2,7 @@
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
-  <keyword>istriu</keyword>
+  <keyword>isdiag</keyword>
   <short_description>Checks if matrix is diagonal.</short_description>
   <syntax>
     <syntax_item>tf = isdiag(M)</syntax_item>

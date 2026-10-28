@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bitcmp</keyword>
+  <short_description>Complément bit à bit.</short_description>
+  <syntax>
+    <syntax_item>r = bitcmp(A)</syntax_item>
+    <syntax_item>r = bitcmp(A, assumedtype)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau d&apos;entiers, ou un double de valeurs entières positives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>assumedtype</param_name>
+      <param_description>un nom de classe entière pour interpréter un <b>A</b> double.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>le complément bit à bit de <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>r = bitcmp(A)</b> renvoie le complément bit à bit de <b>A</b>, la largeur étant donnée par la classe entière de <b>A</b>.</p>
+    <p>Lorsque <b>A</b> est un double, fournissez <b>assumedtype</b> (par exemple <b>&apos;uint8&apos;</b>) pour fixer la largeur en bits ; le résultat reste double.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[bitcmp(uint8(5))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}bitand">bitand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitor">bitor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitxor">bitxor</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

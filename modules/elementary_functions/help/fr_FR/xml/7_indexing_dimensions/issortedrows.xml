@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>issortedrows</keyword>
+  <short_description>Détermine si les lignes d&apos;une matrice sont triées.</short_description>
+  <syntax>
+    <syntax_item>tf = issortedrows(A)</syntax_item>
+    <syntax_item>tf = issortedrows(A, col)</syntax_item>
+    <syntax_item>tf = issortedrows(A, ..., direction)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>col</param_name>
+      <param_description>les colonnes utilisées pour la comparaison.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description><b>&apos;ascend&apos;</b> (par défaut) ou <b>&apos;descend&apos;</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>un logique : <b>true</b> si les lignes de <b>A</b> sont triées.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = issortedrows(A)</b> renvoie <b>true</b> si les lignes de <b>A</b> sont triées par ordre croissant.</p>
+    <p>Fournissez <b>col</b> et <b>direction</b> pour correspondre au tri de <b>sortrows</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[issortedrows([1 2; 3 4])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}sortrows">sortrows</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}topkrows">topkrows</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
