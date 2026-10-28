@@ -39,7 +39,7 @@
     <param_output_item>
       <param_name>arch</param_name>
       <param_description
-      >a string: architecture type: &apos;woa64&apos;, &apos;win64&apos;, &apos;win32&apos;, &apos;glnxa64&apos;, &apos;glnxa32&apos;, &apos;maci64&apos;, &apos;maci32&apos;, &apos;maca64&apos;, &apos;wasm32&apos;.</param_description>
+      >a string: architecture type: &apos;woa64&apos;, &apos;win64&apos;, &apos;win32&apos;, &apos;glnxa64&apos;, &apos;glnxa64arm&apos;, &apos;glnxa32&apos;, &apos;maci64&apos;, &apos;maci32&apos;, &apos;maca64&apos;, &apos;wasm32&apos;.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -79,6 +79,10 @@ arch = computer('arch')]]></example_item_data>
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>PCWOA64 and woa64 added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>GLNXA64ARM and glnxa64arm added</history_description>
     </history_item>
   </history>
   <authors>

@@ -71,7 +71,7 @@ function check_installer()
   asserts.isfalse(contains(maps, modulepath('nelson', 'builtin')));
   permissions = invoke({'/usr/bin/stat', '-c', '%a', fullfile(destinationA, '.nelson-install', 'manifest.tsv')}, true);
   asserts.isequal(strtrim(permissions), '600');
-  registration = fullfile(config, 'nelson', 'runtimes', 'glnxa64', [plan.engineFingerprint, '.root']);
+  registration = fullfile(config, 'nelson', 'runtimes', computer('arch'), [plan.engineFingerprint, '.root']);
   asserts.isequal(fileread(registration), ['NELSON_RUNTIME_ROOT_1', newline(), runtime, newline()]);
   manifest = jsondecode(fileread(fullfile(runtime, 'runtime.json')));
   asserts.isfalse(any(strcmp(manifest.moduleOrder, 'trigonometric_functions')));
@@ -158,7 +158,7 @@ function check_publication_failure(installer, work, engine)
     '-runtimeFolder', parent}, false);
   asserts.istrue(contains(output, 'The installation folder was created by another process.'), output);
   asserts.istrue(isfile(fullfile(runtime, 'runtime.json')));
-  registration = fullfile(destination, 'configuration', 'nelson', 'runtimes', 'glnxa64', [engine, '.root']);
+  registration = fullfile(destination, 'configuration', 'nelson', 'runtimes', computer('arch'), [engine, '.root']);
   asserts.istrue(isfile(registration));
   asserts.isfalse(isfile(fullfile(destination, 'shared_app_a')));
   asserts.isfalse(isfolder(fullfile(destination, '.nelson-install')));
