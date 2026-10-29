@@ -322,12 +322,16 @@ BaseFigureQt::grabFrameReusingLastRender()
 {
     // grabFramebuffer() forces a full GL re-render (paintGL/glDrawArrays). On a
     // GPU-less host (CI) that render runs on Apple's software OpenGL and can crash
-    // with SIGBUS. When a clean frame is already present, read it back instead;
-    // otherwise fall back to grabFramebuffer() so the first/dirty frame is rendered.
-    // Only macOS draws into the widget framebuffer through the same OpenGL library: elsewhere
-    // the framebuffer holds uninitialized memory, so the re-render and its fallbacks stay.
+    // with SIGBUS, so there the existing framebuffer is read back instead. But that
+    // read-back returns stale or garbled pixels on real hardware whose on-screen
+    // surface is not validly composited (a headless or disconnected remote desktop):
+    // the frame never settles, so capture comes out blank, partial or shifted.
+    // Hardware re-renders correctly and fast through grabFramebuffer(), so the
+    // read-back shortcut is taken only on a software renderer, where re-rendering is
+    // what is unsafe. Elsewhere the widget framebuffer holds uninitialized memory, so
+    // the re-render and its fallbacks stay.
 #if defined(__APPLE__)
-    if (hasCleanRenderedFrame()) {
+    if (openglRendererIsSoftware() && hasCleanRenderedFrame()) {
         QImage image = grabCurrentFrameWithoutRender();
         if (!image.isNull()) {
             return image;
@@ -336,6 +340,34 @@ BaseFigureQt::grabFrameReusingLastRender()
 #endif
     return grabFramebuffer();
 }
+#if defined(__APPLE__)
+//=============================================================================
+// Whether this widget's OpenGL context is served by a software rasterizer (the
+// GPU-less CI host) rather than the GPU. Only there does grabFramebuffer()'s
+// re-render risk a SIGBUS, so only there is the framebuffer read-back preferred.
+// The renderer does not change within a process, so the answer is cached.
+bool
+BaseFigureQt::openglRendererIsSoftware()
+{
+    if (m_openglSoftwareState != 0) {
+        return m_openglSoftwareState < 0;
+    }
+    bool software = false;
+    if (context() && context()->isValid()) {
+        makeCurrent();
+        const GLubyte* renderer = context()->functions()->glGetString(GL_RENDERER);
+        doneCurrent();
+        if (renderer) {
+            QString name = QString::fromLatin1(reinterpret_cast<const char*>(renderer)).toLower();
+            software = name.contains(QStringLiteral("software"))
+                || name.contains(QStringLiteral("llvmpipe"))
+                || name.contains(QStringLiteral("swiftshader"));
+        }
+    }
+    m_openglSoftwareState = software ? -1 : 1;
+    return software;
+}
+#endif
 //=============================================================================
 bool
 BaseFigureQt::hasExpectedRenderingSize()

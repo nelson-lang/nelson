@@ -55,6 +55,13 @@ private:
     // Returns the current frame, reusing the last render when one is clean.
     QImage
     grabFrameReusingLastRender();
+#if defined(__APPLE__)
+    // True when the OpenGL context is served by a software rasterizer (GPU-less
+    // host); cached, as the renderer is fixed for the process. 0 = unknown.
+    bool
+    openglRendererIsSoftware();
+    int m_openglSoftwareState { 0 };
+#endif
     //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);
