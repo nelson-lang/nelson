@@ -31,8 +31,8 @@ Nelson::NFlow::handleConstant(SimCtx& ctx, const Block& b, Phase phase)
         // stay exact) and fill both lanes.
         auto exactAt = [&](size_t i) -> long long {
             const json* v = nullptr;
-            if (b.params.contains(nflow::kValue)) {
-                const json& jv = b.params[nflow::kValue];
+            if (asJson(b.params).contains(nflow::kValue)) {
+                const json& jv = asJson(b.params)[nflow::kValue];
                 if (jv.is_array()) {
                     if (jv.empty()) {
                         return 0;
@@ -96,8 +96,8 @@ constantTypedEmitter(bool cLang)
     return [cLang](const BlockCodegenArgs& a) {
         const bool uns = codegenIsU64(a.outType);
         long long v = 0;
-        if (a.params && a.params->contains(nflow::kValue)) {
-            const json& jv = (*a.params)[nflow::kValue];
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kValue)) {
+            const json& jv = (*asJson(a.params))[nflow::kValue];
             const json* e = jv.is_array() ? (jv.empty() ? nullptr : &jv[0]) : &jv;
             if (e) {
                 if (e->is_number_unsigned()) {

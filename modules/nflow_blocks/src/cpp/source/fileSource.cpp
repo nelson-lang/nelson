@@ -22,13 +22,13 @@ Nelson::NFlow::handleFileSource(SimCtx& ctx, const Block& b, Phase phase)
 {
     auto& st = getState(ctx, b.nid);
     if (phase == Phase::INIT) {
-        if (b.params.contains(nflow::kTimes) && b.params[nflow::kTimes].is_array()) {
-            for (const auto& v : b.params[nflow::kTimes]) {
+        if (asJson(b.params).contains(nflow::kTimes) && asJson(b.params)[nflow::kTimes].is_array()) {
+            for (const auto& v : asJson(b.params)[nflow::kTimes]) {
                 st.fsrcTimes.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
-        if (b.params.contains(nflow::kValues) && b.params[nflow::kValues].is_array()) {
-            for (const auto& v : b.params[nflow::kValues]) {
+        if (asJson(b.params).contains(nflow::kValues) && asJson(b.params)[nflow::kValues].is_array()) {
+            for (const auto& v : asJson(b.params)[nflow::kValues]) {
                 st.fsrcValues.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
@@ -64,15 +64,15 @@ Nelson::NFlow::getCodeGenCFileSource()
     // lookup the simulator uses (largest index with times[i] <= t, clamped to 0).
     t.emitStep = [](const BlockCodegenArgs& a) {
         std::vector<double> times, values;
-        if (a.params && a.params->contains(nflow::kTimes)
-            && (*a.params)[nflow::kTimes].is_array()) {
-            for (const auto& v : (*a.params)[nflow::kTimes]) {
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kTimes)
+            && (*asJson(a.params))[nflow::kTimes].is_array()) {
+            for (const auto& v : (*asJson(a.params))[nflow::kTimes]) {
                 times.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
-        if (a.params && a.params->contains(nflow::kValues)
-            && (*a.params)[nflow::kValues].is_array()) {
-            for (const auto& v : (*a.params)[nflow::kValues]) {
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kValues)
+            && (*asJson(a.params))[nflow::kValues].is_array()) {
+            for (const auto& v : (*asJson(a.params))[nflow::kValues]) {
                 values.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
@@ -109,15 +109,15 @@ Nelson::NFlow::getCodeGenRustFileSource()
     BlockCodegenTemplate t;
     t.emitStep = [](const BlockCodegenArgs& a) {
         std::vector<double> times, values;
-        if (a.params && a.params->contains(nflow::kTimes)
-            && (*a.params)[nflow::kTimes].is_array()) {
-            for (const auto& v : (*a.params)[nflow::kTimes]) {
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kTimes)
+            && (*asJson(a.params))[nflow::kTimes].is_array()) {
+            for (const auto& v : (*asJson(a.params))[nflow::kTimes]) {
                 times.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
-        if (a.params && a.params->contains(nflow::kValues)
-            && (*a.params)[nflow::kValues].is_array()) {
-            for (const auto& v : (*a.params)[nflow::kValues]) {
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kValues)
+            && (*asJson(a.params))[nflow::kValues].is_array()) {
+            for (const auto& v : (*asJson(a.params))[nflow::kValues]) {
                 values.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }

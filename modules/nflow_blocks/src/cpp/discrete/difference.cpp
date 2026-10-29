@@ -113,7 +113,7 @@ Nelson::NFlow::getCodeGenCDifference()
     t.emitStep = [](const BlockCodegenArgs& a) {
         a.line("out_" + a.id + " = " + a.in[0] + " - s->diff_prev_" + a.id + ";");
         // Multi-rate: advance the stored previous input only on the sample hit.
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s->diff_prev_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if (__nflow_step % " + std::to_string(rate) + " == 0) " + upd);
@@ -135,7 +135,7 @@ Nelson::NFlow::getCodeGenRustDifference()
     t.emitStep = [](const BlockCodegenArgs& a) {
         a.line("out_" + a.id + " = " + a.in[0] + " - s.diff_prev_" + a.id + ";");
         // Multi-rate: advance the stored previous input only on the sample hit.
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s.diff_prev_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if __nflow_step % " + std::to_string(rate) + " == 0 { " + upd + " }");

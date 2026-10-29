@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "tool": "Nelson nflow" },
+  "license": "BSD-3-Clause",
+  "comments": "Demo for the Integer Power (powint) example: constant 2 raised to n=3, captured to the workspace. Load this library with NFlow.addlibrarypath before opening the diagram.",
+  "name": "Powint Demo",
+  "blocks": [
+    { "id": "src", "type": "constant", "x": 40, "y": 160, "rotation": 0,
+      "params": { "Value": 2 } },
+    { "id": "p", "type": "powint", "x": 220, "y": 160, "rotation": 0,
+      "params": { "n": 3 } },
+    { "id": "tw", "type": "toWorkspace", "x": 400, "y": 160, "rotation": 0,
+      "params": { "VariableName": "y_out", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+  ],
+  "connections": [
+    { "from": "src", "to": "p", "fromIndex": 0, "toIndex": 0 },
+    { "from": "p", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 1,
+  "sampleTime": 0.1,
+  "autoRoute": true
+}

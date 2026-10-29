@@ -53,7 +53,7 @@ Nelson::NFlow::getCodeGenCCounterLimited()
         nflow::BlockDescriptor bd(*a.block, *a.variables);
         const std::string up = nflow::formatNumber(bd.paramDouble("UpperLimit", 7.0));
         a.line("out_" + a.id + " = s->cl_count_" + a.id + ";");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s->cl_count_" + a.id + " = (s->cl_count_" + a.id + " >= " + up
             + ") ? 0.0 : (s->cl_count_" + a.id + " + 1.0);";
         if (rate > 1) {
@@ -75,7 +75,7 @@ Nelson::NFlow::getCodeGenRustCounterLimited()
         nflow::BlockDescriptor bd(*a.block, *a.variables);
         const std::string up = a.fmt(bd.paramDouble("UpperLimit", 7.0));
         a.line("out_" + a.id + " = s.cl_count_" + a.id + ";");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s.cl_count_" + a.id + " = if s.cl_count_" + a.id + " >= " + up
             + " { 0.0_f64 } else { s.cl_count_" + a.id + " + 1.0_f64 };";
         if (rate > 1) {

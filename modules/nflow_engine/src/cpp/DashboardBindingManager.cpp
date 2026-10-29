@@ -220,11 +220,11 @@ static bool
 validateOne(Block& block, BlockState* dashboardState, std::vector<Block>& blocks,
     std::vector<BlockState>& states, const ValMap& variables, DashboardBindingDiagnostic& error)
 {
-    if (!block.params.is_object() || !block.params.contains("Binding")
-        || block.params["Binding"].is_null()) {
+    if (!asJson(block.params).is_object() || !asJson(block.params).contains("Binding")
+        || asJson(block.params)["Binding"].is_null()) {
         return true;
     }
-    const json& binding = block.params["Binding"];
+    const json& binding = asJson(block.params)["Binding"];
     const std::string kind = binding.value("kind", std::string());
     if (kind.empty()) {
         return true;
@@ -276,11 +276,11 @@ validateOne(Block& block, BlockState* dashboardState, std::vector<Block>& blocks
     const std::vector<std::string> path = bindingPath(binding);
     Block* target = findBlockByPath(blocks, states, path);
     const std::string parameter = binding.value("paramName", std::string());
-    if (!target || parameter.empty() || !target->params.contains(parameter)) {
+    if (!target || parameter.empty() || !asJson(target->params).contains(parameter)) {
         error = diagnostic(block, "target parameter was not found");
         return false;
     }
-    json* value = jsonElement(target->params[parameter], binding.value("element", std::string()));
+    json* value = jsonElement(asJson(target->params)[parameter], binding.value("element", std::string()));
     if (!value || !value->is_number()) {
         error = diagnostic(block, "target parameter must be scalar and numeric");
         return false;
@@ -335,11 +335,11 @@ applyDashboardBindingValue(std::vector<Block>& blocks, std::vector<BlockState>& 
     }
     RuntimeBlockRef control = findBlockById(blocks, states, id);
     if (!control.block || !isDashboardControl(control.block->type)
-        || !control.block->params.contains("Binding")) {
+        || !asJson(control.block->params).contains("Binding")) {
         error = { id, "dashboard_binding(" + id + "): control was not found" };
         return false;
     }
-    const json& binding = control.block->params["Binding"];
+    const json& binding = asJson(control.block->params)["Binding"];
     const std::string kind = binding.value("kind", std::string());
     const double value = event["value"].get<double>();
     if (kind == "variable") {
@@ -354,12 +354,12 @@ applyDashboardBindingValue(std::vector<Block>& blocks, std::vector<BlockState>& 
     } else if (kind == "parameter") {
         Block* target = findBlockByPath(blocks, states, bindingPath(binding));
         const std::string parameter = binding.value("paramName", std::string());
-        if (!target || parameter.empty() || !target->params.contains(parameter)) {
+        if (!target || parameter.empty() || !asJson(target->params).contains(parameter)) {
             error = diagnostic(*control.block, "parameter target was deleted");
             return false;
         }
         json* targetValue
-            = jsonElement(target->params[parameter], binding.value("element", std::string()));
+            = jsonElement(asJson(target->params)[parameter], binding.value("element", std::string()));
         if (!targetValue || !targetValue->is_number()) {
             error = diagnostic(*control.block, "parameter target is not scalar numeric");
             return false;

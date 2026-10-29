@@ -491,13 +491,13 @@ namespace NFlow {
     int
     planarIslandStateCount(const Block& b, const ValMap&)
     {
-        return buildPlanarLayout(b.params).numStates;
+        return buildPlanarLayout(asJson(b.params)).numStates;
     }
     //=============================================================================
     void
     planarIslandIdMask(const Block& b, const ValMap&, std::vector<double>& ids)
     {
-        PlanarLayout L = buildPlanarLayout(b.params);
+        PlanarLayout L = buildPlanarLayout(asJson(b.params));
         ids.assign(L.id.begin(), L.id.end());
     }
     //=============================================================================
@@ -506,7 +506,7 @@ namespace NFlow {
     {
         auto& st = getState(ctx, b.nid);
         if (phase == Phase::INIT) {
-            PlanarLayout L = buildPlanarLayout(b.params);
+            PlanarLayout L = buildPlanarLayout(asJson(b.params));
             st.vec.assign(L.ic.begin(), L.ic.end());
             // vec2 caches each body's (ax, ay, alpha) from DERIVATIVE so
             // acceleration sensors can read them in OUTPUT.
@@ -1439,17 +1439,17 @@ namespace NFlow {
         {
             BlockCodegenTemplate t;
             t.emitState = [](const BlockCodegenStateArgs& a) {
-                const PlanarLayout L = buildPlanarLayout(*a.params);
+                const PlanarLayout L = buildPlanarLayout(*asJson(a.params));
                 for (int i = 0; i < L.numStates; ++i) {
                     a.addState("pl_x_" + a.id + "_" + std::to_string(i),
                         a.fmt(L.ic[static_cast<size_t>(i)]), "");
                 }
             };
             t.continuousWidth = [](const BlockCodegenArgs& a) -> int {
-                return buildPlanarLayout(*a.params).numStates;
+                return buildPlanarLayout(*asJson(a.params)).numStates;
             };
             t.emitRk4 = [lang](const BlockCodegenArgs& a) {
-                const PlanarLayout L = buildPlanarLayout(*a.params);
+                const PlanarLayout L = buildPlanarLayout(*asJson(a.params));
                 const std::string id = a.id;
                 const int off = a.stateOffset;
                 auto st = plStateAt(a, lang);
@@ -1478,7 +1478,7 @@ namespace NFlow {
                 }
             };
             t.emitStep = [lang](const BlockCodegenArgs& a) {
-                const PlanarLayout L = buildPlanarLayout(*a.params);
+                const PlanarLayout L = buildPlanarLayout(*asJson(a.params));
                 if (L.numStates <= 0) {
                     return;
                 }

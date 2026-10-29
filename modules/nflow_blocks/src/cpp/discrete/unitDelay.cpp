@@ -80,7 +80,7 @@ Nelson::NFlow::getCodeGenCUnitDelay()
         a.line("out_" + a.id + " = s->unit_delay_" + a.id + ";");
         // Multi-rate: advance the stored state only on the block's sample hit.
         // rate = round(SampleTime / base step); 1 = every step.
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s->unit_delay_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if (__nflow_step % " + std::to_string(rate) + " == 0) " + upd);
@@ -105,7 +105,7 @@ Nelson::NFlow::getCodeGenRustUnitDelay()
     t.emitStep = [](const BlockCodegenArgs& a) {
         a.line("out_" + a.id + " = s.unit_delay_" + a.id + ";");
         // Multi-rate: advance the stored state only on the block's sample hit.
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s.unit_delay_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if __nflow_step % " + std::to_string(rate) + " == 0 { " + upd + " }");

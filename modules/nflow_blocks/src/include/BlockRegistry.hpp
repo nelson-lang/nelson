@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "SimEngineTypes.hpp"
+#include "BlockPlugin.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -308,6 +309,15 @@ namespace NFlow {
         // BlockCodegenPair). Preferred for new blocks: one line, no asymmetry.
         void
         registerCodegen(const std::string& type, const BlockCodegenPair& pair);
+
+        // Register a plugin's programmatic emitter for (type, lang). Builds a
+        // BlockCodegenTemplate whose emitStep/emitState bridge the internal
+        // BlockCodegenArgs to a pure-C NfCodegenContext and call fn. Used by the
+        // plugin loader for nfEmitBlockCodegen; takes precedence over any JSON
+        // template registered for the same (type, lang).
+        void
+        registerCodegenEmitter(
+            const std::string& type, const std::string& lang, NfEmitBlockCodegenFn fn);
 
         // Debug aid: block types registered for exactly ONE language (a pair
         // asymmetry). Empty when every type carries both templates.

@@ -10,6 +10,7 @@
 #include "BlockRegistry.hpp"
 #include "BlockPlugin.h"
 #include "DynamicLibrary.hpp"
+#include "NFlowBlockDescriptor.hpp"
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
@@ -19,6 +20,7 @@
 #include <mutex>
 #include <algorithm>
 #include <cctype>
+#include <deque>
 #include "FieldNames.hpp"
 //=============================================================================
 namespace fs = std::filesystem;
@@ -254,6 +256,225 @@ namespace NFlow {
         return Phase::OUTPUT;
     }
     //=============================================================================
+    // Bridge between the internal C++ codegen args and a plugin's pure-C
+    // NfCodegenContext. One lives on the stack for the duration of a single
+    // nfEmitBlockCodegen call; its callbacks read either the step args or the
+    // state args (whichever pass is active) and the engine owns every returned
+    // string through `storage`.
+    //=============================================================================
+    namespace {
+        struct PluginCodegenBridge
+        {
+            const BlockCodegenArgs* step = nullptr; // set in the step pass
+            const BlockCodegenStateArgs* state = nullptr; // set in the state pass
+            bool rust = false;
+            std::string id;
+            const json* block = nullptr;
+            const json* params = nullptr;
+            const nflow::VarMap* vars = nullptr;
+            std::function<std::string(double)> fmt;
+            double dt = 0.0;
+            std::deque<std::string> storage; // stable backing for returned c-strings
+
+            const char*
+            keep(std::string s)
+            {
+                storage.push_back(std::move(s));
+                return storage.back().c_str();
+            }
+        };
+        //=============================================================================
+        PluginCodegenBridge*
+        self(void* p)
+        {
+            return static_cast<PluginCodegenBridge*>(p);
+        }
+        //=============================================================================
+        void
+        cb_line(void* s, const char* text)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->step && b->step->line && text) {
+                b->step->line(text);
+            }
+        }
+        //=============================================================================
+        void
+        cb_addState(void* s, const char* name, const char* init, const char* type)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->state && b->state->addState && name) {
+                b->state->addState(std::string(name) + "_" + b->id, init ? init : "",
+                    type ? type : "");
+            }
+        }
+        //=============================================================================
+        double
+        cb_paramNumber(void* s, const char* key, double fallback)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (!key || !b->block || !b->vars) {
+                return fallback;
+            }
+            nflow::BlockDescriptor bd(*b->block, *b->vars);
+            return bd.paramDouble(key, fallback);
+        }
+        //=============================================================================
+        const char*
+        cb_paramString(void* s, const char* key, const char* fallback)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (!key || !b->block || !b->vars) {
+                return fallback;
+            }
+            nflow::BlockDescriptor bd(*b->block, *b->vars);
+            return b->keep(bd.paramStr(key, fallback ? fallback : ""));
+        }
+        //=============================================================================
+        int
+        cb_paramBool(void* s, const char* key, int fallback)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (!key || !b->params) {
+                return fallback;
+            }
+            auto it = b->params->find(key);
+            if (it == b->params->end() || it->is_null()) {
+                return fallback;
+            }
+            if (it->is_boolean()) {
+                return it->get<bool>() ? 1 : 0;
+            }
+            if (it->is_number()) {
+                return it->get<double>() != 0.0 ? 1 : 0;
+            }
+            if (it->is_string()) {
+                const std::string v = it->get<std::string>();
+                return (v == "true" || v == "1") ? 1 : 0;
+            }
+            return fallback;
+        }
+        //=============================================================================
+        int
+        cb_hasParam(void* s, const char* key)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (!key || !b->params) {
+                return 0;
+            }
+            auto it = b->params->find(key);
+            return (it != b->params->end() && !it->is_null()) ? 1 : 0;
+        }
+        //=============================================================================
+        int
+        cb_paramList(void* s, const char* key, double* out, int maxOut)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (!key || !b->block || !b->vars) {
+                return 0;
+            }
+            nflow::BlockDescriptor bd(*b->block, *b->vars);
+            std::vector<double> values = bd.paramList(key);
+            const int total = static_cast<int>(values.size());
+            if (out && maxOut > 0) {
+                const int n = total < maxOut ? total : maxOut;
+                for (int i = 0; i < n; ++i) {
+                    out[i] = values[i];
+                }
+            }
+            return total;
+        }
+        //=============================================================================
+        const char*
+        cb_inputExpr(void* s, int port)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->step && port >= 0 && port < static_cast<int>(b->step->in.size())) {
+                return b->keep(b->step->in[port]);
+            }
+            return "";
+        }
+        //=============================================================================
+        const char*
+        cb_blockId(void* s)
+        {
+            return self(s)->keep(self(s)->id);
+        }
+        //=============================================================================
+        const char*
+        cb_outputVar(void* s)
+        {
+            PluginCodegenBridge* b = self(s);
+            return b->keep("out_" + b->id);
+        }
+        //=============================================================================
+        const char*
+        cb_stateRef(void* s, const char* name)
+        {
+            PluginCodegenBridge* b = self(s);
+            const std::string prefix = b->rust ? "s." : "s->";
+            return b->keep(prefix + (name ? name : "") + "_" + b->id);
+        }
+        //=============================================================================
+        const char*
+        cb_fmt(void* s, double v)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->fmt) {
+                return b->keep(b->fmt(v));
+            }
+            return b->keep(std::to_string(v));
+        }
+        //=============================================================================
+        double
+        cb_dt(void* s)
+        {
+            return self(s)->dt;
+        }
+        //=============================================================================
+        const char*
+        cb_outType(void* s)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->step) {
+                return b->keep(b->step->outType);
+            }
+            return "";
+        }
+        //=============================================================================
+        const char*
+        cb_inType(void* s, int port)
+        {
+            PluginCodegenBridge* b = self(s);
+            if (b->step && port >= 0 && port < static_cast<int>(b->step->inTypes.size())) {
+                return b->keep(b->step->inTypes[port]);
+            }
+            return "";
+        }
+        //=============================================================================
+        void
+        fillContext(NfCodegenContext& ctx, PluginCodegenBridge* b)
+        {
+            ctx.self = b;
+            ctx.phase = NF_CODEGEN_PHASE_STEP;
+            ctx.line = cb_line;
+            ctx.addState = cb_addState;
+            ctx.paramNumber = cb_paramNumber;
+            ctx.paramString = cb_paramString;
+            ctx.paramBool = cb_paramBool;
+            ctx.hasParam = cb_hasParam;
+            ctx.paramList = cb_paramList;
+            ctx.inputExpr = cb_inputExpr;
+            ctx.blockId = cb_blockId;
+            ctx.outputVar = cb_outputVar;
+            ctx.stateRef = cb_stateRef;
+            ctx.fmt = cb_fmt;
+            ctx.dt = cb_dt;
+            ctx.outType = cb_outType;
+            ctx.inType = cb_inType;
+        }
+    } // namespace
+    //=============================================================================
     bool
     BlockRegistry::loadNativeLibrary(const std::string& path, const std::string& libraryId)
     {
@@ -353,6 +574,32 @@ namespace NFlow {
             registerHandler(blockType, wrapped, phases, libraryId);
         }
 
+        // Optional programmatic codegen: nfEmitBlockCodegen(type, lang, ctx)
+        // emits code through callbacks. Detected per (type, lang) by a dry-run
+        // probe (a detached context whose sinks are no-ops): return 1 means the
+        // block emits for that language. Registered first so it takes precedence
+        // over any JSON template the plugin also exports for the same pair.
+        std::set<std::string> programmatic;
+        auto emitCodegenFn = reinterpret_cast<NfEmitBlockCodegenFn>(
+            get_function(handle, NF_EMIT_BLOCK_CODEGEN_SYMBOL));
+        if (emitCodegenFn) {
+            for (int i = 0; i < count; ++i) {
+                const NfBlockHandlerEntry& e = entries[i];
+                if (!e.type) {
+                    continue;
+                }
+                for (const char* lang : { "c", "rust" }) {
+                    PluginCodegenBridge probe; // detached: all sinks no-op
+                    NfCodegenContext ctx;
+                    fillContext(ctx, &probe);
+                    if (emitCodegenFn(e.type, lang, &ctx) == 1) {
+                        registerCodegenEmitter(e.type, lang, emitCodegenFn);
+                        programmatic.insert(std::string(e.type) + "\n" + lang);
+                    }
+                }
+            }
+        }
+
         // Optional codegen templates: nfGetBlockCodegen(type, lang) returns a JSON
         // template ({"state":[{"name":...,"init":...}],"step":"...","inputDefault":"..."})
         // or NULL when the block has no codegen for that language.
@@ -365,6 +612,10 @@ namespace NFlow {
                     continue;
                 }
                 for (const char* lang : { "c", "rust" }) {
+                    // The programmatic emitter wins when both are present.
+                    if (programmatic.count(std::string(e.type) + "\n" + lang) > 0) {
+                        continue;
+                    }
                     const char* tplJson = getCodegenFn(e.type, lang);
                     if (!tplJson) {
                         continue;
@@ -403,6 +654,48 @@ namespace NFlow {
             }
         }
         return true;
+    }
+    //=============================================================================
+    void
+    BlockRegistry::registerCodegenEmitter(
+        const std::string& type, const std::string& lang, NfEmitBlockCodegenFn fn)
+    {
+        if (!fn) {
+            return;
+        }
+        const bool rust = (lang == "rust");
+        BlockCodegenTemplate tpl;
+        tpl.emitStep = [fn, type, lang, rust](const BlockCodegenArgs& a) {
+            PluginCodegenBridge b;
+            b.step = &a;
+            b.rust = rust;
+            b.id = a.id;
+            b.block = a.block;
+            b.params = a.params;
+            b.vars = a.variables;
+            b.fmt = a.fmt;
+            b.dt = a.dt;
+            NfCodegenContext ctx;
+            fillContext(ctx, &b);
+            ctx.phase = NF_CODEGEN_PHASE_STEP;
+            fn(type.c_str(), lang.c_str(), &ctx);
+        };
+        tpl.emitState = [fn, type, lang, rust](const BlockCodegenStateArgs& sa) {
+            PluginCodegenBridge b;
+            b.state = &sa;
+            b.rust = rust;
+            b.id = sa.id;
+            b.block = sa.block;
+            b.params = sa.params;
+            b.vars = sa.variables;
+            b.fmt = sa.fmt;
+            b.dt = sa.dt;
+            NfCodegenContext ctx;
+            fillContext(ctx, &b);
+            ctx.phase = NF_CODEGEN_PHASE_STATE;
+            fn(type.c_str(), lang.c_str(), &ctx);
+        };
+        registerCodegen(type, lang, tpl);
     }
     //=============================================================================
     void

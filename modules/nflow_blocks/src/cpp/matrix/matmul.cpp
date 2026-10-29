@@ -32,8 +32,8 @@ namespace NFlow {
     static bool
     matmulIsElementwise(const Block& b)
     {
-        auto it = b.params.find(nflow::kMulRule);
-        if (it != b.params.end() && it->is_string()) {
+        auto it = asJson(b.params).find(nflow::kMulRule);
+        if (it != asJson(b.params).end() && it->is_string()) {
             const std::string r = it->get<std::string>();
             return r == "elementwise" || r == ".*" || r == "element-wise";
         }

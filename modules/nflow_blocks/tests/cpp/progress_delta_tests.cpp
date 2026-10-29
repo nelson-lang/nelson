@@ -351,7 +351,7 @@ TEST_CASE("progress delta: dashboardScope stream is delta-encoded per block")
 TEST_CASE("final result: dashboardScope stream is bounded to its TimeSpan window")
 {
     Block dash = makeBlock("dash", "dashboardScope", 0, 1);
-    dash.params = json { { "TimeSpan", 2.0 } };
+    asJson(dash.params) = json { { "TimeSpan", 2.0 } };
     std::vector<Block> blocks { dash };
     std::vector<BlockState> states(1);
     states[0].scalar2 = 1.0;
@@ -379,7 +379,7 @@ TEST_CASE("final result: dashboardScope stream is bounded to its TimeSpan window
     CHECK(update["series"][0][update["series"][0].size() - 1] == doctest::Approx(100.0));
 
     // Without TimeSpan the full stream is kept.
-    blocks[0].params = json::object();
+    asJson(blocks[0].params) = json::object();
     const json full = json::parse(buildOutputJson("done", "", time, blocks, states, inputIds, ""));
     CHECK(full["dashboardUpdates"][0]["times"].size() == 101);
 }

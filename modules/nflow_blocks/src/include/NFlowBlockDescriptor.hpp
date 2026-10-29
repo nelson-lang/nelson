@@ -28,7 +28,7 @@ public:
     {
         m_block[nflow::kId] = block.id;
         m_block[nflow::kType] = block.type;
-        m_block[nflow::kParams] = block.params;
+        m_block[nflow::kParams] = asJson(block.params);
     }
 
     std::string

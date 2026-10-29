@@ -154,10 +154,10 @@ Nelson::NFlow::handleSwitchCase(SimCtx& ctx, const Block& b, Phase phase)
     const int nOut = std::max(1, b.outputs);
     const double u = getInput(ctx, b.nid, 0, 0.0);
     const long long v = static_cast<long long>(std::trunc(u));
-    const bool showDefault = showDefaultCase(b.params);
+    const bool showDefault = showDefaultCase(asJson(b.params));
     const int nCases = showDefault ? std::max(0, nOut - 1) : nOut;
 
-    const std::vector<std::vector<long long>> cases = readCaseConditions(b.params);
+    const std::vector<std::vector<long long>> cases = readCaseConditions(asJson(b.params));
     int selected = -1;
     for (int i = 0; i < nCases && i < static_cast<int>(cases.size()) && selected < 0; ++i) {
         for (long long cv : cases[static_cast<size_t>(i)]) {
@@ -187,7 +187,7 @@ makeSwitchCaseCodegen(Nelson::NFlow::CodegenLang L)
     using namespace Nelson::NFlow;
     BlockCodegenTemplate t;
     t.emitStep = [L](const BlockCodegenArgs& a) {
-        const json& p = *a.params;
+        const json& p = *asJson(a.params);
         const int nOut = std::max(1, a.block->value(nflow::kOutputs, 1));
         const bool showDefault = showDefaultCase(p);
         const int nCases = showDefault ? std::max(0, nOut - 1) : nOut;

@@ -763,7 +763,7 @@ namespace NFlow {
         static void
         emitMechRk4(const BlockCodegenArgs& a, const MechEmitLang& lang)
         {
-            const MechLayout L = buildMechLayout(*a.params);
+            const MechLayout L = buildMechLayout(*asJson(a.params));
             const std::string id = a.id;
             const int off = a.stateOffset;
             auto stateAt = mechStateAt(a, L, lang);
@@ -803,7 +803,7 @@ namespace NFlow {
         static void
         emitMechStep(const BlockCodegenArgs& a, const MechEmitLang& lang)
         {
-            const MechLayout L = buildMechLayout(*a.params);
+            const MechLayout L = buildMechLayout(*asJson(a.params));
             if (L.numStates <= 0) {
                 return;
             }
@@ -831,14 +831,14 @@ namespace NFlow {
         {
             BlockCodegenTemplate t;
             t.emitState = [](const BlockCodegenStateArgs& a) {
-                const MechLayout L = buildMechLayout(*a.params);
+                const MechLayout L = buildMechLayout(*asJson(a.params));
                 for (int i = 0; i < L.numStates; ++i) {
                     a.addState("mech_x_" + a.id + "_" + std::to_string(i),
                         a.fmt(L.ic[static_cast<size_t>(i)]), "");
                 }
             };
             t.continuousWidth = [](const BlockCodegenArgs& a) -> int {
-                return buildMechLayout(*a.params).numStates;
+                return buildMechLayout(*asJson(a.params)).numStates;
             };
             const MechEmitLang lang { rust };
             t.emitRk4 = [lang](const BlockCodegenArgs& a) { emitMechRk4(a, lang); };
@@ -863,7 +863,7 @@ namespace NFlow {
     int
     mechanicalIslandStateCount(const Block& b, const ValMap&)
     {
-        return buildMechLayout(b.params).numStates;
+        return buildMechLayout(asJson(b.params)).numStates;
     }
     //=============================================================================
     bool
@@ -871,7 +871,7 @@ namespace NFlow {
     {
         auto& st = getState(ctx, b.nid);
         if (phase == Phase::INIT) {
-            MechLayout L = buildMechLayout(b.params);
+            MechLayout L = buildMechLayout(asJson(b.params));
             st.vec.assign(L.ic.begin(), L.ic.end());
             st.external.reset(new MechLayout(std::move(L)));
             return false;

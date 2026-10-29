@@ -56,10 +56,10 @@ buildPhaseSchedule(const std::vector<Block>& blocks, const BlockRegistry& reg,
     // SimCtx::invokeSubsystem. It keeps its INIT (its inner state must be
     // built) but is excluded from OUTPUT/ALGEBRAIC/AFTER_STEP/UPDATE.
     auto isFunctionCallSub = [](const Block& blk) -> bool {
-        if (blk.type != "subsystem" || !blk.params.contains("controlPort")) {
+        if (blk.type != "subsystem" || !asJson(blk.params).contains("controlPort")) {
             return false;
         }
-        const auto& cp = blk.params["controlPort"];
+        const auto& cp = asJson(blk.params)["controlPort"];
         return cp.is_object() && cp.value("kind", std::string()) == "functionCall";
     };
     for (int i = 0; i < (int)blocks.size(); ++i) {

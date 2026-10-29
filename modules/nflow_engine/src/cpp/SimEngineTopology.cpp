@@ -31,14 +31,14 @@ buildModelTopology(const nlohmann::json& diagram, ModelTopology& out)
             b.type = bj.value(nflow::kType, "");
             b.inputs = bj.value(nflow::kInputs, 0);
             b.outputs = bj.value(nflow::kOutputs, 1);
-            b.params = bj.value(nflow::kParams, json::object());
+            asJson(b.params) = bj.value(nflow::kParams, json::object());
             // The editor writes the port count both as a block field and as a
             // parameter. A hand- or script-written model often carries only the
             // parameter; without this a demux keeps the default single port and
             // silently drops every element but the first.
             if (b.type == "demux" && !bj.contains(nflow::kOutputs)) {
-                const auto it = b.params.find("Outputs");
-                if (it != b.params.end() && it->is_number()) {
+                const auto it = asJson(b.params).find("Outputs");
+                if (it != asJson(b.params).end() && it->is_number()) {
                     b.outputs = (std::max)(1, it->get<int>());
                 }
             }
@@ -138,10 +138,10 @@ buildModelTopology(const nlohmann::json& diagram, ModelTopology& out)
         if (b.type != nflow::kLabelSink) {
             continue;
         }
-        if (!b.params.contains(nflow::kGotoTag) || !b.params[nflow::kGotoTag].is_string()) {
+        if (!asJson(b.params).contains(nflow::kGotoTag) || !asJson(b.params)[nflow::kGotoTag].is_string()) {
             continue;
         }
-        std::string name = b.params[nflow::kGotoTag].get<std::string>();
+        std::string name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
         if (!name.empty()) {
             labelSinks[name] = b.id;
         }

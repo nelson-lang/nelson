@@ -106,7 +106,7 @@ namespace {
     {
         NFlowBlockCatalog::instance().ensureLoaded();
         for (const Block& b : blocks) {
-            if (checkOneBlock(b.id, b.type, b.params, variables, diagnostics)) {
+            if (checkOneBlock(b.id, b.type, asJson(b.params), variables, diagnostics)) {
                 return;
             }
         }

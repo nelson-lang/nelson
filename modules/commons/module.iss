@@ -14,7 +14,6 @@ Source: {#RootPath}bin\{#BinPath}\libnlsCommons.lib; DestDir: {app}\bin\{#BinPat
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\Nelson_VERSION.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\nlsBuildConfig.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;
-; recurse so the SDK third-party trees (nlohmann, fast_float) ship, needed to build native plugins
-Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
-Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================

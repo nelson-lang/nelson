@@ -56,7 +56,7 @@ Nelson::NFlow::handleMerge(SimCtx& ctx, const Block& b, Phase phase)
     const int nIn = std::max(1, b.inputs);
 
     if (phase == Phase::INIT) {
-        const double init0 = readInitialOutput(b.params);
+        const double init0 = readInitialOutput(asJson(b.params));
         st.outLatch.assign(1, init0);
         setOutput(ctx, b.nid, init0);
 

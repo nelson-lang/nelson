@@ -35,7 +35,7 @@ namespace NFlow {
                 b.type = bj.value(nflow::kType, "");
                 b.inputs = bj.value(nflow::kInputs, 0);
                 b.outputs = bj.value(nflow::kOutputs, 1);
-                b.params = bj.value(nflow::kParams, json::object());
+                asJson(b.params) = bj.value(nflow::kParams, json::object());
                 if (!b.id.empty() && !b.type.empty()) {
                     ss->blocks.push_back(std::move(b));
                 }
@@ -84,10 +84,10 @@ namespace NFlow {
             if (b.type != nflow::kLabelSink) {
                 continue;
             }
-            if (!b.params.contains(nflow::kGotoTag) || !b.params[nflow::kGotoTag].is_string()) {
+            if (!asJson(b.params).contains(nflow::kGotoTag) || !asJson(b.params)[nflow::kGotoTag].is_string()) {
                 continue;
             }
-            std::string name = b.params[nflow::kGotoTag].get<std::string>();
+            std::string name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
             if (!name.empty()) {
                 ss->labelSinks[name] = b.id;
             }
@@ -123,7 +123,7 @@ namespace NFlow {
                 continue;
             }
             nflow::BlockDescriptor bd(b, outerVars);
-            for (auto& [key, val] : b.params.items()) {
+            for (auto& [key, val] : asJson(b.params).items()) {
                 if (key == nflow::kSumInputs || key == nflow::kCondition || key == nflow::kExpr) {
                     continue;
                 }

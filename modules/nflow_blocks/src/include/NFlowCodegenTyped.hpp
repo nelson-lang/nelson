@@ -70,9 +70,9 @@ namespace NFlow {
     inline bool
     codegenSaturates(const BlockCodegenArgs& a)
     {
-        if (a.params && a.params->contains(nflow::kSaturateOnOverflow)
-            && (*a.params)[nflow::kSaturateOnOverflow].is_boolean()) {
-            return (*a.params)[nflow::kSaturateOnOverflow].get<bool>();
+        if (asJson(a.params) && asJson(a.params)->contains(nflow::kSaturateOnOverflow)
+            && (*asJson(a.params))[nflow::kSaturateOnOverflow].is_boolean()) {
+            return (*asJson(a.params))[nflow::kSaturateOnOverflow].get<bool>();
         }
         return true;
     }

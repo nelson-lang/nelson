@@ -87,13 +87,13 @@ namespace NFlow {
     int
     physicalIslandStateCount(const Block& b, const ValMap&)
     {
-        return buildLayout(b.params).numStates;
+        return buildLayout(asJson(b.params)).numStates;
     }
     //=============================================================================
     void
     physicalIslandIdMask(const Block& b, const ValMap&, std::vector<double>& ids)
     {
-        IslandLayout L = buildLayout(b.params);
+        IslandLayout L = buildLayout(asJson(b.params));
         for (size_t k = 0; k < ids.size() && k < L.id.size(); ++k) {
             ids[k] = L.id[k];
         }
@@ -104,7 +104,7 @@ namespace NFlow {
     {
         // One zero-crossing surface per ideal switch (the control threshold)
         // and per ideal diode (its mode state s).
-        IslandLayout L = buildLayout(b.params);
+        IslandLayout L = buildLayout(asJson(b.params));
         int n = 0;
         for (const IslandComp& c : L.comps) {
             if (c.kind == Kind::Switch || c.kind == Kind::IdealDiode) {
@@ -120,7 +120,7 @@ namespace NFlow {
         auto& st = getState(ctx, b.nid);
 
         if (phase == Phase::INIT) {
-            IslandLayout L = buildLayout(b.params);
+            IslandLayout L = buildLayout(asJson(b.params));
             // Seed the block's initial state (gatherStates copies st.vec into the
             // global x slice); IDACalcIC then corrects the algebraic entries.
             st.vec.assign(L.ic.begin(), L.ic.end());

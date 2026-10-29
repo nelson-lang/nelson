@@ -36,8 +36,8 @@ Nelson::NFlow::handleDtf(SimCtx& ctx, const Block& b, Phase phase)
         // leading denominator coefficient and pads a lower-degree numerator on
         // the left, so both lists are polynomials in z.
         const nflow::DiscreteTf model
-            = nflow::buildDiscreteTf(toPolyD(b.params.value(nflow::kNum, json::array())),
-                toPolyD(b.params.value(nflow::kDen, json::array())));
+            = nflow::buildDiscreteTf(toPolyD(asJson(b.params).value(nflow::kNum, json::array())),
+                toPolyD(asJson(b.params).value(nflow::kDen, json::array())));
         std::vector<double> numArr = model.num;
         std::vector<double> denArr = model.den;
         // Per-element input/output histories: xHist is flat [width * nx],

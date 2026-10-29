@@ -670,7 +670,7 @@ namespace NFlow {
     {
         BlockCodegenTemplate t;
         t.emitState = [](const BlockCodegenStateArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 return; // unsupported island: no state (emitStep emits a marker)
             }
@@ -682,7 +682,7 @@ namespace NFlow {
             }
         };
         t.emitShared = [](const BlockCodegenStateArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 return;
             }
@@ -700,7 +700,7 @@ namespace NFlow {
         // body, so it contributes no state to the global RK4 packed vector.
         t.continuousWidth = [](const BlockCodegenArgs&) -> int { return 0; };
         t.emitStep = [](const BlockCodegenArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 a.line("out_" + a.id
                     + " = 0.0; /* nflow: this physicalIsland uses a component kind outside the "
@@ -719,7 +719,7 @@ namespace NFlow {
         // Per-scalar state fields (isl_x_<id>_<i>: f64); the step gathers them into
         // a local array for the Newton solve.
         t.emitState = [](const BlockCodegenStateArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 return;
             }
@@ -730,7 +730,7 @@ namespace NFlow {
             }
         };
         t.emitShared = [](const BlockCodegenStateArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 return;
             }
@@ -745,7 +745,7 @@ namespace NFlow {
         };
         t.continuousWidth = [](const BlockCodegenArgs&) -> int { return 0; };
         t.emitStep = [](const BlockCodegenArgs& a) {
-            const IslandLayout L = buildLayout(*a.params);
+            const IslandLayout L = buildLayout(*asJson(a.params));
             if (L.numStates <= 0 || !islandNewtonSupported(L)) {
                 a.line("out_" + a.id
                     + " = 0.0; // nflow: this physicalIsland uses a component kind outside the "

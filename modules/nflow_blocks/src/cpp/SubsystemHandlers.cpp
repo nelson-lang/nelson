@@ -252,11 +252,11 @@ namespace NFlow {
                         if (ss.inputLookup.count(b.id)) {
                             continue;
                         }
-                        if (!b.params.contains(nflow::kGotoTag)
-                            || !b.params[nflow::kGotoTag].is_string()) {
+                        if (!asJson(b.params).contains(nflow::kGotoTag)
+                            || !asJson(b.params)[nflow::kGotoTag].is_string()) {
                             continue;
                         }
-                        std::string name = b.params[nflow::kGotoTag].get<std::string>();
+                        std::string name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
                         auto sit = ss.labelSinks.find(name);
                         if (sit == ss.labelSinks.end()) {
                             continue;
@@ -312,11 +312,11 @@ namespace NFlow {
                         if (ss.inputLookup.count(b.id)) {
                             continue;
                         }
-                        if (!b.params.contains(nflow::kGotoTag)
-                            || !b.params[nflow::kGotoTag].is_string()) {
+                        if (!asJson(b.params).contains(nflow::kGotoTag)
+                            || !asJson(b.params)[nflow::kGotoTag].is_string()) {
                             continue;
                         }
-                        std::string name = b.params[nflow::kGotoTag].get<std::string>();
+                        std::string name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
                         auto sit = ss.labelSinks.find(name);
                         if (sit == ss.labelSinks.end()) {
                             continue;
@@ -450,9 +450,9 @@ namespace NFlow {
             const bool innerBookkeeping = ss.blocks[i].type == "subsystem"
                 || ss.blocks[i].type == "pid"
                 || (ss.blocks[i].type == "integrator"
-                    && ss.blocks[i].params.contains("ExternalReset")
-                    && ss.blocks[i].params["ExternalReset"].is_string()
-                    && ss.blocks[i].params["ExternalReset"].get<std::string>() != "none");
+                    && asJson(ss.blocks[i].params).contains("ExternalReset")
+                    && asJson(ss.blocks[i].params)["ExternalReset"].is_string()
+                    && asJson(ss.blocks[i].params)["ExternalReset"].get<std::string>() != "none");
             if (underSolver && !innerBookkeeping
                 && reg.hasPhase(ss.blocks[i].type, Phase::DERIVATIVE)) {
                 continue; // continuous inner block: integrated by the solver
@@ -632,8 +632,8 @@ namespace NFlow {
 
         if (phase == Phase::INIT) {
             const json* specPtr = nullptr;
-            if (b.params.contains(nflow::kSubsystem) && b.params[nflow::kSubsystem].is_object()) {
-                specPtr = &b.params[nflow::kSubsystem];
+            if (asJson(b.params).contains(nflow::kSubsystem) && asJson(b.params)[nflow::kSubsystem].is_object()) {
+                specPtr = &asJson(b.params)[nflow::kSubsystem];
             }
             if (!specPtr) {
                 return false;
@@ -654,12 +654,12 @@ namespace NFlow {
             // outerInWidths untouched.
             std::string feErr;
             std::vector<char> feIsPartition;
-            const int feNumIter = forEachInputDivision(b.params, (int)outerInWidths.size(),
+            const int feNumIter = forEachInputDivision(asJson(b.params), (int)outerInWidths.size(),
                 outerInWidths, &outerInSigs, feIsPartition, feErr);
             // Mask parameters scope over the parent variables, so each instance resolves its
             // inner block params to its own values.
             const std::unordered_map<std::string, double> innerVars
-                = mergeMaskParameters(ctx.variables, b.params);
+                = mergeMaskParameters(ctx.variables, asJson(b.params));
             std::string innerLayoutErr;
             st.subsystem = buildSubsystemInnerState(
                 *specPtr, innerVars, ctx.dt, outerInWidths, &outerInSigs, &innerLayoutErr);
@@ -706,12 +706,12 @@ namespace NFlow {
             // params. Read all three, otherwise the gate is dropped silently and the subsystem
             // runs unconditionally.
             json cpFound;
-            if (b.params.contains("controlPort") && b.params["controlPort"].is_object()) {
-                cpFound = b.params["controlPort"];
+            if (asJson(b.params).contains("controlPort") && asJson(b.params)["controlPort"].is_object()) {
+                cpFound = asJson(b.params)["controlPort"];
             }
-            if (!(cpFound.is_object() && !cpFound.empty()) && b.params.contains("subsystem")
-                && b.params["subsystem"].is_object()) {
-                const json& spec = b.params["subsystem"];
+            if (!(cpFound.is_object() && !cpFound.empty()) && asJson(b.params).contains("subsystem")
+                && asJson(b.params)["subsystem"].is_object()) {
+                const json& spec = asJson(b.params)["subsystem"];
                 if (spec.contains("controlPort") && spec["controlPort"].is_object()) {
                     cpFound = spec["controlPort"];
                 } else if (spec.contains("params") && spec["params"].is_object()
@@ -1303,7 +1303,7 @@ namespace NFlow {
         ssMeta.resolveDims = [](const Block& b, const ValMap& vars,
                                  const std::vector<PortSig>& inSigs, std::vector<PortSig>& outSigs,
                                  std::string& err) {
-            if (!b.params.contains(nflow::kSubsystem) || !b.params[nflow::kSubsystem].is_object()) {
+            if (!asJson(b.params).contains(nflow::kSubsystem) || !asJson(b.params)[nflow::kSubsystem].is_object()) {
                 return true;
             }
             std::vector<int> inW(inSigs.size(), 1);
@@ -1315,13 +1315,13 @@ namespace NFlow {
             std::vector<PortSig> inSigsMut(inSigs.begin(), inSigs.end());
             std::vector<char> isPartition;
             const int feN = forEachInputDivision(
-                b.params, (int)inSigs.size(), inW, &inSigsMut, isPartition, err);
+                asJson(b.params), (int)inSigs.size(), inW, &inSigsMut, isPartition, err);
             if (feN < 0) {
                 return false; // configuration error (err set)
             }
             std::string innerLayoutErr;
             auto ss = buildSubsystemInnerState(
-                b.params[nflow::kSubsystem], vars, 0.01, inW, &inSigsMut, &innerLayoutErr);
+                asJson(b.params)[nflow::kSubsystem], vars, 0.01, inW, &inSigsMut, &innerLayoutErr);
             if (!innerLayoutErr.empty()) {
                 // The inner layout is invalid (a width conflict, say). Refuse it, as the top level
                 // does.
@@ -1359,8 +1359,8 @@ namespace NFlow {
         // stops at the edge and EVENT fires the body at the located instant. Other kinds
         // declare no surface.
         auto ctrlKindOf = [](const Block& b) -> std::string {
-            if (b.params.contains("controlPort") && b.params["controlPort"].is_object()) {
-                return b.params["controlPort"].value("kind", std::string());
+            if (asJson(b.params).contains("controlPort") && asJson(b.params)["controlPort"].is_object()) {
+                return asJson(b.params)["controlPort"].value("kind", std::string());
             }
             return std::string();
         };
@@ -1375,7 +1375,7 @@ namespace NFlow {
                       return;
                   }
                   const std::string tt
-                      = b.params["controlPort"].value("triggerType", std::string("rising"));
+                      = asJson(b.params)["controlPort"].value("triggerType", std::string("rising"));
                   dirs[0] = (tt == "falling") ? -1 : ((tt == "either") ? 0 : 1);
               };
         reg.registerHandler("subsystem", handleSubsystem,

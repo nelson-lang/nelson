@@ -14,6 +14,7 @@ The full authoring guide is the `nflow-create-block` AI skill in
 | `blocks.js`   | JS module with the SVG render functions (`blockDefinitions`) |
 | `cumprod.cpp` | C++ simulation handler, compiled to a shared library         |
 | `builder.m`   | Build script, based on the Nelson build tools                |
+| `cumprod_demo.nflow` | Ready-to-run demo diagram (constant → cumprod → workspace) |
 
 ## The block
 
@@ -82,8 +83,11 @@ that field, so the two stay in sync.
 ```
 
 - `dlgetnflowincludes()` returns the `nflow_blocks` headers and the Nelson SDK
-  include directories. The Nelson directories provide `nlohmann/json.hpp`, which
-  is included by `SimEngineTypes.hpp`.
+  include directories. The plugin SDK needs no third-party header: the public
+  headers keep every third-party type out of their surface, so the plugin builds
+  even against an installed Nelson that ships no third-party headers. Defining
+  `NFLOW_PUBLIC_SDK` forces that header-free path even inside the Nelson source
+  tree.
 - `dlgetnflowlibraries()` returns `nlsNflow_blocks`. That library exports the
   simulation helpers (`getInput`, `getState`, `setOutput`, `updated`, and so
   on).
@@ -114,8 +118,8 @@ native library, so the blocks become available to `sim` and code generation.
 builder
 NFlow.addlibrarypath([modulepath('nflow_gui'), '/examples/libraries']);
 
-% Run a model that uses the Cum. Product block.
-out = sim('my_model.nflow');
+% Run the bundled demo diagram (constant -> cumprod -> workspace).
+out = sim([modulepath('nflow_gui'), '/examples/libraries/cumprod/cumprod_demo.nflow']);
 ```
 
 Related commands: `NFlow.librarypaths()` lists the current search paths and

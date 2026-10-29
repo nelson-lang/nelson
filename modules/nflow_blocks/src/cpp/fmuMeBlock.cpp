@@ -42,8 +42,8 @@ namespace NFlow {
     fmuMePathParam(const Block& b)
     {
         for (const char* key : { "path", "fmu", "file" }) {
-            if (b.params.contains(key) && b.params[key].is_string()) {
-                std::string p = b.params[key].get<std::string>();
+            if (asJson(b.params).contains(key) && asJson(b.params)[key].is_string()) {
+                std::string p = asJson(b.params)[key].get<std::string>();
                 if (!p.empty()) {
                     return p;
                 }
@@ -142,8 +142,8 @@ namespace NFlow {
             }
             std::vector<std::string> paramNames;
             std::vector<double> paramValues;
-            if (b.params.contains("parameterValues") && b.params["parameterValues"].is_object()) {
-                for (const auto& item : b.params["parameterValues"].items()) {
+            if (asJson(b.params).contains("parameterValues") && asJson(b.params)["parameterValues"].is_object()) {
+                for (const auto& item : asJson(b.params)["parameterValues"].items()) {
                     if (item.value().is_number()) {
                         paramNames.push_back(item.key());
                         paramValues.push_back(item.value().get<double>());
@@ -265,16 +265,16 @@ namespace NFlow {
         // are needed at state-layout time, which runs after INIT but reads only the
         // Block/ValMap.
         meta.continuousStateCount = [](const Block& b, const ValMap&) -> int {
-            if (b.params.contains("numContinuousStates")
-                && b.params["numContinuousStates"].is_number()) {
-                return std::max(0, b.params["numContinuousStates"].get<int>());
+            if (asJson(b.params).contains("numContinuousStates")
+                && asJson(b.params)["numContinuousStates"].is_number()) {
+                return std::max(0, asJson(b.params)["numContinuousStates"].get<int>());
             }
             return 0;
         };
         meta.zeroCrossingCount = [](const Block& b, const ValMap&) -> int {
-            if (b.params.contains("numEventIndicators")
-                && b.params["numEventIndicators"].is_number()) {
-                return std::max(0, b.params["numEventIndicators"].get<int>());
+            if (asJson(b.params).contains("numEventIndicators")
+                && asJson(b.params)["numEventIndicators"].is_number()) {
+                return std::max(0, asJson(b.params)["numEventIndicators"].get<int>());
             }
             return 0;
         };
@@ -285,8 +285,8 @@ namespace NFlow {
                     outSigs[p].setVector(std::max(1, w));
                 }
             };
-            if (b.params.contains("outputWidths")) {
-                const auto& ws = b.params["outputWidths"];
+            if (asJson(b.params).contains("outputWidths")) {
+                const auto& ws = asJson(b.params)["outputWidths"];
                 if (ws.is_array()) {
                     for (int p = 0; p < (int)ws.size(); ++p) {
                         if (ws[p].is_number()) {

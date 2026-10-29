@@ -20,7 +20,7 @@ makeBlock(const std::string& id, const std::string& type, int nid, json params =
     block.id = id;
     block.type = type;
     block.nid = nid;
-    block.params = std::move(params);
+    asJson(block.params) = std::move(params);
     return block;
 }
 //=============================================================================
@@ -51,7 +51,7 @@ TEST_CASE("dashboard binding validation resolves nested paths")
     states[0].subsystem->blockStateVec.resize(1);
 
     CHECK(validateDashboardBindings(blocks, states, {}).empty());
-    blocks[1].params["Binding"]["outputPortIndex"] = 2;
+    asJson(blocks[1].params)["Binding"]["outputPortIndex"] = 2;
     const auto errors = validateDashboardBindings(blocks, states, {});
     REQUIRE(errors.size() == 1);
     CHECK(errors[0].blockId == "view");
@@ -74,7 +74,7 @@ TEST_CASE("dashboard controls validate and update composite targets")
     json event = { { "id", "control" }, { "type", "setDashboardValue" }, { "value", 7.0 } };
     ValMap variables;
     CHECK(applyDashboardBindingValue(blocks, states, variables, event, error));
-    CHECK(blocks[0].params["Vector"][1].get<double>() == 7.0);
+    CHECK(asJson(blocks[0].params)["Vector"][1].get<double>() == 7.0);
     CHECK(states[1].scalar == 7.0);
 }
 //=============================================================================
@@ -114,7 +114,7 @@ TEST_CASE("dashboard controls inside subsystems update their own runtime state")
     const json event
         = { { "id", "nested-control" }, { "type", "setDashboardValue" }, { "value", 8.0 } };
     CHECK(applyDashboardBindingValue(blocks, states, variables, event, error));
-    CHECK(blocks[0].params["Gain"].get<double>() == 8.0);
+    CHECK(asJson(blocks[0].params)["Gain"].get<double>() == 8.0);
     CHECK(subsystem.blockStateVec[0].scalar == 8.0);
     CHECK(states[0].scalar == 0.0);
 }

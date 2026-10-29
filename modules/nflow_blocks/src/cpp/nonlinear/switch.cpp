@@ -40,8 +40,8 @@ Nelson::NFlow::handleSwitch(SimCtx& ctx, const Block& b, Phase phase)
         return false;
     }
     std::string condition = nflow::kGe;
-    if (b.params.contains(nflow::kCondition) && b.params[nflow::kCondition].is_string()) {
-        condition = b.params[nflow::kCondition].get<std::string>();
+    if (asJson(b.params).contains(nflow::kCondition) && asJson(b.params)[nflow::kCondition].is_string()) {
+        condition = asJson(b.params)[nflow::kCondition].get<std::string>();
     }
     nflow::BlockDescriptor bd(b, ctx.variables);
     double threshold = bd.paramDouble(nflow::kThreshold, 0.0);
@@ -82,7 +82,7 @@ makeSwitchCodegen(Nelson::NFlow::CodegenLang L)
     BlockCodegenTemplate t;
     t.emitStep = [L](const BlockCodegenArgs& a) {
         nflow::BlockDescriptor bd(*a.block, *a.variables);
-        std::string condition = nflow::jstr(*a.params, nflow::kCondition, nflow::kGe);
+        std::string condition = nflow::jstr(*asJson(a.params), nflow::kCondition, nflow::kGe);
         std::string threshold = nflow::formatNumber(bd.paramDouble(nflow::kThreshold, 0.0));
         std::string op = " >= ";
         if (condition == nflow::kGt) {

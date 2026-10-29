@@ -1,0 +1,42 @@
+{
+  "id": "example.powint",
+  "title": "Example C++ Codegen",
+  "comment": "Example C++ block showing programmatic (C-ABI) code generation",
+  "license": "BSD-3-Clause",
+  "version": "1.0.0",
+  "format": "nflow-1",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-10-29",
+    "tool": "Nelson nflow"
+  },
+  "native": "nflow_powint",
+  "blocks": [
+    {
+      "type": "powint",
+      "label": "Integer Power",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 60,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 30,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 30,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "n": 2
+      }
+    }
+  ]
+}
