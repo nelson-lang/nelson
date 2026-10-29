@@ -16,6 +16,7 @@ import {
   formatTick as _formatTick,
   roundToSignificant,
   refreshParamDisplay,
+  applySignalStyle,
 } from './scope-utils.js';
 import { stridePoints } from './minmax-reduce.js';
 import { areScopeSeriesConnected } from './scope-connections.js';
@@ -227,7 +228,13 @@ export function renderXYZScope(scopeBlock: any) {
     })
     .join(' ');
   const pathEl = scopeBlock.scopePaths[0];
-  if (pathEl) pathEl.setAttribute('d', path);
+  if (pathEl) {
+    pathEl.setAttribute('d', path);
+    const sig = Array.isArray(scopeBlock.params?.signals)
+      ? scopeBlock.params.signals[0]
+      : undefined;
+    applySignalStyle(pathEl, sig, 'scope-path-1');
+  }
   scopeBlock.computedLimits = {
     xMin,
     xMax,

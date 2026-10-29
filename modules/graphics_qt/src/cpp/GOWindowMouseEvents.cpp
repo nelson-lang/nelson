@@ -29,7 +29,9 @@ GOWindow::updateCurrentPoint(const QPointF& scenePosition, quint64 eventTimestam
     if (!qtchild) {
         return;
     }
-    // An injected event carries its figure point: use it directly instead of reconstructing one from scenePosition, which depends on a window placement a headless X server may not honor. Drop it and any older unconsumed injection (events are delivered in timestamp order).
+    // An injected event carries its figure point: use it directly instead of reconstructing one
+    // from scenePosition, which depends on a window placement a headless X server may not honor.
+    // Drop it and any older unconsumed injection (events are delivered in timestamp order).
     auto injected = injectedFigurePoints.find(eventTimestamp);
     if (injected != injectedFigurePoints.end()) {
         lastFigurePixelX = injected->second.x();
@@ -57,19 +59,18 @@ GOWindow::updateCurrentPoint(const QPointF& scenePosition, quint64 eventTimestam
 void
 GOWindow::installWindowMouseMotionFilter()
 {
-    windowMouseMotionFilter
-        = std::make_unique<WindowMouseMotionFilter>(
-            this, [this](const QPointF& scenePosition, quint64 eventTimestamp) {
-              if (workspace) {
-                  workspace->hover(mapFrom(window(), scenePosition));
-              }
-              if (!figureListensToMotion(goFig)) {
-                  return;
-              }
-              updateCurrentPoint(scenePosition, eventTimestamp);
-              handleMouseEvent(
-                  goFig, GO_WINDOW_BUTTON_MOTION_FCN_PROPERTY_NAME_STR, L"WindowMouseMotion");
-          });
+    windowMouseMotionFilter = std::make_unique<WindowMouseMotionFilter>(
+        this, [this](const QPointF& scenePosition, quint64 eventTimestamp) {
+            if (workspace) {
+                workspace->hover(mapFrom(window(), scenePosition));
+            }
+            if (!figureListensToMotion(goFig)) {
+                return;
+            }
+            updateCurrentPoint(scenePosition, eventTimestamp);
+            handleMouseEvent(
+                goFig, GO_WINDOW_BUTTON_MOTION_FCN_PROPERTY_NAME_STR, L"WindowMouseMotion");
+        });
 }
 //=============================================================================
 bool
@@ -99,7 +100,8 @@ GOWindow::injectHostMouseEvent(const std::wstring& action, double x, double y, i
     QPointF windowPosition(plotRegion.x() + x, plotRegion.y() + plotRegion.height() - y);
     QPointF globalPosition(mapToGlobal(windowPosition));
     auto post = [&](Qt::MouseButton eventButton, QEvent::Type type, int ts) {
-        // the delivery reads this back by timestamp instead of reconstructing the point from scenePosition
+        // the delivery reads this back by timestamp instead of reconstructing the point from
+        // scenePosition
         injectedFigurePoints[static_cast<quint64>(ts)] = QPointF(x, y);
         qt_handleMouseEvent(window, windowPosition, globalPosition, injectedMouseButtons,
             eventButton, type, modifiers, ts);

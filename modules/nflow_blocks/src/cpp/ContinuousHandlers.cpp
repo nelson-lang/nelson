@@ -62,7 +62,8 @@ namespace NFlow {
             double d = 0.0;
             int n = 0;
             buildTfState(asJson(blk.params).value(nflow::kNum, json::array()),
-                asJson(blk.params).value(nflow::kDen, json::array()), aLast, cVec, d, initS, n, vars);
+                asJson(blk.params).value(nflow::kDen, json::array()), aLast, cVec, d, initS, n,
+                vars);
             return n * std::max(1, blk.outWidth(0));
         };
         reg.registerHandler("tf", handleTf,

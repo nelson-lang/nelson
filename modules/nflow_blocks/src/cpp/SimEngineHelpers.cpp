@@ -234,7 +234,7 @@ namespace NFlow {
                 const Block& blk = blocks[algIndices[pos]];
                 auto it = asJson(blk.params).find("DataStoreName");
                 return (it != asJson(blk.params).end() && it->is_string()) ? it->get<std::string>()
-                                                                   : std::string("A");
+                                                                           : std::string("A");
             };
             for (int w = 0; w < (int)algIndices.size(); ++w) {
                 if (blocks[algIndices[w]].type != "dataStoreWrite") {
@@ -371,7 +371,7 @@ namespace NFlow {
                 const Block& blk = blocks[algIndices[pos]];
                 auto it = asJson(blk.params).find("DataStoreName");
                 return (it != asJson(blk.params).end() && it->is_string()) ? it->get<std::string>()
-                                                                   : std::string("A");
+                                                                           : std::string("A");
             };
             for (int w = 0; w < N; ++w) {
                 if (blocks[algIndices[w]].type != "dataStoreWrite") {
@@ -596,7 +596,8 @@ namespace NFlow {
                 && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
                 return -1;
             }
-            if (!asJson(b.params).contains(nflow::kGotoTag) || !asJson(b.params)[nflow::kGotoTag].is_string()) {
+            if (!asJson(b.params).contains(nflow::kGotoTag)
+                || !asJson(b.params)[nflow::kGotoTag].is_string()) {
                 return -1;
             }
             auto sit = labelSinks.find(asJson(b.params)[nflow::kGotoTag].get<std::string>());
@@ -666,7 +667,8 @@ namespace NFlow {
                         if (busRegistry && asJson(b.params).contains(nflow::kBusType)
                             && asJson(b.params)[nflow::kBusType].is_string()
                             && !asJson(b.params)[nflow::kBusType].get<std::string>().empty()) {
-                            const std::string bn = asJson(b.params)[nflow::kBusType].get<std::string>();
+                            const std::string bn
+                                = asJson(b.params)[nflow::kBusType].get<std::string>();
                             const int busId = busRegistry->idOf(bn);
                             if (busId < 0) {
                                 out.ok = false;

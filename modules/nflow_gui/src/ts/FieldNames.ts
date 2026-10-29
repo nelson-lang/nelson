@@ -144,6 +144,9 @@ export const kRotationX = 'RotationX';
 export const kRotationY = 'RotationY';
 export const kCommentText = 'CommentText';
 export const kShowBorder = 'ShowBorder';
+export const kCommentFontSize = 'FontSize';
+export const kCommentTextColor = 'TextColor';
+export const kCommentBold = 'Bold';
 export const kShowGrid = 'showGrid';
 export const kShowLegend = 'showLegend';
 export const kShowTitle = 'showTitle';
@@ -284,6 +287,9 @@ export const nflow = {
   kRotationY,
   kCommentText,
   kShowBorder,
+  kCommentFontSize,
+  kCommentTextColor,
+  kCommentBold,
   kShowGrid,
   kShowLegend,
   kShowTitle,

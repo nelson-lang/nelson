@@ -67,7 +67,8 @@ Nelson::NFlow::handleSum(SimCtx& ctx, const Block& b, Phase phase)
     int n = numInputs(ctx, b.nid);
 
     std::string signs;
-    if (asJson(b.params).contains(nflow::kSumInputs) && asJson(b.params)[nflow::kSumInputs].is_string()) {
+    if (asJson(b.params).contains(nflow::kSumInputs)
+        && asJson(b.params)[nflow::kSumInputs].is_string()) {
         signs = asJson(b.params)[nflow::kSumInputs].get<std::string>();
     }
 

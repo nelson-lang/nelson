@@ -161,5 +161,37 @@ describe('renderXYScope', () => {
     expect(() => renderXYScope(block)).not.toThrow();
     expect(block.scopePaths[0].getAttribute('d')).toMatch(/M/);
   });
+
+  test('applies per-signal color, width and dash from params.signals', () => {
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [makePath()],
+      params: { signals: [{ color: '#ff0000', strokeWidth: 4, dash: 'dashed' }] },
+      xyScopeData: { series: { x: [0, 1, 2], y: [0, 1, 2] } },
+    };
+
+    renderXYScope(block);
+
+    const style = block.scopePaths[0].getAttribute('style') || '';
+    expect(style).toContain('stroke:#ff0000');
+    expect(style).toContain('stroke-width:4');
+    expect(style).toContain('stroke-dasharray:6 3');
+  });
+
+  test('leaves the fallback palette untouched when no signal style is set', () => {
+    const path = makePath();
+    path.setAttribute('class', 'scope-path-1');
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [path],
+      params: {},
+      xyScopeData: { series: { x: [0, 1], y: [0, 1] } },
+    };
+
+    renderXYScope(block);
+
+    expect(path.getAttribute('class')).toBe('scope-path-1');
+    expect(path.getAttribute('style')).toBeNull();
+  });
 });
 //=============================================================================

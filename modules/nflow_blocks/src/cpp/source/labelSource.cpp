@@ -21,11 +21,13 @@ Nelson::NFlow::handleLabelSource(SimCtx& ctx, const Block& b, Phase phase)
     if (phase != Phase::OUTPUT) {
         return false;
     }
-    if (asJson(b.params).contains(nflow::kIsExternalPort) && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
+    if (asJson(b.params).contains(nflow::kIsExternalPort)
+        && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
         return false;
     }
     std::string name;
-    if (asJson(b.params).contains(nflow::kGotoTag) && asJson(b.params)[nflow::kGotoTag].is_string()) {
+    if (asJson(b.params).contains(nflow::kGotoTag)
+        && asJson(b.params)[nflow::kGotoTag].is_string()) {
         name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
     }
     const int w = outputWidth(ctx, b.nid, 0);

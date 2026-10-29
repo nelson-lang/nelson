@@ -142,7 +142,8 @@ namespace NFlow {
             }
             std::vector<std::string> paramNames;
             std::vector<double> paramValues;
-            if (asJson(b.params).contains("parameterValues") && asJson(b.params)["parameterValues"].is_object()) {
+            if (asJson(b.params).contains("parameterValues")
+                && asJson(b.params)["parameterValues"].is_object()) {
                 for (const auto& item : asJson(b.params)["parameterValues"].items()) {
                     if (item.value().is_number()) {
                         paramNames.push_back(item.key());

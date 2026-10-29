@@ -6,12 +6,22 @@
   "comments": "Demo for the Cumulative Product (cumprod) example: the running product of a constant 2 (2, 4, 8, ...), captured to the workspace. Load this library with NFlow.addlibrarypath before opening the diagram.",
   "name": "Cumprod Demo",
   "blocks": [
-    { "id": "src", "type": "constant", "x": 40, "y": 160, "rotation": 0,
-      "params": { "Value": 2 } },
-    { "id": "cp", "type": "cumprod", "x": 220, "y": 160, "rotation": 0,
-      "params": {} },
-    { "id": "tw", "type": "toWorkspace", "x": 400, "y": 160, "rotation": 0,
-      "params": { "VariableName": "y_out", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+    { "id": "src", "type": "constant", "x": 40, "y": 160, "rotation": 0, "params": { "Value": 2 } },
+    { "id": "cp", "type": "cumprod", "x": 220, "y": 160, "rotation": 0, "params": {} },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 160,
+      "rotation": 0,
+      "params": {
+        "VariableName": "y_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
   ],
   "connections": [
     { "from": "src", "to": "cp", "fromIndex": 0, "toIndex": 0 },

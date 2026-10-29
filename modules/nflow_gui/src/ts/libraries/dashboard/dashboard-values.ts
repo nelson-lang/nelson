@@ -212,17 +212,22 @@ export function bindContinuousKeyboard(
   block.group.setAttribute('role', 'slider');
   block.group.setAttribute('aria-valuemin', String(lo));
   block.group.setAttribute('aria-valuemax', String(hi));
-  block.group.addEventListener('keydown', (rawEvent) => {
-    const event = rawEvent as KeyboardEvent;
-    let next: number | null = null;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = read() + step;
-    else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = read() - step;
-    else if (event.key === 'Home') next = lo;
-    else if (event.key === 'End') next = hi;
-    if (next === null) return;
-    event.preventDefault();
-    event.stopPropagation();
-    update(Math.max(lo, Math.min(hi, next)));
-  });
+  block.group.addEventListener(
+    'keydown',
+    (rawEvent) => {
+      const event = rawEvent as KeyboardEvent;
+      let next: number | null = null;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = read() + step;
+      else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = read() - step;
+      else if (event.key === 'Home') next = lo;
+      else if (event.key === 'End') next = hi;
+      if (next === null) return;
+      event.preventDefault();
+      event.stopPropagation();
+      update(Math.max(lo, Math.min(hi, next)));
+    },
+    // Dropped automatically when the widget re-renders (inspector edit).
+    { signal: (block as unknown as { _dashboardAbort?: AbortController })._dashboardAbort?.signal }
+  );
 }
 //=============================================================================

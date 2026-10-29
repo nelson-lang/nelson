@@ -30,8 +30,8 @@ Nelson::NFlow::handleTf(SimCtx& ctx, const Block& b, Phase phase)
         int n = 0;
         std::vector<double> state1;
         bool ok = buildTfState(asJson(b.params).value(nflow::kNum, json::array()),
-            asJson(b.params).value(nflow::kDen, json::array()), st.xHist, st.yHist, st.tfD, state1, n,
-            ctx.variables);
+            asJson(b.params).value(nflow::kDen, json::array()), st.xHist, st.yHist, st.tfD, state1,
+            n, ctx.variables);
         if (!ok) {
             st.tfState.clear();
             st.xHist.clear();

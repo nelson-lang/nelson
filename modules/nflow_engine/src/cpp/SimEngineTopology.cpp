@@ -138,7 +138,8 @@ buildModelTopology(const nlohmann::json& diagram, ModelTopology& out)
         if (b.type != nflow::kLabelSink) {
             continue;
         }
-        if (!asJson(b.params).contains(nflow::kGotoTag) || !asJson(b.params)[nflow::kGotoTag].is_string()) {
+        if (!asJson(b.params).contains(nflow::kGotoTag)
+            || !asJson(b.params)[nflow::kGotoTag].is_string()) {
             continue;
         }
         std::string name = asJson(b.params)[nflow::kGotoTag].get<std::string>();

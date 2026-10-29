@@ -10,6 +10,7 @@
 import { blockTemplates } from './templates.js';
 import { applyBlockTypeLabels } from './renderer-block-label-types.js';
 import type { RendererCtx } from '../core/renderer-types.js';
+import { dashboardRenderer } from '../../libraries/dashboard/dashboard.js';
 //=============================================================================
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function makeBlockLabelHandlers(ctx: RendererCtx) {
@@ -200,6 +201,13 @@ export function makeBlockLabelHandlers(ctx: RendererCtx) {
     applyBlockTypeLabels(block, ctx as any);
     updateLogicOperatorDisplay(block);
     (ctx as any).updateParamDisplay?.(block);
+    // Dashboard widgets bake their scale/colors/format/caption at render time;
+    // re-render the whole widget so inspector edits take effect immediately.
+    if (block?.group && String(block.type ?? '').startsWith('dashboard')) {
+      try {
+        dashboardRenderer(block, undefined as never);
+      } catch (_e) {}
+    }
   }
 
   return { updateBlockLabel };

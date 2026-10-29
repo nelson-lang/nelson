@@ -542,7 +542,10 @@ function attachKnob(block: Block): (value: number) => void {
     window.addEventListener('pointerup', up, true);
     window.addEventListener('pointercancel', up, true);
   };
-  (block.group as Element).addEventListener('pointerdown', down as EventListener, true);
+  (block.group as Element).addEventListener('pointerdown', down as EventListener, {
+    capture: true,
+    signal: dashboardRenderSignal(block),
+  });
   bindContinuousKeyboard(
     block,
     () => current,
@@ -704,25 +707,29 @@ function attachStateControl(block: Block, kind: string): (value: number) => void
       update(value);
       sendValue(block, value);
     },
-    true
+    { capture: true, signal: dashboardRenderSignal(block) }
   );
-  block.group.addEventListener('keydown', (rawEvent) => {
-    const event = rawEvent as KeyboardEvent;
-    let next = selected;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
-      next = (selected + 1) % items.length;
-    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
-      next = (selected - 1 + items.length) % items.length;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = items.length - 1;
-    else if (event.key !== ' ' && event.key !== 'Enter') return;
-    else next = (selected + 1) % items.length;
-    event.preventDefault();
-    event.stopPropagation();
-    const value = Number(items[next]?.Value ?? next);
-    update(value);
-    sendValue(block, value);
-  });
+  block.group.addEventListener(
+    'keydown',
+    (rawEvent) => {
+      const event = rawEvent as KeyboardEvent;
+      let next = selected;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
+        next = (selected + 1) % items.length;
+      else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
+        next = (selected - 1 + items.length) % items.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = items.length - 1;
+      else if (event.key !== ' ' && event.key !== 'Enter') return;
+      else next = (selected + 1) % items.length;
+      event.preventDefault();
+      event.stopPropagation();
+      const value = Number(items[next]?.Value ?? next);
+      update(value);
+      sendValue(block, value);
+    },
+    { signal: dashboardRenderSignal(block) }
+  );
   return update;
 }
 //=============================================================================
@@ -793,19 +800,31 @@ function attachPushButton(block: Block, callback: boolean): (value: number) => v
   };
   block.group.setAttribute('tabindex', '0');
   block.group.setAttribute('role', 'button');
-  block.group.addEventListener('pointerdown', press as EventListener, true);
-  block.group.addEventListener('keydown', (rawEvent) => {
-    const event = rawEvent as KeyboardEvent;
-    if ((event.key !== ' ' && event.key !== 'Enter') || event.repeat) return;
-    event.preventDefault();
-    begin();
+  const sig = dashboardRenderSignal(block);
+  block.group.addEventListener('pointerdown', press as EventListener, {
+    capture: true,
+    signal: sig,
   });
-  block.group.addEventListener('keyup', (rawEvent) => {
-    const event = rawEvent as KeyboardEvent;
-    if (event.key !== ' ' && event.key !== 'Enter') return;
-    event.preventDefault();
-    release();
-  });
+  block.group.addEventListener(
+    'keydown',
+    (rawEvent) => {
+      const event = rawEvent as KeyboardEvent;
+      if ((event.key !== ' ' && event.key !== 'Enter') || event.repeat) return;
+      event.preventDefault();
+      begin();
+    },
+    { signal: sig }
+  );
+  block.group.addEventListener(
+    'keyup',
+    (rawEvent) => {
+      const event = rawEvent as KeyboardEvent;
+      if (event.key !== ' ' && event.key !== 'Enter') return;
+      event.preventDefault();
+      release();
+    },
+    { signal: sig }
+  );
   return () => {};
 }
 //=============================================================================
@@ -832,15 +851,81 @@ function attachEdit(block: Block): (value: number) => void {
   };
 }
 //=============================================================================
+// Draw the widget caption above (Top) or below (Bottom) the control, honoring
+// the block's LabelPosition/Label params; 'Hide' or an empty label draws nothing.
+// Idempotent: any previous caption is removed first so inspector edits re-apply.
+export function renderDashboardLabel(block: Block): void {
+  if (typeof document === 'undefined') return;
+  block.group.querySelectorAll('.dashboard-label-foreign').forEach((el) => el.remove());
+  const pos = String(block.params?.LabelPosition ?? 'Hide');
+  if (pos !== 'Top' && pos !== 'Bottom') return;
+  const text = String(block.params?.Label ?? '').trim();
+  if (!text) return;
+  const sizeParam = Number(block.params?.LabelFontSize);
+  const fontSize = Number.isFinite(sizeParam) && sizeParam > 0 ? sizeParam : 12;
+  // Reserve enough vertical room for two wrapped lines at the chosen size.
+  const bandHeight = Math.max(28, Math.round(fontSize * 2.8));
+  const y = pos === 'Top' ? -bandHeight - 4 : block.height + 4;
+  const foreign = svg('foreignObject', {
+    x: -8,
+    y,
+    width: block.width + 16,
+    height: bandHeight,
+    class: 'dashboard-label-foreign',
+  });
+  const div = document.createElement('div');
+  div.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+  div.className = 'dashboard-widget-label';
+  div.style.alignItems = pos === 'Top' ? 'flex-end' : 'flex-start';
+  div.style.fontSize = `${fontSize}px`;
+  const color = block.params?.LabelColor;
+  if (typeof color === 'string' && color) div.style.color = color;
+  if (block.params?.LabelBold === true) div.style.fontWeight = '700';
+  div.textContent = text;
+  foreign.appendChild(div);
+  block.group.appendChild(foreign);
+}
+//=============================================================================
 export function dashboardRenderer(block: Block, _helpers: Helpers): void {
   const type = String((block as any).type ?? '');
-  block.group.classList.add('dashboard-block');
+  const group = block.group;
+  // Tear down the previous rendering so an inspector edit rebuilds the widget
+  // cleanly (new scale/colors/format/caption): drop its simulation listener,
+  // its group-level event listeners (via the abort controller) and its visual
+  // nodes, instead of stacking duplicates. The drag handle, ports and selection
+  // overlays are added by the block-creation flow and are left untouched.
+  try {
+    (block as any)._dashboardOff?.();
+  } catch (_e) {}
+  (block as any)._dashboardOff = undefined;
+  try {
+    (block as any)._dashboardAbort?.abort();
+  } catch (_e) {}
+  if (Array.isArray((block as any)._dashboardNodes)) {
+    (block as any)._dashboardNodes.forEach((n: ChildNode) => {
+      try {
+        n.remove();
+      } catch (_e) {}
+    });
+  }
+  (block as any)._dashboardAbort =
+    typeof AbortController !== 'undefined' ? new AbortController() : undefined;
+
+  group.classList.add('dashboard-block');
   applyDashboardOpacity(block);
-  (block.group as SVGGraphicsElement).style.setProperty(
+  (group as unknown as SVGGraphicsElement).style.setProperty(
     '--dashboard-font-color',
     rgb(block.params?.FontColor, '#111827')
   );
+
+  const before = new Set(Array.from(group.childNodes as unknown as ChildNode[]));
+  // Anchor for z-order: insert this render's visuals right after the drag handle
+  // (so they stay below the selection/resize overlays). Captured before drawing,
+  // while the only children are the creation-flow chrome.
+  const dragRect = (block as any).dragRect as ChildNode | undefined;
+  const zAnchor = dragRect && dragRect.parentNode === group ? dragRect.nextSibling : null;
   renderFrame(block);
+  renderDashboardLabel(block);
   let update: (value: any, series?: number[][], times?: number[]) => void = () => {};
   if (type === 'dashboardScope') update = renderScope(block);
   else if (type === 'dashboardDisplay') update = renderDisplay(block);
@@ -860,10 +945,26 @@ export function dashboardRenderer(block: Block, _helpers: Helpers): void {
   else if (type === 'dashboardCallbackButton') update = attachPushButton(block, true);
   else update = attachStateControl(block, type);
 
+  // Track exactly the nodes this render added so the next one can remove them,
+  // and keep them just above the drag handle to preserve the paint order.
+  const added = (Array.from(group.childNodes as unknown as ChildNode[]) as ChildNode[]).filter(
+    (n) => !before.has(n)
+  );
+  (block as any)._dashboardNodes = added;
+  if (dragRect && dragRect.parentNode === group) {
+    added.forEach((n) => group.insertBefore(n, zAnchor));
+  }
+
   const initial = Number(block.params?.DashboardValue ?? 0);
   update(initial);
-  subscribeDashboardUpdates(block, update);
-  block.group.classList.toggle('dashboard-unbound', !bindingOf(block));
+  (block as any)._dashboardOff = subscribeDashboardUpdates(block, update);
+  group.classList.toggle('dashboard-unbound', !bindingOf(block));
+}
+//=============================================================================
+/** The abort signal for the current dashboard rendering; group-level event
+ *  listeners pass it so a re-render drops them automatically. */
+export function dashboardRenderSignal(block: Block): AbortSignal | undefined {
+  return (block as any)._dashboardAbort?.signal;
 }
 //=============================================================================
 export default dashboardRenderer;

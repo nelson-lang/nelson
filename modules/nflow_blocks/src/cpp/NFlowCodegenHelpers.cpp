@@ -1307,7 +1307,8 @@ computeCodegenWidths(const json& diagram)
 
     std::unordered_map<std::string, std::string> labelSinks;
     for (const Block& b : blocks) {
-        if (b.type == kLabelSink && asJson(b.params).contains(kGotoTag) && asJson(b.params)[kGotoTag].is_string()) {
+        if (b.type == kLabelSink && asJson(b.params).contains(kGotoTag)
+            && asJson(b.params)[kGotoTag].is_string()) {
             const std::string name = asJson(b.params)[kGotoTag].get<std::string>();
             if (!name.empty()) {
                 labelSinks[name] = b.id;
@@ -1365,7 +1366,8 @@ computeCodegenWidths(const json& diagram)
                 busId = layout.sigs[layout.inputSigs[i][0]].busTypeId;
             }
             std::vector<std::string> paths;
-            if (asJson(b.params).contains(kSelectedSignals) && asJson(b.params)[kSelectedSignals].is_array()) {
+            if (asJson(b.params).contains(kSelectedSignals)
+                && asJson(b.params)[kSelectedSignals].is_array()) {
                 for (const auto& s : asJson(b.params)[kSelectedSignals]) {
                     if (s.is_string()) {
                         paths.push_back(s.get<std::string>());

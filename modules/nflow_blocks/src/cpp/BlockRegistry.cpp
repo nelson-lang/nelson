@@ -304,8 +304,8 @@ namespace NFlow {
         {
             PluginCodegenBridge* b = self(s);
             if (b->state && b->state->addState && name) {
-                b->state->addState(std::string(name) + "_" + b->id, init ? init : "",
-                    type ? type : "");
+                b->state->addState(
+                    std::string(name) + "_" + b->id, init ? init : "", type ? type : "");
             }
         }
         //=============================================================================

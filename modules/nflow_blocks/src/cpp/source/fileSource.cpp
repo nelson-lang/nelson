@@ -22,12 +22,14 @@ Nelson::NFlow::handleFileSource(SimCtx& ctx, const Block& b, Phase phase)
 {
     auto& st = getState(ctx, b.nid);
     if (phase == Phase::INIT) {
-        if (asJson(b.params).contains(nflow::kTimes) && asJson(b.params)[nflow::kTimes].is_array()) {
+        if (asJson(b.params).contains(nflow::kTimes)
+            && asJson(b.params)[nflow::kTimes].is_array()) {
             for (const auto& v : asJson(b.params)[nflow::kTimes]) {
                 st.fsrcTimes.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
-        if (asJson(b.params).contains(nflow::kValues) && asJson(b.params)[nflow::kValues].is_array()) {
+        if (asJson(b.params).contains(nflow::kValues)
+            && asJson(b.params)[nflow::kValues].is_array()) {
             for (const auto& v : asJson(b.params)[nflow::kValues]) {
                 st.fsrcValues.push_back(v.is_number() ? v.get<double>() : 0.0);
             }

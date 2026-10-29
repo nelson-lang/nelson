@@ -105,9 +105,10 @@ convertTemplate(const std::string& lang)
         sigTypeRange(ty, lo, hi);
         const std::string rname = bd.paramStr(nflow::kRounding, "nearest");
         const std::string r = roundExpr(lang, rname, in);
-        const bool saturate = !(asJson(a.params) && asJson(a.params)->contains(nflow::kSaturateOnOverflow)
-            && (*asJson(a.params))[nflow::kSaturateOnOverflow].is_boolean()
-            && !(*asJson(a.params))[nflow::kSaturateOnOverflow].get<bool>());
+        const bool saturate
+            = !(asJson(a.params) && asJson(a.params)->contains(nflow::kSaturateOnOverflow)
+                && (*asJson(a.params))[nflow::kSaturateOnOverflow].is_boolean()
+                && !(*asJson(a.params))[nflow::kSaturateOnOverflow].get<bool>());
         if (!saturate) {
             // Emit the rounded raw value. The small-type quantization pass appends the
             // modular wrap after this block (nflow_quant_i with sat=0).

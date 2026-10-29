@@ -109,3 +109,28 @@ export function logValueToPixelY(
   return plotY + plotH - ratio * plotH;
 }
 //=============================================================================
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Apply per-signal inline style overrides (color, strokeWidth, dash) to a path
+// element. Shared by the time, XY and XYZ scope renderers so an inspector edit
+// recolors the drawn trace. An empty/undefined sigParams leaves the fallback
+// palette class untouched.
+export function applySignalStyle(pathEl: Element, sigParams: any, fallbackClass: string) {
+  const color = sigParams?.color;
+  const strokeWidth = sigParams?.strokeWidth;
+  const dash = sigParams?.dash;
+
+  let style = '';
+  if (color) style += `stroke:${color};`;
+  if (strokeWidth != null) style += `stroke-width:${strokeWidth};`;
+  if (dash === 'dashed') style += 'stroke-dasharray:6 3;';
+  else if (dash === 'dotted') style += 'stroke-dasharray:2 3;';
+  else if (dash === 'solid') style += 'stroke-dasharray:none;';
+
+  const currentClass = pathEl.getAttribute('class') || '';
+  if (color) {
+    const stripped = currentClass.replace(/\bscope-path-\d\b/g, fallbackClass).trim();
+    pathEl.setAttribute('class', stripped);
+  }
+  if (style) pathEl.setAttribute('style', style);
+}
+//=============================================================================

@@ -458,6 +458,37 @@ function DashboardInspector({ block, deps }: { block: Block; deps: BlockPanelDep
             setValue={(value) => setParam(key, value)}
           />
         ))}
+        {String(block.params.LabelPosition ?? 'Hide') !== 'Hide' && (
+          <>
+            <label className="param">
+              {t('Label font size (px)')}
+              <input
+                type="number"
+                min={6}
+                max={96}
+                step={1}
+                value={Number(block.params.LabelFontSize ?? 12)}
+                onChange={(event) => setParam('LabelFontSize', Number(event.currentTarget.value))}
+              />
+            </label>
+            <label className="param">
+              {t('Label color')}
+              <input
+                type="color"
+                value={String(block.params.LabelColor ?? '#111827')}
+                onChange={(event) => setParam('LabelColor', event.currentTarget.value)}
+              />
+            </label>
+            <label className="param">
+              {t('Label bold')}
+              <input
+                type="checkbox"
+                checked={block.params.LabelBold === true}
+                onChange={(event) => setParam('LabelBold', event.currentTarget.checked)}
+              />
+            </label>
+          </>
+        )}
       </fieldset>
     </>
   );
