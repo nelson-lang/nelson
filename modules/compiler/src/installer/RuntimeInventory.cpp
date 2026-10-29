@@ -112,7 +112,12 @@ decode(const Json& value)
     constexpr const char* nativeBinary = "bin/macOS/libnlsInterpreter.dylib";
 #endif
 #else
+#if defined(__aarch64__) || defined(__arm64__)
+    // Linux arm64 reports glnxa64arm as its identity; bin/linux is shared with glnxa64
+    constexpr const char* nativeArchitecture = "glnxa64arm";
+#else
     constexpr const char* nativeArchitecture = "glnxa64";
+#endif
     constexpr const char* nativeBinary = "bin/linux/libnlsInterpreter.so";
 #endif
     require(result.architecture == nativeArchitecture && plain(result.version)

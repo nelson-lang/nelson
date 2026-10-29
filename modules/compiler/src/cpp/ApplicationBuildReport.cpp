@@ -203,11 +203,13 @@ namespace {
         require(
             !runtime.at("gui").get<bool>() || (modules.count("graphics") && modules.count("gui")),
             "A graphical runtime must include its graphical modules.");
+        // glnxa64arm is Linux arm64: same bin/linux layout and .so as glnxa64
+        const bool linux = architecture == "glnxa64" || architecture == "glnxa64arm";
         const auto binary = architecture == "win64" ? "x64"
             : architecture == "woa64"               ? "ARM64"
-            : architecture == "glnxa64"             ? "linux"
+            : linux                                 ? "linux"
                                                     : "macOS";
-        const auto extension = windows ? ".dll" : architecture == "glnxa64" ? ".so" : ".dylib";
+        const auto extension = windows ? ".dll" : linux ? ".so" : ".dylib";
         const auto interpreter = std::string("bin/") + binary + "/libnlsInterpreter" + extension;
         std::map<std::string, Json> files;
         for (const auto& file : runtime["files"]) {
@@ -292,7 +294,8 @@ normalizeReport(Json report)
             && report.at("kind") == "nelson-standalone-build",
         "Unsupported standalone build report format; rebuild the application.");
     const auto architecture = text(report.at("architecture"));
-    const std::set<std::string> platforms { "win64", "woa64", "glnxa64", "maci64", "maca64" };
+    const std::set<std::string> platforms { "win64", "woa64", "glnxa64", "glnxa64arm", "maci64",
+        "maca64" };
     require(platforms.count(architecture) != 0, "Unsupported build report architecture.");
     const auto name = text(report.at("applicationName"));
     require(ApplicationArchive::validRuntimeDirectory(name), "Invalid application name.");

@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ inputs.ubuntu }} ${{ inputs.arch }}
     runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
     timeout-minutes: 120
     outputs:
