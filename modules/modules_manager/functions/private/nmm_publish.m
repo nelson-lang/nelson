@@ -274,12 +274,13 @@ function validateSourceUrl(url, platform, packageVersion)
   % the woa64 .nmz but pasting the win64 release link). The architecture token
   % in the URL file name, when present, must match the packed platform.
   base = lower(urlBasename(url));
+  tokens = urlArchTokens(base);
   for candidate = nmm_valid_platforms()
     arch = candidate{1};
     if strcmp(arch, 'all')
       continue
     end
-    if ~isempty(strfind(base, arch)) && ~strcmp(arch, platform)
+    if any(strcmp(tokens, arch)) && ~strcmp(arch, platform)
       nmm_error('RegistrySourceUrlArchMismatch', 'The -source URL references architecture %s but the package is %s.', arch, platform);
     end
   end
@@ -295,6 +296,11 @@ function base = urlBasename(url)
   else
     base = url(positions(end) + 1:end);
   end
+end
+%=============================================================================
+function tokens = urlArchTokens(base)
+  % Whole-token split so 'glnxa64arm' is not matched as the substring 'glnxa64'.
+  tokens = strsplit(base, {'-', '.', '_', '/'});
 end
 %=============================================================================
 function artifact = archArtifact(source, checksum)

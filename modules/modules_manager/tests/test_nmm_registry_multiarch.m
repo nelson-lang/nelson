@@ -101,6 +101,14 @@ asserts.checkerror(['nmm(''publish'', ''', currentArchive, ''', ''-source'', '''
   sprintf(_('The -source URL references architecture %s but the package is %s.'), otherArch, currentArch), ...
   'Nelson:nmm:RegistrySourceUrlArchMismatch');
 
+armArchive = buildBinaryPackage(testRoot, moduleName, moduleVersion, 'glnxa64arm');
+armUrl = ['https://example.org/', moduleName, '-glnxa64arm-', moduleVersion, '.nmz'];
+armReport = nmm('publish', armArchive, '-source', armUrl, '-check');
+asserts.istrue(armReport.checked);
+glnxaUrl = ['https://example.org/', moduleName, '-glnxa64-', moduleVersion, '.nmz'];
+asserts.checkerror(['nmm(''publish'', ''', armArchive, ''', ''-source'', ''', glnxaUrl, ''', ''-check'')'], ...
+  sprintf(_('The -source URL references architecture %s but the package is %s.'), 'glnxa64', 'glnxa64arm'), ...
+  'Nelson:nmm:RegistrySourceUrlArchMismatch');
 % quick win #1: doctor flags an entry whose platforms and artifacts disagree
 inconsistentRegistry = [testRoot, 'inconsistent.json'];
 inconsistent = struct();
