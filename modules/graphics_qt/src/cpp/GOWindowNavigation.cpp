@@ -37,7 +37,7 @@ void
 GOWindow::mousePressEvent(QMouseEvent* e)
 {
     e->accept();
-    updateCurrentPoint(e->scenePosition());
+    updateCurrentPoint(e->scenePosition(), e->timestamp());
     setFocus(Qt::MouseFocusReason);
     if (waitKeyOrMousePressedMode == WAIT_PRESS_MODE::WAIT) {
         waitKeyOrMousePressedMode = WAIT_PRESS_MODE::MOUSE;
@@ -56,7 +56,7 @@ void
 GOWindow::mouseDoubleClickEvent(QMouseEvent* e)
 {
     e->accept();
-    updateCurrentPoint(e->scenePosition());
+    updateCurrentPoint(e->scenePosition(), e->timestamp());
     setFocus(Qt::MouseFocusReason);
     if (waitKeyOrMousePressedMode == WAIT_PRESS_MODE::WAIT) {
         waitKeyOrMousePressedMode = WAIT_PRESS_MODE::MOUSE;
@@ -81,7 +81,7 @@ void
 GOWindow::mouseReleaseEvent(QMouseEvent* e)
 {
     e->accept();
-    updateCurrentPoint(e->scenePosition());
+    updateCurrentPoint(e->scenePosition(), e->timestamp());
     handleMouseEvent(e, GO_WINDOW_BUTTON_UP_FCN_PROPERTY_NAME_STR, L"WindowMouseRelease");
     if (workspace) {
         workspace->move(e);

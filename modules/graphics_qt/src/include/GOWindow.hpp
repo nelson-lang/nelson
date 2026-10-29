@@ -10,6 +10,8 @@
 #pragma once
 //=============================================================================
 #include <atomic>
+#include <map>
+#include <QtCore/QPointF>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTabWidget>
@@ -116,6 +118,8 @@ private:
     // as updateCurrentPoint computed it: the coordinates object picking uses.
     double lastFigurePixelX = 0.0;
     double lastFigurePixelY = 0.0;
+    // figure-pixel target of each injected mouse event by timestamp, used directly instead of reconstructing it from scenePosition
+    std::map<quint64, QPointF> injectedFigurePoints;
     //=============================================================================
     bool nativeTitleBarThemeApplied = false;
     std::atomic_bool repaintPending { false };
@@ -171,9 +175,9 @@ private:
     bool
     handleMouseEvent(GraphicsObject* object, const std::wstring& callbackPropertyStr,
         const std::wstring& eventType);
-    // figure and axes CurrentPoint from a mouse event scenePosition()
+    // figure and axes CurrentPoint from a mouse event scenePosition(), or from the injected figure point when eventTimestamp matches one
     void
-    updateCurrentPoint(const QPointF& scenePosition);
+    updateCurrentPoint(const QPointF& scenePosition, quint64 eventTimestamp);
     wstringVector
     getModifiers(QKeyEvent* keyEvent);
     std::wstring

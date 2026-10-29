@@ -27,8 +27,8 @@ namespace Nelson {
 class WindowMouseMotionFilter : public QObject
 {
 public:
-    // scenePosition: unrounded pointer position in the top-level window.
-    using MotionHandler = std::function<void(const QPointF& scenePosition)>;
+    // scenePosition: unrounded pointer position in the top-level window; eventTimestamp identifies an injected event.
+    using MotionHandler = std::function<void(const QPointF& scenePosition, quint64 eventTimestamp)>;
 
     WindowMouseMotionFilter(QWidget* window, MotionHandler motionHandler)
         : targetWindow(window), handler(std::move(motionHandler))
@@ -71,7 +71,7 @@ protected:
             return false;
         }
         if (handler) {
-            handler(mouseEvent->scenePosition());
+            handler(mouseEvent->scenePosition(), mouseEvent->timestamp());
         }
         return false;
     }
