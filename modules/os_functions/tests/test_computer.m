@@ -13,20 +13,20 @@ asserts.isequal(nargout('computer'), 3);
 computer()
 %=============================================================================
 str = computer();
-POSSIBLE = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
+POSSIBLE = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
 asserts.istrue(contains(str, POSSIBLE));
 %=============================================================================
 str = computer('arch');
-POSSIBLE_STR = {'win64', 'woa64', 'win32', 'glnxa64', 'glnxa32', 'maci64', 'maci32', 'maca64', 'wasm32'};
+POSSIBLE_STR = {'win64', 'woa64', 'win32', 'glnxa64arm', 'glnxa64', 'glnxa32', 'maci64', 'maci32', 'maca64', 'wasm32'};
 asserts.istrue(contains(str, POSSIBLE_STR));
 %=============================================================================
 [str, maxsize] = computer();
-POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
+POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
 asserts.istrue(contains(str, POSSIBLE_STR));
 asserts.istrue(isdouble(maxsize));
 %=============================================================================
 [str, maxsize, endian] = computer();
-POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
+POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
 asserts.istrue(contains(str, POSSIBLE_STR));
 asserts.istrue(isdouble(maxsize));
 POSSIBLE_E = {'L', 'B'};
