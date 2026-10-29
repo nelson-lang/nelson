@@ -630,6 +630,16 @@ BaseFigureQt::paintGL()
         return;
     }
     if (glWidth <= 0 || glHeight <= 0 || !hasExpectedRenderingSize()) {
+#if defined(__APPLE__)
+        // macOS animates setFrame for a programmatic size and paints mid-animation; a full re-render then crashes Apple software GL in glDrawArrays on a GPU-less host.
+        // Skip the heavy render on a transient resize frame once a valid size already exists; glClear is safe and the settled frame or an explicit grab renders normally.
+        if (glWidth > 0 && glHeight > 0) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            syncFigureSize(width(), height());
+            update();
+            return;
+        }
+#endif
         syncFigureSize(width(), height());
     }
     int renderWidth = glWidth;
