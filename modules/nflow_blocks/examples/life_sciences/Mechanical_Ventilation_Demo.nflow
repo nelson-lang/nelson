@@ -6,7 +6,7 @@
     "createdBy": "Allan CORNET",
     "created": "2026-09-14",
     "lastSavedBy": "Allan CORNET",
-    "lastSavedAt": "2026-10-29T15:48:28.061Z",
+    "lastSavedAt": "2026-10-29T21:11:24.097Z",
     "tool": "Nelson nflow"
   },
   "license": "LGPL-3.0",
@@ -1113,7 +1113,7 @@
     }
   ],
   "variables": "",
-  "runtime": "10",
+  "runtime": "240",
   "sampleTime": 0.005,
   "autoRoute": true,
   "locked": true,
