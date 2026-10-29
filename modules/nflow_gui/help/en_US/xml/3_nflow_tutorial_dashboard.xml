@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow_tutorial_dashboard</keyword>
+  <short_description>Tutorial 3 of 3: add interactive dashboard controls and run in real time.</short_description>
+  <syntax>
+    <syntax_item>Tutorial: bind a slider, a display, and a gauge, then run and adjust live.</syntax_item>
+  </syntax>
+  <description>
+    <p>This third tutorial adds interactive controls to a running model. You place a Slider, a Display, and a Gauge, bind them to the model, and run in real time so you can change a parameter and watch the response. It continues from the model built in <b>nflow_tutorial_continuous</b>, but any model with an adjustable parameter and an output signal works.</p>
+    <p><b>Place the dashboard blocks</b></p>
+    <ol>
+      <li>From the <b>Dashboard</b> group, drag a <b>Slider</b> onto the canvas.</li>
+      <li>Drag a <b>Display</b> next to it.</li>
+      <li>Drag a <b>Gauge</b> next to the Display.</li>
+    </ol>
+    <p>Dashboard blocks have no input or output ports. Each one reads or writes a target that you choose in the inspector, so they are placed anywhere on the canvas without wires.</p>
+    <p><img src="../../images/nflow_tutorial_dashboard_diagram.png" width="500" /></p>
+    <p><b>Bind the controls</b></p>
+    <ol>
+      <li>Select the <b>Slider</b>. In the inspector <b>Binding</b> section, set the kind to <b>Parameter</b>, then pick a block and one of its adjustable parameters, for example the Gain of the model. Set the slider limits.</li>
+      <li>Select the <b>Display</b>. Set the binding kind to <b>Signal</b>, then pick a block output and its one-based port.</li>
+      <li>Select the <b>Gauge</b>. Bind it to a signal the same way and set its limits.</li>
+    </ol>
+    <p>The status under the binding selector reports whether the binding is valid or why it is not. Bindings use stable block identifiers, so renaming or moving a block does not break them. See <b>nflow_dashboard</b> for every control and display and for the signal, parameter, and variable targets.</p>
+    <p><img src="../../images/nflow_tutorial_dashboard_binding.png" width="280" /></p>
+    <p><b>Set the execution mode</b></p>
+    <p>Select nothing to show the Model tab, then open <b>Simulation</b> and set <b>Execution</b>. <b>Real-time</b> paces the run to the wall clock, so one second of simulated time takes about one second, which is what you want when adjusting controls by hand. <b>Fast</b> runs as quickly as the machine allows. <b>Auto</b> lets the model decide.</p>
+    <p>The execution mode is read when a run starts. Set it before you press <b>Run</b>. Changing it while a simulation is running does not affect that run; it applies to the next one. This is different from a dashboard control bound to a parameter, whose change is applied during the run at the next step.</p>
+    <p><b>Run and interact</b></p>
+    <p>Press <b>Run</b>. While the model runs, drag the Slider to change its bound parameter. The Display and the Gauge update at each major step, and the Scope shows how the response changes. A pointer gesture that starts on a control stays with that control until you release it, so you can drag a slider without moving the block. To move the block instead, drag its body outside the control area.</p>
+    <p><b>What to try next</b></p>
+    <p>Add a <b>Lamp</b> or a <b>Gauge</b> with colored ranges to flag a threshold, or a <b>Push Button</b> to switch a parameter between two states. Open the runnable examples below to see a full interactive panel.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open a model with live signal displays and a bound Slider.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/dashboard/Dashboard_Runtime_Demo.nflow']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open the gallery containing all dashboard blocks.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/dashboard/Dashboard_Gallery_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_dashboard">nflow_dashboard</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_first_model">nflow_tutorial_first_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_continuous">nflow_tutorial_continuous</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_tutorial_first_model</keyword>
+  <short_description>Tutoriel 1 sur 3 : construire, câbler et exécuter un premier modèle nflow.</short_description>
+  <syntax>
+    <syntax_item>Tutoriel : poser trois blocs, les relier, exécuter et lire le scope.</syntax_item>
+  </syntax>
+  <description>
+    <p>Ceci est le premier de trois courts tutoriels. Vous construisez un modèle à trois blocs, une source Sine, un Gain et un Scope, puis vous l'exécutez et lisez le résultat. Le modèle n'a ni rebouclage ni dynamique : c'est donc une bonne façon d'apprendre l'éditeur lui-même, à savoir poser des blocs, tracer des fils, modifier des paramètres et lancer une simulation.</p>
+    <p><b>Ouvrir l'éditeur</b></p>
+    <p>Appelez <b>nflow()</b> depuis la ligne de commande Nelson pour ouvrir un modèle vide. La bibliothèque de blocs est à gauche, le diagramme au centre et l'inspecteur à droite. Sélectionnez un bloc pour voir ses paramètres dans l'inspecteur, ou ne sélectionnez rien pour afficher l'onglet <b>Model</b> et ses réglages de simulation.</p>
+    <p><b>Poser les blocs</b></p>
+    <ol>
+      <li>Dans la bibliothèque, ouvrez le groupe <b>Source</b> et faites glisser un bloc <b>Sine</b> sur le diagramme.</li>
+      <li>Ouvrez le groupe <b>Math</b> et faites glisser un bloc <b>Gain</b> à droite du bloc Sine.</li>
+      <li>Ouvrez le groupe <b>Sinks</b> et faites glisser un bloc <b>Scope</b> à droite du bloc Gain.</li>
+    </ol>
+    <p>Laissez de l'espace entre les blocs pour que les fils aient la place de se router.</p>
+    <p><b>Relier les blocs</b></p>
+    <ol>
+      <li>Placez le pointeur sur le port de sortie à droite du bloc Sine, puis glissez jusqu'au port d'entrée à gauche du bloc Gain. Relâchez pour créer le fil.</li>
+      <li>Tracez un second fil de la même manière, de la sortie du Gain vers l'entrée du Scope.</li>
+    </ol>
+    <p>Lorsque <b>autoRoute</b> est actif, l'éditeur garde les fils orthogonaux et lisibles quand vous déplacez les blocs. Voir <b>nflow_wire_editing</b> pour le routage manuel, les coins et les jonctions.</p>
+    <p><img src="../../images/nflow_tutorial_first_model_diagram.png" width="660" /></p>
+    <p><b>Régler les paramètres des blocs</b></p>
+    <p>Sélectionnez le bloc <b>Gain</b> et réglez <b>Gain</b> à 2 dans l'inspecteur. Sélectionnez le bloc <b>Sine</b> pour régler son amplitude et sa fréquence, ou conservez les valeurs par défaut. Chaque modification est appliquée au bloc au fur et à mesure de la saisie.</p>
+    <p><b>Régler la durée de simulation</b></p>
+    <p>Ne sélectionnez rien pour afficher l'onglet <b>Model</b>, puis ouvrez <b>Simulation</b>. Réglez <b>Runtime (s)</b> sur la durée de l'exécution, par exemple 10. Conservez <b>Sample Time (s)</b> à sa valeur par défaut pour ce modèle.</p>
+    <p><b>Exécuter le modèle</b></p>
+    <p>Appuyez sur <b>Run</b> dans la barre d'outils au-dessus du diagramme, ou utilisez le menu <b>Simulation</b>. Le Scope se remplit pendant l'exécution. <b>Stop</b> arrête l'exécution et conserve les résultats déjà calculés. <b>Reset</b> remet le temps à zéro et efface les résultats affichés.</p>
+    <p><b>Lire le scope</b></p>
+    <p>Le Scope montre le sinus amplifié. Sélectionnez le Scope et utilisez l'inspecteur pour régler les plages de temps et de valeurs (<b>t min</b>, <b>t max</b>, <b>y min</b>, <b>y max</b>), afficher les graduations, et définir la couleur du tracé et les libellés d'axes. Laissez un champ de plage vide pour que le Scope s'ajuste aux données.</p>
+    <p><b>Pour aller plus loin</b></p>
+    <p>Remplacez le Sine par un <b>Step</b> ou un <b>Pulse</b> du groupe Source pour voir comment la sortie suit une entrée différente. Poursuivez ensuite avec <b>nflow_tutorial_continuous</b> pour ajouter un intégrateur et choisir un solveur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow">nflow</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_wire_editing">nflow_wire_editing</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_continuous">nflow_tutorial_continuous</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_dashboard">nflow_tutorial_dashboard</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_tutorial_continuous</keyword>
+  <short_description>Tutoriel 2 sur 3 : simuler un système continu et choisir un solveur.</short_description>
+  <syntax>
+    <syntax_item>Tutoriel : construire un système du premier ordre avec rebouclage, puis choisir un solveur.</syntax_item>
+  </syntax>
+  <description>
+    <p>Ce deuxième tutoriel construit un système continu et montre comment le solveur change sa façon d'être intégré. Le modèle est un retard du premier ordre : une entrée en échelon pilote un état qui tend vers l'entrée avec la constante de temps tau. L'équation est dx/dt = (u - x) / tau, que vous construisez avec un Sum, un Gain et un Integrator reliés en boucle de rebouclage. Il suppose que vous avez fait <b>nflow_tutorial_first_model</b>.</p>
+    <p><b>Poser les blocs</b></p>
+    <ol>
+      <li>Depuis le groupe <b>Source</b>, faites glisser un bloc <b>Step</b> sur le diagramme.</li>
+      <li>Depuis le groupe <b>Math</b>, faites glisser un bloc <b>Sum</b> et un bloc <b>Gain</b>.</li>
+      <li>Depuis le groupe <b>Continuous</b>, faites glisser un bloc <b>Integrator</b>.</li>
+      <li>Depuis le groupe <b>Sinks</b>, faites glisser un bloc <b>Scope</b>.</li>
+    </ol>
+    <p><b>Régler les paramètres des blocs</b></p>
+    <p>Sélectionnez le bloc <b>Sum</b> et réglez ses signes sur un plus et un moins, afin qu'il calcule l'entrée moins l'état rebouclé. Sélectionnez le bloc <b>Gain</b> et réglez <b>Gain</b> sur 1 / tau ; pour tau = 0,5 s, réglez-le sur 2. Laissez l'<b>Integrator</b> avec une condition initiale de 0.</p>
+    <p><b>Relier les blocs</b></p>
+    <ol>
+      <li>Reliez la sortie du <b>Step</b> à l'entrée plus du <b>Sum</b>.</li>
+      <li>Reliez la sortie du <b>Sum</b> au <b>Gain</b>, et la sortie du <b>Gain</b> à l'<b>Integrator</b>.</li>
+      <li>Reliez la sortie de l'<b>Integrator</b> au <b>Scope</b>, et aussi à l'entrée moins du <b>Sum</b> pour fermer la boucle.</li>
+    </ol>
+    <p>Le fil qui part de l'Integrator vers le Sum est le chemin de rebouclage. C'est lui qui fait que l'état se stabilise au lieu de croître sans limite.</p>
+    <p><img src="../../images/nflow_tutorial_continuous_diagram.png" width="680" /></p>
+    <p><b>Exécuter avec le moteur par défaut</b></p>
+    <p>Réglez <b>Runtime (s)</b> sur environ 5 dans l'onglet Model et appuyez sur <b>Run</b>. Sans solveur sélectionné, nflow utilise le moteur discret à pas fixe, et chaque bloc continu s'intègre avec un pas d'Euler propre au bloc, au <b>Sample Time (s)</b> du modèle. Le Scope montre l'état qui monte vers la valeur de l'échelon selon une courbe exponentielle.</p>
+    <p><b>Choisir un solveur</b></p>
+    <p>Ouvrez l'onglet Model et réglez le <b>Solver</b>. La valeur par défaut (discrete) conserve le moteur à pas fixe. Choisissez <b>ode4</b> pour une intégration Runge-Kutta d'ordre quatre à pas fixe, plus précise qu'Euler au même pas. Choisissez <b>ode45</b> pour un pas adaptatif piloté par les tolérances. Quand un solveur adaptatif est sélectionné, réglez <b>Relative tolerance</b> et <b>Absolute tolerance</b>, ainsi qu'un plafond optionnel <b>Max step (0 = auto)</b>. Des tolérances plus serrées donnent une trajectoire plus précise au prix de plus de sous-pas. Voir <b>nflow_solvers</b> pour la liste complète et la correspondance de chaque solveur avec le code C et Rust généré.</p>
+    <p><img src="../../images/nflow_tutorial_continuous_solver.png" width="260" /></p>
+    <p><b>Comparer le pas</b></p>
+    <p>Réduisez le <b>Sample Time (s)</b> et relancez avec le moteur discret pour voir le résultat d'Euler se rapprocher de celui d'ode4. C'est l'arbitrage qu'un solveur gère pour vous : la précision contre le nombre de pas.</p>
+    <p><b>Pour aller plus loin</b></p>
+    <p>Ajoutez un second Integrator et un gain de rebouclage pour obtenir un système du second ordre tel qu'un système masse-ressort-amortisseur, puis poursuivez avec <b>nflow_tutorial_dashboard</b> pour piloter le modèle avec des commandes en direct pendant l'exécution.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir un modèle continu et essayer différents solveurs dessus.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/causal/Second_Order_Responses_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_multirate">nflow_multirate</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_first_model">nflow_tutorial_first_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_dashboard">nflow_tutorial_dashboard</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

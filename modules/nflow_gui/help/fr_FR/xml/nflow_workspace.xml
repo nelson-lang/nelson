@@ -30,6 +30,7 @@
   <used_function />
   <bibliography />
   <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_first_model">nflow_tutorial_first_model</link></see_also_item>
     <see_also_item><link linkend="${nflow_gui}nflow_wire_editing">nflow_wire_editing</link></see_also_item>
     <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
   </see_also>

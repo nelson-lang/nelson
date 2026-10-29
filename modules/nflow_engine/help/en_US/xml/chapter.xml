@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <module_name>nflow_engine</module_name>
-  <chapter>nflow engine</chapter>
+  <chapter>NFlow engine</chapter>
   <chapter_description><p>Programmatic creation and editing of nflow block-diagram models.</p>
     <p>NFlow is currently released as <b
     >1.0.0-beta.1</b>: it is functional and tested, but details of its interfaces and file format may still evolve based on feedback.</p></chapter_description>
