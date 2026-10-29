@@ -15,7 +15,6 @@ S = ["a[bc]d"; "x<yz>w"];
 asserts.isequal(replaceBetween(S, ["["; "<"], ["]"; ">"], ["1"; "2"]), ["a[1]d"; "x<2>w"]);
 asserts.isequal(replaceBetween("语言[中文]测试", "[", "]", "汉字"), "语言[汉字]测试");
 %=============================================================================
-%=============================================================================
 % Every start/stop pair is processed, not only the first.
 asserts.isequal(replaceBetween("a[x]b[y]c", "[", "]", "Z"), "a[Z]b[Z]c");
 asserts.isequal(replaceBetween("<a><b>", "<", ">", "T", 'Boundaries', 'inclusive'), "TT");

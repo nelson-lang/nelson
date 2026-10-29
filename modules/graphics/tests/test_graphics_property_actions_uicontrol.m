@@ -19,7 +19,6 @@ asserts.isequal(u.UserData, magic(2));
 asserts.isequal(u.Tag, 'action-test');
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

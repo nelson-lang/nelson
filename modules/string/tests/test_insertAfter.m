@@ -12,7 +12,6 @@ asserts.isequal(insertAfter("a=b", "=", "XX"), "a=XXb");
 S = ["a=b"; "c:d"];
 asserts.isequal(insertAfter(S, ["="; ":"], ["1"; "2"]), ["a=1b"; "c:2d"]);
 %=============================================================================
-%=============================================================================
 % Insertion happens at every match (literal and pattern), not only the first.
 asserts.isequal(insertAfter("a1a2", "a", "Z"), "aZ1aZ2");
 asserts.isequal(insertAfter("a1b2c3", digitsPattern, "X"), "a1Xb2Xc3X");

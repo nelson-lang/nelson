@@ -23,7 +23,6 @@ plot(ax2, 1:3, 1:3, 'DisplayName', 'line');
 check_properties_documented(helpRoot, 'legend', lgd);
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

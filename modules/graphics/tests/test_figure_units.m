@@ -18,7 +18,6 @@ f.InnerPosition = nextPosition;
 asserts.isequal(f.InnerPosition, nextPosition);
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

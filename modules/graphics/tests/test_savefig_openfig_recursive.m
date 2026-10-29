@@ -26,7 +26,6 @@ close(f);
 close(restoredRecursive);
 rmfile(figfileRecursive);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

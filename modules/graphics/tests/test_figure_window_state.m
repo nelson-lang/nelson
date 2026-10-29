@@ -18,7 +18,6 @@ asserts.isequal(f.WindowState, 'minimized');
 f.WindowState = 'normal';
 asserts.isequal(f.WindowState, 'normal');
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Successive keys must preserve ties above the short-sort threshold.
 for n = [33, 60]
   a = [mod((1:n)', 3), (1:n)'];

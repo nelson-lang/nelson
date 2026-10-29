@@ -19,7 +19,6 @@ class ITableWriter
 public:
     virtual ~ITableWriter() = default;
     //=============================================================================
-    //=============================================================================
     virtual void
     addColumn(const std::string& header, const std::vector<std::string>& data)
         = 0;

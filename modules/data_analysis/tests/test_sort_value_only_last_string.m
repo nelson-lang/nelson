@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % A missing string belongs after an empty string, regardless of input order.
 a = string({'z', '', 'a'});
 a(1) = NaN;

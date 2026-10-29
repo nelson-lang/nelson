@@ -22,7 +22,6 @@ asserts.isequal(f4.FileName, fullpath(figfileWithExt));
 close(f4);
 rmfile(figfileWithExt);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

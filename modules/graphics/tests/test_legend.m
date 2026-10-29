@@ -75,7 +75,6 @@ asserts.istrue(titlePositionAfter(2) < titlePositionBefore(2));
 asserts.istrue(titlePositionAfter(4) > titlePositionBefore(4));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

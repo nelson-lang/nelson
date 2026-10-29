@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Missing complex values carry observable, nonmissing components.
 short = [complex(NaN, 11), 2, complex(NaN, 22), 1, complex(33, NaN), 3, complex(44, NaN)];
 long = complex(mod(1:60, 3), zeros(1, 60));

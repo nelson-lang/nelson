@@ -26,7 +26,6 @@ check_properties_documented(helpRoot, 'hggroup', hggroup('Parent', ax));
 check_properties_documented(helpRoot, 'animatedline', animatedline(ax, 1:3, [1 3 2]));
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

@@ -33,7 +33,6 @@ asserts.isequal(h.YData, [0 1 0]);
 asserts.isequal(h.XDataMode, 'manual');
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

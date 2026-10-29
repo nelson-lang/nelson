@@ -22,7 +22,6 @@ asserts.isequal(ax1.Colormap, gray(8));
 asserts.isequal(ax2.Colormap, gray(8));
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

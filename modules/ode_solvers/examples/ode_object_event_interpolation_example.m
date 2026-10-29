@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Event detection and dense output interpolation with ode45.
 %
 % This script solves a logistic growth model until the population reaches a

@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Every column has the same unordered values, with a different missing position.
 a = [3, NaN, 2; 1, 2, NaN; 2, 1, 1; NaN, 3, 3];
 ascending = [1, 1, 1; 2, 2, 2; 3, 3, 3; NaN, NaN, NaN];

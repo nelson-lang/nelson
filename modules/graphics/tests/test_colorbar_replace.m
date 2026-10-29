@@ -18,7 +18,6 @@ asserts.istrue(isgraphics(cb2, 'colorbar'));
 asserts.isequal(cb2.Location, 'westoutside');
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

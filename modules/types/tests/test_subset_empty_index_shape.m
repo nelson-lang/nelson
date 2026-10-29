@@ -55,7 +55,6 @@ asserts.isequal(size(x(zeros(0, 1))), [1 0]);
 x = zeros(0, 3);
 asserts.isequal(size(x(zeros(1, 0))), [1 0]);
 %=============================================================================
-%=============================================================================
 % the other subscripts of an empty selection must still be in range
 x = ones(3);
 assert_checkerror('y = x([], 4);', _('Index exceeds array bounds.'));

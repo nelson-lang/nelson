@@ -578,7 +578,6 @@ argumentValidationCode(const std::string& targetName, const LexerArgumentDeclara
     return generated;
 }
 //=============================================================================
-//=============================================================================
 // Escape a resolved catalog message for a single-quoted generated literal.
 static std::string
 escapeForGeneratedLiteral(const std::string& text)

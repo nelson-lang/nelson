@@ -111,7 +111,6 @@ lgd.Visible = 'off';
 asserts.isequal(char(lgd.Visible), 'off');
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

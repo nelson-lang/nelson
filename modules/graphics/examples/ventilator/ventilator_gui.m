@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Bi-level (PC-AC) ventilator monitor - 100% Nelson (uifigure + drawnow loop)
 % Single-compartment lung: dV/dt = (Pdrive + Pmus - V/C) / R
 % Three control modes:

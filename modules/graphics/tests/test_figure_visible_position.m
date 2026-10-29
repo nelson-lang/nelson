@@ -24,7 +24,6 @@ logicalSize = [round(f.Position(4)), round(f.Position(3)), 3];
 asserts.istrue(isequal(frameSize, deviceSize) || isequal(frameSize, logicalSize));
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

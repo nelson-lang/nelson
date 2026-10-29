@@ -388,7 +388,7 @@ stacksChildren(GraphicsObject* object)
         || object->isType(GO_PROPERTY_VALUE_UIPANEL_STR)
         || object->isType(GO_PROPERTY_VALUE_UITAB_STR)
         || object->isType(GO_PROPERTY_VALUE_UIBUTTONGROUP_STR);
-} //=============================================================================
+}
 //=============================================================================
 static bool
 isOpaqueChartHostAxis(int64 handle)

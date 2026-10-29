@@ -215,7 +215,6 @@ catch ex
 end
 asserts.istrue(failed);
 %=============================================================================
-%=============================================================================
 % keys()/values() are returned in sorted-key order, not insertion order.
 mSortChar = containers.Map({'banana', 'apple', 'cherry'}, {2, 1, 3});
 asserts.isequal(keys(mSortChar), {'apple', 'banana', 'cherry'});

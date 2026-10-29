@@ -25,7 +25,6 @@ check_properties_documented(helpRoot, 'violinplot', violinplot(ax, [1 2 2 3]));
 check_properties_documented(helpRoot, 'raincloudplot', raincloudplot(ax, [1 2 2 3]));
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

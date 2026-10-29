@@ -14,7 +14,6 @@ asserts.isequal(char(f.Resize), 'off');
 f.Resize = 'on';
 asserts.isequal(char(f.Resize), 'on');
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

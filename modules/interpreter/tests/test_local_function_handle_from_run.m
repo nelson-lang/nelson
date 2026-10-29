@@ -65,7 +65,6 @@ close all;
 drawnow();
 asserts.istrue(DELETE_FCN_RAN);
 %=============================================================================
-%=============================================================================
 % A handle built while an already-captured local runs - so after the run that
 % owns the file has ended and been unregistered - has no owner left to pin. It
 % has to stay callable anyway, on the retain the handle takes for itself.

@@ -26,7 +26,6 @@ delete(ax);
 asserts.isfalse(isgraphics(lgd));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

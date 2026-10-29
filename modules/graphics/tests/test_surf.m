@@ -208,7 +208,6 @@ asserts.istrue(isreal(S.ZData));
 asserts.isapprox(S.ZData, Z, 1e-12);
 close(f);
 %=============================================================================
-%=============================================================================
 function assertSurfError(command, identifier)
   try
     eval(command);

@@ -37,7 +37,6 @@ asserts.isequal(cb.Location, 'eastoutside');
 asserts.istrue(cb.Position(1) > ax.Position(1));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

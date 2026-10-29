@@ -21,7 +21,6 @@ blueFrame = getframe(f).cdata;
 asserts.istrue(frame_delta(redFrame, blueFrame) > 0);
 close(f);
 %=============================================================================
-%=============================================================================
 function assert_mode_switch(h, propertyName, modeName, value)
   set(h, modeName, 'auto');
   set(h, propertyName, value);

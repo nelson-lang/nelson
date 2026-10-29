@@ -50,7 +50,6 @@ clear global themeCallbackCount;
 close(f2);
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

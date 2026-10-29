@@ -14,7 +14,6 @@ asserts.checkerror('savefig(groot(), figfile)', getString(message('Nelson:savefi
 asserts.checkerror('savefig(gcf(), [tempname(), ''.png''])', getString(message('Nelson:graphics:figFileExpected')));
 asserts.checkerror('openfig(figfile, ''badoption'')', getString(message('Nelson:openfig:invalidOption')));
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

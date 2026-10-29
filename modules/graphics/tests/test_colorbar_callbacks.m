@@ -25,7 +25,6 @@ asserts.isequal(colorbarDeleteCount, 1);
 clear global colorbarCreateCount colorbarDeleteCount;
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

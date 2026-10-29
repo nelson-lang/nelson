@@ -73,7 +73,6 @@ cb.Layout.Tile = 'west';
 asserts.isequal(cb.Layout.Tile, 'west');
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

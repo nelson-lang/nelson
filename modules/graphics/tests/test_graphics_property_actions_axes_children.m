@@ -20,7 +20,6 @@ asserts.isequal(ax.GridAlphaMode, 'manual');
 asserts.isequal(ax.GridColorMode, 'manual');
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

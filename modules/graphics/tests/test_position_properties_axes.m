@@ -30,7 +30,6 @@ asserts.isequal(ax.PositionConstraint, 'outerposition');
 assert_vec_close(ax.OuterPosition, [0.1 0.1 0.8 0.75], 1e-9);
 assert_vec_close(ax.Position, ax.InnerPosition, 1e-9);
 %=============================================================================
-%=============================================================================
 function assert_vec_close(actual, expected, tolerance)
   asserts.isequal(size(actual), size(expected));
   asserts.istrue(all(abs(actual - expected) <= tolerance));

@@ -22,7 +22,6 @@ asserts.isapprox(ax.Position, baseAxesPosition, 1e-12);
 asserts.isapprox(cb.Position, [0.82 0.2 0.03 0.55], 1e-12);
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

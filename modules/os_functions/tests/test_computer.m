@@ -32,7 +32,6 @@ asserts.istrue(isdouble(maxsize));
 POSSIBLE_E = {'L', 'B'};
 asserts.istrue(contains(endian, POSSIBLE_E));
 %=============================================================================
-%=============================================================================
 % the WebAssembly engine reports its own tag; native builds never do
 if iswasm()
   asserts.isequal(computer('arch'), 'wasm32');

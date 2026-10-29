@@ -753,7 +753,7 @@ Path::last_write_time(const Path& p, std::string& errorMessage)
         errorMessage = error_code.message();
         return std::time_t { 0 };
     }
-} //=============================================================================
+}
 //=============================================================================
 bool
 Path::updateFilePermissionsToWrite(const Path& p)

@@ -24,7 +24,6 @@ asserts.isfalse(isgraphics(cb1));
 asserts.istrue(isgraphics(cb2, 'colorbar'));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

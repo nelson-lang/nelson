@@ -46,7 +46,6 @@ asserts.isequal(numel(findobj(f2, 'Type', 'colorbar')), 1);
 close(f2);
 rmfile(figfile);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

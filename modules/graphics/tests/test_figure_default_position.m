@@ -26,7 +26,6 @@ asserts.istrue(all(abs(f.Position(3:4) - defaultPosition(3:4)) <= 1));
 asserts.istrue(all(abs(f.InnerPosition(3:4) - defaultPosition(3:4)) <= 1));
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

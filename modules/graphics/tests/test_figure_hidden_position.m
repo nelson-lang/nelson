@@ -14,7 +14,6 @@ f = figure('Visible', 'off', 'Position', referencePosition);
 asserts.isequal(f.Position, referencePosition);
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

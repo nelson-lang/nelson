@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Ties cross the short-array sorting boundary; expected indices are analytic.
 n = 60;
 a = mod((1:n)', 3);
