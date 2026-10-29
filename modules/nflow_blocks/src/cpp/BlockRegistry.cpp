@@ -583,7 +583,7 @@ namespace NFlow {
         if (ec) {
             normalized = fs::path(path);
         }
-        return normalized.lexically_normal().string();
+        return normalized.lexically_normal().generic_string();
     }
     //=============================================================================
     int
