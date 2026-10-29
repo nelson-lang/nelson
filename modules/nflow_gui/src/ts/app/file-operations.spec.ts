@@ -231,6 +231,22 @@ describe('file-operations utilities', () => {
     expect(out.locked).toBe(true);
   });
 
+  test('serializeDiagram reads runtime from the live input even when not wired', () => {
+    state.blocks = new Map();
+    state.connections = [];
+    state.diagramName = 't';
+    const input = document.createElement('input');
+    input.id = 'runtimeInput';
+    input.value = '240';
+    document.body.appendChild(input);
+    try {
+      const out = serializeDiagram(state as any) as any;
+      expect(out.runtime).toBe('240');
+    } finally {
+      input.remove();
+    }
+  });
+
   test('serializeDiagram preserves creation and saved metadata without mutating state', () => {
     state.blocks = new Map();
     state.connections = [];

@@ -21,6 +21,16 @@ let runtimeInput: HTMLInputElement | null = null;
 export function setRuntimeInput(el: HTMLInputElement | null): void {
   runtimeInput = el;
 }
+// Runtime lives in the DOM input, not state; fall back to the live element so
+// save never loses an edit when the module reference was not wired up.
+function readRuntimeValue(): string {
+  const el =
+    runtimeInput ||
+    (typeof document !== 'undefined'
+      ? (document.getElementById('runtimeInput') as HTMLInputElement | null)
+      : null);
+  return el?.value || '10';
+}
 //=============================================================================
 export function sanitizeFilename(name: unknown): string {
   const base = String(name || 'nflow').trim() || 'nflow';
@@ -111,7 +121,7 @@ export function serializeDiagram(
     blocks,
     connections,
     variables: s.variablesText || '',
-    runtime: runtimeInput?.value || '10',
+    runtime: readRuntimeValue(),
     sampleTime: s.sampleTime || 0.01,
     autoRoute: s.autoRoute,
     locked: Boolean(s.locked),
