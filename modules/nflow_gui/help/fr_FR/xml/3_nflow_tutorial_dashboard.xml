@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_tutorial_dashboard</keyword>
+  <short_description>Tutoriel 3 sur 3 : ajouter des commandes dashboard interactives et exécuter en temps réel.</short_description>
+  <syntax>
+    <syntax_item>Tutoriel : lier un slider, un afficheur et une jauge, puis exécuter et ajuster en direct.</syntax_item>
+  </syntax>
+  <description>
+    <p>Ce troisième tutoriel ajoute des commandes interactives à un modèle en cours d'exécution. Vous posez un Slider, un Display et un Gauge, vous les liez au modèle, et vous exécutez en temps réel pour changer un paramètre et observer la réponse. Il fait suite au modèle construit dans <b>nflow_tutorial_continuous</b>, mais tout modèle avec un paramètre ajustable et un signal de sortie convient.</p>
+    <p><b>Poser les blocs dashboard</b></p>
+    <ol>
+      <li>Depuis le groupe <b>Dashboard</b>, faites glisser un <b>Slider</b> sur le diagramme.</li>
+      <li>Faites glisser un <b>Display</b> à côté.</li>
+      <li>Faites glisser un <b>Gauge</b> à côté du Display.</li>
+    </ol>
+    <p>Les blocs dashboard n'ont ni port d'entrée ni port de sortie. Chacun lit ou écrit une cible que vous choisissez dans l'inspecteur, ils se posent donc n'importe où sur le diagramme sans fils.</p>
+    <p><img src="../../images/nflow_tutorial_dashboard_diagram.png" width="500" /></p>
+    <p><b>Lier les commandes</b></p>
+    <ol>
+      <li>Sélectionnez le <b>Slider</b>. Dans la section <b>Binding</b> de l'inspecteur, réglez le type sur <b>Parameter</b>, puis choisissez un bloc et l'un de ses paramètres ajustables, par exemple le Gain du modèle. Réglez les limites du slider.</li>
+      <li>Sélectionnez le <b>Display</b>. Réglez le type de liaison sur <b>Signal</b>, puis choisissez une sortie de bloc et son port en numérotation à partir de un.</li>
+      <li>Sélectionnez le <b>Gauge</b>. Liez-le à un signal de la même façon et réglez ses limites.</li>
+    </ol>
+    <p>L'état sous le sélecteur de liaison indique si la liaison est valide ou pourquoi elle ne l'est pas. Les liaisons utilisent des identifiants de bloc stables : renommer ou déplacer un bloc ne les casse pas. Voir <b>nflow_dashboard</b> pour toutes les commandes et tous les afficheurs, ainsi que pour les cibles de type signal, paramètre et variable.</p>
+    <p><img src="../../images/nflow_tutorial_dashboard_binding.png" width="280" /></p>
+    <p><b>Régler le mode d'exécution</b></p>
+    <p>Ne sélectionnez rien pour afficher l'onglet Model, puis ouvrez <b>Simulation</b> et réglez <b>Execution</b>. <b>Real-time</b> cadence l'exécution sur l'horloge réelle, donc une seconde de temps simulé prend environ une seconde, ce qui est utile pour ajuster les commandes à la main. <b>Fast</b> exécute aussi vite que la machine le permet. <b>Auto</b> laisse le modèle décider.</p>
+    <p>Le mode d'exécution est lu au démarrage de l'exécution. Réglez-le avant d'appuyer sur <b>Run</b>. Le changer pendant qu'une simulation tourne n'a pas d'effet sur cette exécution ; il s'applique à la suivante. C'est différent d'une commande dashboard liée à un paramètre, dont le changement est pris en compte pendant l'exécution, au pas suivant.</p>
+    <p><b>Exécuter et interagir</b></p>
+    <p>Appuyez sur <b>Run</b>. Pendant l'exécution, faites glisser le Slider pour changer son paramètre lié. Le Display et le Gauge se mettent à jour à chaque pas majeur, et le Scope montre comment la réponse change. Un geste de pointeur qui commence sur une commande reste attaché à cette commande jusqu'au relâchement, ce qui permet de glisser un slider sans déplacer le bloc. Pour déplacer le bloc à la place, faites glisser son corps en dehors de la zone de commande.</p>
+    <p><b>Pour aller plus loin</b></p>
+    <p>Ajoutez un <b>Lamp</b> ou un <b>Gauge</b> avec des plages colorées pour signaler un seuil, ou un <b>Push Button</b> pour basculer un paramètre entre deux états. Ouvrez les exemples exécutables ci-dessous pour voir un panneau interactif complet.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir un modèle avec des afficheurs de signaux en direct et un Slider lié.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/dashboard/Dashboard_Runtime_Demo.nflow']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir la galerie contenant tous les blocs dashboard.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/dashboard/Dashboard_Gallery_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_dashboard">nflow_dashboard</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_first_model">nflow_tutorial_first_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_continuous">nflow_tutorial_continuous</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

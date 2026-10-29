@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow_tutorial_continuous</keyword>
+  <short_description>Tutorial 2 of 3: simulate a continuous system and choose a solver.</short_description>
+  <syntax>
+    <syntax_item>Tutorial: build a first-order system with feedback, then select a solver.</syntax_item>
+  </syntax>
+  <description>
+    <p>This second tutorial builds a continuous system and shows how the solver changes the way it is integrated. The model is a first-order lag: a step input drives a state that approaches the input with time constant tau. The equation is dx/dt = (u - x) / tau, which you build with a Sum, a Gain, and an Integrator wired in a feedback loop. It assumes you have done <b>nflow_tutorial_first_model</b>.</p>
+    <p><b>Place the blocks</b></p>
+    <ol>
+      <li>From the <b>Source</b> group, drag a <b>Step</b> block onto the canvas.</li>
+      <li>From the <b>Math</b> group, drag a <b>Sum</b> block and a <b>Gain</b> block.</li>
+      <li>From the <b>Continuous</b> group, drag an <b>Integrator</b> block.</li>
+      <li>From the <b>Sinks</b> group, drag a <b>Scope</b> block.</li>
+    </ol>
+    <p><b>Set the block parameters</b></p>
+    <p>Select the <b>Sum</b> block and set its signs to one plus and one minus, so it computes the input minus the fed-back state. Select the <b>Gain</b> block and set <b>Gain</b> to 1 / tau; for tau = 0.5 s, set it to 2. Leave the <b>Integrator</b> at an initial condition of 0.</p>
+    <p><b>Connect the blocks</b></p>
+    <ol>
+      <li>Wire the <b>Step</b> output to the plus input of the <b>Sum</b>.</li>
+      <li>Wire the <b>Sum</b> output to the <b>Gain</b>, and the <b>Gain</b> output to the <b>Integrator</b>.</li>
+      <li>Wire the <b>Integrator</b> output to the <b>Scope</b>, and also back to the minus input of the <b>Sum</b> to close the loop.</li>
+    </ol>
+    <p>The wire from the Integrator back to the Sum is the feedback path. It is what makes the state settle instead of growing without bound.</p>
+    <p><img src="../../images/nflow_tutorial_continuous_diagram.png" width="680" /></p>
+    <p><b>Run with the default engine</b></p>
+    <p>Set <b>Runtime (s)</b> to about 5 in the Model tab and press <b>Run</b>. With no solver selected, nflow uses the fixed-step discrete engine, and each continuous block integrates with a per-block Euler step at the model <b>Sample Time (s)</b>. The Scope shows the state rising toward the step value along an exponential curve.</p>
+    <p><b>Choose a solver</b></p>
+    <p>Open the Model tab and set the <b>Solver</b>. The default (discrete) keeps the fixed-step engine. Select <b>ode4</b> for a fixed-step fourth-order Runge-Kutta integration, which is more accurate than Euler at the same step. Select <b>ode45</b> for an adaptive step controlled by the tolerances. When an adaptive solver is selected, set <b>Relative tolerance</b> and <b>Absolute tolerance</b>, and an optional <b>Max step (0 = auto)</b> ceiling. Tighter tolerances give a more accurate trajectory at the cost of more sub-steps. See <b>nflow_solvers</b> for the full list and for how each solver maps to generated C and Rust code.</p>
+    <p><img src="../../images/nflow_tutorial_continuous_solver.png" width="260" /></p>
+    <p><b>Compare the step size</b></p>
+    <p>Lower the <b>Sample Time (s)</b> and run again with the discrete engine to see the Euler result approach the ode4 result. This is the trade-off a solver manages for you: accuracy against the number of steps.</p>
+    <p><b>What to try next</b></p>
+    <p>Add a second Integrator and a feedback gain to make a second-order system such as a mass-spring-damper, then continue with <b>nflow_tutorial_dashboard</b> to drive the model with live controls while it runs.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open a continuous model and try different solvers on it.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks', 'root'), '/examples/causal/Second_Order_Responses_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_multirate">nflow_multirate</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_first_model">nflow_tutorial_first_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_tutorial_dashboard">nflow_tutorial_dashboard</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
