@@ -77,6 +77,5 @@ d.variables = struct();
 outNames = {'plant_p', 'plant_pi', 'plant_pid'};
 refVars = {'ref_plant_p', 'ref_plant_pi', 'ref_plant_pid'};
 %=============================================================================
-%=============================================================================
 nflow_codegen_check_numeric(d, 'nfcg_feedback_rs', 'rust', outNames, refVars, 0.06, 0.06);
 %=============================================================================

@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Fully implicit residual example with ode15i.
 %
 % The residual equation is

@@ -20,7 +20,6 @@ asserts.isequal(char(fInvisibleOverride.Visible), 'off');
 close(fInvisibleOverride);
 rmfile(figfileVisibleSource);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

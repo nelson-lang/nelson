@@ -27,7 +27,6 @@ check_properties_documented(helpRoot, 'annotation.ellipse', annotation(f, 'ellip
 check_properties_documented(helpRoot, 'annotation.textbox', annotation(f, 'textbox'));
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

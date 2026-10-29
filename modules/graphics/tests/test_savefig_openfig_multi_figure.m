@@ -21,7 +21,6 @@ asserts.istrue(any(strcmp(tags, 'figOne')));
 asserts.istrue(any(strcmp(tags, 'figTwo')));
 rmfile(figfileMulti);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

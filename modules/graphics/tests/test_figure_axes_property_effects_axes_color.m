@@ -25,7 +25,6 @@ asserts.isequal(ax1.Colormap, gray(8));
 asserts.isequal(ax2.Colormap, gray(8));
 close(f);
 %=============================================================================
-%=============================================================================
 function assert_mode_switch(h, propertyName, modeName, value)
   set(h, modeName, 'auto');
   set(h, propertyName, value);

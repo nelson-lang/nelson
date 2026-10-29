@@ -192,7 +192,6 @@ nmm_progress_listener('install', 'demo', '1.0.0', 'build', 3, 6);
 __nmm_gui_notify__('progress', '{"name":"demo","step":"build"}');
 __nmm_gui_notify__('failed', 'message with ''quotes'' and "double quotes"');
 %=============================================================================
-%=============================================================================
 % Deep link nmm_gui(action, name[, version]): arguments are validated before
 % any window is opened, so these stay headless.
 assert_checkerror('nmm_gui(''bogus'', ''ngen'')', _('Valid actions are ''show'' and ''install''.'), 'Nelson:nmm_gui:invalidAction');

@@ -65,7 +65,6 @@ asserts.isequal(f.Pointer, 'custom');
 asserts.istrue(isequaln(f.PointerShapeCData, [1 NaN; 2 1]));
 asserts.isequal(f.PointerShapeHotSpot, [2 1]);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

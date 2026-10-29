@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 prefixOptions = nelson.classdefpkg.Options(41);
 asserts.isequal(class(prefixOptions), 'nelson.classdefpkg.Options');
 asserts.isequal(prefixOptions.Value, 41);

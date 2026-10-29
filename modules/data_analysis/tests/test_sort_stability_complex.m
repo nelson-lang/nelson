@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Real/absolute comparisons, duplicate values and missing components.
 a = [complex(2, 3), complex(2, 1), complex(2, -1), complex(2, 3), ...
   complex(NaN, 2), complex(3, NaN), complex(1, 0)];

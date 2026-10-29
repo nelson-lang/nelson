@@ -99,7 +99,6 @@ asserts.checkerror('lgd.Title = [];', graphicsPropertyErrorMessage('Title', 'Nel
 asserts.checkerror('lgd.BeingDeleted = ''on'';', graphicsPropertyErrorMessage('BeingDeleted', 'Nelson:graphics:readOnlyProperty', 'BeingDeleted'));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

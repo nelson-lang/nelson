@@ -21,7 +21,6 @@ lgd = legend(ax, [h1; h2], {'first'; ''});
 asserts.isequal(lgd.String, {'first'});
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

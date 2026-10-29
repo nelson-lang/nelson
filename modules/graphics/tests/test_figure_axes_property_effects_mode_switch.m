@@ -34,7 +34,6 @@ assert_mode_switch(ax, 'YTickLabelRotation', 'YTickLabelRotationMode', 45);
 assert_mode_switch(ax, 'ZTickLabelRotation', 'ZTickLabelRotationMode', 60);
 close(f);
 %=============================================================================
-%=============================================================================
 function assert_mode_switch(h, propertyName, modeName, value)
   set(h, modeName, 'auto');
   set(h, propertyName, value);

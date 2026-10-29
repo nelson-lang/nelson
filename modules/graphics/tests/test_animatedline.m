@@ -32,7 +32,6 @@ asserts.istrue(isempty(x));
 asserts.istrue(isempty(y));
 asserts.istrue(isempty(z));
 %=============================================================================
-%=============================================================================
 function assert_required_properties(h, required)
   p = properties(h);
   asserts.istrue(all(ismember(required(:), p)));

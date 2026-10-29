@@ -26,7 +26,6 @@ asserts.isequal(p.FaceAlpha, 0.2);
 asserts.isequal(p.EdgeColor, [0 0 1]);
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

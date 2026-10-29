@@ -35,7 +35,6 @@ u.Units = 'pixels';
 drawnow();
 assert_vec_close(u.Position, [25 35 140 45], 1);
 %=============================================================================
-%=============================================================================
 function assert_vec_close(actual, expected, tolerance)
   asserts.isequal(size(actual), size(expected));
   asserts.istrue(all(abs(actual - expected) <= tolerance));

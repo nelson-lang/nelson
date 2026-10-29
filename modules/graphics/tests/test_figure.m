@@ -42,7 +42,6 @@ asserts.isequal(f1, gcf());
 f35 = figure(35);
 asserts.isequal(f35, gcf());
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

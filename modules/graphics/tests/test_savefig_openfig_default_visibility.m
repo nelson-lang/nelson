@@ -31,7 +31,6 @@ asserts.isequal(char(fDefaultVisibility.Visible), 'off');
 close(fDefaultVisibility);
 rmfile(figfile);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

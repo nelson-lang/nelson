@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Sparse stiff system with an optional SUNDIALS preconditioner path.
 %
 % The portable path uses ode15s with a sparse Jacobian pattern. When Nelson is

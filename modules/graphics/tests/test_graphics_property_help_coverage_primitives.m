@@ -30,7 +30,6 @@ check_properties_documented(helpRoot, 'compassplot', compassplot(polaraxes('Pare
 close(fCompassPlot);
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

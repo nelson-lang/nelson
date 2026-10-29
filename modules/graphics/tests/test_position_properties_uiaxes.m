@@ -33,7 +33,6 @@ asserts.isequal(uax.PositionConstraint, 'outerposition');
 assert_vec_close(uax.Position, uax.OuterPosition, 1e-9);
 assert_vec_close(uax.OuterPosition, [70 60 380 280], 1e-9);
 %=============================================================================
-%=============================================================================
 function assert_vec_close(actual, expected, tolerance)
   asserts.isequal(size(actual), size(expected));
   asserts.istrue(all(abs(actual - expected) <= tolerance));

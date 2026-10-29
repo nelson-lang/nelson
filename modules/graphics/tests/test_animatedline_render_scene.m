@@ -16,7 +16,6 @@ asserts.isequal(tailY, cos(x(end - 3:end)));
 asserts.istrue(any(sceneFrame(:) < 245));
 close(f3);
 %=============================================================================
-%=============================================================================
 function assert_required_properties(h, required)
   p = properties(h);
   asserts.istrue(all(ismember(required(:), p)));

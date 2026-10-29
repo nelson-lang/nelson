@@ -13,7 +13,6 @@ close all
 %=============================================================================
 localAssertReferenceFigFile();
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/fixtures/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

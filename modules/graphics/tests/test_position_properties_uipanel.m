@@ -21,7 +21,6 @@ drawnow();
 assert_vec_close(p.Position, [25 35 210 130], 1e-9);
 assert_vec_close(p.OuterPosition, p.Position, 1e-9);
 %=============================================================================
-%=============================================================================
 function assert_vec_close(actual, expected, tolerance)
   asserts.isequal(size(actual), size(expected));
   asserts.istrue(all(abs(actual - expected) <= tolerance));

@@ -29,7 +29,6 @@ check_properties_documented(helpRoot, 'scatterhistogram', scatterhistogram(1:6, 
 check_properties_documented(helpRoot, 'wordcloud', wordcloud({'alpha', 'beta'}, [5 3]));
 close all
 %=============================================================================
-%=============================================================================
 function check_properties_documented(helpRoot, objectName, h)
   check_properties_documented_in_language(helpRoot, 'en_US', objectName, h);
   check_properties_documented_in_language(helpRoot, 'fr_FR', objectName, h);

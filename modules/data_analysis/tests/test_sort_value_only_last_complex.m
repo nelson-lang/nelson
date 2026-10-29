@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Both vector and matrix paths must sort their nonmissing prefix.
 a = [3 + 1i, 1 + 1i, 2 + 1i];
 for type = {'double', 'single'}

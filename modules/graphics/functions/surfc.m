@@ -37,7 +37,6 @@ function [ax, args] = parseSurfaceParent(args)
   end
 end
 %=============================================================================
-%=============================================================================
 function applySurfaceContourZLimits(ax, zData)
   zValues = zData(isfinite(zData));
   if isempty(zValues)

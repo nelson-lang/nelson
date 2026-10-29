@@ -44,7 +44,6 @@ asserts.istrue(isstruct(s));
 asserts.istrue(isfield(s, 'Label'));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

@@ -21,7 +21,6 @@ drawnow();
 asserts.isequal(dc.PositionConstraint, 'outerposition');
 assert_vec_close(dc.Position, dc.InnerPosition, 1e-9);
 %=============================================================================
-%=============================================================================
 function assert_vec_close(actual, expected, tolerance)
   asserts.isequal(size(actual), size(expected));
   asserts.istrue(all(abs(actual - expected) <= tolerance));

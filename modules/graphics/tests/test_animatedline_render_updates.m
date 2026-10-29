@@ -19,7 +19,6 @@ blueFrame = getframe(f2).cdata;
 asserts.istrue(frame_delta(redFrame, blueFrame) > 0);
 close(f2);
 %=============================================================================
-%=============================================================================
 function assert_required_properties(h, required)
   p = properties(h);
   asserts.istrue(all(ismember(required(:), p)));

@@ -31,7 +31,6 @@ asserts.isfalse(isgraphics(lgd));
 asserts.istrue(isempty(ax.Legend));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

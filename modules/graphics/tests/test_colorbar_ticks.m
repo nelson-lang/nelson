@@ -24,7 +24,6 @@ asserts.istrue(isgraphics(copied, 'colorbar'));
 asserts.istrue(isgraphics(copied.Label, 'text'));
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

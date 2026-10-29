@@ -23,7 +23,6 @@ asserts.istrue(isempty(ax.Legend));
 asserts.isapprox(ax.Position, baseAxesPosition, 1e-12);
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off', 'DrawLater', 'on');
   ax = axes('Parent', f);

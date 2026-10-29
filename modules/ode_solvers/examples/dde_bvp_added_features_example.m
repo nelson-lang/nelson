@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Delay and boundary value solver features.
 %
 % This script demonstrates the DDE and BVP entry points added to the ODE solver

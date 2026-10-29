@@ -21,7 +21,6 @@ cb3 = colorbar(ax, 'vertical');
 asserts.isequal(cb3.Location, 'eastoutside');
 close(f);
 %=============================================================================
-%=============================================================================
 function [f, ax] = make_axes()
   f = figure('Visible', 'off');
   ax = axes('Parent', f);

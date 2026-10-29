@@ -26,7 +26,6 @@ asserts.isequal(s.SizeData, 260);
 asserts.isequal(s.CDataMode, 'manual');
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

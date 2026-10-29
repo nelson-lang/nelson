@@ -21,7 +21,6 @@ asserts.isequal(size(frame.cdata), expected_figure_frame_size(f));
 asserts.istrue(any(frame.cdata(:) > 32));
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

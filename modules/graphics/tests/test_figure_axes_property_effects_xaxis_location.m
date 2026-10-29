@@ -28,7 +28,6 @@ asserts.isequal(ax.GridLineWidthMode, 'manual');
 asserts.istrue(frame_delta(thinGridFrame, thickGridFrame) > 0);
 close(f);
 %=============================================================================
-%=============================================================================
 function assert_mode_switch(h, propertyName, modeName, value)
   set(h, modeName, 'auto');
   set(h, propertyName, value);

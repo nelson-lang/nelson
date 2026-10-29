@@ -110,7 +110,6 @@ asserts.isequal(x, magic(3));
 assert_checkerror('x = magic(3); x(1, :) = zeros(1, 0);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'));
 assert_checkerror('x = magic(3); x(:, 1) = zeros(1, 0);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'));
 %=============================================================================
-%=============================================================================
 % a selection without elements only accepts a scalar or an empty value
 x = zeros(2, 3); x(1, []) = 1;
 asserts.isequal(x, zeros(2, 3));

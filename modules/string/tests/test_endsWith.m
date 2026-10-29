@@ -49,7 +49,6 @@ res = endsWith(c1, c2, 'IgnoreCase', true);
 ref = [false, true; true, true];
 asserts.isequal(res, ref);
 %=============================================================================
-%=============================================================================
 % endsWith accepts pattern objects (anchored at the end).
 asserts.istrue(endsWith("abc123", digitsPattern));
 asserts.istrue(endsWith("123abc", lettersPattern));

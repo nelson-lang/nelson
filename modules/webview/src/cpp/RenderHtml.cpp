@@ -543,7 +543,7 @@ writeTemporaryHtml(const std::string& html, std::filesystem::path& htmlPath)
     }
     htmlFile.write(html.data(), static_cast<std::streamsize>(html.size()));
     return true;
-} //=============================================================================
+}
 //=============================================================================
 class PersistentHeadlessRenderer
 {

@@ -253,7 +253,6 @@ ProcessXmlFile(const std::wstring& filename, std::vector<SectionInfo>& sections,
     return true;
 }
 //=============================================================================
-//=============================================================================
 // Root-relative link ("./module/page.html") of every keyword, per module. Used to
 // resolve <link linkend="..."> in chapter descriptions: the merged summary lives
 // at the root of the help tree, where the module-relative paths produced by the

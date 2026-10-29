@@ -20,7 +20,6 @@ asserts.isequal(callbackSource, u);
 clear global callbackSource;
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end

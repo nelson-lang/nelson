@@ -19,7 +19,6 @@ f.WindowStyle = 'normal';
 asserts.isequal(f.WindowStyle, 'normal');
 close(f);
 %=============================================================================
-%=============================================================================
 function position = expected_default_figure_position()
   position = groot().DefaultFigurePosition;
 end

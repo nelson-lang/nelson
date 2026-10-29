@@ -48,7 +48,6 @@ f3 = openfig(figfile, 'reuse', 'invisible');
 asserts.isequal(f3, f2);
 rmfile(figfile);
 %=============================================================================
-%=============================================================================
 function localAssertReferenceFigFile()
   figfile = [modulepath('graphics', 'tests'), '/savefig_openfig_reference.fig'];
   asserts.istrue(isfile(figfile));

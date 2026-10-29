@@ -10,7 +10,6 @@
 asserts.isequal(eraseBetween('abcdef', 2, 5), 'af');
 asserts.isequal(eraseBetween("a[bc]d", "[", "]"), "a[]d");
 %=============================================================================
-%=============================================================================
 % Every start/stop pair is erased, not only the first.
 asserts.isequal(eraseBetween("a[x]b[y]c", "[", "]"), "a[]b[]c");
 %=============================================================================

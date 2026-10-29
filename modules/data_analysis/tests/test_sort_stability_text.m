@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % A missing string and an empty string are different sorting groups.
 a = ["b", "", NaN, "a", "b", NaN, ""];
 for direction = {'ascend', 'descend'}

@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % Explicit dimension and direction precede the name/value option.
 a = [3, 6; 1, 4; 2, 5];
 expected = [1, 4; 2, 5; 3, 6];

@@ -22,7 +22,6 @@ asserts.isequal(T.Var1, [1; 2; 3]);
 asserts.isequal(T.Var2, [4; 5; 6]);
 asserts.isequal(T.Var3, [7; 8; 9]);
 %=============================================================================
-%=============================================================================
 % VariableNames and RowNames name-value options
 T = array2table([1 2; 3 4], 'VariableNames', {'a', 'b'});
 assert_isequal(T.a, [1; 3]);

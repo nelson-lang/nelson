@@ -387,7 +387,6 @@ function pathOut = uniformizePath(pathIn)
   pathOut = replace(pathIn, '\', '/');
 end
 %=============================================================================
-%=============================================================================
 function configFile = wasmSideModuleConfig()
   % Flags shared with the WebAssembly engine, written by its CMake configure
   % step under <build dir>/generated/wasm-runtime/side-module.cmake.

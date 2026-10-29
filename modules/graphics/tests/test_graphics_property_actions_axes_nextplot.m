@@ -26,7 +26,6 @@ h.HandleVisibility = 'on';
 asserts.istrue(any(findobj(f, 'Type', 'line') == h));
 close(f);
 %=============================================================================
-%=============================================================================
 function delta = frame_delta(a, b)
   delta = sum(abs(double(a(:)) - double(b(:))));
 end
