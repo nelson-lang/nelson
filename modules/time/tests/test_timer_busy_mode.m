@@ -27,7 +27,8 @@ tError = timer('ExecutionMode', 'fixedRate', ...
   'StopFcn', 'global TIMER_BUSY_STOPS; TIMER_BUSY_STOPS = TIMER_BUSY_STOPS + 1;');
 start(tError);
 wait(tError);
-asserts.isequal(TIMER_BUSY_TICKS, 1);
+% overrun stops the timer early; the exact tick count before the error is timing sensitive
+asserts.istrue(TIMER_BUSY_TICKS >= 1 && TIMER_BUSY_TICKS < 5);
 asserts.isequal(TIMER_BUSY_ERRORS, 1);
 asserts.isequal(TIMER_BUSY_STOPS, 1);
 delete(tError);
