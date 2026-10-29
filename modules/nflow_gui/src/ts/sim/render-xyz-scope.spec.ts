@@ -157,5 +157,22 @@ describe('renderXYZScope', () => {
     expect(() => renderXYZScope(block)).not.toThrow();
     expect(block.computedLimits).toHaveProperty('zMin');
   });
+
+  test('applies per-signal color, width and dash from params.signals', () => {
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [makePath()],
+      scopeAxes: makeAxes(),
+      params: { signals: [{ color: '#00ff88', strokeWidth: 3, dash: 'dotted' }] },
+      xyzScopeData: { series: { x: [0, 1, 2], y: [0, 1, 2], z: [0, 1, 2] } },
+    };
+
+    renderXYZScope(block);
+
+    const style = block.scopePaths[0].getAttribute('style') || '';
+    expect(style).toContain('stroke:#00ff88');
+    expect(style).toContain('stroke-width:3');
+    expect(style).toContain('stroke-dasharray:2 3');
+  });
 });
 //=============================================================================

@@ -29,7 +29,8 @@ resolveLabelSourcesOnce(const std::vector<Block>& blocks,
             continue;
         }
         std::string name;
-        if (asJson(b.params).contains(nflow::kGotoTag) && asJson(b.params)[nflow::kGotoTag].is_string()) {
+        if (asJson(b.params).contains(nflow::kGotoTag)
+            && asJson(b.params)[nflow::kGotoTag].is_string()) {
             name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
         }
         if (name.empty()) {

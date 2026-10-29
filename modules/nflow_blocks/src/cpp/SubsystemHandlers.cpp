@@ -632,7 +632,8 @@ namespace NFlow {
 
         if (phase == Phase::INIT) {
             const json* specPtr = nullptr;
-            if (asJson(b.params).contains(nflow::kSubsystem) && asJson(b.params)[nflow::kSubsystem].is_object()) {
+            if (asJson(b.params).contains(nflow::kSubsystem)
+                && asJson(b.params)[nflow::kSubsystem].is_object()) {
                 specPtr = &asJson(b.params)[nflow::kSubsystem];
             }
             if (!specPtr) {
@@ -706,7 +707,8 @@ namespace NFlow {
             // params. Read all three, otherwise the gate is dropped silently and the subsystem
             // runs unconditionally.
             json cpFound;
-            if (asJson(b.params).contains("controlPort") && asJson(b.params)["controlPort"].is_object()) {
+            if (asJson(b.params).contains("controlPort")
+                && asJson(b.params)["controlPort"].is_object()) {
                 cpFound = asJson(b.params)["controlPort"];
             }
             if (!(cpFound.is_object() && !cpFound.empty()) && asJson(b.params).contains("subsystem")
@@ -1300,66 +1302,68 @@ namespace NFlow {
         // Output-port widths are the widths of the signals feeding the subsystem's
         // external-output sinks, from a preview of the inner signal layout seeded with the
         // outer input widths from inSigs.
-        ssMeta.resolveDims = [](const Block& b, const ValMap& vars,
-                                 const std::vector<PortSig>& inSigs, std::vector<PortSig>& outSigs,
-                                 std::string& err) {
-            if (!asJson(b.params).contains(nflow::kSubsystem) || !asJson(b.params)[nflow::kSubsystem].is_object()) {
-                return true;
-            }
-            std::vector<int> inW(inSigs.size(), 1);
-            for (size_t i = 0; i < inSigs.size(); ++i) {
-                inW[i] = std::max(1, inSigs[i].width());
-            }
-            // For-each: divide the partitioned ports to the per-iteration width
-            // before previewing the inner layout, then publish feN * innerWidth.
-            std::vector<PortSig> inSigsMut(inSigs.begin(), inSigs.end());
-            std::vector<char> isPartition;
-            const int feN = forEachInputDivision(
-                asJson(b.params), (int)inSigs.size(), inW, &inSigsMut, isPartition, err);
-            if (feN < 0) {
-                return false; // configuration error (err set)
-            }
-            std::string innerLayoutErr;
-            auto ss = buildSubsystemInnerState(
-                asJson(b.params)[nflow::kSubsystem], vars, 0.01, inW, &inSigsMut, &innerLayoutErr);
-            if (!innerLayoutErr.empty()) {
-                // The inner layout is invalid (a width conflict, say). Refuse it, as the top level
-                // does.
-                err = innerLayoutErr;
-                return false;
-            }
-            bool feHasState = false;
-            if (feN > 1 && !forEachBodyIsSupported(*ss, feHasState, err)) {
-                return false;
-            }
-            for (int k = 0; k < (int)outSigs.size() && k < (int)ss->extOutWidth.size(); ++k) {
-                const bool haveSig
-                    = (k < (int)ss->extOutSig.size() && ss->extOutSig[(size_t)k].width() > 0);
-                const int innerW
-                    = haveSig ? ss->extOutSig[(size_t)k].width() : std::max(1, ss->extOutWidth[k]);
-                if (feN > 1) {
-                    // Concatenate feN iterations -> outer width feN * innerW (real
-                    // double; complex / stateful bodies were rejected above).
-                    outSigs[k].setVector(feN * innerW);
-                } else if (haveSig) {
-                    // Adopt the full descriptor of the inner signal feeding the
-                    // output sink (shape, type, complexity).
-                    const PortSig& sig = ss->extOutSig[(size_t)k];
-                    outSigs[k].copyShape(sig);
-                    outSigs[k].type = sig.type;
-                    outSigs[k].isComplex = sig.isComplex;
-                } else {
-                    outSigs[k].setVector(std::max(1, ss->extOutWidth[k]));
-                }
-            }
-            return true;
-        };
+        ssMeta.resolveDims
+            = [](const Block& b, const ValMap& vars, const std::vector<PortSig>& inSigs,
+                  std::vector<PortSig>& outSigs, std::string& err) {
+                  if (!asJson(b.params).contains(nflow::kSubsystem)
+                      || !asJson(b.params)[nflow::kSubsystem].is_object()) {
+                      return true;
+                  }
+                  std::vector<int> inW(inSigs.size(), 1);
+                  for (size_t i = 0; i < inSigs.size(); ++i) {
+                      inW[i] = std::max(1, inSigs[i].width());
+                  }
+                  // For-each: divide the partitioned ports to the per-iteration width
+                  // before previewing the inner layout, then publish feN * innerWidth.
+                  std::vector<PortSig> inSigsMut(inSigs.begin(), inSigs.end());
+                  std::vector<char> isPartition;
+                  const int feN = forEachInputDivision(
+                      asJson(b.params), (int)inSigs.size(), inW, &inSigsMut, isPartition, err);
+                  if (feN < 0) {
+                      return false; // configuration error (err set)
+                  }
+                  std::string innerLayoutErr;
+                  auto ss = buildSubsystemInnerState(asJson(b.params)[nflow::kSubsystem], vars,
+                      0.01, inW, &inSigsMut, &innerLayoutErr);
+                  if (!innerLayoutErr.empty()) {
+                      // The inner layout is invalid (a width conflict, say). Refuse it, as the top
+                      // level does.
+                      err = innerLayoutErr;
+                      return false;
+                  }
+                  bool feHasState = false;
+                  if (feN > 1 && !forEachBodyIsSupported(*ss, feHasState, err)) {
+                      return false;
+                  }
+                  for (int k = 0; k < (int)outSigs.size() && k < (int)ss->extOutWidth.size(); ++k) {
+                      const bool haveSig
+                          = (k < (int)ss->extOutSig.size() && ss->extOutSig[(size_t)k].width() > 0);
+                      const int innerW = haveSig ? ss->extOutSig[(size_t)k].width()
+                                                 : std::max(1, ss->extOutWidth[k]);
+                      if (feN > 1) {
+                          // Concatenate feN iterations -> outer width feN * innerW (real
+                          // double; complex / stateful bodies were rejected above).
+                          outSigs[k].setVector(feN * innerW);
+                      } else if (haveSig) {
+                          // Adopt the full descriptor of the inner signal feeding the
+                          // output sink (shape, type, complexity).
+                          const PortSig& sig = ss->extOutSig[(size_t)k];
+                          outSigs[k].copyShape(sig);
+                          outSigs[k].type = sig.type;
+                          outSigs[k].isComplex = sig.isComplex;
+                      } else {
+                          outSigs[k].setVector(std::max(1, ss->extOutWidth[k]));
+                      }
+                  }
+                  return true;
+              };
         // Trigger control-edge localization: a triggered / enableTrigger subsystem exposes
         // ONE zero-crossing surface (the trigger port's signal), so a variable-step solver
         // stops at the edge and EVENT fires the body at the located instant. Other kinds
         // declare no surface.
         auto ctrlKindOf = [](const Block& b) -> std::string {
-            if (asJson(b.params).contains("controlPort") && asJson(b.params)["controlPort"].is_object()) {
+            if (asJson(b.params).contains("controlPort")
+                && asJson(b.params)["controlPort"].is_object()) {
                 return asJson(b.params)["controlPort"].value("kind", std::string());
             }
             return std::string();

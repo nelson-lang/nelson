@@ -13,7 +13,15 @@ import type { Block } from './renderer-types.js';
 import * as FieldNames from '../../FieldNames.js';
 //=============================================================================
 type BlockLike = Block & {
-  params?: { width?: number; height?: number; CommentText?: string; ShowBorder?: boolean };
+  params?: {
+    width?: number;
+    height?: number;
+    CommentText?: string;
+    ShowBorder?: boolean;
+    FontSize?: number;
+    TextColor?: string;
+    Bold?: boolean;
+  };
   bodyRect?: Element | null;
   scopePlot?: Element | null;
   scopeClipRect?: Element | null;
@@ -207,6 +215,15 @@ export function makeScopeCommentLayout(ctx: unknown) {
           } catch (_e) {}
           try {
             (maybeEl.style as CSSStyleDeclaration).whiteSpace = 'pre-wrap';
+          } catch (_e) {}
+          try {
+            // Per-comment font controls; empty value falls back to the stylesheet.
+            const st = maybeEl.style as CSSStyleDeclaration;
+            const size = Number(block.params?.[FieldNames.kCommentFontSize]);
+            st.fontSize = Number.isFinite(size) && size > 0 ? `${size}px` : '';
+            const color = block.params?.[FieldNames.kCommentTextColor];
+            st.color = typeof color === 'string' && color ? color : '';
+            st.fontWeight = block.params?.[FieldNames.kCommentBold] === true ? '700' : '';
           } catch (_e) {}
         } catch (_e) {
           // fallback for SVG text nodes

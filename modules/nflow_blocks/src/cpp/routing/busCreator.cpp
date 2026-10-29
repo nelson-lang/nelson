@@ -74,7 +74,8 @@ Nelson::NFlow::resolveBusCreatorDims(const Block& b, const ValMap& vars,
     const int nIn = std::max(1, b.inputs);
     // Member names: MemberNames[p] or "signal<p+1>".
     std::vector<std::string> names;
-    if (asJson(b.params).contains(nflow::kMemberNames) && asJson(b.params)[nflow::kMemberNames].is_array()) {
+    if (asJson(b.params).contains(nflow::kMemberNames)
+        && asJson(b.params)[nflow::kMemberNames].is_array()) {
         for (const auto& n : asJson(b.params)[nflow::kMemberNames]) {
             if (n.is_string()) {
                 names.push_back(n.get<std::string>());
@@ -83,7 +84,8 @@ Nelson::NFlow::resolveBusCreatorDims(const Block& b, const ValMap& vars,
     }
     BusType t;
     t.nonvirtual = false;
-    if (asJson(b.params).contains(nflow::kNonVirtual) && asJson(b.params)[nflow::kNonVirtual].is_boolean()) {
+    if (asJson(b.params).contains(nflow::kNonVirtual)
+        && asJson(b.params)[nflow::kNonVirtual].is_boolean()) {
         t.nonvirtual = asJson(b.params)[nflow::kNonVirtual].get<bool>();
     }
     for (int p = 0; p < nIn; ++p) {

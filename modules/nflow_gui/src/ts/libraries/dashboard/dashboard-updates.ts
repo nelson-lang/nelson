@@ -15,7 +15,7 @@ export type DashboardUpdateSink = (value: any, series?: number[][], times?: numb
 // Feeds a rendered dashboard block from the simulation's `nf-dashboard-update`
 // events. The listener lives as long as this rendering of the block: it
 // removes itself once the group has left the canvas.
-export function subscribeDashboardUpdates(block: Block, update: DashboardUpdateSink): void {
+export function subscribeDashboardUpdates(block: Block, update: DashboardUpdateSink): () => void {
   // Progress frames delta-encode the dashboardScope stream ("delta": true carries
   // only the new samples), so accumulate them here. A full payload replaces the
   // accumulator. Trim to TimeSpan so a long real-time run does not grow memory.
@@ -59,5 +59,6 @@ export function subscribeDashboardUpdates(block: Block, update: DashboardUpdateS
     block.group.classList.toggle('dashboard-unbound', detail.connected === false);
     block.group.classList.toggle('dashboard-invalid', detail.valid === false);
   });
+  return off;
 }
 //=============================================================================

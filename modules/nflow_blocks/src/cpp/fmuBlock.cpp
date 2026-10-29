@@ -80,14 +80,16 @@ namespace NFlow {
             // Empty lists keep the full enumeration in modelDescription order.
             {
                 std::vector<std::string> inNames, outNames;
-                if (asJson(b.params).contains("inputNames") && asJson(b.params)["inputNames"].is_array()) {
+                if (asJson(b.params).contains("inputNames")
+                    && asJson(b.params)["inputNames"].is_array()) {
                     for (const auto& e : asJson(b.params)["inputNames"]) {
                         if (e.is_string()) {
                             inNames.push_back(e.get<std::string>());
                         }
                     }
                 }
-                if (asJson(b.params).contains("outputNames") && asJson(b.params)["outputNames"].is_array()) {
+                if (asJson(b.params).contains("outputNames")
+                    && asJson(b.params)["outputNames"].is_array()) {
                     for (const auto& e : asJson(b.params)["outputNames"]) {
                         if (e.is_string()) {
                             outNames.push_back(e.get<std::string>());
@@ -106,7 +108,8 @@ namespace NFlow {
             // params.parameterValues maps FMU parameter name -> value.
             std::vector<std::string> paramNames;
             std::vector<double> paramValues;
-            if (asJson(b.params).contains("parameterValues") && asJson(b.params)["parameterValues"].is_object()) {
+            if (asJson(b.params).contains("parameterValues")
+                && asJson(b.params)["parameterValues"].is_object()) {
                 for (const auto& item : asJson(b.params)["parameterValues"].items()) {
                     if (item.value().is_number()) {
                         paramNames.push_back(item.key());

@@ -36,7 +36,8 @@ selectedPaths(const Nelson::NFlow::Block& b)
 bool
 outputAsBus(const Nelson::NFlow::Block& b)
 {
-    return asJson(b.params).contains(nflow::kOutputAsBus) && asJson(b.params)[nflow::kOutputAsBus].is_boolean()
+    return asJson(b.params).contains(nflow::kOutputAsBus)
+        && asJson(b.params)[nflow::kOutputAsBus].is_boolean()
         && asJson(b.params)[nflow::kOutputAsBus].get<bool>();
 }
 //=============================================================================

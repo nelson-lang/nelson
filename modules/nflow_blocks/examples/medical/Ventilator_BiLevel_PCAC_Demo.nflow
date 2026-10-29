@@ -5,8 +5,8 @@
     "author": "Allan CORNET",
     "createdBy": "Allan CORNET",
     "created": "2026-09-14",
-    "lastSavedBy": "allan",
-    "lastSavedAt": "2026-09-14T00:00:00.000Z",
+    "lastSavedBy": "Allan CORNET",
+    "lastSavedAt": "2026-10-29T15:48:28.061Z",
     "tool": "Nelson nflow"
   },
   "license": "LGPL-3.0",
@@ -14,58 +14,142 @@
   "name": "Medical Ventilator - Bi-level (PC-AC) with simulated patient",
   "blocks": [
     {
+      "id": "cTitle",
+      "type": "comment",
+      "x": 60,
+      "y": -150,
+      "rotation": 0,
+      "params": {
+        "CommentText": "MECHANICAL VENTILATION  -  Bi-level  (PC-AC)\nAirway pressure alternates between PEEP and Pinsp; the single-compartment lung (R, C) responds as a first-order system, giving a decelerating inspiratory flow and the pressure-controlled tidal volume. A periodic patient effort (Pmus) emulates an assisted breath.\nDefaults:  PEEP 5  -  dP 13 cmH2O  -  RR 15/min  -  Ti 1.2 s  -  R 10  -  C 0.05  (tau = 0.5 s)  ->  Vt ~ 0.6 L",
+        "ShowBorder": true,
+        "FontSize": 18,
+        "TextColor": "#0e7490",
+        "Bold": false,
+        "width": 1420,
+        "height": 180
+      }
+    },
+    {
+      "id": "cCmd",
+      "type": "comment",
+      "x": 60,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "CommentText": "1  -  PRESSURE COMMAND",
+        "ShowBorder": false,
+        "FontSize": 25,
+        "TextColor": "#b45309",
+        "Bold": true,
+        "width": 360,
+        "height": 60
+      }
+    },
+    {
+      "id": "cPlant",
+      "type": "comment",
+      "x": 470,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "CommentText": "2  -  SINGLE-COMPARTMENT LUNG  ( R . C )",
+        "ShowBorder": false,
+        "FontSize": 25,
+        "TextColor": "#475569",
+        "Bold": true,
+        "width": 580,
+        "height": 60
+      }
+    },
+    {
+      "id": "cMon",
+      "type": "comment",
+      "x": 1120,
+      "y": 40,
+      "rotation": 0,
+      "params": {
+        "CommentText": "3  -  VENTILATOR MONITOR",
+        "ShowBorder": false,
+        "FontSize": 25,
+        "TextColor": "#0e7490",
+        "Bold": true,
+        "width": 500,
+        "height": 60
+      }
+    },
+    {
       "id": "pv",
       "type": "pulse",
-      "x": 60,
-      "y": 160,
+      "x": 80,
+      "y": 270,
       "rotation": 0,
-      "params": { "Amplitude": 13, "Period": 4, "Width": 30, "StartTime": 0, "Offset": 0 }
+      "params": {
+        "Amplitude": 8.630980984093423,
+        "Period": 4,
+        "Width": 30,
+        "StartTime": 0,
+        "Offset": 0
+      }
     },
     {
       "id": "pm",
       "type": "pulse",
-      "x": 60,
-      "y": 340,
+      "x": 80,
+      "y": 390,
       "rotation": 0,
-      "params": { "Amplitude": 3, "Period": 4, "Width": 15, "StartTime": 0, "Offset": 0 }
+      "params": {
+        "Amplitude": 3,
+        "Period": 4,
+        "Width": 15,
+        "StartTime": 0,
+        "Offset": 0
+      }
     },
     {
       "id": "bP",
       "type": "bias",
-      "x": 240,
-      "y": 60,
+      "x": 80,
+      "y": 150,
       "rotation": 0,
-      "params": { "Bias": 5 }
+      "params": {
+        "Bias": 5
+      }
     },
     {
       "id": "ps",
       "type": "sum",
-      "x": 240,
-      "y": 240,
+      "x": 300,
+      "y": 320,
       "rotation": 0,
-      "params": { "Inputs": "++" }
+      "params": {
+        "Inputs": "++"
+      }
     },
     {
       "id": "es",
       "type": "sum",
-      "x": 420,
-      "y": 240,
+      "x": 480,
+      "y": 300,
       "rotation": 0,
-      "params": { "Inputs": "-+" }
+      "params": {
+        "Inputs": "-+"
+      }
     },
     {
       "id": "gR",
       "type": "gain",
-      "x": 580,
-      "y": 240,
+      "x": 650,
+      "y": 300,
       "rotation": 0,
-      "params": { "Gain": 0.1 }
+      "params": {
+        "Gain": 0.1
+      }
     },
     {
       "id": "iV",
       "type": "integrator",
-      "x": 760,
-      "y": 240,
+      "x": 820,
+      "y": 300,
       "rotation": 0,
       "params": {
         "InitialCondition": 0,
@@ -78,249 +162,963 @@
     {
       "id": "gC",
       "type": "gain",
-      "x": 560,
-      "y": 560,
+      "x": 650,
+      "y": 480,
       "rotation": 0,
-      "params": { "Gain": 20 }
+      "params": {
+        "Gain": 20
+      }
     },
     {
       "id": "gQ",
       "type": "gain",
-      "x": 880,
-      "y": 100,
+      "x": 980,
+      "y": 190,
       "rotation": 0,
-      "params": { "Gain": 60 }
+      "params": {
+        "Gain": 60
+      }
     },
     {
       "id": "gVml",
       "type": "gain",
-      "x": 880,
-      "y": 440,
+      "x": 980,
+      "y": 410,
       "rotation": 0,
-      "params": { "Gain": 1000 }
+      "params": {
+        "Gain": 1000
+      }
     },
     {
       "id": "scP",
       "type": "scope",
-      "x": 1000,
-      "y": 40,
+      "x": 1120,
+      "y": 120,
       "rotation": 0,
-      "params": { "TMin": "", "TMax": "", "YMin": 0, "YMax": 22, "width": 300, "height": 150, "ShowTickLabels": true }
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": 0,
+        "YMax": 25,
+        "width": 360,
+        "height": 150,
+        "ShowTickLabels": true,
+        "showLegend": false,
+        "timeWindow": 8,
+        "xLabel": "t (s)",
+        "yLabel": "Paw (cmH2O)",
+        "signals": [
+          {
+            "color": "#f59e0b",
+            "strokeWidth": 2.5,
+            "label": "Paw"
+          }
+        ]
+      }
     },
     {
       "id": "scF",
       "type": "scope",
-      "x": 1000,
-      "y": 240,
+      "x": 1120,
+      "y": 310,
       "rotation": 0,
-      "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "width": 300, "height": 150, "ShowTickLabels": true }
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 360,
+        "height": 150,
+        "ShowTickLabels": true,
+        "showLegend": false,
+        "timeWindow": 8,
+        "xLabel": "t (s)",
+        "yLabel": "Flow (L/min)",
+        "signals": [
+          {
+            "color": "#06b6d4",
+            "strokeWidth": 2.5,
+            "label": "Flow"
+          }
+        ]
+      }
     },
     {
       "id": "scV",
       "type": "scope",
-      "x": 1000,
-      "y": 440,
+      "x": 1120,
+      "y": 500,
       "rotation": 0,
-      "params": { "TMin": "", "TMax": "", "YMin": 0, "YMax": "", "width": 300, "height": 150, "ShowTickLabels": true }
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": 0,
+        "YMax": 700,
+        "width": 360,
+        "height": 150,
+        "ShowTickLabels": true,
+        "showLegend": false,
+        "timeWindow": 8,
+        "xLabel": "t (s)",
+        "yLabel": "Vt (mL)",
+        "signals": [
+          {
+            "color": "#ec4899",
+            "strokeWidth": 2.5,
+            "label": "Vt"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cLoop",
+      "type": "comment",
+      "x": 1540,
+      "y": 90,
+      "rotation": 0,
+      "params": {
+        "CommentText": "Pressure - Volume loop",
+        "ShowBorder": false,
+        "FontSize": 18,
+        "TextColor": "#0f766e",
+        "Bold": true,
+        "width": 320,
+        "height": 60
+      }
     },
     {
       "id": "xy",
       "type": "xyScope",
-      "x": 1360,
-      "y": 240,
+      "x": 1540,
+      "y": 120,
       "rotation": 0,
-      "params": { "XMin": 0, "XMax": 22, "YMin": 0, "YMax": "", "width": 260, "height": 220, "ShowTickLabels": true }
+      "params": {
+        "XMin": 0,
+        "XMax": 25,
+        "YMin": 0,
+        "YMax": 700,
+        "width": 330,
+        "height": 300,
+        "ShowTickLabels": true,
+        "signals": [
+          {
+            "color": "#10b981",
+            "strokeWidth": 2.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "md_P",
+      "type": "dashboardDisplay",
+      "x": 1540,
+      "y": 470,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "bP"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%.1f",
+        "GridColor": [
+          0.502,
+          0.502,
+          0.502
+        ],
+        "ShowGrid": "on",
+        "Label": "Paw (cmH2O)",
+        "LabelFontSize": 19,
+        "LabelColor": "#b45309",
+        "LabelBold": true,
+        "width": 150,
+        "height": 72
+      }
+    },
+    {
+      "id": "md_F",
+      "type": "dashboardDisplay",
+      "x": 1720,
+      "y": 470,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gQ"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%.1f",
+        "GridColor": [
+          0.502,
+          0.502,
+          0.502
+        ],
+        "ShowGrid": "on",
+        "Label": "Flow (L/min)",
+        "LabelFontSize": 19,
+        "LabelColor": "#0e7490",
+        "LabelBold": true,
+        "width": 150,
+        "height": 72
+      }
+    },
+    {
+      "id": "mg_V",
+      "type": "dashboardGauge",
+      "x": 1600,
+      "y": 580,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gVml"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          900
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise",
+        "Label": "Tidal volume (mL)",
+        "LabelFontSize": 19,
+        "LabelColor": "#be185d",
+        "LabelBold": true,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "cSettings",
+      "type": "comment",
+      "x": 60,
+      "y": 760,
+      "rotation": 0,
+      "params": {
+        "CommentText": "4  -  VENTILATOR SETTINGS   ( drag the sliders while the simulation runs )",
+        "ShowBorder": false,
+        "FontSize": 25,
+        "TextColor": "#15803d",
+        "Bold": true,
+        "width": 1040,
+        "height": 60
+      }
     },
     {
       "id": "sl_dP",
       "type": "dashboardSlider",
       "x": 80,
-      "y": 720,
+      "y": 890,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "Inspiratory pressure dP (cmH2O)",
-        "Binding": { "kind": "parameter", "blockPath": ["pv"], "paramName": "Amplitude", "element": "" },
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "pv"
+          ],
+          "paramName": "Amplitude",
+          "element": ""
+        },
         "ShowInitialText": "on",
         "ScaleType": "Linear",
-        "Limits": [0, -1, 25],
-        "DashboardValue": 13
+        "Limits": [
+          0,
+          -1,
+          25
+        ],
+        "Label": "Inspiratory pressure dP (cmH2O)",
+        "LabelFontSize": 19,
+        "LabelColor": "#15803d",
+        "LabelBold": true,
+        "DashboardValue": 8.630980984093423
       }
     },
     {
       "id": "sl_peep",
       "type": "dashboardSlider",
-      "x": 360,
-      "y": 720,
+      "x": 330,
+      "y": 890,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "PEEP / EPAP (cmH2O)",
-        "Binding": { "kind": "parameter", "blockPath": ["bP"], "paramName": "Bias", "element": "" },
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "bP"
+          ],
+          "paramName": "Bias",
+          "element": ""
+        },
         "ShowInitialText": "on",
         "ScaleType": "Linear",
-        "Limits": [0, -1, 15],
+        "Limits": [
+          0,
+          -1,
+          15
+        ],
+        "Label": "PEEP / EPAP (cmH2O)",
+        "LabelFontSize": 19,
+        "LabelColor": "#15803d",
+        "LabelBold": true,
         "DashboardValue": 5
       }
     },
     {
       "id": "sl_E",
       "type": "dashboardSlider",
-      "x": 640,
-      "y": 720,
+      "x": 580,
+      "y": 890,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "Lung elastance 1/C (cmH2O/L)",
-        "Binding": { "kind": "parameter", "blockPath": ["gC"], "paramName": "Gain", "element": "" },
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gC"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
         "ShowInitialText": "on",
         "ScaleType": "Linear",
-        "Limits": [5, -1, 40],
+        "Limits": [
+          5,
+          -1,
+          40
+        ],
+        "Label": "Lung elastance 1/C (cmH2O/L)",
+        "LabelFontSize": 19,
+        "LabelColor": "#15803d",
+        "LabelBold": true,
         "DashboardValue": 20
       }
     },
     {
       "id": "sl_R",
       "type": "dashboardSlider",
-      "x": 920,
-      "y": 720,
+      "x": 830,
+      "y": 890,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "Airway conductance 1/R (L/s per cmH2O)",
-        "Binding": { "kind": "parameter", "blockPath": ["gR"], "paramName": "Gain", "element": "" },
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gR"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
         "ShowInitialText": "on",
         "ScaleType": "Linear",
-        "Limits": [0.03, -1, 0.4],
+        "Limits": [
+          0.03,
+          -1,
+          0.4
+        ],
+        "Label": "Airway conductance 1/R (L/s per cmH2O)",
+        "LabelFontSize": 19,
+        "LabelColor": "#15803d",
+        "LabelBold": true,
         "DashboardValue": 0.1
       }
     },
     {
-      "id": "md_P",
-      "type": "dashboardDisplay",
-      "x": 1340,
-      "y": 470,
+      "id": "cPhase",
+      "type": "comment",
+      "x": 1120,
+      "y": 760,
       "rotation": 0,
       "params": {
-        "LabelPosition": "Top",
-        "Label": "Airway pressure Paw (cmH2O)",
-        "Binding": { "kind": "signal", "blockPath": ["bP"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
-        "ShowInitialText": "on",
-        "Format": "short",
-        "Alignment": "Center",
-        "Opacity": "1",
-        "Layout": "Preserve dimensions",
-        "FormatString": "%.1f",
-        "GridColor": [0.502, 0.502, 0.502],
-        "ShowGrid": "on"
+        "CommentText": "5  -  BREATHING PHASE   ( amber = inspiration )",
+        "ShowBorder": false,
+        "FontSize": 25,
+        "TextColor": "#c2410c",
+        "Bold": true,
+        "width": 760,
+        "height": 60
       }
     },
     {
-      "id": "md_F",
-      "type": "dashboardDisplay",
-      "x": 1340,
-      "y": 570,
+      "id": "lampPhase",
+      "type": "dashboardLamp",
+      "x": 1140,
+      "y": 890,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "Flow (L/min)",
-        "Binding": { "kind": "signal", "blockPath": ["gQ"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "ph"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
         "ShowInitialText": "on",
-        "Format": "short",
-        "Alignment": "Center",
+        "ColorDefault": [
+          0.753,
+          0.753,
+          0.753
+        ],
+        "StateColors": [
+          {
+            "Value": 0,
+            "Color": [
+              0.051,
+              0.463,
+              0.561
+            ]
+          },
+          {
+            "Value": 1,
+            "Color": [
+              0.961,
+              0.62,
+              0.071
+            ]
+          }
+        ],
         "Opacity": "1",
-        "Layout": "Preserve dimensions",
-        "FormatString": "%.1f",
-        "GridColor": [0.502, 0.502, 0.502],
-        "ShowGrid": "on"
+        "Label": "Phase",
+        "LabelFontSize": 19,
+        "LabelColor": "#c2410c",
+        "LabelBold": true
       }
     },
     {
-      "id": "mg_V",
-      "type": "dashboardGauge",
-      "x": 1340,
-      "y": 670,
+      "id": "imgLung",
+      "type": "dashboardMultiStateImage",
+      "x": 1320,
+      "y": 860,
       "rotation": 0,
       "params": {
         "LabelPosition": "Top",
-        "Label": "Tidal volume (mL)",
-        "Binding": { "kind": "signal", "blockPath": ["gVml"], "outputPortIndex": 1, "frameProcessingMode": "sample" },
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "ph"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
         "ShowInitialText": "on",
-        "ScaleColors": [],
-        "Limits": [0, -1, 900],
-        "FontColor": [0, 0, 0],
-        "Opacity": "1",
-        "ScaleDirection": "Clockwise"
+        "States": [
+          {
+            "State": 0,
+            "Size": [
+              120,
+              120
+            ],
+            "Image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9Im5vbmUiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMTQiIHgyPSI2MCIgeTI9IjQ2IiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik02MCA0NCBDNTIgNDYgNDcgNTIgNDYgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTYwIDQ0IEM2OCA0NiA3MyA1MiA3NCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNNTAgNTggQzQwIDYyIDM4IDc4IDQyIDkyIEM0NSAxMDEgNTMgMTAxIDU0IDkyIEw1NCA2MiBDNTQgNTggNTIgNTcgNTAgNTggWiIgZmlsbD0iIzdjOTNiNCIgc3Ryb2tlPSIjNGI1ZjgwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTcwIDU4IEM4MCA2MiA4MiA3OCA3OCA5MiBDNzUgMTAxIDY3IDEwMSA2NiA5MiBMNjYgNjIgQzY2IDU4IDY4IDU3IDcwIDU4IFoiIGZpbGw9IiM3YzkzYjQiIHN0cm9rZT0iIzRiNWY4MCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==",
+            "Thumbnail": ""
+          },
+          {
+            "State": 1,
+            "Size": [
+              120,
+              120
+            ],
+            "Image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9Im5vbmUiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMTAiIHgyPSI2MCIgeTI9IjQyIiBzdHJva2U9IiMwZTc0OTAiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik02MCA0MCBDNTAgNDIgNDQgNTAgNDMgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzBlNzQ5MCIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTYwIDQwIEM3MCA0MiA3NiA1MCA3NyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMGU3NDkwIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNNDggNTIgQzMwIDU4IDI2IDg0IDM0IDEwNCBDNDAgMTE2IDU0IDExNCA1NSAxMDAgTDU1IDU4IEM1NSA1MiA1MSA1MSA0OCA1MiBaIiBmaWxsPSIjMjJkM2VlIiBzdHJva2U9IiMwZTc0OTAiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik03MiA1MiBDOTAgNTggOTQgODQgODYgMTA0IEM4MCAxMTYgNjYgMTE0IDY1IDEwMCBMNjUgNTggQzY1IDUyIDY5IDUxIDcyIDUyIFoiIGZpbGw9IiMyMmQzZWUiIHN0cm9rZT0iIzBlNzQ5MCIgc3Ryb2tlLXdpZHRoPSIyLjUiLz4KPHBhdGggZD0iTTQyIDYyIEMzNiA3MCAzNSA4NiAzOSA5OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTVmM2ZjIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=",
+            "Thumbnail": ""
+          }
+        ],
+        "DefaultImage": {
+          "Size": [
+            120,
+            120
+          ],
+          "Image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9Im5vbmUiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMTQiIHgyPSI2MCIgeTI9IjQ2IiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik02MCA0NCBDNTIgNDYgNDcgNTIgNDYgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTYwIDQ0IEM2OCA0NiA3MyA1MiA3NCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNNTAgNTggQzQwIDYyIDM4IDc4IDQyIDkyIEM0NSAxMDEgNTMgMTAxIDU0IDkyIEw1NCA2MiBDNTQgNTggNTIgNTcgNTAgNTggWiIgZmlsbD0iIzdjOTNiNCIgc3Ryb2tlPSIjNGI1ZjgwIiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTcwIDU4IEM4MCA2MiA4MiA3OCA3OCA5MiBDNzUgMTAxIDY3IDEwMSA2NiA5MiBMNjYgNjIgQzY2IDU4IDY4IDU3IDcwIDU4IFoiIGZpbGw9IiM3YzkzYjQiIHN0cm9rZT0iIzRiNWY4MCIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==",
+          "Thumbnail": ""
+        },
+        "ScaleMode": "Fill with fixed aspect ratio",
+        "Label": "Lungs",
+        "LabelFontSize": 19,
+        "LabelColor": "#c2410c",
+        "LabelBold": true,
+        "width": 160,
+        "height": 150
       }
+    },
+    {
+      "id": "ph",
+      "type": "pulse",
+      "x": 1560,
+      "y": 900,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Period": 4,
+        "Width": 30,
+        "StartTime": 0,
+        "Offset": 0
+      }
+    },
+    {
+      "id": "tph",
+      "type": "terminator",
+      "x": 1760,
+      "y": 920,
+      "rotation": 0,
+      "params": {}
     }
   ],
   "connections": [
     {
-      "from": "pv", "to": "bP", "fromIndex": 0, "toIndex": 0,
-      "points": [[160, 180], [240, 180], [240, 80], [320, 80]]
+      "from": "pv",
+      "to": "bP",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          160,
+          310
+        ],
+        [
+          180,
+          310
+        ],
+        [
+          180,
+          240
+        ],
+        [
+          60,
+          240
+        ],
+        [
+          60,
+          190
+        ],
+        [
+          80,
+          190
+        ]
+      ]
     },
     {
-      "from": "pv", "to": "ps", "fromIndex": 0, "toIndex": 1,
-      "points": [[160, 180], [250, 180], [250, 255], [280, 255]]
+      "from": "pv",
+      "to": "ps",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [
+          160,
+          310
+        ],
+        [
+          180,
+          310
+        ],
+        [
+          180,
+          240
+        ],
+        [
+          310,
+          240
+        ],
+        [
+          310,
+          290
+        ]
+      ]
     },
     {
-      "from": "pm", "to": "ps", "fromIndex": 0, "toIndex": 0,
-      "points": [[160, 380], [250, 380], [250, 265], [280, 265]]
+      "from": "pm",
+      "to": "ps",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          160,
+          430
+        ],
+        [
+          250,
+          430
+        ],
+        [
+          250,
+          330
+        ],
+        [
+          270,
+          330
+        ]
+      ]
     },
     {
-      "from": "ps", "to": "es", "fromIndex": 0, "toIndex": 1,
-      "points": [[300, 260], [380, 260], [380, 255], [440, 255]]
+      "from": "ps",
+      "to": "es",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [
+          350,
+          330
+        ],
+        [
+          400,
+          330
+        ],
+        [
+          400,
+          250
+        ],
+        [
+          490,
+          250
+        ],
+        [
+          490,
+          270
+        ]
+      ]
     },
     {
-      "from": "es", "to": "gR", "fromIndex": 0, "toIndex": 0,
-      "points": [[460, 260], [490, 260], [490, 250], [520, 250]]
+      "from": "es",
+      "to": "gR",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          530,
+          310
+        ],
+        [
+          630,
+          310
+        ],
+        [
+          630,
+          340
+        ],
+        [
+          650,
+          340
+        ]
+      ]
     },
     {
-      "from": "gR", "to": "iV", "fromIndex": 0, "toIndex": 0,
-      "points": [[620, 250], [700, 250]]
+      "from": "gR",
+      "to": "iV",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          750,
+          340
+        ],
+        [
+          820,
+          340
+        ]
+      ]
     },
     {
-      "from": "iV", "to": "gC", "fromIndex": 0, "toIndex": 0,
-      "points": [[780, 250], [820, 250], [820, 340], [560, 340], [560, 460], [600, 460]]
+      "from": "iV",
+      "to": "gC",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          900,
+          340
+        ],
+        [
+          920,
+          340
+        ],
+        [
+          920,
+          570
+        ],
+        [
+          630,
+          570
+        ],
+        [
+          630,
+          520
+        ],
+        [
+          650,
+          520
+        ]
+      ]
     },
     {
-      "from": "gC", "to": "es", "fromIndex": 0, "toIndex": 0,
-      "points": [[700, 460], [740, 460], [740, 540], [410, 540], [410, 265], [440, 265]]
+      "from": "gC",
+      "to": "es",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          750,
+          520
+        ],
+        [
+          770,
+          520
+        ],
+        [
+          770,
+          400
+        ],
+        [
+          430,
+          400
+        ],
+        [
+          430,
+          310
+        ],
+        [
+          450,
+          310
+        ]
+      ]
     },
     {
-      "from": "gR", "to": "gQ", "fromIndex": 0, "toIndex": 0,
-      "points": [[620, 250], [660, 250], [660, 120], [760, 120]]
+      "from": "gR",
+      "to": "gQ",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          750,
+          340
+        ],
+        [
+          790,
+          340
+        ],
+        [
+          790,
+          230
+        ],
+        [
+          980,
+          230
+        ]
+      ]
     },
     {
-      "from": "iV", "to": "gVml", "fromIndex": 0, "toIndex": 0,
-      "points": [[780, 250], [900, 250], [900, 440], [760, 440]]
+      "from": "iV",
+      "to": "gVml",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          900,
+          340
+        ],
+        [
+          920,
+          340
+        ],
+        [
+          920,
+          450
+        ],
+        [
+          980,
+          450
+        ]
+      ]
     },
     {
-      "from": "bP", "to": "scP", "fromIndex": 0, "toIndex": 0,
-      "points": [[400, 80], [940, 80], [940, 115], [980, 115]]
+      "from": "bP",
+      "to": "scP",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          160,
+          190
+        ],
+        [
+          950,
+          190
+        ],
+        [
+          950,
+          160
+        ],
+        [
+          1120,
+          160
+        ]
+      ]
     },
     {
-      "from": "gQ", "to": "scF", "fromIndex": 0, "toIndex": 0,
-      "points": [[860, 120], [930, 120], [930, 305], [980, 305]]
+      "from": "gQ",
+      "to": "scF",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          1080,
+          230
+        ],
+        [
+          1100,
+          230
+        ],
+        [
+          1100,
+          350
+        ],
+        [
+          1120,
+          350
+        ]
+      ]
     },
     {
-      "from": "gVml", "to": "scV", "fromIndex": 0, "toIndex": 0,
-      "points": [[860, 440], [930, 440], [930, 495], [980, 495]]
+      "from": "gVml",
+      "to": "scV",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          1080,
+          450
+        ],
+        [
+          1100,
+          450
+        ],
+        [
+          1100,
+          540
+        ],
+        [
+          1120,
+          540
+        ]
+      ]
     },
     {
-      "from": "bP", "to": "xy", "fromIndex": 0, "toIndex": 0,
-      "points": [[400, 80], [430, 80], [430, 620], [1300, 620], [1300, 270], [1340, 270]]
+      "from": "bP",
+      "to": "xy",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          160,
+          190
+        ],
+        [
+          950,
+          190
+        ],
+        [
+          950,
+          290
+        ],
+        [
+          1520,
+          290
+        ],
+        [
+          1520,
+          160
+        ],
+        [
+          1540,
+          160
+        ]
+      ]
     },
     {
-      "from": "gVml", "to": "xy", "fromIndex": 0, "toIndex": 1,
-      "points": [[860, 440], [1010, 440], [1010, 660], [1320, 660], [1320, 330], [1340, 330]]
+      "from": "gVml",
+      "to": "xy",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [
+          1080,
+          450
+        ],
+        [
+          1100,
+          450
+        ],
+        [
+          1100,
+          480
+        ],
+        [
+          1520,
+          480
+        ],
+        [
+          1520,
+          380
+        ],
+        [
+          1540,
+          380
+        ]
+      ]
+    },
+    {
+      "from": "ph",
+      "to": "tph",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          1640,
+          940
+        ],
+        [
+          1760,
+          940
+        ]
+      ]
     }
   ],
   "variables": "",
-  "runtime": "12",
+  "runtime": "10",
   "sampleTime": 0.005,
-  "solver": "ode4",
   "autoRoute": true,
   "locked": true,
+  "solver": "ode4",
+  "relTol": 0.000001,
+  "absTol": 1e-8,
   "realTime": true
 }

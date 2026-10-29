@@ -25,35 +25,20 @@ import {
   buildLogTicks,
   logValueToPixelY,
   LOG_FLOOR,
+  applySignalStyle,
 } from './scope-utils.js';
-//=============================================================================
-/** Apply per-signal inline style overrides (color, strokeWidth, dash) to a path element. */
-function applySignalStyle(pathEl: Element, sigParams: any, fallbackClass: string) {
-  const color = sigParams?.color;
-  const strokeWidth = sigParams?.strokeWidth;
-  const dash = sigParams?.dash;
-
-  let style = '';
-  if (color) style += `stroke:${color};`;
-  if (strokeWidth != null) style += `stroke-width:${strokeWidth};`;
-  if (dash === 'dashed') style += 'stroke-dasharray:6 3;';
-  else if (dash === 'dotted') style += 'stroke-dasharray:2 3;';
-  else if (dash === 'solid') style += 'stroke-dasharray:none;';
-
-  // Preserve the fallback palette class but strip any previous per-signal class
-  const currentClass = pathEl.getAttribute('class') || '';
-  if (color) {
-    const stripped = currentClass.replace(/\bscope-path-\d\b/g, fallbackClass).trim();
-    pathEl.setAttribute('class', stripped);
-  }
-  if (style) pathEl.setAttribute('style', style);
-}
+import { renderXYScope } from './render-xy-scope.js';
+import { renderXYZScope } from './render-xyz-scope.js';
 //=============================================================================
 export function renderScope(scopeBlock: any) {
+  // Delegate parametric scopes so an inspector edit (e.g. signal color) redraws
+  // their existing trace, not just the time scope.
   if (scopeBlock.type === 'xyScope') {
+    renderXYScope(scopeBlock);
     return;
   }
   if (scopeBlock.type === 'xyzScope') {
+    renderXYZScope(scopeBlock);
     return;
   }
 

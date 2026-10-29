@@ -11,6 +11,12 @@
 import { renderBlockPanel, type BlockPanelDeps } from './inspector-block.js';
 import { renderInspectorReact, unmountInspectorReact } from './inspector-react-root.js';
 import { state } from '../app/state.js';
+import {
+  portCountsChanged,
+  actualPortCounts,
+  survivingConnections,
+  type SimpleConnection,
+} from './port-rebuild.js';
 //=============================================================================
 export type Block = {
   type?: string;
@@ -202,11 +208,47 @@ export const createInspector = ({
   getRuntimeSeconds?: () => number;
 }) => {
   const getRenderer = () => renderer?.current || renderer;
+  // Blocks whose port count comes from a parameter (mux/demux/sum/...) must be
+  // rebuilt when that count changes, so the ports follow the edit. The block is
+  // recreated in place (same id/position/params) and the connections that still
+  // address a valid port are restored.
+  const rebuildPortsIfNeeded = (b: Block) => {
+    const r = getRenderer() as any;
+    if (!r?.createBlock || !r?.deleteBlock || !portCountsChanged(b)) return;
+    const id = (b as any).id;
+    const captured: SimpleConnection[] = ((state.connections as any[]) || [])
+      .filter((c) => c.from === id || c.to === id)
+      .map((c) => ({
+        from: c.from,
+        to: c.to,
+        fromIndex: Number(c.fromIndex ?? 0),
+        toIndex: Number(c.toIndex ?? 0),
+      }));
+    r.deleteBlock(id);
+    r.createBlock((b as any).type, (b as any).x, (b as any).y, {
+      id,
+      rotation: (b as any).rotation ?? 0,
+      params: (b as any).params,
+    });
+    const nb = (state.blocks as any).get(id);
+    if (!nb) return;
+    const counts = actualPortCounts(nb);
+    for (const c of survivingConnections(captured, id, counts)) {
+      r.createConnection?.(c.from, c.to, c.toIndex, c.fromIndex);
+    }
+    try {
+      r.setMultiSelection?.(new Set([id]), new Set());
+    } catch (_e) {}
+    try {
+      renderInspector(nb as Block);
+    } catch (_e) {}
+  };
   const callUpdate = (b: Block) => {
     const r = getRenderer() as Renderer | undefined;
     if (r?.updateBlockLabel) {
       r.updateBlockLabel(b);
     }
+    rebuildPortsIfNeeded(b);
   };
   const callResize = (b: Block, w: number, h: number) => {
     const r = getRenderer() as Renderer | undefined;

@@ -540,6 +540,20 @@ export function initContextMenu() {
     if (event.key === 'Escape') hideAllContextMenus();
   });
 
+  // Close on any press outside the menu, before a click completes, so it feels
+  // responsive instead of lingering until a full click lands on the canvas.
+  document.addEventListener(
+    'pointerdown',
+    (event) => {
+      const target = event.target as Element;
+      if (!target.closest('.context-menu')) hideAllContextMenus();
+    },
+    true
+  );
+  // Also dismiss when the view scrolls or zooms, or the window loses focus.
+  window.addEventListener('wheel', () => hideAllContextMenus(), { passive: true });
+  window.addEventListener('blur', () => hideAllContextMenus());
+
   // Programmatic entry point for Auto-arrange (menu bar, scripts, headless regeneration).
   document.addEventListener('nflow:auto-arrange', () => runAutoArrange());
 

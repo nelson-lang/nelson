@@ -378,8 +378,10 @@ namespace NFlow {
                 outSigs[0].setVector(w);
                 outSigs[0].type = SigType::Double;
                 // The launcher injects "isComplex" alongside the samples.
-                outSigs[0].isComplex = asJson(b.params).is_object() && asJson(b.params).contains("isComplex")
-                    && asJson(b.params)["isComplex"].is_boolean() && asJson(b.params)["isComplex"].get<bool>();
+                outSigs[0].isComplex = asJson(b.params).is_object()
+                    && asJson(b.params).contains("isComplex")
+                    && asJson(b.params)["isComplex"].is_boolean()
+                    && asJson(b.params)["isComplex"].get<bool>();
                 return true;
             });
 

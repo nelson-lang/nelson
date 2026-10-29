@@ -48,7 +48,8 @@ namespace NFlow {
         if (asJson(b.params).contains(key) && asJson(b.params)[key].is_string()) {
             return asJson(b.params)[key].get<std::string>();
         }
-        if (asJson(b.params).contains(nflow::kCondition) && asJson(b.params)[nflow::kCondition].is_string()) {
+        if (asJson(b.params).contains(nflow::kCondition)
+            && asJson(b.params)[nflow::kCondition].is_string()) {
             return asJson(b.params)[nflow::kCondition].get<std::string>();
         }
         return fallback;

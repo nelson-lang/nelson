@@ -239,7 +239,8 @@ runSolverLoop(SolverLoopCtx& c)
             for (const Block& bb : bs) {
                 if (bb.type == "subsystem" && asJson(bb.params).contains("controlPort")
                     && asJson(bb.params)["controlPort"].is_object()) {
-                    const std::string kind = asJson(bb.params)["controlPort"].value("kind", std::string());
+                    const std::string kind
+                        = asJson(bb.params)["controlPort"].value("kind", std::string());
                     if (kind == "trigger" || kind == "enableTrigger") {
                         return true;
                     }

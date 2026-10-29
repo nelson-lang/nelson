@@ -19,7 +19,42 @@ import {
   buildLogTicks,
   logValueToPixelY,
   LOG_FLOOR,
+  applySignalStyle,
 } from './scope-utils';
+//=============================================================================
+describe('applySignalStyle', () => {
+  const makePath = () => document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+  test('writes stroke color, width and dash array', () => {
+    const p = makePath();
+    applySignalStyle(p, { color: '#123456', strokeWidth: 5, dash: 'dashed' }, 'scope-path-1');
+    const style = p.getAttribute('style') || '';
+    expect(style).toContain('stroke:#123456');
+    expect(style).toContain('stroke-width:5');
+    expect(style).toContain('stroke-dasharray:6 3');
+  });
+
+  test('swaps a palette class for the fallback only when a color is set', () => {
+    const p = makePath();
+    p.setAttribute('class', 'scope-path-3');
+    applySignalStyle(p, { color: '#abcdef' }, 'scope-path-1');
+    expect(p.getAttribute('class')).toBe('scope-path-1');
+  });
+
+  test('leaves class and style untouched for empty signal params', () => {
+    const p = makePath();
+    p.setAttribute('class', 'scope-path-2');
+    applySignalStyle(p, undefined, 'scope-path-1');
+    expect(p.getAttribute('class')).toBe('scope-path-2');
+    expect(p.getAttribute('style')).toBeNull();
+  });
+
+  test('solid dash clears the dash array', () => {
+    const p = makePath();
+    applySignalStyle(p, { dash: 'solid' }, 'scope-path-1');
+    expect(p.getAttribute('style') || '').toContain('stroke-dasharray:none');
+  });
+});
 //=============================================================================
 describe('roundToSignificant', () => {
   test('rounds a positive number to 2 significant digits', () => {

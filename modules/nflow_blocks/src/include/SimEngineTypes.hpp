@@ -62,12 +62,22 @@ namespace NFlow {
         JsonParams();
         JsonParams(const JsonParams& other);
         JsonParams(JsonParams&& other) noexcept;
-        JsonParams& operator=(const JsonParams& other);
-        JsonParams& operator=(JsonParams&& other) noexcept;
+        JsonParams&
+        operator=(const JsonParams& other);
+        JsonParams&
+        operator=(JsonParams&& other) noexcept;
         ~JsonParams();
         // Raw pointer to the owned nlohmann::json. Used only by asJson().
-        void* raw() noexcept { return m_impl; }
-        const void* raw() const noexcept { return m_impl; }
+        void*
+        raw() noexcept
+        {
+            return m_impl;
+        }
+        const void*
+        raw() const noexcept
+        {
+            return m_impl;
+        }
 
     private:
         void* m_impl; // owns a heap nlohmann::json
@@ -1864,16 +1874,12 @@ namespace NFlow {
     }
     // JsonParams owns a heap nlohmann::json; header-only so the symbol lives in
     // every internal TU and no link against nflow_blocks is required.
-    inline JsonParams::JsonParams()
-        : m_impl(new json())
-    {
-    }
+    inline JsonParams::JsonParams() : m_impl(new json()) { }
     inline JsonParams::JsonParams(const JsonParams& other)
         : m_impl(new json(*static_cast<const json*>(other.m_impl)))
     {
     }
-    inline JsonParams::JsonParams(JsonParams&& other) noexcept
-        : m_impl(other.m_impl)
+    inline JsonParams::JsonParams(JsonParams&& other) noexcept : m_impl(other.m_impl)
     {
         other.m_impl = new json();
     }

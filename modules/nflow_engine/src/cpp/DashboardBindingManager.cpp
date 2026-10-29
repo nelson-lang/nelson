@@ -280,7 +280,8 @@ validateOne(Block& block, BlockState* dashboardState, std::vector<Block>& blocks
         error = diagnostic(block, "target parameter was not found");
         return false;
     }
-    json* value = jsonElement(asJson(target->params)[parameter], binding.value("element", std::string()));
+    json* value
+        = jsonElement(asJson(target->params)[parameter], binding.value("element", std::string()));
     if (!value || !value->is_number()) {
         error = diagnostic(block, "target parameter must be scalar and numeric");
         return false;
@@ -358,8 +359,8 @@ applyDashboardBindingValue(std::vector<Block>& blocks, std::vector<BlockState>& 
             error = diagnostic(*control.block, "parameter target was deleted");
             return false;
         }
-        json* targetValue
-            = jsonElement(asJson(target->params)[parameter], binding.value("element", std::string()));
+        json* targetValue = jsonElement(
+            asJson(target->params)[parameter], binding.value("element", std::string()));
         if (!targetValue || !targetValue->is_number()) {
             error = diagnostic(*control.block, "parameter target is not scalar numeric");
             return false;

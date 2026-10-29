@@ -43,7 +43,8 @@ refineBaseStepForSampleTimes(const std::vector<Block>& blocks, double& dt, int& 
     double base = dt;
     bool refine = false;
     for (const Block& b : blocks) {
-        if (!asJson(b.params).contains("SampleTime") || !asJson(b.params)["SampleTime"].is_number()) {
+        if (!asJson(b.params).contains("SampleTime")
+            || !asJson(b.params)["SampleTime"].is_number()) {
             continue;
         }
         const double ts = asJson(b.params)["SampleTime"].get<double>();
@@ -147,10 +148,12 @@ computeUpdateRates(const std::vector<Block>& blocks, double dt, const std::vecto
             return std::string();
         };
         for (const Block& b : blocks) {
-            if (asJson(b.params).contains(nflow::kSubsystem) && asJson(b.params)[nflow::kSubsystem].is_object()
+            if (asJson(b.params).contains(nflow::kSubsystem)
+                && asJson(b.params)[nflow::kSubsystem].is_object()
                 && asJson(b.params)[nflow::kSubsystem].contains(nflow::kBlocks)
                 && asJson(b.params)[nflow::kSubsystem][nflow::kBlocks].is_array()) {
-                std::string nestedId = firstNestedRate(asJson(b.params)[nflow::kSubsystem][nflow::kBlocks]);
+                std::string nestedId
+                    = firstNestedRate(asJson(b.params)[nflow::kSubsystem][nflow::kBlocks]);
                 if (!nestedId.empty()) {
                     return buildOutputJson("error",
                         "block '" + nestedId

@@ -40,7 +40,8 @@ Nelson::NFlow::handleSwitch(SimCtx& ctx, const Block& b, Phase phase)
         return false;
     }
     std::string condition = nflow::kGe;
-    if (asJson(b.params).contains(nflow::kCondition) && asJson(b.params)[nflow::kCondition].is_string()) {
+    if (asJson(b.params).contains(nflow::kCondition)
+        && asJson(b.params)[nflow::kCondition].is_string()) {
         condition = asJson(b.params)[nflow::kCondition].get<std::string>();
     }
     nflow::BlockDescriptor bd(b, ctx.variables);

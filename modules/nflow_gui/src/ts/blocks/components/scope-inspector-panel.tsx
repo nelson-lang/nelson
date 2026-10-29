@@ -57,6 +57,15 @@ function ScopeTimeAxis({ block, runtime }: { block: Block; runtime: number | nul
           )}
         />
       </label>
+      <label className="param important-param">
+        Time window (s)
+        <input
+          type="text"
+          data-edit={FieldNames.kTimeWindow}
+          defaultValue={String(paramValue(block, FieldNames.kTimeWindow) ?? '')}
+          placeholder="all (fixed)"
+        />
+      </label>
     </fieldset>
   );
 }
