@@ -276,13 +276,13 @@ Nelson::NFlow::handleIf(SimCtx& ctx, const Block& b, Phase phase)
     }
 
     int selected = -1;
-    if (evalIfCondition(b.params.value(std::string("IfExpression"), std::string()), u)) {
+    if (evalIfCondition(asJson(b.params).value(std::string("IfExpression"), std::string()), u)) {
         selected = 0;
     }
-    if (selected < 0 && b.params.contains("ElseIfExpressions")
-        && b.params["ElseIfExpressions"].is_string()) {
+    if (selected < 0 && asJson(b.params).contains("ElseIfExpressions")
+        && asJson(b.params)["ElseIfExpressions"].is_string()) {
         const std::vector<std::string> elifs
-            = splitElseIfExpressions(b.params["ElseIfExpressions"].get<std::string>());
+            = splitElseIfExpressions(asJson(b.params)["ElseIfExpressions"].get<std::string>());
         for (int i = 0; i < static_cast<int>(elifs.size()); ++i) {
             if (evalIfCondition(elifs[i], u)) {
                 selected = 1 + i;
@@ -290,7 +290,7 @@ Nelson::NFlow::handleIf(SimCtx& ctx, const Block& b, Phase phase)
             }
         }
     }
-    if (selected < 0 && paramOnOff(b.params, "ShowElse", false)) {
+    if (selected < 0 && paramOnOff(asJson(b.params), "ShowElse", false)) {
         selected = nOut - 1; // the else port is last
     }
     for (int p = 0; p < nOut; ++p) {
@@ -473,7 +473,7 @@ makeIfCodegen(Nelson::NFlow::CodegenLang L)
     using namespace Nelson::NFlow;
     BlockCodegenTemplate t;
     t.emitStep = [L](const BlockCodegenArgs& a) {
-        const json& p = *a.params;
+        const json& p = *asJson(a.params);
         const int nOut = std::max(1, a.block->value(nflow::kOutputs, 1));
         std::vector<std::string> u(a.in.begin(), a.in.end());
         std::vector<std::string> clauses;

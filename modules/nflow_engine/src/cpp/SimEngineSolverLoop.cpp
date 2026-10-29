@@ -76,9 +76,9 @@ runSolverLoop(SolverLoopCtx& c)
         // a pid (the previous input of its derivative term), an integrator
         // with an external reset (the reset writes the IC back into x).
         const bool resettableIntegrator = blocks[i].type == "integrator"
-            && blocks[i].params.contains("ExternalReset")
-            && blocks[i].params["ExternalReset"].is_string()
-            && blocks[i].params["ExternalReset"].get<std::string>() != "none";
+            && asJson(blocks[i].params).contains("ExternalReset")
+            && asJson(blocks[i].params)["ExternalReset"].is_string()
+            && asJson(blocks[i].params)["ExternalReset"].get<std::string>() != "none";
         const bool isSubsystem
             = (blocks[i].type == "subsystem" || blocks[i].type == "pid" || resettableIntegrator);
         if ((!hasDeriv || isSubsystem) && reg.hasPhase(blocks[i].type, Phase::UPDATE)) {
@@ -237,9 +237,9 @@ runSolverLoop(SolverLoopCtx& c)
             anyCtrlSurface
             = [&](const std::vector<Block>& bs, const std::vector<BlockState>& sts) -> bool {
             for (const Block& bb : bs) {
-                if (bb.type == "subsystem" && bb.params.contains("controlPort")
-                    && bb.params["controlPort"].is_object()) {
-                    const std::string kind = bb.params["controlPort"].value("kind", std::string());
+                if (bb.type == "subsystem" && asJson(bb.params).contains("controlPort")
+                    && asJson(bb.params)["controlPort"].is_object()) {
+                    const std::string kind = asJson(bb.params)["controlPort"].value("kind", std::string());
                     if (kind == "trigger" || kind == "enableTrigger") {
                         return true;
                     }

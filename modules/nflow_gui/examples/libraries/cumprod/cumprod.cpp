@@ -48,35 +48,12 @@ handleCumprod(SimCtx& ctx, const Block& b, Phase phase)
     return false;
 }
 //=============================================================================
-// C ABI adapter: NfBlockHandlerFn = int(*)(void* ctx, const void* block, int phase).
-// The opaque pointers are the real SimCtx / Block addresses.
-// The phase integers follow the Phase enum order:
-//   0 = INIT, 1 = OUTPUT, 2 = ALGEBRAIC, 3 = AFTER_STEP, 4 = UPDATE
-static const Phase kPhaseTable[] = {
-    Phase::INIT,
-    Phase::OUTPUT,
-    Phase::ALGEBRAIC,
-    Phase::AFTER_STEP,
-    Phase::UPDATE,
-};
-//=============================================================================
-static constexpr int kPhaseCount = static_cast<int>(sizeof(kPhaseTable) / sizeof(kPhaseTable[0]));
-static int
-cumprodHandler(void* ctx, const void* block, int phase)
-{
-    if (phase < 0 || phase >= kPhaseCount) {
-        return 0;
-    }
-
-    SimCtx& simCtx = *static_cast<SimCtx*>(ctx);
-    const Block& blk = *static_cast<const Block*>(block);
-
-    return handleCumprod(simCtx, blk, kPhaseTable[phase]) ? 1 : 0;
-}
-//=============================================================================
 // Table of (type-string, handler) pairs returned to the BlockRegistry.
+// nfBlockHandlerAdapter (SimEngineTypes.hpp) wraps the typed handler into the
+// C ABI int(void*, const void*, int), so the opaque-pointer cast and the
+// phase-integer mapping live in the SDK, not in every plugin.
 static const NfBlockHandlerEntry kHandlers[] = {
-    { "cumprod", cumprodHandler },
+    { "cumprod", &nfBlockHandlerAdapter<handleCumprod> },
 };
 //=============================================================================
 // Phase information as JSON. The BlockRegistry prefers the "phases" array of

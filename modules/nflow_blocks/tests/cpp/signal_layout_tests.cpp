@@ -65,11 +65,11 @@ struct LayoutBuilder
         b.type = type;
         b.inputs = inputs;
         b.outputs = outputs;
-        b.params = std::move(params);
+        asJson(b.params) = std::move(params);
         nameToId[id] = b.nid;
-        if (type == nflow::kLabelSink && b.params.contains(nflow::kGotoTag)
-            && b.params[nflow::kGotoTag].is_string()) {
-            labelSinks[b.params[nflow::kGotoTag].get<std::string>()] = id;
+        if (type == nflow::kLabelSink && asJson(b.params).contains(nflow::kGotoTag)
+            && asJson(b.params)[nflow::kGotoTag].is_string()) {
+            labelSinks[asJson(b.params)[nflow::kGotoTag].get<std::string>()] = id;
         }
         blocks.push_back(std::move(b));
         return static_cast<BlockId>(blocks.size() - 1);

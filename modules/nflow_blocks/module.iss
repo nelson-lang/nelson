@@ -16,7 +16,8 @@ Source: {#RootPath}bin\{#BinPath}\libnlsNflow_blocks.dll; DestDir: {app}\bin\{#B
 ; dlgetnflowlibraries).
 Source: {#RootPath}bin\{#BinPath}\libnlsNflow_blocks.lib; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NFLOW} and {#COMPONENT_DYNAMIC_LINK};
 Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.h; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_NFLOW} and {#COMPONENT_DYNAMIC_LINK};
-Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\;Components: {#COMPONENT_NFLOW} and {#COMPONENT_DYNAMIC_LINK};
+; exclude the internal headers that still include <nlohmann/json.hpp>: nlohmann is no longer shipped and no plugin includes them
+Source: {#RootPath}modules\{#MODULE_NAME}\src\include\*.hpp; DestDir: {app}\modules\{#MODULE_NAME}\src\include\; Excludes: "NFlowBlockDescriptor.hpp,NFlowCodegenHelpers.hpp,StateSpaceMatrices.hpp,WasmFmuComponent.hpp";Components: {#COMPONENT_NFLOW} and {#COMPONENT_DYNAMIC_LINK};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_NFLOW};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_NFLOW};

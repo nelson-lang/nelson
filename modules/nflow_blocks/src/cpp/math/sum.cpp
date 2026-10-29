@@ -27,7 +27,7 @@ sumTypedEmitter(bool cLang)
     return [cLang](const BlockCodegenArgs& a) {
         const bool uns = codegenIsU64(a.outType);
         const bool sat = codegenSaturates(a);
-        std::string signs = nflow::jstr(*a.params, nflow::kSumInputs, "");
+        std::string signs = nflow::jstr(*asJson(a.params), nflow::kSumInputs, "");
         std::string acc;
         bool first = true;
         for (int i = 0; i < static_cast<int>(a.inputIds.size()); ++i) {
@@ -67,8 +67,8 @@ Nelson::NFlow::handleSum(SimCtx& ctx, const Block& b, Phase phase)
     int n = numInputs(ctx, b.nid);
 
     std::string signs;
-    if (b.params.contains(nflow::kSumInputs) && b.params[nflow::kSumInputs].is_string()) {
-        signs = b.params[nflow::kSumInputs].get<std::string>();
+    if (asJson(b.params).contains(nflow::kSumInputs) && asJson(b.params)[nflow::kSumInputs].is_string()) {
+        signs = asJson(b.params)[nflow::kSumInputs].get<std::string>();
     }
 
     std::vector<SigView> ins(n);
@@ -114,7 +114,7 @@ Nelson::NFlow::getCodeGenCSum()
     BlockCodegenTemplate t;
     // Variable-arity emission with per-input signs: needs a native emitter.
     t.emitStep = [](const BlockCodegenArgs& a) {
-        std::string signs = nflow::jstr(*a.params, nflow::kSumInputs, "");
+        std::string signs = nflow::jstr(*asJson(a.params), nflow::kSumInputs, "");
         std::vector<std::string> terms;
         for (int i = 0; i < static_cast<int>(a.inputIds.size()); ++i) {
             if (a.inputIds[i].empty()) {
@@ -152,7 +152,7 @@ Nelson::NFlow::getCodeGenRustSum()
             inList.push_back(a.inputIds[i].empty() || i >= a.in.size() ? "0.0_f64" : a.in[i]);
         }
         std::string expr = "0.0_f64";
-        std::string signs = nflow::jstr(*a.params, nflow::kSumInputs, "");
+        std::string signs = nflow::jstr(*asJson(a.params), nflow::kSumInputs, "");
         for (int i = 0; i < static_cast<int>(inList.size()); ++i) {
             char sign = (i < static_cast<int>(signs.size()) && signs[i] == '-') ? '-' : '+';
             expr = (i == 0 && sign == '+') ? inList[i] : expr + " " + sign + " " + inList[i];

@@ -24,13 +24,13 @@ resolveLabelSourcesOnce(const std::vector<Block>& blocks,
         if (b.type != nflow::kLabelSource) {
             continue;
         }
-        if (b.params.contains(nflow::kIsExternalPort)
-            && b.params[nflow::kIsExternalPort].get<bool>()) {
+        if (asJson(b.params).contains(nflow::kIsExternalPort)
+            && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
             continue;
         }
         std::string name;
-        if (b.params.contains(nflow::kGotoTag) && b.params[nflow::kGotoTag].is_string()) {
-            name = b.params[nflow::kGotoTag].get<std::string>();
+        if (asJson(b.params).contains(nflow::kGotoTag) && asJson(b.params)[nflow::kGotoTag].is_string()) {
+            name = asJson(b.params)[nflow::kGotoTag].get<std::string>();
         }
         if (name.empty()) {
             continue;

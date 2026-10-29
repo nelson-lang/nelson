@@ -32,8 +32,8 @@ assignedPaths(const Nelson::NFlow::Block& b)
     std::vector<std::string> paths;
     const char* keys[] = { "AssignedSignals", "SelectedSignals" };
     for (const char* key : keys) {
-        if (b.params.contains(key) && b.params[key].is_array()) {
-            for (const auto& s : b.params[key]) {
+        if (asJson(b.params).contains(key) && asJson(b.params)[key].is_array()) {
+            for (const auto& s : asJson(b.params)[key]) {
                 if (s.is_string()) {
                     paths.push_back(s.get<std::string>());
                 }

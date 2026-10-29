@@ -56,7 +56,7 @@ applyLegacyEvent(std::vector<Block>& blocks, const json& event, const std::strin
     }
     if (type == "setParams" && event.contains("params") && event["params"].is_object()) {
         for (const auto& item : event["params"].items()) {
-            target->params[item.key()] = item.value();
+            asJson(target->params)[item.key()] = item.value();
         }
         return;
     }
@@ -64,7 +64,7 @@ applyLegacyEvent(std::vector<Block>& blocks, const json& event, const std::strin
         || channel == "SimEvent") {
         const std::string key = event.value("key", std::string());
         if (!key.empty() && event.contains("value")) {
-            target->params[key] = event["value"];
+            asJson(target->params)[key] = event["value"];
         }
     }
 }

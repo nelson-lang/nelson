@@ -149,8 +149,8 @@ linearizeModel(const std::string& diagramJson)
     // model input.
     std::vector<int> inputSlots;
     for (const Block& b : blocks) {
-        if (b.type == nflow::kLabelSource && b.params.contains(nflow::kIsExternalPort)
-            && b.params[nflow::kIsExternalPort].get<bool>()) {
+        if (b.type == nflow::kLabelSource && asJson(b.params).contains(nflow::kIsExternalPort)
+            && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
             inputSlots.push_back(topo.outputBase[b.nid]);
         }
     }

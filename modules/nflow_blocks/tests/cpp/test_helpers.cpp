@@ -34,7 +34,7 @@ Harness::addBlock(
     block.type = type;
     block.inputs = inputs;
     block.outputs = outputsCount;
-    block.params = std::move(params);
+    asJson(block.params) = std::move(params);
 
     nameToId[block.id] = block.nid;
     outputBase.push_back(static_cast<int>(outputs.size()));

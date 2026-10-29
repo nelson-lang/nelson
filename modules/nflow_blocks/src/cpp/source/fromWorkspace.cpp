@@ -55,19 +55,19 @@ Nelson::NFlow::handleFromWorkspace(SimCtx& ctx, const Block& b, Phase phase)
         // scalar = interpolate flag, scalar2 = after-final mode.
         st.fsrcTimes.clear();
         st.fsrcValues.clear();
-        if (b.params.contains(nflow::kTimes) && b.params[nflow::kTimes].is_array()) {
-            for (const auto& v : b.params[nflow::kTimes]) {
+        if (asJson(b.params).contains(nflow::kTimes) && asJson(b.params)[nflow::kTimes].is_array()) {
+            for (const auto& v : asJson(b.params)[nflow::kTimes]) {
                 st.fsrcTimes.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
-        if (b.params.contains(nflow::kValues) && b.params[nflow::kValues].is_array()) {
-            for (const auto& v : b.params[nflow::kValues]) {
+        if (asJson(b.params).contains(nflow::kValues) && asJson(b.params)[nflow::kValues].is_array()) {
+            for (const auto& v : asJson(b.params)[nflow::kValues]) {
                 st.fsrcValues.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
         st.fsrcValuesImag.clear();
-        if (b.params.contains("valuesImag") && b.params["valuesImag"].is_array()) {
-            for (const auto& v : b.params["valuesImag"]) {
+        if (asJson(b.params).contains("valuesImag") && asJson(b.params)["valuesImag"].is_array()) {
+            for (const auto& v : asJson(b.params)["valuesImag"]) {
                 st.fsrcValuesImag.push_back(v.is_number() ? v.get<double>() : 0.0);
             }
         }
@@ -306,7 +306,7 @@ Nelson::NFlow::getCodeGenCFromWorkspace()
                         "+ 1] - ts[idx]);");
             a.addHelper("}");
         }
-        BakedData d = bakedDataOf(*a.params);
+        BakedData d = bakedDataOf(*asJson(a.params));
         if (!d.scalar) {
             return;
         }
@@ -317,7 +317,7 @@ Nelson::NFlow::getCodeGenCFromWorkspace()
             + numberList(d.values, a.fmt) + " };");
     };
     t.emitStep = [](const BlockCodegenArgs& a) {
-        BakedData d = bakedDataOf(*a.params);
+        BakedData d = bakedDataOf(*asJson(a.params));
         if (!d.scalar) {
             a.line("out_" + a.id
                 + " = 0.0; /* fromWorkspace: no baked data (vector or "
@@ -366,7 +366,7 @@ Nelson::NFlow::getCodeGenRustFromWorkspace()
                         "- ts[idx])");
             a.addHelper("}");
         }
-        BakedData d = bakedDataOf(*a.params);
+        BakedData d = bakedDataOf(*asJson(a.params));
         if (!d.scalar) {
             return;
         }
@@ -377,7 +377,7 @@ Nelson::NFlow::getCodeGenRustFromWorkspace()
             "const FW_V_" + a.id + ": [f64; " + n + "] = [ " + numberList(d.values, a.fmt) + " ];");
     };
     t.emitStep = [](const BlockCodegenArgs& a) {
-        BakedData d = bakedDataOf(*a.params);
+        BakedData d = bakedDataOf(*asJson(a.params));
         if (!d.scalar) {
             a.line("out_" + a.id
                 + " = 0.0_f64; // fromWorkspace: no baked data (vector or unresolved "

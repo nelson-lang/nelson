@@ -42,7 +42,7 @@ Nelson::NFlow::getCodeGenCCompareToZero()
     BlockCodegenTemplate t;
     // The comparison operator comes from the operator parameter: native emitter.
     t.emitStep = [](const BlockCodegenArgs& a) {
-        std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kNe);
+        std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kNe);
         std::string lhs = a.in[0];
         std::string rhs = std::string("0.0");
         std::string cmp;
@@ -62,7 +62,7 @@ Nelson::NFlow::getCodeGenCCompareToZero()
         a.line("out_" + a.id + " = (" + cmp + ") ? 1.0 : 0.0;");
     };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
-        const std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kNe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kNe);
         const std::string srcName = a.inTypes.empty() ? "double" : a.inTypes[0];
         const bool uns = codegenIsU64(srcName);
         codegenEmitTypedCompare(a, op, a.in[0], uns ? "0ULL" : "0LL", true);
@@ -75,7 +75,7 @@ Nelson::NFlow::getCodeGenRustCompareToZero()
 {
     BlockCodegenTemplate t;
     t.emitStep = [](const BlockCodegenArgs& a) {
-        std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kNe);
+        std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kNe);
         std::string lhs = a.in[0];
         std::string rhs = std::string("0.0_f64");
         std::string cmp;
@@ -95,7 +95,7 @@ Nelson::NFlow::getCodeGenRustCompareToZero()
         a.line("out_" + a.id + " = if " + cmp + " { 1.0_f64 } else { 0.0_f64 };");
     };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
-        const std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kNe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kNe);
         const std::string srcName = a.inTypes.empty() ? "double" : a.inTypes[0];
         const bool uns = codegenIsU64(srcName);
         codegenEmitTypedCompare(a, op, a.in[0], uns ? "0_u64" : "0_i64", false);

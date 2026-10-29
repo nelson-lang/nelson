@@ -36,8 +36,8 @@ namespace NFlow {
     fmuPathParam(const Block& b)
     {
         for (const char* key : { "path", "fmu", "file" }) {
-            if (b.params.contains(key) && b.params[key].is_string()) {
-                std::string p = b.params[key].get<std::string>();
+            if (asJson(b.params).contains(key) && asJson(b.params)[key].is_string()) {
+                std::string p = asJson(b.params)[key].get<std::string>();
                 if (!p.empty()) {
                     return p;
                 }
@@ -80,15 +80,15 @@ namespace NFlow {
             // Empty lists keep the full enumeration in modelDescription order.
             {
                 std::vector<std::string> inNames, outNames;
-                if (b.params.contains("inputNames") && b.params["inputNames"].is_array()) {
-                    for (const auto& e : b.params["inputNames"]) {
+                if (asJson(b.params).contains("inputNames") && asJson(b.params)["inputNames"].is_array()) {
+                    for (const auto& e : asJson(b.params)["inputNames"]) {
                         if (e.is_string()) {
                             inNames.push_back(e.get<std::string>());
                         }
                     }
                 }
-                if (b.params.contains("outputNames") && b.params["outputNames"].is_array()) {
-                    for (const auto& e : b.params["outputNames"]) {
+                if (asJson(b.params).contains("outputNames") && asJson(b.params)["outputNames"].is_array()) {
+                    for (const auto& e : asJson(b.params)["outputNames"]) {
                         if (e.is_string()) {
                             outNames.push_back(e.get<std::string>());
                         }
@@ -106,8 +106,8 @@ namespace NFlow {
             // params.parameterValues maps FMU parameter name -> value.
             std::vector<std::string> paramNames;
             std::vector<double> paramValues;
-            if (b.params.contains("parameterValues") && b.params["parameterValues"].is_object()) {
-                for (const auto& item : b.params["parameterValues"].items()) {
+            if (asJson(b.params).contains("parameterValues") && asJson(b.params)["parameterValues"].is_object()) {
+                for (const auto& item : asJson(b.params)["parameterValues"].items()) {
                     if (item.value().is_number()) {
                         paramNames.push_back(item.key());
                         paramValues.push_back(item.value().get<double>());
@@ -222,8 +222,8 @@ namespace NFlow {
                     outSigs[p].setVector(std::max(1, w));
                 }
             };
-            if (b.params.contains("outputWidths")) {
-                const auto& ws = b.params["outputWidths"];
+            if (asJson(b.params).contains("outputWidths")) {
+                const auto& ws = asJson(b.params)["outputWidths"];
                 if (ws.is_array()) {
                     for (int p = 0; p < (int)ws.size(); ++p) {
                         if (ws[p].is_number()) {

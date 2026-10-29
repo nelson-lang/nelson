@@ -12,7 +12,15 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
 //=============================================================================
+// The third-party JSON type is kept out of this public SDK header so native
+// plugins build without any third-party include. Internal Nelson builds still
+// have nlohmann on the include path, so pull it in only then (see asJson() below).
+#if !defined(NFLOW_PUBLIC_SDK) && defined(__has_include)
+#if __has_include(<nlohmann/json.hpp>)
 #include <nlohmann/json.hpp>
+#define NFLOW_INTERNAL_JSON 1
+#endif
+#endif
 #include <cmath>
 #include <algorithm>
 #include <vector>
@@ -40,8 +48,30 @@ namespace Nelson {
 //=============================================================================
 namespace NFlow {
     //=============================================================================
-    using json = nlohmann::json;
     using ValMap = std::unordered_map<std::string, double>;
+    //=============================================================================
+    // Opaque holder for a block's JSON parameters. The concrete JSON type is
+    // hidden so the public plugin SDK pulls in no third-party header. Internal
+    // engine code reaches the underlying value through asJson() (declared below).
+    // Header-only: special members are defined inline below, under
+    // NFLOW_INTERNAL_JSON, so every internal TU gets them without a link
+    // dependency. A plugin never constructs a Block, so it needs no definition.
+    class JsonParams
+    {
+    public:
+        JsonParams();
+        JsonParams(const JsonParams& other);
+        JsonParams(JsonParams&& other) noexcept;
+        JsonParams& operator=(const JsonParams& other);
+        JsonParams& operator=(JsonParams&& other) noexcept;
+        ~JsonParams();
+        // Raw pointer to the owned nlohmann::json. Used only by asJson().
+        void* raw() noexcept { return m_impl; }
+        const void* raw() const noexcept { return m_impl; }
+
+    private:
+        void* m_impl; // owns a heap nlohmann::json
+    };
     //=============================================================================
     // Numeric block ID: index into the blocks/blockState/outputBase vectors.
     // INVALID_ID means "not yet assigned" or "not found".
@@ -166,7 +196,7 @@ namespace NFlow {
         std::string type;
         int inputs = 0;
         int outputs = 1;
-        json params; // raw (already pre-resolved where possible)
+        JsonParams params; // raw JSON parameters (opaque; reach via asJson())
         // Resolved port widths (filled by buildSignalLayout; empty = all 1). Used by
         // parameter-dependent state-count callbacks (StateLayout).
         std::vector<int> inWidths;
@@ -1436,16 +1466,8 @@ namespace NFlow {
     //=============================================================================
     // True when the block declares wrap-on-overflow instead of the default
     // saturation for its integer-typed output ("SaturateOnOverflow": false).
-    inline bool
-    blockSaturates(const SimCtx& ctx, BlockId nid)
-    {
-        const json& p = ctx.blocks[nid].params;
-        auto it = p.find("SaturateOnOverflow");
-        if (it != p.end() && it->is_boolean()) {
-            return it->get<bool>();
-        }
-        return true;
-    }
+    NLSNFLOW_BLOCKS_IMPEXP bool
+    blockSaturates(const SimCtx& ctx, BlockId nid);
     //=============================================================================
     inline bool
     updated(SimCtx& ctx, BlockId nid, double newVal, int port);
@@ -1783,18 +1805,108 @@ namespace NFlow {
     NLSNFLOW_BLOCKS_IMPEXP double
     clampVal(double v, double lo, double hi);
     NLSNFLOW_BLOCKS_IMPEXP double
-    resolveDouble(
-        const json& v, const std::unordered_map<std::string, double>& vars, double fallback = 0.0);
-    NLSNFLOW_BLOCKS_IMPEXP double
     param(const Block& b, const std::unordered_map<std::string, double>& vars, const char* key,
         double fallback = 0.0);
     //=============================================================================
-    // Transfer function helpers
+    // Adapt a typed handler bool(SimCtx&, const Block&, Phase) to the plugin C
+    // ABI NfBlockHandlerFn int(void*, const void*, int). A native plugin
+    // registers a handler without re-writing the opaque-pointer cast and the
+    // phase-integer mapping (the ABI int equals the Phase enum value):
+    //   static const NfBlockHandlerEntry kHandlers[] = {
+    //       { "myBlock", &nfBlockHandlerAdapter<myHandler> } };
+    template <bool (*Handler)(SimCtx&, const Block&, Phase)>
+    int
+    nfBlockHandlerAdapter(void* ctx, const void* block, int phase)
+    {
+        return Handler(*static_cast<SimCtx*>(ctx), *static_cast<const Block*>(block),
+                   static_cast<Phase>(phase))
+            ? 1
+            : 0;
+    }
     //=============================================================================
+    // JSON parameter access and JSON-typed helpers. Internal to Nelson's own
+    // build (compiled only when nlohmann is on the include path), so the public
+    // SDK header above stays free of any third-party type.
+#if defined(NFLOW_INTERNAL_JSON)
+    using json = nlohmann::json;
+    // Underlying JSON of a block's opaque params. The bare-json overloads pass a
+    // value through unchanged, so engine code reads any params member uniformly.
+    inline json&
+    asJson(JsonParams& p)
+    {
+        return *static_cast<json*>(p.raw());
+    }
+    inline const json&
+    asJson(const JsonParams& p)
+    {
+        return *static_cast<const json*>(p.raw());
+    }
+    inline json&
+    asJson(json& j)
+    {
+        return j;
+    }
+    inline const json&
+    asJson(const json& j)
+    {
+        return j;
+    }
+    // Pointer params members (codegen/registry contexts) pass through unchanged.
+    inline json*
+    asJson(json* j)
+    {
+        return j;
+    }
+    inline const json*
+    asJson(const json* j)
+    {
+        return j;
+    }
+    // JsonParams owns a heap nlohmann::json; header-only so the symbol lives in
+    // every internal TU and no link against nflow_blocks is required.
+    inline JsonParams::JsonParams()
+        : m_impl(new json())
+    {
+    }
+    inline JsonParams::JsonParams(const JsonParams& other)
+        : m_impl(new json(*static_cast<const json*>(other.m_impl)))
+    {
+    }
+    inline JsonParams::JsonParams(JsonParams&& other) noexcept
+        : m_impl(other.m_impl)
+    {
+        other.m_impl = new json();
+    }
+    inline JsonParams&
+    JsonParams::operator=(const JsonParams& other)
+    {
+        if (this != &other) {
+            *static_cast<json*>(m_impl) = *static_cast<const json*>(other.m_impl);
+        }
+        return *this;
+    }
+    inline JsonParams&
+    JsonParams::operator=(JsonParams&& other) noexcept
+    {
+        if (this != &other) {
+            delete static_cast<json*>(m_impl);
+            m_impl = other.m_impl;
+            other.m_impl = new json();
+        }
+        return *this;
+    }
+    inline JsonParams::~JsonParams() { delete static_cast<json*>(m_impl); }
+    NLSNFLOW_BLOCKS_IMPEXP double
+    resolveDouble(
+        const json& v, const std::unordered_map<std::string, double>& vars, double fallback = 0.0);
     NLSNFLOW_BLOCKS_IMPEXP bool
     buildTfState(const json& numJ, const json& denJ, std::vector<double>& A_last_row,
         std::vector<double>& C_vec, double& D, std::vector<double>& initState, int& n,
         const std::unordered_map<std::string, double>& vars = {});
+#endif
+    //=============================================================================
+    // Transfer function helpers
+    //=============================================================================
     NLSNFLOW_BLOCKS_IMPEXP double
     tfOutput(
         const std::vector<double>& C, const std::vector<double>& state, double D, double input);

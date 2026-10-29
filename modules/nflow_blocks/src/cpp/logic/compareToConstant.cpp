@@ -47,7 +47,7 @@ Nelson::NFlow::getCodeGenCCompareToConstant()
     // The comparison operator comes from the operator parameter: native emitter.
     t.emitStep = [](const BlockCodegenArgs& a) {
         nflow::BlockDescriptor bd(*a.block, *a.variables);
-        std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kGe);
+        std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kGe);
         std::string lhs = a.in[0];
         std::string rhs = a.fmt(bd.paramDouble(nflow::kConst, 0.0));
         std::string cmp;
@@ -68,7 +68,7 @@ Nelson::NFlow::getCodeGenCCompareToConstant()
     };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
         nflow::BlockDescriptor bd(*a.block, *a.variables);
-        const std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kGe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kGe);
         const std::string srcName = a.inTypes.empty() ? "double" : a.inTypes[0];
         const bool uns = codegenIsU64(srcName);
         const long long k = quantizeDoubleToI64(
@@ -84,7 +84,7 @@ Nelson::NFlow::getCodeGenRustCompareToConstant()
     BlockCodegenTemplate t;
     t.emitStep = [](const BlockCodegenArgs& a) {
         nflow::BlockDescriptor bd(*a.block, *a.variables);
-        std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kGe);
+        std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kGe);
         std::string lhs = a.in[0];
         std::string rhs = a.fmt(bd.paramDouble(nflow::kConst, 0.0));
         std::string cmp;
@@ -105,7 +105,7 @@ Nelson::NFlow::getCodeGenRustCompareToConstant()
     };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
         nflow::BlockDescriptor bd(*a.block, *a.variables);
-        const std::string op = nflow::jstr(*a.params, nflow::kRelop, nflow::kGe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kRelop, nflow::kGe);
         const std::string srcName = a.inTypes.empty() ? "double" : a.inTypes[0];
         const bool uns = codegenIsU64(srcName);
         const long long k = quantizeDoubleToI64(

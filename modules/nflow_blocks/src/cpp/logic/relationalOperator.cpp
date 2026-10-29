@@ -51,11 +51,11 @@ makeRelationalOperatorCodegen(Nelson::NFlow::CodegenLang L)
     using namespace Nelson::NFlow;
     BlockCodegenTemplate t;
     t.emitStep = [L](const BlockCodegenArgs& a) {
-        const std::string op = nflow::jstr(*a.params, nflow::kOperator, nflow::kGe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kOperator, nflow::kGe);
         codegenEmitTypedCompare(a, op, a.in[0], a.in[1], !L.rust);
     };
     t.emitStepTyped = [L](const BlockCodegenArgs& a) {
-        const std::string op = nflow::jstr(*a.params, nflow::kOperator, nflow::kGe);
+        const std::string op = nflow::jstr(*asJson(a.params), nflow::kOperator, nflow::kGe);
         const std::string t0 = a.inTypes.size() > 0 ? a.inTypes[0] : "double";
         const std::string t1 = a.inTypes.size() > 1 ? a.inTypes[1] : "double";
         if (codegenIsExact64(t0) && t0 == t1) {

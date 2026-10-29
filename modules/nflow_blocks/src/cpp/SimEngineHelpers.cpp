@@ -18,6 +18,19 @@ namespace Nelson {
 //=============================================================================
 namespace NFlow {
     //=============================================================================
+    // True when the block declares wrap-on-overflow instead of the default
+    // saturation for its integer-typed output ("SaturateOnOverflow": false).
+    bool
+    blockSaturates(const SimCtx& ctx, BlockId nid)
+    {
+        const json& p = asJson(ctx.blocks[nid].params);
+        auto it = p.find("SaturateOnOverflow");
+        if (it != p.end() && it->is_boolean()) {
+            return it->get<bool>();
+        }
+        return true;
+    }
+    //=============================================================================
     double
     clampVal(double v, double lo, double hi)
     {
@@ -62,10 +75,10 @@ namespace NFlow {
     param(const Block& b, const std::unordered_map<std::string, double>& vars, const char* key,
         double fallback)
     {
-        if (!b.params.contains(key)) {
+        if (!asJson(b.params).contains(key)) {
             return fallback;
         }
-        return resolveDouble(b.params[key], vars, fallback);
+        return resolveDouble(asJson(b.params)[key], vars, fallback);
     }
     //=============================================================================
     bool
@@ -115,10 +128,10 @@ namespace NFlow {
     {
         for (int i = 0; i < (int)blocks.size(); ++i) {
             const Block& b = blocks[i];
-            if (b.type != "subsystem" || !b.params.contains("controlPort")) {
+            if (b.type != "subsystem" || !asJson(b.params).contains("controlPort")) {
                 continue;
             }
-            const auto& cp = b.params["controlPort"];
+            const auto& cp = asJson(b.params)["controlPort"];
             if (!cp.is_object() || cp.value("kind", std::string()) != "functionCall") {
                 continue;
             }
@@ -219,8 +232,8 @@ namespace NFlow {
         {
             auto storeName = [&](int pos) -> std::string {
                 const Block& blk = blocks[algIndices[pos]];
-                auto it = blk.params.find("DataStoreName");
-                return (it != blk.params.end() && it->is_string()) ? it->get<std::string>()
+                auto it = asJson(blk.params).find("DataStoreName");
+                return (it != asJson(blk.params).end() && it->is_string()) ? it->get<std::string>()
                                                                    : std::string("A");
             };
             for (int w = 0; w < (int)algIndices.size(); ++w) {
@@ -356,8 +369,8 @@ namespace NFlow {
         {
             auto storeName = [&](int pos) -> std::string {
                 const Block& blk = blocks[algIndices[pos]];
-                auto it = blk.params.find("DataStoreName");
-                return (it != blk.params.end() && it->is_string()) ? it->get<std::string>()
+                auto it = asJson(blk.params).find("DataStoreName");
+                return (it != asJson(blk.params).end() && it->is_string()) ? it->get<std::string>()
                                                                    : std::string("A");
             };
             for (int w = 0; w < N; ++w) {
@@ -578,15 +591,15 @@ namespace NFlow {
         // Resolve the goto/from short-circuit: labelSource dims = the dims of
         // whatever feeds the matching labelSink. Returns gpi or -1.
         auto labelSourceFeedGpi = [&](const Block& b) -> int {
-            if (b.params.contains(nflow::kIsExternalPort)
-                && b.params[nflow::kIsExternalPort].is_boolean()
-                && b.params[nflow::kIsExternalPort].get<bool>()) {
+            if (asJson(b.params).contains(nflow::kIsExternalPort)
+                && asJson(b.params)[nflow::kIsExternalPort].is_boolean()
+                && asJson(b.params)[nflow::kIsExternalPort].get<bool>()) {
                 return -1;
             }
-            if (!b.params.contains(nflow::kGotoTag) || !b.params[nflow::kGotoTag].is_string()) {
+            if (!asJson(b.params).contains(nflow::kGotoTag) || !asJson(b.params)[nflow::kGotoTag].is_string()) {
                 return -1;
             }
-            auto sit = labelSinks.find(b.params[nflow::kGotoTag].get<std::string>());
+            auto sit = labelSinks.find(asJson(b.params)[nflow::kGotoTag].get<std::string>());
             if (sit == labelSinks.end()) {
                 return -1;
             }
@@ -650,10 +663,10 @@ namespace NFlow {
                         // Declared type: a named bus (struct-typed input at the
                         // generated interface) or a scalar data type (stamped per
                         // element by the codegen expansion).
-                        if (busRegistry && b.params.contains(nflow::kBusType)
-                            && b.params[nflow::kBusType].is_string()
-                            && !b.params[nflow::kBusType].get<std::string>().empty()) {
-                            const std::string bn = b.params[nflow::kBusType].get<std::string>();
+                        if (busRegistry && asJson(b.params).contains(nflow::kBusType)
+                            && asJson(b.params)[nflow::kBusType].is_string()
+                            && !asJson(b.params)[nflow::kBusType].get<std::string>().empty()) {
+                            const std::string bn = asJson(b.params)[nflow::kBusType].get<std::string>();
                             const int busId = busRegistry->idOf(bn);
                             if (busId < 0) {
                                 out.ok = false;
@@ -664,11 +677,11 @@ namespace NFlow {
                             }
                             outSigs[0].busTypeId = busId;
                             outSigs[0].setVector(std::max(1, busRegistry->packedWidth(busId)));
-                        } else if (b.params.contains(nflow::kOutDataType)
-                            && b.params[nflow::kOutDataType].is_string()) {
+                        } else if (asJson(b.params).contains(nflow::kOutDataType)
+                            && asJson(b.params)[nflow::kOutDataType].is_string()) {
                             SigType st;
                             if (sigTypeFromString(
-                                    b.params[nflow::kOutDataType].get<std::string>(), st)) {
+                                    asJson(b.params)[nflow::kOutDataType].get<std::string>(), st)) {
                                 outSigs[0].type = st;
                             }
                         }
@@ -1072,14 +1085,14 @@ namespace NFlow {
                 };
                 std::string varName = "simout";
                 std::string saveFormat = "Structure With Time";
-                if (b.params.is_object()) {
-                    if (b.params.contains(nflow::kVariableName)
-                        && b.params[nflow::kVariableName].is_string()) {
-                        varName = b.params[nflow::kVariableName].get<std::string>();
+                if (asJson(b.params).is_object()) {
+                    if (asJson(b.params).contains(nflow::kVariableName)
+                        && asJson(b.params)[nflow::kVariableName].is_string()) {
+                        varName = asJson(b.params)[nflow::kVariableName].get<std::string>();
                     }
-                    if (b.params.contains(nflow::kSaveFormat)
-                        && b.params[nflow::kSaveFormat].is_string()) {
-                        saveFormat = b.params[nflow::kSaveFormat].get<std::string>();
+                    if (asJson(b.params).contains(nflow::kSaveFormat)
+                        && asJson(b.params)[nflow::kSaveFormat].is_string()) {
+                        saveFormat = asJson(b.params)[nflow::kSaveFormat].get<std::string>();
                     }
                 }
                 out += "{\"id\":\"";
@@ -1310,9 +1323,9 @@ namespace NFlow {
                 // (dashboardPublishedLen) relies on.
                 std::size_t fromIdx = 0;
                 double timeSpan = 0.0;
-                if (b.params.is_object() && b.params.contains("TimeSpan")
-                    && b.params["TimeSpan"].is_number()) {
-                    timeSpan = b.params["TimeSpan"].get<double>();
+                if (asJson(b.params).is_object() && asJson(b.params).contains("TimeSpan")
+                    && asJson(b.params)["TimeSpan"].is_number()) {
+                    timeSpan = asJson(b.params)["TimeSpan"].get<double>();
                 }
                 if (timeSpan > 0.0 && !state.xSeries.empty()) {
                     const double cutoff = state.xSeries.back() - timeSpan;

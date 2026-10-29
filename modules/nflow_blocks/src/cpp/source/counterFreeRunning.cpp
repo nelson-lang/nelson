@@ -56,7 +56,7 @@ Nelson::NFlow::getCodeGenCCounterFreeRunning()
         nbits = std::min(53.0, std::max(1.0, std::floor(nbits)));
         const std::string m = nflow::formatNumber(std::pow(2.0, nbits));
         a.line("out_" + a.id + " = s->cfr_count_" + a.id + ";");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd
             = "s->cfr_count_" + a.id + " = fmod(s->cfr_count_" + a.id + " + 1.0, " + m + ");";
         if (rate > 1) {
@@ -80,7 +80,7 @@ Nelson::NFlow::getCodeGenRustCounterFreeRunning()
         nbits = std::min(53.0, std::max(1.0, std::floor(nbits)));
         const std::string m = a.fmt(std::pow(2.0, nbits));
         a.line("out_" + a.id + " = s.cfr_count_" + a.id + ";");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd
             = "s.cfr_count_" + a.id + " = (s.cfr_count_" + a.id + " + 1.0_f64) % " + m + ";";
         if (rate > 1) {

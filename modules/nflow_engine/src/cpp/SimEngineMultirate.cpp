@@ -43,10 +43,10 @@ refineBaseStepForSampleTimes(const std::vector<Block>& blocks, double& dt, int& 
     double base = dt;
     bool refine = false;
     for (const Block& b : blocks) {
-        if (!b.params.contains("SampleTime") || !b.params["SampleTime"].is_number()) {
+        if (!asJson(b.params).contains("SampleTime") || !asJson(b.params)["SampleTime"].is_number()) {
             continue;
         }
-        const double ts = b.params["SampleTime"].get<double>();
+        const double ts = asJson(b.params)["SampleTime"].get<double>();
         if (ts <= dtOld * (1.0 + 1e-9)) {
             continue; // <= base, or inherited (-1): nothing to refine
         }
@@ -73,7 +73,7 @@ computeUpdateRates(const std::vector<Block>& blocks, double dt, const std::vecto
     const std::vector<BlockState>& blockState, const std::vector<std::vector<int>>& inputIds)
 {
     for (size_t i = 0; i < blocks.size(); ++i) {
-        const auto& p = blocks[i].params;
+        const auto& p = asJson(blocks[i].params);
         if (p.contains("SampleTime") && p["SampleTime"].is_number()) {
             const double ts = p["SampleTime"].get<double>();
             if (ts > dt * (1.0 + 1e-9)) {
@@ -147,10 +147,10 @@ computeUpdateRates(const std::vector<Block>& blocks, double dt, const std::vecto
             return std::string();
         };
         for (const Block& b : blocks) {
-            if (b.params.contains(nflow::kSubsystem) && b.params[nflow::kSubsystem].is_object()
-                && b.params[nflow::kSubsystem].contains(nflow::kBlocks)
-                && b.params[nflow::kSubsystem][nflow::kBlocks].is_array()) {
-                std::string nestedId = firstNestedRate(b.params[nflow::kSubsystem][nflow::kBlocks]);
+            if (asJson(b.params).contains(nflow::kSubsystem) && asJson(b.params)[nflow::kSubsystem].is_object()
+                && asJson(b.params)[nflow::kSubsystem].contains(nflow::kBlocks)
+                && asJson(b.params)[nflow::kSubsystem][nflow::kBlocks].is_array()) {
+                std::string nestedId = firstNestedRate(asJson(b.params)[nflow::kSubsystem][nflow::kBlocks]);
                 if (!nestedId.empty()) {
                     return buildOutputJson("error",
                         "block '" + nestedId

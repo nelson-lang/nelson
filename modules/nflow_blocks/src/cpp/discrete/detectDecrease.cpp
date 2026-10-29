@@ -96,7 +96,7 @@ Nelson::NFlow::getCodeGenCDetectDecrease()
     };
     t.emitStep = [](const BlockCodegenArgs& a) {
         a.line("out_" + a.id + " = (" + a.in[0] + " < s->dd_prev_" + a.id + ") ? 1.0 : 0.0;");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s->dd_prev_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if (__nflow_step % " + std::to_string(rate) + " == 0) " + upd);
@@ -118,7 +118,7 @@ Nelson::NFlow::getCodeGenRustDetectDecrease()
     t.emitStep = [](const BlockCodegenArgs& a) {
         a.line("out_" + a.id + " = if " + a.in[0] + " < s.dd_prev_" + a.id
             + " { 1.0_f64 } else { 0.0_f64 };");
-        const int rate = codegenSampleRate(a.params, a.dt);
+        const int rate = codegenSampleRate(asJson(a.params), a.dt);
         const std::string upd = "s.dd_prev_" + a.id + " = " + a.in[0] + ";";
         if (rate > 1) {
             a.line("if __nflow_step % " + std::to_string(rate) + " == 0 { " + upd + " }");

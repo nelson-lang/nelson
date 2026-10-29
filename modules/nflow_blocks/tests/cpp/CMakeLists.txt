@@ -14,6 +14,7 @@ add_executable(nflow_block_handlers_tests
   test_helpers.cpp
   test_dynamic_library_stubs.cpp
   registry_tests.cpp
+  plugin_codegen_tests.cpp
   source_tests.cpp
   math_logic_tests.cpp
   lookup_tests.cpp

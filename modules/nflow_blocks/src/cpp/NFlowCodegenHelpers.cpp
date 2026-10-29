@@ -1273,7 +1273,7 @@ computeCodegenWidths(const json& diagram)
             b.type = jstr(bj, kType);
             b.inputs = jint(bj, kInputs, 0);
             b.outputs = jint(bj, kOutputs, 1);
-            b.params = bj.contains(kParams) ? bj[kParams] : json::object();
+            asJson(b.params) = bj.contains(kParams) ? bj[kParams] : json::object();
             if (!b.id.empty() && !b.type.empty()) {
                 b.nid = static_cast<BlockId>(blocks.size());
                 nameToId[b.id] = b.nid;
@@ -1307,8 +1307,8 @@ computeCodegenWidths(const json& diagram)
 
     std::unordered_map<std::string, std::string> labelSinks;
     for (const Block& b : blocks) {
-        if (b.type == kLabelSink && b.params.contains(kGotoTag) && b.params[kGotoTag].is_string()) {
-            const std::string name = b.params[kGotoTag].get<std::string>();
+        if (b.type == kLabelSink && asJson(b.params).contains(kGotoTag) && asJson(b.params)[kGotoTag].is_string()) {
+            const std::string name = asJson(b.params)[kGotoTag].get<std::string>();
             if (!name.empty()) {
                 labelSinks[name] = b.id;
             }
@@ -1365,8 +1365,8 @@ computeCodegenWidths(const json& diagram)
                 busId = layout.sigs[layout.inputSigs[i][0]].busTypeId;
             }
             std::vector<std::string> paths;
-            if (b.params.contains(kSelectedSignals) && b.params[kSelectedSignals].is_array()) {
-                for (const auto& s : b.params[kSelectedSignals]) {
+            if (asJson(b.params).contains(kSelectedSignals) && asJson(b.params)[kSelectedSignals].is_array()) {
+                for (const auto& s : asJson(b.params)[kSelectedSignals]) {
                     if (s.is_string()) {
                         paths.push_back(s.get<std::string>());
                     }
@@ -1391,8 +1391,8 @@ computeCodegenWidths(const json& diagram)
             }
             std::vector<std::string> paths;
             for (const char* key : { "AssignedSignals", kSelectedSignals }) {
-                if (b.params.contains(key) && b.params[key].is_array()) {
-                    for (const auto& s : b.params[key]) {
+                if (asJson(b.params).contains(key) && asJson(b.params)[key].is_array()) {
+                    for (const auto& s : asJson(b.params)[key]) {
                         if (s.is_string()) {
                             paths.push_back(s.get<std::string>());
                         }
