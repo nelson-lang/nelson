@@ -66,8 +66,8 @@ namespace {
     defaultInteractivityEnabled(GOAxis* axis)
     {
         return axis != nullptr
-            && !axis->stringCheck(GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR,
-                GO_PROPERTY_VALUE_OFF_STR);
+            && !axis->stringCheck(
+                GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     }
     //=============================================================================
 } // namespace

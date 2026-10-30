@@ -32,8 +32,7 @@ __default_interactivity__Builtin(int nLhs, const ArrayOfVector& argIn)
         Error(L"Nelson:graphics:interaction:InvalidInputAxes", L"Input must be an axes handle.");
     }
     int64 handle = argIn[0].asGraphicsObjectScalar();
-    GraphicsObject* fp
-        = (handle >= HANDLE_OFFSET_OBJECT) ? findGraphicsObject(handle) : nullptr;
+    GraphicsObject* fp = (handle >= HANDLE_OFFSET_OBJECT) ? findGraphicsObject(handle) : nullptr;
     if (fp == nullptr || fp->getType() != GO_PROPERTY_VALUE_AXES_STR) {
         Error(L"Nelson:graphics:interaction:InvalidInputAxes", L"Input must be an axes handle.");
     }

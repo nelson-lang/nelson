@@ -611,7 +611,8 @@ typedef struct _webui_core_t
     size_t run_userBufferLen[WEBUI_MAX_IDS];
     bool run_error[WEBUI_MAX_IDS];
     uint16_t run_last_id;
-    struct mg_connection* run_client[WEBUI_MAX_IDS]; // Client the result must come from, NULL = free
+    struct mg_connection*
+        run_client[WEBUI_MAX_IDS]; // Client the result must come from, NULL = free
     bool run_abandoned[WEBUI_MAX_IDS]; // Timed out, the id frees when the late result arrives
     uint16_t ws_process_number;
     bool initialized;
@@ -13314,15 +13315,15 @@ _webui_receive(
     void* multi_data = NULL;
     size_t multi_data_len = 0;
     if (event_type == WEBUI_WS_DATA) {
-        _webui_multi_packet_t* multi
-            = (_webui_multi_packet_t*)mg_get_user_connection_data(client);
+        _webui_multi_packet_t* multi = (_webui_multi_packet_t*)mg_get_user_connection_data(client);
         if (multi != NULL) {
             // A transfer is already in progress for this connection
             if (len > (multi->expect - multi->receive)) {
 // Received more data than expected
 #ifdef WEBUI_LOG
-                _webui_log_debug("[Core] [WS #%zu]\t_webui_receive() -> "
-                                 "Multi packet received more data than expected (%zu + %zu > %zu).\n",
+                _webui_log_debug(
+                    "[Core] [WS #%zu]\t_webui_receive() -> "
+                    "Multi packet received more data than expected (%zu + %zu > %zu).\n",
                     recvNum, multi->receive, len, multi->expect);
 #endif
                 _webui_multi_packet_free(client);
@@ -13331,8 +13332,8 @@ _webui_receive(
 // Accumulate packet
 #ifdef WEBUI_LOG
             _webui_log_debug(
-                "[Core] [WS #%zu]\t_webui_receive() -> Multi packet accumulate %zu bytes\n", recvNum,
-                len);
+                "[Core] [WS #%zu]\t_webui_receive() -> Multi packet accumulate %zu bytes\n",
+                recvNum, len);
 #endif
             memcpy((multi->buf + multi->receive), data, len);
             multi->receive += len;

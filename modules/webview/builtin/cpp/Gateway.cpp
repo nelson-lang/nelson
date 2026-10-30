@@ -126,7 +126,8 @@ sweepStaleWebViewCacheFolders()
     for (const std::filesystem::path& old : leftovers) {
         spawnDetachedRemove(old.wstring());
     }
-    std::filesystem::path trash = base / (L".nlsWebUITrash_" + std::to_wstring(GetCurrentProcessId()));
+    std::filesystem::path trash
+        = base / (L".nlsWebUITrash_" + std::to_wstring(GetCurrentProcessId()));
     bool trashReady = false;
     unsigned int counter = 0;
     for (const std::filesystem::path& entry : candidates) {

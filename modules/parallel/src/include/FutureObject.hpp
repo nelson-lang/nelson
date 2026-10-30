@@ -44,7 +44,9 @@ public:
         explicit WorkerActivityGuard(FutureObject* owner);
         ~WorkerActivityGuard();
         WorkerActivityGuard(const WorkerActivityGuard&) = delete;
-        WorkerActivityGuard& operator=(const WorkerActivityGuard&) = delete;
+        WorkerActivityGuard&
+        operator=(const WorkerActivityGuard&)
+            = delete;
 
     private:
         FutureObject* _owner;

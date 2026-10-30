@@ -1283,7 +1283,8 @@ extern "C"
         }
         g_sharedEnvState = 0;
         g_sharedEnvResult = S_OK;
-        // NELSON PATCH: wait for the browser process to exit so the user-data folder is unlocked before deletion.
+        // NELSON PATCH: wait for the browser process to exit so the user-data folder is unlocked
+        // before deletion.
         if (g_browserProcess) {
             WaitForSingleObject(g_browserProcess, 3000);
             CloseHandle(g_browserProcess);
