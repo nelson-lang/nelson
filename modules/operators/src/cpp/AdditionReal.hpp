@@ -99,13 +99,12 @@ row_matrix_real_addition(NelsonType classDestination, const ArrayOf& A, const Ar
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    indexType q = 0;
-    for (indexType i = 0; i < dimsC.rows(); i++) {
-        for (indexType j = 0; j < dimsC.columns(); j++) {
+    // Column-outer order keeps the inner write contiguous so it vectorizes.
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
             indexType m = i + j * dimsA.rows();
-            ptrC[m] = ptrA[q] + ptrB[m];
+            ptrC[m] = ptrA[i] + ptrB[m];
         }
-        q++;
     }
     return res;
 }
@@ -124,10 +123,11 @@ column_matrix_real_addition(NelsonType classDestination, const ArrayOf& A, const
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    for (indexType i = 0; i < dimsC.rows(); i++) {
-        for (indexType j = 0; j < dimsC.columns(); j++) {
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        T aj = ptrA[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
             indexType m = i + j * dimsB.rows();
-            ptrC[m] = ptrA[j] + ptrB[m];
+            ptrC[m] = aj + ptrB[m];
         }
     }
     return res;
@@ -149,13 +149,11 @@ matrix_row_real_addition(NelsonType classDestination, const ArrayOf& A, const Ar
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
 
-    indexType q = 0;
-    for (indexType i = 0; i < dimsC.rows(); i++) {
-        for (indexType j = 0; j < dimsC.columns(); j++) {
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
             indexType m = i + j * dimsB.rows();
-            ptrC[m] = ptrA[m] + ptrB[q];
+            ptrC[m] = ptrA[m] + ptrB[i];
         }
-        q++;
     }
     return res;
 }
@@ -174,10 +172,11 @@ matrix_column_real_addition(NelsonType classDestination, const ArrayOf& A, const
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    for (indexType i = 0; i < dimsC.rows(); i++) {
-        for (indexType j = 0; j < dimsC.columns(); j++) {
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        T bj = ptrB[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
             indexType m = i + j * dimsA.rows();
-            ptrC[m] = ptrA[m] + ptrB[j];
+            ptrC[m] = ptrA[m] + bj;
         }
     }
     return res;
