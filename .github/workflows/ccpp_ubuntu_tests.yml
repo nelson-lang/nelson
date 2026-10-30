@@ -20,7 +20,7 @@ on:
 
 jobs:
   bench:
-    name: Benchs
+    name: Benchs ${{ inputs.ubuntu }} ${{ inputs.arch }}
     runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
     timeout-minutes: 60
 
@@ -71,7 +71,7 @@ jobs:
           path: artifacts/
 
   tests:
-    name: Tests (Shard ${{ matrix.shard }}/3)
+    name: Tests (Shard ${{ matrix.shard }}/3) ${{ inputs.ubuntu }} ${{ inputs.arch }}
     runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
     timeout-minutes: 120
     strategy:
@@ -142,7 +142,7 @@ jobs:
           path: artifacts/
 
   merge_results:
-    name: Merge Results
+    name: Merge Results ${{ inputs.ubuntu }} ${{ inputs.arch }}
     if: always()
     needs: [tests, bench]
     runs-on: ubuntu-26.04
@@ -206,7 +206,7 @@ jobs:
   # the b2b suites drive the installed Nelson from the frontends: they run on master and when those change,
   # on the amd64 build only since they exercise the frontends, not the engine
   changes:
-    name: Detect frontend changes
+    name: Detect frontend changes ${{ inputs.ubuntu }} ${{ inputs.arch }}
     if: inputs.arch == 'amd64'
     runs-on: ubuntu-26.04
     timeout-minutes: 5
@@ -232,7 +232,7 @@ jobs:
               - "modules/webview/**"
 
   b2b:
-    name: Frontend b2b
+    name: Frontend b2b ${{ inputs.ubuntu }} ${{ inputs.arch }}
     needs: changes
     if: inputs.arch == 'amd64' && (github.ref == 'refs/heads/master' || github.base_ref == 'master' || needs.changes.outputs.frontend == 'true')
     runs-on: ubuntu-${{ inputs.ubuntu }}
