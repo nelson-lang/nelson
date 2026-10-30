@@ -64,6 +64,13 @@ const NO_COMPLETION = new Set<string>([
   'Nelson_Function_Demo.nflow',
 ]);
 //=============================================================================
+// Demos whose shipped runtime is too long for the window (e.g. a real-time demo
+// paced to wall-clock over a 240s runtime). The walk-through bounds the runtime
+// and forces fast execution so they still reach "Done" and get full coverage.
+const RUNTIME_OVERRIDE_S = new Map<string, number>([
+  ['Mechanical_Ventilation_Demo.nflow', 5],
+]);
+//=============================================================================
 // Demos that need external setup this walk-through cannot provide; they are
 // verified elsewhere (a companion .m script).
 const REQUIRES_SETUP = new Map<string, string>([
@@ -235,6 +242,23 @@ async function runExampleModel(page: Page, model: ExampleModel): Promise<void> {
 
   // A parse failure renders no block.
   await expect(page.locator('#blockLayer g.svg-block').first()).toBeVisible({ timeout: 15_000 });
+
+  const runtimeOverride = RUNTIME_OVERRIDE_S.get(model.name);
+  if (runtimeOverride !== undefined) {
+    await page.evaluate((seconds) => {
+      const runtime = document.getElementById('runtimeInput') as HTMLInputElement | null;
+      if (runtime) {
+        runtime.value = String(seconds);
+        runtime.dispatchEvent(new Event('input', { bubbles: true }));
+        runtime.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      const mode = document.getElementById('realTimeMode') as HTMLSelectElement | null;
+      if (mode) {
+        mode.value = 'fast';
+        mode.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }, runtimeOverride);
+  }
 
   const runButton = page.locator('#playPauseBtn');
   await expect(runButton).toHaveAttribute('data-action', 'run', { timeout: 10_000 });

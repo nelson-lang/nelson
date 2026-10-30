@@ -77,7 +77,7 @@ export async function figureMeshRotationScenario(page: Page, portable = false) {
     await page.mouse.move(box.x + box.width / 2 + 30, box.y + box.height / 2 - 10, { steps: 12 });
     await page.mouse.up();
     await run(
-      "drawnow(); pause(0.05); asserts.istrue(norm(ax.View-initialView)>1); asserts.isequal(char(ax.Visible),'off'); close(f)"
+      "drawnow(); for k=1:40; if norm(ax.View-initialView)>1; break; end; drawnow(); pause(0.1); end; asserts.istrue(norm(ax.View-initialView)>1); asserts.isequal(char(ax.Visible),'off'); close(f)"
     );
   }
 }
