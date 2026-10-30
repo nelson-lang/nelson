@@ -23,6 +23,7 @@
 #include "WaitFutures.hpp"
 #include <condition_variable>
 #include <mutex>
+#include <thread>
 #include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
@@ -125,6 +126,10 @@ FutureObject::display(Interface* io)
 FutureObject::~FutureObject()
 {
     cancel();
+    // wait for any worker to stop using this object before freeing it (avoids a use-after-free)
+    while (_workerActivityCount.load(std::memory_order_acquire) != 0) {
+        std::this_thread::yield();
+    }
     if (evaluateInterface) {
         delete evaluateInterface;
         evaluateInterface = nullptr;
@@ -328,6 +333,8 @@ void
 FutureObject::evaluateFunction(
     FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn, bool changeState)
 {
+    // keep this object alive for the whole call so it is not freed while the worker runs
+    WorkerActivityGuard workerActivityGuard(this);
     {
         FutureStateGuardWrite guard(stateMutex);
         _result = ArrayOfVector();
