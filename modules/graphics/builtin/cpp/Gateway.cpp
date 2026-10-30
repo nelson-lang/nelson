@@ -64,6 +64,7 @@
 #include "__wordcloudchart__Builtin.hpp"
 #include "__zoom__Builtin.hpp"
 #include "__pan__Builtin.hpp"
+#include "__default_interactivity__Builtin.hpp"
 #include "__rotate3d__Builtin.hpp"
 #include "__getframe__Builtin.hpp"
 #include "__web_display_list__Builtin.hpp"
@@ -279,6 +280,9 @@ static const nlsGateway gateway[] = {
     { "__zoom__", (ptrBuiltin)Nelson::GraphicsGateway::__zoom__Builtin, -1, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__pan__", (ptrBuiltin)Nelson::GraphicsGateway::__pan__Builtin, -1, 2, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { "__default_interactivity__",
+        (ptrBuiltin)Nelson::GraphicsGateway::__default_interactivity__Builtin, 0, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
     { "__rotate3d__", (ptrBuiltin)Nelson::GraphicsGateway::__rotate3d__Builtin, -1, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },

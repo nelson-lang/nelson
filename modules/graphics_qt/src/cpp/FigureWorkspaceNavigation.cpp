@@ -14,6 +14,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include <QtCore/QJsonArray>
 #include <QtCore/QUuid>
 #include <QtGui/QKeyEvent>
@@ -60,6 +61,15 @@ namespace {
         return nullptr;
     }
     //=============================================================================
+    // disableDefaultInteractivity turns off the modeless drag-pan/rotate and scroll zoom.
+    bool
+    defaultInteractivityEnabled(GOAxis* axis)
+    {
+        return axis != nullptr
+            && !axis->stringCheck(GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR,
+                GO_PROPERTY_VALUE_OFF_STR);
+    }
+    //=============================================================================
 } // namespace
 //=============================================================================
 GOAxis*
@@ -83,6 +93,11 @@ FigureWorkspaceQt::press(QMouseEvent* event)
     release();
     auto* axis = axisAt(event->position());
     if (!axis || event->button() != Qt::LeftButton) {
+        return;
+    }
+    // Modeless press (pan/rotate/data-tip) is suppressed when default interactivity is off;
+    // the toolbar pan/zoom/rotate modes keep working.
+    if (window->mouseMode == MOUSE_MODE::NONE && !defaultInteractivityEnabled(axis)) {
         return;
     }
     dragAxis = findGraphicsObjectHandle(axis);
@@ -291,6 +306,10 @@ FigureWorkspaceQt::wheel(QWheelEvent* event)
     }
     auto* axis = axisAt(event->position());
     if (!axis) {
+        return;
+    }
+    // Scroll-to-zoom is a default interaction, so it stops when it is turned off.
+    if (!defaultInteractivityEnabled(axis)) {
         return;
     }
     double exponent = event->pixelDelta().isNull()

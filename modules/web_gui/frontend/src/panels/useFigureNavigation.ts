@@ -13,7 +13,7 @@ import { rpc } from '../rpc/client';
 import { createResponseOrder, withFigureSlot } from '../desktop/figureQueue';
 import type { FigureAxesState, FigureTool } from '../rpc/figureTypes';
 import type { FigureDisplayListResult } from '../rpc/types';
-import { pickRotatableAxes } from './figureAxes';
+import { hitFigureAxes, pickRotatableAxes } from './figureAxes';
 import { startFigurePanAt } from './figurePan';
 import { figureHistoryGroup } from './figureHistory';
 //=============================================================================
@@ -193,6 +193,10 @@ export function useFigureNavigation(options: Options) {
     const rect = event.currentTarget.getBoundingClientRect();
     const originX = event.clientX,
       originY = event.clientY;
+    // disableDefaultInteractivity turns off the modeless gesture (pan, rotate and data-tip pick)
+    // for that axes; the explicit Pan/Rotate tools still work.
+    const originAxis = hitFigureAxes(dl.rotatableAxes, rect, originX, originY);
+    if (originAxis && originAxis.interactive === false) return;
     let started = false;
     const onMove = (next: MouseEvent) => {
       if (

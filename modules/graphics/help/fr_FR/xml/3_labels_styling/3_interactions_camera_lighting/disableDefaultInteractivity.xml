@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>disableDefaultInteractivity</keyword>
+  <short_description>Desactive les interactions integrees des axes.</short_description>
+  <syntax>
+    <syntax_item>disableDefaultInteractivity(ax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
+      >un objet graphique scalaire : un axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    >Par defaut, les axes ont des interactions integrees activees : glisser le curseur sur les axes deplace le contenu (ou le fait pivoter pour une vue 3-D), et la molette zoome.</p>
+    <p
+    ><b>disableDefaultInteractivity(ax)</b> desactive ces interactions integrees pour les axes <b>ax</b>.</p>
+    <p
+    >La barre d'outils des axes et les modes pan, zoom et rotation actives depuis la barre d'outils ou par programme ne sont pas affectes.</p>
+    <p>Utilisez <b
+      >enableDefaultInteractivity</b> pour reactiver les interactions integrees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[plot(1:1000, sin(1:1000))
+ax = gca();
+disableDefaultInteractivity(ax);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/enableDefaultInteractivity">enableDefaultInteractivity</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/pan">pan</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/zoom">zoom</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

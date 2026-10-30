@@ -91,6 +91,11 @@ namespace {
                 if (!highlight || !highlightsSelection(axis)) {
                     entry["highlight"] = false;
                 }
+                // disableDefaultInteractivity turns off the modeless drag-pan/rotate and wheel zoom.
+                if (axis->stringCheck(GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR,
+                        GO_PROPERTY_VALUE_OFF_STR)) {
+                    entry["interactive"] = false;
+                }
                 axes.push_back(std::move(entry));
             }
             return;
