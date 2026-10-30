@@ -23,7 +23,8 @@ function k = keys(varargin)
   end
 
   if (startsWith('cell', fmt, 'IgnoreCase', true))
-    k = obj.allKeys(:).';
+    k = dictionary.rawKeys(obj);
+    k = k(:);
     for idx = 1:numel(k)
       k{idx} = dictionary.normalizeStoredKey(obj, k{idx});
     end

@@ -31,6 +31,4 @@ asserts.istrue(isequal(d1, d2));
 d1 = dictionary(string({'a', 'b'}), {1, [2 3]});
 d2 = dictionary(string({'b', 'a'}), {[2 3], 1});
 asserts.istrue(isequal(d1, d2));
-d2.allValues = {{[2 3]}, {1}};
-asserts.istrue(isequal(d1, d2));
 %=============================================================================

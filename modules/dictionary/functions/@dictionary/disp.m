@@ -31,10 +31,11 @@ function disp(varargin)
     msgfmt = '  dictionary (%s ⟼ %s) with %d %s:\n';
   end
   fprintf(msgfmt, obj.keyType, obj.valueType, numEntries(obj), entry_str);
-  allKeys = obj.allKeys;
+  allKeys = dictionary.rawKeys(obj);
+  allValues = dictionary.rawValues(obj);
   for i = 1:numEntries(obj)
     key = allKeys{i};
-    val = dictionary.valueAt(obj, i);
+    val = dictionary.normalizeStoredValue(obj, allValues{i});
     key = strtrim(evalc('disp(key)'));
     if strcmp(obj.keyType, 'string')
       key = ['"', key, '"'];

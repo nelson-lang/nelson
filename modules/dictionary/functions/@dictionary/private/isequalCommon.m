@@ -36,15 +36,17 @@ function varargout = isequalCommon(varargin)
       varargout{1} = R;
       return
     end
-    for idx = 1:numel(dictA.allKeys)
-      key = dictionary.normalizeStoredKey(dictA, dictA.allKeys{idx});
-      keyIndex = dictionary.findKeyIndex(dictB, key);
-      if keyIndex == 0
+    keysA = dictionary.rawKeys(dictA);
+    valuesA = dictionary.rawValues(dictA);
+    for idx = 1:numel(keysA)
+      key = dictionary.normalizeStoredKey(dictA, keysA{idx});
+      if ~isKey(dictB, key)
         varargout{1} = false;
         return
       end
-      valueA = dictionary.valueAt(dictA, idx);
-      valueB = dictionary.valueAt(dictB, keyIndex);
+      valueA = dictionary.normalizeStoredValue(dictA, valuesA{idx});
+      gatheredB = __dictionary_store__(dictB.store, 'get', dictionary.keyCell(dictB, key));
+      valueB = dictionary.normalizeStoredValue(dictB, gatheredB{1});
       if strcmp(dictA.valueType, 'cell') && iscell(valueA) && isscalar(valueA)
         valueA = valueA{1};
       end

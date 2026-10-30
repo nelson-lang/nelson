@@ -8,6 +8,49 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function obj = subsasgn(obj, s, val)
+  % Fast path for the hot scalar/array store d(key)=val on a configured
+  % dictionary: all inline at the method level (direct property access), which
+  % is where nearly all of the per-store cost used to go. Anything unusual
+  % (unconfigured, remove via [], brace, count mismatch) falls through below.
+  if numel(s) == 1 && strcmp(s(1).type, '()') && numel(s(1).subs) == 1
+    kt = obj.keyType;
+    if ~isempty(kt) && ~(isa(val, 'double') && isequal(size(val), [0 0]))
+      key = s(1).subs{1};
+      if strcmp(kt, 'string') && ischar(key)
+        key = string(key);
+      end
+      if ischar(val)
+        val = string(val);
+      end
+      nK = numel(key);
+      nbV = numel(val);
+      if nbV == 1 || nbV == nK
+        vt = obj.valueType;
+        singleValue = (nbV == 1);
+        kc = cell(1, nK);
+        vc = cell(1, nK);
+        for k = 1:nK
+          kk = key(k);
+          if ~isa(kk, kt)
+            kk = convertDataType(kt, kk);
+          end
+          kc{k} = kk;
+          if singleValue
+            vv = val;
+          else
+            vv = val(k);
+          end
+          if ~isa(vv, vt)
+            vv = convertDataType(vt, vv);
+          end
+          vc{k} = vv;
+        end
+        obj.store = __dictionary_store__(obj.store, 'set', kc, vc);
+        return
+      end
+    end
+  end
+
   if numel(s) > 1
     if strcmp(s(1).type, '.')
       currentValue = obj.(s(1).subs);
@@ -69,9 +112,11 @@ function obj = dictionaryParenAssign(obj, s, val)
     obj = dictionaryRemoveKeys(obj, key);
     return
   end
-  % Delegate to the batch builder: it preserves insertion order and
-  % overwrite-on-duplicate semantics while staying linear.
-  [obj.allKeys, obj.allValues, obj.keyHashes] = dictionary.appendEntries(obj, key, val);
+  % Coerce to the configured types, then hand the batch to the native store:
+  % it keeps insertion order and overwrite-on-duplicate semantics in O(log N)
+  % per entry, and returns a NEW store so value-copy semantics hold.
+  [convKeys, convValues] = dictionary.prepareEntries(obj, key, val);
+  obj.store = __dictionary_store__(obj.store, 'set', convKeys, convValues);
 end
 %=============================================================================
 function obj = dictionaryBraceAssign(obj, s, val)
@@ -123,7 +168,7 @@ function obj = dictionaryBraceAssign(obj, s, val)
     end
     convValues{k} = {content};
   end
-  [obj.allKeys, obj.allValues, obj.keyHashes] = dictionary.assembleEntries(obj, convKeys, convValues);
+  obj.store = __dictionary_store__(obj.store, 'set', convKeys, convValues);
 end
 %=============================================================================
 function key = dictionaryIndexKey(s)
@@ -146,22 +191,9 @@ function key = dictionaryKeyForType(key, keyType)
 end
 %=============================================================================
 function obj = dictionaryRemoveKeys(obj, key)
-  % Resolve every index in one bulk pass, then delete in a single vectorized
-  % operation per array so a cell and a numeric array are never deleted together
-  % in a loop (which is quadratic in Nelson). findKeyIndices resolves all keys
-  % at once (linear for numeric/string keys); a per-key findKeyIndex loop here
-  % would be O(nK * nEntries).
-  idx = dictionary.findKeyIndices(obj, key);
-  idx = unique(idx(idx > 0));
-  if isempty(idx)
-    return
-  end
-  obj.allKeys(idx) = [];
-  obj.allValues(idx) = [];
-  if numel(obj.keyHashes) == numel(obj.allKeys) + numel(idx)
-    obj.keyHashes(idx) = [];
-  else
-    obj.keyHashes = dictionary.computeKeyHashes(obj, obj.allKeys);
-  end
+  % Remove every present key; the native store ignores absent keys and returns
+  % a new store, so value-copy semantics hold.
+  kc = dictionary.keyCell(obj, key);
+  obj.store = __dictionary_store__(obj.store, 'remove', kc);
 end
 %=============================================================================

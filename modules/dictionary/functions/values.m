@@ -23,7 +23,8 @@ function v = values(varargin)
     end
   end
   if (startsWith('cell', fmt, 'IgnoreCase', true))
-    v = obj.allValues(:);
+    v = dictionary.rawValues(obj);
+    v = v(:);
     for idx = 1:numel(v)
       if strcmp(obj.valueType, 'cell') && iscell(v{idx}) && isscalar(v{idx})
         v{idx} = v{idx}{1};
