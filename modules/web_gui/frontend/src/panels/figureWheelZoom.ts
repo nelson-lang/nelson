@@ -97,6 +97,8 @@ export function createFigureWheelZoom(options: Options) {
     const rect = options.stage.getBoundingClientRect();
     const axis = hitFigureAxes(options.axes(), rect, event.clientX, event.clientY);
     if (!axis) return;
+    // disableDefaultInteractivity turns the built-in wheel zoom off for this axes.
+    if (axis.interactive === false) return;
     event.preventDefault();
     options.selectAxes(axis.handle);
     const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? rect.height : 1;

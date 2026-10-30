@@ -457,6 +457,8 @@ export interface RotatableAxes {
   rect: [number, number, number, number];
   view: [number, number];
   highlight?: boolean;
+  // Set to false by disableDefaultInteractivity: no modeless drag-pan/rotate or wheel zoom.
+  interactive?: boolean;
 }
 //=============================================================================
 export interface MenuNode {
