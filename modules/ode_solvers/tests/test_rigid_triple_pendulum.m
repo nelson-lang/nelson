@@ -16,7 +16,7 @@ triplePendulumAnimationEnabled = true;
 triplePendulumAnimationFrames = 5;
 triplePendulumFramePause = 0;
 triplePendulumAnimationContinuous = false;
-run([modulepath('graphics', 'root'), ...
+run([modulepath('ode_solvers', 'root'), ...
   '/examples/rigid_triple_pendulum.m']);
 
 assert_isequal(size(triplePendulumState), [301 6]);

@@ -12,6 +12,25 @@
       "requirements": [
         "external-application"
       ]
+    },
+    {
+      "file": "ai_curve_designer.m",
+      "title": {
+        "en_US": "AI curve designer",
+        "fr_FR": "Concepteur de courbe par IA"
+      },
+      "description": {
+        "en_US": "Ask a local AI model for Lissajous frequencies with aiask and animate the curve it designs, falling back to default parameters when no model is reachable.",
+        "fr_FR": "Demander des fréquences de Lissajous à un modèle d'IA local avec aiask et animer la courbe qu'il conçoit, en repliant sur des paramètres par défaut si aucun modèle n'est joignable."
+      },
+      "tags": [
+        "animation",
+        "ai",
+        "interactive"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

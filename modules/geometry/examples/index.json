@@ -32,6 +32,25 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "lloyd_relaxation.m",
+      "title": {
+        "en_US": "Lloyd relaxation mosaic",
+        "fr_FR": "Mosaïque par relaxation de Lloyd"
+      },
+      "description": {
+        "en_US": "Relax random seeds with repeated voronoin plus polygon-centroid steps until the Voronoi cells settle into an even, honeycomb-like centroidal mosaic.",
+        "fr_FR": "Relaxer des germes aléatoires par étapes répétées de voronoin et de centroïdes de polygones jusqu'à ce que les cellules de Voronoï forment une mosaïque centroïdale régulière en nid d'abeilles."
+      },
+      "tags": [
+        "animation",
+        "voronoi",
+        "relaxation"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

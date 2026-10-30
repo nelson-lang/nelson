@@ -59,6 +59,8 @@ solarFigure = figure('Name', 'Solar system (N-body gravity)', ...
   'Visible', solarFigureVisible, 'Position', [80 80 1000 680]);
 solarAxes = axes('Parent', solarFigure, 'Position', [0.05 0.08 0.92 0.88], ...
   'Color', [0.05 0.05 0.09]);
+% Prevent accidental pan or zoom from disturbing the orbit animation.
+disableDefaultInteractivity(solarAxes);
 hold(solarAxes, 'on');
 
 % Central star: a big yellow marker at the origin.

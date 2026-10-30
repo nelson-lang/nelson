@@ -30,6 +30,26 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "heat_diffusion.m",
+      "title": {
+        "en_US": "Sparse heat diffusion",
+        "fr_FR": "Diffusion de chaleur creuse"
+      },
+      "description": {
+        "en_US": "Diffuse heat across a plate in real time with a sparse five-point Laplacian built from spdiags and kron, while two hot spots orbit and keep injecting energy.",
+        "fr_FR": "Diffuser la chaleur sur une plaque en temps réel avec un laplacien creux à cinq points construit avec spdiags et kron, pendant que deux points chauds orbitent et injectent sans cesse de l'énergie."
+      },
+      "tags": [
+        "animation",
+        "sparse",
+        "simulation",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

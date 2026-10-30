@@ -42,6 +42,8 @@ blackHoleFigure = figure('Name', 'Black hole', 'NumberTitle', 'off', ...
   'Position', [80 80 1000 660]);
 blackHoleAxes = axes('Parent', blackHoleFigure, ...
   'Position', [0.05 0.24 0.92 0.72], 'Color', [0.05 0.05 0.09]);
+% Prevent accidental pan or zoom from disturbing the live orbit animation.
+disableDefaultInteractivity(blackHoleAxes);
 
 % --- Static funnel surface z = -1 / sqrt(x^2 + y^2 + soft^2) -----------------
 blackHoleSurfaceRadius = linspace(0.14, blackHoleOuterRadius, 46);

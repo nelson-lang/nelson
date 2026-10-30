@@ -31,6 +31,8 @@ end
 
 figureHandle = figure('Name', 'GPU cellular automaton', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(axesHandle);
 frame = gather(state);
 imageHandle = image('Parent', axesHandle, 'CData', double(frame), ...
   'CDataMapping', 'scaled');

@@ -19,6 +19,45 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "fourier_epicycles.m",
+      "title": {
+        "en_US": "Fourier epicycles",
+        "fr_FR": "Épicycles de Fourier"
+      },
+      "description": {
+        "en_US": "Draw a closed shape with a chain of rotating Fourier epicycles built from the FFT of a heart contour.",
+        "fr_FR": "Dessiner une forme fermée avec une chaîne d’épicycles de Fourier construits à partir de la FFT d’un contour en coeur."
+      },
+      "tags": [
+        "fft",
+        "fourier",
+        "animation"
+      ],
+      "requirements": [
+        "gui",
+        "fft"
+      ]
+    },
+    {
+      "file": "fft_compression.m",
+      "title": {
+        "en_US": "FFT image compression",
+        "fr_FR": "Compression d'image par FFT"
+      },
+      "description": {
+        "en_US": "Keep only the strongest fft2 coefficients of an image and rebuild it with ifft2, sweeping the kept fraction live from a blurry sketch to a perfect reconstruction.",
+        "fr_FR": "Ne garder que les plus forts coefficients fft2 d'une image et la reconstruire avec ifft2, en balayant en direct la fraction conservée d'une ébauche floue à une reconstruction parfaite."
+      },
+      "tags": [
+        "animation",
+        "fft2",
+        "compression"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

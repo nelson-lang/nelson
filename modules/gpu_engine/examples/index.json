@@ -20,6 +20,27 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "mandelbrot_gpu.m",
+      "title": {
+        "en_US": "Mandelbrot zoom on the GPU",
+        "fr_FR": "Zoom de Mandelbrot sur GPU"
+      },
+      "description": {
+        "en_US": "Zoom into the Mandelbrot set with the escape-time iteration running on a gpuArray, which here computes each deep-zoom frame about sixty times faster than the CPU.",
+        "fr_FR": "Zoomer dans l'ensemble de Mandelbrot avec l'itération de temps d'échappement exécutée sur un gpuArray, qui calcule ici chaque image de zoom profond environ soixante fois plus vite que le CPU."
+      },
+      "tags": [
+        "gpu",
+        "gpuArray",
+        "fractal",
+        "animation",
+        "audio"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

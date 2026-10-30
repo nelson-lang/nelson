@@ -12,6 +12,26 @@
       "requirements": [
         "python"
       ]
+    },
+    {
+      "file": "numpy_wave.m",
+      "title": {
+        "en_US": "NumPy wave simulation",
+        "fr_FR": "Simulation d'onde NumPy"
+      },
+      "description": {
+        "en_US": "Step a two-dimensional wave equation in NumPy through pyrun each frame and render the interfering wavefronts live in Nelson.",
+        "fr_FR": "Faire avancer une équation d'onde bidimensionnelle dans NumPy via pyrun à chaque image et afficher les fronts d'onde en interférence en direct dans Nelson."
+      },
+      "tags": [
+        "animation",
+        "python",
+        "interop"
+      ],
+      "requirements": [
+        "gui",
+        "python"
+      ]
     }
   ]
 }

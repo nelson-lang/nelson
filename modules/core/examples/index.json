@@ -10,6 +10,25 @@
         "workspace"
       ],
       "requirements": []
+    },
+    {
+      "file": "sha256_avalanche.m",
+      "title": {
+        "en_US": "SHA-256 avalanche",
+        "fr_FR": "Effet d'avalanche SHA-256"
+      },
+      "description": {
+        "en_US": "Hash a changing message with sha256 and draw the 256-bit digest as a grid, highlighting how a tiny input change flips about half of the output bits.",
+        "fr_FR": "Hacher un message changeant avec sha256 et dessiner le condensé de 256 bits sous forme de grille, en montrant comment une infime modification de l'entrée inverse environ la moitié des bits de sortie."
+      },
+      "tags": [
+        "animation",
+        "sha256",
+        "hashing"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

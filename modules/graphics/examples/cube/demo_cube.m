@@ -39,6 +39,8 @@ lineGroups = mod(0:numLines - 1, colorCount) + 1;
 % Create figure
 f = figure('SelectionHighlight', 'off', 'Visible', 'off');
 ax = axes('Parent', f);
+% Prevent accidental pan or rotate from disturbing the spinning cube.
+disableDefaultInteractivity(ax);
 axis off
 grid on;
 view(3);

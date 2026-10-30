@@ -17,6 +17,25 @@
         "schedule"
       ],
       "requirements": []
+    },
+    {
+      "file": "world_clock.m",
+      "title": {
+        "en_US": "World clock",
+        "fr_FR": "Horloge mondiale"
+      },
+      "description": {
+        "en_US": "Tick four analog clocks from the live clock, shifting each by a city hour offset with datenum and datevec serial-date arithmetic.",
+        "fr_FR": "Faire avancer quatre horloges analogiques à partir de l'heure courante, en décalant chacune d'un offset horaire de ville avec l'arithmétique de dates sérielles datenum et datevec."
+      },
+      "tags": [
+        "animation",
+        "time",
+        "clock"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

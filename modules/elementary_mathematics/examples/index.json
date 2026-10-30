@@ -10,6 +10,25 @@
         "matrices"
       ],
       "requirements": []
+    },
+    {
+      "file": "modular_multiplication_circle.m",
+      "title": {
+        "en_US": "Modular multiplication circle",
+        "fr_FR": "Cercle de multiplication modulaire"
+      },
+      "description": {
+        "en_US": "Join point i to point (k*i mod n) around a circle and sweep the multiplier k to grow cardioid and nephroid envelopes from pure modular arithmetic.",
+        "fr_FR": "Relier le point i au point (k*i mod n) autour d'un cercle et faire varier le multiplicateur k pour voir naître cardioïdes et néphroïdes à partir d'arithmétique modulaire pure."
+      },
+      "tags": [
+        "animation",
+        "modular",
+        "curves"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

@@ -24,6 +24,28 @@
       "requirements": [
         "compiler"
       ]
+    },
+    {
+      "file": "mex_mandelbrot.m",
+      "title": {
+        "en_US": "Real-time Mandelbrot from a MEX kernel",
+        "fr_FR": "Mandelbrot temps réel via un noyau MEX"
+      },
+      "description": {
+        "en_US": "Compile a C Mandelbrot escape-time kernel as a MEX function and zoom into the set in real time over a dark drone, with the compiled kernel delivering far higher throughput than interpreted code.",
+        "fr_FR": "Compiler un noyau C de temps d'échappement de Mandelbrot comme fonction MEX et zoomer dans l'ensemble en temps réel sur un bourdon grave, le noyau compilé offrant un débit bien supérieur au code interprété."
+      },
+      "tags": [
+        "animation",
+        "mex",
+        "native",
+        "fractal",
+        "audio"
+      ],
+      "requirements": [
+        "gui",
+        "compiler"
+      ]
     }
   ]
 }

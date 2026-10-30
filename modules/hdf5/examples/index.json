@@ -10,6 +10,25 @@
         "data"
       ],
       "requirements": []
+    },
+    {
+      "file": "point_cloud_spin.m",
+      "title": {
+        "en_US": "HDF5 point cloud spin",
+        "fr_FR": "Nuage de points HDF5 tournant"
+      },
+      "description": {
+        "en_US": "Write a trefoil-knot point cloud to HDF5 datasets, read it back with h5read and spin the 3-D cloud in real time.",
+        "fr_FR": "Écrire un nuage de points en nœud de trèfle dans des jeux de données HDF5, le relire avec h5read et faire tourner le nuage 3-D en temps réel."
+      },
+      "tags": [
+        "animation",
+        "hdf5",
+        "3d"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

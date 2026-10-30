@@ -20,6 +20,8 @@ function boing_ball_3d()
   set(figureHandle, 'HandleVisibility', 'on');
   axesHandle = uiaxes(figureHandle, 'Color', backgroundColor, ...
     'Units', 'normalized', 'Position', [0 0.08 1 0.92]);
+  % Prevent accidental pan or rotate from disturbing the live animation.
+  disableDefaultInteractivity(axesHandle);
   hold(axesHandle, 'on');
 
   wallY = 5.0;

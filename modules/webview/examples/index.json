@@ -12,6 +12,25 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "web_dashboard.m",
+      "title": {
+        "en_US": "WebView data dashboard",
+        "fr_FR": "Tableau de bord web"
+      },
+      "description": {
+        "en_US": "Compute a signal in Nelson, embed it in a self-contained HTML canvas page and open it in the native WebView where the browser animates it.",
+        "fr_FR": "Calculer un signal dans Nelson, l'intégrer dans une page HTML canvas autonome et l'ouvrir dans la WebView native où le navigateur l'anime."
+      },
+      "tags": [
+        "webview",
+        "html",
+        "dashboard"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

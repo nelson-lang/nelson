@@ -63,6 +63,8 @@ figureHandle = figure('SelectionHighlight', 'off', 'Name', 'Nelson retro raycast
   'WindowScrollWheelFcn', @(source, event) ...
   raycasterScrollWheelEvent(source, event), 'UserData', raycasterState);
 axesHandle = axes('Parent', figureHandle, 'Position', [0 0 1 1]);
+% Prevent accidental pan or zoom from disturbing the live first-person view.
+disableDefaultInteractivity(axesHandle);
 raycasterRenderWidth = raycasterWidth;
 raycasterRenderHeight = raycasterHeight;
 raycasterFrame = zeros(raycasterRenderHeight, raycasterRenderWidth, 3);

@@ -178,6 +178,27 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "rigid_triple_pendulum.m",
+      "title": {
+        "en_US": "Rigid triple pendulum",
+        "fr_FR": "Triple pendule rigide"
+      },
+      "description": {
+        "en_US": "Animate three distributed-mass rigid rods with coupled nonlinear dynamics, angle traces and energy monitoring.",
+        "fr_FR": "Animer trois barres rigides à masse répartie avec dynamique non linéaire couplée, suivi des angles et de l’énergie."
+      },
+      "tags": [
+        "animation",
+        "simulation",
+        "mechanics",
+        "chaos"
+      ],
+      "requirements": [
+        "plots",
+        "ode-solvers"
+      ]
     }
   ]
 }

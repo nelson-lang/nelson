@@ -10,6 +10,25 @@
         "operators"
       ],
       "requirements": []
+    },
+    {
+      "file": "quaternion/rotating_cube.m",
+      "title": {
+        "en_US": "Quaternion rotating cube",
+        "fr_FR": "Cube tournant par quaternions"
+      },
+      "description": {
+        "en_US": "Define a quaternion class that overloads the * operator with the Hamilton product, then spin a 3-D cube by composing rotations with it frame after frame."
+      },
+      "tags": [
+        "animation",
+        "operators",
+        "quaternion",
+        "3d"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

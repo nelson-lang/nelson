@@ -20,15 +20,15 @@ function varargout = bubblelim(varargin)
   if ischar(value)
     switch lower(value)
       case 'mode'
-        varargout{1} = ax.BubbleLimitsMode_I;
+        varargout{1} = ax.BubbleLimitsMode_Hidden;
         return
       case 'auto'
-        ax.BubbleLimitsMode_I = 'auto';
+        ax.BubbleLimitsMode_Hidden = 'auto';
         rejectOutput(nargout);
         return
       case 'manual'
-        ax.BubbleLimits_I = currentBubbleLimits(ax);
-        ax.BubbleLimitsMode_I = 'manual';
+        ax.BubbleLimits_Hidden = currentBubbleLimits(ax);
+        ax.BubbleLimitsMode_Hidden = 'manual';
         rejectOutput(nargout);
         return
       otherwise
@@ -36,8 +36,8 @@ function varargout = bubblelim(varargin)
     end
   end
   validateBubbleLimits(value);
-  ax.BubbleLimits_I = double(value(:).');
-  ax.BubbleLimitsMode_I = 'manual';
+  ax.BubbleLimits_Hidden = double(value(:).');
+  ax.BubbleLimitsMode_Hidden = 'manual';
   rejectOutput(nargout);
 end
 %=============================================================================
@@ -51,11 +51,11 @@ function [ax, args] = parseBubbleAxes(args)
 end
 %=============================================================================
 function limits = currentBubbleLimits(ax)
-  if strcmp(ax.BubbleLimitsMode_I, 'manual')
-    limits = ax.BubbleLimits_I;
+  if strcmp(ax.BubbleLimitsMode_Hidden, 'manual')
+    limits = ax.BubbleLimits_Hidden;
   else
     limits = autoBubbleLimits(ax);
-    ax.BubbleLimits_I = limits;
+    ax.BubbleLimits_Hidden = limits;
   end
 end
 %=============================================================================

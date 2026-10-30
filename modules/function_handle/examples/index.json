@@ -17,6 +17,25 @@
         "parameters"
       ],
       "requirements": []
+    },
+    {
+      "file": "function_explorer.m",
+      "title": {
+        "en_US": "Function handle explorer",
+        "fr_FR": "Explorateur de handles de fonction"
+      },
+      "description": {
+        "en_US": "Turn plain text expressions into callable handles with str2func, then animate a sweeping parameter and label each curve with func2str.",
+        "fr_FR": "Transformer des expressions textuelles en handles appelables avec str2func, puis animer un paramètre qui varie et étiqueter chaque courbe avec func2str."
+      },
+      "tags": [
+        "animation",
+        "function-handle",
+        "str2func"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

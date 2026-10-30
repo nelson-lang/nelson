@@ -10,6 +10,25 @@
         "performance"
       ],
       "requirements": []
+    },
+    {
+      "file": "profile_flame.m",
+      "title": {
+        "en_US": "Profiler hotspots",
+        "fr_FR": "Points chauds du profileur"
+      },
+      "description": {
+        "en_US": "Profile a mixed workload with profile() and reveal where the time went as animated horizontal bars, longest first.",
+        "fr_FR": "Profiler une charge de travail mixte avec profile() et révéler où le temps est passé sous forme de barres horizontales animées, les plus longues d'abord."
+      },
+      "tags": [
+        "animation",
+        "profiling",
+        "performance"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

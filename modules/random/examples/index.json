@@ -29,6 +29,26 @@
       "requirements": [
         "plots"
       ]
+    },
+    {
+      "file": "galton_board.m",
+      "title": {
+        "en_US": "Galton board bell curve",
+        "fr_FR": "Planche de Galton en cloche"
+      },
+      "description": {
+        "en_US": "Drop balls through a peg board where each fair coin from rand sends them left or right, and watch the bins fill into the normal curve in real time.",
+        "fr_FR": "Lâcher des billes dans une planche à clous où chaque pile ou face issu de rand les envoie à gauche ou à droite, et voir les bacs se remplir en loi normale en temps réel."
+      },
+      "tags": [
+        "animation",
+        "random",
+        "statistics",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

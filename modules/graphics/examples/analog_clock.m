@@ -11,6 +11,8 @@
 figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Name', 'Analog clock', 'NumberTitle', 'off', ...
   'Position', [300 200 520 560]);
 axesHandle = axes('Parent', figureHandle, 'Position', [0.08 0.14 0.84 0.80]);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(axesHandle);
 hold(axesHandle, 'on');
 faceAngle = linspace(0, 2 * pi, 361);
 plot(axesHandle, cos(faceAngle), sin(faceAngle), 'Color', [0.15 0.35 0.75], ...
