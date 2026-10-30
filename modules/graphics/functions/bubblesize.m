@@ -13,12 +13,12 @@ function varargout = bubblesize(varargin)
   nargoutchk(0, 1);
   [ax, args] = parseBubbleAxes(varargin);
   if isempty(args)
-    varargout{1} = ax.BubbleSizeRange_I;
+    varargout{1} = ax.BubbleSizeRange_Hidden;
     return
   end
   value = args{1};
   validateBubbleSize(value);
-  ax.BubbleSizeRange_I = double(value(:).');
+  ax.BubbleSizeRange_Hidden = double(value(:).');
   rejectOutput(nargout);
 end
 %=============================================================================

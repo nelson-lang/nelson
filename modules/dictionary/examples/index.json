@@ -10,6 +10,25 @@
         "data"
       ],
       "requirements": []
+    },
+    {
+      "file": "memoized_collatz.m",
+      "title": {
+        "en_US": "Memoized Collatz stopping times",
+        "fr_FR": "Temps d'arrêt de Collatz mémoïsés"
+      },
+      "description": {
+        "en_US": "Resolve Collatz stopping times while a dictionary memoizes every number and orbit intermediate it visits, revealing the banded scatter as the cache grows.",
+        "fr_FR": "Résoudre les temps d'arrêt de Collatz pendant qu'un dictionary mémorise chaque nombre et chaque intermédiaire d'orbite visité, révélant le nuage en bandes à mesure que le cache grandit."
+      },
+      "tags": [
+        "animation",
+        "dictionary",
+        "memoization"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

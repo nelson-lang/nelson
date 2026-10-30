@@ -17,6 +17,8 @@ neighborKernel = ones(3);
 figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
   'Name', 'Conway Game of Life', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(axesHandle);
 imageHandle = image('Parent', axesHandle, 'CData', double(population), ...
   'CDataMapping', 'scaled');
 axis(axesHandle, 'image');

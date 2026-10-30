@@ -45,6 +45,8 @@ figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Name', 'A
   'Visible', vortexFigureVisible);
 axesHandle = axes('Parent', figureHandle, 'Color', [0.005 0.007 0.014], ...
   'Position', [0 0 1 1]);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(axesHandle);
 hold(axesHandle, 'on');
 vortexDrawBackground(axesHandle);
 rayHandle = plot(axesHandle, rayX, rayY, 'Color', [0.10 0.23 0.50], ...

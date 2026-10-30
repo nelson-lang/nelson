@@ -81,6 +81,9 @@ xlabel(telemetryAxes, 'Time (s)');
 title(telemetryAxes, 'Flight telemetry');
 
 horizonAxes = subplot(2, 3, 6, 'Parent', figureHandle);
+% Lock the live 3D view and artificial horizon; the telemetry chart stays explorable.
+disableDefaultInteractivity(flightAxes);
+disableDefaultInteractivity(horizonAxes);
 hold(horizonAxes, 'on');
 horizonCircleAngle = linspace(0, 2 * pi, 121);
 horizonSky = patch('Parent', horizonAxes, ...

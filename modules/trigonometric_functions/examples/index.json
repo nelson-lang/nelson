@@ -17,6 +17,25 @@
         "spherical"
       ],
       "requirements": []
+    },
+    {
+      "file": "lissajous_sound.m",
+      "title": {
+        "en_US": "Lissajous figure with sound",
+        "fr_FR": "Figure de Lissajous sonore"
+      },
+      "description": {
+        "en_US": "Morph a Lissajous curve x = sin(a t), y = sin(b t + phase) while a chord of the two frequencies plays, so a simple ratio is seen and heard as a consonant interval.",
+        "fr_FR": "Faire évoluer une courbe de Lissajous x = sin(a t), y = sin(b t + phase) pendant qu'un accord des deux fréquences joue, pour voir et entendre qu'un ratio simple donne un intervalle consonant."
+      },
+      "tags": [
+        "animation",
+        "trigonometry",
+        "audio"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

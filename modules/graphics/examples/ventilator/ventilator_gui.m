@@ -256,6 +256,8 @@ end
 %=============================================================================
 function ax = mkaxes(parent, ttl, axbg, axln, ink)
   ax = uiaxes(parent, 'Position', [10 10 200 120]);
+  % Prevent accidental pan or zoom from disturbing the live monitor traces.
+  disableDefaultInteractivity(ax);
   set(ax, 'Color', axbg, 'XColor', axln, 'YColor', axln, 'GridColor', [0.20 0.30 0.40]);
   grid(ax, 'on'); hold(ax, 'on');
   title(ax, ttl, 'Color', ink, 'FontWeight', 'normal');

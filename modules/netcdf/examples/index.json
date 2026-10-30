@@ -10,6 +10,25 @@
         "data"
       ],
       "requirements": []
+    },
+    {
+      "file": "climate_field.m",
+      "title": {
+        "en_US": "NetCDF climate field",
+        "fr_FR": "Champ climatique NetCDF"
+      },
+      "description": {
+        "en_US": "Write a moving temperature-anomaly field to a NetCDF variable, read it back with ncread and play the months back on a diverging blue-red map.",
+        "fr_FR": "Écrire un champ d'anomalie de température mobile dans une variable NetCDF, le relire avec ncread et rejouer les mois sur une carte divergente bleu-rouge."
+      },
+      "tags": [
+        "animation",
+        "netcdf",
+        "climate"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

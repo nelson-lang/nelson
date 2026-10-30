@@ -44,6 +44,8 @@ levitronFigure = figure('Name', 'Levitron', 'NumberTitle', 'off', ...
   'Position', [80 80 1000 680]);
 levitronAxes = axes('Parent', levitronFigure, ...
   'Position', [0.05 0.24 0.92 0.72], 'Color', [0.06 0.07 0.10]);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(levitronAxes);
 hold(levitronAxes, 'on');
 
 % Static base magnet (the launch platform) and reference floor.

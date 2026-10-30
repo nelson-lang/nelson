@@ -17,6 +17,25 @@
         "gallery"
       ],
       "requirements": []
+    },
+    {
+      "file": "pascal_sierpinski.m",
+      "title": {
+        "en_US": "Pascal to Sierpinski",
+        "fr_FR": "De Pascal à Sierpinski"
+      },
+      "description": {
+        "en_US": "Grow the lower-triangular Pascal matrix from pascal() and colour its odd binomial coefficients to reveal the Sierpinski gasket emerging from the parity pattern.",
+        "fr_FR": "Faire croître la matrice de Pascal triangulaire inférieure issue de pascal() et colorer ses coefficients binomiaux impairs pour révéler le triangle de Sierpinski émergeant du motif de parité."
+      },
+      "tags": [
+        "animation",
+        "pascal",
+        "fractal"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

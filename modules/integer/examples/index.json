@@ -17,6 +17,25 @@
         "saturation"
       ],
       "requirements": []
+    },
+    {
+      "file": "cellular_automaton.m",
+      "title": {
+        "en_US": "Elementary cellular automaton",
+        "fr_FR": "Automate cellulaire élémentaire"
+      },
+      "description": {
+        "en_US": "Stream a one-dimensional Wolfram cellular automaton whose uint8 cells scroll downward, drawing Sierpinski triangles (rule 90) or chaos (rule 30).",
+        "fr_FR": "Dérouler un automate cellulaire de Wolfram unidimensionnel dont les cellules uint8 défilent vers le bas, dessinant des triangles de Sierpinski (règle 90) ou du chaos (règle 30)."
+      },
+      "tags": [
+        "animation",
+        "integer",
+        "cellular-automaton"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

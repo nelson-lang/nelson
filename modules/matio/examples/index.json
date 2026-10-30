@@ -10,6 +10,25 @@
         "workspace"
       ],
       "requirements": []
+    },
+    {
+      "file": "orbit_replay.m",
+      "title": {
+        "en_US": "MAT-file orbit replay",
+        "fr_FR": "Rejeu d'orbite depuis un MAT-file"
+      },
+      "description": {
+        "en_US": "Save a precessing three-dimensional rose orbit to a MAT-file, load it back with loadmat and replay it as a rotating comet trail.",
+        "fr_FR": "Enregistrer une orbite en rosace tridimensionnelle en précession dans un fichier MAT, la recharger avec loadmat et la rejouer comme une traînée de comète en rotation."
+      },
+      "tags": [
+        "animation",
+        "mat-file",
+        "3d"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

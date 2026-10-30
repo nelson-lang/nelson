@@ -207,6 +207,10 @@ title(speedAxes, 'Speed profile comparison');
 legend(speedAxes, 'Low drag', 'High downforce', 'Location', 'best');
 
 deltaAxes = subplot(2, 2, [3 4], 'Parent', figureHandle);
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(trackAxes);
+disableDefaultInteractivity(speedAxes);
+disableDefaultInteractivity(deltaAxes);
 hold(deltaAxes, 'on');
 deltaTrace = animatedline(deltaAxes, 'Color', [0.20 0.22 0.28], ...
   'LineWidth', 1.8);

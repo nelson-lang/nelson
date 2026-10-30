@@ -33,6 +33,25 @@
         "gui",
         "gif"
       ]
+    },
+    {
+      "file": "contact_sheet.m",
+      "title": {
+        "en_US": "imwrite contact sheet",
+        "fr_FR": "Planche contact imwrite"
+      },
+      "description": {
+        "en_US": "Render plasma thumbnails, write each one with imwrite and read it straight back with imread to fill a growing contact sheet.",
+        "fr_FR": "Générer des vignettes plasma, écrire chacune avec imwrite et la relire aussitôt avec imread pour remplir une planche-contact qui se remplit peu à peu."
+      },
+      "tags": [
+        "animation",
+        "imwrite",
+        "imread"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

@@ -10,6 +10,26 @@
         "roots"
       ],
       "requirements": []
+    },
+    {
+      "file": "newton_fractal.m",
+      "title": {
+        "en_US": "Newton fractal",
+        "fr_FR": "Fractale de Newton"
+      },
+      "description": {
+        "en_US": "Zoom into the Newton basins of z^3 - 1 in the complex plane, each pixel coloured by the root it reaches, with a live pixels-per-second read-out.",
+        "fr_FR": "Plonger dans les bassins de Newton de z^3 - 1 dans le plan complexe, chaque pixel coloré par la racine atteinte, avec un débit de pixels par seconde affiché en direct."
+      },
+      "tags": [
+        "fractal",
+        "complex",
+        "animation",
+        "audio"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

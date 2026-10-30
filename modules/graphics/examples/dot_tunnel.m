@@ -33,6 +33,8 @@ colors = [brightness brightness brightness];
 figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
   'Color', 'k', 'Name', 'Dot tunnel', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle, 'Color', 'k');
+% Prevent accidental pan or zoom from disturbing the live animation.
+disableDefaultInteractivity(axesHandle);
 scatterHandle = scatter(axesHandle, x(:), y(:), 18, colors, 'filled');
 axis(axesHandle, 'equal');
 axis(axesHandle, 'off');

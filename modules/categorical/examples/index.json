@@ -10,6 +10,25 @@
         "summary"
       ],
       "requirements": []
+    },
+    {
+      "file": "category_distribution.m",
+      "title": {
+        "en_US": "Weather category distribution",
+        "fr_FR": "Distribution de catégories météo"
+      },
+      "description": {
+        "en_US": "Sample a weather mix whose proportions drift over time into a categorical array and animate each category count with the == operator.",
+        "fr_FR": "Échantillonner un mélange météo dont les proportions dérivent au fil du temps dans un tableau categorical et animer le compte de chaque catégorie avec l'opérateur ==."
+      },
+      "tags": [
+        "animation",
+        "categorical",
+        "distribution"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

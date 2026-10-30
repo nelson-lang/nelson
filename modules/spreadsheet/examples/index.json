@@ -10,6 +10,25 @@
         "table"
       ],
       "requirements": []
+    },
+    {
+      "file": "sales_race.m",
+      "title": {
+        "en_US": "Sales bar race",
+        "fr_FR": "Course de ventes en barres"
+      },
+      "description": {
+        "en_US": "Write monthly cumulative sales to a CSV, read them back with readtable and race the products as sorted bars month after month.",
+        "fr_FR": "Écrire des ventes cumulées mensuelles dans un CSV, les relire avec readtable et faire courir les produits sous forme de barres triées mois après mois."
+      },
+      "tags": [
+        "animation",
+        "spreadsheet",
+        "table"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

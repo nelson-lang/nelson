@@ -20,6 +20,26 @@
         "table"
       ],
       "requirements": []
+    },
+    {
+      "file": "live_oscilloscope.m",
+      "title": {
+        "en_US": "Live ECG oscilloscope",
+        "fr_FR": "Oscilloscope ECG en direct"
+      },
+      "description": {
+        "en_US": "Scroll a noisy synthetic ECG across the screen, smooth it with movmean and detect the heartbeats in real time with islocalmax, reading out the heart rate.",
+        "fr_FR": "Faire défiler un ECG synthétique bruité à l'écran, le lisser avec movmean et détecter les battements en temps réel avec islocalmax, en affichant la fréquence cardiaque."
+      },
+      "tags": [
+        "animation",
+        "signal",
+        "movmean",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

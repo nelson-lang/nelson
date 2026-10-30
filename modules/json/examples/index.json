@@ -17,6 +17,25 @@
         "beginner"
       ],
       "requirements": []
+    },
+    {
+      "file": "json_particles.m",
+      "title": {
+        "en_US": "JSON particle fountain",
+        "fr_FR": "Fontaine de particules JSON"
+      },
+      "description": {
+        "en_US": "Decode a JSON scene with jsondecode and animate a particle fountain whose emitters, colours, gravity and drag all come straight from the data.",
+        "fr_FR": "Décoder une scène JSON avec jsondecode et animer une fontaine de particules dont les émetteurs, les couleurs, la gravité et la traînée proviennent tous directement des données."
+      },
+      "tags": [
+        "animation",
+        "json",
+        "particles"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

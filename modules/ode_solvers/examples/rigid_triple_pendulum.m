@@ -85,6 +85,8 @@ set(triplePendulumLoadingText, 'Visible', 'off');
 set(triplePendulumLoadingSubtitle, 'Visible', 'off');
 triplePendulumMotionAxes = subplot(2, 3, [1 2 4 5], ...
   'Parent', triplePendulumFigure);
+% Prevent accidental pan or zoom from disturbing the live pendulum animation.
+disableDefaultInteractivity(triplePendulumMotionAxes);
 hold(triplePendulumMotionAxes, 'on');
 triplePendulumSpan = 1.12 * sum(triplePendulumLengths);
 axis(triplePendulumMotionAxes, [-triplePendulumSpan triplePendulumSpan ...
@@ -133,6 +135,8 @@ set(triplePendulumMotionAxes, 'XLimMode', 'manual', 'YLimMode', 'manual');
 
 triplePendulumAngleAxes = subplot(2, 3, 3, ...
   'Parent', triplePendulumFigure);
+% Prevent accidental pan or zoom from disturbing the live angle traces.
+disableDefaultInteractivity(triplePendulumAngleAxes);
 hold(triplePendulumAngleAxes, 'on');
 triplePendulumAngleTraces = gobjects(1, 3);
 for rodIndex = 1:3
@@ -152,6 +156,8 @@ legend(triplePendulumAngleAxes, {'rod 1', 'rod 2', 'rod 3'}, ...
 
 triplePendulumEnergyAxes = subplot(2, 3, 6, ...
   'Parent', triplePendulumFigure);
+% Prevent accidental pan or zoom from disturbing the live energy trace.
+disableDefaultInteractivity(triplePendulumEnergyAxes);
 triplePendulumEnergyTrace = animatedline(triplePendulumEnergyAxes, ...
   'Color', [0.08 0.52 0.36], 'LineWidth', 1.7);
 xlim(triplePendulumEnergyAxes, [0 triplePendulumDuration]);

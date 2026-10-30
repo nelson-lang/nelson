@@ -10,6 +10,25 @@
         "table"
       ],
       "requirements": []
+    },
+    {
+      "file": "galaxy_density.m",
+      "title": {
+        "en_US": "Parquet galaxy density",
+        "fr_FR": "Densité de galaxie Parquet"
+      },
+      "description": {
+        "en_US": "Write two hundred thousand spiral-galaxy stars to a Parquet file, stream them back and bin them into a live two-dimensional density map.",
+        "fr_FR": "Écrire deux cent mille étoiles de galaxie spirale dans un fichier Parquet, les relire en flux et les regrouper en une carte de densité bidimensionnelle en direct."
+      },
+      "tags": [
+        "animation",
+        "parquet",
+        "big-data"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

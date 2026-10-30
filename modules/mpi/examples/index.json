@@ -12,6 +12,27 @@
       "requirements": [
         "mpi"
       ]
+    },
+    {
+      "file": "parallel_mandelbrot.m",
+      "title": {
+        "en_US": "Parallel Mandelbrot with MPI",
+        "fr_FR": "Mandelbrot parallèle avec MPI"
+      },
+      "description": {
+        "en_US": "Split the Mandelbrot set across MPI ranks with mpiexec, where each rank fills one horizontal band, then reveal all the bands at once and mark each rank.",
+        "fr_FR": "Répartir l'ensemble de Mandelbrot sur des rangs MPI avec mpiexec, où chaque rang remplit une bande horizontale, puis révéler toutes les bandes d'un coup et marquer chaque rang."
+      },
+      "tags": [
+        "animation",
+        "mpi",
+        "parallel",
+        "fractal"
+      ],
+      "requirements": [
+        "gui",
+        "mpi"
+      ]
     }
   ]
 }

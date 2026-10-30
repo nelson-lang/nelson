@@ -17,6 +17,25 @@
         "strings"
       ],
       "requirements": []
+    },
+    {
+      "file": "sine_scroller.m",
+      "title": {
+        "en_US": "Sine scroller banner",
+        "fr_FR": "Bandeau défilant sinusoïdal"
+      },
+      "description": {
+        "en_US": "Build a marquee with strjoin and pad, then scroll it as a rainbow sine wave of characters in the demoscene tradition.",
+        "fr_FR": "Construire un bandeau défilant avec strjoin et pad, puis le faire défiler en une onde sinusoïdale arc-en-ciel de caractères, dans la tradition de la demoscene."
+      },
+      "tags": [
+        "animation",
+        "strings",
+        "demoscene"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

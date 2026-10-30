@@ -37,6 +37,8 @@ harmonographFigure = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Nam
 
 harmonographAxes = axes('Parent', harmonographFigure, ...
   'Units', 'normalized', 'Position', [0.05 0.16 0.90 0.78]);
+% Prevent accidental pan or zoom from disturbing the live pen tracing.
+disableDefaultInteractivity(harmonographAxes);
 hold(harmonographAxes, 'on');
 set(harmonographAxes, 'Color', harmonographBackground, ...
   'DataAspectRatio', [1 1 1], 'XLim', [-2.2 2.2], 'YLim', [-2.2 2.2]);

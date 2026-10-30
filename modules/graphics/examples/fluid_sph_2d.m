@@ -44,6 +44,8 @@ backgroundColor = params.background;
 figureHandle = figure('Name', '2D SPH particles', 'NumberTitle', 'off', ...
   'Color', backgroundColor, 'Visible', sphFigureVisible);
 axesHandle = axes('Parent', figureHandle, 'Position', [0.04 0.10 0.92 0.85]);
+% Prevent accidental pan or zoom from disturbing the live animation and stirring.
+disableDefaultInteractivity(axesHandle);
 hold(axesHandle, 'on');
 tankHandle = plot(axesHandle, sph.box([1 2 2 1 1]), sph.box([3 3 4 4 3]), ...
   'Color', [0.30 0.55 0.92], 'LineWidth', 1.6);

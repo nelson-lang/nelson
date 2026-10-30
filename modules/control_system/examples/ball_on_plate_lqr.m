@@ -246,6 +246,10 @@ function [figureHandle, controls] = ballOnPlateCreateScene(path, parameters, ...
   sceneAxes = subplot(2, 2, [1 3], 'Parent', figureHandle);
   trajectoryAxes = subplot(2, 2, 2, 'Parent', figureHandle);
   angleAxes = subplot(2, 2, 4, 'Parent', figureHandle);
+  % Prevent accidental pan or zoom from disturbing the live animation.
+  disableDefaultInteractivity(sceneAxes);
+  disableDefaultInteractivity(trajectoryAxes);
+  disableDefaultInteractivity(angleAxes);
 
   scene = ballOnPlateCreateSceneObjects(sceneAxes, path, parameters);
   traces = ballOnPlateCreateTraceObjects(trajectoryAxes, angleAxes, path);

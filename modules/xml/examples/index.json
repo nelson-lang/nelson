@@ -10,6 +10,25 @@
         "data"
       ],
       "requirements": []
+    },
+    {
+      "file": "xml_scene.m",
+      "title": {
+        "en_US": "XML bouncing-ball scene",
+        "fr_FR": "Scène de balles rebondissantes XML"
+      },
+      "description": {
+        "en_US": "Write a scene of balls to XML with writestruct, read it back with readstruct and animate the balls bouncing, so the XML file fully drives the picture.",
+        "fr_FR": "Écrire une scène de balles en XML avec writestruct, la relire avec readstruct et animer les balles qui rebondissent, de sorte que le fichier XML pilote entièrement l'image."
+      },
+      "tags": [
+        "animation",
+        "xml",
+        "scene"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

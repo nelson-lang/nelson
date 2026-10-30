@@ -12,6 +12,28 @@
       "requirements": [
         "julia"
       ]
+    },
+    {
+      "file": "julia_set_morph.m",
+      "title": {
+        "en_US": "Julia set in Julia",
+        "fr_FR": "Ensemble de Julia en Julia"
+      },
+      "description": {
+        "en_US": "Compute an escape-time Julia set in the Julia language through jlrun each frame and morph its constant to animate the fractal over an ambient soundtrack.",
+        "fr_FR": "Calculer un ensemble de Julia par temps d'échappement dans le langage Julia via jlrun à chaque image et faire varier sa constante pour animer la fractale sur une bande-son d'ambiance."
+      },
+      "tags": [
+        "animation",
+        "julia",
+        "fractal",
+        "interop",
+        "audio"
+      ],
+      "requirements": [
+        "gui",
+        "julia"
+      ]
     }
   ]
 }

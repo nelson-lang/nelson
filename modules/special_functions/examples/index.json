@@ -19,6 +19,25 @@
       "requirements": [
         "gui"
       ]
+    },
+    {
+      "file": "ulam_spiral.m",
+      "title": {
+        "en_US": "Ulam spiral of primes",
+        "fr_FR": "Spirale d'Ulam des nombres premiers"
+      },
+      "description": {
+        "en_US": "Wind the integers along a square spiral and light up the primes from primes(), revealing the diagonal streaks that still puzzle number theory.",
+        "fr_FR": "Enrouler les entiers le long d'une spirale carrée et allumer les nombres premiers issus de primes(), révélant les stries diagonales qui intriguent encore la théorie des nombres."
+      },
+      "tags": [
+        "animation",
+        "primes",
+        "number-theory"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }

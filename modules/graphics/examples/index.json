@@ -534,47 +534,6 @@
       ]
     },
     {
-      "file": "rigid_triple_pendulum.m",
-      "title": {
-        "en_US": "Rigid triple pendulum",
-        "fr_FR": "Triple pendule rigide"
-      },
-      "description": {
-        "en_US": "Animate three distributed-mass rigid rods with coupled nonlinear dynamics, angle traces and energy monitoring.",
-        "fr_FR": "Animer trois barres rigides à masse répartie avec dynamique non linéaire couplée, suivi des angles et de l’énergie."
-      },
-      "tags": [
-        "animation",
-        "simulation",
-        "mechanics",
-        "chaos"
-      ],
-      "requirements": [
-        "plots",
-        "ode-solvers"
-      ]
-    },
-    {
-      "file": "fourier_epicycles.m",
-      "title": {
-        "en_US": "Fourier epicycles",
-        "fr_FR": "Épicycles de Fourier"
-      },
-      "description": {
-        "en_US": "Draw a closed shape with a chain of rotating Fourier epicycles built from the FFT of a heart contour.",
-        "fr_FR": "Dessiner une forme fermée avec une chaîne d’épicycles de Fourier construits à partir de la FFT d’un contour en coeur."
-      },
-      "tags": [
-        "fft",
-        "fourier",
-        "animation"
-      ],
-      "requirements": [
-        "gui",
-        "fft"
-      ]
-    },
-    {
       "file": "potential_flow_cylinder.m",
       "title": {
         "en_US": "Potential flow past a cylinder",
