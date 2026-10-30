@@ -12,6 +12,57 @@ function varargout = subsref(varargin)
   obj = varargin{1};
   s = varargin{2};
 
+  % Fast path for the hot scalar value lookup d(key): everything inline at the
+  % method level (direct property reads, no static-method or helper dispatch),
+  % which is where almost all of the per-lookup cost used to go.
+  if numel(s) == 1 && strcmp(s(1).type, '()') && numel(s(1).subs) == 1
+    kt = obj.keyType;
+    if isempty(kt)
+      error('Nelson:dictionary:notConfigured', "Dictionary not configured");
+    end
+    key = s(1).subs{1};
+    if strcmp(kt, 'string') && ischar(key)
+      key = string(key);
+    end
+    nKeys = numel(key);
+    kc = cell(1, nKeys);
+    for k = 1:nKeys
+      kk = key(k);
+      if ~isa(kk, kt)
+        kk = convertDataType(kt, kk);
+      end
+      kc{k} = kk;
+    end
+    gathered = __dictionary_store__(obj.store, 'get', kc);
+    vt = obj.valueType;
+    if strcmp(vt, 'cell')
+      value = cell(size(key));
+      for k = 1:nKeys
+        value{k} = gathered{k}{1};
+      end
+      varargout{1} = value;
+      return
+    end
+    isEmptyVt = isempty(vt);
+    for k = 1:nKeys
+      v = gathered{k};
+      if iscell(v) && isscalar(v)
+        v = v{1};
+      end
+      if ~isEmptyVt && ~isa(v, vt)
+        v = convertDataType(vt, v);
+      end
+      gathered{k} = v;
+    end
+    try
+      value = [gathered{:}];
+    catch
+      error('Nelson:dictionary:cannotConcatenateValues', 'Cannot concatenate values.');
+    end
+    varargout{1} = reshape(value, size(key));
+    return
+  end
+
   switch (s(1).type)
     case '.'
       [varargout{1:nargout}] = dictionaryDotReference(obj, s);
@@ -54,9 +105,11 @@ function varargout = dictionaryDotReference(obj, s)
     case 'map'
       value = obj.map;
     case 'allKeys'
-      value = obj.allKeys;
+      value = dictionary.rawKeys(obj);
     case 'allValues'
-      value = obj.allValues;
+      value = dictionary.rawValues(obj);
+    case 'store'
+      value = obj.store;
     case 'keyType'
       value = obj.keyType;
     case 'valueType'
@@ -127,23 +180,13 @@ function rawValues = dictionaryValuesForKeys(obj, s)
   key = dictionaryIndexKey(s);
   key = dictionaryKeyForType(key, obj.keyType);
   nKeys = numel(key);
-  % Phase 1: resolve the entry index of every requested key. This loop only
-  % writes a numeric array; mixing a cell write with the numeric work that
-  % findKeyIndex performs would turn the lookup quadratic in Nelson.
-  % Resolve every requested index in one vectorized pass; a per-key
-  % findKeyIndex loop is quadratic because each call scans all stored keys.
-  indices = dictionary.findKeyIndices(obj, key);
-  if any(indices == 0)
-    error('Nelson:dictionary:unknownKey', "Unknown key");
-  end
-  % Phase 2: gather the stored values (vectorized) and normalize them in a
-  % cell-only loop. normalizeStoredValue is inlined with the value type
-  % hoisted out: calling a static method that reads the object inside a
-  % cell-writing loop is quadratic in Nelson.
+  % Resolve every requested value in one native O(log N)-per-key pass; the
+  % store errors on an unknown key, matching the previous behavior.
+  gathered = __dictionary_store__(obj.store, 'get', dictionary.keyCell(obj, key));
+  % Normalize the gathered values in a cell-only loop; the value type is
+  % hoisted out of the loop.
   rawValues = cell(size(key));
   if nKeys > 0
-    storedValues = obj.allValues;
-    gathered = storedValues(indices);
     valueType = obj.valueType;
     isCellValueType = strcmp(valueType, 'cell');
     emptyValueType = isempty(valueType);

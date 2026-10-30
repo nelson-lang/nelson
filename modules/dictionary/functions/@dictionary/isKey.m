@@ -12,20 +12,24 @@ function varargout = isKey(varargin)
   nargoutchk(0, 1);
   obj = varargin{1};
   key = varargin{2};
-  if (~isConfigured(obj))
+  % All inline at the method level (direct property reads, no types()/keyCell
+  % helper dispatch) so the cost is one method call plus the native membership.
+  kt = obj.keyType;
+  if isempty(kt)
     error('Nelson:dictionary:unablePerformADictionaryLookup3', 'Unable to perform a dictionary lookup when the key and value types are not set.');
   end
-  [keyType, valueType] = types(obj);
-  key = dictionaryLookupKey(key, keyType);
-  % Resolve every query key in one vectorized pass; a per-key findKeyIndex
-  % loop is quadratic because each call scans all stored keys.
-  idx = dictionary.findKeyIndices(obj, key);
-  varargout{1} = reshape(idx > 0, size(key));
-end
-%=============================================================================
-function key = dictionaryLookupKey(key, keyType)
-  if strcmp(keyType, 'string') && ischar(key)
+  if strcmp(kt, 'string') && ischar(key)
     key = string(key);
   end
+  nK = numel(key);
+  kc = cell(1, nK);
+  for k = 1:nK
+    kk = key(k);
+    if ~isa(kk, kt)
+      kk = convertDataType(kt, kk);
+    end
+    kc{k} = kk;
+  end
+  varargout{1} = reshape(__dictionary_store__(obj.store, 'iskey', kc), size(key));
 end
 %=============================================================================

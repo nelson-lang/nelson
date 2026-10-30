@@ -34,9 +34,8 @@ function varargout = insert(varargin)
   if overwrite
     obj(key) = value;
   else
-    % Resolve all keys in one bulk pass (linear for numeric/string keys); a
-    % per-key findKeyIndex loop would be O(numel(key) * nEntries).
-    missing = reshape(dictionary.findKeyIndices(obj, key) == 0, size(key));
+    % Which requested keys are absent (native membership, O(log N) per key).
+    missing = reshape(~isKey(obj, key), size(key));
     if ~any(missing)
       varargout{1} = obj;
       return

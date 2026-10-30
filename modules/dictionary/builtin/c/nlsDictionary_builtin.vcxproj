@@ -187,8 +187,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\DictionaryStoreObject.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\containersMapBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dictionaryStoreBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\keyHashBuiltin.cpp" />
     <ClCompile Include="..\cpp\keyMatchBuiltin.cpp" />
@@ -197,6 +199,8 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\DictionaryStoreObject.hpp" />
+    <ClInclude Include="..\include\dictionaryStoreBuiltin.hpp" />
     <ClInclude Include="..\include\keyHashBuiltin.hpp" />
     <ClInclude Include="..\include\keyMatchBuiltin.hpp" />
     <ClInclude Include="..\include\nlsDictionary_builtin_exports.h" />

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "containersMapBuiltin.hpp"
+#include "dictionaryStoreBuiltin.hpp"
 #include "keyHashBuiltin.hpp"
 #include "keyMatchBuiltin.hpp"
 //=============================================================================
@@ -18,6 +19,8 @@ const std::wstring gatewayName = L"dictionary";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "__containers_map__", (ptrBuiltin)Nelson::DictionaryGateway::containersMapBuiltin, 1, 5,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "__dictionary_store__", (ptrBuiltin)Nelson::DictionaryGateway::dictionaryStoreBuiltin, 1, 4,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "keyHash", (ptrBuiltin)Nelson::DictionaryGateway::keyHashBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },

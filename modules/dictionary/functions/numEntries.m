@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function count = numEntries(obj)
-  count = numel(obj.allKeys);
+  count = dictionary.entryCount(obj);
 end
 %=============================================================================
