@@ -201,8 +201,12 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     if (fid == H5I_INVALID_HID) {
         Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
+    // H5Lexists returns >0 if the link exists, 0 if not, and <0 when a nested
+    // path cannot be traversed (a missing intermediate group). Only a strict
+    // >0 means the data set is really there; a negative result just means the
+    // intermediate groups are not created yet, which H5Dcreate does below.
     htri_t exists = H5Lexists(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
-    if (exists) {
+    if (exists > 0) {
         H5Fclose(fid);
         Error(L"Nelson:h5create:datasetAlreadyExists", L"data set already exists.");
     }
