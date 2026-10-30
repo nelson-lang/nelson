@@ -12,7 +12,6 @@ import { expect, type Page } from '@playwright/test';
 import { showFigureBars } from './figureBars';
 //=============================================================================
 export async function figureWorkspaceScenario(page: Page) {
-  page.setDefaultTimeout(15000);
   let sequence = 0;
   const transcript = page.locator('[aria-label="Command Window transcript"]');
   const figure = page.locator('.figure-panel').first();
@@ -47,6 +46,8 @@ export async function figureWorkspaceScenario(page: Page) {
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
+  // Cap in-test interactions only; cold boot above must use the generous default.
+  page.setDefaultTimeout(15000);
   await run(
     "close('all'); f=figure('Name','Hélice','WindowStyle','docked'); ax=axes('Parent',f); t=linspace(0,4*pi,151); h=plot3(ax,cos(t),sin(t),t); h.DisplayName='Helix'; grid(ax,'on')"
   );
