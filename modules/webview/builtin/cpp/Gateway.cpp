@@ -23,6 +23,14 @@ extern "C"
 #include "webui.h"
 }
 //=============================================================================
+#ifdef _WIN32
+#include <cstdlib>
+#include <filesystem>
+#include <string>
+#include <system_error>
+#include <vector>
+#endif
+//=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"webview";
@@ -65,9 +73,90 @@ extern "C"
     }
 }
 //=============================================================================
+#ifdef _WIN32
+// NELSON PATCH: launch a detached recursive delete so it outlives this module.
+static void
+spawnDetachedRemove(const std::wstring& folder)
+{
+    std::wstring command = L"cmd.exe /c rmdir /s /q \"" + folder + L"\"";
+    std::vector<wchar_t> buffer(command.begin(), command.end());
+    buffer.push_back(L'\0');
+    STARTUPINFOW si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+    if (CreateProcessW(nullptr, buffer.data(), nullptr, nullptr, FALSE, CREATE_NO_WINDOW, nullptr,
+            nullptr, &si, &pi)) {
+        CloseHandle(pi.hThread);
+        CloseHandle(pi.hProcess);
+    }
+}
+//=============================================================================
+// NELSON PATCH: quarantine and delete WebView2 caches left by dead Nelson runs.
+static void
+sweepStaleWebViewCacheFolders()
+{
+    wchar_t* userProfile = nullptr;
+    size_t userProfileLen = 0;
+    if (_wdupenv_s(&userProfile, &userProfileLen, L"USERPROFILE") != 0 || userProfile == nullptr) {
+        return;
+    }
+    std::filesystem::path base = std::filesystem::path(userProfile) / L".WebUI";
+    free(userProfile);
+    std::error_code ec;
+    if (!std::filesystem::is_directory(base, ec)) {
+        return;
+    }
+    std::vector<std::filesystem::path> candidates;
+    std::vector<std::filesystem::path> leftovers;
+    // Collect first: moving entries while iterating the same directory is unsafe.
+    for (std::filesystem::directory_iterator it(base, ec), end; it != end; it.increment(ec)) {
+        if (ec) {
+            break;
+        }
+        const std::wstring name = it->path().filename().wstring();
+        if (name.rfind(L"WebUIWebViewCache_", 0) == 0) {
+            candidates.push_back(it->path());
+        } else if (name.rfind(L".nlsWebUITrash_", 0) == 0) {
+            leftovers.push_back(it->path());
+        }
+    }
+    // A leftover quarantine is from an earlier run and always safe to remove.
+    for (const std::filesystem::path& old : leftovers) {
+        spawnDetachedRemove(old.wstring());
+    }
+    std::filesystem::path trash = base / (L".nlsWebUITrash_" + std::to_wstring(GetCurrentProcessId()));
+    bool trashReady = false;
+    unsigned int counter = 0;
+    for (const std::filesystem::path& entry : candidates) {
+        std::error_code localEc;
+        if (!std::filesystem::is_directory(entry, localEc)) {
+            continue;
+        }
+        if (!trashReady) {
+            std::filesystem::create_directory(trash, localEc);
+            trashReady = std::filesystem::is_directory(trash, localEc);
+            if (!trashReady) {
+                return;
+            }
+        }
+        // Atomic rename fails while a live instance holds the folder, so only dead runs move.
+        std::filesystem::rename(entry, trash / std::to_wstring(counter++), localEc);
+    }
+    if (trashReady) {
+        spawnDetachedRemove(trash.wstring());
+    }
+}
+#endif
+//=============================================================================
 static bool
 initializeWebviewModule(Nelson::Evaluator*)
 {
+#ifdef _WIN32
+    // Clean WebView2 user-data folders leaked by previous runs.
+    sweepStaleWebViewCacheFolders();
+#endif
 #ifndef _WIN32
     // Windows needs none of this: its WebView2 backend already owns a dedicated
     // STA host thread with its own message loop, and WebUI ignores the
