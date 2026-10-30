@@ -28,6 +28,13 @@ asserts.isequal(class(f), 'FevalFuture');
 %=============================================================================
 wait(f(1), 'running');
 K = b.FevalQueue;
+% wait for both workers to pick up a task before sampling the running/queued split
+for attempt = 1:100
+  if (length(K.RunningFutures) >= NumWorkers)
+    break;
+  end
+  sleep(0.05);
+end
 R1 = K.RunningFutures;
 LEN_R1 = length(R1);
 R2 = K.QueuedFutures;

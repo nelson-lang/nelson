@@ -15,6 +15,7 @@
 #include "HandleManager.hpp"
 #include "ParallelEvaluator.hpp"
 #include "WaitFutures.hpp"
+#include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
@@ -30,6 +31,8 @@ AfterAllFutureObject::AfterAllFutureObject(
 void
 AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutput)
 {
+    // keep this object alive for the whole run so it is not freed while this thread uses it
+    WorkerActivityGuard workerActivityGuard(this);
     std::vector<FutureObject*> fevalFutures = this->getPredecessors();
     for (auto& fevalFuture : fevalFutures) {
         if (fevalFuture == nullptr) {
@@ -44,8 +47,14 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
             return;
         }
     }
-    WaitFutures(
-        nullptr, fevalFutures, THREAD_STATE::FINISHED, std::numeric_limits<double>::infinity());
+    // wait for the predecessors, but let a cancel on this future break the wait (no destructor hang)
+    while (!WaitFutures(nullptr, fevalFutures, THREAD_STATE::FINISHED, 0.05)) {
+        if (NelsonConfiguration::getInstance()->getInterruptPending(this->getID())) {
+            FutureStateGuardWrite guard(this->stateMutex);
+            this->setState(THREAD_STATE::FINISHED);
+            return;
+        }
+    }
 
     ArrayOfVector argsToConcate;
     for (auto& fevalFuture : fevalFutures) {

@@ -16,6 +16,7 @@
 #include "HandleManager.hpp"
 #include "FutureObjectHelpers.hpp"
 #include "WaitFutures.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 AfterEachFutureObject::AfterEachFutureObject(
     const std::wstring& functionName, const std::vector<FutureObject*>& predecessors)
@@ -40,6 +41,8 @@ allDoOnce(const std::vector<bool>& doOnce)
 void
 AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOutput)
 {
+    // keep this object alive for the whole run so it is not freed while this thread uses it
+    WorkerActivityGuard workerActivityGuard(this);
     std::vector<FutureObject*> futures = getPredecessors();
     std::vector<bool> doAfterEach(futures.size(), false);
 
@@ -48,6 +51,12 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
 
     while (!allDoOnce(doAfterEach)) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        // a cancel on this future must break the wait so the destructor does not hang
+        if (NelsonConfiguration::getInstance()->getInterruptPending(this->getID())) {
+            FutureStateGuardWrite guard(this->stateMutex);
+            this->setState(THREAD_STATE::FINISHED);
+            return;
+        }
         for (size_t k = 0; k < futures.size(); ++k) {
             if (futures[k]) {
                 bool isFinished = false;

@@ -37,6 +37,19 @@ public:
     FutureObject(const std::wstring& functionName);
     ~FutureObject();
 
+    // RAII marker: keeps this future alive for a worker run so the destructor waits before freeing
+    class WorkerActivityGuard
+    {
+    public:
+        explicit WorkerActivityGuard(FutureObject* owner);
+        ~WorkerActivityGuard();
+        WorkerActivityGuard(const WorkerActivityGuard&) = delete;
+        WorkerActivityGuard& operator=(const WorkerActivityGuard&) = delete;
+
+    private:
+        FutureObject* _owner;
+    };
+
     std::shared_mutex stateMutex;
 
     bool
@@ -139,7 +152,19 @@ private:
     int _nLhs;
     std::string _type;
     std::vector<FutureObject*> _predecessors;
+    // nonzero while a worker runs this future's code; the destructor waits on it before freeing
+    std::atomic<int> _workerActivityCount { 0 };
 };
+//=============================================================================
+inline FutureObject::WorkerActivityGuard::WorkerActivityGuard(FutureObject* owner) : _owner(owner)
+{
+    _owner->_workerActivityCount.fetch_add(1, std::memory_order_release);
+}
+//=============================================================================
+inline FutureObject::WorkerActivityGuard::~WorkerActivityGuard()
+{
+    _owner->_workerActivityCount.fetch_sub(1, std::memory_order_release);
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
