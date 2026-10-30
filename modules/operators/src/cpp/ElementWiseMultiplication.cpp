@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include <limits>
+#include <type_traits>
 #include <vector>
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -443,30 +444,185 @@ complex_vector_column_elementWiseMultiplication(
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
 //=============================================================================
+// Dedicated real element-wise multiply kernels per broadcast shape. Plus and
+// rdivide dispatch these per shape; this gives .* the same fast kernels instead
+// of the generic strided broadcast path.
 template <class T>
-ArrayOf
-elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
+static ArrayOf
+scalar_matrix_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
-    void* Cp = nullptr;
-    if (a.isScalar() && b.isScalar()) {
-        T* ptrA = (T*)a.dataPointer();
-        T* ptrB = (T*)b.dataPointer();
-        void* Cp = ArrayOf::allocateArrayOf(classDestination, 1);
-        T* C = (T*)Cp;
-        if (IS_INTEGER_TYPE(classDestination)) {
-            C[0] = saturating_integer_times<T>(ptrA[0], ptrB[0]);
-        } else {
-            C[0] = ptrA[0] * ptrB[0];
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    T a0 = ptrA[0];
+    OMP_PARALLEL_FOR_LOOP(Clen)
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
+        ptrC[k] = a0 * ptrB[k];
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_scalar_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    T b0 = ptrB[0];
+    OMP_PARALLEL_FOR_LOOP(Clen)
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
+        ptrC[k] = ptrA[k] * b0;
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_matrix_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    OMP_PARALLEL_FOR_LOOP(Clen)
+    for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
+        ptrC[k] = ptrA[k] * ptrB[k];
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+row_matrix_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    // Column-outer order keeps the inner write contiguous so it vectorizes.
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * dimsA.rows();
+            ptrC[m] = ptrA[i] * ptrB[m];
         }
-        Dimensions dimsC(1, 1);
-        return ArrayOf(classDestination, dimsC, Cp, false);
     }
-    if (a.isEmpty() || b.isEmpty()) {
-        BinaryBroadcast info = binaryOperatorBroadcast(a, b, ".*");
-        ArrayOf res = ArrayOf::empty(info.dimensions);
-        res.promoteType(classDestination);
-        return res;
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+column_matrix_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        T aj = ptrA[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * B.rows();
+            ptrC[m] = aj * ptrB[m];
+        }
     }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_row_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    // Column-outer order keeps the inner write contiguous so it vectorizes.
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * B.rows();
+            ptrC[m] = ptrA[m] * ptrB[i];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_column_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        T bj = ptrB[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * A.rows();
+            ptrC[m] = ptrA[m] * bj;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+row_column_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    indexType rows = std::max(A.rows(), B.rows());
+    indexType columns = std::max(A.columns(), B.columns());
+    Dimensions dimsC(rows, columns);
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    indexType m = 0;
+    for (indexType i = 0; i < A.columns(); i++) {
+        for (indexType j = 0; j < B.rows(); j++) {
+            ptrC[m] = ptrA[i] * ptrB[j];
+            m++;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+column_row_real_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    indexType rows = std::max(A.rows(), B.rows());
+    indexType columns = std::max(A.columns(), B.columns());
+    Dimensions dimsC(rows, columns);
+    indexType Clen = dimsC.elementCount();
+    T* ptrC = (T*)ArrayOf::allocateArrayOf(classDestination, Clen);
+    const T* ptrA = (const T*)A.dataPointer();
+    const T* ptrB = (const T*)B.dataPointer();
+    indexType m = 0;
+    indexType elementCountA = A.elementCount();
+    indexType elementCountB = B.elementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
+            ptrC[m] = ptrA[j] * ptrB[i];
+            m++;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, ptrC, false);
+}
+//=============================================================================
+// Integer and logical .*: same-size, scalar broadcast, then saturating generic broadcast.
+template <class T>
+static ArrayOf
+integer_elementWiseMultiplicationImpl(NelsonType classDestination, ArrayOf a, ArrayOf b)
+{
     Dimensions dimsA = a.dimensions();
     Dimensions dimsB = b.dimensions();
     if (SameSizeCheck(dimsA, dimsB)) {
@@ -498,13 +654,247 @@ elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
         });
 }
 //=============================================================================
+// Floating-point .* dispatch, matching plus and rdivide; >2D shapes keep the
+// generic broadcast fallback.
+template <class T>
+static ArrayOf
+real_elementWiseMultiplication(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    return binaryOperator2DDispatch(classDestination, A, B, matrix_matrix_real_dotTimes<T>,
+        scalar_matrix_real_dotTimes<T>, matrix_scalar_real_dotTimes<T>,
+        matrix_matrix_real_dotTimes<T>, row_column_real_dotTimes<T>, column_row_real_dotTimes<T>,
+        row_matrix_real_dotTimes<T>, matrix_row_real_dotTimes<T>, column_matrix_real_dotTimes<T>,
+        matrix_column_real_dotTimes<T>,
+        [](const ArrayOf& lhs, const ArrayOf& rhs, NelsonType destinationClass) {
+            return binaryOperatorBroadcastNumeric<T>(
+                lhs, rhs, destinationClass, ".*", [](T a, T b) { return (T)(a * b); });
+        });
+}
+//=============================================================================
+template <class T>
+ArrayOf
+elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
+{
+    void* Cp = nullptr;
+    if (a.isScalar() && b.isScalar()) {
+        T* ptrA = (T*)a.dataPointer();
+        T* ptrB = (T*)b.dataPointer();
+        void* Cp = ArrayOf::allocateArrayOf(classDestination, 1);
+        T* C = (T*)Cp;
+        if (IS_INTEGER_TYPE(classDestination)) {
+            C[0] = saturating_integer_times<T>(ptrA[0], ptrB[0]);
+        } else {
+            C[0] = ptrA[0] * ptrB[0];
+        }
+        Dimensions dimsC(1, 1);
+        return ArrayOf(classDestination, dimsC, Cp, false);
+    }
+    if (a.isEmpty() || b.isEmpty()) {
+        BinaryBroadcast info = binaryOperatorBroadcast(a, b, ".*");
+        ArrayOf res = ArrayOf::empty(info.dimensions);
+        res.promoteType(classDestination);
+        return res;
+    }
+    // Floating-point types use the per-shape dispatch; integers keep the saturating path.
+    if constexpr (std::is_floating_point_v<T>) {
+        return real_elementWiseMultiplication<T>(classDestination, a, b);
+    } else {
+        return integer_elementWiseMultiplicationImpl<T>(classDestination, a, b);
+    }
+}
+//=============================================================================
+// Dedicated complex element-wise multiply kernels per broadcast shape. This gives
+// complex .* the same fast dispatch as rdivide instead of the generic strided path.
+// Same-size and scalar keep the Eigen kernels; matrix by row/column vectorizes.
+template <class T>
+static ArrayOf
+scalar_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
+    matC = Az[0] * matB.array();
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_scalar_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
+    matC = Bz[0] * matA.array();
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    return complex_matrix_matrix_elementWiseMultiplication<T>(classDestination, A, B);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+row_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    // Column-outer order keeps the inner write contiguous so it vectorizes.
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * dimsA.rows();
+            Cz[m] = Az[i] * Bz[m];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+column_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = B.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        std::complex<T> aj = Az[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * B.rows();
+            Cz[m] = aj * Bz[m];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_row_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    // Column-outer order keeps the inner write contiguous so it vectorizes.
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * B.rows();
+            Cz[m] = Az[m] * Bz[i];
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+matrix_column_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    Dimensions dimsC = A.dimensions();
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    for (indexType j = 0; j < dimsC.columns(); j++) {
+        std::complex<T> bj = Bz[j];
+        for (indexType i = 0; i < dimsC.rows(); i++) {
+            indexType m = i + j * A.rows();
+            Cz[m] = Az[m] * bj;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+row_column_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    indexType rows = std::max(A.rows(), B.rows());
+    indexType columns = std::max(A.columns(), B.columns());
+    Dimensions dimsC(rows, columns);
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    indexType m = 0;
+    for (indexType i = 0; i < A.columns(); i++) {
+        for (indexType j = 0; j < B.rows(); j++) {
+            Cz[m] = Az[i] * Bz[j];
+            m++;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+column_row_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    indexType rows = std::max(A.rows(), B.rows());
+    indexType columns = std::max(A.columns(), B.columns());
+    Dimensions dimsC(rows, columns);
+    indexType Clen = dimsC.elementCount();
+    void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    indexType m = 0;
+    indexType elementCountA = A.elementCount();
+    indexType elementCountB = B.elementCount();
+    for (indexType i = 0; i < elementCountB; i++) {
+        for (indexType j = 0; j < elementCountA; j++) {
+            Cz[m] = Az[j] * Bz[i];
+            m++;
+        }
+    }
+    return ArrayOf(classDestination, dimsC, Cp, false);
+}
+//=============================================================================
+// Complex .* dispatch, matching rdivide; >2D shapes keep the generic broadcast.
+template <class T>
+static ArrayOf
+complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
+{
+    return binaryOperator2DDispatch(classDestination, A, B, matrix_matrix_complex_dotTimes<T>,
+        scalar_matrix_complex_dotTimes<T>, matrix_scalar_complex_dotTimes<T>,
+        matrix_matrix_complex_dotTimes<T>, row_column_complex_dotTimes<T>,
+        column_row_complex_dotTimes<T>, row_matrix_complex_dotTimes<T>,
+        matrix_row_complex_dotTimes<T>, column_matrix_complex_dotTimes<T>,
+        matrix_column_complex_dotTimes<T>,
+        [](const ArrayOf& lhs, const ArrayOf& rhs, NelsonType destinationClass) {
+            return binaryOperatorBroadcastComplex<T>(lhs, rhs, destinationClass, ".*",
+                [](std::complex<T> a, std::complex<T> b) { return a * b; });
+        });
+}
+//=============================================================================
 template <class T>
 ArrayOf
 complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayOf b)
 {
     a.promoteType(classDestination);
     b.promoteType(classDestination);
-    void* Cp = nullptr;
     if (a.isScalar() && b.isScalar()) {
         T* ptrA = (T*)a.dataPointer();
         T* ptrB = (T*)b.dataPointer();
@@ -516,26 +906,13 @@ complex_elementWiseMultiplication(NelsonType classDestination, ArrayOf a, ArrayO
         }
         return ArrayOf::singleComplexScalar((single)res.real(), (single)res.imag());
     }
-    Dimensions dimsC;
     if (a.isEmpty() || b.isEmpty()) {
         BinaryBroadcast info = binaryOperatorBroadcast(a, b, ".*");
         ArrayOf res = ArrayOf::empty(info.dimensions);
         res.promoteType(classDestination);
         return res;
     }
-    Dimensions dimsA = a.dimensions();
-    Dimensions dimsB = b.dimensions();
-    if (SameSizeCheck(dimsA, dimsB)) {
-        return complex_matrix_matrix_elementWiseMultiplication<T>(classDestination, a, b);
-    }
-    if (a.isScalar() || b.isScalar()) {
-        if (a.isScalar()) {
-            return complex_scalar_matrix_elementWiseMultiplication<T>(classDestination, a, b);
-        } // b.isScalar()
-        return complex_scalar_matrix_elementWiseMultiplication<T>(classDestination, b, a);
-    }
-    return binaryOperatorBroadcastComplex<T>(a, b, classDestination, ".*",
-        [](std::complex<T> lhs, std::complex<T> rhs) { return lhs * rhs; });
+    return complex_dotTimes<T>(classDestination, a, b);
 }
 //=============================================================================
 ArrayOf
