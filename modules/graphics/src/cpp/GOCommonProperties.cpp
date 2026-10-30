@@ -263,8 +263,8 @@ registerAxesProperties(GraphicsObject* go)
     addArray(go, GO_INTERACTION_OPTIONS_PROPERTY_NAME_STR);
     addArray(go, GO_INTERACTIONS_PROPERTY_NAME_STR);
     // hidden flag read by the figure navigation; defaults to 'on'
-    addProperty(go, new GOOnOffProperty, GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, true,
-        false);
+    addProperty(
+        go, new GOOnOffProperty, GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, true, false);
     addScalar(go, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
     addGo(go, GO_LEGEND_PROPERTY_NAME_STR);
     addString(go, GO_LINE_STYLE_CYCLING_METHOD_PROPERTY_NAME_STR);

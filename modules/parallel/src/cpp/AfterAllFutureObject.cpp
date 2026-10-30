@@ -47,7 +47,8 @@ AfterAllFutureObject::afterAll(FunctionDef* funcDef, int nLhs, bool uniformOutpu
             return;
         }
     }
-    // wait for the predecessors, but let a cancel on this future break the wait (no destructor hang)
+    // wait for the predecessors, but let a cancel on this future break the wait (no destructor
+    // hang)
     while (!WaitFutures(nullptr, fevalFutures, THREAD_STATE::FINISHED, 0.05)) {
         if (NelsonConfiguration::getInstance()->getInterruptPending(this->getID())) {
             FutureStateGuardWrite guard(this->stateMutex);

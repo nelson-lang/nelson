@@ -40,9 +40,9 @@ struct DictEntry
 //=============================================================================
 struct TreapNode
 {
-    uint64_t hkey;                   // keyHash of the key(s) in this node
-    std::vector<DictEntry> bucket;   // one entry normally, more only on a hash collision
-    uint32_t priority;               // treap balance priority
+    uint64_t hkey; // keyHash of the key(s) in this node
+    std::vector<DictEntry> bucket; // one entry normally, more only on a hash collision
+    uint32_t priority; // treap balance priority
     std::shared_ptr<const TreapNode> left;
     std::shared_ptr<const TreapNode> right;
 
@@ -77,8 +77,8 @@ public:
     // Insert/overwrite every (keys[i], values[i]) pair, last value winning, and
     // return the resulting store. 'this' is left unchanged.
     DictionaryStoreObject*
-    withSet(
-        Evaluator* eval, const std::vector<ArrayOf>& keys, const std::vector<ArrayOf>& values) const;
+    withSet(Evaluator* eval, const std::vector<ArrayOf>& keys,
+        const std::vector<ArrayOf>& values) const;
 
     // Remove every present key and return the resulting store ('this' unchanged).
     DictionaryStoreObject*

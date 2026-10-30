@@ -119,8 +119,8 @@ keyEquals(Evaluator* eval, const ArrayOf& a, const ArrayOf& b)
         if (!a.dimensions().equals(b.dimensions())) {
             return false;
         }
-        return std::memcmp(a.dataPointer(), b.dataPointer(),
-                   (size_t)a.elementCount() * sizeof(charType))
+        return std::memcmp(
+                   a.dataPointer(), b.dataPointer(), (size_t)a.elementCount() * sizeof(charType))
             == 0;
     case NLS_STRING_ARRAY: {
         if (!a.dimensions().equals(b.dimensions())) {
