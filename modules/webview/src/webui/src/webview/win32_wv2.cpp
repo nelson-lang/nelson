@@ -716,6 +716,8 @@ public:
 static ComPtr<ICoreWebView2Environment> g_sharedEnv;
 static int g_sharedEnvState = 0; // 0 none, 1 pending, 2 ready, 3 failed
 static HRESULT g_sharedEnvResult = S_OK;
+// NELSON PATCH: shared browser process, awaited at teardown to free the user-data folder.
+static HANDLE g_browserProcess = nullptr;
 
 #ifdef _MSC_VER
 class SharedEnvironmentCompletedHandler
@@ -883,6 +885,18 @@ extern "C"
             return;
         }
         WebView2Instance* instance = static_cast<WebView2Instance*>(handle);
+        // NELSON PATCH: remember the shared browser process so teardown can wait for its exit.
+        if (!g_browserProcess && instance->webviewWindow) {
+            UINT32 browserPid = 0;
+            if (SUCCEEDED(instance->webviewWindow->get_BrowserProcessId(&browserPid))
+                && browserPid != 0) {
+                g_browserProcess = OpenProcess(SYNCHRONIZE, FALSE, browserPid);
+            }
+        }
+        // NELSON PATCH: close the controller so WebView2 releases the user-data folder promptly.
+        if (instance->webviewController) {
+            instance->webviewController->Close();
+        }
         if (instance->webviewWindow) {
             instance->webviewWindow.Reset();
         }
@@ -1269,6 +1283,12 @@ extern "C"
         }
         g_sharedEnvState = 0;
         g_sharedEnvResult = S_OK;
+        // NELSON PATCH: wait for the browser process to exit so the user-data folder is unlocked before deletion.
+        if (g_browserProcess) {
+            WaitForSingleObject(g_browserProcess, 3000);
+            CloseHandle(g_browserProcess);
+            g_browserProcess = nullptr;
+        }
     }
 
     void*

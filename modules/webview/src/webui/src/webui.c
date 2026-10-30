@@ -611,6 +611,8 @@ typedef struct _webui_core_t
     size_t run_userBufferLen[WEBUI_MAX_IDS];
     bool run_error[WEBUI_MAX_IDS];
     uint16_t run_last_id;
+    struct mg_connection* run_client[WEBUI_MAX_IDS]; // Client the result must come from, NULL = free
+    bool run_abandoned[WEBUI_MAX_IDS]; // Timed out, the id frees when the late result arrives
     uint16_t ws_process_number;
     bool initialized;
     char* executable_path;
@@ -624,7 +626,6 @@ typedef struct _webui_core_t
     // _webui_clean() must not free the world while this is non-zero.
     webui_atomic_long_t ws_threads_total;
     webui_mutex_t mutex_server_start;
-    webui_mutex_t mutex_send;
     webui_mutex_t mutex_receive;
     webui_mutex_t mutex_wait;
     webui_mutex_t mutex_bridge;
@@ -683,6 +684,14 @@ typedef struct _webui_recv_arg_t
     struct mg_connection* client;
     size_t connection_id;
 } _webui_recv_arg_t;
+
+// Per connection accumulator for a multi packet (big data) transfer
+typedef struct _webui_multi_packet_t
+{
+    char* buf;
+    size_t expect;
+    size_t receive;
+} _webui_multi_packet_t;
 
 // -- Definitions ---------------------
 #ifdef _WIN32
@@ -802,8 +811,10 @@ static bool
 _webui_is_empty(const char* s);
 static size_t
 _webui_strlen(const char* s);
-static uint16_t
-_webui_get_run_id(void);
+static bool
+_webui_get_run_id(uint16_t* id);
+static void
+_webui_script_client_closed(struct mg_connection* client);
 static uint16_t
 _webui_get_ws_process_number(void);
 static void*
@@ -888,6 +899,8 @@ _webui_ws_data_handler(
     struct mg_connection* client, int opcode, char* data, size_t datasize, void* _win);
 static void
 _webui_ws_close_handler(const struct mg_connection* client, void* _win);
+static void
+_webui_multi_packet_free(const struct mg_connection* client);
 static void
 _webui_receive(
     _webui_window_t* win, struct mg_connection* client, int event_type, void* data, size_t len);
@@ -1491,13 +1504,30 @@ webui_script_client(
         return false;
     }
 
+    // The result must come from this exact client. The pointer is only
+    // compared, never dereferenced, so a stale value is harmless.
+    if (e->connection_id >= WEBUI_MAX_IDS) {
+        return false;
+    }
+    struct mg_connection* client = _webui.clients[e->connection_id];
+    if (client == NULL) {
+        return false;
+    }
+
     // Initializing pipe
     _webui_mutex_lock(&_webui.mutex_js_run);
-    uint16_t run_id = _webui_get_run_id();
+    uint16_t run_id = 0;
+    if (!_webui_get_run_id(&run_id)) {
+        // No free id, all pipes are still waiting for a result
+        _webui_mutex_unlock(&_webui.mutex_js_run);
+        return false;
+    }
     _webui.run_done[run_id] = false;
     _webui.run_error[run_id] = false;
     _webui.run_userBuffer[run_id] = buffer;
     _webui.run_userBufferLen[run_id] = buffer_length;
+    _webui.run_abandoned[run_id] = false;
+    _webui.run_client[run_id] = client;
     _webui_mutex_unlock(&_webui.mutex_js_run);
 
     // Packet Protocol Format:
@@ -1506,8 +1536,7 @@ webui_script_client(
     // [Script]
 
     // Send the packet to a single specific client and wait for response
-    _webui_send_client(
-        win, _webui.clients[e->connection_id], run_id, WEBUI_CMD_JS, script, js_len, false);
+    _webui_send_client(win, client, run_id, WEBUI_CMD_JS, script, js_len, false);
 
     bool js_status = false;
 
@@ -1561,21 +1590,31 @@ webui_script_client(
         }
     }
 
+    // Release the pipe. On success free the id; on timeout keep it reserved
+    // (abandoned) until the late result arrives or the client closes, so a
+    // late result can never write into the caller's buffer.
+    _webui_mutex_lock(&_webui.mutex_js_run);
+    js_status = _webui.run_done[run_id];
+    bool js_error = _webui.run_error[run_id];
+    _webui.run_userBuffer[run_id] = NULL;
+    _webui.run_userBufferLen[run_id] = 0;
     if (js_status) {
-
-#ifdef WEBUI_LOG
-        _webui_log_info("[User] webui_script -> Response found. User buffer len: %zu bytes \n",
-            _webui.run_userBufferLen[run_id]);
-        _webui_log_info("[User] webui_script -> Response found. User buffer data (ASCII): [%s] \n",
-            _webui.run_userBuffer[run_id]);
-#endif
-
-        return !_webui.run_error[run_id];
+        _webui.run_client[run_id] = NULL;
     } else {
+        _webui.run_abandoned[run_id] = true;
+    }
+    _webui_mutex_unlock(&_webui.mutex_js_run);
 
 #ifdef WEBUI_LOG
+    if (js_status) {
+        _webui_log_info("[User] webui_script -> Response found. \n");
+    } else {
         _webui_log_info("[User] webui_script -> No Response is found. \n");
+    }
 #endif
+
+    if (js_status) {
+        return !js_error;
     }
 
     return false;
@@ -6563,21 +6602,61 @@ _webui_get_extension(const char* f)
     return ext + 1;
 }
 
-static uint16_t
-_webui_get_run_id(void)
+static bool
+_webui_get_run_id(uint16_t* id)
 {
 
 #ifdef WEBUI_LOG
     _webui_log_debug("[Core]\t\t_webui_get_run_id()\n");
 #endif
 
+    // The caller must hold mutex_js_run. Ids still waiting for a result
+    // (run_client != NULL) are skipped, so a stale result can't reach a
+    // new script that reused the id.
+    bool found = false;
     _webui_mutex_lock(&_webui.mutex_js_run_id);
-    if (_webui.run_last_id >= WEBUI_MAX_IDS) {
-        _webui.run_last_id = 0;
+    for (size_t i = 0; i < WEBUI_MAX_IDS; i++) {
+        if (_webui.run_last_id >= WEBUI_MAX_IDS) {
+            _webui.run_last_id = 0;
+        }
+        uint16_t candidate = _webui.run_last_id++;
+        if (_webui.run_client[candidate] == NULL) {
+            *id = candidate;
+            found = true;
+            break;
+        }
     }
-    uint16_t id = _webui.run_last_id++;
     _webui_mutex_unlock(&_webui.mutex_js_run_id);
-    return id;
+    return found;
+}
+
+static void
+_webui_script_client_closed(struct mg_connection* client)
+{
+
+#ifdef WEBUI_LOG
+    _webui_log_debug("[Core]\t\t_webui_script_client_closed()\n");
+#endif
+
+    // No result can come from a closed client, so free its abandoned ids
+    // and wake any script still waiting for it with an error.
+    if (client == NULL) {
+        return;
+    }
+    _webui_mutex_lock(&_webui.mutex_js_run);
+    for (size_t i = 0; i < WEBUI_MAX_IDS; i++) {
+        if (_webui.run_client[i] != client) {
+            continue;
+        }
+        if (_webui.run_abandoned[i]) {
+            _webui.run_client[i] = NULL;
+            _webui.run_abandoned[i] = false;
+        } else if (!_webui.run_done[i]) {
+            _webui.run_error[i] = true;
+            _webui.run_done[i] = true;
+        }
+    }
+    _webui_mutex_unlock(&_webui.mutex_js_run);
 }
 
 static uint16_t
@@ -8239,10 +8318,12 @@ _webui_get_id(const char* data)
 // nulls the slot and closes the connection from a civetweb worker): a push from
 // another thread during a client reload/disconnect wrote into a connection
 // being torn down -> heap corruption (0xC0000374) surfacing later as wild
-// 0xFF fills in unrelated heap blocks. Lock order: mutex_client -> mutex_send;
-// mg_close_connection() stays outside the lock (no deadlock). The connection
-// cannot be freed while we hold the lock, because the closing worker must
-// first pass through _webui_connection_remove(), which takes it too.
+// 0xFF fills in unrelated heap blocks. mutex_client is held across the whole
+// send, including mg_websocket_write(), so a slow client serializes other
+// sends; this is the price of safety. mg_close_connection() stays outside the
+// lock (no deadlock). The connection cannot be freed while we hold the lock,
+// because the closing worker must first pass through _webui_connection_remove(),
+// which takes it too.
 static void
 _webui_send_client_unlocked(_webui_window_t* win, struct mg_connection* client, uint16_t id,
     unsigned char cmd, const char* data, size_t len, bool token_bypass);
@@ -9450,7 +9531,7 @@ _webui_clean(void)
 // NELSON PATCH: in the standard desktop/adv-cli mode webui_wait() (and
 // therefore _webui_wait_clean()) is never called, so the single shared
 // WebView2 host thread is never stopped and its per-run user-data folder
-// (%TEMP%\.WebUI\WebUIWebViewCache_<random>) is never removed, leaking one
+// (%USERPROFILE%\.WebUI\WebUIWebViewCache_<random>) is never removed, leaking one
 // folder on every run. Mirror the teardown from _webui_wait_clean() here so
 // the host thread is stopped and the cache folder deleted in every mode,
 // not only WEB_GUI. Stop and join the host thread FIRST so the WebView2
@@ -9514,7 +9595,6 @@ _webui_clean(void)
 
     // Destroy all mutex
     _webui_mutex_destroy(&_webui.mutex_server_start);
-    _webui_mutex_destroy(&_webui.mutex_send);
     _webui_mutex_destroy(&_webui.mutex_receive);
     _webui_mutex_destroy(&_webui.mutex_wait);
     _webui_mutex_destroy(&_webui.mutex_js_run);
@@ -11594,10 +11674,9 @@ _webui_send_client_ws(_webui_window_t* win, struct mg_connection* client, size_t
     int ret = 0;
     if (win->num > 0 && win->num < WEBUI_MAX_IDS) {
         if (client != NULL) {
-            // Mutex
-            _webui_mutex_lock(&_webui.mutex_send);
+            // No dedicated send mutex: the caller already holds mutex_client,
+            // and civetweb locks the connection for the whole frame write
             ret = mg_websocket_write(client, MG_WEBSOCKET_OPCODE_BINARY, packet, packets_size);
-            _webui_mutex_unlock(&_webui.mutex_send);
         }
     }
 
@@ -11706,7 +11785,6 @@ _webui_init(void)
 
     // Initializing mutex
     _webui_mutex_init(&_webui.mutex_server_start);
-    _webui_mutex_init(&_webui.mutex_send);
     _webui_mutex_init(&_webui.mutex_receive);
     _webui_mutex_init(&_webui.mutex_wait);
     _webui_mutex_init(&_webui.mutex_bridge);
@@ -12665,7 +12743,9 @@ _webui_ws_data_handler(
     _webui_log_debug("[Core]\t\t_webui_ws_data_handler()\n");
 #endif
 
-    if (_webui_mutex_app_is_exit_now(WEBUI_MUTEX_GET_STATUS) || datasize < WEBUI_PROTOCOL_SIZE) {
+    // Small frames are no longer dropped here: the last chunk of a multi
+    // packet can be shorter than a header. _webui_receive() filters them.
+    if (_webui_mutex_app_is_exit_now(WEBUI_MUTEX_GET_STATUS)) {
         return 1; // OK
     }
 
@@ -12704,6 +12784,9 @@ _webui_ws_close_handler(const struct mg_connection* client, void* _win)
 #ifdef WEBUI_LOG
     _webui_log_debug("[Core]\t\t_webui_ws_close_handler()\n");
 #endif
+
+    // Always free a pending multi packet, even when the app is exiting
+    _webui_multi_packet_free(client);
 
     // Dereference
     _webui_window_t* win = _webui_dereference_win_ptr(_win);
@@ -12775,6 +12858,8 @@ static WEBUI_THREAD_SERVER_START
         "listening_ports", server_port, "document_root", win->server_root_path,
         "access_control_allow_headers", "*", "access_control_allow_methods", "*",
         "access_control_allow_origin", "*",
+        // Disable Nagle so small WS frames are flushed without delay
+        "tcp_nodelay", "1",
 #ifdef WEBUI_TLS
         "authentication_domain", "localhost", "enable_auth_domain_check", "no",
         "ssl_protocol_version", "4", "ssl_cipher_list", "ECDH+AESGCM+AES256:!aNULL:!MD5:!DSS",
@@ -13140,6 +13225,19 @@ static WEBUI_THREAD_SERVER_START
 }
 
 static void
+_webui_multi_packet_free(const struct mg_connection* client)
+{
+    // Free this connection's pending multi packet buffer, if any
+    _webui_multi_packet_t* multi = (_webui_multi_packet_t*)mg_get_user_connection_data(client);
+    if (multi == NULL) {
+        return;
+    }
+    mg_set_user_connection_data(client, NULL);
+    _webui_free_mem((void*)multi->buf);
+    _webui_free_mem((void*)multi);
+}
+
+static void
 _webui_receive(
     _webui_window_t* win, struct mg_connection* client, int event_type, void* data, size_t len)
 {
@@ -13150,11 +13248,6 @@ _webui_receive(
     _webui_log_debug("[Core] [WS #%zu]\t_webui_receive([%zu], [%d], [%zu])\n", recvNum, win->num,
         event_type, len);
 #endif
-
-    static bool multi_packet = false;
-    static size_t multi_expect = 0;
-    static size_t multi_receive = 0;
-    static void* multi_buf = NULL;
 
     // Get connection id
     size_t connection_id = 0;
@@ -13215,38 +13308,50 @@ _webui_receive(
 #endif
     }
 
-    // Multi Packet (big data)
-    if (multi_packet) {
-        if ((multi_receive + len) > multi_expect) {
+    // Multi Packet (big data). State is per connection: civetweb delivers a
+    // connection's messages in order, on that connection's own thread.
+    bool multi_ready = false;
+    void* multi_data = NULL;
+    size_t multi_data_len = 0;
+    if (event_type == WEBUI_WS_DATA) {
+        _webui_multi_packet_t* multi
+            = (_webui_multi_packet_t*)mg_get_user_connection_data(client);
+        if (multi != NULL) {
+            // A transfer is already in progress for this connection
+            if (len > (multi->expect - multi->receive)) {
 // Received more data than expected
 #ifdef WEBUI_LOG
-            _webui_log_debug("[Core] [WS #%zu]\t_webui_receive() -> "
-                             "Multi packet received more data than expected (%zu + %zu > %zu).\n",
-                recvNum, multi_receive, len, multi_expect);
+                _webui_log_debug("[Core] [WS #%zu]\t_webui_receive() -> "
+                                 "Multi packet received more data than expected (%zu + %zu > %zu).\n",
+                    recvNum, multi->receive, len, multi->expect);
 #endif
-            multi_packet = false;
-            multi_expect = 0;
-            multi_receive = 0;
-            _webui_free_mem(multi_buf);
-            multi_buf = NULL;
-            return;
-        }
+                _webui_multi_packet_free(client);
+                return;
+            }
 // Accumulate packet
 #ifdef WEBUI_LOG
-        _webui_log_debug(
-            "[Core] [WS #%zu]\t_webui_receive() -> Multi packet accumulate %zu bytes\n", recvNum,
-            len);
+            _webui_log_debug(
+                "[Core] [WS #%zu]\t_webui_receive() -> Multi packet accumulate %zu bytes\n", recvNum,
+                len);
 #endif
-        memcpy(((unsigned char*)multi_buf + multi_receive), data, len);
-        multi_receive += len;
-        // Check if theire is more packets comming
-        if (multi_receive < multi_expect) {
+            memcpy((multi->buf + multi->receive), data, len);
+            multi->receive += len;
+            // Check if theire is more packets comming
+            if (multi->receive < multi->expect) {
+                return;
+            }
+            // Transfer complete, take ownership of the buffer
+            multi_data = multi->buf;
+            multi_data_len = multi->receive;
+            multi->buf = NULL;
+            _webui_multi_packet_free(client);
+            multi_ready = true;
+        } else if (len < WEBUI_PROTOCOL_SIZE) {
+            // Too small to be a WebUI packet (keep-alive ping)
             return;
-        }
-    } else if (event_type == WEBUI_WS_DATA) {
-        if (((unsigned char*)data)[WEBUI_PROTOCOL_CMD] == WEBUI_CMD_MULTI) {
-            if (len >= WEBUI_PROTOCOL_SIZE
-                && ((unsigned char*)data)[WEBUI_PROTOCOL_SIGN] == WEBUI_SIGNATURE) {
+        } else if (((unsigned char*)data)[WEBUI_PROTOCOL_CMD] == WEBUI_CMD_MULTI) {
+            // Start of a new transfer
+            if (((unsigned char*)data)[WEBUI_PROTOCOL_SIGN] == WEBUI_SIGNATURE) {
                 size_t expect_len
                     = (size_t)strtoul(&((const char*)data)[WEBUI_PROTOCOL_DATA], NULL, 10);
                 if (expect_len > 0 && expect_len <= WEBUI_MAX_BUF) {
@@ -13255,11 +13360,11 @@ _webui_receive(
                                      "Expecting %zu bytes\n",
                         recvNum, expect_len);
 #endif
-                    multi_buf = _webui_malloc(expect_len);
-                    memcpy(multi_buf, data, len);
-                    multi_receive = 0;
-                    multi_expect = expect_len;
-                    multi_packet = true;
+                    multi = (_webui_multi_packet_t*)_webui_malloc(sizeof(_webui_multi_packet_t));
+                    multi->buf = (char*)_webui_malloc(expect_len);
+                    multi->expect = expect_len;
+                    multi->receive = 0;
+                    mg_set_user_connection_data(client, multi);
                 }
             }
             return;
@@ -13269,19 +13374,14 @@ _webui_receive(
     // Generate args
     void* arg_ptr = NULL;
     size_t arg_len = 0;
-    if (multi_packet) {
+    if (multi_ready) {
 #ifdef WEBUI_LOG
         _webui_log_debug(
             "[Core] [WS #%zu]\t_webui_receive() -> Processing multi packet\n", recvNum);
 #endif
         // Get data from accumulated multipackets
-        arg_len = multi_receive;
-        arg_ptr = multi_buf;
-        // Reset
-        multi_packet = false;
-        multi_expect = 0;
-        multi_receive = 0;
-        multi_buf = NULL;
+        arg_len = multi_data_len;
+        arg_ptr = multi_data;
     } else {
         arg_len = len;
         if (len > 0) {
@@ -13446,6 +13546,8 @@ _webui_connection_remove(_webui_window_t* win, struct mg_connection* client)
             }
             // Close
             _webui_mutex_unlock(&_webui.mutex_client);
+            // Free any script pipe still waiting on this client
+            _webui_script_client_closed(client);
             mg_close_connection(client);
             return;
         }
@@ -13456,6 +13558,8 @@ _webui_connection_remove(_webui_window_t* win, struct mg_connection* client)
     _webui_log_debug("[Core]\t\t_webui_connection_remove() -> Client not found\n");
 #endif
     _webui_mutex_unlock(&_webui.mutex_client);
+    // Free any script pipe still waiting on this client
+    _webui_script_client_closed(client);
     mg_close_connection(client);
 }
 
@@ -13638,11 +13742,23 @@ _webui_ws_process(_webui_window_t* win, struct mg_connection* client, size_t con
                         // Get pipe id
                         if (packet_id < WEBUI_MAX_IDS) {
 
-                            if (_webui.run_userBuffer[packet_id] != NULL) {
+                            _webui_mutex_lock(&_webui.mutex_js_run);
 
-                                _webui_mutex_lock(&_webui.mutex_js_run);
-                                _webui.run_done[packet_id] = false;
+                            // Only the first result, from the exact client the
+                            // script was sent to, is accepted. Duplicate, late
+                            // or forged results never reach the user's buffer.
+                            bool expected
+                                = (client != NULL && _webui.run_client[packet_id] == client
+                                    && !_webui.run_done[packet_id]);
+
+                            if (expected && _webui.run_abandoned[packet_id]) {
+
+                                // Late result of a timed out script, free the id now
+                                _webui.run_client[packet_id] = NULL;
+                                _webui.run_abandoned[packet_id] = false;
                                 _webui_mutex_unlock(&_webui.mutex_js_run);
+
+                            } else if (expected) {
 
                                 // Get js-error
                                 bool error = true;
@@ -13653,9 +13769,11 @@ _webui_ws_process(_webui_window_t* win, struct mg_connection* client, size_t con
                                 // Get data part as binary (last byte is an extras null byte for
                                 // string terminator)
                                 char* data = (char*)&packet[WEBUI_PROTOCOL_DATA + 1];
-                                size_t data_len = len
-                                    - (WEBUI_PROTOCOL_SIZE + 1 + 1); // [Total packet size - (Header
-                                                                     // + error byte + null byte)]
+                                size_t data_len = 0;
+                                if (len > (WEBUI_PROTOCOL_SIZE + 1 + 1)) {
+                                    // [Total packet size - (Header + error byte + null byte)]
+                                    data_len = len - (WEBUI_PROTOCOL_SIZE + 1 + 1);
+                                }
 
 #ifdef WEBUI_LOG
                                 _webui_log_debug(
@@ -13677,26 +13795,23 @@ _webui_ws_process(_webui_window_t* win, struct mg_connection* client, size_t con
                                 _webui_log_debug("] @ 0x%p\n", data);
 #endif
 
-                                // Set pipe
-                                _webui.run_error[packet_id] = error;
-                                if (data_len > 0) {
-
-                                    // Copy response to the user's response buffer directly
-                                    size_t response_len = data_len + 1;
+                                // Copy response to the user's buffer, truncated so
+                                // the null terminator always fits
+                                char* ubuf = _webui.run_userBuffer[packet_id];
+                                size_t ubuf_len = _webui.run_userBufferLen[packet_id];
+                                if (ubuf != NULL && ubuf_len > 0) {
                                     size_t bytes_to_cpy
-                                        = (response_len <= _webui.run_userBufferLen[packet_id]
-                                                ? response_len
-                                                : _webui.run_userBufferLen[packet_id]);
-                                    memcpy(_webui.run_userBuffer[packet_id], data, bytes_to_cpy);
-                                } else {
-
-                                    // Empty Result
-                                    _webui.run_userBuffer[packet_id] = 0x00;
+                                        = (data_len < ubuf_len ? data_len : (ubuf_len - 1));
+                                    memcpy(ubuf, data, bytes_to_cpy);
+                                    ubuf[bytes_to_cpy] = 0x00;
                                 }
 
-                                // Send ready signal to webui_script()
-                                _webui_mutex_lock(&_webui.mutex_js_run);
+                                // Signal webui_script(), which releases the pipe
+                                _webui.run_error[packet_id] = error;
                                 _webui.run_done[packet_id] = true;
+                                _webui_mutex_unlock(&_webui.mutex_js_run);
+
+                            } else {
                                 _webui_mutex_unlock(&_webui.mutex_js_run);
                             }
                         }
@@ -13736,6 +13851,8 @@ _webui_ws_process(_webui_window_t* win, struct mg_connection* client, size_t con
                             // Event Info Extras
                             event_inf->event_data[0] = url;
                             event_inf->event_size[0] = url_len;
+                            // One argument, so webui_get_count() reports it
+                            event_inf->count = 1;
 
                             _webui_window_event(win, // Event -> Window
                                 connection_id, // Event -> Client Unique ID
@@ -15515,6 +15632,8 @@ _webui_wv_event_decision(void* widget, void* decision, int decision_type, void* 
         event_inf->event_size[0] = strlen(uri);
         event_inf->event_data[1] = type;
         event_inf->event_size[1] = strlen(type);
+        // Two arguments, so webui_get_count() reports them
+        event_inf->count = 2;
 
         _webui_window_event(win, // Event -> Window
             0, // Event -> Client Unique ID | This is a WebKitGTK Event, so we don't have any
