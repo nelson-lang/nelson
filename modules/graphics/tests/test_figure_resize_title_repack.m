@@ -34,7 +34,14 @@ asserts.istrue(ax.Position(4) < defaultHeight);
 %=============================================================================
 % Growing the figure back restores the baseline layout.
 f.Position = initialPosition;
-drawnow();
+% the grow-back relayout can settle over a few frames on a loaded runner, so poll for it
+for k = 1:40
+  drawnow();
+  if abs(ax.Position(4) - defaultHeight) <= 1e-3
+    break;
+  end
+  pause(0.05);
+end
 asserts.isapprox(ax.Position(4), defaultHeight, 1e-3);
 %=============================================================================
 close(f);
