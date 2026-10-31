@@ -10,7 +10,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { onPush, rpc } from '../rpc/client';
 import { isEngineBusy, onEngineReady } from '../desktop/engineSession';
-import { withFigureSlot } from '../desktop/figureQueue';
+import { createResponseOrder, withFigureSlot } from '../desktop/figureQueue';
 import type { FigureActionResult, InspectorPayload, InspectorTreeNode } from '../rpc/figureTypes';
 //=============================================================================
 // Fetches the property-inspector model ({model, tree}) of the selected object.
@@ -27,23 +27,45 @@ export function useInspectorModel(
   const selection = useRef(selectedObject);
   selection.current = selectedObject;
   const alive = useRef(false);
+  // Server workers answer in any order: an inspect issued during a pan can come
+  // back seconds after a later one, so responses are applied in issue order.
+  const order = useRef(createResponseOrder());
+  // One request per object at a time; a refresh asked meanwhile runs afterwards
+  // with whatever is selected by then, instead of piling identical requests.
+  const inFlight = useRef(new Set<number>());
+  const refetch = useRef(false);
 
-  const fetchModel = useCallback(async () => {
+  const fetchModel = useCallback(async (): Promise<void> => {
     if (!observing.current || isEngineBusy() || !alive.current) return;
+    const target = selection.current || 0;
+    if (inFlight.current.has(target)) {
+      refetch.current = true;
+      return;
+    }
+    inFlight.current.add(target);
+    const apply = order.current((result: FigureActionResult) => {
+      // the browser moved on to another object while this one was answered
+      if (target !== (selection.current || 0) || !result.model) return;
+      setPayload({ model: result.model, tree: result.tree as InspectorTreeNode });
+    });
     try {
       const result = await withFigureSlot(() =>
         alive.current && observing.current && !isEngineBusy()
           ? rpc<FigureActionResult>('figure.action', {
               handle,
-              request: { action: 'inspect', objectHandle: selection.current || 0 },
+              request: { action: 'inspect', objectHandle: target },
             })
           : Promise.resolve(null)
       );
-      if (result && alive.current && result.model) {
-        setPayload({ model: result.model, tree: result.tree as InspectorTreeNode });
-      }
+      if (result && alive.current) apply(result);
     } catch {
       /* transient; the next refresh retries */
+    } finally {
+      inFlight.current.delete(target);
+      if (refetch.current && alive.current) {
+        refetch.current = false;
+        void fetchModel();
+      }
     }
   }, [handle]);
 
