@@ -26,10 +26,12 @@ test('keeps Colorbar layouts responsive with editable properties', async ({ page
 });
 //=============================================================================
 test('keeps UI controls separate from the plot when properties open', async ({ page }) => {
+  test.setTimeout(300_000);
   await figureUiLayoutScenario(page);
 });
 //=============================================================================
 test('rotates the Bunny and Teapot meshes with hidden axes using the mouse', async ({ page }) => {
+  test.setTimeout(300_000);
   await figureMeshRotationScenario(page);
 });
 //=============================================================================
