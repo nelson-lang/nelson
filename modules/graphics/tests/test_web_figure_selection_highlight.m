@@ -42,7 +42,7 @@ assert_isfalse(isfield(axesEntry(frame, left), 'highlight'));
 assert_isfalse(isfield(axesEntry(frame, right), 'highlight'));
 close(f);
 %=============================================================================
-% The root default applies to new axes, as in MATLAB.
+% The root default applies to new axes, as in the reference.
 set(0, 'DefaultAxesSelectionHighlight', 'off');
 f = figure('Visible', 'off');
 ax = axes('Parent', f);

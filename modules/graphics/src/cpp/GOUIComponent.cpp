@@ -1190,9 +1190,10 @@ GOUIComponent::registerUIComponentCommonProperties(
         new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR, true, withVisibleChildren);
     registerProperty(new GOGObjectsProperty, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
     registerProperty(new GOLayoutOptionsProperty, GO_LAYOUT_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR, false);
+    registerProperty(new GOPixelOriginPositionProperty(this), GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GOPixelOriginPositionProperty(this), GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(
+        new GOPixelOriginPositionProperty(this), GO_OUTER_POSITION_PROPERTY_NAME_STR, false);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_ENABLE_PROPERTY_NAME_STR);
@@ -1219,9 +1220,10 @@ GOUIComponent::setupUIComponentCommonDefaults(
     double x, double y, double w, double h, bool withFonts, bool withBackgroundColor)
 {
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x, y, w, h);
-    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, x, y, w, h);
-    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, x, y, w, h);
+    // defaults are given with the one-based pixel origin, stored zero-based
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x - 1, y - 1, w, h);
+    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, x - 1, y - 1, w, h);
+    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, x - 1, y - 1, w, h);
     setStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_ENABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);

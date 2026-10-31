@@ -361,20 +361,15 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (hp->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
-        int64 currentAxes = hp->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
-        if (currentAxes == 0 || isDeletedGraphicsObject(currentAxes)) {
-            GOFigure* fig = dynamic_cast<GOFigure*>(hp);
-            if (!fig) {
-                Error("Nelson:graphics:invalidFigureCast",
-                    "Failed to cast GraphicsObject to GOFigure.");
-                return ArrayOfVector();
-            }
-            ArrayOfVector t;
-            int64 newHandle = createNewAxes(figureAxesParent(fig, handle), t, new GOAxis);
-            return buildReturnValue(nLhs, newHandle);
+        // axes(f) always creates new axes in the figure, like MATLAB.
+        GOFigure* fig = dynamic_cast<GOFigure*>(hp);
+        if (!fig) {
+            Error("Nelson:graphics:invalidFigureCast", "Failed to cast GraphicsObject to GOFigure.");
+            return ArrayOfVector();
         }
-        handle = currentAxes;
-        hp = getGraphicsObjectFromGraphicHandle(handle);
+        ArrayOfVector t;
+        int64 newHandle = createNewAxes(figureAxesParent(fig, handle), t, new GOAxis);
+        return buildReturnValue(nLhs, newHandle);
     }
 
     if (!hp->isType(GO_PROPERTY_VALUE_AXES_STR)) {

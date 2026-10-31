@@ -462,6 +462,8 @@ GOPieChart::updateDerivedProperties()
 void
 GOPieChart::updateState()
 {
+    // clear=false: updateModes needs the Position flags, clearAllChanged runs below.
+    syncChartPositionUnits(this, false);
     updateModes();
     updateDerivedProperties();
     m_font = FontSpec {};

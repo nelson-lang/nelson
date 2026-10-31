@@ -40,6 +40,7 @@
 #include "GOTextInterpreterProperty.hpp"
 #include "GOUnitsProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
+#include "GOVectorTwoDoubleProperty.hpp"
 #include "StringHelpers.hpp"
 #include "GOTexLayout.hpp"
 #include "TexToUnicode.hpp"
@@ -48,6 +49,22 @@
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// ItemTokenSize reads back as a 2-by-1 column, like MATLAB.
+class GOLegendTokenSizeProperty : public GOTwoVectorProperty
+{
+public:
+    ArrayOf
+    get() override
+    {
+        ArrayOf row = GOTwoVectorProperty::get();
+        const double* data = static_cast<const double*>(row.dataPointer());
+        double* column = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 2));
+        column[0] = data[0];
+        column[1] = data[1];
+        return ArrayOf(NLS_DOUBLE, Dimensions(2, 1), column);
+    }
+};
 //=============================================================================
 static const std::vector<std::wstring> LEGEND_LOCATION_DICT
     = { GO_PROPERTY_VALUE_NORTH_STR, GO_PROPERTY_VALUE_SOUTH_STR, GO_PROPERTY_VALUE_EAST_STR,
@@ -231,11 +248,12 @@ GOLegend::constructProperties()
     registerProperty(
         new GOScalarPositiveIntegerValueProperty, GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_ICON_COLUMN_WIDTH_MODE_PROPERTY_NAME_STR);
+    registerProperty(new GOLegendTokenSizeProperty, GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR);
     registerProperty(
         new GOLegendLowerStringProperty(LEGEND_DIRECTION_DICT), GO_DIRECTION_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_DIRECTION_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOStringVectorProperty(true), GO_STRING_PROPERTY_NAME_STR);
+    registerProperty(new GOStringVectorProperty(true, false, true), GO_STRING_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_TEXT_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
@@ -280,6 +298,7 @@ GOLegend::setupDefaults()
     setRestrictedStringDefault(GO_NUM_COLUMNS_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_ORIENTATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_VERTICAL_STR);
     setScalarPositiveIntegerValueDefault(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR, 30);
+    setTwoVectorDefault(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR, 30, 18);
     setRestrictedStringDefault(
         GO_ICON_COLUMN_WIDTH_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_DIRECTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
@@ -558,6 +577,15 @@ GOLegend::updateModes()
     if (hasChanged(GO_NUM_COLUMNS_PROPERTY_NAME_STR)) {
         toManual(GO_NUM_COLUMNS_MODE_PROPERTY_NAME_STR);
     }
+    if (hasChanged(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR)) {
+        // The token width drives the icon column; the token height is stored only.
+        std::vector<double> tokenSize = findVectorDoubleProperty(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR);
+        if (!tokenSize.empty() && tokenSize[0] >= 1) {
+            setScalarPositiveIntegerValueDefault(
+                GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR, std::round(tokenSize[0]));
+            toManual(GO_ICON_COLUMN_WIDTH_MODE_PROPERTY_NAME_STR);
+        }
+    }
     if (hasChanged(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR)) {
         toManual(GO_ICON_COLUMN_WIDTH_MODE_PROPERTY_NAME_STR);
     }
@@ -750,7 +778,12 @@ GOLegend::updateAutoLayout()
             y = base[1] + base[3] - h;
         }
     }
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x, y, w, h);
+    // the layout works in normalized units, Position is stored in the Units of the legend
+    std::vector<double> placed = { x, y, w, h };
+    convertPositionPixelOrigin(GO_PROPERTY_VALUE_NORMALIZED_STR,
+        findStringProperty(GO_UNITS_PROPERTY_NAME_STR), placed, figW, figH);
+    setFourVectorDefault(
+        GO_POSITION_PROPERTY_NAME_STR, placed[0], placed[1], placed[2], placed[3]);
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
     applyLocationToPeerAxes();
 }
@@ -778,6 +811,9 @@ isLegendablePeerChild(GraphicsObject* child)
             == GO_PROPERTY_VALUE_OFF_STR) {
         return false;
     }
+    if (legendIconHidden(child)) {
+        return false;
+    }
     const std::wstring type = child->getType();
     return type == GO_PROPERTY_VALUE_LINE_STR || type == GO_PROPERTY_VALUE_STAIR_STR
         || type == GO_PROPERTY_VALUE_ANIMATED_LINE_STR || type == GO_PROPERTY_VALUE_SCATTER_STR
@@ -797,9 +833,28 @@ entryLabel(GraphicsObject* child, size_t index)
         label = child->findStringProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     }
     if (label.empty()) {
-        label = L"data " + std::to_wstring(index);
+        label = L"data" + std::to_wstring(index);
     }
     return label;
+}
+//=============================================================================
+// True for the generated 'data1', 'data2'... labels, which never overwrite a DisplayName.
+static bool
+isGeneratedLabel(const std::wstring& label)
+{
+    if (label.size() < 5 || label.compare(0, 4, L"data") != 0) {
+        return false;
+    }
+    return std::all_of(label.begin() + 4, label.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; });
+}
+//=============================================================================
+static std::wstring
+displayNameOf(GraphicsObject* child)
+{
+    if (child && child->haveProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)) {
+        return child->findStringProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR);
+    }
+    return std::wstring();
 }
 //=============================================================================
 void
@@ -816,11 +871,23 @@ GOLegend::updateDynamicEntries()
     size_t count = std::min(m_plotHandles.size(), labels.size());
     handles.reserve(m_plotHandles.size());
     refreshedLabels.reserve(labels.size());
+    const bool stringChanged = hasChanged(GO_STRING_PROPERTY_NAME_STR);
     for (size_t k = 0; k < count; ++k) {
         int64 handle = m_plotHandles[k];
-        if (handle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(handle)) {
+        // An entry whose IconDisplayStyle was turned off after the legend was built is dropped.
+        if (handle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(handle)
+            && !legendIconHidden(findGraphicsObject(handle, false))) {
+            GraphicsObject* child = findGraphicsObject(handle, false);
+            std::wstring label = labels[k];
+            // Like MATLAB, an explicit label is written to DisplayName, which then drives the entry.
+            if (stringChanged && !isGeneratedLabel(label) && child
+                && child->haveProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)) {
+                child->findProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)
+                    ->set(ArrayOf::characterArray(label));
+            }
+            std::wstring displayName = displayNameOf(child);
             handles.push_back(handle);
-            refreshedLabels.push_back(labels[k]);
+            refreshedLabels.push_back(displayName.empty() ? label : displayName);
         }
     }
     if (m_peerAxesHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_peerAxesHandle)) {
@@ -838,7 +905,13 @@ GOLegend::updateDynamicEntries()
                 GraphicsObject* child = findGraphicsObject(childHandle, false);
                 if (isLegendablePeerChild(child)) {
                     handles.push_back(childHandle);
-                    refreshedLabels.push_back(entryLabel(child, refreshedLabels.size() + 1));
+                    size_t unnamed = 0;
+                    for (int64 existing : handles) {
+                        if (displayNameOf(findGraphicsObject(existing, false)).empty()) {
+                            ++unnamed;
+                        }
+                    }
+                    refreshedLabels.push_back(entryLabel(child, unnamed));
                     known.insert(childHandle);
                     m_seenPeerChildren.insert(childHandle);
                 }

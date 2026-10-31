@@ -27,8 +27,9 @@ f.Position = [initialPosition(1), initialPosition(2), 295, 127];
 drawnow();
 axesTop = ax.Position(2) + ax.Position(4);
 outerTop = ax.OuterPosition(2) + ax.OuterPosition(4);
-% The title (TightInset top) fits between the axes top and the outer edge.
-asserts.istrue(axesTop + ax.TightInset(4) <= outerTop + 1e-3);
+% The title fits between the axes top and the outer edge: the room kept is 0.9 of the title
+% line height, TightInset also counts a gap of a quarter em above the line.
+asserts.istrue(axesTop + 0.7 * ax.TightInset(4) <= outerTop + 1e-3);
 % shrinking re-derives a smaller axes height than the baseline
 asserts.istrue(ax.Position(4) < defaultHeight);
 %=============================================================================

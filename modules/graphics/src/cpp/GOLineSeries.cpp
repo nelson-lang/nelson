@@ -35,6 +35,60 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Read the ThetaZeroLocation / ThetaDir convention from the parent polar axes.
+// A polar-flagged plain axes may not carry these, so every read is guarded and
+// falls back to the default (zero to the right, counterclockwise).
+static void
+polarAngleConvention(GraphicsObject* go, double& zeroOffset, double& dirSign)
+{
+    constexpr double pi = 3.141592653589793238462643383279502884;
+    zeroOffset = 0.0;
+    dirSign = 1.0;
+    GOAxis* axis = go->getParentAxis();
+    if (!axis) {
+        return;
+    }
+    GOGenericProperty* zeroProp
+        = axis->findProperty(GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, false);
+    if (zeroProp) {
+        std::wstring location = zeroProp->get().asWideString();
+        if (location == GO_PROPERTY_VALUE_TOP_STR) {
+            zeroOffset = pi / 2.0;
+        } else if (location == GO_PROPERTY_VALUE_LEFT_STR) {
+            zeroOffset = pi;
+        } else if (location == GO_PROPERTY_VALUE_BOTTOM_STR) {
+            zeroOffset = -pi / 2.0;
+        }
+    }
+    GOGenericProperty* dirProp = axis->findProperty(GO_THETA_DIR_PROPERTY_NAME_STR, false);
+    if (dirProp && dirProp->get().asWideString() == GO_PROPERTY_VALUE_CLOCKWISE_STR) {
+        dirSign = -1.0;
+    }
+}
+//=============================================================================
+// Read the RDir convention from the parent polar axes. 'reverse' mirrors each
+// radius about the RLim span, so r=RLim(1) sits at the outer edge. Guarded: a
+// polar-flagged plain axes may carry neither RDir nor RLim.
+static void
+polarRadialConvention(GraphicsObject* go, bool& reverse, double& rSpanSum)
+{
+    reverse = false;
+    rSpanSum = 0.0;
+    GOAxis* axis = go->getParentAxis();
+    if (!axis) {
+        return;
+    }
+    GOGenericProperty* dirProp = axis->findProperty(GO_R_DIR_PROPERTY_NAME_STR, false);
+    if (!dirProp || dirProp->get().asWideString() != GO_PROPERTY_VALUE_REVERSE_STR) {
+        return;
+    }
+    std::vector<double> rLim(axis->findVectorDoubleProperty(GO_R_LIM_PROPERTY_NAME_STR));
+    if (rLim.size() >= 2) {
+        reverse = true;
+        rSpanSum = rLim[0] + rLim[1];
+    }
+}
+//=============================================================================
 static bool
 buildPolarLineData(GraphicsObject* go, std::vector<double>& xs, std::vector<double>& ys)
 {
@@ -43,12 +97,21 @@ buildPolarLineData(GraphicsObject* go, std::vector<double>& xs, std::vector<doub
     if (theta.empty() || theta.size() != radius.size()) {
         return false;
     }
+    double zeroOffset = 0.0;
+    double dirSign = 1.0;
+    polarAngleConvention(go, zeroOffset, dirSign);
+    bool reverse = false;
+    double rSpanSum = 0.0;
+    polarRadialConvention(go, reverse, rSpanSum);
     xs.resize(theta.size());
     ys.resize(theta.size());
     OMP_PARALLEL_FOR_LOOP(theta.size())
     for (ompIndexType i = 0; i < (ompIndexType)theta.size(); i++) {
-        double angle = theta[i];
+        double angle = zeroOffset + dirSign * theta[i];
         double value = radius[i];
+        if (reverse) {
+            value = rSpanSum - value;
+        }
         if (std::isfinite(value) && value < 0) {
             constexpr double pi = 3.141592653589793238462643383279502884;
             angle += pi;

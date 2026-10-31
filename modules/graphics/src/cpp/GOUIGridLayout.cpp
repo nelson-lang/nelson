@@ -420,9 +420,9 @@ GOUIGridLayout::performLayout(double gridW, double gridH)
     }
 
     double gridWidth = gridW;
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 1, 1, gridWidth, gridHeight);
-    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 1, 1, gridWidth, gridHeight);
-    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, 1 + padding[0], 1 + padding[1],
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0, 0, gridWidth, gridHeight);
+    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 0, 0, gridWidth, gridHeight);
+    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, padding[0], padding[1],
         std::max(0.0, gridWidth - padding[0] - padding[2]),
         std::max(0.0, gridHeight - padding[1] - padding[3]));
 }

@@ -1585,6 +1585,49 @@ GOWindow::deliverButtonDownCallbacks(QMouseEvent* e, const std::wstring& selecti
     } else if (object == nullptr) {
         handleMouseEvent(e, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
     }
+    deliverLegendItemHit(e, selectionType);
+}
+//=============================================================================
+// A click on a legend entry fires that legend's ItemHitFcn with the entry's
+// plotted object as Peer and the clicked Region ('icon' or 'label'), like MATLAB.
+void
+GOWindow::deliverLegendItemHit(QMouseEvent* e, const std::wstring& selectionType)
+{
+    if (!goFig) {
+        return;
+    }
+    int px = 0;
+    int py = 0;
+    qtGetPosition(e, px, py);
+    int mx = remapX(px);
+    int my = remapY(py);
+    GOGObjectsProperty* cp
+        = static_cast<GOGObjectsProperty*>(goFig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+    std::vector<int64> children(cp->data());
+    QRect plotRegion(qtchild->geometry());
+    for (auto it = children.rbegin(); it != children.rend(); ++it) {
+        GOLegend* legend = dynamic_cast<GOLegend*>(findGraphicsObject(*it, false));
+        if (!legend) {
+            continue;
+        }
+        int64 peerHandle = 0;
+        int region = 0;
+        if (!legend->hitTestEntry(mx, my, plotRegion.width(), plotRegion.height(), peerHandle, region)) {
+            continue;
+        }
+        GOCallbackProperty* cb = static_cast<GOCallbackProperty*>(
+            legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR, false));
+        if (cb && !cb->get().isEmpty()) {
+            wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
+            ArrayOfVector fieldValues;
+            fieldValues << graphicsObjectHandle(peerHandle, false);
+            fieldValues << ArrayOf::characterArray(region == 0 ? std::wstring(L"icon")
+                                                              : std::wstring(L"label"));
+            fieldValues << ArrayOf::characterArray(selectionType);
+            cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
+        }
+        return;
+    }
 }
 //=============================================================================
 int64

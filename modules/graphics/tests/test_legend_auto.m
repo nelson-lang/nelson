@@ -61,7 +61,7 @@ asserts.isequal(lgd.Units, 'pixels');
 lgd.Units = 'normalized';
 asserts.isequal(lgd.Units, 'normalized');
 lgd.String = {'C'; 'D'};
-asserts.isequal(lgd.String, {'C'; 'D'});
+asserts.isequal(lgd.String, {'C', 'D'});
 lgd.Visible = 'off';
 asserts.isequal(char(lgd.Visible), 'off');
 lgd.Visible = 'on';

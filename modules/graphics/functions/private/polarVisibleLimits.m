@@ -7,9 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function [xLimits, yLimits] = polarVisibleLimits(thetaLim, radius, thetaAxisUnits)
+function [xLimits, yLimits] = polarVisibleLimits(thetaLim, radius, thetaAxisUnits, zeroOffset, dirSign)
   if nargin < 3
     thetaAxisUnits = 'degrees';
+  end
+  if nargin < 4
+    zeroOffset = 0;
+  end
+  if nargin < 5
+    dirSign = 1;
   end
   if radius <= 0 || ~isfinite(radius)
     radius = 1;
@@ -18,30 +24,23 @@ function [xLimits, yLimits] = polarVisibleLimits(thetaLim, radius, thetaAxisUnit
   if strcmp(thetaAxisUnits, 'radians')
     fullCircle = 2 * pi;
   end
+  % A full circle fills the symmetric box whatever the orientation convention.
   if abs(abs(thetaLim(2) - thetaLim(1)) - fullCircle) < 1e-12
     xLimits = [-radius radius];
     yLimits = [-radius radius];
     return
   end
-
-  theta = visibleBoundaryAngles(thetaLim, thetaAxisUnits);
+  % Sample the visible arc and map each data angle through the same convention
+  % as the grid and data, so the box fits the wedge after rotation/direction.
+  theta = linspace(thetaLim(1), thetaLim(2), 361);
   if strcmp(thetaAxisUnits, 'degrees')
     theta = theta * pi / 180;
   end
-  x = [0 radius * cos(theta)];
-  y = [0 radius * sin(theta)];
+  angle = zeroOffset + dirSign .* theta;
+  x = [0 radius * cos(angle)];
+  y = [0 radius * sin(angle)];
   xLimits = expandEqualLimits([min(x) max(x)], radius);
   yLimits = expandEqualLimits([min(y) max(y)], radius);
-end
-%=============================================================================
-function angles = visibleBoundaryAngles(thetaLim, thetaAxisUnits)
-  angles = thetaLim;
-  cardinal = -720:90:720;
-  if strcmp(thetaAxisUnits, 'radians')
-    cardinal = cardinal * pi / 180;
-  end
-  cardinal = cardinal(cardinal > thetaLim(1) & cardinal < thetaLim(2));
-  angles = unique([angles cardinal]);
 end
 %=============================================================================
 function limits = expandEqualLimits(limits, radius)

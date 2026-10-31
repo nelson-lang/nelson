@@ -621,6 +621,13 @@ public:
     {
         return false;
     }
+    // Pushes any deferred (depth-sorted) geometry into the frame now, so primitives
+    // drawn next land on top of it. A no-op on immediate-mode backends. Kept last to
+    // preserve vtable slots.
+    virtual void
+    flushDeferred()
+    {
+    }
     //=============================================================================
 };
 //=============================================================================

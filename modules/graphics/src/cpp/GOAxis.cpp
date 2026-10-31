@@ -165,7 +165,7 @@ axisPropertyVectorAsPixels(GOAxis* axis, const std::wstring& name)
         return position;
     }
     std::wstring units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
-    convertPosition(units, GO_PROPERTY_VALUE_PIXELS_STR, position, width, height);
+    convertPositionToZeroBasedPixels(units, position, width, height);
     return position;
 }
 //=============================================================================
@@ -179,7 +179,7 @@ setAxisPropertyVectorFromPixels(
         return;
     }
     std::wstring units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
-    std::vector<double> convertedPosition = convertFromPixels(
+    std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
         units, position[0], position[1], position[2], position[3], width, height);
     auto* property = static_cast<GOFourVectorProperty*>(axis->findProperty(name));
     property->value(
@@ -2016,6 +2016,27 @@ GOAxis::getVisibleFieldnames()
     return fieldnames;
 }
 //=============================================================================
+// TightInset is computed from the current labels each time it is read, in the axes Units.
+class GOTightInsetProperty : public GOFourVectorProperty
+{
+    GOAxis* m_axis;
+
+public:
+    explicit GOTightInsetProperty(GOAxis* axis) : m_axis(axis) { }
+    ArrayOf
+    get() override
+    {
+        std::vector<double> inset = m_axis->tightInsetPixels();
+        double width = 0;
+        double height = 0;
+        graphicsParentSizeInPixels(m_axis, m_axis->getParentFigure(), width, height);
+        std::wstring units = m_axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+        auto [l, b] = convertFromPixels(units, inset[0], inset[1], width, height);
+        auto [r, t] = convertFromPixels(units, inset[2], inset[3], width, height);
+        return ArrayOf::doubleRowVector(std::vector<double>{ l, b, r, t });
+    }
+};
+//=============================================================================
 void
 GOAxis::constructProperties()
 {
@@ -2092,7 +2113,7 @@ GOAxis::constructProperties()
     registerProperty(new GOInOutProperty, GO_TICK_DIR_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_TICK_DIR_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_TICK_LENGTH_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_TIGHT_INSET_PROPERTY_NAME_STR);
+    registerProperty(new GOTightInsetProperty(this), GO_TIGHT_INSET_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_TITLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
@@ -3924,6 +3945,34 @@ GOAxis::drawBox(RenderInterface& gc)
     gc.releaseDirectDraw();
 }
 //=============================================================================
+// Read the theta orientation convention from a polar axes: plot angle =
+// zeroOffset + dirSign * dataTheta. Guarded, so a plain axes keeps the default.
+static void
+polarAxisAngleConvention(GOAxis* axis, double& zeroOffset, double& dirSign)
+{
+    zeroOffset = 0.;
+    dirSign = 1.;
+    if (!axis) {
+        return;
+    }
+    GOGenericProperty* zeroProp
+        = axis->findProperty(GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, false);
+    if (zeroProp) {
+        std::wstring location = zeroProp->get().asWideString();
+        if (location == GO_PROPERTY_VALUE_TOP_STR) {
+            zeroOffset = M_PI / 2.0;
+        } else if (location == GO_PROPERTY_VALUE_LEFT_STR) {
+            zeroOffset = M_PI;
+        } else if (location == GO_PROPERTY_VALUE_BOTTOM_STR) {
+            zeroOffset = -M_PI / 2.0;
+        }
+    }
+    GOGenericProperty* dirProp = axis->findProperty(GO_THETA_DIR_PROPERTY_NAME_STR, false);
+    if (dirProp && dirProp->get().asWideString() == GO_PROPERTY_VALUE_CLOCKWISE_STR) {
+        dirSign = -1.0;
+    }
+}
+//=============================================================================
 void
 GOAxis::drawPolarBackground(RenderInterface& gc)
 {
@@ -3954,19 +4003,25 @@ GOAxis::drawPolarBackground(RenderInterface& gc)
     if (isFullCircleThetaSpan(thetaLim, radians)) {
         gc.circleFill(xCenter, yCenter, radius);
     } else if (thetaLim.size() >= 2) {
+        // The wedge must follow the same orientation convention as the grid and
+        // data: plot angle = zeroOffset + dirSign * dataTheta.
+        double zeroOffset = 0.;
+        double dirSign = 1.;
+        polarAxisAngleConvention(this, zeroOffset, dirSign);
         double thetaStart = radians ? thetaLim[0] : degreesToRadians(thetaLim[0]);
         double thetaEnd = radians ? thetaLim[1] : degreesToRadians(thetaLim[1]);
         double span = thetaEnd - thetaStart;
         int segments = std::max(1, static_cast<int>(std::ceil(std::fabs(span) * 180.0 / M_PI)));
         segments = std::min(segments, 360);
-        double previousTheta = thetaStart;
-        double previousX = xCenter + radius * std::cos(previousTheta);
-        double previousY = yCenter + radius * std::sin(previousTheta);
+        double startAngle = zeroOffset + dirSign * thetaStart;
+        double previousX = xCenter + radius * std::cos(startAngle);
+        double previousY = yCenter + radius * std::sin(startAngle);
         for (int k = 1; k <= segments; ++k) {
             double theta
                 = thetaStart + span * static_cast<double>(k) / static_cast<double>(segments);
-            double x = xCenter + radius * std::cos(theta);
-            double y = yCenter + radius * std::sin(theta);
+            double angle = zeroOffset + dirSign * theta;
+            double x = xCenter + radius * std::cos(angle);
+            double y = yCenter + radius * std::sin(angle);
             gc.tri(xCenter, yCenter, 0, previousX, previousY, 0, x, y, 0);
             previousX = x;
             previousY = y;
@@ -4253,6 +4308,19 @@ GOAxis::drawAxisLines(RenderInterface& gc)
             { limits[0], yBack, limits[4], limits[0], yBack, limits[5], SegmentAxisZ },
             { limits[1], yBack, limits[4], limits[1], yBack, limits[5], SegmentAxisZ },
         };
+        // BoxStyle 'full' completes the cube with the three edges at the front corner
+        // (none of which lie on a back plane); 'back' (default) draws the back wireframe only.
+        if (stringCheck(GO_BOX_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FULL_STR)) {
+            double xFront = (xBack == limits[0]) ? limits[1] : limits[0];
+            double yFront = (yBack == limits[2]) ? limits[3] : limits[2];
+            double zFront = (zBack == limits[4]) ? limits[5] : limits[4];
+            segments.push_back(
+                { limits[0], yFront, zFront, limits[1], yFront, zFront, SegmentAxisX });
+            segments.push_back(
+                { xFront, limits[2], zFront, xFront, limits[3], zFront, SegmentAxisY });
+            segments.push_back(
+                { xFront, yFront, limits[4], xFront, yFront, limits[5], SegmentAxisZ });
+        }
         std::vector<Segment3D> uniqueSegments;
         uniqueSegments.reserve(segments.size());
         for (const auto& segment : segments) {
@@ -4370,8 +4438,8 @@ GOAxis::rePackTitleArea()
     }
 
     std::wstring currentUnits = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
-    std::vector<double> convertedPosition
-        = convertFromPixels(currentUnits, posx0, posy0, poswidth, posheight, width, height);
+    std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
+        currentUnits, posx0, posy0, poswidth, posheight, width, height);
     GOFourVectorProperty* hp
         = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
     hp->value(
@@ -4492,13 +4560,6 @@ GOAxis::rePackFigure(bool force)
     double bottomInset = std::max(4.0, static_cast<double>(maxTickHeight + xlabelHeight + 4));
     double rightInset = 4.0;
     double topInset = std::max(4.0, static_cast<double>(titleHeight + 4));
-    std::vector<double> convertedTightInset = convertFromPixels(
-        currentUnits, leftInset, bottomInset, rightInset, topInset, width, height);
-    GOFourVectorProperty* tightInsetProperty
-        = static_cast<GOFourVectorProperty*>(findProperty(GO_TIGHT_INSET_PROPERTY_NAME_STR));
-    tightInsetProperty->value(convertedTightInset[0], convertedTightInset[1],
-        convertedTightInset[2], convertedTightInset[3]);
-    tightInsetProperty->clearModified();
     double posx0 = outerpos[2] * 0.13 + outerpos[0];
     double posy0 = outerpos[3] * 0.11 + outerpos[1];
     double poswidth = outerpos[2] * 0.775;
@@ -4506,8 +4567,8 @@ GOAxis::rePackFigure(bool force)
     if ((maxTickWidth == 0) && (maxTickHeight == 0) && (maxLabelHeight == 0)) {
         GOFourVectorProperty* hp
             = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
-        std::vector<double> convertedPosition
-            = convertFromPixels(currentUnits, posx0, posy0, poswidth, posheight, width, height);
+        std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
+            currentUnits, posx0, posy0, poswidth, posheight, width, height);
         hp->value(
             convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
         hp->clearModified();
@@ -4525,12 +4586,221 @@ GOAxis::rePackFigure(bool force)
     GOFourVectorProperty* hp
         = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
 
-    std::vector<double> convertedPosition
-        = convertFromPixels(currentUnits, posx0, posy0, poswidth, posheight, width, height);
+    std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
+        currentUnits, posx0, posy0, poswidth, posheight, width, height);
 
     hp->value(
         convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
     hp->clearModified();
+}
+//=============================================================================
+// A Position set by the user moves OuterPosition too: the outer box is the position grown by the
+// larger of the loose inset (13%, 11%, 9.5% and 7.5% of the parent) and the tight inset, like MATLAB.
+void
+GOAxis::updateOuterPositionFromPosition()
+{
+    if (findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR) == m_settledPosition) {
+        return;
+    }
+    if (m_outerPositionFromUser) {
+        return;
+    }
+    double width = 0;
+    double height = 0;
+    if (!graphicsParentSizeInPixels(this, getParentFigure(), width, height)) {
+        return;
+    }
+    std::vector<double> box(getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR));
+    if (box.size() < 4) {
+        return;
+    }
+    std::vector<double> inset = tightInsetPixels();
+    const double left = std::max(0.13 * width, inset[0]);
+    const double bottom = std::max(0.11 * height, inset[1]);
+    const double right = std::max(0.095 * width, inset[2]);
+    const double top = std::max(0.075 * height, inset[3]);
+    std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    std::vector<double> outer = convertFromPixelsPixelOrigin(units, box[0] - left, box[1] - bottom,
+        box[2] + left + right, box[3] + bottom + top, width, height);
+    auto* outerProperty
+        = static_cast<GOFourVectorProperty*>(findProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR));
+    outerProperty->value(outer[0], outer[1], outer[2], outer[3]);
+    clearChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+}
+//=============================================================================
+// Space taken by tick labels, axis labels and titles around the axes box, in pixels
+// [left bottom right top]. Calibrated on MATLAB R2025a: a tick label sits a gap of 0.4 em away
+// from the box and overhangs its tick by half its size; a label or title adds one line height.
+std::vector<double>
+GOAxis::tightInsetPixels()
+{
+    std::vector<double> box(getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR));
+    if (box.size() < 4 || !(box[2] > 0.) || !(box[3] > 0.)) {
+        return { 0., 0., 0., 0. };
+    }
+    const double boxWidth = box[2];
+    const double boxHeight = box[3];
+    double gap = 0.4 * fontSpecPixelSize(m_font);
+    std::vector<double> tickLength = findVectorDoubleProperty(GO_TICK_LENGTH_PROPERTY_NAME_STR);
+    if (!stringCheck(GO_TICK_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_IN_STR)
+        && !tickLength.empty()) {
+        gap += tickLength[0] * std::max(boxWidth, boxHeight);
+    }
+    const double lineHeight = goFontLineHeight(m_font);
+    auto fraction = [this](const std::wstring& limName, const std::wstring& scaleName,
+                        const std::wstring& dirName, double value, double& result) {
+        std::vector<double> lim = findVectorDoubleProperty(limName);
+        if (lim.size() < 2) {
+            return false;
+        }
+        double low = lim[0];
+        double high = lim[1];
+        if (stringCheck(scaleName, GO_PROPERTY_VALUE_LOG_STR)) {
+            if (!(value > 0.) || !(low > 0.) || !(high > 0.)) {
+                return false;
+            }
+            value = std::log10(value);
+            low = std::log10(low);
+            high = std::log10(high);
+        }
+        if (!(high > low)) {
+            return false;
+        }
+        result = (value - low) / (high - low);
+        if (stringCheck(dirName, GO_PROPERTY_VALUE_REVERSE_STR)) {
+            result = 1. - result;
+        }
+        return result >= -1e-9 && result <= 1. + 1e-9;
+    };
+    auto rotatedExtent = [](double& w, double& h, double angleDeg) {
+        if (angleDeg == 0.0) {
+            return;
+        }
+        const double a = angleDeg * M_PI / 180.0;
+        const double c = std::fabs(std::cos(a));
+        const double s = std::fabs(std::sin(a));
+        const double rw = w * c + h * s;
+        h = w * s + h * c;
+        w = rw;
+    };
+    double left = 0.;
+    double bottom = 0.;
+    double right = 0.;
+    double top = 0.;
+    double xTickDepth = 0.;
+    double yTickDepth = 0.;
+    {
+        std::vector<double> ticks = findVectorDoubleProperty(GO_X_TICK_PROPERTY_NAME_STR);
+        std::vector<std::wstring> labels(
+            static_cast<GOStringVectorProperty*>(findProperty(GO_X_TICK_LABEL_PROPERTY_NAME_STR))
+                ->data());
+        const double rotation
+            = findScalarDoubleProperty(GO_X_TICK_LABEL_ROTATION_PROPERTY_NAME_STR);
+        for (size_t k = 0; !labels.empty() && k < ticks.size(); ++k) {
+            double f = 0.;
+            if (labels[k % labels.size()].empty()
+                || !fraction(GO_X_LIM_PROPERTY_NAME_STR, GO_X_SCALE_PROPERTY_NAME_STR,
+                    GO_X_DIR_PROPERTY_NAME_STR, ticks[k], f)) {
+                continue;
+            }
+            int textWidth = 0;
+            int textHeight = 0;
+            measureGOText(labels[k % labels.size()], m_font, textWidth, textHeight);
+            double w = textWidth;
+            double h = lineHeight;
+            rotatedExtent(w, h, rotation);
+            left = std::max(left, w / 2. - f * boxWidth);
+            right = std::max(right, w / 2. - (1. - f) * boxWidth);
+            xTickDepth = std::max(xTickDepth, h + gap);
+        }
+    }
+    {
+        std::vector<double> ticks = findVectorDoubleProperty(GO_Y_TICK_PROPERTY_NAME_STR);
+        std::vector<std::wstring> labels(
+            static_cast<GOStringVectorProperty*>(findProperty(GO_Y_TICK_LABEL_PROPERTY_NAME_STR))
+                ->data());
+        const double rotation
+            = findScalarDoubleProperty(GO_Y_TICK_LABEL_ROTATION_PROPERTY_NAME_STR);
+        for (size_t k = 0; !labels.empty() && k < ticks.size(); ++k) {
+            double f = 0.;
+            if (labels[k % labels.size()].empty()
+                || !fraction(GO_Y_LIM_PROPERTY_NAME_STR, GO_Y_SCALE_PROPERTY_NAME_STR,
+                    GO_Y_DIR_PROPERTY_NAME_STR, ticks[k], f)) {
+                continue;
+            }
+            int textWidth = 0;
+            int textHeight = 0;
+            measureGOText(labels[k % labels.size()], m_font, textWidth, textHeight);
+            double w = textWidth;
+            double h = lineHeight;
+            rotatedExtent(w, h, rotation);
+            bottom = std::max(bottom, h / 2. - f * boxHeight);
+            top = std::max(top, h / 2. - (1. - f) * boxHeight);
+            yTickDepth = std::max(yTickDepth, w + gap);
+        }
+    }
+    const bool xAtTop
+        = stringCheck(GO_X_AXIS_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOP_STR);
+    const bool yAtRight
+        = stringCheck(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RIGHT_STR);
+    auto labelLines = [](const std::wstring& text) {
+        return 1. + static_cast<double>(std::count(text.begin(), text.end(), L'\n'));
+    };
+    double xLabelExtra = 0.;
+    if (GOText* xLabel = axisTextObject(this, GO_X_LABEL_PROPERTY_NAME_STR);
+        xLabel && axisTextHasString(this, GO_X_LABEL_PROPERTY_NAME_STR)) {
+        xLabelExtra = xLabel->getTextHeightInPixels()
+                * labelLines(xLabel->findStringProperty(GO_STRING_PROPERTY_NAME_STR))
+            + 1.4;
+    }
+    double yLabelExtra = 0.;
+    if (GOText* yLabel = axisTextObject(this, GO_Y_LABEL_PROPERTY_NAME_STR);
+        yLabel && axisTextHasString(this, GO_Y_LABEL_PROPERTY_NAME_STR)) {
+        yLabelExtra = yLabel->getTextHeightInPixels()
+                * labelLines(yLabel->findStringProperty(GO_STRING_PROPERTY_NAME_STR))
+            + 4.1;
+    }
+    if (xAtTop) {
+        top = std::max(top, xTickDepth) + xLabelExtra;
+    } else {
+        bottom = std::max(bottom, xTickDepth) + xLabelExtra;
+    }
+    if (yAtRight) {
+        right = std::max(right, yTickDepth) + yLabelExtra;
+    } else {
+        left = std::max(left, yTickDepth) + yLabelExtra;
+        if (isDualYAxis()) {
+            right = std::max(right, yTickDepth);
+        }
+    }
+    double titleExtent = 0.;
+    for (const std::wstring& name :
+        { std::wstring(GO_TITLE_PROPERTY_NAME_STR), std::wstring(GO_SUBTITLE_PROPERTY_NAME_STR) }) {
+        if (GOText* text = axisTextObject(this, name); text && axisTextHasString(this, name)) {
+            const double points = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+            titleExtent += text->getTextHeightInPixels()
+                    * labelLines(text->findStringProperty(GO_STRING_PROPERTY_NAME_STR))
+                + 0.25 * points * 96. / 72.;
+        }
+    }
+    if (titleExtent > 0.) {
+        top = std::max(top, (xAtTop ? top : 0.) + titleExtent);
+    }
+    return { std::max(left, 0.), std::max(bottom, 0.), std::max(right, 0.), std::max(top, 0.) };
+}
+//=============================================================================
+// AffectAutoLimits == 'off' or Visible == 'off' keeps an object's data out of the automatic limits.
+static bool
+excludedFromAutoLimits(GraphicsObject* object)
+{
+    if (object == nullptr) {
+        return false;
+    }
+    return (object->findProperty(GO_AFFECT_AUTO_LIMITS_PROPERTY_NAME_STR, false) != nullptr
+               && object->stringCheck(
+                   GO_AFFECT_AUTO_LIMITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR))
+        || (object->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false) != nullptr
+            && object->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR));
 }
 //=============================================================================
 void
@@ -4554,6 +4824,7 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
     // not drag CLim toward zero, so the axis keeps its default when no
     // color-mapped child is present.
     bool firstClim = true;
+    bool anyExcluded = false;
     double climLo = 0.;
     double climHi = 0.;
     auto foldClim = [&](GraphicsObject* child, const std::vector<double>& child_limits) {
@@ -4580,11 +4851,28 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         }
     };
 
+    auto applyAutoClim = [&](double lo, double hi) {
+        std::vector<double> previousClim = findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR);
+        setTwoVectorDefault(GO_C_LIM_PROPERTY_NAME_STR, lo, hi);
+        // setTwoVectorDefault writes through the low-level accessor, which does not raise the
+        // modified flag. Colour-mapped children (image, surface) rebuild their cached colours only
+        // when they see the axes CLim change, so the flag is raised here when the auto value moved.
+        // updateChildrenState() consumes it right after and finishAxisUpdate()'s clearAllChanged()
+        // clears it in the same pass, so it never flips CLimMode to manual.
+        if (previousClim.size() < 2 || previousClim[0] != lo || previousClim[1] != hi) {
+            findProperty(GO_C_LIM_PROPERTY_NAME_STR)->setModified(true);
+        }
+    };
+
     GOSixVectorProperty* hp
         = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
 
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
+        if (excludedFromAutoLimits(fp)) {
+            anyExcluded = true;
+            continue;
+        }
         std::wstring goType = fp->getType();
         if (goType == GO_PROPERTY_VALUE_HGGROUP_STR || goType == GO_PROPERTY_VALUE_HGTRANSFORM_STR
             || goType == GO_PROPERTY_VALUE_BUBBLE_CLOUD_STR
@@ -4595,6 +4883,10 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
             std::vector<int64> handlesHgGroup(childrenHgGroup->data());
             for (size_t k = 0; k < handlesHgGroup.size(); ++k) {
                 GraphicsObject* hp = findGraphicsObject(handlesHgGroup[k]);
+                if (excludedFromAutoLimits(hp)) {
+                    anyExcluded = true;
+                    continue;
+                }
                 std::vector<double> child_limits(hp->getLimits());
                 if (!child_limits.empty()) {
                     foldClim(hp, child_limits);
@@ -4641,6 +4933,24 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         }
     }
     if (first) {
+        if (anyExcluded) {
+            // Every contributing child is excluded: the automatic limits fall back to the default.
+            if (x) {
+                setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, 0., 1.);
+            }
+            if (y) {
+                setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, 0., 1.);
+            }
+            if (z) {
+                setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, 0., 1.);
+            }
+            if (c) {
+                applyAutoClim(0., 1.);
+            }
+            if (a) {
+                setTwoVectorDefault(GO_A_LIM_PROPERTY_NAME_STR, 0., 1.);
+            }
+        }
         return;
     }
     // A dimension left inverted (lower > upper) was constrained by no child: an
@@ -4681,16 +4991,10 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, limits[4], limits[5]);
     }
     if (c && !firstClim) {
-        std::vector<double> previousClim = findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR);
-        setTwoVectorDefault(GO_C_LIM_PROPERTY_NAME_STR, climLo, climHi);
-        // setTwoVectorDefault writes through the low-level accessor, which does not raise the
-        // modified flag. Colour-mapped children (image, surface) rebuild their cached colours only
-        // when they see the axes CLim change, so the flag is raised here when the auto value moved.
-        // updateChildrenState() consumes it right after and finishAxisUpdate()'s clearAllChanged()
-        // clears it in the same pass, so it never flips CLimMode to manual.
-        if (previousClim.size() < 2 || previousClim[0] != climLo || previousClim[1] != climHi) {
-            findProperty(GO_C_LIM_PROPERTY_NAME_STR)->setModified(true);
-        }
+        applyAutoClim(climLo, climHi);
+    } else if (c && anyExcluded) {
+        // No colour-mapped child is left: CLim falls back to its default.
+        applyAutoClim(0., 1.);
     }
     if (a && limits[8] <= limits[9]) {
         setTwoVectorDefault(GO_A_LIM_PROPERTY_NAME_STR, limits[8], limits[9]);
@@ -6264,7 +6568,11 @@ GOAxis::computeChildrenClipBox()
     box.xmax = std::max(mx0, mx1);
     box.ymin = std::min(my0, my1);
     box.ymax = std::max(my0, my1);
-    if (is2D() || zlims.size() < 2) {
+    // ClippingStyle 'rectangle' clips to the projected x/y rectangle only (no depth clip);
+    // '3dbox' (default) clips to the full 3D axes volume.
+    bool rectangleClip
+        = stringCheck(GO_CLIPPING_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RECTANGLE_STR);
+    if (is2D() || zlims.size() < 2 || rectangleClip) {
         // 2D content lives on the z == 0 plane; keep the depth range wide enough
         // that it never clips in z, but bounded (a huge range would blow up the
         // clip epsilon, which is derived from the box extent, and disable the
@@ -6285,12 +6593,97 @@ GOAxis::computeChildrenClipBox()
     return box;
 }
 //=============================================================================
+// Selected == 'on' (and SelectionHighlight == 'on') draws small handles at the
+// corners of the object's projected bounding box, in the selection blue.
+static void
+drawSelectionHandles(GOAxis* axis, RenderInterface& gc, GraphicsObject* object)
+{
+    std::vector<double> lims = object->getLimits();
+    if (lims.size() < 4) {
+        return;
+    }
+    double z = lims.size() >= 6 ? lims[4] : 0.0;
+    std::vector<double> xs, ys, zs;
+    for (double x : { lims[0], lims[1] }) {
+        for (double y : { lims[2], lims[3] }) {
+            xs.push_back(x);
+            ys.push_back(y);
+            zs.push_back(z);
+        }
+    }
+    std::vector<double> mx, my, mz;
+    axis->reMap(xs, ys, zs, mx, my, mz);
+    if (mx.size() != 4) {
+        return;
+    }
+    double minx = HUGE_VAL, miny = HUGE_VAL, maxx = -HUGE_VAL, maxy = -HUGE_VAL;
+    for (size_t i = 0; i < 4; i++) {
+        double u = 0, v = 0;
+        bool clipped = false;
+        gc.toPixels(mx[i], my[i], mz[i], u, v, clipped);
+        minx = std::min(minx, u);
+        maxx = std::max(maxx, u);
+        miny = std::min(miny, v);
+        maxy = std::max(maxy, v);
+    }
+    if (!std::isfinite(minx) || !std::isfinite(maxy)) {
+        return;
+    }
+    gc.setupDirectDraw();
+    gc.color(0.0, 0.4470, 0.7410);
+    gc.lineWidth(1.0);
+    gc.rect(minx, miny, maxx, maxy);
+    const double s = 3.0;
+    for (double cx : { minx, maxx }) {
+        for (double cy : { miny, maxy }) {
+            gc.rect(cx - s, cy - s, cx + s, cy + s);
+        }
+    }
+    gc.releaseDirectDraw();
+}
+//=============================================================================
 void
 GOAxis::drawChildren(RenderInterface& gc)
 {
     GOGObjectsProperty* children
         = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
     std::vector<int64> handles(children->data());
+    // SortMethod 'depth' paints children back-to-front by projected depth (3D only);
+    // 'childorder' (default) keeps the Children order.
+    if (!renderedAs2D()
+        && stringCheck(GO_SORT_METHOD_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DEPTH_STR)) {
+        std::vector<std::pair<double, int64>> ordered;
+        ordered.reserve(handles.size());
+        for (int64 h : handles) {
+            GraphicsObject* fp = findGraphicsObject(h, false);
+            double depth = -HUGE_VAL;
+            if (fp) {
+                std::vector<double> lims = fp->getLimits();
+                if (lims.size() >= 4) {
+                    std::vector<double> cx = { (lims[0] + lims[1]) * 0.5 };
+                    std::vector<double> cy = { (lims[2] + lims[3]) * 0.5 };
+                    std::vector<double> cz = { lims.size() >= 6 ? (lims[4] + lims[5]) * 0.5 : 0.0 };
+                    std::vector<double> mx, my, mz;
+                    reMap(cx, cy, cz, mx, my, mz);
+                    if (mx.size() == 1) {
+                        double u = 0, v = 0, c = 0;
+                        bool clipped = false;
+                        gc.toPixels(mx[0], my[0], mz[0], u, v, c, clipped);
+                        depth = c;
+                    }
+                }
+            }
+            ordered.push_back({ depth, h });
+        }
+        // larger NDC z (farther) first so nearer children paint on top
+        std::stable_sort(ordered.begin(), ordered.end(),
+            [](const std::pair<double, int64>& a, const std::pair<double, int64>& b) {
+                return a.first > b.first;
+            });
+        for (size_t i = 0; i < handles.size(); ++i) {
+            handles[i] = ordered[i].second;
+        }
+    }
     RenderLightingScene lightingScene;
     lightingScene.ambientLightColor
         = findVectorDoubleProperty(GO_AMBIENT_LIGHT_COLOR_PROPERTY_NAME_STR);
@@ -6338,7 +6731,23 @@ GOAxis::drawChildren(RenderInterface& gc)
             if (fp->isType(GO_PROPERTY_VALUE_LIGHT_STR)) {
                 continue;
             }
+            // Clipping 'off' lets an object draw outside the axes limits: drop the
+            // data clip around its own paint, then restore it for the next child.
+            bool unclip = dataClip.enabled
+                && fp->findProperty(GO_CLIPPING_PROPERTY_NAME_STR, false) != nullptr
+                && fp->stringCheck(GO_CLIPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+            if (unclip) {
+                gc.clearDataClipBox();
+            }
             fp->paintMe(gc);
+            if (unclip) {
+                gc.setDataClipBox(dataClip);
+            }
+            if (fp->findProperty(GO_SELECTED_PROPERTY_NAME_STR, false) != nullptr
+                && fp->stringCheck(GO_SELECTED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)
+                && highlightsSelection(fp)) {
+                drawSelectionHandles(this, gc, fp);
+            }
         }
     }
     if (surfaceGroup) {
@@ -6362,7 +6771,7 @@ GOAxis::updateUnits()
         double height = 0;
         axesParentLogicalSizeInPixels(this, width, height);
 
-        syncPositionUnitsTriplet(this, previousUnits, currentUnits, width, height);
+        syncPositionUnitsTriplet(this, previousUnits, currentUnits, width, height, true);
         clearChanged(GO_UNITS_PROPERTY_NAME_STR);
     }
 }
@@ -6395,11 +6804,30 @@ GOAxis::updateState()
     bool positionOrInnerPositionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR);
     bool outerPositionChanged = hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    if (outerPositionChanged) {
+        m_outerPositionFromUser = true;
+    }
     bool uiAxesPositionHandled = syncUiAxesPositionProperties(this);
     if (!uiAxesPositionHandled) {
         syncOuterDrivenPositionTriplet(this);
         if (!outerPositionChanged) {
-            syncInnerDrivenPositionTriplet(this);
+            if (syncInnerDrivenPositionTriplet(this) && !isPolarAxes()) {
+                updateOuterPositionFromPosition();
+            }
+        }
+    }
+    // A direct PositionConstraint set selects which position drives the layout:
+    // 'innerposition' pins Position (PositionMode manual), 'outerposition' lets
+    // the outer box drive it (auto). Position/OuterPosition sets already set the
+    // mode themselves, so only react when the constraint changed on its own.
+    if (hasChanged(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR) && !positionOrInnerPositionChanged
+        && !outerPositionChanged) {
+        if (stringCheck(
+                GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_INNERPOSITION_STR)) {
+            toManual(GO_POSITION_MODE_PROPERTY_NAME_STR);
+        } else if (stringCheck(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR,
+                       GO_PROPERTY_VALUE_OUTERPOSITION_STR)) {
+            toAuto(GO_POSITION_MODE_PROPERTY_NAME_STR);
         }
     }
     std::vector<std::wstring> tset;
@@ -6554,6 +6982,15 @@ GOAxis::updateState()
     if (hasChanged(GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR)) {
         toManual(GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
     }
+    // Line widths go back to the default when their mode is set to auto (alpha and color keep).
+    for (const std::wstring& widthName :
+        { std::wstring(GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR),
+            std::wstring(GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR) }) {
+        if (isAuto(widthName + L"Mode") && findScalarDoubleProperty(widthName) != 0.5) {
+            setScalarDoubleDefault(widthName, 0.5);
+            clearChanged(widthName);
+        }
+    }
     if (hasChanged(GO_TICK_DIR_PROPERTY_NAME_STR)
         && !hasChanged(GO_TICK_DIR_MODE_PROPERTY_NAME_STR)) {
         toManual(GO_TICK_DIR_MODE_PROPERTY_NAME_STR);
@@ -6621,6 +7058,7 @@ GOAxis::updateState()
     };
 
     auto finishAxisUpdate = [this]() {
+        m_settledPosition = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
         clearAllChanged();
         GOFigure* fig = getParentFigure();
         if (fig) {
@@ -6781,10 +7219,15 @@ GOAxis::paintMe(RenderInterface& gc)
         markViewStateReady();
         return;
     }
+    // Layer 'top' (2-D) paints the grid over the data instead of under it.
+    bool gridOnTop
+        = renderedAs2D() && stringCheck(GO_LAYER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOP_STR);
     if (isVisible) {
         drawBox(gc);
-        drawGridLines(gc);
-        drawMinorGridLines(gc);
+        if (!gridOnTop) {
+            drawGridLines(gc);
+            drawMinorGridLines(gc);
+        }
     }
     profiler.section("box_grid");
 
@@ -6794,6 +7237,13 @@ GOAxis::paintMe(RenderInterface& gc)
     }
     drawChildren(gc);
     profiler.section("children");
+
+    if (isVisible && gridOnTop) {
+        // Push the data into the frame first so the grid, drawn next, lands on top.
+        gc.flushDeferred();
+        drawGridLines(gc);
+        drawMinorGridLines(gc);
+    }
 
     if (!isVisible) {
         // An axes with hidden decorations (e.g. after 'axis off', as done by pie)
@@ -6869,12 +7319,27 @@ GOAxis::reInterpUnits(RenderInterface& gc, std::vector<double> a)
         }
         return a;
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)
-        || hp->isEqual(GO_PROPERTY_VALUE_POINTS_STR)) {
+        || hp->isEqual(GO_PROPERTY_VALUE_POINTS_STR) || hp->isEqual(GO_PROPERTY_VALUE_INCHES_STR)
+        || hp->isEqual(GO_PROPERTY_VALUE_CENTIMETERS_STR)) {
         bool points = hp->isEqual(GO_PROPERTY_VALUE_POINTS_STR);
+        double absolutePixels = 0.;
+        if (hp->isEqual(GO_PROPERTY_VALUE_INCHES_STR)) {
+            absolutePixels = 96.;
+        } else if (hp->isEqual(GO_PROPERTY_VALUE_CENTIMETERS_STR)) {
+            absolutePixels = 96. / 2.54;
+        }
         double scale[2];
         logicalToSurfaceScale(this, width, height, scale[0], scale[1]);
         for (size_t i = 0; i < a.size(); i++) {
-            a[i] = (points ? gc.pointsToPixels(a[i]) : a[i]) * scale[i % 2];
+            // The first pixel is at 1 in pixel units: the origin is shifted back to 0.
+            const double origin = (!points && absolutePixels == 0. && i < 2) ? 1. : 0.;
+            double value = a[i] - origin;
+            if (points) {
+                value = gc.pointsToPixels(a[i]);
+            } else if (absolutePixels != 0.) {
+                value = a[i] * absolutePixels;
+            }
+            a[i] = value * scale[i % 2];
         }
         return a;
     } else {
@@ -6896,10 +7361,21 @@ GOAxis::unitsReinterpret(std::vector<double> a)
             a[i + 1] *= height;
         }
     } else if (hp->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
+        // The first pixel is at 1 in pixel units: the origin is shifted back to 0.
+        for (size_t i = 0; i < a.size() && i < 2; ++i) {
+            a[i] -= 1.;
+        }
         return a;
     } else if (hp->isEqual(GO_PROPERTY_VALUE_POINTS_STR)) {
         for (double& value : a) {
             value = pointsToPixels(value);
+        }
+        return a;
+    } else if (hp->isEqual(GO_PROPERTY_VALUE_INCHES_STR)
+        || hp->isEqual(GO_PROPERTY_VALUE_CENTIMETERS_STR)) {
+        const double pixelsPerUnit = hp->isEqual(GO_PROPERTY_VALUE_INCHES_STR) ? 96. : 96. / 2.54;
+        for (double& value : a) {
+            value *= pixelsPerUnit;
         }
         return a;
     } else {

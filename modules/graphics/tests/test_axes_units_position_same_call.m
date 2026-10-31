@@ -29,9 +29,9 @@ ax4 = axes(f);
 set(ax4, 'Units', 'pixels', 'Position', [10 20 100 80]);
 asserts.isequal(ax4.Position, [10 20 100 80]);
 %=============================================================================
-% Units alone still converts the existing Position
+% Units alone still converts the existing Position (pixels start at 1)
 ax5 = axes(f, 'Position', [0.25 0.5 0.5 0.25]);
 ax5.Units = 'pixels';
-asserts.isequal(ax5.Position, [100 150 200 75]);
+asserts.isequal(ax5.Position, [101 151 200 75]);
 close(f);
 %=============================================================================

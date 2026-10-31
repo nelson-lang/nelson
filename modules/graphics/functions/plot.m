@@ -241,11 +241,21 @@ function h = plot_XY(X, Y, go, lineProperties)
   for i = 1:size(Y, 2)
     h = [h; plotVector(go, X(:, i), Y(:, i), lineProperties)];
   end
+  if xIsDate || yIsDate
+    showLinesBeforeDatetimeTicks(h, lineProperties);
+  end
   if xIsDate
     applyDatetimeAxis(go, 'x');
   end
   if yIsDate
     applyDatetimeAxis(go, 'y');
+  end
+end
+%=============================================================================
+% Invisible lines are left out of the automatic limits, so show them before the date ticks are read.
+function showLinesBeforeDatetimeTicks(h, lineProperties)
+  if ~isempty(h) && isempty(find(strcmp(lineProperties, 'Visible'), 1))
+    set(h, 'Visible', 'on');
   end
 end
 %=============================================================================
@@ -294,6 +304,7 @@ function h = plot_Y(Y, go, lineProperties)
     end
   end
   if yIsDate
+    showLinesBeforeDatetimeTicks(h, lineProperties);
     applyDatetimeAxis(go, 'y');
   end
 end

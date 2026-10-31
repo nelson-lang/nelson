@@ -25,14 +25,15 @@ assert_istrue(u2.Parent == p);
 % Units are relative to the panel content area (border deducted)
 u3 = uicontrol(p, 'Style', 'edit', 'Units', 'normalized', 'Position', [0 0 1 1]);
 u3.Units = 'pixels';
-assert_isapprox(u3.Position, [0 0 190 90], 1e-12);
+% pixel positions start at 1
+assert_isapprox(u3.Position, [1 1 190 90], 1e-12);
 %=============================================================================
 % web placement: offset by the panel frame and its border
 drawnow();
 dl = jsondecode(__web_display_list__(f));
 c = find_control(dl, 'in panel');
-assert_isequal([c.x, c.w, c.h], [20 + 5 + 10, 60, 20]);
-assert_isequal(c.y, 300 - (20 + 5 + 10) - 20);
+assert_isequal([c.x, c.w, c.h], [19 + 5 + 9, 60, 20]);
+assert_isequal(c.y, 300 - (19 + 5 + 9) - 20);
 %=============================================================================
 bg = uibuttongroup(f, 'Position', [0 0 0.5 0.5]);
 r = uicontrol(bg, 'Style', 'radiobutton', 'String', 'radio');

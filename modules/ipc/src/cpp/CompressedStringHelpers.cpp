@@ -12,6 +12,8 @@
 #include "BinaryStream.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "ClassdefParser.hpp"
+#include "ClassdefSerialization.hpp"
+#include "NelsonConfiguration.hpp"
 #include "StringZLib.hpp"
 //=============================================================================
 namespace Nelson {
@@ -31,13 +33,26 @@ decodeFunctionHandleFromSerialization(const ArrayOf& marker, bool& success);
 static void
 ensureFunctionHandleSerializersRegistered();
 static void
-restoreClassdefLayouts(ArrayOf& data);
+restoreClassdefLayouts(Evaluator* eval, ArrayOf& data);
+static void
+applyClassdefSaveHooks(Evaluator* eval, ArrayOf& data);
+//=============================================================================
+static Evaluator*
+ipcMainEvaluator()
+{
+    return (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+}
 //=============================================================================
 std::string
 ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized)
 {
     ensureFunctionHandleSerializersRegistered();
-    ArrayOfSerialization serializedVariable(data);
+    // Replace any classdef that defines saveObjectImpl (e.g. dictionary, whose entries
+    // live in a per-process native store that cannot cross a process boundary) with its
+    // saved contents before serializing; the receiver rebuilds it via loadObjectImpl.
+    ArrayOf prepared = data;
+    applyClassdefSaveHooks(ipcMainEvaluator(), prepared);
+    ArrayOfSerialization serializedVariable(prepared);
     fullySerialized = serializedVariable.isFullySerialized();
     std::string serialized;
     BinaryWriter writer(serialized);
@@ -74,7 +89,7 @@ CompressedStringToArrayOf(const std::string& compressedString, bool& success)
         if (serializedVariable.read(reader)) {
             res = serializedVariable.get(success);
             if (success) {
-                restoreClassdefLayouts(res);
+                restoreClassdefLayouts(ipcMainEvaluator(), res);
             }
             if (!success && !serializedVariable.isFullySerialized()) {
                 success = true;
@@ -195,12 +210,25 @@ ensureFunctionHandleSerializersRegistered()
 }
 //=============================================================================
 static void
-restoreClassdefLayouts(ArrayOf& data)
+restoreClassdefLayouts(Evaluator* eval, ArrayOf& data)
 {
     switch (data.dataClass()) {
     case NLS_CLASSDEF_ARRAY: {
-        classdefLoadClass(data.classType());
-        data.setClassdefLayout(classdefLayout(data.classType()));
+        const std::string className = data.classType();
+        classdefLoadClass(className);
+        // restore nested objects first: a stored value may itself be a hooked object
+        auto* fields = (ArrayOf*)data.dataPointer();
+        indexType fieldTotal = data.elementCount() * (indexType)data.fieldNames().size();
+        for (indexType k = 0; k < fieldTotal && fields != nullptr; ++k) {
+            restoreClassdefLayouts(eval, fields[k]);
+        }
+        ArrayOf restored;
+        if (eval != nullptr && classdefRestoreLoadObject(eval, className, data, restored)) {
+            // the class defines loadObjectImpl: rebuild it from its saved contents
+            data = restored;
+        } else {
+            data.setClassdefLayout(classdefLayout(className));
+        }
     } break;
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
@@ -209,8 +237,44 @@ restoreClassdefLayouts(ArrayOf& data)
     case NLS_FUNCTION_HANDLE: {
         auto* elements = (ArrayOf*)data.dataPointer();
         indexType elementCount = data.elementCount();
-        for (indexType k = 0; k < elementCount; ++k) {
-            restoreClassdefLayouts(elements[k]);
+        for (indexType k = 0; k < elementCount && elements != nullptr; ++k) {
+            restoreClassdefLayouts(eval, elements[k]);
+        }
+    } break;
+    default: {
+    } break;
+    }
+}
+//=============================================================================
+static void
+applyClassdefSaveHooks(Evaluator* eval, ArrayOf& data)
+{
+    switch (data.dataClass()) {
+    case NLS_HANDLE:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        if (eval != nullptr) {
+            ArrayOf saved;
+            if (classdefPrepareSaveObject(eval, data, saved)) {
+                data = saved;
+            }
+        }
+        if (data.dataClass() == NLS_CLASSDEF_ARRAY || data.dataClass() == NLS_CLASS_ARRAY) {
+            auto* fields = (ArrayOf*)data.dataPointer();
+            indexType fieldTotal = data.elementCount() * (indexType)data.fieldNames().size();
+            for (indexType k = 0; k < fieldTotal && fields != nullptr; ++k) {
+                applyClassdefSaveHooks(eval, fields[k]);
+            }
+        }
+    } break;
+    case NLS_CELL_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_STRUCT_ARRAY:
+    case NLS_FUNCTION_HANDLE: {
+        auto* elements = (ArrayOf*)data.dataPointer();
+        indexType elementCount = data.elementCount();
+        for (indexType k = 0; k < elementCount && elements != nullptr; ++k) {
+            applyClassdefSaveHooks(eval, elements[k]);
         }
     } break;
     default: {

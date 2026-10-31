@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "AnonymousMacroFunctionDef.hpp"
 #include <algorithm>
 #include "legendBuiltin.hpp"
 #include "axesBuiltin.hpp"
@@ -57,7 +58,7 @@ objectFromHandle(int64 handle)
     if (handle >= HANDLE_OFFSET_OBJECT) {
         return findGraphicsObject(handle, false);
     }
-    if (handle != HANDLE_ROOT_OBJECT && handle != 0) {
+    if (handle >= 0) {
         return static_cast<GraphicsObject*>(findGOFigure(handle));
     }
     return nullptr;
@@ -128,6 +129,9 @@ isLegendableChild(GraphicsObject* child)
             == GO_PROPERTY_VALUE_OFF_STR) {
         return false;
     }
+    if (legendIconHidden(child)) {
+        return false;
+    }
     const std::wstring type = child->getType();
     return type == GO_PROPERTY_VALUE_LINE_STR || type == GO_PROPERTY_VALUE_STAIR_STR
         || type == GO_PROPERTY_VALUE_ANIMATED_LINE_STR || type == GO_PROPERTY_VALUE_SCATTER_STR
@@ -168,7 +172,7 @@ legendLabel(GraphicsObject* child, size_t index)
         label = child->findStringProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     }
     if (label.empty()) {
-        label = L"data " + std::to_wstring(index);
+        label = L"data" + std::to_wstring(index);
     }
     return label;
 }
@@ -178,8 +182,15 @@ defaultLabels(const std::vector<int64>& plotHandles)
 {
     std::vector<std::wstring> labels;
     labels.reserve(plotHandles.size());
+    size_t unnamed = 0;
     for (size_t k = 0; k < plotHandles.size(); ++k) {
-        labels.push_back(legendLabel(findGraphicsObject(plotHandles[k], false), k + 1));
+        GraphicsObject* child = findGraphicsObject(plotHandles[k], false);
+        const bool hasName = child && child->haveProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)
+            && !child->findStringProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR).empty();
+        if (!hasName) {
+            ++unnamed;
+        }
+        labels.push_back(legendLabel(child, unnamed));
     }
     return labels;
 }
@@ -459,6 +470,13 @@ createOrUpdateLegend(int64 peerHandle, std::vector<int64> plotHandles,
         appendFigureChild(fig, legendHandle);
         setAxesLegend(peer, legendHandle);
         isNewLegend = true;
+        // Like MATLAB, a new legend starts with the default (no-op) item hit callback.
+        function_handle defaultCallback;
+        defaultCallback.anonymousHandle = reinterpret_cast<nelson_handle*>(
+            new AnonymousMacroFunctionDef(std::string("defaultItemHitCallback")));
+        legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR)
+            ->set(ArrayOf::functionHandle(defaultCallback));
+        legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR)->clearModified();
     }
     legend->setPlotHandles(plotHandles);
     legend->setLabels(labels);
@@ -701,6 +719,7 @@ legendBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     std::vector<int64> plotHandles
         = explicitPlots.empty() ? legendableChildren(peer) : explicitPlots;
+    const bool explicitLabels = !labels.empty();
     if (labels.empty()) {
         labels = defaultLabels(plotHandles);
     }
@@ -711,6 +730,17 @@ legendBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     filterEmptyLabels(plotHandles, labels);
 
+    // Like MATLAB, explicit labels are written to the DisplayName of the plotted objects.
+    if (explicitLabels) {
+        for (size_t k = 0; k < plotHandles.size() && k < labels.size(); ++k) {
+            GraphicsObject* plot = findGraphicsObject(plotHandles[k], false);
+            GOGenericProperty* displayName
+                = plot ? plot->findProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR, false) : nullptr;
+            if (displayName) {
+                displayName->set(ArrayOf::characterArray(labels[k]));
+            }
+        }
+    }
     int64 legendHandle = createOrUpdateLegend(peerHandle, plotHandles, labels, props);
     return legendReturn(nLhs, legendHandle, plotHandles, labels);
 }

@@ -114,9 +114,9 @@ GOUITab::onPageResized(double width, double height)
     if (width <= 0 || height <= 0) {
         return;
     }
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 1, 1, width, height);
-    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, 1, 1, width, height);
-    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 1, 1, width, height);
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
+    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
+    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
     refreshChildrenGeometry();
 }
 //=============================================================================

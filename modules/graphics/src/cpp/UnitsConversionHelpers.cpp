@@ -137,5 +137,67 @@ convertPosition(const std::wstring& from, const std::wstring& to, std::vector<do
     }
 }
 //=============================================================================
+std::vector<double>
+convertPositionPixelOrigin(const std::wstring& fromUnit, const std::wstring& toUnit, double x,
+    double y, double w, double h, double width, double height)
+{
+    if (fromUnit == toUnit) {
+        return { x, y, w, h };
+    }
+    const bool fromPixels = fromUnit == GO_PROPERTY_VALUE_PIXELS_STR;
+    const bool toPixels = toUnit == GO_PROPERTY_VALUE_PIXELS_STR;
+    std::vector<double> result = convertUnitsVector(
+        fromUnit, toUnit, fromPixels ? x - 1. : x, fromPixels ? y - 1. : y, w, h, width, height);
+    if (toPixels) {
+        result[0] += 1.;
+        result[1] += 1.;
+    }
+    return result;
+}
+//=============================================================================
+std::vector<double>
+convertFromPixelsPixelOrigin(
+    const std::wstring& toUnit, double x, double y, double w, double h, double width, double height)
+{
+    std::vector<double> result
+        = convertUnitsVector(GO_PROPERTY_VALUE_PIXELS_STR, toUnit, x, y, w, h, width, height);
+    if (toUnit == GO_PROPERTY_VALUE_PIXELS_STR) {
+        result[0] += 1.;
+        result[1] += 1.;
+    }
+    return result;
+}
+//=============================================================================
+void
+convertPositionToZeroBasedPixels(
+    const std::wstring& from, std::vector<double>& position, double width, double height)
+{
+    if (position.size() != 4) {
+        convertPosition(from, GO_PROPERTY_VALUE_PIXELS_STR, position, width, height);
+        return;
+    }
+    position = convertUnitsVector(from, GO_PROPERTY_VALUE_PIXELS_STR, position[0], position[1],
+        position[2], position[3], width, height);
+    if (from == GO_PROPERTY_VALUE_PIXELS_STR) {
+        position[0] -= 1.;
+        position[1] -= 1.;
+    }
+}
+//=============================================================================
+void
+convertPositionPixelOrigin(const std::wstring& from, const std::wstring& to,
+    std::vector<double>& position, double width, double height)
+{
+    if (from == to) {
+        return;
+    }
+    if (position.size() != 4) {
+        convertPosition(from, to, position, width, height);
+        return;
+    }
+    position = convertPositionPixelOrigin(
+        from, to, position[0], position[1], position[2], position[3], width, height);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

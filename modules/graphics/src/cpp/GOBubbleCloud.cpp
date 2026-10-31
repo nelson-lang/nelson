@@ -25,6 +25,7 @@
 #include "GOUnitsProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
 #include "GOVectorProperty.hpp"
+#include "GOPositionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -108,6 +109,7 @@ GOBubbleCloud::getType()
 void
 GOBubbleCloud::updateState()
 {
+    syncChartPositionUnits(this);
     GOGroup::updateState();
     syncLegendTitle();
 }

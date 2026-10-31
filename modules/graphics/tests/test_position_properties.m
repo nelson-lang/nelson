@@ -26,7 +26,8 @@ drawnow();
 assert_vec_close(f.InnerPosition, [130 150 450 340], 1e-9);
 f.Units = 'inches';
 drawnow();
-assert_vec_close(f.Position, [130 150 450 340] / 96, 1e-9);
+% the first pixel of the screen is at 1
+assert_vec_close(f.Position, [129 149 450 340] / 96, 1e-9);
 assert_vec_close(f.Position, f.InnerPosition, 1e-9);
 assert_vec_close(f.Position, f.OuterPosition, 1e-9);
 f.Units = 'pixels';

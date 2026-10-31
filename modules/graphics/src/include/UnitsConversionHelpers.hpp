@@ -36,5 +36,24 @@ NLSGRAPHICS_IMPEXP void
 convertPosition(const std::wstring& from, const std::wstring& to, std::vector<double>& position,
     double widthCanvas, double heightCanvas);
 //=============================================================================
+// Same conversions for a [x y w h] position, with the origin of pixels at 1 like MATLAB: the
+// first pixel of the parent is at 1, so only x and y are shifted by one pixel.
+NLSGRAPHICS_IMPEXP std::vector<double>
+convertPositionPixelOrigin(const std::wstring& fromUnit, const std::wstring& toUnit, double x,
+    double y, double w, double h, double widthCanvas, double heightCanvas);
+//=============================================================================
+NLSGRAPHICS_IMPEXP std::vector<double>
+convertFromPixelsPixelOrigin(const std::wstring& toUnit, double x, double y, double w, double h,
+    double widthCanvas, double heightCanvas);
+//=============================================================================
+NLSGRAPHICS_IMPEXP void
+convertPositionPixelOrigin(const std::wstring& from, const std::wstring& to,
+    std::vector<double>& position, double widthCanvas, double heightCanvas);
+//=============================================================================
+// Position in the given units to the zero-based pixels the layout code works with.
+NLSGRAPHICS_IMPEXP void
+convertPositionToZeroBasedPixels(const std::wstring& from, std::vector<double>& position,
+    double widthCanvas, double heightCanvas);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

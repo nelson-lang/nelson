@@ -12,6 +12,7 @@
 #include "GOFixedVectorProperty.hpp"
 //=============================================================================
 namespace Nelson {
+class GraphicsObject;
 //=============================================================================
 class GOFourVectorProperty : public GOFixedVectorProperty
 {
@@ -22,6 +23,29 @@ public:
     value(double x, double y, double z, double w);
     std::wstring
     toWideString() override;
+};
+//=============================================================================
+// Position kept zero-based in pixels, seen one-based (MATLAB origin) through get and set.
+class GOPixelOriginPositionProperty : public GOFourVectorProperty
+{
+public:
+    explicit GOPixelOriginPositionProperty(GraphicsObject* owner) : m_owner(owner) { }
+    ~GOPixelOriginPositionProperty() override = default;
+    ArrayOf
+    get() override;
+    void
+    set(ArrayOf) override;
+    std::wstring
+    toWideString() override;
+    // Re-applies the origin when Units changed after the value was set in the same call.
+    void
+    reconcileUnits();
+
+private:
+    bool
+    ownerUsesPixels();
+    GraphicsObject* m_owner = nullptr;
+    bool m_shiftedForPixels = true;
 };
 //=============================================================================
 } // namespace Nelson

@@ -73,6 +73,11 @@
         <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
       </tr>
       <tr>
+        <td><b>ItemTokenSize</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: [largeur; hauteur] en points, relu en colonne; seule la largeur modifie la disposition (largeur de la colonne d&apos;icones).</td>
+      </tr>
+      <tr>
         <td><b>LineWidth</b></td>
         <td>met a jour le rendu au prochain rafraichissement graphique.</td>
         <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>

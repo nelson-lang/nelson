@@ -86,6 +86,12 @@ public:
     void
     rePackTitleArea();
     //=============================================================================
+    std::vector<double>
+    tightInsetPixels();
+    //=============================================================================
+    void
+    updateOuterPositionFromPosition();
+    //=============================================================================
     void
     syncTitleTextLayout();
     //=============================================================================
@@ -243,6 +249,11 @@ private:
     //=============================================================================
     std::vector<double> m_box;
     int64 m_toolbarHandle = 0;
+    // Position at the end of the last state update: a Position flagged changed with the same value
+    // (figure resize) is not a user edit and must not move OuterPosition.
+    std::vector<double> m_settledPosition;
+    // OuterPosition was given by the user: later Position edits do not recompute it.
+    bool m_outerPositionFromUser = false;
     //=============================================================================
     void
     loadParulaColorMap();

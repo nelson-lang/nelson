@@ -26,6 +26,7 @@
 #include "GOBubbleLegend.hpp"
 #include "GOLegend.hpp"
 #include "GOStringOnOffProperty.hpp"
+#include "GOAxis.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -195,7 +196,7 @@ clearParentInternalObjectReference(GraphicsObject* object, int64 handle)
     GraphicsObject* parentObject = nullptr;
     if (parentHandle >= HANDLE_OFFSET_OBJECT) {
         parentObject = findGraphicsObject(parentHandle, false);
-    } else if (parentHandle != HANDLE_ROOT_OBJECT && parentHandle != 0) {
+    } else if (parentHandle >= 0) {
         parentObject = static_cast<GraphicsObject*>(findGOFigure(parentHandle));
     }
     if (!parentObject) {
@@ -515,6 +516,11 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     }
 
     if (removeRefInParent) {
+        // A removed child may have driven the automatic limits; the owning axes refreshes lazily.
+        GOAxis* owner = gp->getParentAxis();
+        if (owner && owner != gp) {
+            owner->markStateDirty();
+        }
         GOGObjectsProperty* gop
             = (GOGObjectsProperty*)gp->findProperty(GO_PARENT_PROPERTY_NAME_STR);
         if (gop) {
@@ -524,7 +530,7 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
                     GraphicsObject* gh = nullptr;
                     if (h >= HANDLE_OFFSET_OBJECT) {
                         gh = findGraphicsObject(h, false);
-                    } else if (h != HANDLE_ROOT_OBJECT && h != 0) {
+                    } else if (h >= 0) {
                         gh = static_cast<GraphicsObject*>(findGOFigure(h));
                     }
                     if (gh) {
@@ -586,6 +592,50 @@ highlightsSelection(GraphicsObject* object)
     auto* property = static_cast<GOStringProperty*>(
         object->findProperty(GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR, false));
     return !property || !property->isEqual(GO_PROPERTY_VALUE_OFF_STR);
+}
+//=============================================================================
+bool
+legendIconHidden(GraphicsObject* object)
+{
+    if (!object) {
+        return false;
+    }
+    // Peek at the stored decorator handles without materializing them: an untouched chain is
+    // empty and means the default ('on'), so the object stays legendable.
+    auto* annotation = dynamic_cast<GOGObjectsProperty*>(
+        object->findProperty(GO_ANNOTATION_PROPERTY_NAME_STR, false));
+    if (!annotation || annotation->data().empty()) {
+        return false;
+    }
+    GraphicsObject* eventData = findGraphicsObject(annotation->data()[0], false);
+    auto* information = eventData
+        ? dynamic_cast<GOGObjectsProperty*>(
+              eventData->findProperty(GO_LEGEND_INFORMATION_PROPERTY_NAME_STR, false))
+        : nullptr;
+    if (!information || information->data().empty()) {
+        return false;
+    }
+    GraphicsObject* entry = findGraphicsObject(information->data()[0], false);
+    return entry
+        && entry->stringCheck(GO_ICON_DISPLAY_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+}
+//=============================================================================
+bool
+axisDefaultInteractivityOff(GraphicsObject* axis)
+{
+    if (!axis) {
+        return false;
+    }
+    // disableDefaultInteractivity sets the hidden flag.
+    if (axis->findProperty(GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, false)
+        && axis->stringCheck(
+            GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+        return true;
+    }
+    // ax.Interactions = [] disables them too (a user-emptied, hence modified, property).
+    GOGenericProperty* interactions
+        = axis->findProperty(GO_INTERACTIONS_PROPERTY_NAME_STR, false);
+    return interactions && interactions->isModified() && interactions->get().isEmpty();
 }
 //=============================================================================
 GOFigure*

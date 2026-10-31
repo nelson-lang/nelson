@@ -27,7 +27,13 @@ NLSGRAPHICS_IMPEXP bool
 setPositionConstraintIfPresent(GraphicsObject* object, const std::wstring& value);
 NLSGRAPHICS_IMPEXP bool
 syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUnits,
-    const std::wstring& currentUnits, double width, double height);
+    const std::wstring& currentUnits, double width, double height, bool pixelOrigin = false);
+// Position set in the same call as new Units: moves its pixel origin to those Units.
+NLSGRAPHICS_IMPEXP void
+reconcilePositionPixelOrigin(GraphicsObject* object);
+// Convert a chart Position triplet on a Units change; clearPositionChanged drops stale flags.
+NLSGRAPHICS_IMPEXP void
+syncChartPositionUnits(GraphicsObject* object, bool clearPositionChanged = true);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

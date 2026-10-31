@@ -737,7 +737,7 @@ GOAnnotation::updateUnits()
     double width = fig ? fig->getLayoutWidth() : 560;
     double height = fig ? fig->getLayoutHeight() : 420;
     std::vector<double> pos = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-    convertPosition(previousUnits, currentUnits, pos, width, height);
+    convertPositionPixelOrigin(previousUnits, currentUnits, pos, width, height);
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, pos[0], pos[1], pos[2], pos[3]);
     if (isLineLike(m_kind)) {
         setTwoVectorDefault(GO_X_PROPERTY_NAME_STR, pos[0], pos[0] + pos[2]);
@@ -786,7 +786,7 @@ std::vector<double>
 GOAnnotation::positionInPixels(RenderInterface& gc)
 {
     return positionOnSurface(this, findStringProperty(GO_UNITS_PROPERTY_NAME_STR),
-        findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR), 0.0, gc.width(), gc.height());
+        findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR), 1.0, gc.width(), gc.height());
 }
 //=============================================================================
 void

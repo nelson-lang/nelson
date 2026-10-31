@@ -42,7 +42,7 @@ asserts.isequal(rlim(), [0 50]);
 L = findobj(f, 'Tag', 'legend');
 asserts.isequal(numel(L), 1);
 asserts.istrue(isgraphics(L, 'legend'));
-asserts.isequal(L.String, {'Radius1'; 'Radius2'});
+asserts.isequal(L.String, {'Radius1', 'Radius2'});
 asserts.istrue(L.Position(4) < 0.2);
 close(f);
 %=============================================================================

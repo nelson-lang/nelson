@@ -48,5 +48,26 @@ function state = polarStateFromProperties(ax, state)
     state.ThetaTickLabel = ax.ThetaTickLabel;
     state.ThetaTickLabelMode = ax.ThetaTickLabelMode;
   end
+  % Grid orientation and styling live on a polaraxes only; a polar-flagged plain
+  % axes does not carry them, so each read is guarded.
+  state.ThetaZeroLocation = guardedProperty(ax, 'ThetaZeroLocation', state.ThetaZeroLocation);
+  state.ThetaDir = guardedProperty(ax, 'ThetaDir', state.ThetaDir);
+  state.RColor = guardedProperty(ax, 'RColor', state.RColor);
+  state.ThetaColor = guardedProperty(ax, 'ThetaColor', state.ThetaColor);
+  state.RGrid = guardedProperty(ax, 'RGrid', state.RGrid);
+  state.ThetaGrid = guardedProperty(ax, 'ThetaGrid', state.ThetaGrid);
+  state.RDir = guardedProperty(ax, 'RDir', state.RDir);
+  state.RAxisLocation = guardedProperty(ax, 'RAxisLocation', state.RAxisLocation);
+  state.RMinorGrid = guardedProperty(ax, 'RMinorGrid', state.RMinorGrid);
+  state.ThetaMinorGrid = guardedProperty(ax, 'ThetaMinorGrid', state.ThetaMinorGrid);
+  state.RMinorTick = guardedProperty(ax, 'RMinorTick', state.RMinorTick);
+  state.ThetaMinorTick = guardedProperty(ax, 'ThetaMinorTick', state.ThetaMinorTick);
+end
+%=============================================================================
+function value = guardedProperty(ax, name, fallback)
+  value = fallback;
+  if isprop(ax, name)
+    value = ax.(name);
+  end
 end
 %=============================================================================

@@ -62,6 +62,17 @@ isDeletedGraphicsObject(int64 handle);
 NLSGRAPHICS_IMPEXP bool
 highlightsSelection(GraphicsObject* object);
 //=============================================================================
+// True when Annotation.LegendInformation.IconDisplayStyle is 'off': the object
+// stays out of an automatically built legend.
+NLSGRAPHICS_IMPEXP bool
+legendIconHidden(GraphicsObject* object);
+//=============================================================================
+// True when an axes has its built-in interactions turned off: either by
+// disableDefaultInteractivity (the hidden flag) or by the user emptying the
+// Interactions property (ax.Interactions = []).
+NLSGRAPHICS_IMPEXP bool
+axisDefaultInteractivityOff(GraphicsObject* axis);
+//=============================================================================
 NLSGRAPHICS_IMPEXP bool
 isUnassignedGraphicsObject(int64 handle);
 //=============================================================================

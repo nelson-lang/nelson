@@ -61,13 +61,12 @@ namespace {
         return nullptr;
     }
     //=============================================================================
-    // disableDefaultInteractivity turns off the modeless drag-pan/rotate and scroll zoom.
+    // Off via disableDefaultInteractivity or ax.Interactions = []: turns off the modeless
+    // drag-pan/rotate and scroll zoom.
     bool
     defaultInteractivityEnabled(GOAxis* axis)
     {
-        return axis != nullptr
-            && !axis->stringCheck(
-                GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+        return axis != nullptr && !axisDefaultInteractivityOff(axis);
     }
     //=============================================================================
 } // namespace

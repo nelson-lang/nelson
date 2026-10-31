@@ -221,6 +221,7 @@
     <ClCompile Include="..\cpp\__web_figure_snapshot__Builtin.cpp" />
     <ClCompile Include="..\cpp\__web_raster_png__Builtin.cpp" />
     <ClCompile Include="..\cpp\__figure_mouse_event__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__uicomponent_event__Builtin.cpp" />
     <ClCompile Include="..\cpp\__figure_native_geometry__Builtin.cpp" />
     <ClCompile Include="..\cpp\__uicontrol_key_event__Builtin.cpp" />
     <ClCompile Include="..\cpp\allchildBuiltin.cpp" />
@@ -524,6 +525,7 @@
     <ClInclude Include="..\include\__web_uicontrol_action__Builtin.hpp" />
     <ClInclude Include="..\include\__web_figure_pick__Builtin.hpp" />
     <ClInclude Include="..\include\__figure_mouse_event__Builtin.hpp" />
+    <ClInclude Include="..\include\__uicomponent_event__Builtin.hpp" />
     <ClInclude Include="..\include\__figure_native_geometry__Builtin.hpp" />
     <ClInclude Include="..\include\__uicontrol_key_event__Builtin.hpp" />
     <ClInclude Include="..\include\__zoom__Builtin.hpp" />

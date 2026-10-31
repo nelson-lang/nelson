@@ -21,6 +21,7 @@
 #include "GOStringVectorProperty.hpp"
 #include "GOUnitsProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
+#include "GOPositionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -93,6 +94,13 @@ std::wstring
 GOParallelPlot::getType()
 {
     return GO_PROPERTY_VALUE_PARALLEL_PLOT_STR;
+}
+//=============================================================================
+void
+GOParallelPlot::updateState()
+{
+    syncChartPositionUnits(this);
+    GOGroup::updateState();
 }
 //=============================================================================
 } // namespace Nelson

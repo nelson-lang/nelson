@@ -24,6 +24,19 @@ function state = polarDefaultState()
   state.ThetaTickLabel = polarThetaTickLabels(state.ThetaTick, state.ThetaLim, state.ThetaAxisUnits);
   state.ThetaTickLabelMode = 'auto';
   state.GridVisible = 'on';
+  % Grid orientation and styling, mirrored from the polaraxes properties.
+  state.ThetaZeroLocation = 'right';
+  state.ThetaDir = 'counterclockwise';
+  state.RColor = [33 33 33] / 255;
+  state.ThetaColor = [33 33 33] / 255;
+  state.RGrid = 'on';
+  state.ThetaGrid = 'on';
+  state.RDir = 'normal';
+  state.RAxisLocation = 80;
+  state.RMinorGrid = 'off';
+  state.ThetaMinorGrid = 'off';
+  state.RMinorTick = 'off';
+  state.ThetaMinorTick = 'off';
   state.GridHandles = gobjects(0, 1);
   state.DataHandles = gobjects(0, 1);
 end

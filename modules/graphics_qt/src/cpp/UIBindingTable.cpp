@@ -133,6 +133,10 @@ namespace {
                 });
             QObject::connect(table, &QTableWidget::itemSelectionChanged, table,
                 [this]() { onSelectionChanged(); });
+            QObject::connect(table, &QTableWidget::cellDoubleClicked, table,
+                [this](int row, int column) { onCellDoubleClicked(row, column); });
+            QObject::connect(table, &QTableWidget::cellClicked, table,
+                [this](int row, int column) { onCellClicked(row, column); });
             widget = table;
         }
         //=============================================================================
@@ -340,6 +344,36 @@ namespace {
             fieldValues << ArrayOf::characterArray(selectionType);
             model->emitCallbackEvent(GO_SELECTION_CHANGED_FCN_PROPERTY_NAME_STR,
                 L"TableSelectionChangedData", L"SelectionChanged", fieldNames, fieldValues);
+        }
+        //=============================================================================
+        // Fires ClickedFcn / DoubleClickedFcn with the 1-based cell that was hit.
+        void
+        fireCellCallback(int row, int column, const std::wstring& callbackName,
+            const std::wstring& eventDataClassName, const std::wstring& eventName)
+        {
+            if (model->isProgrammaticChange()) {
+                return;
+            }
+            wstringVector fieldNames = { L"Row", L"Column" };
+            ArrayOfVector fieldValues;
+            fieldValues << ArrayOf::doubleScalar(row + 1);
+            fieldValues << ArrayOf::doubleScalar(column + 1);
+            model->emitCallbackEvent(
+                callbackName, eventDataClassName, eventName, fieldNames, fieldValues);
+        }
+        //=============================================================================
+        void
+        onCellClicked(int row, int column)
+        {
+            fireCellCallback(
+                row, column, GO_CLICKED_FCN_PROPERTY_NAME_STR, L"ClickedData", L"Clicked");
+        }
+        //=============================================================================
+        void
+        onCellDoubleClicked(int row, int column)
+        {
+            fireCellCallback(row, column, GO_DOUBLE_CLICKED_FCN_PROPERTY_NAME_STR,
+                L"DoubleClickedData", L"DoubleClicked");
         }
         //=============================================================================
     };

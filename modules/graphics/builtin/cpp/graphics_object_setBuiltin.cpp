@@ -35,6 +35,9 @@
 #include "GOVectorProperty.hpp"
 #include "StringHelpers.hpp"
 #include "UIParentRules.hpp"
+#include "Evaluator.hpp"
+#include "FunctionDef.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -88,6 +91,10 @@ static bool
 propertyValueAlreadySet(GOGenericProperty* hp, const ArrayOf& value);
 //=============================================================================
 static bool
+isGridModeSetAfterValue(const std::wstring& propname, const ArrayOf& value,
+    const std::vector<std::wstring>& namesSetInCall);
+//=============================================================================
+static bool
 stringPropertyAlreadySet(GOGenericProperty* hp, const ArrayOf& value);
 //=============================================================================
 static bool
@@ -104,6 +111,36 @@ graphics_object_set_introspection(const ArrayOfVector& argIn);
 //=============================================================================
 static GraphicsObject*
 resolveGraphicsObject(nelson_handle handle);
+//=============================================================================
+static bool
+isAutoLimitModeRequest(GraphicsObject* fp, const std::wstring& propname, const ArrayOf& value);
+//=============================================================================
+static bool
+canMoveAutoLimits(const std::wstring& propname);
+//=============================================================================
+static bool
+hasAutoLimits(GOAxis* axis);
+//=============================================================================
+static bool
+isLimitsContributor(GOAxis* axis, GraphicsObject* object);
+//=============================================================================
+static bool
+isPolarGridProperty(const std::wstring& propname);
+//=============================================================================
+static void
+refreshPolarGrid(GraphicsObject* axisObject);
+//=============================================================================
+static bool
+isHeatmapChartProperty(const std::wstring& propname);
+//=============================================================================
+static void
+refreshHeatmapChart(GraphicsObject* chartObject);
+//=============================================================================
+static bool
+isWordCloudChartProperty(const std::wstring& propname);
+//=============================================================================
+static void
+refreshWordCloudChart(GraphicsObject* chartObject);
 //=============================================================================
 static ArrayOf
 choicesCellFromProperty(GraphicsObject* fp, const std::wstring& propname);
@@ -140,12 +177,25 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (!fp) {
             Error(L"Nelson:graphics:invalidHandle", L"Invalid handle.");
         }
-        const bool userDataOnlyUpdate = argIn.size() == 3
-            && canonicalObjectPropertyName(fp, argIn[1].asWideString())
-                == GO_USER_DATA_PROPERTY_NAME_STR;
+        // UserData and the color/line-style cycling indexes never affect the object state.
+        const std::wstring singlePropertyName = argIn.size() == 3
+            ? canonicalObjectPropertyName(fp, argIn[1].asWideString())
+            : std::wstring();
+        const bool userDataOnlyUpdate = singlePropertyName == GO_USER_DATA_PROPERTY_NAME_STR
+            || singlePropertyName == GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR
+            || singlePropertyName == GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR;
         int ptr = 1;
         bool objectChanged = false;
         std::vector<std::pair<GOGenericProperty*, ArrayOf>> savedPropertyValues;
+        // A child edit can move the automatic limits of its axes, like in MATLAB.
+        GOAxis* limitsOwner = fp->getParentAxis();
+        bool limitsAffected = false;
+        bool autoLimitsRequested = false;
+        bool polarGridRefreshNeeded = false;
+        bool heatmapRefreshNeeded = false;
+        bool wordcloudRefreshNeeded = false;
+        std::vector<std::wstring> namesSetInCall;
+        std::vector<std::wstring> gridModesForcedAuto;
         while (argIn.size() >= (ptr + 2)) {
             std::wstring propname = argIn[ptr].asWideString();
             if (fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
@@ -203,6 +253,11 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 // An explicit set must still flip a companion
                                 // <Name>Mode property from auto to manual, even
                                 // when the stored value does not change.
+                                if (isGridModeSetAfterValue(
+                                        propname, argIn[ptr + 1], namesSetInCall)) {
+                                    gridModesForcedAuto.push_back(propname);
+                                }
+                                namesSetInCall.push_back(propname);
                                 std::wstring modePropertyName = propname + L"Mode";
                                 bool flipsAutoMode = fp->haveProperty(modePropertyName)
                                     && fp->isAuto(modePropertyName);
@@ -210,10 +265,27 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                                     = propertyValueAlreadySet(hp, argIn[ptr + 1]);
                                 const bool refreshesTitleLayout
                                     = propname == GO_TITLE_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR;
+                                if (valueAlreadySet
+                                    && isAutoLimitModeRequest(fp, propname, argIn[ptr + 1])) {
+                                    autoLimitsRequested = true;
+                                }
                                 if (!valueAlreadySet || flipsAutoMode || refreshesTitleLayout) {
                                     savedPropertyValues.emplace_back(hp, hp->get());
                                     hp->set(argIn[ptr + 1]);
                                     objectChanged = true;
+                                    limitsAffected = limitsAffected
+                                        || (limitsOwner && canMoveAutoLimits(propname));
+                                    if (isPolarGridProperty(propname)) {
+                                        polarGridRefreshNeeded = true;
+                                    }
+                                    if (fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR)
+                                        && isHeatmapChartProperty(propname)) {
+                                        heatmapRefreshNeeded = true;
+                                    }
+                                    if (fp->isType(GO_PROPERTY_VALUE_WORD_CLOUD_STR)
+                                        && isWordCloudChartProperty(propname)) {
+                                        wordcloudRefreshNeeded = true;
+                                    }
                                 }
                                 if (objectChanged && dynamic_cast<GOAnnotation*>(fp)) {
                                     fp->updateState();
@@ -262,6 +334,33 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                 throw;
             }
             savedPropertyValues.clear();
+            // A grid <Name>Mode given as 'auto' after its value wins over the value.
+            if (!gridModesForcedAuto.empty()) {
+                for (const std::wstring& modeName : gridModesForcedAuto) {
+                    fp->findProperty(modeName)->set(
+                        ArrayOf::characterArray(GO_PROPERTY_VALUE_AUTO_STR));
+                }
+                fp->updateState();
+            }
+            if (limitsAffected && hasAutoLimits(limitsOwner)
+                && isLimitsContributor(limitsOwner, fp)) {
+                limitsOwner->markStateDirty();
+            }
+            // Rebuild the polar grid before the figure repaints, so the grid and
+            // the plotted data share the new orientation and styling.
+            if (polarGridRefreshNeeded) {
+                refreshPolarGrid(fp);
+            }
+            // Rebuild the heatmap's internal primitives so a changed property
+            // (colour limits, labels, grid...) takes effect like in MATLAB.
+            if (heatmapRefreshNeeded) {
+                refreshHeatmapChart(fp);
+            }
+            // Re-lay out the word cloud so a changed property (colours, shape,
+            // word count...) takes effect like in MATLAB.
+            if (wordcloudRefreshNeeded) {
+                refreshWordCloudChart(fp);
+            }
             updateParentTiledLayoutIfNeeded(fp);
             if (!fp->isType(GO_PROPERTY_VALUE_FIGURE_STR) && !fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
                 && !fp->isType(GO_PROPERTY_VALUE_UICONTROL_STR)) {
@@ -273,10 +372,206 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             }
+        } else if (autoLimitsRequested) {
+            // Asking for 'auto' on a limit already automatic still recomputes it.
+            GOAxis* axis = static_cast<GOAxis*>(fp);
+            axis->markStateDirty();
+            axis->updateStateIfDirty();
+            GOFigure* fig = axis->getParentFigure();
+            if (fig) {
+                fig->setRenderingStateInvalid(true);
+                if (!fig->isDrawLater()) {
+                    fig->repaint();
+                }
+            }
         }
     }
 
     return ArrayOfVector();
+}
+//=============================================================================
+// Properties whose change must rebuild the static .m polar grid handles.
+static bool
+isPolarGridProperty(const std::wstring& propname)
+{
+    static const wstringVector names = { GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR,
+        GO_THETA_DIR_PROPERTY_NAME_STR, GO_R_COLOR_PROPERTY_NAME_STR,
+        GO_THETA_COLOR_PROPERTY_NAME_STR, GO_R_GRID_PROPERTY_NAME_STR,
+        GO_THETA_GRID_PROPERTY_NAME_STR, GO_R_MINOR_GRID_PROPERTY_NAME_STR,
+        GO_THETA_MINOR_GRID_PROPERTY_NAME_STR, GO_R_DIR_PROPERTY_NAME_STR,
+        GO_R_AXIS_LOCATION_PROPERTY_NAME_STR, GO_R_MINOR_TICK_PROPERTY_NAME_STR,
+        GO_THETA_MINOR_TICK_PROPERTY_NAME_STR };
+    return std::find(names.begin(), names.end(), propname) != names.end();
+}
+//=============================================================================
+// Grid lines and labels of a polar axes are static .m handles built once by
+// polarRefresh; a dot-set never touches them. Rebuild them through the public
+// __polar_refresh__ wrapper. The guard stops the rebuild, which sets axes
+// properties itself, from re-entering this path.
+static void
+refreshPolarGrid(GraphicsObject* axisObject)
+{
+    static bool inProgress = false;
+    if (inProgress || !axisObject) {
+        return;
+    }
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (!eval) {
+        return;
+    }
+    FunctionDefPtr funcDef;
+    if (!eval->lookupFunction("__polar_refresh__", funcDef) || !funcDef) {
+        return;
+    }
+    inProgress = true;
+    try {
+        ArrayOfVector inputs;
+        inputs << ArrayOf::graphicsObject(
+            findGraphicsObjectHandle(axisObject), axisObject->getClassName());
+        funcDef->evaluateFunction(eval, inputs, 0);
+    } catch (...) {
+    }
+    inProgress = false;
+}
+//=============================================================================
+// Properties whose change must rebuild the heatmap's internal primitives.
+static bool
+isHeatmapChartProperty(const std::wstring& propname)
+{
+    static const wstringVector names = { GO_COLOR_LIMITS_PROPERTY_NAME_STR,
+        GO_COLORBAR_VISIBLE_PROPERTY_NAME_STR, GO_GRID_VISIBLE_PROPERTY_NAME_STR,
+        GO_CELL_LABEL_FORMAT_PROPERTY_NAME_STR, GO_CELL_LABEL_COLOR_PROPERTY_NAME_STR,
+        GO_MISSING_DATA_LABEL_PROPERTY_NAME_STR, GO_COLOR_METHOD_PROPERTY_NAME_STR,
+        GO_FONT_COLOR_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR,
+        GO_TITLE_PROPERTY_NAME_STR, GO_X_LABEL_PROPERTY_NAME_STR,
+        GO_Y_LABEL_PROPERTY_NAME_STR };
+    return std::find(names.begin(), names.end(), propname) != names.end();
+}
+//=============================================================================
+// A heatmap chart draws its image, grid and cell labels as internal .m handles
+// built once; a dot-set never touches them. Rebuild them through the public
+// __heatmap_refresh__ wrapper. The guard stops re-entry from the rebuild.
+static void
+refreshHeatmapChart(GraphicsObject* chartObject)
+{
+    static bool inProgress = false;
+    if (inProgress || !chartObject) {
+        return;
+    }
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (!eval) {
+        return;
+    }
+    FunctionDefPtr funcDef;
+    if (!eval->lookupFunction("__heatmap_refresh__", funcDef) || !funcDef) {
+        return;
+    }
+    inProgress = true;
+    try {
+        ArrayOfVector inputs;
+        inputs << ArrayOf::graphicsObject(
+            findGraphicsObjectHandle(chartObject), chartObject->getClassName());
+        funcDef->evaluateFunction(eval, inputs, 0);
+    } catch (...) {
+    }
+    inProgress = false;
+}
+//=============================================================================
+// Properties whose change must re-lay out the word cloud.
+static bool
+isWordCloudChartProperty(const std::wstring& propname)
+{
+    static const wstringVector names = { GO_MAX_DISPLAY_WORDS_PROPERTY_NAME_STR,
+        GO_COLOR_PROPERTY_NAME_STR, GO_HIGHLIGHT_COLOR_PROPERTY_NAME_STR,
+        GO_SHAPE_PROPERTY_NAME_STR, GO_LAYOUT_NUM_PROPERTY_NAME_STR,
+        GO_SIZE_POWER_PROPERTY_NAME_STR, GO_FONT_NAME_PROPERTY_NAME_STR,
+        GO_BOX_PROPERTY_NAME_STR, GO_TITLE_PROPERTY_NAME_STR,
+        GO_TITLE_FONT_NAME_PROPERTY_NAME_STR };
+    return std::find(names.begin(), names.end(), propname) != names.end();
+}
+//=============================================================================
+// A word cloud draws its words as .m text handles laid out once; a dot-set
+// never touches them. Rebuild them through the public __wordcloud_refresh__
+// wrapper. The guard stops re-entry from the rebuild.
+static void
+refreshWordCloudChart(GraphicsObject* chartObject)
+{
+    static bool inProgress = false;
+    if (inProgress || !chartObject) {
+        return;
+    }
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (!eval) {
+        return;
+    }
+    FunctionDefPtr funcDef;
+    if (!eval->lookupFunction("__wordcloud_refresh__", funcDef) || !funcDef) {
+        return;
+    }
+    inProgress = true;
+    try {
+        ArrayOfVector inputs;
+        inputs << ArrayOf::graphicsObject(
+            findGraphicsObjectHandle(chartObject), chartObject->getClassName());
+        funcDef->evaluateFunction(eval, inputs, 0);
+    } catch (...) {
+    }
+    inProgress = false;
+}
+//=============================================================================
+static bool
+isAutoLimitModeRequest(GraphicsObject* fp, const std::wstring& propname, const ArrayOf& value)
+{
+    if (!fp->isType(GO_PROPERTY_VALUE_AXES_STR) || !value.isRowVectorCharacterArray()) {
+        return false;
+    }
+    return (propname == GO_X_LIM_MODE_PROPERTY_NAME_STR
+               || propname == GO_Y_LIM_MODE_PROPERTY_NAME_STR
+               || propname == GO_Z_LIM_MODE_PROPERTY_NAME_STR
+               || propname == GO_C_LIM_MODE_PROPERTY_NAME_STR
+               || propname == GO_A_LIM_MODE_PROPERTY_NAME_STR)
+        && StringHelpers::iequals(value.asWideString(), GO_PROPERTY_VALUE_AUTO_STR);
+}
+//=============================================================================
+// Purely cosmetic properties never move the automatic limits, everything else might.
+static bool
+canMoveAutoLimits(const std::wstring& propname)
+{
+    static const wstringVector cosmetic = { GO_COLOR_PROPERTY_NAME_STR,
+        GO_LINE_WIDTH_PROPERTY_NAME_STR, GO_LINE_STYLE_PROPERTY_NAME_STR,
+        GO_FACE_COLOR_PROPERTY_NAME_STR, GO_EDGE_COLOR_PROPERTY_NAME_STR,
+        GO_DISPLAY_NAME_PROPERTY_NAME_STR, GO_TAG_PROPERTY_NAME_STR,
+        GO_USER_DATA_PROPERTY_NAME_STR, GO_SELECTED_PROPERTY_NAME_STR };
+    return std::find(cosmetic.begin(), cosmetic.end(), propname) == cosmetic.end();
+}
+//=============================================================================
+static bool
+hasAutoLimits(GOAxis* axis)
+{
+    return axis->isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR)
+        || axis->isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR)
+        || axis->isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)
+        || axis->isAuto(GO_C_LIM_MODE_PROPERTY_NAME_STR)
+        || axis->isAuto(GO_A_LIM_MODE_PROPERTY_NAME_STR);
+}
+//=============================================================================
+// Titles and labels have the axes as Parent but are not among its Children.
+static bool
+isLimitsContributor(GOAxis* axis, GraphicsObject* object)
+{
+    auto* parent = dynamic_cast<GOGObjectsProperty*>(
+        object->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    auto* children = dynamic_cast<GOGObjectsProperty*>(
+        axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (!parent || !children || parent->data().empty()) {
+        return false;
+    }
+    if (parent->data()[0] != findGraphicsObjectHandle(axis)) {
+        return true;
+    }
+    std::vector<int64> handles(children->data());
+    return std::find(handles.begin(), handles.end(), findGraphicsObjectHandle(object))
+        != handles.end();
 }
 //=============================================================================
 static GraphicsObject*
@@ -345,6 +640,29 @@ graphics_object_set_introspection(const ArrayOfVector& argIn)
     }
     retval << ArrayOf::structScalar(settableNames, values);
     return retval;
+}
+//=============================================================================
+static bool
+isGridModeSetAfterValue(const std::wstring& propname, const ArrayOf& value,
+    const std::vector<std::wstring>& namesSetInCall)
+{
+    static const std::vector<std::wstring> gridModes
+        = { GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR, GO_GRID_COLOR_MODE_PROPERTY_NAME_STR,
+              GO_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR, GO_MINOR_GRID_ALPHA_MODE_PROPERTY_NAME_STR,
+              GO_MINOR_GRID_COLOR_MODE_PROPERTY_NAME_STR,
+              GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR };
+    if (std::find(gridModes.begin(), gridModes.end(), propname) == gridModes.end()) {
+        return false;
+    }
+    if (!value.isRowVectorCharacterArray() && !value.isScalarStringArray()) {
+        return false;
+    }
+    if (!StringHelpers::iequals(value.asWideString(), GO_PROPERTY_VALUE_AUTO_STR)) {
+        return false;
+    }
+    const std::wstring baseName = propname.substr(0, propname.size() - 4);
+    return std::find(namesSetInCall.begin(), namesSetInCall.end(), baseName)
+        != namesSetInCall.end();
 }
 //=============================================================================
 static bool

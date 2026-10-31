@@ -160,6 +160,8 @@ syncFigureUnitsIfChanged(GOFigure* fig)
         return;
     }
     syncPositionUnitsTriplet(fig, previousUnits, currentUnits, screenWidth, screenHeight);
+    // consumed: a later Position change must not be converted again with the old Units
+    fig->clearChanged(GO_UNITS_PROPERTY_NAME_STR);
 }
 //=============================================================================
 static void
@@ -292,7 +294,7 @@ GOFigure::registerProperties()
     registerProperty(new GOGObjectsProperty, GO_CURRENT_AXES_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CURRENT_OBJECT_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR, false);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GOPixelOriginPositionProperty(this), GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_NAME_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
@@ -325,8 +327,9 @@ GOFigure::initializeProperties()
     setGoProperty(GO_PARENT_PROPERTY_NAME_STR, HANDLE_ROOT_OBJECT);
     setStringDefault(GO_NAME_PROPERTY_NAME_STR, {});
     std::vector<double> position = defaultFigurePosition();
+    // the default is given with the one-based pixel origin, stored zero-based
     setFourVectorDefault(
-        GO_POSITION_PROPERTY_NAME_STR, position[0], position[1], position[2], position[3]);
+        GO_POSITION_PROPERTY_NAME_STR, position[0] - 1, position[1] - 1, position[2], position[3]);
     setRestrictedStringDefault(GO_DRAW_LATER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
@@ -883,8 +886,8 @@ GOFigure::resizeGL(int width, int height)
         double yPos = transformedY;
         const bool docked = m_win->isDockedHost();
         if (docked) {
-            xPos = 1;
-            yPos = 1;
+            xPos = 0;
+            yPos = 0;
         }
         std::vector<double> position = convertFromPixels(
             units, xPos, yPos, logicalWidth, logicalHeight, screenWidth, screenHeight);
@@ -993,8 +996,8 @@ GOFigure::refreshPositionProperties(bool forceUpdate)
     int screenHeight = 0;
     GraphicsEnvironment::currentScreenResolution(screenWidth, screenHeight);
     const bool docked = m_win->isDockedHost();
-    double xPos = 1;
-    double yPos = 1;
+    double xPos = 0;
+    double yPos = 0;
     if (!docked && hasGeometry) {
         xPos = geoX;
         yPos = transformY(geoY - geoFrameTop, height, GraphicsEnvironment::currentScreenHeight());
@@ -1050,9 +1053,19 @@ GOFigure::setExposedPositionOverride(const std::vector<double>& position,
 {
     m_hasExposedPositionOverride
         = isFourVector(position) && isFourVector(innerPosition) && isFourVector(outerPosition);
-    m_positionOverride = position;
-    m_innerPositionOverride = innerPosition;
-    m_outerPositionOverride = outerPosition;
+    // the overrides are given with the one-based pixel origin, stored zero-based
+    const double shift
+        = stringCheck(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR) ? 1. : 0.;
+    auto zeroBased = [shift](std::vector<double> value) {
+        if (value.size() >= 2) {
+            value[0] -= shift;
+            value[1] -= shift;
+        }
+        return value;
+    };
+    m_positionOverride = zeroBased(position);
+    m_innerPositionOverride = zeroBased(innerPosition);
+    m_outerPositionOverride = zeroBased(outerPosition);
     m_paperPositionOverride = paperPosition;
     clearChanged({ GO_POSITION_PROPERTY_NAME_STR, GO_INNER_POSITION_PROPERTY_NAME_STR,
         GO_OUTER_POSITION_PROPERTY_NAME_STR });

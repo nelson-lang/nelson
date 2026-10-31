@@ -36,7 +36,7 @@ assert_ax_cp(cp(2, :), [2 20], f, [10 100]);
 assert_isapprox([cp(1, 3) cp(2, 3)], [zl(2) zl(1)], 1e-6);
 %=============================================================================
 % The press above followed by a release at a different point is a left-drag,
-% which pans the 2-D axes (the default modeless interaction, like MATLAB).
+% which pans the 2-D axes (the default modeless interaction, like the reference).
 % Panning changes the axes limits, so the remaining cases - which expect the
 % original limits - continue on a fresh figure. This is correct behaviour, not
 % a defect; the drag only shifts the limits enough to matter once the drawing

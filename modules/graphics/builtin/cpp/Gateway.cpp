@@ -80,6 +80,7 @@
 #include "__web_raster_png__Builtin.hpp"
 #include "__web_uicontrol_action__Builtin.hpp"
 #include "__figure_mouse_event__Builtin.hpp"
+#include "__uicomponent_event__Builtin.hpp"
 #include "__figure_native_geometry__Builtin.hpp"
 #include "__uicontrol_key_event__Builtin.hpp"
 #include "collapseBuiltin.hpp"
@@ -325,6 +326,8 @@ static const nlsGateway gateway[] = {
         NLS_OVERLOAD_AUTO_OFF },
     { "__figure_mouse_event__", (ptrBuiltin)Nelson::GraphicsGateway::__figure_mouse_event__Builtin,
         1, 4, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { "__uicomponent_event__", (ptrBuiltin)Nelson::GraphicsGateway::__uicomponent_event__Builtin, 1,
+        4, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     { "__figure_native_geometry__",
         (ptrBuiltin)Nelson::GraphicsGateway::__figure_native_geometry__Builtin, 1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },

@@ -22,6 +22,7 @@
 #include "GOVectorFourDoubleProperty.hpp"
 #include "GOVectorProperty.hpp"
 #include "GOHelpers.hpp"
+#include "GOPositionHelpers.hpp"
 #include <algorithm>
 #include <cmath>
 //=============================================================================
@@ -260,6 +261,7 @@ GOScatterHistogram::getType()
 void
 GOScatterHistogram::updateState()
 {
+    syncChartPositionUnits(this);
     GOGroup::updateState();
     bool scatterPropertiesChanged = hasChanged(GO_COLOR_PROPERTY_NAME_STR)
         || hasChanged(GO_MARKER_STYLE_PROPERTY_NAME_STR)

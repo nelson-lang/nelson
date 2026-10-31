@@ -57,7 +57,7 @@ objectFromHandle(int64 handle)
     if (handle >= HANDLE_OFFSET_OBJECT) {
         return findGraphicsObject(handle, false);
     }
-    if (handle != HANDLE_ROOT_OBJECT && handle != 0) {
+    if (handle >= 0) {
         return static_cast<GraphicsObject*>(findGOFigure(handle));
     }
     return nullptr;
