@@ -100,7 +100,7 @@ class GOHeatmapFontSizeProperty : public GOScalarProperty
 public:
     GOHeatmapFontSizeProperty()
         : GOScalarProperty(
-            std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity())
+              std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity())
     {
     }
     void
@@ -205,8 +205,8 @@ GOHeatmapChart::GOHeatmapChart() : GOGroup()
     registerProperty(new GOStringProperty, GO_X_VARIABLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_Y_VARIABLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_COLOR_VARIABLE_PROPERTY_NAME_STR);
-    registerProperty(new GORestrictedStringProperty({ L"none", L"count", L"mean", L"median", L"sum",
-                         L"min", L"max" }),
+    registerProperty(new GORestrictedStringProperty(
+                         { L"none", L"count", L"mean", L"median", L"sum", L"min", L"max" }),
         GO_COLOR_METHOD_PROPERTY_NAME_STR);
     registerProperty(new GOHeatmapColorLimitsProperty, GO_COLOR_LIMITS_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_COLORBAR_VISIBLE_PROPERTY_NAME_STR);

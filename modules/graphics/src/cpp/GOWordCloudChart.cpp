@@ -58,8 +58,8 @@ namespace {
         set(ArrayOf arg) override
         {
             m_matrix = ArrayOf();
-            if (arg.isNumeric() && arg.dimensions().rows() > 1
-                && arg.dimensions().columns() == 3 && arg.dimensions().length() == 2) {
+            if (arg.isNumeric() && arg.dimensions().rows() > 1 && arg.dimensions().columns() == 3
+                && arg.dimensions().length() == 2) {
                 ArrayOf values(arg);
                 values.promoteType(NLS_DOUBLE);
                 const double* data = static_cast<const double*>(values.dataPointer());
@@ -71,8 +71,8 @@ namespace {
                     }
                 }
                 const indexType rows = values.dimensions().rows();
-                GOAutoFlatColorProperty::set(
-                    ArrayOf::doubleRowVector(std::vector<double>{ data[0], data[rows], data[2 * rows] }));
+                GOAutoFlatColorProperty::set(ArrayOf::doubleRowVector(
+                    std::vector<double> { data[0], data[rows], data[2 * rows] }));
                 m_matrix = values;
                 return;
             }
@@ -111,7 +111,8 @@ namespace {
                         Error(L"Nelson:graphics:expectedStringProperty",
                             L"Expecting a string for property.");
                     }
-                    text += (k > 0 ? std::wstring(1, wchar_t(10)) : std::wstring()) + elements[k].asWideString();
+                    text += (k > 0 ? std::wstring(1, wchar_t(10)) : std::wstring())
+                        + elements[k].asWideString();
                 }
                 GOStringProperty::set(ArrayOf::characterArray(text));
                 return;
@@ -124,7 +125,8 @@ namespace {
     class GOWordCloudIntegerProperty : public GOScalarProperty
     {
     public:
-        GOWordCloudIntegerProperty(double minimum, double maximum) : GOScalarProperty(minimum, maximum)
+        GOWordCloudIntegerProperty(double minimum, double maximum)
+            : GOScalarProperty(minimum, maximum)
         {
         }
         void
@@ -165,18 +167,17 @@ GOWordCloudChart::GOWordCloudChart()
 {
     addProperty(this, new GOStringVectorProperty(false, true), GO_WORD_DATA_PROPERTY_NAME_STR);
     addProperty(this, new GOArrayOfProperty, GO_SIZE_DATA_PROPERTY_NAME_STR);
-    addProperty(this,
-        new GOWordCloudIntegerProperty(1, std::numeric_limits<double>::infinity()),
+    addProperty(this, new GOWordCloudIntegerProperty(1, std::numeric_limits<double>::infinity()),
         GO_MAX_DISPLAY_WORDS_PROPERTY_NAME_STR);
-    addProperty(this, new GOScalarProperty(
+    addProperty(this,
+        new GOScalarProperty(
             std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity()),
         GO_SIZE_POWER_PROPERTY_NAME_STR);
     addProperty(this, new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     addProperty(this, new GOWordCloudColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     addProperty(this, new GOAutoFlatColorProperty, GO_HIGHLIGHT_COLOR_PROPERTY_NAME_STR);
     addProperty(this, new GORestrictedStringProperty(SHAPE_VALUES), GO_SHAPE_PROPERTY_NAME_STR);
-    addProperty(this,
-        new GOWordCloudIntegerProperty(0, std::numeric_limits<double>::infinity()),
+    addProperty(this, new GOWordCloudIntegerProperty(0, std::numeric_limits<double>::infinity()),
         GO_LAYOUT_NUM_PROPERTY_NAME_STR);
     addProperty(this, new GOWordCloudTitleProperty, GO_TITLE_PROPERTY_NAME_STR);
     addProperty(this, new GOStringProperty, GO_TITLE_FONT_NAME_PROPERTY_NAME_STR);

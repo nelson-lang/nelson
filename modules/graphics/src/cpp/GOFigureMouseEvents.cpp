@@ -192,8 +192,8 @@ fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selecti
     if (width <= 0 || height <= 0) {
         return;
     }
-    auto* children
-        = dynamic_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    auto* children = dynamic_cast<GOGObjectsProperty*>(
+        fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
     if (children == nullptr) {
         return;
     }

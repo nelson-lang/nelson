@@ -1612,7 +1612,8 @@ GOWindow::deliverLegendItemHit(QMouseEvent* e, const std::wstring& selectionType
         }
         int64 peerHandle = 0;
         int region = 0;
-        if (!legend->hitTestEntry(mx, my, plotRegion.width(), plotRegion.height(), peerHandle, region)) {
+        if (!legend->hitTestEntry(
+                mx, my, plotRegion.width(), plotRegion.height(), peerHandle, region)) {
             continue;
         }
         GOCallbackProperty* cb = static_cast<GOCallbackProperty*>(
@@ -1621,8 +1622,8 @@ GOWindow::deliverLegendItemHit(QMouseEvent* e, const std::wstring& selectionType
             wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
             ArrayOfVector fieldValues;
             fieldValues << graphicsObjectHandle(peerHandle, false);
-            fieldValues << ArrayOf::characterArray(region == 0 ? std::wstring(L"icon")
-                                                              : std::wstring(L"label"));
+            fieldValues << ArrayOf::characterArray(
+                region == 0 ? std::wstring(L"icon") : std::wstring(L"label"));
             fieldValues << ArrayOf::characterArray(selectionType);
             cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
         }

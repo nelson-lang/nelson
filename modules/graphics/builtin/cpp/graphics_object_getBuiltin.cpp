@@ -171,7 +171,8 @@ propertyValueForUser(
 static bool
 isAxesStateIndependentProperty(const std::wstring& name)
 {
-    return name == GO_COLOR_ORDER_PROPERTY_NAME_STR || name == GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR
+    return name == GO_COLOR_ORDER_PROPERTY_NAME_STR
+        || name == GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR
         || name == GO_LINE_STYLE_ORDER_PROPERTY_NAME_STR
         || name == GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR
         || name == GO_USER_DATA_PROPERTY_NAME_STR || name == GO_TAG_PROPERTY_NAME_STR;

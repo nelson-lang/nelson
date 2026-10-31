@@ -513,7 +513,7 @@ RenderWeb::dashArray() const
     if (m_lineStyle == L"-.") {
         return { 4 * w, 1 * w, 2 * w, 1 * w };
     }
-    return { };
+    return {};
 }
 //=============================================================================
 void
@@ -947,7 +947,7 @@ RenderWeb::pointMarkers(const std::vector<double>& xs, const std::vector<double>
     const std::vector<double>& markerSizes, const std::vector<double>& rgbaColors)
 {
     // Kept for the dot fast path: a filled disc with the given colour, no outline.
-    return markerBatch(RenderInterface::Dot, xs, ys, markerSizes, rgbaColors, { }, 1.0);
+    return markerBatch(RenderInterface::Dot, xs, ys, markerSizes, rgbaColors, {}, 1.0);
 }
 //=============================================================================
 void
