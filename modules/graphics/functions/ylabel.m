@@ -66,6 +66,6 @@ function removeChild(parent, h)
 end
 %=============================================================================
 function tf = isEmptyTextString(value)
-  tf = length(value) == 0 || strcmp(value, '');
+  tf = isempty(value) || (iscell(value) && all(cellfun(@isempty, value(:))));
 end
 %=============================================================================

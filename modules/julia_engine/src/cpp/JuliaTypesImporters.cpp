@@ -18,6 +18,8 @@
 #include "JuliaTypesImporters.hpp"
 #include "JuliaHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "ClassdefSerialization.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -228,18 +230,15 @@ static jl_value_t*
 convertDictionaryArrayOfToJulia(const ArrayOf& value)
 {
     jl_value_t* valuePtr = nullptr;
-    stringVector fieldnames = value.fieldNames();
-    auto it = std::find(fieldnames.begin(), fieldnames.end(), "allKeys");
-    if (it == fieldnames.end()) {
+    // dictionary entries live in a per-process native store, not in fields: materialize
+    // them (keys/values cells, parallel) through the saveObjectImpl hook.
+    ArrayOf saved;
+    auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    if (eval == nullptr || !classdefPrepareSaveObject(eval, value, saved)) {
         return nullptr;
     }
-    it = std::find(fieldnames.begin(), fieldnames.end(), "allValues");
-    if (it == fieldnames.end()) {
-        return nullptr;
-    }
-    // Values are stored in the allValues cell, parallel to allKeys.
-    ArrayOf allKeys = value.field("allKeys");
-    ArrayOf allValues = value.field("allValues");
+    ArrayOf allKeys = saved.field("keys");
+    ArrayOf allValues = saved.field("values");
     if (allKeys.isCell() || allKeys.isStringArray()) {
         ArrayOf* element = (ArrayOf*)allKeys.dataPointer();
         ArrayOf* valueElement = (ArrayOf*)allValues.dataPointer();

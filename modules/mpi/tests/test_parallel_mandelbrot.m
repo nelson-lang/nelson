@@ -9,11 +9,12 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-% Skip when the MPI launcher cannot start local workers in this environment.
+% Skip when the MPI launcher cannot start the workers this test needs: probe with the
+% same rank count (4) used below, since some runners expose fewer slots than that.
 mpiWorksHere = false;
 try
   [launchStatus, ~] = mpiexec([modulepath('mpi', 'root'), ...
-    '/examples/MPI_helloworld.m'], 2);
+    '/examples/MPI_helloworld.m'], 4);
   mpiWorksHere = (launchStatus == 0);
 catch
 end

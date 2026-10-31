@@ -13,7 +13,8 @@
 % through the container offsets.
 %=============================================================================
 f = figure('Position', [100 100 400 300]);
-p = uipanel(f, 'Units', 'pixels', 'Position', [20 20 360 260], 'BorderType', 'none');
+% pixel positions start at 1: the panel starts 20 pixels after the figure origin
+p = uipanel(f, 'Units', 'pixels', 'Position', [21 21 360 260], 'BorderType', 'none');
 ax = pixel_axes(p, [30 30 300 200]);
 drawnow();
 __figure_mouse_event__(f, 'press', [200 150]);
@@ -22,7 +23,7 @@ assert_isapprox(ax.CurrentPoint(1, 1:2), [5 50], 1e-9);
 __figure_mouse_event__(f, 'press', [50 50]);
 assert_isapprox(ax.CurrentPoint(1, 1:2), [0 0], 1e-9);
 % nested panel
-p2 = uipanel(p, 'Units', 'pixels', 'Position', [10 10 340 240], 'BorderType', 'none');
+p2 = uipanel(p, 'Units', 'pixels', 'Position', [11 11 340 240], 'BorderType', 'none');
 ax2 = pixel_axes(p2, [20 20 300 200]);
 drawnow();
 __figure_mouse_event__(f, 'press', [200 150]);
@@ -32,7 +33,7 @@ close(f);
 % uitab: the page starts at the bottom-left corner of the tab group (tabs on
 % top)
 f = figure('Position', [100 100 400 300]);
-tg = uitabgroup(f, 'Units', 'pixels', 'Position', [0 0 400 300]);
+tg = uitabgroup(f, 'Units', 'pixels', 'Position', [1 1 400 300]);
 t = uitab(tg, 'Title', 'A');
 ax = pixel_axes(t, [50 50 300 150]);
 drawnow();
@@ -60,7 +61,8 @@ function ax = pixel_axes(parent, position)
   % Units before Position: the pixel Position must not be read as normalized
   ax = axes('Parent', parent);
   ax.Units = 'pixels';
-  ax.Position = position;
+  % Pixel positions start at 1: shift so the axes starts at the container offset.
+  ax.Position = position + [1 1 0 0];
   ax.XLim = [0 10];
   ax.YLim = [0 100];
 end

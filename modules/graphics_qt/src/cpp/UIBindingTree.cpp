@@ -79,6 +79,14 @@ namespace {
             tree->setHeaderHidden(true);
             QObject::connect(
                 tree, &QTreeWidget::itemSelectionChanged, tree, [this]() { onSelectionChanged(); });
+            QObject::connect(tree, &QTreeWidget::itemExpanded, tree, [this](QTreeWidgetItem* item) {
+                onNodeExpandCollapse(item, GO_NODE_EXPANDED_FCN_PROPERTY_NAME_STR,
+                    L"NodeExpandedData", L"NodeExpanded");
+            });
+            QObject::connect(tree, &QTreeWidget::itemCollapsed, tree, [this](QTreeWidgetItem* item) {
+                onNodeExpandCollapse(item, GO_NODE_COLLAPSED_FCN_PROPERTY_NAME_STR,
+                    L"NodeCollapsedData", L"NodeCollapsed");
+            });
             if (static_cast<GOUITree*>(model)->isCheckboxTree()) {
                 QObject::connect(tree, &QTreeWidget::itemChanged, tree,
                     [this](QTreeWidgetItem*, int) { onItemChanged(); });
@@ -164,6 +172,22 @@ namespace {
             fieldValues << graphicsObjectVector(previousSelection);
             model->emitCallbackEvent(GO_SELECTION_CHANGED_FCN_PROPERTY_NAME_STR,
                 L"SelectedNodesChangedData", L"SelectionChanged", fieldNames, fieldValues);
+        }
+        //=============================================================================
+        // Fires NodeExpandedFcn / NodeCollapsedFcn with the node that toggled.
+        void
+        onNodeExpandCollapse(QTreeWidgetItem* item, const std::wstring& callbackName,
+            const std::wstring& eventDataClassName, const std::wstring& eventName)
+        {
+            if (!item || model->isProgrammaticChange()) {
+                return;
+            }
+            int64 nodeHandle = (int64)item->data(0, Qt::UserRole).toLongLong();
+            wstringVector fieldNames = { L"Node" };
+            ArrayOfVector fieldValues;
+            fieldValues << graphicsObjectHandle(nodeHandle);
+            model->emitCallbackEvent(callbackName, eventDataClassName, eventName, fieldNames,
+                fieldValues);
         }
         //=============================================================================
         void

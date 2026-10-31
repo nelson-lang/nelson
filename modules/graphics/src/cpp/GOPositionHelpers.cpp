@@ -13,6 +13,8 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
+#include "GOUnitsProperty.hpp"
+#include "GOSurfaceScale.hpp"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -135,15 +137,34 @@ setPositionConstraintIfPresent(GraphicsObject* object, const std::wstring& value
     return setStringIfPresent(object, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, value);
 }
 //=============================================================================
+void
+reconcilePositionPixelOrigin(GraphicsObject* object)
+{
+    const std::wstring names[] = { GO_POSITION_PROPERTY_NAME_STR,
+        GO_INNER_POSITION_PROPERTY_NAME_STR, GO_OUTER_POSITION_PROPERTY_NAME_STR };
+    for (const std::wstring& name : names) {
+        if (object == nullptr || !object->haveProperty(name) || !object->hasChanged(name)) {
+            continue;
+        }
+        if (auto* shifted
+            = dynamic_cast<GOPixelOriginPositionProperty*>(object->findProperty(name, false))) {
+            shifted->reconcileUnits();
+        }
+    }
+}
+//=============================================================================
 bool
 syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUnits,
-    const std::wstring& currentUnits, double width, double height)
+    const std::wstring& currentUnits, double width, double height, bool pixelOrigin)
 {
     if (!object) {
         return false;
     }
     bool converted = false;
     bool unitsDiffer = previousUnits != currentUnits;
+    if (unitsDiffer) {
+        reconcilePositionPixelOrigin(object);
+    }
     const std::wstring names[] = { GO_POSITION_PROPERTY_NAME_STR,
         GO_INNER_POSITION_PROPERTY_NAME_STR, GO_OUTER_POSITION_PROPERTY_NAME_STR };
     for (const std::wstring& name : names) {
@@ -160,11 +181,48 @@ syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUni
         if (!isFourVector(position)) {
             continue;
         }
-        convertPosition(previousUnits, currentUnits, position, width, height);
+        if (pixelOrigin) {
+            convertPositionPixelOrigin(previousUnits, currentUnits, position, width, height);
+        } else {
+            convertPosition(previousUnits, currentUnits, position, width, height);
+        }
         setFourIfPresent(object, name, position);
         converted = true;
     }
     return converted;
+}
+//=============================================================================
+void
+syncChartPositionUnits(GraphicsObject* object, bool clearPositionChanged)
+{
+    if (object == nullptr || !object->haveProperty(GO_UNITS_PROPERTY_NAME_STR)) {
+        return;
+    }
+    if (object->hasChanged(GO_UNITS_PROPERTY_NAME_STR)) {
+        auto* unitsProperty = dynamic_cast<GOUnitsProperty*>(
+            object->findProperty(GO_UNITS_PROPERTY_NAME_STR, false));
+        if (unitsProperty != nullptr) {
+            std::wstring previousUnits = unitsProperty->getPreviousUnits();
+            std::wstring currentUnits = unitsProperty->data();
+            double width = 0;
+            double height = 0;
+            axesParentLogicalSizeInPixels(object, width, height);
+            // pixel origin 1: the stored value is the shown value in pixel units.
+            syncPositionUnitsTriplet(object, previousUnits, currentUnits, width, height, true);
+        }
+        object->clearChanged(GO_UNITS_PROPERTY_NAME_STR);
+    }
+    // drop stale Position flags so a later Units change still converts.
+    if (!clearPositionChanged) {
+        return;
+    }
+    const std::wstring names[] = { GO_POSITION_PROPERTY_NAME_STR,
+        GO_INNER_POSITION_PROPERTY_NAME_STR, GO_OUTER_POSITION_PROPERTY_NAME_STR };
+    for (const std::wstring& name : names) {
+        if (object->haveProperty(name)) {
+            object->clearChanged(name);
+        }
+    }
 }
 //=============================================================================
 } // namespace Nelson

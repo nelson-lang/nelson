@@ -51,7 +51,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GOPixelOriginPositionProperty(this), GO_POSITION_PROPERTY_NAME_STR);
     auto* stringProperty = new GOStringVectorProperty;
     stringProperty->setEmptyReturnsChar(true);
     registerProperty(stringProperty, GO_STRING_PROPERTY_NAME_STR);
@@ -89,7 +89,7 @@ void
 GOUIControl::setupDefaults()
 {
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 20, 20, 60, 20);
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 19, 19, 60, 20);
     setStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR);
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
@@ -154,6 +154,8 @@ GOUIControl::onUnitsChanged(bool newWidget)
 
         syncPositionUnitsTriplet(this, previousUnits, currentUnits, width, height);
         clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    } else {
+        reconcilePositionPixelOrigin(this);
     }
 
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);

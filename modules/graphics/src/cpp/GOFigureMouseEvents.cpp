@@ -18,6 +18,7 @@
 #include "GOBubbleChart.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
+#include "GOLegend.hpp"
 #include "GOImage.hpp"
 #include "GOLineSeries.hpp"
 #include "GOPatch.hpp"
@@ -45,6 +46,8 @@ pushFigureCallback(GOFigure* fig, const std::wstring& propertyName, const std::w
 static void
 pushObjectCallback(
     GraphicsObject* object, const std::wstring& propertyName, const std::wstring& eventType);
+static void
+fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selectionType);
 static void
 pickInChildren(GraphicsObject* parent, double x, double y, double width, double height,
     double scale, int64& bestHandle, double& bestDepth, int64& fallbackAxes);
@@ -144,6 +147,9 @@ dispatchFigureMouseEvent(GOFigure* fig, const std::wstring& action, double x, do
         } else {
             pushFigureCallback(fig, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR, L"ButtonDown");
         }
+        // A click on a legend entry also fires that legend's ItemHitFcn, with the
+        // entry's plotted object as Peer (same behaviour as the native window).
+        fireLegendItemHit(fig, x, y, selectionType);
     } else if (action == L"motion") {
         pushFigureCallback(
             fig, GO_WINDOW_BUTTON_MOTION_FCN_PROPERTY_NAME_STR, L"WindowMouseMotion");
@@ -173,6 +179,48 @@ pushObjectCallback(
         return;
     }
     callback->pushEvent(object, L"MouseData", eventType);
+}
+//=============================================================================
+// Fires a legend's ItemHitFcn when the press lands on one of its entries, with
+// the entry's plotted object as Peer and the Region ('icon' or 'label'). Uses
+// the figure drawing-area pixel size, matching GOLegend::hitTestEntry.
+static void
+fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selectionType)
+{
+    double width = fig->getLayoutWidth();
+    double height = fig->getLayoutHeight();
+    if (width <= 0 || height <= 0) {
+        return;
+    }
+    auto* children
+        = dynamic_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (children == nullptr) {
+        return;
+    }
+    std::vector<int64> handles(children->data());
+    for (auto it = handles.rbegin(); it != handles.rend(); ++it) {
+        auto* legend = dynamic_cast<GOLegend*>(findGraphicsObject(*it, false));
+        if (legend == nullptr) {
+            continue;
+        }
+        int64 peerHandle = 0;
+        int region = 0;
+        if (!legend->hitTestEntry(x, y, width, height, peerHandle, region)) {
+            continue;
+        }
+        auto* cb = dynamic_cast<GOCallbackProperty*>(
+            legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR, false));
+        if (cb != nullptr && !cb->get().isEmpty()) {
+            wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
+            ArrayOfVector fieldValues;
+            fieldValues << graphicsObjectHandle(peerHandle, false);
+            fieldValues << ArrayOf::characterArray(
+                region == 0 ? std::wstring(L"icon") : std::wstring(L"label"));
+            fieldValues << ArrayOf::characterArray(selectionType);
+            cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
+        }
+        return;
+    }
 }
 //=============================================================================
 // An object is pickable unless it is hidden, or HitTest == 'off', or

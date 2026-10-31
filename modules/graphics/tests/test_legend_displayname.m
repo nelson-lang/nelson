@@ -20,14 +20,14 @@ if ~ismac()
   hold(ax, 'on');
   h2 = plot(ax, 2:4, 'DisplayName', 'B');
   drawnow();
-  asserts.isequal(lgd.String, {'A'; 'B'});
+  asserts.isequal(lgd.String, {'A', 'B'});
   lgd.AutoUpdate = 'off';
   plot(ax, 3:5, 'DisplayName', 'C');
   drawnow();
-  asserts.isequal(lgd.String, {'A'; 'B'});
+  asserts.isequal(lgd.String, {'A', 'B'});
   delete(h2);
   drawnow();
-  asserts.isequal(lgd.String, {'A'; 'B'});
+  asserts.isequal(lgd.String, {'A', 'B'});
 end
 delete(h1);
 close(f);

@@ -29,6 +29,7 @@
 #include "GOStringProperty.hpp"
 #include "GOThemeProperty.hpp"
 #include "GORestrictedStringProperty.hpp"
+#include <limits>
 #include "GOUnitsProperty.hpp"
 #include "GOWindowStyleProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
@@ -73,6 +74,12 @@ static void
 addFourVector(GraphicsObject* go, const std::wstring& name)
 {
     addProperty(go, new GOFourVectorProperty, name);
+}
+//=============================================================================
+static void
+addPixelOriginPosition(GraphicsObject* go, const std::wstring& name)
+{
+    addProperty(go, new GOPixelOriginPositionProperty(go), name);
 }
 //=============================================================================
 static void
@@ -133,6 +140,13 @@ static void
 addString(GraphicsObject* go, const std::wstring& name)
 {
     addProperty(go, new GOStringProperty, name);
+}
+//=============================================================================
+static void
+addRestrictedString(
+    GraphicsObject* go, const std::wstring& name, const std::vector<std::wstring>& values)
+{
+    addProperty(go, new GORestrictedStringProperty(values), name);
 }
 //=============================================================================
 static void
@@ -207,10 +221,10 @@ registerFigureProperties(GraphicsObject* go)
     addOnOff(go, GO_DOCK_CONTROLS_PROPERTY_NAME_STR);
     addString(go, GO_FILE_NAME_PROPERTY_NAME_STR);
     addString(go, GO_ICON_PROPERTY_NAME_STR);
-    addFourVector(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    addPixelOriginPosition(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
     addOnOff(go, GO_INTEGER_HANDLE_PROPERTY_NAME_STR);
     addOnOff(go, GO_INVERT_HARDCOPY_PROPERTY_NAME_STR);
-    addFourVector(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    addPixelOriginPosition(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
     addString(go, GO_PAPER_ORIENTATION_PROPERTY_NAME_STR);
     addFourVector(go, GO_PAPER_POSITION_PROPERTY_NAME_STR);
     addAutoManual(go, GO_PAPER_POSITION_MODE_PROPERTY_NAME_STR);
@@ -241,7 +255,8 @@ static void
 registerAxesProperties(GraphicsObject* go)
 {
     addString(go, GO_ALPHA_SCALE_PROPERTY_NAME_STR);
-    addString(go, GO_BOX_STYLE_PROPERTY_NAME_STR);
+    addRestrictedString(go, GO_BOX_STYLE_PROPERTY_NAME_STR,
+        { GO_PROPERTY_VALUE_BACK_STR, GO_PROPERTY_VALUE_FULL_STR });
     addProperty(
         go, new GOTwoVectorProperty, GO_BUBBLE_LIMITS_INTERNAL_PROPERTY_NAME_STR, true, false);
     addProperty(go, new GOAutoManualProperty, GO_BUBBLE_LIMITS_MODE_INTERNAL_PROPERTY_NAME_STR,
@@ -249,7 +264,8 @@ registerAxesProperties(GraphicsObject* go)
     addProperty(
         go, new GOTwoVectorProperty, GO_BUBBLE_SIZE_RANGE_INTERNAL_PROPERTY_NAME_STR, true, false);
     addCallback(go, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
-    addString(go, GO_CLIPPING_STYLE_PROPERTY_NAME_STR);
+    addRestrictedString(go, GO_CLIPPING_STYLE_PROPERTY_NAME_STR,
+        { GO_PROPERTY_VALUE_3DBOX_STR, GO_PROPERTY_VALUE_RECTANGLE_STR });
     addString(go, GO_COLOR_SCALE_PROPERTY_NAME_STR);
     addGo(go, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
     addArray(go, GO_CURRENT_POINT_PROPERTY_NAME_STR);
@@ -257,7 +273,10 @@ registerAxesProperties(GraphicsObject* go)
     addOnOff(go, GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
     addAutoManual(go, GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR);
     addAutoManual(go, GO_GRID_COLOR_MODE_PROPERTY_NAME_STR);
-    addScalar(go, GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
+    addProperty(go,
+        new GOScalarProperty(
+            std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity()),
+        GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
     addAutoManual(go, GO_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
     addFourVector(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
     addArray(go, GO_INTERACTION_OPTIONS_PROPERTY_NAME_STR);
@@ -272,12 +291,17 @@ registerAxesProperties(GraphicsObject* go)
     addAutoManual(go, GO_MINOR_GRID_ALPHA_MODE_PROPERTY_NAME_STR);
     addProperty(go, new GOColorProperty, GO_MINOR_GRID_COLOR_PROPERTY_NAME_STR);
     addAutoManual(go, GO_MINOR_GRID_COLOR_MODE_PROPERTY_NAME_STR);
-    addScalar(go, GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
+    addProperty(go,
+        new GOScalarProperty(
+            std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity()),
+        GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
     addAutoManual(go, GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
     addScalar(go, GO_NEXT_SERIES_INDEX_PROPERTY_NAME_STR);
     addPickableParts(go);
-    addString(go, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);
-    addString(go, GO_SORT_METHOD_PROPERTY_NAME_STR);
+    addRestrictedString(go, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR,
+        { GO_PROPERTY_VALUE_OUTERPOSITION_STR, GO_PROPERTY_VALUE_INNERPOSITION_STR });
+    addRestrictedString(go, GO_SORT_METHOD_PROPERTY_NAME_STR,
+        { GO_PROPERTY_VALUE_CHILDORDER_STR, GO_PROPERTY_VALUE_DEPTH_STR });
     addGo(go, GO_SUBTITLE_PROPERTY_NAME_STR);
     addString(go, GO_SUBTITLE_FONT_WEIGHT_PROPERTY_NAME_STR);
     addString(go, GO_TITLE_FONT_WEIGHT_PROPERTY_NAME_STR);
@@ -460,8 +484,8 @@ registerUIControlProperties(GraphicsObject* go)
 {
     addGo(go, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
     addFourVector(go, GO_EXTENT_PROPERTY_NAME_STR);
-    addFourVector(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    addFourVector(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    addPixelOriginPosition(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    addPixelOriginPosition(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
     addString(go, GO_TAG_PROPERTY_NAME_STR);
 }
 //=============================================================================

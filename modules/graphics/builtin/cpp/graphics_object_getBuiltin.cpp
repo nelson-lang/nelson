@@ -167,6 +167,16 @@ propertyValueForUser(
     return onOffPropertyValue(eval, property, value);
 }
 //=============================================================================
+// Properties stored as plain values: reading them never needs the deferred axes state.
+static bool
+isAxesStateIndependentProperty(const std::wstring& name)
+{
+    return name == GO_COLOR_ORDER_PROPERTY_NAME_STR || name == GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR
+        || name == GO_LINE_STYLE_ORDER_PROPERTY_NAME_STR
+        || name == GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR
+        || name == GO_USER_DATA_PROPERTY_NAME_STR || name == GO_TAG_PROPERTY_NAME_STR;
+}
+//=============================================================================
 ArrayOfVector
 Nelson::GraphicsGateway::graphics_object_getBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -205,7 +215,9 @@ Nelson::GraphicsGateway::graphics_object_getBuiltin(
         auto handle = ptrGO1[k];
         GraphicsObject* fp = graphicsObjectFromHandle(handle, true);
         if (GOAxis* axis = dynamic_cast<GOAxis*>(fp)) {
-            axis->updateStateIfDirty();
+            if (!isAxesStateIndependentProperty(requestedPropname)) {
+                axis->updateStateIfDirty();
+            }
         }
         if (handle == HANDLE_ROOT_OBJECT) {
             GORoot* root = static_cast<GORoot*>(fp);

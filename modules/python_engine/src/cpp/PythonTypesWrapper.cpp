@@ -14,6 +14,8 @@
 #include "i18n.hpp"
 #include "PythonObjectHandle.hpp"
 #include "PyObjectHelpers.hpp"
+#include "ClassdefSerialization.hpp"
+#include "NelsonConfiguration.hpp"
 #include <cstring>
 #include <cmath>
 #include <vector>
@@ -379,18 +381,15 @@ convertClassArray(const ArrayOf& A)
     PyObject* pyObj = nullptr;
     if (A.classType() == "dictionary") {
         pyObj = NLSPyDict_New();
-        stringVector fieldnames = A.fieldNames();
-        auto it = std::find(fieldnames.begin(), fieldnames.end(), "allKeys");
-        if (it == fieldnames.end()) {
+        // dictionary entries live in a per-process native store, not in fields:
+        // materialize them (keys/values cells, parallel) through the saveObjectImpl hook.
+        ArrayOf saved;
+        auto* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+        if (eval == nullptr || !classdefPrepareSaveObject(eval, A, saved)) {
             Error(L"Nelson:Python:invalidDictionary", L"Invalid dictionary.");
         }
-        it = std::find(fieldnames.begin(), fieldnames.end(), "allValues");
-        if (it == fieldnames.end()) {
-            Error(L"Nelson:Python:invalidDictionary", L"Invalid dictionary.");
-        }
-        // Values are stored in the allValues cell, parallel to allKeys.
-        ArrayOf allKeys = A.field("allKeys");
-        ArrayOf allValues = A.field("allValues");
+        ArrayOf allKeys = saved.field("keys");
+        ArrayOf allValues = saved.field("values");
 
         if (allKeys.isCell() || allKeys.isStringArray()) {
             ArrayOf* keyElement = (ArrayOf*)allKeys.dataPointer();

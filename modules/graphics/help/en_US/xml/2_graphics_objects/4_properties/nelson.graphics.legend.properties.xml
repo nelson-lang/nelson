@@ -73,6 +73,11 @@
         <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
       </tr>
       <tr>
+        <td><b>ItemTokenSize</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: two-element numeric vector. Supported values: [width; height] in points, read back as a column; only the width changes the layout (icon column width).</td>
+      </tr>
+      <tr>
         <td><b>LineWidth</b></td>
         <td>updates rendered output on the next graphics refresh.</td>
         <td>Type: finite numeric scalar. Supported values: value greater than or equal to 0.</td>

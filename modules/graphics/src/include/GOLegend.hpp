@@ -110,6 +110,13 @@ public:
     restorePeerAxesPosition();
     bool
     hitTest(double x, double y, double width, double height);
+    // Resolves a pixel to the legend entry under it (same layout as drawEntries).
+    // On a hit, peerHandleOut is the entry's plotted object and regionOut is 0 for
+    // the icon column, 1 for the label. (x, y, width, height) use the same pixel
+    // frame as hitTest.
+    bool
+    hitTestEntry(
+        double x, double y, double width, double height, int64& peerHandleOut, int& regionOut);
 };
 //=============================================================================
 } // namespace Nelson

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <functional>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
 #include "UIComponentBindings.hpp"
@@ -19,6 +20,23 @@
 namespace Nelson {
 //=============================================================================
 namespace {
+    //=============================================================================
+    // A QComboBox that runs a callback just before its list drops down, so
+    // DropDownOpeningFcn can fire (QComboBox has no "about to open" signal).
+    class OpeningComboBox : public QComboBox
+    {
+    public:
+        using QComboBox::QComboBox;
+        std::function<void()> onOpening;
+        void
+        showPopup() override
+        {
+            if (onOpening) {
+                onOpening();
+            }
+            QComboBox::showPopup();
+        }
+    };
     //=============================================================================
     class UIDropDownBinding : public QtUIComponentBinding
     {
@@ -34,9 +52,15 @@ namespace {
             if (!parent) {
                 return;
             }
-            QComboBox* comboBox = new QComboBox(parent);
+            OpeningComboBox* comboBox = new OpeningComboBox(parent);
             QObject::connect(comboBox, QOverload<int>::of(&QComboBox::activated), comboBox,
                 [this](int index) { static_cast<GOUIDropDown*>(model)->onActivated(index); });
+            comboBox->onOpening = [this]() {
+                if (!model->isProgrammaticChange()) {
+                    model->emitCallbackEvent(GO_DROP_DOWN_OPENING_FCN_PROPERTY_NAME_STR,
+                        L"DropDownOpeningData", L"DropDownOpening");
+                }
+            };
             widget = comboBox;
         }
         //=============================================================================

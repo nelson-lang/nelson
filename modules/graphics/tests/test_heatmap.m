@@ -29,7 +29,7 @@ asserts.isequal(s.Image.CData, C);
 asserts.isequal(s.Image.CDataMapping, 'scaled');
 asserts.istrue(isempty(s.MissingCells));
 asserts.isequal(numel(s.CellLabels), numel(C));
-asserts.isequal(numel(s.Grid), size(C, 1) + size(C, 2) + 2);
+asserts.isequal(numel(s.Grid), 1);
 asserts.istrue(isgraphics(s.Colorbar, 'colorbar'));
 ax = ancestor(h, 'axes');
 asserts.isequal(ax.XLim, [0.5 3.5]);

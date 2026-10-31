@@ -140,6 +140,10 @@ private:
     void
     deliverButtonDownCallbacks(QMouseEvent* e, const std::wstring& selectionType);
 
+    // Fires a legend's ItemHitFcn when the click lands on one of its entries.
+    void
+    deliverLegendItemHit(QMouseEvent* e, const std::wstring& selectionType);
+
     void
     forceCurrentAxes(QMouseEvent* e);
     void

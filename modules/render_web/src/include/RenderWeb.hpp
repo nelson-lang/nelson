@@ -172,6 +172,13 @@ public:
     void
     flush3d();
 
+    // RenderInterface hook: flush the deferred queue so later primitives draw on top.
+    void
+    flushDeferred() override
+    {
+        flush3d();
+    }
+
     const std::vector<WebUIControl>&
     controls() const
     {

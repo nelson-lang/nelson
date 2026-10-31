@@ -263,10 +263,16 @@ async function runExampleModel(page: Page, model: ExampleModel): Promise<void> {
   const runButton = page.locator('#playPauseBtn');
   await expect(runButton).toHaveAttribute('data-action', 'run', { timeout: 10_000 });
   await runButton.click();
-  await expect(runButton).toHaveAttribute('data-action', 'pause', { timeout: 15_000 });
 
   const wantsCompletion = !NO_COMPLETION.has(model.name);
   if (wantsCompletion) {
+    // A purely static model can finish before the transient running state is observable,
+    // so accept either the running button or an already-completed run as proof it ran.
+    await expect(async () => {
+      const action = await runButton.getAttribute('data-action');
+      const status = (await page.locator('#statusBarInfo').textContent()) ?? '';
+      expect(action === 'pause' || /Done/.test(status)).toBeTruthy();
+    }).toPass({ timeout: 15_000 });
     await expect(page.locator('#statusBarInfo')).toContainText('Done', { timeout: RUN_OBSERVE_MS });
     await expect(runButton).toHaveAttribute('data-action', 'run', { timeout: 5_000 });
 
@@ -279,7 +285,8 @@ async function runExampleModel(page: Page, model: ExampleModel): Promise<void> {
       }
     }
   } else {
-    // Free-running demo: it must stay alive.
+    // Free-running demo: it must reach the running state and stay alive.
+    await expect(runButton).toHaveAttribute('data-action', 'pause', { timeout: 15_000 });
     await page.waitForTimeout(3_000);
     await expect(runButton).toHaveAttribute('data-action', 'pause');
   }

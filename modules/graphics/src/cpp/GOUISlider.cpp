@@ -67,7 +67,9 @@ GOUISlider::enforceFixedThickness()
             L"Nelson:ui:Slider:fixedHeight", _W("The height of this component cannot be changed."));
     }
     position[fixedIndex] = fixedThickness;
-    findProperty(GO_POSITION_PROPERTY_NAME_STR)->set(ArrayOf::doubleRowVector(position));
+    setFourVectorDefault(
+        GO_POSITION_PROPERTY_NAME_STR, position[0], position[1], position[2], position[3]);
+    findProperty(GO_POSITION_PROPERTY_NAME_STR)->setModified(true);
 }
 //=============================================================================
 std::wstring

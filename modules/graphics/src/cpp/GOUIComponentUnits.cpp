@@ -188,6 +188,8 @@ GOUIComponent::onUnitsChanged(bool newWidget)
         syncPositionUnitsTriplet(
             this, unitsProperty->getPreviousUnits(), unitsProperty->data(), width, height);
         clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    } else {
+        reconcilePositionPixelOrigin(this);
     }
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);
 }

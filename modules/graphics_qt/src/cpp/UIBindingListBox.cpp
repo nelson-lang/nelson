@@ -62,6 +62,8 @@ namespace {
             listWidget->setItemDelegate(new QUIListRowDelegate(listWidget));
             QObject::connect(listWidget, &QListWidget::itemSelectionChanged, listWidget,
                 [this]() { onSelectionChanged(); });
+            QObject::connect(listWidget, &QListWidget::itemDoubleClicked, listWidget,
+                [this](QListWidgetItem*) { onDoubleClicked(); });
             widget = listWidget;
         }
         //=============================================================================
@@ -212,6 +214,17 @@ namespace {
             fieldValues << previousValueIndex;
             model->emitCallbackEvent(GO_VALUE_CHANGED_FCN_PROPERTY_NAME_STR, L"ValueChangedData",
                 L"ValueChanged", fieldNames, fieldValues);
+        }
+        //=============================================================================
+        // Fires DoubleClickedFcn when the user double-clicks an item.
+        void
+        onDoubleClicked()
+        {
+            if (model->isProgrammaticChange()) {
+                return;
+            }
+            model->emitCallbackEvent(
+                GO_DOUBLE_CLICKED_FCN_PROPERTY_NAME_STR, L"DoubleClickedData", L"DoubleClicked");
         }
         //=============================================================================
     };

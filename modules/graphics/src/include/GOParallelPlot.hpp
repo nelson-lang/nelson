@@ -21,6 +21,8 @@ public:
     ~GOParallelPlot() override = default;
     std::wstring
     getType() override;
+    void
+    updateState() override;
     std::string
     getClassName() override
     {

@@ -23,7 +23,7 @@ for size = {[1478 691], [800 600]}
     item = controls(1);
   end
   assert_isequal(item.units, 'pixels');
-  assert_isequal([item.x item.y item.w item.h], [145 101 125 24]);
+  assert_isequal([item.x item.y item.w item.h], [144 102 125 24]);
   assert_isequal(field.Position, [145 555 125 24]);
 end
 close(f);

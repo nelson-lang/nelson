@@ -178,7 +178,7 @@ function value = charScalar(value)
 end
 %=============================================================================
 function tf = isEmptyTextString(value)
-  tf = length(value) == 0 || strcmp(value, '');
+  tf = isempty(value) || (iscell(value) && all(cellfun(@isempty, value(:))));
 end
 %=============================================================================
 function [hasSubtitle, subtitleContent, propertyArguments] ...

@@ -310,5 +310,60 @@ GOLegend::hitTest(double x, double y, double width, double height)
         && y <= pos[1] + pos[3];
 }
 //=============================================================================
+bool
+GOLegend::hitTestEntry(
+    double x, double y, double width, double height, int64& peerHandleOut, int& regionOut)
+{
+    peerHandleOut = 0;
+    regionOut = 0;
+    if (!hitTest(x, y, width, height)) {
+        return false;
+    }
+    std::vector<std::wstring> labels = visibleLabels();
+    int n = (int)labels.size();
+    if (n == 0) {
+        return false;
+    }
+    std::vector<double> pos = positionAsPixels(width, height);
+    // same layout as drawEntries(): entries fill column-major in rows of
+    // entryRowHeight, starting from y0 = pos top minus 4.
+    double rowHeight = entryRowHeight();
+    int columns = effectiveNumColumns((size_t)n);
+    int rows = (int)std::ceil((double)n / (double)columns);
+    if (rows < 1 || rowHeight <= 0) {
+        return false;
+    }
+    double columnWidth = std::max(1.0, (pos[2] - 8.0) / (double)columns);
+    double y0 = pos[1] + pos[3] - 4.0;
+    int col = (int)std::floor((x - (pos[0] + 6.0)) / columnWidth);
+    int row = (int)std::floor((y0 - y) / rowHeight);
+    if (col < 0) {
+        col = 0;
+    }
+    if (col > columns - 1) {
+        col = columns - 1;
+    }
+    if (row < 0 || row > rows - 1) {
+        return false;
+    }
+    int displayedIndex = col * rows + row;
+    if (displayedIndex < 0 || displayedIndex >= n) {
+        return false;
+    }
+    int plotIndex = displayedIndex;
+    if (findStringProperty(GO_DIRECTION_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_REVERSE_STR) {
+        plotIndex = n - 1 - displayedIndex;
+    }
+    double baseX = pos[0] + 6.0 + col * columnWidth;
+    auto* iconWidthProperty = static_cast<GOScalarPositiveIntegerValueProperty*>(
+        findProperty(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR));
+    double iconWidth = iconWidthProperty->data();
+    regionOut = (x <= baseX + iconWidth) ? 0 : 1;
+    if (plotIndex >= 0 && plotIndex < (int)m_plotHandles.size()) {
+        peerHandleOut = m_plotHandles[plotIndex];
+    }
+    return true;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -11,17 +11,18 @@
 %=============================================================================
 fig = uifigure('Visible', 'off', 'Position', [100 100 1050 700], 'Color', [0 0 0]);
 fig.AutoResizeChildren = 'off';
-root = uipanel(fig, 'Position', [0 0 1050 700], 'BorderType', 'none', ...
+% pixel positions start at 1
+root = uipanel(fig, 'Position', [1 1 1050 700], 'BorderType', 'none', ...
   'BackgroundColor', [0.2 0.2 0.2]);
-bottom = uilabel(root, 'Text', '', 'Position', [0 0 1050 50], ...
+bottom = uilabel(root, 'Text', '', 'Position', [1 1 1050 50], ...
   'BackgroundColor', [1 0 0]);
-top = uilabel(root, 'Text', '', 'Position', [0 650 1050 50], ...
+top = uilabel(root, 'Text', '', 'Position', [1 651 1050 50], ...
   'BackgroundColor', [0 1 0]);
 
 fig.Position = [100 100 630 420];
-root.Position = [0 0 630 420];
-bottom.Position = [0 0 630 40];
-top.Position = [0 380 630 40];
+root.Position = [1 1 630 420];
+bottom.Position = [1 1 630 40];
+top.Position = [1 381 630 40];
 fig.Visible = 'on';
 drawnow();
 pause(0.1);

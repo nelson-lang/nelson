@@ -120,6 +120,9 @@
     <ClCompile Include="..\cpp\__figure_mouse_event__Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\__uicomponent_event__Builtin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\__figure_native_geometry__Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -899,6 +902,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\__figure_mouse_event__Builtin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\__uicomponent_event__Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\__figure_native_geometry__Builtin.hpp">

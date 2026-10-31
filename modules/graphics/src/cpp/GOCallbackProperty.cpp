@@ -58,6 +58,26 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go, const std::wstring&
         fieldvalues << ArrayOf::characterArray(EventName);
         elements[2] = ArrayOf::classArray(className, fieldnames, fieldvalues);
         callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
+    } else if (_data.isCell()) {
+        wstringVector fieldnames = { L"Character", L"Modifier", L"Key", L"Source", L"EventName" };
+        ArrayOfVector fieldvalues;
+        fieldvalues.reserve(fieldnames.size());
+        fieldvalues << ArrayOf::characterArray(character);
+        fieldvalues << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(modifiers);
+        fieldvalues << ArrayOf::characterArray(key);
+        fieldvalues << source;
+        fieldvalues << ArrayOf::characterArray(EventName);
+        ArrayOf* cellElements = (ArrayOf*)_data.dataPointer();
+        ArrayOf* elements
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 2);
+        elements[0] = cellElements[0];
+        elements[1] = source;
+        elements[2] = ArrayOf::classArray(className, fieldnames, fieldvalues);
+        for (size_t k = 1; k < _data.elementCount(); ++k) {
+            elements[2 + k] = cellElements[k];
+        }
+        callbackAsArrayOf
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 2), elements);
     } else {
         Error("Nelson:graphics:caseNotManaged", "Case not yet managed.");
     }
@@ -94,7 +114,7 @@ GOCallbackProperty::buildGraphicCallback(
     } else if (_data.isCell()) {
         ArrayOf* cellElements = (ArrayOf*)_data.dataPointer();
         ArrayOf* elements
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 3);
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 2);
         elements[0] = cellElements[0];
         elements[1] = source;
         wstringVector fieldnames = { L"Source", L"EventName" };
@@ -107,7 +127,7 @@ GOCallbackProperty::buildGraphicCallback(
             elements[2 + k] = cellElements[k];
         }
         callbackAsArrayOf
-            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 3), elements);
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 2), elements);
     }
 
     GraphicCallback graphicCallback(
@@ -148,7 +168,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go, const std::wstring&
         } else {
             ArrayOf* cellElements = (ArrayOf*)_data.dataPointer();
             ArrayOf* elements
-                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 3);
+                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 2);
             elements[0] = cellElements[0];
             elements[1] = source;
             elements[2] = eventData;
@@ -156,7 +176,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go, const std::wstring&
                 elements[2 + k] = cellElements[k];
             }
             callbackAsArrayOf
-                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 3), elements);
+                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 2), elements);
         }
     } else {
         Error("Nelson:graphics:caseNotManaged", "Case not yet managed.");
@@ -188,7 +208,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go)
     } else if (_data.isCell()) {
         ArrayOf* cellElements = (ArrayOf*)_data.dataPointer();
         ArrayOf* elements
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 3);
+            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.elementCount() + 2);
         elements[0] = cellElements[0];
         elements[1] = source;
         elements[2] = ArrayOf::empty(0, 0);
@@ -197,7 +217,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go)
             elements[2 + k] = cellElements[k];
         }
         callbackAsArrayOf
-            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 3), elements);
+            = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, _data.elementCount() + 2), elements);
     }
     GraphicCallback graphicCallback(
         go->stringCheck(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR),

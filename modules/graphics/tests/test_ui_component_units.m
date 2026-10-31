@@ -15,7 +15,8 @@ btn = uibutton(fig, 'Position', [40 30 100 60]);
 assert_isequal(btn.Units, 'pixels');
 btn.Units = 'normalized';
 assert_isequal(btn.Units, 'normalized');
-assert_isapprox(btn.Position, [0.1 0.1 0.25 0.2], 1e-12);
+% pixel positions start at 1, the other units at 0
+assert_isapprox(btn.Position, [39 29 100 60] ./ [400 300 400 300], 1e-12);
 assert_isapprox(btn.InnerPosition, btn.Position, 1e-12);
 assert_isapprox(btn.OuterPosition, btn.Position, 1e-12);
 btn.Units = 'pixels';
@@ -25,7 +26,7 @@ lbl = uilabel(fig, 'Units', 'normalized', 'Position', [0.2 0.3 0.4 0.1]);
 assert_isequal(lbl.Units, 'normalized');
 assert_isapprox(lbl.Position, [0.2 0.3 0.4 0.1], 1e-12);
 lbl.Units = 'pixels';
-assert_isapprox(lbl.Position, [80 90 160 30], 1e-9);
+assert_isapprox(lbl.Position, [81 91 160 30], 1e-9);
 lbl.Units = 'normalized';
 lbl.InnerPosition = [0.25 0.25 0.5 0.2];
 drawnow();
@@ -37,16 +38,16 @@ panel = uipanel(fig, 'Position', [20 30 200 100]);
 txt = uieditfield(panel, 'Position', [10 5 50 20]);
 assert_isequal(txt.Units, 'pixels');
 txt.Units = 'normalized';
-assert_isapprox(txt.Position, [10 / 198 5 / 98 50 / 198 20 / 98], 1e-12);
+assert_isapprox(txt.Position, [9 / 198 4 / 98 50 / 198 20 / 98], 1e-12);
 txt.Position = [0.1 0.2 0.3 0.4];
 txt.Units = 'pixels';
-assert_isapprox(txt.Position, [19.8 19.6 59.4 39.2], 1e-9);
+assert_isapprox(txt.Position, [20.8 20.6 59.4 39.2], 1e-9);
 %=============================================================================
 num = uieditfield(fig, 'numeric', 'Units', 'normalized', 'Position', [0.5 0.5 0.2 0.1]);
 assert_isequal(num.Type, 'uinumericeditfield');
 assert_isequal(num.Units, 'normalized');
 num.Units = 'pixels';
-assert_isapprox(num.Position, [200 150 80 30], 1e-9);
+assert_isapprox(num.Position, [201 151 80 30], 1e-9);
 %=============================================================================
 failed = false;
 try
