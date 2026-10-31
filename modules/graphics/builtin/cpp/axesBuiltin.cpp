@@ -364,7 +364,8 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
         // axes(f) always creates new axes in the figure, like MATLAB.
         GOFigure* fig = dynamic_cast<GOFigure*>(hp);
         if (!fig) {
-            Error("Nelson:graphics:invalidFigureCast", "Failed to cast GraphicsObject to GOFigure.");
+            Error(
+                "Nelson:graphics:invalidFigureCast", "Failed to cast GraphicsObject to GOFigure.");
             return ArrayOfVector();
         }
         ArrayOfVector t;

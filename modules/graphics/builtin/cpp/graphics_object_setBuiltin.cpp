@@ -394,13 +394,13 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
 static bool
 isPolarGridProperty(const std::wstring& propname)
 {
-    static const wstringVector names = { GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR,
-        GO_THETA_DIR_PROPERTY_NAME_STR, GO_R_COLOR_PROPERTY_NAME_STR,
-        GO_THETA_COLOR_PROPERTY_NAME_STR, GO_R_GRID_PROPERTY_NAME_STR,
-        GO_THETA_GRID_PROPERTY_NAME_STR, GO_R_MINOR_GRID_PROPERTY_NAME_STR,
-        GO_THETA_MINOR_GRID_PROPERTY_NAME_STR, GO_R_DIR_PROPERTY_NAME_STR,
-        GO_R_AXIS_LOCATION_PROPERTY_NAME_STR, GO_R_MINOR_TICK_PROPERTY_NAME_STR,
-        GO_THETA_MINOR_TICK_PROPERTY_NAME_STR };
+    static const wstringVector names
+        = { GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, GO_THETA_DIR_PROPERTY_NAME_STR,
+              GO_R_COLOR_PROPERTY_NAME_STR, GO_THETA_COLOR_PROPERTY_NAME_STR,
+              GO_R_GRID_PROPERTY_NAME_STR, GO_THETA_GRID_PROPERTY_NAME_STR,
+              GO_R_MINOR_GRID_PROPERTY_NAME_STR, GO_THETA_MINOR_GRID_PROPERTY_NAME_STR,
+              GO_R_DIR_PROPERTY_NAME_STR, GO_R_AXIS_LOCATION_PROPERTY_NAME_STR,
+              GO_R_MINOR_TICK_PROPERTY_NAME_STR, GO_THETA_MINOR_TICK_PROPERTY_NAME_STR };
     return std::find(names.begin(), names.end(), propname) != names.end();
 }
 //=============================================================================
@@ -442,9 +442,8 @@ isHeatmapChartProperty(const std::wstring& propname)
         GO_COLORBAR_VISIBLE_PROPERTY_NAME_STR, GO_GRID_VISIBLE_PROPERTY_NAME_STR,
         GO_CELL_LABEL_FORMAT_PROPERTY_NAME_STR, GO_CELL_LABEL_COLOR_PROPERTY_NAME_STR,
         GO_MISSING_DATA_LABEL_PROPERTY_NAME_STR, GO_COLOR_METHOD_PROPERTY_NAME_STR,
-        GO_FONT_COLOR_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR,
-        GO_TITLE_PROPERTY_NAME_STR, GO_X_LABEL_PROPERTY_NAME_STR,
-        GO_Y_LABEL_PROPERTY_NAME_STR };
+        GO_FONT_COLOR_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_TITLE_PROPERTY_NAME_STR,
+        GO_X_LABEL_PROPERTY_NAME_STR, GO_Y_LABEL_PROPERTY_NAME_STR };
     return std::find(names.begin(), names.end(), propname) != names.end();
 }
 //=============================================================================
@@ -484,9 +483,8 @@ isWordCloudChartProperty(const std::wstring& propname)
     static const wstringVector names = { GO_MAX_DISPLAY_WORDS_PROPERTY_NAME_STR,
         GO_COLOR_PROPERTY_NAME_STR, GO_HIGHLIGHT_COLOR_PROPERTY_NAME_STR,
         GO_SHAPE_PROPERTY_NAME_STR, GO_LAYOUT_NUM_PROPERTY_NAME_STR,
-        GO_SIZE_POWER_PROPERTY_NAME_STR, GO_FONT_NAME_PROPERTY_NAME_STR,
-        GO_BOX_PROPERTY_NAME_STR, GO_TITLE_PROPERTY_NAME_STR,
-        GO_TITLE_FONT_NAME_PROPERTY_NAME_STR };
+        GO_SIZE_POWER_PROPERTY_NAME_STR, GO_FONT_NAME_PROPERTY_NAME_STR, GO_BOX_PROPERTY_NAME_STR,
+        GO_TITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_NAME_PROPERTY_NAME_STR };
     return std::find(names.begin(), names.end(), propname) != names.end();
 }
 //=============================================================================
@@ -540,8 +538,8 @@ canMoveAutoLimits(const std::wstring& propname)
     static const wstringVector cosmetic = { GO_COLOR_PROPERTY_NAME_STR,
         GO_LINE_WIDTH_PROPERTY_NAME_STR, GO_LINE_STYLE_PROPERTY_NAME_STR,
         GO_FACE_COLOR_PROPERTY_NAME_STR, GO_EDGE_COLOR_PROPERTY_NAME_STR,
-        GO_DISPLAY_NAME_PROPERTY_NAME_STR, GO_TAG_PROPERTY_NAME_STR,
-        GO_USER_DATA_PROPERTY_NAME_STR, GO_SELECTED_PROPERTY_NAME_STR };
+        GO_DISPLAY_NAME_PROPERTY_NAME_STR, GO_TAG_PROPERTY_NAME_STR, GO_USER_DATA_PROPERTY_NAME_STR,
+        GO_SELECTED_PROPERTY_NAME_STR };
     return std::find(cosmetic.begin(), cosmetic.end(), propname) == cosmetic.end();
 }
 //=============================================================================
@@ -646,11 +644,10 @@ static bool
 isGridModeSetAfterValue(const std::wstring& propname, const ArrayOf& value,
     const std::vector<std::wstring>& namesSetInCall)
 {
-    static const std::vector<std::wstring> gridModes
-        = { GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR, GO_GRID_COLOR_MODE_PROPERTY_NAME_STR,
-              GO_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR, GO_MINOR_GRID_ALPHA_MODE_PROPERTY_NAME_STR,
-              GO_MINOR_GRID_COLOR_MODE_PROPERTY_NAME_STR,
-              GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR };
+    static const std::vector<std::wstring> gridModes = { GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR,
+        GO_GRID_COLOR_MODE_PROPERTY_NAME_STR, GO_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR,
+        GO_MINOR_GRID_ALPHA_MODE_PROPERTY_NAME_STR, GO_MINOR_GRID_COLOR_MODE_PROPERTY_NAME_STR,
+        GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR };
     if (std::find(gridModes.begin(), gridModes.end(), propname) == gridModes.end()) {
         return false;
     }

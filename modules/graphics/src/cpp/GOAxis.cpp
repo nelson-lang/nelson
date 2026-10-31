@@ -1765,7 +1765,7 @@ visibleThetaTicksForLabels(
     const std::vector<double>& ticks, const std::vector<double>& thetaLim, bool radians)
 {
     if (thetaLim.size() < 2) {
-        return { };
+        return {};
     }
     std::vector<double> visibleTicks;
     for (double tick : ticks) {
@@ -2033,7 +2033,7 @@ public:
         std::wstring units = m_axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
         auto [l, b] = convertFromPixels(units, inset[0], inset[1], width, height);
         auto [r, t] = convertFromPixels(units, inset[2], inset[3], width, height);
-        return ArrayOf::doubleRowVector(std::vector<double>{ l, b, r, t });
+        return ArrayOf::doubleRowVector(std::vector<double> { l, b, r, t });
     }
 };
 //=============================================================================
@@ -4595,7 +4595,8 @@ GOAxis::rePackFigure(bool force)
 }
 //=============================================================================
 // A Position set by the user moves OuterPosition too: the outer box is the position grown by the
-// larger of the loose inset (13%, 11%, 9.5% and 7.5% of the parent) and the tight inset, like MATLAB.
+// larger of the loose inset (13%, 11%, 9.5% and 7.5% of the parent) and the tight inset, like
+// MATLAB.
 void
 GOAxis::updateOuterPositionFromPosition()
 {
@@ -6983,9 +6984,8 @@ GOAxis::updateState()
         toManual(GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
     }
     // Line widths go back to the default when their mode is set to auto (alpha and color keep).
-    for (const std::wstring& widthName :
-        { std::wstring(GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR),
-            std::wstring(GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR) }) {
+    for (const std::wstring& widthName : { std::wstring(GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR),
+             std::wstring(GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR) }) {
         if (isAuto(widthName + L"Mode") && findScalarDoubleProperty(widthName) != 0.5) {
             setScalarDoubleDefault(widthName, 0.5);
             clearChanged(widthName);

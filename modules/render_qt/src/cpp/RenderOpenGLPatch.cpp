@@ -58,7 +58,7 @@ patchDisplayListCacheKey(const PatchRenderOptions& options)
     combinePatchRenderCacheHash(
         seed, static_cast<uint64_t>(std::llround(options.lineWidth * 1000.0)));
     combinePatchRenderCacheHash(
-        seed, static_cast<uint64_t>(std::hash<std::wstring> { }(options.lineStyle)));
+        seed, static_cast<uint64_t>(std::hash<std::wstring> {}(options.lineStyle)));
     combinePatchRenderCacheHash(seed, static_cast<uint64_t>(options.faceLighting));
     combinePatchRenderCacheHash(seed, static_cast<uint64_t>(options.edgeLighting));
     return seed;

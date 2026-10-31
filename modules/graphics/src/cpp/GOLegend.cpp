@@ -579,7 +579,8 @@ GOLegend::updateModes()
     }
     if (hasChanged(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR)) {
         // The token width drives the icon column; the token height is stored only.
-        std::vector<double> tokenSize = findVectorDoubleProperty(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR);
+        std::vector<double> tokenSize
+            = findVectorDoubleProperty(GO_ITEM_TOKEN_SIZE_PROPERTY_NAME_STR);
         if (!tokenSize.empty() && tokenSize[0] >= 1) {
             setScalarPositiveIntegerValueDefault(
                 GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR, std::round(tokenSize[0]));
@@ -782,8 +783,7 @@ GOLegend::updateAutoLayout()
     std::vector<double> placed = { x, y, w, h };
     convertPositionPixelOrigin(GO_PROPERTY_VALUE_NORMALIZED_STR,
         findStringProperty(GO_UNITS_PROPERTY_NAME_STR), placed, figW, figH);
-    setFourVectorDefault(
-        GO_POSITION_PROPERTY_NAME_STR, placed[0], placed[1], placed[2], placed[3]);
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, placed[0], placed[1], placed[2], placed[3]);
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
     applyLocationToPeerAxes();
 }
@@ -845,7 +845,8 @@ isGeneratedLabel(const std::wstring& label)
     if (label.size() < 5 || label.compare(0, 4, L"data") != 0) {
         return false;
     }
-    return std::all_of(label.begin() + 4, label.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; });
+    return std::all_of(
+        label.begin() + 4, label.end(), [](wchar_t c) { return c >= L'0' && c <= L'9'; });
 }
 //=============================================================================
 static std::wstring
@@ -879,7 +880,8 @@ GOLegend::updateDynamicEntries()
             && !legendIconHidden(findGraphicsObject(handle, false))) {
             GraphicsObject* child = findGraphicsObject(handle, false);
             std::wstring label = labels[k];
-            // Like MATLAB, an explicit label is written to DisplayName, which then drives the entry.
+            // Like MATLAB, an explicit label is written to DisplayName, which then drives the
+            // entry.
             if (stringChanged && !isGeneratedLabel(label) && child
                 && child->haveProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)) {
                 child->findProperty(GO_DISPLAY_NAME_PROPERTY_NAME_STR)

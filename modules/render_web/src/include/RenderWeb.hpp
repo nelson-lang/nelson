@@ -86,9 +86,9 @@ struct WebGlMesh
     size_t vertexColorsLength = 0;
     size_t triangleIndicesLength = 0;
     size_t lineIndicesLength = 0;
-    std::array<double, 16> model { };
-    std::array<double, 16> projection { };
-    std::array<int, 4> viewport { };
+    std::array<double, 16> model {};
+    std::array<double, 16> projection {};
+    std::array<int, 4> viewport {};
     std::array<float, 4> lineColor { 0, 0, 0, 1 };
     double lineWidth = 1.0;
     bool drawFaces = false;
@@ -367,7 +367,7 @@ public:
     markerBatch(int shape, const std::vector<double>& xs, const std::vector<double>& ys,
         const std::vector<double>& markerSizes, const std::vector<double>& faceRgba,
         const std::vector<double>& edgeRgba, double edgeWidth,
-        const std::vector<double>& depths = { }) override;
+        const std::vector<double>& depths = {}) override;
     bool
     rectBatch(const std::vector<double>& corners, const std::vector<double>& faceColor,
         const std::vector<double>& edgeColor, double edgeWidth) override;

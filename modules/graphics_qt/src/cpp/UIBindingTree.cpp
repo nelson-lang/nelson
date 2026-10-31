@@ -83,10 +83,11 @@ namespace {
                 onNodeExpandCollapse(item, GO_NODE_EXPANDED_FCN_PROPERTY_NAME_STR,
                     L"NodeExpandedData", L"NodeExpanded");
             });
-            QObject::connect(tree, &QTreeWidget::itemCollapsed, tree, [this](QTreeWidgetItem* item) {
-                onNodeExpandCollapse(item, GO_NODE_COLLAPSED_FCN_PROPERTY_NAME_STR,
-                    L"NodeCollapsedData", L"NodeCollapsed");
-            });
+            QObject::connect(
+                tree, &QTreeWidget::itemCollapsed, tree, [this](QTreeWidgetItem* item) {
+                    onNodeExpandCollapse(item, GO_NODE_COLLAPSED_FCN_PROPERTY_NAME_STR,
+                        L"NodeCollapsedData", L"NodeCollapsed");
+                });
             if (static_cast<GOUITree*>(model)->isCheckboxTree()) {
                 QObject::connect(tree, &QTreeWidget::itemChanged, tree,
                     [this](QTreeWidgetItem*, int) { onItemChanged(); });
@@ -186,8 +187,8 @@ namespace {
             wstringVector fieldNames = { L"Node" };
             ArrayOfVector fieldValues;
             fieldValues << graphicsObjectHandle(nodeHandle);
-            model->emitCallbackEvent(callbackName, eventDataClassName, eventName, fieldNames,
-                fieldValues);
+            model->emitCallbackEvent(
+                callbackName, eventDataClassName, eventName, fieldNames, fieldValues);
         }
         //=============================================================================
         void

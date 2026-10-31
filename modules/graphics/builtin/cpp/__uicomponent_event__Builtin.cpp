@@ -99,8 +99,8 @@ Nelson::GraphicsGateway::__uicomponent_event__Builtin(int nLhs, const ArrayOfVec
     bool fired = false;
     GOGenericProperty* cb = component->findProperty(callbackName, false);
     if (cb != nullptr && !cb->get().isEmpty()) {
-        component->emitCallbackEvent(callbackName, eventClass, eventName, fieldNames, fieldValues,
-            true);
+        component->emitCallbackEvent(
+            callbackName, eventClass, eventName, fieldNames, fieldValues, true);
         fired = true;
     }
     ArrayOfVector retval;

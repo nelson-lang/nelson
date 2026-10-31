@@ -37,8 +37,8 @@ GOPixelOriginPositionProperty::ownerUsesPixels()
     if (m_owner == nullptr) {
         return false;
     }
-    auto* units = dynamic_cast<GOUnitsProperty*>(
-        m_owner->findProperty(GO_UNITS_PROPERTY_NAME_STR, false));
+    auto* units
+        = dynamic_cast<GOUnitsProperty*>(m_owner->findProperty(GO_UNITS_PROPERTY_NAME_STR, false));
     return units != nullptr && units->data() == GO_PROPERTY_VALUE_PIXELS_STR;
 }
 //=============================================================================

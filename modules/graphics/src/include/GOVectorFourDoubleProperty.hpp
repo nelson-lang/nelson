@@ -33,8 +33,7 @@ public:
     ~GOPixelOriginPositionProperty() override = default;
     ArrayOf
     get() override;
-    void
-    set(ArrayOf) override;
+    void set(ArrayOf) override;
     std::wstring
     toWideString() override;
     // Re-applies the origin when Units changed after the value was set in the same call.

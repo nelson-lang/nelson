@@ -608,10 +608,9 @@ legendIconHidden(GraphicsObject* object)
         return false;
     }
     GraphicsObject* eventData = findGraphicsObject(annotation->data()[0], false);
-    auto* information = eventData
-        ? dynamic_cast<GOGObjectsProperty*>(
-              eventData->findProperty(GO_LEGEND_INFORMATION_PROPERTY_NAME_STR, false))
-        : nullptr;
+    auto* information = eventData ? dynamic_cast<GOGObjectsProperty*>(eventData->findProperty(
+                                        GO_LEGEND_INFORMATION_PROPERTY_NAME_STR, false))
+                                  : nullptr;
     if (!information || information->data().empty()) {
         return false;
     }
@@ -633,8 +632,7 @@ axisDefaultInteractivityOff(GraphicsObject* axis)
         return true;
     }
     // ax.Interactions = [] disables them too (a user-emptied, hence modified, property).
-    GOGenericProperty* interactions
-        = axis->findProperty(GO_INTERACTIONS_PROPERTY_NAME_STR, false);
+    GOGenericProperty* interactions = axis->findProperty(GO_INTERACTIONS_PROPERTY_NAME_STR, false);
     return interactions && interactions->isModified() && interactions->get().isEmpty();
 }
 //=============================================================================
