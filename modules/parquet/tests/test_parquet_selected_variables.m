@@ -9,11 +9,17 @@
 %=============================================================================
 % <--RELEASE ONLY-->
 filename = [tempname(), '.parquet'];
+cleanup = onCleanup(@() deleteIfExists(filename));
 T = table([1; 2; 3], [10; 20; 30], [100; 200; 300], 'VariableNames', {'A', 'B', 'C'});
 parquetwrite(filename, T);
 R = parquetread(filename, 'SelectedVariableNames', {'C', 'A'});
 asserts.isequal(R.Properties.VariableNames, {'C', 'A'});
 asserts.isequal(R.C, T.C);
 asserts.isequal(R.A, T.A);
-rmfile(filename);
+%=============================================================================
+function deleteIfExists(f)
+  if isfile(f)
+    rmfile(f);
+  end
+end
 %=============================================================================
