@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-skip_testsuite(isempty(which('odeset')), 'Rigid triple pendulum example requires ode solvers.');
-%=============================================================================
 % <--ADV-CLI MODE-->
+%=============================================================================
+skip_testsuite(isempty(which('odeset')), 'Rigid triple pendulum example requires ode solvers.');
 %=============================================================================
 triplePendulumFigureVisible = 'off';
 triplePendulumAnimationEnabled = true;
