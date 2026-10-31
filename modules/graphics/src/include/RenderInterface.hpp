@@ -610,6 +610,17 @@ public:
     {
         return false;
     }
+    // Whether an opaque surface or patch face already drawn in this axes hides the
+    // marker whose centre is the direct-draw pixel (px, py) at clip-space depth z (the
+    // value the 7-argument toPixels returns). The per-marker DrawSymbol fallback asks
+    // this when markerBatch declined, so a backend without a hardware depth buffer can
+    // still drop the markers behind a surface. Default: nothing occludes. Kept last to
+    // preserve vtable slots.
+    virtual bool
+    markerOccluded(double /*px*/, double /*py*/, double /*z*/) const
+    {
+        return false;
+    }
     //=============================================================================
 };
 //=============================================================================

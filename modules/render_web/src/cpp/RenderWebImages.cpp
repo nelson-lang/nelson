@@ -10,6 +10,7 @@
 #include "RenderWeb.hpp"
 #include "RenderWebInternal.hpp"
 #include "RenderLighting.hpp"
+#include "PatchTriangulate.hpp"
 #include "GOPropertyValues.hpp"
 #include <algorithm>
 #include <cmath>
@@ -296,18 +297,7 @@ namespace {
             alwaysIncludePayload);
     }
     //=============================================================================
-    struct SurfaceVertex
-    {
-        double x = 0;
-        double y = 0;
-        double z = 0;
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        double a = 1;
-        double u = 0;
-        double v = 0;
-    };
+    using SurfaceVertex = WebSceneVertex;
     //=============================================================================
     // RGBA texture for FaceColor 'texturemap', sampled per fragment at (u, v).
     struct SurfaceTexture
@@ -537,6 +527,97 @@ namespace {
         }
     }
     //=============================================================================
+    // Source-over blend of a straight-alpha colour onto an RGBA8 pixel.
+    static void
+    blendStraightAlpha(unsigned char* pixel, double r, double g, double b, double a)
+    {
+        const double srcA = std::clamp(a, 0.0, 1.0);
+        if (srcA <= 0.0) {
+            return;
+        }
+        const double dstA = pixel[3] / 255.0;
+        const double outA = srcA + dstA * (1.0 - srcA);
+        if (outA <= 0.0) {
+            return;
+        }
+        const double dstWeight = dstA * (1.0 - srcA);
+        auto mix = [&](unsigned char dst, double src) {
+            const double value
+                = (std::clamp(src, 0.0, 1.0) * srcA + (dst / 255.0) * dstWeight) / outA;
+            return static_cast<unsigned char>(std::lround(std::clamp(value, 0.0, 1.0) * 255.0));
+        };
+        pixel[0] = mix(pixel[0], r);
+        pixel[1] = mix(pixel[1], g);
+        pixel[2] = mix(pixel[2], b);
+        pixel[3] = static_cast<unsigned char>(std::lround(outA * 255.0));
+    }
+    //=============================================================================
+    // Translucent face triangle: depth-tested against the opaque scene only
+    // (nothing is written to a z-buffer) and blended over the translucent faces
+    // drawn before it.
+    static void
+    rasterizeTranslucentTriangle(const SurfaceVertex& v0, const SurfaceVertex& v1,
+        const SurfaceVertex& v2, std::vector<unsigned char>& rgba, std::vector<uint32_t>& stamp,
+        uint32_t polygonId, int width, int height, bool& drewPixel, const SceneDepthCull* cull)
+    {
+        const double area = edgeValue(v0, v1, v2.x, v2.y);
+        if (!std::isfinite(area) || std::abs(area) < 1e-12) {
+            return;
+        }
+        int minX = std::max(0, static_cast<int>(std::floor(std::min({ v0.x, v1.x, v2.x }))));
+        int maxX = std::min(width - 1, static_cast<int>(std::ceil(std::max({ v0.x, v1.x, v2.x }))));
+        int minY = std::max(0, static_cast<int>(std::floor(std::min({ v0.y, v1.y, v2.y }))));
+        int maxY
+            = std::min(height - 1, static_cast<int>(std::ceil(std::max({ v0.y, v1.y, v2.y }))));
+        for (int y = minY; y <= maxY; ++y) {
+            for (int x = minX; x <= maxX; ++x) {
+                const double px = x + 0.5;
+                const double py = y + 0.5;
+                const double w0 = edgeValue(v1, v2, px, py) / area;
+                const double w1 = edgeValue(v2, v0, px, py) / area;
+                const double w2 = edgeValue(v0, v1, px, py) / area;
+                if (w0 < -1e-9 || w1 < -1e-9 || w2 < -1e-9) {
+                    continue;
+                }
+                const size_t offset = static_cast<size_t>(y) * width + x;
+                if (stamp[offset] == polygonId) {
+                    continue;
+                }
+                const double z = w0 * v0.z + w1 * v1.z + w2 * v2.z;
+                if (cull != nullptr && cull->behind(x, y, z)) {
+                    continue;
+                }
+                stamp[offset] = polygonId;
+                blendStraightAlpha(rgba.data() + offset * 4, w0 * v0.r + w1 * v1.r + w2 * v2.r,
+                    w0 * v0.g + w1 * v1.g + w2 * v2.g, w0 * v0.b + w1 * v1.b + w2 * v2.b,
+                    w0 * v0.a + w1 * v1.a + w2 * v2.a);
+                drewPixel = true;
+            }
+        }
+    }
+    //=============================================================================
+    // Newell normal of a polygon outline: robust to collinear leading vertices,
+    // which the first-three-vertices cross product is not (a rectangle with a
+    // mid-edge vertex).
+    static point
+    scenePolygonNormal(const std::vector<point>& vertices)
+    {
+        point n(0, 0, 0);
+        const size_t count = vertices.size();
+        for (size_t i = 0; i < count; ++i) {
+            const point& a = vertices[i];
+            const point& b = vertices[(i + 1) % count];
+            n.x += (a.y - b.y) * (a.z + b.z);
+            n.y += (a.z - b.z) * (a.x + b.x);
+            n.z += (a.x - b.x) * (a.y + b.y);
+        }
+        const double norm = std::sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
+        if (!std::isfinite(norm) || norm <= 0) {
+            return point(0, 0, 1);
+        }
+        return point(n.x / norm, n.y / norm, n.z / norm);
+    }
+    //=============================================================================
 } // namespace
 //=============================================================================
 void
@@ -713,19 +794,36 @@ RenderWeb::tryPushZBufferedSurface(const std::vector<std::vector<coloredPoint>>&
     if (!drewPixel) {
         return false;
     }
-    // Downsample the nearest depths into the figure-resolution scene depth so
-    // markers drawn later can be depth-tested against this surface. Keep the
-    // nearest sample of each ss x ss block, and the nearest across surfaces.
+    return pushSceneDepthImage(rgba, zbuffer, width, height, ss, !transparent, webglFallback);
+}
+//=============================================================================
+// Shared tail of the z-buffered software rasters (surfaces, patches): fold the
+// nearest depths into the figure-resolution scene depth when the geometry is
+// opaque, then push the RGBA image as a "nearest" (-2.0) deferred primitive.
+// Images at that depth composite in call order, and each one was culled by the
+// depth of the opaque geometry drawn before it, so the result is depth-correct
+// for opaque surfaces and patches in any draw order.
+bool
+RenderWeb::pushSceneDepthImage(const std::vector<unsigned char>& rgba,
+    const std::vector<double>& zbuffer, int width, int height, int oversample, bool writeDepth,
+    bool webglFallback)
+{
+    const int ss = std::max(1, oversample);
+    const double scale = static_cast<double>(ss);
+    // Keep the nearest sample of each ss x ss block, and the nearest across the
+    // geometry drawn so far, so markers and later rasters can be depth-tested
+    // against it. Transparent geometry tests the opaque depth but never writes
+    // it: it must not occlude later transparent layers or markers on the
+    // geometry it blends over.
     const int fw = std::max(1, static_cast<int>(std::lround(m_width)));
     const int fh = std::max(1, static_cast<int>(std::lround(m_height)));
-    // A transparent surface tests the opaque depth but never writes it: it must not
-    // occlude later transparent layers or markers on the geometry it blends over.
-    if (!transparent && m_sceneDepth.empty()) {
+    if (writeDepth && m_sceneDepth.empty()) {
         m_depthW = fw;
         m_depthH = fh;
         m_sceneDepth.assign(static_cast<size_t>(fw) * fh, std::numeric_limits<double>::infinity());
     }
-    if (!transparent && m_depthW == fw && m_depthH == fh) {
+    if (writeDepth && m_depthW == fw && m_depthH == fh
+        && zbuffer.size() >= static_cast<size_t>(width) * height) {
         for (int fy = 0; fy < fh; ++fy) {
             for (int fx = 0; fx < fw; ++fx) {
                 double nearest = std::numeric_limits<double>::infinity();
@@ -1385,6 +1483,289 @@ RenderWeb::tryPushZBufferedPatch(
     return true;
 }
 //=============================================================================
+// 3D patch in the software capture.
+bool
+RenderWeb::tryPushScenePatch(
+    const FaceList& faces, const PatchRenderOptions& options, bool webglFallback)
+{
+    if (m_inDirect || m_surfaceGroupDepth <= 0) {
+        return false;
+    }
+    const bool strokeEdges
+        = options.lineStyle != GO_PROPERTY_VALUE_NONE_STR && options.lineWidth > 0.;
+    const bool hasLights = m_lightingScene.enabled && !m_lightingScene.lights.empty();
+    const bool lightFaces = hasLights && options.faceLighting != LightingMode::None;
+    const bool lightEdges = hasLights && options.edgeLighting != LightingMode::None;
+    RenderLighting::PreparedLighting prepared;
+    if (lightFaces || lightEdges) {
+        prepared = RenderLighting::prepareLighting(model, m_lightingScene, m_lightingMaterial);
+    }
+    // Oversample only when there are edge strokes to keep crisp, as the surface
+    // raster does.
+    const int ss = strokeEdges ? 2 : 1;
+    const double scale = static_cast<double>(ss);
+    const int width = std::max(1, static_cast<int>(std::lround(m_width)) * ss);
+    const int height = std::max(1, static_cast<int>(std::lround(m_height)) * ss);
+    std::vector<unsigned char> rgba;
+    std::vector<double> zbuffer;
+    bool drewPixel = false;
+    auto ensureBuffers = [&]() {
+        if (rgba.empty()) {
+            rgba.assign(static_cast<size_t>(width) * height * 4, 0);
+            zbuffer.assign(
+                static_cast<size_t>(width) * height, std::numeric_limits<double>::infinity());
+        }
+    };
+    SceneDepthCull cull;
+    const SceneDepthCull* cullPtr = nullptr;
+    if (!m_sceneDepth.empty() && m_depthW > 0 && m_depthH > 0) {
+        cull.depth = m_sceneDepth.data();
+        cull.w = m_depthW;
+        cull.h = m_depthH;
+        cull.ss = ss;
+        cullPtr = &cull;
+    }
+    // The painter path strokes options.lineWidth pixels; same width here.
+    const double edgeHalfWidth = std::max(1.0, options.lineWidth) * 0.5;
+    // An edge lies on its own face plane; see tryPushZBufferedSurface.
+    constexpr double edgeDepthBias = 2.0e-4;
+
+    auto fillColorAt = [&](const Face& face, size_t index) {
+        RGBAColorData color = face.FaceColor;
+        if ((face.FaceColorMode == ColorMode::Flat || face.FaceColorMode == ColorMode::Interp)
+            && !face.vertexcolors.empty()) {
+            const size_t colorIndex = face.FaceColorMode == ColorMode::Interp
+                ? std::min(index, face.vertexcolors.size() - 1)
+                : 0;
+            color = face.vertexcolors[colorIndex];
+        }
+        if (lightFaces && !face.normals.empty()) {
+            const point& normal
+                = index < face.normals.size() ? face.normals[index] : face.normals[0];
+            color = RenderLighting::computeLitColor(color, normal, face.vertices[index], prepared);
+        }
+        return color;
+    };
+    auto edgeColorAt = [&](const Face& face, size_t index) {
+        RGBAColorData color = face.EdgeColor;
+        if ((face.EdgeColorMode == ColorMode::Flat || face.EdgeColorMode == ColorMode::Interp)
+            && !face.edgecolors.empty()) {
+            const size_t colorIndex = face.EdgeColorMode == ColorMode::Interp
+                ? std::min(index, face.edgecolors.size() - 1)
+                : 0;
+            color = face.edgecolors[colorIndex];
+        }
+        if (lightEdges && !face.normals.empty()) {
+            const point& normal
+                = index < face.normals.size() ? face.normals[index] : face.normals[0];
+            color = RenderLighting::computeLitColor(color, normal, face.vertices[index], prepared);
+        }
+        return color;
+    };
+    auto toSceneVertex = [&](const coloredPoint& source, double pixelScale, SurfaceVertex& target) {
+        target.z = mapXYZ(source.x, source.y, source.z, target.x, target.y);
+        target.x *= pixelScale;
+        target.y *= pixelScale;
+        target.r = source.r;
+        target.g = source.g;
+        target.b = source.b;
+        target.a = source.a;
+        return std::isfinite(target.x) && std::isfinite(target.y) && std::isfinite(target.z);
+    };
+    for (const Face& face : faces) {
+        if (face.vertices.size() < 3) {
+            continue;
+        }
+        const bool wantFill = face.FaceColorMode != ColorMode::None;
+        const bool wantEdge = strokeEdges && face.EdgeColorMode != ColorMode::None;
+        if (!wantFill && !wantEdge) {
+            continue;
+        }
+        // NaN vertices split the face into runs (sub-paths), as in the other
+        // backends; each run is filled and outlined on its own.
+        std::vector<size_t> run;
+        auto drawRun = [&]() {
+            if (run.size() < 2) {
+                return;
+            }
+            bool translucentFace = false;
+            if (wantFill && run.size() >= 3) {
+                std::vector<coloredPoint> polygon;
+                polygon.reserve(run.size());
+                for (size_t index : run) {
+                    const RGBAColorData color = fillColorAt(face, index);
+                    const point& vertex = face.vertices[index];
+                    polygon.emplace_back(
+                        vertex.x, vertex.y, vertex.z, color.r, color.g, color.b, color.a);
+                    translucentFace = translucentFace || color.a < 0.999;
+                }
+                if (m_dataClip.enabled) {
+                    polygon = renderClipPolygon(m_dataClip, polygon);
+                }
+                if (polygon.size() >= 3) {
+                    // Ear-clip the (clipped) outline so a concave face is filled
+                    // inside its boundary only.
+                    Face outline;
+                    outline.vertices.reserve(polygon.size());
+                    for (const coloredPoint& p : polygon) {
+                        outline.vertices.emplace_back(p.x, p.y, p.z);
+                    }
+                    std::vector<size_t> indices(polygon.size());
+                    for (size_t k = 0; k < indices.size(); ++k) {
+                        indices[k] = k;
+                    }
+                    std::vector<std::array<size_t, 3>> triangles;
+                    collectPatchSubPathTriangles(
+                        outline, indices, scenePolygonNormal(outline.vertices), triangles);
+                    if (translucentFace) {
+                        WebDeferredTranslucentPolygon deferred;
+                        deferred.vertices.resize(polygon.size());
+                        bool finite = true;
+                        double depthSum = 0.0;
+                        for (size_t k = 0; k < polygon.size() && finite; ++k) {
+                            finite = toSceneVertex(polygon[k], 1.0, deferred.vertices[k]);
+                            depthSum += deferred.vertices[k].z;
+                        }
+                        if (finite && !triangles.empty()) {
+                            deferred.triangles = std::move(triangles);
+                            deferred.depth = depthSum / static_cast<double>(polygon.size());
+                            deferred.webglFallback = webglFallback;
+                            m_deferredTranslucentPolygons.push_back(std::move(deferred));
+                        }
+                    } else {
+                        ensureBuffers();
+                        for (const auto& triangle : triangles) {
+                            SurfaceVertex a, b, c;
+                            if (!toSceneVertex(polygon[triangle[0]], scale, a)
+                                || !toSceneVertex(polygon[triangle[1]], scale, b)
+                                || !toSceneVertex(polygon[triangle[2]], scale, c)) {
+                                continue;
+                            }
+                            rasterizeTriangle(
+                                a, b, c, false, zbuffer, rgba, width, height, drewPixel, cullPtr);
+                        }
+                    }
+                }
+            }
+            if (!wantEdge) {
+                return;
+            }
+            const size_t edgeCount = run.size() == 2 ? 1 : run.size();
+            for (size_t e = 0; e < edgeCount; ++e) {
+                const size_t ia = run[e];
+                const size_t ib = run[(e + 1) % run.size()];
+                const RGBAColorData ca = edgeColorAt(face, ia);
+                const RGBAColorData cb = edgeColorAt(face, ib);
+                coloredPoint pa(face.vertices[ia].x, face.vertices[ia].y, face.vertices[ia].z, ca.r,
+                    ca.g, ca.b, ca.a);
+                coloredPoint pb(face.vertices[ib].x, face.vertices[ib].y, face.vertices[ib].z, cb.r,
+                    cb.g, cb.b, cb.a);
+                if (m_dataClip.enabled
+                    && !renderClipSegment(m_dataClip, pa.x, pa.y, pa.z, pb.x, pb.y, pb.z, pa.x,
+                        pa.y, pa.z, pb.x, pb.y, pb.z)) {
+                    continue;
+                }
+                if (translucentFace) {
+                    // The outline of a translucent face is drawn with it, over the
+                    // blended fill, at the end of the scene.
+                    WebDeferredTranslucentEdge edge;
+                    if (!toSceneVertex(pa, 1.0, edge.a) || !toSceneVertex(pb, 1.0, edge.b)) {
+                        continue;
+                    }
+                    edge.halfWidth = edgeHalfWidth;
+                    edge.webglFallback = webglFallback;
+                    m_deferredTranslucentEdges.push_back(edge);
+                } else {
+                    ensureBuffers();
+                    SurfaceVertex a, b;
+                    if (!toSceneVertex(pa, scale, a) || !toSceneVertex(pb, scale, b)) {
+                        continue;
+                    }
+                    rasterizeSurfaceEdge(a, b, edgeHalfWidth * scale, edgeDepthBias, zbuffer, rgba,
+                        width, height, drewPixel, cullPtr);
+                }
+            }
+        };
+        for (size_t i = 0; i < face.vertices.size(); ++i) {
+            const point& vertex = face.vertices[i];
+            if (!std::isfinite(vertex.x) || !std::isfinite(vertex.y) || !std::isfinite(vertex.z)) {
+                drawRun();
+                run.clear();
+                continue;
+            }
+            run.push_back(i);
+        }
+        drawRun();
+    }
+    if (drewPixel) {
+        pushSceneDepthImage(rgba, zbuffer, width, height, ss, true, webglFallback);
+    }
+    return true;
+}
+//=============================================================================
+// Rasterize the translucent patch faces.
+void
+RenderWeb::flushDeferredTranslucent()
+{
+    if (m_deferredTranslucentPolygons.empty() && m_deferredTranslucentEdges.empty()) {
+        return;
+    }
+    std::vector<WebDeferredTranslucentPolygon> polygons;
+    polygons.swap(m_deferredTranslucentPolygons);
+    std::vector<WebDeferredTranslucentEdge> edges;
+    edges.swap(m_deferredTranslucentEdges);
+    const int width = std::max(1, static_cast<int>(std::lround(m_width)));
+    const int height = std::max(1, static_cast<int>(std::lround(m_height)));
+    std::vector<unsigned char> rgba(static_cast<size_t>(width) * height * 4, 0);
+    SceneDepthCull cull;
+    const SceneDepthCull* cullPtr = nullptr;
+    if (!m_sceneDepth.empty() && m_depthW > 0 && m_depthH > 0) {
+        cull.depth = m_sceneDepth.data();
+        cull.w = m_depthW;
+        cull.h = m_depthH;
+        cull.ss = 1;
+        cullPtr = &cull;
+    }
+    // Farthest first so a nearer translucent face blends over a farther one;
+    // stable, so coplanar faces keep their draw order.
+    std::stable_sort(polygons.begin(), polygons.end(),
+        [](const WebDeferredTranslucentPolygon& a, const WebDeferredTranslucentPolygon& b) {
+            return a.depth > b.depth;
+        });
+    bool drewPixel = false;
+    bool webglFallback = true;
+    std::vector<uint32_t> stamp(static_cast<size_t>(width) * height, 0);
+    uint32_t polygonId = 0;
+    for (const WebDeferredTranslucentPolygon& polygon : polygons) {
+        ++polygonId;
+        for (const auto& triangle : polygon.triangles) {
+            if (triangle[0] >= polygon.vertices.size() || triangle[1] >= polygon.vertices.size()
+                || triangle[2] >= polygon.vertices.size()) {
+                continue;
+            }
+            rasterizeTranslucentTriangle(polygon.vertices[triangle[0]],
+                polygon.vertices[triangle[1]], polygon.vertices[triangle[2]], rgba, stamp,
+                polygonId, width, height, drewPixel, cullPtr);
+        }
+        webglFallback = webglFallback && polygon.webglFallback;
+    }
+    if (!edges.empty()) {
+        // Edges test the opaque scene depth; this z-buffer only orders them among
+        // themselves.
+        std::vector<double> zbuffer(
+            static_cast<size_t>(width) * height, std::numeric_limits<double>::infinity());
+        for (const WebDeferredTranslucentEdge& edge : edges) {
+            rasterizeSurfaceEdge(edge.a, edge.b, edge.halfWidth, 2.0e-4, zbuffer, rgba, width,
+                height, drewPixel, cullPtr);
+            webglFallback = webglFallback && edge.webglFallback;
+        }
+    }
+    if (!drewPixel) {
+        return;
+    }
+    pushSceneDepthImage(rgba, std::vector<double>(), width, height, 1, false, webglFallback);
+}
+//=============================================================================
 void
 RenderWeb::drawPatch(const FaceList& faces, const PatchRenderOptions& options)
 {
@@ -1394,6 +1775,10 @@ RenderWeb::drawPatch(const FaceList& faces, const PatchRenderOptions& options)
         = options.lineStyle != GO_PROPERTY_VALUE_NONE_STR && options.lineWidth > 0.;
     const bool webglPatch = tryPushWebGlPatch(faces, options);
     if (webglPatch && !m_softwareFallbackEnabled) {
+        return;
+    }
+    // In a 3D axes the faces share the surfaces' z-buffer (see tryPushScenePatch).
+    if (tryPushScenePatch(faces, options, webglPatch)) {
         return;
     }
     // Gouraud-lit and non-lit 'interp' patches are rasterized into a z-buffer: the
@@ -1558,6 +1943,11 @@ RenderWeb::drawPatch(const FaceList& faces, const PatchRenderOptions& options)
 void
 RenderWeb::flush3d()
 {
+    // Translucent patch faces normally wait for the outermost endSurfaceGroup;
+    // outside any group nothing else would draw them.
+    if (m_surfaceGroupDepth == 0) {
+        flushDeferredTranslucent();
+    }
     if (m_pending3d.empty()) {
         return;
     }

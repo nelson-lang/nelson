@@ -7,13 +7,23 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#pragma once
+//=============================================================================
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <vector>
-#include "RenderOpenGLPatchTriangulate.hpp"
+#include "RenderInterface.hpp"
 //=============================================================================
-namespace {
+// Ear-clipping triangulation of one patch face sub-path (a polygon boundary,
+// possibly non-convex). Header-only and Qt-free so every backend that has to
+// fill a patch face from triangles (OpenGL immediate/vertex arrays, the web
+// software z-buffer raster) shares one tessellation: a concave face (a star, a
+// jack-o'-lantern mouth) filled as a triangle fan would paint outside its
+// outline.
+//=============================================================================
+namespace PatchTriangulateDetail {
+//=============================================================================
 struct ProjectedPatchVertex
 {
     double x;
@@ -21,7 +31,7 @@ struct ProjectedPatchVertex
     std::size_t sourceIndex;
 };
 //=============================================================================
-int
+inline int
 patchProjectionAxis(const point& normal)
 {
     const double ax = std::fabs(normal.x);
@@ -36,7 +46,7 @@ patchProjectionAxis(const point& normal)
     return 2;
 }
 //=============================================================================
-ProjectedPatchVertex
+inline ProjectedPatchVertex
 projectPatchVertex(const Face& face, std::size_t index, int axis)
 {
     const point& vertex = face.vertices[index];
@@ -49,14 +59,14 @@ projectPatchVertex(const Face& face, std::size_t index, int axis)
     return { vertex.x, vertex.y, index };
 }
 //=============================================================================
-bool
+inline bool
 sameProjectedPatchPoint(const ProjectedPatchVertex& a, const ProjectedPatchVertex& b)
 {
     constexpr double tolerance = 1e-12;
     return std::fabs(a.x - b.x) <= tolerance && std::fabs(a.y - b.y) <= tolerance;
 }
 //=============================================================================
-double
+inline double
 projectedPatchArea(const std::vector<ProjectedPatchVertex>& vertices)
 {
     double area = 0;
@@ -68,14 +78,14 @@ projectedPatchArea(const std::vector<ProjectedPatchVertex>& vertices)
     return area * 0.5;
 }
 //=============================================================================
-double
+inline double
 projectedPatchCross(
     const ProjectedPatchVertex& a, const ProjectedPatchVertex& b, const ProjectedPatchVertex& c)
 {
     return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 }
 //=============================================================================
-bool
+inline bool
 projectedPointInTriangle(const ProjectedPatchVertex& p, const ProjectedPatchVertex& a,
     const ProjectedPatchVertex& b, const ProjectedPatchVertex& c)
 {
@@ -87,7 +97,7 @@ projectedPointInTriangle(const ProjectedPatchVertex& p, const ProjectedPatchVert
         || (c1 <= tolerance && c2 <= tolerance && c3 <= tolerance);
 }
 //=============================================================================
-void
+inline void
 removeDuplicatePatchVertices(std::vector<ProjectedPatchVertex>& vertices)
 {
     if (vertices.empty()) {
@@ -106,12 +116,17 @@ removeDuplicatePatchVertices(std::vector<ProjectedPatchVertex>& vertices)
     vertices.swap(filtered);
 }
 //=============================================================================
-} // namespace
+} // namespace PatchTriangulateDetail
 //=============================================================================
-bool
+// Ear-clips one patch face sub-path into triangles of source-vertex indices.
+// The polygon is projected onto the plane most aligned with the face normal
+// before clipping. Returns false when the sub-path is degenerate or cannot be
+// triangulated (the caller then draws a triangle fan).
+inline bool
 triangulatePatchSubPath(const Face& face, const std::vector<std::size_t>& subPath,
     const point& fallbackNormal, std::vector<std::array<std::size_t, 3>>& triangles)
 {
+    using namespace PatchTriangulateDetail;
     if (subPath.size() < 3) {
         return false;
     }
@@ -184,5 +199,31 @@ triangulatePatchSubPath(const Face& face, const std::vector<std::size_t>& subPat
         return true;
     }
     return false;
+}
+//=============================================================================
+// Triangles covering the finite run `subPath` of a face: ear clipping, or the
+// fan the OpenGL path falls back to when the outline cannot be clipped.
+inline void
+collectPatchSubPathTriangles(const Face& face, const std::vector<std::size_t>& subPath,
+    const point& fallbackNormal, std::vector<std::array<std::size_t, 3>>& out)
+{
+    if (subPath.size() < 3) {
+        return;
+    }
+    if (subPath.size() == 3) {
+        out.push_back({ { subPath[0], subPath[1], subPath[2] } });
+        return;
+    }
+    std::vector<std::array<std::size_t, 3>> triangles;
+    triangles.reserve(subPath.size() - 2);
+    if (triangulatePatchSubPath(face, subPath, fallbackNormal, triangles)) {
+        for (const auto& triangle : triangles) {
+            out.push_back(triangle);
+        }
+        return;
+    }
+    for (std::size_t i = 1; i + 1 < subPath.size(); ++i) {
+        out.push_back({ { subPath[0], subPath[i], subPath[i + 1] } });
+    }
 }
 //=============================================================================

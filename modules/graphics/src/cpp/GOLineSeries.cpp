@@ -341,6 +341,9 @@ GOLineSeries::paintMe(RenderInterface& gc)
         // that cannot batch (Qt/OpenGL) returns false and the per-point loop runs.
         if (!DrawSymbolBatchUniform(gc, typ, uc, vc, sze, edgeColor, faceColor, width, dc)) {
             for (int i = 0; i < uc.size(); i++) {
+                if (gc.markerOccluded(uc[i], vc[i], dc[i])) {
+                    continue;
+                }
                 DrawSymbol(gc, typ, uc[i], vc[i], 0, sze, edgeColor, faceColor, width);
             }
         }

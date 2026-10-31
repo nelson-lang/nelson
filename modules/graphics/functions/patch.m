@@ -630,12 +630,16 @@ function args = parsePatchArguments(inputArguments)
   else
     Parent = ParentAsProperty;
   end
+  colorAxes = Parent;
+  if isgraphics(Parent, 'hggroup') || isgraphics(Parent, 'hgtransform')
+    colorAxes = ancestor(Parent, 'axes');
+  end
 
   if (haveCData && isvector(CData) && length(CData) ~= 3)
-    colors = colormap(Parent);
+    colors = colormap(colorAxes);
     nbColors = size(colors, 1);
     if strcmp(CDataMapping, 'scaled')
-      CLim = Parent.CLim;
+      CLim = colorAxes.CLim;
       index = ceil((CData - CLim(1)) / (CLim(2) - CLim(1)) * (nbColors));
       wrap = mod(index(index > nbColors), nbColors) + 1;
       if ~isempty(wrap)
@@ -700,7 +704,7 @@ function args = parsePatchArguments(inputArguments)
     CData = CDataAsProperty;
   else
     if ~haveCData
-      CData = Parent.Color;
+      CData = colorAxes.Color;
     end
   end
 

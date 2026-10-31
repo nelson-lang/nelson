@@ -44,7 +44,8 @@ end
 %=============================================================================
 function [parent, inputArguments] = parseParent(inputArguments)
   if ~isempty(inputArguments) && isscalar(inputArguments{1}) ...
-      && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup'))
+      && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') ...
+      || isgraphics(inputArguments{1}, 'hgtransform'))
     parent = inputArguments{1}(1);
     inputArguments = inputArguments(2:end);
     parent = newplotTarget(parent);

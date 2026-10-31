@@ -43,18 +43,22 @@ function varargout = surf(varargin)
   else
     go = newplotTarget(graphicsParentProperty(inputArguments));
   end
-  nextplot = go.NextPlot;
+  ax = go;
+  if isgraphics(go, 'hggroup') || isgraphics(go, 'hgtransform')
+    ax = ancestor(go, 'axes');
+  end
+  nextplot = ax.NextPlot;
 
   h = surface(inputArguments{:});
 
   if strcmp(nextplot, 'replaceall') || strcmp(nextplot, 'replace')
-    view(go, 3);
-    grid(go, 'on');
-    box(go, 'off');
-    applySurfSubplotYAxis(go, h.YData);
+    view(ax, 3);
+    grid(ax, 'on');
+    box(ax, 'off');
+    applySurfSubplotYAxis(ax, h.YData);
   elseif strcmp(nextplot, 'replacechildren')
-    view(go, 3);
-    box(go, 'off');
+    view(ax, 3);
+    box(ax, 'off');
   end
 
   if nargout > 0

@@ -56,6 +56,8 @@ RenderWeb::clear(std::vector<double> col)
         m_sceneDepth.clear();
         m_depthW = 0;
         m_depthH = 0;
+        m_deferredTranslucentPolygons.clear();
+        m_deferredTranslucentEdges.clear();
         // A begin/endSurfaceGroup pair always balances within a frame; reset the
         // nesting depth anyway so an interrupted frame cannot leak into the next.
         m_surfaceGroupDepth = 0;
@@ -511,7 +513,7 @@ RenderWeb::dashArray() const
     if (m_lineStyle == L"-.") {
         return { 4 * w, 1 * w, 2 * w, 1 * w };
     }
-    return {};
+    return { };
 }
 //=============================================================================
 void
@@ -945,7 +947,7 @@ RenderWeb::pointMarkers(const std::vector<double>& xs, const std::vector<double>
     const std::vector<double>& markerSizes, const std::vector<double>& rgbaColors)
 {
     // Kept for the dot fast path: a filled disc with the given colour, no outline.
-    return markerBatch(RenderInterface::Dot, xs, ys, markerSizes, rgbaColors, {}, 1.0);
+    return markerBatch(RenderInterface::Dot, xs, ys, markerSizes, rgbaColors, { }, 1.0);
 }
 //=============================================================================
 void
@@ -1194,6 +1196,11 @@ RenderWeb::endSurfaceGroup()
 {
     if (m_surfaceGroupDepth > 0) {
         m_surfaceGroupDepth--;
+    }
+    if (m_surfaceGroupDepth == 0) {
+        // The axes' children are all drawn, so the opaque scene depth is complete:
+        // rasterize the translucent patch faces against it now.
+        flushDeferredTranslucent();
     }
 }
 //=============================================================================

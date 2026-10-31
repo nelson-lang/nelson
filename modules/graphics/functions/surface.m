@@ -19,7 +19,7 @@ function varargout = surface(varargin)
   validateSurfacePropertySyntax(inputArguments);
   nbInputArguments = nargin;
   if (nbInputArguments >= 2)
-    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') || isgraphics(inputArguments{1}, 'hgtransform')))
       go = inputArguments{1}(1);
       inputArguments = inputArguments(2:end);
       nbInputArguments = length(inputArguments);

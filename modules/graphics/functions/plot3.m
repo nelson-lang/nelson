@@ -12,7 +12,7 @@ function varargout = plot3(varargin)
   nbInputArguments = nargin;
 
   if (nbInputArguments >= 2)
-    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+    if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') || isgraphics(inputArguments{1}, 'hgtransform')))
       go = newplotTarget(inputArguments{1}(1));
       inputArguments(1) = [];
       nbInputArguments = nbInputArguments - 1;
@@ -20,7 +20,7 @@ function varargout = plot3(varargin)
       go = newplotTarget(graphicsParentProperty(inputArguments));
     end
   end
-  if isgraphics(go, 'hggroup')
+  if isgraphics(go, 'hggroup') || isgraphics(go, 'hgtransform')
     ax = ancestor(go, 'axes');
   else
     ax = go;
@@ -121,7 +121,7 @@ function x = resizeMatrix(a, rows, cols)
 end
 %=============================================================================
 function hl = plotVector(go, x, y, z, lineProperties)
-  if isgraphics(go, 'hggroup')
+  if isgraphics(go, 'hggroup') || isgraphics(go, 'hgtransform')
     ax = ancestor(go, 'axes');
   else
     ax = go;

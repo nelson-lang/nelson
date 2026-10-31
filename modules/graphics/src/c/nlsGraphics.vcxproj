@@ -265,6 +265,7 @@
     <ClInclude Include="..\include\GraphicsObjectFactory.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
     <ClInclude Include="..\include\RefreshFigure.hpp" />
+    <ClInclude Include="..\include\PatchTriangulate.hpp" />
     <ClInclude Include="..\include\RenderInterface.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -209,7 +209,6 @@
     <ClCompile Include="..\cpp\RenderQtPolyline.cpp" />
     <ClCompile Include="..\cpp\RenderOpenGL.cpp" />
     <ClCompile Include="..\cpp\RenderOpenGLPatch.cpp" />
-    <ClCompile Include="..\cpp\RenderOpenGLPatchTriangulate.cpp" />
     <ClCompile Include="..\cpp\RenderOpenGLTextImage.cpp" />
     <ClCompile Include="..\cpp\RenderOpenGLMarkerBatch.cpp" />
     <ClCompile Include="..\cpp\RenderOpenGLRectBatch.cpp" />
@@ -220,7 +219,6 @@
     <ClInclude Include="..\include\RenderQt.hpp" />
     <ClInclude Include="..\include\RenderQtPolyline.hpp" />
     <ClInclude Include="..\include\RenderOpenGL.hpp" />
-    <ClInclude Include="..\include\RenderOpenGLPatchTriangulate.hpp" />
     <ClInclude Include="..\include\nlsRenderQt_exports.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

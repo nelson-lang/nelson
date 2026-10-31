@@ -11,7 +11,7 @@ function varargout = plot(varargin)
   inputArguments = convertStringToCharArgs(varargin);
   nbInputArguments = nargin;
   go = [];
-  if (nbInputArguments >= 2) && (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+  if (nbInputArguments >= 2) && (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') || isgraphics(inputArguments{1}, 'hgtransform')))
     go = inputArguments{1}(1);
     inputArguments(1) = [];
     nbInputArguments = nbInputArguments - 1;
@@ -49,13 +49,13 @@ function varargout = plot(varargin)
     keepBox = strcmp(go.NextPlot, 'add');
     go = newplot(go);
   else
-    if ~isgraphics(go, 'hggroup')
-      error('Nelson:graphics:invalidParent', 'Parent must be an axes or hggroup object.');
+    if ~isgraphics(go, 'hggroup') && ~isgraphics(go, 'hgtransform')
+      error('Nelson:graphics:invalidParent', 'Parent must be an axes, hggroup or hgtransform object.');
     end
     ax = ancestor(go, 'axes');
     keepBox = strcmp(ax.NextPlot, 'add');
   end
-  if isgraphics(go, 'hggroup')
+  if isgraphics(go, 'hggroup') || isgraphics(go, 'hgtransform')
     ax = ancestor(go, 'axes');
   else
     ax = go;
@@ -214,7 +214,7 @@ function q = completeProperties(cs, ms, ps, p)
 end
 %=============================================================================
 function k = plotVector(go, x, y, lineProperties)
-  if isgraphics(go, 'hggroup')
+  if isgraphics(go, 'hggroup') || isgraphics(go, 'hgtransform')
     ax = ancestor(go, 'axes');
   else
     ax = go;
