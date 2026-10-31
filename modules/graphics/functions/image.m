@@ -30,9 +30,8 @@ function varargout = image(varargin)
   if isempty(parent)
     ax = newplot();
     parent = ax;
-  elseif isgraphics(parent, 'hggroup')
+  elseif isgraphics(parent, 'hggroup') || isgraphics(parent, 'hgtransform')
     ax = ancestor(parent, 'axes');
-    newplot(ax);
   else
     ax = newplot(parent);
     parent = ax;
@@ -97,7 +96,7 @@ end
 %=============================================================================
 function [parent, args] = imageParseParent(args)
   parent = [];
-  if ~isempty(args) && isscalar(args{1}) && (isgraphics(args{1}, 'axes') || isgraphics(args{1}, 'hggroup'))
+  if ~isempty(args) && isscalar(args{1}) && (isgraphics(args{1}, 'axes') || isgraphics(args{1}, 'hggroup') || isgraphics(args{1}, 'hgtransform'))
     parent = args{1};
     args = args(2:end);
   end

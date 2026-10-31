@@ -603,6 +603,9 @@ GOScatterSeries::paintMe(RenderInterface& gc)
         }
 
         for (size_t i = 0; i < uc.size(); i++) {
+            if (gc.markerOccluded(uc[i], vc[i], dc[i])) {
+                continue;
+            }
             DrawSymbol(
                 gc, typ, uc[i], vc[i], 0, markerSizes[i], edgeColors[i], faceColors[i], width);
         }

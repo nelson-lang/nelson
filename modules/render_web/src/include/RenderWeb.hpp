@@ -86,9 +86,9 @@ struct WebGlMesh
     size_t vertexColorsLength = 0;
     size_t triangleIndicesLength = 0;
     size_t lineIndicesLength = 0;
-    std::array<double, 16> model {};
-    std::array<double, 16> projection {};
-    std::array<int, 4> viewport {};
+    std::array<double, 16> model { };
+    std::array<double, 16> projection { };
+    std::array<int, 4> viewport { };
     std::array<float, 4> lineColor { 0, 0, 0, 1 };
     double lineWidth = 1.0;
     bool drawFaces = false;
@@ -120,6 +120,44 @@ struct WebUIControl
     std::string horizontalAlignment = "center"; // left, center, right
     std::string verticalAlignment = "center"; // top, center, bottom
     std::string extraJson; // rich payload (uitable/uitree) as a JSON object
+};
+//=============================================================================
+// A vertex of the software z-buffer raster: screen pixel position (top-left
+// origin, possibly oversampled), clip-space depth (nearer = smaller), straight
+// alpha colour, and the texture coordinate of a 'texturemap' surface.
+struct WebSceneVertex
+{
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double r = 0;
+    double g = 0;
+    double b = 0;
+    double a = 1;
+    double u = 0;
+    double v = 0;
+};
+//=============================================================================
+// A translucent patch face (one finite run of its outline), captured in figure
+// pixels and already triangulated when the patch was drawn. It is rasterized at
+// the end of the 3D scene (RenderWeb::flushDeferredTranslucent) so it is
+// depth-tested against every opaque surface and patch of the axes whatever the
+// draw order, and blended back-to-front with the other translucent faces. Each
+// pixel of a face is blended once, however many triangles cover it.
+struct WebDeferredTranslucentPolygon
+{
+    std::vector<WebSceneVertex> vertices;
+    std::vector<std::array<std::size_t, 3>> triangles; // indices into vertices
+    double depth = 0.0; // mean clip-space z
+    bool webglFallback = false;
+};
+//=============================================================================
+struct WebDeferredTranslucentEdge
+{
+    WebSceneVertex a;
+    WebSceneVertex b;
+    double halfWidth = 0.5; // figure pixels
+    bool webglFallback = false;
 };
 //=============================================================================
 class NLSRENDERWEB_IMPEXP RenderWeb : public RenderInterface
@@ -322,7 +360,7 @@ public:
     markerBatch(int shape, const std::vector<double>& xs, const std::vector<double>& ys,
         const std::vector<double>& markerSizes, const std::vector<double>& faceRgba,
         const std::vector<double>& edgeRgba, double edgeWidth,
-        const std::vector<double>& depths = {}) override;
+        const std::vector<double>& depths = { }) override;
     bool
     rectBatch(const std::vector<double>& corners, const std::vector<double>& faceColor,
         const std::vector<double>& edgeColor, double edgeWidth) override;
@@ -458,7 +496,18 @@ private:
     void
     writeSceneDepth(int px, int py, double z);
     bool
-    markerOccluded(double px, double py, double z) const;
+    markerOccluded(double px, double py, double z) const override;
+    // Translucent patch faces and edges waiting for the end of the 3D scene (the
+    // outermost endSurfaceGroup), when the opaque scene depth is complete.
+    std::vector<WebDeferredTranslucentPolygon> m_deferredTranslucentPolygons;
+    std::vector<WebDeferredTranslucentEdge> m_deferredTranslucentEdges;
+    void
+    flushDeferredTranslucent();
+    bool
+    tryPushScenePatch(const FaceList& faces, const PatchRenderOptions& options, bool webglFallback);
+    bool
+    pushSceneDepthImage(const std::vector<unsigned char>& rgba, const std::vector<double>& zbuffer,
+        int width, int height, int oversample, bool writeDepth, bool webglFallback);
 
     void
     mapXY(double x, double y, double z, double& px, double& py);

@@ -36,7 +36,7 @@ function varargout = mesh(varargin)
 
   % Adding to a group leaves the axes untouched: newplot did not start it anew,
   % so the 3-D framing is not applied either.
-  if (~isgraphics(go, 'hggroup') && ~ishold(go))
+  if (~isgraphics(go, 'hggroup') && ~isgraphics(go, 'hgtransform') && ~ishold(go))
     view(go, 3);
     grid(go, 'on');
   end

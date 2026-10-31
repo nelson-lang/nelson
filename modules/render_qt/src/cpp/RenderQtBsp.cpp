@@ -662,6 +662,22 @@ RenderQt::drawBspPrimitive(const RenderQtBspPrimitive& primitive)
         for (const auto& vertex : primitive.vertices) {
             interpolatedFill = interpolatedFill && vertex.hasColor;
         }
+        // An opaque face records its depth so the markers drawn after the flush can be
+        // tested against it (markerOccluded).
+        bool opaqueFill = interpolatedFill || primitive.fillColor.alpha() >= 255;
+        if (interpolatedFill) {
+            for (const auto& vertex : primitive.vertices) {
+                opaqueFill = opaqueFill && vertex.color.a >= 0.999;
+            }
+        }
+        if (opaqueFill) {
+            std::vector<double> depths;
+            depths.reserve(primitive.vertices.size());
+            for (const auto& vertex : primitive.vertices) {
+                depths.push_back(vertex.clip.z);
+            }
+            writeSceneDepthPolygon(polygon, depths.data(), depths.size());
+        }
         if (interpolatedFill) {
             pnt->setPen(Qt::NoPen);
             for (int k = 1; k < polygon.size() - 1; ++k) {

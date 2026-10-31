@@ -602,6 +602,9 @@
     <ClInclude Include="..\include\RefreshFigure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\PatchTriangulate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\RenderInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

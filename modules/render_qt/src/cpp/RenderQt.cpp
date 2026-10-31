@@ -12,6 +12,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 #include <algorithm>
+#include <limits>
 #include <QtGui/QPainterPath>
 #include <QtGui/QTransform>
 #include "nlsBuildConfig.h"
@@ -62,6 +63,10 @@ RenderQt::RenderQt(QPainter* painter, double x1, double y1, double width, double
     currentLineWidth = 1.;
     currentLineStyle = L"-";
     renderName = _renderName;
+    // Device extent of the marker depth buffer. A pushed region translates the painter
+    // inside this frame, so its local coordinates stay within these bounds.
+    m_depthW = static_cast<int>(std::ceil(x1 + width));
+    m_depthH = static_cast<int>(std::ceil(y1 + height));
 }
 //=============================================================================
 static void
@@ -653,6 +658,19 @@ RenderQt::drawMappedQuad(const quad3D& mapqd)
     poly.push_back(QPointF(mapqd.pts[3].x, mapqd.pts[3].y));
     poly.push_back(QPointF(mapqd.pts[2].x, mapqd.pts[2].y));
 
+    // An opaque face records its depth so the markers drawn after it can be tested
+    // against it (markerOccluded). Flat, interpolated and textured fills all take their
+    // alpha from the vertices; an edge-only quad (mapQuadsEdgesOnly) has a == 0.
+    bool opaqueFace = mapqd.a >= 0.999;
+    for (int k = 0; opaqueFace && k < 4; ++k) {
+        opaqueFace = mapqd.va[k] >= 0.999;
+    }
+    if (opaqueFace) {
+        const double ringDepth[4]
+            = { mapqd.pts[0].z, mapqd.pts[1].z, mapqd.pts[3].z, mapqd.pts[2].z };
+        writeSceneDepthPolygon(poly, ringDepth, 4);
+    }
+
     QColor faceColor(
         (int)(mapqd.r * 255), (int)(mapqd.g * 255), (int)(mapqd.b * 255), (int)(mapqd.a * 255));
 
@@ -817,7 +835,11 @@ RenderQt::quadStrips(const std::vector<std::vector<coloredPoint>>& faces, bool f
     // Surface edges are stroked at a device pixel width at least: a sub-pixel pen
     // antialiases to nothing and the mesh of a dense pcolor/flat surf vanishes.
     const double edgeWidthPx = edgeStrokePixelWidth(lineWidth);
-    if (collectBspPrimitives && !useInterpolatedFaces) {
+    // Inside a 3D surface group every face joins the BSP so a Gouraud-lit or
+    // 'interp' surface is depth-ordered against patches and flat surfaces instead
+    // of being deferred and painted over them. A textured surface keeps the
+    // deferred quad path: the BSP primitives carry no texture.
+    if (collectBspPrimitives && !m_surfaceTextureActive) {
         auto colorFromPoint = [](const coloredPoint& pt) {
             return QColor(static_cast<int>(std::clamp(pt.r, 0., 1.) * 255),
                 static_cast<int>(std::clamp(pt.g, 0., 1.) * 255),
@@ -893,8 +915,18 @@ RenderQt::quadStrips(const std::vector<std::vector<coloredPoint>>& faces, bool f
                         for (const auto& cp : clipped) {
                             fpts.push_back(point(cp.x, cp.y, cp.z));
                         }
-                        appendBspPolygon(fpts, colorFromPoint((*faceStrip)[j - 2]),
-                            QColor(0, 0, 0, 0), 0., GO_PROPERTY_VALUE_NONE_STR);
+                        if (useInterpolatedFaces) {
+                            std::vector<RGBAColorData> colors;
+                            colors.reserve(clipped.size());
+                            for (const auto& cp : clipped) {
+                                colors.emplace_back(cp.r, cp.g, cp.b, cp.a);
+                            }
+                            appendBspInterpolatedPolygon(
+                                fpts, colors, QColor(0, 0, 0, 0), 0., GO_PROPERTY_VALUE_NONE_STR);
+                        } else {
+                            appendBspPolygon(fpts, colorFromPoint((*faceStrip)[j - 2]),
+                                QColor(0, 0, 0, 0), 0., GO_PROPERTY_VALUE_NONE_STR);
+                        }
                     }
                 }
                 if (edgeStrip) {
@@ -923,6 +955,11 @@ RenderQt::quadStrips(const std::vector<std::vector<coloredPoint>>& faces, bool f
 void
 RenderQt::clear(std::vector<double> col)
 {
+    // A new frame: forget the depths the previous one recorded. Inside a region the
+    // clear only paints the region background.
+    if (regions.empty()) {
+        m_sceneDepth.clear();
+    }
     pnt->save();
     if (col.size() == 3) {
         pnt->setPen(QColor((int)(col[0] * 255), (int)(col[1] * 255), (int)(col[2] * 255)));
@@ -930,6 +967,117 @@ RenderQt::clear(std::vector<double> col)
         pnt->drawRect((int)m_x1, (int)m_y1, (int)m_width, (int)m_height);
     }
     pnt->restore();
+}
+//=============================================================================
+void
+RenderQt::clearDepthBuffer()
+{
+    // Each axes starts from an empty depth, like the OpenGL depth clear on screen: a
+    // surface in one axes never hides the markers of another (an overlay axes).
+    m_sceneDepth.clear();
+}
+//=============================================================================
+void
+RenderQt::writeSceneDepthPolygon(const QPolygonF& polygon, const double* depths, size_t count)
+{
+    if (count < 3 || static_cast<size_t>(polygon.size()) < count || m_depthW <= 0
+        || m_depthH <= 0) {
+        return;
+    }
+    double yMin = std::numeric_limits<double>::infinity();
+    double yMax = -std::numeric_limits<double>::infinity();
+    for (size_t i = 0; i < count; ++i) {
+        const QPointF& p = polygon[static_cast<int>(i)];
+        if (!std::isfinite(p.x()) || !std::isfinite(p.y()) || !std::isfinite(depths[i])) {
+            return;
+        }
+        yMin = std::min(yMin, p.y());
+        yMax = std::max(yMax, p.y());
+    }
+    const int rowStart = std::max(0, static_cast<int>(std::ceil(yMin - 0.5)));
+    const int rowEnd = std::min(m_depthH - 1, static_cast<int>(std::floor(yMax - 0.5)));
+    if (rowStart > rowEnd) {
+        return;
+    }
+    if (m_sceneDepth.empty()) {
+        m_sceneDepth.assign(
+            static_cast<size_t>(m_depthW) * m_depthH, std::numeric_limits<float>::infinity());
+    }
+    // Scanline fill at pixel centres with the even-odd rule, so a concave patch face is
+    // exact. The depth is interpolated along the edges and across each span: exact for a
+    // planar face, the usual Gouraud approximation for a warped surface cell.
+    struct Crossing
+    {
+        double x;
+        double z;
+    };
+    std::vector<Crossing> crossings;
+    crossings.reserve(count);
+    for (int row = rowStart; row <= rowEnd; ++row) {
+        const double yc = row + 0.5;
+        crossings.clear();
+        for (size_t i = 0; i < count; ++i) {
+            const size_t j = (i + 1) % count;
+            const QPointF& p0 = polygon[static_cast<int>(i)];
+            const QPointF& p1 = polygon[static_cast<int>(j)];
+            const double y0 = p0.y();
+            const double y1 = p1.y();
+            // Half-open span: an edge ending on this row contributes once, not twice.
+            if ((y0 <= yc && yc < y1) || (y1 <= yc && yc < y0)) {
+                const double t = (yc - y0) / (y1 - y0);
+                crossings.push_back(
+                    { p0.x() + t * (p1.x() - p0.x()), depths[i] + t * (depths[j] - depths[i]) });
+            }
+        }
+        if (crossings.size() < 2) {
+            continue;
+        }
+        std::sort(crossings.begin(), crossings.end(),
+            [](const Crossing& a, const Crossing& b) { return a.x < b.x; });
+        float* rowDepth = &m_sceneDepth[static_cast<size_t>(row) * m_depthW];
+        for (size_t k = 0; k + 1 < crossings.size(); k += 2) {
+            const Crossing& a = crossings[k];
+            const Crossing& b = crossings[k + 1];
+            const int colStart = std::max(0, static_cast<int>(std::ceil(a.x - 0.5)));
+            const int colEnd = std::min(m_depthW - 1, static_cast<int>(std::floor(b.x - 0.5)));
+            const double span = b.x - a.x;
+            for (int col = colStart; col <= colEnd; ++col) {
+                const double t = span > 0. ? ((col + 0.5) - a.x) / span : 0.;
+                const float z = static_cast<float>(a.z + t * (b.z - a.z));
+                if (z < rowDepth[col]) {
+                    rowDepth[col] = z;
+                }
+            }
+        }
+    }
+}
+//=============================================================================
+bool
+RenderQt::markerOccluded(double px, double py, double z) const
+{
+    if (m_sceneDepth.empty() || m_depthW <= 0 || m_depthH <= 0 || !std::isfinite(z)) {
+        return false;
+    }
+    // Direct-draw pixel coordinates reach the painter like map(): x unchanged, y flipped
+    // against the current frame height, both rounded to the pixel the marker lands on.
+    const double painterY = m_height - 1 - py;
+    if (!std::isfinite(px) || !std::isfinite(painterY)) {
+        return false;
+    }
+    const long ix = std::lround(px);
+    const long iy = std::lround(painterY);
+    if (ix < 0 || iy < 0 || ix >= m_depthW || iy >= m_depthH) {
+        return false;
+    }
+    const float surfaceZ = m_sceneDepth[static_cast<size_t>(iy) * m_depthW + ix];
+    if (!std::isfinite(surfaceZ)) {
+        return false;
+    }
+    // Clip-space z is in [-1, 1]; a bias well under any real layer gap keeps a marker
+    // sitting on the surface visible while dropping one genuinely behind it (the
+    // tolerance RenderWeb uses).
+    constexpr double depthBias = 2.0e-4;
+    return z > static_cast<double>(surfaceZ) + depthBias;
 }
 //=============================================================================
 std::vector<quad3D>

@@ -1765,7 +1765,7 @@ visibleThetaTicksForLabels(
     const std::vector<double>& ticks, const std::vector<double>& thetaLim, bool radians)
 {
     if (thetaLim.size() < 2) {
-        return {};
+        return { };
     }
     std::vector<double> visibleTicks;
     for (double tick : ticks) {
@@ -6927,8 +6927,12 @@ GOAxis::renderedAs2D()
     // View-based because axis layout, ticks and labels key off the declared View. Projection, depth
     // sorting and camera transform use this function instead. A scene is 2D here only when the
     // camera looks straight down +z onto the xy-plane (the elevation == 90 case of is2D()).
-    if (stringCheck(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)
-        && stringCheck(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)) {
+    //
+    // A manual CameraPosition alone also poses the camera: the automatic CameraTarget is the
+    // centre of the data box (kept current by updateCamera), so the viewing direction is
+    // target - position whether or not the target was set by hand. Only an automatic position
+    // is derived from View, so only then does View describe the real camera.
+    if (stringCheck(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)) {
         GOThreeVectorProperty* cameraPositionVector = static_cast<GOThreeVectorProperty*>(
             findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
         GOThreeVectorProperty* cameraTargetVector

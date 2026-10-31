@@ -14,6 +14,7 @@
 #include <QtGui/QFont>
 #include <QtGui/QPainterPath>
 #include <QtGui/QColor>
+#include <QtGui/QPolygonF>
 #include <QtCore/QPointF>
 #include "RenderInterface.hpp"
 #include "nlsRenderQt_exports.h"
@@ -132,6 +133,14 @@ private:
     std::vector<QImage> m_textureStore;
     int m_currentTextureIndex { -1 };
     bool m_surfaceTextureActive { false };
+    // Nearest clip-space depth (nearer = smaller) of the opaque surface and patch faces
+    // drawn since the last clearDepthBuffer(), per painter pixel of the device extent
+    // recorded at construction.
+    std::vector<float> m_sceneDepth;
+    int m_depthW { 0 };
+    int m_depthH { 0 };
+    void
+    writeSceneDepthPolygon(const QPolygonF& polygon, const double* depths, size_t count);
     //=============================================================================
     QPointF
     map(double x, double y, double z);
@@ -428,6 +437,12 @@ public:
     //=============================================================================
     void
     drawPatch(const FaceList& faces, const PatchRenderOptions& options) override;
+    //=============================================================================
+    void
+    clearDepthBuffer() override;
+    //=============================================================================
+    bool
+    markerOccluded(double px, double py, double z) const override;
     //=============================================================================
 };
 //=============================================================================

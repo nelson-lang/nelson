@@ -19,7 +19,11 @@ function varargout = fill3(varargin)
 
   inputArguments = convertStringToCharArgs(varargin);
   [parent, inputArguments] = parseParent(inputArguments);
-  nextplot = parent.NextPlot;
+  ax = parent;
+  if isgraphics(parent, 'hggroup') || isgraphics(parent, 'hgtransform')
+    ax = ancestor(parent, 'axes');
+  end
+  nextplot = ax.NextPlot;
   [groups, propertiesList] = parseFillGroups(inputArguments, 4);
 
   h = gobjects(1, 0);
@@ -29,10 +33,10 @@ function varargout = fill3(varargin)
   end
 
   if strcmp(nextplot, 'replaceall') || strcmp(nextplot, 'replace')
-    view(parent, 3);
-    grid(parent, 'off');
+    view(ax, 3);
+    grid(ax, 'off');
   elseif strcmp(nextplot, 'replacechildren')
-    view(parent, 3);
+    view(ax, 3);
   end
 
   if (nargout > 0)
@@ -44,14 +48,14 @@ end
 %=============================================================================
 function [parent, inputArguments] = parseParent(inputArguments)
   if ~isempty(inputArguments) && isscalar(inputArguments{1}) ...
-      && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup'))
+      && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') ...
+      || isgraphics(inputArguments{1}, 'hgtransform'))
     parent = inputArguments{1}(1);
     inputArguments = inputArguments(2:end);
-    if isgraphics(parent, 'axes')
-      parent = newplot(parent);
-    end
+    parent = newplotTarget(parent);
   else
-    parent = newplot();
+    [parent, inputArguments] = graphicsExtractParentProperty(inputArguments);
+    parent = newplotTarget(parent);
   end
 end
 %=============================================================================

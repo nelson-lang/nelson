@@ -19,7 +19,7 @@ function varargout = text(varargin)
   nargoutchk(0, 1);
   inputArguments = convertStringToCharArgs(varargin);
   parent = [];
-  if (~isempty(inputArguments) && isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+  if (~isempty(inputArguments) && isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup') || isgraphics(inputArguments{1}, 'hgtransform')))
     parent = inputArguments{1};
     inputArguments = inputArguments(2:end);
   end

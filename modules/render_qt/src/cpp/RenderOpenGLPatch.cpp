@@ -37,7 +37,7 @@
 #include <GL/gl.h>
 #endif
 #include "RenderOpenGL.hpp"
-#include "RenderOpenGLPatchTriangulate.hpp"
+#include "PatchTriangulate.hpp"
 #include "GOPropertyValues.hpp"
 //=============================================================================
 using PatchPointKey = std::tuple<long long, long long, long long>;
@@ -58,7 +58,7 @@ patchDisplayListCacheKey(const PatchRenderOptions& options)
     combinePatchRenderCacheHash(
         seed, static_cast<uint64_t>(std::llround(options.lineWidth * 1000.0)));
     combinePatchRenderCacheHash(
-        seed, static_cast<uint64_t>(std::hash<std::wstring> {}(options.lineStyle)));
+        seed, static_cast<uint64_t>(std::hash<std::wstring> { }(options.lineStyle)));
     combinePatchRenderCacheHash(seed, static_cast<uint64_t>(options.faceLighting));
     combinePatchRenderCacheHash(seed, static_cast<uint64_t>(options.edgeLighting));
     return seed;
@@ -357,31 +357,6 @@ drawPatchUniqueEdgesFace(
         subPath.push_back(i);
     }
     drawPatchUniqueEdgeSubPath(face, subPath, fallbackNormal, emitNormals, edges);
-}
-//=============================================================================
-static void
-collectPatchSubPathTriangles(const Face& face, const std::vector<size_t>& subPath,
-    const point& fallbackNormal, std::vector<std::array<size_t, 3>>& out)
-{
-    if (subPath.size() < 3) {
-        return;
-    }
-    if (subPath.size() == 3) {
-        out.push_back({ { subPath[0], subPath[1], subPath[2] } });
-        return;
-    }
-    std::vector<std::array<size_t, 3>> triangles;
-    triangles.reserve(subPath.size() - 2);
-    if (triangulatePatchSubPath(face, subPath, fallbackNormal, triangles)) {
-        for (const auto& triangle : triangles) {
-            out.push_back(triangle);
-        }
-        return;
-    }
-    // Fan fallback, matching drawPatchFillFan's triangle set.
-    for (size_t i = 1; i + 1 < subPath.size(); ++i) {
-        out.push_back({ { subPath[0], subPath[i], subPath[i + 1] } });
-    }
 }
 //=============================================================================
 static void
