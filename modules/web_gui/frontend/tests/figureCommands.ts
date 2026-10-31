@@ -32,7 +32,7 @@ export function figureCommands(page: Page, prefix: string) {
           if (
             await page
               .locator('.console-line')
-              .filter({ hasText: /^(Error:|Nelson:[A-Za-z])/ })
+              .filter({ hasText: /^(Error[: ]|Nelson:[A-Za-z])/ })
               .count()
           ) {
             throw new Error(
