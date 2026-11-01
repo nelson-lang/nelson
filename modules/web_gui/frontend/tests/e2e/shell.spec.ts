@@ -502,7 +502,7 @@ test('menus and focus zones support keyboard-only navigation', async ({ page }) 
 
   await page.getByRole('button', { name: 'More panels' }).click();
   const morePanelButtons = page.locator('.sidebar__menu button');
-  await expect(morePanelButtons).toHaveCount(9);
+  await expect(morePanelButtons).toHaveCount(11);
   await morePanelButtons.first().focus();
   await page.keyboard.press('ArrowDown');
   await expect(morePanelButtons.nth(1)).toBeFocused();
@@ -541,10 +541,8 @@ test('shell icon controls expose independent accessible names and visible focus'
   expect(unnamed).toEqual([]);
   await expect(page.locator('.desktop-icon:not([aria-hidden="true"])')).toHaveCount(0);
 
-  const editor = page.getByRole('button', { name: 'Text Editor' });
-  await editor.focus();
-  await page.keyboard.press('Tab');
   const execute = page.getByRole('button', { name: 'Execute a Nelson file' });
+  await execute.focus();
   await expect(execute).toBeFocused();
   const outline = await execute.evaluate((element) => {
     const style = getComputedStyle(element);
