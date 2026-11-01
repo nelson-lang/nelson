@@ -674,7 +674,7 @@ classdef Map < handle
         keyCells = {key};
         return
       end
-      error('Nelson:containersMap:invalidKeySet', 'Invalid input. KeySet must be a numeric scalar, character vector, string scalar or cell array of keys.');
+      error('Nelson:containersMap:invalidKeySetType', 'Invalid input. KeySet must be a numeric scalar, character vector, string scalar or cell array of keys.');
     end
 
     function valueCells = valueCellsFromInput(value, keyCount)

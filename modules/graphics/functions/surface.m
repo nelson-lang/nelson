@@ -175,7 +175,7 @@ function validateColorData(Z, C, isTexture)
     % so CData only needs to be a non-empty indexed (m-by-n) or truecolor
     % (m-by-n-by-3) image; its extent is independent of Z.
     if isempty(C) || ~(C_np == 1 || C_np == 3)
-      error('Nelson:dimagree:zCSize', 'CData must be an image for texture mapping.');
+      error('Nelson:dimagree:invalidCData', 'CData must be an image for texture mapping.');
     end
     return
   end

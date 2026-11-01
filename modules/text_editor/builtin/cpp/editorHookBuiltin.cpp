@@ -28,7 +28,7 @@ Nelson::TextEditorGateway::editorHookBuiltin(Evaluator* eval, int nLhs, const Ar
             L"Wrong type for input argument #%d.", 1);
     }
 #ifdef __EMSCRIPTEN__
-    Error(L"Nelson:editor:unavailable", L"The text editor hook is unavailable.");
+    Error(L"Nelson:editor:hookUnavailable", L"The text editor hook is unavailable.");
     return {};
 #else
     std::wstring action = argIn[0].asWideString();

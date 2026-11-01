@@ -37,7 +37,7 @@ classdef KDTreeSearcher
           case 'bucketsize'
             obj.BucketSize = value;
           otherwise
-            error('Nelson:statistics:unknownOption', 'Unknown option: %s.', name);
+            error('Nelson:statistics:unknownOptionNamed', 'Unknown option: %s.', name);
         end
       end
     end

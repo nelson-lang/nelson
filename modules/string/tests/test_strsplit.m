@@ -49,7 +49,7 @@ asserts.isequal(strsplit('a,b,c', ',', 'CollapseDelimiters', 0), {'a', 'b', 'c'}
 asserts.isequal(strsplit('a,,b', ',', 'CollapseDelimiters', int8(0)), {'a', '', 'b'});
 asserts.isequal(strsplit('a,b', ',', 'delimitertype', 'simple'), {'a', 'b'});
 asserts.checkerror('R = strsplit(''a,b'', '','', ''CollapseDelimiters'');', 'Name-value pair arguments require a name followed by a value.', 'Nelson:string:strsplit:nameValue');
-asserts.checkerror('R = strsplit(''a,b'', '','', ''DelimiterType'', ''RegExp'');', 'DelimiterType must be ''Simple'' or ''RegularExpression''.', 'Nelson:string:strsplit:invalidOption');
+asserts.checkerror('R = strsplit(''a,b'', '','', ''DelimiterType'', ''RegExp'');', 'DelimiterType must be ''Simple'' or ''RegularExpression''.', 'Nelson:string:strsplit:invalidDelimiterType');
 %=============================================================================
 % an empty delimiter never splits, the inputs are checked
 asserts.isequal(strsplit('a,b', ''), {'a,b'});

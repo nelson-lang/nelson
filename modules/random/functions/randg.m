@@ -78,7 +78,7 @@ function sz = randgSizeFromArgs(args)
     for k = 1:numel(args)
       d = args{k};
       if ~isnumeric(d) || ~isreal(d) || ~isscalar(d)
-        error('Nelson:randg:invalidSize', 'Size inputs must be real scalar integers.');
+        error('Nelson:randg:invalidSizeScalar', 'Size inputs must be real scalar integers.');
       end
       sz(k) = double(d);
     end

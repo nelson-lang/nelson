@@ -62,7 +62,7 @@ function f = local_figure_of(object)
     f = ancestor(object, 'figure');
   end
   if isempty(f) || ~isgraphics(f, 'figure')
-    error('Nelson:graphics:noFigure', 'The object is not attached to a figure.');
+    error('Nelson:graphics:notAttachedToFigure', 'The object is not attached to a figure.');
   end
 end
 %=============================================================================

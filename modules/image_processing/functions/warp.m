@@ -98,7 +98,7 @@ function validateWarpImage(A)
   end
   np = size(A, 3);
   if ~(np == 1 || np == 3) || ndims(A) > 3
-    error('Nelson:warp:invalidImage', 'A must be an indexed (M-by-N) or truecolor (M-by-N-by-3) image.');
+    error('Nelson:warp:invalidImageDimensions', 'A must be an indexed (M-by-N) or truecolor (M-by-N-by-3) image.');
   end
 end
 %=============================================================================

@@ -75,7 +75,7 @@ function [systems, k] = parseArguments(args)
       systems{end + 1} = sys; %#ok<AGROW>
     elseif (isnumeric(arg) && isvector(arg) && isreal(arg))
       if (~isempty(k))
-        error('Nelson:control_system:invalidInputArgument', 'Only one gain vector is allowed.');
+        error('Nelson:control_system:invalidGainArgument', 'Only one gain vector is allowed.');
       end
       k = sort(arg(:)');
     else
@@ -102,7 +102,7 @@ function [r, k, origNum, den] = computeLocus(sys, k)
 
   n = length(den) - 1;
   if (n < 1)
-    error('Nelson:control_system:invalidModel', 'The model has no dynamics.');
+    error('Nelson:control_system:noDynamics', 'The model has no dynamics.');
   end
 
   if (isempty(k))

@@ -51,7 +51,7 @@ function checkButtons(buttons)
   known = {'default', 'export', 'brush', 'datacursor', 'rotate', 'pan', 'zoom', 'restoreview', 'zoomin', 'zoomout'};
   for k = 1:numel(buttons)
     if ~any(strcmpi(buttons{k}, known))
-      error('Nelson:graphics:invalidToolbarButtons', 'Unknown toolbar button: %s.', buttons{k});
+      error('Nelson:graphics:unknownToolbarButton', 'Unknown toolbar button: %s.', buttons{k});
     end
   end
 end

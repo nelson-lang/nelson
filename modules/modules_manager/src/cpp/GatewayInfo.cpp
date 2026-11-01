@@ -105,7 +105,7 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     } catch (...) {
         close_dynamic_library(handle);
         errorMessage
-            = resolveMessageTemplate(L"Nelson:modules_manager:moduleLoadedGatewayDescriptor",
+            = resolveMessageTemplate(L"Nelson:modules_manager:moduleLoadedIncompatibleGateway",
                 L"Module not loaded: incompatible gateway library (rebuild required).");
         return false;
     }

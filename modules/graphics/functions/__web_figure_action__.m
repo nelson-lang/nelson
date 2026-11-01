@@ -70,7 +70,7 @@ function response = __web_figure_action__(handle, encoded, renderDisplayList)
     return;
   end
   if isempty(ax) && ~any(strcmp(action, {'properties', 'undo', 'redo'}))
-    error('Nelson:graphics:expectedAxes', 'Axes object expected.');
+    error('Nelson:graphics:expectedAxes', 'Axes graphic object expected.');
   end
   if any(strcmp(action, {'view', 'zoom', 'pan', 'fit'}))
     web_figure_reference_view(ax, 'capture');

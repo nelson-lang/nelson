@@ -28,7 +28,7 @@ function varargout = bode(varargin)
   switch nargin
     case 0
       if (nargout != 0)
-        error('Nelson:control_system:invalidOutputArgument', 'bode without input argument does not return output arguments.');
+        error('Nelson:control_system:noOutputArguments', 'bode without input argument does not return output arguments.');
       end
       numerator = -1;
       denominator = [1 12 58 139 174 102 19];

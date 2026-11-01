@@ -55,7 +55,7 @@ end
 function varargout = curl3D(X, Y, Z, U, V, W, nOut)
   if ~isequal(size(U), size(V)) || ~isequal(size(U), size(W)) ...
       || ~isequal(size(X), size(U)) || ~isequal(size(Y), size(U)) || ~isequal(size(Z), size(U))
-    error('Nelson:curl:inputSizeMismatch', 'X, Y, Z, U, V and W must have the same size.');
+    error('Nelson:curl:inputSizeMismatch3D', 'X, Y, Z, U, V and W must have the same size.');
   end
   xv = squeeze(X(1, :, 1));
   yv = squeeze(Y(:, 1, 1));

@@ -14,7 +14,7 @@ function camzoom(varargin)
   nargoutchk(0, 0);
   [ax, args] = __camAxesArgs__(varargin);
   if (numel(args) ~= 1)
-    error('Nelson:graphics:invalidInputArguments', 'A single zoom factor expected.');
+    error('Nelson:graphics:invalidZoomArgument', 'A single zoom factor expected.');
   end
   zf = args{1};
   if (~(isnumeric(zf) && isscalar(zf) && isreal(zf) && zf > 0 && isfinite(zf)))
