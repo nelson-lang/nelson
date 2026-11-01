@@ -13,7 +13,8 @@ p = audioplayer(zeros(10, 1), 8000);
 asserts.checkerror('playblocking(p, 0)', _('start >= 1 expected.'));
 asserts.checkerror('playblocking(p, [2 1])', _('Invalid range.'));
 asserts.checkerror('playblocking(p, [1 12])', _('Invalid range.'));
-msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'playblocking');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), ...
+  'playblocking');
 if ~iswasm()
   asserts.checkerror('playblocking(1)', ...
     msg);

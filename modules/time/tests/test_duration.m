@@ -53,5 +53,6 @@ assert_isequal(minutes(mod(minutes(90), minutes(60))), 30);
 assert_isequal(hours(mod(hours(7), hours(3))), 1);
 assert_isequal(minutes(rem(minutes(-90), minutes(60))), -30);
 assert_isequal(class(mod(minutes(90), minutes(60))), 'duration');
-assert_checkerror('mod(minutes(90), 5)', sprintf(_('%s of a duration requires both arguments to be durations.'), 'mod'));
+assert_checkerror('mod(minutes(90), 5)', sprintf(_('%s of a duration requires both arguments to be durations.'), ...
+  'mod'));
 %=============================================================================

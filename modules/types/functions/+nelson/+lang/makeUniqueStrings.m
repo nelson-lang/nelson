@@ -93,7 +93,8 @@ function value = localUniqueName(value, used, maxStringLength)
   while true
     suffix = ['_', int2str(suffixIndex)];
     if length(suffix) > maxStringLength
-      error('Nelson:makeUniqueStrings:unableMakeStringsUniqueWithin2', 'Unable to make strings unique within the maximum string length.');
+      error('Nelson:makeUniqueStrings:unableMakeStringsUniqueWithin2', ...
+        'Unable to make strings unique within the maximum string length.');
     end
     baseLength = maxStringLength - length(suffix);
     candidate = [base(1:min(length(base), baseLength)), suffix];
@@ -126,7 +127,8 @@ function selected = localSelectedMask(whichStringsIdx, count)
   selected = false(1, count);
   if islogical(whichStringsIdx)
     if numel(whichStringsIdx) ~= count
-      error('Nelson:makeUniqueStrings:logicalIndexNumberElementsInput2', 'Logical index must have the same number of elements as the input.');
+      error('Nelson:makeUniqueStrings:logicalIndexNumberElementsInput2', ...
+        'Logical index must have the same number of elements as the input.');
     end
     selected = logical(whichStringsIdx(:)');
   elseif isnumeric(whichStringsIdx)
@@ -135,7 +137,8 @@ function selected = localSelectedMask(whichStringsIdx, count)
       return
     end
     if any(idx ~= floor(idx)) || any(idx < 1) || any(idx > count)
-      error('Nelson:makeUniqueStrings:indexValuesPositiveIntegersWithin2', 'Index values must be positive integers within the input size.');
+      error('Nelson:makeUniqueStrings:indexValuesPositiveIntegersWithin2', ...
+        'Index values must be positive integers within the input size.');
     end
     selected(idx) = true;
   else
@@ -145,7 +148,8 @@ end
 %=============================================================================
 function value = localMaxStringLength(value)
   if ~isnumeric(value) || ~isscalar(value) || value ~= floor(value) || value < 0
-    error('Nelson:makeUniqueStrings:maximumStringLengthANonnegative2', 'Maximum string length must be a nonnegative integer scalar.');
+    error('Nelson:makeUniqueStrings:maximumStringLengthANonnegative2', ...
+      'Maximum string length must be a nonnegative integer scalar.');
   end
   value = double(value);
 end
@@ -174,7 +178,8 @@ function [items, shape, kind] = localTextList(value)
     items = value;
     kind = 'cell';
   else
-    error('Nelson:types:stringArrayCharacterVectorCell2', 'String array, character vector, or cell array of character vectors expected.');
+    error('Nelson:types:stringArrayCharacterVectorCell2', ...
+      'String array, character vector, or cell array of character vectors expected.');
   end
   items = items(:)';
 end

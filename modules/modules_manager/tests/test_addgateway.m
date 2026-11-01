@@ -14,9 +14,12 @@ asserts.isequal(nargin('addgateway'), -3);
 asserts.isequal(nargout('addgateway'), 0);
 %=============================================================================
 asserts.checkerror('addgateway(1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'));
-asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), 1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 2, 'string'));
-asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), ''time'', 1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 3, 'string'));
-asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), ''time'', ''bad'');', sprintf(_('%s expected.'), 'Wrong value for argument #3: ''auto'' or ''loaded'''));
+asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), 1);', ...
+  sprintf(_('Wrong type for argument #%d: %s expected.'), 2, 'string'));
+asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), ''time'', 1);', ...
+  sprintf(_('Wrong type for argument #%d: %s expected.'), 3, 'string'));
+asserts.checkerror('addgateway(modulepath(''time'', ''builtin''), ''time'', ''bad'');', sprintf(_('%s expected.'), ...
+  'Wrong value for argument #3: ''auto'' or ''loaded'''));
 %=============================================================================
 gateway_path = modulepath('fftw', 'builtin');
 removegateway(gateway_path);

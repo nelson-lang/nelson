@@ -24,9 +24,11 @@ firstEntry = fullfile(source, 'shared_a.m');
 filewrite(firstEntry, 'function shared_a(); if ~isdeployed() || ismodule(''compiler''); error(''Invalid runtime.''); end; disp(''SHARED_A_OK''); end');
 first = compiler.build.standaloneApplication(firstEntry, 'OutputDir', fullfile(directory, 'a'));
 secondEntry = fullfile(source, 'shared_b.m');
-filewrite(secondEntry, 'function shared_b(); if sin(0) ~= 0; error(''Invalid result.''); end; disp(''SHARED_B_OK''); end');
+filewrite(secondEntry, ...
+  'function shared_b(); if sin(0) ~= 0; error(''Invalid result.''); end; disp(''SHARED_B_OK''); end');
 second = compiler.build.standaloneWindowsApplication(secondEntry, 'OutputDir', fullfile(directory, 'b'));
-reports = {fullfile(first.Options.OutputDir, 'buildresult.json'), fullfile(second.Options.OutputDir, 'buildresult.json')};
+reports = {fullfile(first.Options.OutputDir, 'buildresult.json'), fullfile(second.Options.OutputDir, ...
+  'buildresult.json')};
 expected = __nelsonc_distribution_plan__(reports);
 firstPlan = __nelsonc_distribution_plan__(first);
 asserts.isfalse(any(strcmp(firstPlan.runtime.modules, 'trigonometric_functions')));
@@ -115,7 +117,8 @@ catch installer_error
 end
 function [status, text] = install_runtime(installer, destination)
   log = [tempname(), '.log'];
-  [status, text] = system(['"', installer, '" -agreeToLicense yes -destinationFolder "', destination, '" -outputFile "', log, '" /CURRENTUSER /PORTABLE=1'], 90);
+  [status, text] = system(['"', installer, '" -agreeToLicense yes -destinationFolder "', destination, ...
+    '" -outputFile "', log, '" /CURRENTUSER /PORTABLE=1'], 90);
   if status ~= 0 && isfile(log)
     text = fileread(log);
   end

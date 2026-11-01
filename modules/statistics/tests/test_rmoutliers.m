@@ -57,6 +57,8 @@ asserts.checkerror('rmoutliers({1})', sprintf(_('%s must be a real numeric vecto
 asserts.checkerror('rmoutliers(ones(2,2,2))', sprintf(_('%s must be a real numeric vector or matrix.'), 'A'));
 asserts.checkerror('rmoutliers([1 2], 3)', _('Name-value arguments must be paired.'));
 asserts.checkerror('rmoutliers([1 2], ''bad'')', sprintf(_('%s has an unsupported value.'), 'METHOD'));
-asserts.checkerror('rmoutliers([1 2], ''OutlierLocations'', [true; false])', _('OutlierLocations must be a logical array the same size as A.'));
-asserts.checkerror('rmoutliers([1 2], ''movmean'', 2, ''SamplePoints'', [1 1])', _('SamplePoints must be sorted and contain unique values.'));
+asserts.checkerror('rmoutliers([1 2], ''OutlierLocations'', [true; false])', ...
+  _('OutlierLocations must be a logical array the same size as A.'));
+asserts.checkerror('rmoutliers([1 2], ''movmean'', 2, ''SamplePoints'', [1 1])', ...
+  _('SamplePoints must be sorted and contain unique values.'));
 %=============================================================================

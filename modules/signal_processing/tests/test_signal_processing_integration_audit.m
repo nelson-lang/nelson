@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-skip_testsuite(~isfile([modulepath('signal_processing'), '/help/en_US/xml/chapter.xml']), 'Help XML sources are not available in this build');
+skip_testsuite(~isfile([modulepath('signal_processing'), '/help/en_US/xml/chapter.xml']), ...
+  'Help XML sources are not available in this build');
 moduleRoot = modulepath('signal_processing');
 %=============================================================================
 privateLeaks = dir([moduleRoot, '/functions/signal*.m']);

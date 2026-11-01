@@ -11,7 +11,8 @@ function [markerValues, maskValues] = ip_validate_reconstruction_pair(marker, ma
   ip_assert_full_image(marker, false);
   ip_assert_full_image(mask, false);
   if ~isequal(size(marker), size(mask))
-    error('Nelson:image_processing:markerImageSameSizeMaskImage', '%s must have the same size as %s.', 'Marker image', 'the mask image');
+    error('Nelson:image_processing:markerImageSameSizeMaskImage', '%s must have the same size as %s.', ...
+      'Marker image', 'the mask image');
   end
   if ~isreal(marker) || ~isreal(mask)
     error('Nelson:validators:mustBeReal', '%s must be real.', 'Marker and mask images');
@@ -22,7 +23,8 @@ function [markerValues, maskValues] = ip_validate_reconstruction_pair(marker, ma
     error('Nelson:image_processing:markerMaskImageValuesFinite', '%s values must be finite.', 'Marker and mask image');
   end
   if any(markerValues(:) > maskValues(:))
-    error('Nelson:image_processing:markerImageValuesLessEqualMask', 'Marker image values must be less than or equal to mask image values.');
+    error('Nelson:image_processing:markerImageValuesLessEqualMask', ...
+      'Marker image values must be less than or equal to mask image values.');
   end
 end
 %=============================================================================

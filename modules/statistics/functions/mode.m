@@ -25,7 +25,8 @@ function [M, F, C] = mode(A, dim)
     end
     allValues = true;
   elseif ~isnumeric(dim) || isempty(dim) || ~isvector(dim) || any(dim < 1) || any(dim ~= floor(dim)) || numel(unique(dim)) ~= numel(dim)
-    error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar', 'Dimension argument must be %s.', 'a positive integer scalar or vector of positive integers');
+    error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar', 'Dimension argument must be %s.', ...
+      'a positive integer scalar or vector of positive integers');
   end
   if allValues
     [M, F, C] = modeVectorLocal(A(:), A);

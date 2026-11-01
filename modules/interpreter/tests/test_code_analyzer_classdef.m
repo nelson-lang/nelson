@@ -10,7 +10,7 @@
 % <--WEIGHT 2-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 duplicateMethodFile = fullfile(fixtureDirectory, 'NelsonLintClassdefDuplicateMethod.m');
 filewrite(duplicateMethodFile, ...
   ['classdef NelsonLintClassdefDuplicateMethod', newline(), ...

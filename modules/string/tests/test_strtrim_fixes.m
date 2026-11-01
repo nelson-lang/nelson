@@ -34,6 +34,8 @@ asserts.isequal(strtrim({'  a  ', "b "}), {'a', "b"});
 R = strtrim(["  a", "b  ", missing]);
 asserts.isequal(R(1:2), ["a", "b"]);
 asserts.istrue(ismissing(R(3)));
-asserts.checkerror('R = strtrim(reshape(''  ab'', 1, 1, 4));', 'Only character arrays with up to two dimensions are accepted.', 'Nelson:string:trim:notTwoDimensional');
-asserts.checkerror('R = strtrim({''  a'', 5});', 'Wrong type for argument #1: cell of strings expected.', 'Nelson:invalidType');
+asserts.checkerror('R = strtrim(reshape(''  ab'', 1, 1, 4));', ...
+  'Only character arrays with up to two dimensions are accepted.', 'Nelson:string:trim:notTwoDimensional');
+asserts.checkerror('R = strtrim({''  a'', 5});', 'Wrong type for argument #1: cell of strings expected.', ...
+  'Nelson:invalidType');
 %=============================================================================

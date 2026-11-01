@@ -36,12 +36,14 @@ classdef DisplayFormatOptions
         name = varargin{k};
         if isstring(name)
           if ~isscalar(name)
-            error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+            error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+              'String scalar or character vector expected.');
           end
           name = char(name);
         end
         if ~ischar(name) || ~isrow(name)
-          error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+          error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+            'String scalar or character vector expected.');
         end
 
         supportedNames = {'NumericFormat'; 'LineSpacing'; 'TruncateMatrices'};
@@ -56,12 +58,14 @@ classdef DisplayFormatOptions
             value = varargin{k + 1};
             if isstring(value)
               if ~isscalar(value)
-                error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+                error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                  'String scalar or character vector expected.');
               end
               value = char(value);
             end
             if ~ischar(value) || ~isrow(value)
-              error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+              error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                'String scalar or character vector expected.');
             end
             supportedValues = {'short'; 'long'; 'shortE'; 'longE'; 'shortG'; 'longG'; ...
               'shortEng'; 'longEng'; '+'; 'bank'; 'hex'; 'rational'};
@@ -75,12 +79,14 @@ classdef DisplayFormatOptions
             value = varargin{k + 1};
             if isstring(value)
               if ~isscalar(value)
-                error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+                error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                  'String scalar or character vector expected.');
               end
               value = char(value);
             end
             if ~ischar(value) || ~isrow(value)
-              error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+              error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                'String scalar or character vector expected.');
             end
             supportedValues = {'compact'; 'loose'};
             valueMatches = strcmpi(supportedValues, value);
@@ -93,17 +99,20 @@ classdef DisplayFormatOptions
             value = varargin{k + 1};
             if isstring(value)
               if ~isscalar(value)
-                error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+                error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                  'String scalar or character vector expected.');
               end
               value = char(value);
             end
             if ~ischar(value) || ~isrow(value)
-              error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+              error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+                'String scalar or character vector expected.');
             end
             supportedValues = {'on'; 'off'};
             valueMatches = strcmpi(supportedValues, value);
             if sum(valueMatches) ~= 1
-              error('Nelson:display_format:invalidValueTruncatematrices', 'Invalid value for "%s".', 'TruncateMatrices');
+              error('Nelson:display_format:invalidValueTruncatematrices', 'Invalid value for "%s".', ...
+                'TruncateMatrices');
             end
             valueIndex = find(valueMatches);
             obj.TruncateMatricesValue = string(supportedValues{valueIndex(1)});
@@ -118,12 +127,14 @@ classdef DisplayFormatOptions
     function obj = set.NumericFormat(obj, value)
       if isstring(value)
         if ~isscalar(value)
-          error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+          error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+            'String scalar or character vector expected.');
         end
         value = char(value);
       end
       if ~ischar(value) || ~isrow(value)
-        error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+        error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+          'String scalar or character vector expected.');
       end
       supportedValues = {'short'; 'long'; 'shortE'; 'longE'; 'shortG'; 'longG'; ...
         'shortEng'; 'longEng'; '+'; 'bank'; 'hex'; 'rational'};
@@ -142,12 +153,14 @@ classdef DisplayFormatOptions
     function obj = set.LineSpacing(obj, value)
       if isstring(value)
         if ~isscalar(value)
-          error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+          error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+            'String scalar or character vector expected.');
         end
         value = char(value);
       end
       if ~ischar(value) || ~isrow(value)
-        error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+        error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+          'String scalar or character vector expected.');
       end
       supportedValues = {'compact'; 'loose'};
       valueMatches = strcmp(supportedValues, value);
@@ -165,12 +178,14 @@ classdef DisplayFormatOptions
     function obj = set.TruncateMatrices(obj, value)
       if isstring(value)
         if ~isscalar(value)
-          error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+          error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+            'String scalar or character vector expected.');
         end
         value = char(value);
       end
       if ~ischar(value) || ~isrow(value)
-        error('Nelson:display_format:stringScalarCharacterVectorExpected', 'String scalar or character vector expected.');
+        error('Nelson:display_format:stringScalarCharacterVectorExpected', ...
+          'String scalar or character vector expected.');
       end
       supportedValues = {'on'; 'off'};
       valueMatches = strcmp(supportedValues, value);

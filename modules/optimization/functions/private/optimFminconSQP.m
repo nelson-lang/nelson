@@ -71,7 +71,6 @@ end
 %=============================================================================
 function result = optimFminconSQPCore(data, opts)
   x = data.x0;
-  n = length(x);
   H = optimFminconInitialHessian(x, opts);
   funcCount = 0;
   exitflag = 0;
@@ -163,7 +162,8 @@ function result = stoppedResult(data, opts, x, state, H, funcCount)
   result.lambda = lambda;
   result.grad = state.grad;
   result.hessian = H;
-  result.output = makeOutput(0, funcCount, state, data, _('Solver stopped by an output function or plot function.'), [], 0, firstorderopt);
+  result.output = makeOutput(0, funcCount, state, data, _('Solver stopped by an output function or plot function.'), ...
+    [], 0, firstorderopt);
 end
 %=============================================================================
 function displayHeader(opts)

@@ -77,9 +77,11 @@ end
 %=============================================================================
 function ip_watershed_connectivity_error(isVolume)
   if isVolume
-    error('Nelson:image_processing:connectivityNumericLogicalScalarArray', 'Connectivity must be a numeric/logical scalar or 3-by-3-by-3 array.');
+    error('Nelson:image_processing:connectivityNumericLogicalScalarArray', ...
+      'Connectivity must be a numeric/logical scalar or 3-by-3-by-3 array.');
   else
-    error('Nelson:image_processing:connectivityNumericLogicalScalarMatrix', 'Connectivity must be a numeric/logical scalar or 3-by-3 matrix.');
+    error('Nelson:image_processing:connectivityNumericLogicalScalarMatrix', ...
+      'Connectivity must be a numeric/logical scalar or 3-by-3 matrix.');
   end
 end
 %=============================================================================

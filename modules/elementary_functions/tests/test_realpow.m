@@ -49,7 +49,8 @@ asserts.isequal(R.B, [4; 64]);
 %=============================================================================
 TC = table([1; 1 + i], 'VariableNames', {'A'});
 asserts.checkerror('realpow(TC, 2)', sprintf(_('%s must be real.'), 'Inputs'), 'Nelson:validators:mustBeReal');
-asserts.checkerror('realpow(table([-1; -4], ''VariableNames'', {''A''}), 0.5)', sprintf(_('%s must be real.'), 'Result'), 'Nelson:validators:mustBeReal');
+asserts.checkerror('realpow(table([-1; -4], ''VariableNames'', {''A''}), 0.5)', sprintf(_('%s must be real.'), ...
+  'Result'), 'Nelson:validators:mustBeReal');
 %=============================================================================
 times = seconds([1; 2]);
 TT = timetable(times, [-2; -3], [2; 4], 'VariableNames', {'A', 'B'});
@@ -67,5 +68,6 @@ asserts.isequal(R.B, [4; 64]);
 %=============================================================================
 TTC = timetable(times, [1; 1 + i], 'VariableNames', {'A'});
 asserts.checkerror('realpow(TTC, 2)', sprintf(_('%s must be real.'), 'Inputs'), 'Nelson:validators:mustBeReal');
-asserts.checkerror('realpow(timetable(times, [-1; -4], ''VariableNames'', {''A''}), 0.5)', sprintf(_('%s must be real.'), 'Result'), 'Nelson:validators:mustBeReal');
+asserts.checkerror('realpow(timetable(times, [-1; -4], ''VariableNames'', {''A''}), 0.5)', ...
+  sprintf(_('%s must be real.'), 'Result'), 'Nelson:validators:mustBeReal');
 %=============================================================================

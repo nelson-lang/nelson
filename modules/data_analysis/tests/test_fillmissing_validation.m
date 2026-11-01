@@ -13,7 +13,8 @@
 % only accept the methods that copy or compute values of their own type
 ML = [false true false];
 msg = 'Fill method must be ''constant'', ''previous'', ''next'', ''nearest'', ''knn'', or a function handle when using ''MissingLocations'' with integer or logical inputs.';
-assert_checkerror('fillmissing(int8([1 2 3]), ''linear'', ''MissingLocations'', ML)', msg, 'Nelson:data_analysis:fillmissingIntegerMissingLocations');
+assert_checkerror('fillmissing(int8([1 2 3]), ''linear'', ''MissingLocations'', ML)', msg, ...
+  'Nelson:data_analysis:fillmissingIntegerMissingLocations');
 assert_checkerror('fillmissing(int8([1 2 3]), ''pchip'', ''MissingLocations'', ML)', msg);
 assert_checkerror('fillmissing(int8([1 2 3]), ''movmedian'', 3, ''MissingLocations'', ML)', msg);
 assert_checkerror('fillmissing([true false true], ''spline'', ''MissingLocations'', ML)', msg);
@@ -22,34 +23,47 @@ assert_isequal(fillmissing(int8([1 2 3]), 'constant', 7, 'MissingLocations', ML)
 assert_isequal(fillmissing(int8([1 2 3]), @(xs, ts, tq) repmat(9, size(tq)), 3, 'MissingLocations', ML), int8([1 9 3]));
 assert_isequal(fillmissing(int8([1 2 3]), 'linear'), int8([1 2 3]));
 msg = '''MissingLocations'' value must be a logical array of the same size as the first argument.';
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MissingLocations'', [true false])', msg, 'Nelson:data_analysis:fillmissingInvalidMissingLocations');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MissingLocations'', [true false])', msg, ...
+  'Nelson:data_analysis:fillmissingInvalidMissingLocations');
 assert_checkerror('fillmissing([1 NaN 3], ''previous'', ''MissingLocations'', [0 1 0])', msg);
 %=============================================================================
 % fill constant and EndValues: a scalar or one value per slice
 A = [1 NaN 3; NaN 5 NaN];
-assert_checkerror('fillmissing(A, ''constant'', [10 20])', 'Fill constant must be a scalar or a 3-element vector.', 'Nelson:data_analysis:fillmissingConstantSize');
-assert_checkerror('fillmissing(A, ''constant'', [10 20 30 40])', 'Fill constant must be a scalar or a 3-element vector.');
-assert_checkerror('fillmissing(A, ''constant'', [10 20 30; 1 2 3])', 'Fill constant must be a scalar or a 3-element vector.');
+assert_checkerror('fillmissing(A, ''constant'', [10 20])', 'Fill constant must be a scalar or a 3-element vector.', ...
+  'Nelson:data_analysis:fillmissingConstantSize');
+assert_checkerror('fillmissing(A, ''constant'', [10 20 30 40])', ...
+  'Fill constant must be a scalar or a 3-element vector.');
+assert_checkerror('fillmissing(A, ''constant'', [10 20 30; 1 2 3])', ...
+  'Fill constant must be a scalar or a 3-element vector.');
 assert_isequal(fillmissing(A, 'constant', [10; 20; 30]), [1 20 3; 10 5 30]);
-assert_checkerror('fillmissing(A, ''linear'', ''EndValues'', [1 2 3 4])', '''EndValues'' value must be a scalar or a 3-element vector.', 'Nelson:data_analysis:fillmissingEndValuesSize');
+assert_checkerror('fillmissing(A, ''linear'', ''EndValues'', [1 2 3 4])', ...
+  '''EndValues'' value must be a scalar or a 3-element vector.', 'Nelson:data_analysis:fillmissingEndValuesSize');
 %=============================================================================
 % SamplePoints
 assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 2])', 'The sample points vector length must be 3, the same as the size of the input data in the operating dimension.', 'Nelson:data_analysis:fillmissingSamplePointsLength');
-assert_checkerror('fillmissing([1 NaN 3; 4 5 NaN], ''linear'', ''SamplePoints'', [1 2 3])', 'The sample points vector length must be 2, the same as the size of the input data in the operating dimension.');
+assert_checkerror('fillmissing([1 NaN 3; 4 5 NaN], ''linear'', ''SamplePoints'', [1 2 3])', ...
+  'The sample points vector length must be 2, the same as the size of the input data in the operating dimension.');
 assert_isequal(fillmissing([1 NaN 3; 4 5 NaN], 'linear', 2, 'SamplePoints', [1 2 3]), [1 2 3; 4 5 6]);
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 3 2])', '''SamplePoints'' value must be sorted in ascending order.', 'Nelson:data_analysis:fillmissingSamplePointsSorted');
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [3 2 1])', '''SamplePoints'' value must be sorted in ascending order.');
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 2 2])', '''SamplePoints'' value contains duplicates.', 'Nelson:data_analysis:fillmissingSamplePointsDuplicate');
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 NaN 3])', '''SamplePoints'' value must not contain Inf or NaN.', 'Nelson:data_analysis:fillmissingSamplePointsNonFinite');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 3 2])', ...
+  '''SamplePoints'' value must be sorted in ascending order.', 'Nelson:data_analysis:fillmissingSamplePointsSorted');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [3 2 1])', ...
+  '''SamplePoints'' value must be sorted in ascending order.');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 2 2])', ...
+  '''SamplePoints'' value contains duplicates.', 'Nelson:data_analysis:fillmissingSamplePointsDuplicate');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', [1 NaN 3])', ...
+  '''SamplePoints'' value must not contain Inf or NaN.', 'Nelson:data_analysis:fillmissingSamplePointsNonFinite');
 assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', ''abc'')', '''SamplePoints'' value must be a vector of type double, single, duration, or datetime.', 'Nelson:data_analysis:fillmissingSamplePointsType');
 %=============================================================================
 % datetime and duration sample points: MaxGap and windows are durations
 assert_isapprox(fillmissing([1 NaN 3], 'linear', 'SamplePoints', datetime(2020, 1, [1 2 4])), [1 5 / 3 3], 1e-12);
 assert_isequal(fillmissing([1 NaN 3], 'linear', 'SamplePoints', hours([0 1 4])), [1 1.5 3]);
-assert_isequal(fillmissing([1 NaN 3 NaN NaN 9], 'linear', 'SamplePoints', hours(0:5), 'MaxGap', hours(2)), [1 2 3 NaN NaN 9]);
-assert_isequal(fillmissing([1 NaN 3 NaN 5], 'movmean', days(3), 'SamplePoints', datetime(2020, 1, [1 2 4 7 8])), [1 1 3 5 5]);
+assert_isequal(fillmissing([1 NaN 3 NaN NaN 9], 'linear', 'SamplePoints', hours(0:5), 'MaxGap', hours(2)), ...
+  [1 2 3 NaN NaN 9]);
+assert_isequal(fillmissing([1 NaN 3 NaN 5], 'movmean', days(3), 'SamplePoints', datetime(2020, 1, [1 2 4 7 8])), ...
+  [1 1 3 5 5]);
 msg = '''MaxGap'' data type must be compatible with ''SamplePoints'' data type.';
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', hours([0 1 4]), ''MaxGap'', 2)', msg, 'Nelson:data_analysis:fillmissingMaxGapType');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''SamplePoints'', hours([0 1 4]), ''MaxGap'', 2)', msg, ...
+  'Nelson:data_analysis:fillmissingMaxGapType');
 assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MaxGap'', hours(2))', msg);
 assert_checkerror('fillmissing([1 NaN 3], ''movmean'', 3, ''SamplePoints'', hours([0 1 4]))', 'Invalid data type. Window size must be a duration if ''SamplePoints'' value is a duration or a datetime.', 'Nelson:data_analysis:fillmissingWindowDuration');
 assert_checkerror('fillmissing([1 NaN 3], ''movmean'', hours(3))', 'Window size data type must be compatible with ''SamplePoints'' data type.', 'Nelson:data_analysis:fillmissingWindowType');
@@ -58,7 +72,8 @@ assert_checkerror('fillmissing([1 NaN 3], @(xs, ts, tq) 0, hours(3))', 'Window l
 %=============================================================================
 % MaxGap: positive scalar
 msg = '''MaxGap'' must be a positive numeric or duration scalar.';
-assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MaxGap'', -1)', msg, 'Nelson:data_analysis:fillmissingInvalidMaxGap');
+assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MaxGap'', -1)', msg, ...
+  'Nelson:data_analysis:fillmissingInvalidMaxGap');
 assert_checkerror('fillmissing([1 NaN 3], ''linear'', ''MaxGap'', [1 2])', msg);
 %=============================================================================
 % moving windows
@@ -128,5 +143,6 @@ assert_isequal(R{:, :}, [1 5; 1 5; 3 6]);
 R = fillmissing(timetable(seconds([0; 1; 3]), [1; NaN; 3]), @(xs, ts, tq) repmat(hours(tq(1)), size(tq)), seconds(2));
 assert_isapprox(R{:, :}, [1; 1 / 3600; 3], 1e-15);
 assert_checkerror('fillmissing(TT, ''linear'', ''SamplePoints'', [0 1 2])', '''SamplePoints'' parameter not supported when first argument is a timetable.', 'Nelson:data_analysis:fillmissingSamplePointsTimetable');
-assert_checkerror('fillmissing(TT, ''linear'', ''MaxGap'', 2)', '''MaxGap'' data type must be compatible with ''SamplePoints'' data type.');
+assert_checkerror('fillmissing(TT, ''linear'', ''MaxGap'', 2)', ...
+  '''MaxGap'' data type must be compatible with ''SamplePoints'' data type.');
 %=============================================================================

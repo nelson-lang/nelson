@@ -18,6 +18,8 @@ mustBeUnderlyingType('abc', 'char');
 mustBeUnderlyingType(true, 'logical');
 %=============================================================================
 % errors on mismatch
-asserts.checkerror('mustBeUnderlyingType(3, ''int32'')', sprintf(_('Value must be of underlying type ''%s''.'), 'int32'), 'Nelson:validators:mustBeUnderlyingType');
-asserts.checkerror('mustBeUnderlyingType(int8(1), ''double'')', sprintf(_('Value must be of underlying type ''%s''.'), 'double'), 'Nelson:validators:mustBeUnderlyingType');
+asserts.checkerror('mustBeUnderlyingType(3, ''int32'')', sprintf(_('Value must be of underlying type ''%s''.'), ...
+  'int32'), 'Nelson:validators:mustBeUnderlyingType');
+asserts.checkerror('mustBeUnderlyingType(int8(1), ''double'')', ...
+  sprintf(_('Value must be of underlying type ''%s''.'), 'double'), 'Nelson:validators:mustBeUnderlyingType');
 %=============================================================================

@@ -56,6 +56,7 @@ asserts.isequal(class(R), 'single');
 asserts.isapprox(sort(R), single([1; 2]), single(1e-6));
 %=============================================================================
 % domain errors carry stable identifiers
-asserts.checkerror('roots([1 NaN 1])', _('Input to roots function must not contain NaN or Inf.'), 'Nelson:roots:inputMustBeFinite');
+asserts.checkerror('roots([1 NaN 1])', _('Input to roots function must not contain NaN or Inf.'), ...
+  'Nelson:roots:inputMustBeFinite');
 asserts.checkerror('roots([1 2; 3 4])', _('Input must be a vector.'), 'Nelson:roots:inputMustBeVector');
 %=============================================================================

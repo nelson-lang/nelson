@@ -50,7 +50,6 @@ function varargout = configuremsvc()
   end
   msvc201X = jsondecode(vsconfig, '-file');
 
-  vsinfo_batch = [modulepath('dynamic_link'), '/resources/vcinfo.bat'];
   arch = computer('arch');
   vcvarsbatpath = [vsjson.installationPath, '/VC/Auxiliary/Build'];
   if strcmp(arch, 'woa64')

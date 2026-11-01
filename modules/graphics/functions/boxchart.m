@@ -284,7 +284,8 @@ function [series, axesState] = applyGroupByColor(baseSeries, axesState, groupByC
     x = baseSeries.XData(:);
   end
   if numel(x) ~= numel(y)
-    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', 'YData');
+    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', ...
+      'YData');
   end
   labels = graphicsLabelsFromValue(groupByColor, numel(y));
   [colorLabels, colorIndex] = sortedUniqueLabels(labels);

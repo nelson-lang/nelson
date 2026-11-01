@@ -18,7 +18,7 @@ classdef ClassdefHandlePropertyCall
     function obj = ClassdefHandlePropertyCall()
       obj.Inv = @(x) x * 2;
     end
-    function out = inv(obj) %#ok<MANU>
+    function out = inv(obj) %#ok<NLS0007>
       out = 99;
     end
   end

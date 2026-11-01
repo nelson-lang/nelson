@@ -17,10 +17,13 @@ asserts.checkerror('uiopen(1, 2, 3)', _('Too many input arguments.'));
 %=============================================================================
 % Unsupported model file formats fail fast (no file picker, no hang) when the
 % caller asks to open the file directly with the second 'direct' argument.
-asserts.checkerror('uiopen(''bandwidth_model.slx'', 1)', sprintf(_('''%s'' files are not supported.'), '.slx'), 'Nelson:uiopen:unsupportedFileType');
-asserts.checkerror('uiopen(''model.mdl'', 1)', sprintf(_('''%s'' files are not supported.'), '.mdl'), 'Nelson:uiopen:unsupportedFileType');
+asserts.checkerror('uiopen(''bandwidth_model.slx'', 1)', sprintf(_('''%s'' files are not supported.'), '.slx'), ...
+  'Nelson:uiopen:unsupportedFileType');
+asserts.checkerror('uiopen(''model.mdl'', 1)', sprintf(_('''%s'' files are not supported.'), '.mdl'), ...
+  'Nelson:uiopen:unsupportedFileType');
 % The check is case insensitive on the extension.
-asserts.checkerror('uiopen(''BANDWIDTH_MODEL.SLX'', true)', sprintf(_('''%s'' files are not supported.'), '.slx'), 'Nelson:uiopen:unsupportedFileType');
+asserts.checkerror('uiopen(''BANDWIDTH_MODEL.SLX'', true)', sprintf(_('''%s'' files are not supported.'), '.slx'), ...
+  'Nelson:uiopen:unsupportedFileType');
 %=============================================================================
 % Direct open of an existing data file loads it without any dialog.
 nh5_file = [tempdir(), 'test_uiopen_fixture.nh5'];

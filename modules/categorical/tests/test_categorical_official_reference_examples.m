@@ -42,7 +42,8 @@ B = countcats(A, 2);
 asserts.isequal(B, [1 0 1; 1 1 0; 1 0 1]);
 N = reshape(categorical({'a', 'b', 'a', ''}), [1 2 2]);
 asserts.checkerror('countcats(N, 3)', _('Dimension argument is not supported for categorical countcats.'));
-asserts.checkerror('countcats(N, 3)', _('Dimension argument is not supported for categorical countcats.'), 'Nelson:countcats:dimensionNotSupported');
+asserts.checkerror('countcats(N, 3)', _('Dimension argument is not supported for categorical countcats.'), ...
+  'Nelson:countcats:dimensionNotSupported');
 A = categorical([1; 3; 2; 1; 3; 1], valueset, catnames);
 A = removecats(A, "blue");
 B = countcats(A);

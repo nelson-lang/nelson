@@ -67,7 +67,8 @@ function opts = parseNameValuesLocal(opts, args)
     switch name
       case 'thresholdfactor'
         if strcmp(opts.Method, 'percentiles')
-          error('Nelson:statistics:thresholdFactorSupportedPercentilesMethod', 'ThresholdFactor is not supported with the percentiles method.');
+          error('Nelson:statistics:thresholdFactorSupportedPercentilesMethod', ...
+            'ThresholdFactor is not supported with the percentiles method.');
         end
         opts.ThresholdFactor = parseThresholdFactorLocal(args{k + 1}, opts.Method);
       case 'maxnumoutliers'
@@ -75,7 +76,8 @@ function opts = parseNameValuesLocal(opts, args)
       case 'samplepoints'
         opts.SamplePoints = parseSamplePointsLocal(args{k + 1});
       case {'datavariables', 'outputformat'}
-        error('Nelson:statistics:invalidUsage', '%s is not supported for numeric array input.', canonicalNameLocal(name));
+        error('Nelson:statistics:invalidUsage', '%s is not supported for numeric array input.', ...
+          canonicalNameLocal(name));
     end
   end
 end
@@ -370,7 +372,8 @@ function threshold = parseThresholdFactorLocal(value, method)
   threshold = double(value);
   if any(strcmp(method, {'grubbs', 'gesd'}))
     if threshold <= 0 || threshold >= 1
-      error('Nelson:statistics:thresholdFactorScalarRange01', 'ThresholdFactor must be a scalar in the range (0,1) for this method.');
+      error('Nelson:statistics:thresholdFactorScalarRange01', ...
+        'ThresholdFactor must be a scalar in the range (0,1) for this method.');
     end
   elseif threshold < 0
     error('Nelson:statistics:thresholdFactorNonnegativeScalar', '%s must be a nonnegative scalar.', 'ThresholdFactor');
@@ -380,7 +383,8 @@ end
 function percentiles = parsePercentilesLocal(value)
   if ~(isnumeric(value) && isreal(value) && isequal(size(value), [1 2]) ...
       && all(isfinite(value)) && value(1) >= 0 && value(2) <= 100 && value(1) < value(2))
-    error('Nelson:statistics:percentileThresholdsTwoElementRow', 'Percentile thresholds must be a two-element row vector in increasing order.');
+    error('Nelson:statistics:percentileThresholdsTwoElementRow', ...
+      'Percentile thresholds must be a two-element row vector in increasing order.');
   end
   percentiles = double(value);
 end
@@ -388,14 +392,16 @@ end
 function window = parseWindowLocal(value)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && (length(value) == 1 || length(value) == 2) ...
       && all(isfinite(value)) && all(value > 0))
-    error('Nelson:statistics:windowLengthPositiveNumericScalar', 'Window length must be a positive numeric scalar or two-element vector.');
+    error('Nelson:statistics:windowLengthPositiveNumericScalar', ...
+      'Window length must be a positive numeric scalar or two-element vector.');
   end
   window = double(value(:).');
 end
 %=============================================================================
 function samplePoints = parseSamplePointsLocal(value)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && all(isfinite(value)))
-    error('Nelson:statistics:samplePointsFiniteRealNumericVector', 'SamplePoints must be a finite real numeric vector.');
+    error('Nelson:statistics:samplePointsFiniteRealNumericVector', ...
+      'SamplePoints must be a finite real numeric vector.');
   end
   samplePoints = double(value(:));
 end
@@ -411,15 +417,18 @@ end
 function opts = validateSamplePointsLocal(opts, n)
   if isempty(opts.SamplePoints)
     if opts.Moving && any(opts.Window ~= fix(opts.Window))
-      error('Nelson:statistics:windowLengthPositiveIntegerScalar', 'Window length must be a positive integer scalar or two-element vector.');
+      error('Nelson:statistics:windowLengthPositiveIntegerScalar', ...
+        'Window length must be a positive integer scalar or two-element vector.');
     end
     return
   end
   if length(opts.SamplePoints) ~= n
-    error('Nelson:statistics:samplePointsOneElementInputElement', 'SamplePoints must have one element for each input element along the operating dimension.');
+    error('Nelson:statistics:samplePointsOneElementInputElement', ...
+      'SamplePoints must have one element for each input element along the operating dimension.');
   end
   if any(diff(opts.SamplePoints) <= 0)
-    error('Nelson:statistics:samplePointsSortedContainUniqueValues', 'SamplePoints must be sorted and contain unique values.');
+    error('Nelson:statistics:samplePointsSortedContainUniqueValues', ...
+      'SamplePoints must be sorted and contain unique values.');
   end
 end
 %=============================================================================

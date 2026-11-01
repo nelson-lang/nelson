@@ -12,7 +12,7 @@ asserts.isequal(nargout('fopen'), 4);
 %=============================================================================
 d = tempname();
 mkdir(d);
-c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+c = onCleanup(@() rmdir(d, 's')); %#ok<NLS0004>
 test_fopen_file = [d, '/test_fopen.txt'];
 %=============================================================================
 ID = fopen(test_fopen_file);

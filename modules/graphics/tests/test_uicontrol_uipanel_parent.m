@@ -49,8 +49,10 @@ assert_isfalse(isgraphics(u));
 assert_isfalse(isgraphics(u3));
 %=============================================================================
 ax = axes(f);
-assert_checkerror('uicontrol(ax)', getString(message('Nelson:uicontrol:invalidParent')), 'Nelson:uicontrol:invalidParent');
-assert_checkerror('uicontrol(''Parent'', ax)', getString(message('Nelson:uicontrol:expectedFigure')), 'Nelson:uicontrol:expectedFigure');
+assert_checkerror('uicontrol(ax)', getString(message('Nelson:uicontrol:invalidParent')), ...
+  'Nelson:uicontrol:invalidParent');
+assert_checkerror('uicontrol(''Parent'', ax)', getString(message('Nelson:uicontrol:expectedFigure')), ...
+  'Nelson:uicontrol:expectedFigure');
 close(f);
 %=============================================================================
 function c = find_control(dl, text)

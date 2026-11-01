@@ -14,7 +14,8 @@ mustBeInteger([])
 mustBeInteger([1, 2]);
 asserts.checkerror('mustBeInteger(NaN)', sprintf(_('%s must be an integer.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be an integer.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be an integer.'), ...
+  'Value')];
 asserts.checkerror('mustBeInteger(1/3, 3)', msg);
 %=============================================================================
 

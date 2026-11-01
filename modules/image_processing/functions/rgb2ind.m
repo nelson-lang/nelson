@@ -53,7 +53,8 @@ function [X, map] = rgb2ind(RGB, arg, dither_option)
     paletteGiven = true;
     map = min(max(double(arg), 0), 1);
   else
-    error('Nelson:rgb2ind:invalidArg', 'Second argument must be a scalar number of colors, a scalar tolerance, or an M-by-3 colormap.');
+    error('Nelson:rgb2ind:invalidArg', ...
+      'Second argument must be a scalar number of colors, a scalar tolerance, or an M-by-3 colormap.');
   end
   P = reshape(I, rows * cols, 3);
   if ~paletteGiven

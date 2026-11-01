@@ -28,7 +28,8 @@ function y = randsample(varargin)
   values = populationValues(population);
   n = length(values);
   if ~replacement && k > n
-    error('Nelson:statistics:kExceedPopulationSizeWithout', 'K must not exceed the population size without replacement.');
+    error('Nelson:statistics:kExceedPopulationSizeWithout', ...
+      'K must not exceed the population size without replacement.');
   end
   idx = sampleIndices(n, k, replacement, weights);
   y = values(idx);
@@ -59,7 +60,8 @@ function idx = sampleIndices(n, k, replacement, weights)
   end
   w = weights(:);
   if length(w) ~= n || any(w < 0) || sum(w) <= 0
-    error('Nelson:statistics:weightsOneValuePerPopulation', 'Weights must be a nonnegative vector with one value per population element.');
+    error('Nelson:statistics:weightsOneValuePerPopulation', ...
+      'Weights must be a nonnegative vector with one value per population element.');
   end
   cdf = cumsum(w ./ sum(w));
   u = rand(k, 1);

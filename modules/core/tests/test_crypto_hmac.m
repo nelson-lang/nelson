@@ -50,8 +50,11 @@ asserts.isequal(R, crypto.hmac('sha256', uint8([]), uint8([])));
 % argument errors
 asserts.checkerror('crypto.hmac(''sha256'', key1)', _('Not enough input arguments.'));
 asserts.checkerror('crypto.hmac(''md5'', key1, data1)', sprintf(_('Unsupported HMAC algorithm: %s (''sha256'' or ''sha512'' expected).'), 'md5'), 'Nelson:core:hmacAlgorithmExpected');
-asserts.checkerror('crypto.hmac(''sha256'', key1, data1, ''-string'')', sprintf(_('#%d argument: ''-file'' expected.'), 4), 'Nelson:core:cryptoFileOptionExpected');
-asserts.checkerror('crypto.hmac(''sha256'', 3, data1)', sprintf(_('Wrong type for argument #%d: %s expected.'), 2, '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
+asserts.checkerror('crypto.hmac(''sha256'', key1, data1, ''-string'')', ...
+  sprintf(_('#%d argument: ''-file'' expected.'), 4), 'Nelson:core:cryptoFileOptionExpected');
+asserts.checkerror('crypto.hmac(''sha256'', 3, data1)', sprintf(_('Wrong type for argument #%d: %s expected.'), 2, ...
+  '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
 missing = [tempname(), '.txt'];
-asserts.checkerror('crypto.hmac(''sha256'', key1, missing, ''-file'')', sprintf(_('File cannot be read: %s'), missing), 'Nelson:core:cryptoFileNotReadable');
+asserts.checkerror('crypto.hmac(''sha256'', key1, missing, ''-file'')', sprintf(_('File cannot be read: %s'), ...
+  missing), 'Nelson:core:cryptoFileNotReadable');
 %=============================================================================

@@ -176,7 +176,8 @@ function typst = inlineToTypst(text)
   [text, tokens] = capture(text, '<(https?://[^>\s]+)>', @(t) ['#link(', typstString(t{1}), ');'], tokens);
   % bold then italic
   [text, tokens] = capture(text, '\*\*([^*]+)\*\*', @(t) ['#strong[', escapeText(t{1}), '];'], tokens);
-  [text, tokens] = capture(text, '(?<![\w*])\*([^*\s][^*]*?)\*(?![\w*])', @(t) ['#emph[', escapeText(t{1}), '];'], tokens);
+  [text, tokens] = capture(text, '(?<![\w*])\*([^*\s][^*]*?)\*(?![\w*])', @(t) ['#emph[', escapeText(t{1}), '];'], ...
+    tokens);
   [text, tokens] = capture(text, '(?<!\w)_([^_\s][^_]*?)_(?!\w)', @(t) ['#emph[', escapeText(t{1}), '];'], tokens);
   typst = escapeText(text);
   for n = numel(tokens):-1:1

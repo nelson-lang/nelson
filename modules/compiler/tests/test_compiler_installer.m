@@ -74,7 +74,8 @@ clear restore;
 filewrite(fullfile(destination, 'user-result.txt'), 'KEEP');
 uninstall = dir(fullfile(destination, 'unins*.exe'));
 asserts.isequal(numel(uninstall), 1);
-[status, output] = system(['"', fullfile(destination, uninstall.name), '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
+[status, output] = system(['"', fullfile(destination, uninstall.name), ...
+  '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
 asserts.istrue(status == 0, output);
 asserts.isfalse(isfile(application));
 asserts.isequal(fileread(fullfile(destination, 'user-result.txt')), 'KEEP');

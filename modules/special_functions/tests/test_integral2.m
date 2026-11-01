@@ -46,5 +46,6 @@ asserts.isapprox(R, 0, 0, 1e-8);
 R = integral2(@(x, y) x .* y, 0, 1, 0, 1, 'RelTol', 1e-10, 'AbsTol', 1e-12);
 asserts.isapprox(R, 0.25, 1e-10);
 %=============================================================================
-asserts.checkerror('integral2(3, 0, 1, 0, 1)', _('First argument must be a function handle.'), 'Nelson:special_functions:funArgNotHandle');
+asserts.checkerror('integral2(3, 0, 1, 0, 1)', _('First argument must be a function handle.'), ...
+  'Nelson:special_functions:funArgNotHandle');
 %=============================================================================

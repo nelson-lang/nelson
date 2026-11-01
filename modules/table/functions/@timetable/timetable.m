@@ -69,7 +69,8 @@ classdef timetable < tabular
         obj = validateAndRefresh(obj);
       end
       if strcmp(sref(1).type, '.') && ~ischar(sref(1).subs)
-        R = subsref(tableObject(obj), [sref(1), timetableVariableRowSubscript(obj.Properties, sref(1).subs, sref(2:end))]);
+        R = subsref(tableObject(obj), [sref(1), timetableVariableRowSubscript(obj.Properties, sref(1).subs, ...
+          sref(2:end))]);
         return
       end
       switch sref(1).type
@@ -99,7 +100,8 @@ classdef timetable < tabular
       if isscalar(sasgn) && strcmp(sasgn.type, '.') && strcmp(sasgn.subs, 'Properties') ...
           && isstruct(value) && isfield(value, 'RowTimes') && isTimeVector(obj, value.RowTimes) ...
           && timeLength(obj, value.RowTimes) ~= timeLength(obj, obj.Properties.RowTimes)
-        error('Nelson:timetable:incorrectNumberOfRowTimes', _('RowTimes property must contain one time for each row in the timetable.'));
+        error('Nelson:timetable:incorrectNumberOfRowTimes', ...
+          _('RowTimes property must contain one time for each row in the timetable.'));
       end
       obj = validateAndRefresh(obj);
       if strcmp(sasgn(1).type, '.') && ~ischar(sasgn(1).subs)
@@ -344,7 +346,8 @@ classdef timetable < tabular
         option = isConstructorOption(obj, args{k});
         if option.isOption
           if k == length(args)
-            error('Nelson:timetable:nameValuePair:nameValueArgumentFollowedByA', 'Name-value argument must be followed by a value.');
+            error('Nelson:timetable:nameValuePair:nameValueArgumentFollowedByA', ...
+              'Name-value argument must be followed by a value.');
           end
           result.opts.(option.name) = args{k + 1};
           k = k + 2;
@@ -430,13 +433,16 @@ classdef timetable < tabular
 
     function obj = preallocate(obj, opts)
       if isempty(opts.Size) || isempty(opts.VariableTypes)
-        error('Nelson:timetable:invalidSyntax:sizeVariableTypesSpecifiedTogether', 'Size and VariableTypes must be specified together.');
+        error('Nelson:timetable:invalidSyntax:sizeVariableTypesSpecifiedTogether', ...
+          'Size and VariableTypes must be specified together.');
       end
       if ~isnumeric(opts.Size) || length(opts.Size) ~= 2
-        error('Nelson:timetable:invalidValue:sizeATwoElementNumericVector', 'Size must be a two-element numeric vector.');
+        error('Nelson:timetable:invalidValue:sizeATwoElementNumericVector', ...
+          'Size must be a two-element numeric vector.');
       end
       if isempty(opts.RowTimes) && isempty(opts.SampleRate) && isempty(opts.TimeStep)
-        error('Nelson:timetable:invalidSyntax:preallocatedTimetablesRequireRowTimesSampleRate', 'Preallocated timetables require row times, SampleRate, or TimeStep.');
+        error('Nelson:timetable:invalidSyntax:preallocatedTimetablesRequireRowTimesSampleRate', ...
+          'Preallocated timetables require row times, SampleRate, or TimeStep.');
       end
       nRows = opts.Size(1);
       if ~isempty(opts.RowTimes)
@@ -496,7 +502,8 @@ classdef timetable < tabular
       end
       if tableWidthFromStruct(obj, tableStruct) > 0 ...
           && timeLength(obj, obj.Properties.RowTimes) ~= tableHeightFromStruct(obj, tableStruct)
-        error('Nelson:timetable:incorrectNumberOfRowTimes', _('RowTimes property must contain one time for each row in the timetable.'));
+        error('Nelson:timetable:incorrectNumberOfRowTimes', ...
+          _('RowTimes property must contain one time for each row in the timetable.'));
       end
       if length(obj.Properties.DimensionNames) ~= 2
         error('Nelson:timetable:invalidValue:dimensionNamesContainTwoNames', 'DimensionNames must contain two names.');
@@ -585,7 +592,8 @@ classdef timetable < tabular
         st = tableStructValue(obj);
         R = st.data.(field);
       elseif isfield(obj.Properties, field)
-        error('Nelson:table:illegalPropertyReference', _('Access the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
+        error('Nelson:table:illegalPropertyReference', ...
+          _('Access the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
       else
         error('Nelson:timetable:unrecognizedVariable', _('Unrecognized table variable name ''%s''.'), field);
       end
@@ -632,7 +640,8 @@ classdef timetable < tabular
         obj.Properties = timetableAssignedProperties(obj.Properties, value);
       elseif strcmp(field, obj.Properties.DimensionNames{1})
         if isTimeVector(obj, value) && timeLength(obj, value) ~= timeLength(obj, obj.Properties.RowTimes)
-          error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', 'Value assignment must have the same number of rows as the table.');
+          error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', ...
+            'Value assignment must have the same number of rows as the table.');
         end
         obj.Properties.RowTimes = columnTimes(obj, value);
       elseif any(strcmp(obj.Properties.VariableNames, field)) || isvarname(field)
@@ -663,7 +672,8 @@ classdef timetable < tabular
       if length(sasgn(1).subs) ~= 2
         error('Nelson:timetable:invalidSubscript', '%s indexing requires row and variable subscripts.', 'Parentheses');
       end
-      isDeletion = isa(value, 'double') && ~issparse(value) && isreal(value) && isequal(size(value), [0 0]); % only [] deletes
+      isDeletion = isa(value, 'double') && ~issparse(value) && isreal(value) && isequal(size(value), ...
+        [0 0]); % only [] deletes
       [rows, newTimes] = timetableResolveRows(obj.Properties.RowTimes, sasgn(1).subs{1}, ~isDeletion);
       vars = sasgn(1).subs{2};
       if isDeletion

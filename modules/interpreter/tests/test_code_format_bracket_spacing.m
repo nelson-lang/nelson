@@ -14,7 +14,7 @@
 % and after the parameters of an anonymous function ("@(a) {a, a}").
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 nl = char(10);
 expected = ['function y = bs_case(x, n)', nl, ...
   '  arguments', nl, ...

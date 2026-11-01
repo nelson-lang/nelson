@@ -18,7 +18,8 @@ function mask = ip_validate_imimposemin_mask(mask, imageSize)
     error('Nelson:validators:mustBeReal', '%s must be real.', 'Marker mask');
   end
   if ~isequal(size(mask), imageSize)
-    error('Nelson:image_processing:markerMaskSameSizeImage', '%s must have the same size as %s.', 'Marker mask', 'the image');
+    error('Nelson:image_processing:markerMaskSameSizeImage', '%s must have the same size as %s.', 'Marker mask', ...
+      'the image');
   end
   d = double(mask);
   if any(~isfinite(d(:)))

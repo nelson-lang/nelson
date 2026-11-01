@@ -9,8 +9,10 @@
 %=============================================================================
 ncc('--help');
 check_project_limits();
-asserts.checkerror('__nelsonc_project__(''load'', 42)', 'Expected a project filename.', 'Nelson:compiler:project:filenameExpected');
-asserts.checkerror('__nelsonc_project__(''load'', ''project.txt'')', 'Compiler projects use the .ncproj extension.', 'Nelson:compiler:project:extensionExpected');
+asserts.checkerror('__nelsonc_project__(''load'', 42)', 'Expected a project filename.', ...
+  'Nelson:compiler:project:filenameExpected');
+asserts.checkerror('__nelsonc_project__(''load'', ''project.txt'')', 'Compiler projects use the .ncproj extension.', ...
+  'Nelson:compiler:project:extensionExpected');
 
 function check_project_limits()
   directory = tempname();

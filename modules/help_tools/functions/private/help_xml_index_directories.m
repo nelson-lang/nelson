@@ -26,13 +26,13 @@ function index_dirs = help_xml_index_directories(language, extra_dirs)
     end
     help_path = [modules_path, module_list(i).name, '/help/', language, '/xml'];
     if isdir(help_path) && isfile([help_path, '/chapter.xml'])
-      index_dirs{end + 1} = help_path; %#ok<AGROW>
+      index_dirs{end + 1} = help_path; %#ok<NLS0039>
     end
   end
   for k = 1:length(extra_dirs)
     extra = extra_dirs{k};
     if isdir(extra) && ~any(strcmp(index_dirs, extra))
-      index_dirs{end + 1} = extra; %#ok<AGROW>
+      index_dirs{end + 1} = extra; %#ok<NLS0039>
     end
   end
 end

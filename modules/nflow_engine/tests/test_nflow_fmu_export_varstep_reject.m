@@ -42,7 +42,7 @@ end
 %=============================================================================
 work = tempname();
 mkdir(work);
-cleaner = onCleanup(@() rmdir(work, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(work, 's')); %#ok<NLS0004>
 %=============================================================================
 % Every CVODES / DAE solver name is rejected before any codegen / compile.
 variableSolvers = {'variableStiff', 'variableNonstiff', ...

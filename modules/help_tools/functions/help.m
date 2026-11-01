@@ -27,7 +27,8 @@ function varargout = help(varargin)
         return
     end
     keyword = varargin{1};
-    json = [nelsonroot(), filesep(), 'modules', filesep(), 'help_tools', filesep(), 'help', filesep(), 'nelson_help_', getlanguage(), '.json'];
+    json = [nelsonroot(), filesep(), 'modules', filesep(), 'help_tools', filesep(), 'help', filesep(), ...
+      'nelson_help_', getlanguage(), '.json'];
     indexExists = isfile(json);
     indexEmpty = false;
     found = false;
@@ -40,7 +41,7 @@ function varargout = help(varargin)
         completeDescription = found;
     end
     if found
-        [r, c] = terminal_size();
+        [~, c] = terminal_size();
         txt = formatStruct(page, c - 4, completeDescription);
         if nargout == 0
             fprintf('%s', txt);

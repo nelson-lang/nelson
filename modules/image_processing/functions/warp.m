@@ -81,7 +81,8 @@ function validateWarpSurface(X, Y, Z)
   [Z_nr, Z_nc] = size(Z);
   if isvector(X) && isvector(Y)
     if (numel(Y) ~= Z_nr) || (numel(X) ~= Z_nc)
-      error('Nelson:warp:invalidSizeZ', 'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
+      error('Nelson:warp:invalidSizeZ', ...
+        'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
     end
   elseif ismatrix(X) && ismatrix(Y)
     if ~isequal(size(X), size(Z)) || ~isequal(size(Y), size(Z))

@@ -21,7 +21,8 @@ asserts.isequal(inner.Variables(1).Datatype, 'int32');
 hasTime = false;
 hasSample = false;
 for k = 1:length(inner.Variables(1).Dimensions)
-  hasTime = hasTime || (strcmp(inner.Variables(1).Dimensions(k).Name, 'time') && inner.Variables(1).Dimensions(k).Unlimited);
+  hasTime = hasTime || (strcmp(inner.Variables(1).Dimensions(k).Name, ...
+    'time') && inner.Variables(1).Dimensions(k).Unlimited);
   hasSample = hasSample || strcmp(inner.Variables(1).Dimensions(k).Name, 'sample');
 end
 asserts.istrue(hasTime);

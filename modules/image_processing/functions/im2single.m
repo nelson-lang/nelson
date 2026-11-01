@@ -26,7 +26,8 @@ function out = im2single(varargin)
       case 'logical'
         out = single(img);
       otherwise
-        error('Nelson:image_processing:indexedImageDataTypeNoSingle', 'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', or ''logical''.');
+        error('Nelson:image_processing:indexedImageDataTypeNoSingle', ...
+          'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', or ''logical''.');
     end
   else
     out = single(im2double(varargin{1}));

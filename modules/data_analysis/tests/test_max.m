@@ -90,5 +90,6 @@ assert_isequal(i, 4);
 A = reshape(1:24, 2, 3, 4);
 assert_isequal(max(A, [], [1 2]), reshape([6 12 18 24], 1, 1, 4));
 assert_isequal(max(A, [], [1 3]), [20 22 24]);
-assert_checkerror('[m, i] = max(A, [], [1 2])', 'Specify ''linear'' option when returning two outputs and the operating dimension is a vector.');
+assert_checkerror('[m, i] = max(A, [], [1 2])', ...
+  'Specify ''linear'' option when returning two outputs and the operating dimension is a vector.');
 %=============================================================================

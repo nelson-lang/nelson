@@ -16,7 +16,8 @@ function test_run_disp_summary(test_suites)
   if useEmoji
     fprintf(stdout, ['  ', _('Passed:'), '  ', getStatusCharacter('Pass'), ' ', int2str(test_suites.passed), newline]);
     fprintf(stdout, ['  ', _('Failed:'), '  ', getStatusCharacter('Fail'), ' ', int2str(test_suites.errors), newline]);
-    fprintf(stdout, ['  ', _('Skipped:'), ' ', getStatusCharacter('Skip'), ' ', int2str(test_suites.disabled), newline]);
+    fprintf(stdout, ['  ', _('Skipped:'), ' ', getStatusCharacter('Skip'), ' ', int2str(test_suites.disabled), ...
+      newline]);
   else
     fprintf(stdout, ['  ', _('Passed:'), '  ', int2str(test_suites.passed), newline]);
     fprintf(stdout, ['  ', _('Failed:'), '  ', int2str(test_suites.errors), newline]);

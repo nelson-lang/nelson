@@ -17,7 +17,8 @@ entry = fullfile(source, 'distribution_a.m');
 filewrite(entry, 'function distribution_a(); disp(''DISTRIBUTION_A_OK''); end');
 first = compiler.build.standaloneApplication(entry, 'OutputDir', fullfile(directory, 'a'));
 entry = fullfile(source, 'distribution_b.m');
-filewrite(entry, 'function distribution_b(); if sin(0) ~= 0; error(''Unexpected value.''); end; disp(''DISTRIBUTION_B_OK''); end');
+filewrite(entry, ...
+  'function distribution_b(); if sin(0) ~= 0; error(''Unexpected value.''); end; disp(''DISTRIBUTION_B_OK''); end');
 if ispc()
   second = compiler.build.standaloneWindowsApplication(entry, 'OutputDir', fullfile(directory, 'b'));
 else

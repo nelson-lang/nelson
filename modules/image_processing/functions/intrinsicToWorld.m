@@ -14,7 +14,8 @@ function varargout = intrinsicToWorld(varargin)
   if dim == 2
     nargoutchk(0, 2);
     if nargin ~= 3
-      error('Nelson:image_processing:dSpatialReferencesRequireXY', '2-D spatial references require X and Y coordinates.');
+      error('Nelson:image_processing:dSpatialReferencesRequireXY', ...
+        '2-D spatial references require X and Y coordinates.');
     end
     varargout{1} = ref.XWorldLimits(1) + (double(varargin{2}) - 0.5) ...
       * ref.PixelExtentInWorldX;
@@ -23,7 +24,8 @@ function varargout = intrinsicToWorld(varargin)
   else
     nargoutchk(0, 3);
     if nargin ~= 4
-      error('Nelson:image_processing:dSpatialReferencesRequireXYZ', '3-D spatial references require X, Y and Z coordinates.');
+      error('Nelson:image_processing:dSpatialReferencesRequireXYZ', ...
+        '3-D spatial references require X, Y and Z coordinates.');
     end
     varargout{1} = ref.XWorldLimits(1) + (double(varargin{2}) - 0.5) ...
       * ref.PixelExtentInWorldX;

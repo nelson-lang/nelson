@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = contour3(varargin)
-  [M, h] = contour(varargin{:});
+  [~, h] = contour(varargin{:});
   h.Floating = 'on';
 
   if ~ishold

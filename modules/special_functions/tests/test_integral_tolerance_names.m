@@ -41,7 +41,10 @@ asserts.checkerror('integral(@(x) x, 0, 1, ''AbsoluteTolerance'', -1)', msg);
 asserts.checkerror('integral(@(x) x, 0, 1, ''AbsoluteTolerance'', -1)', msg, 'Nelson:integral:AbsoluteTolerance');
 msg = sprintf(_('%s must be a nonnegative real scalar.'), 'RelativeTolerance');
 asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''RelTol'', [1 2])', msg, 'Nelson:integral2:RelativeTolerance');
-asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''RelativeTolerance'', -1)', msg, 'Nelson:integral3:RelativeTolerance');
-asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''Method'', ''foo'')', _('Method must be ''auto'', ''tiled'', or ''iterated''.'), 'Nelson:integral3:Method');
-asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''ArrayValued'', true)', sprintf(_('Unknown option name: %s'), 'ArrayValued'), 'Nelson:integral2:unknownOption');
+asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''RelativeTolerance'', -1)', msg, ...
+  'Nelson:integral3:RelativeTolerance');
+asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''Method'', ''foo'')', ...
+  _('Method must be ''auto'', ''tiled'', or ''iterated''.'), 'Nelson:integral3:Method');
+asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''ArrayValued'', true)', sprintf(_('Unknown option name: %s'), ...
+  'ArrayValued'), 'Nelson:integral2:unknownOption');
 %=============================================================================

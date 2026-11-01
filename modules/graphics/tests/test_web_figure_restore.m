@@ -37,7 +37,8 @@ for ax = [a2 a3]
   __web_figure_action__(fh, jsonencode(struct('action', 'state', 'axesHandle', ah)));
   __web_figure_action__(fh, jsonencode(struct('action', 'pan', 'axesHandle', ah, 'dxFrac', 0.15, 'dyFrac', -0.1)));
   __web_figure_action__(fh, jsonencode(struct('action', 'zoom', 'axesHandle', ah, 'factor', 2)));
-  __web_figure_action__(fh, jsonencode(struct('action', 'view', 'axesHandle', ah, 'azimuth', 45, 'elevation', 35, 'resetCamera', true)));
+  __web_figure_action__(fh, jsonencode(struct('action', 'view', 'axesHandle', ah, 'azimuth', 45, 'elevation', 35, ...
+    'resetCamera', true)));
 end
 for index = 1:2
   ax = [a2 a3]; ax = ax(index);

@@ -92,7 +92,8 @@ function [dim, allValues, omitNaN, hasDim] = medianParseInputs(x, args)
       hasDim = true;
     elseif isnumeric(arg) && isvector(arg) && ~isempty(arg)
       if any(arg < 1) || any(arg ~= floor(arg))
-        error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar', 'Dimension argument must be %s.', 'a positive integer scalar or vector of positive integers');
+        error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar', 'Dimension argument must be %s.', ...
+          'a positive integer scalar or vector of positive integers');
       end
       dim = arg;
       hasDim = true;

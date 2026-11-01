@@ -112,7 +112,8 @@ function H = dfpUpdate(H, s, y)
 end
 %=============================================================================
 function result = finish(data, opts, x, state, H, exitflag, iter, funcCount, message, stepSize)
-  output = optimFminuncOutput(iter, funcCount, state, data.algorithm, optimFminuncExitMessage(exitflag, message), stepSize);
+  output = optimFminuncOutput(iter, funcCount, state, data.algorithm, optimFminuncExitMessage(exitflag, message), ...
+    stepSize);
   optimFminuncDisplay(opts, 'final', [], output.message);
   optimOutputStop(opts.OutputFcn, x, optimFminuncValues(state, iter, funcCount, stepSize), 'done');
   result.x = x; result.fval = state.f; result.exitflag = exitflag;

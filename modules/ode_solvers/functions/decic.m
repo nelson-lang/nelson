@@ -24,7 +24,8 @@ function [y0new, yp0new, resnrm] = decic(odefun, t0, y0, fixedY0, yp0, fixedYp0,
   y = decicVector(y0, 'y0');
   yp = decicVector(yp0, 'yp0');
   if length(y) ~= length(yp)
-    error('Nelson:ode_solvers:initialValueInitialSlopeSameLength', 'Initial value and initial slope must have the same length.');
+    error('Nelson:ode_solvers:initialValueInitialSlopeSameLength', ...
+      'Initial value and initial slope must have the same length.');
   end
   fixedY = decicFixedMask(fixedY0, length(y), 'fixed_y0');
   fixedYp = decicFixedMask(fixedYp0, length(y), 'fixed_yp0');
@@ -53,7 +54,8 @@ function mask = decicFixedMask(value, n, name)
     return
   end
   if ~(isnumeric(value) || islogical(value)) || ~isvector(value) || length(value(:)) ~= n
-    error('Nelson:ode_solvers:sizeMismatch:valueEmptyAVectorLengthY0', '%s must be empty or a vector with the same length as y0.', name);
+    error('Nelson:ode_solvers:sizeMismatch:valueEmptyAVectorLengthY0', ...
+      '%s must be empty or a vector with the same length as y0.', name);
   end
   mask = logical(value(:));
 end
@@ -83,7 +85,8 @@ function [y, yp, resnrm] = decicNewton(odefun, t0, y, fixedY, yp, fixedYp, free,
       return
     end
   end
-  error('Nelson:ode_solvers:unableComputeConsistentInitialConditions', 'Unable to compute consistent initial conditions.');
+  error('Nelson:ode_solvers:unableComputeConsistentInitialConditions', ...
+    'Unable to compute consistent initial conditions.');
 end
 %=============================================================================
 function jac = decicFiniteDifferenceJacobian(odefun, t0, z, residual, free)

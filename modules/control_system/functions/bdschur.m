@@ -47,7 +47,7 @@ function varargout = bdschur(varargin)
   PMAX = CONDMAX;
   [U, ~] = schur(A);
   TOL = 0; % default lapack tolerance
-  [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, CONDMAX, A, U, TOL);
+  [A_OUT, X_OUT, ~, ~, ~, ~, INFO] = slicot_mb03rd(JOBX, SORT, CONDMAX, A, U, TOL);
 
   if (INFO(1) ~= 0)
     error('Nelson:control_system:slicotMb03rdError', 'slicot_mb03rd returned info = %d', INFO(1));

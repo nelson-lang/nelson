@@ -96,7 +96,8 @@ classdef JSONImportOptions
         case 'VariableTypes'
           types = toCellstrRow(obj, value);
           if numel(types) ~= numel(obj.VariableNames)
-            error('Nelson:spreadsheet:variableTypesMismatch', '%s must match the number of variables.', 'VariableTypes');
+            error('Nelson:spreadsheet:variableTypesMismatch', '%s must match the number of variables.', ...
+              'VariableTypes');
           end
           obj.VariableTypes = types;
         case 'SelectedVariableNames'

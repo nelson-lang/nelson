@@ -14,7 +14,8 @@
 % Ts = -2: Static gain model.
 function res = isct(sys)
   if ~islti(sys)
-    error('Nelson:control_system:incorrectDataType', 'Ensure that the data type of the argument is correct in the function call to ''%s''.', 'isct');
+    error('Nelson:control_system:incorrectDataType', ...
+      'Ensure that the data type of the argument is correct in the function call to ''%s''.', 'isct');
   end
   res = (sys.Ts == 0) || (sys.Ts == -2);
 end

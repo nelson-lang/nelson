@@ -85,6 +85,9 @@ close(h);
 h = msgbox('message', 'title', 'help', 'on')
 asserts.istrue(isgraphics(h, 'figure'));
 close(h);
-asserts.checkerror('h = msgbox(''message'', ''title'', ''toto'')', sprintf(_('Wrong value for #%d argument. A valid icon or mode expected.'), 3));
-asserts.checkerror('h = msgbox(''message'', ''title'', ''warn'', ''one'')', sprintf(_('Wrong value for #%d argument. A valid mode expected.'), 4));
-asserts.checkerror('h = msgbox(''message'', ''title'', ''question'', ''two'')', sprintf(_('Wrong value for #%d argument. A valid mode expected.'), 4));
+asserts.checkerror('h = msgbox(''message'', ''title'', ''toto'')', ...
+  sprintf(_('Wrong value for #%d argument. A valid icon or mode expected.'), 3));
+asserts.checkerror('h = msgbox(''message'', ''title'', ''warn'', ''one'')', ...
+  sprintf(_('Wrong value for #%d argument. A valid mode expected.'), 4));
+asserts.checkerror('h = msgbox(''message'', ''title'', ''question'', ''two'')', ...
+  sprintf(_('Wrong value for #%d argument. A valid mode expected.'), 4));

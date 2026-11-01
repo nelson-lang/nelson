@@ -15,7 +15,7 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 fixture = fullfile(fixtureDirectory, 'editor_bp_fun.m');
 filewrite(fixture, ['function r = editor_bp_fun(x)', LF, ...
   '  % comment', LF, ...
@@ -25,8 +25,8 @@ filewrite(fixture, ['function r = editor_bp_fun(x)', LF, ...
   '  end', LF, ...
   'end', LF]);
 addpath(fixtureDirectory);
-pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NASGU>
-editorCleanup = onCleanup(@() __editor__('close')); %#ok<NASGU>
+pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NLS0004>
+editorCleanup = onCleanup(@() __editor__('close')); %#ok<NLS0004>
 dbclear all
 __editor__('open', fixture);
 asserts.istrue(strcmp(__editor__('currentFile'), fixture));

@@ -43,6 +43,8 @@ asserts.istrue(contains(output, '"id":"NLS0037"'));
 asserts.istrue(contains(output, '"name":"duplicate-classdef-superclass"'));
 asserts.istrue(contains(output, '"id":"NLS0038"'));
 asserts.istrue(contains(output, '"name":"duplicate-classdef-attribute"'));
+asserts.istrue(contains(output, '"name":"variable-grows-in-loop"'));
+asserts.istrue(contains(output, '"name":"isempty-strfind"'));
 asserts.istrue(contains(output, '"category":"Classdef"'));
 asserts.istrue(contains(output, '"fixes"'));
 

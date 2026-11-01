@@ -98,7 +98,7 @@ d.duration = 0.5;
 d.variables = struct();
 wd = tempname();
 mkdir(wd);
-cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NLS0004>
 f = fullfile(wd, 'nf_support_xcheck.nflow');
 fid = fopen(f, 'wt');
 fwrite(fid, jsonencode(d));

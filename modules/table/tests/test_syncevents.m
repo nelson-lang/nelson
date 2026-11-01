@@ -77,7 +77,8 @@ assert_isequal(R.EventLabels(2), "x");
 assert_istrue(all(ismissing(R.EventLabels([1, 3, 4]))));
 %=============================================================================
 TT.Properties.Events = eventtable(seconds([2; 4]), 'EventLabels', ["m"; "n"]);
-assert_checkerror('syncevents(TT, ["a", "b"]);', _('The default label supplied to syncevents must be a scalar.'), 'Nelson:eventtable:NonScalarLabel');
+assert_checkerror('syncevents(TT, ["a", "b"]);', _('The default label supplied to syncevents must be a scalar.'), ...
+  'Nelson:eventtable:NonScalarLabel');
 msg = sprintf(_('Invalid argument name ''%s''. Use ''EventDataVariables''.'), 'Foo');
 assert_checkerror('syncevents(TT, ''Foo'', 1);', msg, 'Nelson:eventtable:invalidArgumentName');
 msg = sprintf(_('Invalid argument name ''%s''. Use ''EventDataVariables''.'), 'a');

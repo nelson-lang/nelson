@@ -95,8 +95,11 @@ st.(s)(4) = 3;
 assert_isequal(st.A, [1; 2; 0; 3]);
 %=============================================================================
 T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'});
-assert_checkerror('T.(9)(1) = 1;', _('Cannot create a table variable with a discontiguous index.'), 'Nelson:table:discontiguousVars');
-assert_checkerror('T.(0)(1) = 1;', _('A variable index must be a real positive integer.'), 'Nelson:table:illegalVarIndex');
-assert_checkerror('T.({1})(1) = 1;', _('A table variable name must be a string scalar or a character vector.'), 'Nelson:table:illegalVarSubscript');
+assert_checkerror('T.(9)(1) = 1;', _('Cannot create a table variable with a discontiguous index.'), ...
+  'Nelson:table:discontiguousVars');
+assert_checkerror('T.(0)(1) = 1;', _('A variable index must be a real positive integer.'), ...
+  'Nelson:table:illegalVarIndex');
+assert_checkerror('T.({1})(1) = 1;', _('A table variable name must be a string scalar or a character vector.'), ...
+  'Nelson:table:illegalVarSubscript');
 assert_checkerror('T.A = [1; 2; 3];', _('Value assignment must be same size as existing value.'));
 %=============================================================================

@@ -10,7 +10,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, ...
+  'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 f = figure('Visible', 'off');
 z = [0 1; 1 0];
 u = [1 0; 0 1];

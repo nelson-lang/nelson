@@ -131,7 +131,7 @@ function validateSliceVectorComponents(U, V)
 end
 %=============================================================================
 function [vertices, arrowVertices] = verticesFromStreamline(args)
-  [h, state] = streamlineBase(args{:});
+  [h, ~] = streamlineBase(args{:});
   vertices = cell(numel(h), 1);
   arrowVertices = cell(numel(h), 1);
   for k = 1:numel(h)

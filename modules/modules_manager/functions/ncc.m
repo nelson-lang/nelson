@@ -28,7 +28,8 @@ function varargout = ncc(varargin)
         fprintf('%s\n', jsonencode(result));
       end
     else
-      error('Nelson:nelsonc:arguments:buildOptionsExplainLinkOnly', 'BuildOptions accepts only the optional --explain-link argument.');
+      error('Nelson:nelsonc:arguments:buildOptionsExplainLinkOnly', ...
+        'BuildOptions accepts only the optional --explain-link argument.');
     end
   elseif ~isempty(varargin) && (ischar(varargin{1}) || (isstring(varargin{1}) && isscalar(varargin{1}))) ...
     && strcmp(varargin{1}, 'options')

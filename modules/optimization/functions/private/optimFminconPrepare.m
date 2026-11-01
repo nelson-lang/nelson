@@ -34,13 +34,16 @@ function data = optimFminconPrepare(fun, x0, A, b, Aeq, beq, lb, ub, nonlcon, op
   validateTextChoice(opts.Display, {'off', 'none', 'final', 'final-detailed', 'notify', ...
     'notify-detailed', 'iter', 'iter-detailed'}, sprintf(_('Invalid value for "%s".'), 'Display'));
   validateTextChoice(opts.Diagnostics, {'on', 'off'}, sprintf(_('Invalid value for "%s".'), 'Diagnostics'));
-  validateTextChoice(opts.FiniteDifferenceType, {'forward', 'central'}, sprintf(_('Invalid value for "%s".'), 'FiniteDifferenceType'));
+  validateTextChoice(opts.FiniteDifferenceType, {'forward', 'central'}, sprintf(_('Invalid value for "%s".'), ...
+    'FiniteDifferenceType'));
   if strcmp(algorithm, 'trust-region-reflective')
     if ~isempty(nonlcon) || ~isempty(A)
-      error('Nelson:fmincon:trustRegionConstraints', 'Trust-region-reflective requires bound constraints or linear equalities only.');
+      error('Nelson:fmincon:trustRegionConstraints', ...
+        'Trust-region-reflective requires bound constraints or linear equalities only.');
     end
     if ~opts.SpecifyObjectiveGradient
-      error('Nelson:fmincon:trustRegionGradient', 'Trust-region-reflective requires SpecifyObjectiveGradient set to true.');
+      error('Nelson:fmincon:trustRegionGradient', ...
+        'Trust-region-reflective requires SpecifyObjectiveGradient set to true.');
     end
   end
   data.fun = fun;

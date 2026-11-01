@@ -61,13 +61,16 @@ function main_help(module_path, lang, dirdest, package)
   end
     dir_src = [nelsonroot(), '/modules/main/help/', lang, '/md'];
     if ~isdir(dir_src)
-      src = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/xml'];
+      dir_src = [nelsonroot(), '/modules/main/help/', getdefaultlanguage(), '/md'];
     end
     if isdir(dir_src)
-      copyfile([modulepath('help_tools'), '/resources/', 'banner_homepage.png'], [destination_path , '/', 'banner_homepage.png']);
-      copyfile([modulepath('help_tools'), '/resources/', 'banner_nelson_small.png'], [destination_path, '/banner_nelson_small.png']);
+      copyfile([modulepath('help_tools'), '/resources/', 'banner_homepage.png'], [destination_path , '/', ...
+        'banner_homepage.png']);
+      copyfile([modulepath('help_tools'), '/resources/', 'banner_nelson_small.png'], [destination_path, ...
+        '/banner_nelson_small.png']);
       copyfile([modulepath('help_tools'), '/resources/help_viewer.html' ], [destination_path, '/index.html']);
-      copyfile([modulepath('help_tools'), '/resources/search_results.html' ], [destination_path, '/search_results.html']);
+      copyfile([modulepath('help_tools'), '/resources/search_results.html' ], [destination_path, ...
+        '/search_results.html']);
       copyfile([modulepath('help_tools'), '/resources/nelson_common.css' ], [destination_path, '/nelson_common.css']);
       copyfile([modulepath('help_tools'), '/resources/highlight.pack.js' ], [destination_path, '/highlight.pack.js']);
       copyfile([modulepath('help_tools'), '/resources/highlight.css' ], [destination_path, '/highlight.css']);

@@ -37,7 +37,8 @@ classdef InstallerOptions
       if isa(varargin{1}, 'compiler.build.Results')
         result = varargin{1};
         if ~isscalar(result)
-          error('Nelson:nelsonc:options:installerOptionsRequireBuildResult', 'Installer options require one build result.');
+          error('Nelson:nelsonc:options:installerOptionsRequireBuildResult', ...
+            'Installer options require one build result.');
         end
         obj.ApplicationName = result.Options.ExecutableName;
         obj.Shortcut = result.Files{1};

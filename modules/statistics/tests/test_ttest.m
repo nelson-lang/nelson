@@ -100,5 +100,6 @@ asserts.checkerror('ttest([1 2 3], ''Unknown'', 1)', _('Invalid name-value argum
 asserts.checkerror('ttest([1 2 3], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
 asserts.checkerror('ttest([1 2 3], ''Tail'', ''bad'')', _('TAIL must be ''both'', ''right'', or ''left''.'));
 asserts.checkerror('ttest([1 2], [1 2 3])', sprintf(_('X and Y must have %s.'), 'the same size'));
-asserts.checkerror('ttest([1 2 3], ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), 'a positive integer scalar within indexing range'));
+asserts.checkerror('ttest([1 2 3], ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), ...
+  'a positive integer scalar within indexing range'));
 %=============================================================================

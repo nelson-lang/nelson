@@ -24,7 +24,8 @@ if ~isdir(scratchDirectory)
   mkdir(scratchDirectory);
 end
 try
-  filedest = ['tests_minimal-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.xml'];
+  filedest = ['tests_minimal-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), ...
+    '.', mat2str(ver_number(4)), '-', platform, '.xml'];
   r = test_run('minimal_tests', [], [nelsonroot(), '/', filedest]);
 catch
   r = false;

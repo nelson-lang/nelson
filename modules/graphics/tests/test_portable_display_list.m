@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 figureHandle = figure('Visible', 'off');
-cleanupFigure = onCleanup(@() close(figureHandle)); %#ok<NASGU>
+cleanupFigure = onCleanup(@() close(figureHandle)); %#ok<NLS0004>
 surf(peaks(24));
 title('Portable plot');
 displayList = __web_display_list__(figureHandle);

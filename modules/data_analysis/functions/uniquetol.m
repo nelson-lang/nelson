@@ -11,7 +11,8 @@ function varargout = uniquetol(A, varargin)
   narginchk(1, inf);
   nargoutchk(0, 3);
   if ~isreal(A) || issparse(A) || ~(isa(A, 'double') || isa(A, 'single'))
-    error('Nelson:data_analysis:firstArgumentRealFullMatrix', 'First argument must be a real full matrix of type single or double.');
+    error('Nelson:data_analysis:firstArgumentRealFullMatrix', ...
+      'First argument must be a real full matrix of type single or double.');
   end
   args = varargin;
   tol = [];

@@ -56,7 +56,8 @@ asserts.checkerror('quiver(1);', getString(message('Nelson:narginchk:notEnoughIn
 asserts.checkerror('quiver({1}, {2});', getString(message('Nelson:notEnoughInputs')));
 asserts.checkerror('quiver(1:2, 1:2, 1:2, 1:3);', getString(message('Nelson:dimagree:vectorComponentSizesMatch')));
 asserts.checkerror('quiver(1:2, 1:3, 1:2, 1:2);', getString(message('Nelson:graphics:componentDataSizeMismatch', 'Y')));
-asserts.checkerror('quiver(1:2, 1:2, 1:2, 1:2, ''LineWidth'');', getString(message('Nelson:graphics:nameValueArgumentsExpected')));
+asserts.checkerror('quiver(1:2, 1:2, 1:2, 1:2, ''LineWidth'');', ...
+  getString(message('Nelson:graphics:nameValueArgumentsExpected')));
 %=============================================================================
 % the 'filled' flag is accepted (fills arrow markers -> MarkerFaceColor 'auto')
 f = figure('Visible', 'off');

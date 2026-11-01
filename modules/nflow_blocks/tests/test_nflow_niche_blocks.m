@@ -18,7 +18,8 @@ for N = [1 3 5]
   vn = ['w', int2str(N)];
   d = struct();
   d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', v)), struct('id', 'wd', 'type', 'width', 'inputs', 1, 'outputs', 1, 'params', struct()), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', vn, 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'))};
-  d.connections = {struct('from', 'c', 'to', 'wd', 'fromIndex', 0, 'toIndex', 0), struct('from', 'wd', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'c', 'to', 'wd', 'fromIndex', 0, 'toIndex', 0), struct('from', 'wd', 'to', 'w', ...
+    'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();
   res = jsondecode(__nflow_simulate__(jsonencode(d)));
   assert_isequal(res.status, 'done');
@@ -29,7 +30,8 @@ end
 % signalConversion: identity pass-through (scalar and vector element 1).
 d = struct();
 d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', 5)), struct('id', 's', 'type', 'signalConversion', 'inputs', 1, 'outputs', 1, 'params', struct()), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', 'sc', 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'))};
-d.connections = {struct('from', 'c', 'to', 's', 'fromIndex', 0, 'toIndex', 0), struct('from', 's', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+d.connections = {struct('from', 'c', 'to', 's', 'fromIndex', 0, 'toIndex', 0), struct('from', 's', 'to', 'w', ...
+  'fromIndex', 0, 'toIndex', 0)};
 d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();
 res = jsondecode(__nflow_simulate__(jsonencode(d)));
 assert_isequal(res.status, 'done');

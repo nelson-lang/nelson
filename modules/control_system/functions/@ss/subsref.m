@@ -48,7 +48,8 @@ function varargout = subsref(varargin)
     return
   end
   if strcmp(s(1).type, '{}')
-    error('Nelson:control_system:invalidSubscript:illegalIndexingStructureArgumentTypeValue', 'Illegal indexing structure argument: type %s expected.', "'.'");
+    error('Nelson:control_system:invalidSubscript:illegalIndexingStructureArgumentTypeValue', ...
+      'Illegal indexing structure argument: type %s expected.', "'.'");
   end
   if ~strcmp(s(1).type, '.')
     error('Nelson:control_system:invalidSubscript:notAValidIndexingExpression', 'Not a valid indexing expression');

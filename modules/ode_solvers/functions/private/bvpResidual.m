@@ -58,13 +58,15 @@ function value = bvpSingularValue(options, x, y)
   end
   if ~isnumeric(singularTerm) || ~isreal(singularTerm) ...
       || size(singularTerm, 1) ~= length(y) || size(singularTerm, 2) ~= length(y)
-    error('Nelson:ode_solvers:singulartermRealSquareMatrixMatchingState', 'SingularTerm must be a real square matrix matching the state size.');
+    error('Nelson:ode_solvers:singulartermRealSquareMatrixMatchingState', ...
+      'SingularTerm must be a real square matrix matching the state size.');
   end
   denominator = x;
   product = singularTerm * y;
   if abs(denominator) <= eps
     if max(abs(product)) > sqrt(eps)
-      error('Nelson:ode_solvers:singulartermRequiresConsistentLeftBoundaryValue', 'SingularTerm requires a consistent left boundary value.');
+      error('Nelson:ode_solvers:singulartermRequiresConsistentLeftBoundaryValue', ...
+        'SingularTerm requires a consistent left boundary value.');
     end
     return
   end

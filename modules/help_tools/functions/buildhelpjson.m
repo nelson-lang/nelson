@@ -11,7 +11,8 @@ function varargout = buildhelpjson(varargin)
   % BUILDHELPJSON Build help JSON files from XML documentation.
   %
   if ~isempty(getenv('CONDA_PREFIX')) && ismac()
-    warning('Nelson:help_tools:condaNotSupported', 'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
+    warning('Nelson:help_tools:condaNotSupported', ...
+      'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
     return;
   end
   narginchk(0, 0);
@@ -21,7 +22,8 @@ function varargout = buildhelpjson(varargin)
   for lang = getavailablelanguages()'
     destination_json_directory = [nelsonroot() '/modules/help_tools/help/'];
     if ~isdir(destination_json_directory)
-      error('Nelson:buildhelpjson:destinationNotFound', 'Destination directory for help json files not found: %s', destination_json_directory);
+      error('Nelson:buildhelpjson:destinationNotFound', 'Destination directory for help json files not found: %s', ...
+        destination_json_directory);
     end
     msg = [sprintf(_('Building help json files for language: %s'), lang{1}), sprintf('\n')];
     fprintf(msg);

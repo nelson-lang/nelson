@@ -67,5 +67,6 @@ assert_isequal(D, {10, 20});
 %=============================================================================
 % An invalid multiple-output right-hand side is rejected.
 %=============================================================================
-assert_checkerror('eval(''[a, b] = 5;'')', _('Expecting a function call on the right hand side of a multiple assignment'));
+assert_checkerror('eval(''[a, b] = 5;'')', ...
+  _('Expecting a function call on the right hand side of a multiple assignment'));
 %=============================================================================

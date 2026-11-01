@@ -43,7 +43,8 @@ function varargout = hour(varargin)
 
   % Validate input type
   if ~(ischar(d) || isstring(d) || isnumeric(d) || iscell(d))
-    error('Nelson:time:invalidDateTimeFormatInput', 'Invalid date/time format. Input must be a string, char, or numeric.');
+    error('Nelson:time:invalidDateTimeFormatInput', ...
+      'Invalid date/time format. Input must be a string, char, or numeric.');
   end
   % Convert char inputs to numeric using datenum
   if ~isnumeric(d)

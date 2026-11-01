@@ -79,10 +79,12 @@ asserts.isequal(expected(2), counts(2) * (counts(2) + 3) / 2);
 for kind = 1:3
   sourceMedian = median(samples(:, 1, kind));
   bytecodeMedian = median(samples(:, 2, kind));
-  fprintf('BYTECODE_BENCH kind=%d source=%.9g bytecode=%.9g ratio=%.6g\n', kind, sourceMedian, bytecodeMedian, bytecodeMedian / sourceMedian);
+  fprintf('BYTECODE_BENCH kind=%d source=%.9g bytecode=%.9g ratio=%.6g\n', kind, sourceMedian, bytecodeMedian, ...
+    bytecodeMedian / sourceMedian);
   sourceCPU = median(cpuSamples(:, 1, kind));
   bytecodeCPU = median(cpuSamples(:, 2, kind));
-  fprintf('BYTECODE_CPU kind=%d source=%.9g bytecode=%.9g ratio=%.6g\n', kind, sourceCPU, bytecodeCPU, bytecodeCPU / sourceCPU);
+  fprintf('BYTECODE_CPU kind=%d source=%.9g bytecode=%.9g ratio=%.6g\n', kind, sourceCPU, bytecodeCPU, ...
+    bytecodeCPU / sourceCPU);
 end
 fprintf('BYTECODE_FIRST_CALL source=%.9g bytecode=%.9g\n', median(firstCalls(:, 1)), median(firstCalls(:, 2)));
 fprintf('BYTECODE_BENCH_OK\n');

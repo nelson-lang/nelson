@@ -84,7 +84,8 @@ function attributes = localAttributeList(attributes)
     attributes = cellstr(attributes);
   end
   if ~iscell(attributes)
-    error('Nelson:__validateattributes__:attributesACellArrayString2', 'Attributes must be a cell array or string array.');
+    error('Nelson:__validateattributes__:attributesACellArrayString2', ...
+      'Attributes must be a cell array or string array.');
   end
   attributes = attributes(:)';
 end
@@ -153,35 +154,44 @@ function localCheckValuedAttribute(A, name, value, funcName, varName, argIndex)
         if isempty(funcName)
           error('Nelson:incorrectSize', '%s must be of the requested size.', localSubject(varName, argIndex));
         end
-        error(['Nelson:', funcName, ':incorrectSize'], '%s must be of the requested size.', localSubject(varName, argIndex));
+        error(['Nelson:', funcName, ':incorrectSize'], '%s must be of the requested size.', localSubject(varName, ...
+          argIndex));
       end
     case 'numel'
       if ~(numel(A) == value)
         if isempty(funcName)
-          error('Nelson:incorrectNumel', '%s must have the requested number of elements.', localSubject(varName, argIndex));
+          error('Nelson:incorrectNumel', '%s must have the requested number of elements.', localSubject(varName, ...
+            argIndex));
         end
-        error(['Nelson:', funcName, ':incorrectNumel'], '%s must have the requested number of elements.', localSubject(varName, argIndex));
+        error(['Nelson:', funcName, ':incorrectNumel'], '%s must have the requested number of elements.', ...
+          localSubject(varName, argIndex));
       end
     case 'ncols'
       if ~(size(A, 2) == value)
         if isempty(funcName)
-          error('Nelson:incorrectNumcols', '%s must have the requested number of columns.', localSubject(varName, argIndex));
+          error('Nelson:incorrectNumcols', '%s must have the requested number of columns.', localSubject(varName, ...
+            argIndex));
         end
-        error(['Nelson:', funcName, ':incorrectNumcols'], '%s must have the requested number of columns.', localSubject(varName, argIndex));
+        error(['Nelson:', funcName, ':incorrectNumcols'], '%s must have the requested number of columns.', ...
+          localSubject(varName, argIndex));
       end
     case 'nrows'
       if ~(size(A, 1) == value)
         if isempty(funcName)
-          error('Nelson:incorrectNumrows', '%s must have the requested number of rows.', localSubject(varName, argIndex));
+          error('Nelson:incorrectNumrows', '%s must have the requested number of rows.', localSubject(varName, ...
+            argIndex));
         end
-        error(['Nelson:', funcName, ':incorrectNumrows'], '%s must have the requested number of rows.', localSubject(varName, argIndex));
+        error(['Nelson:', funcName, ':incorrectNumrows'], '%s must have the requested number of rows.', ...
+          localSubject(varName, argIndex));
       end
     case 'ndims'
       if ~(ndims(A) == value)
         if isempty(funcName)
-          error('Nelson:incorrectNumdims', '%s must have the requested number of dimensions.', localSubject(varName, argIndex));
+          error('Nelson:incorrectNumdims', '%s must have the requested number of dimensions.', localSubject(varName, ...
+            argIndex));
         end
-        error(['Nelson:', funcName, ':incorrectNumdims'], '%s must have the requested number of dimensions.', localSubject(varName, argIndex));
+        error(['Nelson:', funcName, ':incorrectNumdims'], '%s must have the requested number of dimensions.', ...
+          localSubject(varName, argIndex));
       end
     case {'>', '>=', '<', '<='}
       localCheckComparison(A, name, value, funcName, varName, argIndex);

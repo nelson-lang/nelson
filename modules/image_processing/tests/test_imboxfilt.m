@@ -36,6 +36,7 @@ asserts.checkerror('imboxfilt([1 2], [1.5 3])', sprintf(_('%s size must contain 
 %=============================================================================
 asserts.checkerror('imboxfilt([1 2], [2 + i 3])', sprintf(_('%s size must contain positive integers.'), 'Filter'));
 %=============================================================================
-asserts.checkerror('imboxfilt([1 2], 3, ''NormalizationFactor'', Inf)', sprintf(_('%s must be a finite numeric scalar.'), 'Normalization factor'));
+asserts.checkerror('imboxfilt([1 2], 3, ''NormalizationFactor'', Inf)', ...
+  sprintf(_('%s must be a finite numeric scalar.'), 'Normalization factor'));
 %=============================================================================
 asserts.checkerror('imboxfilt([1 2], ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), 'imboxfilt'));

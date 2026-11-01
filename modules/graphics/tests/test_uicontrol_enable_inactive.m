@@ -35,7 +35,8 @@ for k = 1:numel(styles)
 end
 %=============================================================================
 % Any other value is still rejected.
-asserts.checkerror('set(h, ''Enable'', ''foo'');', graphicsPropertyErrorMessage('Enable', 'Nelson:graphics:illegalSelection'));
+asserts.checkerror('set(h, ''Enable'', ''foo'');', graphicsPropertyErrorMessage('Enable', ...
+  'Nelson:graphics:illegalSelection'));
 %=============================================================================
 % An inactive control renders without error in a real figure.
 close all

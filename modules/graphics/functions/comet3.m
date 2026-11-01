@@ -46,7 +46,8 @@ function [x, y, z, p] = parseComet3Data(args)
   if ~isnumeric(x) || ~isnumeric(y) || ~isnumeric(z) || ~isvector(x) || ...
       ~ isvector(y) || ~isvector(z) || numel(x) ~= numel(y) || ...
       numel(x) ~= numel(z) || isempty(x)
-    error('Nelson:comet3:invalidXYAnd', 'X, Y, and Z must be nonempty numeric vectors with the same number of elements.');
+    error('Nelson:comet3:invalidXYAnd', ...
+      'X, Y, and Z must be nonempty numeric vectors with the same number of elements.');
   end
   if ~isnumeric(p) || ~isscalar(p) || ~isfinite(p) || p < 0 || p >= 1
     error('Nelson:comet:invalidP', 'P must be a scalar value in the interval [0, 1).');

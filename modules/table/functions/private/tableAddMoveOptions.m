@@ -42,7 +42,8 @@ end
 %=============================================================================
 function param = localParamName(name, params)
   if ~((ischar(name) && isrow(name)) || (isstring(name) && isscalar(name) && ~ismissing(name) && strlength(name) > 0))
-    error('Nelson:table:illegalParamName', _('Invalid parameter name. Parameter name must be a nonempty string or character vector.'));
+    error('Nelson:table:illegalParamName', ...
+      _('Invalid parameter name. Parameter name must be a nonempty string or character vector.'));
   end
   name = char(name);
   for k = 1:length(params)
@@ -60,7 +61,8 @@ function names = localNewVariableNames(names)
   elseif isstring(names)
     names = cellstr(names);
   elseif ~iscellstr(names)
-    error('Nelson:table:invalidVarNames', _('New variable names must be a character vector, string array, or cell array of character vectors.'));
+    error('Nelson:table:invalidVarNames', ...
+      _('New variable names must be a character vector, string array, or cell array of character vectors.'));
   end
   names = reshape(names, 1, []);
 end

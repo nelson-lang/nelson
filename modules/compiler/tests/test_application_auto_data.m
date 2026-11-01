@@ -20,7 +20,8 @@ lines = {'%#function pragma.txt', '%#exclude excluded.txt', ...
   'function value = data_entry()', 'value = data_helper();', ...
   'fileread(''automatic.txt'');', 'fileread automatic.txt', 'load(''excluded.txt'');', 'end'};
 filewrite(entry, strjoin(lines, char(10)));
-filewrite(fullfile(source, 'data_helper.m'), 'function value = data_helper(); value = fileread(''transitive.txt''); end');
+filewrite(fullfile(source, 'data_helper.m'), ...
+  'function value = data_helper(); value = fileread(''transitive.txt''); end');
 for name = {'automatic.txt', 'pragma.txt', 'excluded.txt', 'transitive.txt'}
   filewrite(fullfile(source, name{1}), name{1});
 end

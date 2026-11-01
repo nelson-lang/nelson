@@ -16,7 +16,8 @@ function varargout = isKey(varargin)
   % helper dispatch) so the cost is one method call plus the native membership.
   kt = obj.keyType;
   if isempty(kt)
-    error('Nelson:dictionary:unablePerformADictionaryLookup3', 'Unable to perform a dictionary lookup when the key and value types are not set.');
+    error('Nelson:dictionary:unablePerformADictionaryLookup3', ...
+      'Unable to perform a dictionary lookup when the key and value types are not set.');
   end
   if strcmp(kt, 'string') && ischar(key)
     key = string(key);

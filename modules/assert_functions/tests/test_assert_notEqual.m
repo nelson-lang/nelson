@@ -16,5 +16,6 @@ asserts.notEqual(1, 2);
 asserts.isfalse(r);
 asserts.istrue(contains(msg, 'asserts.notEqual'));
 %=============================================================================
-asserts.checkerror('feval(''asserts.notEqual'', 1, 1)', 'Assertion failed: asserts.notEqual expected different values.');
+asserts.checkerror('feval(''asserts.notEqual'', 1, 1)', ...
+  'Assertion failed: asserts.notEqual expected different values.');
 %=============================================================================

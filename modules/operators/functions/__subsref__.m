@@ -21,7 +21,8 @@ function varargout = __subsref__(varargin)
       case '.'
         R = {A.(S(k).subs)};
       otherwise
-        error('Nelson:__subsref__:expected2', '%s expected.', 'Illegal indexing structure argument: type ''.'', ''{}'' or ''()''');
+        error('Nelson:__subsref__:expected2', '%s expected.', ...
+          'Illegal indexing structure argument: type ''.'', ''{}'' or ''()''');
     end
     if k < numel(S)
       A = R{1};

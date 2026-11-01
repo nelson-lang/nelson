@@ -17,5 +17,6 @@ end
 elapsed = toc();
 ops = n;
 asserts.isequal(value{n}, n);
-fprintf('BENCH_REFERENCE,cell,cell setVectorContents scalar no resize,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,cell,cell setVectorContents scalar no resize,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

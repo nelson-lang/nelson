@@ -49,9 +49,13 @@ assert_isequal(class(bitset(0, 8, 'uint8')), 'double');
 %=============================================================================
 % error cases
 assert_checkerror('bitshift(255, 4, ''foo'')', _('ASSUMEDTYPE must be an integer type name.'));
-assert_checkerror('bitshift(uint8(255), 4, ''uint16'')', _('Integer inputs cannot be assumed as any other types than their own types.'));
-assert_checkerror('bitshift(128, -1, ''int8'')', _('Double inputs must have integer values in the range of ASSUMEDTYPE.'));
-assert_checkerror('bitshift(2.5, 1, ''uint8'')', _('Double inputs must have integer values in the range of ASSUMEDTYPE.'));
+assert_checkerror('bitshift(uint8(255), 4, ''uint16'')', ...
+  _('Integer inputs cannot be assumed as any other types than their own types.'));
+assert_checkerror('bitshift(128, -1, ''int8'')', ...
+  _('Double inputs must have integer values in the range of ASSUMEDTYPE.'));
+assert_checkerror('bitshift(2.5, 1, ''uint8'')', ...
+  _('Double inputs must have integer values in the range of ASSUMEDTYPE.'));
 assert_checkerror('bitcmp(300, ''uint8'')', _('Double inputs must have integer values in the range of ASSUMEDTYPE.'));
-assert_checkerror('bitcmp(uint8(5), ''uint16'')', _('Integer inputs cannot be assumed as any other types than their own types.'));
+assert_checkerror('bitcmp(uint8(5), ''uint16'')', ...
+  _('Integer inputs cannot be assumed as any other types than their own types.'));
 %=============================================================================

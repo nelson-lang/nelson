@@ -26,6 +26,7 @@ function invoke(commandParts)
   end
   [status, output] = system(strjoin(commandParts, ' '), 1800);
   if status ~= 0
-    error('Nelson:nelsonc:installerTool:linuxRuntimeInstallerGenerationFailed', 'Linux runtime installer generation failed: %s', output);
+    error('Nelson:nelsonc:installerTool:linuxRuntimeInstallerGenerationFailed', ...
+      'Linux runtime installer generation failed: %s', output);
   end
 end

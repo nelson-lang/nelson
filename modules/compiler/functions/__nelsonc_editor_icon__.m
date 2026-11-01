@@ -13,7 +13,7 @@ function pixels = __nelsonc_editor_icon__(name)
   if isempty(cached); cached = struct(); end
   if ~isfield(cached, key)
     filename = fullfile(modulepath('compiler'), 'resources', 'editor', strrep(name, '.svg', '.png'));
-    [rgb, map, alpha] = imread(filename);
+    [rgb, ~, alpha] = imread(filename);
     a = repmat(double(alpha) / 255, [1, 1, 3]);
     cached.(key) = double(rgb) / 255 .* a + (1 - a) * 0.96078431372549;
   end

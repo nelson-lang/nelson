@@ -11,8 +11,10 @@ asserts.isequal(nargin('mustBeNumericOrLogical'), -1);
 asserts.isequal(nargout('mustBeNumericOrLogical'), 0);
 %=============================================================================
 mustBeNumericOrLogical(1);
-asserts.checkerror('mustBeNumericOrLogical(struct())', sprintf(_('%s must be numeric or logical.'), 'Value'), 'Nelson:validators:mustBeNumericOrLogical');
+asserts.checkerror('mustBeNumericOrLogical(struct())', sprintf(_('%s must be numeric or logical.'), 'Value'), ...
+  'Nelson:validators:mustBeNumericOrLogical');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be numeric or logical.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be numeric or logical.'), 'Value')];
 asserts.checkerror('mustBeNumericOrLogical(struct(), 3)', msg, 'Nelson:validators:mustBeNumericOrLogical');
 %=============================================================================

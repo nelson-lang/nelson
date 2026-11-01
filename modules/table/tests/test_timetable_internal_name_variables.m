@@ -64,9 +64,11 @@ assert_checkerror('renamevars(T, ''Var1'', ''Properties'');', msg, 'Nelson:table
 Properties = [1; 2];
 assert_checkerror('table(Properties);', msg, 'Nelson:table:reservedVariableNameConflict');
 TT = timetable(seconds([1; 2]), [5; 6]);
-assert_checkerror('TT.Properties.VariableNames = {''Properties''};', msg, 'Nelson:timetable:reservedVariableNameConflict');
+assert_checkerror('TT.Properties.VariableNames = {''Properties''};', msg, ...
+  'Nelson:timetable:reservedVariableNameConflict');
 msg = sprintf(_('Table variable name conflicts with reserved name ''%s''.'), 'RowNames');
-assert_checkerror('addvars(T, [1; 2], ''NewVariableNames'', ''RowNames'');', msg, 'Nelson:table:reservedVariableNameConflict');
+assert_checkerror('addvars(T, [1; 2], ''NewVariableNames'', ''RowNames'');', msg, ...
+  'Nelson:table:reservedVariableNameConflict');
 %=============================================================================
 T = table([5; 6], 'VariableNames', {'RowTimes'});
 assert_isequal(T.RowTimes, [5; 6]);

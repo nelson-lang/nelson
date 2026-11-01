@@ -14,7 +14,8 @@ function out = bwareaopen(varargin)
   minSize = varargin{2};
   if ~isnumeric(minSize) || ~isreal(minSize) || ~isscalar(minSize) || ~isfinite(double(minSize)) ...
       || minSize < 0 || minSize ~= floor(minSize)
-    error('Nelson:image_processing:minimumObjectSizeNonnegativeIntegerScalar', '%s must be a nonnegative integer scalar.', 'Minimum object size');
+    error('Nelson:image_processing:minimumObjectSizeNonnegativeIntegerScalar', ...
+      '%s must be a nonnegative integer scalar.', 'Minimum object size');
   end
   if nargin == 3
     cc = bwconncomp(bw, varargin{3});

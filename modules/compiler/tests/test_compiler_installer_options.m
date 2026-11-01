@@ -100,5 +100,6 @@ if ispc()
   asserts.istrue(contains(script, 'SetupIconFile=C:/payload/InstallerIcon.ico'));
   asserts.istrue(contains(script, 'WizardImageFile=C:/stage/logo.bmp'));
   asserts.istrue(contains(script, 'UninstallDisplayIcon={app}\nelson-installer-assets\AddRemoveProgramsIcon.ico'));
-  asserts.istrue(contains(script, 'IconFilename: "{app}\nelson-installer-assets\InstallerIcon.ico"; Check: DeploymentShortcut(False)'));
+  asserts.istrue(contains(script, ...
+    'IconFilename: "{app}\nelson-installer-assets\InstallerIcon.ico"; Check: DeploymentShortcut(False)'));
 end

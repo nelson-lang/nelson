@@ -52,7 +52,8 @@ asserts.istrue(status == 0, output);
 asserts.isequal(jsondecode(fileread(manifestFile)), inventory);
 uninstall = dir(fullfile(destination, 'unins*.exe'));
 asserts.isequal(numel(uninstall), 1);
-[status, output] = system(['"', fullfile(destination, uninstall.name), '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
+[status, output] = system(['"', fullfile(destination, uninstall.name), ...
+  '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
 asserts.istrue(status == 0, output);
 asserts.isfalse(isfile(manifestFile));
 clear cleanup;
@@ -80,7 +81,8 @@ function installer = build_fixture(directory, name, extra)
   plan = struct('architecture', computer('arch'), 'runtimeVersion', '2.0.0', ...
     'engineFingerprint', sha256(directory), 'runtime', runtime);
   __nelsonc_runtime_inventory__(plan, fullfile(stage, 'runtime-package.ini'));
-  options = struct('InstallerName', name, 'PackageType', 'auto', 'Compression', 'normal', 'Verbose', false, 'OutputDir', fullfile(stage, 'output'));
+  options = struct('InstallerName', name, 'PackageType', 'auto', 'Compression', 'normal', 'Verbose', false, ...
+    'OutputDir', fullfile(stage, 'output'));
   generator = @(output) __nelsonc_runtime_script__(stage, payload, output, plan, options);
   __nelsonc_inno_build__(__nelsonc_inno_engine__(), stage, payload, '', options, generator);
   installer = fullfile(options.OutputDir, [name, '.exe']);

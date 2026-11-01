@@ -27,6 +27,8 @@ asserts.isequal(length(r), 38);
 %=============================================================================
 asserts.checkerror('r = winqueryreg(''HKEY_CLASSES_ROO'', ''Msxml\clsid'')', _('Invalid ROOTKEY value.'));
 asserts.checkerror('r = winqueryreg(''HKEY_CLASSES_ROOT'', ''Msxml\clsid33'')', _('Invalid SUBKEY value.'));
-asserts.checkerror('r = winqueryreg(''HKEY_CURRENT_USER'',''control panel\mouse'')', _('Cannot convert RegQueryValueEx.'));
-asserts.checkerror('r = winqueryreg(''name'', ''HKEY_CURRENT_USER'')', _("'name' argument requires 3 input arguments."));
+asserts.checkerror('r = winqueryreg(''HKEY_CURRENT_USER'',''control panel\mouse'')', ...
+  _('Cannot convert RegQueryValueEx.'));
+asserts.checkerror('r = winqueryreg(''name'', ''HKEY_CURRENT_USER'')', ...
+  _("'name' argument requires 3 input arguments."));
 %=============================================================================

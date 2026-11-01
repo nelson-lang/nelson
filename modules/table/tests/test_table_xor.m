@@ -13,7 +13,8 @@ Weight = [176; 163; 131; 133; 119];
 BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T1 = table(Age, Height, Weight, BloodPressure);
 R = xor(T1, T1);
-REF = table(xor(Age, Age), xor(Height, Height), xor(Weight, Weight), xor(BloodPressure, BloodPressure), 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+REF = table(xor(Age, Age), xor(Height, Height), xor(Weight, Weight), xor(BloodPressure, BloodPressure), ...
+  'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
 asserts.isequal(R, REF);
 %=============================================================================
 A = table([true; false; true], [false; true; false], 'VariableNames', {'Var1', 'Var2'});

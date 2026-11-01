@@ -94,7 +94,8 @@ assert_istrue(~isempty(strfind(gen15, 'double ya;')));
 % abs of a complex lowers to sqrt(re^2 + im^2) through an expression block.
 d2 = d;
 d2.blocks{end} = struct('id', 'mag', 'type', 'abs', 'inputs', 1, 'outputs', 1, 'params', struct());
-d2.blocks{end + 1} = struct('id', 'y', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, 'params', struct('GotoTag', 'y'));
+d2.blocks{end + 1} = struct('id', 'y', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, 'params', struct('GotoTag', ...
+  'y'));
 d2.connections{end} = struct('from', 'm', 'to', 'mag', 'fromIndex', 0, 'toIndex', 0);
 d2.connections{end + 1} = struct('from', 'mag', 'to', 'y', 'fromIndex', 0, 'toIndex', 0);
 model2 = [outdir, filesep, 'cabs.nflow'];

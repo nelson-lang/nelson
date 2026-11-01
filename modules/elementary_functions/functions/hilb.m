@@ -15,7 +15,8 @@ function r = hilb(n, classname)
     outputClass = classname;
   end
   if (isStringScalar(outputClass)) || (~strcmp(outputClass, 'double') && ~strcmp(outputClass, 'single'))
-    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', 'single');
+    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', ...
+      'single');
   end
   index = 1:cast(n(1), outputClass);
   r = 1 ./ (index.' + index - 1);

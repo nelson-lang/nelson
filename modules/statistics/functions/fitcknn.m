@@ -58,7 +58,8 @@ function opts = parseOptionsLocal(args, X, classNames)
     end
   end
   if opts.NumNeighbors > size(X, 1)
-    error('Nelson:statistics:numNeighborsExceedNumberTrainingObservations', 'NumNeighbors must not exceed the number of training observations.');
+    error('Nelson:statistics:numNeighborsExceedNumberTrainingObservations', ...
+      'NumNeighbors must not exceed the number of training observations.');
   end
   if ~isequal(opts.ClassNames, classNames)
     __check_class_names__(classNames, opts.ClassNames, false);
@@ -118,7 +119,8 @@ end
 function value = scaleVectorLocal(value, p)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && length(value) == p ...
       && all(isfinite(value)) && all(value > 0))
-    error('Nelson:statistics:scalePositiveFiniteVectorOne', 'Scale must be a positive finite vector with one value per predictor.');
+    error('Nelson:statistics:scalePositiveFiniteVectorOne', ...
+      'Scale must be a positive finite vector with one value per predictor.');
   end
   value = double(value(:).');
 end

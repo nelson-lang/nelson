@@ -10,7 +10,7 @@
 % <--WEIGHT 4-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 source = fullfile(fixtureDirectory, 'nelson_lint_case.m');
 filewrite(source, ['function y = nelson_lint_case(x, unused)', newline(), ...
   'if true', newline(), ...

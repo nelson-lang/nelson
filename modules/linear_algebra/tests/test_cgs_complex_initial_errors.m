@@ -109,7 +109,8 @@ asserts.checkerror('cgs(A, b, [], [], speye(2))', sprintf(_('%s dimensions must 
 asserts.checkerror('cgs(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('cgs(A, b, [], [], [1; 0; 1])', _('Preconditioner diagonal must not contain zeros.'));
 asserts.checkerror('cgs(sparse(1), 1, [], [], sparse(0))', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('cgs(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), 'Preconditioner factorization'));
+asserts.checkerror('cgs(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), ...
+  'Preconditioner factorization'));
 asserts.checkerror('cgs(A, b, [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('cgs(A, b, [], [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('cgs(sparse([1 2]), [1; 2])', sprintf(_('%s expected.'), 'Square matrix'));

@@ -16,7 +16,8 @@ BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T = table(LastName, Age, Smoker, Height, Weight, BloodPressure);
 T2 = table(LastName, Age, Smoker, Height, Weight, BloodPressure);
 R = renamevars(T, 'LastName', 'Name');
-REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure, 'VariableNames', {'Name', 'Age', 'Smoker', 'Height', 'Weight', 'BloodPressure'});
+REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure, 'VariableNames', {'Name', 'Age', 'Smoker', ...
+  'Height', 'Weight', 'BloodPressure'});
 asserts.isequal(R, REF);
 asserts.isequal(T, T2);
 %=============================================================================
@@ -28,6 +29,7 @@ Weight = [176; 163; 131; 133; 119];
 BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T = table(LastName, Age, Smoker, Height, Weight, BloodPressure)
 T.Properties.VariableNames = {'N1', 'A2', 'S3', 'H4', 'W5', 'B6'};
-T_REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure, 'VariableNames', {'N1', 'A2', 'S3', 'H4', 'W5', 'B6'});
+T_REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure, 'VariableNames', {'N1', 'A2', 'S3', 'H4', 'W5', ...
+  'B6'});
 asserts.isequal(T, T_REF);
 %=============================================================================

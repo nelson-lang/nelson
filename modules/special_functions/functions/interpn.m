@@ -23,7 +23,8 @@ function Vq = interpn(varargin)
       k = args{2};
     end
     if ~isscalar(k) || k < 0 || fix(k) ~= k
-      error('Nelson:special_functions:invalidRefinementFactor', 'Refinement factor must be a nonnegative integer scalar.');
+      error('Nelson:special_functions:invalidRefinementFactor', ...
+        'Refinement factor must be a nonnegative integer scalar.');
     end
     nd = ndims(V);
     grids = cell(1, nd);

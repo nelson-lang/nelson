@@ -46,7 +46,8 @@ assert_istrue(isempty(lw));
 assert_isequal(set(h, 'linestyle'), {'-'; '--'; ':'; '-.'; 'none'});
 %=============================================================================
 % An unknown property is rejected.
-assert_checkerror('set(h, ''NotAProperty'')', getString(message('Nelson:graphics:unrecognizedProperty', 'NotAProperty')), 'Nelson:graphics:unrecognizedProperty');
+assert_checkerror('set(h, ''NotAProperty'')', getString(message('Nelson:graphics:unrecognizedProperty', ...
+  'NotAProperty')), 'Nelson:graphics:unrecognizedProperty');
 %=============================================================================
 close(f);
 %=============================================================================

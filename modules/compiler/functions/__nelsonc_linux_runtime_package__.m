@@ -10,7 +10,8 @@
 function __nelsonc_linux_runtime_package__(package, plan)
   tool = fullfile(modulepath('nelson', 'bin'), 'nelson-runtime-installer');
   if ~isfile(tool)
-    error('Nelson:nelsonc:installerTool:linuxRuntimeInstallerToolMissing', 'The native Linux runtime installer tool is missing. Rebuild or install the compiler module.');
+    error('Nelson:nelsonc:installerTool:linuxRuntimeInstallerToolMissing', ...
+      'The native Linux runtime installer tool is missing. Rebuild or install the compiler module.');
   end
   files = rmfield(plan.runtime.files, 'source');
   for k = 1:numel(files); files(k).mode = 420; end
@@ -23,7 +24,8 @@ function __nelsonc_linux_runtime_package__(package, plan)
   helper = fullfile(package, 'runtime-installer');
   expected = sha256(tool, '-file'); copyfile(tool, helper);
   if ~strcmp(sha256(helper, '-file'), expected)
-    error('Nelson:nelsonc:installerTool:runtimeInstallerToolChangedDuring', 'Runtime installer tool changed during packaging.');
+    error('Nelson:nelsonc:installerTool:runtimeInstallerToolChangedDuring', ...
+      'Runtime installer tool changed during packaging.');
   end
   quote = char(39);
   quoted = @(value)[quote, strrep(value, quote, char([39 34 39 34 39])), quote];

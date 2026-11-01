@@ -22,14 +22,16 @@ end
 o = G('SineForce_MSD');
 t = o.tout(:);
 w = 2 * pi * 0.3;
-[~, yr] = ode45(@(tt, y) [y(2); (2 * sin(w * tt) - 0.5 * y(2) - 4 * y(1))], t, [0; 0], odeset('RelTol', 1e-8, 'AbsTol', 1e-10));
+[~, yr] = ode45(@(tt, y) [y(2); (2 * sin(w * tt) - 0.5 * y(2) - 4 * y(1))], t, [0; 0], odeset('RelTol', 1e-8, ...
+  'AbsTol', 1e-10));
 assert_istrue(max(abs(o.x(:) - yr(:, 1))) < 1e-4);
 %=============================================================================
 % Sine torque on an inertia-spring-damper.
 o = G('SineTorque_ISD');
 t = o.tout(:);
 w = 2 * pi * 0.3;
-[~, yr] = ode45(@(tt, y) [y(2); (2 * sin(w * tt) - 0.5 * y(2) - 4 * y(1))], t, [0; 0], odeset('RelTol', 1e-8, 'AbsTol', 1e-10));
+[~, yr] = ode45(@(tt, y) [y(2); (2 * sin(w * tt) - 0.5 * y(2) - 4 * y(1))], t, [0; 0], odeset('RelTol', 1e-8, ...
+  'AbsTol', 1e-10));
 assert_istrue(max(abs(o.p(:) - yr(:, 1))) < 1e-4);
 %=============================================================================
 % Exponentially damped sine voltage into an RC.

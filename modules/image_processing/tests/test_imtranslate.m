@@ -109,8 +109,11 @@ asserts.checkerror('imtranslate(sparse([1 2]), [1 0])', sprintf(_('%s are not su
 %=============================================================================
 asserts.checkerror('imtranslate([1 2], [1 0], 1, 2)', sprintf(_('%s option name must be a string.'), 'imtranslate'));
 %=============================================================================
-asserts.checkerror('imtranslate([1 2], [1 0], ''Interpolation'', 1)', sprintf(_('%s must be a string.'), 'Interpolation method'));
+asserts.checkerror('imtranslate([1 2], [1 0], ''Interpolation'', 1)', sprintf(_('%s must be a string.'), ...
+  'Interpolation method'));
 %=============================================================================
-asserts.checkerror('imtranslate([1 2], [1 0], ''Interpolation'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'interpolation method'));
+asserts.checkerror('imtranslate([1 2], [1 0], ''Interpolation'', ''unknown'')', ...
+  sprintf(_('Unsupported "%s" option.'), 'interpolation method'));
 %=============================================================================
-asserts.checkerror('imtranslate([1 2], [1 0], ''OutputView'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'output view'));
+asserts.checkerror('imtranslate([1 2], [1 0], ''OutputView'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), ...
+  'output view'));

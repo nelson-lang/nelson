@@ -19,7 +19,8 @@ function tf = verLessThan(toolboxName, versionString)
   toolboxName = char(toolboxName);
   versionString = char(versionString);
   if isempty(regexp(versionString, '^\d+(\.\d+)*$', 'once'))
-    error('Nelson:verLessThan:invalidVersion', _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
+    error('Nelson:verLessThan:invalidVersion', ...
+      _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
   end
   installedVersion = getInstalledVersion(toolboxName);
   tf = logical(compareVersions(installedVersion, versionString) < 0);

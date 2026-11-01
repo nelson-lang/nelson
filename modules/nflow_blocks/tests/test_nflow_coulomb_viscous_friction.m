@@ -20,7 +20,8 @@ for k = 1:numel(cases)
   vn = ['cvf_out', int2str(k)];
   d = struct();
   d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', u)), struct('id', 'f', 'type', 'coulombViscousFriction', 'inputs', 1, 'outputs', 1, 'params', struct('Gain', g, 'Offset', o)), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', vn, 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'))};
-  d.connections = {struct('from', 'c', 'to', 'f', 'fromIndex', 0, 'toIndex', 0), struct('from', 'f', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'c', 'to', 'f', 'fromIndex', 0, 'toIndex', 0), struct('from', 'f', 'to', 'w', ...
+    'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();
   res = jsondecode(__nflow_simulate__(jsonencode(d)));
   assert_isequal(res.status, 'done');

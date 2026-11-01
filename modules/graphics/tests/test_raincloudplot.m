@@ -147,7 +147,8 @@ close(f);
 f = figure('Visible', 'off');
 ax1 = subplot(1, 2, 1);
 ax2 = subplot(1, 2, 2);
-r = raincloudplot(ax2, [1 1 2 2], [5 6 7 8], 'Orientation', 'vertical', 'DensityWidth', 0.5, 'FaceAlpha', 0.4, 'Marker', 's', 'MarkerSize', 20);
+r = raincloudplot(ax2, [1 1 2 2], [5 6 7 8], 'Orientation', 'vertical', 'DensityWidth', 0.5, 'FaceAlpha', 0.4, ...
+  'Marker', 's', 'MarkerSize', 20);
 asserts.isequal(r.Parent, ax2);
 asserts.isequal(numel(ax1.Children), 0);
 asserts.isequal(r.Orientation, 'vertical');
@@ -197,21 +198,29 @@ close(f);
 %=============================================================================
 asserts.checkerror('raincloudplot();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('raincloudplot({1});', getString(message('Nelson:validators:mustBeNumeric', 'ydata')));
-asserts.checkerror('raincloudplot({1});', getString(message('Nelson:validators:mustBeNumeric', 'ydata')), 'Nelson:validators:mustBeNumeric');
+asserts.checkerror('raincloudplot({1});', getString(message('Nelson:validators:mustBeNumeric', 'ydata')), ...
+  'Nelson:validators:mustBeNumeric');
 asserts.checkerror('raincloudplot([1 2], [1 2 3]);', getString(message('Nelson:graphics:invalidGroupData')));
-asserts.checkerror('raincloudplot([1 2], [1 2 3]);', getString(message('Nelson:graphics:invalidGroupData')), 'Nelson:graphics:invalidGroupData');
-asserts.checkerror('raincloudplot({''a'', ''b''}, [1 2]);', getString(message('Nelson:raincloudplot:invalidGroupData')), 'Nelson:raincloudplot:invalidGroupData');
-asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'raincloudplot')));
-asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'raincloudplot')), 'Nelson:graphics:unsupportedProperty');
-asserts.checkerror('raincloudplot([1 2], ''FaceAlpha'');', getString(message('Nelson:graphics:nameValueArgumentsExpected')), 'Nelson:graphics:nameValueArgumentsExpected');
+asserts.checkerror('raincloudplot([1 2], [1 2 3]);', getString(message('Nelson:graphics:invalidGroupData')), ...
+  'Nelson:graphics:invalidGroupData');
+asserts.checkerror('raincloudplot({''a'', ''b''}, [1 2]);', ...
+  getString(message('Nelson:raincloudplot:invalidGroupData')), 'Nelson:raincloudplot:invalidGroupData');
+asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', ...
+  'raincloudplot')));
+asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', ...
+  'raincloudplot')), 'Nelson:graphics:unsupportedProperty');
+asserts.checkerror('raincloudplot([1 2], ''FaceAlpha'');', ...
+  getString(message('Nelson:graphics:nameValueArgumentsExpected')), 'Nelson:graphics:nameValueArgumentsExpected');
 %=============================================================================
 % A rejected property leaves nothing behind: the object is attached to the axes before
 % it is validated, and a half-built child would throw again from every later paint.
 f = figure('Visible', 'off');
 ax = axes();
-asserts.checkerror('raincloudplot([1 2], ''DensityWidth'', -1);', getString(message('Nelson:graphics:mustBePositiveFinite', 'DensityWidth')));
+asserts.checkerror('raincloudplot([1 2], ''DensityWidth'', -1);', ...
+  getString(message('Nelson:graphics:mustBePositiveFinite', 'DensityWidth')));
 asserts.istrue(isempty(ax.Children));
-asserts.checkerror('raincloudplot(ax, [1 2], ''FaceAlpha'', 2);', getString(message('Nelson:raincloudplot:outOfRange', 'FaceAlpha')), 'Nelson:raincloudplot:outOfRange');
+asserts.checkerror('raincloudplot(ax, [1 2], ''FaceAlpha'', 2);', ...
+  getString(message('Nelson:raincloudplot:outOfRange', 'FaceAlpha')), 'Nelson:raincloudplot:outOfRange');
 asserts.istrue(isempty(ax.Children));
 drawnow();
 __web_display_list__(f);

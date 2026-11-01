@@ -44,7 +44,6 @@ function S = localTableSummary(T)
   [~, loc] = ismember(names, fieldnames(st.data));
   infos = cell(length(names), 1);
   for k = 1:length(names)
-    name = names{k};
     value = vals{loc(k)};
     info = struct();
     info.Size = size(value);

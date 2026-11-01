@@ -74,7 +74,7 @@ function skip_if_no_concurrent_audio()
     probe = zeros(1, 1024);
     players = {};
     for streamIndex = 1:5
-      players{end + 1} = audioplayer(probe, 44100); %#ok<AGROW>
+      players{end + 1} = audioplayer(probe, 44100); %#ok<NLS0039>
       play(players{end});
     end
     for streamIndex = 1:numel(players)

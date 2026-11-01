@@ -12,7 +12,7 @@
 previousPreferencesPath = getenv('NELSON_PREFERENCES_PATH');
 preferencesRoot = [tempdir(), 'preferences_', createGUID()];
 mkdir(preferencesRoot, 's');
-cleanupPreferencesPath = onCleanup(@() setenv('NELSON_PREFERENCES_PATH', previousPreferencesPath)); %#ok<NASGU>
+cleanupPreferencesPath = onCleanup(@() setenv('NELSON_PREFERENCES_PATH', previousPreferencesPath)); %#ok<NLS0004>
 setenv('NELSON_PREFERENCES_PATH', preferencesRoot);
 %=============================================================================
 asserts.isequal(nargin('getpref'), 3);

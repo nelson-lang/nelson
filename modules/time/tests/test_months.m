@@ -10,5 +10,6 @@
 % <--WEIGHT 2-->
 asserts.isequal(months(datetime(2024, 1, 1), datetime(2024, 3, 1)), 2);
 asserts.isequal(months(datetime(2024, 1, 31), datetime(2024, 3, 30)), 1);
-asserts.isequal(months([datetime(2024, 1, 1), datetime(2024, 2, 1)], [datetime(2024, 2, 1), datetime(2024, 4, 1)]), [1 2]);
+asserts.isequal(months([datetime(2024, 1, 1), datetime(2024, 2, 1)], [datetime(2024, 2, 1), datetime(2024, 4, 1)]), ...
+  [1 2]);
 %=============================================================================

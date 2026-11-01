@@ -25,29 +25,34 @@ function out = im2uint8(varargin)
         out = img;
       case 'uint16'
         if any(img(:) > 255)
-          error('Nelson:image_processing:indexedUint16ImageValuesLessEqual', 'Indexed uint16 image values must be less than or equal to 255.');
+          error('Nelson:image_processing:indexedUint16ImageValuesLessEqual', ...
+            'Indexed uint16 image values must be less than or equal to 255.');
         end
         out = uint8(img);
       case 'double'
         ip_assert_integer_valued(img);
         if any(img(:) < 1) || any(img(:) > 256)
-          error('Nelson:image_processing:indexedDoubleImageValuesRange', 'Indexed double image values must be in the range [%d, %d].', 1, 256);
+          error('Nelson:image_processing:indexedDoubleImageValuesRange', ...
+            'Indexed double image values must be in the range [%d, %d].', 1, 256);
         end
         out = uint8(img - 1);
       case 'single'
         ip_assert_integer_valued(img);
         if any(img(:) < 1) || any(img(:) > 256)
-          error('Nelson:image_processing:indexedSingleImageValuesRange', 'Indexed single image values must be in the range [%d, %d].', 1, 256);
+          error('Nelson:image_processing:indexedSingleImageValuesRange', ...
+            'Indexed single image values must be in the range [%d, %d].', 1, 256);
         end
         out = uint8(img - 1);
       case 'logical'
         out = uint8(img);
       otherwise
-        error('Nelson:image_processing:indexedImageDataTypeUint8Uint16', 'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.');
+        error('Nelson:image_processing:indexedImageDataTypeUint8Uint16', ...
+          'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.');
     end
   else
     if ~any(strcmp(class(img), {'double', 'logical', 'uint8', 'uint16', 'int16', 'single'}))
-      error('Nelson:image_processing:imageDoubleLogicalUint8Uint16Int16', 'Image must be double, logical, uint8, uint16, int16, or single.');
+      error('Nelson:image_processing:imageDoubleLogicalUint8Uint16Int16', ...
+        'Image must be double, logical, uint8, uint16, int16, or single.');
     end
     out = uint8(round(ip_clip01(ip_to_unit_double(img)) * 255));
   end

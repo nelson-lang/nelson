@@ -106,13 +106,15 @@ r = [[o; o], zeros(1, 0)];
 assert_isequal(size(r), [2 1]);
 r = [ClassdefStringCatNoArg(), zeros(1, 0)];
 assert_isequal(class(r), 'ClassdefStringCatNoArg');
-assert_checkerror('[o, zeros(1, 0, 2)]', _('Dimensions of arrays being concatenated are not consistent.'), 'Nelson:catenate:dimensionMismatch');
+assert_checkerror('[o, zeros(1, 0, 2)]', _('Dimensions of arrays being concatenated are not consistent.'), ...
+  'Nelson:catenate:dimensionMismatch');
 %=============================================================================
 % cat along a dimension above 2 only drops the 0x0 operands
 r = cat(3, o, zeros(1, 1, 0));
 assert_isequal(class(r), V);
 assert_isequal(size(r), [1 1]);
-assert_checkerror('cat(3, o, zeros(1, 0))', _('Dimensions of arrays being concatenated are not consistent.'), 'Nelson:catenate:dimensionMismatch');
+assert_checkerror('cat(3, o, zeros(1, 0))', _('Dimensions of arrays being concatenated are not consistent.'), ...
+  'Nelson:catenate:dimensionMismatch');
 %=============================================================================
 % the constructor failure names the conversion
 try

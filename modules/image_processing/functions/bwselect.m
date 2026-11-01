@@ -17,7 +17,8 @@ function [bw2, idx] = bwselect(varargin)
   rows = double(varargin{3});
   if ~isnumeric(varargin{2}) || ~isnumeric(varargin{3}) || ~isreal(varargin{2}) ...
       || ~isreal(varargin{3}) || ~isequal(size(cols), size(rows))
-    error('Nelson:image_processing:selectionCoordinatesNumericArraysSameSize', 'Selection coordinates must be numeric arrays of the same size.');
+    error('Nelson:image_processing:selectionCoordinatesNumericArraysSameSize', ...
+      'Selection coordinates must be numeric arrays of the same size.');
   end
   conn = 8;
   if nargin == 4

@@ -13,13 +13,15 @@ function b = padarray(varargin)
   a = varargin{1};
   ip_assert_full_image(a, true);
   if ~isnumeric(varargin{2}) || ~isreal(varargin{2})
-    error('Nelson:image_processing:padSizeContainNonnegativeIntegers', '%s must contain nonnegative integers.', 'Pad size');
+    error('Nelson:image_processing:padSizeContainNonnegativeIntegers', '%s must contain nonnegative integers.', ...
+      'Pad size');
   end
   padSize = double(varargin{2});
   if ~(numel(padSize) == 1 || numel(padSize) == 2) ...
       || any(~isfinite(padSize(:))) || any(padSize(:) < 0) ...
       || any(padSize(:) ~= floor(padSize(:)))
-    error('Nelson:image_processing:padSizeContainNonnegativeIntegers', '%s must contain nonnegative integers.', 'Pad size');
+    error('Nelson:image_processing:padSizeContainNonnegativeIntegers', '%s must contain nonnegative integers.', ...
+      'Pad size');
   end
   if numel(padSize) == 1
     padSize = [padSize padSize];

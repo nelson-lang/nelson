@@ -167,16 +167,21 @@ asserts.istrue(contains(output.message, 'infeasible'));
 %=============================================================================
 asserts.checkerror('linprog(1, [], [], [], [], 1, 0, lpopts)', _('Lower bounds must not exceed upper bounds.'));
 % the bounds condition also carries a stable identifier
-asserts.checkerror('linprog(1, [], [], [], [], 1, 0, lpopts)', _('Lower bounds must not exceed upper bounds.'), 'Nelson:optimization:boundsInconsistent');
+asserts.checkerror('linprog(1, [], [], [], [], 1, 0, lpopts)', _('Lower bounds must not exceed upper bounds.'), ...
+  'Nelson:optimization:boundsInconsistent');
 asserts.checkerror('linprog(Inf, [], [], [], [], [], [], lpopts)', _('Objective coefficients must be finite.'));
 badLPPreprocess = optimoptions('linprog', 'Display', 'off', 'LPPreprocess', 'invalid');
-asserts.checkerror('linprog(1, [], [], [], [], 0, 1, badLPPreprocess)', sprintf(_('Invalid value for "%s".'), 'LPPreprocess'));
+asserts.checkerror('linprog(1, [], [], [], [], 0, 1, badLPPreprocess)', sprintf(_('Invalid value for "%s".'), ...
+  'LPPreprocess'));
 badRoot = optimoptions('linprog', 'Display', 'off', 'RootLPAlgorithm', 'invalid');
-asserts.checkerror('linprog(1, [], [], [], [], 0, 1, badRoot)', sprintf(_('Invalid value for "%s".'), 'RootLPAlgorithm'));
+asserts.checkerror('linprog(1, [], [], [], [], 0, 1, badRoot)', sprintf(_('Invalid value for "%s".'), ...
+  'RootLPAlgorithm'));
 badHeuristics = optimoptions('intlinprog', 'Display', 'off', 'Heuristics', 'invalid');
-asserts.checkerror('intlinprog(1, 1, [], [], [], [], 0, 1, [], badHeuristics)', sprintf(_('Invalid value for "%s".'), 'Heuristics'));
+asserts.checkerror('intlinprog(1, 1, [], [], [], [], 0, 1, [], badHeuristics)', ...
+  sprintf(_('Invalid value for "%s".'), 'Heuristics'));
 badCut = optimoptions('intlinprog', 'Display', 'off', 'CutGeneration', 'invalid');
-asserts.checkerror('intlinprog(1, 1, [], [], [], [], 0, 1, [], badCut)', sprintf(_('Invalid value for "%s".'), 'CutGeneration'));
+asserts.checkerror('intlinprog(1, 1, [], [], [], [], 0, 1, [], badCut)', sprintf(_('Invalid value for "%s".'), ...
+  'CutGeneration'));
 badDisplay = optimoptions('linprog', 'Display', 'verbose');
 asserts.checkerror('linprog(1, [], [], [], [], 0, 1, badDisplay)', sprintf(_('Invalid value for "%s".'), 'Display'));
 badTime = optimoptions('linprog', 'Display', 'off', 'MaxTime', -1);

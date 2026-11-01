@@ -41,4 +41,5 @@ h5ls(h5_filename);
 asserts.checkerror('h5ls()', _('Not enough input arguments.'));
 asserts.checkerror('h5ls(h5_filename, ''data_descr'')', _('Second argument must start with ''/''.'));
 % the location-path condition also carries a stable identifier
-asserts.checkerror('h5ls(h5_filename, ''data_descr'')', _('Second argument must start with ''/''.'), 'Nelson:hdf5:invalidLocationPath');
+asserts.checkerror('h5ls(h5_filename, ''data_descr'')', _('Second argument must start with ''/''.'), ...
+  'Nelson:hdf5:invalidLocationPath');

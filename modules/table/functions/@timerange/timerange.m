@@ -160,7 +160,8 @@ classdef timerange
       typed = unique(kinds(ismember(kinds, {'datetime', 'duration'})));
       hasNaN = any(strcmp(kinds, 'nan'));
       if numel(typed) > 1 || (hasNaN && any(strcmp(typed, 'datetime')))
-        error('Nelson:timerange:InputTypesMismatch', 'Time range endpoints must both be datetimes, both be durations, or both be eventfilters.');
+        error('Nelson:timerange:InputTypesMismatch', ...
+          'Time range endpoints must both be datetimes, both be durations, or both be eventfilters.');
       end
       if hasNaN
         kind = 'duration';
@@ -268,7 +269,8 @@ function [limit, value] = textEndpoint(input)
       recognized = false;
     end
     if ~recognized
-      error('Nelson:datetime:InvalidTextInput', 'Unable to recognize date/time format of ''%s''. Convert text to datetime or duration.', text);
+      error('Nelson:datetime:InvalidTextInput', ...
+        'Unable to recognize date/time format of ''%s''. Convert text to datetime or duration.', text);
     end
   end
 end
@@ -283,7 +285,8 @@ function zone = checkTimeZones(endpoints)
     zone = zones{1};
   end
   if numel(zones) == 2 && xor(isempty(zones{1}), isempty(zones{2}))
-    error('Nelson:timerange:TimeZonesMismatch', 'Unable to combine a datetime that has a time zone with an unzoned datetime.');
+    error('Nelson:timerange:TimeZonesMismatch', ...
+      'Unable to combine a datetime that has a time zone with an unzoned datetime.');
   end
 end
 %=============================================================================
@@ -310,7 +313,8 @@ function obj = rowTimesZoneRange(obj, times)
     return
   end
   if ~obj.FollowsRowTimesZone && xor(isempty(obj.TimeZoneValue), isempty(zone))
-    error('Nelson:datetime:IncompatibleTZ', 'Cannot combine or compare a datetime array with a time zone with one without a time zone.');
+    error('Nelson:datetime:IncompatibleTZ', ...
+      'Cannot combine or compare a datetime array with a time zone with one without a time zone.');
   end
   if obj.FollowsRowTimesZone
     values = {obj.StartValue, obj.EndValue};

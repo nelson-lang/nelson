@@ -58,6 +58,7 @@ assert_isequal(TT.S, [7; 8]);
 %=============================================================================
 T = table([1; 2]);
 assert_checkerror('T{:, ''NewVar''} = [5; 6; 7];', _('Value assignment must have the same number of rows as the table.'), 'Nelson:table:dimagree:valueAssignmentNumberRowsTable');
-assert_checkerror('T{:, ''RowNames''} = [5; 6];', _('Table variable name conflicts with reserved name ''RowNames''.'), 'Nelson:table:reservedVariableNameConflict');
+assert_checkerror('T{:, ''RowNames''} = [5; 6];', ...
+  _('Table variable name conflicts with reserved name ''RowNames''.'), 'Nelson:table:reservedVariableNameConflict');
 assert_isequal(T.Properties.VariableNames, {'Var1'});
 %=============================================================================

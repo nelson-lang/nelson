@@ -15,7 +15,8 @@ asserts.isequal(netcdf.getConstant('NC_GLOBAL'), -1);
 asserts.istrue(netcdf.getConstant('NC_NOWRITE') >= 0);
 ok = false; try; netcdf.getConstant('NC_DOES_NOT_EXIST'); catch; ok = true; end; asserts.istrue(ok);
 % the unknown-constant condition carries a stable identifier
-asserts.checkerror('netcdf.getConstant(''NC_DOES_NOT_EXIST'')', _('Unknown netCDF constant.'), 'Nelson:netcdf:unknownConstant');
+asserts.checkerror('netcdf.getConstant(''NC_DOES_NOT_EXIST'')', _('Unknown netCDF constant.'), ...
+  'Nelson:netcdf:unknownConstant');
 %=============================================================================
 
 

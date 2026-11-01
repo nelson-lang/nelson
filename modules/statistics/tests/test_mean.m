@@ -141,9 +141,12 @@ assert_isequal(mean(A, [1 2]), reshape([3.5 9.5 15.5 21.5], 1, 1, 4));
 assert_isequal(mean(A, [1 3]), [10.5 12.5 14.5]);
 assert_isequal(mean(A, [1 2 3]), 12.5);
 assert_isequal(mean([1 2 3; 4 5 6], [1 2]), 3.5);
-assert_checkerror('mean(A, [1 2], ''omitnan'')', 'The ''omitnan'' option is not supported with a vector of dimensions.');
+assert_checkerror('mean(A, [1 2], ''omitnan'')', ...
+  'The ''omitnan'' option is not supported with a vector of dimensions.');
 %=============================================================================
 % an unknown option name
-assert_checkerror('mean([1 2 3], ''foo'')', sprintf(_('Invalid %s argument.'), 'second'), 'Nelson:statistics:invalidValue:invalidArgument');
-assert_checkerror('mean([1 2 3], 1, ''foo'')', sprintf(_('Invalid %s argument.'), 'third'), 'Nelson:statistics:invalidValue:invalidArgument');
+assert_checkerror('mean([1 2 3], ''foo'')', sprintf(_('Invalid %s argument.'), 'second'), ...
+  'Nelson:statistics:invalidValue:invalidArgument');
+assert_checkerror('mean([1 2 3], 1, ''foo'')', sprintf(_('Invalid %s argument.'), 'third'), ...
+  'Nelson:statistics:invalidValue:invalidArgument');
 %=============================================================================

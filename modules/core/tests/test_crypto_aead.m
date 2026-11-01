@@ -51,5 +51,6 @@ asserts.checkerror('crypto.aead.decrypt(key, uint8(1:24), boxed, ad)', _('Authen
 asserts.checkerror('crypto.aead.encrypt(key, nonce)', _('Not enough input arguments.'));
 asserts.checkerror('crypto.aead.encrypt(uint8(1:8), nonce, plaintext)', sprintf(_('%s must be 32 bytes (uint8 vector) or 64 hexadecimal characters.'), 'Key'), 'Nelson:core:aeadKeySizeExpected');
 asserts.checkerror('crypto.aead.encrypt(key, uint8(1:8), plaintext)', sprintf(_('%s must be 24 bytes (uint8 vector) or 48 hexadecimal characters.'), 'Nonce'), 'Nelson:core:aeadNonceSizeExpected');
-asserts.checkerror('crypto.aead.decrypt(key, nonce, uint8(1:8))', _('Encrypted message must be at least 16 bytes (the authentication tag).'), 'Nelson:core:aeadCiphertextTooShort');
+asserts.checkerror('crypto.aead.decrypt(key, nonce, uint8(1:8))', ...
+  _('Encrypted message must be at least 16 bytes (the authentication tag).'), 'Nelson:core:aeadCiphertextTooShort');
 %=============================================================================

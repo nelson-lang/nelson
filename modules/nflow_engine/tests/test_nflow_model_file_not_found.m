@@ -13,5 +13,6 @@
 % distinct identifiers.
 %=============================================================================
 f = [tempname(), '.nflow'];
-asserts.checkerror('NFlow.exportfmu(f)', sprintf('The model file does not exist: %s', f), 'Nelson:nflow_engine:modelFileNotFound');
+asserts.checkerror('NFlow.exportfmu(f)', sprintf('The model file does not exist: %s', f), ...
+  'Nelson:nflow_engine:modelFileNotFound');
 %=============================================================================

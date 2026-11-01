@@ -144,7 +144,8 @@ function opts = parseScatterHistogramOptions(args, data)
         opts.GroupData = value(:);
       case 'groupvariable'
         if isempty(data.SourceTable)
-          error('Nelson:scatterhistogram:groupVariableIsSupportedOnly', 'GroupVariable is supported only for table input.');
+          error('Nelson:scatterhistogram:groupVariableIsSupportedOnly', ...
+            'GroupVariable is supported only for table input.');
         end
         [groupData, groupName] = graphicsTableVariable(data.SourceTable, value);
         opts.GroupData = groupData(:);
@@ -614,7 +615,8 @@ function labels = groupLabels(groupData)
   elseif isnumeric(groupData)
     labels = cellstr(string(groupData));
   else
-    error('Nelson:scatterhistogram:invalidGroupData', 'GroupData must be numeric, logical, categorical, string, or cellstr.');
+    error('Nelson:scatterhistogram:invalidGroupData', ...
+      'GroupData must be numeric, logical, categorical, string, or cellstr.');
   end
 end
 %=============================================================================
@@ -695,7 +697,8 @@ end
 function value = validateHistogramDisplayStyle(value)
   value = lower(char(value));
   if ~(strcmp(value, 'bar') || strcmp(value, 'stairs') || strcmp(value, 'smooth'))
-    error('Nelson:scatterhistogram:invalidHistogramDisplayStyle', 'HistogramDisplayStyle must be ''bar'', ''stairs'', or ''smooth''.');
+    error('Nelson:scatterhistogram:invalidHistogramDisplayStyle', ...
+      'HistogramDisplayStyle must be ''bar'', ''stairs'', or ''smooth''.');
   end
 end
 %=============================================================================
@@ -717,7 +720,8 @@ function value = validateScatterPlotLocation(value)
   allowed = {'southwest', 'southeast', 'northeast', 'northwest'};
   raw = char(value);
   if ~any(strcmp(lower(raw), allowed))
-    error('Nelson:scatterhistogram:invalidScatterPlotLocation', 'ScatterPlotLocation must be ''SouthWest'', ''SouthEast'', ''NorthEast'', or ''NorthWest''.');
+    error('Nelson:scatterhistogram:invalidScatterPlotLocation', ...
+      'ScatterPlotLocation must be ''SouthWest'', ''SouthEast'', ''NorthEast'', or ''NorthWest''.');
   end
   value = canonicalChoice(raw, allowed);
 end
@@ -732,7 +736,8 @@ end
 %=============================================================================
 function value = validateProportion(value)
   if ~isnumeric(value) || ~isscalar(value) || value <= 0 || value >= 1 || ~isfinite(value)
-    error('Nelson:scatterhistogram:invalidScatterPlotProportion', '%s must be a scalar between 0 and 1.', 'ScatterPlotProportion');
+    error('Nelson:scatterhistogram:invalidScatterPlotProportion', '%s must be a scalar between 0 and 1.', ...
+      'ScatterPlotProportion');
   end
   value = double(value);
 end

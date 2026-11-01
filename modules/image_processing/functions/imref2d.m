@@ -16,7 +16,8 @@ function ref = imref2d(varargin)
     imageSize = varargin{1};
   end
   if nargin == 2
-    error('Nelson:image_processing:imref2dRequiresImageSizeBothX', 'imref2d requires image size only or both X and Y world arguments.');
+    error('Nelson:image_processing:imref2dRequiresImageSizeBothX', ...
+      'imref2d requires image size only or both X and Y world arguments.');
   end
   if nargin >= 2
     xWorldLimits = varargin{2};

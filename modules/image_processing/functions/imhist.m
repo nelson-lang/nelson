@@ -23,7 +23,8 @@ function [counts, binLocations] = imhist(varargin)
   end
   n = double(n);
   if numel(n) ~= 1 || ~isfinite(n) || n < 1 || n ~= floor(n)
-    error('Nelson:image_processing:numberBinsPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Number of bins');
+    error('Nelson:image_processing:numberBinsPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Number of bins');
   end
   switch class(img)
     case {'double', 'single', 'logical'}

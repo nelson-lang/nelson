@@ -15,7 +15,8 @@ function gray = rgb2gray(rgb)
       error('Nelson:validators:mustBeNonempty', '%s must be nonempty.', 'Colormap');
     end
     if ~isa(rgb, 'double')
-      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', 'Colormap must be a double matrix with values in the range [0, 1].');
+      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', ...
+        'Colormap must be a double matrix with values in the range [0, 1].');
     end
     grayd = 0.298936021293776 * rgb(:, 1) + 0.587043074451121 * rgb(:, 2) + 0.114020904255103 * rgb(:, 3);
     grayd = ip_clip_unit_result(grayd);

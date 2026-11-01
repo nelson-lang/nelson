@@ -19,6 +19,8 @@ asserts.isequal(isprime([2 4; 17 18]), logical([1 0; 1 0]));
 asserts.isequal(sum(isprime(1:100)), 25);
 asserts.isequal(class(isprime(uint32([5 6]))), 'logical');
 %=============================================================================
-asserts.checkerror('isprime(-3)', _('Input must contain nonnegative integers.'), 'Nelson:isprime:nonNonnegativeInteger');
-asserts.checkerror('isprime(2.5)', _('Input must contain nonnegative integers.'), 'Nelson:isprime:nonNonnegativeInteger');
+asserts.checkerror('isprime(-3)', _('Input must contain nonnegative integers.'), ...
+  'Nelson:isprime:nonNonnegativeInteger');
+asserts.checkerror('isprime(2.5)', _('Input must contain nonnegative integers.'), ...
+  'Nelson:isprime:nonNonnegativeInteger');
 %=============================================================================

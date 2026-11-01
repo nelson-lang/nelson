@@ -14,5 +14,6 @@
 asserts.checkerror('class(struct(), ''foo'')', 'When called from outside a class constructor, the CLASS function must be called with one input.', 'Nelson:types:classOutsideConstructor');
 %=============================================================================
 S = sparse(eye(2));
-asserts.checkerror('S(1, 1, 2)', 'Multidimensional indexing (more than 2 dimensions) not legal for sparse arrays.', 'Nelson:types:sparseNDimIndexing');
+asserts.checkerror('S(1, 1, 2)', 'Multidimensional indexing (more than 2 dimensions) not legal for sparse arrays.', ...
+  'Nelson:types:sparseNDimIndexing');
 %=============================================================================

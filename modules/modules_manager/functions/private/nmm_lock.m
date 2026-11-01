@@ -41,7 +41,8 @@ function lock = nmm_lock(varargin)
     case {'-check', '-diff'}
       lock = lockReport(module_path, option);
     otherwise
-      nmm_error('InvalidOptionExpected', '%s expected.', sprintf('#%d argument: ''-dry-run'', ''-check'' or ''-diff''', 3));
+      nmm_error('InvalidOptionExpected', '%s expected.', ...
+        sprintf('#%d argument: ''-dry-run'', ''-check'' or ''-diff''', 3));
   end
 end
 %=============================================================================

@@ -71,7 +71,8 @@ function [options, hasVariableNames] = parseOptions(args)
   for k = 1:2:length(args)
     name = args{k};
     if ~(ischar(name) && isrow(name)) && ~(isstring(name) && isscalar(name))
-      error('Nelson:table:invalidType:parameterNameACharacterVectorString', _('Parameter name must be a character vector or string scalar.'));
+      error('Nelson:table:invalidType:parameterNameACharacterVectorString', ...
+        _('Parameter name must be a character vector or string scalar.'));
     end
     idx = find(strcmpi(char(name), optionNames), 1);
     if isempty(idx)

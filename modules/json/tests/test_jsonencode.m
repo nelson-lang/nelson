@@ -159,6 +159,8 @@ assert_isequal(R, REF);
 assert_isequal(jsonencode(struct('a', 1), 'PrettyPrint', false), '{"a":1}');
 %=============================================================================
 % an unknown option name errors
-assert_checkerror('jsonencode(1, ''BadName'', true)', sprintf(_('%s expected.'), 'Wrong value for argument: ''ConvertInfAndNaN'' or ''PrettyPrint'''));
-assert_checkerror('jsonencode(1, ''BadName'', true)', sprintf(_('%s expected.'), 'Wrong value for argument: ''ConvertInfAndNaN'' or ''PrettyPrint'''), 'Nelson:jsonencode:invalidOption');
+assert_checkerror('jsonencode(1, ''BadName'', true)', sprintf(_('%s expected.'), ...
+  'Wrong value for argument: ''ConvertInfAndNaN'' or ''PrettyPrint'''));
+assert_checkerror('jsonencode(1, ''BadName'', true)', sprintf(_('%s expected.'), ...
+  'Wrong value for argument: ''ConvertInfAndNaN'' or ''PrettyPrint'''), 'Nelson:jsonencode:invalidOption');
 %=============================================================================

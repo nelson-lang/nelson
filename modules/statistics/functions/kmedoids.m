@@ -44,7 +44,8 @@ function [idx, C, sumd, D, midx, info] = kmedoids(varargin)
 end
 %=============================================================================
 function opts = parseOptions(args)
-  opts = struct('Distance', 'sqeuclidean', 'Start', 'sample', 'Replicates', 1, 'MaxIter', 100, 'Display', 'off', 'Options', []);
+  opts = struct('Distance', 'sqeuclidean', 'Start', 'sample', 'Replicates', 1, 'MaxIter', 100, 'Display', 'off', ...
+    'Options', []);
   for k = 1:2:length(args)
     name = optionName(args{k});
     value = args{k + 1};

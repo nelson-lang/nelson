@@ -70,7 +70,8 @@ T = table([1 2; 3 4], [5 6; 7 8], 'VariableNames', {'A', 'B'});
 R = splitvars(T, {'A', 'B'}, 'NewVariableNames', {{'a1', 'a2'}, ["b1", "b2"]});
 asserts.isequal(R.Properties.VariableNames, {'a1', 'a2', 'b1', 'b2'});
 asserts.isequal(R.b2, [6; 8]);
-R = splitvars(table([1 2; 3 4], [5; 6], 'VariableNames', {'A', 'B'}), {'A', 'B'}, 'NewVariableNames', {{'a1', 'a2'}, {'bb'}});
+R = splitvars(table([1 2; 3 4], [5; 6], 'VariableNames', {'A', 'B'}), {'A', 'B'}, 'NewVariableNames', {{'a1', 'a2'}, ...
+  {'bb'}});
 asserts.isequal(R.Properties.VariableNames, {'a1', 'a2', 'bb'});
 R = splitvars(table([1; 2], 'VariableNames', {'A'}), 'A', 'NewVariableNames', {'z'});
 asserts.isequal(R.Properties.VariableNames, {'z'});
@@ -78,11 +79,15 @@ R = splitvars(table([1 2; 3 4], 'VariableNames', {'A'}), 'A', 'NewVariableNames'
 asserts.isequal(R.Properties.VariableNames, {'a1', 'a2'});
 %=============================================================================
 msgMulti = 'When splitting several variables, NewVariableNames must be a cell array with one cell of names per variable.';
-assert_checkerror('splitvars(T, {''A'', ''B''}, ''NewVariableNames'', {''a1'', ''a2'', ''b1'', ''b2''})', msgMulti, 'Nelson:table:splitvars:incorrectNumVarnamesMultisplit');
-assert_checkerror('splitvars(T, {''A'', ''B''}, ''NewVariableNames'', {{''a1'', ''a2''}})', msgMulti, 'Nelson:table:splitvars:incorrectNumVarnamesMultisplit');
-assert_checkerror('splitvars(T, [1 1])', 'List of variables to split must not specify any variable more than once.', 'Nelson:table:splitvars:duplicateVars');
+assert_checkerror('splitvars(T, {''A'', ''B''}, ''NewVariableNames'', {''a1'', ''a2'', ''b1'', ''b2''})', msgMulti, ...
+  'Nelson:table:splitvars:incorrectNumVarnamesMultisplit');
+assert_checkerror('splitvars(T, {''A'', ''B''}, ''NewVariableNames'', {{''a1'', ''a2''}})', msgMulti, ...
+  'Nelson:table:splitvars:incorrectNumVarnamesMultisplit');
+assert_checkerror('splitvars(T, [1 1])', 'List of variables to split must not specify any variable more than once.', ...
+  'Nelson:table:splitvars:duplicateVars');
 assert_checkerror('splitvars(T, 3)', 'Variable index exceeds table dimensions.', 'Nelson:table:varIndexOutOfRange');
-assert_checkerror('splitvars(T, ''A'', ''NewVariableNames'', {''B'', ''C''})', 'Duplicate table variable name.', 'Nelson:table:duplicateVariableNames');
+assert_checkerror('splitvars(T, ''A'', ''NewVariableNames'', {''B'', ''C''})', 'Duplicate table variable name.', ...
+  'Nelson:table:duplicateVariableNames');
 %=============================================================================
 TT = timetable(seconds([1; 2]), [1 3; 2 4], [5 7; 6 8]);
 R = splitvars(TT);

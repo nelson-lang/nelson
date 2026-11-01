@@ -21,12 +21,14 @@ POSSIBLE_STR = {'win64', 'woa64', 'win32', 'glnxa64arm', 'glnxa64', 'glnxa32', '
 asserts.istrue(contains(str, POSSIBLE_STR));
 %=============================================================================
 [str, maxsize] = computer();
-POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
+POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', ...
+  'WASM32'};
 asserts.istrue(contains(str, POSSIBLE_STR));
 asserts.istrue(isdouble(maxsize));
 %=============================================================================
 [str, maxsize, endian] = computer();
-POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', 'WASM32'};
+POSSIBLE_STR = {'PCWOA64', 'PCWIN', 'PCWIN64', 'GLNXA64ARM', 'GLNXA64', 'GLNXA32', 'MACI32', 'MACI64', 'MACA64', ...
+  'WASM32'};
 asserts.istrue(contains(str, POSSIBLE_STR));
 asserts.istrue(isdouble(maxsize));
 POSSIBLE_E = {'L', 'B'};

@@ -54,7 +54,8 @@ E = eventtable(seconds([1; 2]), ...
 asserts.isequal(E.EventEnds, seconds([1.5; 3]));
 asserts.isequal(E.Properties.EventEndsVariable, 'EventEnds');
 %=============================================================================
-asserts.checkerror('eventtable([1; 2])', _('First input must either be a timetable or it must be a datetime or duration vector.'));
+asserts.checkerror('eventtable([1; 2])', ...
+  _('First input must either be a timetable or it must be a datetime or duration vector.'));
 asserts.checkerror('eventtable(seconds([1; 2]), ''EventLabels'', {''a''; ''b''; ''c''})', _('''EventLabels'' must either be a scalar or a vector with the same number of elements as the height of the first input.'));
 asserts.checkerror('eventtable(seconds([1; 2]), ''VariableNames'', {''A'', ''B''})', _('Invalid argument name ''VariableNames''. Name must be ''EventLabels'', ''EventLabelsVariable'', ''EventLengths'', ''EventLengthsVariable'', ''EventEnds'', or ''EventEndsVariable''.'));
 %=============================================================================

@@ -59,7 +59,8 @@ function choice = odeEventChoiceAt(choices, index, count, name)
     elseif numel(choices) == count
       choice = choices{index};
     else
-      error('Nelson:ode_solvers:sizeMismatch:valueSizeDoesNotMatchEvent', '%s size does not match event value size.', name);
+      error('Nelson:ode_solvers:sizeMismatch:valueSizeDoesNotMatchEvent', ...
+        '%s size does not match event value size.', name);
     end
   else
     choice = choices;

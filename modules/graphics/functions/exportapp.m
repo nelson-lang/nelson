@@ -24,7 +24,8 @@ function exportapp(varargin)
     filename = char(filename);
   end
   if ~(ischar(filename) && isrow(filename))
-    error('Nelson:exportapp:invalidFilename', 'Second argument must be a filename as a character vector or string scalar.');
+    error('Nelson:exportapp:invalidFilename', ...
+      'Second argument must be a filename as a character vector or string scalar.');
   end
 
   frame = getframe(fig);

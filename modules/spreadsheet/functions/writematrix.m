@@ -22,7 +22,8 @@ function varargout = writematrix(varargin)
     filename = convertStringsToChars(filename);
   end
 
-  is_text = strcmp(fileparts(filename, 'extension'), '.txt') || strcmp(fileparts(filename, 'extension'), '.csv') || strcmp(fileparts(filename, 'extension'), '.dat');
+  is_text = strcmp(fileparts(filename, 'extension'), '.txt') || strcmp(fileparts(filename, 'extension'), ...
+    '.csv') || strcmp(fileparts(filename, 'extension'), '.dat');
   if (nargin < 3 && (isnumeric(M) || islogical(M)) && is_text)
     % dlmwrite is faster than convert to table and write
     if ispc()

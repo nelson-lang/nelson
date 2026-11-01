@@ -93,7 +93,8 @@ end
 function [fun, x0, lb, ub, A, b, Aeq, beq, nonlcon, options] = parseProblem(problem)
   if ~isfield(problem, 'objective') || ~isfield(problem, 'x0') || ...
       ~ isfield(problem, 'solver') || ~isfield(problem, 'options')
-    error('Nelson:optimization:invalidProblemStructure', 'Problem structure must contain %s fields.', 'solver and options');
+    error('Nelson:optimization:invalidProblemStructure', 'Problem structure must contain %s fields.', ...
+      'solver and options');
   end
   fun = problem.objective;
   x0 = problem.x0;

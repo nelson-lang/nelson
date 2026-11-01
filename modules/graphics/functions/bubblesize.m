@@ -34,7 +34,8 @@ end
 function validateBubbleSize(value)
   if ~(isnumeric(value) && isreal(value) && numel(value) == 2 && ...
       all(isfinite(value)) && all(value > 0) && value(2) > value(1))
-    error('Nelson:bubblesize:invalidValue', 'Value must be a 1x2 vector of positive numbers in which the second element is larger than the first.');
+    error('Nelson:bubblesize:invalidValue', ...
+      'Value must be a 1x2 vector of positive numbers in which the second element is larger than the first.');
   end
 end
 %=============================================================================

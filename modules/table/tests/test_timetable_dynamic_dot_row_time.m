@@ -31,7 +31,8 @@ assert_isequal(x, 3);
 TD = timetable(datetime(2020, 1, 1) + days(0:3)', (1:4)');
 assert_isequal(TD.('Var1')(datetime(2020, 1, 3)), 3);
 assert_isequal(TD.('Var1')('2020-01-03'), 3);
-msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), 'datetime');
+msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), ...
+  'datetime');
 assert_checkerror('TD.(''Var1'')(seconds(1));', msg, 'Nelson:timetable:InvalidRowSubscriptsDatetime');
 %=============================================================================
 E = eventtable(seconds([1; 2]), 'EventLabels', ["x"; "y"]);

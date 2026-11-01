@@ -67,5 +67,6 @@ assert_isapprox(var(C, 0, [1 2], 'omitnan'), 7 / 3, 1e-10);
 % a vector that lists a single effective dimension behaves like a scalar dim
 assert_isequal(var(A, 0, [2]), var(A, 0, 2));
 % a weight vector cannot be combined with a vector of dimensions
-asserts.checkerror('var(reshape(1:24, [2 3 4]), [1 1], [1 2])', _('A weight vector is not supported with a vector of dimensions.'));
+asserts.checkerror('var(reshape(1:24, [2 3 4]), [1 1], [1 2])', ...
+  _('A weight vector is not supported with a vector of dimensions.'));
 %=============================================================================

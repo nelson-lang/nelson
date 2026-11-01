@@ -20,5 +20,6 @@ end
 elapsed = toc();
 ops = n * 15;
 asserts.istrue(value > 0);
-fprintf('BENCH_REFERENCE,call,bytecode primitive builtin dispatch loop,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,call,bytecode primitive builtin dispatch loop,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

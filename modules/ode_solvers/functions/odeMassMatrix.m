@@ -24,7 +24,8 @@ classdef odeMassMatrix
       if nargin > 0 && ~ischar(varargin{1}) && ~isstring(varargin{1})
         value = varargin{1};
         if ~(isempty(value) || isnumeric(value) || isa(value, 'function_handle'))
-          error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', 'Mass matrix');
+          error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', ...
+            '%s must be numeric or a function handle.', 'Mass matrix');
         end
         obj.MassMatrix = value;
         hasMassMatrix = true;
@@ -47,7 +48,8 @@ classdef odeMassMatrix
 
     function obj = set.MassMatrix(obj, value)
       if ~(isempty(value) || isnumeric(value) || isa(value, 'function_handle'))
-        error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', 'Mass matrix');
+        error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', ...
+          '%s must be numeric or a function handle.', 'Mass matrix');
       end
       obj.MassMatrix = value;
     end

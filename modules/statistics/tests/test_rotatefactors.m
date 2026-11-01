@@ -58,6 +58,7 @@ asserts.checkerror('rotatefactors(X, ''MaxIt'', 0)', sprintf(_('%s must be a pos
 asserts.checkerror('rotatefactors(X, ''Coeff'', -1)', _('Coeff must be a nonnegative finite scalar.'));
 asserts.checkerror('rotatefactors(X, ''Power'', 0)', sprintf(_('%s must be a positive finite scalar.'), 'Power'));
 asserts.checkerror('rotatefactors(X, ''Method'', ''procrustes'')', _('Target is required for this rotation method.'));
-asserts.checkerror('rotatefactors(X, ''Method'', ''pattern'', ''Target'', ones(3, 2))', _('Target must have the same size as X.'));
+asserts.checkerror('rotatefactors(X, ''Method'', ''pattern'', ''Target'', ones(3, 2))', ...
+  _('Target must have the same size as X.'));
 asserts.checkerror('rotatefactors(X, ''Unknown'', 1)', _('Unknown option.'));
 %=============================================================================

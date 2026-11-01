@@ -76,5 +76,6 @@ asserts.checkerror('[D, I] = pdist2([1], [1])', _('Smallest or Largest must be s
 asserts.checkerror('pdist2([1], [1], ''euclidean'', 2)', _('Distance parameter is not supported for this metric.'));
 asserts.checkerror('pdist2([1], [1], ''minkowski'', 0)', sprintf(_('%s must be positive.'), 'Distance parameter'));
 asserts.checkerror('pdist2([1], [1], ''Smallest'')', _('Name-value arguments must be paired.'));
-asserts.checkerror('pdist2([1], [1], ''Smallest'', 1, ''Largest'', 1)', _('Smallest and Largest cannot both be specified.'));
+asserts.checkerror('pdist2([1], [1], ''Smallest'', 1, ''Largest'', 1)', ...
+  _('Smallest and Largest cannot both be specified.'));
 %=============================================================================

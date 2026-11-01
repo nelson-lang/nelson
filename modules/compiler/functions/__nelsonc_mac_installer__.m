@@ -9,7 +9,8 @@
 %=============================================================================
 function __nelsonc_mac_installer__(stage, payload, shortcut, options, report)
   if ~isempty(shortcut) && ~same_path(shortcut, report.executable)
-    error('Nelson:nelsonc:platform:macOSApplicationPackagesSupportApplication', 'macOS application packages support the application shortcut only.');
+    error('Nelson:nelsonc:platform:macOSApplicationPackagesSupportApplication', ...
+      'macOS application packages support the application shortcut only.');
   end
   if report.runtime.gui
     create_bundle(payload, options, report);
@@ -46,7 +47,8 @@ function create_bundle(payload, options, report)
   if any(double(bundleName) > 127); bundleName = stem; end
   bundle = fullfile(payload, [bundleName, '.app']);
   if isfile(bundle) || isfolder(bundle)
-    error('Nelson:nelsonc:installer:applicationInputsCollideMacOSApplication', 'Application inputs collide with the macOS application bundle.');
+    error('Nelson:nelsonc:installer:applicationInputsCollideMacOSApplication', ...
+      'Application inputs collide with the macOS application bundle.');
   end
   executable = fullfile(payload, report.executable);
   binaryRoot = fullfile(bundle, 'Contents', 'MacOS'); mkdir(binaryRoot);

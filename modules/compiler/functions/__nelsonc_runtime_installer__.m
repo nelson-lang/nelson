@@ -12,7 +12,8 @@ function __nelsonc_runtime_installer__(name, input, varargin)
   options = struct('InstallerName', name, 'OutputDir', fullpath(name), ...
     'RuntimeDelivery', 'web', 'PackageType', 'auto', 'OptionalDependencies', 'all', 'Compression', 'normal', 'Verbose', false);
   if mod(numel(varargin), 2) ~= 0
-    error('Nelson:nelsonc:options:runtimeInstallerOptionsRequireName', 'Runtime installer options require name-value pairs.');
+    error('Nelson:nelsonc:options:runtimeInstallerOptionsRequireName', ...
+      'Runtime installer options require name-value pairs.');
   end
   for k = 1:2:numel(varargin)
     key = varargin{k};
@@ -26,16 +27,19 @@ function __nelsonc_runtime_installer__(name, input, varargin)
     options.(key) = __nelsonc_installer_option__(key, varargin{k + 1});
   end
   if strcmp(options.RuntimeDelivery, 'none')
-    error('Nelson:nelsonc:options:runtimeInstallerRequiresWebInstaller', 'A runtime installer requires web or installer delivery.');
+    error('Nelson:nelsonc:options:runtimeInstallerRequiresWebInstaller', ...
+      'A runtime installer requires web or installer delivery.');
   end
   if strcmp(options.PackageType, 'zip') && ~strcmp(options.RuntimeDelivery, 'installer')
-    error('Nelson:nelsonc:options:zipRuntimeInstallersRequireInstallerDelivery', 'ZIP runtime installers require installer delivery.');
+    error('Nelson:nelsonc:options:zipRuntimeInstallersRequireInstallerDelivery', ...
+      'ZIP runtime installers require installer delivery.');
   end
   if ~ispc() && strcmp(options.PackageType, 'zip')
     error('Nelson:nelsonc:platform:zipRuntimeInstallersRequireWindows', 'ZIP runtime installers require Windows.');
   end
   if strcmp(options.RuntimeDelivery, 'web')
-    error('Nelson:nelsonc:runtimeDownload:automaticRuntimeDownloadUnavailableInstallerOnly', 'Automatic runtime download is unavailable. Use RuntimeDelivery installer.');
+    error('Nelson:nelsonc:runtimeDownload:automaticRuntimeDownloadUnavailableInstallerOnly', ...
+      'Automatic runtime download is unavailable. Use RuntimeDelivery installer.');
   end
   extensions = {'.exe', '.zip'};
   if ismac(); extensions = {'.pkg'}; elseif ~ispc(); extensions = {'.install'}; end
@@ -48,7 +52,8 @@ function __nelsonc_runtime_installer__(name, input, varargin)
   if ispc(); engine = __nelsonc_inno_engine__(); end
   plan = __nelsonc_distribution_plan__(input, ~ispc());
   if ~strcmp(plan.architecture, computer('arch'))
-    error('Nelson:nelsonc:installer:buildReportArchitectureMismatch', 'The build report architecture differs from the packaging host.');
+    error('Nelson:nelsonc:installer:buildReportArchitectureMismatch', ...
+      'The build report architecture differs from the packaging host.');
   end
   stage = tempname();
   __application_archive__('directory', stage);

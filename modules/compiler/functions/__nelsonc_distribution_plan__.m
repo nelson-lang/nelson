@@ -17,7 +17,8 @@ function plan = __nelsonc_distribution_plan__(input, requireLinuxDiscovery)
       current = input(k);
       report = current.__nelsonc_report__();
       if ~isfield(report, 'Distribution')
-        error('Nelson:nelsonc:distribution:resultHasNoDistributionReport', 'The result has no distribution report; rebuild the application.');
+        error('Nelson:nelsonc:distribution:resultHasNoDistributionReport', ...
+          'The result has no distribution report; rebuild the application.');
       end
       reports{end + 1} = report.Distribution;
     end
@@ -26,7 +27,8 @@ function plan = __nelsonc_distribution_plan__(input, requireLinuxDiscovery)
     for k = 1:numel(filenames)
       info = dir(filenames{k});
       if numel(info) ~= 1 || info.isdir || info.bytes > 64 * 1024 * 1024
-        error('Nelson:nelsonc:distribution:buildReportTooLarge', 'A build report must be a regular file of at most 64 MiB.');
+        error('Nelson:nelsonc:distribution:buildReportTooLarge', ...
+          'A build report must be a regular file of at most 64 MiB.');
       end
       encoded = __nelsonc_plan__('build-report', fileread(filenames{k}));
       reports{end + 1} = jsondecode(encoded);
@@ -55,7 +57,8 @@ function filenames = report_filenames(input)
       end
     end
   else
-    error('Nelson:nelsonc:distribution:expectedBuildResultsBuildReport', 'Expected build results or build report filenames.');
+    error('Nelson:nelsonc:distribution:expectedBuildResultsBuildReport', ...
+      'Expected build results or build report filenames.');
   end
   if isempty(filenames) || ~isvector(filenames) || numel(filenames) > 64 || ~iscellstr(filenames)
     error('Nelson:nelsonc:distribution:buildReportFilenamesRequired', 'One to 64 build report filenames are required.');

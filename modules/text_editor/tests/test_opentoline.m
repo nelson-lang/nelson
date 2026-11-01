@@ -15,10 +15,10 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 fixture = fullfile(fixtureDirectory, 'opentoline_fixture.m');
 filewrite(fixture, ['function r = opentoline_fixture(x)', LF, '  r = x + 1;', LF, '  r = r * 2;', LF, 'end', LF]);
-editorCleanup = onCleanup(@() __editor__('close')); %#ok<NASGU>
+editorCleanup = onCleanup(@() __editor__('close')); %#ok<NLS0004>
 opentoline(fixture, 2);
 asserts.istrue(strcmp(strrep(__editor__('currentFile'), '\', '/'), strrep(fixture, '\', '/')));
 asserts.isequal(__editor__('cursor'), [2 1]);

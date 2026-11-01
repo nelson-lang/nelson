@@ -38,7 +38,8 @@ R = gevcdf([], [], [], []);
 asserts.isequal(size(R), [0 0]);
 %=============================================================================
 asserts.checkerror('gevcdf(1, 0, 1)', _('Not enough input arguments.'));
-asserts.checkerror('gevcdf(1, 0, 1, 0, ''bad'')', sprintf(_('Invalid %s distribution option.'), 'generalized extreme value'));
+asserts.checkerror('gevcdf(1, 0, 1, 0, ''bad'')', sprintf(_('Invalid %s distribution option.'), ...
+  'generalized extreme value'));
 asserts.checkerror('gevcdf(ones(2), ones(3), 1, 0)', _('Size mismatch on input arguments'));
 asserts.checkerror('gevcdf({1}, 0, 1, 0)', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('gevcdf(1, {0}, 1, 0)', sprintf(_('%s must be real numeric.'), 'K'));

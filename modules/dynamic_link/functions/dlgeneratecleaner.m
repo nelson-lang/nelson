@@ -10,8 +10,6 @@
 function dlgeneratecleaner(varargin)
   % dlgeneratecleaner(destinationdir)
   % dlgeneratecleaner(destinationdir, files)
-  status = false;
-  message = '';
   if nargin < 1 || nargin > 2
     error('Nelson:dlgeneratecleaner:wrongNumbersInputArguments2', 'Wrong numbers of input arguments.');
   end
@@ -39,8 +37,6 @@ function dlgeneratecleaner(varargin)
   txt = [txt; templatecleanerpart4()];
   txt = [txt; templatecleanerpart5()];
   filewrite(cleanerfilename, txt);
-  status = true;
-  message = '';
 end
 %=============================================================================
 function txt = templatecleanerpart1(destinationdir)

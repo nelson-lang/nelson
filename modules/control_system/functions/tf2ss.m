@@ -89,7 +89,7 @@ function [A, B, C, D] = computeStateSpaceMatrices(numerator, denominator, mb, nb
 end
 %=============================================================================
 function p = removeLeadingZeroColumns(p)
-  [n, m] = size(p);
+  [~, m] = size(p);
   % Check if there are multiple columns and the norm of the first column is zero
   if m > 1 && norm(p(:, 1)) == 0
     % Remove the first column and recursively call removeLeadingZeroColumns

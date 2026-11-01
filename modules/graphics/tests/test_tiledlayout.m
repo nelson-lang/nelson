@@ -45,7 +45,8 @@ asserts.isequal(t4.TileSpacing, 'loose');
 t4.GridSize = [3 1];
 asserts.isequal(t4.GridSize, [3 1]);
 asserts.isequal(t4.TileArrangement, 'fixed');
-asserts.checkerror('t4.TileArrangement = ''flow'';', getString(message('Nelson:graphics:readOnlyProperty', 'TileArrangement')));
+asserts.checkerror('t4.TileArrangement = ''flow'';', getString(message('Nelson:graphics:readOnlyProperty', ...
+  'TileArrangement')));
 close all;
 %=============================================================================
 asserts.checkerror('tiledlayout(2)', getString(message('Nelson:tiledlayout:missingGridDimensions')));

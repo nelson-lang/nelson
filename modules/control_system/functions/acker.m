@@ -25,7 +25,8 @@ function varargout = acker(varargin)
   end
 
   if (mB ~= mA)
-    error('Nelson:control_system:AAndBNumRowsMismatch', 'The number of rows in matrices %s and %s must be equal.', 'A', 'B');
+    error('Nelson:control_system:AAndBNumRowsMismatch', 'The number of rows in matrices %s and %s must be equal.', ...
+      'A', 'B');
   end
   if nB ~= 1
     error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
@@ -34,7 +35,8 @@ function varargout = acker(varargin)
   % Vectorize P
   P = P(:);
   if (size(A, 1) ~= length(P))
-    error('Nelson:control_system:dimagree:polesNeedDimensionMatrixA', 'Poles need to have the same dimension as matrix A')
+    error('Nelson:control_system:dimagree:polesNeedDimensionMatrixA', ...
+      'Poles need to have the same dimension as matrix A')
   end
 
   % Create the control law gain matrix L

@@ -118,7 +118,8 @@ function [n, sampleMask, dataArgs] = validateData(dataArgs)
       if isempty(n)
         n = rows;
       elseif rows ~= n
-        error('Nelson:statistics:nonscalarDataArgumentsSameNumber', '%s must have the same number of rows.', 'Nonscalar data arguments');
+        error('Nelson:statistics:nonscalarDataArgumentsSameNumber', '%s must have the same number of rows.', ...
+          'Nonscalar data arguments');
       end
       sampleMask(k) = true;
     end
@@ -144,7 +145,8 @@ function indices = sampleIndices(n, weights)
   end
   w = weights(:);
   if length(w) ~= n || any(w < 0) || sum(w) <= 0
-    error('Nelson:statistics:weightsNonnegativeVectorOneValue', 'Weights must be a nonnegative vector with one value per observation.');
+    error('Nelson:statistics:weightsNonnegativeVectorOneValue', ...
+      'Weights must be a nonnegative vector with one value per observation.');
   end
   cdf = cumsum(w ./ sum(w));
   u = rand(n, 1);

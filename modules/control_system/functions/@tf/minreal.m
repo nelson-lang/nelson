@@ -23,7 +23,7 @@ function varargout = minreal(varargin)
     tol = varargin{2};
   end
 
-  [am, bm, cm, dm] = minreal(a, b, c, d);
+  [am, bm, cm, dm] = minreal(a, b, c, d, tol);
   sysOut = ss(am, bm, cm, dm, sysIn.Ts);
   varargout{1} = tf(sysOut);
 end

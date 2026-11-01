@@ -118,7 +118,8 @@ function [step, args] = consumeRegularStepLocal(args)
     end
     k = k + 2;
   end
-  error('Nelson:timetable:invalidSyntax:regularSynchronizationRequiresTimeStepSampleRate', 'Regular synchronization requires TimeStep or SampleRate.');
+  error('Nelson:timetable:invalidSyntax:regularSynchronizationRequiresTimeStepSampleRate', ...
+    'Regular synchronization requires TimeStep or SampleRate.');
 end
 %=============================================================================
 function tf = isMethodNameLocal(value)

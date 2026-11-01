@@ -17,5 +17,6 @@ value(idx) = 'token';
 elapsed = toc();
 ops = length(idx);
 asserts.isequal(value(idx(end)), token);
-fprintf('BENCH_REFERENCE,string,string setVectorContents scalar no resize,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,string,string setVectorContents scalar no resize,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

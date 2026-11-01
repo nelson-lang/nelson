@@ -31,9 +31,11 @@ asserts.isequal(size(a), [1 1]);
 asserts.istrue(full(a(1, 1)));
 asserts.istrue(issparse(a));
 %=============================================================================
-asserts.checkerror('S = sparse(zeros(3, 3), 3, 3)', _('in I, J, V format, all three vectors must be the same size or be scalars.'));
+asserts.checkerror('S = sparse(zeros(3, 3), 3, 3)', ...
+  _('in I, J, V format, all three vectors must be the same size or be scalars.'));
 % the I, J, V size condition also carries a stable identifier
-asserts.checkerror('S = sparse(zeros(3, 3), 3, 3)', _('in I, J, V format, all three vectors must be the same size or be scalars.'), 'Nelson:sparse:ijvSizeMismatch');
+asserts.checkerror('S = sparse(zeros(3, 3), 3, 3)', ...
+  _('in I, J, V format, all three vectors must be the same size or be scalars.'), 'Nelson:sparse:ijvSizeMismatch');
 %=============================================================================
 R = sparse([], 4, 4);
 REF = sparse([]);

@@ -101,10 +101,13 @@ asserts.checkerror('factoran([1 2; 3 4], 2)', _('M must be smaller than the numb
 asserts.checkerror('factoran([1 Inf; 2 3], 1)', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('factoran([1 1; 1 1], 1)', _('Each variable must have positive variance.'));
 asserts.checkerror('factoran([1 1; 2 2], 1)', _('X must be positive definite.'));
-asserts.checkerror('factoran([1 2; 3 4], 1, ''Rotate'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'Rotate'));
-asserts.checkerror('factoran([1 2; 3 4], 1, ''Scores'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'Scores'));
+asserts.checkerror('factoran([1 2; 3 4], 1, ''Rotate'', ''bad'')', sprintf(_('%s has an unsupported value.'), ...
+  'Rotate'));
+asserts.checkerror('factoran([1 2; 3 4], 1, ''Scores'', ''bad'')', sprintf(_('%s has an unsupported value.'), ...
+  'Scores'));
 asserts.checkerror('factoran([1 2; 3 4], 1, ''Coeff'', -1)', _('Coeff must be a nonnegative finite scalar.'));
 asserts.checkerror('factoran([1 2; 3 4], 1, ''Options'', 1)', sprintf(_('%s must be a scalar structure.'), 'Options'));
 asserts.checkerror('factoran([1 2; 3 4], 1, ''Unknown'', 1)', _('Unknown option.'));
-asserts.checkerror('factoran([1 2 3], 1, ''Xtype'', ''covariance'')', _('X must be a square matrix when Xtype is covariance.'));
+asserts.checkerror('factoran([1 2 3], 1, ''Xtype'', ''covariance'')', ...
+  _('X must be a square matrix when Xtype is covariance.'));
 %=============================================================================

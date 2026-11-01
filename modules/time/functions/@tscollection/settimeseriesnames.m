@@ -16,7 +16,8 @@ function obj = settimeseriesnames(obj, names)
   end
   current = fieldnames(obj.Members_);
   if length(names) ~= length(current)
-    error('Nelson:time:numberNamesMatchNumberTimeseries', 'Number of names must match the number of timeseries members.');
+    error('Nelson:time:numberNamesMatchNumberTimeseries', ...
+      'Number of names must match the number of timeseries members.');
   end
   values = cell(length(current), 1);
   for k = 1:length(current)

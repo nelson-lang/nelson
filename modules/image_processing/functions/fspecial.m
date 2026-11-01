@@ -21,7 +21,8 @@ function h = fspecial(varargin)
   end
   if ~isnumeric(siz) || ~isreal(siz) || numel(siz) ~= 2 || any(~isfinite(double(siz(:)))) ...
       || any(siz(:) < 1) || any(siz(:) ~= floor(siz(:)))
-    error('Nelson:image_processing:filterSizeContainPositiveIntegers', '%s size must contain positive integers.', 'Filter');
+    error('Nelson:image_processing:filterSizeContainPositiveIntegers', '%s size must contain positive integers.', ...
+      'Filter');
   end
   siz = double(siz);
   switch type
@@ -36,7 +37,8 @@ function h = fspecial(varargin)
       end
       if ~isnumeric(radius) || ~isreal(radius) || ~isscalar(radius) || ~isfinite(double(radius)) ...
           || radius < 0
-        error('Nelson:image_processing:diskRadiusNonnegativeFiniteScalar', '%s must be a nonnegative finite scalar.', 'Disk radius');
+        error('Nelson:image_processing:diskRadiusNonnegativeFiniteScalar', ...
+          '%s must be a nonnegative finite scalar.', 'Disk radius');
       end
       radius = double(radius);
       gridRadius = ceil(radius);
@@ -78,7 +80,8 @@ function h = fspecial(varargin)
       end
       if ~isnumeric(alpha) || ~isreal(alpha) || ~isscalar(alpha) || ~isfinite(double(alpha)) ...
           || alpha < 0 || alpha > 1
-        error('Nelson:image_processing:alphaFiniteScalarRange', '%s must be a finite scalar in the range [%s].', 'Alpha', '0, 1');
+        error('Nelson:image_processing:alphaFiniteScalarRange', '%s must be a finite scalar in the range [%s].', ...
+          'Alpha', '0, 1');
       end
       alpha = double(alpha);
       h = zeros(3, 3);

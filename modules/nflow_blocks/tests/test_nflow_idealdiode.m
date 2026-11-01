@@ -39,13 +39,15 @@ v_rev = -10 * (1 / 1e-6) / (100 + 1 / 1e-6);
 assert_isapprox(r.scopes(1).series(end), v_rev, 1e-6);
 % Knee at 0 V (default): a 1 V source through 1 ohm and Ron = 0.1 ohm gives
 % i = 1 / 1.1 and a diode drop Ron * i.
-d3 = strrep(strrep(strrep(d, '"V":10', '"V":1'), '"R":100', '"R":1'), '"Ron":1e-3,"Goff":1e-6,"Vknee":0.7', '"Ron":0.1,"Goff":1e-6');
+d3 = strrep(strrep(strrep(d, '"V":10', '"V":1'), '"R":100', '"R":1'), '"Ron":1e-3,"Goff":1e-6,"Vknee":0.7', ...
+  '"Ron":0.1,"Goff":1e-6');
 r = jsondecode(__nflow_simulate__(NFlow.internal.acausalExpand(d3)));
 assert_isequal(r.status, 'done');
 assert_isapprox(r.scopes(1).series(end), 0.1 / 1.1, 1e-6);
 % The ideal diode is also accepted by the fixed-step loop and the explicit solvers.
 for solver = {'ode1', 'ode4', 'ode45'}
-  r = jsondecode(__nflow_simulate__(NFlow.internal.acausalExpand(strrep(d, '"solver":"dae"', ['"solver":"', solver{1}, '"']))));
+  r = jsondecode(__nflow_simulate__(NFlow.internal.acausalExpand(strrep(d, '"solver":"dae"', ['"solver":"', ...
+    solver{1}, '"']))));
   assert_isequal(r.status, 'done');
   assert_isapprox(r.scopes(1).series(end), v_fwd, 1e-4);
 end

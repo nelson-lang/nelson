@@ -14,7 +14,8 @@ function value = checkVariableCustomProperties(obj, value, current, names)
   for k = 1:length(names)
     name = names{k};
     if ~isfield(value.CustomProperties, name) ...
-        || (isfield(current.CustomProperties, name) && isequal(value.CustomProperties.(name), current.CustomProperties.(name)))
+        || (isfield(current.CustomProperties, name) && isequal(value.CustomProperties.(name), ...
+          current.CustomProperties.(name)))
       continue
     end
     propertyValue = value.CustomProperties.(name);

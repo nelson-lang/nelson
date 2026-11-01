@@ -49,10 +49,14 @@ asserts.isapprox(critval5, 0.188326207784628, 1e-12);
 asserts.checkerror('lillietest()', _('Not enough input arguments.'));
 asserts.checkerror('lillietest({1})', sprintf(_('%s must be a real numeric vector.'), 'X'));
 asserts.checkerror('lillietest([1 2 NaN])', _('X must contain at least four non-NaN observations.'));
-asserts.checkerror('lillietest([1 2 3 4], ''Alpha'', 0.8)', _('ALPHA must be in the range [0.001,0.5] when MCTOL is not specified.'));
-asserts.checkerror('lillietest([1 2 3 4], ''MCTol'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'MCTOL'));
-asserts.checkerror('lillietest([1 2 3 4], ''Distribution'', ''gamma'')', sprintf(_('%s has an unsupported value.'), 'DISTRIBUTION'));
-asserts.checkerror('lillietest([-1 1 2 3], ''Distribution'', ''exponential'')', _('X must be nonnegative for the exponential distribution.'));
+asserts.checkerror('lillietest([1 2 3 4], ''Alpha'', 0.8)', ...
+  _('ALPHA must be in the range [0.001,0.5] when MCTOL is not specified.'));
+asserts.checkerror('lillietest([1 2 3 4], ''MCTol'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'MCTOL'));
+asserts.checkerror('lillietest([1 2 3 4], ''Distribution'', ''gamma'')', sprintf(_('%s has an unsupported value.'), ...
+  'DISTRIBUTION'));
+asserts.checkerror('lillietest([-1 1 2 3], ''Distribution'', ''exponential'')', ...
+  _('X must be nonnegative for the exponential distribution.'));
 asserts.checkerror('lillietest([1 2 3 4], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('lillietest([1 2 3 4], ''Unknown'', ''normal'')', _('Invalid name-value argument name.'));
 %=============================================================================

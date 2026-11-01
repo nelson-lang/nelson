@@ -8,7 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function header = poheader(DOMAIN, LANGUAGE)
-  domain_str = ['"Project-Id-Version: ', DOMAIN, '\n"'];
   header = {};
   header{1, 1} = 'msgid ""';
   header{2, 1} = 'msgstr ""';

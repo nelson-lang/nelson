@@ -21,7 +21,6 @@ function r = vswhere()
   if ~isfile(pathvswhere)
     error('Nelson:vswhere:notFound', 'vswhere not found.');
   end
-  jsonfile = [tempdir(), 'vswhere.json'];
   cmd = ['"', pathvswhere, '"', ' -format json'];
   [status, message] = unix(cmd);
   status = (status == 0);

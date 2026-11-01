@@ -27,5 +27,6 @@ end
 asserts.isequal(dec2base([10 15], 16), ['A'; 'F']);
 %=============================================================================
 asserts.checkerror('dec2base(10, 40)', _('The base must be an integer value between 2 and 36.'));
-asserts.checkerror('dec2base(10, 40)', _('The base must be an integer value between 2 and 36.'), 'Nelson:elementary_functions:invalidBase');
+asserts.checkerror('dec2base(10, 40)', _('The base must be an integer value between 2 and 36.'), ...
+  'Nelson:elementary_functions:invalidBase');
 %=============================================================================

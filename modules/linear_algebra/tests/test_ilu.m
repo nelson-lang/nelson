@@ -234,13 +234,17 @@ asserts.checkerror('ilu(A, struct(''type'', ''bad''))', sprintf(_('Unsupported %
 asserts.checkerror('ilu(A, struct(''type'', 1))', _('Option value must be a character row vector or a string scalar.'));
 asserts.checkerror('ilu(A, struct(''droptol'', Inf))', sprintf(_('%s must be a finite real scalar.'), 'Option value'));
 asserts.checkerror('ilu(A, struct(''droptol'', -1))', sprintf(_('%s must be a nonnegative scalar.'), 'droptol'));
-asserts.checkerror('ilu(A, struct(''fillfactor'', 0))', sprintf(_('%s must be a positive integer scalar.'), 'fillfactor'));
-asserts.checkerror('ilu(A, struct(''fillfactor'', 1.5))', sprintf(_('%s must be a positive integer scalar.'), 'fillfactor'));
+asserts.checkerror('ilu(A, struct(''fillfactor'', 0))', sprintf(_('%s must be a positive integer scalar.'), ...
+  'fillfactor'));
+asserts.checkerror('ilu(A, struct(''fillfactor'', 1.5))', sprintf(_('%s must be a positive integer scalar.'), ...
+  'fillfactor'));
 asserts.checkerror('ilu(A, struct(''udiag'', 1))', _('udiag must be a logical scalar.'));
 asserts.checkerror('ilu(A, struct(''thresh'', -1))', _('thresh must be a scalar between 0 and 1.'));
 asserts.checkerror('ilu(A, struct(''thresh'', 2))', _('thresh must be a scalar between 0 and 1.'));
 asserts.checkerror('ilu(A, struct(''unknown'', 1))', sprintf(_('Unsupported %s.'), 'incomplete LU option'));
 asserts.checkerror('ilu(sparse([0 1; 1 1]))', sprintf(_('%s failed.'), 'Incomplete LU factorization'));
-asserts.checkerror('ilu(sparse([0 1; 1 1]), struct(''type'', ''nofill'', ''udiag'', true))', sprintf(_('%s failed.'), 'Incomplete LU factorization'));
-asserts.checkerror('ilu(sparse(zeros(2, 2)), struct(''type'', ''ilutp''))', sprintf(_('%s failed.'), 'Incomplete LU factorization'));
+asserts.checkerror('ilu(sparse([0 1; 1 1]), struct(''type'', ''nofill'', ''udiag'', true))', ...
+  sprintf(_('%s failed.'), 'Incomplete LU factorization'));
+asserts.checkerror('ilu(sparse(zeros(2, 2)), struct(''type'', ''ilutp''))', sprintf(_('%s failed.'), ...
+  'Incomplete LU factorization'));
 %=============================================================================

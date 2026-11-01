@@ -9,7 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 library = dlopen(probePath);
 probe = dlsym(library, 'figureWorkspaceProbe', 'int32', {'cstring', 'cstring'});
 titleText = 'Qt workspace details';
@@ -48,7 +49,8 @@ close(figureObject);
 dlclose(library);
 
 function assertText(probe, titleText, value)
-  asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figureDetails', 'value', value)), int32(1));
+  asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figureDetails', 'value', ...
+    value)), int32(1));
 end
 
 function result = invoke(probe, titleText, request)

@@ -185,5 +185,6 @@ msg = _('Specify colors as a three-column matrix of RGB triplets, a character ve
 assert_checkerror('fliplightness(true(1, 3))', msg);
 assert_checkerror('fliplightness(true(1, 3))', msg, 'Nelson:graphics:fliplightness:InvalidColors');
 %=============================================================================
-assert_checkerror('fliplightness(''foo'')', getString(message('Nelson:graphics:validatecolor:InvalidColor')), 'Nelson:graphics:validatecolor:InvalidColor');
+assert_checkerror('fliplightness(''foo'')', getString(message('Nelson:graphics:validatecolor:InvalidColor')), ...
+  'Nelson:graphics:validatecolor:InvalidColor');
 %=============================================================================

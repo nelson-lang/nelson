@@ -9,7 +9,7 @@
 %=============================================================================
 probe_dir = tempname();
 mkdir(probe_dir);
-c = onCleanup(@() rmdir(probe_dir, 's')); %#ok<NASGU>
+c = onCleanup(@() rmdir(probe_dir, 's')); %#ok<NLS0004>
 %=============================================================================
 % delete(filename) removes a file
 f1 = fullfile(probe_dir, 'nls_delete_probe_1.txt');
@@ -95,7 +95,8 @@ delete(string([]));
 %=============================================================================
 % invalid element
 asserts.checkerror('delete({1})', _('A valid filename expected.'));
-asserts.checkerror('delete({1})', _('A valid filename expected.'), 'Nelson:files_folders_functions:validFilenameExpected');
+asserts.checkerror('delete({1})', _('A valid filename expected.'), ...
+  'Nelson:files_folders_functions:validFilenameExpected');
 %=============================================================================
 % handle objects are still dispatched to their own delete
 m = containers.Map();

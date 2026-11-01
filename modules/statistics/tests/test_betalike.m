@@ -37,7 +37,8 @@ asserts.istrue(all(isnan(AVAR(:))));
 %=============================================================================
 asserts.checkerror('betalike([1 2])', _('Not enough input arguments.'));
 asserts.checkerror('betalike({1 2}, [0.2 0.5])', sprintf(_('PARAMS must be a %s vector.'), 'two-element real numeric'));
-asserts.checkerror('betalike([1 2 3], [0.2 0.5])', sprintf(_('PARAMS must be a %s vector.'), 'two-element real numeric'));
+asserts.checkerror('betalike([1 2 3], [0.2 0.5])', sprintf(_('PARAMS must be a %s vector.'), ...
+  'two-element real numeric'));
 asserts.checkerror('betalike([1 2], {0.2 0.5})', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('betalike([1 2], [])', sprintf(_('%s must be nonempty.'), 'X'));
 asserts.checkerror('betalike([1 2], [])', sprintf(_('%s must be nonempty.'), 'X'), 'Nelson:validators:mustBeNonempty');

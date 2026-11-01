@@ -15,7 +15,7 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 %=============================================================================
 asserts.isequal(parsestring('keyboard'), 'script');
 asserts.isequal(parsestring('keyboard()'), 'error');

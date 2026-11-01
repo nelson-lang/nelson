@@ -99,7 +99,7 @@ function omc = nflow_modelica_find_omc(overridePath)
       names = {};
       for k = 1:numel(d)
         if d(k).isdir
-          names{end + 1} = [roots{r}, '/', d(k).name]; %#ok<AGROW>
+          names{end + 1} = [roots{r}, '/', d(k).name]; %#ok<NLS0039>
         end
       end
       names = sort(names); % newest version sorts last

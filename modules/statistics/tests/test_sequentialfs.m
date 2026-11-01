@@ -48,12 +48,18 @@ asserts.isfalse(any(history.In(:, 3)));
 asserts.checkerror('sequentialfs()', _('Not enough input arguments.'));
 asserts.checkerror('sequentialfs(1, X)', sprintf(_('%s must be a function handle.'), 'FUN'));
 asserts.checkerror('sequentialfs(filterFun, {})', sprintf(_('%s must be a real numeric matrix.'), 'First data input'));
-asserts.checkerror('sequentialfs(filterFun, [], ''CV'', ''none'')', sprintf(_('%s must be nonempty.'), 'First data input'));
-asserts.checkerror('sequentialfs(filterFun, X, y(1:2), ''CV'', ''none'')', sprintf(_('%s must have the same number of rows.'), 'All data inputs'));
+asserts.checkerror('sequentialfs(filterFun, [], ''CV'', ''none'')', sprintf(_('%s must be nonempty.'), ...
+  'First data input'));
+asserts.checkerror('sequentialfs(filterFun, X, y(1:2), ''CV'', ''none'')', ...
+  sprintf(_('%s must have the same number of rows.'), 'All data inputs'));
 asserts.checkerror('sequentialfs(filterFun, X, ''Direction'', ''bad'')', sprintf(_('Invalid %s value.'), 'Direction'));
-asserts.checkerror('sequentialfs(filterFun, X, ''KeepIn'', 4)', sprintf(_('%s contains invalid feature indices.'), 'KeepIn'));
-asserts.checkerror('sequentialfs(filterFun, X, ''KeepIn'', 1, ''KeepOut'', 1)', _('KeepIn and KeepOut must not overlap.'));
-asserts.checkerror('sequentialfs(filterFun, X, ''NFeatures'', 4)', _('NFeatures must be an integer scalar between 0 and the number of features.'));
+asserts.checkerror('sequentialfs(filterFun, X, ''KeepIn'', 4)', sprintf(_('%s contains invalid feature indices.'), ...
+  'KeepIn'));
+asserts.checkerror('sequentialfs(filterFun, X, ''KeepIn'', 1, ''KeepOut'', 1)', ...
+  _('KeepIn and KeepOut must not overlap.'));
+asserts.checkerror('sequentialfs(filterFun, X, ''NFeatures'', 4)', ...
+  _('NFeatures must be an integer scalar between 0 and the number of features.'));
 asserts.checkerror('sequentialfs(filterFun, X, ''CV'', ''bad'')', sprintf(_('%s has an invalid value.'), 'CV'));
-asserts.checkerror('sequentialfs(filterFun, X, ''Options'', 1)', sprintf(_('%s must be a scalar structure.'), 'Options'));
+asserts.checkerror('sequentialfs(filterFun, X, ''Options'', 1)', sprintf(_('%s must be a scalar structure.'), ...
+  'Options'));
 %=============================================================================

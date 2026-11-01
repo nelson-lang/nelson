@@ -10,7 +10,7 @@
 function varargout = length(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  [m, n, p] = size(varargin{1});
+  [m, n, ~] = size(varargin{1});
   varargout{1} = m * n;
 end
 %=============================================================================

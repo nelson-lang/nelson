@@ -151,6 +151,8 @@ asserts.isequal(C{1}, int32([10; 20; 30]));
 %=============================================================================
 % Error cases.
 asserts.checkerror('textscan(''1 2'')', _('Not enough input arguments.'));
-asserts.checkerror('textscan(''1 2'', ''literal only'')', _('The format must contain at least one conversion specifier.'));
-asserts.checkerror('textscan(''1 2'', ''%d'', ''UnknownOption'', 1)', sprintf(_('Unknown option ''%s''.'), 'UnknownOption'));
+asserts.checkerror('textscan(''1 2'', ''literal only'')', ...
+  _('The format must contain at least one conversion specifier.'));
+asserts.checkerror('textscan(''1 2'', ''%d'', ''UnknownOption'', 1)', sprintf(_('Unknown option ''%s''.'), ...
+  'UnknownOption'));
 %=============================================================================

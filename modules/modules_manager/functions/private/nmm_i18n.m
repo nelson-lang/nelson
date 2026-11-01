@@ -68,8 +68,8 @@ function result = nmm_i18n(varargin)
     i18nHelpers('merge', errEn, errLoc);
     nmm_i18n_finalize(uiLoc);
     nmm_i18n_finalize(errLoc);
-    files{end + 1} = uiLoc; %#ok<AGROW>
-    files{end + 1} = errLoc; %#ok<AGROW>
+    files{end + 1} = uiLoc; %#ok<NLS0039>
+    files{end + 1} = errLoc; %#ok<NLS0039>
   end
   result = struct('name', name, 'localeDir', localeDir, 'files', {files});
 end

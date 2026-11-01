@@ -73,7 +73,8 @@ asserts.isequal(h.CoordinateTickLabels, {'A', 'B'});
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');
-asserts.checkerror('ax = axes(); parallelplot(ax, X(:, 1:2));', getString(message('Nelson:parallelplot:parallelCoordinatesPlotCannotBeA')));
+asserts.checkerror('ax = axes(); parallelplot(ax, X(:, 1:2));', ...
+  getString(message('Nelson:parallelplot:parallelCoordinatesPlotCannotBeA')));
 h = parallelplot(X(:, 1:2), 'DataNormalization', 'none', 'Color', 'r');
 asserts.isequal(h.UserData.NormalizedData, X(:, 1:2));
 asserts.isequal(h.DataNormalization, 'none');
@@ -83,8 +84,12 @@ close(f);
 %=============================================================================
 asserts.checkerror('parallelplot();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('parallelplot({1, 2});', getString(message('Nelson:parallelplot:numericMatrixOrExpected')));
-asserts.checkerror('parallelplot([1 2; 3 4], ''GroupData'', [1 2 3]);', getString(message('Nelson:parallelplot:invalidGroupData')));
-asserts.checkerror('parallelplot([1 2; 3 4], ''DataNormalization'', ''zscore'');', getString(message('Nelson:parallelplot:invalidDataNormalization')));
-asserts.checkerror('parallelplot([1 2; 3 4], ''CoordinateLabels'', {''A'', ''B''});', getString(message('Nelson:graphics:unsupportedProperty', 'parallelplot')));
-asserts.checkerror('T = table([1; 2], [3; 4], ''VariableNames'', {''A'', ''B''}); parallelplot(T, {''A''});', getString(message('Nelson:parallelplot:specifyTheGroupVariableUsing')));
+asserts.checkerror('parallelplot([1 2; 3 4], ''GroupData'', [1 2 3]);', ...
+  getString(message('Nelson:parallelplot:invalidGroupData')));
+asserts.checkerror('parallelplot([1 2; 3 4], ''DataNormalization'', ''zscore'');', ...
+  getString(message('Nelson:parallelplot:invalidDataNormalization')));
+asserts.checkerror('parallelplot([1 2; 3 4], ''CoordinateLabels'', {''A'', ''B''});', ...
+  getString(message('Nelson:graphics:unsupportedProperty', 'parallelplot')));
+asserts.checkerror('T = table([1; 2], [3; 4], ''VariableNames'', {''A'', ''B''}); parallelplot(T, {''A''});', ...
+  getString(message('Nelson:parallelplot:specifyTheGroupVariableUsing')));
 %=============================================================================

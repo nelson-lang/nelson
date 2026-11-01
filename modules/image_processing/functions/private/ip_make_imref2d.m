@@ -9,12 +9,14 @@
 %=============================================================================
 function ref = ip_make_imref2d(imageSize, xWorldLimits, yWorldLimits)
   if ~isnumeric(imageSize) || ~isreal(imageSize) || numel(imageSize) < 2
-    error('Nelson:image_processing:imageSizeContainLeastTwoDimensions', '%s must contain at least two dimensions.', 'Image size');
+    error('Nelson:image_processing:imageSizeContainLeastTwoDimensions', '%s must contain at least two dimensions.', ...
+      'Image size');
   end
   imageSize = double(imageSize(:).');
   imageSize = imageSize(1:2);
   if any(~isfinite(imageSize)) || any(imageSize < 1) || any(imageSize ~= floor(imageSize))
-    error('Nelson:image_processing:imageSizeContainPositiveIntegerValues', '%s must contain positive integer values.', 'Image size');
+    error('Nelson:image_processing:imageSizeContainPositiveIntegerValues', ...
+      '%s must contain positive integer values.', 'Image size');
   end
   if isempty(xWorldLimits)
     xWorldLimits = [0.5 imageSize(2) + 0.5];

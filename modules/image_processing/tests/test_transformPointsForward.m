@@ -45,7 +45,10 @@ tp = projective2d([1 0 0.1; 0 1 0.2; 0 0 1]);
 asserts.isapprox([px py], [2 3] / 1.8, 1e-12);
 %=============================================================================
 % error handling
-asserts.checkerror('transformPointsForward(affine2d(), [1 2 3])', _('Packed points must be a matrix with one column per dimension.'));
-asserts.checkerror('transformPointsForward(affine2d(), [1 2], [1 2 3])', _('Point coordinate arrays must all be the same size.'));
-asserts.checkerror('transformPointsForward(5, 1, 0)', _('First argument must be a geometric transformation structure.'));
+asserts.checkerror('transformPointsForward(affine2d(), [1 2 3])', ...
+  _('Packed points must be a matrix with one column per dimension.'));
+asserts.checkerror('transformPointsForward(affine2d(), [1 2], [1 2 3])', ...
+  _('Point coordinate arrays must all be the same size.'));
+asserts.checkerror('transformPointsForward(5, 1, 0)', ...
+  _('First argument must be a geometric transformation structure.'));
 %=============================================================================

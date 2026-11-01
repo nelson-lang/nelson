@@ -61,11 +61,17 @@ asserts.checkerror('fitcknn({1}, [1; 2])', sprintf(_('%s must be a real numeric 
 asserts.checkerror('fitcknn([1; 2], [1])', sprintf(_('Y must be a vector with one %s per row of X.'), 'label'));
 asserts.checkerror('fitcknn([1; 2], [1; 1])', _('Y must contain at least two classes.'));
 asserts.checkerror('fitcknn([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
-asserts.checkerror('fitcknn([1; 2], [1; 2], ''NumNeighbors'', 3)', _('NumNeighbors must not exceed the number of training observations.'));
-asserts.checkerror('fitcknn([1; 2], [1; 2], ''NumNeighbors'', 1.5)', sprintf(_('%s must be a positive integer scalar.'), 'NumNeighbors'));
+asserts.checkerror('fitcknn([1; 2], [1; 2], ''NumNeighbors'', 3)', ...
+  _('NumNeighbors must not exceed the number of training observations.'));
+asserts.checkerror('fitcknn([1; 2], [1; 2], ''NumNeighbors'', 1.5)', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'NumNeighbors'));
 asserts.checkerror('fitcknn([1; 2], [1; 2], ''Distance'', ''bad'')', sprintf(_('Invalid %s value.'), 'Distance'));
-asserts.checkerror('fitcknn([1; 2], [1; 2], ''DistanceWeight'', ''bad'')', sprintf(_('Invalid %s value.'), 'DistanceWeight'));
-asserts.checkerror('fitcknn([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be true or false.'), 'Standardize'));
-asserts.checkerror('fitcknn([1 2; 3 4], [1; 2], ''Scale'', [1 0])', _('Scale must be a positive finite vector with one value per predictor.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('fitcknn([1; 2], [1; 2], ''DistanceWeight'', ''bad'')', sprintf(_('Invalid %s value.'), ...
+  'DistanceWeight'));
+asserts.checkerror('fitcknn([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be true or false.'), ...
+  'Standardize'));
+asserts.checkerror('fitcknn([1 2; 3 4], [1; 2], ''Scale'', [1 0])', ...
+  _('Scale must be a positive finite vector with one value per predictor.'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

@@ -115,5 +115,6 @@ asserts.isfalse(isvar('ClearvarsInitial'));
 clearvars ClearvarsCellA ClearvarsCellC
 %=============================================================================
 asserts.checkerror('clearvars(''-regexp'', ''['')', _('Invalid regular expression.'));
-asserts.checkerror('clearvars(''ClearvarsInvalid'', ''-except'', ''-regexp'', ''['')', _('Invalid regular expression.'));
+asserts.checkerror('clearvars(''ClearvarsInvalid'', ''-except'', ''-regexp'', ''['')', ...
+  _('Invalid regular expression.'));
 %=============================================================================

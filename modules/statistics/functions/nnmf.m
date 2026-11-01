@@ -136,10 +136,12 @@ function options = parseOptionsLocal(options, algorithm)
     error('Nelson:statistics:optionsDisplayInvalidValue', '%s has an invalid value.', 'Options Display');
   end
   if ~isPositiveIntegerLocal(options.MaxIter)
-    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Options MaxIter');
+    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Options MaxIter');
   end
   if ~isNonnegativeScalarLocal(options.TolFun) || ~isNonnegativeScalarLocal(options.TolX)
-    error('Nelson:statistics:optionsTolerancesNonnegativeScalarValues', 'Options tolerances must be %s scalar values.', 'nonnegative');
+    error('Nelson:statistics:optionsTolerancesNonnegativeScalarValues', ...
+      'Options tolerances must be %s scalar values.', 'nonnegative');
   end
 end
 %=============================================================================

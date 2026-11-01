@@ -12,7 +12,8 @@ R = strings(3, 3);
 asserts.isequal(R{1}, '');
 asserts.isequal(R(1), "");
 asserts.checkerror('R{1} = 3', _('Curly brace assignment into a string expects a character vector.'));
-asserts.checkerror('R{1} = 3', _('Curly brace assignment into a string expects a character vector.'), 'Nelson:string:UnsupportedCurlyAsgnValue');
+asserts.checkerror('R{1} = 3', _('Curly brace assignment into a string expects a character vector.'), ...
+  'Nelson:string:UnsupportedCurlyAsgnValue');
 R(1) = '3';
 %=============================================================================
 R = ["alpha"; "beta"];
@@ -144,5 +145,6 @@ R = ["ad", "gf", "mp";
   "be", "hk", "nq";
   "cf", "il", "or"];
 asserts.checkerror('R{2, 2} = "";', _('Curly brace assignment into a string expects a character vector.'));
-asserts.checkerror('R{2, 2} = "";', _('Curly brace assignment into a string expects a character vector.'), 'Nelson:string:UnsupportedCurlyAsgnValue');
+asserts.checkerror('R{2, 2} = "";', _('Curly brace assignment into a string expects a character vector.'), ...
+  'Nelson:string:UnsupportedCurlyAsgnValue');
 %=============================================================================

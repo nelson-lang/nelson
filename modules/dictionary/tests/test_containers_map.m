@@ -107,7 +107,8 @@ for k = 1:numel(supportedKeyTypes)
   asserts.isequal(mtypedKey.KeyType, supportedKeyTypes{k});
   asserts.isequal(mtypedKey.ValueType, 'any');
 end
-supportedValueTypes = {'any', 'char', 'double', 'single', 'int32', 'uint32', 'int64', 'uint64', 'logical', 'int8', 'uint8'};
+supportedValueTypes = {'any', 'char', 'double', 'single', 'int32', 'uint32', 'int64', 'uint64', 'logical', 'int8', ...
+  'uint8'};
 for k = 1:numel(supportedValueTypes)
   mtypedValue = containers.Map('KeyType', 'char', 'ValueType', supportedValueTypes{k});
   asserts.isequal(mtypedValue.Count, 0);

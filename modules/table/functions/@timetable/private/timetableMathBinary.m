@@ -43,7 +43,8 @@ function B = alignTimetableRows(A, B, functionName)
   for k = 1:height(A)
     idx = find(B.Properties.RowTimes == A.Properties.RowTimes(k), 1);
     if isempty(idx)
-      error(['Nelson:timetable:', functionName, ':RowTimesMismatch'], sprintf(_('%s must match.'), 'Timetable row times'));
+      error(['Nelson:timetable:', functionName, ':RowTimesMismatch'], sprintf(_('%s must match.'), ...
+        'Timetable row times'));
     end
     order(k) = idx;
   end

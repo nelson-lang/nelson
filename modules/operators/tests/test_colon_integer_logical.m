@@ -40,7 +40,8 @@ assert_checkerror('int8(-128):Inf', _('Colon operands must be all the same type,
 assert_checkerror('uint8(1):300', _('Colon operands must be all the same type, or mixed with real double scalar.'));
 assert_checkerror('uint8(1):1.5', _('Colon operands must be all the same type, or mixed with real double scalar.'));
 assert_checkerror('uint8(1):1:-5', _('Colon operands must be all the same type, or mixed with real double scalar.'));
-assert_checkerror('uint8(1):0.5:uint8(3)', _('Colon operands must be all the same type, or mixed with real double scalar.'));
+assert_checkerror('uint8(1):0.5:uint8(3)', ...
+  _('Colon operands must be all the same type, or mixed with real double scalar.'));
 asserts.isequal(uint8(1):1:5, uint8(1:5));
 asserts.isequal(uint8(5):-2:1, uint8([5 3 1]));
 asserts.isequal(uint8(250):-1000:uint8(3), uint8(250));

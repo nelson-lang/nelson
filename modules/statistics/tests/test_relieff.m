@@ -49,10 +49,13 @@ asserts.checkerror('relieff([NaN 1], 1, 1)', sprintf(_('%s must contain finite v
 asserts.checkerror('relieff(X, [1; 2], 1)', _('y must be a vector with one element per observation.'));
 asserts.checkerror('relieff(X, y, 0)', sprintf(_('%s must be a positive integer scalar.'), 'k'));
 asserts.checkerror('relieff(X, y, 1, ''Method'', ''bad'')', sprintf(_('Invalid %s value.'), 'Method'));
-asserts.checkerror('relieff(X, {''a'';''b'';''c'';''d'';''e'';''f''}, 1, ''Method'', ''regression'')', _('Regression method requires a numeric response.'));
+asserts.checkerror('relieff(X, {''a'';''b'';''c'';''d'';''e'';''f''}, 1, ''Method'', ''regression'')', ...
+  _('Regression method requires a numeric response.'));
 asserts.checkerror('relieff(X, y, 1, ''Updates'', [0 1])', _('Updates must contain valid observation indices.'));
-asserts.checkerror('relieff(X, y, 1, ''CategoricalX'', [4])', sprintf(_('%s contains invalid predictor indices.'), 'CategoricalX'));
-asserts.checkerror('relieff(X, y, 1, ''Method'', ''classification'', ''Prior'', [1 -1])', sprintf(_('%s must contain nonnegative finite values with positive sum.'), 'Prior'));
+asserts.checkerror('relieff(X, y, 1, ''CategoricalX'', [4])', sprintf(_('%s contains invalid predictor indices.'), ...
+  'CategoricalX'));
+asserts.checkerror('relieff(X, y, 1, ''Method'', ''classification'', ''Prior'', [1 -1])', ...
+  sprintf(_('%s must contain nonnegative finite values with positive sum.'), 'Prior'));
 asserts.checkerror('relieff(X, yr, 1, ''Sigma'', 0)', sprintf(_('%s must be a positive scalar.'), 'Sigma'));
 asserts.checkerror('relieff(X, y, 1, ''Unknown'', 1)', _('Unknown option.'));
 %=============================================================================

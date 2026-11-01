@@ -31,7 +31,8 @@ asserts.checkerror('squareform({1})', sprintf(_('%s must be a real numeric vecto
 asserts.checkerror('squareform([1 2])', _('Distance vector length must be a binomial coefficient.'));
 asserts.checkerror('squareform([0 1; 2 0])', sprintf(_('%s must be symmetric.'), 'Distance matrix'));
 asserts.checkerror('squareform([0 1 2; 1 0 3])', sprintf(_('%s must be square.'), 'Distance matrix'));
-asserts.checkerror('squareform([1 2 3], 1)', sprintf(_('%s must be a character vector or string scalar.'), 'Direction'));
+asserts.checkerror('squareform([1 2 3], 1)', sprintf(_('%s must be a character vector or string scalar.'), ...
+  'Direction'));
 asserts.checkerror('squareform([1 2 3], ''bad'')', sprintf(_('Invalid %s value.'), 'direction'));
 asserts.checkerror('squareform([0 1; 1 0], ''tomatrix'')', sprintf(_('%s must be a vector.'), 'Value'));
 %=============================================================================

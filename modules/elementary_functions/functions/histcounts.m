@@ -32,12 +32,14 @@ function varargout = histcounts(varargin)
     if isscalar(a2)
       nbins = double(a2);
       if nbins < 1 || nbins ~= fix(nbins)
-        error('Nelson:elementary_functions:numberBinsPositiveInteger', '%s must be a positive integer scalar.', 'Number of bins');
+        error('Nelson:elementary_functions:numberBinsPositiveInteger', '%s must be a positive integer scalar.', ...
+          'Number of bins');
       end
     else
       edges = double(a2(:).');
       if numel(edges) < 2 || any(diff(edges) <= 0)
-        error('Nelson:elementary_functions:binEdgesMonotonicallyIncreasingVector', 'Bin edges must be a monotonically increasing vector.');
+        error('Nelson:elementary_functions:binEdgesMonotonicallyIncreasingVector', ...
+          'Bin edges must be a monotonically increasing vector.');
       end
     end
     i = 2;

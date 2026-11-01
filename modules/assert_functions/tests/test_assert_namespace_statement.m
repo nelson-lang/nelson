@@ -45,14 +45,20 @@ if ~isempty(silent)
 end
 %=============================================================================
 % The terminated form keeps raising, with the same identifier and message.
-assert_checkerror('asserts.istrue(false)', _('Assertion failed: found false entry in condition = false.'), 'Nelson:asserts:assertionFailed');
-assert_checkerror('asserts.istrue(false);', _('Assertion failed: found false entry in condition = false.'), 'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.istrue(false)', _('Assertion failed: found false entry in condition = false.'), ...
+  'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.istrue(false);', _('Assertion failed: found false entry in condition = false.'), ...
+  'Nelson:asserts:assertionFailed');
 %=============================================================================
-assert_checkerror('asserts.isfalse(true)', _('Assertion failed: found true entry in condition = true.'), 'Nelson:asserts:assertionFailed');
-assert_checkerror('asserts.isfalse(true);', _('Assertion failed: found true entry in condition = true.'), 'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.isfalse(true)', _('Assertion failed: found true entry in condition = true.'), ...
+  'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.isfalse(true);', _('Assertion failed: found true entry in condition = true.'), ...
+  'Nelson:asserts:assertionFailed');
 %=============================================================================
-assert_checkerror('asserts.isequal(1, 2)', _('Assertion failed: expected (2) and computed (1) values are different.'), 'Nelson:asserts:assertionFailed');
-assert_checkerror('asserts.isequal(1, 2);', _('Assertion failed: expected (2) and computed (1) values are different.'), 'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.isequal(1, 2)', ...
+  _('Assertion failed: expected (2) and computed (1) values are different.'), 'Nelson:asserts:assertionFailed');
+assert_checkerror('asserts.isequal(1, 2);', ...
+  _('Assertion failed: expected (2) and computed (1) values are different.'), 'Nelson:asserts:assertionFailed');
 %=============================================================================
 % A passing assertion statement produces nothing, as the unqualified form does:
 % no output means no `ans`.

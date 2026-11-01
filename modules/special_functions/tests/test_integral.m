@@ -83,9 +83,12 @@ asserts.isapprox(R, [0.5; 1 / 3; 1 - cos(1)], 1e-10);
 R = integral(@(x) exp(-x .^ 2), 0, Inf, 'RelTol', 1e-12, 'AbsTol', 1e-14);
 asserts.isapprox(R, sqrt(pi) / 2, 1e-11);
 %=============================================================================
-asserts.checkerror('integral(3, 0, 1)', _('First argument must be a function handle.'), 'Nelson:special_functions:funArgNotHandle');
+asserts.checkerror('integral(3, 0, 1)', _('First argument must be a function handle.'), ...
+  'Nelson:special_functions:funArgNotHandle');
 %=============================================================================
-asserts.checkerror('integral(@sin, 0, 1, ''RelTol'')', _('Options must be given as name/value pairs.'), 'Nelson:integral:optionsPairs');
+asserts.checkerror('integral(@sin, 0, 1, ''RelTol'')', _('Options must be given as name/value pairs.'), ...
+  'Nelson:integral:optionsPairs');
 %=============================================================================
-asserts.checkerror('integral(@sin, 0, 1, ''Foo'', 1)', sprintf(_('Unknown option name: %s'), 'Foo'), 'Nelson:integral:unknownOption');
+asserts.checkerror('integral(@sin, 0, 1, ''Foo'', 1)', sprintf(_('Unknown option name: %s'), 'Foo'), ...
+  'Nelson:integral:unknownOption');
 %=============================================================================

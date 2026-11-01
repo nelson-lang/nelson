@@ -9,13 +9,15 @@
 %=============================================================================
 function [payload, shortcut] = __nelsonc_installer_payload__(stage, inventory, report, options)
   if isempty(inventory.files) || ~any(same_path({inventory.files.relative}, report.executable))
-    error('Nelson:nelsonc:installer:installerMissingRecordedExecutable', 'The installer must include the executable recorded in the build report.');
+    error('Nelson:nelsonc:installer:installerMissingRecordedExecutable', ...
+      'The installer must include the executable recorded in the build report.');
   end
   for k = 1:numel(report.files)
     recorded = report.files(k);
     found = find(same_path({inventory.files.relative}, recorded.relative));
     if ~isempty(found) && ~strcmp(inventory.files(found).sha256, recorded.sha256)
-      error('Nelson:nelsonc:installer:builtApplicationFileChangedAfter', 'A built application file changed after compilation: %s.', recorded.relative);
+      error('Nelson:nelsonc:installer:builtApplicationFileChangedAfter', ...
+        'A built application file changed after compilation: %s.', recorded.relative);
     end
   end
   payload = fullfile(stage, 'payload');
@@ -35,12 +37,14 @@ function [payload, shortcut] = __nelsonc_installer_payload__(stage, inventory, r
       error('Nelson:nelsonc:installer', '%s', message);
     end
     if ~strcmp(sha256(destination, '-file'), item.sha256)
-      error('Nelson:nelsonc:installer:installerInputChangedWhileStaging', 'Installer input changed while staging: %s.', item.source);
+      error('Nelson:nelsonc:installer:installerInputChangedWhileStaging', ...
+        'Installer input changed while staging: %s.', item.source);
     end
   end
   actual = jsondecode(__nelsonc_executable__('launcher-contract', fullfile(payload, report.executable)));
   if ~isequal(actual, report.launcher)
-    error('Nelson:nelsonc:installer:launcherContractMismatch', 'The executable launcher contract does not match the build report.');
+    error('Nelson:nelsonc:installer:launcherContractMismatch', ...
+      'The executable launcher contract does not match the build report.');
   end
   __application_archive__('verify', fullfile(payload, report.executable));
   shortcut = '';
@@ -57,12 +61,14 @@ function [payload, shortcut] = __nelsonc_installer_payload__(stage, inventory, r
       end
     end
     if isempty(shortcut)
-      error('Nelson:nelsonc:installer:shortcutIdentifyFileFolderIncluded', 'Shortcut must identify a file or folder included in the installer.');
+      error('Nelson:nelsonc:installer:shortcutIdentifyFileFolderIncluded', ...
+        'Shortcut must identify a file or folder included in the installer.');
     end
   end
   filename = fullfile(payload, 'nelson-installation.txt');
   if isfile(filename) || isfolder(filename)
-    error('Nelson:nelsonc:installer:applicationInputsCollideNelsonInstallation', 'Application inputs collide with nelson-installation.txt.');
+    error('Nelson:nelsonc:installer:applicationInputsCollideNelsonInstallation', ...
+      'Application inputs collide with nelson-installation.txt.');
   end
   lines = {options.ApplicationName, ['Version: ', options.Version], ...
     ['Author: ', options.AuthorName], ['Company: ', options.AuthorCompany], ...

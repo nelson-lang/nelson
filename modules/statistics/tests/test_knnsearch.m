@@ -52,7 +52,9 @@ asserts.checkerror('knnsearch([1 2], [1])', sprintf(_('X and Y must have %s.'), 
 asserts.checkerror('knnsearch([1; 2], [1], ''K'', 3)', _('K must not exceed the number of rows in X.'));
 asserts.checkerror('knnsearch([1; 2], [1], ''K'', 1.5)', sprintf(_('%s must be a positive integer scalar.'), 'K'));
 asserts.checkerror('knnsearch([1; 2], [1], ''Distance'', ''bad'')', sprintf(_('Invalid %s value.'), 'Distance'));
-asserts.checkerror('knnsearch([1; 2], [1], ''Distance'', ''minkowski'', ''P'', 0)', sprintf(_('%s must be a positive scalar.'), 'P'));
+asserts.checkerror('knnsearch([1; 2], [1], ''Distance'', ''minkowski'', ''P'', 0)', ...
+  sprintf(_('%s must be a positive scalar.'), 'P'));
 asserts.checkerror('knnsearch([1; 2], [1], ''NSMethod'', ''bad'')', sprintf(_('Invalid %s value.'), 'NSMethod'));
-asserts.checkerror('knnsearch([1; 2], [1], ''IncludeTies'', 2)', sprintf(_('%s must be true or false.'), 'IncludeTies'));
+asserts.checkerror('knnsearch([1; 2], [1], ''IncludeTies'', 2)', sprintf(_('%s must be true or false.'), ...
+  'IncludeTies'));
 %=============================================================================

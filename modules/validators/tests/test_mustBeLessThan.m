@@ -26,5 +26,6 @@ asserts.checkerror('mustBeLessThan([4 9 15], [5 10 15])', msg, 'Nelson:validator
 asserts.checkerror('mustBeLessThan([1; 3], [2 4])', msg, 'Nelson:validators:mustBeLessThan');
 %=============================================================================
 mustBeLessThan("a", ["b", "c"]);
-asserts.checkerror('mustBeLessThan(true, false)', sprintf(_('Value must be below %s.'), 'false'), 'Nelson:validators:mustBeLessThan');
+asserts.checkerror('mustBeLessThan(true, false)', sprintf(_('Value must be below %s.'), 'false'), ...
+  'Nelson:validators:mustBeLessThan');
 %=============================================================================

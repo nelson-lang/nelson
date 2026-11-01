@@ -34,5 +34,6 @@ asserts.isequal(R, REF);
 %=============================================================================
 assert_isequal(radtodeg(pi), rad2deg(pi));
 %=============================================================================
-assert_checkerror('radtodeg(int8(1))', _('Input must be single or double.'), 'Nelson:trigonometric_functions:nonFloatInput');
+assert_checkerror('radtodeg(int8(1))', _('Input must be single or double.'), ...
+  'Nelson:trigonometric_functions:nonFloatInput');
 %=============================================================================

@@ -94,7 +94,8 @@ asserts.isequal(h(3).YNegativeDelta, 0.2);
 close(f);
 %=============================================================================
 asserts.istrue(isValidGraphicsProperty('errorbar', 'CapSize'));
-asserts.checkerror('errorbar([1 2], [1], [0.1 0.2])', getString(message('Nelson:dimagree:valueValueNumberElements', 'XData', 'YData')));
+asserts.checkerror('errorbar([1 2], [1], [0.1 0.2])', getString(message('Nelson:dimagree:valueValueNumberElements', ...
+  'XData', 'YData')));
 %=============================================================================
 close all
 %=============================================================================

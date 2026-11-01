@@ -26,11 +26,14 @@ asserts.checkerror('parquetwrite(filename, table([1; 2], inner))', msg);
 asserts.isfalse(isfile(filename));
 asserts.checkerror('parquetwrite(filename, table(inner))', msg);
 T = table([1; 2], table([1; 2], inner, 'VariableNames', {'a', 'b'}), 'VariableNames', {'p', 'q'});
-asserts.checkerror('parquetwrite(filename, T)', _('T.q.b is a table with zero variables. Zero variable tables are not supported.'));
+asserts.checkerror('parquetwrite(filename, T)', ...
+  _('T.q.b is a table with zero variables. Zero variable tables are not supported.'));
 T = table([1; 2], timetable(seconds([1; 2]), inner), 'VariableNames', {'p', 'q'});
-asserts.checkerror('parquetwrite(filename, T)', _('T.q.inner is a table with zero variables. Zero variable tables are not supported.'));
+asserts.checkerror('parquetwrite(filename, T)', ...
+  _('T.q.inner is a table with zero variables. Zero variable tables are not supported.'));
 TT = timetable(seconds([1; 2]), [1; 2], inner);
-asserts.checkerror('parquetwrite(filename, TT)', _('TT.inner is a table with zero variables. Zero variable tables are not supported.'));
+asserts.checkerror('parquetwrite(filename, TT)', ...
+  _('TT.inner is a table with zero variables. Zero variable tables are not supported.'));
 asserts.isfalse(isfile(filename));
 %=============================================================================
 % A nested timetable without variables keeps its row times.

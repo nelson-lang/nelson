@@ -47,7 +47,7 @@ function json = acausalGenerateLibrary(domain)
     if ~strcmp(c.domain, domain)
       continue
     end
-    blocks{end + 1} = gen_block(c); %#ok<AGROW>
+    blocks{end + 1} = gen_block(c); %#ok<NLS0039>
   end
 
   json = ['{', ...
@@ -86,7 +86,7 @@ function s = gen_block(c)
     end
     pins{end + 1} = sprintf(...
       '{"name":"%s","x":%d,"y":%d,"side":"%s","domain":"%s"}', ...
-      pinName, px, py, side, pinDomain); %#ok<AGROW>
+      pinName, px, py, side, pinDomain); %#ok<NLS0039>
   end
   % Causal ports: a signal-driven source gets an input; a sensor an output.
   inputs = '[]';
@@ -101,7 +101,7 @@ function s = gen_block(c)
   dp = {};
   for qq = 1:numel(c.params)
     pm = c.params{qq};
-    dp{end + 1} = sprintf('"%s":%.15g', pm{1}, pm{3}); %#ok<AGROW>
+    dp{end + 1} = sprintf('"%s":%.15g', pm{1}, pm{3}); %#ok<NLS0039>
   end
   defaultParams = ['{', strjoin(dp, ','), '}'];
   % Icon file name matches NFlow.internal.acausalGenerateIcon / the catalog name.

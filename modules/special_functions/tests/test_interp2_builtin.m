@@ -65,8 +65,10 @@ asserts.isequal(size(interp2(V, 2)), [13 17]);
 %=============================================================================
 % invalid calls
 asserts.checkerror('interp2(V, xq, yq, ''pchip'')', _('Unknown interpolation method.'), 'Nelson:interp:unknownMethod');
-asserts.checkerror('interp2([1 2 2 3 4], 1:4, V, xq, yq)', _('Grid vectors must be strictly monotonic.'), 'Nelson:interpn:gridVectorsNotMonotonic');
-asserts.checkerror('interp2(1:6, 1:4, V, xq, yq)', _('Grid vector length and sample value size are incompatible.'), 'Nelson:interp:gridSizeMismatch');
+asserts.checkerror('interp2([1 2 2 3 4], 1:4, V, xq, yq)', _('Grid vectors must be strictly monotonic.'), ...
+  'Nelson:interpn:gridVectorsNotMonotonic');
+asserts.checkerror('interp2(1:6, 1:4, V, xq, yq)', _('Grid vector length and sample value size are incompatible.'), ...
+  'Nelson:interp:gridSizeMismatch');
 asserts.checkerror('interp2(V, 1, 2, 3)', _('Wrong number of input arguments.'), 'Nelson:wrongNumberOfInputs');
 asserts.checkerror('interp2()', _('Not enough input arguments.'));
 asserts.checkerror('[a, b] = interp2(V, 2, 2)', _('Too many output arguments.'));

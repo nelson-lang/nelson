@@ -83,6 +83,8 @@ if isfield(fixtures.available, 'regionprops') && fixtures.available.regionprops
   asserts.isapprox(AXIS_REF.Eccentricity, fixtures.regionprops_axis.Eccentricity, 1e-12);
 end
 %=============================================================================
-asserts.checkerror('imdilate([1 2], false(2, 2))', _('Structuring element neighborhood must contain at least one true value.'));
+asserts.checkerror('imdilate([1 2], false(2, 2))', ...
+  _('Structuring element neighborhood must contain at least one true value.'));
 %=============================================================================
-asserts.checkerror('imdilate([1 2], strel(''cube'', 3))', sprintf(_('%s must be a 3-D array for 3-D structuring elements.'), 'Image'));
+asserts.checkerror('imdilate([1 2], strel(''cube'', 3))', ...
+  sprintf(_('%s must be a 3-D array for 3-D structuring elements.'), 'Image'));

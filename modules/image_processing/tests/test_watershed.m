@@ -23,11 +23,13 @@ asserts.checkerror('watershed([1 2], eye(3))', _('Unsupported connectivity.'));
 %=============================================================================
 asserts.checkerror('watershed([1 2], single(eye(3)))', _('Unsupported connectivity.'));
 %=============================================================================
-asserts.checkerror('watershed([1 2], true(2, 2))', _('Connectivity must be a numeric/logical scalar or 3-by-3 matrix.'));
+asserts.checkerror('watershed([1 2], true(2, 2))', ...
+  _('Connectivity must be a numeric/logical scalar or 3-by-3 matrix.'));
 %=============================================================================
 asserts.checkerror('watershed(ones(2, 2, 2), 4)', _('Unsupported connectivity.'));
 %=============================================================================
-asserts.checkerror('watershed(ones(2, 2, 2), true(3, 3))', _('Connectivity must be a numeric/logical scalar or 3-by-3-by-3 array.'));
+asserts.checkerror('watershed(ones(2, 2, 2), true(3, 3))', ...
+  _('Connectivity must be a numeric/logical scalar or 3-by-3-by-3 array.'));
 %=============================================================================
 asserts.checkerror('watershed(ones(2, 2, 2), false(3, 3, 3))', _('Unsupported connectivity.'));
 %=============================================================================

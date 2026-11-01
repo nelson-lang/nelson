@@ -44,8 +44,10 @@ x = zeros(2, 3, 4); x(:, :, [1 3]) = [];
 asserts.isequal(size(x), [2 3 2]);
 %=============================================================================
 % only one subscript may differ from ':'
-assert_checkerror('x = zeros(2, 3, 4); x(1, 1, :) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
-assert_checkerror('x = zeros(2, 3, 4); x(1, :, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+assert_checkerror('x = zeros(2, 3, 4); x(1, 1, :) = [];', ...
+  _('Statement A(...) = [] can only contain one non-colon index.'));
+assert_checkerror('x = zeros(2, 3, 4); x(1, :, 1) = [];', ...
+  _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = zeros(2, 3, 4); x(:, :, 5) = [];', _('Index exceeds array bounds.'));
 %=============================================================================
 % linear deletion: a scalar or a matrix becomes a row, a vector keeps its orientation
@@ -125,12 +127,14 @@ asserts.isequal(size(x), [0 2]);
 assert_checkerror('x = magic(3); x(1:3, 1:3) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = magic(3); x(1:3, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = magic(3); x(1, 1:3) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
-assert_checkerror('x = magic(3); x([1 2 3], [1 2 3]) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+assert_checkerror('x = magic(3); x([1 2 3], [1 2 3]) = [];', ...
+  _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = 5; x(1, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = 1:5; x(1, 2) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = (1:5)''; x(1, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 assert_checkerror('x = (1:5)''; x(2, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
-assert_checkerror('x = zeros(2, 3, 4); x(1:2, 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+assert_checkerror('x = zeros(2, 3, 4); x(1:2, 1) = [];', ...
+  _('Statement A(...) = [] can only contain one non-colon index.'));
 x = zeros(2, 3, 4); x(:, 1:12) = [];
 asserts.isequal(size(x), [2 0]);
 x = zeros(2, 3, 4); x(1:2, :) = [];

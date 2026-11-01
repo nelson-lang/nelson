@@ -16,7 +16,8 @@ function [idx, bary] = tsearchn(points, tri, query)
     query = query.';
   end
   if size(query, 2) ~= size(points, 2)
-    error('Nelson:geometry:queryPointsSameNumberColumnsPoints', '%s must have the same number of columns as points.', 'Query points');
+    error('Nelson:geometry:queryPointsSameNumberColumnsPoints', ...
+      '%s must have the same number of columns as points.', 'Query points');
   end
   nq = size(query, 1);
   ns = size(tri, 1);

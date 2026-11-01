@@ -27,5 +27,6 @@ REF = int8([-64 -63]);
 asserts.isequal(class(R), 'int8');
 asserts.isequal(R, REF);
 %=============================================================================
-asserts.checkerror('R = char([65 66]) - int8(1);', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
+asserts.checkerror('R = char([65 66]) - int8(1);', ...
+  _('Integers can only be combined with integers of the same class, or scalar doubles.'));
 %=============================================================================

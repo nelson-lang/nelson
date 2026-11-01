@@ -12,7 +12,6 @@ function result = optimLsqLevenbergMarquardt(fun, x0, lb, ub, opts, ctx)
   % Supports bound constraints by projection. Returns a result struct with a
   % stop kind that the caller maps to solver-specific exit flags.
   x = min(max(double(x0(:)), lb), ub);
-  n = length(x);
   [funcCount, initialResidual] = initialEvaluation(ctx, x, double(x0(:)));
   damping = initialDamping(opts);
   [J, r, added] = optimFiniteDiffJacobian(fun, x, opts, initialResidual);
@@ -44,7 +43,6 @@ function result = optimLsqLevenbergMarquardt(fun, x0, lb, ub, opts, ctx)
     accepted = false;
     trial = x;
     trialResidual = r;
-    trialResnorm = resnorm;
     firstTry = true;
     while true
       step = safeSolve(JtJ + damping * diag(scaling), -g);
@@ -64,7 +62,6 @@ function result = optimLsqLevenbergMarquardt(fun, x0, lb, ub, opts, ctx)
         accepted = true;
         trial = candidate;
         trialResidual = candidateResidual;
-        trialResnorm = candidateResnorm;
         damping = max(damping / 10, eps);
         break
       end

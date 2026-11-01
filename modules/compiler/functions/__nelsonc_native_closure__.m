@@ -28,14 +28,16 @@ function [libraries, systemLibraries] = __nelsonc_native_closure__(pending, libr
     if ~isempty(previous)
       if ~same_path(libraries(previous).source, source) ...
         && ~strcmpi(libraries(previous).sha256, sha256(source, '-file'))
-        error('Nelson:nelsonc:nativeConflict:conflictingNativeLibraries', 'Conflicting native libraries: %s.', filename);
+        error('Nelson:nelsonc:nativeConflict:conflictingNativeLibraries', 'Conflicting native libraries: %s.', ...
+          filename);
       end
       continue;
     end
     digest = sha256(source, '-file');
     info = jsondecode(__library_dependencies__(source));
     if ~strcmpi(sha256(source, '-file'), digest)
-      error('Nelson:nelsonc:runtimeChanged:nativeLibraryChangedDuringAnalysis', 'Native library changed during analysis: %s.', source);
+      error('Nelson:nelsonc:runtimeChanged:nativeLibraryChangedDuringAnalysis', ...
+        'Native library changed during analysis: %s.', source);
     end
     if ~strcmp(info.architecture, engine.architecture) || ~strcmp(info.format, engine.format)
       error('Nelson:nelsonc:architecture', 'Incompatible native library: %s.', source);
@@ -46,7 +48,8 @@ function [libraries, systemLibraries] = __nelsonc_native_closure__(pending, libr
       [searchPaths, childRpaths] = __nelsonc_elf_search_paths__(info, source, inherited{k - 1});
     end
     keys{end + 1} = key;
-    item = struct('source', source, 'filename', filename, 'needed', {info.needed}, 'delayed', {info.delayed}, 'sha256', digest);
+    item = struct('source', source, 'filename', filename, 'needed', {info.needed}, 'delayed', {info.delayed}, ...
+      'sha256', digest);
     if isempty(libraries)
       libraries = item;
     else

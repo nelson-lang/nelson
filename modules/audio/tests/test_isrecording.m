@@ -12,7 +12,8 @@ skip_testsuite(iswasm(), ...
 %=============================================================================
 r = audiorecorder(8000, 8, 1);
 asserts.isfalse(isrecording(r));
-msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'isrecording');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), ...
+  'isrecording');
 asserts.checkerror('isrecording(1)', msg);
 delete(r);
 %=============================================================================

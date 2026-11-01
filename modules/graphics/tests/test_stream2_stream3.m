@@ -123,11 +123,13 @@ assert_isequal(numel(h(1).XData), 7);
 close(f);
 %=============================================================================
 % Neither takes a line property: they draw nothing to apply it to.
-assert_checkerror('stream2(ones(3), ones(3), 1, 1, ''Color'', ''r'')', getString(message('Nelson:graphics:unexpectedPropertyArgument')));
+assert_checkerror('stream2(ones(3), ones(3), 1, 1, ''Color'', ''r'')', ...
+  getString(message('Nelson:graphics:unexpectedPropertyArgument')));
 %=============================================================================
 assert_checkerror('stream2(1, 2)', getString(message('Nelson:narginchk:notEnoughInputs')));
 assert_checkerror('stream3(1, 2, 3, 4, 5)', getString(message('Nelson:narginchk:notEnoughInputs')));
 %=============================================================================
 % A three dimensional field given to stream2 is refused, and the other way.
-assert_checkerror('stream2(ones(3, 3, 3), ones(3, 3, 3), ones(3, 3, 3), 1, 1, 1)', getString(message('Nelson:stream2:twoDimensionalFieldExpected')));
+assert_checkerror('stream2(ones(3, 3, 3), ones(3, 3, 3), ones(3, 3, 3), 1, 1, 1)', ...
+  getString(message('Nelson:stream2:twoDimensionalFieldExpected')));
 %=============================================================================

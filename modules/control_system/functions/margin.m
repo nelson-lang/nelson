@@ -34,7 +34,8 @@ function varargout = margin(varargin)
     if (nargin == 1)
       bode(varargin{1});
     else
-      error('Nelson:control_system:invalidOutputArgument', 'margin with frequency-response data requires output arguments.');
+      error('Nelson:control_system:invalidOutputArgument', ...
+        'margin with frequency-response data requires output arguments.');
     end
     return
   end

@@ -39,9 +39,12 @@ assert_isequal(verLessThan('Nelson', '2.9'), true);
 assert_isequal(verLessThan("matlab", "7.9"), false);
 %=============================================================================
 % Malformed version string errors.
-assert_checkerror('verLessThan(''matlab'', ''abc'')', _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
-assert_checkerror('verLessThan(''matlab'', ''9.'')', _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
-assert_checkerror('verLessThan(''matlab'', ''9.x'')', _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
+assert_checkerror('verLessThan(''matlab'', ''abc'')', ...
+  _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
+assert_checkerror('verLessThan(''matlab'', ''9.'')', ...
+  _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
+assert_checkerror('verLessThan(''matlab'', ''9.x'')', ...
+  _('The VERSION string must be of the form ''major[.minor[.revision]]'', such as ''7.0.1''.'));
 %=============================================================================
 % Unknown / not-installed toolbox errors.
 assert_checkerror('verLessThan(''NoSuchToolbox'', ''1.0'')', _('The toolbox ''NoSuchToolbox'' is not installed.'));

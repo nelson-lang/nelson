@@ -9,5 +9,6 @@
 %=============================================================================
 fun = str2func('magic');
 cmd = 'struct(fun)';
-asserts.checkerror(cmd, _('Conversion to ''struct'' to ''function_handle'' is not possible.'), 'Nelson:invalidConversion');
+asserts.checkerror(cmd, _('Conversion to ''struct'' to ''function_handle'' is not possible.'), ...
+  'Nelson:invalidConversion');
 %=============================================================================

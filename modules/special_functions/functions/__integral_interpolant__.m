@@ -31,7 +31,8 @@ function data = integralInterpolantBuild(fun, lower, upper, varargin)
   end
   opts = integral_parse_options('integralInterpolant', varargin{:});
   if ~isreal(opts.Waypoints)
-    error('Nelson:integralInterpolant:invalidWaypoints', _('''Waypoints'' value must be a vector with all finite real values.'));
+    error('Nelson:integralInterpolant:invalidWaypoints', ...
+      _('''Waypoints'' value must be a vector with all finite real values.'));
   end
   data = integral_interpolant_build(fun, double(lower), double(upper), opts);
   data.integrand = fun;

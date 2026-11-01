@@ -17,7 +17,8 @@ function out = imtranslate(varargin)
   end
   t = double(varargin{2});
   if any(~isfinite(t(:)))
-    error('Nelson:image_processing:translationVectorContainFiniteValues', '%s must contain finite values.', 'Translation vector');
+    error('Nelson:image_processing:translationVectorContainFiniteValues', '%s must contain finite values.', ...
+      'Translation vector');
   end
   t = t(:).';
   method = 'bilinear';

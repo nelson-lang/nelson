@@ -17,9 +17,12 @@ asserts.istrue(strncmp('abc', 'abc', Inf));
 asserts.istrue(strncmp('', '', 0));
 asserts.isequal(strncmp(["abc", "abd"], "ab", 2), [true true]);
 asserts.istrue(strncmp('abc', 'abd', int8(2)));
-asserts.checkerror('R = strncmp(''abc'', ''abd'', ''2'');', 'Third argument must be a numeric scalar.', 'Nelson:string:strncmp:invalidCount');
-asserts.checkerror('R = strncmp(''abc'', ''abd'', true);', 'Third argument must be a numeric scalar.', 'Nelson:string:strncmp:invalidCount');
-asserts.checkerror('R = strncmp(''abc'', ''abd'', NaN);', 'Third argument must be a numeric scalar.', 'Nelson:string:strncmp:invalidCount');
+asserts.checkerror('R = strncmp(''abc'', ''abd'', ''2'');', 'Third argument must be a numeric scalar.', ...
+  'Nelson:string:strncmp:invalidCount');
+asserts.checkerror('R = strncmp(''abc'', ''abd'', true);', 'Third argument must be a numeric scalar.', ...
+  'Nelson:string:strncmp:invalidCount');
+asserts.checkerror('R = strncmp(''abc'', ''abd'', NaN);', 'Third argument must be a numeric scalar.', ...
+  'Nelson:string:strncmp:invalidCount');
 %=============================================================================
 % case folding follows Unicode
 asserts.istrue(strcmpi(char(201), char(233)));

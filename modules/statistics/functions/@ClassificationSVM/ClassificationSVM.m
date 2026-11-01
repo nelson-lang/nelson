@@ -34,7 +34,8 @@ classdef ClassificationSVM
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationSVMObjectsCreatedFitcsvm', '%s objects are created by %s.', 'ClassificationSVM', 'fitcsvm');
+      error('Nelson:statistics:classificationSVMObjectsCreatedFitcsvm', '%s objects are created by %s.', ...
+        'ClassificationSVM', 'fitcsvm');
     end
   end
 end

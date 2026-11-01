@@ -27,7 +27,7 @@ for s = 1:numel(subs)
   end
   ff = dir([exroot, '/', subs(s).name, '/*.nflow']);
   for k = 1:numel(ff)
-    paths{end + 1} = [exroot, '/', subs(s).name, '/', ff(k).name]; %#ok<SAGROW>
+    paths{end + 1} = [exroot, '/', subs(s).name, '/', ff(k).name]; %#ok<NLS0039>
   end
 end
 assert_istrue(~isempty(paths));

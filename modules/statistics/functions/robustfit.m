@@ -69,7 +69,8 @@ function name = parseWeightFunctionLocal(wfun)
     return
   end
   if ~isTextScalarLocal(wfun)
-    error('Nelson:statistics:WFUNCharacterVectorStringScalar', 'WFUN must be a character vector, string scalar, or function handle.');
+    error('Nelson:statistics:WFUNCharacterVectorStringScalar', ...
+      'WFUN must be a character vector, string scalar, or function handle.');
   end
   name = parseChoiceLocal(wfun, {'andrews', 'bisquare', 'cauchy', 'fair', ...
                                  'huber', 'logistic', 'ols', 'talwar', 'welsch'}, 'WFUN');

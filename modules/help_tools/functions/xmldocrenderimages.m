@@ -124,7 +124,7 @@ function xmldocrenderimages_module(module, language, force)
     lastIndex = min(firstIndex + nbWorkers - 1, numel(scriptFiles));
     batchCommands = commands(firstIndex:lastIndex);
     batchScriptFiles = scriptFiles(firstIndex:lastIndex);
-    [status, output] = system(batchCommands, ones(1, numel(batchCommands)) * (TIMEOUT + 10));
+    [status, ~] = system(batchCommands, ones(1, numel(batchCommands)) * (TIMEOUT + 10));
     failedIndex = find(status ~= 0);
     for k = 1:numel(failedIndex)
       i = failedIndex(k);

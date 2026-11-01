@@ -14,9 +14,11 @@ function b = datetimeAlignZone(b, zone, isConcatenation)
   bZone = b.TimeZoneValue;
   if xor(isempty(zone), isempty(bZone))
     if nargin > 2 && isConcatenation
-      error('Nelson:datetime:cat:IncompatibleTZ', 'Unable to concatenate a datetime array that has a time zone with one that does not have a time zone.');
+      error('Nelson:datetime:cat:IncompatibleTZ', ...
+        'Unable to concatenate a datetime array that has a time zone with one that does not have a time zone.');
     end
-    error('Nelson:datetime:IncompatibleTZ', 'Cannot combine or compare a datetime array with a time zone with one without a time zone.');
+    error('Nelson:datetime:IncompatibleTZ', ...
+      'Cannot combine or compare a datetime array with a time zone with one without a time zone.');
   end
   if strcmp(zone, bZone)
     return

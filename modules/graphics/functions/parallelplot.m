@@ -18,7 +18,8 @@ function varargout = parallelplot(varargin)
   ax = createParallelAxes(parent);
   chartArgs = parallelPlotProperties(data, sourceTable, coordinateVariables, opts);
   group = __parallelplot__('Parent', ax, chartArgs{:});
-  [axisHandles, labelHandles, tickHandles, baselineHandle] = drawCoordinateAxes(group, opts.CoordinateTickLabels, limits);
+  [axisHandles, labelHandles, tickHandles, baselineHandle] = drawCoordinateAxes(group, opts.CoordinateTickLabels, ...
+    limits);
   dataHandles = drawParallelRows(group, normalized, opts);
   legendHandles = drawParallelLegend(group, dataHandles, opts, size(data, 2));
   applyParallelAxesState(ax, size(data, 2), ~isempty(legendHandles));
@@ -66,7 +67,8 @@ function [data, labels, sourceTable, coordinateVariables, args] = parseParallelD
     sourceTable = source;
     variables = {};
     if ~isempty(args) && isTableVariableSelector(args{1}) && ~isParallelPropertyName(args{1})
-      error('Nelson:parallelplot:specifyTheGroupVariableUsing', 'Specify the ''GroupVariable'' using a property name and value pair.');
+      error('Nelson:parallelplot:specifyTheGroupVariableUsing', ...
+        'Specify the ''GroupVariable'' using a property name and value pair.');
     end
     [variables, args] = extractCoordinateVariables(args, variables);
     coordinateVariables = variables;
@@ -561,7 +563,8 @@ function labels = normalizeLabels(value, expectedCount)
     error('Nelson:parallelplot:invalidCoordinateLabels', 'Coordinate labels must be text.');
   end
   if numel(labels) ~= expectedCount
-    error('Nelson:parallelplot:invalidNumberOfCoordinate', 'Number of coordinate labels must match the number of variables.');
+    error('Nelson:parallelplot:invalidNumberOfCoordinate', ...
+      'Number of coordinate labels must match the number of variables.');
   end
 end
 %=============================================================================

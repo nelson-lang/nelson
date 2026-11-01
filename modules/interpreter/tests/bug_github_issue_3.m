@@ -26,6 +26,7 @@ asserts.checkerror('A{1}', _('Attempt to apply contents-indexing to non cell-arr
 %=============================================================================
 asserts.checkerror('A{1}', _('Attempt to apply contents-indexing to non cell-array object.'));
 %=============================================================================
-asserts.checkerror('A{1} = 1', _('Unable to perform assignment because brace indexing is not supported for variables of this type.'));
+asserts.checkerror('A{1} = 1', ...
+  _('Unable to perform assignment because brace indexing is not supported for variables of this type.'));
 asserts.checkerror('A{1} = 1', _('Unable to perform assignment because brace indexing is not supported for variables of this type.'), 'Nelson:cellAssToNonCell');
 %=============================================================================

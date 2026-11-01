@@ -63,7 +63,8 @@ missing = fullfile(source, 'missing.txt');
 asserts.checkerror('__nelsonc_help_text__(missing)', 'Application help must be an existing UTF-8 file.');
 asserts.checkerror('ncc(entry, ''--help-file'')', 'Missing value after --help-file.');
 rejected = fullfile(directory, 'not-created', ['bad', extension]);
-asserts.checkerror('ncc(entry, ''--help-file'', missing, ''-o'', rejected)', 'Application help must be an existing UTF-8 file.');
+asserts.checkerror('ncc(entry, ''--help-file'', missing, ''-o'', rejected)', ...
+  'Application help must be an existing UTF-8 file.');
 asserts.isfalse(isfolder(fileparts(rejected)));
 rmdir(source, 's');
 captured = fullfile(directory, 'help-output.txt');

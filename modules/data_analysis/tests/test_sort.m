@@ -26,5 +26,6 @@ assert_isequal(sort([-3 1; 2 -4], 'ComparisonMethod', 'abs'), [2 1; -3 -4]);
 assert_isequal(sort(single([-3 1 -2]), 'ComparisonMethod', 'abs'), single([1 -2 -3]));
 %=============================================================================
 asserts.checkerror('sort([1 2 3], ''bad'')', _('Sort direction must be either the string ''ascend'' or ''descend'''));
-asserts.checkerror('sort([1 2 3], ''bad'')', _('Sort direction must be either the string ''ascend'' or ''descend'''), 'Nelson:data_analysis:invalidSortDirection');
+asserts.checkerror('sort([1 2 3], ''bad'')', ...
+  _('Sort direction must be either the string ''ascend'' or ''descend'''), 'Nelson:data_analysis:invalidSortDirection');
 %=============================================================================

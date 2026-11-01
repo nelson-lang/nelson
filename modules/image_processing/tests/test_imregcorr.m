@@ -19,6 +19,8 @@ asserts.checkerror('imregcorr(zeros(2, 2, 2), zeros(2, 2, 2))', sprintf(_('%s mu
 %=============================================================================
 asserts.checkerror('imregcorr([NaN], [1])', sprintf(_('%s values must be finite.'), 'Image'));
 %=============================================================================
-asserts.checkerror('imregcorr([1 2], [1 2], 1)', sprintf(_('%s must be a string.'), 'Registration transformation type'));
+asserts.checkerror('imregcorr([1 2], [1 2], 1)', sprintf(_('%s must be a string.'), ...
+  'Registration transformation type'));
 %=============================================================================
-asserts.checkerror('imregcorr([1 2], [1 2], ''projective'')', sprintf(_('Unsupported "%s" option.'), 'registration transformation type'));
+asserts.checkerror('imregcorr([1 2], [1 2], ''projective'')', sprintf(_('Unsupported "%s" option.'), ...
+  'registration transformation type'));

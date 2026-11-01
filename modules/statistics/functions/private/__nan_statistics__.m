@@ -44,7 +44,8 @@ function y = varianceFamilyLocal(x, method, weights, dims, allValues)
     y = scalarWeightedVarianceLocal(double(x), weights, dims, allValues);
   else
     if allValues || ~isscalar(dims)
-      error('Nelson:statistics:vectorWeightsRequireScalarOperating', 'Vector weights require a scalar operating dimension.');
+      error('Nelson:statistics:vectorWeightsRequireScalarOperating', ...
+        'Vector weights require a scalar operating dimension.');
     end
     y = vectorWeightedVarianceLocal(double(x), double(weights(:)), dims);
   end
@@ -65,7 +66,8 @@ end
 %=============================================================================
 function y = vectorWeightedVarianceLocal(x, weights, dim)
   if length(weights) ~= size(x, dim)
-    error('Nelson:statistics:weightsLengthMatchOperatingDimension', 'Weights length must match the operating dimension.');
+    error('Nelson:statistics:weightsLengthMatchOperatingDimension', ...
+      'Weights length must match the operating dimension.');
   end
   nd = max(ndims(x), dim);
   shape = ones(1, nd);
@@ -201,7 +203,8 @@ function [dims, returnInput] = parseDimensionLocal(value, sz)
   returnInput = false;
   if ~(isnumeric(value) && isreal(value) && isvector(value) && ~isempty(value) ...
       && all(value == fix(value)) && all(value >= 1))
-    error('Nelson:statistics:dimensionPositiveIntegerScalarVector', 'Dimension must be a positive integer scalar, vector, or ''all''.');
+    error('Nelson:statistics:dimensionPositiveIntegerScalarVector', ...
+      'Dimension must be a positive integer scalar, vector, or ''all''.');
   end
   dims = unique(double(value(:).'), 'stable');
   rank = max(2, length(sz));

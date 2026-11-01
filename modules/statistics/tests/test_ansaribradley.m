@@ -49,13 +49,19 @@ asserts.isequal(statss.W, stats.W);
 asserts.checkerror('ansaribradley([1 2])', _('Not enough input arguments.'));
 asserts.checkerror('ansaribradley({1}, [1])', sprintf(_('%s must be a real numeric array.'), 'X'));
 asserts.checkerror('ansaribradley([1], {1})', sprintf(_('%s must be a real numeric array.'), 'Y'));
-asserts.checkerror('ansaribradley([NaN], [1])', sprintf(_('%s must contain at least one non-NaN observation.'), 'X and Y'));
-asserts.checkerror('ansaribradley(ones(2,2), ones(3,3))', sprintf(_('X and Y must have %s.'), 'compatible sizes outside the test dimension'));
+asserts.checkerror('ansaribradley([NaN], [1])', sprintf(_('%s must contain at least one non-NaN observation.'), ...
+  'X and Y'));
+asserts.checkerror('ansaribradley(ones(2,2), ones(3,3))', sprintf(_('X and Y must have %s.'), ...
+  'compatible sizes outside the test dimension'));
 asserts.checkerror('ansaribradley([1], [2], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('ansaribradley([1], [2], ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('ansaribradley([1], [2], ''Unknown'', 1)', _('Invalid name-value argument name.'), 'Nelson:statistics:unknownNameValue');
-asserts.checkerror('ansaribradley([1], [2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
+asserts.checkerror('ansaribradley([1], [2], ''Unknown'', 1)', _('Invalid name-value argument name.'), ...
+  'Nelson:statistics:unknownNameValue');
+asserts.checkerror('ansaribradley([1], [2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
 asserts.checkerror('ansaribradley([1], [2], ''Tail'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'TAIL'));
-asserts.checkerror('ansaribradley([1], [2], ''Method'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'METHOD'));
-asserts.checkerror('ansaribradley([1 1], [2 2], ''Method'', ''exact'')', _('Exact method is not supported when ties are present.'));
+asserts.checkerror('ansaribradley([1], [2], ''Method'', ''bad'')', sprintf(_('%s has an unsupported value.'), ...
+  'METHOD'));
+asserts.checkerror('ansaribradley([1 1], [2 2], ''Method'', ''exact'')', ...
+  _('Exact method is not supported when ties are present.'));
 %=============================================================================

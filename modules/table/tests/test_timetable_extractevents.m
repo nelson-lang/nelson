@@ -27,7 +27,8 @@ msg = _('The number of elements in the labels categorical vector must be the sam
 assert_checkerror('extractevents(TT, categorical("x"));', msg, 'Nelson:eventtable:InvalidLabelsCategorical');
 msg = _('Event labels or an event labels variable are not supported when the second input is a categorical.');
 assert_checkerror('extractevents(TT, C, ''EventLabels'', "q");', msg, 'Nelson:eventtable:CategoricalAndLabels');
-assert_checkerror('extractevents(TT, C, ''EventLabelsVariable'', ''L'');', msg, 'Nelson:eventtable:CategoricalAndLabels');
+assert_checkerror('extractevents(TT, C, ''EventLabelsVariable'', ''L'');', msg, ...
+  'Nelson:eventtable:CategoricalAndLabels');
 %=============================================================================
 % second output: TT without the event variables, its events kept
 [E, T2] = extractevents(TT, [1 2], 'EventLabelsVariable', 'L');
@@ -50,8 +51,11 @@ assert_isequal(class(T2.Properties.Events), 'eventtable');
 assert_isequal(height(T2.Properties.Events), 1);
 %=============================================================================
 msg = _('In order to specify PreserveEventVariables, provide at least one of EventDataVariables, EventLabelsVariable, EventLengthsVariable, or EventEndsVariable.');
-assert_checkerror('extractevents(TT, 1, ''PreserveEventVariables'', false);', msg, 'Nelson:eventtable:ExtracteventsMissingEventVariables');
-assert_checkerror('extractevents(TT, 1, ''PreserveEventVariables'', ''x'');', msg, 'Nelson:eventtable:ExtracteventsMissingEventVariables');
+assert_checkerror('extractevents(TT, 1, ''PreserveEventVariables'', false);', msg, ...
+  'Nelson:eventtable:ExtracteventsMissingEventVariables');
+assert_checkerror('extractevents(TT, 1, ''PreserveEventVariables'', ''x'');', msg, ...
+  'Nelson:eventtable:ExtracteventsMissingEventVariables');
 msg = _('Using extractevents and specifying PreserveEventVariables without assigning the second output to a workspace variable does not modify the input timetable.');
-assert_checkerror('extractevents(TT, 1, ''EventLabelsVariable'', ''L'', ''PreserveEventVariables'', true);', msg, 'Nelson:eventtable:ExtracteventsMissingSecondOutput');
+assert_checkerror('extractevents(TT, 1, ''EventLabelsVariable'', ''L'', ''PreserveEventVariables'', true);', msg, ...
+  'Nelson:eventtable:ExtracteventsMissingSecondOutput');
 %=============================================================================

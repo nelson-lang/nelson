@@ -13,7 +13,8 @@ function stop = odeStopFlag(value, name)
     return
   end
   if ~(isnumeric(value) || islogical(value)) || ~isscalar(value) || ~isfinite(double(value))
-    error('Nelson:ode_solvers:invalidValue:valueStopFlagAScalarNumeric', '%s stop flag must be a scalar numeric or logical value.', name);
+    error('Nelson:ode_solvers:invalidValue:valueStopFlagAScalarNumeric', ...
+      '%s stop flag must be a scalar numeric or logical value.', name);
   end
   stop = logical(value);
 end

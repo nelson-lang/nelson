@@ -145,7 +145,21 @@ collectCodeAnalyzerLineUsage(const stringVector& lines, int lineNumber)
     usage.startsArgumentsBlock = markers.startsArgumentsBlock;
     usage.endsBlock = markers.endsBlock;
     usage.functionDeclaration = markers.functionDeclaration;
-    parseStorageDeclarationLine(code, usage.globalDeclarations, usage.persistentDeclarations);
+    // A declaration may follow another statement on the same line or go on with '...'.
+    for (int next = lineNumber; next < static_cast<int>(lines.size()); ++next) {
+        const std::string current = trim(code);
+        if (current.size() < 3 || current.compare(current.size() - 3, 3, "...") != 0) {
+            break;
+        }
+        code = current.substr(0, current.size() - 3) + " "
+            + codeWithoutStringsAndComments(lines[static_cast<size_t>(next)]);
+    }
+    for (size_t start = 0; start <= code.size();) {
+        const size_t end = firstStatementEnd(code, start);
+        parseStorageDeclarationLine(code.substr(start, end - start), usage.globalDeclarations,
+            usage.persistentDeclarations);
+        start = end + 1;
+    }
     parseArgumentsBlockDeclaration(code, usage.argumentDeclarations, usage.argumentValidationUsed);
     return usage;
 }

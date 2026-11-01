@@ -66,7 +66,8 @@ movefile(saved, interpreter);
 clear restore;
 uninstall = dir(fullfile(destination, 'unins*.exe'));
 asserts.isequal(numel(uninstall), 1);
-[status, output] = system(['"', fullfile(destination, uninstall.name), '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
+[status, output] = system(['"', fullfile(destination, uninstall.name), ...
+  '" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART'], 90);
 asserts.istrue(status == 0, output);
 asserts.isfalse(isfile(application));
 % Inno Setup 6.6 keeps the uninstaller stubs after an unattended uninstall; only the payload removal is checked.

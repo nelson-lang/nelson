@@ -12,7 +12,8 @@ function opts = parseLocalExtremaOptions(A, varargin)
   isTabular = istable(A) || istimetable(A);
   if ~isTabular
     if ~(isnumeric(A) || islogical(A))
-      error('Nelson:isLocalExtrema:FirstInputInvalid', 'First argument must be a numeric or logical array, a table, or a timetable.');
+      error('Nelson:isLocalExtrema:FirstInputInvalid', ...
+        'First argument must be a numeric or logical array, a table, or a timetable.');
     end
     if ~isreal(A)
       error('Nelson:isLocalExtrema:ComplexInputArray', 'Complex input arguments are not supported.');
@@ -31,13 +32,15 @@ function opts = parseLocalExtremaOptions(A, varargin)
   first = 1;
   if ~isempty(varargin) && (isnumeric(varargin{1}) || islogical(varargin{1}))
     if isTabular
-      error('Nelson:isLocalExtrema:DimensionTable', 'Dimension is not supported when the first argument is a table or timetable.');
+      error('Nelson:isLocalExtrema:DimensionTable', ...
+        'Dimension is not supported when the first argument is a table or timetable.');
     end
     opts.dim = parseDimension(varargin{1});
     first = 2;
   end
   if mod(numel(varargin) - first + 1, 2) ~= 0
-    error('Nelson:isLocalExtrema:NameValuePairs', 'Incorrect number of input arguments. Parameter names and values must occur in pairs.');
+    error('Nelson:isLocalExtrema:NameValuePairs', ...
+      'Incorrect number of input arguments. Parameter names and values must occur in pairs.');
   end
   names = {'MaxNumExtrema', 'MinSeparation', 'MinProminence', 'FlatSelection', ...
     'SamplePoints', 'ProminenceWindow', 'DataVariables', 'OutputFormat'};
@@ -59,46 +62,54 @@ function opts = parseOption(opts, name, value, A)
       opts.MaxNumExtrema = double(value);
     case 'MinSeparation'
       if ~isNonnegativeFiniteScalar(value, true)
-        error('Nelson:isLocalExtrema:MinSeparationInvalid', '''MinSeparation'' value must be a nonnegative, real, finite scalar.');
+        error('Nelson:isLocalExtrema:MinSeparationInvalid', ...
+          '''MinSeparation'' value must be a nonnegative, real, finite scalar.');
       end
       opts.MinSeparation = value;
       opts.hasMinSeparation = true;
     case 'MinProminence'
       if ~(isnumeric(value) || islogical(value)) || ~isNonnegativeFiniteScalar(value, false)
-        error('Nelson:isLocalExtrema:MinProminenceInvalid', '''MinProminence'' value must be a nonnegative numeric scalar.');
+        error('Nelson:isLocalExtrema:MinProminenceInvalid', ...
+          '''MinProminence'' value must be a nonnegative numeric scalar.');
       end
       opts.MinProminence = double(value);
     case 'FlatSelection'
       flatOptions = {'all', 'first', 'center', 'last'};
       index = matchOptionName(value, flatOptions);
       if isempty(index)
-        error('Nelson:isLocalExtrema:FlatSelectionInvalid', '''FlatSelection'' must be ''first'', ''center'', ''last'', or ''all''.');
+        error('Nelson:isLocalExtrema:FlatSelectionInvalid', ...
+          '''FlatSelection'' must be ''first'', ''center'', ''last'', or ''all''.');
       end
       opts.FlatSelection = flatOptions{index};
     case 'SamplePoints'
       if istimetable(A)
-        error('Nelson:isLocalExtrema:SamplePointsTimeTable', '''SamplePoints'' parameter not supported when first argument is a timetable.');
+        error('Nelson:isLocalExtrema:SamplePointsTimeTable', ...
+          '''SamplePoints'' parameter not supported when first argument is a timetable.');
       end
       opts.SamplePoints = value;
       opts.hasSamplePoints = true;
     case 'ProminenceWindow'
       if ~isValidProminenceWindow(value)
-        error('Nelson:isLocalExtrema:ProminenceWindowLengthInvalid', '''ProminenceWindow'' value must be a positive scalar or 2-element vector of nonnegative scalars.');
+        error('Nelson:isLocalExtrema:ProminenceWindowLengthInvalid', ...
+          '''ProminenceWindow'' value must be a positive scalar or 2-element vector of nonnegative scalars.');
       end
       opts.ProminenceWindow = value;
     case 'DataVariables'
       if ~opts.isTabular
-        error('Nelson:isLocalExtrema:DataVariablesArray', '''DataVariables'' parameter is only supported when the first input argument is a table or timetable.');
+        error('Nelson:isLocalExtrema:DataVariablesArray', ...
+          '''DataVariables'' parameter is only supported when the first input argument is a table or timetable.');
       end
       opts.DataVariables = value;
     otherwise
       if ~opts.isTabular
-        error('Nelson:isLocalExtrema:OutputFormatArray', '''OutputFormat'' parameter is only supported when the first input argument is a table or timetable.');
+        error('Nelson:isLocalExtrema:OutputFormatArray', ...
+          '''OutputFormat'' parameter is only supported when the first input argument is a table or timetable.');
       end
       formats = {'logical', 'tabular'};
       index = matchOptionName(value, formats);
       if isempty(index)
-        error('Nelson:isLocalExtrema:OutputFormatInvalid', '''OutputFormat'' value must be ''logical'' or ''tabular''.');
+        error('Nelson:isLocalExtrema:OutputFormatInvalid', ...
+          '''OutputFormat'' value must be ''logical'' or ''tabular''.');
       end
       opts.OutputFormat = formats{index};
   end

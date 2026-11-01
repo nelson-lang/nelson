@@ -27,7 +27,10 @@ asserts.isfalse(isequal(crypto.random(32), crypto.random(32)));
 %=============================================================================
 % argument errors
 asserts.checkerror('crypto.random()', _('Not enough input arguments.'));
-asserts.checkerror('crypto.random(0)', _('Number of bytes must be an integer between 1 and 1048576.'), 'Nelson:core:randomByteCountExpected');
-asserts.checkerror('crypto.random(2.5)', _('Number of bytes must be an integer between 1 and 1048576.'), 'Nelson:core:randomByteCountExpected');
-asserts.checkerror('crypto.random(16, ''-bin'')', sprintf(_('#%d argument: ''-hex'' expected.'), 2), 'Nelson:core:cryptoHexOptionExpected');
+asserts.checkerror('crypto.random(0)', _('Number of bytes must be an integer between 1 and 1048576.'), ...
+  'Nelson:core:randomByteCountExpected');
+asserts.checkerror('crypto.random(2.5)', _('Number of bytes must be an integer between 1 and 1048576.'), ...
+  'Nelson:core:randomByteCountExpected');
+asserts.checkerror('crypto.random(16, ''-bin'')', sprintf(_('#%d argument: ''-hex'' expected.'), 2), ...
+  'Nelson:core:cryptoHexOptionExpected');
 %=============================================================================

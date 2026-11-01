@@ -143,13 +143,15 @@ end
 %=============================================================================
 function value = orientationLocal(value)
   if ~(ischar(value) || isStringScalar(value))
-    error('Nelson:statistics:orientationTopBottomLeftRight', 'Orientation must be ''top'', ''bottom'', ''left'', or ''right''.');
+    error('Nelson:statistics:orientationTopBottomLeftRight', ...
+      'Orientation must be ''top'', ''bottom'', ''left'', or ''right''.');
   end
   text = lower(char(value));
   choices = {'top', 'bottom', 'left', 'right'};
   hit = strcmp(text, choices);
   if ~any(hit)
-    error('Nelson:statistics:orientationTopBottomLeftRight', 'Orientation must be ''top'', ''bottom'', ''left'', or ''right''.');
+    error('Nelson:statistics:orientationTopBottomLeftRight', ...
+      'Orientation must be ''top'', ''bottom'', ''left'', or ''right''.');
   end
   value = choices{hit};
 end
@@ -162,7 +164,8 @@ function labels = labelsLocal(value, n)
   elseif ischar(value)
     labels = cellstr(value);
   else
-    error('Nelson:statistics:labelsCharacterStringCellString', 'Labels must be character, string, or cell string values.');
+    error('Nelson:statistics:labelsCharacterStringCellString', ...
+      'Labels must be character, string, or cell string values.');
   end
   if numel(labels) ~= n
     error('Nelson:statistics:labelsContainOneValueObservation', 'Labels must contain one value per observation.');
@@ -198,17 +201,20 @@ function value = thresholdLocal(value, maxHeight)
       value = [];
     end
   else
-    error('Nelson:statistics:colorThresholdDefaultFiniteNumericScalar', 'ColorThreshold must be ''default'' or a finite numeric scalar.');
+    error('Nelson:statistics:colorThresholdDefaultFiniteNumericScalar', ...
+      'ColorThreshold must be ''default'' or a finite numeric scalar.');
   end
 end
 %=============================================================================
 function values = clusterIndicesLocal(value, n)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && numel(value) == n)
-    error('Nelson:statistics:clusterIndicesContainOneIntegerObservation', 'ClusterIndices must contain one integer per observation.');
+    error('Nelson:statistics:clusterIndicesContainOneIntegerObservation', ...
+      'ClusterIndices must contain one integer per observation.');
   end
   values = double(value(:));
   if any(~isfinite(values)) || any(floor(values) ~= values) || any(values < 1)
-    error('Nelson:statistics:clusterIndicesContainPositiveIntegerValues', 'ClusterIndices must contain positive integer values.');
+    error('Nelson:statistics:clusterIndicesContainPositiveIntegerValues', ...
+      'ClusterIndices must contain positive integer values.');
   end
 end
 %=============================================================================

@@ -91,6 +91,8 @@ struct CodeAnalyzerLineUsage
     stringVector used;
     stringVector callableUsed;
     stringVector leftModified;
+    stringVector usageNotRequired;
+    stringVector existChecked;
     stringVector globalDeclarations;
     stringVector persistentDeclarations;
     stringVector argumentDeclarations;
@@ -104,6 +106,8 @@ struct CodeAnalyzerLineUsage
     bool assignmentFromAst = false;
     bool usageFromAst = false;
     bool dynamicCode = false;
+    bool workspaceChanged = false;
+    bool astUnavailable = false;
     std::string dynamicCallName;
     int dynamicCallColumn = 0;
     bool suspiciousFloatComparison = false;
@@ -114,10 +118,16 @@ struct CodeAnalyzerLineUsage
     int diagnosticSprintfCallColumn = 0;
     bool constantCondition = false;
     int constantConditionColumn = 0;
+    std::string loopGrowthName;
+    int loopGrowthColumn = 0;
+    bool isemptyStrfindCall = false;
+    bool isemptyStrfindNegated = false;
+    int isemptyStrfindColumn = 0;
     bool codeLine = false;
     bool flowBoundary = false;
     bool flowBlockStart = false;
     bool exitStatement = false;
+    bool unreachableStart = false;
     bool startsArgumentsBlock = false;
     bool endsBlock = false;
     bool functionDeclaration = false;

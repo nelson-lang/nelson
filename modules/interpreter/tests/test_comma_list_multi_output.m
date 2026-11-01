@@ -31,12 +31,14 @@ field = 'value';
 asserts.isequal(a, 10);
 asserts.isequal(b, 20);
 %=============================================================================
-asserts.checkerror('[a, b] = C{1};', _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
+asserts.checkerror('[a, b] = C{1};', ...
+  _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
 %=============================================================================
 handles = {@size};
 [a, b] = handles{1}([1 2 3]);
 asserts.isequal(a, 1);
 asserts.isequal(b, 3);
 %=============================================================================
-asserts.checkerror('[a, b] = C{2}(1);', _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
+asserts.checkerror('[a, b] = C{2}(1);', ...
+  _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
 %=============================================================================

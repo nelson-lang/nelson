@@ -25,7 +25,8 @@ setenv('NELSON_MCP_SERVER_ALLOW_EXECUTION', 'false');
 setenv('NELSON_MCP_SERVER_ALLOW_FORMAT', 'false');
 
 requests = {
-  ['{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"run_nelson_file","arguments":{"script_path":"', script_file, '"}}}'];
+  ['{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"run_nelson_file","arguments":{"script_path":"', ...
+    script_file, '"}}}'];
   '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"ai"}}}';
   '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"create_nelson_plot","arguments":{"code":"plot(1:3)"}}}';
   ['{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"format_nelson_file","arguments":{"script_path":"', format_file, '"}}}']

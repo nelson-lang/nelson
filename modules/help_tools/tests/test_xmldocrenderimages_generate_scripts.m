@@ -60,10 +60,12 @@ filewrite([moduleRoot, '/help/en_US/images/sample.svg'], '<svg xmlns="http://www
 %=============================================================================
 scriptRoot = tempname();
 mkdir(scriptRoot);
-[status, scriptFiles, msg] = __xmldocgenerateimages__([moduleRoot, '/help/en_US/xml/nested/sample.xml'], scriptRoot, false);
+[status, scriptFiles, msg] = __xmldocgenerateimages__([moduleRoot, '/help/en_US/xml/nested/sample.xml'], scriptRoot, ...
+  false);
 asserts.istrue(status, msg);
 asserts.isequal(length(scriptFiles), 0);
-[status, scriptFiles, msg] = __xmldocgenerateimages__([moduleRoot, '/help/en_US/xml/nested/sample.xml'], scriptRoot, true);
+[status, scriptFiles, msg] = __xmldocgenerateimages__([moduleRoot, '/help/en_US/xml/nested/sample.xml'], scriptRoot, ...
+  true);
 asserts.istrue(status, msg);
 asserts.isequal(length(scriptFiles), 1);
 scriptText = fileread(scriptFiles{1});

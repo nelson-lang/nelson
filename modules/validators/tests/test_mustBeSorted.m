@@ -124,10 +124,14 @@ mustBeSorted(sparse([0 1 2]));
 asserts.checkerror('mustBeSorted(sparse([1 2 0]))', msg, id);
 %=============================================================================
 % invalid options
-asserts.checkerror('mustBeSorted([1 2], 0)', _('Dimension argument must be a positive integer scalar.'), 'Nelson:validators:invalidDimension');
-asserts.checkerror('mustBeSorted([1 2], 1.5)', _('Dimension argument must be a positive integer scalar.'), 'Nelson:validators:invalidDimension');
+asserts.checkerror('mustBeSorted([1 2], 0)', _('Dimension argument must be a positive integer scalar.'), ...
+  'Nelson:validators:invalidDimension');
+asserts.checkerror('mustBeSorted([1 2], 1.5)', _('Dimension argument must be a positive integer scalar.'), ...
+  'Nelson:validators:invalidDimension');
 asserts.checkerror('mustBeSorted([1 2], ''up'')', _('Sorting direction must be ''ascend'', ''descend'', ''monotonic'', ''strictascend'', ''strictdescend'' or ''strictmonotonic''.'), 'Nelson:validators:invalidSortDirection');
-asserts.checkerror('mustBeSorted([1 2], ''MissingPlacement'', ''middle'')', _('MissingPlacement must be ''auto'', ''first'' or ''last''.'), 'Nelson:validators:invalidMissingPlacement');
-asserts.checkerror('mustBeSorted([1 2], ''ComparisonMethod'', ''imag'')', _('ComparisonMethod must be ''auto'', ''real'' or ''abs''.'), 'Nelson:validators:invalidComparisonMethod');
+asserts.checkerror('mustBeSorted([1 2], ''MissingPlacement'', ''middle'')', ...
+  _('MissingPlacement must be ''auto'', ''first'' or ''last''.'), 'Nelson:validators:invalidMissingPlacement');
+asserts.checkerror('mustBeSorted([1 2], ''ComparisonMethod'', ''imag'')', ...
+  _('ComparisonMethod must be ''auto'', ''real'' or ''abs''.'), 'Nelson:validators:invalidComparisonMethod');
 asserts.checkerror('mustBeSorted([1 2], ''Foo'', ''auto'')', _('Name-value argument must be ''MissingPlacement'' or ''ComparisonMethod''.'), 'Nelson:validators:invalidNameValueArgument');
 %=============================================================================

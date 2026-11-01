@@ -29,7 +29,7 @@ function result = fmiModelExchange(fmu, tStop, dt, relTol)
   mustBeScalarOrEmpty(tStop);
   [fmuDir, tempToClean] = fmiEnsureUnzipped(fmu);
   if ~isempty(tempToClean)
-    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NASGU>
+    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NLS0004>
   end
   haveDt = (nargin >= 3) && ~isempty(dt);
   if haveDt

@@ -87,6 +87,7 @@ asserts.checkerror('mdscale(D, 5)', _('p must be an integer scalar between 1 and
 asserts.checkerror('mdscale(D, 2, ''Criterion'', ''bad'')', sprintf(_('Invalid %s value.'), 'Criterion'));
 asserts.checkerror('mdscale(D, 2, ''Weights'', [1 2])', _('Weights must have the same size as D.'));
 asserts.checkerror('mdscale(D, 2, ''Start'', ''bad'')', sprintf(_('%s has an invalid value.'), 'Start'));
-asserts.checkerror('mdscale(D, 2, ''Replicates'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'Replicates'));
+asserts.checkerror('mdscale(D, 2, ''Replicates'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), ...
+  'Replicates'));
 asserts.checkerror('mdscale(D, 2, ''Options'', 1)', sprintf(_('%s must be a scalar structure.'), 'Options'));
 %=============================================================================

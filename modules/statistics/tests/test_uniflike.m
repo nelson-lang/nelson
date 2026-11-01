@@ -52,6 +52,7 @@ asserts.checkerror('uniflike([1 2 3], [1 2 3])', sprintf(_('PARAMS must be a %s 
 asserts.checkerror('uniflike([1 2], {1 2 3})', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('uniflike([1 2], [])', sprintf(_('%s must be nonempty.'), 'X'));
 asserts.checkerror('uniflike([1 2], [1 2 3], [0 2 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('uniflike([1 2], [1 2 3], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('uniflike([1 2], [1 2 3], [], [1 -1 1])', ...
+  sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
 asserts.checkerror('uniflike([1 2], [1 2 3], ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

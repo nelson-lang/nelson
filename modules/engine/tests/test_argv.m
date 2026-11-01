@@ -22,6 +22,8 @@ for k = 1:numel(user_args)
   asserts.isequal(class(user_args{k}), 'char');
 end
 %=============================================================================
-asserts.checkerror('argv(''bad'')', sprintf(_('Wrong value for argument #%d: %s expected.'), 1, '''user'''), 'Nelson:argv:InvalidValue');
-asserts.checkerror('argv(1)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'), 'Nelson:argv:InvalidArgument');
+asserts.checkerror('argv(''bad'')', sprintf(_('Wrong value for argument #%d: %s expected.'), 1, '''user'''), ...
+  'Nelson:argv:InvalidValue');
+asserts.checkerror('argv(1)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'), ...
+  'Nelson:argv:InvalidArgument');
 %=============================================================================

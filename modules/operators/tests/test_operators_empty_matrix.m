@@ -71,11 +71,13 @@ R = ones(0, 1, 0, 1) + ones(0, 30);
 REF = ones(0, 30, 0);
 asserts.isequal(R, REF);
 %=============================================================================
-asserts.checkerror('R =  ones(0,1,0,1) + ones(3,0,0,0)', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R =  ones(0,1,0,1) + ones(3,0,0,0)', [_('Size mismatch on arguments to arithmetic operator'), ...
+  ' ', '+']);
 %=============================================================================
 asserts.checkerror('R = ones(30, 0) + ones(0, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
-asserts.checkerror('R = ones(30, 0, 0, 0) + ones(0, 1, 0, 1);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
+asserts.checkerror('R = ones(30, 0, 0, 0) + ones(0, 1, 0, 1);', ...
+  [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================
 asserts.checkerror('R = ones(0,1) + ones(30, 0);', [_('Size mismatch on arguments to arithmetic operator'), ' ', '+']);
 %=============================================================================

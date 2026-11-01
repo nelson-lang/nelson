@@ -19,13 +19,7 @@ function varargout = minreal(varargin)
     error(msg.id, msg.message);
   end
 
-  if nargin < 5
-    tol = 1e-6;
-  else
-    tol = varargin{5};
-  end
-
-  [ns, nu] = size(B);
+  ns = size(B, 1);
   if nargin < 5
     tol = 10 * ns * norm(A, 1) * eps;
   else
@@ -53,7 +47,7 @@ function varargout = minreal(varargin)
 end
 %=============================================================================
 function [am, bm, cm, nn] = reduceSystem(A, B, C, ns, tol)
-  [am, bm, cm, t, k] = ctrbf(A, B, C, tol);
+  [am, bm, cm, ~, k] = ctrbf(A, B, C, tol);
   kk = sum(k);
   nn = ns - kk;
   nu = nn;

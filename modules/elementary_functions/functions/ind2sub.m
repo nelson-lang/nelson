@@ -48,7 +48,8 @@ function varargout = ind2sub(dims, ind)
         error('Nelson:elementary_functions:indexOutRange', 'Index out of range');
       end
     else
-      error('Nelson:elementary_functions:integerValuedIndexArgumentExpected', 'Integer-valued index argument expected.');
+      error('Nelson:elementary_functions:integerValuedIndexArgumentExpected', ...
+        'Integer-valued index argument expected.');
     end
   else
     error('Nelson:elementary_functions:dimensionsIntegerVector', 'dimensions must be an integer vector.');

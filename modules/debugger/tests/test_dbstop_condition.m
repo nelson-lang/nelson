@@ -14,7 +14,7 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 filewrite(fullfile(fixtureDirectory, 'bpcond.m'), ['function y = bpcond(x)', LF, ...
   'y = x + 1;', LF, ...
   'for k = 1:3', LF, ...
@@ -22,7 +22,7 @@ filewrite(fullfile(fixtureDirectory, 'bpcond.m'), ['function y = bpcond(x)', LF,
   'end', LF, ...
   'end', LF]);
 addpath(fixtureDirectory);
-pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NASGU>
+pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NLS0004>
 dbclear all
 %=============================================================================
 dbstop in bpcond at 2 if x>2

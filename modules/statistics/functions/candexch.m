@@ -25,7 +25,8 @@ function rlist = candexch(varargin)
 
   opts = parseOptions(varargin(3:end), size(C, 2));
   if opts.AvoidDuplicates && nrows > size(C, 1)
-    error('Nelson:statistics:NROWSExceedNumberCandidateRows', 'NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.');
+    error('Nelson:statistics:NROWSExceedNumberCandidateRows', ...
+      'NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.');
   end
 
   bestRows = [];
@@ -58,16 +59,19 @@ function opts = parseOptions(args, ncols)
       case 'display'
         opts.Display = displayValue(value);
       case 'initialdesign'
-        opts.InitialDesign = matrixWithColumns(value, ncols, sprintf('%s must have the same number of columns as C.', 'InitialDesign'));
+        opts.InitialDesign = matrixWithColumns(value, ncols, ...
+          sprintf('%s must have the same number of columns as C.', 'InitialDesign'));
       case 'maxiterations'
-        opts.MaxIterations = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), 'MaxIterations'));
+        opts.MaxIterations = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), ...
+          'MaxIterations'));
       case 'options'
         if ~isempty(value) && ~isstruct(value)
           error('Nelson:statistics:optionsStructure', 'Options must be a structure.');
         end
         opts.Options = value;
       case 'fixedrows'
-        opts.FixedRows = matrixWithColumns(value, ncols, sprintf('%s must have the same number of columns as C.', 'FixedRows'));
+        opts.FixedRows = matrixWithColumns(value, ncols, sprintf('%s must have the same number of columns as C.', ...
+          'FixedRows'));
       case 'numtries'
         opts.NumTries = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), 'NumTries'));
       otherwise

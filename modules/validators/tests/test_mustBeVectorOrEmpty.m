@@ -19,7 +19,8 @@ mustBeVectorOrEmpty(zeros(0, 3));
 msg = sprintf(_('%s must be a 1-by-n vector, an n-by-1 vector, or empty.'), 'Value');
 asserts.checkerror('mustBeVectorOrEmpty(ones(2))', msg, 'Nelson:validators:mustBeVectorOrEmpty');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a 1-by-n vector, an n-by-1 vector, or empty.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be a 1-by-n vector, an n-by-1 vector, or empty.'), 'Value')];
 asserts.checkerror('mustBeVectorOrEmpty(ones(2), 3)', msg, 'Nelson:validators:mustBeVectorOrEmpty');
 %=============================================================================
 % empty arrays of any dimension and any type implementing isvector and isempty

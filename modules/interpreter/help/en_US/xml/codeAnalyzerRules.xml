@@ -30,7 +30,7 @@
         <td>NLS0003</td>
         <td>warning</td>
         <td>Flow</td>
-        <td>Code after <b>return</b>, <b>break</b>, or <b>continue</b> is unreachable in the current block.</td>
+        <td>Code can never run: after <b>return</b>, <b>break</b>, <b>continue</b>, <b>error(id, message)</b>, <b>rethrow</b>, or <b>throw</b> in the current block, in a branch under a constant <b>false</b> condition or after an <b>if true</b> branch, and after a <b>while true</b> loop without <b>break</b>.</td>
       </tr>
       <tr>
         <td>NLS0004</td>
@@ -241,6 +241,18 @@
         <td>warning</td>
         <td>Classdef</td>
         <td>A class attribute is listed more than once in the same class.</td>
+      </tr>
+      <tr>
+        <td>NLS0039</td>
+        <td>info</td>
+        <td>Performance</td>
+        <td>A variable grows on every loop iteration: <b>x(end + 1) = v</b>, <b>x = [x, v]</b>, or <b>x(k) = v</b> with <b>k</b> the loop index and <b>x</b> empty or undefined before the loop. Preallocate it, for example with <b>zeros</b> or <b>cell</b>.</td>
+      </tr>
+      <tr>
+        <td>NLS0040</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td><b>isempty(strfind(str, pattern))</b> is used: <b>~contains(str, pattern)</b> reads better, and <b>contains(str, pattern)</b> replaces <b>~isempty(strfind(str, pattern))</b>.</td>
       </tr>
     </table>
     <p>Rule levels can be changed with the <b>rules</b> object in <b>nelson-lint.json</b>. Version 2 configuration files must declare <b>"version": 2</b>. Accepted levels are <b>allow</b>, <b>info</b>, <b>warning</b>, and <b>error</b>.</p>

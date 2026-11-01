@@ -28,27 +28,33 @@ function varargout = dare(varargin)
   end
 
   if ((size(Q, 1) ~= size(Q, 2)) || (size(R, 1) ~= size(R, 2)))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsQRSquare', 'Wrong size for arguments: Q, R square matrix expected.');
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsQRSquare', ...
+      'Wrong size for arguments: Q, R square matrix expected.');
   end
 
   if (size(A, 1) ~= m)
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', 'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 2);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', ...
+      'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 2);
   end
 
   if (size(R, 2) ~= n)
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumber', 'Wrong size for arguments #%d and #%d: Same number of columns expected.', 2, 4);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumber', ...
+      'Wrong size for arguments #%d and #%d: Same number of columns expected.', 2, 4);
   end
 
   if ~isempty(S) && ((size(S, 1) ~= m) || (size(S, 2) ~= n))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', 'Wrong size for arguments #%d and #%d: Same size expected.', 2, 5);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', ...
+      'Wrong size for arguments #%d and #%d: Same size expected.', 2, 5);
   end
 
   if ~isempty(E) && ((size(E, 1) ~= size(A, 1)) || (size(E, 2) ~= size(A, 2)))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', 'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 6);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNNumberX', ...
+      'Wrong size for arguments #%d and #%d: Same number of rows expected.', 1, 6);
   end
 
   if (size(A, 1) ~= size(Q, 1)) && (size(A, 2) ~= size(Q, 2))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', 'Wrong size for arguments #%d and #%d: Same size expected.', 1, 3);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentsNNSize', ...
+      'Wrong size for arguments #%d and #%d: Same size expected.', 1, 3);
   end
 
   mustBeFinite(A, 1);
@@ -78,7 +84,8 @@ function varargout = dare(varargin)
   if isempty(E)
     SCAL = 'N';
     ACC = 'N';
-    [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, SorB, TOL);
+    [~, X, ALFAR, ALFAI, BETA, ~, ~, ~, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, ...
+      P, A, E, B, Q, R, SorB, TOL);
     if (INFO(1) ~= 0)
       error('Nelson:control_system:riccatiSolveFailure', 'Unable to solve the specified Riccati equation.');
     end
@@ -88,7 +95,8 @@ function varargout = dare(varargin)
   else
     SCAL = 'N';
     ACC = 'N';
-    [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, SorB, TOL);
+    [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, ...
+      Q, R, SorB, TOL);
     if (INFO(1) ~= 0)
       error('Nelson:control_system:riccatiSolveFailure', 'Unable to solve the specified Riccati equation.');
     end

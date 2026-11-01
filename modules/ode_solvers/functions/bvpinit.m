@@ -19,7 +19,8 @@ end
 %=============================================================================
 function x = bvpValidateMesh(xinit)
   if ~isnumeric(xinit) || numel(xinit) < 2 || any(~isfinite(xinit(:)))
-    error('Nelson:ode_solvers:initialMeshContainLeastTwoFinite', 'Initial mesh must contain at least two finite numeric values.');
+    error('Nelson:ode_solvers:initialMeshContainLeastTwoFinite', ...
+      'Initial mesh must contain at least two finite numeric values.');
   end
   x = xinit(:).';
   if any(diff(x) <= 0)
@@ -38,20 +39,23 @@ function y = bvpInitialValues(x, yinit)
   elseif isnumeric(yinit)
     y = bvpNumericInitialValues(x, yinit);
   else
-    error('Nelson:ode_solvers:initialGuessNumericFunctionHandle', '%s must be numeric or a function handle.', 'Initial guess');
+    error('Nelson:ode_solvers:initialGuessNumericFunctionHandle', '%s must be numeric or a function handle.', ...
+      'Initial guess');
   end
 end
 %=============================================================================
 function y = bvpNumericInitialValues(x, yinit)
   if isempty(yinit) || any(~isfinite(yinit(:)))
-    error('Nelson:ode_solvers:initialGuessContainFiniteNumericValues', 'Initial guess must contain finite numeric values.');
+    error('Nelson:ode_solvers:initialGuessContainFiniteNumericValues', ...
+      'Initial guess must contain finite numeric values.');
   end
   if isvector(yinit)
     y = repmat(yinit(:), 1, length(x));
   elseif size(yinit, 2) == length(x)
     y = yinit;
   else
-    error('Nelson:ode_solvers:initialGuessMatrixOneColumnPer', 'Initial guess matrix must have one column per mesh point.');
+    error('Nelson:ode_solvers:initialGuessMatrixOneColumnPer', ...
+      'Initial guess matrix must have one column per mesh point.');
   end
 end
 %=============================================================================

@@ -23,7 +23,7 @@ files = dir(sourcedir, '-s');
 %=============================================================================
 d = tempname();
 mkdir(d);
-cleanupDestination = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+cleanupDestination = onCleanup(@() rmdir(d, 's')); %#ok<NLS0004>
 destinationdir = fullfile(d, 'module_skeleton');
 mkdir(destinationdir);
 for f = files(:)'

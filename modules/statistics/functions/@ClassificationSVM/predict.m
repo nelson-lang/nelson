@@ -24,7 +24,8 @@ function X = validatePredictorsLocal(X, p)
     error('Nelson:statistics:xRealNumericMatrix', '%s must be a real numeric matrix.', 'X');
   end
   if size(X, 2) ~= p
-    error('Nelson:statistics:xSameNumberColumnsTraining', 'X must have the same number of columns as %s.', 'the training data');
+    error('Nelson:statistics:xSameNumberColumnsTraining', 'X must have the same number of columns as %s.', ...
+      'the training data');
   end
   if any(~isfinite(X(:)))
     error('Nelson:statistics:xMustBeFinite', '%s must contain finite values.', 'X');

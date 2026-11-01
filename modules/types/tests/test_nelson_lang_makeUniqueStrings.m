@@ -34,7 +34,10 @@ asserts.isequal(res, {'abcd', 'abc_1'});
 res = nelson.lang.makeUniqueStrings({'abcd', 'abcd'}, {}, 4);
 asserts.isequal(res, {'abcd', 'ab_1'});
 %=============================================================================
-asserts.checkerror('nelson.lang.makeUniqueStrings({''a'', ''a''}, {}, 1)', _('Unable to make strings unique within the maximum string length.'));
-asserts.checkerror('nelson.lang.makeUniqueStrings({''a''}, [true false])', _('Logical index must have the same number of elements as the input.'));
-asserts.checkerror('nelson.lang.makeUniqueStrings({''a''}, 2)', _('Index values must be positive integers within the input size.'));
+asserts.checkerror('nelson.lang.makeUniqueStrings({''a'', ''a''}, {}, 1)', ...
+  _('Unable to make strings unique within the maximum string length.'));
+asserts.checkerror('nelson.lang.makeUniqueStrings({''a''}, [true false])', ...
+  _('Logical index must have the same number of elements as the input.'));
+asserts.checkerror('nelson.lang.makeUniqueStrings({''a''}, 2)', ...
+  _('Index values must be positive integers within the input size.'));
 %=============================================================================

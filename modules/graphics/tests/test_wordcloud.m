@@ -136,11 +136,13 @@ close(f);
 %=============================================================================
 f = figure('Visible', 'off');
 ax = axes();
-asserts.checkerror('wordcloud(ax, {''red'', ''blue''}, [2 1]);', getString(message('Nelson:wordcloud:wordCloudChartCannotBeA')));
+asserts.checkerror('wordcloud(ax, {''red'', ''blue''}, [2 1]);', ...
+  getString(message('Nelson:wordcloud:wordCloudChartCannotBeA')));
 close(f);
 %=============================================================================
 asserts.checkerror('wordcloud();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('wordcloud({''a''}, {1});', getString(message('Nelson:validators:mustBeNumeric', 'Word sizes')));
 asserts.checkerror('wordcloud({''a'', ''b''}, [1]);', getString(message('Nelson:dimagree:wordsSizesNumberElements')));
-asserts.checkerror('wordcloud({''a''}, [1], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'wordcloud')));
+asserts.checkerror('wordcloud({''a''}, [1], ''BadName'', 1);', ...
+  getString(message('Nelson:graphics:unsupportedProperty', 'wordcloud')));
 %=============================================================================

@@ -35,5 +35,6 @@ TT.Properties.Description = 'd';
 R = addvars(TT, [1; 2]);
 asserts.isequal(R.Properties.DimensionNames, {'T', 'V'});
 asserts.isequal(R.Properties.Description, 'd');
-assert_checkerror('addvars(TT, [1; 2], ''NewVariableNames'', ''T'')', _('Duplicate dimension and variable name: ''T''.'), 'Nelson:timetable:duplicateDimensionVariableNames');
+assert_checkerror('addvars(TT, [1; 2], ''NewVariableNames'', ''T'')', ...
+  _('Duplicate dimension and variable name: ''T''.'), 'Nelson:timetable:duplicateDimensionVariableNames');
 %=============================================================================

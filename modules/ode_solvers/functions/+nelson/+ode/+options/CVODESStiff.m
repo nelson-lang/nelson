@@ -62,7 +62,8 @@ classdef CVODESStiff < nelson.ode.Options
 
     function obj = set.MaxOrder(obj, value)
       if ~isnumeric(value) || ~isscalar(value) || value ~= fix(value) || value < 1 || value > 5
-        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', 'MaxOrder must be an integer scalar between %d and %d.', 1, 5);
+        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', ...
+          'MaxOrder must be an integer scalar between %d and %d.', 1, 5);
       end
       obj.MaxOrder = value;
     end

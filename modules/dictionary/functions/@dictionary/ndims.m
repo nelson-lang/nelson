@@ -10,7 +10,6 @@
 function varargout = ndims(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  obj = varargin{1};
   varargout{1} = 2;
 end
 %=============================================================================

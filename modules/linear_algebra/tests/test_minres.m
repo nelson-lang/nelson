@@ -235,9 +235,12 @@ asserts.checkerror('minres(A, b, [], [], [], [], ones(2, 1))', _('Initial guess 
 asserts.checkerror('minres(A, b, [], [], [1; 2])', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('minres(A, b, [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('minres(A, b, [], [], speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
-asserts.checkerror('minres(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
+asserts.checkerror('minres(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), ...
+  'Preconditioner'));
 asserts.checkerror('minres(A, b, [], [], [1; 0; 1])', _('Preconditioner diagonal must not contain zeros.'));
 asserts.checkerror('minres(sparse(1), 1, [], [], sparse(0))', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('minres(A, b, [], [], sparse(diag([1; 0; 1])))', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('minres(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), 'Preconditioner factorization'));
+asserts.checkerror('minres(A, b, [], [], sparse(diag([1; 0; 1])))', ...
+  _('Preconditioner diagonal must not contain zeros.'));
+asserts.checkerror('minres(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), ...
+  'Preconditioner factorization'));
 %=============================================================================

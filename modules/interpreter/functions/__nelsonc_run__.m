@@ -34,7 +34,8 @@ function __nelsonc_run__()
     end
     numericInputs = manifest.treatInputsAsNumeric;
   elseif isfield(manifest, 'treatInputsAsNumeric')
-    error('Nelson:nelsonc:manifest:inputConversionRequiresManifestVersion2', 'Input conversion requires application manifest version 2.');
+    error('Nelson:nelsonc:manifest:inputConversionRequiresManifestVersion2', ...
+      'Input conversion requires application manifest version 2.');
   end
   required = {'entry', 'entryKind', 'entryName', 'gui', 'paths'};
   for k = 1:numel(required)

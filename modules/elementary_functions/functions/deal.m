@@ -16,7 +16,8 @@ function varargout = deal(varargin)
       varargout = varargin;
     end
   else
-    error('Nelson:elementary_functions:numberOutputsMatchNumberInputs', 'The number of outputs should match the number of inputs.');
+    error('Nelson:elementary_functions:numberOutputsMatchNumberInputs', ...
+      'The number of outputs should match the number of inputs.');
   end
 end
 %=============================================================================

@@ -18,7 +18,8 @@ add_block('nflow/math/gain', 'm/Gain');
 NFlow.connectBlocks('m/Sine', 'm/Gain');
 % A second connect to the same one-input block fails.
 add_block('nflow/source/sine', 'm/Sine2');
-asserts.checkerror('NFlow.connectBlocks(''m/Sine2'', ''m/Gain'')', _('You must connect to a block with at least one unconnected input port.'));
+asserts.checkerror('NFlow.connectBlocks(''m/Sine2'', ''m/Gain'')', ...
+  _('You must connect to a block with at least one unconnected input port.'));
 bdclose('all');
 %=============================================================================
 % delete_block cascades to connections.
@@ -36,7 +37,8 @@ bdclose('all');
 % set_param is atomic: an invalid pair leaves the model unchanged.
 new_system('m');
 add_block('nflow/math/gain', 'm/Gain', 'gain', 1);
-asserts.checkerror('set_param(''m'', ''StopTime'', 5, ''NoSuchParam'', 1)', _('Unknown model parameter ''NoSuchParam''.'));
+asserts.checkerror('set_param(''m'', ''StopTime'', 5, ''NoSuchParam'', 1)', ...
+  _('Unknown model parameter ''NoSuchParam''.'));
 asserts.isequal(get_param('m', 'StopTime'), '10');
 bdclose('all');
 %=============================================================================

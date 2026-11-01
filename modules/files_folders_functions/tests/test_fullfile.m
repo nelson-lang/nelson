@@ -76,17 +76,21 @@ asserts.isequal(R, REF);
 %=============================================================================
 R = fullfile('/home/username', {'data1', 'data2'; 'data3', 'data4'}, 'fff');
 if ispc()
-  REF = {'\home\username\data1\fff', '\home\username\data2\fff'; '\home\username\data3\fff', '\home\username\data4\fff'};
+  REF = {'\home\username\data1\fff', '\home\username\data2\fff'; '\home\username\data3\fff', ...
+    '\home\username\data4\fff'};
 else
-  REF = {'/home/username/data1/fff', '/home/username/data2/fff'; '/home/username/data3/fff', '/home/username/data4/fff'};
+  REF = {'/home/username/data1/fff', '/home/username/data2/fff'; '/home/username/data3/fff', ...
+    '/home/username/data4/fff'};
 end
 asserts.isequal(R, REF);
 %=============================================================================
 R = fullfile('\\\\home/username', {'data1', 'data2'; 'data3', 'data4'}, 'fff');
 if ispc()
-  REF = {'\\home\username\data1\fff', '\\home\username\data2\fff'; '\\home\username\data3\fff', '\\home\username\data4\fff'};
+  REF = {'\\home\username\data1\fff', '\\home\username\data2\fff'; '\\home\username\data3\fff', ...
+    '\\home\username\data4\fff'};
 else
-  REF = {'/home/username/data1/fff', '/home/username/data2/fff'; '/home/username/data3/fff', '/home/username/data4/fff'};
+  REF = {'/home/username/data1/fff', '/home/username/data2/fff'; '/home/username/data3/fff', ...
+    '/home/username/data4/fff'};
 end
 asserts.isequal(R, REF);
 %=============================================================================
@@ -180,9 +184,11 @@ asserts.isequal(R, REF);
 %=============================================================================
 R = fullfile('/home/username', {'data', 'f'; 'data2', 'f'}, {'f1.csv'});
 if ispc()
-  REF = {'\home\username\data\f1.csv', '\home\username\f\f1.csv'; '\home\username\data2\f1.csv', '\home\username\f\f1.csv'};
+  REF = {'\home\username\data\f1.csv', '\home\username\f\f1.csv'; '\home\username\data2\f1.csv', ...
+    '\home\username\f\f1.csv'};
 else
-  REF = {'/home/username/data/f1.csv', '/home/username/f/f1.csv'; '/home/username/data2/f1.csv', '/home/username/f/f1.csv'};
+  REF = {'/home/username/data/f1.csv', '/home/username/f/f1.csv'; '/home/username/data2/f1.csv', ...
+    '/home/username/f/f1.csv'};
 end
 asserts.isequal(R, REF);
 %=============================================================================

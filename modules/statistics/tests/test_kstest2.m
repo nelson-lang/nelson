@@ -51,6 +51,8 @@ asserts.checkerror('kstest2([NaN NaN], [1 2])', sprintf(_('%s must be a real num
 asserts.checkerror('kstest2([1 2], [NaN])', sprintf(_('%s must be a real numeric vector.'), 'X2'));
 asserts.checkerror('kstest2([1 2], [1 2], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('kstest2([1 2], [1 2], ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('kstest2([1 2], [1 2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
-asserts.checkerror('kstest2([1 2], [1 2], ''Tail'', ''bad'')', _('TAIL must be ''unequal'', ''larger'', or ''smaller''.'));
+asserts.checkerror('kstest2([1 2], [1 2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
+asserts.checkerror('kstest2([1 2], [1 2], ''Tail'', ''bad'')', ...
+  _('TAIL must be ''unequal'', ''larger'', or ''smaller''.'));
 %=============================================================================

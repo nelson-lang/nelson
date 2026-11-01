@@ -22,7 +22,8 @@ function varargout = discretize(X, edges, varargin)
     return
   end
   if ~isnumeric(X) || ~isnumeric(edges) || ~isvector(edges)
-    error('Nelson:data_analysis:numericInputDataNumericEdge', 'Numeric input data and a numeric edge vector are expected.');
+    error('Nelson:data_analysis:numericInputDataNumericEdge', ...
+      'Numeric input data and a numeric edge vector are expected.');
   end
   edges = double(edges(:).');
   if isscalar(edges)
@@ -31,7 +32,8 @@ function varargout = discretize(X, edges, varargin)
     % the automatically chosen edges.
     nbins = edges;
     if ~isfinite(nbins) || nbins < 1 || nbins ~= fix(nbins)
-      error('Nelson:data_analysis:numberBinsPositiveInteger', '%s must be a positive integer scalar.', 'Number of bins');
+      error('Nelson:data_analysis:numberBinsPositiveInteger', '%s must be a positive integer scalar.', ...
+        'Number of bins');
     end
     [~, edges] = histcounts(double(X), nbins);
     edges = double(edges(:).');

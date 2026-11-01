@@ -54,7 +54,7 @@ function dirs = acausalWriteLibraries(libRoot)
       fwrite(fid, svg);
       fclose(fid);
     end
-    dirs{end + 1} = libDir; %#ok<AGROW>
+    dirs{end + 1} = libDir; %#ok<NLS0039>
   end
 end
 %=============================================================================

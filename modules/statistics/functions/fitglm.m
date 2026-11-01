@@ -16,7 +16,8 @@ function mdl = fitglm(X, y, varargin)
   terms = modelTermsLocal(size(X, 2), modelspec);
   keep = ~isnan(y) & all(~isnan(X), 2);
   if ~any(keep)
-    error('Nelson:statistics:validObservationsRemainAfterRemoving', 'No valid observations remain after removing missing values.');
+    error('Nelson:statistics:validObservationsRemainAfterRemoving', ...
+      'No valid observations remain after removing missing values.');
   end
   fit = fitGlmLocal(X(keep, :), y(keep), terms, opts);
   mdl = buildModelLocal(fit, X, y, keep, terms, opts);
@@ -313,7 +314,8 @@ function terms = modelTermsLocal(p, modelspec)
     end
   elseif isnumeric(modelspec)
     if size(modelspec, 2) ~= p
-      error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', 'predictor');
+      error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', ...
+        'predictor');
     end
     terms = double(modelspec);
     terms(all(terms == 0, 2), :) = [];
@@ -414,7 +416,8 @@ function validateResponseLocal(y, distribution)
       end
     case 'poisson'
       if any(y < 0 | y ~= fix(y))
-        error('Nelson:statistics:yContainNonnegativeIntegerValues', 'Y must contain nonnegative integer values for the poisson distribution.');
+        error('Nelson:statistics:yContainNonnegativeIntegerValues', ...
+          'Y must contain nonnegative integer values for the poisson distribution.');
       end
   end
 end
@@ -486,13 +489,16 @@ end
 %=============================================================================
 function validateDistributionLinkLocal(distribution, link)
   if strcmp(distribution, 'binomial') && ~strcmp(link, 'logit')
-    error('Nelson:statistics:unsupportedLinkValueBinomialDistribution', 'Unsupported Link value for the %s distribution.', 'binomial');
+    error('Nelson:statistics:unsupportedLinkValueBinomialDistribution', ...
+      'Unsupported Link value for the %s distribution.', 'binomial');
   end
   if strcmp(distribution, 'poisson') && ~strcmp(link, 'log')
-    error('Nelson:statistics:unsupportedLinkValuePoissonDistribution', 'Unsupported Link value for the %s distribution.', 'poisson');
+    error('Nelson:statistics:unsupportedLinkValuePoissonDistribution', ...
+      'Unsupported Link value for the %s distribution.', 'poisson');
   end
   if strcmp(distribution, 'normal') && ~any(strcmp(link, {'identity', 'log'}))
-    error('Nelson:statistics:unsupportedLinkValueNormalDistribution', 'Unsupported Link value for the %s distribution.', 'normal');
+    error('Nelson:statistics:unsupportedLinkValueNormalDistribution', ...
+      'Unsupported Link value for the %s distribution.', 'normal');
   end
 end
 %=============================================================================

@@ -105,10 +105,14 @@ asserts.checkerror('fitglm(X, y, ''Intercept'', 2)', sprintf(_('%s must be true 
 asserts.checkerror('fitglm(X, y, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
 asserts.checkerror('fitglm(X, y, ''Distribution'', ''gamma'')', sprintf(_('Invalid %s value.'), 'Distribution'));
 asserts.checkerror('fitglm(X, y, ''Link'', ''probit'')', sprintf(_('Invalid %s value.'), 'Link'));
-asserts.checkerror('fitglm(X, y, ''Distribution'', ''binomial'', ''Link'', ''identity'')', sprintf(_('Unsupported Link value for the %s distribution.'), 'binomial'));
-asserts.checkerror('fitglm(Xb, [0; 1; 2; 0; 1; 0; 1; 1], ''Distribution'', ''binomial'')', _('Y must contain 0 or 1 values for the binomial distribution.'));
-asserts.checkerror('fitglm(Xp, [1; 2; -1; 3; 4; 5; 6; 7], ''Distribution'', ''poisson'')', _('Y must contain nonnegative integer values for the poisson distribution.'));
+asserts.checkerror('fitglm(X, y, ''Distribution'', ''binomial'', ''Link'', ''identity'')', ...
+  sprintf(_('Unsupported Link value for the %s distribution.'), 'binomial'));
+asserts.checkerror('fitglm(Xb, [0; 1; 2; 0; 1; 0; 1; 1], ''Distribution'', ''binomial'')', ...
+  _('Y must contain 0 or 1 values for the binomial distribution.'));
+asserts.checkerror('fitglm(Xp, [1; 2; -1; 3; 4; 5; 6; 7], ''Distribution'', ''poisson'')', ...
+  _('Y must contain nonnegative integer values for the poisson distribution.'));
 asserts.checkerror('fitglm(X, y, ''MaxIter'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MaxIter'));
 asserts.checkerror('fitglm(X, y, ''TolFun'', 0)', sprintf(_('%s must be a positive scalar.'), 'TolFun'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

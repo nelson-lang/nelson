@@ -240,7 +240,7 @@ function objs = nflow_json_split_objects(inner)
     elseif c == '}'
       depth = depth - 1;
       if depth == 0 && startIdx > 0
-        objs{end + 1} = inner(startIdx:i); %#ok<AGROW>
+        objs{end + 1} = inner(startIdx:i); %#ok<NLS0039>
         startIdx = -1;
       end
     end

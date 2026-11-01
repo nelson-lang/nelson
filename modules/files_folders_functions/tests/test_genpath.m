@@ -15,7 +15,7 @@ mkdir(fullfile(root, 'private'));
 mkdir(fullfile(root, '@cls'));
 mkdir(fullfile(root, '+pkg'));
 mkdir(fullfile(root, 'resources'));
-cleanup = onCleanup(@() rmdir(root, 's')); %#ok<NASGU>
+cleanup = onCleanup(@() rmdir(root, 's')); %#ok<NLS0004>
 p = genpath(root);
 asserts.istrue(~isempty(strfind(p, [fullpath(root), pathsep()])));
 asserts.istrue(~isempty(strfind(p, [fullfile(fullpath(root), 'a'), pathsep()])));

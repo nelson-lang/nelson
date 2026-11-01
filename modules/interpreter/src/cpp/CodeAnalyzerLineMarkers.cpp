@@ -61,8 +61,11 @@ collectCodeAnalyzerLineMarkers(const stringVector& lines, int lineNumber)
     markers.importLine = isImportCommand(code);
     markers.codeLine = !lower.empty();
     markers.flowBoundary = isFlowBoundary(lower);
-    markers.flowBlockStart = isFlowBlockStartFallback(lower);
-    markers.startsArgumentsBlock = startsWithWord(lower, "arguments");
+    // A switch always starts with a case, and a block closed or holding a statement on its
+    // own line is not empty.
+    markers.flowBlockStart = isFlowBlockStartFallback(lower) && !startsWithWord(lower, "switch")
+        && inlineBlockBalance(code) > 0 && !blockHeaderHasStatement(code);
+    markers.startsArgumentsBlock = isArgumentsBlockHeader(code);
     markers.endsBlock = startsWithWord(lower, "end");
     markers.functionDeclaration = startsWithWord(lower, "function");
     return markers;

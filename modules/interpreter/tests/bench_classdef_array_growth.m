@@ -21,7 +21,7 @@ R_EXPAND = 500;
 % element-wise growth
 tic();
 for i = 1:N
-  w(i) = ClassdefBenchPoint(i); %#ok<SAGROW>
+  w(i) = ClassdefBenchPoint(i); %#ok<NLS0039>
 end
 t = toc();
 asserts.isequal(w(N).Id, N);
@@ -31,7 +31,7 @@ fprintf('  grow %d objects one by one: %0.4f s\n', int32(N), t);
 clear sg
 tic();
 for i = 1:N
-  sg(i).Id = i; %#ok<SAGROW>
+  sg(i).Id = i; %#ok<NLS0039>
 end
 tStruct = toc();
 fprintf('  grow %d struct baseline:    %0.4f s\n', int32(N), tStruct);

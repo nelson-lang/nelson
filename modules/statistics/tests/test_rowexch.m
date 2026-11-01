@@ -30,5 +30,6 @@ asserts.checkerror('rowexch(0, 3)', sprintf(_('%s must be a positive integer sca
 asserts.checkerror('rowexch(2, 0)', sprintf(_('%s must be a positive integer scalar.'), 'NRUNS'));
 asserts.checkerror('rowexch(2, 3, ''linear'', ''Display'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('rowexch(2, 3, ''linear'', ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('rowexch(2, 5, ''linear'', ''AvoidDuplicates'', true)', _('NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.'));
+asserts.checkerror('rowexch(2, 5, ''linear'', ''AvoidDuplicates'', true)', ...
+  _('NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.'));
 %=============================================================================

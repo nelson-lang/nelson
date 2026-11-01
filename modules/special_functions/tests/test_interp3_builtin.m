@@ -62,9 +62,12 @@ asserts.isequal(size(R), [3 5 7]);
 asserts.isequal(R(1:2:end, 1:2:end, 1:2:end), V);
 %=============================================================================
 % invalid calls
-asserts.checkerror('interp3(V, xq, yq, zq, ''pchip'')', _('Unknown interpolation method.'), 'Nelson:interp:unknownMethod');
-asserts.checkerror('interp3([1 2 2], 1:2, 1:4, V, xq, yq, zq)', _('Grid vectors must be strictly monotonic.'), 'Nelson:interpn:gridVectorsNotMonotonic');
-asserts.checkerror('interp3(1:4, 1:2, 1:4, V, xq, yq, zq)', _('Grid vector length and sample value size are incompatible.'), 'Nelson:interp:gridSizeMismatch');
+asserts.checkerror('interp3(V, xq, yq, zq, ''pchip'')', _('Unknown interpolation method.'), ...
+  'Nelson:interp:unknownMethod');
+asserts.checkerror('interp3([1 2 2], 1:2, 1:4, V, xq, yq, zq)', _('Grid vectors must be strictly monotonic.'), ...
+  'Nelson:interpn:gridVectorsNotMonotonic');
+asserts.checkerror('interp3(1:4, 1:2, 1:4, V, xq, yq, zq)', ...
+  _('Grid vector length and sample value size are incompatible.'), 'Nelson:interp:gridSizeMismatch');
 asserts.checkerror('interp3(V, 1, 2, 3, 4, 5)', _('Wrong number of input arguments.'), 'Nelson:wrongNumberOfInputs');
 asserts.checkerror('interp3()', _('Not enough input arguments.'));
 asserts.checkerror('[a, b] = interp3(V, 2, 1, 2)', _('Too many output arguments.'));

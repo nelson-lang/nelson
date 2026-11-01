@@ -70,7 +70,8 @@ close(f);
 asserts.checkerror('fcontour(1);', getString(message('Nelson:graphics:functionHandleExpected', 'Value')));
 asserts.checkerror('fcontour(@(x, y) x + y, ''-or'');', getString(message('Nelson:fcontour:markersNotSupported')));
 asserts.checkerror('fcontour(@(x, y) x, @(x, y) y);', getString(message('Nelson:graphics:tooManyFunctions')));
-asserts.checkerror('fcontour(@(x, y) x + y, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', 'BadName')));
+asserts.checkerror('fcontour(@(x, y) x + y, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', ...
+  'BadName')));
 %=============================================================================
 function z = scalar_surface(x, y)
   if numel(x) ~= 1 || numel(y) ~= 1

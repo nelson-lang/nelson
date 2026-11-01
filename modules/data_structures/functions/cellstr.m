@@ -37,7 +37,8 @@ function ce = cellstr(obj)
     % <missing> becomes empty text
     ce(ismissing(obj)) = {''};
   elseif iscell(obj)
-    error('Nelson:data_structures:cellStringScalarsCharacterArrays', 'Cell must be string scalars or character arrays.');
+    error('Nelson:data_structures:cellStringScalarsCharacterArrays', ...
+      'Cell must be string scalars or character arrays.');
   elseif ischar(obj)
     if isempty(obj)
       ce = {''};

@@ -11,7 +11,8 @@ function v = values(varargin)
   narginchk(1, 2)
   obj = varargin{1};
   if (~isConfigured(obj))
-    error('Nelson:dictionary:unablePerformADictionaryLookup3', 'Unable to perform a dictionary lookup when the key and value types are not set.');
+    error('Nelson:dictionary:unablePerformADictionaryLookup3', ...
+      'Unable to perform a dictionary lookup when the key and value types are not set.');
   end
 
   if (nargin < 2)

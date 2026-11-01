@@ -24,10 +24,12 @@ function ind = sub2ind(szvec, varargin)
     for i = 1:length(varargin)
       indvecs{i} = varargin{i}(:);
       if (length(indvecs{i}) ~= nlength)
-        error('Nelson:elementary_functions:indexingArgumentsSameLength', 'Indexing arguments must have the same length.');
+        error('Nelson:elementary_functions:indexingArgumentsSameLength', ...
+          'Indexing arguments must have the same length.');
       end
       if (min(indvecs{i}) < 1)
-        error('Nelson:elementary_functions:indexingArgumentsOutRangeArray', 'Indexing arguments are out of range of an array of the given size.');
+        error('Nelson:elementary_functions:indexingArgumentsOutRangeArray', ...
+          'Indexing arguments are out of range of an array of the given size.');
       end
       if (max(indvecs{i}) > szvec(i))
         error('Nelson:elementary_functions:outRangeSubscript', 'Out of range subscript.');

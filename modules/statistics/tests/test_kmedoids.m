@@ -57,6 +57,8 @@ asserts.checkerror('kmedoids([1; 2], 1, ''Options'', 1)', _('Options must be a s
 asserts.checkerror('kmedoids([1; 2], 1, ''Start'', ''bad'')', sprintf(_('Invalid %s value.'), 'Start'));
 asserts.checkerror('kmedoids([1; 2], 1, ''Start'', 3)', sprintf(_('Invalid %s value.'), 'Start'));
 asserts.checkerror('kmedoids([1; 2], 1, ''Start'', 1.5)', sprintf(_('Invalid %s value.'), 'Start'));
-asserts.checkerror('kmedoids([1; 2], 1, ''Replicates'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'Replicates'));
-asserts.checkerror('kmedoids([1; 2], 1, ''MaxIter'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MaxIter'));
+asserts.checkerror('kmedoids([1; 2], 1, ''Replicates'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'Replicates'));
+asserts.checkerror('kmedoids([1; 2], 1, ''MaxIter'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MaxIter'));
 %=============================================================================

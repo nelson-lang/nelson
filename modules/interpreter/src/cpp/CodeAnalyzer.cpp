@@ -304,10 +304,34 @@ namespace {
         }
     }
     //=============================================================================
+    // An Objective-C '.m' file starts with a C comment or a preprocessor directive.
+    bool
+    isObjectiveCSource(const SourceFile& source)
+    {
+        if (toLowerAscii(source.path.extension().generic_string()) != ".m") {
+            return false;
+        }
+        for (const std::string& line : source.lines) {
+            const std::string code = trim(line);
+            if (code.empty()) {
+                continue;
+            }
+            const bool directive = code.size() > 1 && code[0] == '#'
+                && std::isalpha(static_cast<unsigned char>(code[1]));
+            return directive || code.rfind("//", 0) == 0 || code.rfind("/*", 0) == 0
+                || code.rfind("@interface", 0) == 0 || code.rfind("@implementation", 0) == 0
+                || code.rfind("@import", 0) == 0;
+        }
+        return false;
+    }
+    //=============================================================================
     void
     analyzeSource(SourceFile& source, bool parseFromText, const CodeAnalyzerOptions& options,
         std::vector<CodeAnalyzerDiagnostic>& diagnostics)
     {
+        if (isObjectiveCSource(source)) {
+            return;
+        }
         auto suppressions = collectCodeAnalyzerSuppressions(source.lines);
         applyCodeAnalyzerTextRules(source.path, source.lines, source.content, options,
             [&](CodeAnalyzerDiagnostic diagnostic) {

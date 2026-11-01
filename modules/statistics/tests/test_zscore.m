@@ -53,6 +53,8 @@ asserts.checkerror('zscore()', _('Not enough input arguments.'));
 asserts.checkerror('zscore({1})', sprintf(_('%s must be a real numeric array.'), 'X'));
 asserts.checkerror('zscore([1 2], 2)', sprintf(_('%s must be 0 or 1.'), 'FLAG'));
 asserts.checkerror('zscore([1 2], 2)', sprintf(_('%s must be 0 or 1.'), 'FLAG'), 'Nelson:statistics:invalidFlag');
-asserts.checkerror('zscore([1 2], 0, 0)', _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
-asserts.checkerror('zscore([1 2], 0, ''bad'')', _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
+asserts.checkerror('zscore([1 2], 0, 0)', ...
+  _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
+asserts.checkerror('zscore([1 2], 0, ''bad'')', ...
+  _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
 %=============================================================================

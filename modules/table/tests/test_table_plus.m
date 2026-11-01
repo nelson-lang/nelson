@@ -13,7 +13,8 @@ Weight = [176; 163; 131; 133; 119];
 BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T1 = table(Age, Height, Weight, BloodPressure);
 R = T1 + T1;
-REF = table(Age + Age, Height + Height, Weight + Weight, BloodPressure + BloodPressure, 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+REF = table(Age + Age, Height + Height, Weight + Weight, BloodPressure + BloodPressure, 'VariableNames', {'Age', ...
+  'Height', 'Weight', 'BloodPressure'});
 asserts.isequal(R, REF);
 %=============================================================================
 Age = [38; 43; 38; 40; 49];
@@ -22,7 +23,8 @@ Weight = [176; 163; 131; 133; 119];
 BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T1 = table(Age, Height, Weight, BloodPressure);
 R = T1 + 1;
-REF = table(Age + 1, Height + 1, Weight + 1, BloodPressure + 1, 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+REF = table(Age + 1, Height + 1, Weight + 1, BloodPressure + 1, 'VariableNames', {'Age', 'Height', 'Weight', ...
+  'BloodPressure'});
 asserts.isequal(R, REF);
 %=============================================================================
 Age = [38; 43; 38; 40; 49];
@@ -31,7 +33,8 @@ Weight = [176; 163; 131; 133; 119];
 BloodPressure = [124 93; 109 77; 125 83; 117 75; 122 80];
 T1 = table(Age, Height, Weight, BloodPressure);
 R = 1 + T1;
-REF = table(Age + 1, Height + 1, Weight + 1, BloodPressure + 1, 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+REF = table(Age + 1, Height + 1, Weight + 1, BloodPressure + 1, 'VariableNames', {'Age', 'Height', 'Weight', ...
+  'BloodPressure'});
 asserts.isequal(R, REF);
 %=============================================================================
 LastName = {'Sanchez'; 'Johnson'; 'Li'; 'Diaz'; 'Brown'};

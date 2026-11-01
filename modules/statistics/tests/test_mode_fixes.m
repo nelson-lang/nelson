@@ -14,9 +14,12 @@ asserts.isequal(mode([1 1;2 2],'all'), 1);
 asserts.isequal(mode(ones(2,3),[1 2]), 1);
 asserts.isequal(mode(ones(2,3),4), reshape([1 1 1 1 1 1], [2 3]));
 asserts.isequal(mode(true(0,0)), false);
-asserts.checkerror('mode(ones(2,3),[])', _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
-asserts.checkerror('mode(ones(2,3),[1 1])', _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
-asserts.checkerror('mode(ones(2,3),true)', _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
+asserts.checkerror('mode(ones(2,3),[])', ...
+  _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
+asserts.checkerror('mode(ones(2,3),[1 1])', ...
+  _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
+asserts.checkerror('mode(ones(2,3),true)', ...
+  _('Dimension argument must be a positive integer scalar or vector of positive integers.'));
 asserts.isequal(mode(ones(2,3),'all'), 1);
 asserts.isequal(mode(ones(2,3),"all"), 1);
 asserts.isequal(mode(ones(2,3),[1 2 3]), 1);

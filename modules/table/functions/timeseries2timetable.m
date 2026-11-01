@@ -41,7 +41,8 @@ function tsList = timeseriesList(args)
   if length(args) > 1
     for k = 1:length(args)
       if ~isscalar(args{k})
-        error('Nelson:table:timeseriesNonscalarInput', _('If multiple inputs are given to timeseries2timetable, they all must be scalar timeseries objects.'));
+        error('Nelson:table:timeseriesNonscalarInput', ...
+          _('If multiple inputs are given to timeseries2timetable, they all must be scalar timeseries objects.'));
       end
     end
     tsList = args;

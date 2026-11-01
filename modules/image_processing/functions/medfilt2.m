@@ -27,7 +27,8 @@ function out = medfilt2(varargin)
   win = double(win);
   if numel(win) ~= 2 || any(~isfinite(win(:))) || any(win(:) < 1) ...
       || any(win(:) ~= floor(win(:)))
-    error('Nelson:image_processing:neighborhoodSizeContainPositiveIntegers', '%s size must contain positive integers.', 'Neighborhood');
+    error('Nelson:image_processing:neighborhoodSizeContainPositiveIntegers', ...
+      '%s size must contain positive integers.', 'Neighborhood');
   end
   if ~(strcmp(padopt, 'zeros') || strcmp(padopt, 'indexed') ...
       || strcmp(padopt, 'symmetric') || strcmp(padopt, 'replicate'))

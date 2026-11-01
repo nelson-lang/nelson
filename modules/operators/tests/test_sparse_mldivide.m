@@ -147,7 +147,8 @@ XrectComplexSparseSingle = Crects \ BrectComplexSparseSingle;
 asserts.istrue(issparse(XrectComplexSparseSingle));
 asserts.isequal(class(XrectComplexSparseSingle), 'single');
 asserts.isapprox(full(XrectComplexSparseSingle), single(REF_CRECT_SPARSE_RHS), 1e-5);
-asserts.isapprox(norm(full(Crects * XrectComplexSparseSingle - BrectComplexSparseSingle), 'fro'), single(3.0705978870391846), 1e-5);
+asserts.isapprox(norm(full(Crects * XrectComplexSparseSingle - BrectComplexSparseSingle), 'fro'), ...
+  single(3.0705978870391846), 1e-5);
 %=============================================================================
 M = sparse([4 1 0; 2 3 1; 0 1 2]);
 Y = sparse([1 0; 2 1; 3 0]);
@@ -384,5 +385,6 @@ asserts.istrue(issparse(RemptyOverdetermined));
 asserts.isequal(size(RemptyOverdetermined), [3 1]);
 asserts.isequal(nnz(RemptyOverdetermined), 0);
 %=============================================================================
-asserts.checkerror('sparse(ones(2, 3)) \ [1; 2; 3]', _('Requested divide operation requires arguments to have correct dimensions.'));
+asserts.checkerror('sparse(ones(2, 3)) \ [1; 2; 3]', ...
+  _('Requested divide operation requires arguments to have correct dimensions.'));
 %=============================================================================

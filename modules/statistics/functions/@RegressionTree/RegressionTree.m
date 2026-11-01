@@ -32,7 +32,8 @@ classdef RegressionTree
       if nargin == 0
         return
       end
-      error('Nelson:statistics:regressionTreeObjectsCreatedFitrtree', '%s objects are created by %s.', 'RegressionTree', 'fitrtree');
+      error('Nelson:statistics:regressionTreeObjectsCreatedFitrtree', '%s objects are created by %s.', ...
+        'RegressionTree', 'fitrtree');
     end
   end
 end

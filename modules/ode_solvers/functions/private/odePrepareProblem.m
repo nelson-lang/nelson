@@ -18,7 +18,8 @@ function problem = odePrepareProblem(solver, odefun, tspan, y0, yp0, options)
     error('Nelson:ode_solvers:timeSpanContainLeastTwoValues', 'Time span must contain at least two values.');
   end
   if ~isvector(tspan) || any(~isfinite(tspan(:))) || ~odeIsStrictlyMonotone(tspan(:).')
-    error('Nelson:ode_solvers:timeSpanEntriesStrictlyIncreaseDecrease', 'Time span entries must strictly increase or decrease.');
+    error('Nelson:ode_solvers:timeSpanEntriesStrictlyIncreaseDecrease', ...
+      'Time span entries must strictly increase or decrease.');
   end
   tspan = tspan(:).';
   odeValidateVector(y0, 'InitialValue');

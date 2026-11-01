@@ -14,7 +14,8 @@ function checkTabularScalarOperand(A, B, functionName)
     other = A;
   end
   if istabular(other) || ~isscalar(other)
-    error(['Nelson:table:', functionName, ':nonScalarOperand'], _('When one input is a table or timetable, the other input must be a scalar.'));
+    error(['Nelson:table:', functionName, ':nonScalarOperand'], ...
+      _('When one input is a table or timetable, the other input must be a scalar.'));
   end
 end
 %=============================================================================

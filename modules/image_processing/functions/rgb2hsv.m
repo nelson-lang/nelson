@@ -16,7 +16,8 @@ function hsv = rgb2hsv(rgb)
       error('Nelson:validators:mustBeNonempty', '%s must be nonempty.', 'Colormap');
     end
     if ~isa(rgb, 'double') || any(rgb(:) < 0) || any(rgb(:) > 1)
-      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', 'Colormap must be a double matrix with values in the range [0, 1].');
+      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', ...
+        'Colormap must be a double matrix with values in the range [0, 1].');
     end
     rgbMap = reshape(rgb, size(rgb, 1), 1, 3);
     hsvMap = rgb2hsv(rgbMap);
@@ -27,7 +28,8 @@ function hsv = rgb2hsv(rgb)
     error('Nelson:image_processing:rgbImageMNArray', '%s must be an M-by-N-by-3 array.', 'RGB image');
   end
   if ~(isa(rgb, 'double') || isa(rgb, 'single') || isa(rgb, 'uint8') || isa(rgb, 'uint16'))
-    error('Nelson:image_processing:rgbImageDoubleSingleUint8Uint16', 'RGB image must be double, single, uint8, or uint16.');
+    error('Nelson:image_processing:rgbImageDoubleSingleUint8Uint16', ...
+      'RGB image must be double, single, uint8, or uint16.');
   end
   if ~isreal(rgb)
     error('Nelson:validators:mustBeReal', '%s must be real.', 'RGB image');

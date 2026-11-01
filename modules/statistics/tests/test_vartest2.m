@@ -77,10 +77,14 @@ asserts.istrue(isnan(stats.fstat));
 asserts.isequal(stats.df1, 0);
 asserts.isequal(stats.df2, 2);
 %=============================================================================
-asserts.checkerror('vartest2([1 2; 3 4], [1 2 3], ''Dim'', 1)', sprintf(_('X and Y must have %s.'), 'compatible sizes'));
+asserts.checkerror('vartest2([1 2; 3 4], [1 2 3], ''Dim'', 1)', sprintf(_('X and Y must have %s.'), ...
+  'compatible sizes'));
 asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
-asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Tail'', ''bad'')', _('TAIL must be ''both'', ''right'', or ''left''.'));
-asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), 'a positive integer scalar within indexing range'));
+asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
+asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Tail'', ''bad'')', ...
+  _('TAIL must be ''both'', ''right'', or ''left''.'));
+asserts.checkerror('vartest2([1 2 3], [1 2 3], ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), ...
+  'a positive integer scalar within indexing range'));
 %=============================================================================

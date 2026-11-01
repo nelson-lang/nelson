@@ -17,7 +17,8 @@ function value = subscriptGet(obj, name)
     case 'zpk'
       value = getZpkProperty(obj, name);
     otherwise
-      error('Nelson:control_system:unknownProperty', 'No property of the class ''%s'' matches the identifier ''%s''.', className, name);
+      error('Nelson:control_system:unknownProperty', ...
+        'No property of the class ''%s'' matches the identifier ''%s''.', className, name);
   end
 end
 %=============================================================================
@@ -68,7 +69,8 @@ function value = getZpkProperty(obj, name)
     case 'Internal'
       value = obj.Internal;
     otherwise
-      error('Nelson:control_system:unknownProperty', 'No property of the class ''%s'' matches the identifier ''%s''.', 'zpk', name);
+      error('Nelson:control_system:unknownProperty', ...
+        'No property of the class ''%s'' matches the identifier ''%s''.', 'zpk', name);
   end
 end
 %=============================================================================
@@ -113,7 +115,8 @@ function value = getTfProperty(obj, name)
     case 'Internal'
       value = obj.Internal;
     otherwise
-      error('Nelson:control_system:unknownProperty', 'No property of the class ''%s'' matches the identifier ''%s''.', 'tf', name);
+      error('Nelson:control_system:unknownProperty', ...
+        'No property of the class ''%s'' matches the identifier ''%s''.', 'tf', name);
   end
 end
 %=============================================================================
@@ -172,7 +175,8 @@ function value = getSsProperty(obj, name)
     case 'Internal'
       value = obj.Internal;
     otherwise
-      error('Nelson:control_system:unknownProperty', 'No property of the class ''%s'' matches the identifier ''%s''.', 'ss', name);
+      error('Nelson:control_system:unknownProperty', ...
+        'No property of the class ''%s'' matches the identifier ''%s''.', 'ss', name);
   end
 end
 %=============================================================================

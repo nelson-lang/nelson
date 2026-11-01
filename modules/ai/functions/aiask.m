@@ -109,7 +109,8 @@ end
 function [text, response] = askCodexCli(prompt, options)
   schema = [tempname(), '.json'];
   fid = fopen(schema, 'wt');
-  fwrite(fid, '{"type":"object","properties":{"answer":{"type":"string"}},"required":["answer"],"additionalProperties":false}');
+  fwrite(fid, ...
+    '{"type":"object","properties":{"answer":{"type":"string"}},"required":["answer"],"additionalProperties":false}');
   fclose(fid);
   cleanup = onCleanup(@() rmfile(schema));
   command = ['codex exec --json --output-schema "', schema, '" "', escapeShellText(prompt), '"'];

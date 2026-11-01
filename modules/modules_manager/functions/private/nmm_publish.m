@@ -95,7 +95,8 @@ function options = parseOptions(args)
         options.source = value;
         k = k + 1;
       otherwise
-        nmm_error('InvalidOptionExpected', '%s expected.', sprintf('#%d argument: ''-dry-run'', ''-check'', ''-force'', ''-source'' or ''-json''', 3));
+        nmm_error('InvalidOptionExpected', '%s expected.', ...
+          sprintf('#%d argument: ''-dry-run'', ''-check'', ''-force'', ''-source'' or ''-json''', 3));
     end
     k = k + 1;
   end
@@ -281,11 +282,13 @@ function validateSourceUrl(url, platform, packageVersion)
       continue
     end
     if any(strcmp(tokens, arch)) && ~strcmp(arch, platform)
-      nmm_error('RegistrySourceUrlArchMismatch', 'The -source URL references architecture %s but the package is %s.', arch, platform);
+      nmm_error('RegistrySourceUrlArchMismatch', ...
+        'The -source URL references architecture %s but the package is %s.', arch, platform);
     end
   end
   if ischar(packageVersion) && ~isempty(packageVersion) && isempty(strfind(base, lower(packageVersion)))
-    warning('Nelson:nmm:RegistrySourceUrlVersion', 'The -source URL does not mention the package version %s.', packageVersion);
+    warning('Nelson:nmm:RegistrySourceUrlVersion', 'The -source URL does not mention the package version %s.', ...
+      packageVersion);
   end
 end
 %=============================================================================

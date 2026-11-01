@@ -78,11 +78,14 @@ end
 
 function odeDelayValueError(name)
   if strcmp(name, 'History')
-    error('Nelson:ode_solvers:historyNumericFunctionHandleSolutionStructure', 'History must be numeric, a function handle, or a solution structure.');
+    error('Nelson:ode_solvers:historyNumericFunctionHandleSolutionStructure', ...
+      'History must be numeric, a function handle, or a solution structure.');
   elseif strcmp(name, 'ValueDelay')
-    error('Nelson:ode_solvers:valuedelayNumericFunctionHandle', '%s must be numeric or a function handle.', 'ValueDelay');
+    error('Nelson:ode_solvers:valuedelayNumericFunctionHandle', '%s must be numeric or a function handle.', ...
+      'ValueDelay');
   else
-    error('Nelson:ode_solvers:slopedelayNumericFunctionHandle', '%s must be numeric or a function handle.', 'SlopeDelay');
+    error('Nelson:ode_solvers:slopedelayNumericFunctionHandle', '%s must be numeric or a function handle.', ...
+      'SlopeDelay');
   end
 end
 
@@ -90,9 +93,11 @@ function odeDelaySignatureError(name)
   if strcmp(name, 'History')
     error('Nelson:ode_solvers:historyFunctionInvalidSignature', '%s function has an invalid signature.', 'History');
   elseif strcmp(name, 'ValueDelay')
-    error('Nelson:ode_solvers:valuedelayFunctionInvalidSignature', '%s function has an invalid signature.', 'ValueDelay');
+    error('Nelson:ode_solvers:valuedelayFunctionInvalidSignature', '%s function has an invalid signature.', ...
+      'ValueDelay');
   else
-    error('Nelson:ode_solvers:slopedelayFunctionInvalidSignature', '%s function has an invalid signature.', 'SlopeDelay');
+    error('Nelson:ode_solvers:slopedelayFunctionInvalidSignature', '%s function has an invalid signature.', ...
+      'SlopeDelay');
   end
 end
 %=============================================================================

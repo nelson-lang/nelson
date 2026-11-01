@@ -54,8 +54,10 @@ asserts.isequal(C.Properties.CustomProperties.Foo, [1 2 3]);
 C.Properties.CustomProperties.Foo = {};
 asserts.isequal(C.Properties.CustomProperties.Foo, {});
 msg = 'The custom property ''Foo'' must be a vector with one element for each variable in the table or must be a 0x0 empty (e.g. [], {}).';
-assert_checkerror('C.Properties.CustomProperties.Foo = ["a", "b"];', msg, 'Nelson:table:IncorrectNumberOfVarCustomProps');
-assert_checkerror('C.Properties.CustomProperties.Foo = ones(2, 3);', msg, 'Nelson:table:IncorrectNumberOfVarCustomProps');
+assert_checkerror('C.Properties.CustomProperties.Foo = ["a", "b"];', msg, ...
+  'Nelson:table:IncorrectNumberOfVarCustomProps');
+assert_checkerror('C.Properties.CustomProperties.Foo = ones(2, 3);', msg, ...
+  'Nelson:table:IncorrectNumberOfVarCustomProps');
 C.Properties.CustomProperties.Bar = [1 2];
 asserts.isequal(C.Properties.CustomProperties.Bar, [1 2]);
 %=============================================================================
@@ -69,5 +71,6 @@ asserts.isequal(TR.Properties.CustomProperties.Foo, ["p", "r"]);
 TR = TT;
 TR(:, 1) = [];
 asserts.isequal(TR.Properties.CustomProperties.Foo, ["q", "r"]);
-assert_checkerror('TT.Properties.CustomProperties.Foo = ["a", "b"];', msg, 'Nelson:table:IncorrectNumberOfVarCustomProps');
+assert_checkerror('TT.Properties.CustomProperties.Foo = ["a", "b"];', msg, ...
+  'Nelson:table:IncorrectNumberOfVarCustomProps');
 %=============================================================================

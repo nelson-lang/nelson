@@ -32,7 +32,7 @@ function result = fmiCoSimulate(fmu, tStop, dt, inputs, relTol)
   mustBeScalarOrEmpty(tStop);
   [fmuDir, tempToClean] = fmiEnsureUnzipped(fmu);
   if ~isempty(tempToClean)
-    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NASGU>
+    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NLS0004>
   end
   haveDt = (nargin >= 3) && ~isempty(dt);
   if haveDt
@@ -53,7 +53,8 @@ function result = fmiCoSimulate(fmu, tStop, dt, inputs, relTol)
   values = [];
   if nargin >= 4 && ~isempty(inputs)
     if ~isstruct(inputs) || ~isscalar(inputs)
-      error('Nelson:nflow_fmi:badInputs:inputsStruct', 'inputs must be a scalar struct (field = FMU input name, value = constant).');
+      error('Nelson:nflow_fmi:badInputs:inputsStruct', ...
+        'inputs must be a scalar struct (field = FMU input name, value = constant).');
     end
     names = fieldnames(inputs);
     values = zeros(1, numel(names));

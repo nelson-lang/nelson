@@ -72,9 +72,12 @@ asserts.checkerror('chi2gof({1})', sprintf(_('%s must be a real numeric vector.'
 asserts.checkerror('chi2gof([NaN Inf])', _('X must contain at least one finite observation.'));
 asserts.checkerror('chi2gof([1 2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
 asserts.checkerror('chi2gof([1 2], ''NBins'', 1.5)', sprintf(_('%s must be a positive integer scalar.'), 'NBINS'));
-asserts.checkerror('chi2gof([1 2], ''Edges'', [0 1 1])', sprintf(_('%s must be a strictly increasing vector.'), 'EDGES'));
-asserts.checkerror('chi2gof([1 2], ''Expected'', [-1 2])', _('EXPECTED must contain nonnegative counts with positive sum.'));
-asserts.checkerror('chi2gof([1 2], ''Frequency'', [1 2 3])', sprintf(_('%s must have one value per observation.'), 'FREQUENCY'));
+asserts.checkerror('chi2gof([1 2], ''Edges'', [0 1 1])', sprintf(_('%s must be a strictly increasing vector.'), ...
+  'EDGES'));
+asserts.checkerror('chi2gof([1 2], ''Expected'', [-1 2])', ...
+  _('EXPECTED must contain nonnegative counts with positive sum.'));
+asserts.checkerror('chi2gof([1 2], ''Frequency'', [1 2 3])', sprintf(_('%s must have one value per observation.'), ...
+  'FREQUENCY'));
 asserts.checkerror('chi2gof([1 2], ''CDF'', [0 0.5 1])', _('CDF must be a two-column matrix or function handle.'));
 asserts.checkerror('chi2gof([1 2], ''Unknown'', 1)', _('Invalid name-value argument name.'));
 %=============================================================================

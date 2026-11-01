@@ -123,5 +123,6 @@ assert_checkerror('x = zeros(2, 3); x(1, []) = [1 2];', _('Size mismatch in assi
 assert_checkerror('x = zeros(2, 3); x(:, []) = ones(2, 2);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'));
 assert_checkerror('x = zeros(2, 3); x([]) = [1 2];', _('Size mismatch in assignment A(I) = B.'));
 assert_checkerror('x = zeros(2, 3); x(false(2, 3)) = [1 2];', _('Size mismatch in assignment A(I) = B.'));
-assert_checkerror('x = ones(2, 3, 2); x(:, :, []) = zeros(2, 3);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'));
+assert_checkerror('x = ones(2, 3, 2); x(:, :, []) = zeros(2, 3);', ...
+  _('Size mismatch in assignment A(I1,I2,...,In) = B.'));
 assert_checkerror('x = []; x(:) = [1 2 3];', _('Size mismatch in assignment A(I) = B.'));

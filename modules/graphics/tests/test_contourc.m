@@ -71,8 +71,12 @@ asserts.isequal(size(M5), [2 0]);
 asserts.istrue(isempty(M5));
 %=============================================================================
 asserts.checkerror('contourc()', getString(message('Nelson:notEnoughInputs')));
-asserts.checkerror('contourc([1 2; 3 4], [2 1])', getString(message('Nelson:normalizeContourLevels:contourLevelsNotIncreasing')));
-asserts.checkerror('contourc([1 2; 3 4], [NaN 1])', getString(message('Nelson:normalizeContourLevels:contourLevelsNotFinite')));
-asserts.checkerror('contourc([1 1], [1 2], [1 2; 3 4])', getString(message('Nelson:validateContourData:mustBeMonotonic', 'X')));
-asserts.checkerror('contourc([1 2 3], [1 2], [1 2; 3 4], [2 2])', getString(message('Nelson:validateContourData:vectorLengthMismatch', 'X')));
+asserts.checkerror('contourc([1 2; 3 4], [2 1])', ...
+  getString(message('Nelson:normalizeContourLevels:contourLevelsNotIncreasing')));
+asserts.checkerror('contourc([1 2; 3 4], [NaN 1])', ...
+  getString(message('Nelson:normalizeContourLevels:contourLevelsNotFinite')));
+asserts.checkerror('contourc([1 1], [1 2], [1 2; 3 4])', ...
+  getString(message('Nelson:validateContourData:mustBeMonotonic', 'X')));
+asserts.checkerror('contourc([1 2 3], [1 2], [1 2; 3 4], [2 2])', ...
+  getString(message('Nelson:validateContourData:vectorLengthMismatch', 'X')));
 %=============================================================================

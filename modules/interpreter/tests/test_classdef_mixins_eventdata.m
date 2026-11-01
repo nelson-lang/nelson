@@ -15,7 +15,8 @@ c = ClassdefCounter(0);
 payload = ClassdefEventPayload('hello');
 asserts.istrue(isa(payload, 'event.EventData'));
 asserts.istrue(isempty(payload.Source));
-lh = addlistener(c, 'CountChanged', @(src, evt) src.recordEvent([evt.Name, '|', evt.EventName, '|', class(evt.Source)]));
+lh = addlistener(c, 'CountChanged', @(src, evt) src.recordEvent([evt.Name, '|', evt.EventName, '|', ...
+  class(evt.Source)]));
 notify(c, 'CountChanged', ClassdefEventPayload('hello'));
 asserts.isequal(c.LastEvent, 'hello|CountChanged|ClassdefCounter');
 delete(lh);

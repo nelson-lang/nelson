@@ -14,7 +14,8 @@ function buildhelp(varargin)
   %
   narginchk(0, 1);
   if ~isempty(getenv('CONDA_PREFIX')) && ismac()
-    warning('Nelson:help_tools:condaNotSupported', 'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
+    warning('Nelson:help_tools:condaNotSupported', ...
+      'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
     return;
   end
   TMP = tempname();

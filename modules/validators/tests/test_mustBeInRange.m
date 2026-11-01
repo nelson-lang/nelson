@@ -16,5 +16,6 @@ mustBeInRange(3, 3, 3)
 mustBeInRange(3, 3, 3, 'inclusive')
 mustBeInRange(3, 2, 4, 'exclude-lower', 'exclude-upper')
 %=============================================================================
-asserts.checkerror('mustBeInRange(3,3,3,''exclusive'')', sprintf(_('%s must be in range.'), 'Value'), 'Nelson:validators:LeftOpenRightOpen');
+asserts.checkerror('mustBeInRange(3,3,3,''exclusive'')', sprintf(_('%s must be in range.'), 'Value'), ...
+  'Nelson:validators:LeftOpenRightOpen');
 %=============================================================================

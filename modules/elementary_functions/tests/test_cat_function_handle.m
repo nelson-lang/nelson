@@ -135,7 +135,8 @@ msg = _('Concatenation involves conversion to sparse of an array with more than 
 id = 'Nelson:catenate:dimensionMismatch';
 assert_checkerror('cat(3, zeros(1, 1, 0), sparse(1), @sin)', msg, id);
 assert_checkerror('cat(3, function_handle.empty(1, 1, 0), sparse(1), @sin)', msg, id);
-assert_checkerror('cat(3, @sin, sparse(1), {1})', _('Attempt to convert to unimplemented sparse type'), 'Nelson:unimplementedSparseType');
+assert_checkerror('cat(3, @sin, sparse(1), {1})', _('Attempt to convert to unimplemented sparse type'), ...
+  'Nelson:unimplementedSparseType');
 try
   [missing, @sin];
 catch ME

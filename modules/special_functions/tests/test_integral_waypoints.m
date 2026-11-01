@@ -48,10 +48,15 @@ asserts.isapprox(q, (1 + 1i) ^ 2 / 2, 1e-10, 1e-10);
 q = integral(@(z) exp(z), 1i, 2);
 asserts.isapprox(q, exp(2) - exp(1i), 1e-10, 1e-10);
 %=============================================================================
-asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', NaN)', _('''Waypoints'' value must be a vector with all finite values.'));
-asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', NaN)', _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
-asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', [0.2 0.4; 0.6 0.8])', _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
-asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', {0.5})', _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
+asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', NaN)', ...
+  _('''Waypoints'' value must be a vector with all finite values.'));
+asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', NaN)', ...
+  _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
+asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', [0.2 0.4; 0.6 0.8])', ...
+  _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
+asserts.checkerror('integral(@(x) x, 0, 1, ''Waypoints'', {0.5})', ...
+  _('''Waypoints'' value must be a vector with all finite values.'), 'Nelson:integral:invalidWaypoints');
 asserts.checkerror('integral(@(x) x, 0, Inf, ''Waypoints'', 1i)', _('Contour endpoints and waypoints must be finite.'));
-asserts.checkerror('integral(@(x) x, 0, Inf, ''Waypoints'', 1i)', _('Contour endpoints and waypoints must be finite.'), 'Nelson:integral:nonFiniteContourError');
+asserts.checkerror('integral(@(x) x, 0, Inf, ''Waypoints'', 1i)', ...
+  _('Contour endpoints and waypoints must be finite.'), 'Nelson:integral:nonFiniteContourError');
 %=============================================================================

@@ -88,7 +88,8 @@ asserts.numel(ones(2, 3), 6);
 [r, msg] = asserts.numel(ones(2, 3), 5);
 asserts.isfalse(r);
 asserts.istrue(contains(msg, 'expected 5 elements'));
-asserts.checkerror('feval(''asserts.numel'', ones(2, 3), NaN)', _('Expected number of elements must be a nonnegative finite integer scalar.'));
+asserts.checkerror('feval(''asserts.numel'', ones(2, 3), NaN)', ...
+  _('Expected number of elements must be a nonnegative finite integer scalar.'));
 %=============================================================================
 asserts.throws('cos', _('Not enough input arguments.'));
 [r, msg] = asserts.throws('1 + 1', _('Not enough input arguments.'));

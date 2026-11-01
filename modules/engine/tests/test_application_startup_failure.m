@@ -40,7 +40,8 @@ for k = 1:numel(applications)
 end
 
 % A late startup error must prevent entry even when shutdown requests success.
-filewrite(startup, [originalStartup, newline(), 'error(''Nelson:engine:startupTest'', ''deliberate startup failure'');']);
+filewrite(startup, [originalStartup, newline(), ...
+  'error(''Nelson:engine:startupTest'', ''deliberate startup failure'');']);
 filewrite(finish, [originalFinish, newline(), 'exit(0);']);
 for k = 1:numel(applications)
   output = assert_application_status(applications{k}, 1, false);

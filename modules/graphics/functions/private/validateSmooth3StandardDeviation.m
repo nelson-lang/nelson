@@ -9,7 +9,8 @@
 %=============================================================================
 function sd = validateSmooth3StandardDeviation(sd)
   if ~isnumeric(sd) || ~isreal(sd) || ~isscalar(sd) || ~isfinite(sd) || sd <= 0
-    error('Nelson:validateSmooth3StandardDeviation:invalidStandardDeviation', 'Standard deviation must be a positive finite real numeric scalar.');
+    error('Nelson:validateSmooth3StandardDeviation:invalidStandardDeviation', ...
+      'Standard deviation must be a positive finite real numeric scalar.');
   end
   sd = double(sd);
 end

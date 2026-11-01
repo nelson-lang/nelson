@@ -68,7 +68,8 @@ function [c, ceq, Jc, Jceq, count] = constraintState(nonlcon, x, opts)
     [c, ceq] = constraintValues(c, ceq);
     Jc = double(gc)'; Jceq = double(gceq)';
     validateJacobian(Jc, length(c), length(x), sprintf('Nonlinear %s gradient has invalid dimensions.', 'inequality'));
-    validateJacobian(Jceq, length(ceq), length(x), sprintf('Nonlinear %s gradient has invalid dimensions.', 'equality'));
+    validateJacobian(Jceq, length(ceq), length(x), sprintf('Nonlinear %s gradient has invalid dimensions.', ...
+      'equality'));
     count = 1;
     return
   end
@@ -112,14 +113,16 @@ function [c, ceq] = constraintValues(c, ceq)
   elseif isnumeric(c) && isreal(c)
     c = double(c(:));
   else
-    error('Nelson:optimization:invalidConstraintValue', 'Nonlinear constraint function must return real numeric values.');
+    error('Nelson:optimization:invalidConstraintValue', ...
+      'Nonlinear constraint function must return real numeric values.');
   end
   if isempty(ceq)
     ceq = zeros(0, 1);
   elseif isnumeric(ceq) && isreal(ceq)
     ceq = double(ceq(:));
   else
-    error('Nelson:optimization:invalidConstraintValue', 'Nonlinear constraint function must return real numeric values.');
+    error('Nelson:optimization:invalidConstraintValue', ...
+      'Nonlinear constraint function must return real numeric values.');
   end
 end
 %=============================================================================
@@ -138,7 +141,6 @@ function f = scalarValue(value, opts)
 end
 %=============================================================================
 function step = finiteStep(x, opts)
-  n = length(x);
   scale = finiteScale(x, opts);
   if isempty(opts.FiniteDifferenceStepSize)
     if strcmpi(opts.FiniteDifferenceType, 'central')

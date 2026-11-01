@@ -92,10 +92,13 @@ asserts.isequal(pp.breaks, x);
 asserts.isapprox(ppval(pp, 0.75), -1.25, 1e-12);
 %=============================================================================
 % invalid calls
-asserts.checkerror('interp1([0 1 1 2], 1:4, 0.5)', _('Sample points must be strictly monotonic.'), 'Nelson:interp1:samplePointsNotMonotonic');
+asserts.checkerror('interp1([0 1 1 2], 1:4, 0.5)', _('Sample points must be strictly monotonic.'), ...
+  'Nelson:interp1:samplePointsNotMonotonic');
 asserts.checkerror('interp1(1:3, 1:4, 0.5)', _('X and V must be of the same length.'), 'Nelson:dimagree:xVLength');
-asserts.checkerror('interp1(1:3, 1:3, 0.5, ''foo'')', _('Unknown interpolation method.'), 'Nelson:interp:unknownMethod');
-asserts.checkerror('interp1(1:3, 1:3, 0.5 + 1i)', _('Sample points and query points must be real.'), 'Nelson:interp1:mustBeReal');
+asserts.checkerror('interp1(1:3, 1:3, 0.5, ''foo'')', _('Unknown interpolation method.'), ...
+  'Nelson:interp:unknownMethod');
+asserts.checkerror('interp1(1:3, 1:3, 0.5 + 1i)', _('Sample points and query points must be real.'), ...
+  'Nelson:interp1:mustBeReal');
 asserts.checkerror('interp1(1:3)', _('Not enough input arguments.'));
 asserts.checkerror('[a, b] = interp1(1:3, 1:3, 2)', _('Too many output arguments.'));
 %=============================================================================

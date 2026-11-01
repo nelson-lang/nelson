@@ -23,7 +23,8 @@ function [b, g] = sgolay(k, f, w)
     w = ones(f, 1);
   else
     if ~isvector(w) || length(w) ~= f || any(w(:) <= 0) || any(~isfinite(w(:)))
-      error('Nelson:signal:sgolay:invalidWeights', 'Weights must be a positive finite vector with frame length elements.');
+      error('Nelson:signal:sgolay:invalidWeights', ...
+        'Weights must be a positive finite vector with frame length elements.');
     end
     w = w(:);
   end

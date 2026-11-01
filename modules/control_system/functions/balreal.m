@@ -16,7 +16,7 @@ function varargout = balreal(varargin)
   B = varargin{2};
   C = varargin{3};
   rD = size(C, 1);
-  cD = size(D, 2);
+  cD = size(B, 2);
   D = zeros(rD, cD);
   sysIn = ss(A, B, C, D);
 

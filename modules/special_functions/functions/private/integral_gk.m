@@ -93,7 +93,8 @@ function [q, errbnd, L, R, Qk] = integral_gk_vectorized(fun, kind, a, b, nodes, 
     Qk = [Qk(keep), nQk];
     err = [err(keep), nErr];
     if numel(L) > maxIntervals
-      warning('Nelson:integral:maxIntervalCount', 'Reached the limit on the maximum number of intervals in use. Answer may not be accurate.');
+      warning('Nelson:integral:maxIntervalCount', ...
+        'Reached the limit on the maximum number of intervals in use. Answer may not be accurate.');
       break
     end
   end
@@ -133,7 +134,8 @@ function [q, errbnd, L, R, Qcell] = integral_gk_arrayvalued(fun, kind, a, b, nod
     Qcell = [Qcell(keep), nQcell];
     err = [err(keep), nErr];
     if numel(L) > maxIntervals
-      warning('Nelson:integral:maxIntervalCount', 'Reached the limit on the maximum number of intervals in use. Answer may not be accurate.');
+      warning('Nelson:integral:maxIntervalCount', ...
+        'Reached the limit on the maximum number of intervals in use. Answer may not be accurate.');
       break
     end
   end

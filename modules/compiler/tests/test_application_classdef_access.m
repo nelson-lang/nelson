@@ -13,7 +13,8 @@ cleanup = onCleanup(@() rmdir(directory, 's'));
 source = fullfile(directory, 'source');
 package = fullfile(source, '+NcByteAccess', '+nested');
 mkdir(package);
-fixture = fullfile(nelsonroot(), 'modules', 'interpreter', 'tests', 'bytecode_classdef_access', '+NcByteAccess', '+nested', 'Item.m');
+fixture = fullfile(nelsonroot(), 'modules', 'interpreter', 'tests', 'bytecode_classdef_access', '+NcByteAccess', ...
+  '+nested', 'Item.m');
 copyfile(fixture, fullfile(package, 'Item.m'));
 entry = fullfile(source, 'access_entry.m');
 fid = fopen(entry, 'wt');

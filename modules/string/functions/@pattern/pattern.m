@@ -33,7 +33,8 @@ classdef pattern
         displayName = char(displayName);
       end
       if ~ischar(expression) || ~ischar(displayName)
-        error('Nelson:string:patternExpressionDisplayNameText', 'Pattern expression and display name must be text scalars.');
+        error('Nelson:string:patternExpressionDisplayNameText', ...
+          'Pattern expression and display name must be text scalars.');
       end
       obj.Expression = expression;
       obj.DisplayName = displayName;
@@ -106,7 +107,8 @@ classdef pattern
       elseif isstring(value) && isscalar(value)
         expr = regexptranslate('escape', char(value));
       else
-        error('Nelson:string:patternStringScalarCharacterVector', 'Pattern, string scalar, or character vector expected.');
+        error('Nelson:string:patternStringScalarCharacterVector', ...
+          'Pattern, string scalar, or character vector expected.');
       end
     end
   end

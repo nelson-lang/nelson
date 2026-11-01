@@ -75,7 +75,7 @@ function varargout = unixLs(nOut, opts)
         args = {pathStr};
       else
         % Extract the filename pattern
-        [path, name, ext] = fileparts(pathStr);
+        [~, name, ext] = fileparts(pathStr);
         if ~isempty(ext)
           pattern = [name, ext];
         else

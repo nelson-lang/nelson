@@ -16,7 +16,8 @@ function boundary = bwtraceboundary(varargin)
   startPoint = double(varargin{2});
   if ~isnumeric(varargin{2}) || ~isreal(varargin{2}) || numel(startPoint) ~= 2 ...
       || any(~isfinite(startPoint(:))) || any(startPoint(:) ~= floor(startPoint(:)))
-    error('Nelson:image_processing:startingPointContainRowColumnInteger', 'Starting point must contain row and column integer coordinates.');
+    error('Nelson:image_processing:startingPointContainRowColumnInteger', ...
+      'Starting point must contain row and column integer coordinates.');
   end
   startPoint = startPoint(:)';
   firstStep = 'N';
@@ -37,7 +38,8 @@ function boundary = bwtraceboundary(varargin)
   end
   if ~(isscalar(maxPoints) && isfinite(maxPoints) && maxPoints >= 1 && maxPoints == floor(maxPoints)) ...
       && ~isinf(maxPoints)
-    error('Nelson:image_processing:maximumNumberBoundaryPointsPositiveInteger', '%s must be a positive integer scalar.', 'Maximum number of boundary points');
+    error('Nelson:image_processing:maximumNumberBoundaryPointsPositiveInteger', ...
+      '%s must be a positive integer scalar.', 'Maximum number of boundary points');
   end
   if startPoint(1) < 1 || startPoint(2) < 1 || startPoint(1) > size(bw, 1) ...
       || startPoint(2) > size(bw, 2) || ~bw(startPoint(1), startPoint(2))

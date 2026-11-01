@@ -32,7 +32,8 @@ for type = {'double', 'single'}
           b = sort(value, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', placement{1});
           asserts.isequal(real(b), real(expected));
           asserts.isequal(imag(b), imag(expected));
-          [indexed, indices] = sort(value, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', placement{1});
+          [indexed, indices] = sort(value, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', ...
+            placement{1});
           asserts.isequal(indices, order);
           asserts.isequal(real(b), real(indexed));
           asserts.isequal(imag(b), imag(indexed));
@@ -42,7 +43,8 @@ for type = {'double', 'single'}
           b = sort([value; value], 2, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', placement{1});
           asserts.isequal(real(b), real([expected; expected]));
           asserts.isequal(imag(b), imag([expected; expected]));
-          b = sort([value.', value.'], 1, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', placement{1});
+          b = sort([value.', value.'], 1, direction{1}, 'ComparisonMethod', method{1}, 'MissingPlacement', ...
+            placement{1});
           asserts.isequal(real(b), real([expected.', expected.']));
           asserts.isequal(imag(b), imag([expected.', expected.']));
           nd = cat(3, [value; value], [value; value]);

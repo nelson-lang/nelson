@@ -95,7 +95,8 @@ end
 function value = parseNumComponentsLocal(value, nvars)
   if ~(isnumeric(value) && isreal(value) && isscalar(value) && isfinite(value) ...
       && value >= 0 && floor(value) == value && value <= nvars)
-    error('Nelson:statistics:numComponentsIntegerScalarBetween0', 'NumComponents must be an integer scalar between 0 and the number of variables.');
+    error('Nelson:statistics:numComponentsIntegerScalarBetween0', ...
+      'NumComponents must be an integer scalar between 0 and the number of variables.');
   end
   value = double(value);
 end
@@ -106,7 +107,8 @@ function weights = parseWeightsLocal(value)
   end
   weights = double(value(:));
   if any(~isfinite(weights)) || any(weights < 0) || sum(weights) <= 0
-    error('Nelson:statistics:weightsContainNonnegativeFiniteValues:valueContainNonnegativeFiniteValuesPositive', '%s must contain nonnegative finite values with positive sum.', 'Weights');
+    error('Nelson:statistics:weightsContainNonnegativeFiniteValues:valueContainNonnegativeFiniteValuesPositive', ...
+      '%s must contain nonnegative finite values with positive sum.', 'Weights');
   end
 end
 %=============================================================================
@@ -153,7 +155,8 @@ function mu = meanOmitNaNLocal(X, centered)
     column = X(:, k);
     column = column(isfinite(column));
     if isempty(column)
-      error('Nelson:statistics:variableContainLeastOneFinite', '%s must contain at least one finite value.', 'Each variable');
+      error('Nelson:statistics:variableContainLeastOneFinite', '%s must contain at least one finite value.', ...
+        'Each variable');
     end
     mu(k) = mean(column);
   end
@@ -183,7 +186,8 @@ function [X, scale] = applyVariableWeightsLocal(X, opts)
     scale = std(X, 0, 1);
   else
     if ~(isnumeric(value) && isreal(value) && isvector(value) && length(value) == size(X, 2))
-      error('Nelson:statistics:variableWeightsMatchNumberVariables', 'VariableWeights must match the number of variables.');
+      error('Nelson:statistics:variableWeightsMatchNumberVariables', ...
+        'VariableWeights must match the number of variables.');
     end
     scale = 1 ./ sqrt(double(value(:))');
   end

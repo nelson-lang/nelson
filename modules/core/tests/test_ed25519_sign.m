@@ -48,7 +48,10 @@ rmfile(filename);
 asserts.checkerror('crypto.ed25519.sign(msg3)', _('Not enough input arguments.'));
 asserts.checkerror('crypto.ed25519.sign(msg3, seed3(1:20))', _('Private seed must be 32 bytes (uint8 vector) or 64 hexadecimal characters.'), 'Nelson:core:ed25519SeedSizeExpected');
 badhex = ['zz', seed3(3:end)];
-asserts.checkerror('crypto.ed25519.sign(msg3, badhex)', _('#2 argument: hexadecimal characters expected.'), 'Nelson:core:ed25519HexStringExpected');
-asserts.checkerror('crypto.ed25519.sign(msg3, seed3, ''-string'')', _('#3 argument: ''-file'' expected.'), 'Nelson:core:cryptoFileOptionExpected');
-asserts.checkerror('crypto.ed25519.sign({}, seed3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
+asserts.checkerror('crypto.ed25519.sign(msg3, badhex)', _('#2 argument: hexadecimal characters expected.'), ...
+  'Nelson:core:ed25519HexStringExpected');
+asserts.checkerror('crypto.ed25519.sign(msg3, seed3, ''-string'')', _('#3 argument: ''-file'' expected.'), ...
+  'Nelson:core:cryptoFileOptionExpected');
+asserts.checkerror('crypto.ed25519.sign({}, seed3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, ...
+  '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
 %=============================================================================

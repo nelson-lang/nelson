@@ -20,7 +20,8 @@ function runtime = __nelsonc_runtime_files__(runtime, sourceRoot, libraryDirecto
     elseif strcmp(architecture, 'woa64')
       platform = 'ARM64';
     else
-      error('Nelson:nelsonc:nativePlatform:applicationPackagingRequires64Bit', 'Application packaging requires a 64-bit Windows runtime.');
+      error('Nelson:nelsonc:nativePlatform:applicationPackagingRequires64Bit', ...
+        'Application packaging requires a 64-bit Windows runtime.');
     end
   elseif ismac()
     platform = 'macOS';
@@ -218,7 +219,8 @@ function files = order_files(records)
       left = files(k - 1);
       right = files(k);
       if ~strcmp(left.source, right.source) || ~strcmpi(left.sha256, right.sha256)
-        error('Nelson:nelsonc:runtimeCollision:runtimeInputsShareDestination', 'Runtime inputs share a destination: %s.', right.relative);
+        error('Nelson:nelsonc:runtimeCollision:runtimeInputsShareDestination', ...
+          'Runtime inputs share a destination: %s.', right.relative);
       end
       keep(k) = false;
     end

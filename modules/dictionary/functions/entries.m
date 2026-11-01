@@ -39,7 +39,8 @@ function varargout = entries(varargin)
     end
     r = table(keyColumn, valueColumn, 'VariableNames', {'Key', 'Value'});
   else
-    error('Nelson:dictionary:invalidFormat', '%s expected.', 'Wrong value for ''format'' option. ''struct'', ''cell'' or ''table''');
+    error('Nelson:dictionary:invalidFormat', '%s expected.', ...
+      'Wrong value for ''format'' option. ''struct'', ''cell'' or ''table''');
   end
   varargout{1} = r;
 end

@@ -17,14 +17,17 @@ function out = imcrop(varargin)
     return
   end
   if ~isnumeric(varargin{2}) || ~isreal(varargin{2}) || numel(varargin{2}) ~= 4
-    error('Nelson:image_processing:cropRectangleNumericElementVector', '%s must be a numeric 4-element vector.', 'Crop rectangle');
+    error('Nelson:image_processing:cropRectangleNumericElementVector', '%s must be a numeric 4-element vector.', ...
+      'Crop rectangle');
   end
   rect = double(varargin{2});
   if any(~isfinite(rect(:)))
-    error('Nelson:image_processing:cropRectangleContainFiniteValues', '%s must contain finite values.', 'Crop rectangle');
+    error('Nelson:image_processing:cropRectangleContainFiniteValues', '%s must contain finite values.', ...
+      'Crop rectangle');
   end
   if rect(3) < 0 || rect(4) < 0
-    error('Nelson:image_processing:cropRectangleWidthHeightNonnegative', '%s width and height must be nonnegative.', 'Crop rectangle');
+    error('Nelson:image_processing:cropRectangleWidthHeightNonnegative', '%s width and height must be nonnegative.', ...
+      'Crop rectangle');
   end
   x1 = max(1, floor(rect(1)));
   y1 = max(1, floor(rect(2)));

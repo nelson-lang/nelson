@@ -35,7 +35,8 @@ function varargout = initial(varargin)
   x0 = varargin{2};
   x0 = x0(:); % Turn them into a vector
   if (size(sys.A, 1) ~= size(x0, 1))
-    error('Nelson:control_system:dimagree:initialConditionsVectorHasNotRow', 'The initial conditions vector has not the same row length as matrix A.');
+    error('Nelson:control_system:dimagree:initialConditionsVectorHasNotRow', ...
+      'The initial conditions vector has not the same row length as matrix A.');
   end
 
   if nargin > 2

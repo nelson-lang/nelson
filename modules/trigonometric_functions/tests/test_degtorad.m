@@ -34,5 +34,6 @@ asserts.isequal(R, REF);
 %=============================================================================
 assert_isequal(degtorad(180), deg2rad(180));
 %=============================================================================
-assert_checkerror('degtorad(int8(1))', _('Input must be single or double.'), 'Nelson:trigonometric_functions:nonFloatInput');
+assert_checkerror('degtorad(int8(1))', _('Input must be single or double.'), ...
+  'Nelson:trigonometric_functions:nonFloatInput');
 %=============================================================================

@@ -11,7 +11,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, ...
+  'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 f = figure('Visible', 'off');
 t = tiledlayout(f, 2, 1);
 h = sgtitle(t, 'Shared title', 'Color', 'red');
@@ -48,9 +49,11 @@ asserts.isequal(h.FontSizeMode, 'auto');
 asserts.isequal(ax1.FontSize, 9.5);
 asserts.isapprox(ax1.Title.FontSize, 10.45, layoutTolerance);
 asserts.isapprox(ax1.Position, [0.13 0.56097376913957209 0.334659090909091 0.32780263665714104], layoutTolerance);
-asserts.isapprox(ax2.Position, [0.570340909090909 0.56097376913957209 0.334659090909091 0.32780263665714104], layoutTolerance);
+asserts.isapprox(ax2.Position, [0.570340909090909 0.56097376913957209 0.334659090909091 0.32780263665714104], ...
+  layoutTolerance);
 asserts.isapprox(ax3.Position, [0.13 0.1056923293379875 0.334659090909091 0.32780263665714104], layoutTolerance);
-asserts.isapprox(ax4.Position, [0.570340909090909 0.1056923293379875 0.334659090909091 0.32780263665714104], layoutTolerance);
+asserts.isapprox(ax4.Position, [0.570340909090909 0.1056923293379875 0.334659090909091 0.32780263665714104], ...
+  layoutTolerance);
 asserts.isapprox(ax1.Title.Position, [0.500000851400051 1.012323113207547 0.5], layoutTolerance);
 asserts.isapprox(ax3.Title.Position, [0.500000851400051 1.012323113207547 0.5], layoutTolerance);
 close(f);
@@ -99,10 +102,14 @@ asserts.isapprox(ax1.Position, [0.13 0.557705689162709 expectedWidth expectedHei
 asserts.isapprox(ax2.Position, [0.570340909090909 0.557705689162709 expectedWidth expectedHeight], layoutTolerance);
 asserts.isapprox(ax3.Position, [0.13 0.105076594691879 expectedWidth expectedHeight], layoutTolerance);
 asserts.isapprox(ax4.Position, [0.570340909090909 0.105076594691879 expectedWidth expectedHeight], layoutTolerance);
-asserts.isapprox(ax1.OuterPosition, [0.0789601386481802 0.51828540086362 0.392614318090921 0.407668308781855], layoutTolerance);
-asserts.isapprox(ax2.OuterPosition, [0.533351661636479 0.51828540086362 0.410565433926187 0.407668308781855], layoutTolerance);
-asserts.isapprox(ax3.OuterPosition, [0.0789601386481802 0.0625326453610331 0.392614318090921 0.410791969813611], layoutTolerance);
-asserts.isapprox(ax4.OuterPosition, [0.533351661636479 0.0625326453610331 0.410565433926187 0.410791969813611], layoutTolerance);
+asserts.isapprox(ax1.OuterPosition, [0.0789601386481802 0.51828540086362 0.392614318090921 0.407668308781855], ...
+  layoutTolerance);
+asserts.isapprox(ax2.OuterPosition, [0.533351661636479 0.51828540086362 0.410565433926187 0.407668308781855], ...
+  layoutTolerance);
+asserts.isapprox(ax3.OuterPosition, [0.0789601386481802 0.0625326453610331 0.392614318090921 0.410791969813611], ...
+  layoutTolerance);
+asserts.isapprox(ax4.OuterPosition, [0.533351661636479 0.0625326453610331 0.410565433926187 0.410791969813611], ...
+  layoutTolerance);
 asserts.isapprox(ax1.XTick, [0 0.5 1], layoutTolerance);
 asserts.isapprox(ax1.YTick, 0:0.2:1, layoutTolerance);
 asserts.isapprox(ax1.Title.Position, [0.50000085241546 1.01397058823529 0.5], layoutTolerance);

@@ -42,8 +42,10 @@ asserts.isapprox(q, [0.096110498950237; 1; 1.903889501049763], 1e-12);
 asserts.checkerror('ksdensity()', _('Not enough input arguments.'));
 asserts.checkerror('ksdensity({1})', sprintf(_('%s must be a real numeric vector.'), 'X'));
 asserts.checkerror('ksdensity([1 2], [1 2], ''Weights'', [1 2 3])', sprintf(_('%s must match X.'), 'Weights'));
-asserts.checkerror('ksdensity([1 2], [1 2], ''Bandwidth'', 0)', sprintf(_('%s must be a positive scalar.'), 'Bandwidth'));
+asserts.checkerror('ksdensity([1 2], [1 2], ''Bandwidth'', 0)', sprintf(_('%s must be a positive scalar.'), ...
+  'Bandwidth'));
 asserts.checkerror('ksdensity([1 2], [1 2], ''Function'', ''bad'')', sprintf(_('Unsupported %s.'), 'function type'));
 asserts.checkerror('ksdensity([1 2], [1 2], ''Kernel'', ''box'')', _('Only normal kernel is supported.'));
-asserts.checkerror('ksdensity([1 2], [1 2], ''Support'', [2 1])', _('Support must be a two-element increasing vector.'));
+asserts.checkerror('ksdensity([1 2], [1 2], ''Support'', [2 1])', ...
+  _('Support must be a two-element increasing vector.'));
 %=============================================================================

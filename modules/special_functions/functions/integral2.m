@@ -41,7 +41,8 @@ function h = integral2_bound(v)
     h = v;
   else
     if ~(isnumeric(v) && isscalar(v))
-      error('Nelson:special_functions:invalidLimits', 'Integration limits must be numeric scalars or function handles.');
+      error('Nelson:special_functions:invalidLimits', ...
+        'Integration limits must be numeric scalars or function handles.');
     end
     val = double(v);
     h = @(x) val + 0 * x;

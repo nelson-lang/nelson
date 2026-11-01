@@ -30,12 +30,14 @@ function value = __nelsonc_option_value__(name, value)
       % Validate the requested value before gating on platform support, so an
       % invalid image is always an options error regardless of the host.
       value = absolute_path(value);
-      [parent, stem, extension] = fileparts(value);
+      [~, ~, extension] = fileparts(value);
       if ~any(strcmpi(extension, {'.jpg', '.jpeg', '.png', '.bmp', '.gif'})) || ~isfile(value)
-        error('Nelson:nelsonc:options:imageFileExpected', '%s must name an existing JPG, JPEG, PNG, BMP or GIF image.', name);
+        error('Nelson:nelsonc:options:imageFileExpected', ...
+          '%s must name an existing JPG, JPEG, PNG, BMP or GIF image.', name);
       end
       if ~ispc()
-        error('Nelson:nelsonc:platform:resourcesCurrentlyRequireWindows', '%s resources currently require Windows.', name);
+        error('Nelson:nelsonc:platform:resourcesCurrentlyRequireWindows', '%s resources currently require Windows.', ...
+          name);
       end
     case {'Mode', 'RuntimeMode'}
       value = lower(text_value(value, name, false));
@@ -64,7 +66,8 @@ function value = __nelsonc_option_value__(name, value)
           error('Nelson:nelsonc:options:appFileNameExistingMSource', 'AppFile must name an existing .m source file.');
         end
       elseif strcmp(name, 'CustomHelpTextFile') && ~isfile(value)
-        error('Nelson:nelsonc:options:customHelpTextFileNameExistingFile', 'CustomHelpTextFile must name an existing file.');
+        error('Nelson:nelsonc:options:customHelpTextFileNameExistingFile', ...
+          'CustomHelpTextFile must name an existing file.');
       elseif strcmp(name, 'OutputDir') && isfile(value)
         error('Nelson:nelsonc:options:outputDirDirectory', 'OutputDir must be a directory.');
       end
@@ -79,7 +82,8 @@ function value = text_value(value, name, allowEmpty)
   end
   if ~ischar(value) || (~isempty(value) && ~isrow(value)) ...
     || (~allowEmpty && isempty(value)) || any(value == char(0))
-    error('Nelson:nelsonc:options:characterVectorScalarString', '%s must be a character vector or scalar string.', name);
+    error('Nelson:nelsonc:options:characterVectorScalarString', '%s must be a character vector or scalar string.', ...
+      name);
   end
 end
 
@@ -108,7 +112,8 @@ function files = additional_files(value)
     value = cellstr(value);
   end
   if ~iscell(value) || (~isempty(value) && ~isvector(value)) || numel(value) > 10000
-    error('Nelson:nelsonc:options:additionalFilesFilenameVectorFilenames', 'AdditionalFiles must be a filename or a vector of filenames.');
+    error('Nelson:nelsonc:options:additionalFilesFilenameVectorFilenames', ...
+      'AdditionalFiles must be a filename or a vector of filenames.');
   end
   files = {};
   for k = 1:numel(value)
@@ -145,7 +150,8 @@ end
 function names = support_packages(value)
   if ischar(value); value = {value}; elseif isstring(value); value = cellstr(value); end
   if ~iscell(value) || isempty(value) || ~isvector(value) || numel(value) > 10000
-    error('Nelson:nelsonc:options:supportPackagesAutodetectNoneNonemptyVector', 'SupportPackages must be autodetect, none or a nonempty vector of package names.');
+    error('Nelson:nelsonc:options:supportPackagesAutodetectNoneNonemptyVector', ...
+      'SupportPackages must be autodetect, none or a nonempty vector of package names.');
   end
   names = cell(1, numel(value));
   for k = 1:numel(value)
@@ -155,7 +161,8 @@ function names = support_packages(value)
     end
   end
   if numel(names) > 1 && any(ismember(names, {'autodetect', 'none'}))
-    error('Nelson:nelsonc:options:autodetectNoneCannotCombinedPackage', 'autodetect and none cannot be combined with package names.');
+    error('Nelson:nelsonc:options:autodetectNoneCannotCombinedPackage', ...
+      'autodetect and none cannot be combined with package names.');
   end
   names = unique(names);
 end

@@ -9,7 +9,8 @@
 %=============================================================================
 function windowSize = validateSmooth3WindowSize(windowSize)
   if ~isnumeric(windowSize) || ~isreal(windowSize) || isempty(windowSize)
-    error('Nelson:validateSmooth3WindowSize:invalidWindowSize', 'Window size must be a positive odd integer scalar or three-element vector.');
+    error('Nelson:validateSmooth3WindowSize:invalidWindowSize', ...
+      'Window size must be a positive odd integer scalar or three-element vector.');
   end
   if isscalar(windowSize)
     windowSize = repmat(double(windowSize), 1, 3);
@@ -17,7 +18,8 @@ function windowSize = validateSmooth3WindowSize(windowSize)
     windowSize = double(windowSize(:).');
   end
   if ~isValidSmooth3WindowSize(windowSize)
-    error('Nelson:validateSmooth3WindowSize:invalidWindowSize', 'Window size must be a positive odd integer scalar or three-element vector.');
+    error('Nelson:validateSmooth3WindowSize:invalidWindowSize', ...
+      'Window size must be a positive odd integer scalar or three-element vector.');
   end
 end
 %=============================================================================

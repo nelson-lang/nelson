@@ -35,7 +35,8 @@ asserts.isequal(mat, {'<title>My Title</title>', '<p>Here is some text.</p>'});
 te = regexp('abc 123 def 45', '(\d+)', 'tokenExtents');
 asserts.isequal(te, {[5 7], [13 14]});
 %=============================================================================
-names = regexp('01/11/2000 20-02-2020', '(?<month>\d+)/(?<day>\d+)/(?<year>\d+)|(?<day>\d+)-(?<month>\d+)-(?<year>\d+)', 'names');
+names = regexp('01/11/2000 20-02-2020', ...
+  '(?<month>\d+)/(?<day>\d+)/(?<year>\d+)|(?<day>\d+)-(?<month>\d+)-(?<year>\d+)', 'names');
 asserts.isequal(names(1).month, '01');
 asserts.isequal(names(1).day, '11');
 asserts.isequal(names(2).month, '02');
@@ -315,7 +316,8 @@ asserts.isequal(piStringSplit{1}, '3');
 asserts.isequal(piStringSplit{2}, '14');
 [a, b, c, d] = regexp('xabyabbbz', 'ab(.*)b(.*)', 'start', 'end', 'match', 'tokens', 'once');
 asserts.isequal(size(d), [1, 2]);
-[a, b, c, d] = regexp('https://www.nelson.org/download/', '^(?:https://)?([^/]+)', 'start', 'end', 'match', 'tokens', 'once', 'ignorecase');
+[a, b, c, d] = regexp('https://www.nelson.org/download/', '^(?:https://)?([^/]+)', 'start', 'end', 'match', ...
+  'tokens', 'once', 'ignorecase');
 asserts.isequal(d{1}, 'www.nelson.org');
 [a, b, c, d] = regexp('foobar: 2025', '(?<name>\w+): (?<digit>\d+)', 'start', 'end', 'match', 'tokens', 'once');
 asserts.isequal(d{1}, 'foobar');

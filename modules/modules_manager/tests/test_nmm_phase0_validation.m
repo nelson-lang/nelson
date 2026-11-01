@@ -75,7 +75,8 @@ writeModuleStructure(invalidRoot, true);
 writeModuleStructure(missingHelpRoot, false);
 writeModuleStructure(invalidLicenseRoot, true);
 writeModuleStructure(invalidUrlRoot, true);
-replaceInFile([invalidUrlRoot, 'module.json'], 'https://example.org/nmm_phase1_validate', 'ftp://example.org/nmm_phase1_validate');
+replaceInFile([invalidUrlRoot, 'module.json'], 'https://example.org/nmm_phase1_validate', ...
+  'ftp://example.org/nmm_phase1_validate');
 asserts.istrue(nmm('validate', validRoot));
 warningsReport = nmm('validate', validRoot, '-warnings');
 asserts.istrue(warningsReport.ok);
@@ -88,11 +89,16 @@ asserts.istrue(hasTextValue(warningsJson.warnings, _('module.json field is missi
 asserts.istrue(nmm('validate', strictRoot, '-strict'));
 validationJson = jsondecode(nmm('validate', invalidRoot, '-json'));
 asserts.isfalse(validationJson.ok);
-asserts.checkerror(['nmm(''validate'', ''', invalidRoot, ''')'], _('module.json field is missing: license'), 'Nelson:nmm:ModuleJsonFieldMissing');
-asserts.checkerror(['nmm(''validate'', ''', missingHelpRoot, ''')'], _('help directory is missing.'), 'Nelson:nmm:HelpDirectoryMissing');
-asserts.checkerror(['nmm(''validate'', ''', invalidLicenseRoot, ''')'], _('module.json license must be a SPDX expression.'), 'Nelson:nmm:ModuleJsonLicenseInvalid');
-asserts.checkerror(['nmm(''validate'', ''', validRoot, ''', ''-strict'')'], _('module.json field is missing: repository'), 'Nelson:nmm:ModuleJsonFieldMissing');
-asserts.checkerror(['nmm(''validate'', ''', invalidUrlRoot, ''', ''-strict'')'], _('module.json field must be an HTTP URL: repository'), 'Nelson:nmm:ModuleJsonUrlInvalid');
+asserts.checkerror(['nmm(''validate'', ''', invalidRoot, ''')'], _('module.json field is missing: license'), ...
+  'Nelson:nmm:ModuleJsonFieldMissing');
+asserts.checkerror(['nmm(''validate'', ''', missingHelpRoot, ''')'], _('help directory is missing.'), ...
+  'Nelson:nmm:HelpDirectoryMissing');
+asserts.checkerror(['nmm(''validate'', ''', invalidLicenseRoot, ''')'], ...
+  _('module.json license must be a SPDX expression.'), 'Nelson:nmm:ModuleJsonLicenseInvalid');
+asserts.checkerror(['nmm(''validate'', ''', validRoot, ''', ''-strict'')'], ...
+  _('module.json field is missing: repository'), 'Nelson:nmm:ModuleJsonFieldMissing');
+asserts.checkerror(['nmm(''validate'', ''', invalidUrlRoot, ''', ''-strict'')'], ...
+  _('module.json field must be an HTTP URL: repository'), 'Nelson:nmm:ModuleJsonUrlInvalid');
 rmdir(testRoot, 's');
 %=============================================================================
 rmpath(privatePath);

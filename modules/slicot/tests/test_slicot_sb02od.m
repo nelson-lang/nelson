@@ -32,7 +32,8 @@ R = [0.0;
   0.0;
   1.0];
 L = zeros(N, M);
-[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, TOL);
+[RCOND, X, ALFAR, ALFAI, BETA, S, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, Q, R, L, ...
+  TOL);
 %=============================================================================
 RCOND_REF = 0.4714;
 asserts.isapprox(RCOND, RCOND_REF, 1e-4);

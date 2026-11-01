@@ -33,7 +33,10 @@ asserts.istrue(isnan(WNaN(1, 1, 1)));
 asserts.isequal(size(WNaN), size(VNaN));
 %=============================================================================
 asserts.checkerror('smooth3(ones(3));', getString(message('Nelson:parseSmooth3Inputs:invalidV')));
-asserts.checkerror('smooth3(ones(3,3,3), ''bad'');', getString(message('Nelson:validateSmooth3Method:invalidSmoothingMethod')));
-asserts.checkerror('smooth3(ones(3,3,3), ''box'', 4);', getString(message('Nelson:validateSmooth3WindowSize:invalidWindowSize')));
-asserts.checkerror('smooth3(ones(3,3,3), ''gaussian'', 3, 0);', getString(message('Nelson:validateSmooth3StandardDeviation:invalidStandardDeviation')));
+asserts.checkerror('smooth3(ones(3,3,3), ''bad'');', ...
+  getString(message('Nelson:validateSmooth3Method:invalidSmoothingMethod')));
+asserts.checkerror('smooth3(ones(3,3,3), ''box'', 4);', ...
+  getString(message('Nelson:validateSmooth3WindowSize:invalidWindowSize')));
+asserts.checkerror('smooth3(ones(3,3,3), ''gaussian'', 3, 0);', ...
+  getString(message('Nelson:validateSmooth3StandardDeviation:invalidStandardDeviation')));
 %=============================================================================

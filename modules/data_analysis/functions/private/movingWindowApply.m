@@ -130,7 +130,8 @@ end
 %=============================================================================
 function [before, after] = movingWindowSizes(window)
   if ~isnumeric(window) || isempty(window) || numel(window) > 2
-    error('Nelson:data_analysis:windowPositiveScalarTwoElement', 'Window must be a positive scalar or a two-element vector.');
+    error('Nelson:data_analysis:windowPositiveScalarTwoElement', ...
+      'Window must be a positive scalar or a two-element vector.');
   end
   if isscalar(window)
     if window < 1

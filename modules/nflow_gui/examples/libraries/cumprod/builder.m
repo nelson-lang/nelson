@@ -42,7 +42,7 @@ function builder()
   % keeping the example directory clean.
   buildDir = [tempname(), '_nflow_cumprod'];
   mkdir(buildDir);
-  cleaner = onCleanup(@() rmdir(buildDir, 's')); %#ok<NASGU>
+  cleaner = onCleanup(@() rmdir(buildDir, 's')); %#ok<NLS0004>
 
   [ok, msg] = dlgeneratemake('dynamic_library', buildDir, libraryName, ...
     {source}, dlgetnflowincludes(), {}, dlgetnflowlibraries());

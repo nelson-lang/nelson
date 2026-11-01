@@ -60,21 +60,34 @@ end
 function commands = commandList()
   commands = struct([]);
   commands = addCommand(commands, 'list', 'installed modules', {"nmm('list')"}, {});
-  commands = addCommand(commands, 'load', 'load an installed module', {"nmm('load', name)", "nmm('load', name, version)"}, {});
+  commands = addCommand(commands, 'load', 'load an installed module', {"nmm('load', name)", ...
+    "nmm('load', name, version)"}, {});
   commands = addCommand(commands, 'init', 'generate a valid module.json manifest', {"nmm('init', destination, 'title', t, 'summary', s, 'license', l)", "nmm('init', destination, 'Interactive', true)"}, {});
-  commands = addCommand(commands, 'install', 'install source, archive or registry package', {"nmm('install', source)", "nmm('install', package, version)"}, {});
-  commands = addCommand(commands, 'remove', 'remove an installed package', {"nmm('remove', name)", "nmm('remove', name, '-dry-run')"}, {'uninstall'});
-  commands = addCommand(commands, 'pack', 'build a package archive', {"nmm('pack', path, destination)", "nmm('pack', path, '-dry-run')"}, {'package'});
-  commands = addCommand(commands, 'publish', 'publish a package to a local registry', {"nmm('publish', file)", "nmm('publish', file, '-check')"}, {});
-  commands = addCommand(commands, 'registry', 'inspect and validate registry state', {"nmm('registry', 'list')", "nmm('registry', 'doctor')"}, {'search', 'info', 'versions'});
-  commands = addCommand(commands, 'cache', 'manage the offline archive cache', {"nmm('cache', 'list')", "nmm('cache', 'verify')"}, {});
-  commands = addCommand(commands, 'lock', 'create or inspect module lockfiles', {"nmm('lock', path)", "nmm('lock', path, '-check')"}, {});
-  commands = addCommand(commands, 'i18n', 'generate or refresh a module locale catalog', {"nmm('i18n', path)", "nmm('i18n', name, 'en_US', 'fr_FR')"}, {});
-  commands = addCommand(commands, 'verify', 'verify archive or source module integrity', {"nmm('verify', file)", "nmm('verify', path)"}, {});
-  commands = addCommand(commands, 'diagnostics', 'inspect dependencies and package state', {"nmm('status', name)", "nmm('tree', name)"}, {'why', 'deps', 'rdeps', 'doctor', 'audit', 'explain', 'graph'});
-  commands = addCommand(commands, 'versions', 'inspect versions and semver constraints', {"nmm('installed', name)", "nmm('resolve', name, spec)"}, {'installed', 'latest', 'resolve', 'satisfies', 'pin', 'unpin'});
+  commands = addCommand(commands, 'install', 'install source, archive or registry package', ...
+    {"nmm('install', source)", "nmm('install', package, version)"}, {});
+  commands = addCommand(commands, 'remove', 'remove an installed package', {"nmm('remove', name)", ...
+    "nmm('remove', name, '-dry-run')"}, {'uninstall'});
+  commands = addCommand(commands, 'pack', 'build a package archive', {"nmm('pack', path, destination)", ...
+    "nmm('pack', path, '-dry-run')"}, {'package'});
+  commands = addCommand(commands, 'publish', 'publish a package to a local registry', {"nmm('publish', file)", ...
+    "nmm('publish', file, '-check')"}, {});
+  commands = addCommand(commands, 'registry', 'inspect and validate registry state', {"nmm('registry', 'list')", ...
+    "nmm('registry', 'doctor')"}, {'search', 'info', 'versions'});
+  commands = addCommand(commands, 'cache', 'manage the offline archive cache', {"nmm('cache', 'list')", ...
+    "nmm('cache', 'verify')"}, {});
+  commands = addCommand(commands, 'lock', 'create or inspect module lockfiles', {"nmm('lock', path)", ...
+    "nmm('lock', path, '-check')"}, {});
+  commands = addCommand(commands, 'i18n', 'generate or refresh a module locale catalog', {"nmm('i18n', path)", ...
+    "nmm('i18n', name, 'en_US', 'fr_FR')"}, {});
+  commands = addCommand(commands, 'verify', 'verify archive or source module integrity', {"nmm('verify', file)", ...
+    "nmm('verify', path)"}, {});
+  commands = addCommand(commands, 'diagnostics', 'inspect dependencies and package state', {"nmm('status', name)", ...
+    "nmm('tree', name)"}, {'why', 'deps', 'rdeps', 'doctor', 'audit', 'explain', 'graph'});
+  commands = addCommand(commands, 'versions', 'inspect versions and semver constraints', {"nmm('installed', name)", ...
+    "nmm('resolve', name, spec)"}, {'installed', 'latest', 'resolve', 'satisfies', 'pin', 'unpin'});
   commands = addCommand(commands, 'maintenance', 'repair, clean or update installed modules', {"nmm('repair')", "nmm('orphans')", "nmm('autoremove', '-dry-run')"}, {'outdated', 'update', 'config', 'autoload', 'orphans', 'autoremove'});
-  commands = addCommand(commands, 'help', 'list commands or describe one command', {"nmm('commands')", "nmm('help', command)"}, {'commands'});
+  commands = addCommand(commands, 'help', 'list commands or describe one command', {"nmm('commands')", ...
+    "nmm('help', command)"}, {'commands'});
 end
 %=============================================================================
 function commands = addCommand(commands, command, summary, syntax, aliases)

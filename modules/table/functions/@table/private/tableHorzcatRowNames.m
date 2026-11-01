@@ -21,7 +21,8 @@ function [names, rows] = tableHorzcatRowNames(names, namesB, nRows)
   end
   [isFound, rows] = ismember(names, namesB);
   if ~all(isFound)
-    error('Nelson:table:horzcatRowNamesMismatch', _('All tables being horizontally concatenated must have the same row names.'));
+    error('Nelson:table:horzcatRowNamesMismatch', ...
+      _('All tables being horizontally concatenated must have the same row names.'));
   end
   if isequal(reshape(rows, [], 1), (1:nRows)')
     rows = [];

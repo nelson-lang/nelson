@@ -78,7 +78,8 @@ function success = __nelsonc_editor_action__(window, action, varargin)
             filename = varargin{1};
           end
           if isfile(filename) || isfolder(filename)
-            error('Nelson:compiler:project:exportDestinationExists', 'Export destination already exists; choose a new build script file.');
+            error('Nelson:compiler:project:exportDestinationExists', ...
+              'Export destination already exists; choose a new build script file.');
           end
           filewrite(filename, command);
           state.Status.Text = ['Exported: ', filename];
@@ -207,7 +208,8 @@ function state = perform_operation(state, action)
       if ~strcmp(state.Sources.State, 'current'); state.Status.Text = state.Sources.Message; end
     case 'package'
       if isempty(state.Result)
-        error('Nelson:compiler:editor:buildBeforeInstaller', 'Build the current project before creating its installer.');
+        error('Nelson:compiler:editor:buildBeforeInstaller', ...
+          'Build the current project before creating its installer.');
       end
       [directory, state.Sources] = __nelsonc_project__('package', state.Project, state.Result);
       state.Log.Value = [state.Log.Value(:); {state.Sources.Message}];
@@ -275,7 +277,7 @@ end
 function update_title(window, state)
   title = 'Untitled';
   if ~isempty(state.ProjectFile)
-    [folder, name, extension] = fileparts(state.ProjectFile);
+    [~, name, extension] = fileparts(state.ProjectFile);
     title = [name, extension];
   end
   if ~strcmp(state.Saved, jsonencode(state.Project)); title = [title, ' *']; end

@@ -46,9 +46,14 @@ rmfile(filename);
 %=============================================================================
 % argument errors
 asserts.checkerror('crypto.blake2b()', _('Not enough input arguments.'));
-asserts.checkerror('crypto.blake2b(''abc'', uint8(1:65))', _('BLAKE2b key must be at most 64 bytes.'), 'Nelson:core:blake2bKeySizeExpected');
-asserts.checkerror('crypto.blake2b(''abc'', [], 65)', _('BLAKE2b digest size must be an integer between 1 and 64.'), 'Nelson:core:blake2bDigestSizeExpected');
-asserts.checkerror('crypto.blake2b(''abc'', [], 2.5)', _('BLAKE2b digest size must be an integer between 1 and 64.'), 'Nelson:core:blake2bDigestSizeExpected');
-asserts.checkerror('crypto.blake2b(''abc'', [], 32, ''-string'')', sprintf(_('#%d argument: ''-file'' expected.'), 4), 'Nelson:core:cryptoFileOptionExpected');
-asserts.checkerror('crypto.blake2b(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
+asserts.checkerror('crypto.blake2b(''abc'', uint8(1:65))', _('BLAKE2b key must be at most 64 bytes.'), ...
+  'Nelson:core:blake2bKeySizeExpected');
+asserts.checkerror('crypto.blake2b(''abc'', [], 65)', _('BLAKE2b digest size must be an integer between 1 and 64.'), ...
+  'Nelson:core:blake2bDigestSizeExpected');
+asserts.checkerror('crypto.blake2b(''abc'', [], 2.5)', ...
+  _('BLAKE2b digest size must be an integer between 1 and 64.'), 'Nelson:core:blake2bDigestSizeExpected');
+asserts.checkerror('crypto.blake2b(''abc'', [], 32, ''-string'')', sprintf(_('#%d argument: ''-file'' expected.'), ...
+  4), 'Nelson:core:cryptoFileOptionExpected');
+asserts.checkerror('crypto.blake2b(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, ...
+  '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
 %=============================================================================

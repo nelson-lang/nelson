@@ -57,7 +57,6 @@ function varargout = downsample(varargin)
 
   % Save original shape of inputArray (possibly N-D)
   originalShape = size(inputArray);
-  numDims = max(2, ndims(inputArray)); % ensure at least 2 dims for vectors
 
   % Find the leading non-singleton dimension
   if isempty(operatingDimension)
@@ -73,7 +72,6 @@ function varargout = downsample(varargin)
   actualShape = size(inputArray);
   shapeLength = max([numel(originalShape), numel(actualShape), leadingDimension]);
   % Pad shape vectors to the same length
-  paddedOriginalShape = [originalShape, ones(1, shapeLength - numel(originalShape))];
   paddedActualShape = [actualShape, ones(1, shapeLength - numel(actualShape))];
 
   % Build permutation that brings leadingDimension to the front (without setdiff)

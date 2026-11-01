@@ -68,7 +68,7 @@ else
   % The file base name matches the model class (FO), as in a real .mo file, so
   % the empty model name is derived from it.
   moDir = tempname(); mkdir(moDir);
-  cMo = onCleanup(@() rmdir(moDir, 's')); %#ok<NASGU>
+  cMo = onCleanup(@() rmdir(moDir, 's')); %#ok<NLS0004>
   moPath = fullfile(moDir, 'FO.mo');
   fid = fopen(moPath, 'w'); fwrite(fid, mo); fclose(fid);
   mf = struct('id', 'mf', 'type', 'modelica', 'inputs', 0, 'outputs', 1, ...

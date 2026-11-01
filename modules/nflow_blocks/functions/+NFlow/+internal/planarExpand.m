@@ -67,7 +67,7 @@ function documentJson = planarExpand(documentJson)
     elseif strcmp(t, 'PlanarBody') || strcmp(t, 'PlanarPointMass')
       bi = numel(bodyList);
       bodyIndex(blocks{i}.id) = bi;
-      bodyList{end + 1} = blocks{i}; %#ok<AGROW>
+      bodyList{end + 1} = blocks{i}; %#ok<NLS0039>
     end
   end
 
@@ -79,12 +79,12 @@ function documentJson = planarExpand(documentJson)
     b = blocks{i};
     fr = pl_frames(b);
     for k = 1:size(fr, 1)
-      pinKeys{end + 1} = [b.id, '.', fr{k, 1}]; %#ok<AGROW>
+      pinKeys{end + 1} = [b.id, '.', fr{k, 1}]; %#ok<NLS0039>
       a = fr{k, 2};
       if ~isempty(a) && isfield(a, 'ownerBody')
         a.body = bodyIndex(a.ownerBody); % resolve to the real body index
       end
-      pinAnchor{end + 1} = a; %#ok<AGROW>
+      pinAnchor{end + 1} = a; %#ok<NLS0039>
     end
   end
   parent = 1:numel(pinKeys);
@@ -138,7 +138,7 @@ function documentJson = planarExpand(documentJson)
     if strcmp(b.type, 'PlanarPointMass')
       cbody.pointMass = 1;
     end
-    comps{end + 1} = cbody; %#ok<AGROW>
+    comps{end + 1} = cbody; %#ok<NLS0039>
   end
 
   % joints, forces, sensors
@@ -173,7 +173,7 @@ function documentJson = planarExpand(documentJson)
           c.kind = 'distanceJoint';
           c.length = pl_param(b, 'length', 1);
         end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
       case {'PlanarSpringDamper', 'PlanarSpring', 'PlanarDamper'}
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         B = pl_anchor([b.id, '.b'], pinKeys, parent, anchorOf);
@@ -198,7 +198,7 @@ function documentJson = planarExpand(documentJson)
         else
           c.body2 = -1; c.px = B.px; c.py = B.py;
         end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
       case 'PlanarRollingWheel'
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         if ~strcmp(A.kind, 'body')
@@ -208,29 +208,29 @@ function documentJson = planarExpand(documentJson)
         comps{end + 1} = struct('kind', 'rollingWheel', 'body', A.body, ...
           'dx', pl_param(b, 'dx', 1), 'dy', pl_param(b, 'dy', 0), ...
           'px', pl_param(b, 'px', 0), 'py', pl_param(b, 'py', 0), ...
-          'radius', pl_param(b, 'radius', 1)); %#ok<AGROW>
+          'radius', pl_param(b, 'radius', 1)); %#ok<NLS0039>
       case 'PlanarForce'
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         fx = pl_param(b, 'fx', 0); fy = pl_param(b, 'fy', 0);
         if fx ~= 0
           comps{end + 1} = struct('kind', 'forceX', 'body', A.body, ...
-            'ax', A.ax, 'ay', A.ay, 'F', fx); %#ok<AGROW>
+            'ax', A.ax, 'ay', A.ay, 'F', fx); %#ok<NLS0039>
         end
         if fy ~= 0
           comps{end + 1} = struct('kind', 'forceY', 'body', A.body, ...
-            'ax', A.ax, 'ay', A.ay, 'F', fy); %#ok<AGROW>
+            'ax', A.ax, 'ay', A.ay, 'F', fy); %#ok<NLS0039>
         end
       case 'PlanarTorque'
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         comps{end + 1} = struct('kind', 'torque', 'body', A.body, ...
-          'F', pl_param(b, 'tau', 0)); %#ok<AGROW>
+          'F', pl_param(b, 'tau', 0)); %#ok<NLS0039>
       case 'PlanarRelativeTorque'
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         B = pl_anchor([b.id, '.b'], pinKeys, parent, anchorOf);
         c = struct('kind', 'relativeTorque', 'body', A.body, ...
           'F', pl_param(b, 'tau', 0));
         if strcmp(B.kind, 'body'); c.body2 = B.body; else; c.body2 = -1; end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
       case {'PlanarPositionSensor', 'PlanarVelocitySensor', 'PlanarAccelerationSensor'}
         A = pl_anchor([b.id, '.a'], pinKeys, parent, anchorOf);
         axis = pl_param_str(b, 'axis', 'x');
@@ -253,7 +253,7 @@ function documentJson = planarExpand(documentJson)
             c.kind = ['frameVelocity', up];
           end
         end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
         sigOutMap(b.id) = {islId, outPort};
         outPort = outPort + 1;
       case 'PlanarDistanceSensor'
@@ -266,7 +266,7 @@ function documentJson = planarExpand(documentJson)
         else
           c.body2 = -1; c.px = B.px; c.py = B.py;
         end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
         sigOutMap(b.id) = {islId, outPort};
         outPort = outPort + 1;
       case 'PlanarRelPositionSensor'
@@ -279,7 +279,7 @@ function documentJson = planarExpand(documentJson)
         else
           c.body2 = -1; c.px = B.px; c.py = B.py;
         end
-        comps{end + 1} = c; %#ok<AGROW>
+        comps{end + 1} = c; %#ok<NLS0039>
         sigOutMap(b.id) = {islId, outPort};
         outPort = outPort + 1;
     end
@@ -294,7 +294,7 @@ function documentJson = planarExpand(documentJson)
   newBlocks = {isl};
   for i = 1:numel(blocks)
     if ~isPl(i)
-      newBlocks{end + 1} = blocks{i}; %#ok<AGROW>
+      newBlocks{end + 1} = blocks{i}; %#ok<NLS0039>
     end
   end
 
@@ -310,7 +310,7 @@ function documentJson = planarExpand(documentJson)
         conn.from = v{1};
         conn.fromIndex = v{2};
       end
-      newConns{end + 1} = conn; %#ok<AGROW>
+      newConns{end + 1} = conn; %#ok<NLS0039>
     end
   end
 
@@ -337,12 +337,12 @@ function fr = pl_frames(b)
         fs = b.params.frames;
         names = fieldnames(fs);
         for k = 1:numel(names)
-          offs{k} = fs.(names{k}); %#ok<AGROW>
+          offs{k} = fs.(names{k}); %#ok<NLS0039>
         end
       end
       for k = 1:numel(names)
         o = offs{k};
-        fr{end + 1, 1} = names{k}; %#ok<AGROW>
+        fr{end + 1, 1} = names{k}; %#ok<NLS0039>
         fr{end, 2} = struct('kind', 'body', 'body', 0, 'ax', o(1), 'ay', o(2), 'px', 0, 'py', 0);
       end
     case {'PlanarRevolute', 'PlanarPrismatic', 'PlanarDistance', 'PlanarRelativeTorque', 'PlanarDistanceSensor', 'PlanarSpringDamper', 'PlanarSpring', 'PlanarDamper', 'PlanarRelPositionSensor'}

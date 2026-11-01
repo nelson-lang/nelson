@@ -52,7 +52,8 @@ asserts.isequal(info.connections(1).endElement, 'B');
 asserts.isequal(info.connections(1).endConnector, 'u');
 
 % A missing file is an error.
-asserts.checkerror('NFlow.sspInfo([tempdir(), ''no_such.ssp''])', [_('SSP file not found: '), tempdir(), 'no_such.ssp']);
+asserts.checkerror('NFlow.sspInfo([tempdir(), ''no_such.ssp''])', [_('SSP file not found: '), tempdir(), ...
+  'no_such.ssp']);
 rmdir(staging, 's');
 rmfile(sspFile);
 %=============================================================================

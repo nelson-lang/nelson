@@ -78,7 +78,8 @@ function opts = parseNameValuesLocal(opts, args, X, y)
     end
   end
   if strcmp(opts.Method, 'regression') && ~(isnumeric(y) || islogical(y))
-    error('Nelson:statistics:regressionMethodRequiresNumericResponse', 'Regression method requires a numeric response.');
+    error('Nelson:statistics:regressionMethodRequiresNumericResponse', ...
+      'Regression method requires a numeric response.');
   end
 end
 %=============================================================================
@@ -110,10 +111,12 @@ function updates = parseUpdatesLocal(updates, nobs)
     updates = double(updates(:))';
     if any(~isfinite(updates)) || any(floor(updates) ~= updates) ...
         || any(updates < 1) || any(updates > nobs)
-      error('Nelson:statistics:updatesContainValidObservationIndices', 'Updates must contain valid observation indices.');
+      error('Nelson:statistics:updatesContainValidObservationIndices', ...
+        'Updates must contain valid observation indices.');
     end
   else
-    error('Nelson:statistics:updatesPositiveIntegerScalarVector', 'Updates must be a positive integer scalar or vector of indices.');
+    error('Nelson:statistics:updatesPositiveIntegerScalarVector', ...
+      'Updates must be a positive integer scalar or vector of indices.');
   end
 end
 %=============================================================================
@@ -133,14 +136,16 @@ function categorical = parseCategoricalXLocal(value, nvars)
     end
   elseif islogical(value) && isvector(value)
     if length(value) ~= nvars
-      error('Nelson:statistics:categoricalPredictorsMatchNumberPredictors', '%s must match the number of predictors.', 'CategoricalX');
+      error('Nelson:statistics:categoricalPredictorsMatchNumberPredictors', ...
+        '%s must match the number of predictors.', 'CategoricalX');
     end
     categorical = value(:)' ~= 0;
   elseif isnumeric(value) && isreal(value) && isvector(value)
     indices = double(value(:))';
     if any(~isfinite(indices)) || any(floor(indices) ~= indices) ...
         || any(indices < 1) || any(indices > nvars)
-      error('Nelson:statistics:categoricalPredictorsContainsInvalidPredictorIndices', '%s contains invalid predictor indices.', 'CategoricalX');
+      error('Nelson:statistics:categoricalPredictorsContainsInvalidPredictorIndices', ...
+        '%s contains invalid predictor indices.', 'CategoricalX');
     end
     categorical(indices) = true;
   else
@@ -172,7 +177,8 @@ function prior = parsePriorLocal(prior, y, method)
   elseif isnumeric(prior) && isreal(prior) && isvector(prior) && length(prior) == nclasses
     prior = double(prior(:))';
     if any(~isfinite(prior)) || any(prior < 0) || sum(prior) <= 0
-      error('Nelson:statistics:priorContainNonnegativeFiniteValues', '%s must contain nonnegative finite values with positive sum.', 'Prior');
+      error('Nelson:statistics:priorContainNonnegativeFiniteValues', ...
+        '%s must contain nonnegative finite values with positive sum.', 'Prior');
     end
     prior = prior / sum(prior);
   else
@@ -208,7 +214,7 @@ end
 %=============================================================================
 function weights = classificationWeightsLocal(featureDiff, y, k, opts)
   labels = labelsLocal(y);
-  [classLabels, classes] = classIndicesLocal(y);
+  [~, classes] = classIndicesLocal(y);
   nobs = length(labels);
   nvars = size(featureDiff, 3);
   weights = zeros(1, nvars);

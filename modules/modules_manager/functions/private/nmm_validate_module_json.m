@@ -152,7 +152,7 @@ function validateDependencies(dependencies)
     validateModuleName(name{1});
     value = dependencies.(name{1});
     validateTextField(value, ['dependencies.', name{1}]);
-    [isRepository, url, tag_branch] = nmm_is_http_repository(value);
+    [isRepository, ~, ~] = nmm_is_http_repository(value);
     if ~isRepository && ~isdir(value) && ~isfile(value)
       validateSemverConstraint(value);
     end

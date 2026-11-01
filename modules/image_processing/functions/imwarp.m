@@ -21,7 +21,8 @@ function [out, refOut] = imwarp(varargin)
       && isfield(varargin{2}, 'XWorldLimits') && isfield(varargin{2}, 'YWorldLimits')
     srcRef = ip_validate_imref2d(varargin{2});
     if ~isequal(srcRef.ImageSize, [size(img, 1) size(img, 2)])
-      error('Nelson:image_processing:spatialReferenceImageSizeMatchImage', 'Spatial reference image size must match image size.');
+      error('Nelson:image_processing:spatialReferenceImageSizeMatchImage', ...
+        'Spatial reference image size must match image size.');
     end
     tform = ip_tform_matrix(varargin{3});
     startIndex = 4;
@@ -88,7 +89,8 @@ function [out, refOut] = imwarp(varargin)
   elseif numel(fillValue) == channels
     fillValues = reshape(fillValue, 1, channels);
   else
-    error('Nelson:image_processing:fillValuesScalarMatchNumberChannels', 'Fill values must be scalar or match the number of channels.');
+    error('Nelson:image_processing:fillValuesScalarMatchNumberChannels', ...
+      'Fill values must be scalar or match the number of channels.');
   end
   srcDx = srcRef.PixelExtentInWorldX;
   srcDy = srcRef.PixelExtentInWorldY;

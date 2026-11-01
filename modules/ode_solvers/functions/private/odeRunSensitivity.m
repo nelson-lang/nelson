@@ -65,14 +65,17 @@ end
 %=============================================================================
 function odeValidateSensitivityProblem(solver, options, sensitivity)
   if ~isnumeric(options.Parameters) || ~isreal(options.Parameters) || ~isvector(options.Parameters)
-    error('Nelson:ode_solvers:parametersNumericVectorPerformSensitivityAnalysis', 'Parameters must be a numeric vector to perform a sensitivity analysis.');
+    error('Nelson:ode_solvers:parametersNumericVectorPerformSensitivityAnalysis', ...
+      'Parameters must be a numeric vector to perform a sensitivity analysis.');
   end
   if ~odeSensitivityIsImplicitSolver(solver) && ~isempty(sensitivity.InitialSlope)
-    error('Nelson:ode_solvers:sensitivityInitialSlopesNotSupportedExplicit', 'Sensitivity initial slopes are not supported for explicit problems.');
+    error('Nelson:ode_solvers:sensitivityInitialSlopesNotSupportedExplicit', ...
+      'Sensitivity initial slopes are not supported for explicit problems.');
   end
   if isfield(options, 'EventDefinitionObject') ...
       && odeSensitivityHasCallbackEvent(options.EventDefinitionObject)
-    error('Nelson:ode_solvers:sensitivityEquationsEventCallbacksNotSupported', 'Sensitivity equations with event callbacks are not supported yet.');
+    error('Nelson:ode_solvers:sensitivityEquationsEventCallbacksNotSupported', ...
+      'Sensitivity equations with event callbacks are not supported yet.');
   end
 end
 %=============================================================================
@@ -164,7 +167,8 @@ function indices = odeSensitivityParameterIndices(sensitivity, count)
     indices = sensitivity.ParameterIndices(:);
   end
   if any(indices > count)
-    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', 'ParameterIndices exceed the number of parameters.');
+    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', ...
+      'ParameterIndices exceed the number of parameters.');
   end
 end
 %=============================================================================
@@ -179,7 +183,8 @@ function s0 = odeSensitivityInitialValue(sensitivity, n, p)
   elseif numel(value) == n * p
     s0 = reshape(value, n, p);
   else
-    error('Nelson:ode_solvers:sensitivityInitialValueIncompatibleSize', 'Sensitivity initial value has incompatible size.');
+    error('Nelson:ode_solvers:sensitivityInitialValueIncompatibleSize', ...
+      'Sensitivity initial value has incompatible size.');
   end
 end
 %=============================================================================

@@ -89,7 +89,8 @@ function [step, args] = parseRegularStepLocal(args)
       return
     elseif isTextScalarLocal(name) && strcmpi(char(name), 'SampleRate')
       if ~(isnumeric(value) && isscalar(value) && value > 0)
-        error('Nelson:timetable:invalidValue:sampleRateAPositiveNumericScalar', 'SampleRate must be a positive numeric scalar.');
+        error('Nelson:timetable:invalidValue:sampleRateAPositiveNumericScalar', ...
+          'SampleRate must be a positive numeric scalar.');
       end
       step = seconds(1 / double(value));
       args(k:k + 1) = [];
@@ -97,7 +98,8 @@ function [step, args] = parseRegularStepLocal(args)
     end
     k = k + 2;
   end
-  error('Nelson:timetable:invalidSyntax:regularRetimingRequiresTimeStepSampleRate', 'Regular retiming requires TimeStep or SampleRate.');
+  error('Nelson:timetable:invalidSyntax:regularRetimingRequiresTimeStepSampleRate', ...
+    'Regular retiming requires TimeStep or SampleRate.');
 end
 %=============================================================================
 function parsed = parseRetimeOptionsLocal(parsed, varargin)
@@ -107,7 +109,8 @@ function parsed = parseRetimeOptionsLocal(parsed, varargin)
   for k = 1:2:numel(varargin)
     name = varargin{k};
     if ~isTextScalarLocal(name)
-      error('Nelson:timetable:nameValuePair:nameValueArgumentNamesTextScalars', 'Name-value argument names must be text scalars.');
+      error('Nelson:timetable:nameValuePair:nameValueArgumentNamesTextScalars', ...
+        'Name-value argument names must be text scalars.');
     end
     switch lower(char(name))
       case 'constant'

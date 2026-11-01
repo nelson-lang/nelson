@@ -13,7 +13,7 @@
 % indentation of the continuation lines.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 nl = char(10);
 expected = ['function r = cc_case()', nl, ...
   '  c = {''a'', ...', nl, ...

@@ -22,7 +22,8 @@ function time = timeseriesNormalizeTime(value)
   elseif isnumeric(value)
     time = double(value(:));
   else
-    error('Nelson:time:timeValuesNumericDatetimeDuration', 'Time values must be numeric, datetime, duration, or text dates.');
+    error('Nelson:time:timeValuesNumericDatetimeDuration', ...
+      'Time values must be numeric, datetime, duration, or text dates.');
   end
 end
 %=============================================================================

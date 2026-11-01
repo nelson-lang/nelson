@@ -57,8 +57,11 @@ asserts.checkerror('regionprops(sparse([1 0]))', sprintf(_('%s are not supported
 %=============================================================================
 asserts.checkerror('regionprops(zeros(2, 2, 2))', sprintf(_('%s must be a 2-D array.'), 'Image'));
 %=============================================================================
-asserts.checkerror('regionprops([1.5 0])', sprintf(_('%s values must be nonnegative finite integers.'), 'Label matrix'));
+asserts.checkerror('regionprops([1.5 0])', sprintf(_('%s values must be nonnegative finite integers.'), ...
+  'Label matrix'));
 %=============================================================================
-asserts.checkerror('regionprops([1 0], [1; 2], ''MeanIntensity'')', sprintf(_('%s must have the same size as %s.'), 'Intensity image', 'the region image'));
+asserts.checkerror('regionprops([1 0], [1; 2], ''MeanIntensity'')', sprintf(_('%s must have the same size as %s.'), ...
+  'Intensity image', 'the region image'));
 %=============================================================================
-asserts.checkerror('regionprops(logical([1 0]), ''UnsupportedProperty'')', sprintf(_('Unsupported "%s" option.'), 'region property'));
+asserts.checkerror('regionprops(logical([1 0]), ''UnsupportedProperty'')', sprintf(_('Unsupported "%s" option.'), ...
+  'region property'));

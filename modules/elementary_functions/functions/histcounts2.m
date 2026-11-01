@@ -61,10 +61,12 @@ function varargout = histcounts2(varargin)
     elseif numel(nb) == 2
       nx = nb(1); ny = nb(2);
     else
-      error('Nelson:elementary_functions:numberBinsScalarTwoElement', 'Number of bins must be a scalar or a two-element vector.');
+      error('Nelson:elementary_functions:numberBinsScalarTwoElement', ...
+        'Number of bins must be a scalar or a two-element vector.');
     end
     if any([nx, ny] < 1) || any([nx, ny] ~= fix([nx, ny]))
-      error('Nelson:elementary_functions:numberBinsPositiveInteger', '%s must be a positive integer scalar.', 'Number of bins');
+      error('Nelson:elementary_functions:numberBinsPositiveInteger', '%s must be a positive integer scalar.', ...
+        'Number of bins');
     end
     [~, xedges] = histcounts(xv(valid), nx);
     [~, yedges] = histcounts(yv(valid), ny);
@@ -72,7 +74,8 @@ function varargout = histcounts2(varargin)
     xedges = double(positional{1}(:).');
     yedges = double(positional{2}(:).');
     if numel(xedges) < 2 || any(diff(xedges) <= 0) || numel(yedges) < 2 || any(diff(yedges) <= 0)
-      error('Nelson:elementary_functions:binEdgesMonotonicallyIncreasingVector', 'Bin edges must be a monotonically increasing vector.');
+      error('Nelson:elementary_functions:binEdgesMonotonicallyIncreasingVector', ...
+        'Bin edges must be a monotonically increasing vector.');
     end
   else
     error('Nelson:elementary_functions:tooManyNumericArguments', 'Too many numeric arguments.');

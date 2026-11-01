@@ -205,7 +205,8 @@ REF = [0.0000 + 0.0000i 0.0000 + 0.0000i 0.0000 + 0.0000i;
   0.3846 - 0.5769i 0.7308 + 1.1538i 0.6154 - 0.9231i];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-asserts.checkerror('R = [1; 4] \ [2 4];', _('Requested divide operation requires arguments to have correct dimensions.'));
+asserts.checkerror('R = [1; 4] \ [2 4];', ...
+  _('Requested divide operation requires arguments to have correct dimensions.'));
 %=============================================================================
 R = 2 \ [1 2 3];
 REF = [0.5 1. 1.5];

@@ -157,5 +157,6 @@ asserts.checkerror('diff(1:3, 1, 3)', msg, 'Nelson:getdimarg:dimensionMustBePosi
 %=============================================================================
 asserts.checkerror('diff()', _('Not enough input arguments.'));
 asserts.checkerror('diff(1:3, 1, 2, 4)', _('Too many input arguments.'));
-asserts.checkerror('diff({1, 2})', _('Check for incorrect argument data type or missing argument in call to function ''minus''.'));
+asserts.checkerror('diff({1, 2})', ...
+  _('Check for incorrect argument data type or missing argument in call to function ''minus''.'));
 %=============================================================================

@@ -35,7 +35,8 @@ function report = installThree(packageName, versionSpec, option)
   elseif strcmp(option, '-force')
     installRegistryPackage(packageName, versionSpec, 'auto', true);
   else
-    nmm_error('InvalidOptionExpected', '%s expected.', sprintf('#%d argument: ''-offline'', ''-dry-run'', ''-tests'', ''-no-tests'' or ''-force''', 4));
+    nmm_error('InvalidOptionExpected', '%s expected.', ...
+      sprintf('#%d argument: ''-offline'', ''-dry-run'', ''-tests'', ''-no-tests'' or ''-force''', 4));
   end
 end
 %=============================================================================

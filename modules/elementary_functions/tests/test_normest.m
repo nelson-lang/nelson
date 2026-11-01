@@ -115,5 +115,6 @@ asserts.checkerror('normest(eye(2), {1})', sprintf(_('%s must be a numeric scala
 asserts.checkerror('normest(eye(2), -1)', _('tolerance must be a nonnegative finite scalar.'));
 asserts.checkerror('normest(eye(2), Inf)', _('tolerance must be a nonnegative finite scalar.'));
 asserts.checkerror('normest(eye(2), NaN)', _('tolerance must be a nonnegative finite scalar.'));
-asserts.checkerror('normest(uint8(eye(2)))', _('Integers can only be combined with integers of the same class, or scalar doubles.'));
+asserts.checkerror('normest(uint8(eye(2)))', ...
+  _('Integers can only be combined with integers of the same class, or scalar doubles.'));
 %=============================================================================

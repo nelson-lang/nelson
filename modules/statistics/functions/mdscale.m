@@ -94,7 +94,8 @@ function D = parseDissimilaritiesLocal(D)
   end
   D = double(D);
   if any(isinf(D(:))) || any(D(:) < 0)
-    error('Nelson:statistics:dContainNonnegativeFiniteDissimilarities', 'D must contain nonnegative finite dissimilarities.');
+    error('Nelson:statistics:dContainNonnegativeFiniteDissimilarities', ...
+      'D must contain nonnegative finite dissimilarities.');
   end
   if isvector(D) && ~(size(D, 1) == size(D, 2))
     D = vectorToSquareLocal(D(:)', _('D must be square or a valid distance vector.'));
@@ -180,7 +181,8 @@ function p = parseDimensionLocal(p, start, n)
   end
   if ~(isnumeric(p) && isreal(p) && isscalar(p) && isfinite(p) ...
       && floor(p) == p && p >= 1 && p <= n)
-    error('Nelson:statistics:pIntegerScalarBetween1', 'p must be an integer scalar between 1 and the number of points.');
+    error('Nelson:statistics:pIntegerScalarBetween1', ...
+      'p must be an integer scalar between 1 and the number of points.');
   end
   p = double(p);
 end
@@ -196,7 +198,8 @@ function W = parseWeightsLocal(W, D)
     error('Nelson:statistics:weightsSameSizeD', 'Weights must have the same size as D.');
   end
   if any(~isfinite(W(:))) || any(W(:) < 0)
-    error('Nelson:statistics:weightsContainNonnegativeFiniteValues', '%s must contain nonnegative finite values.', 'Weights');
+    error('Nelson:statistics:weightsContainNonnegativeFiniteValues', '%s must contain nonnegative finite values.', ...
+      'Weights');
   end
   if ~isSymmetricWithNaNLocal(W)
     error('Nelson:statistics:weightsSymmetric', '%s must be symmetric.', 'Weights');
@@ -215,7 +218,8 @@ function replicates = parseReplicatesLocal(replicates, start)
   end
   if ~(isnumeric(replicates) && isreal(replicates) && isscalar(replicates) ...
       && isfinite(replicates) && floor(replicates) == replicates && replicates >= 0)
-    error('Nelson:statistics:replicatesNonnegativeIntegerScalar', '%s must be a nonnegative integer scalar.', 'Replicates');
+    error('Nelson:statistics:replicatesNonnegativeIntegerScalar', '%s must be a nonnegative integer scalar.', ...
+      'Replicates');
   end
   replicates = double(replicates);
 end
@@ -236,10 +240,12 @@ function options = parseOptionsLocal(options)
     error('Nelson:statistics:optionsDisplayInvalidValue', '%s has an invalid value.', 'Options Display');
   end
   if ~isPositiveIntegerLocal(options.MaxIter)
-    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Options MaxIter');
+    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Options MaxIter');
   end
   if ~isPositiveScalarLocal(options.TolFun) || ~isPositiveScalarLocal(options.TolX)
-    error('Nelson:statistics:optionsTolerancesPositiveScalarValues', 'Options tolerances must be %s scalar values.', 'positive');
+    error('Nelson:statistics:optionsTolerancesPositiveScalarValues', 'Options tolerances must be %s scalar values.', ...
+      'positive');
   end
 end
 %=============================================================================
@@ -252,7 +258,8 @@ function validateStartLocal(start, n, p, replicates)
     return
   end
   if ~(isnumeric(start) && isreal(start) && ~issparse(start) && (ndims(start) == 2 || ndims(start) == 3))
-    error('Nelson:statistics:startCharacterVectorStringScalar', 'Start must be a character vector, string scalar, matrix, or 3-D array.');
+    error('Nelson:statistics:startCharacterVectorStringScalar', ...
+      'Start must be a character vector, string scalar, matrix, or 3-D array.');
   end
   if size(start, 1) ~= n || size(start, 2) ~= p || any(~isfinite(start(:)))
     error('Nelson:statistics:startCompatibleFiniteNumericValues', 'Start must have compatible finite numeric values.');

@@ -12,13 +12,17 @@ asserts.checkerror('bwmorph(logical([1 0]), 1)', sprintf(_('%s must be a string.
 %=============================================================================
 asserts.checkerror('bwmorph(logical([1 0]), ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'bwmorph operation'));
 %=============================================================================
-asserts.checkerror('bwmorph(logical([1 0]), ''clean'', -1)', _('Number of iterations must be a nonnegative integer scalar or Inf.'));
+asserts.checkerror('bwmorph(logical([1 0]), ''clean'', -1)', ...
+  _('Number of iterations must be a nonnegative integer scalar or Inf.'));
 %=============================================================================
-asserts.checkerror('bwmorph(logical([1 0]), ''clean'', [1 2])', _('Number of iterations must be a nonnegative integer scalar or Inf.'));
+asserts.checkerror('bwmorph(logical([1 0]), ''clean'', [1 2])', ...
+  _('Number of iterations must be a nonnegative integer scalar or Inf.'));
 %=============================================================================
-asserts.checkerror('bwmorph(logical([1 0]), ''clean'', 1 + i)', _('Number of iterations must be a nonnegative integer scalar or Inf.'));
+asserts.checkerror('bwmorph(logical([1 0]), ''clean'', 1 + i)', ...
+  _('Number of iterations must be a nonnegative integer scalar or Inf.'));
 %=============================================================================
-asserts.checkerror('bwmorph(logical([1 0]), ''clean'', ''1'')', _('Number of iterations must be a nonnegative integer scalar or Inf.'));
+asserts.checkerror('bwmorph(logical([1 0]), ''clean'', ''1'')', ...
+  _('Number of iterations must be a nonnegative integer scalar or Inf.'));
 %=============================================================================
 asserts.checkerror('bwmorph({1}, ''clean'')', sprintf(_('%s must be numeric or logical.'), 'Image'));
 %=============================================================================

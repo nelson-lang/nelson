@@ -11,5 +11,6 @@
 %=============================================================================
 % Assumed-type failures carry distinct identifiers.
 %=============================================================================
-asserts.checkerror('bitshift(uint8(255), 4, ''uint16'')', 'Integer inputs cannot be assumed as any other types than their own types.', 'Nelson:operators:integerAssumedType');
+asserts.checkerror('bitshift(uint8(255), 4, ''uint16'')', ...
+  'Integer inputs cannot be assumed as any other types than their own types.', 'Nelson:operators:integerAssumedType');
 %=============================================================================

@@ -51,7 +51,8 @@ for it = 1:3
   prev = ref;
   for jj = J
     for ii = I
-      ref(ii, jj) = (prev(ii - 1, jj) + prev(ii + 1, jj) + prev(ii, jj - 1) + prev(ii, jj + 1)) / 4 + rhs(ii - 1, jj - 1);
+      ref(ii, jj) = (prev(ii - 1, jj) + prev(ii + 1, jj) + prev(ii, jj - 1) + prev(ii, jj + 1)) / 4 + rhs(ii - 1, ...
+        jj - 1);
     end
   end
 end
@@ -105,7 +106,8 @@ R = K; R(2:3, [4 1]) = {'a', 'b'; 'c', 'd'};
 asserts.isequal(R, {1, 4, 7, 10; 'b', 5, 8, 'a'; 'd', 6, 9, 'c'});
 %=============================================================================
 % size mismatch keeps its error
-assert_checkerror('R = A; R(2:4, 3:6) = ones(2, 3);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'), 'Nelson:dimagree:sizeMismatchAssignmentAI1I2');
+assert_checkerror('R = A; R(2:4, 3:6) = ones(2, 3);', _('Size mismatch in assignment A(I1,I2,...,In) = B.'), ...
+  'Nelson:dimagree:sizeMismatchAssignmentAI1I2');
 %=============================================================================
 function R = scalar_assign(A, I, J, B)
   R = A;

@@ -47,11 +47,14 @@ REF = [0 0.0000 0.0000 1.0000];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 asserts.checkerror('im2double(int8([-128 127]))', _('Image must be double, logical, uint8, uint16, int16, or single.'));
-asserts.checkerror('im2double(uint32([0 intmax(''uint32'')]))', _('Image must be double, logical, uint8, uint16, int16, or single.'));
+asserts.checkerror('im2double(uint32([0 intmax(''uint32'')]))', ...
+  _('Image must be double, logical, uint8, uint16, int16, or single.'));
 asserts.checkerror('im2double(int16([0 1]), ''indexed'')', ...
   _('An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.'));
-asserts.checkerror('im2double(int8([0 1]), ''indexed'')', _('Image must be double, logical, uint8, uint16, int16, or single.'));
-asserts.checkerror('im2double(''ab'', ''indexed'')', _('Image must be double, logical, uint8, uint16, int16, or single.'));
+asserts.checkerror('im2double(int8([0 1]), ''indexed'')', ...
+  _('Image must be double, logical, uint8, uint16, int16, or single.'));
+asserts.checkerror('im2double(''ab'', ''indexed'')', ...
+  _('Image must be double, logical, uint8, uint16, int16, or single.'));
 %=============================================================================
 referenceFile = [fileparts(nfilename('fullpathext'), 'path'), '/fixtures/image_processing_reference_core.mat'];
 asserts.istrue(isfile(referenceFile));

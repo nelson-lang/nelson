@@ -22,7 +22,8 @@ if ~ispc()
   asserts.checkerror('ncc(entry, ''--no-console'', ''--explain-link'')', 'No-console applications require Windows.');
   options = struct('noConsole', true);
   output = fullfile(directory, 'rejected');
-  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', 'No-console applications require Windows.');
+  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', ...
+    'No-console applications require Windows.');
   asserts.isfalse(isfile(output));
 else
   console = ncc(opts);

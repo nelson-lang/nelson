@@ -10,7 +10,7 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 f = figure('Visible', 'off');
 h = bubblecloud([10 20 30], {'a', 'b', 'c'}, {'g1', 'g1', 'g2'}, 'Title', 'Cloud');
 asserts.istrue(isgraphics(h, 'bubblecloud'));

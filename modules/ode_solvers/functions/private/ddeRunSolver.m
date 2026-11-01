@@ -68,7 +68,8 @@ function ddeValidateInputs(ddefun, tspan)
     error('Nelson:ode_solvers:ddeFunctionHandleExpected', '%s function handle expected.', 'DDE');
   end
   if ~isnumeric(tspan) || numel(tspan) < 2 || any(~isfinite(tspan(:)))
-    error('Nelson:ode_solvers:timeSpanContainLeastTwoFinite', 'Time span must contain at least two finite numeric values.');
+    error('Nelson:ode_solvers:timeSpanContainLeastTwoFinite', ...
+      'Time span must contain at least two finite numeric values.');
   end
   if tspan(1) == tspan(numel(tspan))
     error('Nelson:ode_solvers:timeSpanEndpointsDistinct', 'Time span endpoints must be distinct.');
@@ -113,7 +114,8 @@ function [y0, yp0] = ddeInitialState(history, t0, options)
     y0 = options.InitialY;
   elseif iscell(history)
     if length(history) ~= 2
-      error('Nelson:ode_solvers:historyCellArrayContainInitialValues', 'History cell array must contain initial values and slopes.');
+      error('Nelson:ode_solvers:historyCellArrayContainInitialValues', ...
+        'History cell array must contain initial values and slopes.');
     end
     y0 = history{1};
     yp0 = history{2};
@@ -124,7 +126,8 @@ function [y0, yp0] = ddeInitialState(history, t0, options)
   elseif isnumeric(history)
     y0 = history;
   else
-    error('Nelson:ode_solvers:historyNumericFunctionHandleCellArray', 'History must be numeric, a function handle, a cell array, or a solution structure.');
+    error('Nelson:ode_solvers:historyNumericFunctionHandleCellArray', ...
+      'History must be numeric, a function handle, a cell array, or a solution structure.');
   end
   if ~isnumeric(y0) || isempty(y0) || any(~isfinite(y0(:)))
     error('Nelson:ode_solvers:historyEvaluateFiniteNumericValues', 'History must evaluate to finite numeric values.');

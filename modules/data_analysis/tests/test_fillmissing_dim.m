@@ -66,9 +66,12 @@ assert_isequal(TF, [true false false false]);
 % spline, pchip, makima
 assert_isequal(fillmissing([NaN 1 NaN], 'spline'), [NaN 1 NaN]);
 assert_isapprox(fillmissing([NaN 1 4 NaN 16 NaN], 'spline'), [0 1 4 9 16 25], 1e-12);
-assert_isapprox(fillmissing([NaN 1 4 NaN 16 NaN], 'pchip'), [0.28571428571428648 1 4 8.9642857142857153 16 24.892857142857142], 1e-12);
-assert_isapprox(fillmissing([NaN 1 4 NaN 16 25 NaN], 'makima'), [3.7000000000000011 1 4 9.2071428571428555 16 25 34.80952380952381], 1e-12);
-assert_isapprox(fillmissing([NaN 1 NaN 3 NaN 7 NaN], 'pchip'), [0.875 1 1.7916666666666667 3 4.708333333333333 7 9.625], 1e-12);
+assert_isapprox(fillmissing([NaN 1 4 NaN 16 NaN], 'pchip'), ...
+  [0.28571428571428648 1 4 8.9642857142857153 16 24.892857142857142], 1e-12);
+assert_isapprox(fillmissing([NaN 1 4 NaN 16 25 NaN], 'makima'), ...
+  [3.7000000000000011 1 4 9.2071428571428555 16 25 34.80952380952381], 1e-12);
+assert_isapprox(fillmissing([NaN 1 NaN 3 NaN 7 NaN], 'pchip'), ...
+  [0.875 1 1.7916666666666667 3 4.708333333333333 7 9.625], 1e-12);
 assert_isapprox(fillmissing([NaN 1 NaN 3 NaN], 'spline'), [0 1 2 3 4], 1e-12);
 assert_isapprox(fillmissing([NaN 1 NaN 3 NaN], 'makima'), [0 1 2 3 4], 1e-12);
 M = magic(4);
@@ -103,7 +106,8 @@ assert_isequal(fillmissing([NaN 1 NaN NaN 4 5 NaN 7]', f, [1 2]), [205 1 313 313
 assert_isequal(fillmissing([1 NaN 4 5], f, 3, 'SamplePoints', [0 1.5 3 4]), [1 203 4 5]);
 g = @(xs, ts, tq) repmat(sum(xs), size(tq));
 assert_isequal(fillmissing([1 NaN 3; NaN 5 NaN], g, 2, 2), [1 4 3; 5 5 5]);
-assert_isequal(fillmissing([NaN 1 NaN 3 NaN], @(xs, ts, tq) repmat(9, size(tq)), 3, 'EndValues', 'none'), [NaN 1 9 3 NaN]);
+assert_isequal(fillmissing([NaN 1 NaN 3 NaN], @(xs, ts, tq) repmat(9, size(tq)), 3, 'EndValues', 'none'), ...
+  [NaN 1 9 3 NaN]);
 %=============================================================================
 % EndValues and MaxGap apply to every method
 assert_isequal(fillmissing([NaN 1 NaN 2 NaN], 'constant', 0, 'EndValues', 'none'), [NaN 1 0 2 NaN]);
@@ -128,9 +132,11 @@ assert_isequal(fillmissing(int16([1 2 3]), 'previous', 'MissingLocations', [fals
 assert_isequal(fillmissing([true false true], 'previous', 'MissingLocations', [false true false]), [true true true]);
 assert_isequal(size(fillmissing(zeros(0, 3), 'linear')), [0 3]);
 %=============================================================================
-assert_checkerror('fillmissing([1 NaN], ''previous'', 0)', 'Dimension argument must be a positive integer scalar.', 'Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar');
+assert_checkerror('fillmissing([1 NaN], ''previous'', 0)', 'Dimension argument must be a positive integer scalar.', ...
+  'Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar');
 assert_checkerror('fillmissing([1 NaN], ''previous'', 1.5)', 'Dimension argument must be a positive integer scalar.');
-assert_checkerror('fillmissing({''a'', ''''}, ''linear'')', 'Unsupported "linear" option.', 'Nelson:data_analysis:unsupportedFillMethod');
+assert_checkerror('fillmissing({''a'', ''''}, ''linear'')', 'Unsupported "linear" option.', ...
+  'Nelson:data_analysis:unsupportedFillMethod');
 assert_checkerror('fillmissing([1 NaN], ''cubic'')', 'Unsupported "cubic" option.');
 assert_checkerror('fillmissing([1 NaN], ''movmean'')', 'Window size expected.');
 %=============================================================================

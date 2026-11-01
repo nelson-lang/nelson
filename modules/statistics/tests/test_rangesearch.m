@@ -49,7 +49,9 @@ asserts.checkerror('rangesearch([1 2], [1], 1)', sprintf(_('X and Y must have %s
 asserts.checkerror('rangesearch([1; 2], [1], -1)', sprintf(_('%s must be a nonnegative scalar.'), 'R'));
 asserts.checkerror('rangesearch([1; 2], [1], Inf)', sprintf(_('%s must be a nonnegative scalar.'), 'R'));
 asserts.checkerror('rangesearch([1; 2], [1], 1, ''Distance'', ''bad'')', sprintf(_('Invalid %s value.'), 'Distance'));
-asserts.checkerror('rangesearch([1; 2], [1], 1, ''Distance'', ''minkowski'', ''P'', 0)', sprintf(_('%s must be a positive scalar.'), 'P'));
+asserts.checkerror('rangesearch([1; 2], [1], 1, ''Distance'', ''minkowski'', ''P'', 0)', ...
+  sprintf(_('%s must be a positive scalar.'), 'P'));
 asserts.checkerror('rangesearch([1; 2], [1], 1, ''NSMethod'', ''bad'')', sprintf(_('Invalid %s value.'), 'NSMethod'));
-asserts.checkerror('rangesearch([1; 2], [1], 1, ''SortIndices'', 2)', sprintf(_('%s must be true or false.'), 'SortIndices'));
+asserts.checkerror('rangesearch([1; 2], [1], 1, ''SortIndices'', 2)', sprintf(_('%s must be true or false.'), ...
+  'SortIndices'));
 %=============================================================================

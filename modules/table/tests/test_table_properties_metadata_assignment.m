@@ -26,7 +26,8 @@ assert_isequal(T.a, [1; 2]);
 P = T.Properties;
 P.Description = 'z';
 P.RowNames = {'r1'};
-assert_checkerror('T.Properties = P;', _('The RowNames property must contain one name for each row in the table.'), 'Nelson:table:incorrectNumberOfRowNames');
+assert_checkerror('T.Properties = P;', _('The RowNames property must contain one name for each row in the table.'), ...
+  'Nelson:table:incorrectNumberOfRowNames');
 assert_isequal(T.Properties.Description, 'y');
 P = rmfield(T.Properties, 'VariableUnits');
 P.Description = 'w';

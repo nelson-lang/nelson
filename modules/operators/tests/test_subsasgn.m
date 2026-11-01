@@ -67,5 +67,6 @@ asserts.isequal(A(14:17), 21:24);
 asserts.isequal(size(A), [1 17]);
 %=============================================================================
 A = dir();
-asserts.checkerror('R = subsasgn(A, substruct(''()'', {3}, ''.'',''name''), ''f'');', _('No support for index chaining.'));
+asserts.checkerror('R = subsasgn(A, substruct(''()'', {3}, ''.'',''name''), ''f'');', ...
+  _('No support for index chaining.'));
 %=============================================================================

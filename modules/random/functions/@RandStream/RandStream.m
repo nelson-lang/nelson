@@ -426,7 +426,8 @@ classdef RandStream < handle
     %=========================================================================
     function [compatibleType, internalType] = resolveType(type)
       if ~(ischar(type) || (isstring(type) && isscalar(type)))
-        error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', 'Generator type');
+        error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', ...
+          'Generator type');
       end
       text = lower(char(type));
       switch text
@@ -546,7 +547,8 @@ classdef RandStream < handle
     %=========================================================================
     function value = normalTransformValue(value)
       if ~(ischar(value) || (isstring(value) && isscalar(value)))
-        error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', 'NormalTransform');
+        error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', ...
+          'NormalTransform');
       end
       text = lower(char(value));
       switch text

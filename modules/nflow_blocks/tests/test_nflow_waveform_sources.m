@@ -50,14 +50,16 @@ v = r.scopes(1).series(:);
 assert_istrue(max(abs(v)) > 1.4 && max(abs(v)) <= 1.52);
 %=============================================================================
 % ExpSineVoltage: a decaying sine (continuous), peaks near +Amplitude early.
-ex = NFlow.internal.acausalExpand(wav_circuit('ExpSineVoltage', '{"Amplitude":2,"Frequency":2,"Damping":0.5,"Phase":0}'));
+ex = NFlow.internal.acausalExpand(wav_circuit('ExpSineVoltage', ...
+  '{"Amplitude":2,"Frequency":2,"Damping":0.5,"Phase":0}'));
 r = jsondecode(__nflow_simulate__(ex));
 assert_isequal(r.status, 'done');
 v = r.scopes(1).series(:);
 assert_istrue(max(v) > 1.0 && max(v) <= 2.01);
 %=============================================================================
 % TrapezoidVoltage: continuous ramp-up / hold / ramp-down, holds at Amplitude.
-ex = NFlow.internal.acausalExpand(wav_circuit('TrapezoidVoltage', '{"Amplitude":2,"Rising":0.2,"Width":0.3,"Falling":0.2,"Period":1}'));
+ex = NFlow.internal.acausalExpand(wav_circuit('TrapezoidVoltage', ...
+  '{"Amplitude":2,"Rising":0.2,"Width":0.3,"Falling":0.2,"Period":1}'));
 r = jsondecode(__nflow_simulate__(ex));
 assert_isequal(r.status, 'done');
 v = r.scopes(1).series(:);

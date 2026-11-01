@@ -16,7 +16,8 @@ function [st, nRows] = tableVertcatStructs(st, nRows, stB, nB)
   elseif nB > 0
     names = st.Properties.VariableNames;
     if ~isequal(names, stB.Properties.VariableNames)
-      error('Nelson:table:vertcatVariableNamesMismatch', 'All tables to be vertically concatenated must have identical variable names.');
+      error('Nelson:table:vertcatVariableNamesMismatch', ...
+        'All tables to be vertically concatenated must have identical variable names.');
     end
     if isempty(names)
       st.data = repmat(struct(), nRows + nB, 0);

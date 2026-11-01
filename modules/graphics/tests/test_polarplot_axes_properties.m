@@ -64,6 +64,7 @@ visibleProperties = properties(ax);
 asserts.isfalse(any(ismember(polarProperties, visibleProperties)));
 asserts.isfalse(isprop(ax, 'RLim'));
 asserts.checkerror('get(ax, ''RLim'')', getString(message('Nelson:graphics:unrecognizedProperty', 'RLim')));
-asserts.checkerror('set(ax, ''RLim'', [0 2])', graphicsPropertyErrorMessage('RLim', 'Nelson:graphics:unrecognizedProperty', 'RLim'));
+asserts.checkerror('set(ax, ''RLim'', [0 2])', graphicsPropertyErrorMessage('RLim', ...
+  'Nelson:graphics:unrecognizedProperty', 'RLim'));
 close(f);
 %=============================================================================

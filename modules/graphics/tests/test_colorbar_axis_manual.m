@@ -11,7 +11,8 @@
 %=============================================================================
 close all
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, ...
+  'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 %=============================================================================
 f = figure('Visible', 'off');
 axis manual

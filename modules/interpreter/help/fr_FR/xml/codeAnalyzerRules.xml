@@ -30,7 +30,7 @@
         <td>NLS0003</td>
         <td>warning</td>
         <td>Flow</td>
-        <td>Du code place apres <b>return</b>, <b>break</b> ou <b>continue</b> est inaccessible dans le bloc courant.</td>
+        <td>Du code ne peut jamais s&apos;executer : apres <b>return</b>, <b>break</b>, <b>continue</b>, <b>error(id, message)</b>, <b>rethrow</b> ou <b>throw</b> dans le bloc courant, dans une branche sous une condition constante <b>false</b> ou apres une branche <b>if true</b>, et apres une boucle <b>while true</b> sans <b>break</b>.</td>
       </tr>
       <tr>
         <td>NLS0004</td>
@@ -241,6 +241,18 @@
         <td>warning</td>
         <td>Classdef</td>
         <td>Un attribut de classe est liste plusieurs fois dans la meme classe.</td>
+      </tr>
+      <tr>
+        <td>NLS0039</td>
+        <td>info</td>
+        <td>Performance</td>
+        <td>Une variable grandit a chaque iteration d&apos;une boucle : <b>x(end + 1) = v</b>, <b>x = [x, v]</b>, ou <b>x(k) = v</b> avec <b>k</b> l&apos;indice de boucle et <b>x</b> vide ou non defini avant la boucle. Il vaut mieux la preallouer, par exemple avec <b>zeros</b> ou <b>cell</b>.</td>
+      </tr>
+      <tr>
+        <td>NLS0040</td>
+        <td>info</td>
+        <td>Readability</td>
+        <td><b>isempty(strfind(str, pattern))</b> est utilise : <b>~contains(str, pattern)</b> est plus lisible, et <b>contains(str, pattern)</b> remplace <b>~isempty(strfind(str, pattern))</b>.</td>
       </tr>
     </table>
     <p>Les niveaux des regles peuvent etre changes avec l&apos;objet <b>rules</b> de <b>nelson-lint.json</b>. Les fichiers de configuration version 2 doivent declarer <b>"version": 2</b>. Les niveaux acceptes sont <b>allow</b>, <b>info</b>, <b>warning</b> et <b>error</b>.</p>

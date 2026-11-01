@@ -50,7 +50,8 @@ ax.Units = 'n';
 asserts.isequal(char(ax.Units), 'normalized');
 %=============================================================================
 % an ambiguous abbreviation is still rejected
-asserts.checkerror('set(axes(), ''Po'', [0 0 1 1]);', graphicsPropertyErrorMessage('Po', 'Nelson:graphics:unrecognizedPropertySClass', 'Po', 'axes'));
+asserts.checkerror('set(axes(), ''Po'', [0 0 1 1]);', graphicsPropertyErrorMessage('Po', ...
+  'Nelson:graphics:unrecognizedPropertySClass', 'Po', 'axes'));
 %=============================================================================
 % property-name abbreviation in the .m plotting wrappers: an abbreviated name
 % must reach the same property the full name does, not be dropped by the
@@ -78,7 +79,8 @@ asserts.isapprox(get(ax, 'XLi'), [0 5], 1e-12);
 set(ax, 'Projection', 'perspective');
 asserts.isequal(get(ax, 'Proj'), 'perspective');
 % an unknown property is still rejected on get()
-asserts.checkerror('get(figure(''Visible'', ''off''), ''Nonexistent'');', getString(message('Nelson:graphics:unrecognizedPropertySClass', 'Nonexistent', 'figure')));
+asserts.checkerror('get(figure(''Visible'', ''off''), ''Nonexistent'');', ...
+  getString(message('Nelson:graphics:unrecognizedPropertySClass', 'Nonexistent', 'figure')));
 %=============================================================================
 close all
 %=============================================================================

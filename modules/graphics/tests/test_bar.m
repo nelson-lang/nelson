@@ -210,8 +210,10 @@ asserts.isequal(h(1).XData, 1:5);
 asserts.isequal(h(2).XData, 1:5);
 asserts.isequal(h(1).YData, Sales.');
 asserts.isequal(h(2).YData, Revenue.');
-asserts.isapprox(h(1).XEndPoints, [0.857142857142857 1.857142857142857 2.857142857142857 3.857142857142857 4.857142857142857], 1e-12);
-asserts.isapprox(h(2).XEndPoints, [1.142857142857143 2.142857142857143 3.142857142857143 4.142857142857143 5.142857142857143], 1e-12);
+asserts.isapprox(h(1).XEndPoints, ...
+  [0.857142857142857 1.857142857142857 2.857142857142857 3.857142857142857 4.857142857142857], 1e-12);
+asserts.isapprox(h(2).XEndPoints, ...
+  [1.142857142857143 2.142857142857143 3.142857142857143 4.142857142857143 5.142857142857143], 1e-12);
 asserts.isequal(h(1).YEndPoints, Sales.');
 asserts.isequal(h(2).YEndPoints, Revenue.');
 lgd = legend(Location= "northwest");

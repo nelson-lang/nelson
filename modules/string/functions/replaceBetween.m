@@ -38,7 +38,8 @@ function out = replaceBetween(str, start, stop, replacement, varargin)
     if hasMissing && missingMask(k)
       continue;
     end
-    items{k} = replaceBetweenOne(items{k}, selectElement(start, k), selectElement(stop, k), textElement(replacement, k), boundaries);
+    items{k} = replaceBetweenOne(items{k}, selectElement(start, k), selectElement(stop, k), textElement(replacement, ...
+      k), boundaries);
   end
   out = stringPrivateFromCellstr(items, kind);
   if hasMissing

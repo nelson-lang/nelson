@@ -19,7 +19,7 @@ ds.connections{end + 1} = struct('from', 'g', 'to', 'cmp', 'fromIndex', 0, 'toIn
 ds.connections{end + 1} = struct('from', 'cmp', 'to', 'stop', 'fromIndex', 0, 'toIndex', 0);
 wd = tempname();
 mkdir(wd);
-cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NLS0004>
 stopFile = fullfile(wd, 'fmu_export_stop.nflow');
 fid = fopen(stopFile, 'wt'); fwrite(fid, jsonencode(ds)); fclose(fid);
 fmuS = NFlow.exportfmu(stopFile, wd);

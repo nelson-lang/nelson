@@ -66,7 +66,8 @@ rng(42);
 R2 = random(gm, 5);
 asserts.isequal(R, R2);
 %=============================================================================
-asserts.checkerror('gmdistribution([0; 1], -ones(1, 1, 2))', _('SIGMA must contain positive definite covariance matrices.'));
+asserts.checkerror('gmdistribution([0; 1], -ones(1, 1, 2))', ...
+  _('SIGMA must contain positive definite covariance matrices.'));
 asserts.checkerror('fitgmdist()', _('Not enough input arguments.'));
 asserts.checkerror('fitgmdist([], 1)', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitgmdist([1; 2], 3)', _('K must not exceed the number of rows in X.'));
@@ -75,6 +76,7 @@ asserts.checkerror('fitgmdist([1; 2], 1, ''Start'')', _('Name-value arguments mu
 asserts.checkerror('fitgmdist([1; 2], 1, ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('fitgmdist([1; 2], 1, ''Start'', ''bad'')', sprintf(_('Invalid %s value.'), 'Start'));
 asserts.checkerror('fitgmdist([1; 2], 1, ''CovarianceType'', ''bad'')', _('CovarianceType must be full or diagonal.'));
-asserts.checkerror('fitgmdist([1; 2], 1, ''SharedCovariance'', 2)', sprintf(_('%s must be true or false.'), 'SharedCovariance'));
+asserts.checkerror('fitgmdist([1; 2], 1, ''SharedCovariance'', 2)', sprintf(_('%s must be true or false.'), ...
+  'SharedCovariance'));
 asserts.checkerror('random(gm, -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'N'));
 %=============================================================================

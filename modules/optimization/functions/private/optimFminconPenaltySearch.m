@@ -59,7 +59,8 @@ function result = optimFminconPenaltySearch(data, opts)
   [state, funcCount] = optimFminconState(data, x, opts);
   H = eye(length(x));
   exitflag = positiveExitflag(exitflag, state, opts);
-  result = makeResult(data, opts, x, state, H, exitflag, totalIterations, totalFuncCount + funcCount, exitMessage(exitflag));
+  result = makeResult(data, opts, x, state, H, exitflag, totalIterations, totalFuncCount + funcCount, ...
+    exitMessage(exitflag));
   optimOutputStop(opts.OutputFcn, x, makeValues(state, totalIterations, result.output.funcCount, 0), 'done');
   displayFinal(opts, result.output.message);
 end

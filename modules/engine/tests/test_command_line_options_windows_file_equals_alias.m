@@ -12,7 +12,8 @@ if ispc()
   nelson_cli = [binpath, '/nelson-cli'];
   alias_file = [tempdir(), 'test_command_line_options_', createGUID(), '.m'];
   filewrite(alias_file, {'quit'});
-  cleanup_alias_file = onCleanup(@() eval(['if isfile(''', alias_file, '''), rmfile(''', alias_file, '''), end'])); %#ok<NASGU>
+  cleanup_alias_file = onCleanup(@() eval(['if isfile(''', alias_file, '''), rmfile(''', alias_file, ...
+    '''), end'])); %#ok<NLS0004>
   [status, output] = run_nelson_cli(nelson_cli, [' --quiet --no-user-startup --no-ipc /f="', alias_file, '"']);
   asserts.isequal(status, 0);
 end

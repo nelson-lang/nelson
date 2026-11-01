@@ -23,7 +23,7 @@ if isdir(test_dir)
   rmdir(test_dir, 's');
 end
 mkdir(test_dir);
-cleanup_test_dir = onCleanup(@() rmdir(test_dir, 's')); %#ok<NASGU>
+cleanup_test_dir = onCleanup(@() rmdir(test_dir, 's')); %#ok<NLS0004>
 
 script_file = [test_dir, '/mcp_run_file_case.m'];
 test_file = [test_dir, '/mcp_test_file_case.m'];
@@ -41,8 +41,10 @@ filewrite(format_config_file, ['{', newline(), ...
 
 requests = {
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}';
-  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_file","arguments":{"script_path":"', script_file, '"}}}'];
-  ['{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"', test_file, '"}}}'];
+  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_file","arguments":{"script_path":"', ...
+    script_file, '"}}}'];
+  ['{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"', ...
+    test_file, '"}}}'];
   ['{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"check_nelson_code","arguments":{"script_path":"', format_file, '"}}}'];
   ['{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"format_nelson_file","arguments":{"script_path":"', format_file, '"}}}']
 };

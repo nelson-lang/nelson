@@ -16,7 +16,8 @@ function images = __nelsonc_installer_images__(options, stage, payload)
   assets = fullfile(payload, 'nelson-installer-assets');
   if ~isempty(options.InstallerIcon) || ~isempty(options.AddRemoveProgramsIcon)
     if isfile(assets) || isfolder(assets)
-      error('Nelson:nelsonc:installer:applicationFilesCollideNelsonInstaller', 'Application files collide with nelson-installer-assets.');
+      error('Nelson:nelsonc:installer:applicationFilesCollideNelsonInstaller', ...
+        'Application files collide with nelson-installer-assets.');
     end
     __application_archive__('directory', assets);
   end

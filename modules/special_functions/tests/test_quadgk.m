@@ -23,5 +23,6 @@ asserts.isapprox(R, -1, 1e-6);
 R = quadgk(@(z) 1 ./ (2 .* z - 1), 1, 1, 'Waypoints', [1 + 1i, 0 + 1i, 0 - 1i, 1 - 1i]);
 asserts.isapprox(R, pi * 1i, 1e-8, 1e-8);
 %=============================================================================
-asserts.checkerror('quadgk(3, 0, 1)', _('First argument must be a function handle.'), 'Nelson:special_functions:funArgNotHandle');
+asserts.checkerror('quadgk(3, 0, 1)', _('First argument must be a function handle.'), ...
+  'Nelson:special_functions:funArgNotHandle');
 %=============================================================================

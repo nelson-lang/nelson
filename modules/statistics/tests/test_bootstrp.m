@@ -57,7 +57,8 @@ asserts.checkerror('bootstrp()', _('Not enough input arguments.'));
 asserts.checkerror('bootstrp(0, @mean, x)', sprintf(_('%s must be a positive integer scalar.'), 'NBOOT'));
 asserts.checkerror('bootstrp(10, ''mean'', x)', _('BOOTFUN must be empty or a function handle.'));
 asserts.checkerror('bootstrp(10, @mean, 1)', sprintf(_('At least one %s is required.'), 'nonscalar data argument'));
-asserts.checkerror('bootstrp(10, @mean, x, ''Weights'', ones(2, 1))', _('Weights must be a nonnegative vector with one value per observation.'));
+asserts.checkerror('bootstrp(10, @mean, x, ''Weights'', ones(2, 1))', ...
+  _('Weights must be a nonnegative vector with one value per observation.'));
 asserts.checkerror('bootstrp(10, @mean, x, ''Options'', 1)', _('Options must be a structure.'));
 asserts.checkerror('bootstrp(10, @mean, x, ''Unknown'', 1)', _('Invalid name-value argument name.'));
 %=============================================================================

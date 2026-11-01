@@ -58,7 +58,8 @@ function opts = aioptions(varargin)
         opts.NumPredict = double(value);
       case 'temperature'
         if ~isnumeric(value) || ~isscalar(value) || value < 0
-          error('Nelson:aioptions:temperatureANonnegativeNumericScalar2', 'Temperature must be a nonnegative numeric scalar.');
+          error('Nelson:aioptions:temperatureANonnegativeNumericScalar2', ...
+            'Temperature must be a nonnegative numeric scalar.');
         end
         opts.Temperature = double(value);
       otherwise

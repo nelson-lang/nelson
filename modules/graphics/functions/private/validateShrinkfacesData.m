@@ -12,7 +12,8 @@ function validateShrinkfacesData(faces, vertices)
     error('Nelson:graphics:mustBeRealMatrix', '%s must be a real numeric matrix.', 'Faces');
   end
   if ~isValidShrinkfacesVertices(vertices)
-    error('Nelson:validateShrinkfacesData:invalidVertices', 'Vertices must be a real numeric matrix with at least two columns.');
+    error('Nelson:validateShrinkfacesData:invalidVertices', ...
+      'Vertices must be a real numeric matrix with at least two columns.');
   end
   valid = faces(isfinite(faces));
   if ~isValidShrinkfacesIndices(valid, size(vertices, 1))

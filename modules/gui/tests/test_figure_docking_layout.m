@@ -9,7 +9,8 @@
 %=============================================================================
 % <--GUI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 library = dlopen(probePath);
 probe = dlsym(library, 'figureWorkspaceProbe', 'int32', {'cstring', 'cstring'});
 titleText = 'Qt docking layout';
@@ -49,8 +50,10 @@ for cycle = 1:3
   asserts.isequal(dlcall(probe, titleText, '{"operation":"visible","name":"figureNavigationToolbar"}'), int32(1));
   asserts.isequal(dlcall(probe, titleText, '{"operation":"visible","name":"figureDetails"}'), int32(1));
   asserts.isequal(dlcall(probe, titleText, '{"operation":"visible","name":"figureLegendToolbar"}'), int32(1));
-  asserts.isequal(dlcall(probe, titleText, '{"operation":"sliderValue","name":"figureAzimuthSlider"}'), int32(round(initialView(1) * 2)));
-  asserts.isequal(dlcall(probe, titleText, '{"operation":"sliderValue","name":"figureElevationSlider"}'), int32(round(initialView(2) * 2)));
+  asserts.isequal(dlcall(probe, titleText, '{"operation":"sliderValue","name":"figureAzimuthSlider"}'), ...
+    int32(round(initialView(1) * 2)));
+  asserts.isequal(dlcall(probe, titleText, '{"operation":"sliderValue","name":"figureElevationSlider"}'), ...
+    int32(round(initialView(2) * 2)));
 end
 dlcall(probe, titleText, jsonencode(struct('operation', 'snapshot', 'path', ...
   [fileparts(fileparts(fileparts(modulepath('graphics', 'tests')))) '/temp/qt-docking-layout.png'])));

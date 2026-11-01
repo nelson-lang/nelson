@@ -21,7 +21,8 @@ function limits = stretchlim(varargin)
     tol = [tol 1 - tol];
   end
   if numel(tol) ~= 2 || any(tol < 0) || any(tol > 1)
-    error('Nelson:image_processing:toleranceScalarElementVectorRange', 'Tolerance must be a scalar or a 2-element vector in the range [0, 1].');
+    error('Nelson:image_processing:toleranceScalarElementVectorRange', ...
+      'Tolerance must be a scalar or a 2-element vector in the range [0, 1].');
   end
   if length(size(img)) == 3
     channels = size(img, 3);

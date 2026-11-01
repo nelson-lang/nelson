@@ -22,10 +22,12 @@ function varargout = schord(Qi, Ti, index)
     error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 2, 'square matrix');
   end
   if ~isequal(size(Qi), size(Ti))
-    error('Nelson:control_system:wrongSize:wrongSizeInputArguments12', 'Wrong size for input arguments #1 and #2: same size expected.');
+    error('Nelson:control_system:wrongSize:wrongSizeInputArguments12', ...
+      'Wrong size for input arguments #1 and #2: same size expected.');
   end
   if numel(index) ~= rowCount
-    error('Nelson:control_system:wrongSize:wrongSizeArgument3VectorLength', 'Wrong size for argument #3: vector length must match matrix size.');
+    error('Nelson:control_system:wrongSize:wrongSizeArgument3VectorLength', ...
+      'Wrong size for argument #3: vector length must match matrix size.');
   end
 
   activeIndex = index(:).';

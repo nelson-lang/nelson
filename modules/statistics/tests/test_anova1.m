@@ -79,5 +79,6 @@ asserts.checkerror('anova1([1 2 3], [1 2], ''off'')', _('GROUP must have the exp
 asserts.checkerror('anova1([1 2; 3 4], {''only''}, ''off'')', _('GROUP must have the expected number of labels.'));
 asserts.checkerror('anova1([1 2; 3 4], {1}, ''off'')', sprintf(_('%s must be a vector or text array.'), 'GROUP'));
 asserts.checkerror('anova1([1 2; 3 4], [], ''bad'')', _('Display option must be ''on'' or ''off''.'));
-asserts.checkerror('anova1([1 NaN], [1 2], ''off'')', _('At least two groups with more observations than groups are required.'));
+asserts.checkerror('anova1([1 NaN], [1 2], ''off'')', ...
+  _('At least two groups with more observations than groups are required.'));
 %=============================================================================

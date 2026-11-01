@@ -158,13 +158,15 @@ h2 = violinplot([1 1 1 2 2 2], [1 2 2 3 4 5]);
 hold off
 asserts.isequal(size(h2.EvaluationPoints), [100 2]);
 asserts.isequal(size(h2.DensityValues), [100 2]);
-asserts.isapprox(h2.DensityValues(1:3, :), [0.001788485501 0.001253926228; 0.002222733073 0.001580090029; 0.002748541346 0.001979961435], 1e-9);
+asserts.isapprox(h2.DensityValues(1:3, :), ...
+  [0.001788485501 0.001253926228; 0.002222733073 0.001580090029; 0.002748541346 0.001979961435], 1e-9);
 % Manual evaluation points: the density is evaluated there, a row is stored as a column.
 h.EvaluationPoints = linspace(0, 5, 7);
 asserts.isequal(h.EvaluationPointsMode, 'manual');
 asserts.isequal(h.DensityValuesMode, 'auto');
 asserts.isequal(size(h.EvaluationPoints), [7 1]);
-asserts.isapprox(h.DensityValues', [0.07991523896 0.1651764713 0.2372385644 0.2497921006 0.2053763334 0.1351723558 0.06711794502], 1e-9);
+asserts.isapprox(h.DensityValues', ...
+  [0.07991523896 0.1651764713 0.2372385644 0.2497921006 0.2053763334 0.1351723558 0.06711794502], 1e-9);
 h.EvaluationPointsMode = 'auto';
 asserts.isequal(size(h.EvaluationPoints), [100 1]);
 % Manual density values survive a data change, the evaluation points follow it.
@@ -228,17 +230,22 @@ close(f);
 %=============================================================================
 f = figure('Visible', 'off');
 h = violinplot([1 2 2 3 4]);
-asserts.checkerror('h.EvaluationPoints = ''a'';', graphicsPropertyErrorMessage('EvaluationPoints', 'Nelson:graphics:floatingPointExpected'));
-asserts.checkerror('h.EvaluationPoints = int8([1; 2]);', graphicsPropertyErrorMessage('EvaluationPoints', 'Nelson:graphics:floatingPointExpected'));
-asserts.checkerror('h.EvaluationPoints = [1; NaN];', graphicsPropertyErrorMessage('EvaluationPoints', 'Nelson:expectedFinite', 'Value'));
+asserts.checkerror('h.EvaluationPoints = ''a'';', graphicsPropertyErrorMessage('EvaluationPoints', ...
+  'Nelson:graphics:floatingPointExpected'));
+asserts.checkerror('h.EvaluationPoints = int8([1; 2]);', graphicsPropertyErrorMessage('EvaluationPoints', ...
+  'Nelson:graphics:floatingPointExpected'));
+asserts.checkerror('h.EvaluationPoints = [1; NaN];', graphicsPropertyErrorMessage('EvaluationPoints', ...
+  'Nelson:expectedFinite', 'Value'));
 asserts.isequal(h.EvaluationPointsMode, 'auto');
 close(f);
-asserts.checkerror('violinplot([1 2 2 3 4], ''EvaluationPoints'', (0:5)'');', getString(message('Nelson:violinplot:densityWithSampleData')), 'Nelson:violinplot:densityWithSampleData');
+asserts.checkerror('violinplot([1 2 2 3 4], ''EvaluationPoints'', (0:5)'');', ...
+  getString(message('Nelson:violinplot:densityWithSampleData')), 'Nelson:violinplot:densityWithSampleData');
 asserts.checkerror('violinplot(''EvaluationPoints'', (0:5)'');', getString(message('Nelson:notEnoughInputs')));
 close all
 %=============================================================================
 asserts.checkerror('violinplot();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('violinplot({1});', getString(message('Nelson:validators:mustBeNumeric', 'Value')));
 asserts.checkerror('violinplot([1 2], [1 2 3]);', getString(message('Nelson:graphics:invalidGroupData')));
-asserts.checkerror('violinplot([1], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'violinplot')));
+asserts.checkerror('violinplot([1], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', ...
+  'violinplot')));
 %=============================================================================

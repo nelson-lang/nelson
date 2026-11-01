@@ -104,7 +104,8 @@ end
 %=============================================================================
 function locations = parseOutlierLocationsLocal(value, sz)
   if ~(islogical(value) && isequal(size(value), sz))
-    error('Nelson:statistics:outlierLocationsLogicalArraySameSize', 'OutlierLocations must be a logical array the same size as A.');
+    error('Nelson:statistics:outlierLocationsLogicalArraySameSize', ...
+      'OutlierLocations must be a logical array the same size as A.');
   end
   locations = value;
 end

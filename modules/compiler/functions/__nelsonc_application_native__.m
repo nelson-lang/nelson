@@ -21,7 +21,8 @@ function plan = __nelsonc_application_native__(plan)
     return;
   end
   if ~ispc()
-    error('Nelson:nelsonc:nativePlatform', 'Application native dependency deployment is currently supported on Windows only.');
+    error('Nelson:nelsonc:nativePlatform', ...
+      'Application native dependency deployment is currently supported on Windows only.');
   end
   libraryDirectory = strrep(fullpath(modulepath('nelson', 'builtin')), '\', '/');
   [libraries, plan.nativeSystemLibraries] = __nelsonc_native_closure__(pending, libraryDirectory);

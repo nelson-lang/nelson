@@ -11,10 +11,10 @@
 %=============================================================================
 folder = tempname();
 mkdir(folder);
-cleanupFolder = onCleanup(@() rmdir(folder, 's')); %#ok<NASGU>
+cleanupFolder = onCleanup(@() rmdir(folder, 's')); %#ok<NLS0004>
 % Always drop the path again, even if an assertion fails, so the shared
 % BlockRegistry is left as the test found it.
-cleanupPath = onCleanup(@() NFlow.rmlibrarypath(folder)); %#ok<NASGU>
+cleanupPath = onCleanup(@() NFlow.rmlibrarypath(folder)); %#ok<NLS0004>
 %=============================================================================
 baseline = NFlow.librarypaths();
 asserts.istrue(iscell(baseline));

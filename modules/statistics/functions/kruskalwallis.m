@@ -129,7 +129,8 @@ function result = kruskalTableLocal(values, codes, labels)
   ngroups = length(labels);
   n = length(values);
   if ngroups < 2 || n <= ngroups
-    error('Nelson:statistics:leastTwoGroupsMoreObservations', 'At least two groups with more observations than groups are required.');
+    error('Nelson:statistics:leastTwoGroupsMoreObservations', ...
+      'At least two groups with more observations than groups are required.');
   end
   [ranks, tieCorrection] = tiedRanksLocal(values);
   [counts, rankSums, meanRanks] = rankSummaryLocal(ranks, codes, ngroups);

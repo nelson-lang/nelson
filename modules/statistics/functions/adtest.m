@@ -98,19 +98,22 @@ function probabilities = fittedProbabilitiesLocal(values, distribution)
       probabilities = normalProbabilitiesLocal(values);
     case 'exp'
       if any(values < 0)
-        error('Nelson:statistics:xNonnegativeExponentialDistribution', 'X must be nonnegative for the exponential distribution.');
+        error('Nelson:statistics:xNonnegativeExponentialDistribution', ...
+          'X must be nonnegative for the exponential distribution.');
       end
       probabilities = 1 - exp(-values / mean(values));
     case 'ev'
       probabilities = extremeValueProbabilitiesLocal(values);
     case 'logn'
       if any(values <= 0)
-        error('Nelson:statistics:xPositiveLognormalDistribution', 'X must be positive for the %s distribution.', 'lognormal');
+        error('Nelson:statistics:xPositiveLognormalDistribution', 'X must be positive for the %s distribution.', ...
+          'lognormal');
       end
       probabilities = normalProbabilitiesLocal(log(values));
     otherwise
       if any(values <= 0)
-        error('Nelson:statistics:xPositiveWeibullDistribution', 'X must be positive for the %s distribution.', 'Weibull');
+        error('Nelson:statistics:xPositiveWeibullDistribution', 'X must be positive for the %s distribution.', ...
+          'Weibull');
       end
       probabilities = extremeValueProbabilitiesLocal(log(values));
   end

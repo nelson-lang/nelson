@@ -45,7 +45,8 @@ asserts.istrue(all(isnan(PCI(:))));
 %=============================================================================
 asserts.checkerror('betafit()', _('Not enough input arguments.'));
 asserts.checkerror('betafit([])', _('X must be a nonempty vector or matrix.'));
-asserts.checkerror('betafit([])', _('X must be a nonempty vector or matrix.'), 'Nelson:statistics:xMustBeNonemptyVectorOrMatrix');
+asserts.checkerror('betafit([])', _('X must be a nonempty vector or matrix.'), ...
+  'Nelson:statistics:xMustBeNonemptyVectorOrMatrix');
 asserts.checkerror('betafit(ones(1, 1, 2))', _('X must be a nonempty vector or matrix.'));
 asserts.checkerror('betafit({0.2 0.5})', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('betafit([0 0.2 0.5])', _('X must contain finite values in the open interval (0,1).'));

@@ -9,7 +9,7 @@
 %=============================================================================
 probe_dir = tempname();
 mkdir(probe_dir);
-c = onCleanup(@() rmdir(probe_dir, 's')); %#ok<NASGU>
+c = onCleanup(@() rmdir(probe_dir, 's')); %#ok<NLS0004>
 LF = 10;
 CR = 13;
 contents = {
@@ -73,13 +73,16 @@ asserts.isequal(S, ["a"; "b"]);
 S = readlines(F.crlf_final, 'EmptyLineRule', 'error');
 asserts.isequal(S, "a");
 asserts.checkerror('readlines(F.mixed, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.');
-asserts.checkerror('readlines(F.mixed, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.', 'Nelson:readlines:emptyLine');
+asserts.checkerror('readlines(F.mixed, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.', ...
+  'Nelson:readlines:emptyLine');
 asserts.checkerror('readlines(F.lf_only, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 1.');
 asserts.checkerror('readlines(F.blank_end, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.');
-asserts.checkerror('readlines(F.lf_blank_end, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 3.');
+asserts.checkerror('readlines(F.lf_blank_end, ''EmptyLineRule'', ''error'')', ...
+  'Unexpected empty line detected on row 3.');
 asserts.checkerror('readlines(F.spaces, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.');
 asserts.checkerror('readlines(F.many_blank, ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 2.');
-asserts.checkerror('readlines(F.blank_trim, ''WhitespaceRule'', ''trim'', ''EmptyLineRule'', ''error'')', 'Unexpected empty line detected on row 1.');
+asserts.checkerror('readlines(F.blank_trim, ''WhitespaceRule'', ''trim'', ''EmptyLineRule'', ''error'')', ...
+  'Unexpected empty line detected on row 1.');
 %=============================================================================
 % WhitespaceRule and Whitespace
 S = readlines(F.mixed, 'WhitespaceRule', 'trim');
@@ -140,14 +143,21 @@ asserts.isequal(S, ["a"; "b"; ""]);
 % errors
 asserts.checkerror('readlines(fullfile(probe_dir, ''nofile.txt''))', sprintf('Unable to find or open ''%s''. Check the path and filename or file permissions.', fullfile(probe_dir, 'nofile.txt')));
 asserts.checkerror('readlines(fullfile(probe_dir, ''nofile.txt''))', sprintf('Unable to find or open ''%s''. Check the path and filename or file permissions.', fullfile(probe_dir, 'nofile.txt')), 'Nelson:readlines:fileNotFound');
-asserts.checkerror('readlines(probe_dir)', 'Expected a single file. Folders are not supported.', 'Nelson:readlines:folderNotSupported');
-asserts.checkerror('readlines(3)', '"filename" must be a string scalar or character vector.', 'Nelson:readlines:invalidFilename');
-asserts.checkerror('readlines(F.lf_final, ''EmptyLineRule'')', 'All parameters must have an associated value.', 'Nelson:readlines:oddNameValuePairs');
-asserts.checkerror('readlines(F.lf_final, ''Foo'', 1)', 'Unknown Parameter ''Foo''.', 'Nelson:readlines:unknownParameter');
-asserts.checkerror('readlines(F.lf_final, ''EmptyLineRule'', ''bad'')', 'EmptyLineRule must be one of these values: ''read'', ''skip'', ''error''.', 'Nelson:readlines:invalidOptionValue');
+asserts.checkerror('readlines(probe_dir)', 'Expected a single file. Folders are not supported.', ...
+  'Nelson:readlines:folderNotSupported');
+asserts.checkerror('readlines(3)', '"filename" must be a string scalar or character vector.', ...
+  'Nelson:readlines:invalidFilename');
+asserts.checkerror('readlines(F.lf_final, ''EmptyLineRule'')', 'All parameters must have an associated value.', ...
+  'Nelson:readlines:oddNameValuePairs');
+asserts.checkerror('readlines(F.lf_final, ''Foo'', 1)', 'Unknown Parameter ''Foo''.', ...
+  'Nelson:readlines:unknownParameter');
+asserts.checkerror('readlines(F.lf_final, ''EmptyLineRule'', ''bad'')', ...
+  'EmptyLineRule must be one of these values: ''read'', ''skip'', ''error''.', 'Nelson:readlines:invalidOptionValue');
 asserts.checkerror('readlines(F.lf_final, ''WhitespaceRule'', ''bad'')', 'WhitespaceRule must be one of these values: ''preserve'', ''trim'', ''trimleading'', ''trimtrailing''.', 'Nelson:readlines:invalidOptionValue');
-asserts.checkerror('readlines(F.lf_final, ''Encoding'', ''bad'')', 'The encoding ''bad'' is not valid.', 'Nelson:readlines:invalidEncoding');
-asserts.checkerror('readlines(F.lf_final, ''Encoding'', 1)', 'Encoding must be a string scalar or character vector.', 'Nelson:readlines:encodingTypeExpected');
+asserts.checkerror('readlines(F.lf_final, ''Encoding'', ''bad'')', 'The encoding ''bad'' is not valid.', ...
+  'Nelson:readlines:invalidEncoding');
+asserts.checkerror('readlines(F.lf_final, ''Encoding'', 1)', ...
+  'Encoding must be a string scalar or character vector.', 'Nelson:readlines:encodingTypeExpected');
 asserts.checkerror('readlines(F.lf_final, ''LineEnding'', 1)', 'LineEnding must be a string array, character vector, or cell array of character vectors.', 'Nelson:readlines:invalidLineEnding');
 asserts.checkerror('readlines()', _('Not enough input arguments.'));
 asserts.checkerror('[a, b] = readlines(F.lf_final)', _('Too many output arguments.'));

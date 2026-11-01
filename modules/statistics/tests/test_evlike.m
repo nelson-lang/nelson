@@ -49,6 +49,7 @@ asserts.checkerror('evlike({0 1}, x)', sprintf(_('%s must be real numeric.'), 'P
 asserts.checkerror('evlike([0 1], {})', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('evlike([0 1], [])', sprintf(_('%s must be nonempty.'), 'X'));
 asserts.checkerror('evlike([0 1], x, [0 2 0 0 0 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('evlike([0 1], x, [], [1 -1 1 1 1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('evlike([0 1], x, [], [1 -1 1 1 1 1])', sprintf(_('%s must contain nonnegative finite values.'), ...
+  'FREQ'));
 asserts.checkerror('evlike([0 1], x, ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

@@ -22,7 +22,7 @@ function model = ssselect(varargin)
   inputs = varargin{2};
   outputs = varargin{3};
 
-  [nx, na] = size(sys.A);
+  [nx, ~] = size(sys.A);
 
   if nargin == 3
     states = 1:nx;

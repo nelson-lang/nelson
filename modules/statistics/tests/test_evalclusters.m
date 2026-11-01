@@ -63,14 +63,20 @@ asserts.isequal(eva.OptimalY, [1; 1; 2; 2]);
 %=============================================================================
 asserts.checkerror('evalclusters()', _('Not enough input arguments.'));
 asserts.checkerror('evalclusters([], C, ''silhouette'')', sprintf(_('%s must be a nonempty numeric matrix.'), 'X'));
-asserts.checkerror('evalclusters(X, C, ''gap'')', _('Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.'));
+asserts.checkerror('evalclusters(X, C, ''gap'')', ...
+  _('Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.'));
 asserts.checkerror('evalclusters(X, C, ''silhouette'', ''KList'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('evalclusters(X, C, ''silhouette'', '''', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('evalclusters(X, C, ''silhouette'', ''ClusterPriors'', ''bad'')', _('ClusterPriors must be empirical or equal.'));
-asserts.checkerror('evalclusters(X, ''kmeans'', ''silhouette'')', _('KList must be specified for clustering algorithms.'));
+asserts.checkerror('evalclusters(X, C, ''silhouette'', ''ClusterPriors'', ''bad'')', ...
+  _('ClusterPriors must be empirical or equal.'));
+asserts.checkerror('evalclusters(X, ''kmeans'', ''silhouette'')', ...
+  _('KList must be specified for clustering algorithms.'));
 asserts.checkerror('evalclusters(X, ''bad'', ''silhouette'', ''KList'', 2)', _('Invalid clustering algorithm.'));
-asserts.checkerror('evalclusters(X, C, ''silhouette'', ''KList'', 0)', _('KList must be a vector of positive integers.'));
-asserts.checkerror('evalclusters(X, [1 1; 1 1], ''silhouette'')', sprintf(_('%s must have one row per observation.'), 'CLUST'));
+asserts.checkerror('evalclusters(X, C, ''silhouette'', ''KList'', 0)', ...
+  _('KList must be a vector of positive integers.'));
+asserts.checkerror('evalclusters(X, [1 1; 1 1], ''silhouette'')', ...
+  sprintf(_('%s must have one row per observation.'), 'CLUST'));
 badfun = @(DATA, K) ones(size(DATA, 1), 1);
-asserts.checkerror('evalclusters(X, badfun, ''silhouette'', ''KList'', 2)', _('Clustering output must contain K clusters.'));
+asserts.checkerror('evalclusters(X, badfun, ''silhouette'', ''KList'', 2)', ...
+  _('Clustering output must contain K clusters.'));
 %=============================================================================

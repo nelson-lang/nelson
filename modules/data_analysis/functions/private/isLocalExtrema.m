@@ -35,9 +35,11 @@ end
 function [TF, P] = callBuiltin(A, isMaximum, wantProminence, opts, x, minSeparation, window, dim)
   P = [];
   if wantProminence
-    [TF, P] = __islocalextrema__(A, isMaximum, dim, opts.FlatSelection, opts.MinProminence, minSeparation, opts.MaxNumExtrema, x, window);
+    [TF, P] = __islocalextrema__(A, isMaximum, dim, opts.FlatSelection, opts.MinProminence, minSeparation, ...
+      opts.MaxNumExtrema, x, window);
   else
-    TF = __islocalextrema__(A, isMaximum, dim, opts.FlatSelection, opts.MinProminence, minSeparation, opts.MaxNumExtrema, x, window);
+    TF = __islocalextrema__(A, isMaximum, dim, opts.FlatSelection, opts.MinProminence, minSeparation, ...
+      opts.MaxNumExtrema, x, window);
   end
 end
 %=============================================================================
@@ -46,7 +48,8 @@ function [TF, P] = tabularExtrema(A, isMaximum, wantProminence, opts)
   stA = struct(A);
   dataVars = 1:width(A);
   if ~isempty(opts.DataVariables)
-    dataVars = tableResolveVariables(stA.Properties.VariableNames, opts.DataVariables, stA.Properties.VariableTypes, stA.data);
+    dataVars = tableResolveVariables(stA.Properties.VariableNames, opts.DataVariables, stA.Properties.VariableTypes, ...
+      stA.data);
   end
   samplePoints = opts.SamplePoints;
   if istimetable(A)
@@ -84,7 +87,8 @@ function [TF, P] = tabularExtrema(A, isMaximum, wantProminence, opts)
 end
 %=============================================================================
 function tf = isTableVariableReference(value, nRows)
-  tf = ischar(value) || isstring(value) || iscellstr(value) || isa(value, 'function_handle') || strcmp(class(value), 'vartype') || islogical(value) || (isnumeric(value) && isscalar(value) && nRows ~= 1);
+  tf = ischar(value) || isstring(value) || iscellstr(value) || isa(value, 'function_handle') || strcmp(class(value), ...
+    'vartype') || islogical(value) || (isnumeric(value) && isscalar(value) && nRows ~= 1);
 end
 %=============================================================================
 function checkTableVariable(value)
@@ -109,7 +113,8 @@ function [x, minSeparation, window] = resolveSamplePoints(opts, samplePoints, n,
     if ~isduration(minSeparation)
       if opts.hasMinSeparation
         if isTimetable
-          error('Nelson:isLocalExtrema:SeparationMustBeDurationTimetable', '''MinSeparation'' value must be a duration scalar when the first input argument is a timetable.');
+          error('Nelson:isLocalExtrema:SeparationMustBeDurationTimetable', ...
+            '''MinSeparation'' value must be a duration scalar when the first input argument is a timetable.');
         end
         error('Nelson:isLocalExtrema:SeparationMustBeDuration', '''MinSeparation'' value must be a duration scalar if the ''SamplePoints'' values are datetimes or durations.');
       end
@@ -120,18 +125,22 @@ function [x, minSeparation, window] = resolveSamplePoints(opts, samplePoints, n,
     if ~isempty(window)
       if ~isduration(window)
         if isTimetable
-          error('Nelson:isLocalExtrema:ProminenceWindowMustBeDurationTimetable', '''ProminenceWindow'' value must be a duration when the first input argument is a timetable.');
+          error('Nelson:isLocalExtrema:ProminenceWindowMustBeDurationTimetable', ...
+            '''ProminenceWindow'' value must be a duration when the first input argument is a timetable.');
         end
-        error('Nelson:isLocalExtrema:ProminenceWindowMustBeDuration', '''ProminenceWindow'' value must be a duration if the ''SamplePoints'' values are datetimes or durations.');
+        error('Nelson:isLocalExtrema:ProminenceWindowMustBeDuration', ...
+          '''ProminenceWindow'' value must be a duration if the ''SamplePoints'' values are datetimes or durations.');
       end
       window = milliseconds(window);
     end
   else
     if isduration(minSeparation)
-      error('Nelson:isLocalExtrema:SeparationCannotBeDuration', '''MinSeparation'' value must be a numeric scalar if the ''SamplePoints'' values are numeric.');
+      error('Nelson:isLocalExtrema:SeparationCannotBeDuration', ...
+        '''MinSeparation'' value must be a numeric scalar if the ''SamplePoints'' values are numeric.');
     end
     if isduration(window)
-      error('Nelson:isLocalExtrema:ProminenceWindowCannotBeDuration', '''ProminenceWindow'' value must be numeric if the ''SamplePoints'' values are numeric.');
+      error('Nelson:isLocalExtrema:ProminenceWindowCannotBeDuration', ...
+        '''ProminenceWindow'' value must be numeric if the ''SamplePoints'' values are numeric.');
     end
   end
   x = checkSamplePoints(samplePoints, n, isTime);
@@ -163,7 +172,8 @@ function x = checkSamplePoints(samplePoints, n, isTime)
     return
   end
   if ~(isTime || isfloat(samplePoints)) || issparse(samplePoints) || ~(isvector(samplePoints) || isempty(samplePoints))
-    error('Nelson:isLocalExtrema:SamplePointsInvalidDatatype', '''SamplePoints'' value must be a vector of type double, single, duration, or datetime.');
+    error('Nelson:isLocalExtrema:SamplePointsInvalidDatatype', ...
+      '''SamplePoints'' value must be a vector of type double, single, duration, or datetime.');
   end
   if numel(samplePoints) ~= n
     error('Nelson:isLocalExtrema:SamplePointsLength', 'The sample points vector length must be %d, the same as the size of the input data in the operating dimension.', n);

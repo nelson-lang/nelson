@@ -38,12 +38,14 @@ function __nelsonc_inno_build__(engine, stage, payload, shortcut, options, gener
     if output_matches_antivirus(output)
       error('Nelson:nelsonc:installerTool:antivirusBlocked', 'Installer compilation was blocked by antivirus software (likely a false positive on the unsigned launcher) with status %d.\n%s', status, strtrim(output));
     end
-    error('Nelson:nelsonc:installerTool:installerCompilationFailed', 'Installer compilation failed with status %d.\n%s', status, strtrim(output));
+    error('Nelson:nelsonc:installerTool:installerCompilationFailed', ...
+      'Installer compilation failed with status %d.\n%s', status, strtrim(output));
   end
   name = [options.InstallerName, '.exe'];
   executable = fullfile(compiled, name);
   if ~isfile(executable)
-    error('Nelson:nelsonc:installerTool:installerCompilationProducedNoExecutable', 'Installer compilation produced no executable.');
+    error('Nelson:nelsonc:installerTool:installerCompilationProducedNoExecutable', ...
+      'Installer compilation produced no executable.');
   end
   if wrappedInstaller
     wrapped = fullfile(stage, 'wrapped');

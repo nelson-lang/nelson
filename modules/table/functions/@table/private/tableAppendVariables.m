@@ -24,7 +24,8 @@ function [st, rows] = tableAppendVariables(st, names, isNew, rows, nRows, sample
     sample = samples{k};
     nSample = size(sample, 1);
     if (nSample ~= numel(rows) && nSample ~= 1) || (nSample == 0 && nRows > 0)
-      error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', 'Value assignment must have the same number of rows as the table.');
+      error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', ...
+        'Value assignment must have the same number of rows as the table.');
     end
     st.data.(names{k}) = tableDefaultColumn(sample, nRows);
     st.Properties.VariableNames{end + 1} = names{k};

@@ -50,7 +50,8 @@ assert_isequal(datetime(737791.5, 'ConvertFrom', 'datenum', 'TimeZone', 'Europe/
 assert_isequal(datetime(43831.5, 'ConvertFrom', 'excel', 'TimeZone', 'Europe/Paris').Hour, 12);
 t = datetime(3600, 'ConvertFrom', 'epochtime', 'Epoch', datetime(2020, 1, 1), 'TimeZone', 'Europe/Paris');
 assert_isequal(t.Hour, 1);
-t = datetime(3600, 'ConvertFrom', 'epochtime', 'Epoch', datetime(2020, 1, 1, 'TimeZone', 'UTC'), 'TimeZone', 'Europe/Paris');
+t = datetime(3600, 'ConvertFrom', 'epochtime', 'Epoch', datetime(2020, 1, 1, 'TimeZone', 'UTC'), 'TimeZone', ...
+  'Europe/Paris');
 assert_isequal(t.Hour, 2);
 p = datetime(2020, 1, 1, 12, 0, 0, 'TimeZone', 'Europe/Paris');
 assert_isequal(posixtime(p), 1577876400);
@@ -171,9 +172,11 @@ assert_isequal((t + 1).Hour, 13);
 assert_isequal((t + caldays(1)).Hour, 12);
 assert_isequal((datetime(2020, 3, 29, 13, 0, 0, 'TimeZone', 'Europe/Paris') - hours(24)).Hour, 12);
 assert_isequal(datetime(2020, 3, 29, 12, 0, 0, 'TimeZone', 'Europe/Paris') - t, hours(23));
-r = datetime(2020, 3, 29, 1, 0, 0, 'TimeZone', 'Europe/Paris'):hours(1):datetime(2020, 3, 29, 4, 0, 0, 'TimeZone', 'Europe/Paris');
+r = datetime(2020, 3, 29, 1, 0, 0, 'TimeZone', 'Europe/Paris'):hours(1):datetime(2020, 3, 29, 4, 0, 0, 'TimeZone', ...
+  'Europe/Paris');
 assert_isequal(r.Hour, [1, 3, 4]);
-assert_isequal(datetime(2020, 10, 25, 2, 30, 0, 'TimeZone', 'Europe/Paris') - datetime(2020, 10, 25, 0, 0, 0, 'TimeZone', 'UTC'), minutes(90));
+assert_isequal(datetime(2020, 10, 25, 2, 30, 0, 'TimeZone', 'Europe/Paris') - datetime(2020, 10, 25, 0, 0, 0, ...
+  'TimeZone', 'UTC'), minutes(90));
 %=============================================================================
 % unzoned arithmetic is unchanged
 n = datetime(2020, 3, 28, 12, 0, 0);

@@ -66,7 +66,7 @@ end
 function info = activate_gateway(module)
   library = ['libnls', upper(module(1)), module(2:end), '_builtin', getdynlibext()];
   gateway = fullfile(modulepath('nelson', 'builtin'), library);
-  [name, functions, state] = gatewayinfo(gateway);
+  [~, ~, state] = gatewayinfo(gateway);
   info = struct('path', gateway, 'state', state);
   if ~strcmp(state, 'loaded')
     % Minimal sessions do not register every module; use a build-only gateway.

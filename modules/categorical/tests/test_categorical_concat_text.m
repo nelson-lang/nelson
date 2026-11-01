@@ -83,7 +83,8 @@ asserts.checkerror('["z" p]', msg);
 msg = 'Unable to concatenate a string array and a categorical array. Multiple categorical values represented as a string array are not converted automatically. Convert using the categorical function.';
 asserts.checkerror('[a ["x" "y"]]', msg);
 asserts.checkerror('[strings(0) a]', msg);
-asserts.checkerror('[{1} a]', 'Unable to concatenate cell array and a categorical array unless the cell array contains only character vectors.');
+asserts.checkerror('[{1} a]', ...
+  'Unable to concatenate cell array and a categorical array unless the cell array contains only character vectors.');
 asserts.checkerror('[1 a]', 'Unable to concatenate a double array and a categorical array.');
 asserts.checkerror('[zeros(1, 0) a]', 'Unable to concatenate a double array and a categorical array.');
 asserts.checkerror('[true a]', 'Unable to concatenate a logical array and a categorical array.');

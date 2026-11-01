@@ -79,8 +79,10 @@ assert_isequal(C, ["a", missing; "b", "c"]);
 assert_isequal(ia, [1; 3]);
 assert_isequal(ic, [1; 1; 2]);
 %=============================================================================
-assert_checkerror('unique([1 NaN], ''legacy'', ''TreatMissingAsDistinct'', false)', 'The ''legacy'' flag cannot be combined with ''TreatMissingAsDistinct''.');
+assert_checkerror('unique([1 NaN], ''legacy'', ''TreatMissingAsDistinct'', false)', ...
+  'The ''legacy'' flag cannot be combined with ''TreatMissingAsDistinct''.');
 assert_checkerror('unique([1 NaN], ''legacy'', ''TreatMissingAsDistinct'', false)', 'The ''legacy'' flag cannot be combined with ''TreatMissingAsDistinct''.', 'Nelson:data_analysis:uniqueLegacyTreatMissing');
-assert_checkerror('unique([1 NaN], ''TreatMissingAsDistinct'')', '''TreatMissingAsDistinct'' must be followed by a logical scalar.');
+assert_checkerror('unique([1 NaN], ''TreatMissingAsDistinct'')', ...
+  '''TreatMissingAsDistinct'' must be followed by a logical scalar.');
 assert_checkerror('unique([1 NaN], ''TreatMissingAsDistinct'')', '''TreatMissingAsDistinct'' must be followed by a logical scalar.', 'Nelson:data_analysis:uniqueTreatMissingAsDistinctValue');
 %=============================================================================

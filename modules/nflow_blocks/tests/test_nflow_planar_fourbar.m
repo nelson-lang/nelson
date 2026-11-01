@@ -64,10 +64,10 @@ end
 allch = {};
 for k = 1:size(chans, 1)
   if strcmp(chans{k, 3}, 'na1'); continue; end
-  allch{end + 1} = {['sp', chans{k, 3}], chans{k, 3}}; %#ok<AGROW>
+  allch{end + 1} = {['sp', chans{k, 3}], chans{k, 3}}; %#ok<NLS0039>
 end
 for k = 1:size(vchans, 1)
-  allch{end + 1} = {['sv', vchans{k, 3}], vchans{k, 3}}; %#ok<AGROW>
+  allch{end + 1} = {['sv', vchans{k, 3}], vchans{k, 3}}; %#ok<NLS0039>
 end
 for k = 1:numel(allch)
   doc.blocks{end + 1} = struct('id', ['tw', allch{k}{2}], 'type', 'toWorkspace', ...
@@ -92,9 +92,9 @@ for b = 1:numel(bnames)
   ss = bodySens.(bnames{b});
   for j = 1:numel(ss)
     if any(strcmp(ss{j}, {'YCR', 'YCO', 'YRO', 'PCR'}))
-      pins{end + 1} = ['sp', ss{j}, '.a']; %#ok<AGROW>
+      pins{end + 1} = ['sp', ss{j}, '.a']; %#ok<NLS0039>
     else
-      pins{end + 1} = ['sv', ss{j}, '.a']; %#ok<AGROW>
+      pins{end + 1} = ['sv', ss{j}, '.a']; %#ok<NLS0039>
     end
   end
   doc.physicalWires{end + 1} = struct('pins', {pins});

@@ -39,6 +39,8 @@ asserts.isequal(hasFailed, true);
 mustBeGreaterThan('b', 'a');
 mustBeGreaterThan(["b", "c"], "a");
 mustBeGreaterThan(uint8([3 4]), uint8(2));
-asserts.checkerror('mustBeGreaterThan(int8(1), int8(4))', sprintf(_('Value must exceed %s.'), '4'), 'Nelson:validators:mustBeGreaterThan');
-asserts.checkerror('mustBeGreaterThan(1, NaN)', sprintf(_('Value must exceed %s.'), 'NaN'), 'Nelson:validators:mustBeGreaterThan');
+asserts.checkerror('mustBeGreaterThan(int8(1), int8(4))', sprintf(_('Value must exceed %s.'), '4'), ...
+  'Nelson:validators:mustBeGreaterThan');
+asserts.checkerror('mustBeGreaterThan(1, NaN)', sprintf(_('Value must exceed %s.'), 'NaN'), ...
+  'Nelson:validators:mustBeGreaterThan');
 %=============================================================================

@@ -44,7 +44,8 @@ function C = binomialCoefficient(v, k)
     mixedClasses = (isinteger(v) && isinteger(k) && ~strcmp(class(v), class(k))) ...
       || (isinteger(v) && (isa(k, 'single') || islogical(k))) || (isinteger(k) && isa(v, 'single'));
     if mixedClasses
-      error('Nelson:elementary_functions:integersSameClass', 'Integers can only be combined with integers of the same class, or scalar doubles.');
+      error('Nelson:elementary_functions:integersSameClass', ...
+        'Integers can only be combined with integers of the same class, or scalar doubles.');
     end
     if isinteger(v)
       outClass = class(v);
@@ -62,7 +63,8 @@ function C = binomialCoefficient(v, k)
     error('Nelson:elementary_functions:kIntegerBetween0N', 'K must be an integer between 0 and N.');
   end
   if isfloat(v) && n > flintmax
-    error('Nelson:elementary_functions:nMaximumFlintmax', 'When N is single or double, its maximum allowed value is FLINTMAX.');
+    error('Nelson:elementary_functions:nMaximumFlintmax', ...
+      'When N is single or double, its maximum allowed value is FLINTMAX.');
   end
   kk = min(k, n - k);
   if strcmp(outClass, 'int64') || strcmp(outClass, 'uint64')

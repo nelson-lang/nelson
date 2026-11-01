@@ -14,7 +14,8 @@ function doc(varargin)
   % restriction for engine-only/native basic terminals while letting the
   % WebAssembly frontend resolve local and remote documentation normally.
   if contains(getnelsonmode(), {'BASIC_ENGINE', 'BASIC_TERMINAL'}) && ~iswasm() && ~dryRun
-    warning('Nelson:doc:notAvailableInMode', 'Documentation is not available in this mode. See "help" command for more information.');
+    warning('Nelson:doc:notAvailableInMode', ...
+      'Documentation is not available in this mode. See "help" command for more information.');
     return
   end
   mainUrl = docroot();
@@ -29,7 +30,8 @@ function doc(varargin)
       mainUrl = mainUrl(1:end - 1);
     end
     if ~isdir(mainUrl)
-      warning('Nelson:doc:localHelpNotInstalled:localHelpNotInstalledOpenWeb', 'Local help not installed. Open web help instead.');
+      warning('Nelson:doc:localHelpNotInstalled:localHelpNotInstalledOpenWeb', ...
+        'Local help not installed. Open web help instead.');
       islocalhelp = false;
       mainUrl = getDefaultUrl();
     end

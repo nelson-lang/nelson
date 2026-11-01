@@ -40,6 +40,8 @@ asserts.checkerror('randsample([], 1)', _('Population must not be empty.'));
 asserts.checkerror('randsample(3, 4)', _('K must not exceed the population size without replacement.'));
 asserts.checkerror('randsample(3, 2, 2)', sprintf(_('%s must be a scalar logical value.'), 'Replacement'));
 asserts.checkerror('randsample(3, 2, false, ones(3, 1))', _('Weighted sampling requires replacement.'));
-asserts.checkerror('randsample(3, 2, true, ones(2, 1))', _('Weights must be a nonnegative vector with one value per population element.'));
-asserts.checkerror('randsample(3, 2, true, [1 -1 1])', _('Weights must be a nonnegative vector with one value per population element.'));
+asserts.checkerror('randsample(3, 2, true, ones(2, 1))', ...
+  _('Weights must be a nonnegative vector with one value per population element.'));
+asserts.checkerror('randsample(3, 2, true, [1 -1 1])', ...
+  _('Weights must be a nonnegative vector with one value per population element.'));
 %=============================================================================

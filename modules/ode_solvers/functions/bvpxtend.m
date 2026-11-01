@@ -19,7 +19,8 @@ function solinit = bvpxtend(sol, xnew, ynew, parameters)
     return
   end
   if x(1) < data.x(1) || x(length(x)) > data.x(length(data.x))
-    error('Nelson:ode_solvers:extendedMeshOutsideSolutionIntervalRequires', 'Extended mesh outside the solution interval requires an initial guess.');
+    error('Nelson:ode_solvers:extendedMeshOutsideSolutionIntervalRequires', ...
+      'Extended mesh outside the solution interval requires an initial guess.');
   end
   y = deval(data, x);
   solinit = struct('x', x, 'y', y, 'parameters', parameters(:).');

@@ -9,13 +9,15 @@
 %=============================================================================
 function transformType = ip_registration_transform_type(value)
   if ~(ischar(value) || isStringScalar(value))
-    error('Nelson:image_processing:registrationTransformationTypeString', '%s must be a string.', 'Registration transformation type');
+    error('Nelson:image_processing:registrationTransformationTypeString', '%s must be a string.', ...
+      'Registration transformation type');
   end
   transformType = lower(convertStringsToChars(value));
   switch transformType
     case {'translation', 'rigid', 'similarity', 'affine'}
     otherwise
-      error('Nelson:image_processing:unsupportedRegistrationTransformationType', 'Unsupported "%s" option.', 'registration transformation type');
+      error('Nelson:image_processing:unsupportedRegistrationTransformationType', 'Unsupported "%s" option.', ...
+        'registration transformation type');
   end
 end
 %=============================================================================

@@ -24,7 +24,8 @@ classdef ClassificationNaiveBayes
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationNaiveBayesObjectsCreatedFitcnb', '%s objects are created by %s.', 'ClassificationNaiveBayes', 'fitcnb');
+      error('Nelson:statistics:classificationNaiveBayesObjectsCreatedFitcnb', '%s objects are created by %s.', ...
+        'ClassificationNaiveBayes', 'fitcnb');
     end
   end
 end

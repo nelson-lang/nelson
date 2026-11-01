@@ -50,7 +50,8 @@ asserts.isfalse(contains(script, 'RUNTIME_RECOVERY_CODE'));
 for kind = {'files', 'directories'}
   for reserved = {'.nelson-runtime-update/journal.ini', '.NELSON-RUNTIME-prepare-0', '.nelson-runtime-recovered-0'}
     candidate = plan;
-    candidate.runtime = struct('files', struct('relative', 'data/value.txt', 'sha256', repmat('a', 1, 64)), 'directories', {{}});
+    candidate.runtime = struct('files', struct('relative', 'data/value.txt', 'sha256', repmat('a', 1, 64)), ...
+      'directories', {{}});
     if strcmp(kind{1}, 'files')
       candidate.runtime.files.relative = reserved{1};
     else
@@ -61,7 +62,8 @@ for kind = {'files', 'directories'}
     try
       __nelsonc_runtime_inventory__(candidate, filename);
     catch ex
-      rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:runtimeCollision') || startsWith(ex.identifier, 'Nelson:nelsonc:runtimeCollision:'));
+      rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:runtimeCollision') || startsWith(ex.identifier, ...
+        'Nelson:nelsonc:runtimeCollision:'));
     end
     asserts.istrue(rejected);
     asserts.isfalse(isfile(filename));

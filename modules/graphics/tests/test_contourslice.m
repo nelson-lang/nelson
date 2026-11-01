@@ -62,8 +62,10 @@ asserts.isequal(size(h(1).CData), [6 1]);
 close(f);
 %=============================================================================
 asserts.checkerror('contourslice(ones(2), 1, 1, 1);', getString(message('Nelson:graphics:invalidVolumeData')));
-asserts.checkerror('contourslice(ones(2,2,2), {1}, [], []);', getString(message('Nelson:validators:mustBeNumeric', 'Slice locations')));
-asserts.checkerror('contourslice(ones(2,2,2), 1, 1, 1, ''bad'');', getString(message('Nelson:contourslice:invalidInterpolationMethod')));
+asserts.checkerror('contourslice(ones(2,2,2), {1}, [], []);', getString(message('Nelson:validators:mustBeNumeric', ...
+  'Slice locations')));
+asserts.checkerror('contourslice(ones(2,2,2), 1, 1, 1, ''bad'');', ...
+  getString(message('Nelson:contourslice:invalidInterpolationMethod')));
 %=============================================================================
 f = figure('Visible', 'off', 'Position', [100, 100, 560, 420]);
 [X, Y, Z] = meshgrid(-2:.2:2);

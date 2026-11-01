@@ -9,7 +9,8 @@
 %=============================================================================
 function B = flipdim(A, dim)
   if (~isscalar(dim) || dim <= 0)
-    error('Nelson:elementary_functions:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Dimension argument');
+    error('Nelson:elementary_functions:dimensionArgumentPositiveIntegerScalar', ...
+      '%s must be a positive integer scalar.', 'Dimension argument');
   end
   dimsize = size(A, floor(dim));
   if (dimsize > 1)

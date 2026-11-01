@@ -10,7 +10,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, ...
+  'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 figure();
 [X, Y, Z] = sphere(40);
 contour3(X, Y, Z, 12);

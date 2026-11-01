@@ -35,7 +35,8 @@ function txt = nmm_gui_rpc(method, paramsJson)
       case 'registry'
         out = registryStatus();
       case 'tree'
-        out = withRegistryReuse(@() packageTree(textParam(params, 'name'), textParam(params, 'version'), logicalParam(params, 'installed')));
+        out = withRegistryReuse(@() packageTree(textParam(params, 'name'), textParam(params, 'version'), ...
+          logicalParam(params, 'installed')));
       case 'cache'
         out = cacheState();
       case 'cacheClear'

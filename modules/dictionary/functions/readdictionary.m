@@ -100,7 +100,8 @@ function options = parseOptions(args)
     end
   end
   if ~isempty(options.DictionaryNodeName) || ~isempty(options.DictionarySelector)
-    error('Nelson:readdictionary:optionNotSupportedForJson', 'DictionaryNodeName and DictionarySelector are not supported for JSON dictionary files.');
+    error('Nelson:readdictionary:optionNotSupportedForJson', ...
+      'DictionaryNodeName and DictionarySelector are not supported for JSON dictionary files.');
   end
 end
 %=============================================================================

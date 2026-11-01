@@ -26,7 +26,7 @@ function fmuPath = exportFmuContent(nflowContent, fmuFile)
   end
   fwrite(fid, nflowContent);
   fclose(fid);
-  cleanup = onCleanup(@() export_fmu_delete(tmp)); %#ok<NASGU>
+  cleanup = onCleanup(@() export_fmu_delete(tmp)); %#ok<NLS0004>
   destDir = fileparts(fmuFile);
   if isempty(destDir)
     destDir = pwd();

@@ -44,17 +44,20 @@ function model = series(varargin)
   elseif isa(sys1, 'tf')
     sys2 = tf(sys2);
   end
-  [p1, m1] = size(sys1);
-  [p2, m2] = size(sys2);
+  [p1, ~] = size(sys1);
+  [~, m2] = size(sys2);
   lenOut1 = length(outputs1);
   lenIn2 = length(inputs2);
 
   if lenIn2 ~= lenOut1
-    error('Nelson:control_system:dimagree:oUTPUTS1INPUTS2VectorsLength', 'OUTPUTS1 and INPUTS2 must be vectors of the same length.');
+    error('Nelson:control_system:dimagree:oUTPUTS1INPUTS2VectorsLength', ...
+      'OUTPUTS1 and INPUTS2 must be vectors of the same length.');
   elseif lenIn2 > m2
-    error('Nelson:control_system:invalidValue:lengthINPUTS2CannotExceedNumberInputs', 'length of INPUTS2 cannot exceed the number of inputs in SYS2.');
+    error('Nelson:control_system:invalidValue:lengthINPUTS2CannotExceedNumberInputs', ...
+      'length of INPUTS2 cannot exceed the number of inputs in SYS2.');
   elseif lenOut1 > p1
-    error('Nelson:control_system:invalidValue:lengthOUTPUTS1CannotExceedNumberOutputs', 'length of OUTPUTS1 cannot exceed the number of outputs in SYS1.');
+    error('Nelson:control_system:invalidValue:lengthOUTPUTS1CannotExceedNumberOutputs', ...
+      'length of OUTPUTS1 cannot exceed the number of outputs in SYS1.');
   elseif any(inputs2 <= 0) || any(inputs2 > m2)
     error('Nelson:control_system:indexOutOfRange', 'some index in %s is out of range.', 'INPUTS2');
   elseif any(outputs1 <= 0) || any(outputs1 > p1)

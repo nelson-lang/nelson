@@ -15,7 +15,8 @@ function res = exist(varargin)
     category = varargin{2};
     supported = {'var', 'file', 'dir', 'builtin', 'class'};
     if ~any(strcmp(category, supported))
-      error('Nelson:core:invalidOption', '%s expected.', 'Argument #2 must contain a valid string ''var'', ''builtin'', ''dir'', ''file'' or ''class''');
+      error('Nelson:core:invalidOption', '%s expected.', ...
+        'Argument #2 must contain a valid string ''var'', ''builtin'', ''dir'', ''file'' or ''class''');
     end
     switch category
       case 'var'

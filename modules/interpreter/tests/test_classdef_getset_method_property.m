@@ -33,7 +33,7 @@ assert_isequal(o.get('anything'), 999);
 % private property remains inaccessible from outside the class
 failed = false;
 try
-  value = o.secret; %#ok<NASGU>
+  value = o.secret; %#ok<NLS0004>
 catch
   failed = true;
 end

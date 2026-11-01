@@ -105,7 +105,8 @@ msgBoth = 'Specify either ''Before'' or ''After'', but not both.';
 msgSubscript = 'A table variable subscript must be a numeric array containing real positive integers, a logical array, a character vector, a string array, or a cell array of character vectors.';
 msgName = 'A table variable name subscript must be a character vector, string array, or cell array of character vectors, with each name in the subscript containing one or more characters.';
 assert_checkerror('movevars(T, 5, ''After'', 1)', msgRange, 'Nelson:table:varIndexOutOfRange');
-assert_checkerror('movevars(T, 0, ''After'', 1)', msgIndex, 'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
+assert_checkerror('movevars(T, 0, ''After'', 1)', msgIndex, ...
+  'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
 assert_checkerror('movevars(T, 1.5, ''After'', 1)', msgIndex);
 assert_checkerror('movevars(T, logical([0 0 0 0 1]), ''After'', 2)', msgRange);
 assert_checkerror('movevars(T, 1, ''After'', 5)', msgRange);
@@ -122,7 +123,8 @@ assert_checkerror('movevars(T, ''A'', ''After'', {''B'', ''C''})', msgLocation);
 assert_checkerror('movevars(T, ''A'', ''After'', ["B", "C"])', msgLocation);
 assert_checkerror('movevars(T, ''A'', ''After'', [])', msgLocation);
 assert_checkerror('movevars(T, ''A'', ''After'', {})', msgLocation);
-assert_checkerror('movevars(T, ''Z'', ''After'', 3)', 'Unrecognized table variable name ''Z''.', 'Nelson:table:unrecognizedVariable');
+assert_checkerror('movevars(T, ''Z'', ''After'', 3)', 'Unrecognized table variable name ''Z''.', ...
+  'Nelson:table:unrecognizedVariable');
 assert_checkerror('movevars(T, ''A'', ''After'', ''Z'')', 'Unrecognized table variable name ''Z''.');
 assert_checkerror('movevars(T, 1, ''After'', 3, ''After'', ''Z'')', 'Unrecognized table variable name ''Z''.');
 assert_checkerror('movevars(T, {''A'', ''''}, ''After'', 2)', 'Unrecognized table variable name ''''.');
@@ -143,7 +145,8 @@ assert_checkerror('movevars(T, 1, ''After'', 3, ''Before'', [])', msgBoth);
 assert_checkerror('movevars(T, 1, ''before'', ''B'', ''after'', ''D'')', msgBoth);
 assert_checkerror('movevars(T, ''A'', ''Foo'', ''C'')', 'Invalid parameter name: Foo.', 'Nelson:table:badParamName');
 assert_checkerror('movevars(T, 1, 3, ''C'')', 'Invalid parameter name. Parameter name must be a nonempty string or character vector.', 'Nelson:table:illegalParamName');
-assert_checkerror('movevars(T, 1, '''', 3)', 'Invalid parameter name. Parameter name must be a nonempty string or character vector.');
+assert_checkerror('movevars(T, 1, '''', 3)', ...
+  'Invalid parameter name. Parameter name must be a nonempty string or character vector.');
 %=============================================================================
 % timetable and eventtable keep their row times.
 TT = timetable(seconds([1; 2]), [1; 2], [3; 4], [5; 6], 'VariableNames', {'A', 'B', 'C'});

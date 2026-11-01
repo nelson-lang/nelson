@@ -10,7 +10,8 @@
 function metricType = ip_registration_metric_type(metric)
   if isstruct(metric)
     if ~isfield(metric, 'Type')
-      error('Nelson:image_processing:registrationMetricContainTypeField', 'Registration metric must contain a Type field.');
+      error('Nelson:image_processing:registrationMetricContainTypeField', ...
+        'Registration metric must contain a Type field.');
     end
     metric = metric.Type;
   end

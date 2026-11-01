@@ -90,7 +90,8 @@ end
 %=============================================================================
 function criterion = criterionName(value)
   if ~(ischar(value) || isStringScalar(value))
-    error('Nelson:statistics:criterionSilhouetteCalinskiHarabaszDaviesBouldin', 'Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.');
+    error('Nelson:statistics:criterionSilhouetteCalinskiHarabaszDaviesBouldin', ...
+      'Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.');
   end
   text = lower(char(value));
   names = {'silhouette', 'calinskiharabasz', 'daviesbouldin'};
@@ -102,7 +103,8 @@ function criterion = criterionName(value)
     end
   end
   if isempty(matches)
-    error('Nelson:statistics:criterionSilhouetteCalinskiHarabaszDaviesBouldin', 'Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.');
+    error('Nelson:statistics:criterionSilhouetteCalinskiHarabaszDaviesBouldin', ...
+      'Criterion must be silhouette, CalinskiHarabasz, or DaviesBouldin.');
   end
   if length(matches) > 1
     error('Nelson:statistics:ambiguousValue', 'Ambiguous %s value.', 'criterion');
@@ -168,7 +170,8 @@ function labels = runClustering(X, clust, k, opts)
     if strncmp('kmeans', name, length(name))
       labels = kmeans(X, k, 'EmptyAction', 'singleton', 'Replicates', 5, 'Distance', opts.Distance);
     elseif strncmp('linkage', name, length(name))
-      labels = clusterdata(X, 'MaxClust', k, 'Linkage', linkageMethod(opts.Distance), 'Distance', linkageDistance(opts.Distance));
+      labels = clusterdata(X, 'MaxClust', k, 'Linkage', linkageMethod(opts.Distance), 'Distance', ...
+        linkageDistance(opts.Distance));
     elseif strncmp('spectralcluster', name, length(name))
       labels = spectralcluster(X, k, 'Distance', spectralDistance(opts.Distance));
     else
@@ -215,7 +218,8 @@ end
 %=============================================================================
 function labels = labelsFromScores(labels, k, n)
   if ~isnumeric(labels) || ndims(labels) ~= 2 || size(labels, 1) ~= n
-    error('Nelson:statistics:clusteringOutputOneRowObservation', '%s must have one row per observation.', 'Clustering output');
+    error('Nelson:statistics:clusteringOutputOneRowObservation', '%s must have one row per observation.', ...
+      'Clustering output');
   end
   if size(labels, 2) > 1
     [~, labels] = max(labels, [], 2);

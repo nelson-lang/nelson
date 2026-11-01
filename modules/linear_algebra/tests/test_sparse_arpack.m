@@ -224,7 +224,8 @@ try
 catch M
   asserts.isequal(M.message, sprintf(_('%s failed.'), 'Sparse linear equation solver'));
 end
-asserts.checkerror('eigs(sparse(diag([1 + NaN * 1i, 2])), 1)', sprintf(_('%s must not contain NaN or Inf.'), 'Input argument'));
+asserts.checkerror('eigs(sparse(diag([1 + NaN * 1i, 2])), 1)', sprintf(_('%s must not contain NaN or Inf.'), ...
+  'Input argument'));
 try
   x = eigs(sparse(diag([1 + 1i, 2])), 1, 1 + 1i);
   asserts.isapprox(x, 1 + 1i, 1e-12);

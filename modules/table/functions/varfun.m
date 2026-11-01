@@ -11,7 +11,8 @@ function R = varfun(fun, T, varargin)
   narginchk(2, Inf);
   isTimetable = isa(T, 'timetable');
   if ~(isa(T, 'table') || isTimetable)
-    error('Nelson:table:invalidType:valueOneTheseTypesTableTimetable', 'Value must have one of these types: ''table'', ''timetable''.');
+    error('Nelson:table:invalidType:valueOneTheseTypesTableTimetable', ...
+      'Value must have one of these types: ''table'', ''timetable''.');
   end
   vars = 1:width(T);
   outputFormat = 'table';
@@ -87,15 +88,15 @@ function R = varfunGroupedLocal(fun, T, names, st, vars, groupVars)
   outNames = {};
   for j = 1:numel(gIdx)
     col = T.(names{gIdx(j)});
-    outCols{end + 1} = col(firstRows, :); %#ok<AGROW>
-    outNames{end + 1} = names{gIdx(j)}; %#ok<AGROW>
+    outCols{end + 1} = col(firstRows, :); %#ok<NLS0039>
+    outNames{end + 1} = names{gIdx(j)}; %#ok<NLS0039>
   end
   outCols{end + 1} = groupCount;
   outNames{end + 1} = 'GroupCount';
   for j = 1:numel(dataIdx)
     name = names{dataIdx(j)};
-    outCols{end + 1} = splitapply(fun, T.(name), G); %#ok<AGROW>
-    outNames{end + 1} = [func2str(fun), '_', name]; %#ok<AGROW>
+    outCols{end + 1} = splitapply(fun, T.(name), G); %#ok<NLS0039>
+    outNames{end + 1} = [func2str(fun), '_', name]; %#ok<NLS0039>
   end
   R = table(outCols{:}, 'VariableNames', tableMakeUniqueNames(outNames));
 end

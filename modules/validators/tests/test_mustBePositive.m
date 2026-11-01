@@ -11,7 +11,8 @@ asserts.isequal(nargin('mustBePositive'), -1);
 asserts.isequal(nargout('mustBePositive'), 0);
 %=============================================================================
 mustBePositive([1, 2]);
-asserts.checkerror('mustBePositive(-Inf)', sprintf(_('%s must be positive.'), 'Value'), 'Nelson:validators:mustBePositive');
+asserts.checkerror('mustBePositive(-Inf)', sprintf(_('%s must be positive.'), 'Value'), ...
+  'Nelson:validators:mustBePositive');
 %=============================================================================
 msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be positive.'), 'Value')];
 asserts.checkerror('mustBePositive(-Inf, 3)', msg, 'Nelson:validators:mustBePositive');

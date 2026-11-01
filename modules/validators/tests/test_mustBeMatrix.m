@@ -15,7 +15,8 @@ mustBeMatrix(single(3));
 %=============================================================================
 asserts.checkerror('mustBeMatrix(ones(2, 3, 2))', sprintf(_('%s must be a 2-D matrix.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a 2-D matrix.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a 2-D matrix.'), ...
+  'Value')];
 asserts.checkerror('mustBeMatrix(ones(2, 3, 2), 3)', msg);
 %=============================================================================
 

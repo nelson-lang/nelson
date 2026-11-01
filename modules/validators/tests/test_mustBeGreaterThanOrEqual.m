@@ -22,9 +22,11 @@ mustBeGreaterThanOrEqual([], 5);
 mustBeGreaterThanOrEqual([1 2 3], [1 2 3]);
 mustBeGreaterThanOrEqual([1 2 3; 2 3 4], [1; 2]);
 msg = _('Value must be equal to or greater than the compared value.');
-asserts.checkerror('mustBeGreaterThanOrEqual([1 2 3; 1 3 4], [1; 2])', msg, 'Nelson:validators:mustBeGreaterThanOrEqual');
+asserts.checkerror('mustBeGreaterThanOrEqual([1 2 3; 1 3 4], [1; 2])', msg, ...
+  'Nelson:validators:mustBeGreaterThanOrEqual');
 asserts.checkerror('mustBeGreaterThanOrEqual([1 2 3], [1 2 4])', msg, 'Nelson:validators:mustBeGreaterThanOrEqual');
 %=============================================================================
 mustBeGreaterThanOrEqual('b', 'b');
-asserts.checkerror('mustBeGreaterThanOrEqual(false, true)', sprintf(_('Value must be %s or greater.'), 'true'), 'Nelson:validators:mustBeGreaterThanOrEqual');
+asserts.checkerror('mustBeGreaterThanOrEqual(false, true)', sprintf(_('Value must be %s or greater.'), 'true'), ...
+  'Nelson:validators:mustBeGreaterThanOrEqual');
 %=============================================================================

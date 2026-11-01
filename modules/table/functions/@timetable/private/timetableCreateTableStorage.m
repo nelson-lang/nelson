@@ -19,7 +19,8 @@ function st = timetableCreateTableStorage(varargin)
 
   if ischar(varargin{1}) && strcmpi(varargin{1}, 'Size')
     if nargin < 4 || ~ischar(varargin{3}) || ~strcmpi(varargin{3}, 'VariableTypes')
-      error('Nelson:timetable:invalidSyntax:sizeVariableTypesSpecifiedTogether', 'Size and VariableTypes must be specified together.');
+      error('Nelson:timetable:invalidSyntax:sizeVariableTypesSpecifiedTogether', ...
+        'Size and VariableTypes must be specified together.');
     end
     sz = varargin{2};
     variableTypes = toCellstrRow(varargin{4});

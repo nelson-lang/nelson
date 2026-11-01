@@ -27,7 +27,7 @@ classdef StandaloneApplicationOptions
     function obj = StandaloneApplicationOptions(entry, varargin)
       narginchk(1, Inf);
       obj.AppFile = entry;
-      [parent, name] = fileparts(obj.AppFile);
+      [~, name] = fileparts(obj.AppFile);
       obj.ExecutableName = name;
       pairs = __nelsonc_option_pairs__(properties(obj), varargin, false);
       for k = 1:2:numel(pairs)

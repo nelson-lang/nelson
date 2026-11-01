@@ -79,7 +79,8 @@ function [chunkSol, chunkEnd] = odeDelaySolveChunkWithRetry(solver, odefun, tspa
       chunkEnd = chunkStart + 0.5 * (chunkEnd - chunkStart);
     end
   end
-  error('Nelson:ode_solvers:stateDependentDelayRequiresKnownPast', 'State-dependent delay requires a known past state.');
+  error('Nelson:ode_solvers:stateDependentDelayRequiresKnownPast', ...
+    'State-dependent delay requires a known past state.');
 end
 %=============================================================================
 function tf = odeDelayCanRetryChunk(ex, chunkStart, chunkEnd)
@@ -111,7 +112,8 @@ end
 %=============================================================================
 function sol = odeDelayRunChunkSolver(solver, odefun, tspan, y0, yp0, options)
   if strcmp(solver, 'autoswitch')
-    error('Nelson:ode_solvers:delayEquationsNotSupportAutoswitchChunks', 'Delay equations do not support autoswitch chunks.');
+    error('Nelson:ode_solvers:delayEquationsNotSupportAutoswitchChunks', ...
+      'Delay equations do not support autoswitch chunks.');
   end
   problem = odePrepareProblem(solver, odefun, tspan, y0, yp0, options);
   if odeIsSundialsSolver(problem.solver)
@@ -228,18 +230,22 @@ end
 %=============================================================================
 function odeValidateDelayProblem(solver, options, delay)
   if strcmp(solver, 'cvodesnonstiff') || strcmp(solver, 'cvodesstiff')
-    error('Nelson:ode_solvers:delayEquationsRequireOdeLinearlyImplicit', 'Delay equations require an ODE, linearly implicit, or fully implicit residual solver.');
+    error('Nelson:ode_solvers:delayEquationsRequireOdeLinearlyImplicit', ...
+      'Delay equations require an ODE, linearly implicit, or fully implicit residual solver.');
   end
   if isempty(delay.ValueDelay) && isempty(delay.SlopeDelay)
-    error('Nelson:ode_solvers:valuedelaySlopedelaySpecifiedDelayEquations', 'ValueDelay or SlopeDelay must be specified for delay equations.');
+    error('Nelson:ode_solvers:valuedelaySlopedelaySpecifiedDelayEquations', ...
+      'ValueDelay or SlopeDelay must be specified for delay equations.');
   end
   if ~isempty(delay.ValueDelay) && ~isa(delay.ValueDelay, 'function_handle') ...
       && (~isnumeric(delay.ValueDelay) || any(delay.ValueDelay(:) <= 0))
-    error('Nelson:ode_solvers:valuedelayEntriesPositiveConstants', '%s entries must be positive constants.', 'ValueDelay');
+    error('Nelson:ode_solvers:valuedelayEntriesPositiveConstants', '%s entries must be positive constants.', ...
+      'ValueDelay');
   end
   if ~isempty(delay.SlopeDelay) && ~isa(delay.SlopeDelay, 'function_handle') ...
       && (~isnumeric(delay.SlopeDelay) || any(delay.SlopeDelay(:) <= 0))
-    error('Nelson:ode_solvers:slopedelayEntriesPositiveConstants', '%s entries must be positive constants.', 'SlopeDelay');
+    error('Nelson:ode_solvers:slopedelayEntriesPositiveConstants', '%s entries must be positive constants.', ...
+      'SlopeDelay');
   end
 end
 %=============================================================================
@@ -314,7 +320,8 @@ function values = odeDelayEvaluateDelayFunction(fcn, t, y, options)
   end
   values = feval(fcn, args{:});
   if ~isnumeric(values) || any(~isfinite(values(:)))
-    error('Nelson:ode_solvers:delayFunctionReturnFiniteNumericValues', 'Delay function must return finite numeric values.');
+    error('Nelson:ode_solvers:delayFunctionReturnFiniteNumericValues', ...
+      'Delay function must return finite numeric values.');
   end
   values = values(:);
 end
@@ -354,7 +361,8 @@ function delayedT = odeDelayKnownTime(t, delayValue, times)
   delayedT = t - delayValue;
   tolerance = max(1e-8, sqrt(eps) * (1 + abs(t)));
   if delayedT > times(length(times)) + tolerance
-    error('Nelson:ode_solvers:stateDependentDelayRequiresKnownPast', 'State-dependent delay requires a known past state.');
+    error('Nelson:ode_solvers:stateDependentDelayRequiresKnownPast', ...
+      'State-dependent delay requires a known past state.');
   end
   delayedT = min(delayedT, times(length(times)));
 end

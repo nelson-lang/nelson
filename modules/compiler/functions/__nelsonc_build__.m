@@ -46,15 +46,18 @@ function report = __nelsonc_build__(entry, output, included, gui, runtimeMode, o
   end
   [outputParent, outputStem, outputExtension] = fileparts(output);
   if ispc() && ~strcmpi(outputExtension, '.exe')
-    error('Nelson:nelsonc:output:windowsExecutableHaveExeExtension', 'A Windows executable must have the .exe extension.');
+    error('Nelson:nelsonc:output:windowsExecutableHaveExeExtension', ...
+      'A Windows executable must have the .exe extension.');
   end
   runtime = fullfile(outputParent, [outputStem, '.runtime']);
   externalArchive = fullfile(outputParent, [outputStem, '.nca']);
   if ~options.embedArchive && (isfile(externalArchive) || isfolder(externalArchive) || strcmp(output, externalArchive))
-    error('Nelson:nelsonc:output:externalArchiveDestinationDistinctNot', 'External archive destination must be distinct and must not already exist.');
+    error('Nelson:nelsonc:output:externalArchiveDestinationDistinctNot', ...
+      'External archive destination must be distinct and must not already exist.');
   end
   if isfile(output) || isfolder(output) || (bundled && (isfile(runtime) || isfolder(runtime)))
-    error('Nelson:nelsonc:output:outputExecutableRuntimeNotAlready', 'Output executable and runtime must not already exist.');
+    error('Nelson:nelsonc:output:outputExecutableRuntimeNotAlready', ...
+      'Output executable and runtime must not already exist.');
   end
   if ~isfolder(outputParent)
     mkdir(outputParent);
@@ -68,19 +71,21 @@ function report = __nelsonc_build__(entry, output, included, gui, runtimeMode, o
     error('Nelson:nelsonc:copy', '%s: %s -> %s', message, stub, stubSnapshot);
   end
   if ~strcmpi(sha256(stubSnapshot, '-file'), stubDigest)
-    error('Nelson:nelsonc:runtimeChanged:applicationLauncherChangedDuringPackaging', 'Application launcher changed during packaging.');
+    error('Nelson:nelsonc:runtimeChanged:applicationLauncherChangedDuringPackaging', ...
+      'Application launcher changed during packaging.');
   end
   if ispc()
     __nelsonc_executable__('set-version', stubSnapshot, options.executableVersion);
   end
   plan.executableIconSHA256 = '';
   if ~isempty(options.executableIcon)
-    [images, sides, plan.executableIconSHA256] = __nelsonc_icon_files__(options.executableIcon, stage);
+    [images, ~, plan.executableIconSHA256] = __nelsonc_icon_files__(options.executableIcon, stage);
     __nelsonc_executable__('set-icon', stubSnapshot, images);
   end
   launcherContract = jsondecode(__nelsonc_executable__('launcher-contract', stubSnapshot));
   if ~options.embedArchive && launcherContract.archiveMaxVersion < 3
-    error('Nelson:nelsonc:stub:externalArchivesRequireRebuiltNative', 'External archives require rebuilt native application launchers.');
+    error('Nelson:nelsonc:stub:externalArchivesRequireRebuiltNative', ...
+      'External archives require rebuilt native application launchers.');
   end
   if ~isempty(options.runtimeLogFile)
     __nelsonc_executable__('set-log-file', stubSnapshot, options.runtimeLogFile);
@@ -90,7 +95,8 @@ function report = __nelsonc_build__(entry, output, included, gui, runtimeMode, o
     expectedKind = 'windowed';
   end
   if ~strcmp(launcherContract.kind, expectedKind)
-    error('Nelson:nelsonc:stub:precompiledLauncherKindMismatch', 'The precompiled launcher does not match the requested application kind.');
+    error('Nelson:nelsonc:stub:precompiledLauncherKindMismatch', ...
+      'The precompiled launcher does not match the requested application kind.');
   end
   payload = fullfile(stage, 'payload');
   mkdir(payload);
@@ -145,7 +151,8 @@ function options = build_options(options)
     options = struct('helpText', options);
   end
   if ~isstruct(options) || ~isscalar(options) ...
-    || ~all(ismember(fieldnames(options), {'helpText', 'autoDetectDataFiles', 'noConsole', 'executableVersion', 'runtimeLogFile', 'executableIcon', 'embedArchive', 'treatInputsAsNumeric', 'supportPackages'}))
+    || ~all(ismember(fieldnames(options), {'helpText', 'autoDetectDataFiles', 'noConsole', 'executableVersion', ...
+      'runtimeLogFile', 'executableIcon', 'embedArchive', 'treatInputsAsNumeric', 'supportPackages'}))
     error('Nelson:nelsonc:arguments:invalidApplicationBuildOptions', 'Invalid application build options.');
   end
   if ~isfield(options, 'autoDetectDataFiles')
@@ -168,7 +175,8 @@ function options = build_options(options)
   end
   options.runtimeLogFile = __nelsonc_option_value__('RuntimeLogFile', options.runtimeLogFile);
   if ~islogical(options.autoDetectDataFiles) || ~isscalar(options.autoDetectDataFiles)
-    error('Nelson:nelsonc:arguments:automaticDataDetectionLogicalScalar', 'Automatic data detection must be a logical scalar.');
+    error('Nelson:nelsonc:arguments:automaticDataDetectionLogicalScalar', ...
+      'Automatic data detection must be a logical scalar.');
   end
   if ~isfield(options, 'noConsole')
     options.noConsole = false;

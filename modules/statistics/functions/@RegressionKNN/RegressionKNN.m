@@ -30,7 +30,8 @@ classdef RegressionKNN
       if nargin == 0
         return
       end
-      error('Nelson:statistics:regressionKNNObjectsCreatedFitrknn', '%s objects are created by %s.', 'RegressionKNN', 'fitrknn');
+      error('Nelson:statistics:regressionKNNObjectsCreatedFitrknn', '%s objects are created by %s.', ...
+        'RegressionKNN', 'fitrknn');
     end
   end
 end

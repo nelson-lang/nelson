@@ -56,7 +56,8 @@ R = syncevents(TT, "q", 'EventDataVariables', "x");
 assert_isequal(R.Properties.VariableNames, {'A', 'x'});
 R = syncevents(TT, 'EventDataVariables', []);
 assert_isequal(R.Properties.VariableNames, {'A'});
-assert_checkerror('syncevents(TT, ''EventDataVariables'', "w");', sprintf(_('Unrecognized table variable name ''%s''.'), 'w'));
+assert_checkerror('syncevents(TT, ''EventDataVariables'', "w");', ...
+  sprintf(_('Unrecognized table variable name ''%s''.'), 'w'));
 %=============================================================================
 % a variable name already in the timetable: _tt and _et suffixes
 R = syncevents(syncevents(TT, 'EventDataVariables', "x"), 'EventDataVariables', "x");

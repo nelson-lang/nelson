@@ -13,7 +13,7 @@
 % remaining files instead of stopping the traversal at the first failure.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 formatCommand = nelson_tool_command_for_test('nelson-format');
 %=============================================================================
 % Upper-case 'A' sorts before the lower-case valid file name.

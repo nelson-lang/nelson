@@ -47,7 +47,8 @@ function [opts, preserve] = parseOptions(args)
       idx = find(strcmpi(char(name), optionNames), 1);
     end
     if isempty(idx)
-      error('Nelson:eventtable:invalidArgumentName', _('Invalid argument at position %d. Name must be one of these: %s.'), k + 2, strjoin(optionNames, ', '));
+      error('Nelson:eventtable:invalidArgumentName', ...
+        _('Invalid argument at position %d. Name must be one of these: %s.'), k + 2, strjoin(optionNames, ', '));
     end
     if k == length(args)
       error('Nelson:eventtable:nameValuePair', _('Invalid argument at position %d. Make sure name-value arguments include both the name and the value.'), k + 2);
@@ -69,7 +70,8 @@ end
 function rows = categoricalRows(TT, labels, opts)
   % The rows labelled by a categorical vector: its defined elements.
   if isfield(opts.values, 'EventLabels') || isfield(opts.names, 'EventLabelsVariable')
-    error('Nelson:eventtable:CategoricalAndLabels', _('Event labels or an event labels variable are not supported when the second input is a categorical.'));
+    error('Nelson:eventtable:CategoricalAndLabels', ...
+      _('Event labels or an event labels variable are not supported when the second input is a categorical.'));
   end
   if ~isvector(labels) || numel(labels) ~= height(TT)
     error('Nelson:eventtable:InvalidLabelsCategorical', _('The number of elements in the labels categorical vector must be the same as the number of rows of the input timetable.'));
@@ -94,7 +96,8 @@ function [names, options] = eventVariables(TT, opts)
     dataNames = timetableVariableNames(TT, opts.names.EventDataVariables);
     for k = 2:2:length(options)
       if any(strcmp(options{k}, dataNames))
-        error('Nelson:eventtable:ConflictingEventAndDataVars', _('%s must not be in the list of EventDataVariables.'), options{k - 1});
+        error('Nelson:eventtable:ConflictingEventAndDataVars', ...
+          _('%s must not be in the list of EventDataVariables.'), options{k - 1});
       end
     end
     names = [names, dataNames];
@@ -118,6 +121,7 @@ function sub = selectRows(TT, rows, names)
 end
 %=============================================================================
 function invalidRows()
-  error('Nelson:eventtable:MustBeCategoricalOrTime', _('The second input must be a valid timetable row subscript or a categorical vector.'));
+  error('Nelson:eventtable:MustBeCategoricalOrTime', ...
+    _('The second input must be a valid timetable row subscript or a categorical vector.'));
 end
 %=============================================================================

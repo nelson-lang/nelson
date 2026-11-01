@@ -11,7 +11,7 @@ function varargout = run(varargin)
   [varargin, compatibility] = run_extractCompatibility(varargin); %#ok<NLS0004>
   if compatibility
     [varargin, launcher] = run_extractLauncher(varargin); %#ok<NLS0004>
-    cleanupLauncher = run_applyLauncherBackend(launcher); %#ok<NASGU,NLS0004>
+    cleanupLauncher = run_applyLauncherBackend(launcher); %#ok<NLS0004>
     status = run_impl(varargin{:});
     if nargout > 0
       varargout{1} = status;

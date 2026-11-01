@@ -43,7 +43,8 @@ function idx = tableResolveVariables(names, vars, types, data)
   end
   if isnumeric(vars)
     if any(imag(vars(:)) ~= 0) || any(vars(:) < 1) || any(vars(:) ~= fix(vars(:)))
-      error('Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals', _('index must either be real positive integers or logicals.'));
+      error('Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals', ...
+        _('index must either be real positive integers or logicals.'));
     end
     idx = vars;
     localCheckRange(idx, length(names));

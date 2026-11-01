@@ -60,6 +60,7 @@ asserts.checkerror('raylfit([1 2 3], {0.05})', sprintf(_('%s must be numeric.'),
 asserts.checkerror('raylfit([1 2 3], -0.1)', sprintf(_('%s must be a scalar in the range [0,1].'), 'ALPHA'));
 asserts.checkerror('raylfit([1 2 3], 1.1)', sprintf(_('%s must be a scalar in the range [0,1].'), 'ALPHA'));
 asserts.checkerror('raylfit([1 2 3], [], [0 2 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('raylfit([1 2 3], [], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('raylfit([1 2 3], [], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), ...
+  'FREQ'));
 asserts.checkerror('raylfit([1 2 3], [], ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

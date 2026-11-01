@@ -33,5 +33,6 @@ asserts.isapprox(R, REF, 1e-10);
 asserts.isequal(class(gammainc(single(0.5), single(2))), 'single');
 %=============================================================================
 asserts.checkerror('gammainc(-1, 2)', _('X and A must contain nonnegative values.'));
-asserts.checkerror('gammainc(1, 2, ''middle'')', sprintf(_('%s expected.'), 'Wrong value of the third argument ''upper'' or ''lower'''));
+asserts.checkerror('gammainc(1, 2, ''middle'')', sprintf(_('%s expected.'), ...
+  'Wrong value of the third argument ''upper'' or ''lower'''));
 %=============================================================================

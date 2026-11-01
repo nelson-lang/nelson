@@ -12,8 +12,10 @@ asserts.isequal(nargout('mustBeScalarOrEmpty'), 0);
 %=============================================================================
 mustBeScalarOrEmpty(1);
 mustBeScalarOrEmpty([]);
-asserts.checkerror('mustBeScalarOrEmpty([1 2])', sprintf(_('%s must be a scalar or empty.'), 'Value'), 'Nelson:validators:mustBeScalarOrEmpty');
+asserts.checkerror('mustBeScalarOrEmpty([1 2])', sprintf(_('%s must be a scalar or empty.'), 'Value'), ...
+  'Nelson:validators:mustBeScalarOrEmpty');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a scalar or empty.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be a scalar or empty.'), 'Value')];
 asserts.checkerror('mustBeScalarOrEmpty([1 2], 3)', msg);
 %=============================================================================

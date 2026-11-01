@@ -23,7 +23,8 @@ function tf = isMATLABReleaseOlderThan(release, varargin)
   givenUpdate = 0;
   if ~isempty(varargin)
     if numel(varargin) ~= 2 || ~(ischar(varargin{1}) || (isstring(varargin{1}) && isscalar(varargin{1}))) || ~strcmpi(char(varargin{1}), 'update')
-      error('Nelson:isMATLABReleaseOlderThan:invalidOption', _('The option must be ''update'' followed by an integer value.'));
+      error('Nelson:isMATLABReleaseOlderThan:invalidOption', ...
+        _('The option must be ''update'' followed by an integer value.'));
     end
     givenUpdate = varargin{2};
     if ~(isnumeric(givenUpdate) && isscalar(givenUpdate) && isreal(givenUpdate) && givenUpdate == fix(givenUpdate) && givenUpdate >= 0)
@@ -42,7 +43,8 @@ end
 function [releaseYear, releaseHalf] = parseRelease(release)
   tokens = regexp(release, '^[Rr](\d{4})([ab])$', 'tokens', 'once');
   if isempty(tokens)
-    error('Nelson:isMATLABReleaseOlderThan:invalidRelease', _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
+    error('Nelson:isMATLABReleaseOlderThan:invalidRelease', ...
+      _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
   end
   releaseYear = str2double(tokens{1});
   if strcmpi(tokens{2}, 'a')

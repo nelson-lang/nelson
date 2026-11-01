@@ -15,5 +15,6 @@ value(:) = 'token';
 elapsed = toc();
 ops = n;
 asserts.isequal(sum(value == token), n);
-fprintf('BENCH_REFERENCE,string,string setNDimSubset full scalar broadcast,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,string,string setNDimSubset full scalar broadcast,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

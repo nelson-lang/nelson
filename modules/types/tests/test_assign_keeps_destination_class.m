@@ -115,7 +115,8 @@ c = int8([1 2]);
 assert_checkerror('c(1) = 3i;', _('Invalid conversion from complex matrix to ''int8'' matrix.'));
 %=============================================================================
 c = int8([1 2]);
-msg = sprintf(_('Unable to perform assignment because value of type ''%s'' is not convertible to ''%s''.'), 'string', 'int8');
+msg = sprintf(_('Unable to perform assignment because value of type ''%s'' is not convertible to ''%s''.'), ...
+  'string', 'int8');
 assert_checkerror('c(1) = "5";', msg);
 %=============================================================================
 % logical destination

@@ -16,7 +16,7 @@ function [p, h, stats] = signrank(x, y, varargin)
     [diffValues, args] = pairedDifferencesLocal(x, y, varargin, true);
   end
   opts = parseOptionsLocal(convertStringToCharArgs(args));
-  [signedRank, tieSum, hasTies, ranks] = signedRankLocal(diffValues);
+  [signedRank, ~, hasTies, ranks] = signedRankLocal(diffValues);
   method = selectMethodLocal(opts.Method, length(ranks), hasTies);
   if strcmp(method, 'exact')
     p = exactPValueLocal(signedRank, length(ranks), opts.Tail);

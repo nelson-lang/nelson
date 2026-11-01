@@ -47,7 +47,8 @@ asserts.isequal(R.Properties.RowTimes, seconds([0; 0.1]));
 R = readtimetable(filename, 'RowTimes', seconds([5; 6]));
 asserts.isequal(R.Properties.VariableNames, {'v', 'w'});
 asserts.isequal(R.Properties.RowTimes, seconds([5; 6]));
-asserts.checkerror('readtimetable(filename, ''ParsingMode'', ''strict'', ''RowTimes'', seconds([5; 6]))', _('Comments are not allowed in the JSON file (AllowComments is false).'));
+asserts.checkerror('readtimetable(filename, ''ParsingMode'', ''strict'', ''RowTimes'', seconds([5; 6]))', ...
+  _('Comments are not allowed in the JSON file (AllowComments is false).'));
 %=============================================================================
 opts = detectImportOptions(filename);
 R = readtimetable(filename, opts, 'TimeStep', seconds(2));

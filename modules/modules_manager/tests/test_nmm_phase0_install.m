@@ -69,12 +69,14 @@ try
   writeSourceLock(lockedRoot, lockedName, '1.0.0', depName, '1.0.0');
   createLocalModule(badRoot, badName, '1.0.0', '{}', true, '>=1.0.0');
   createLocalModule(autoDepRoot, autoDepName, '1.0.0', '{}', false, '>=1.0.0');
-  createLocalModule(autoMainRoot, autoMainName, '1.0.0', ['{"', autoDepName, '":"', autoDepRoot, '"}'], false, '>=1.0.0');
+  createLocalModule(autoMainRoot, autoMainName, '1.0.0', ['{"', autoDepName, '":"', autoDepRoot, '"}'], false, ...
+    '>=1.0.0');
   createLocalModule(conflictRoot, conflictName, '1.0.0', ['{"', depName, '":">=3.0.0"}'], false, '>=1.0.0');
   createLocalModule(incompatibleRoot, incompatibleName, '1.0.0', '{}', false, '>=999.0.0');
   createLocalModule(noLoaderRoot, noLoaderName, '1.0.0', '{}', false, '>=1.0.0');
   createLocalModule(testFailRoot, testFailName, '1.0.0', '{}', false, '>=1.0.0');
-  createLocalModule(missingDependencyUserRoot, missingDependencyUserName, '1.0.0', ['{"', missingDependencyName, '":"1.0.0"}'], false, '>=1.0.0');
+  createLocalModule(missingDependencyUserRoot, missingDependencyUserName, '1.0.0', ['{"', missingDependencyName, ...
+    '":"1.0.0"}'], false, '>=1.0.0');
   filewrite([noLoaderRoot, 'builder.m'], '');
   filewrite([testFailRoot, 'tests/test_placeholder.m'], 'asserts.istrue(false);');
   filewrite([mainFailedUpgradeRoot, 'tests/test_placeholder.m'], 'asserts.istrue(false);');
@@ -101,7 +103,8 @@ try
   asserts.isequal(lock.checksums.module_json, sha256([mainInfo.path, 'module.json'], '-file'));
   asserts.isequal(lock.checksums.loader, sha256([mainInfo.path, 'loader.m'], '-file'));
   asserts.isequal(lock.checksums.builder, sha256([mainInfo.path, 'builder.m'], '-file'));
-  asserts.checkerror(['nmm(''install'', ''', mainFailedUpgradeRoot, ''', ''-tests'')'], _('Package tests failed.'), 'Nelson:nmm:PackageTestsFailed');
+  asserts.checkerror(['nmm(''install'', ''', mainFailedUpgradeRoot, ''', ''-tests'')'], _('Package tests failed.'), ...
+    'Nelson:nmm:PackageTestsFailed');
   modules = nmm('list');
   asserts.istrue(isfield(modules, mainName));
   asserts.isequal(modules.(mainName).version, '1.0.0');
@@ -143,9 +146,11 @@ try
 
   asserts.checkerror(['nmm(''install'', ''', conflictRoot, ''')'], 'nmm_phase0_conflict requires nmm_phase0_dep >=3.0.0, installed versions: 1.0.0, 2.0.0', 'Nelson:nmm:DependencyConflict');
   missingDependencyMessage = sprintf(_('%s not installed. Try nmm(''search'', ''%s'') to find it or nmm(''why'', ''%s'') to inspect installed reverse dependencies.'), missingDependencyName, missingDependencyName, missingDependencyName);
-  asserts.checkerror(['nmm(''install'', ''', missingDependencyUserRoot, ''')'], missingDependencyMessage, 'Nelson:nmm:DependencyNotInstalled');
+  asserts.checkerror(['nmm(''install'', ''', missingDependencyUserRoot, ''')'], missingDependencyMessage, ...
+    'Nelson:nmm:DependencyNotInstalled');
 
-  asserts.checkerror(['nmm(''install'', ''', incompatibleRoot, ''')'], _('Nelson version not supported: >=999.0.0'), 'Nelson:nmm:NelsonVersionNotSupported');
+  asserts.checkerror(['nmm(''install'', ''', incompatibleRoot, ''')'], _('Nelson version not supported: >=999.0.0'), ...
+    'Nelson:nmm:NelsonVersionNotSupported');
   modules = nmm('list');
   asserts.isfalse(isfield(modules, incompatibleName));
 
@@ -153,7 +158,8 @@ try
   modules = nmm('list');
   asserts.isfalse(isfield(modules, badName));
   % package tests only run when requested: '-tests' fails, the default install succeeds
-  asserts.checkerror(['nmm(''install'', ''', testFailRoot, ''', ''-tests'')'], _('Package tests failed.'), 'Nelson:nmm:PackageTestsFailed');
+  asserts.checkerror(['nmm(''install'', ''', testFailRoot, ''', ''-tests'')'], _('Package tests failed.'), ...
+    'Nelson:nmm:PackageTestsFailed');
   modules = nmm('list');
   asserts.isfalse(isfield(modules, testFailName));
   nmm('install', testFailRoot);
@@ -185,12 +191,14 @@ try
   asserts.isequal(verifySourceReport.module, mainName);
   mainRootModuleJson = [mainRoot, 'module.json'];
   mainRootModuleJsonText = fileread(mainRootModuleJson);
-  filewrite(mainRootModuleJson, strrep(mainRootModuleJsonText, 'nmm phase0 test module', 'nmm phase0 source tampered module'));
+  filewrite(mainRootModuleJson, strrep(mainRootModuleJsonText, 'nmm phase0 test module', ...
+    'nmm phase0 source tampered module'));
   staleLockCheck = nmm('lock', mainRoot, '-check');
   asserts.isfalse(staleLockCheck.ok);
   asserts.isfalse(staleLockCheck.up_to_date);
   asserts.istrue(length(staleLockCheck.differences) > 0);
-  asserts.checkerror(['nmm(''verify'', ''', mainRoot, ''')'], _('module-lock.json is not up to date.'), 'Nelson:nmm:ModuleLockOutOfDate');
+  asserts.checkerror(['nmm(''verify'', ''', mainRoot, ''')'], _('module-lock.json is not up to date.'), ...
+    'Nelson:nmm:ModuleLockOutOfDate');
   filewrite(mainRootModuleJson, mainRootModuleJsonText);
   nmm('lock', mainRoot);
 
@@ -217,17 +225,23 @@ try
   asserts.isequal(forceReport.module, mainName);
   asserts.isequal(nmm_phase0_main_value(), 1);
   filewrite(checksumFile, 'bad-checksum');
-  asserts.checkerror(['nmm(''install'', ''', packageFile, ''')'], _('Package checksum does not match.'), 'Nelson:nmm:PackageChecksumMismatch');
+  asserts.checkerror(['nmm(''install'', ''', packageFile, ''')'], _('Package checksum does not match.'), ...
+    'Nelson:nmm:PackageChecksumMismatch');
 
   filewrite(checksumFile, sha256(packageFile, '-file'));
   tamperedPackage = tamperedPackageArchive(packageFile, testRoot);
-  asserts.checkerror(['nmm(''install'', ''', tamperedPackage, ''')'], 'module-lock.json checksum mismatch: module_json', 'Nelson:nmm:ModuleLockChecksumMismatch');
+  asserts.checkerror(['nmm(''install'', ''', tamperedPackage, ''')'], ...
+    'module-lock.json checksum mismatch: module_json', 'Nelson:nmm:ModuleLockChecksumMismatch');
   incompatiblePackage = incompatiblePackageArchive(packageFile, testRoot);
-  asserts.checkerror(['nmm(''install'', ''', incompatiblePackage, ''')'], _('Nelson version not supported: >=999.0.0'), 'Nelson:nmm:NelsonVersionNotSupported');
+  asserts.checkerror(['nmm(''install'', ''', incompatiblePackage, ''')'], ...
+    _('Nelson version not supported: >=999.0.0'), 'Nelson:nmm:NelsonVersionNotSupported');
   incompatibleAbiPackage = incompatibleAbiPackageArchive(packageFile, testRoot);
-  asserts.checkerror(['nmm(''install'', ''', incompatibleAbiPackage, ''')'], _('Nelson ABI not supported: incompatible-abi'), 'Nelson:nmm:NelsonAbiNotSupported');
-  asserts.checkerror(['nmm(''pack'', ''', noLoaderRoot, ''', ''', testRoot, ''')'], _('loader.m is missing.'), 'Nelson:nmm:LoaderMissing');
-  asserts.checkerror(['nmm(''pack'', ''', testFailRoot, ''', ''', testRoot, ''')'], _('Package tests failed.'), 'Nelson:nmm:PackageTestsFailed');
+  asserts.checkerror(['nmm(''install'', ''', incompatibleAbiPackage, ''')'], ...
+    _('Nelson ABI not supported: incompatible-abi'), 'Nelson:nmm:NelsonAbiNotSupported');
+  asserts.checkerror(['nmm(''pack'', ''', noLoaderRoot, ''', ''', testRoot, ''')'], _('loader.m is missing.'), ...
+    'Nelson:nmm:LoaderMissing');
+  asserts.checkerror(['nmm(''pack'', ''', testFailRoot, ''', ''', testRoot, ''')'], _('Package tests failed.'), ...
+    'Nelson:nmm:PackageTestsFailed');
   packDryRunReport = nmm('pack', mainRoot, '-dry-run');
   asserts.istrue(packDryRunReport.ok);
   asserts.istrue(packDryRunReport.dry_run);
@@ -329,7 +343,8 @@ function createLocalModule(moduleRoot, moduleName, moduleVersion, dependenciesJs
   finish = ['rmpath([modulepath(''', moduleName, '''), ''/functions'']);'];
   filewrite([moduleRoot, 'etc/startup.m'], startup);
   filewrite([moduleRoot, 'etc/finish.m'], finish);
-  filewrite([moduleRoot, 'functions/', moduleName, '_value.m'], ['function r = ', moduleName, '_value()', newline, '  r = 1;', newline, 'end']);
+  filewrite([moduleRoot, 'functions/', moduleName, '_value.m'], ['function r = ', moduleName, '_value()', newline, ...
+    '  r = 1;', newline, 'end']);
   filewrite([moduleRoot, 'help/en_US/xml/chapter.xml'], '<chapter></chapter>');
   filewrite([moduleRoot, 'tests/test_placeholder.m'], '');
 end

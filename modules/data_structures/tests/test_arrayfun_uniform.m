@@ -96,7 +96,8 @@ asserts.isequal(R(:, :, 2), [8.0000 + 1.0000i 10.0000 + 0.0000i 12.0000 + 0.0000
   15.0000 + 0.0000i 16.0000 + 0.0000i 18.0000 + 0.0000i]);
 %=============================================================================
 fun = @(in1, in2) {in1 + in2; in1 - in2; max(in1, in2)};
-asserts.checkerror('C = arrayfun(fun, [1:3;5:7], [2:4;8:10], ''UniformOutput'', true);', _('Non-scalar in Uniform output.'));
+asserts.checkerror('C = arrayfun(fun, [1:3;5:7], [2:4;8:10], ''UniformOutput'', true);', ...
+  _('Non-scalar in Uniform output.'));
 %=============================================================================
 fun = @(in1, in2) in1 + in2;
 asserts.checkerror('R = arrayfun(fun, 10, [2:4;8:10])', _('Same size expected.'));

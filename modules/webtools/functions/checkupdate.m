@@ -35,7 +35,8 @@ function varargout = checkupdate(varargin)
 end
 %=============================================================================
 function haveGui = shouldDisplayGui(forceNoGui)
-  haveGui = (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') || strcmp(getnelsonmode(), 'GUI') || strcmp(getnelsonmode(), 'WEB_GUI')) && ~forceNoGui;
+  haveGui = (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') || strcmp(getnelsonmode(), ...
+    'GUI') || strcmp(getnelsonmode(), 'WEB_GUI')) && ~forceNoGui;
 end
 %=============================================================================
 function [url, forceNoGui] = parseInputArguments(inputs)
@@ -43,7 +44,8 @@ function [url, forceNoGui] = parseInputArguments(inputs)
   forceNoGui = false;
 
   if (mod(length(inputs), 2) ~= 0)
-    error('Nelson:checkupdate:wrongNumberInputArgumentsInputs2', 'Wrong number of input arguments. Inputs must be name-value pairs.');
+    error('Nelson:checkupdate:wrongNumberInputArgumentsInputs2', ...
+      'Wrong number of input arguments. Inputs must be name-value pairs.');
   end
 
   for i = 1:2:length(inputs)

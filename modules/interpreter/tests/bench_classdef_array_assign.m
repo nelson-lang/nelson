@@ -20,11 +20,11 @@ R = 2000;
 %=============================================================================
 w = ClassdefBenchPoint(0);
 for i = 2:N
-  w(i) = ClassdefBenchPoint(i); %#ok<SAGROW>
+  w(i) = ClassdefBenchPoint(i); %#ok<NLS0039>
 end
 small = ClassdefBenchPoint(0);
 for i = 2:10
-  small(i) = ClassdefBenchPoint(i); %#ok<SAGROW>
+  small(i) = ClassdefBenchPoint(i); %#ok<NLS0039>
 end
 obj = ClassdefBenchPoint(-1);
 %=============================================================================

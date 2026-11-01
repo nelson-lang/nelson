@@ -72,5 +72,6 @@ asserts.checkerror('vartest([1 2 3], 1, ''Alpha'')', _('Name-value arguments mus
 asserts.checkerror('vartest([1 2 3], 1, ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('vartest([1 2 3], 1, ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
 asserts.checkerror('vartest([1 2 3], 1, ''Tail'', ''bad'')', _('TAIL must be ''both'', ''right'', or ''left''.'));
-asserts.checkerror('vartest([1 2 3], 1, ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), 'a positive integer scalar within indexing range'));
+asserts.checkerror('vartest([1 2 3], 1, ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), ...
+  'a positive integer scalar within indexing range'));
 %=============================================================================

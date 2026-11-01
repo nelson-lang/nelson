@@ -29,7 +29,8 @@ function D = dummyvarCellGroupLocal(group)
     if isempty(n)
       n = size(block, 1);
     elseif size(block, 1) ~= n
-      error('Nelson:statistics:groupingVariablesSameNumberRows', '%s must have the same number of rows.', 'Grouping variables');
+      error('Nelson:statistics:groupingVariablesSameNumberRows', '%s must have the same number of rows.', ...
+        'Grouping variables');
     end
     D = [D, block];
   end
@@ -58,7 +59,8 @@ function D = dummyvarNumericLocal(group)
   outType = classForOutputLocal(group);
   values = double(group);
   if any(values(~isnan(values)) < 1) || any(values(~isnan(values)) ~= fix(values(~isnan(values))))
-    error('Nelson:statistics:numericGROUPValuesPositiveIntegers', 'Numeric GROUP values must be positive integers or NaN.');
+    error('Nelson:statistics:numericGROUPValuesPositiveIntegers', ...
+      'Numeric GROUP values must be positive integers or NaN.');
   end
   if isvector(values)
     values = values(:);

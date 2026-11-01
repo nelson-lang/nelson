@@ -89,11 +89,13 @@ function result = restore_build(project)
   receipt = validate_receipt(project.LastBuild);
   if isempty(receipt.ReportFile); return; end
   if ~strcmp(receipt.SettingsSHA256, __nelsonc_project_result__('fingerprint', project))
-    error('Nelson:compiler:project:buildSettingsChanged', 'Build settings changed; rebuild before creating an installer.');
+    error('Nelson:compiler:project:buildSettingsChanged', ...
+      'Build settings changed; rebuild before creating an installer.');
   end
   document = read_report(receipt);
   if ~strcmp(document.buildType, project.Target) || ~strcmp(document.architecture, computer('arch'))
-    error('Nelson:compiler:project:savedBuildTargetMismatch', 'The saved build target or architecture does not match this project.');
+    error('Nelson:compiler:project:savedBuildTargetMismatch', ...
+      'The saved build target or architecture does not match this project.');
   end
   files = verify_outputs(document, receipt.ReportFile);
   result = struct('Files', {files}, 'ReportFile', receipt.ReportFile, ...
@@ -104,14 +106,17 @@ function document = read_report(receipt)
   filename = receipt.ReportFile;
   info = dir(filename);
   if numel(info) ~= 1 || info.isdir || info.bytes > 64 * 1024 * 1024 || ~isfile(filename)
-    error('Nelson:compiler:project:savedReportMissingOrTooLarge', 'The saved build report is missing or exceeds 64 MiB.');
+    error('Nelson:compiler:project:savedReportMissingOrTooLarge', ...
+      'The saved build report is missing or exceeds 64 MiB.');
   end
   if ~strcmp(sha256(filename, '-file'), receipt.ReportSHA256)
-    error('Nelson:compiler:project:savedReportChanged', 'The saved build report changed; rebuild before creating an installer.');
+    error('Nelson:compiler:project:savedReportChanged', ...
+      'The saved build report changed; rebuild before creating an installer.');
   end
   document = jsondecode(__nelsonc_plan__('build-report', fileread(filename)));
   if ~strcmp(sha256(filename, '-file'), receipt.ReportSHA256)
-    error('Nelson:compiler:project:reportChangedWhileRestoring', 'The build report changed while restoring the project.');
+    error('Nelson:compiler:project:reportChangedWhileRestoring', ...
+      'The build report changed while restoring the project.');
   end
 end
 
@@ -125,14 +130,16 @@ function files = verify_outputs(document, filename)
   for k = 1:numel(entries)
     files{k} = fullfile(folder, entries(k).relative);
     if ~isfile(files{k})
-      error('Nelson:compiler:project:savedOutputMissing', 'A saved application output is missing: %s.', entries(k).relative);
+      error('Nelson:compiler:project:savedOutputMissing', 'A saved application output is missing: %s.', ...
+        entries(k).relative);
     end
   end
   inventory = jsondecode(__nelsonc_plan__('installer-inputs', jsonencode(files)));
   for k = 1:numel(entries)
     found = find(strcmp({inventory.files.relative}, entries(k).relative));
     if numel(found) ~= 1 || ~strcmp(inventory.files(found).sha256, entries(k).sha256)
-      error('Nelson:compiler:project:savedOutputChanged', 'A saved application output changed: %s.', entries(k).relative);
+      error('Nelson:compiler:project:savedOutputChanged', 'A saved application output changed: %s.', ...
+        entries(k).relative);
     end
   end
   index = find(strcmp({entries.relative}, document.executable));
@@ -141,7 +148,8 @@ function files = verify_outputs(document, filename)
   files = [{executable}; files];
   contract = jsondecode(__nelsonc_executable__('launcher-contract', executable));
   if ~isequal(contract, document.launcher)
-    error('Nelson:compiler:project:launcherContractMismatch', 'The saved executable has a different launcher contract.');
+    error('Nelson:compiler:project:launcherContractMismatch', ...
+      'The saved executable has a different launcher contract.');
   end
   __application_archive__('verify', executable);
 end

@@ -26,7 +26,8 @@ function varargout = rlocus(varargin)
 
   if (nargout > 0)
     if (numel(systems) ~= 1)
-      error('Nelson:control_system:invalidInputArgument', 'A single model is required when output arguments are requested.');
+      error('Nelson:control_system:invalidInputArgument', ...
+        'A single model is required when output arguments are requested.');
     end
     [r, kOut] = computeLocus(systems{1}, k);
     varargout{1} = r;
@@ -48,8 +49,8 @@ function varargout = rlocus(varargin)
     [r, kOut, origNum, den] = computeLocus(systems{idx}, k);
     [olpol, olzer] = plotLocus(ax, systems{idx}, r, origNum, den, palette, colorOffset);
     colorOffset = colorOffset + size(r, 1);
-    poleZero = [poleZero; olpol(:); olzer(:)]; %#ok<AGROW>
-    lociPoints = [lociPoints; r(:)]; %#ok<AGROW>
+    poleZero = [poleZero; olpol(:); olzer(:)]; %#ok<NLS0039>
+    lociPoints = [lociPoints; r(:)]; %#ok<NLS0039>
   end
   setLocusView(ax, poleZero, lociPoints);
   drawOriginCrosshair(ax);
@@ -72,7 +73,7 @@ function [systems, k] = parseArguments(args)
       if (~issiso(sys))
         error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
       end
-      systems{end + 1} = sys; %#ok<AGROW>
+      systems{end + 1} = sys; %#ok<NLS0039>
     elseif (isnumeric(arg) && isvector(arg) && isreal(arg))
       if (~isempty(k))
         error('Nelson:control_system:invalidGainArgument', 'Only one gain vector is allowed.');
@@ -185,7 +186,7 @@ function kb = breakawayGains(num, den)
     if (abs(nv) > eps)
       kval = -polyval(den, s(i)) / nv;
       if (isfinite(kval) && kval >= 0)
-        kb(end + 1) = kval; %#ok<AGROW>
+        kb(end + 1) = kval; %#ok<NLS0039>
       end
     end
   end

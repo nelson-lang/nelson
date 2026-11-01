@@ -134,7 +134,8 @@ function result = anovaTableLocal(grouped, labels)
   codes = grouped(:, 2);
   ngroups = length(labels);
   if ngroups < 2 || length(values) <= ngroups
-    error('Nelson:statistics:leastTwoGroupsMoreObservations', 'At least two groups with more observations than groups are required.');
+    error('Nelson:statistics:leastTwoGroupsMoreObservations', ...
+      'At least two groups with more observations than groups are required.');
   end
   [counts, means, ssw] = groupSummaryLocal(values, codes, ngroups);
   grandMean = sum(values) / length(values);

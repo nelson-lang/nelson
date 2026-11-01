@@ -50,7 +50,7 @@ for li = 1:numel(langs)
       nChecked = nChecked + 1;
       if supported ~= hasLine
         mismatches{end + 1} = sprintf('%s/%s/%s type=%s supported=%d hasLine=%d', ...
-          langs{li}, cats(ci).name, files(fi).name, type, supported, hasLine); %#ok<SAGROW>
+          langs{li}, cats(ci).name, files(fi).name, type, supported, hasLine); %#ok<NLS0039>
       end
     end
   end

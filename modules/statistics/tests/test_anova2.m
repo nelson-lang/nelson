@@ -75,7 +75,8 @@ asserts.checkerror('anova2([1 2 3], 1, ''off'')', sprintf(_('%s must have at lea
 asserts.checkerror('anova2([1 2; 3 Inf], 1, ''off'')', _('Y must contain finite observations.'));
 asserts.checkerror('anova2([1 2; 3 NaN], 1, ''off'')', _('Y must contain finite observations.'));
 asserts.checkerror('anova2([1 2; 3 4], 0, ''off'')', sprintf(_('%s must be a positive integer scalar.'), 'REPS'));
-asserts.checkerror('anova2([1 2; 3 4; 5 6], 2, ''off'')', sprintf(_('%s must be a multiple of REPS.'), 'The number of rows in Y'));
+asserts.checkerror('anova2([1 2; 3 4; 5 6], 2, ''off'')', sprintf(_('%s must be a multiple of REPS.'), ...
+  'The number of rows in Y'));
 asserts.checkerror('anova2([1 2; 3 4], 2, ''off'')', _('Y must contain at least two row-factor levels.'));
 asserts.checkerror('anova2([1 2; 3 4], 1, ''bad'')', _('Display option must be ''on'' or ''off''.'));
 %=============================================================================

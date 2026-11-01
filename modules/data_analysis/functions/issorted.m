@@ -33,12 +33,14 @@ function tf = issorted(varargin)
     elseif isnumeric(numOrString) && isscalar(numOrString)
       dim = numOrString;
     else
-      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, 'scalar integer value');
+      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, ...
+        'scalar integer value');
     end
   elseif nargin == 3
     dim = varargin{2};
     if ~(isnumeric(dim) && isscalar(dim))
-      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, 'scalar integer value');
+      error('Nelson:data_analysis:invalidArgument2ScalarInteger', 'Wrong type for argument #%d: %s expected.', 2, ...
+        'scalar integer value');
     end
     direction = varargin{3};
     if isstring(direction) && isscalar(direction)
@@ -84,12 +86,14 @@ end
 %=============================================================================
 function direction = validateDirectionLocal(direction)
   if ~ischar(direction)
-    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', 'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
+    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', ...
+      'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
   end
   direction = lower(direction);
   supported = {'ascend', 'descend', 'monotonic', 'strictascend', 'strictdescend', 'strictmonotonic'};
   if ~any(strcmp(supported, direction))
-    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', 'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
+    error('Nelson:data_analysis:invalidArgumentAscendDescendMonotonic', '%s expected.', ...
+      'ascend, descend, monotonic, strictascend, strictdescend or strictmonotonic');
   end
 end
 %=============================================================================

@@ -300,10 +300,12 @@ close(f);
 asserts.checkerror('bubblechart(1, 2);', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('bubblechart({1}, 2, 3);', getString(message('Nelson:bubblechart:numericXYExpected')));
 asserts.checkerror('bubblechart(1:3, 2:4, []);', getString(message('Nelson:dimagree:sizeSMatchXY')));
-asserts.checkerror('bubblechart(1:3, 2:4, [10 20 30], ''NoSuchProperty'', 1);', _('Unrecognized property NoSuchProperty for class BubbleChart.'));
+asserts.checkerror('bubblechart(1:3, 2:4, [10 20 30], ''NoSuchProperty'', 1);', ...
+  _('Unrecognized property NoSuchProperty for class BubbleChart.'));
 % 'BubbleColor' is not a valid property; 2-D bubblechart rejects it with the same
 % message as bubblechart3, so both stay consistent with the reference behavior.
-asserts.checkerror('bubblechart(1:3, 2:4, [10 20 30], ''BubbleColor'', ''r'');', _('Unrecognized property BubbleColor for class BubbleChart.'));
+asserts.checkerror('bubblechart(1:3, 2:4, [10 20 30], ''BubbleColor'', ''r'');', ...
+  _('Unrecognized property BubbleColor for class BubbleChart.'));
 asserts.checkerror('bubblelim([2 2]);', getString(message('Nelson:bubblelim:invalidValue')));
 asserts.checkerror('bubblesize([30 5]);', getString(message('Nelson:bubblesize:invalidValue')));
 %=============================================================================

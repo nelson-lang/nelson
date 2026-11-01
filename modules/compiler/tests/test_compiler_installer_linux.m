@@ -135,7 +135,8 @@ function check_rejections(installer, work)
   destination = fullfile(work, 'refused');
   invoke(installer, {}, false);
   invoke(installer, {'-applicationFolder', destination, '-agreeToLicense', 'yes'}, false);
-  invoke(installer, {'-agreeToLicense', 'yes', '-applicationFolder', destination, '-destinationFolder', destination}, false);
+  invoke(installer, {'-agreeToLicense', 'yes', '-applicationFolder', destination, '-destinationFolder', ...
+    destination}, false);
   invoke(installer, {'-agreeToLicense', 'yes', '-runtimeFolder', destination}, false);
   control = fullfile(work, 'invalid.txt');
   for contents = {['agreeToLicense=yes', newline(), 'unknown=value'], ...

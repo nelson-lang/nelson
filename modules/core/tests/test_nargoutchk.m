@@ -11,7 +11,8 @@ addpath([nelsonroot(), '/modules/core/tests/']);
 %=============================================================================
 asserts.checkerror('fun_nargoutchk()', _('Not enough output arguments.'), 'Nelson:nargoutchk:notEnoughOutputs');
 %=============================================================================
-asserts.checkerror('[a, b, c, d] = fun_nargoutchk()', _('Too many output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
+asserts.checkerror('[a, b, c, d] = fun_nargoutchk()', _('Too many output arguments.'), ...
+  'Nelson:nargoutchk:tooManyOutputs');
 %=============================================================================
 R = nargoutchk(1, 2, 3);
 REF = _('Too many output arguments.');
@@ -47,7 +48,8 @@ addpath([modulepath('functions_manager'), '/tests']);
 runtime_nargoutchk_fixture();
 [out1, out2] = runtime_nargoutchk_fixture();
 asserts.isequal([out1, out2], [1 2]);
-asserts.checkerror('[out1, out2, out3] = runtime_nargoutchk_fixture()', _('Too many output arguments.'), 'Nelson:nargoutchk:tooManyOutputs');
+asserts.checkerror('[out1, out2, out3] = runtime_nargoutchk_fixture()', _('Too many output arguments.'), ...
+  'Nelson:nargoutchk:tooManyOutputs');
 nargoutMessage = nargoutchk(1, 2, 3);
 asserts.isequal(nargoutMessage, _('Too many output arguments.'));
 nargoutStruct = nargoutchk(1, 2, 0, 'struct');

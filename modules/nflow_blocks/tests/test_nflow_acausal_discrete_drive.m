@@ -42,7 +42,7 @@ function out = runmodel(blocks, wires, conns, runtime, dt)
   d.connections = conns;
   pw = {};
   for k = 1:numel(wires)
-    pw{end + 1} = struct('pins', {wires{k}}); %#ok<AGROW>
+    pw{end + 1} = struct('pins', {wires{k}}); %#ok<NLS0039>
   end
   d.physicalWires = pw;
   m = [tempname(), '.nflow'];

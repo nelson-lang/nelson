@@ -9,7 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 library = dlopen(probePath);
 probe = dlsym(library, 'figureWorkspaceProbe', 'int32', {'cstring', 'cstring'});
 titleText = 'Qt workspace controls';
@@ -29,7 +30,8 @@ toggleName = sprintf('figureObjectToggle_%.0f', secondHandle);
 asserts.isequal(invoke(probe, titleText, struct('operation', 'checked', 'name', toggleName)), int32(1));
 beforePick = getframe(figureObject);
 pickCenter(probe, titleText, figureObject);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'marker', 'handle', secondHandle, 'x', 0.5, 'y', 0.5)), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'marker', 'handle', secondHandle, 'x', 0.5, 'y', 0.5)), ...
+  int32(1));
 asserts.isequal(invoke(probe, titleText, struct('operation', 'selectedObject', 'handle', secondHandle)), int32(1));
 afterPick = getframe(figureObject);
 asserts.isequal(afterPick.cdata, beforePick.cdata);
@@ -51,10 +53,12 @@ asserts.isequal(invoke(probe, titleText, struct('operation', 'checked', 'name', 
 second.Visible = 'on';
 second.DisplayName = 'Renamed diagonal';
 invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'actionText', 'name', toggleName, 'value', 'Renamed diagonal')), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'actionText', 'name', toggleName, 'value', ...
+  'Renamed diagonal')), int32(1));
 view(ax, 12, 40); invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
 asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider')), int32(24));
-asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureElevationSlider')), int32(80));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureElevationSlider')), ...
+  int32(80));
 invoke(probe, titleText, struct('operation', 'slider', 'name', 'figureAzimuthSlider', 'value', 60.5, 'down', true));
 invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
 asserts.isequal(ax.View, [12 40]);
@@ -82,8 +86,10 @@ figureObject.CurrentAxes = otherAxes;
 invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
 otherName = sprintf('figureObjectToggle_%.0f', __web_graphics_handle__(third, 'number'));
 asserts.isequal(invoke(probe, titleText, struct('operation', 'checked', 'name', otherName)), int32(1));
-asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider', 'expected', -40)), int32(1));
-asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureElevationSlider')), int32(70));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider', ...
+  'expected', -40)), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureElevationSlider')), ...
+  int32(70));
 invoke(probe, titleText, struct('operation', 'action', 'name', otherName)); settle(probe, titleText);
 asserts.isequal(char(third.Visible), 'off');
 asserts.isequal(char(second.Visible), 'on');
@@ -91,18 +97,21 @@ asserts.isequal(invoke(probe, titleText, struct('operation', 'visible', 'name', 
 figureObject.CurrentAxes = ax;
 invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
 delete(first); invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'actionExists', 'name', sprintf('figureObjectToggle_%.0f', firstHandle))), int32(0));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'actionExists', 'name', ...
+  sprintf('figureObjectToggle_%.0f', firstHandle))), int32(0));
 pickCenter(probe, titleText, figureObject);
 invoke(probe, titleText, struct('operation', 'snapshot', 'path', ...
   [fileparts(fileparts(fileparts(modulepath('graphics', 'tests')))) '/temp/qt-figure-controls.png']));
 clf(figureObject);
 ax = axes('Parent', figureObject, 'Position', [0.1 0.1 0.8 0.8]);
-thirdDimension = line('Parent', ax, 'XData', [-1 0 1], 'YData', [-1 0 1], 'ZData', [-1 0 1], 'DisplayName', '3D samples');
+thirdDimension = line('Parent', ax, 'XData', [-1 0 1], 'YData', [-1 0 1], 'ZData', [-1 0 1], 'DisplayName', ...
+  '3D samples');
 set(ax, 'XLim', [-1 1], 'YLim', [-1 1], 'ZLim', [-1 1]); view(ax, -37.5, 30);
 invoke(probe, titleText, struct('operation', 'refresh')); settle(probe, titleText);
 pickCenter(probe, titleText, figureObject);
 thirdHandle = __web_graphics_handle__(thirdDimension, 'number');
-asserts.isequal(invoke(probe, titleText, struct('operation', 'marker', 'handle', thirdHandle, 'x', 0.5, 'y', 0.5)), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'marker', 'handle', thirdHandle, 'x', 0.5, 'y', 0.5)), ...
+  int32(1));
 asserts.isequal(invoke(probe, titleText, struct('operation', 'selectedObject', 'handle', thirdHandle)), int32(1));
 close(figureObject);
 dlclose(library);

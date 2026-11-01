@@ -16,7 +16,8 @@ function ref = imref3d(varargin)
     imageSize = varargin{1};
   end
   if nargin == 2 || nargin == 3
-    error('Nelson:image_processing:imref3dRequiresImageSizeXY', 'imref3d requires image size only or X, Y and Z world arguments.');
+    error('Nelson:image_processing:imref3dRequiresImageSizeXY', ...
+      'imref3d requires image size only or X, Y and Z world arguments.');
   end
   if nargin >= 2
     xWorldLimits = varargin{2};

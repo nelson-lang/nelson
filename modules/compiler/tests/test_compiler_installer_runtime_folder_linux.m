@@ -28,7 +28,8 @@ function check_installer()
     'filewrite([output, ''.maps''], maps); disp(''SHARED_APP_A_OK''); end']);
   first = compiler.build.standaloneApplication(entry, 'OutputDir', fullfile(work, 'first'), 'EmbedArchive', false);
   entryB = fullfile(source, 'shared_app_b.m');
-  filewrite(entryB, 'function shared_app_b(); if sin(0) ~= 0; error(''Invalid computation.''); end; disp(''SHARED_APP_B_OK''); end');
+  filewrite(entryB, ...
+    'function shared_app_b(); if sin(0) ~= 0; error(''Invalid computation.''); end; disp(''SHARED_APP_B_OK''); end');
   second = compiler.build.standaloneApplication(entryB, 'OutputDir', fullfile(work, 'second'));
   plan = __nelsonc_distribution_plan__([first, second]);
   output = fullfile(work, 'packages');

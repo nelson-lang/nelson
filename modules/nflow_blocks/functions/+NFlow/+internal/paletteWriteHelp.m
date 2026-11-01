@@ -87,7 +87,7 @@ function s = ph_block_help(b, manifest, grp, lang, blocks)
   for k = 1:numel(blocks)
     if ~strcmp(blocks(k).type, b.type)
       sa{end + 1} = sprintf('    <see_also_item><link linkend="${nflow_blocks}%s/%s">%s</link></see_also_item>', ...
-        grp, blocks(k).type, blocks(k).type); %#ok<AGROW>
+        grp, blocks(k).type, blocks(k).type); %#ok<NLS0039>
     end
     if numel(sa) >= 3; break; end
   end
@@ -147,7 +147,8 @@ function s = ph_catalog_source(grp, type)
     s = '';
     return
   end
-  s = ['    <source_code label="Catalog" path="', rel, '" language="matlab" start="entry(''', type, '''" end="'');"/>', newline];
+  s = ['    <source_code label="Catalog" path="', rel, '" language="matlab" start="entry(''', type, ...
+    '''" end="'');"/>', newline];
 end
 function s = ph_join(items)
   if isempty(items); s = ''; return; end

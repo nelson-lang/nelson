@@ -15,7 +15,8 @@ asserts.checkerror('imrotate([1 + i 2], 45)', sprintf(_('%s must be real.'), 'In
 %=============================================================================
 asserts.checkerror('imrotate([1 2], 45, 1)', sprintf(_('%s must be a string.'), 'Interpolation method'));
 %=============================================================================
-asserts.checkerror('imrotate([1 2], 45, ''unknown'')', _('Interpolation method must be ''nearest'', ''bilinear'', or ''bicubic''.'));
+asserts.checkerror('imrotate([1 2], 45, ''unknown'')', ...
+  _('Interpolation method must be ''nearest'', ''bilinear'', or ''bicubic''.'));
 %=============================================================================
 asserts.checkerror('imrotate([1 2], 45, ''nearest'', 1)', sprintf(_('%s must be a string.'), 'Bounding box'));
 %=============================================================================

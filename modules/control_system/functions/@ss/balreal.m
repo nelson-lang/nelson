@@ -13,7 +13,6 @@ function varargout = balreal(varargin)
   nargoutchk(0, 4);
 
   sys = varargin{1};
-  Ts = sys.Ts;
   D = sys.D;
 
   G = gram(sys, 'c');

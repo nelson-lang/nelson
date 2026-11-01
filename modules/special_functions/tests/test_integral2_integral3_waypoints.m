@@ -40,9 +40,13 @@ asserts.isapprox(q, 0.25, 1e-10);
 %=============================================================================
 msg = sprintf(_('''Waypoints'' value must be a %d-column array or a cell array of %d vectors with real finite values.'), 2, 2);
 asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', [0.1, 0.2, 0.3])', msg);
-asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', [0.1, 0.2, 0.3])', msg, 'Nelson:integral2:invalidWaypoints');
-asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', {0.1, NaN})', msg, 'Nelson:integral2:invalidWaypoints');
-asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', [1i, 0])', msg, 'Nelson:integral2:invalidWaypoints');
+asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', [0.1, 0.2, 0.3])', msg, ...
+  'Nelson:integral2:invalidWaypoints');
+asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', {0.1, NaN})', msg, ...
+  'Nelson:integral2:invalidWaypoints');
+asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Waypoints'', [1i, 0])', msg, ...
+  'Nelson:integral2:invalidWaypoints');
 msg = sprintf(_('''Waypoints'' value must be a %d-column array or a cell array of %d vectors with real finite values.'), 3, 3);
-asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''Waypoints'', {0.1, 0.2})', msg, 'Nelson:integral3:invalidWaypoints');
+asserts.checkerror('integral3(@(x, y, z) x, 0, 1, 0, 1, 0, 1, ''Waypoints'', {0.1, 0.2})', msg, ...
+  'Nelson:integral3:invalidWaypoints');
 %=============================================================================

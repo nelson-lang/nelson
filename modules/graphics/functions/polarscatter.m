@@ -64,7 +64,8 @@ function [theta, radius, args] = parseNumericScatterData(args)
   theta = double(args{1});
   radius = double(args{2});
   if numel(theta) ~= numel(radius)
-    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', 'radius');
+    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', ...
+      'radius');
   end
   theta = theta(:);
   radius = radius(:);
@@ -352,6 +353,7 @@ function [orientation, nSeries] = getSeriesOrientation(theta, radius)
     nSeries = size(theta, 2);
     return
   end
-  error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', 'radius');
+  error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', ...
+    'radius');
 end
 %=============================================================================

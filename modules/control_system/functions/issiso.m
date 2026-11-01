@@ -9,7 +9,8 @@
 %=============================================================================
 function res = issiso(sys)
   if ~islti(sys)
-    error('Nelson:UndefinedFunction:incorrectArgumentType', 'Check for incorrect argument data type or missing argument in call to function ''%s''.', 'issiso');
+    error('Nelson:UndefinedFunction:incorrectArgumentType', ...
+      'Check for incorrect argument data type or missing argument in call to function ''%s''.', 'issiso');
   end
 
   [p, m] = size(sys);

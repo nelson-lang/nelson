@@ -132,7 +132,8 @@ function value = odeNormalizeParameterIndices(value)
   end
   if ~isnumeric(value) || ~isreal(value) || any(~isfinite(value(:))) ...
       || any(value(:) ~= fix(value(:))) || any(value(:) < 1)
-    error('Nelson:ode_solvers:parameterindicesContainPositiveIntegerValues', 'ParameterIndices must contain positive integer values.');
+    error('Nelson:ode_solvers:parameterindicesContainPositiveIntegerValues', ...
+      'ParameterIndices must contain positive integer values.');
   end
   value = value(:);
 end

@@ -32,7 +32,8 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
       else
         builtin_type = k{1}{4};
       end
-      is_supported = strcmp(builtin_type, 'CPP_BUILTIN') == true || strcmp(builtin_type, 'CPP_BUILTIN_WITH_EVALUATOR') == true;
+      is_supported = strcmp(builtin_type, 'CPP_BUILTIN') == true || strcmp(builtin_type, ...
+        'CPP_BUILTIN_WITH_EVALUATOR') == true;
       if ~is_supported
         status = false;
         return;
@@ -40,7 +41,8 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
       overload_mode = '';
       if length(k{1}) >= 5
         overload_mode = k{1}{5};
-        is_supported = strcmp(overload_mode, 'NLS_OVERLOAD_AUTO_ON') == true || strcmp(overload_mode, 'NLS_OVERLOAD_AUTO_OFF') == true;
+        is_supported = strcmp(overload_mode, 'NLS_OVERLOAD_AUTO_ON') == true || strcmp(overload_mode, ...
+          'NLS_OVERLOAD_AUTO_OFF') == true;
         if ~is_supported
           status = false;
           return;
@@ -108,9 +110,11 @@ function txt = template(module_name, builtin_table)
     builtintype = k{1}{4};
     overloadMode = k{1}{5};
     if isempty(overloadMode)
-      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ', ', builtintype, ' },'];
+      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ...
+        ', ', builtintype, ' },'];
     else
-      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ', ', builtintype, ', ', overloadMode, ' },'];
+      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ...
+        ', ', builtintype, ', ', overloadMode, ' },'];
     end
     txt = [txt; line];
   end

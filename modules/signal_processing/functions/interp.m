@@ -48,7 +48,8 @@ function y = interp(varargin)
     return;
   end
   if length(x) < 2 * n + 1
-    error('Nelson:signal:interp:sequenceTooShort', 'Length of data sequence must be at least two times the filter length plus one.');
+    error('Nelson:signal:interp:sequenceTooShort', ...
+      'Length of data sequence must be at least two times the filter length plus one.');
   end
 
   h = signalIntfilt(r, n, alpha);

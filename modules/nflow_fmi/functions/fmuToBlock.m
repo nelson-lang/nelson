@@ -134,7 +134,7 @@ function widths = fmuToBlock_widths(inspectInfo, causality)
       if isfield(v, 'arraySize') && isnumeric(v.arraySize) && isscalar(v.arraySize)
         w = max(1, double(v.arraySize));
       end
-      widths(end + 1) = w; %#ok<AGROW>
+      widths(end + 1) = w; %#ok<NLS0039>
     end
   end
 end
@@ -165,7 +165,7 @@ function names = fmuToBlock_bycausality(info, causality)
   end
   for k = 1:numel(info.causalities)
     if strcmp(info.causalities{k}, causality)
-      names{end + 1} = info.names{k}; %#ok<AGROW>
+      names{end + 1} = info.names{k}; %#ok<NLS0039>
     end
   end
 end
@@ -200,7 +200,7 @@ function ports = fmuToBlock_ports(names, x, height, side)
   n = numel(names);
   for k = 1:n
     y = round(height * k / (n + 1));
-    ports{end + 1} = struct('x', x, 'y', y, 'side', side, 'name', names{k}); %#ok<AGROW>
+    ports{end + 1} = struct('x', x, 'y', y, 'side', side, 'name', names{k}); %#ok<NLS0039>
   end
 end
 %=============================================================================

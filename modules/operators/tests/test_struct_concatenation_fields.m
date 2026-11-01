@@ -117,9 +117,11 @@ asserts.isequal(fieldnames(R), {'a'});
 R = [struct('a', cell(0, 1)), {}, struct('a', cell(0, 1))];
 asserts.isequal(size(R), [0 2]);
 asserts.istrue(isstruct(R));
-msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'cell', 'struct', sprintf(_('Conversion to struct from %s is not possible.'), 'cell'));
+msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'cell', 'struct', ...
+  sprintf(_('Conversion to struct from %s is not possible.'), 'cell'));
 asserts.checkerror('[struct(''a'', 1), {1}]', msg, 'Nelson:UnableToConvert');
-msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'double', 'struct', sprintf(_('Conversion to struct from %s is not possible.'), 'double'));
+msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'double', 'struct', ...
+  sprintf(_('Conversion to struct from %s is not possible.'), 'double'));
 asserts.checkerror('[struct(''a'', 1), {}, 1]', msg, 'Nelson:UnableToConvert');
 asserts.checkerror('[1, struct(''a'', 1), {}]', msg, 'Nelson:UnableToConvert');
 %=============================================================================

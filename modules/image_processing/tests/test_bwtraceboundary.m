@@ -9,7 +9,8 @@
 %=============================================================================
 asserts.checkerror('bwtraceboundary(single([NaN 0]), [1 1])', _('Conversion to logical with NaN is not possible.'));
 %=============================================================================
-asserts.checkerror('bwtraceboundary(logical([1 0]), [1 1], ''bad'')', sprintf(_('Unsupported "%s" option.'), 'trace direction'));
+asserts.checkerror('bwtraceboundary(logical([1 0]), [1 1], ''bad'')', sprintf(_('Unsupported "%s" option.'), ...
+  'trace direction'));
 %=============================================================================
 asserts.checkerror('bwtraceboundary(logical([1 0]), [1 2])', _('Starting point must be a foreground pixel.'));
 %=============================================================================

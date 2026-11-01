@@ -26,7 +26,8 @@ function lines = runtime_recovery_script(stage, payload, output, plan, options)
       if contains(line, '{tmp}\modules.m'); phase = 'startup'; end
       if ~isempty(phase); line = [line, '; AfterInstall: PauseRecovery(''', phase, ''')']; end
     end
-    line = strrep(line, 'FinishRuntimeJournal(Root, Names);', 'PauseRecovery(''commit''); FinishRuntimeJournal(Root, Names);');
+    line = strrep(line, 'FinishRuntimeJournal(Root, Names);', ...
+      'PauseRecovery(''commit''); FinishRuntimeJournal(Root, Names);');
     line = strrep(line, 'Root := Saved;', 'Root := Saved; PauseRecovery(''retired'');');
     line = strrep(line, 'RequireRuntime(RecoveryMove(Root, RecoveryRoot, 8)', ...
       'PauseRecovery(''activation-lock''); RequireRuntime(RecoveryMove(Root, RecoveryRoot, 8)');

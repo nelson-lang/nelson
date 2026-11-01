@@ -43,8 +43,7 @@ namespace CodeAnalyzerAst {
         if (value.size() < word.size() || value.compare(0, word.size(), word) != 0) {
             return false;
         }
-        return value.size() == word.size()
-            || !std::isalnum(static_cast<unsigned char>(value[word.size()]));
+        return value.size() == word.size() || !isIdentifierChar(value[word.size()]);
     }
     //=============================================================================
     bool
@@ -206,6 +205,89 @@ namespace CodeAnalyzerAst {
             pos = value.find(token, pos + token.size());
         }
         return count;
+    }
+    //=============================================================================
+    int
+    inlineBlockBalance(const std::string& line)
+    {
+        static const std::set<std::string> openers
+            = { "if", "for", "parfor", "while", "switch", "try", "function", "spmd" };
+        const std::string code = codeWithoutStringsAndComments(line);
+        int balance = 0;
+        int depth = 0;
+        for (size_t k = 0; k < code.size();) {
+            const char c = code[k];
+            if (c == '(' || c == '[' || c == '{') {
+                ++depth;
+            } else if ((c == ')' || c == ']' || c == '}') && depth > 0) {
+                --depth;
+            }
+            if (!isIdentifierStart(c)) {
+                ++k;
+                continue;
+            }
+            const size_t first = k++;
+            while (k < code.size() && isIdentifierChar(code[k])) {
+                ++k;
+            }
+            if (depth > 0 || (first > 0 && code[first - 1] == '.')) {
+                continue;
+            }
+            const std::string word = code.substr(first, k - first);
+            if (openers.count(word) != 0) {
+                ++balance;
+            } else if (word == "end") {
+                --balance;
+            }
+        }
+        return balance;
+    }
+    //=============================================================================
+    size_t
+    firstStatementEnd(const std::string& code, size_t cursor)
+    {
+        int depth = 0;
+        for (size_t k = cursor; k < code.size(); ++k) {
+            const char c = code[k];
+            if (c == '(' || c == '[' || c == '{') {
+                ++depth;
+            } else if ((c == ')' || c == ']' || c == '}') && depth > 0) {
+                --depth;
+            } else if ((c == ',' || c == ';') && depth == 0) {
+                return k;
+            }
+        }
+        return code.size();
+    }
+    //=============================================================================
+    bool
+    blockHeaderHasStatement(const std::string& line)
+    {
+        const std::string code = codeWithoutStringsAndComments(line);
+        const size_t end = firstStatementEnd(code, 0);
+        return end < code.size() && !trim(code.substr(end + 1)).empty();
+    }
+    //=============================================================================
+    bool
+    isArgumentsBlockHeader(const std::string& line)
+    {
+        // Keywords are case sensitive: a property named Arguments is not a block.
+        const std::string code = trim(codeWithoutStringsAndComments(line));
+        if (!startsWithWord(code, "arguments")) {
+            return false;
+        }
+        const std::string rest = trim(code.substr(9));
+        if (rest.empty() || rest == ";" || rest == ",") {
+            return true;
+        }
+        if (rest.front() != '(' || rest.find(')') == std::string::npos) {
+            return false;
+        }
+        const std::string attribute = toLowerAscii(trim(rest.substr(1, rest.find(')') - 1)));
+        const std::string after = trim(rest.substr(rest.find(')') + 1));
+        return (attribute == "input" || attribute == "output" || attribute == "repeating"
+                   || attribute == "input, repeating" || attribute == "output, repeating")
+            && (after.empty() || after == ";" || after == ",");
     }
     //=============================================================================
 } // namespace CodeAnalyzerAst

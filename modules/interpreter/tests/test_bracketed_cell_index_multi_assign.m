@@ -92,7 +92,8 @@ assert_isequal(x, {5, 6});
 %=============================================================================
 clear x
 c = {10, 20, 30};
-assert_checkerror('[x{1:3}] = c{1:2};', _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
+assert_checkerror('[x{1:3}] = c{1:2};', ...
+  _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
 %=============================================================================
 % Named-variable targets keep distributing a comma-separated-list.
 %=============================================================================
@@ -169,5 +170,6 @@ assert_isequal(m{3, 2}, 6);
 %=============================================================================
 clear m
 c = {1, 2};
-assert_checkerror('[m{1:2,1:2}] = c{:};', _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
+assert_checkerror('[m{1:2,1:2}] = c{:};', ...
+  _('Insufficient number of outputs from right hand side of equal sign to satisfy assignment.'));
 %=============================================================================

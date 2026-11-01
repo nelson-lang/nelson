@@ -19,17 +19,39 @@ namespace {
     //=============================================================================
     using namespace CodeAnalyzerAst;
     //=============================================================================
+    // Body written on the function line itself, empty for a usual function.
+    std::string
+    oneLineFunctionBody(const std::string& line)
+    {
+        const std::string code = codeWithoutStringsAndComments(line);
+        const size_t functionStart = skipSpaces(code, 0);
+        const size_t end = firstStatementEnd(code, functionStart + 8);
+        return end < code.size() ? code.substr(end + 1) : std::string();
+    }
+    //=============================================================================
+    bool
+    hasContinuationMarker(const std::string& line);
+    //=============================================================================
+    std::string
+    logicalHeaderLine(const stringVector& lines, size_t lineIndex);
+    //=============================================================================
     CodeAnalyzerFunction
     parseFunctionSignatureLine(const stringVector& lines, size_t lineIndex)
     {
         CodeAnalyzerFunction signature;
         std::string code = stripComment(lines[lineIndex]);
+        // A signature continued with '...' is read as one line, indentation kept.
+        if (hasContinuationMarker(code)) {
+            code = std::string(skipSpaces(code, 0), ' ') + logicalHeaderLine(lines, lineIndex);
+        }
         size_t functionStart = skipSpaces(code, 0);
         if (!startsWithWord(toLowerAscii(code.substr(functionStart)), "function")) {
             return signature;
         }
         signature.line = static_cast<int>(lineIndex + 1);
         size_t cursor = skipSpaces(code, functionStart + 8);
+        // A one-line function has its body after the signature.
+        code.resize(firstStatementEnd(code, cursor));
         size_t equals = codeAnalyzerAssignmentOperator(code.substr(cursor));
         if (equals != std::string::npos) {
             equals += cursor;
@@ -271,7 +293,7 @@ namespace {
             ++cursor;
         }
         const std::string name = code.substr(first, cursor - first);
-        if (reservedWords().find(toLowerAscii(name)) != reservedWords().end()) {
+        if (reservedWords().find(name) != reservedWords().end()) {
             return false;
         }
         property.name = name;
@@ -314,7 +336,7 @@ namespace {
             ++cursor;
         }
         const std::string name = code.substr(first, cursor - first);
-        if (reservedWords().find(toLowerAscii(name)) != reservedWords().end()) {
+        if (reservedWords().find(name) != reservedWords().end()) {
             return false;
         }
         cursor = skipSpaces(code, cursor);
@@ -345,14 +367,15 @@ namespace {
         auto opensRegularNonFunctionBlock = [](const std::string& line) {
             return startsWithWord(line, "if") || startsWithWord(line, "for")
                 || startsWithWord(line, "while") || startsWithWord(line, "switch")
-                || startsWithWord(line, "try") || startsWithWord(line, "arguments")
+                || startsWithWord(line, "try") || isArgumentsBlockHeader(line)
                 || startsWithWord(line, "properties") || startsWithWord(line, "events")
                 || startsWithWord(line, "enumeration");
         };
         std::vector<CodeAnalyzerFunction> signatures;
         std::vector<Block> blocks;
         for (size_t k = 0; k < lines.size(); ++k) {
-            std::string line = toLowerAscii(trim(stripComment(lines[k])));
+            // Keywords are case sensitive: a property named End is not end.
+            std::string line = trim(stripComment(lines[k]));
             CodeAnalyzerFunction signature = parseFunctionSignatureLine(lines, k);
             if (signature.line > 0) {
                 auto parent = std::find_if(blocks.rbegin(), blocks.rend(),
@@ -366,6 +389,11 @@ namespace {
                 if (signature.classdefMethod) {
                     signature.classdefOwnerName = nearestClassName(blocks);
                 }
+                if (inlineBlockBalance(oneLineFunctionBody(lines[k])) < 0) {
+                    signature.endLine = signature.line;
+                    signatures.push_back(signature);
+                    continue;
+                }
                 signatures.push_back(signature);
                 blocks.push_back({ true, signatures.size() - 1, false, false, {} });
                 continue;
@@ -376,12 +404,26 @@ namespace {
                 blocks.push_back({ false, 0, true, false, className });
                 continue;
             }
+            // Class blocks open only directly in a classdef: elsewhere these words are names.
+            const bool inClassdef = !blocks.empty() && blocks.back().classdef;
+            const bool classBlockWord = startsWithWord(line, "methods")
+                || startsWithWord(line, "properties") || startsWithWord(line, "events")
+                || startsWithWord(line, "enumeration");
+            if (classBlockWord && !inClassdef) {
+                continue;
+            }
             if (startsWithWord(line, "methods")) {
                 blocks.push_back({ false, 0, false, true, nearestClassName(blocks) });
                 continue;
             }
             if (opensRegularNonFunctionBlock(line)) {
-                blocks.push_back({ false, 0, false, false, {} });
+                // A control block closed on its own line, like 'if c, x; end', opens nothing.
+                const bool controlBlock = startsWithWord(line, "if") || startsWithWord(line, "for")
+                    || startsWithWord(line, "while") || startsWithWord(line, "switch")
+                    || startsWithWord(line, "try");
+                if (!controlBlock || inlineBlockBalance(lines[k]) > 0) {
+                    blocks.push_back({ false, 0, false, false, {} });
+                }
                 continue;
             }
             if (startsWithWord(line, "end") && !blocks.empty()) {
@@ -450,12 +492,13 @@ namespace {
                 || startsWithWord(line, "function") || startsWithWord(line, "if")
                 || startsWithWord(line, "for") || startsWithWord(line, "while")
                 || startsWithWord(line, "switch") || startsWithWord(line, "try")
-                || startsWithWord(line, "arguments");
+                || isArgumentsBlockHeader(line);
         };
         std::vector<CodeAnalyzerClassdef> classdefs;
         std::vector<Block> blocks;
         for (size_t k = 0; k < lines.size(); ++k) {
-            std::string line = trim(toLowerAscii(codeWithoutStringsAndComments(lines[k])));
+            // Keywords are case sensitive: a property named End is not end.
+            std::string line = trim(codeWithoutStringsAndComments(lines[k]));
             std::string name;
             int column = 0;
             std::vector<CodeAnalyzerClassSuperclass> superclasses;
@@ -478,16 +521,23 @@ namespace {
                 blocks.push_back({ true, classdefs.size() - 1, false, false, false });
                 continue;
             }
-            if (startsWithWord(line, "properties")) {
+            // Class blocks open only directly in a classdef: elsewhere these words are names.
+            const bool inClassdef = !blocks.empty() && blocks.back().classdef;
+            if (inClassdef && startsWithWord(line, "properties")) {
                 blocks.push_back({ false, nearestClassIndex(blocks), true, false, false });
                 continue;
             }
-            if (startsWithWord(line, "events")) {
+            if (inClassdef && startsWithWord(line, "events")) {
                 blocks.push_back({ false, nearestClassIndex(blocks), false, true, false });
                 continue;
             }
-            if (startsWithWord(line, "methods")) {
+            if (inClassdef && startsWithWord(line, "methods")) {
                 blocks.push_back({ false, nearestClassIndex(blocks), false, false, true });
+                continue;
+            }
+            if (!inClassdef
+                && (startsWithWord(line, "properties") || startsWithWord(line, "events")
+                    || startsWithWord(line, "methods") || startsWithWord(line, "enumeration"))) {
                 continue;
             }
             if (opensNonPropertyBlock(line)) {

@@ -17,7 +17,8 @@ R = getaudiodata(r, 'single');
 asserts.isequal(R, []);
 asserts.checkerror('getaudiodata(r, ''int32'')', ...
   _('Unsupported data type for audiorecorder getaudiodata.'));
-msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'getaudiodata');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), ...
+  'getaudiodata');
 asserts.checkerror('getaudiodata(1)', ...
   msg);
 delete(r);

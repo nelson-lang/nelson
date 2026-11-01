@@ -20,7 +20,8 @@ function out = ip_transform_points(M, dim, isProjective, coords)
       error('Nelson:image_processing:pointsRealNumericArray', 'Points must be a real numeric array.');
     end
     if ~ismatrix(P) || size(P, 2) ~= dim
-      error('Nelson:image_processing:packedPointsMatrixOneColumnPer', 'Packed points must be a matrix with one column per dimension.');
+      error('Nelson:image_processing:packedPointsMatrixOneColumnPer', ...
+        'Packed points must be a matrix with one column per dimension.');
     end
     out = {ip_transform_points_apply(double(P), M, dim, isProjective)};
   elseif nCoord == dim
@@ -30,10 +31,12 @@ function out = ip_transform_points(M, dim, isProjective, coords)
     for k = 1:dim
       c = coords{k};
       if ~isnumeric(c) || ~isreal(c)
-        error('Nelson:image_processing:pointCoordinatesRealNumericArrays', 'Point coordinates must be real numeric arrays.');
+        error('Nelson:image_processing:pointCoordinatesRealNumericArrays', ...
+          'Point coordinates must be real numeric arrays.');
       end
       if ~isequal(size(c), sz)
-        error('Nelson:image_processing:pointCoordinateArraysAllSameSize', 'Point coordinate arrays must all be the same size.');
+        error('Nelson:image_processing:pointCoordinateArraysAllSameSize', ...
+          'Point coordinate arrays must all be the same size.');
       end
       P(:, k) = double(c(:));
     end

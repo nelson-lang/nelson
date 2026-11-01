@@ -34,7 +34,8 @@ function check_editor()
   filewrite(entry, 'function editor_entry(); disp(''EDITOR_ENTRY_OK''); end');
   buildOptions = compiler.build.StandaloneApplicationOptions(entry);
   installerOptions = compiler.package.InstallerOptions('ApplicationName', 'EditorTest');
-  asserts.isequal(sort(setdiff(fieldnames(state.Controls.Build), {'SupportPackageMode'})), sort(properties(buildOptions)));
+  asserts.isequal(sort(setdiff(fieldnames(state.Controls.Build), {'SupportPackageMode'})), ...
+    sort(properties(buildOptions)));
   asserts.isequal(sort(fieldnames(state.Controls.Installer)), sort(properties(installerOptions)));
   state.Controls.Build.AppFile.Value = entry;
   state.Controls.Build.OutputDir.Value = fullfile(directory, 'build');

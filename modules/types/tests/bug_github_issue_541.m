@@ -40,7 +40,8 @@ R = [single(120) 'f'];
 REF = 'xf';
 asserts.isequal(R, REF);
 %=============================================================================
-msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'single', 'char', _('Complex values cannot be converted to chars'));
+msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'single', 'char', ...
+  _('Complex values cannot be converted to chars'));
 asserts.checkerror('[single(120i) ''f'']', msg)
 asserts.checkerror('[single(120i) ''f'']', msg, 'Nelson:UnableToConvert')
 %=============================================================================

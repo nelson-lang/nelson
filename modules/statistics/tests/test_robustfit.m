@@ -65,5 +65,6 @@ asserts.checkerror('robustfit([1], {1})', sprintf(_('%s must be a real numeric v
 asserts.checkerror('robustfit([1; 2], [1])', sprintf(_('%s must have the same number of rows.'), 'X and Y'));
 asserts.checkerror('robustfit([1; 2], [1; 2], ''bad'')', sprintf(_('%s has an unsupported value.'), 'WFUN'));
 asserts.checkerror('robustfit([1; 2], [1; 2], ''huber'', 0)', sprintf(_('%s must be a positive scalar.'), 'TUNE'));
-asserts.checkerror('robustfit([1; 2], [1; 2], ''huber'', [], ''bad'')', sprintf(_('%s has an unsupported value.'), 'CONST'));
+asserts.checkerror('robustfit([1; 2], [1; 2], ''huber'', [], ''bad'')', sprintf(_('%s has an unsupported value.'), ...
+  'CONST'));
 %=============================================================================

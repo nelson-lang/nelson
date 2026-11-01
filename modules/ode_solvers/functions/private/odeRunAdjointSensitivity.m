@@ -9,7 +9,8 @@
 %=============================================================================
 function sol = odeRunAdjointSensitivity(solver, odefun, tspan, y0, yp0, options, sensitivity)
   if ~odeIsSundialsSolver(solver)
-    error('Nelson:ode_solvers:adjointSensitivitiesRequireSundialsSolver', 'Adjoint sensitivities require a SUNDIALS solver.');
+    error('Nelson:ode_solvers:adjointSensitivitiesRequireSundialsSolver', ...
+      'Adjoint sensitivities require a SUNDIALS solver.');
   end
   if ~odeSundialsAvailable()
     error('Nelson:ode_solvers:sundialsBackendNotAvailable', 'SUNDIALS backend is not available.');
@@ -18,10 +19,12 @@ function sol = odeRunAdjointSensitivity(solver, odefun, tspan, y0, yp0, options,
     error('Nelson:ode_solvers:adjointEventsUnsupported', 'Adjoint sensitivities with events are not supported yet.');
   end
   if isempty(sensitivity.ObjectiveFcn) && isempty(sensitivity.QuadratureFcn)
-    error('Nelson:ode_solvers:adjointSensitivitiesRequireObjectivefcnQuadraturefcn', 'Adjoint sensitivities require ObjectiveFcn or QuadratureFcn.');
+    error('Nelson:ode_solvers:adjointSensitivitiesRequireObjectivefcnQuadraturefcn', ...
+      'Adjoint sensitivities require ObjectiveFcn or QuadratureFcn.');
   end
   if ~isempty(sensitivity.InitialValue) || ~isempty(sensitivity.InitialSlope)
-    error('Nelson:ode_solvers:adjointSensitivitiesNotUseSensitivityInitial', 'Adjoint sensitivities do not use sensitivity initial conditions.');
+    error('Nelson:ode_solvers:adjointSensitivitiesNotUseSensitivityInitial', ...
+      'Adjoint sensitivities do not use sensitivity initial conditions.');
   end
   if ~isempty(sensitivity.ObjectiveTime) ...
       && abs(sensitivity.ObjectiveTime - tspan(length(tspan))) > ...
@@ -52,7 +55,8 @@ function indices = odeAdjointParameterIndices(sensitivity, count)
     indices = sensitivity.ParameterIndices(:);
   end
   if any(indices > count)
-    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', 'ParameterIndices exceed the number of parameters.');
+    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', ...
+      'ParameterIndices exceed the number of parameters.');
   end
 end
 %=============================================================================

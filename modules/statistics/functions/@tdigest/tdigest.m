@@ -36,7 +36,8 @@ classdef tdigest
           x = arg;
           hasData = true;
         else
-          error('Nelson:statistics:invalidInputArgumentExpectedNumeric', 'Invalid input argument. Expected a numeric array or a scalar compression value.');
+          error('Nelson:statistics:invalidInputArgumentExpectedNumeric', ...
+            'Invalid input argument. Expected a numeric array or a scalar compression value.');
         end
       elseif nargin == 2
         compression = varargin{1};
@@ -129,7 +130,8 @@ classdef tdigest
         obj = b.addData(a);
         return
       end
-      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', 'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
+      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', ...
+        'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
     end
 
     function obj = compress(obj)
@@ -226,11 +228,13 @@ classdef tdigest
     end
 
     function obj = horzcat(varargin)
-      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', 'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
+      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', ...
+        'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
     end
 
     function obj = vertcat(varargin)
-      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', 'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
+      error('Nelson:statistics:combiningTdigestObjectsAllowedThey', ...
+        'Combining ''tdigest'' objects is not allowed as they are designed to be scalar.');
     end
   end
 
@@ -261,7 +265,8 @@ classdef tdigest
   methods (Static, Access = private)
     function validateCompression(value)
       if ~isscalar(value) || ~isnumeric(value) || ~isreal(value) || ~isfinite(value) || value <= 0
-        error('Nelson:statistics:compressionParameterPositiveScalarNumber', 'Compression parameter must be a positive scalar number.');
+        error('Nelson:statistics:compressionParameterPositiveScalarNumber', ...
+          'Compression parameter must be a positive scalar number.');
       end
     end
 

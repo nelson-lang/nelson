@@ -53,7 +53,8 @@ Height = [71;69;64;67;64];
 Weight = [176;163;131;133;119];
 BloodPressure_1 = [124; 109; 125; 117; 122];
 BloodPressure_2 = [93;77;83;75;80];
-REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure_1, BloodPressure_2, 'VariableNames', {'Last Name','Age','Smoker','Height','Weight','BloodPressure 1','BloodPressure 2'});
+REF = table(LastName, Age, Smoker, Height, Weight, BloodPressure_1, BloodPressure_2, 'VariableNames', {'Last Name', ...
+  'Age','Smoker','Height','Weight','BloodPressure 1','BloodPressure 2'});
 csv_filename = [modulepath('spreadsheet'), '/tests/test_readtable_4.csv'];
 R = readtable(csv_filename);
 asserts.isequal(R, REF)

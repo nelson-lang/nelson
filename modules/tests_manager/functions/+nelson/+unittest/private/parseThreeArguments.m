@@ -12,7 +12,8 @@ function [modules_list, files_to_test, result_outputfile, option, stoponfail] = 
     parseThreeArguments(param1, param2, param3)
   [modules_list, files_to_test] = parseTarget(param1); %#ok<NLS0004>
   if ~isempty(modules_list) && ~isempty(files_to_test)
-    error('Nelson:tests_manager:invalidArgument:nArgumentCellModulesFilenamesExpected', '#%d argument: cell of modules or filenames expected.', 1);
+    error('Nelson:tests_manager:invalidArgument:nArgumentCellModulesFilenamesExpected', ...
+      '#%d argument: cell of modules or filenames expected.', 1);
   end
   stoponfail = haveStopOnFailOption(param2);
   if stoponfail

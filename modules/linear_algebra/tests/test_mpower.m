@@ -139,15 +139,21 @@ REF = [1.000000000000000 + 8.000000000000000i 2.000000000000000 + 8.000000000000
   3.000000000000000 + 8.000000000000000i 2.000000000000000 + 8.000000000000000i 4.000000000000000 + 8.000000000000000i];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1; 2; 3; 4];', _('Power (^) operator can only be applied to scalar and square arguments.'));
+asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1; 2; 3; 4];', ...
+  _('Power (^) operator can only be applied to scalar and square arguments.'));
 %=============================================================================
-asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 2 3 4];', _('Power (^) operator can only be applied to scalar and square arguments.'));
+asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 2 3 4];', ...
+  _('Power (^) operator can only be applied to scalar and square arguments.'));
 %=============================================================================
-asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 4; 2 3; 3 3];', _('Power (^) operator can only be applied to scalar and square arguments.'));
+asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 4; 2 3; 3 3];', ...
+  _('Power (^) operator can only be applied to scalar and square arguments.'));
 %=============================================================================
-asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 4 2; 2 3 2; 3 2 2];', _('Size mismatch on arguments to power (^) operator.'));
+asserts.checkerror('R = [1 2 3; 2 2 3; 3 2 4]^[ 1 4 2; 2 3 2; 3 2 2];', ...
+  _('Size mismatch on arguments to power (^) operator.'));
 %=============================================================================
-asserts.checkerror('R = [2, 0.25, -9,eps, 2i, 5+6i]^pi;', _('Power (^) operator can only be applied to scalar and square arguments.'));
+asserts.checkerror('R = [2, 0.25, -9,eps, 2i, 5+6i]^pi;', ...
+  _('Power (^) operator can only be applied to scalar and square arguments.'));
 %=============================================================================
-asserts.checkerror('R = pi^[2, 0.25, -9, eps, 2i, 5+6i];', _('Power (^) operator can only be applied to scalar and square arguments.'));
+asserts.checkerror('R = pi^[2, 0.25, -9, eps, 2i, 5+6i];', ...
+  _('Power (^) operator can only be applied to scalar and square arguments.'));
 %=============================================================================

@@ -30,13 +30,15 @@ function C = tensorprod(A, B, varargin)
     end
   end
   if numel(dimA) ~= numel(dimB)
-    error('Nelson:tensorprod:contractedDimensionsMismatch', 'The number of contracted dimensions must match for both arrays.');
+    error('Nelson:tensorprod:contractedDimensionsMismatch', ...
+      'The number of contracted dimensions must match for both arrays.');
   end
   szA = sizePadded(A, ndA);
   szB = sizePadded(B, ndB);
   for k = 1:numel(dimA)
     if szA(dimA(k)) ~= szB(dimB(k))
-      error('Nelson:dimagree:specifiedDimensionsInputArraysSizes', 'Specified dimensions of the input arrays must have the same sizes.');
+      error('Nelson:dimagree:specifiedDimensionsInputArraysSizes', ...
+        'Specified dimensions of the input arrays must have the same sizes.');
     end
   end
   remA = setdiff(1:ndA, dimA, 'stable');
@@ -82,7 +84,8 @@ function [dimA, dimB, contractAll, numDimsA] = parseArguments(args)
     dimB = double(positional{2});
     dimB = dimB(:).';
   elseif ~isempty(positional)
-    error('Nelson:tensorprod:invalidContractedDimensions', 'Contracted dimensions must be given as two vectors DIMA and DIMB.');
+    error('Nelson:tensorprod:invalidContractedDimensions', ...
+      'Contracted dimensions must be given as two vectors DIMA and DIMB.');
   end
 end
 %=============================================================================

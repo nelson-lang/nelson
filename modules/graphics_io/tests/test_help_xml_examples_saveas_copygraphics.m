@@ -10,7 +10,8 @@
 % <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
-skip_testsuite(~isfile([modulepath('graphics_io'), '/help/en_US/xml/chapter.xml']), 'Help XML sources are not available in this build');
+skip_testsuite(~isfile([modulepath('graphics_io'), '/help/en_US/xml/chapter.xml']), ...
+  'Help XML sources are not available in this build');
 graphics_io_run_help_page('en_US', 'saveas', 1);
 graphics_io_run_help_page('en_US', 'copygraphics', 0);
 %=============================================================================

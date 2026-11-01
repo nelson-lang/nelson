@@ -20,7 +20,8 @@ function check_installer()
   firstFile = fullfile(source, 'runtime_a.m');
   filewrite(firstFile, 'function runtime_a(); if ~isdeployed() || ismodule(''compiler''); error(''Invalid runtime.''); end; disp(''RUNTIME_A_OK''); end');
   secondFile = fullfile(source, 'runtime_b.m');
-  filewrite(secondFile, 'function runtime_b(); if sin(0) ~= 0; error(''Invalid computation.''); end; disp(''RUNTIME_B_OK''); end');
+  filewrite(secondFile, ...
+    'function runtime_b(); if sin(0) ~= 0; error(''Invalid computation.''); end; disp(''RUNTIME_B_OK''); end');
   first = compiler.build.standaloneApplication(firstFile, 'OutputDir', fullfile(work, 'first'));
   second = compiler.build.standaloneApplication(secondFile, 'OutputDir', fullfile(work, 'second'));
   expected = __nelsonc_distribution_plan__([first, second]);
@@ -28,7 +29,8 @@ function check_installer()
   compiler.runtime.customInstaller('first', first, 'RuntimeDelivery', 'installer', 'OutputDir', output);
   report = fullfile(second.Options.OutputDir, 'buildresult.json');
   compiler.runtime.customInstaller('second', report, 'RuntimeDelivery', 'installer', 'OutputDir', output);
-  compiler.runtime.customInstaller('first', first, 'RuntimeDelivery', 'installer', 'OutputDir', fullfile(work, 'repeat'));
+  compiler.runtime.customInstaller('first', first, 'RuntimeDelivery', 'installer', 'OutputDir', fullfile(work, ...
+    'repeat'));
   asserts.isequal(sha256(fullfile(output, 'first.install'), '-file'), ...
     sha256(fullfile(work, 'repeat', 'first.install'), '-file'));
   legacy = jsondecode(fileread(report)); legacy.launcher.runtimeDiscoveryVersion = 2;
@@ -82,7 +84,8 @@ function check_installer()
   asserts.isfalse(isfile(fullfile(destination, '.nelson-runtime', 'uninstall')));
   asserts.istrue(isfile(fullfile(destination, 'user.txt')));
   asserts.isfalse(isfile(interpreter));
-  asserts.isfalse(isfile(fullfile(config, 'nelson', 'runtimes', computer('arch'), [expected.engineFingerprint, '.root'])));
+  asserts.isfalse(isfile(fullfile(config, 'nelson', 'runtimes', computer('arch'), [expected.engineFingerprint, ...
+    '.root'])));
   asserts.istrue(isfile(fullfile(applications, 'runtime_a')));
   clear restore cleanup;
 end

@@ -29,5 +29,6 @@ asserts.isequal(square([0 NaN pi]), [1 1 -1]);
 asserts.isequal(rectpuls([-Inf NaN Inf]), [0 0 0]);
 asserts.isequal(tripuls([-Inf NaN Inf]), [0 0 0]);
 %=============================================================================
-asserts.checkerror('chirp([0 1], 0, 1, 1, ''logarithmic'')', _('Frequencies must be nonzero and have the same sign for logarithmic sweeps.'));
+asserts.checkerror('chirp([0 1], 0, 1, 1, ''logarithmic'')', ...
+  _('Frequencies must be nonzero and have the same sign for logarithmic sweeps.'));
 %=============================================================================

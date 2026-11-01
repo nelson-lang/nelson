@@ -17,7 +17,8 @@ function name = datetimeTimeZoneName(value)
   elseif ischar(value) && (isrow(value) || isempty(value)) || (isstring(value) && isscalar(value) && ~ismissing(value))
     name = char(value);
   else
-    error('Nelson:datetime:InvalidTimeZone', 'A time zone must be specified as a string scalar, non-NaN duration scalar, or character vector.');
+    error('Nelson:datetime:InvalidTimeZone', ...
+      'A time zone must be specified as a string scalar, non-NaN duration scalar, or character vector.');
   end
   if ~isempty(name)
     name = timezonename(name, [modulepath('time'), '/resources/tzdata']);

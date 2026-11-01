@@ -52,7 +52,8 @@ function str = getArgumentAsCharactersVector(arg)
   str = arg;
   supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
   if (~supported)
-    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, '''char'' or ''string''');
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, ...
+      '''char'' or ''string''');
   end
   str = convertStringsToChars(str);
 end

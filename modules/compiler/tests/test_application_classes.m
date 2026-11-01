@@ -64,7 +64,8 @@ write_lines(fullfile(directory, 'NcAnalysisHandle.m'), {
   'end'
   });
 for name = {'nc_analysis_leaf', 'nc_analysis_default', 'nc_analysis_limit', 'nc_validate_positive', 'nc_validate_limit'}
-  write_lines(fullfile(directory, [name{1}, '.m']), {['function value = ', name{1}, '(varargin)'], 'value = 3;', 'end'});
+  write_lines(fullfile(directory, [name{1}, '.m']), {['function value = ', name{1}, '(varargin)'], 'value = 3;', ...
+    'end'});
 end
 write_lines(fullfile(directory, 'unreachable.m'), {'This is deliberately invalid source.'});
 analysis = jsondecode(__nelsonc_plan__('link', fullfile(directory, 'class_analysis_entry.m')));
@@ -115,7 +116,8 @@ write_lines(fullfile(directory, '@NcOperatorMethods', 'plus.m'), {
   'result = nc_missing_operator_dependency(value);'
   'end'
   });
-operatorMethods = jsondecode(__nelsonc_plan__('link', fullfile(directory, '@NcOperatorMethods', 'NcOperatorMethods.m')));
+operatorMethods = jsondecode(__nelsonc_plan__('link', fullfile(directory, '@NcOperatorMethods', ...
+  'NcOperatorMethods.m')));
 asserts.isfalse(operatorMethods.complete);
 asserts.istrue(contains(jsonencode(operatorMethods.diagnostics), 'nc_missing_operator_dependency'));
 asserts.istrue(any(endsWith(string({operatorMethods.files.source}), '/@NcOperatorMethods/plus.m')));

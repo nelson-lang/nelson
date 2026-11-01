@@ -51,7 +51,8 @@ function varargout = c2d(varargin)
 
   if nargin > 3
     if ~strcmp(method, 'P')
-      error('Nelson:control_system:prewarpMethodExpected', 'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
+      error('Nelson:control_system:prewarpMethodExpected', ...
+        'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
     end
     w0 = varargin{4};
     mustBeNumeric(w0, 4);

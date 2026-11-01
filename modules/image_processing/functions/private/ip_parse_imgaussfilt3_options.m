@@ -41,14 +41,16 @@ end
 %=============================================================================
 function sigma = ip_parse_imgaussfilt3_sigma(value)
   if ~isnumeric(value) || ~isreal(value) || issparse(value)
-    error('Nelson:image_processing:sigmaContainPositiveFiniteValues', '%s must contain positive finite values.', 'Sigma');
+    error('Nelson:image_processing:sigmaContainPositiveFiniteValues', '%s must contain positive finite values.', ...
+      'Sigma');
   end
   sigma = double(value(:).');
   if ~(numel(sigma) == 1 || numel(sigma) == 3)
     error('Nelson:image_processing:sigmaScalarElementVector', 'Sigma must be a scalar or %d-element vector.', 3);
   end
   if any(~isfinite(sigma)) || any(sigma <= 0)
-    error('Nelson:image_processing:sigmaContainPositiveFiniteValues', '%s must contain positive finite values.', 'Sigma');
+    error('Nelson:image_processing:sigmaContainPositiveFiniteValues', '%s must contain positive finite values.', ...
+      'Sigma');
   end
   if numel(sigma) == 1
     sigma = [sigma sigma sigma];
@@ -57,7 +59,8 @@ end
 %=============================================================================
 function filterSize = ip_parse_imgaussfilt3_filter_size(value)
   if ~isnumeric(value) || ~isreal(value) || issparse(value)
-    error('Nelson:image_processing:filterSizeContainPositiveOddIntegers', '%s size must contain positive odd integers.', 'Filter');
+    error('Nelson:image_processing:filterSizeContainPositiveOddIntegers', ...
+      '%s size must contain positive odd integers.', 'Filter');
   end
   filterSize = double(value(:).');
   if numel(filterSize) == 1
@@ -66,7 +69,8 @@ function filterSize = ip_parse_imgaussfilt3_filter_size(value)
   if numel(filterSize) ~= 3 || any(~isfinite(filterSize)) ...
       || any(filterSize ~= floor(filterSize)) || any(filterSize < 1) ...
       || any(mod(filterSize, 2) == 0)
-    error('Nelson:image_processing:filterSizeContainPositiveOddIntegers', '%s size must contain positive odd integers.', 'Filter');
+    error('Nelson:image_processing:filterSizeContainPositiveOddIntegers', ...
+      '%s size must contain positive odd integers.', 'Filter');
   end
 end
 %=============================================================================

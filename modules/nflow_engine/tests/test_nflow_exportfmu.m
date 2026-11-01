@@ -18,7 +18,7 @@ d = nflow_exportfmu_gain_model();
 
 wd = tempname();
 mkdir(wd);
-cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NLS0004>
 modelFile = [wd, '/fmu_export_test.nflow'];
 fid = fopen(modelFile, 'wt'); fwrite(fid, jsonencode(d)); fclose(fid);
 

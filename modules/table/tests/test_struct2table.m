@@ -13,7 +13,8 @@ S.Smoker = ["Y"; "N"; "Y"];
 S.SystolicBP = [124; 122; 130];
 S.DiastolicBP = [93; 80; 92];
 T = struct2table(S);
-REF = table(["Chang"; "Brown"; "Ruiz"], ["Y"; "N"; "Y"], [124; 122; 130], [93; 80; 92], 'VariableNames', {'Name', 'Smoker', 'SystolicBP', 'DiastolicBP'});
+REF = table(["Chang"; "Brown"; "Ruiz"], ["Y"; "N"; "Y"], [124; 122; 130], [93; 80; 92], 'VariableNames', {'Name', ...
+  'Smoker', 'SystolicBP', 'DiastolicBP'});
 asserts.isequal(T, REF);
 %=============================================================================
 S = struct();
@@ -30,7 +31,8 @@ S(3, 1).Smoker = "Y";
 S(3, 1).SystolicBP = 130;
 S(3, 1).DiastolicBP = 92;
 T = struct2table(S);
-REF = table(["Chang"; "Brown"; "Ruiz"], ["Y"; "N"; "Y"], [124; 122; 130], [93; 80; 92], 'VariableNames', {'Name', 'Smoker', 'SystolicBP', 'DiastolicBP'});
+REF = table(["Chang"; "Brown"; "Ruiz"], ["Y"; "N"; "Y"], [124; 122; 130], [93; 80; 92], 'VariableNames', {'Name', ...
+  'Smoker', 'SystolicBP', 'DiastolicBP'});
 asserts.isequal(T, REF);
 %=============================================================================
 S = struct();

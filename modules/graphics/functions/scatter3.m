@@ -356,7 +356,6 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
       colorValue = validatecolor(arg);
     catch
       error('Nelson:scatter:invalidColorName', 'Invalid color name or short name.');
-      return;
     end
     validColor = true;
     return;
@@ -365,7 +364,6 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
   % Must be numeric beyond this point
   if ~isnumeric(arg)
     error('Nelson:scatter:invalidColorType', 'Color must be a string, character array, or numeric.');
-    return;
   end
 
   % Single RGB triplet
@@ -376,7 +374,6 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
       return;
     else
       error('Nelson:scatter:rgbTripletRange', 'RGB triplet values must be between 0 and 1.');
-      return;
     end
   end
 
@@ -397,11 +394,9 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
         return;
       else
         error('Nelson:scatter:rgbRowsPointsOrDatasets', 'RGB matrix rows must match number of points or datasets.');
-        return;
       end
     else
       error('Nelson:scatter:rgbRowsPoints', 'RGB matrix rows must match number of points.');
-      return;
     end
   end
 
@@ -413,7 +408,6 @@ function [colorValue, validColor, msg] = checkColorValue(arg, X, Y)
       return;
     else
       error('Nelson:scatter:colormapIndexVectorOnly', 'Colormap index vector is only valid when X and Y are vectors.');
-      return;
     end
   end
 

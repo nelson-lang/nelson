@@ -30,6 +30,7 @@ R = [char(65) 65536];
 asserts.isequal(class(R), 'char');
 asserts.isequal(double(R), [65 65535]);
 %=============================================================================
-msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'logical', 'char', _('Conversion to char from logical is not possible.'));
+msg = sprintf(_('The following error occurred converting from %s to %s:\n%s'), 'logical', 'char', ...
+  _('Conversion to char from logical is not possible.'));
 asserts.checkerror('R = [char(65) true];', msg, 'Nelson:UnableToConvert');
 %=============================================================================

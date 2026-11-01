@@ -9,10 +9,12 @@
 %=============================================================================
 function [fun, x0, options] = optimFminuncProblem(problem)
   if ~isfield(problem, 'objective') || ~isfield(problem, 'x0')
-    error('Nelson:optimization:problemMissingObjective', 'Problem structure must contain %s fields.', 'objective and x0');
+    error('Nelson:optimization:problemMissingObjective', 'Problem structure must contain %s fields.', ...
+      'objective and x0');
   end
   if ~isfield(problem, 'solver') || ~isfield(problem, 'options')
-    error('Nelson:optimization:invalidProblemStructure', 'Problem structure must contain %s fields.', 'solver and options');
+    error('Nelson:optimization:invalidProblemStructure', 'Problem structure must contain %s fields.', ...
+      'solver and options');
   end
   if ~strcmpi(char(problem.solver), 'fminunc')
     error('Nelson:optimization:invalidProblemSolver', 'Problem solver must be %s.', 'fminunc');

@@ -13,7 +13,8 @@ function varargout = lookup(varargin)
   nargoutchk(0, 1);
   obj = varargin{1};
   if (~isConfigured(obj))
-    error('Nelson:dictionary:unablePerformADictionaryLookup3', 'Unable to perform a dictionary lookup when the key and value types are not set.');
+    error('Nelson:dictionary:unablePerformADictionaryLookup3', ...
+      'Unable to perform a dictionary lookup when the key and value types are not set.');
   end
   if nargin == 3
     error('Nelson:wrongNumberOfInputs', 'Wrong number of input arguments.');
@@ -28,7 +29,6 @@ function varargout = lookup(varargin)
     varargout{1} = obj(key);
     return;
   end
-  fallbackArgument = varargin{3};
   if (~strcmp(varargin{3}, 'FallbackValue'))
     error('Nelson:dictionary:invalidParameterName', 'Parameter name must be ''%s''.', 'FallbackValue');
   end

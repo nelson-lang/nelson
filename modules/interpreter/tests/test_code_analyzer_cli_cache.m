@@ -30,7 +30,7 @@ asserts.istrue(contains(output, '"id":"NLS0010"'));
 cacheEntries = dir([cacheDir, '/*.json']);
 asserts.istrue(length(cacheEntries) >= 1);
 cacheText = fileread([cacheEntries(1).folder, '/', cacheEntries(1).name]);
-asserts.istrue(contains(cacheText, '"version":3'));
+asserts.istrue(contains(cacheText, '"version":6'));
 asserts.istrue(contains(cacheText, '"contentHash"'));
 previousFolder = pwd();
 cleanupFolder = onCleanup(@() cd(previousFolder));

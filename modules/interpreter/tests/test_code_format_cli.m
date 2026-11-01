@@ -51,7 +51,8 @@ asserts.isequal(propertiesAssignmentFormatted, propertiesAssignmentInput);
 [status, output] = system([formatCommand, ' --full-format true "', propertiesAssignmentFile, '"']);
 asserts.isequal(status, 0);
 asserts.isequal(output, '');
-propertiesAssignmentFormattedAgain = strrep(fileread(propertiesAssignmentFile, 'char', 'native'), char([13, 10]), char(10));
+propertiesAssignmentFormattedAgain = strrep(fileread(propertiesAssignmentFile, 'char', 'native'), char([13, 10]), ...
+  char(10));
 asserts.isequal(propertiesAssignmentFormattedAgain, propertiesAssignmentFormatted);
 run(propertiesAssignmentFile);
 

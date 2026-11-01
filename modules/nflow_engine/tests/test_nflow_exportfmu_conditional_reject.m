@@ -22,7 +22,7 @@ dc.blocks = {...
 dc.connections = {struct('from', 'clk', 'to', 'sel', 'fromIndex', 0, 'toIndex', 0)};
 wd = tempname();
 mkdir(wd);
-cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(wd, 's')); %#ok<NLS0004>
 condFile = fullfile(wd, 'fmu_export_cond.nflow');
 fid = fopen(condFile, 'wt'); fwrite(fid, jsonencode(dc)); fclose(fid);
 msg = '';

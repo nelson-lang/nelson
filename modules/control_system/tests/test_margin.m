@@ -74,5 +74,6 @@ sys = tf(M);
 asserts.checkerror('[Gm, Pm, Wcg, Wcp] = margin(sys);', sprintf(_('%s expected.'), 'SISO LTI model'));
 %=============================================================================
 % The data form requires output arguments.
-asserts.checkerror('margin([1 2], [0 -90], [1 2]);', _('margin with frequency-response data requires output arguments.'));
+asserts.checkerror('margin([1 2], [0 -90], [1 2]);', ...
+  _('margin with frequency-response data requires output arguments.'));
 %=============================================================================

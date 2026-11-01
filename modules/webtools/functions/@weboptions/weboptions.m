@@ -275,7 +275,8 @@ classdef weboptions
         value = cellstr(value);
       end
       if ~iscellstr(value) || size(value, 2) ~= 2
-        error('Nelson:weboptions:invalidHeaderFields', '%s must be an M-by-2 string array or cell array of character vectors.', 'HeaderFields');
+        error('Nelson:weboptions:invalidHeaderFields', ...
+          '%s must be an M-by-2 string array or cell array of character vectors.', 'HeaderFields');
       end
       obj.HeaderFieldsValue = value;
     end
@@ -302,7 +303,8 @@ classdef weboptions
         return
       end
       if ~isfile(value)
-        error('Nelson:weboptions:invalidCertificateFilename', '%s must be "default", empty, or an existing file.', 'CertificateFilename');
+        error('Nelson:weboptions:invalidCertificateFilename', '%s must be "default", empty, or an existing file.', ...
+          'CertificateFilename');
       end
       obj.CertificateFilenameValue = value;
     end

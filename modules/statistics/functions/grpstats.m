@@ -127,7 +127,7 @@ function outputs = grpstatsArrayLocal(X, group, stats, opts)
   if size(X, 1) ~= groupLengthLocal(group)
     error('Nelson:statistics:xGroupSameNumberRows', '%s must have the same number of rows.', 'X and group');
   end
-  [uniqueKeys, ia, ic, labels] = arrayGroupsLocal(group);
+  [uniqueKeys, ~, ic, labels] = arrayGroupsLocal(group);
   nGroups = length(uniqueKeys);
   [order, edges] = groupOrderLocal(ic, nGroups);
   outputs = cell(1, length(stats));

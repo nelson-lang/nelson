@@ -13,7 +13,7 @@
 % (exit status 2) and left untouched, never crash or hang the formatter.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 formatCommand = nelson_tool_command_for_test('nelson-format');
 %=============================================================================
 parserErrorFile = [workdir, '/parser_error_case.m'];

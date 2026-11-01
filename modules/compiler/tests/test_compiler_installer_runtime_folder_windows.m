@@ -63,7 +63,8 @@ function check_reserved_inputs(work, result)
       compiler.package.installer(result, 'RuntimeDelivery', 'none', 'AdditionalFiles', reserved, ...
         'OutputDir', fullfile(work, 'reserved-output'));
     catch ex
-      rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:installer') || startsWith(ex.identifier, 'Nelson:nelsonc:installer:'));
+      rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:installer') || startsWith(ex.identifier, ...
+        'Nelson:nelsonc:installer:'));
     end
     asserts.istrue(rejected);
     asserts.isequal(fileread(reserved), 'KEEP');

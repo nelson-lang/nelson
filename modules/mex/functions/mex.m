@@ -40,7 +40,7 @@ function mex(varargin)
   if status
     functionName = outputName;
   else
-    [p, f, e] = fileparts(filenames{1});
+    [~, f, ~] = fileparts(filenames{1});
     functionName = f;
   end
   if isempty(interleavedComplex)
@@ -207,7 +207,7 @@ end
 %=============================================================================
 function undefines = getUndefines(params)
   undefines = {};
-  [tf, compiler] = havecompiler();
+  [~, compiler] = havecompiler();
   ismsvc = strcmp(compiler, 'msvc');
   for p = params
     if ischar(p{1})

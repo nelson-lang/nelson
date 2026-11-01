@@ -96,7 +96,8 @@ asserts.checkerror('k = strfind(''aaa'', {});', _('Second argument a single stri
 asserts.checkerror('idx = strfind({}, {});', _('Second argument a single string expected.'));
 asserts.isequal(strfind('', {''}), []);
 asserts.checkerror('idx = strfind(''aaaa'',[''a'';''a'']);', _('Second argument a single string expected.'));
-asserts.checkerror('strfind([''aaaa'';''bbbb''],{''aba'',''aa''})', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string or cell'))
+asserts.checkerror('strfind([''aaaa'';''bbbb''],{''aba'',''aa''})', ...
+  sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string or cell'))
 asserts.checkerror('strfind()', _('Not enough input arguments.'));
 expected_msg = _("'ForceCellOutput' expected as third input argument.");
 asserts.checkerror('strfind(''aaaa'', ''aa'', ''overlaps'', -1)', expected_msg);

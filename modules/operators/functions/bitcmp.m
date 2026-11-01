@@ -14,14 +14,16 @@ function r = bitcmp(A, assumedtype)
     cls = char(assumedtype);
     if isinteger(A)
       if ~strcmp(class(A), cls)
-        error('Nelson:bitcmp:integerInputsCannotAssumedAny2', 'Integer inputs cannot be assumed as any other types than their own types.');
+        error('Nelson:bitcmp:integerInputsCannotAssumedAny2', ...
+          'Integer inputs cannot be assumed as any other types than their own types.');
       end
     else
       % assumedtype only applies to double input; the result stays double.
       restoreDouble = true;
       if ~isreal(A) || ~all(isfinite(A(:))) || ~isequal(A, floor(A)) ...
         || any(A(:) < double(intmin(cls))) || any(A(:) > double(intmax(cls)))
-        error('Nelson:operators:invalidBitInput:doubleInputsIntegerValuesRangeASSUMEDTYPE', 'Double inputs must have integer values in the range of ASSUMEDTYPE.');
+        error('Nelson:operators:invalidBitInput:doubleInputsIntegerValuesRangeASSUMEDTYPE', ...
+          'Double inputs must have integer values in the range of ASSUMEDTYPE.');
       end
       A = cast(A, cls);
     end

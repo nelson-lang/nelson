@@ -33,7 +33,8 @@ asserts.istrue(isfield(output, 'iterations'));
 %=============================================================================
 H = 2 * eye(2);
 f = [-2; -4];
-[x, fval, exitflag, output, lambda] = quadprog(H, f, [], [], [], [], [0; 0], [10; 10], [], optimoptions('quadprog', 'Display', 'off'));
+[x, fval, exitflag, output, lambda] = quadprog(H, f, [], [], [], [], [0; 0], [10; 10], [], optimoptions('quadprog', ...
+  'Display', 'off'));
 asserts.isapprox(x(:), [1; 2], 1e-9);
 asserts.isapprox(fval, -5, 1e-9);
 asserts.istrue(exitflag > 0);

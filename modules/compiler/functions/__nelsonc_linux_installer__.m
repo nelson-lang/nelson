@@ -28,12 +28,14 @@ function __nelsonc_linux_installer__(stage, payload, shortcut, options, report, 
   [status, output] = system(command, 1800);
   if options.Verbose || status ~= 0; fprintf('%s\n', output); end
   if status ~= 0
-    error('Nelson:nelsonc:installerTool:linuxInstallerGenerationFailed', 'Linux installer generation failed with status %d.', status);
+    error('Nelson:nelsonc:installerTool:linuxInstallerGenerationFailed', ...
+      'Linux installer generation failed with status %d.', status);
   end
   publish = fullfile(stage, 'publish');
   name = [options.InstallerName, '.install'];
   if ~isfile(fullfile(publish, name))
-    error('Nelson:nelsonc:installerTool:installerGenerationProducedNoExecutable', 'Installer generation produced no executable.');
+    error('Nelson:nelsonc:installerTool:installerGenerationProducedNoExecutable', ...
+      'Installer generation produced no executable.');
   end
   if ~isfolder(options.OutputDir); mkdir(options.OutputDir); end
   __nelsonc_executable__('publish', publish, options.OutputDir);

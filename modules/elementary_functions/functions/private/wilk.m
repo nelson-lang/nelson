@@ -34,7 +34,8 @@ function [matrixA, vectorB] = wilk(varargin)
     matrixA = wilkTwentyOne(className);
     vectorB = [];
   else
-    error('Nelson:elementary_functions:wrongValueNSupportedValues', 'Wrong value for N. Supported values are 3, 4, 5, or 21.');
+    error('Nelson:elementary_functions:wrongValueNSupportedValues', ...
+      'Wrong value for N. Supported values are 3, 4, 5, or 21.');
   end
 end
 %=============================================================================

@@ -12,8 +12,10 @@ asserts.isequal(nargout('mustBeTextScalar'), 0);
 %=============================================================================
 mustBeTextScalar('a text');
 mustBeTextScalar("a text");
-asserts.checkerror('mustBeTextScalar(Inf)', sprintf(_('%s must be a character vector or string scalar.'), 'Value'), 'Nelson:validators:mustBeTextScalar');
+asserts.checkerror('mustBeTextScalar(Inf)', sprintf(_('%s must be a character vector or string scalar.'), 'Value'), ...
+  'Nelson:validators:mustBeTextScalar');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a character vector or string scalar.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be a character vector or string scalar.'), 'Value')];
 asserts.checkerror('mustBeTextScalar(Inf, 3)', msg, 'Nelson:validators:mustBeTextScalar');
 %=============================================================================

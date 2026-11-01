@@ -23,7 +23,8 @@ function text = __nelsonc_help_text__(filename)
   end
   clear cleanup;
   if numel(bytes) > 1048576 || any(bytes == 0)
-    error('Nelson:nelsonc:helpFile:applicationHelpTooLarge', 'Application help must not exceed 1 MiB or contain null characters.');
+    error('Nelson:nelsonc:helpFile:applicationHelpTooLarge', ...
+      'Application help must not exceed 1 MiB or contain null characters.');
   end
   try
     text = native2unicode(bytes, 'UTF-8');

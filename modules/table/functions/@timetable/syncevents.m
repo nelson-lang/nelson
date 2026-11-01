@@ -13,7 +13,8 @@ function TT = syncevents(TT, varargin)
   % repeated when several events match it.
   events = TT.Properties.Events;
   if ~isa(events, 'eventtable')
-    error('Nelson:eventtable:NoAttachedEvents', _('Timetable must have an event table assigned to the Events property.'));
+    error('Nelson:eventtable:NoAttachedEvents', ...
+      _('Timetable must have an event table assigned to the Events property.'));
   end
   [defaultLabel, dataVariables] = parseArguments(varargin);
   eventVars = eventtable.variables(events);
@@ -58,7 +59,8 @@ function [defaultLabel, dataVariables] = parseArguments(args)
     name = args{k};
     if ~((ischar(name) && isrow(name)) || (isstring(name) && isscalar(name))) || ~strcmpi(name, 'EventDataVariables')
       if isstring(name) || ischar(name)
-        error('Nelson:eventtable:invalidArgumentName', _('Invalid argument name ''%s''. Use ''EventDataVariables''.'), char(name));
+        error('Nelson:eventtable:invalidArgumentName', ...
+          _('Invalid argument name ''%s''. Use ''EventDataVariables''.'), char(name));
       end
       error('Nelson:eventtable:invalidArgumentName', _('Invalid argument name. Use ''EventDataVariables''.'));
     end

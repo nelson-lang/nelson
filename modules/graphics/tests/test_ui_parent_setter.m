@@ -57,21 +57,25 @@ assert_istrue(p.Parent == f);
 % uitab keeps its own rule: only a uitabgroup holds it
 tg = uitabgroup(f);
 t = uitab(tg);
-assert_checkerror('t.Parent = f;', getString(message('Nelson:uicomponent:parentMustBeTabGroupObject')), 'Nelson:uicomponent:parentMustBeTabGroupObject');
-assert_checkerror('t.Parent = p;', getString(message('Nelson:uicomponent:parentMustBeTabGroupObject')), 'Nelson:uicomponent:parentMustBeTabGroupObject');
+assert_checkerror('t.Parent = f;', getString(message('Nelson:uicomponent:parentMustBeTabGroupObject')), ...
+  'Nelson:uicomponent:parentMustBeTabGroupObject');
+assert_checkerror('t.Parent = p;', getString(message('Nelson:uicomponent:parentMustBeTabGroupObject')), ...
+  'Nelson:uicomponent:parentMustBeTabGroupObject');
 assert_istrue(t.Parent == tg);
 tg2 = uitabgroup(f);
 t.Parent = tg2;
 assert_istrue(t.Parent == tg2);
 assert_isfalse(any(tg.Children == t));
 % and a uitabgroup holds nothing else
-assert_checkerror('b.Parent = tg;', getString(message('Nelson:uicomponent:parentMustBeTabGroup')), 'Nelson:uicomponent:parentMustBeTabGroup');
+assert_checkerror('b.Parent = tg;', getString(message('Nelson:uicomponent:parentMustBeTabGroup')), ...
+  'Nelson:uicomponent:parentMustBeTabGroup');
 assert_istrue(b.Parent == f);
 %=============================================================================
 % radio and toggle buttons stay in a button group
 bg = uibuttongroup(f);
 r = uiradiobutton(bg);
-assert_checkerror('r.Parent = p;', getString(message('Nelson:uicomponent:parentMustBeButtonGroup')), 'Nelson:uicomponent:parentMustBeButtonGroup');
+assert_checkerror('r.Parent = p;', getString(message('Nelson:uicomponent:parentMustBeButtonGroup')), ...
+  'Nelson:uicomponent:parentMustBeButtonGroup');
 assert_istrue(r.Parent == bg);
 %=============================================================================
 % valid re-parenting: figure -> uipanel -> figure

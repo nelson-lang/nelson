@@ -20,7 +20,8 @@ function metric = cornermetric(varargin)
       method = candidate;
       startIndex = 3;
     elseif mod(nargin - 1, 2) ~= 0
-      error('Nelson:image_processing:unsupportedCornerMetricMethod', 'Unsupported "%s" option.', 'corner metric method');
+      error('Nelson:image_processing:unsupportedCornerMetricMethod', 'Unsupported "%s" option.', ...
+        'corner metric method');
     end
   end
   options = ip_parse_corner_options(varargin(startIndex:nargin));

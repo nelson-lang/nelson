@@ -31,7 +31,8 @@ classdef ClassificationTree
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationTreeObjectsCreatedFitctree', '%s objects are created by %s.', 'ClassificationTree', 'fitctree');
+      error('Nelson:statistics:classificationTreeObjectsCreatedFitctree', '%s objects are created by %s.', ...
+        'ClassificationTree', 'fitctree');
     end
   end
 end

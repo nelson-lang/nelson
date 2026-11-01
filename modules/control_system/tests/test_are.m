@@ -23,6 +23,8 @@ X = are(A, b * b', c' * c);
 X_REF = care(A, b, c' * c);
 asserts.isapprox(X, X_REF, 1e-10);
 %=============================================================================
-asserts.checkerror('are([1 2], eye(2), eye(2))', sprintf(_('Wrong size for argument #%d: %s expected.'), 1, 'square matrix'));
-asserts.checkerror('are(eye(2), [1 2; 3 4], eye(2))', sprintf(_('Wrong value for argument #%d: %s expected.'), 2, 'symmetric matrix'));
+asserts.checkerror('are([1 2], eye(2), eye(2))', sprintf(_('Wrong size for argument #%d: %s expected.'), 1, ...
+  'square matrix'));
+asserts.checkerror('are(eye(2), [1 2; 3 4], eye(2))', sprintf(_('Wrong value for argument #%d: %s expected.'), 2, ...
+  'symmetric matrix'));
 %=============================================================================
