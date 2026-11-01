@@ -17,6 +17,7 @@
 #include "NelsonConfiguration.hpp"
 #include "RuntimeDispatch.hpp"
 #include "Evaluator.hpp"
+#include "DebuggerJson.hpp"
 #include "NelsonHistory.hpp"
 #include <nlohmann/json.hpp>
 #include <chrono>
@@ -31,15 +32,36 @@ WebGuiTerminal::WebGuiTerminal(WebGuiServer* server) : m_server(server)
     // Wake waitForLine when a cross-thread task is posted, without raising
     // m_interrupt. An interrupt is handled as a synthetic newline so it can
     // never be mistaken for end-of-input by the REPL.
-    MainThreadTaskQueue::getInstance()->setWakeupHook([this]() { m_cv.notify_one(); });
+    // notified under the prompt mutex: a wake-up cannot slip between the predicate and the wait
+    MainThreadTaskQueue::getInstance()->setWakeupHook([this]() { notifyPrompt(); });
     // Timer ticks, graphics callbacks and posted commands wake the prompt too.
-    setInterpreterWakeupHook([this]() { m_cv.notify_one(); });
+    setInterpreterWakeupHook([this]() { notifyPrompt(); });
 }
 //=============================================================================
 WebGuiTerminal::~WebGuiTerminal()
 {
     setInterpreterWakeupHook(nullptr);
     MainThreadTaskQueue::getInstance()->setWakeupHook(nullptr);
+}
+//=============================================================================
+void
+WebGuiTerminal::pushDebuggerState()
+{
+    // every prompt refreshes the editors: paused line, and breakpoints when they changed
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (eval == nullptr || m_server == nullptr) {
+        return;
+    }
+    nlohmann::json state = nlohmann::json::parse(debuggerStateJson(eval), nullptr, false);
+    if (!state.is_discarded()) {
+        m_server->pushJson("debugger.state", state);
+    }
+    uint64_t revision = eval->getBreakpointsRevision();
+    if (revision != m_lastBreakpointsRevision) {
+        m_lastBreakpointsRevision = revision;
+        m_server->pushJson("debugger.breakpoints",
+            nlohmann::json { { "revision", static_cast<long long>(revision) } });
+    }
 }
 //=============================================================================
 std::wstring
@@ -64,15 +86,17 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
     m_server->setEngineReady();
     if (pushPrompt) {
         m_server->pushJson("term.prompt", nlohmann::json { { "prompt", wstring_to_utf8(prompt) } });
+        pushDebuggerState();
     }
     std::unique_lock<std::mutex> lock(m_mutex);
     m_atPrompt = true;
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     for (;;) {
-        m_cv.wait(lock, [this] {
+        m_cv.wait(lock, [this, eval] {
             return !m_pending.empty() || m_interrupt.load()
                 || !MainThreadTaskQueue::getInstance()->isEmpty()
-                || !CallbackQueue::getInstance()->isEmpty()
-                || !EventQueue::getInstance()->isEmpty();
+                || !CallbackQueue::getInstance()->isEmpty() || !EventQueue::getInstance()->isEmpty()
+                || (eval != nullptr && !eval->commandQueue.isEmpty());
         });
 
         // Serve cross-thread interpreter tasks (RPC handlers marshalled via
@@ -80,8 +104,6 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
         // instead would churn the REPL on every periodic RPC (the figure.list reconcile),
         // and its term.prompt would trigger another figure.list: a self-sustaining storm.
         if (!MainThreadTaskQueue::getInstance()->isEmpty()) {
-            auto* eval
-                = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
             if (eval != nullptr) {
                 lock.unlock();
                 MainThreadTaskQueue::getInstance()->processTasks(eval);
@@ -93,6 +115,12 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
         if (m_interrupt.exchange(false)) {
             m_atPrompt = false;
             return std::wstring(1, L'\n');
+        }
+        // a command posted by the editor (dbstep, dbcont, run to here) is the next line
+        std::wstring queued;
+        if (eval != nullptr && eval->commandQueue.get(queued)) {
+            m_atPrompt = false;
+            return queued;
         }
         // Graphics callbacks (a uicontrol click) were enqueued: return a blank command so
         // the CLI REPL loops back to Evaluator::processCliCallbacks and drains the
@@ -135,6 +163,13 @@ std::wstring
 WebGuiTerminal::getInput(const std::wstring& prompt)
 {
     return waitForLine(prompt, false);
+}
+//=============================================================================
+void
+WebGuiTerminal::notifyPrompt()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_cv.notify_one();
 }
 //=============================================================================
 void
@@ -322,7 +357,7 @@ void
 WebGuiTerminal::interruptGetLineByEvent()
 {
     m_interrupt = true;
-    m_cv.notify_one();
+    notifyPrompt();
 }
 //=============================================================================
 } // namespace Nelson

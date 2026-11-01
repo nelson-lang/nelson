@@ -7,12 +7,22 @@
   <syntax>
     <syntax_item>editor()</syntax_item>
     <syntax_item>editor(filename)</syntax_item>
+    <syntax_item>editor(filename, line)</syntax_item>
+    <syntax_item>editor(filename, line, column)</syntax_item>
     <syntax_item>editor(&apos;editor_command&apos;, cmd)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
       <param_description>a string: filename to open.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>line</param_name>
+      <param_description>a number: line to place the cursor on.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>column</param_name>
+      <param_description>a number: column of that line.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>cmd</param_name>
@@ -36,6 +46,8 @@
     </p>
     <p
     >Change text editor is persistent and will be saved in a configuration file.</p>
+    <p
+    >Debugger keys in the editor: F12 set/clear breakpoint, F5 run or continue, F10 step, F11 step in, Shift+F11 step out, Shift+F5 stop, F9 evaluate selection, F6 pause, Ctrl+F10 run to here. See the debugging workflow page.</p>
   </description>
   <used_function />
   <bibliography />
@@ -71,6 +83,14 @@ editor('editor_command ', '')
       <history_version>1.10.0</history_version>
       <history_description
       >Option to change default text editor</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Debugger keys and breakpoint markers</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>editor(filename, line, column) added</history_description>
     </history_item>
   </history>
   <authors>

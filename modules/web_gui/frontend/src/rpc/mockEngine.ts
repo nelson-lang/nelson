@@ -12,7 +12,10 @@
 // desktop runs without the C++ engine. It answers the same RPC method names as
 // the real backend.
 import type {
+  AllBreakpointsResult,
+  BreakpointInfo,
   BreakpointsResult,
+  DebuggerEvaluateResult,
   CellValue,
   CompletionResult,
   DebuggerState,
@@ -172,14 +175,14 @@ export class MockEngine {
   ]);
   //=============================================================================
   private directories = new Set<string>(['/workspace']);
-  private breakpoints = new Map<string, Set<number>>();
+  // editor debugger: breakpoints per file, error breakpoints and the revisions of the pushes
+  private breakpoints = new Map<string, Map<number, MockBreakpoint>>();
+  private errorBreakpoints = { error: false, caughtError: false };
+  private breakpointsRevision = 0;
+  private nextBreakpointId = 1;
+  private debugRevision = 0;
   private profileOn = false;
-  private debug: {
-    running: boolean;
-    currentFile: string | null;
-    currentLine: number | null;
-    stack: { file: string; line: number; function: string }[];
-  } | null = null;
+  private debug: DebuggerState | null = null;
   //=============================================================================
   private nextFigure = 0;
   private nextProgressDialog = 1;
@@ -606,16 +609,29 @@ export class MockEngine {
         return this.getBreakpoints(String(params.file ?? ''));
       case 'debugger.toggleBreakpoint':
         return this.toggleBreakpoint(String(params.file ?? ''), Number(params.line));
+      case 'debugger.listBreakpoints':
+        return this.listBreakpoints();
+      case 'debugger.setBreakpoint':
+        return this.setBreakpoint(params);
+      case 'debugger.removeBreakpoint':
+        return this.removeBreakpoint(String(params.file ?? ''), Number(params.line));
+      case 'debugger.removeAllBreakpoints':
+        return this.removeAllBreakpoints(String(params.file ?? ''));
+      case 'debugger.setAllEnabled':
+        return this.setAllEnabled(String(params.file ?? ''), params.enabled !== false);
+      case 'debugger.moveBreakpoints':
+        return this.moveBreakpoints(params);
+      case 'debugger.setErrorBreakpoints':
+        return this.setErrorBreakpoints(params);
+      case 'debugger.command':
+        return this.debuggerCommand(params);
+      case 'debugger.evaluate':
+        return this.debuggerEvaluate(String(params.expr ?? ''));
+      case 'i18n.translate':
+        // the mock has no catalog: the English keys are shown as is
+        return { translations: {} };
       case 'debugger.state':
-        return (
-          this.debug ??
-          ({
-            running: false,
-            currentLine: null,
-            currentFile: null,
-            stack: [],
-          } satisfies DebuggerState)
-        );
+        return this.debuggerState();
 
       case 'dialog.reply':
         return this.dialogReply(params);
@@ -1052,22 +1068,23 @@ export class MockEngine {
 
     // dbg_demo: simulates a debug pause at demo.m (K>> prompt + debugger.state).
     if (body === 'dbg_demo') {
-      this.debug = {
-        running: true,
-        currentFile: '/workspace/demo.m',
-        currentLine: 2,
-        stack: [{ file: '/workspace/demo.m', line: 2, function: 'demo' }],
-      };
-      this.out('\x1b[33mBreakpoint hit at demo.m line 2\x1b[0m\r\n');
+      this.pauseDebugger('/workspace/demo.m', 2, 'breakpoint');
+      this.out('2   y = x + 1;\r\n');
+      return;
+    }
+    // dbg_error_demo: simulates `dbstop if error` pausing on the failing line.
+    if (body === 'dbg_error_demo') {
+      this.pauseDebugger('/workspace/demo.m', 3, 'error', 'Undefined variable: undefined_thing');
+      this.out('\x1b[31mUndefined variable: undefined_thing\x1b[0m\r\n');
+      this.out('3   z = undefined_thing + y;\r\n');
       return;
     }
     if (this.debug && (body === 'dbstep' || body === 'dbstep in' || body === 'dbstep out')) {
-      this.debug.currentLine = (this.debug.currentLine ?? 1) + 1;
-      this.debug.stack[0].line = this.debug.currentLine;
+      this.stepDebugger();
       return;
     }
     if (this.debug && (body === 'dbcont' || body === 'dbquit')) {
-      this.debug = null;
+      this.endDebugger();
       return;
     }
 
@@ -1398,7 +1415,7 @@ export class MockEngine {
   }
   //=============================================================================
   private reprompt(): void {
-    this.push('term.prompt', { prompt: '>> ' });
+    this.push('term.prompt', { prompt: this.debug?.paused ? 'K>> ' : '>> ' });
   }
   //=============================================================================
   private complete(line: string): CompletionResult {
@@ -1749,21 +1766,238 @@ export class MockEngine {
     return { diagnostics };
   }
   //=============================================================================
+  private debuggerState(): DebuggerState {
+    return (
+      this.debug ?? {
+        running: false,
+        paused: false,
+        currentFile: null,
+        currentLine: null,
+        currentColumn: 0,
+        function: '',
+        reason: 'none',
+        errorIdentifier: '',
+        errorMessage: '',
+        canStep: true,
+        stack: [],
+        revision: this.debugRevision,
+        breakpointsRevision: this.breakpointsRevision,
+      }
+    );
+  }
+  //=============================================================================
+  private pushDebuggerState(): void {
+    this.push('debugger.state', this.debuggerState());
+  }
+  //=============================================================================
+  private pauseDebugger(
+    file: string,
+    line: number,
+    reason: DebuggerState['reason'],
+    errorMessage = ''
+  ): void {
+    this.debugRevision += 1;
+    this.debug = {
+      running: true,
+      paused: true,
+      currentFile: file,
+      currentLine: line,
+      currentColumn: 0,
+      function: 'demo',
+      reason,
+      errorIdentifier: reason === 'error' ? 'Nelson:undefinedVariable' : '',
+      errorMessage,
+      // no stepping after an uncaught error
+      canStep: reason !== 'error',
+      stack: [{ file, line, function: 'demo' }],
+      revision: this.debugRevision,
+      breakpointsRevision: this.breakpointsRevision,
+    };
+    this.pushDebuggerState();
+  }
+  //=============================================================================
+  private stepDebugger(): void {
+    if (!this.debug) return;
+    if (!this.debug.canStep) {
+      this.endDebugger();
+      return;
+    }
+    this.debugRevision += 1;
+    const line = (this.debug.currentLine ?? 1) + 1;
+    this.debug = {
+      ...this.debug,
+      currentLine: line,
+      reason: 'step',
+      revision: this.debugRevision,
+      stack: [{ ...this.debug.stack[0], line }],
+    };
+    this.pushDebuggerState();
+  }
+  //=============================================================================
+  private endDebugger(): void {
+    this.debugRevision += 1;
+    this.debug = null;
+    this.pushDebuggerState();
+  }
+  //=============================================================================
+  private fileBreakpoints(file: string): Map<number, MockBreakpoint> {
+    let map = this.breakpoints.get(file);
+    if (!map) {
+      map = new Map();
+      this.breakpoints.set(file, map);
+    }
+    return map;
+  }
+  //=============================================================================
+  private breakpointInfos(file: string): BreakpointInfo[] {
+    return [...this.fileBreakpoints(file).entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([line, bp]) => ({
+        id: bp.id,
+        line,
+        enabled: bp.enabled,
+        condition: bp.condition,
+        file,
+        function: '',
+      }));
+  }
+  //=============================================================================
+  private noteBreakpointsChanged(): void {
+    this.breakpointsRevision += 1;
+    if (this.debug) this.debug = { ...this.debug, breakpointsRevision: this.breakpointsRevision };
+    this.push('debugger.breakpoints', { revision: this.breakpointsRevision });
+  }
+  //=============================================================================
   private getBreakpoints(file: string): BreakpointsResult {
-    return { file, lines: [...(this.breakpoints.get(file) ?? [])].sort((a, b) => a - b) };
+    const breakpoints = this.breakpointInfos(file);
+    return { file, lines: breakpoints.map((bp) => bp.line), breakpoints };
+  }
+  //=============================================================================
+  private listBreakpoints(): AllBreakpointsResult {
+    const breakpoints: BreakpointInfo[] = [];
+    for (const file of [...this.breakpoints.keys()].sort()) {
+      breakpoints.push(...this.breakpointInfos(file));
+    }
+    return {
+      breakpoints,
+      errorBreakpoints: { ...this.errorBreakpoints },
+      revision: this.breakpointsRevision,
+    };
   }
   //=============================================================================
   private toggleBreakpoint(file: string, line: number): BreakpointsResult {
-    let set = this.breakpoints.get(file);
-    if (!set) {
-      set = new Set();
-      this.breakpoints.set(file, set);
+    const map = this.fileBreakpoints(file);
+    const added = !map.has(line);
+    if (added) map.set(line, { id: this.nextBreakpointId++, enabled: true, condition: '' });
+    else map.delete(line);
+    this.noteBreakpointsChanged();
+    return { ...this.getBreakpoints(file), line, added };
+  }
+  //=============================================================================
+  // any condition is accepted except '>>>' or unbalanced parentheses (syntax error)
+  private setBreakpoint(params: Record<string, unknown>): BreakpointsResult | { error: string } {
+    const file = String(params.file ?? '');
+    const line = Number(params.line) || 0;
+    const map = this.fileBreakpoints(file);
+    if (typeof params.condition === 'string') {
+      const condition = params.condition;
+      const open = (condition.match(/\(/g) ?? []).length;
+      const close = (condition.match(/\)/g) ?? []).length;
+      if (condition.includes('>>>') || open !== close) {
+        return { error: `The condition '${condition}' contains a syntax error.` };
+      }
     }
-    if (set.has(line)) set.delete(line);
-    else set.add(line);
-    return { file, lines: [...set].sort((a, b) => a - b) };
+    const bp = map.get(line) ?? { id: this.nextBreakpointId++, enabled: true, condition: '' };
+    if (typeof params.enabled === 'boolean') bp.enabled = params.enabled;
+    if (typeof params.condition === 'string') bp.condition = params.condition;
+    map.set(line, bp);
+    this.noteBreakpointsChanged();
+    return { ...this.getBreakpoints(file), line };
+  }
+  //=============================================================================
+  private removeBreakpoint(file: string, line: number): BreakpointsResult {
+    this.fileBreakpoints(file).delete(line);
+    this.noteBreakpointsChanged();
+    return this.getBreakpoints(file);
+  }
+  //=============================================================================
+  private removeAllBreakpoints(file: string): AllBreakpointsResult {
+    if (file) this.breakpoints.delete(file);
+    else this.breakpoints.clear();
+    this.noteBreakpointsChanged();
+    return this.listBreakpoints();
+  }
+  //=============================================================================
+  private setAllEnabled(file: string, enabled: boolean): AllBreakpointsResult {
+    for (const [name, map] of this.breakpoints) {
+      if (file && name !== file) continue;
+      for (const bp of map.values()) bp.enabled = enabled;
+    }
+    this.noteBreakpointsChanged();
+    return this.listBreakpoints();
+  }
+  //=============================================================================
+  private moveBreakpoints(params: Record<string, unknown>): BreakpointsResult {
+    const file = String(params.file ?? '');
+    const moves = Array.isArray(params.moves)
+      ? (params.moves as { from: number; to: number }[])
+      : [];
+    const next = new Map<number, MockBreakpoint>();
+    for (const [line, bp] of this.fileBreakpoints(file)) {
+      const move = moves.find((m) => m.from === line);
+      next.set(move ? move.to : line, bp);
+    }
+    this.breakpoints.set(file, next);
+    this.noteBreakpointsChanged();
+    return this.getBreakpoints(file);
+  }
+  //=============================================================================
+  private setErrorBreakpoints(params: Record<string, unknown>): AllBreakpointsResult {
+    if (typeof params.error === 'boolean') this.errorBreakpoints.error = params.error;
+    if (typeof params.caughtError === 'boolean') {
+      this.errorBreakpoints.caughtError = params.caughtError;
+    }
+    this.noteBreakpointsChanged();
+    return this.listBreakpoints();
+  }
+  //=============================================================================
+  private debuggerCommand(params: Record<string, unknown>): { ok: boolean; error?: string } {
+    const cmd = String(params.cmd ?? '');
+    if (cmd === 'pause') {
+      // the mock is never busy: nothing to pause
+      return { ok: false };
+    }
+    if (cmd === 'runToLine') {
+      this.pauseDebugger(
+        String(params.file ?? '/workspace/demo.m'),
+        Number(params.line) || 1,
+        'runToLine'
+      );
+      queueMicrotask(() => this.reprompt());
+      return { ok: true };
+    }
+    if (!this.debug) return { ok: false, error: 'not paused in the debugger' };
+    if (cmd === 'step' || cmd === 'stepIn' || cmd === 'stepOut') this.stepDebugger();
+    else if (cmd === 'continue' || cmd === 'quit') this.endDebugger();
+    else return { ok: false, error: 'unknown debugger command' };
+    queueMicrotask(() => this.reprompt());
+    return { ok: true };
+  }
+  //=============================================================================
+  // Data tip of a workspace variable: "<rows>x<cols> <class>".
+  private debuggerEvaluate(expr: string): DebuggerEvaluateResult {
+    const variable = this.vars.get(expr);
+    if (!variable) {
+      return { ok: false, text: '', error: `Unrecognized function or variable '${expr}'.` };
+    }
+    const data = variable.data as unknown;
+    const rows = Array.isArray(data) ? data.length : 1;
+    const cols = Array.isArray(data) && Array.isArray(data[0]) ? data[0].length : 1;
+    return { ok: true, text: `${expr} = ${rows}×${cols} ${variable.className}`, error: '' };
   }
 }
+//=============================================================================
+type MockBreakpoint = { id: number; enabled: boolean; condition: string };
 //=============================================================================
 function scalarText(value: string): string {
   const trimmed = value.trim();

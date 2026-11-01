@@ -2073,9 +2073,8 @@ namespace bcvm_detail {
     {
         calleeChunk = nullptr;
         if (funcDef == nullptr || funcDef != callerChunk.selfFunction
-            || funcDef->type() != NLS_MACRO_FUNCTION || eval->isBreakpointActive() || eval->stepMode
-            || eval->hasEnabledBreakpoints() || !eval->commandQueue.isEmpty()
-            || Profiler::getInstance()->isOn()) {
+            || funcDef->type() != NLS_MACRO_FUNCTION || eval->debuggerHooksArmed()
+            || !eval->commandQueue.isEmpty() || Profiler::getInstance()->isOn()) {
             return false;
         }
         auto* macroDef = dynamic_cast<MacroFunctionDef*>(funcDef);
@@ -2110,8 +2109,7 @@ namespace bcvm_detail {
     {
         calleeChunk = nullptr;
         if (funcDef == nullptr || funcDef->type() != NLS_MACRO_FUNCTION || nout != 1
-            || args.size() != 1 || eval->isBreakpointActive() || eval->stepMode
-            || eval->hasEnabledBreakpoints() || !eval->commandQueue.isEmpty()
+            || args.size() != 1 || eval->debuggerHooksArmed() || !eval->commandQueue.isEmpty()
             || Profiler::getInstance()->isOn()) {
             return false;
         }
@@ -4424,12 +4422,7 @@ namespace bcvm_detail {
                 currentStatementContextId = 0;
             }
         };
-        auto setStatementContext = [&](const Instruction& statementInstruction) {
-            if (statementInstruction.A >= chunk.spans.size()) {
-                clearStatementContext();
-                return;
-            }
-            const SourceSpan& span = chunk.spans[statementInstruction.A];
+        auto setStatementContextSpan = [&](const SourceSpan& span) {
             size_t contextId
                 = static_cast<size_t>((static_cast<uint32_t>(span.col) << 16) | span.line);
             if (hasStatementContext && currentStatementContextId == contextId) {
@@ -4440,6 +4433,33 @@ namespace bcvm_detail {
             hasStatementContext = true;
             currentStatementContextId = contextId;
         };
+        auto setStatementContext = [&](const Instruction& statementInstruction) {
+            if (statementInstruction.A >= chunk.spans.size()) {
+                clearStatementContext();
+                return;
+            }
+            setStatementContextSpan(chunk.spans[statementInstruction.A]);
+        };
+        // the loop `end` line was reached; only runs when the debugger is armed
+        auto loopEndDebugStop = [&](uint32_t instructionIndex) -> bool {
+            if (frame.skipDebugStatements) {
+                return false;
+            }
+            const SourceSpan* endSpan = chunk.spanForPC(instructionIndex);
+            if (endSpan == nullptr || endSpan->instrIndex != instructionIndex) {
+                return false;
+            }
+            setStatementContextSpan(*endSpan);
+            return handleLoopEndDebugStatement(eval, frame, *endSpan, syncAssignedLocalsToContext,
+                refreshLocalsFromContextClearingMissing);
+        };
+        // active try regions are counted over all frames; abnormal exits restore the count
+        struct TryDepthRestore
+        {
+            int& ref;
+            int saved;
+            ~TryDepthRestore() { ref = saved; }
+        } tryDepthRestore { eval->vmTryDepthRef(), eval->vmTryDepthRef() };
         auto scalarRangeBoundary = [&](const Instruction& boundary) {
             if (frame.skipDebugStatements) {
                 return !PendingHandleFinalizers::hasPending();
@@ -4465,7 +4485,7 @@ namespace bcvm_detail {
                     }
                     setStatementContext(ins);
                     processStatementBoundaryQueues();
-                    if (eval->hasEnabledBreakpoints()
+                    if (eval->debuggerStatementHookArmed()
                         && handleDebugStatement(eval, frame, ins, syncAssignedLocalsToContext,
                             refreshLocalsFromContextClearingMissing)) {
                         clearStatementContext();
@@ -5421,6 +5441,11 @@ namespace bcvm_detail {
                 case OpCode::JUMP:
                     if (ins.A < pc) {
                         pollLoopBackedge();
+                        // while loop back edge: its `end` line is a stop point
+                        if (eval->debuggerStatementHookArmed() && loopEndDebugStop(pc - 1)) {
+                            clearStatementContext();
+                            return;
+                        }
                     }
                     pc = ins.A;
                     break;
@@ -5590,10 +5615,14 @@ namespace bcvm_detail {
                 } break;
                 case OpCode::TRY_BEGIN:
                     frame.exceptionFrames.push_back(ExceptionFrame { pc, ins.A });
+                    eval->vmTryDepthRef()++;
                     break;
                 case OpCode::TRY_END:
                     if (!frame.exceptionFrames.empty()) {
                         frame.exceptionFrames.pop_back();
+                        if (eval->vmTryDepthRef() > 0) {
+                            eval->vmTryDepthRef()--;
+                        }
                     }
                     break;
                 case OpCode::CATCH_BEGIN:
@@ -5628,6 +5657,10 @@ namespace bcvm_detail {
                     }
                 } break;
                 case OpCode::FOR_STEP: {
+                    if (eval->debuggerStatementHookArmed() && loopEndDebugStop(pc - 1)) {
+                        clearStatementContext();
+                        return;
+                    }
                     uint32_t beforeStepPC = pc;
                     if ((ins.flags & INST_FLAG_GLOBAL) != 0) {
                         stepGenericLoopGlobal(context, chunk, frame, ins.A, ins.B, pc, ins.C);
@@ -5673,6 +5706,10 @@ namespace bcvm_detail {
                     }
                 } break;
                 case OpCode::FOR_STEP_DBL: {
+                    if (eval->debuggerStatementHookArmed() && loopEndDebugStop(pc - 1)) {
+                        clearStatementContext();
+                        return;
+                    }
                     bool isGlobal = (ins.flags & INST_FLAG_GLOBAL) != 0;
                     if (ins.A >= frame.dblLoops.size()
                         || (!isGlobal && ins.B >= frame.locals.size())
@@ -5742,6 +5779,10 @@ namespace bcvm_detail {
                     }
                 } break;
                 case OpCode::FOR_STEP_RANGE: {
+                    if (eval->debuggerStatementHookArmed() && loopEndDebugStop(pc - 1)) {
+                        clearStatementContext();
+                        return;
+                    }
                     if (advanceRangeLoop(frame, chunk, context, ins)) {
                         if (ins.C < pc) {
                             pollLoopBackedge();
@@ -8634,12 +8675,27 @@ namespace bcvm_detail {
                     clearStatementContext();
                     throw;
                 }
-                if (frame.exceptionFrames.empty()) {
+                const bool caughtHere = !frame.exceptionFrames.empty();
+                bool willBeCaught = false;
+                if (eval->shouldStopOnError(caughtHere, willBeCaught)) {
+                    // dbstop if error: pause on the raising line with its locals visible
+                    syncAssignedLocalsToContext();
+                    runErrorStopPrompt(eval, e, chunk, currentStatementContextId, willBeCaught);
+                    if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                        clearStatementContext();
+                        throw;
+                    }
+                }
+                if (!caughtHere) {
                     clearStatementContext();
                     throw;
                 }
                 ExceptionFrame exceptionFrame = frame.exceptionFrames.back();
                 frame.exceptionFrames.pop_back();
+                if (eval->vmTryDepthRef() > 0) {
+                    eval->vmTryDepthRef()--;
+                }
+                eval->clearErrorStopTaken();
                 eval->setLastErrorException(e);
                 eval->resetState();
                 stack.clear();
@@ -8888,6 +8944,10 @@ using namespace bcvm_detail;
 bool
 BytecodeVM::functionNeedsCallerContext(Evaluator* eval, FunctionDef* funcDef, bool refreshRequired)
 {
+    // debugger armed: caller locals must be visible after dbup and refreshed after the call
+    if (eval->debuggerStatementHookArmed()) {
+        return true;
+    }
     const uint64 generation = FunctionsInMemory::getInstance()->generation();
     // Every call site asks this twice per call, so answer straight from the
     // callee chunk cache when it is already valid: the walk below would build

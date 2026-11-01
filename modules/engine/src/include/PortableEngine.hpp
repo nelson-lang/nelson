@@ -80,6 +80,9 @@ public:
     debuggerGetBreakpointsJson(std::string_view file) const;
     std::string
     debuggerToggleBreakpointJson(std::string_view file, size_t line);
+    // generic debugger RPC shared with the webview desktop: method and JSON params to JSON
+    std::string
+    debuggerRpcJson(std::string_view method, std::string_view paramsJson);
     void
     requestInterrupt();
     void

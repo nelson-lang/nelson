@@ -13,6 +13,7 @@
 //=============================================================================
 #include <algorithm>
 #include <cstdio>
+#include <cstring>
 #include <functional>
 #include <set>
 #include <vector>
@@ -39,6 +40,11 @@ maxLineFromChainHelper(
 static size_t
 getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile,
     std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc);
+static size_t
+findLoopEndLine(AbstractSyntaxTreePtr node, size_t lineNumber);
+bool
+hasReturnStatementAtLine(AbstractSyntaxTreePtr node, size_t lineNumber,
+    const std::function<size_t(AbstractSyntaxTreePtr)>& getLineFunc);
 //=============================================================================
 static std::set<size_t>
 getMultilineCommentLines(const std::wstring& source)
@@ -107,6 +113,55 @@ getCommentOnlyLines(const std::wstring& sourceFilePath)
     }
     fclose(fp);
     return commentLines;
+}
+//=============================================================================
+// lines with no statement of their own (else, case, catch, function...) move to the next statement
+static std::set<size_t>
+getBranchKeywordLines(
+    const std::wstring& sourceFilePath, std::set<size_t>& endLines, size_t& lineCount)
+{
+    std::set<size_t> branchLines;
+    lineCount = 0;
+    FILE* fp = nullptr;
+#ifdef _MSC_VER
+    fp = _wfopen(sourceFilePath.c_str(), L"rb");
+#else
+    fp = fopen(wstring_to_utf8(sourceFilePath).c_str(), "rb");
+#endif
+    if (!fp) {
+        return branchLines;
+    }
+    static const char* keywords[]
+        = { "elseif", "else", "otherwise", "case", "catch", "end", "function" };
+    size_t lineNum = 1;
+    char buffer[4096];
+    while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
+        std::string line(buffer);
+        size_t first = 0;
+        while (first < line.size() && (line[first] == ' ' || line[first] == '\t')) {
+            first++;
+        }
+        for (const char* keyword : keywords) {
+            size_t length = strlen(keyword);
+            if (line.compare(first, length, keyword) != 0) {
+                continue;
+            }
+            char next = first + length < line.size() ? line[first + length] : '\n';
+            bool identifierChar = isalnum(static_cast<unsigned char>(next)) || next == '_';
+            if (!identifierChar) {
+                if (strcmp(keyword, "end") == 0) {
+                    endLines.insert(lineNum);
+                } else {
+                    branchLines.insert(lineNum);
+                }
+                break;
+            }
+        }
+        lineNum++;
+    }
+    lineCount = lineNum - 1;
+    fclose(fp);
+    return branchLines;
 }
 //=============================================================================
 // Returns line numbers that are inside arguments...end blocks in the source.
@@ -304,27 +359,52 @@ namespace {
         if (definition == nullptr) {
             return nullptr;
         }
+        // the method whose source covers the line, else the next method below it
+        const ClassdefMethodDefinition* owner = nullptr;
+        const ClassdefMethodDefinition* following = nullptr;
+        size_t constructorStart = 0;
         for (const auto& method : definition->methods) {
             size_t methodLines = countSourceLines(method.source);
-            if (method.sourceStartLine == 0 || methodLines == 0
-                || classdef_detail::equalsClassNameOrLeaf(method.name, definition->name)) {
+            if (method.sourceStartLine == 0 || methodLines == 0) {
                 continue;
             }
-            if (requestedLine < method.sourceStartLine
-                || requestedLine > method.sourceStartLine + methodLines - 1) {
+            if (classdef_detail::equalsClassNameOrLeaf(method.name, definition->name)) {
+                constructorStart = method.sourceStartLine;
+                if (requestedLine >= constructorStart
+                    && requestedLine <= constructorStart + methodLines - 1) {
+                    return nullptr;
+                }
                 continue;
             }
-            FunctionDefPtr methodDef = nullptr;
-            if (!FunctionsInMemory::getInstance()->find(
-                    classdefMethodFunctionName(*definition, method), methodDef,
-                    FunctionsInMemory::FIND_FUNCTION_TYPE::MACRO)
-                || methodDef == nullptr) {
-                return nullptr;
+            if (requestedLine >= method.sourceStartLine
+                && requestedLine <= method.sourceStartLine + methodLines - 1) {
+                owner = &method;
+                break;
             }
-            MacroFunctionDef* methodMacro = static_cast<MacroFunctionDef*>(methodDef);
-            return methodMacro->code != nullptr ? methodMacro : nullptr;
+            if (method.sourceStartLine > requestedLine
+                && (following == nullptr || method.sourceStartLine < following->sourceStartLine)) {
+                following = &method;
+            }
         }
-        return nullptr;
+        const ClassdefMethodDefinition* chosen = owner;
+        if (chosen == nullptr && following != nullptr) {
+            // the constructor comes first: its own code path moves the line
+            bool constructorIsNext
+                = constructorStart > requestedLine && constructorStart < following->sourceStartLine;
+            chosen = constructorIsNext ? nullptr : following;
+        }
+        if (chosen == nullptr) {
+            return nullptr;
+        }
+        FunctionDefPtr methodDef = nullptr;
+        if (!FunctionsInMemory::getInstance()->find(
+                classdefMethodFunctionName(*definition, *chosen), methodDef,
+                FunctionsInMemory::FIND_FUNCTION_TYPE::MACRO)
+            || methodDef == nullptr) {
+            return nullptr;
+        }
+        MacroFunctionDef* methodMacro = static_cast<MacroFunctionDef*>(methodDef);
+        return methodMacro->code != nullptr ? methodMacro : nullptr;
     }
     //=============================================================================
     bool
@@ -487,11 +567,15 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
 {
     adjustedLine = 0;
     errorMessage.clear();
-    if (filename.empty() || requestedLine == 0) {
+    if (filename.empty()) {
         errorMessage
             = resolveMessageTemplate(L"Nelson:interpreter:invalidParametersBreakpointAdjustment",
                 L"Invalid parameters for breakpoint adjustment");
         return false;
+    }
+    // line 0 means the first executable line
+    if (requestedLine == 0) {
+        requestedLine = 1;
     }
     auto getLineFunc
         = [this](AbstractSyntaxTreePtr t) -> size_t { return this->getLinePosition(t); };
@@ -515,14 +599,42 @@ Evaluator::adjustBreakpointLine(const std::wstring& filename, size_t requestedLi
     }
     skipArgumentsBlockLines(
         this, mainFunctionName, functionName, maxLinesInFile, sourceFilePath, lineToCheck);
-    adjustedLine = getLineNumberFromCode(code, lineToCheck, maxLinesInFile, getLineFunc);
-    if (adjustedLine != 0) {
-        return true;
+    std::set<size_t> endLines;
+    size_t lineCount = 0;
+    std::set<size_t> branchLines = getBranchKeywordLines(sourceFilePath, endLines, lineCount);
+    size_t maxTry = maxLinesInFile > 0 ? maxLinesInFile + 1 : 10000;
+    for (size_t tryCount = 0; tryCount < maxTry; ++tryCount) {
+        // beyond the file: the tree positions are not reliable there
+        if (lineCount > 0 && lineToCheck > lineCount) {
+            adjustedLine = 0;
+            break;
+        }
+        // the `end` line of a for/while loop is a stop point of its own
+        adjustedLine = findLoopEndLine(code, lineToCheck);
+        if (adjustedLine != 0) {
+            return true;
+        }
+        adjustedLine = getLineNumberFromCode(code, lineToCheck, maxLinesInFile, getLineFunc);
+        if (adjustedLine == 0 || (lineCount > 0 && adjustedLine > lineCount)) {
+            adjustedLine = 0;
+            break;
+        }
+        // the `end` of a function is a return statement of its own (a stop line)
+        bool blockEnd = endLines.count(adjustedLine) != 0
+            && !hasReturnStatementAtLine(code, adjustedLine, getLineFunc);
+        if (branchLines.count(adjustedLine) == 0 && !blockEnd) {
+            return true;
+        }
+        // else/elseif/case/otherwise/catch and a block `end`: no statement runs there
+        lineToCheck = adjustedLine + 1;
+        if (!skipCommentOnlyLines(sourceFilePath, maxLinesInFile, lineToCheck, errorMessage)) {
+            return false;
+        }
     }
-    errorMessage = formatI18nMessage(
-        resolveMessageTemplate(L"Nelson:interpreter:cannotSetBreakpointAt",
-            L"Cannot set breakpoint at line %d: no executable statement found."),
-        requestedLine);
+    adjustedLine = 0;
+    errorMessage = resolveMessageTemplate(L"Nelson:dbstop:pastLastExpression",
+        L"Setting or clearing breakpoints past the start of the last expression is not "
+        L"supported.");
     return false;
 }
 //=============================================================================
@@ -674,6 +786,7 @@ size_t
 getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxLinesInFile,
     std::function<size_t(AbstractSyntaxTreePtr)> getLineFunc)
 {
+    (void)maxLinesInFile;
     if (code == nullptr || lineNumber == 0) {
         return 0;
     }
@@ -698,10 +811,47 @@ getLineNumberFromCode(AbstractSyntaxTreePtr code, size_t lineNumber, size_t maxL
     if (foundLine > 0) {
         return foundLine;
     }
-    if (lineNumber <= maxLinesInFile) {
-        return statementRanges.back().first;
-    }
+    // past the last statement: refused rather than moved back
     return 0;
+}
+//=============================================================================
+bool
+hasReturnStatementAtLine(AbstractSyntaxTreePtr node, size_t lineNumber,
+    const std::function<size_t(AbstractSyntaxTreePtr)>& getLineFunc)
+{
+    if (node == nullptr || lineNumber == 0) {
+        return false;
+    }
+    if ((node->opNum == OP_RSTATEMENT || node->opNum == OP_QSTATEMENT) && node->down != nullptr
+        && node->down->type == reserved_node && node->down->tokenNumber == NLS_KEYWORD_RETURN
+        && getLineFunc(node->down) == lineNumber) {
+        return true;
+    }
+    return hasReturnStatementAtLine(node->down, lineNumber, getLineFunc)
+        || hasReturnStatementAtLine(node->right, lineNumber, getLineFunc);
+}
+//=============================================================================
+size_t
+findLoopEndLine(AbstractSyntaxTreePtr node, size_t lineNumber)
+{
+    if (node == nullptr || lineNumber == 0) {
+        return 0;
+    }
+    if ((node->opNum == OP_RSTATEMENT || node->opNum == OP_QSTATEMENT) && node->down != nullptr
+        && node->down->type == reserved_node
+        && (node->down->tokenNumber == NLS_KEYWORD_FOR
+            || node->down->tokenNumber == NLS_KEYWORD_WHILE)) {
+        // the statement wrapper carries the position of the newline after `end`
+        size_t endLine = static_cast<size_t>(node->getContext() & 0x0000FFFF);
+        if (endLine == lineNumber) {
+            return endLine;
+        }
+    }
+    size_t found = findLoopEndLine(node->down, lineNumber);
+    if (found != 0) {
+        return found;
+    }
+    return findLoopEndLine(node->right, lineNumber);
 }
 //=============================================================================
 } // namespace Nelson

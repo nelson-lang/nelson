@@ -158,6 +158,8 @@ const PERSISTENT_PANEL_IDS = new Set([
   'variables',
   'profiler',
   'newsfeed',
+  'breakpoints',
+  'callstack',
   'terminal',
   'help',
 ]);

@@ -7,8 +7,21 @@
   >Lister tous les points d&apos;arrêt lors du débogage.</short_description>
   <syntax>
     <syntax_item>dbstatus</syntax_item>
-    <syntax_item>b = dbstatus()</syntax_item>
+    <syntax_item>dbstatus file</syntax_item>
+    <syntax_item>dbstatus -completenames</syntax_item>
+    <syntax_item>dbstatus file -completenames</syntax_item>
+    <syntax_item>b = dbstatus(...)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>        Seuls les points d&apos;arrêt de ce fichier sont listés ; les points d&apos;arrêt sur erreur ne sont pas inclus.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-completenames</param_name>
+      <param_description>        Affiche le chemin complet du fichier suivi du nom de la fonction au lieu du nom de la fonction seul.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>b</param_name>
@@ -17,16 +30,28 @@
   </param_output>
   <description>
     <p>
-      <b>dbstatus</b> liste tous les points d&apos;arrêt actuellement définis.</p>
+      <b>dbstatus</b> liste tous les points d&apos;arrêt actuellement définis, une ligne par fichier :
+      <b>Breakpoint for buggy is on line 3.</b> ou <b>Breakpoints for buggy are on lines 2, 3.</b>,
+      suivie de la condition de chaque point d&apos;arrêt conditionnel, puis de <b>Stop if error.</b> et
+      <b>Stop if caught error.</b> quand ces points d&apos;arrêt sur erreur sont définis.</p>
     <p>      L&apos;affectation de la sortie à une variable <b>b</b> vous permet de sauvegarder et de restaurer les points d&apos;arrêt ultérieurement
       en utilisant <b>dbstop(b)</b>.</p>
-    <p>      Chaque élément de la structure <b>b</b> contient les champs suivants :<ul>
+    <p>      La structure <b>b</b> contient un élément par fichier ayant des points d&apos;arrêt et un
+      élément par point d&apos;arrêt sur erreur. Chaque élément contient les champs suivants :<ul>
         <li>
-          <b>name</b>:  Nom de la fonction</li>
+          <b>name</b> : nom de la fonction (vide pour un point d&apos;arrêt sur erreur)</li>
         <li>
-          <b>file</b>: Chemin complet vers le fichier contenant les points d&apos;arrêt</li>
+          <b>file</b> : chemin complet vers le fichier contenant les points d&apos;arrêt</li>
         <li>
-          <b>line</b>: Vecteur des numéros de ligne des points d&apos;arrêt</li>
+          <b>line</b> : vecteur ligne des numéros de ligne des points d&apos;arrêt</li>
+        <li>
+          <b>anonymous</b> : vecteur ligne de zéros (les points d&apos;arrêt dans les fonctions anonymes ne sont pas pris en charge)</li>
+        <li>
+          <b>expression</b> : cellule ligne des conditions, une par ligne, vide sans condition</li>
+        <li>
+          <b>cond</b> : <b>'error'</b> ou <b>'caught error'</b> pour un point d&apos;arrêt sur erreur, vide sinon</li>
+        <li>
+          <b>identifier</b> : <b>{'all'}</b> pour un point d&apos;arrêt sur erreur, vide sinon</li>
       </ul>
     </p>
   </description>
@@ -40,6 +65,7 @@
       ><![CDATA[
 dbstop in myfile
 dbstatus
+dbstatus -completenames
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -73,6 +99,11 @@ dbstop(b)
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >filtre par fichier, -completenames, structure à sept champs avec conditions et points d&apos;arrêt sur erreur</history_description>
     </history_item>
   </history>
   <authors>

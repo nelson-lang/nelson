@@ -19,6 +19,10 @@ import { defineConfig, devices } from '@playwright/test';
 // Scenarios share one interpreter, so run them serially to avoid concurrent
 // commands and figure mutations. Keep each interaction sequence in one test;
 // the engine watchdog stops it after the last browser has disconnected.
+// without NELSON_B2B_PORT the port follows the runner PID: a dead engine never holds the next run's port
+const port = Number(process.env.NELSON_B2B_PORT) || 22333 + (process.pid % 500);
+// Playwright loads this file in several processes: the first one pins the port for the others
+process.env.NELSON_B2B_PORT = String(port);
 export default defineConfig({
   testDir: './tests/b2b',
   timeout: 120_000,
@@ -27,13 +31,14 @@ export default defineConfig({
   retries: 0,
   reporter: [['list']],
   use: {
-    baseURL: 'http://localhost:22333',
+    baseURL: `http://localhost:${port}`,
     headless: true,
     trace: 'off',
   },
   webServer: {
     command: 'node tests/b2b/start-nelson.mjs',
-    port: 22333,
+    port,
+    env: { NELSON_B2B_PORT: String(port) },
     reuseExistingServer: false,
     timeout: 90_000,
   },

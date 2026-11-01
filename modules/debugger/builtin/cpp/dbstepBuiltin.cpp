@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -57,12 +57,9 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         }
     }
 
-    if (!eval->isBreakpointActive()) {
-        Error(L"Nelson:dbstep:debuggerNotActive", L"Debugger is not active.");
-    }
-    if (!(eval->stepBreakpoint.has_value())) {
-        eval->bpActive = false;
-        Error(L"Nelson:dbstep:noStepBreakpoint", L"No step breakpoint is set.");
+    if (!eval->isBreakpointActive() || !eval->stepBreakpoint.has_value()) {
+        Error(L"Nelson:debugger:notInDebugMode",
+            L"Debug commands only allowed when stopped in debug mode.");
     }
 
     eval->stepMode = true;

@@ -57,6 +57,8 @@
 #include "ModulesManager.hpp"
 #include "QStringConverter.hpp"
 #include "QtBreakpointArea.h"
+#include "EditorBreakpoints.hpp"
+#include "TextEditor.hpp"
 #include "QtCodeAnalyzerMarkerArea.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
@@ -200,7 +202,7 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     setPalette(getNelsonPalette());
 
     debugStackPanel = new QtDebugStackPanel(nlsEvaluator, this);
-    debugStackDock = new QDockWidget(tr("Call Stack"), this);
+    debugStackDock = new QDockWidget(TR("Call Stack"), this);
     debugStackDock->setWidget(debugStackPanel);
     debugStackDock->setAllowedAreas(
         Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
@@ -208,7 +210,7 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     debugStackDock->hide();
 
     breakpointPanel = new QtBreakpointPanel(nlsEvaluator, this);
-    breakpointDock = new QDockWidget(tr("Breakpoints"), this);
+    breakpointDock = new QDockWidget(TR("Breakpoints"), this);
     breakpointDock->setWidget(breakpointPanel);
     breakpointDock->setAllowedAreas(
         Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
@@ -269,14 +271,8 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
             }
         });
 
-    connect(breakpointPanel, &QtBreakpointPanel::breakpointsChanged, this, [this]() {
-        for (int i = 0; i < tab->count(); ++i) {
-            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-            if (pane) {
-                pane->refreshBreakpoints();
-            }
-        }
-    });
+    connect(breakpointPanel, &QtBreakpointPanel::breakpointsChanged, this,
+        [this]() { refreshAllBreakpointAreas(); });
 
     connect(showDebugStackAction, &QAction::toggled, debugStackDock, &QDockWidget::setVisible);
     connect(debugStackDock, &QDockWidget::visibilityChanged, showDebugStackAction,
@@ -439,8 +435,16 @@ QtTextEditor::createActions()
     fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/stop-interpreter.svg"));
     stopRunAction = new QAction(QIcon(fileNameIcon), TR("&Stop execution"), this);
+    // Shift+F5 ends the debug session (interrupts a running program otherwise)
+    stopRunAction->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F5));
+    stopRunAction->setToolTip(TR("Stop (Shift+F5)"));
     connect(stopRunAction, SIGNAL(triggered()), this, SLOT(stopRun()));
     stopRunAction->setEnabled(false);
+    // F5 runs the file, or continues when paused in the debugger
+    runFileAction->setShortcut(Qt::Key_F5);
+    // no key auto-repeat: one action per key press
+    runFileAction->setAutoRepeat(false);
+    runFileAction->setToolTip(TR("Run file (F5)"));
     fileNameIcon = Nelson::wstringToQString(
                        Nelson::NelsonConfiguration::getInstance()->getNelsonRootDirectory())
         + QString("/resources/help-icon.svg");
@@ -476,6 +480,8 @@ QtTextEditor::createActions()
         = Nelson::wstringToQString(textEditorRootPath + std::wstring(L"/resources/debug-step.svg"));
     dbStepAction = new QAction(QIcon(fileNameIcon), TR("Step"), this);
     dbStepAction->setShortcut(Qt::Key_F10);
+    // no key auto-repeat: one action per key press
+    dbStepAction->setAutoRepeat(false);
     dbStepAction->setToolTip(TR("Step (F10)"));
     connect(dbStepAction, SIGNAL(triggered()), this, SLOT(dbStep()));
     dbStepAction->setEnabled(false);
@@ -484,6 +490,8 @@ QtTextEditor::createActions()
         textEditorRootPath + std::wstring(L"/resources/debug-step-in.svg"));
     dbStepInAction = new QAction(QIcon(fileNameIcon), TR("Step In"), this);
     dbStepInAction->setShortcut(Qt::Key_F11);
+    // no key auto-repeat: one action per key press
+    dbStepInAction->setAutoRepeat(false);
     dbStepInAction->setToolTip(TR("Step In (F11)"));
     connect(dbStepInAction, SIGNAL(triggered()), this, SLOT(dbStepIn()));
     dbStepInAction->setEnabled(false);
@@ -492,6 +500,8 @@ QtTextEditor::createActions()
         textEditorRootPath + std::wstring(L"/resources/debug-step-out.svg"));
     dbStepOutAction = new QAction(QIcon(fileNameIcon), TR("Step Out"), this);
     dbStepOutAction->setShortcut(Qt::Key_F11 | Qt::SHIFT);
+    // no key auto-repeat: one action per key press
+    dbStepOutAction->setAutoRepeat(false);
     dbStepOutAction->setToolTip(TR("Step Out (Shift+F11)"));
     connect(dbStepOutAction, SIGNAL(triggered()), this, SLOT(dbStepOut()));
     dbStepOutAction->setEnabled(false);
@@ -499,16 +509,59 @@ QtTextEditor::createActions()
     fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
     dbContinueAction = new QAction(QIcon(fileNameIcon), TR("Continue"), this);
-    dbContinueAction->setShortcut(Qt::Key_F5);
     dbContinueAction->setToolTip(TR("Continue (F5)"));
     connect(dbContinueAction, SIGNAL(triggered()), this, SLOT(dbContinue()));
     dbContinueAction->setEnabled(false);
 
-    // F9 is already used by 'Evaluate selection', toggle breakpoint uses Ctrl+F9.
-    toggleBreakpointAction = new QAction(TR("Toggle Breakpoint"), this);
-    toggleBreakpointAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F9));
-    toggleBreakpointAction->setToolTip(TR("Toggle Breakpoint (Ctrl+F9)"));
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/debug-pause.svg"));
+    dbPauseAction = new QAction(QIcon(fileNameIcon), TR("Pause"), this);
+    dbPauseAction->setShortcut(Qt::Key_F6);
+    // no key auto-repeat: one action per key press
+    dbPauseAction->setAutoRepeat(false);
+    dbPauseAction->setToolTip(TR("Pause at the next line (F6)"));
+    connect(dbPauseAction, SIGNAL(triggered()), this, SLOT(dbPause()));
+    dbPauseAction->setEnabled(false);
+
+    fileNameIcon = Nelson::wstringToQString(
+        textEditorRootPath + std::wstring(L"/resources/debug-run-to-here.svg"));
+    dbRunToHereAction = new QAction(QIcon(fileNameIcon), TR("Run to Here"), this);
+    dbRunToHereAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F10));
+    // no key auto-repeat: one action per key press
+    dbRunToHereAction->setAutoRepeat(false);
+    dbRunToHereAction->setToolTip(TR("Run to the cursor line (Ctrl+F10)"));
+    connect(dbRunToHereAction, SIGNAL(triggered()), this, SLOT(dbRunToHere()));
+
+    // F12 sets or clears the breakpoint on the current line
+    toggleBreakpointAction = new QAction(TR("Set/Clear Breakpoint"), this);
+    toggleBreakpointAction->setShortcuts(
+        { QKeySequence(Qt::Key_F12), QKeySequence(Qt::CTRL | Qt::Key_F9) });
+    // no key auto-repeat: one action per key press
+    toggleBreakpointAction->setAutoRepeat(false);
+    toggleBreakpointAction->setToolTip(TR("Set/Clear Breakpoint (F12)"));
     connect(toggleBreakpointAction, SIGNAL(triggered()), this, SLOT(toggleBreakpoint()));
+
+    enableAllBreakpointsInFileAction = new QAction(TR("Enable All Breakpoints in File"), this);
+    connect(enableAllBreakpointsInFileAction, SIGNAL(triggered()), this,
+        SLOT(enableAllBreakpointsInFile()));
+    disableAllBreakpointsInFileAction = new QAction(TR("Disable All Breakpoints in File"), this);
+    connect(disableAllBreakpointsInFileAction, SIGNAL(triggered()), this,
+        SLOT(disableAllBreakpointsInFile()));
+    clearAllBreakpointsInFileAction = new QAction(TR("Clear All Breakpoints in File"), this);
+    connect(clearAllBreakpointsInFileAction, SIGNAL(triggered()), this,
+        SLOT(clearAllBreakpointsInFile()));
+    clearAllBreakpointsAction = new QAction(TR("Clear All Breakpoints"), this);
+    connect(clearAllBreakpointsAction, SIGNAL(triggered()), this, SLOT(clearAllBreakpoints()));
+
+    pauseOnErrorsAction = new QAction(TR("Pause on Errors"), this);
+    pauseOnErrorsAction->setCheckable(true);
+    pauseOnErrorsAction->setToolTip(TR("dbstop if error"));
+    connect(pauseOnErrorsAction, SIGNAL(toggled(bool)), this, SLOT(setPauseOnErrors(bool)));
+    pauseOnCaughtErrorsAction = new QAction(TR("Pause on Caught Errors"), this);
+    pauseOnCaughtErrorsAction->setCheckable(true);
+    pauseOnCaughtErrorsAction->setToolTip(TR("dbstop if caught error"));
+    connect(
+        pauseOnCaughtErrorsAction, SIGNAL(toggled(bool)), this, SLOT(setPauseOnCaughtErrors(bool)));
 
     findAction = new QAction(TR("Find..."), this);
     findAction->setShortcut(QKeySequence::Find);
@@ -626,14 +679,23 @@ QtTextEditor::createMenus()
 
     debugMenu = menuBar()->addMenu(TR("&Debug"));
     debugMenu->addAction(runFileAction);
+    debugMenu->addAction(dbPauseAction);
     debugMenu->addAction(stopRunAction);
-    debugMenu->addSeparator();
-    debugMenu->addAction(toggleBreakpointAction);
     debugMenu->addSeparator();
     debugMenu->addAction(dbContinueAction);
     debugMenu->addAction(dbStepAction);
     debugMenu->addAction(dbStepInAction);
     debugMenu->addAction(dbStepOutAction);
+    debugMenu->addAction(dbRunToHereAction);
+    debugMenu->addSeparator();
+    debugMenu->addAction(toggleBreakpointAction);
+    debugMenu->addAction(enableAllBreakpointsInFileAction);
+    debugMenu->addAction(disableAllBreakpointsInFileAction);
+    debugMenu->addAction(clearAllBreakpointsInFileAction);
+    debugMenu->addAction(clearAllBreakpointsAction);
+    debugMenu->addSeparator();
+    debugMenu->addAction(pauseOnErrorsAction);
+    debugMenu->addAction(pauseOnCaughtErrorsAction);
     debugMenu->addSeparator();
     debugMenu->addAction(showDebugStackAction);
     debugMenu->addAction(showBreakpointsPanelAction);
@@ -695,11 +757,13 @@ QtTextEditor::createToolBars()
     editToolBar->addAction(redoAction);
     editToolBar->addSeparator();
     editToolBar->addAction(runFileAction);
+    editToolBar->addAction(dbPauseAction);
     editToolBar->addAction(stopRunAction);
     editToolBar->addSeparator();
     editToolBar->addAction(dbStepAction);
     editToolBar->addAction(dbStepInAction);
     editToolBar->addAction(dbStepOutAction);
+    editToolBar->addAction(dbRunToHereAction);
     editToolBar->addSeparator();
     editToolBar->addAction(fontAction);
     editToolBar->addSeparator();
@@ -1578,8 +1642,20 @@ QtTextEditor::saveFile(const QString& filename)
     bool res = saveFileWithEncoding(filename, currentEditor()->toPlainText(), currentEncoding());
     Nelson::restoreApplicationWaitCursor();
     if (res) {
+        QtEditPane* pane = currentEditPane();
+        if (pane) {
+            // push the moved and pending markers to the evaluator before the markers are reloaded
+            pane->syncBreakpointsAfterSave();
+        }
         setCurrentFile(filename);
         statusBar()->showMessage(TR("File saved"), DEFAULT_DELAY_MSG);
+        if (nlsEvaluator && nlsEvaluator->isBreakpointActive()
+            && nlsEvaluator->getInterface()->isAtPrompt()) {
+            // saving a file while debugging ends the debug session
+            nlsEvaluator->addCommandToQueue(L"dbquit", true);
+            statusBar()->showMessage(
+                TR("Debugging ended: the file was saved while paused."), DEFAULT_DELAY_MSG * 3);
+        }
     } else {
         QMessageBox::warning(this, TR("Nelson"),
             wstringToQString(Nelson::resolveMessageTemplate(
@@ -2141,21 +2217,22 @@ QtTextEditor::addTab()
 {
     QtEditPane* editPane = new QtEditPane(nlsEvaluator);
     editPane->setFileName(DEFAULT_FILENAME);
-    connect(editPane->getBreakpointArea(), &QtBreakpointArea::breakpointToggled, this,
-        [this](int, bool) {
-            if (breakpointPanel) {
-                breakpointPanel->refreshBreakpoints();
+    connect(editPane->getBreakpointArea(), &QtBreakpointArea::breakpointsChanged, this, [this]() {
+        if (breakpointPanel) {
+            breakpointPanel->refreshBreakpoints();
+        }
+        if (nlsEvaluator) {
+            lastBreakpointsRevision = nlsEvaluator->getBreakpointsRevision();
+            pauseOnErrorsAction->setChecked(nlsEvaluator->getStopOnError());
+            pauseOnCaughtErrorsAction->setChecked(nlsEvaluator->getStopOnCaughtError());
+        }
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane) {
+                pane->refreshBreakpoints();
             }
-            if (nlsEvaluator) {
-                lastBreakpointCount = nlsEvaluator->getBreakpoints().size();
-            }
-            for (int i = 0; i < tab->count(); ++i) {
-                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-                if (pane) {
-                    pane->refreshBreakpoints();
-                }
-            }
-        });
+        }
+    });
     connect(editPane->getCodeAnalyzerMarkerArea(), &QtCodeAnalyzerMarkerArea::issueMarkerClicked,
         this, &QtTextEditor::gotoIssueLine);
     tab->addTab(editPane, DEFAULT_FILENAME);
@@ -2306,6 +2383,11 @@ void
 QtTextEditor::documentWasModified()
 {
     setWindowModified(currentEditor()->document()->isModified());
+    QtEditPane* pane = currentEditPane();
+    if (pane) {
+        // unsaved edits: the breakpoint markers are invalid until the file is saved
+        pane->setDocumentModifiedForBreakpoints(currentEditor()->document()->isModified());
+    }
     if (currentEditor()->document()->isModified()) {
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/document-modified.svg"));
@@ -2580,10 +2662,16 @@ QtTextEditor::getCurrentLineNumber()
 }
 //=============================================================================
 bool
-QtTextEditor::gotoLineNumber(int lineNumber)
+QtTextEditor::gotoLineNumber(int lineNumber, int column)
 {
     QTextCursor text_cursor(currentEditor()->document()->findBlockByLineNumber(lineNumber - 1));
     text_cursor.movePosition(QTextCursor::StartOfLine);
+    // the column stays inside the line: the end of a short line is the limit
+    if (column > 1) {
+        int available = std::max(0, text_cursor.block().length() - 1);
+        text_cursor.movePosition(
+            QTextCursor::Right, QTextCursor::MoveAnchor, std::min(column - 1, available));
+    }
     currentEditor()->setTextCursor(text_cursor);
     currentEditor()->ensureCursorVisible();
     return true;
@@ -2639,6 +2727,7 @@ void
 QtTextEditor::dbStep()
 {
     if (nlsEvaluator->isBreakpointActive()) {
+        setNextDebugStopQuiet(true);
         nlsEvaluator->addCommandToQueue(L"dbstep", true);
     }
 }
@@ -2647,6 +2736,7 @@ void
 QtTextEditor::dbStepIn()
 {
     if (nlsEvaluator->isBreakpointActive()) {
+        setNextDebugStopQuiet(true);
         nlsEvaluator->addCommandToQueue(L"dbstep in", true);
     }
 }
@@ -2655,6 +2745,7 @@ void
 QtTextEditor::dbStepOut()
 {
     if (nlsEvaluator->isBreakpointActive()) {
+        setNextDebugStopQuiet(true);
         nlsEvaluator->addCommandToQueue(L"dbstep out", true);
     }
 }
@@ -2663,14 +2754,56 @@ void
 QtTextEditor::dbContinue()
 {
     if (nlsEvaluator->isBreakpointActive()) {
+        setNextDebugStopQuiet(true);
         nlsEvaluator->addCommandToQueue(L"dbcont", true);
     }
 }
 //=============================================================================
 void
+QtTextEditor::dbPause()
+{
+    if (nlsEvaluator && !nlsEvaluator->requestPause()) {
+        statusBar()->showMessage(TR("Nothing is running."), DEFAULT_DELAY_MSG);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::dbRunToHere()
+{
+    if (!nlsEvaluator) {
+        return;
+    }
+    QString filename = currentFilename();
+    if (filename.isEmpty() || !filename.endsWith(".m", Qt::CaseInsensitive)) {
+        statusBar()->showMessage(TR("Run to Here needs a saved Nelson file."), DEFAULT_DELAY_MSG);
+        return;
+    }
+    bool paused = nlsEvaluator->isBreakpointActive() && nlsEvaluator->getInterface()->isAtPrompt();
+    if (currentEditor()->document()->isModified()) {
+        if (paused) {
+            // the paused code is the saved file: edits would not match the lines
+            statusBar()->showMessage(
+                TR("Save the file before running to a line while paused."), DEFAULT_DELAY_MSG);
+            return;
+        }
+        if (!save()) {
+            return;
+        }
+    }
+    std::wstring errorMessage;
+    if (!runToEditorLine(nlsEvaluator, QStringTowstring(QFileInfo(filename).absoluteFilePath()),
+            static_cast<size_t>(getCurrentLineNumber()), errorMessage)) {
+        statusBar()->showMessage(wstringToQString(errorMessage), DEFAULT_DELAY_MSG * 2);
+        return;
+    }
+    nlsEvaluator->getInterface()->interruptGetLineByEvent();
+    checkDebugState();
+}
+//=============================================================================
+void
 QtTextEditor::toggleBreakpoint()
 {
-    QtEditPane* editPane = qobject_cast<QtEditPane*>(tab->currentWidget());
+    QtEditPane* editPane = currentEditPane();
     if (!editPane) {
         return;
     }
@@ -2682,60 +2815,224 @@ QtTextEditor::toggleBreakpoint()
 }
 //=============================================================================
 void
+QtTextEditor::enableAllBreakpointsInFile()
+{
+    QtEditPane* editPane = currentEditPane();
+    if (editPane && editPane->getBreakpointArea()) {
+        editPane->getBreakpointArea()->setAllBreakpointsEnabled(true);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::disableAllBreakpointsInFile()
+{
+    QtEditPane* editPane = currentEditPane();
+    if (editPane && editPane->getBreakpointArea()) {
+        editPane->getBreakpointArea()->setAllBreakpointsEnabled(false);
+    }
+}
+//=============================================================================
+void
+QtTextEditor::clearAllBreakpointsInFile()
+{
+    QtEditPane* editPane = currentEditPane();
+    if (editPane && editPane->getBreakpointArea()) {
+        editPane->getBreakpointArea()->clearAllBreakpoints();
+    }
+}
+//=============================================================================
+void
+QtTextEditor::clearAllBreakpoints()
+{
+    if (nlsEvaluator) {
+        // Clear All Breakpoints also removes the error breakpoints
+        nlsEvaluator->clearBreakpoints();
+    }
+    refreshAllBreakpointAreas();
+}
+//=============================================================================
+void
+QtTextEditor::setPauseOnErrors(bool checked)
+{
+    if (nlsEvaluator && nlsEvaluator->getStopOnError() != checked) {
+        nlsEvaluator->setStopOnError(checked);
+        refreshAllBreakpointAreas();
+    }
+}
+//=============================================================================
+void
+QtTextEditor::setPauseOnCaughtErrors(bool checked)
+{
+    if (nlsEvaluator && nlsEvaluator->getStopOnCaughtError() != checked) {
+        nlsEvaluator->setStopOnCaughtError(checked);
+        refreshAllBreakpointAreas();
+    }
+}
+//=============================================================================
+void
+QtTextEditor::refreshAllBreakpointAreas()
+{
+    if (breakpointPanel) {
+        breakpointPanel->refreshBreakpoints();
+    }
+    for (int i = 0; i < tab->count(); ++i) {
+        QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+        if (pane) {
+            pane->refreshBreakpoints();
+        }
+    }
+    if (nlsEvaluator) {
+        lastBreakpointsRevision = nlsEvaluator->getBreakpointsRevision();
+        pauseOnErrorsAction->setChecked(nlsEvaluator->getStopOnError());
+        pauseOnCaughtErrorsAction->setChecked(nlsEvaluator->getStopOnCaughtError());
+    }
+}
+//=============================================================================
+QtEditPane*
+QtTextEditor::currentEditPane()
+{
+    return qobject_cast<QtEditPane*>(tab->currentWidget());
+}
+//=============================================================================
+void
+QtTextEditor::refreshDebugState()
+{
+    checkDebugState();
+    // an explicit refresh always shows the current stop, whatever the timer saw before
+    if (nlsEvaluator && nlsEvaluator->isBreakpointActive()) {
+        updateDebugLineHighlight();
+    }
+}
+//=============================================================================
+bool
+QtTextEditor::triggerDebugAction(const QString& name)
+{
+    if (name == "step") {
+        dbStep();
+    } else if (name == "stepIn") {
+        dbStepIn();
+    } else if (name == "stepOut") {
+        dbStepOut();
+    } else if (name == "continue") {
+        dbContinue();
+    } else if (name == "pause") {
+        dbPause();
+    } else if (name == "runToHere") {
+        dbRunToHere();
+    } else if (name == "stop") {
+        stopRun();
+    } else if (name == "toggleBreakpoint") {
+        toggleBreakpoint();
+    } else if (name == "save") {
+        return save();
+    } else if (name == "run") {
+        runFile();
+    } else {
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+QString
+QtTextEditor::debugStatusText() const
+{
+    return statusLabel ? statusLabel->text() : QString();
+}
+//=============================================================================
+void
+QtTextEditor::updateDebugStatusLabel()
+{
+    if (!statusLabel || !nlsEvaluator) {
+        return;
+    }
+    const DebugStopInfo& info = nlsEvaluator->getDebugStopInfo();
+    bool paused = nlsEvaluator->isBreakpointActive() && info.reason != DebugStopReason::None;
+    QString palette;
+    QString text;
+    if (paused) {
+        QString where = info.functionName.empty()
+            ? QFileInfo(wstringToQString(info.filename)).fileName()
+            : QString::fromStdString(info.functionName);
+        if (info.reason == DebugStopReason::Error) {
+            text = TR("Paused on error in %1 (line %2): %3")
+                       .arg(where)
+                       .arg(info.line)
+                       .arg(wstringToQString(info.errorMessage));
+            palette = "QLabel { background-color: #e06060; color: black; padding: 0 4px; }";
+        } else {
+            text = TR("Paused in %1 (line %2)").arg(where).arg(info.line);
+            palette = "QLabel { background-color: #f0a030; color: black; padding: 0 4px; }";
+        }
+        statusLabel->setStyleSheet(palette);
+        statusLabel->setText(text);
+        return;
+    }
+    if (!nlsEvaluator->getInterface()->isAtPrompt() && !nlsEvaluator->isBreakpointActive()) {
+        statusLabel->setStyleSheet(QString());
+        statusLabel->setText(TR("Running"));
+        return;
+    }
+    statusLabel->setStyleSheet(QString());
+    updateCursorPosition();
+}
+//=============================================================================
+void
 QtTextEditor::checkDebugState()
 {
     if (!nlsEvaluator) {
         return;
     }
-
     bool currentDebugActive = nlsEvaluator->isBreakpointActive();
     bool atPrompt = nlsEvaluator->getInterface()->isAtPrompt();
-    std::wstring currentFilename;
-    size_t currentLine = 0;
+    const DebugStopInfo& info = nlsEvaluator->getDebugStopInfo();
+    // a stop is current until dbcont/dbstep leave the K>> prompt (markDebugResumed)
+    bool paused = currentDebugActive && info.reason != DebugStopReason::None;
 
-    if (currentDebugActive && nlsEvaluator->stepBreakpoint) {
-        currentFilename = nlsEvaluator->stepBreakpoint.value().filename;
-        currentLine = nlsEvaluator->stepBreakpoint.value().line;
+    uint64_t breakpointsRevision = nlsEvaluator->getBreakpointsRevision();
+    if (breakpointsRevision != lastBreakpointsRevision) {
+        refreshAllBreakpointAreas();
     }
 
-    size_t currentBreakpointCount = nlsEvaluator->getBreakpoints().size();
-    bool breakpointsChanged = (currentBreakpointCount != lastBreakpointCount);
-    if (breakpointsChanged) {
-        lastBreakpointCount = currentBreakpointCount;
-        breakpointPanel->refreshBreakpoints();
-        for (int i = 0; i < tab->count(); ++i) {
-            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-            if (pane) {
-                pane->refreshBreakpoints();
-            }
-        }
-    }
-
-    bool stateChanged = (currentDebugActive != lastDebugState)
-        || (currentFilename != lastDebugFilename) || (currentLine != lastDebugLine);
-
+    uint64_t debugStateRevision = nlsEvaluator->getDebugStateRevision();
+    bool stateChanged = (currentDebugActive != lastDebugState) || (paused != lastDebugPaused)
+        || (atPrompt != lastAtPrompt) || (debugStateRevision != lastDebugStateRevision);
     if (stateChanged) {
+        bool justPaused = paused && !lastDebugPaused;
         lastDebugState = currentDebugActive;
-        lastDebugFilename = currentFilename;
-        lastDebugLine = currentLine;
+        lastDebugPaused = paused;
+        lastAtPrompt = atPrompt;
+        lastDebugStateRevision = debugStateRevision;
         updateDebugLineHighlight();
-
-        if (currentDebugActive) {
+        if (paused) {
             debugStackPanel->refreshStack();
+            if (justPaused) {
+                // bring the editor to the front when execution pauses
+                if (isDockedInDesktop()) {
+                    showTextEditor();
+                } else if (isVisible()) {
+                    raise();
+                    activateWindow();
+                }
+            }
         } else {
             debugStackPanel->clear();
         }
+        updateDebugStatusLabel();
     }
 
-    stopRunAction->setEnabled(currentDebugActive || !atPrompt);
-
-    dbStepAction->setEnabled(currentDebugActive && atPrompt);
-    dbStepInAction->setEnabled(currentDebugActive && atPrompt);
-    dbStepOutAction->setEnabled(currentDebugActive && atPrompt);
-    dbContinueAction->setEnabled(currentDebugActive && atPrompt);
+    bool canStep = paused && info.canStep;
+    stopRunAction->setEnabled(paused || !atPrompt);
+    dbPauseAction->setEnabled(!atPrompt);
+    dbStepAction->setEnabled(canStep);
+    dbStepInAction->setEnabled(canStep);
+    dbStepOutAction->setEnabled(canStep);
+    dbContinueAction->setEnabled(paused);
+    QString filename = currentFilename();
+    dbRunToHereAction->setEnabled(
+        atPrompt && !filename.isEmpty() && filename.endsWith(".m", Qt::CaseInsensitive));
 
     // Run file button doubles as Continue when stopped in debugger
-    if (currentDebugActive) {
+    if (paused) {
         runFileAction->setText(TR("&Continue"));
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/debug-continue.svg"));
@@ -2747,7 +3044,7 @@ QtTextEditor::checkDebugState()
         QString fileNameIcon = Nelson::wstringToQString(
             textEditorRootPath + std::wstring(L"/resources/run-file-start.svg"));
         runFileAction->setIcon(QIcon(fileNameIcon));
-        runFileAction->setToolTip(TR("Run file"));
+        runFileAction->setToolTip(TR("Run file (F5)"));
         runFileAction->setEnabled(true);
     } else {
         runFileAction->setEnabled(false);
@@ -2857,9 +3154,13 @@ QtTextEditor::evaluateSelection()
         selectedText.chop(1);
         selectedText.remove(0, 1);
     }
-    if (!selectedText.isEmpty()) {
+    if (!selectedText.isEmpty() && nlsEvaluator) {
+        // the result of an evaluated selection is displayed: no trailing semicolon
         std::wstring text = QStringTowstring(selectedText);
-        postCommand(text);
+        // a stop reached from the editor moves the arrow without echoing the line
+        setNextDebugStopQuiet(true);
+        nlsEvaluator->addCommandToQueue(text, true);
+        nlsEvaluator->getInterface()->interruptGetLineByEvent();
     }
 }
 //=============================================================================
@@ -2993,65 +3294,49 @@ QtTextEditor::updateDebugLineHighlight()
             pane->clearExecutionLine();
         }
     }
+    if (!nlsEvaluator || !nlsEvaluator->isBreakpointActive()) {
+        return;
+    }
+    const DebugStopInfo& info = nlsEvaluator->getDebugStopInfo();
+    if (info.reason == DebugStopReason::None || info.line == 0 || info.filename.empty()) {
+        return;
+    }
+    QString debugFilename = wstringToQString(info.filename);
+    int debugLine = static_cast<int>(info.line);
+    QFileInfo debugFileInfo(debugFilename);
+    QString debugAbsolutePath = debugFileInfo.absoluteFilePath();
+    bool isError = info.reason == DebugStopReason::Error;
+    QString errorMessage = wstringToQString(info.errorMessage);
 
-    if (nlsEvaluator && nlsEvaluator->isBreakpointActive() && nlsEvaluator->stepBreakpoint) {
-        const Breakpoint& bp = nlsEvaluator->stepBreakpoint.value();
-        QString debugFilename = wstringToQString(bp.filename);
-        int debugLine = static_cast<int>(bp.line);
-
-        QFileInfo debugFileInfo(debugFilename);
-        QString debugAbsolutePath = debugFileInfo.absoluteFilePath();
-
-        bool found = false;
-        for (int i = 0; i < tab->count(); ++i) {
-            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-            if (pane) {
-                QFileInfo openFileInfo(pane->getFileName());
-                QString openAbsolutePath = openFileInfo.absoluteFilePath();
-
-                if (openAbsolutePath == debugAbsolutePath) {
-                    pane->setDebugLine(debugLine);
-                    pane->setExecutionLine(debugLine);
-                    tab->setCurrentIndex(i);
-                    if (pane->getEditor()) {
-                        QTextBlock block
-                            = pane->getEditor()->document()->findBlockByLineNumber(debugLine - 1);
-                        if (block.isValid()) {
-                            QTextCursor cursor(block);
-                            pane->getEditor()->setTextCursor(cursor);
-                            pane->getEditor()->ensureCursorVisible();
-                        }
-                    }
-                    found = true;
-                    break;
-                }
+    auto showInPane = [&](QtEditPane* pane, int index) {
+        pane->setDebugLine(debugLine);
+        pane->setExecutionLine(debugLine);
+        pane->setErrorStop(isError, errorMessage);
+        tab->setCurrentIndex(index);
+        if (pane->getEditor()) {
+            QTextBlock block = pane->getEditor()->document()->findBlockByLineNumber(debugLine - 1);
+            if (block.isValid()) {
+                QTextCursor cursor(block);
+                pane->getEditor()->setTextCursor(cursor);
+                pane->getEditor()->ensureCursorVisible();
             }
         }
-
-        if (!found && !debugFilename.isEmpty() && QFile::exists(debugAbsolutePath)) {
-            loadFile(debugAbsolutePath);
-            for (int i = 0; i < tab->count(); ++i) {
-                QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
-                if (pane) {
-                    QFileInfo openFileInfo(pane->getFileName());
-                    QString openAbsolutePath = openFileInfo.absoluteFilePath();
-
-                    if (openAbsolutePath == debugAbsolutePath) {
-                        pane->setDebugLine(debugLine);
-                        pane->setExecutionLine(debugLine);
-                        tab->setCurrentIndex(i);
-                        if (pane->getEditor()) {
-                            QTextBlock block = pane->getEditor()->document()->findBlockByLineNumber(
-                                debugLine - 1);
-                            if (block.isValid()) {
-                                QTextCursor cursor(block);
-                                pane->getEditor()->setTextCursor(cursor);
-                                pane->getEditor()->ensureCursorVisible();
-                            }
-                        }
-                        break;
-                    }
-                }
+    };
+    for (int i = 0; i < tab->count(); ++i) {
+        QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+        if (pane && QFileInfo(pane->getFileName()).absoluteFilePath() == debugAbsolutePath) {
+            showInPane(pane, i);
+            return;
+        }
+    }
+    // open the file in the editor when execution pauses in it
+    if (QFile::exists(debugAbsolutePath)) {
+        loadFile(debugAbsolutePath);
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane && QFileInfo(pane->getFileName()).absoluteFilePath() == debugAbsolutePath) {
+                showInPane(pane, i);
+                return;
             }
         }
     }

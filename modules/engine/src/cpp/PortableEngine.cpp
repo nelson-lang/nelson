@@ -21,6 +21,7 @@
 #include "CodeAnalyzer.hpp"
 #include "ComputeNelsonPaths.hpp"
 #include "EvaluateCommand.hpp"
+#include "DebuggerJson.hpp"
 #include "Evaluator.hpp"
 #include "Interface.hpp"
 #include "MainEvaluator.hpp"
@@ -314,35 +315,13 @@ registerBaseGateways(Evaluator* evaluator)
 static nlohmann::json
 debuggerStateToJson(Evaluator* evaluator)
 {
-    nlohmann::json result = { { "running", false }, { "currentLine", nullptr },
-        { "currentFile", nullptr }, { "stack", nlohmann::json::array() } };
-    if (evaluator == nullptr || !evaluator->isBreakpointActive()) {
-        return result;
-    }
-
-    result["running"] = true;
-    if (evaluator->stepBreakpoint.has_value()) {
-        const Breakpoint& bp = evaluator->stepBreakpoint.value();
-        const auto file = wstring_to_utf8(bp.filename);
-        const auto functionName = bp.functionName;
-        result["currentFile"] = file;
-        result["currentLine"] = static_cast<long long>(bp.line);
-        result["stack"].push_back({ { "file", file }, { "line", static_cast<long long>(bp.line) },
-            { "function", functionName } });
+    // same JSON as the webview desktop (DebuggerJson)
+    nlohmann::json result = nlohmann::json::parse(debuggerStateJson(evaluator), nullptr, false);
+    if (result.is_discarded()) {
+        result = { { "running", false }, { "paused", false }, { "currentLine", nullptr },
+            { "currentFile", nullptr }, { "stack", nlohmann::json::array() } };
     }
     return result;
-}
-//=============================================================================
-static nlohmann::json
-breakpointsToJson(Evaluator* evaluator, const std::string& file)
-{
-    nlohmann::json lines = nlohmann::json::array();
-    if (evaluator != nullptr) {
-        for (size_t line : evaluator->getBreakpointLines(utf8_to_wstring(file))) {
-            lines.push_back(static_cast<long long>(line));
-        }
-    }
-    return { { "file", file }, { "lines", lines } };
 }
 //=============================================================================
 static bool
@@ -406,13 +385,16 @@ PortableEngine::start(const PortableConfiguration& configuration)
     WebDesktopBridge::getInstance()->setWebLaunchMode("browser");
 #endif
     WebDesktopBridge::getInstance()->setWebEditorOpener(
-        [](void* context, const wchar_t* path, int line) {
+        [](void* context, const wchar_t* path, int line, int column) {
             auto* portableInterface = static_cast<PortableInterface*>(context);
             const std::wstring editorPath = path == nullptr ? std::wstring() : std::wstring(path);
             nlohmann::json action { { "type", "open-editor" },
                 { "path", wstring_to_utf8(editorPath) } };
             if (line > 0) {
                 action["line"] = line;
+            }
+            if (column > 0) {
+                action["column"] = column;
             }
             portableInterface->outputMessage(
                 "__NELSON_UI_ACTION_BEGIN__" + action.dump() + "__NELSON_UI_ACTION_END__\n");
@@ -606,6 +588,10 @@ PortableEngine::evaluate(std::string_view command)
     }
     impl->evaluator->clearStacks();
     impl->evaluator->resetState();
+    if (!impl->evaluator->isBreakpointActive()) {
+        // back at the top level: drop the debugger temporaries (run to here, steps)
+        impl->evaluator->onExecutionReturnedToTopLevel();
+    }
     if (impl->configuration.figureCallback) {
         impl->configuration.figureCallback();
     }
@@ -621,27 +607,24 @@ PortableEngine::debuggerStateJson() const
 std::string
 PortableEngine::debuggerGetBreakpointsJson(std::string_view file) const
 {
-    return breakpointsToJson(impl->evaluator, std::string(file)).dump();
+    return debuggerBreakpointsJson(impl->evaluator, std::string(file));
+}
+//=============================================================================
+std::string
+PortableEngine::debuggerRpcJson(std::string_view method, std::string_view paramsJson)
+{
+    if (impl->evaluator == nullptr) {
+        return R"({"error":"no evaluator"})";
+    }
+    return debuggerRpc(impl->evaluator, std::string(method), std::string(paramsJson));
 }
 //=============================================================================
 std::string
 PortableEngine::debuggerToggleBreakpointJson(std::string_view file, size_t line)
 {
-    if (impl->evaluator == nullptr) {
-        return breakpointsToJson(nullptr, std::string(file)).dump();
-    }
-    const std::string fileUtf8(file);
-    const std::wstring filename = utf8_to_wstring(fileUtf8);
-    if (impl->evaluator->hasBreakpoint(filename, line)) {
-        impl->evaluator->removeBreakpoint(filename, line);
-    } else {
-        Breakpoint bp;
-        bp.filename = filename;
-        bp.line = line;
-        bp.enabled = true;
-        impl->evaluator->addBreakpoint(bp);
-    }
-    return breakpointsToJson(impl->evaluator, fileUtf8).dump();
+    nlohmann::json params
+        = { { "file", std::string(file) }, { "line", static_cast<long long>(line) } };
+    return debuggerRpcJson("toggleBreakpoint", params.dump());
 }
 //=============================================================================
 void
@@ -896,6 +879,20 @@ nlsPortableDebuggerToggleBreakpoint(const char* file, int line)
     }
     cDebuggerResult
         = cEngine.debuggerToggleBreakpointJson(fileUtf8, line > 0 ? static_cast<size_t>(line) : 0);
+    return cDebuggerResult.c_str();
+}
+//=============================================================================
+extern "C" NELSON_WASM_EXPORT const char*
+nlsPortableDebuggerRpc(const char* method, const char* paramsJson)
+{
+    std::lock_guard<std::mutex> lock(cEngineMutex);
+    const std::string methodUtf8 = method == nullptr ? std::string() : std::string(method);
+    const std::string params = paramsJson == nullptr ? std::string("{}") : std::string(paramsJson);
+    if (!cEngine.isStarted() && !startCEngine()) {
+        cDebuggerResult = R"({"error":"engine not started"})";
+        return cDebuggerResult.c_str();
+    }
+    cDebuggerResult = cEngine.debuggerRpcJson(methodUtf8, params);
     return cDebuggerResult.c_str();
 }
 //=============================================================================

@@ -87,6 +87,17 @@ public:
     int
     getExecutionLine() const;
 
+    // paused on an error (dbstop if error): the gutter tooltip shows the message
+    void
+    setErrorStop(bool errorStop, const QString& message);
+
+    // unsaved edits make the breakpoint markers invalid until the file is saved
+    void
+    setDocumentModifiedForBreakpoints(bool modified);
+
+    void
+    syncBreakpointsAfterSave();
+
 private:
     Highlighter* highlight;
     QtTextIndent* textIndent;

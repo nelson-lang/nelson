@@ -399,7 +399,10 @@ Evaluator::evaluateString(const std::string& line, bool propagateException)
             throw e;
         }
         setLastUncaughtException(e);
-        e.printMe(io);
+        // already shown by a dbstop-if-error stop: it is not shown again
+        if (!consumeErrorDisplayed()) {
+            e.printMe(io);
+        }
         callstack.popDebug();
         return false;
     } catch (const std::exception& stdEx) {

@@ -31,6 +31,7 @@
     <p>
       <b>dbquit all</b> terminates debugging for all files simultaneously.</p>
     <p>      This function can only be called from the command line while debugging.</p>
+    <p>Outside a debug session, <b>dbquit</b> raises <code>Debug commands only allowed when stopped in debug mode.</code> The editor's Stop button (Shift+F5) and saving a file while paused call <b>dbquit</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -79,6 +80,10 @@ dbquit all
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>uniform message outside a debug session, editor Stop and save end the session</history_description>
     </history_item>
   </history>
   <authors>

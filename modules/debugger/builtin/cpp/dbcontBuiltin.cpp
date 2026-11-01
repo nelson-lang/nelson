@@ -9,6 +9,7 @@
 //=============================================================================
 #include "dbcontBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,10 +18,15 @@ Nelson::DebuggerGateway::dbcontBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 0);
-
+    if (!eval->isBreakpointActive()) {
+        Error(L"Nelson:debugger:notInDebugMode",
+            L"Debug commands only allowed when stopped in debug mode.");
+    }
     eval->setState(NLS_STATE_DEBUG_CONTINUE);
     eval->stepMode = false;
     eval->stepBreakpoint.reset();
+    // a pending step-out must not fire after a continue
+    eval->clearStepBreakpoints();
     eval->bpActive = false;
     return {};
 }

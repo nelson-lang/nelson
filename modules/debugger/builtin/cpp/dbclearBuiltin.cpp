@@ -8,65 +8,90 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "dbclearBuiltin.hpp"
+#include "BreakpointTarget.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "ErrorID.hpp"
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
+using namespace Nelson::DebuggerGateway;
 //=============================================================================
-static size_t
-parsePositionArgument(const ArrayOfVector& argIn);
+static void
+clearInFile(
+    Evaluator* eval, const std::wstring& nameOrFile, const wstringVector& tokens, size_t index);
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    // dbclear all
-    // dbclear in file
-    // dbclear in file at location
-    nargincheck(argIn, 1, 4);
+    // dbclear [all] [in file [at location]], dbclear if error, dbclear if caught error
     nargoutcheck(nLhs, 0, 0);
-
-    if (argIn.size() == 3) {
-        Error("Nelson:wrongNumberOfInputs", "Wrong number of input arguments.");
-    }
-
-    if (argIn.size() == 1 && argIn[0].asWideString() == L"all") {
+    wstringVector tokens = breakpointCommandTokens(argIn);
+    if (tokens.empty() || (tokens.size() == 1 && tokens[0] == L"all")) {
         eval->clearBreakpoints();
         return {};
     }
-    size_t position = parsePositionArgument(argIn);
-    std::wstring target = argIn[1].asWideString();
-
-    if (!eval->removeBreakpoint(target, position)) {
-        Error(L"Nelson:dbclear:breakpointNotFound", L"No breakpoint found at specified location.");
+    if (tokens[0] == L"if") {
+        std::wstring condition;
+        for (size_t k = 1; k < tokens.size(); ++k) {
+            if (!condition.empty()) {
+                condition += L" ";
+            }
+            condition += tokens[k];
+        }
+        if (condition == L"error") {
+            eval->setStopOnError(false);
+            return {};
+        }
+        if (condition == L"caught error") {
+            eval->setStopOnCaughtError(false);
+            return {};
+        }
+        Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
     }
-
+    if (tokens[0] == L"all") {
+        if (tokens.size() < 3 || tokens[1] != L"in") {
+            Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
+        }
+        clearInFile(eval, tokens[2], tokens, 3);
+        return {};
+    }
+    if (tokens[0] != L"in" || tokens.size() < 2) {
+        Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
+    }
+    clearInFile(eval, tokens[1], tokens, 2);
     return {};
 }
 //=============================================================================
-size_t
-parsePositionArgument(const ArrayOfVector& argIn)
+void
+clearInFile(
+    Evaluator* eval, const std::wstring& nameOrFile, const wstringVector& tokens, size_t index)
 {
-    if (argIn.size() != 4) {
-        return 1;
+    BreakpointTarget target;
+    std::wstring errorMessage;
+    if (!resolveBreakpointTarget(eval, nameOrFile, target, errorMessage)) {
+        RaiseError(errorMessage, L"Nelson:dbclear:functionNotFound");
     }
-
-    if (argIn[2].asWideString() != L"at") {
-        Error(L"Nelson:debugger:expectedAt", L"Third argument must be 'at'.");
+    if (index >= tokens.size()) {
+        // error breakpoints are kept; nothing is reported when no breakpoint matches
+        eval->removeAllBreakpoints(target.filename);
+        return;
     }
-
-    std::wstring posArg = argIn[3].asWideString();
-    size_t idx = 0;
-
-    try {
-        size_t pos = std::stoul(posArg, &idx);
-        if (idx != posArg.size()) {
-            Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
-        }
-        return pos;
-    } catch (...) {
-        Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
+    if (tokens[index] != L"at" || index + 1 >= tokens.size()) {
+        Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
     }
-
-    return 1; // unreachable
+    size_t position = 0;
+    if (!parseBreakpointLineToken(tokens[index + 1], position)) {
+        Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
+    }
+    if (index + 2 < tokens.size()) {
+        Error(L"Nelson:dbclear:invalidArgument", L"Invalid dbclear syntax.");
+    }
+    size_t adjustedLine = position;
+    std::wstring adjustError;
+    if (eval->adjustBreakpointLine(target.adjustName, position, adjustedLine, adjustError)) {
+        eval->removeBreakpoint(target.filename, adjustedLine);
+    }
+    // the requested line itself, when the adjustment moved elsewhere
+    eval->removeBreakpoint(target.filename, position);
 }
 //=============================================================================

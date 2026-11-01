@@ -30,6 +30,8 @@ extern "C"
     NLSENGINE_IMPEXP const char*
     nlsPortableDebuggerToggleBreakpoint(const char* file, int line);
     NLSENGINE_IMPEXP const char*
+    nlsPortableDebuggerRpc(const char* method, const char* paramsJson);
+    NLSENGINE_IMPEXP const char*
     nlsPortableStdout();
     NLSENGINE_IMPEXP const char*
     nlsPortableStderr();

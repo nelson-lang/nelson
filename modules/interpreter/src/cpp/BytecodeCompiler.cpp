@@ -298,6 +298,8 @@ namespace {
         uint16_t maxStack_ = 0;
         uint16_t nextLoopSlot_ = 0;
         uint16_t statementCounter_ = 0;
+        // line of the newline closing the compiled statement: the `end` line of a control statement
+        uint32_t currentStatementEndLine_ = 0;
         std::vector<LoopPatchContext> loopStack_;
         std::vector<uint16_t> activeLoopLocalSlots_;
         std::unordered_set<std::string> declaredGlobalNames_;
@@ -564,7 +566,18 @@ namespace {
             if ((++statementCounter_ & 63) == 0) {
                 emit(OpCode::CHECK_INTERRUPT);
             }
+            currentStatementEndLine_ = spanFromContext(statement->getContext()).line;
             compileStatementType(statement->down, printIt);
+        }
+
+        // records the loop `end` line on its back-edge instruction, read only when debugging
+        void
+        recordLoopEndSpan(uint32_t instrIndex, uint32_t endLine)
+        {
+            if (endLine == 0) {
+                return;
+            }
+            chunk_.recordSpan(instrIndex, endLine, 0, static_cast<uint16_t>(endLine));
         }
 
         void
@@ -957,6 +970,7 @@ namespace {
             }
             // node->right (the loop body) may be null (`while true; end`). The loop is still
             // compiled so the condition is evaluated on each iteration.
+            uint32_t endLine = currentStatementEndLine_;
             uint32_t headerPC = static_cast<uint32_t>(chunk_.code.size());
             compileExpr(node);
             uint32_t exitJump = emit(OpCode::WHILE_CHECK);
@@ -968,7 +982,8 @@ namespace {
             for (uint32_t continueJump : loopStack_.back().continues) {
                 patch(continueJump, continuePC);
             }
-            emit(OpCode::JUMP, 0, static_cast<uint16_t>(headerPC));
+            uint32_t backEdge = emit(OpCode::JUMP, 0, static_cast<uint16_t>(headerPC));
+            recordLoopEndSpan(backEdge, endLine);
             uint32_t exitPC = static_cast<uint32_t>(chunk_.code.size());
             patch(exitJump, exitPC);
             for (uint32_t breakJump : loopStack_.back().breaks) {
@@ -983,6 +998,7 @@ namespace {
             if (node == nullptr || node->type != id_node || node->down == nullptr) {
                 return;
             }
+            uint32_t endLine = currentStatementEndLine_;
             auto slot = slots_.resolve(node->text);
             bool isGlobalLoopVariable = !slot.has_value() || slot->kind == SlotKind::Global;
             uint16_t variableOperand = isGlobalLoopVariable ? nameIndex(node->text) : slot->index;
@@ -1016,7 +1032,9 @@ namespace {
             }
             OpCode stepOp = isRange ? OpCode::FOR_STEP_RANGE
                                     : (isDoubleCandidate ? OpCode::FOR_STEP_DBL : OpCode::FOR_STEP);
-            emit(stepOp, loopFlags, loopSlot, variableOperand, static_cast<uint16_t>(bodyPC));
+            uint32_t stepIndex
+                = emit(stepOp, loopFlags, loopSlot, variableOperand, static_cast<uint16_t>(bodyPC));
+            recordLoopEndSpan(stepIndex, endLine);
             uint32_t exitPC = static_cast<uint32_t>(chunk_.code.size());
             chunk_.code[init].C = static_cast<uint16_t>(exitPC);
             for (uint32_t breakJump : loopStack_.back().breaks) {

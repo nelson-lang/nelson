@@ -1,0 +1,162 @@
+/*=============================================================================
+ * Copyright (c) 2026-present Allan CORNET (Nelson)
+ *=============================================================================
+ * This file is part of Nelson.
+ *=============================================================================
+ * LICENCE_BLOCK_BEGIN
+ * SPDX-License-Identifier: LGPL-3.0-or-later
+ * LICENCE_BLOCK_END
+ *=============================================================================
+ * Editor debugger: breakpoint markers, paused line, gutter menu, panels.
+ *===========================================================================*/
+/* --- Editor debugger ------------------------------------------------------ */
+.nelson-shell .bp-glyph--disabled {
+  background: #bdbdbd;
+}
+.nelson-shell .bp-glyph--invalid {
+  background: #6e6e6e;
+}
+.nelson-shell .bp-glyph--conditional {
+  background: #ff8c00;
+}
+.nelson-shell .debug-current-line--error {
+  background: rgba(224, 96, 96, 0.28);
+}
+.nelson-shell .editor-debugbar--error {
+  background: rgba(224, 96, 96, 0.18);
+}
+.nelson-shell .editor-debugbar--error .editor-debugbar__label {
+  color: #d03030;
+}
+.nelson-shell .bp-popover {
+  position: fixed;
+  z-index: 10000;
+  min-width: 240px;
+  padding: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+.nelson-shell .bp-popover__item {
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+.nelson-shell .bp-popover__item:hover:not(:disabled) {
+  background: var(--bg-hover, rgba(127, 127, 127, 0.2));
+}
+.nelson-shell .bp-popover__item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.nelson-shell .bp-popover__separator {
+  height: 1px;
+  margin: 3px 6px;
+  background: var(--border);
+}
+.nelson-shell .bp-popover__condition {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+}
+.nelson-shell .bp-popover__label {
+  color: var(--fg-dim);
+}
+.nelson-shell .bp-popover__input,
+.nelson-shell .bp-panel__condition-input {
+  font: inherit;
+  font-family: var(--mono, monospace);
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  min-width: 220px;
+}
+.nelson-shell .bp-popover__error,
+.nelson-shell .bp-panel__error {
+  color: #d03030;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+.nelson-shell .bp-popover__buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.nelson-shell .bp-panel,
+.nelson-shell .callstack-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  font-size: 12px;
+}
+.nelson-shell .bp-panel__toolbar,
+.nelson-shell .bp-panel__errors {
+  display: flex;
+  gap: 6px;
+  padding: 4px 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.nelson-shell .bp-panel__errors {
+  border-bottom: none;
+  border-top: 1px solid var(--border);
+  gap: 14px;
+}
+.nelson-shell .bp-panel__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.nelson-shell .bp-panel__table th,
+.nelson-shell .bp-panel__table td {
+  text-align: left;
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.nelson-shell .bp-panel__row--selected td {
+  background: rgba(127, 127, 127, 0.18);
+}
+.nelson-shell .bp-panel__empty {
+  color: var(--fg-dim);
+  padding: 8px;
+  text-align: center;
+}
+.nelson-shell .callstack-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+.nelson-shell .callstack-panel__list li {
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.nelson-shell .callstack-panel__list li:hover {
+  background: rgba(127, 127, 127, 0.18);
+}
+.nelson-shell .callstack-panel__frame--current {
+  font-weight: 600;
+}
+.nelson-shell .editor-notice {
+  padding: 3px 10px;
+  font-size: 12px;
+  background: rgba(255, 140, 0, 0.15);
+  border-bottom: 1px solid var(--border);
+}
+.nelson-shell .debug-current-statement {
+  border-left: 2px solid #2a8f2a;
+}

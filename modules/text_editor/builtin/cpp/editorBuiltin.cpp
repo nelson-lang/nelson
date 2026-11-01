@@ -27,7 +27,7 @@ ArrayOfVector
 Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
 #ifdef __EMSCRIPTEN__
-    nargincheck(argIn, 0, 2);
+    nargincheck(argIn, 0, 3);
     nargoutcheck(nLhs, 0, 0);
 
     std::wstring path;
@@ -39,7 +39,7 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
         path = argIn[0].asWideString();
     }
-    if (argIn.size() == 2) {
+    if (argIn.size() >= 2) {
         if (path == L"new_file" && argIn[1].isEmpty() && argIn[1].isDoubleClass()) {
             path.clear();
         } else if (argIn[1].isNumeric() && argIn[1].isScalar()) {
@@ -50,7 +50,15 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
         }
     }
 
-    if (!WebDesktopBridge::getInstance()->openWebEditor(path, line)) {
+    int column = 0;
+    if (argIn.size() == 3) {
+        if (!(argIn[2].isNumeric() && argIn[2].isScalar())) {
+            Error(L"Nelson:editor:invalidArgument:wrongValueInputArgument",
+                L"Wrong value for input argument #%d.", 3);
+        }
+        column = static_cast<int>(argIn[2].asDoubleScalar());
+    }
+    if (!WebDesktopBridge::getInstance()->openWebEditor(path, line, column)) {
         Error(L"Nelson:editor:unavailable", L"The web editor is unavailable.");
     }
     return {};
@@ -80,6 +88,16 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
                 ? static_cast<int>(argIn[1].asDoubleScalar())
                 : 0;
             WebDesktopBridge::getInstance()->openWebEditor(argIn[0].asWideString(), line);
+            return retval;
+        }
+        if (argIn.size() == 3) {
+            int line = argIn[1].isNumeric() && argIn[1].isScalar()
+                ? static_cast<int>(argIn[1].asDoubleScalar())
+                : 0;
+            int column = argIn[2].isNumeric() && argIn[2].isScalar()
+                ? static_cast<int>(argIn[2].asDoubleScalar())
+                : 0;
+            WebDesktopBridge::getInstance()->openWebEditor(argIn[0].asWideString(), line, column);
             return retval;
         }
     }
@@ -113,12 +131,17 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
             SystemCommand(command, 15, false, eval->getID());
         }
     } break;
-    case 2: {
+    case 2:
+    case 3: {
         std::wstring option = argIn[0].asWideString();
         if (argIn[1].isNumeric() && argIn[1].isScalar()) {
             int lineNumber = static_cast<int>(argIn[1].asDoubleScalar());
+            // the optional column only has a meaning for the embedded editor
+            int column = argIn.size() == 3 && argIn[2].isNumeric() && argIn[2].isScalar()
+                ? static_cast<int>(argIn[2].asDoubleScalar())
+                : 0;
             if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
-                textEditor(eval, option, lineNumber);
+                textEditor(eval, option, lineNumber, column);
             } else {
                 std::wstring command;
 #if _MSC_VER

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>opentoline</keyword>
+  <short_description>opens a file in the editor at a line.</short_description>
+  <syntax>
+    <syntax_item>opentoline(filename, linenumber)</syntax_item>
+    <syntax_item>opentoline(filename, linenumber, columnnumber)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: path of the file to open.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>linenumber</param_name>
+      <param_description>a number: line to place the cursor on (1 or more).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>columnnumber</param_name>
+      <param_description>a number: column of that line (1 or more); the end of a short line is the limit.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>opentoline</b> opens <b>filename</b> in the text editor and places the cursor at <b>linenumber</b>, at the start of the line or at <b>columnnumber</b>.</p>
+    <p>The line numbers printed by the debugger at a stop, and the locations of error messages, are links that call the same behaviour in the Qt and web desktops.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[opentoline(which('opentoline'), 10, 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${text_editor}editor">editor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

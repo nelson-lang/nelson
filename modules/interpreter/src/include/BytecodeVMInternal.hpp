@@ -17,6 +17,7 @@
 #include "ArrayOf.hpp"
 #include "BytecodeChunk.hpp"
 #include "VMCallFrame.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 class Evaluator;
@@ -147,9 +148,20 @@ runDebugPrompt(Evaluator* eval, const std::function<void()>& syncToContext,
 bool
 handleDebugStatement(Evaluator* eval, VMCallFrame& frame, const Instruction& ins,
     const std::function<void()>& syncToContext, const std::function<void()>& refreshFromContext);
+// the loop `end` line was reached: same stop logic as a statement with the recorded span
+bool
+handleLoopEndDebugStatement(Evaluator* eval, VMCallFrame& frame, const SourceSpan& span,
+    const std::function<void()>& syncToContext, const std::function<void()>& refreshFromContext);
 bool
 handleKeyboardStatement(Evaluator* eval, VMCallFrame& frame, const Instruction& ins,
     const std::function<void()>& syncToContext, const std::function<void()>& refreshFromContext);
+// dbstop if error: reports the error, runs the K>> prompt on the raising line, then returns
+void
+runErrorStopPrompt(Evaluator* eval, const Nelson::NelsonException& e, const BytecodeChunk& chunk,
+    size_t statementContextId, bool willBeCaught);
+// Condition of if/while (BytecodeVM.cpp), reused by conditional breakpoints.
+bool
+conditionAsBoolean(Evaluator* eval, const ArrayOf& value);
 //=============================================================================
 // Raises "Undefined variable: <name>", or "Not enough input arguments." when
 // name is a formal input parameter of chunk that the caller did not pass

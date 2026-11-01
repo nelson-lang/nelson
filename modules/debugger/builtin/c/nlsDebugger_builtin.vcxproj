@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
@@ -210,6 +210,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\BreakpointTarget.cpp" />
     <ClCompile Include="..\cpp\dbclearBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbcontBuiltin.cpp" />
     <ClCompile Include="..\cpp\dbdownBuiltin.cpp" />
@@ -226,6 +227,7 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\BreakpointTarget.hpp" />
     <ClInclude Include="..\include\dbclearBuiltin.hpp" />
     <ClInclude Include="..\include\dbcontBuiltin.hpp" />
     <ClInclude Include="..\include\dbdownBuiltin.hpp" />

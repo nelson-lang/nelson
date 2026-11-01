@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM64">
@@ -188,6 +188,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\editorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\editorHookBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
@@ -219,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\editorBuiltin.hpp" />
+    <ClInclude Include="..\include\editorHookBuiltin.hpp" />
     <ClInclude Include="..\include\nlsText_editor_builtin_exports.h" />
   </ItemGroup>
   <ItemGroup>

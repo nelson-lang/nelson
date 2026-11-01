@@ -7,8 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-// The Notebook window of the Qt desktop reuses the web desktop's notebook.open
-// push and panels: these tests pin the shared pieces that host relies on.
+// shared pieces the Qt desktop's Notebook window relies on: the notebook.open push and the panels
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';

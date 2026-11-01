@@ -13,8 +13,10 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QCheckBox>
 #include "Evaluator.hpp"
 //=============================================================================
+// the Breakpoints panel: every breakpoint with its state and condition, plus the error breakpoints
 class QtBreakpointPanel : public QWidget
 {
     Q_OBJECT
@@ -45,12 +47,27 @@ private slots:
     onRemoveSelected();
     void
     onRemoveAll();
+    void
+    onEnableAll();
+    void
+    onDisableAll();
+    void
+    onPauseOnErrorsToggled(bool checked);
+    void
+    onPauseOnCaughtErrorsToggled(bool checked);
 
 private:
     QTableWidget* breakpointTable;
     Nelson::Evaluator* nlsEvaluator;
     QPushButton* removeButton;
     QPushButton* removeAllButton;
+    QPushButton* enableAllButton;
+    QPushButton* disableAllButton;
+    QCheckBox* pauseOnErrorsCheck;
+    QCheckBox* pauseOnCaughtErrorsCheck;
     bool updatingTable = false;
+
+    bool
+    rowLocation(int row, QString& filename, int& line) const;
 };
 //=============================================================================

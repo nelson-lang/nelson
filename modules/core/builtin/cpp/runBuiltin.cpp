@@ -20,6 +20,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include <algorithm>
 #include <cwctype>
+#include <memory>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -57,6 +58,11 @@ runBuiltinCommon(
 {
     ArrayOfVector retval;
     bool bSuccess = false;
+    // with 'errcatch' the script errors are swallowed: tell the debugger
+    std::unique_ptr<Evaluator::ScopedErrorCatcher> errorCatcher;
+    if (errorCatch) {
+        errorCatcher = std::make_unique<Evaluator::ScopedErrorCatcher>(eval);
+    }
     try {
         if (isNotebookDocument(filename)) {
             bSuccess = EvaluateCommand(eval, quoteForNelson(filename), false);

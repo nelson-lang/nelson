@@ -65,9 +65,9 @@ public:
     // WEB_GUI: the `editor` builtin opens the Monaco panel, not the Qt text editor.
     // An empty path means "new file".
     void
-    setWebEditorOpener(void (*fn)(void*, const wchar_t*, int), void* ctx);
+    setWebEditorOpener(void (*fn)(void*, const wchar_t*, int, int), void* ctx);
     bool
-    openWebEditor(const std::wstring& path, int line = 0);
+    openWebEditor(const std::wstring& path, int line = 0, int column = 0);
     //=============================================================================
     // WEB_GUI: the `edit` builtin opens a Notebook document (.nlx) in the Live
     // Script panel, not the Monaco text editor.
@@ -177,7 +177,7 @@ private:
     //=============================================================================
     void (*m_webTerminalFn)(void*) = nullptr;
     void* m_webTerminalCtx = nullptr;
-    void (*m_webEditorFn)(void*, const wchar_t*, int) = nullptr;
+    void (*m_webEditorFn)(void*, const wchar_t*, int, int) = nullptr;
     void* m_webEditorCtx = nullptr;
     void (*m_webNotebookFn)(void*, const wchar_t*) = nullptr;
     void* m_webNotebookCtx = nullptr;

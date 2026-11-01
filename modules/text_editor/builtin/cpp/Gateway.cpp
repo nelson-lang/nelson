@@ -10,6 +10,7 @@
 #include "NelsonGateway.hpp"
 #include "TextEditor.hpp"
 #include "editorBuiltin.hpp"
+#include "editorHookBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -17,6 +18,8 @@ const std::wstring gatewayName = L"text_editor";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "editor", (ptrBuiltin)Nelson::TextEditorGateway::editorBuiltin, 0, 0,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__editor__", (ptrBuiltin)Nelson::TextEditorGateway::editorHookBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================

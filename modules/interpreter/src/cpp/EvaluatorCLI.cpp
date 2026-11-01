@@ -127,9 +127,7 @@ Evaluator::resetDebugPromptIfExecutionFinished()
     bool noExecutionFrame = callstack.size() <= 1;
     if (bpActive && noExecutionFrame) {
         bpActive = false;
-        stepMode = false;
-        stepBreakpoint.reset();
-        clearStepBreakpoints();
+        onExecutionReturnedToTopLevel();
     }
 }
 //=============================================================================
@@ -235,10 +233,18 @@ Evaluator::evaluateCliCommand(std::wstring commandLine)
     } catch (NelsonException& e) {
         setLastErrorException(e);
         setLastUncaughtException(e);
-        e.printMe(io);
+        // an error stop (dbstop if error) already reported it before the K>> prompt
+        if (!consumeErrorDisplayed()) {
+            e.printMe(io);
+        }
     }
     while (callstack.size() > stackdepth) {
         callstack.pop_back();
+    }
+    // back at the top-level prompt after a real command: drop the debugger temporaries
+    if (!bpActive && commandLine != L"\n" && callstack.size() <= 1
+        && getState() != NLS_STATE_DEBUG_CONTINUE && getState() != NLS_STATE_DEBUG_STEP) {
+        onExecutionReturnedToTopLevel();
     }
     return handleCliEvaluationResult(evalResult);
 }

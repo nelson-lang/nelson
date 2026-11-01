@@ -267,8 +267,8 @@ namespace {
     bool
     canRun(Evaluator* eval)
     {
-        return !Profiler::getInstance()->isOn() && !eval->isBreakpointActive() && !eval->stepMode
-            && !eval->hasEnabledBreakpoints() && !PendingHandleFinalizers::hasPending()
+        return !Profiler::getInstance()->isOn() && !eval->debuggerHooksArmed()
+            && !PendingHandleFinalizers::hasPending()
             && !NelsonConfiguration::getInstance()->hasOpenFigureWindows();
     }
     //=============================================================================

@@ -58,7 +58,8 @@ if (!nelsonWeb) {
 }
 
 console.log(`start-nelson-webview: launching ${nelsonWeb}`);
-const child = spawn(nelsonWeb, ['--web', '--url', 'localhost', '--port', '22333'], {
+const port = String(Number(process.env.NELSON_B2B_PORT) || 22333);
+const child = spawn(nelsonWeb, ['--web', '--url', 'localhost', '--port', port], {
   cwd: b2bWorkdir,
   env: {
     ...process.env,

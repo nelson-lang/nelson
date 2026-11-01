@@ -1074,30 +1074,110 @@ test('Evaluate sends the current line to the engine', async ({ page }) => {
   await epanel.locator('.view-lines').click();
   await page.keyboard.press('Control+A');
   await page.keyboard.type('y_eval = 42');
+  // the SECTION group may be collapsed by the DEBUG group: expand it first
+  const sectionGroup = epanel.getByRole('button', { name: 'SECTION', exact: true });
+  if (await sectionGroup.isVisible()) await sectionGroup.click();
   await epanel.getByRole('button', { name: 'Evaluate' }).click();
   await page.locator('.dv-tab').filter({ hasText: 'Command Window' }).click();
   await expect.poll(() => terminalText(page)).toContain('y_eval');
   await expect.poll(() => terminalText(page)).toContain('42');
 });
 //=============================================================================
-test('debugger pause shows controls and step advances the line', async ({ page }) => {
-  await runLine(page, 'dbg_demo');
+test('hovering a variable in the editor shows its value', async ({ page }) => {
+  await runLine(page, 'x = 7;');
   await runLine(page, "editor('demo.m')");
+  const epanel = page.locator('.editor-panel').first();
+  await expect(epanel.locator('.view-lines')).toContainText('linspace');
+  // the `x` of the first line, measured once Monaco painted it
+  const point = await epanel.evaluate((panel) => {
+    const line = panel.querySelector('.view-line');
+    const walker = line ? document.createTreeWalker(line, NodeFilter.SHOW_TEXT) : null;
+    let node = walker?.nextNode() ?? null;
+    while (node) {
+      const index = (node.textContent ?? '').indexOf('x');
+      if (index >= 0) {
+        const range = document.createRange();
+        range.setStart(node, index);
+        range.setEnd(node, index + 1);
+        const r = range.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+      node = walker?.nextNode() ?? null;
+    }
+    return null;
+  });
+  expect(point).not.toBeNull();
+  await page.mouse.move(point!.x - 40, point!.y + 40);
+  await page.mouse.move(point!.x, point!.y, { steps: 4 });
+  await page.waitForTimeout(150);
+  await page.mouse.move(point!.x + 1, point!.y);
+  const hover = page.locator('.monaco-hover-content:visible').first();
+  await expect(hover).toContainText('x = 1×1 double', { timeout: 10_000 });
+});
+//=============================================================================
+test('debugger pause opens the editor, shows controls and step advances the line', async ({
+  page,
+}) => {
+  // the stop opens the paused file by itself: no editor() needed
+  await runLine(page, 'dbg_demo');
   const bar = page.locator('.editor-debugbar');
   await expect(bar).toBeVisible();
   await expect(bar).toContainText('Paused');
   await expect(bar).toContainText('demo:2');
-  await bar.getByRole('button', { name: 'Step' }).click();
+  await expect(page.locator('.editor-panel .debug-current-line')).toHaveCount(1);
+  await bar.getByRole('button', { name: 'Step', exact: true }).click();
   await expect(bar).toContainText('demo:3');
+  await bar.getByRole('button', { name: 'Step In', exact: true }).click();
+  await expect(bar).toContainText('demo:4');
 });
 //=============================================================================
 test('debugger continue clears the debug controls', async ({ page }) => {
+  // the stop opens the editor itself; the console tab may no longer be in front
   await runLine(page, 'dbg_demo');
-  await runLine(page, "editor('demo.m')");
   const bar = page.locator('.editor-debugbar');
   await expect(bar).toBeVisible();
-  await bar.getByRole('button', { name: 'Continue' }).click();
+  await bar.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(bar).toBeHidden();
+});
+//=============================================================================
+test('an error stop shows the message, disables stepping and Stop ends it', async ({ page }) => {
+  await runLine(page, 'dbg_error_demo');
+  const bar = page.locator('.editor-debugbar');
+  await expect(bar).toBeVisible();
+  await expect(bar).toContainText('Paused on error');
+  await expect(bar).toContainText('undefined_thing');
+  await expect(bar.getByRole('button', { name: 'Step', exact: true })).toBeDisabled();
+  await expect(page.locator('.editor-panel .debug-current-line--error')).toHaveCount(1);
+  await bar.getByRole('button', { name: 'Stop', exact: true }).click();
+  await expect(bar).toBeHidden();
+});
+//=============================================================================
+test('F12 toggles a breakpoint and the gutter menu sets a condition', async ({ page }) => {
+  await runLine(page, "editor('demo.m')");
+  const epanel = page.locator('.editor-panel').first();
+  await expect(epanel).toBeVisible();
+  await epanel.locator('.monaco-editor .view-lines').click();
+  await page.keyboard.press('Control+Home');
+  await page.keyboard.press('F12');
+  await expect(epanel.locator('.bp-glyph')).toHaveCount(1);
+  await epanel
+    .locator('.margin-view-overlays .line-numbers', { hasText: /^1$/ })
+    .first()
+    .click({ button: 'right' });
+  const popover = page.getByTestId('breakpoint-popover');
+  await expect(popover).toBeVisible();
+  await popover.getByRole('button', { name: 'Set/Modify Condition...' }).click();
+  await page.getByTestId('breakpoint-condition-input').fill('x >>> 2');
+  await popover.getByRole('button', { name: 'Apply' }).click();
+  await expect(popover).toContainText("The condition 'x >>> 2' contains a syntax error.");
+  await page.getByTestId('breakpoint-condition-input').fill('x > 2');
+  await popover.getByRole('button', { name: 'Apply' }).click();
+  await expect(popover).toBeHidden();
+  await expect(epanel.locator('.bp-glyph--conditional')).toHaveCount(1);
+  await epanel.locator('.monaco-editor .view-lines').click();
+  await page.keyboard.press('Control+Home');
+  await page.keyboard.press('F12');
+  await expect(epanel.locator('.bp-glyph')).toHaveCount(0);
 });
 //=============================================================================
 test('Preferences changes the console font size live', async ({ page }) => {

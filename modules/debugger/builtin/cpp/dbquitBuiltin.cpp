@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,6 +20,13 @@ Nelson::DebuggerGateway::dbquitBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
 {
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
+    if (!eval->isBreakpointActive()) {
+        Error(L"Nelson:debugger:notInDebugMode",
+            L"Debug commands only allowed when stopped in debug mode.");
+    }
+    eval->stepMode = false;
+    eval->stepBreakpoint.reset();
+    eval->clearStepBreakpoints();
     if (argIn.size() == 1) {
         std::wstring argAll = argIn[0].asWideString();
         if (argAll != L"all") {

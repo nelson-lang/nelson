@@ -16,6 +16,7 @@
     <p>      Use <b>dbcont</b> to continue execution after examining workspace variables or debugging code.</p>
     <p>      Note: If you want to edit a file during debugging, it is recommended to first exit
       debug mode using <b>dbquit</b> to avoid unexpected behavior.</p>
+    <p>Outside a debug session, <b>dbcont</b> raises <code>Debug commands only allowed when stopped in debug mode.</code> At a stop on an uncaught error, <b>dbcont</b> ends the session without displaying the error again; at a stop on a caught error, execution resumes in the <code>catch</code> block.</p>
   </description>
   <used_function />
   <bibliography />
@@ -57,6 +58,10 @@ dbcont
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>uniform message outside a debug session, behaviour at error stops</history_description>
     </history_item>
   </history>
   <authors>

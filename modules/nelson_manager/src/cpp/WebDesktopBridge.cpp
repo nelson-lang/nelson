@@ -54,19 +54,19 @@ WebDesktopBridge::openWebTerminal()
 }
 //=============================================================================
 void
-WebDesktopBridge::setWebEditorOpener(void (*fn)(void*, const wchar_t*, int), void* ctx)
+WebDesktopBridge::setWebEditorOpener(void (*fn)(void*, const wchar_t*, int, int), void* ctx)
 {
     this->m_webEditorFn = fn;
     this->m_webEditorCtx = ctx;
 }
 //=============================================================================
 bool
-WebDesktopBridge::openWebEditor(const std::wstring& path, int line)
+WebDesktopBridge::openWebEditor(const std::wstring& path, int line, int column)
 {
     if (this->m_webEditorFn == nullptr) {
         return false;
     }
-    this->m_webEditorFn(this->m_webEditorCtx, path.c_str(), line);
+    this->m_webEditorFn(this->m_webEditorCtx, path.c_str(), line, column);
     return true;
 }
 //=============================================================================

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -26,6 +27,10 @@ static bool
 isExtractionCppExtension(const std::wstring& ext);
 static bool
 isInTestsDirectory(const std::wstring& path);
+static bool
+isWebDesktopSource(const std::wstring& path, const std::wstring& ext);
+static void
+scanTsFileForUiStrings(const std::string& text, std::set<std::string>& texts);
 static bool
 readFileContent(const std::filesystem::path& path, std::string& text);
 static bool
@@ -53,7 +58,8 @@ i18nExtractUi(
         std::wstring ext = it->path().extension().wstring();
         bool cpp = isExtractionCppExtension(ext);
         bool mFile = (ext == L".m");
-        if (!cpp && !mFile) {
+        bool tsFile = isWebDesktopSource(path, ext);
+        if (!cpp && !mFile && !tsFile) {
             continue;
         }
         std::string text;
@@ -62,6 +68,8 @@ i18nExtractUi(
         }
         if (cpp) {
             scanSourceForTextKeyed(text, texts);
+        } else if (tsFile) {
+            scanTsFileForUiStrings(text, texts);
         } else {
             scanMFileForUiStrings(text, texts);
         }
@@ -231,6 +239,64 @@ isInTestsDirectory(const std::wstring& path)
 {
     return path.find(L"\\tests\\") != std::wstring::npos
         || path.find(L"/tests/") != std::wstring::npos;
+}
+//=============================================================================
+// the web desktop sources translate their debugger strings with the t('...') helper
+static bool
+isWebDesktopSource(const std::wstring& path, const std::wstring& ext)
+{
+    if (ext != L".ts" && ext != L".tsx") {
+        return false;
+    }
+    std::wstring normalized = path;
+    std::replace(normalized.begin(), normalized.end(), L'\\', L'/');
+    return normalized.find(L"/web_gui/frontend/src/") != std::wstring::npos;
+}
+//=============================================================================
+// Collects the literal argument of t('...') and t("...") calls.
+static void
+scanTsFileForUiStrings(const std::string& text, std::set<std::string>& texts)
+{
+    size_t pos = 0;
+    while ((pos = text.find("t(", pos)) != std::string::npos) {
+        bool identifierBefore = pos > 0
+            && (isalnum(static_cast<unsigned char>(text[pos - 1])) || text[pos - 1] == '_'
+                || text[pos - 1] == '.');
+        size_t cursor = pos + 2;
+        pos = cursor;
+        if (identifierBefore) {
+            continue;
+        }
+        while (cursor < text.size() && (text[cursor] == ' ' || text[cursor] == '\n')) {
+            cursor++;
+        }
+        if (cursor >= text.size() || (text[cursor] != '\'' && text[cursor] != '"')) {
+            continue;
+        }
+        char quote = text[cursor];
+        std::string literal;
+        cursor++;
+        bool closed = false;
+        while (cursor < text.size()) {
+            char c = text[cursor++];
+            if (c == '\\' && cursor < text.size()) {
+                literal.push_back(text[cursor++]);
+                continue;
+            }
+            if (c == quote) {
+                closed = true;
+                break;
+            }
+            if (c == '\n') {
+                break;
+            }
+            literal.push_back(c);
+        }
+        if (closed && !literal.empty()) {
+            texts.insert(literal);
+        }
+        pos = cursor;
+    }
 }
 //=============================================================================
 static bool

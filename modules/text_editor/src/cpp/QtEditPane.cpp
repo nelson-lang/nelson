@@ -20,6 +20,7 @@ QtEditPane::QtEditPane(Evaluator* eval)
     : currentEncoding("UTF-8"), currentEol(QtEditPane::defaultEol()), nlsEvaluator(eval)
 {
     textEditor = new QtTextEdit();
+    textEditor->setEvaluator(nlsEvaluator);
     completer = new QCompleter(this);
     textEditor->setCompleter(completer);
 
@@ -204,6 +205,30 @@ QtEditPane::setExecutionLine(int line)
 {
     if (breakpointArea) {
         breakpointArea->setExecutionLine(line);
+    }
+}
+//=============================================================================
+void
+QtEditPane::setErrorStop(bool errorStop, const QString& message)
+{
+    if (breakpointArea) {
+        breakpointArea->setErrorStop(errorStop, message);
+    }
+}
+//=============================================================================
+void
+QtEditPane::setDocumentModifiedForBreakpoints(bool modified)
+{
+    if (breakpointArea) {
+        breakpointArea->setDocumentModified(modified);
+    }
+}
+//=============================================================================
+void
+QtEditPane::syncBreakpointsAfterSave()
+{
+    if (breakpointArea) {
+        breakpointArea->syncAfterSave();
     }
 }
 //=============================================================================

@@ -32,6 +32,7 @@
     <p>
       <b>dbquit all</b> termine le débogage pour tous les fichiers simultanément.</p>
     <p>      Cette fonction ne peut être appelée que depuis la ligne de commande en mode débogage.</p>
+    <p>Hors d'une session de débogage, <b>dbquit</b> lève <code>Debug commands only allowed when stopped in debug mode.</code> Le bouton Stop de l'éditeur (Shift+F5) et l'enregistrement d'un fichier pendant une pause appellent <b>dbquit</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -80,6 +81,10 @@ dbquit all
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>message uniforme hors session de débogage, Stop et enregistrement de l'éditeur terminent la session</history_description>
     </history_item>
   </history>
   <authors>

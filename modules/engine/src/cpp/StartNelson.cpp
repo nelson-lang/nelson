@@ -378,7 +378,11 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         }
     } catch (NelsonException& e) {
         Interface* io = eval->getInterface();
-        io->errorMessage(e.message());
+        // an error already shown at a dbstop-if-error stop is not shown again; dbquit ends silently
+        bool displayed = eval->consumeErrorDisplayed();
+        if (!displayed && eval->getState() != NLS_STATE_ABORT) {
+            io->errorMessage(e.message());
+        }
         // An error left uncaught by the -f script fails the session, as for -e;
         // quit/exit(code) and dbquit (abort) keep their own exit code.
         if (!eval->isQuitOrForceQuitState() && eval->getState() != NLS_STATE_ABORT) {

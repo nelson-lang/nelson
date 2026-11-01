@@ -71,7 +71,15 @@ class QtTextEditor : public QMainWindow
     QAction* dbStepInAction;
     QAction* dbStepOutAction;
     QAction* dbContinueAction;
+    QAction* dbPauseAction;
+    QAction* dbRunToHereAction;
     QAction* toggleBreakpointAction;
+    QAction* enableAllBreakpointsInFileAction;
+    QAction* disableAllBreakpointsInFileAction;
+    QAction* clearAllBreakpointsInFileAction;
+    QAction* clearAllBreakpointsAction;
+    QAction* pauseOnErrorsAction;
+    QAction* pauseOnCaughtErrorsAction;
 
     QDockWidget* debugStackDock;
     QtDebugStackPanel* debugStackPanel;
@@ -118,10 +126,12 @@ class QtTextEditor : public QMainWindow
 
     QTimer* debugStateTimer;
     bool lastDebugState = false;
-    std::wstring lastDebugFilename;
-    size_t lastDebugLine = 0;
-    size_t lastBreakpointCount = 0;
-    QColor debugLineColor = QColor(255, 255, 0, 128);
+    bool lastDebugPaused = false;
+    bool lastAtPrompt = true;
+    uint64_t lastBreakpointsRevision = 0;
+    uint64_t lastDebugStateRevision = 0;
+    // the line about to run is highlighted in green
+    QColor debugLineColor = QColor(170, 230, 170, 160);
 
     QTimer* codeAnalyzerTimer;
     QLabel* codeAnalyzerStatusLabel;
@@ -166,7 +176,18 @@ public:
     void
     createTabUntitledWithText(const QString& text);
     bool
-    gotoLineNumber(int lineNumber);
+    gotoLineNumber(int lineNumber, int column = 1);
+
+    // test hook support (__editor__ builtin)
+    QtEditPane*
+    currentEditPane();
+    void
+    refreshDebugState();
+    // step, stepIn, stepOut, continue, pause, runToHere, stop, toggleBreakpoint, save, run
+    bool
+    triggerDebugAction(const QString& name);
+    QString
+    debugStatusText() const;
 
 private:
     Evaluator* nlsEvaluator;
@@ -366,9 +387,29 @@ private Q_SLOTS:
     void
     dbContinue();
     void
+    dbPause();
+    void
+    dbRunToHere();
+    void
     toggleBreakpoint();
     void
+    enableAllBreakpointsInFile();
+    void
+    disableAllBreakpointsInFile();
+    void
+    clearAllBreakpointsInFile();
+    void
+    clearAllBreakpoints();
+    void
+    setPauseOnErrors(bool checked);
+    void
+    setPauseOnCaughtErrors(bool checked);
+    void
     checkDebugState();
+    void
+    refreshAllBreakpointAreas();
+    void
+    updateDebugStatusLabel();
 
     void
     smartIndent();
