@@ -444,6 +444,8 @@ niceStep(double amin, double amax, int maxIntervals)
     double bestStep = 0.0;
     double bestPadding = std::numeric_limits<double>::infinity();
     const double paddingTol = 1e-9 * std::max(1.0, range);
+    // Snap an endpoint that is a few ULP off a step multiple so it does not round out by a whole step.
+    const double snapTol = 1e-9;
     for (int decade = loDecade; decade <= hiDecade; ++decade) {
         double scale = std::pow(10.0, decade);
         for (double multiplier : multipliers) {
@@ -451,8 +453,8 @@ niceStep(double amin, double amax, int maxIntervals)
             if (!std::isfinite(step) || step <= 0) {
                 continue;
             }
-            double lo = std::floor(amin / step) * step;
-            double hi = std::ceil(amax / step) * step;
+            double lo = std::floor(amin / step + snapTol) * step;
+            double hi = std::ceil(amax / step - snapTol) * step;
             double intervals = (hi - lo) / step;
             long intervalCount = std::lround(intervals);
             if (intervalCount < 1 || intervalCount > maxIntervals) {

@@ -27,7 +27,7 @@ if ~exist('raycasterAutopilot', 'var')
   raycasterAutopilot = false;
 end
 if ~exist('raycasterStartFullscreen', 'var')
-  raycasterStartFullscreen = true;
+  raycasterStartFullscreen = false;
 end
 if ~exist('raycasterShowMinimap', 'var')
   raycasterShowMinimap = false;
@@ -103,8 +103,7 @@ set(statusText, 'KeyPressFcn', @(source, event) ...
 set(statusText, 'KeyReleaseFcn', @(source, event) ...
   raycasterKeyEvent(source, event, false));
 if raycasterStartFullscreen
-  delete(statusText);
-  statusText = [];
+  set(statusText, 'Visible', 'off');
 end
 fpsText = text(axesHandle, raycasterWidth - 4, 5, '-- FPS', ...
   'HorizontalAlignment', 'right', 'VerticalAlignment', 'top', ...
