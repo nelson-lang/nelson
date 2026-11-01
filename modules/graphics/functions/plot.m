@@ -106,67 +106,11 @@ function varargout = plot(varargin)
       end
     end
   end
-  applyUiAxesPlotTicks(ax);
   if isempty(find(strcmp(propertiesList, 'Visible')))
     h.Visible = 'on';
   end
   if (nargout > 0)
     varargout{1} = h;
-  end
-end
-%=============================================================================
-function applyUiAxesPlotTicks(ax)
-  if ~isUiFigureAxes(ax)
-    return
-  end
-  if strcmp(ax.XTickMode, 'auto')
-    ticks = uiAxesNiceTicks(ax.XLim);
-    if ~isempty(ticks)
-      ax.XTick = ticks;
-    end
-  end
-  if strcmp(ax.YTickMode, 'auto')
-    ticks = uiAxesNiceTicks(ax.YLim);
-    if ~isempty(ticks)
-      ax.YTick = ticks;
-    end
-  end
-end
-%=============================================================================
-function ticks = uiAxesNiceTicks(limits)
-  ticks = [];
-  if numel(limits) ~= 2 || any(~isfinite(limits)) || limits(1) == limits(2)
-    return
-  end
-  span = abs(diff(limits));
-  if limits(1) < 0 && limits(2) > 0 && span <= 2
-    rawStep = span / 4;
-  else
-    rawStep = span / 10;
-  end
-  step = uiAxesTickStep(rawStep);
-  firstTick = ceil(limits(1) / step) * step;
-  lastTick = floor(limits(2) / step) * step;
-  if firstTick <= lastTick
-    ticks = firstTick:step:lastTick;
-  end
-end
-%=============================================================================
-function step = uiAxesTickStep(rawStep)
-  if rawStep <= 0 || ~isfinite(rawStep)
-    step = 1;
-    return
-  end
-  scale = 10 ^ floor(log10(rawStep));
-  normalized = rawStep / scale;
-  if normalized <= 1
-    step = scale;
-  elseif normalized <= 2
-    step = 2 * scale;
-  elseif normalized <= 5
-    step = 5 * scale;
-  else
-    step = 10 * scale;
   end
 end
 %=============================================================================
