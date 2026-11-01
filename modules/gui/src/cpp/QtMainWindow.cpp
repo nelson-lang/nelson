@@ -45,6 +45,7 @@
 #include "Nelson_VERSION.h"
 #include "NelsonSettingsScope.hpp"
 #include "QStringConverter.hpp"
+#include "StringHelpers.hpp"
 #include "QtTerminal.h"
 #include "QtPreferencesDialog.h"
 #include "QtTranslation.hpp"
@@ -570,6 +571,12 @@ QtMainWindow::nflow()
 }
 //=============================================================================
 void
+QtMainWindow::notebook()
+{
+    postCommand(L"notebook()");
+}
+//=============================================================================
+void
 QtMainWindow::packageManager()
 {
     postCommand(L"nmm_gui()");
@@ -803,15 +810,35 @@ QtMainWindow::updateStatusBar()
         }
     }
     bool atPrompt = qtTerminal ? qtTerminal->isAtPrompt() : true;
+    auto* evaluator
+        = static_cast<Nelson::Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    bool debugPaused = evaluator != nullptr && evaluator->isBreakpointActive()
+        && evaluator->getDebugStopInfo().reason != Nelson::DebugStopReason::None;
     bool stateNotYetDisplayed
         = (interpreterStateLabel != nullptr) && interpreterStateLabel->text().isEmpty();
-    if ((atPrompt != lastAtPrompt) || stateNotYetDisplayed) {
+    if ((atPrompt != lastAtPrompt) || (debugPaused != lastDebugPaused) || stateNotYetDisplayed) {
         lastAtPrompt = atPrompt;
+        lastDebugPaused = debugPaused;
         if (interpreterStateLabel) {
-            interpreterStateLabel->setText(atPrompt ? TR("Ready") : TR("Busy"));
+            // the K>> prompt means the debugger has control
+            interpreterStateLabel->setText(
+                debugPaused ? TR("Paused (debug)") : (atPrompt ? TR("Ready") : TR("Busy")));
         }
         if (stopAction) {
-            stopAction->setEnabled(!atPrompt);
+            // Stop ends the debug session while paused, interrupts while running
+            stopAction->setEnabled(!atPrompt || debugPaused);
+        }
+    }
+    if (debugPaused && evaluator != nullptr) {
+        // open the paused file in the editor, which highlights the line itself
+        uint64_t revision = evaluator->getDebugStateRevision();
+        const Nelson::DebugStopInfo& info = evaluator->getDebugStopInfo();
+        if (revision != lastDebugStopRevision && !info.filename.empty() && info.line > 0
+            && QFileInfo::exists(Nelson::wstringToQString(info.filename))) {
+            lastDebugStopRevision = revision;
+            std::wstring quoted = info.filename;
+            Nelson::StringHelpers::replace_all(quoted, L"'", L"''");
+            postCommand(L"editor('" + quoted + L"', " + std::to_wstring(info.line) + L")");
         }
     }
     if (packageManagerBadge) {
@@ -856,9 +883,10 @@ QtMainWindow::refreshDesktopUi()
     };
     const ActionIcon icons[] = { { editorAction, "action-editor.svg" },
         { examplesAction, "action-examples.svg" }, { nflowAction, "action-nflow.svg" },
-        { packageManagerAction, "action-package.svg" }, { runAction, "action-run.svg" },
-        { stopAction, "action-stop.svg" }, { commandWindowAction, "panel-command.svg" },
-        { fileBrowserAction, "panel-files.svg" }, { workspaceBrowserAction, "panel-workspace.svg" },
+        { packageManagerAction, "action-package.svg" }, { notebookAction, "action-notebook.svg" },
+        { runAction, "action-run.svg" }, { stopAction, "action-stop.svg" },
+        { commandWindowAction, "panel-command.svg" }, { fileBrowserAction, "panel-files.svg" },
+        { workspaceBrowserAction, "panel-workspace.svg" },
         { historyBrowserAction, "panel-history.svg" },
         { variablesEditorAction, "panel-variables.svg" },
         { profilerBrowserAction, "panel-profiler.svg" }, { terminalAction, "panel-terminal.svg" },
@@ -1123,6 +1151,9 @@ QtMainWindow::createToolbars()
     }
 #endif
     toolBar->addAction(editorAction);
+    if (notebookAction) {
+        toolBar->addAction(notebookAction);
+    }
     toolBar->addAction(runAction);
     toolBar->addAction(stopAction);
     toolBar->addSeparator();
@@ -1168,6 +1199,9 @@ QtMainWindow::createPanelsSidebar()
     panelsSidebar->addCommandAction(terminalAction);
 #if WITH_WEBVIEW_MODULE
     panelsSidebar->addCommandAction(examplesAction);
+    if (notebookAction) {
+        panelsSidebar->addCommandAction(notebookAction);
+    }
     if (packageManagerAction) {
         panelsSidebar->addCommandAction(packageManagerAction);
     }
@@ -1213,6 +1247,9 @@ QtMainWindow::registerCommandPaletteActions()
         emptyClipboardAction, clearConsoleAction, editorAction, nflowAction };
     for (QAction* action : editActions) {
         commandPalette->addAction(action, TR("Edit"));
+    }
+    if (notebookAction) {
+        commandPalette->addAction(notebookAction, TR("Edit"));
     }
     const QList<QAction*> panelActions
         = { commandWindowAction, fileBrowserAction, workspaceBrowserAction, historyBrowserAction,
@@ -1400,6 +1437,14 @@ QtMainWindow::createMenus()
     }
     connect(nflowAction, SIGNAL(triggered()), this, SLOT(nflow()));
 
+#if WITH_WEBVIEW_MODULE
+    // The Notebook window is a WebUI window served by the web_gui module.
+    fileNameIcon = nelsonPath + QString("/resources/action-notebook.svg");
+    notebookAction = new QAction(QIcon(fileNameIcon), TR("&Notebook"), this);
+    setActionTips(notebookAction, TR("Notebook editor"));
+    connect(notebookAction, SIGNAL(triggered()), this, SLOT(notebook()));
+#endif
+
     viewMenu = mainMenuBar->addMenu(TR("&View"));
     fileNameIcon = nelsonPath + QString("/resources/layout-default.svg");
     layoutMenu = viewMenu->addMenu(QIcon(fileNameIcon), TR("&Layout"));
@@ -1553,6 +1598,9 @@ QtMainWindow::createMenus()
     windowsMenu->addAction(terminalAction);
     windowsMenu->addAction(editorAction);
     windowsMenu->addAction(nflowAction);
+    if (notebookAction) {
+        windowsMenu->addAction(notebookAction);
+    }
 #if WITH_WEBVIEW_MODULE
     // Package manager (nmm_gui) is a WebUI window, so keep it with the other
     // window-opening actions.

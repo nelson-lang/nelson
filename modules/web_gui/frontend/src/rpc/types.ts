@@ -197,7 +197,8 @@ export interface FigureListResult {
 // client.role tells a freshly loaded page whether it is the desktop or a
 // standalone figure window (and, if so, which figure it hosts).
 export interface ClientRoleResult {
-  role: 'desktop' | 'figure';
+  // 'notebook': the Notebook window of the Qt desktop, Notebook tabs only.
+  role: 'desktop' | 'figure' | 'notebook';
   handle?: number;
   // Launch mode of the backend. client.role resolves reliably at startup, unlike the
   // polled app.capabilities. Drives whether a new figure opens in its own native window.
@@ -477,15 +478,75 @@ export interface EditorOpenResult {
   language: string;
 }
 //=============================================================================
+// debugger.state: where and why the debugger is paused (same fields as the Qt editor)
+export type DebugStopReason =
+  | 'none'
+  | 'breakpoint'
+  | 'step'
+  | 'keyboard'
+  | 'pause'
+  | 'error'
+  | 'runToLine';
+export interface DebuggerStackFrame {
+  file: string;
+  line: number;
+  function: string;
+}
 export interface DebuggerState {
+  // a debug session is active (paused, or stepping)
   running: boolean;
+  // execution is paused at the K>> prompt
+  paused: boolean;
   currentLine: number | null;
   currentFile: string | null;
-  stack: { name: string; line: number }[];
+  currentColumn: number;
+  function: string;
+  reason: DebugStopReason;
+  errorIdentifier: string;
+  errorMessage: string;
+  canStep: boolean;
+  stack: DebuggerStackFrame[];
+  revision: number;
+  breakpointsRevision: number;
+}
+//=============================================================================
+export interface BreakpointInfo {
+  id: number;
+  line: number;
+  enabled: boolean;
+  condition: string;
+  file?: string;
+  function?: string;
 }
 //=============================================================================
 export interface BreakpointsResult {
   file: string;
   lines: number[];
+  breakpoints: BreakpointInfo[];
+  // toggle/set: the line acted on, and whether a breakpoint was added
+  line?: number;
+  added?: boolean;
+  error?: string;
+}
+//=============================================================================
+export interface AllBreakpointsResult {
+  breakpoints: BreakpointInfo[];
+  errorBreakpoints: { error: boolean; caughtError: boolean };
+  revision: number;
+}
+//=============================================================================
+export type DebuggerCommand =
+  | 'step'
+  | 'stepIn'
+  | 'stepOut'
+  | 'continue'
+  | 'quit'
+  | 'pause'
+  | 'runToLine';
+//=============================================================================
+export interface DebuggerEvaluateResult {
+  ok: boolean;
+  text: string;
+  error: string;
 }
 //=============================================================================

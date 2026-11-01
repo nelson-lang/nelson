@@ -86,6 +86,16 @@ export function DesktopToolbar(): JSX.Element {
       <button
         type="button"
         className="desktop-toolbar__action"
+        title="New Notebook"
+        aria-label="New Notebook"
+        onClick={() => executeDesktopAction('file.newNotebook')}
+      >
+        <DesktopIcon name="notebook" />
+        <span className="desktop-toolbar__label">Notebook</span>
+      </button>
+      <button
+        type="button"
+        className="desktop-toolbar__action"
         title="Execute a Nelson file"
         aria-label="Execute a Nelson file"
         disabled={busy}

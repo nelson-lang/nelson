@@ -13,6 +13,7 @@ import type { WorkspaceListResult, VarOpenResult, VarBlockResult } from '../../r
 import { useNotebook } from '../context';
 import { runWithMode } from '../runMode';
 import { ControlConfig } from './ControlConfig';
+import { baseName } from '../../desktop/paths';
 //=============================================================================
 async function fetchVarItems(name: string): Promise<string[]> {
   const info = await rpc<VarOpenResult>('var.open', { name });
@@ -270,7 +271,7 @@ export function FileBrowserCell({ block, editor }: BlockProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setPath = (full: string) => {
-    const base = full.split(/[\\/]/).pop() || full;
+    const base = baseName(full);
     // The variable gets the full host path (quoted by controlAssignment).
     editor.updateBlock(block, { props: { filename: base, value: full } });
     runWithMode(ctx, runMode ?? 'all', block.id);
@@ -282,7 +283,7 @@ export function FileBrowserCell({ block, editor }: BlockProps) {
     try {
       const r = await rpc<{ available?: boolean; canceled?: boolean; path?: string }>(
         'fs.dialog.native',
-        { mode: 'open', title: 'Select a file', historyKey: 'notebook.file' }
+        { mode: 'open', title: 'Select a file', historyKey: 'desktop.open' }
       );
       if (r.available) {
         if (!r.canceled && r.path) setPath(r.path);

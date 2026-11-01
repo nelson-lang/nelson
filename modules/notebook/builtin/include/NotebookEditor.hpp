@@ -9,11 +9,18 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "ArrayOf.hpp"
+#include "Evaluator.hpp"
+#include <string>
 //=============================================================================
 namespace Nelson::NotebookGateway {
-ArrayOfVector
-notebook_editBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+// Open a document in the Notebook editor; an empty path is a new one. False without a desktop.
+bool
+openNotebookEditor(Evaluator* eval, const std::wstring& filename);
+//=============================================================================
+// Close the Notebook window of the Qt desktop, if it was opened.
+void
+closeNotebookWindow();
 //=============================================================================
 } // namespace Nelson::NotebookGateway
 //=============================================================================

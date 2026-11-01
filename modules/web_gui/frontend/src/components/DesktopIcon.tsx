@@ -11,6 +11,7 @@ import type { CSSProperties } from 'react';
 //=============================================================================
 const iconUrls = {
   editor: new URL('../../../../../resources/action-editor.svg', import.meta.url).href,
+  notebook: new URL('../../../../../resources/action-notebook.svg', import.meta.url).href,
   examples: new URL('../../../../../resources/action-examples.svg', import.meta.url).href,
   nflow: new URL('../../../../../resources/action-nflow.svg', import.meta.url).href,
   package: new URL('../../../../../resources/action-package.svg', import.meta.url).href,

@@ -15,11 +15,8 @@ function edit(varargin)
     for v = varargin(:)'
       name = v{1};
       if strcmpi(fileparts(name, 'extension'), '.nlx')
-        % A Notebook document opens in the Notebook editor (web desktop),
-        % handled by the notebook module, not the text editor.
-        if ~__notebook_edit__(name)
-          error('Nelson:edit:notebookUnavailable', _('Editing a Notebook (.nlx) requires the web desktop.'));
-        end
+        % A Notebook document opens in the Notebook editor, not in the text editor.
+        notebook(name, 'edit');
         continue;
       end
       if isbuiltin(name)

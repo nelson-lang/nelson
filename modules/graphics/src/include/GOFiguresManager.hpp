@@ -93,5 +93,15 @@ saveFocus();
 NLSGRAPHICS_IMPEXP void
 restoreFocus();
 //=============================================================================
+// Inside this scope new figures use the headless host and open no window. Calls nest.
+NLSGRAPHICS_IMPEXP void
+beginHeadlessFigureScope();
+//=============================================================================
+NLSGRAPHICS_IMPEXP void
+endHeadlessFigureScope();
+//=============================================================================
+NLSGRAPHICS_IMPEXP bool
+isHeadlessFigureScopeActive();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -66,6 +66,32 @@ main()
         std::cerr << "AppKit navigation must complete on the main thread.\n";
         return 1;
     }
+    // The Qt Notebook window must get the native file dialog like the WebView desktop.
+    const std::string rpcSource = readSource(root / "modules/web_gui/src/cpp/WebGuiRpc.cpp");
+    const size_t dialogStart = rpcSource.find("WebGuiRpc::fsDialogNative(");
+    if (dialogStart == std::string::npos
+        || rpcSource.find("m_server->notebookHost()", dialogStart) == std::string::npos) {
+        std::cerr << "The native file dialog must serve the Notebook window of the Qt desktop.\n";
+        return 1;
+    }
+    // Closing the Notebook window must not quit Nelson: no exit handler, watchdog or launch mode.
+    const size_t hostStart = source.find("WebGuiServer::showNotebookWindow()");
+    const size_t hostFinish = source.find("WebGuiServer::openNotebookDocument(", hostStart);
+    if (hostStart == std::string::npos || hostFinish == std::string::npos) {
+        std::cerr << "Could not locate the notebook host window implementation.\n";
+        return 1;
+    }
+    const std::string host = source.substr(hostStart, hostFinish - hostStart);
+    if (host.find("notebookWindowCloseHandler") == std::string::npos
+        || host.find("webViewCloseHandler") != std::string::npos) {
+        std::cerr << "The notebook host window must use its own close handler.\n";
+        return 1;
+    }
+    if (launch.find("if (!figuresOnly && !notebookHost) {") == std::string::npos
+        || launch.find("if (!notebookHost) {") == std::string::npos) {
+        std::cerr << "The notebook host must skip the watchdog and the global launch mode.\n";
+        return 1;
+    }
     return 0;
 }
 //=============================================================================

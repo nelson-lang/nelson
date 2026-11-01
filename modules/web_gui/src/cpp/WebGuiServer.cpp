@@ -190,6 +190,7 @@ WebGuiServer::clearBridgeHooks()
     WebDesktopBridge::getInstance()->setWebPackageUpdatesHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebTerminalOpener(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebEditorOpener(nullptr, nullptr);
+    WebDesktopBridge::getInstance()->setWebNotebookOpener(nullptr, nullptr);
 }
 //=============================================================================
 bool
@@ -245,28 +246,33 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
         return false;
     }
     m_launchResult.publicAccess = publicAccess;
+    WebDesktopBridge::getInstance()->setWebNotebookOpener(
+        [](void* ctx, const wchar_t* path) {
+            static_cast<WebGuiServer*>(ctx)->openNotebookDocument(
+                path != nullptr ? std::wstring(path) : std::wstring());
+        },
+        this);
+    if (m_launchOptions.notebookHost) {
+        // The notebook host installs no other desktop hook; the Qt desktop keeps its own windows.
+        return true;
+    }
     WebDesktopBridge::getInstance()->setWebTerminalOpener(
         [](void* ctx) {
             static_cast<WebGuiServer*>(ctx)->pushJson("terminal.open", nlohmann::json::object());
         },
         this);
     WebDesktopBridge::getInstance()->setWebEditorOpener(
-        [](void* ctx, const wchar_t* path, int line) {
+        [](void* ctx, const wchar_t* path, int line, int column) {
             const std::string p
                 = (path != nullptr) ? wstring_to_utf8(std::wstring(path)) : std::string();
             nlohmann::json payload { { "path", p } };
             if (line > 0) {
                 payload["line"] = line;
             }
+            if (column > 0) {
+                payload["column"] = column;
+            }
             static_cast<WebGuiServer*>(ctx)->pushJson("editor.show", payload);
-        },
-        this);
-    WebDesktopBridge::getInstance()->setWebNotebookOpener(
-        [](void* ctx, const wchar_t* path) {
-            const std::string p
-                = (path != nullptr) ? wstring_to_utf8(std::wstring(path)) : std::string();
-            static_cast<WebGuiServer*>(ctx)->pushJson(
-                "notebook.open", nlohmann::json { { "path", p } });
         },
         this);
     WebDesktopBridge::getInstance()->setWebFigureFrameHook(
@@ -406,11 +412,16 @@ WebGuiServer::startListening()
     bool ok = false;
     const bool serverOnly = m_launchOptions.serverMode;
     const bool figuresOnly = m_launchOptions.figuresOnly;
+    const bool notebookHost = m_launchOptions.notebookHost;
     // Only the full web desktop has a console window to close.
-    if (!serverOnly && !figuresOnly) {
+    if (!serverOnly && !figuresOnly && !notebookHost) {
         webui_set_close_handler_wv(m_window, WebGuiServer::webViewCloseHandler);
     }
-    if (figuresOnly) {
+    if (notebookHost) {
+        // One native window on the Notebook editor; no web desktop dialog bridge or geometry here.
+        ok = showNotebookWindow();
+        m_launchResult.mode = WebUiLaunchMode::WebView;
+    } else if (figuresOnly) {
         // The WebUI server is started by the first figure window's webui_show_wv
         // (openFigureWindow), like an undocked figure on the full desktop.
         // Starting it here would block the main thread in some WebUI builds.
@@ -461,13 +472,16 @@ WebGuiServer::startListening()
     m_launchResult.port = webui_get_port(m_window);
     const std::string host = m_launchOptions.host.empty() ? "localhost" : m_launchOptions.host;
     m_launchResult.url = "http://" + host + ":" + std::to_string(m_launchResult.port);
-    if (!serverOnly && !figuresOnly) {
+    if (!serverOnly && !figuresOnly && !notebookHost) {
         const std::string indexUrl = m_launchResult.url + "/index.html";
         webui_navigate(m_window, indexUrl.c_str());
     }
-    WebDesktopBridge::getInstance()->setWebLaunchMode(webUiLaunchModeName(m_launchResult.mode));
-    WebDesktopBridge::getInstance()->setWebLaunchUrlAndPort(
-        m_launchResult.url, static_cast<uint64_t>(m_launchResult.port));
+    // The notebook host leaves the global launch mode alone, so NFlow still sees the native mode.
+    if (!notebookHost) {
+        WebDesktopBridge::getInstance()->setWebLaunchMode(webUiLaunchModeName(m_launchResult.mode));
+        WebDesktopBridge::getInstance()->setWebLaunchUrlAndPort(
+            m_launchResult.url, static_cast<uint64_t>(m_launchResult.port));
+    }
     {
         std::lock_guard<std::mutex> lock(m_launchMutex);
         m_launchCompleted = true;
@@ -488,10 +502,8 @@ WebGuiServer::startListening()
             webUiLaunchModeName(m_launchResult.mode), m_launchResult.url.c_str());
         std::fflush(stdout);
     }
-    // The figures-only desktop is driven by the terminal: closing a figure must
-    // never quit Nelson, so the heartbeat watchdog (which quits when the desktop
-    // window disappears) is not started.
-    if (!figuresOnly) {
+    // Closing a figures-only or notebook host window must not quit Nelson, so no watchdog here.
+    if (!figuresOnly && !notebookHost) {
         startWatchdog();
     }
     return true;
@@ -576,12 +588,18 @@ WebGuiServer::shutdown()
     const size_t window = m_window;
     m_window = 0;
     if (window != 0) {
-        if (m_launchAttempted.load()) {
+        if (m_launchAttempted.load() && !m_launchOptions.notebookHost) {
             saveWebGuiWindowGeometry(window);
         }
         webui_close(window);
         webui_destroy(window);
     }
+    // The retired window is the one the user closed; never destroy an id twice.
+    if (m_retiredWindow != 0 && m_retiredWindow != window) {
+        webui_set_close_handler_wv(m_retiredWindow, nullptr);
+        webui_destroy(m_retiredWindow);
+    }
+    m_retiredWindow = 0;
     clearBridgeHooks();
     WebDesktopBridge::getInstance()->setWebLaunchMode("none");
     WebDesktopBridge::getInstance()->setWebLaunchUrlAndPort("", 0);
@@ -749,6 +767,88 @@ WebGuiServer::webViewCloseHandler(size_t window)
     return true;
 }
 //=============================================================================
+bool
+WebGuiServer::notebookWindowCloseHandler(size_t window)
+{
+    WebGuiServer* server = s_activeServer.load();
+    if (server != nullptr && server->m_window == window) {
+        // No push reaches a closed window; the next open shows a fresh one.
+        server->m_listening.store(false);
+        server->m_notebookWindowOpen.store(false);
+        {
+            std::lock_guard<std::mutex> lock(server->m_launchMutex);
+            server->m_clientReady = false;
+            server->m_pendingNotebookOpens.clear();
+        }
+        // webui_destroy is unsafe inside the close callback, so the id is released later.
+        server->m_retiredWindow = window;
+        server->m_window = 0;
+    }
+    return true;
+}
+//=============================================================================
+bool
+WebGuiServer::showNotebookWindow()
+{
+    if (m_retiredWindow != 0) {
+        webui_set_close_handler_wv(m_retiredWindow, nullptr);
+        webui_destroy(m_retiredWindow);
+        m_retiredWindow = 0;
+    }
+    const std::wstring nelsonRoot = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
+    if (m_window == 0) {
+        // After a close, a new WebUI window serves the same frontend and RPC.
+        m_window = webui_new_window();
+        if (m_window == 0) {
+            return false;
+        }
+        webui_set_root_folder(m_window, m_rootUtf8.c_str());
+        webui_bind(m_window, "rpc", rpcCallback);
+        const std::string applicationIcon = findNelsonApplicationIconPath(nelsonRoot);
+        if (!applicationIcon.empty()) {
+            webui_set_icon_file(m_window, applicationIcon.c_str());
+        }
+    }
+    webui_set_close_handler_wv(m_window, WebGuiServer::notebookWindowCloseHandler);
+    webui_set_size(m_window, 1080, 760);
+    // Process-global option restored after show; the interpreter must not wait for the page socket.
+    WebUiConfigScope waitForConnection(show_wait_connection, false);
+    if (!webui_show_wv(m_window, "index.html")) {
+        return false;
+    }
+    applyNelsonApplicationWindowIcon(m_window, nelsonRoot);
+    webui_focus(m_window);
+    m_notebookWindowOpen.store(true);
+    m_listening.store(true);
+    return true;
+}
+//=============================================================================
+bool
+WebGuiServer::openNotebookDocument(const std::wstring& path)
+{
+    const std::string utf8Path = wstring_to_utf8(path);
+    if (!m_launchOptions.notebookHost) {
+        pushJson("notebook.open", nlohmann::json { { "path", utf8Path } });
+        return true;
+    }
+    if (!m_notebookWindowOpen.load()) {
+        const bool shown = m_launchAttempted.load() ? showNotebookWindow() : startListening();
+        if (!shown) {
+            return false;
+        }
+    } else if (m_window != 0) {
+        webui_focus(m_window);
+    }
+    // client.ready flushes the documents requested while the page loads.
+    std::lock_guard<std::mutex> lock(m_launchMutex);
+    if (m_clientReady) {
+        pushJson("notebook.open", nlohmann::json { { "path", utf8Path } });
+    } else {
+        m_pendingNotebookOpens.push_back(utf8Path);
+    }
+    return true;
+}
+//=============================================================================
 void
 WebGuiServer::requestExit()
 {
@@ -774,6 +874,12 @@ WebGuiServer::handleRpc(const std::string& envelope, size_t window)
     if (m_dispatcher == nullptr) {
         return "{\"error\":{\"message\":\"no dispatcher\"}}";
     }
+    // Once shutdown started the interpreter no longer drains its task queue: a
+    // request dispatched now would block its WebSocket thread until the timeout
+    // and hold the window teardown back (webui_destroy waits for that thread).
+    if (m_shuttingDown.load()) {
+        return "{\"error\":{\"message\":\"Nelson is shutting down\"}}";
+    }
     nlohmann::json request = nlohmann::json::parse(envelope, nullptr, false);
     const std::string method = (!request.is_discarded() && request.contains("method"))
         ? request.value("method", std::string())
@@ -793,19 +899,29 @@ WebGuiServer::handleRpc(const std::string& envelope, size_t window)
         // decides from it whether a new figure opens in a native window, so a
         // missing value would dock every figure.
         const char* launchMode = webUiLaunchModeName(m_launchResult.mode);
-        nlohmann::json result = handle >= 0
-            ? nlohmann::json { { "role", "figure" }, { "handle", handle },
-                  { "launchMode", launchMode } }
-            : nlohmann::json { { "role", "desktop" }, { "launchMode", launchMode } };
+        nlohmann::json result;
+        if (handle >= 0) {
+            result = { { "role", "figure" }, { "handle", handle }, { "launchMode", launchMode } };
+        } else if (m_launchOptions.notebookHost) {
+            result = { { "role", "notebook" }, { "launchMode", launchMode } };
+        } else {
+            result = { { "role", "desktop" }, { "launchMode", launchMode } };
+        }
         return withId(nlohmann::json { { "result", result } });
     }
     if (method == "client.ready") {
         if (window == m_window) {
+            std::vector<std::string> pending;
             {
                 std::lock_guard<std::mutex> lock(m_launchMutex);
                 m_clientReady = true;
+                pending.swap(m_pendingNotebookOpens);
             }
             m_launchCv.notify_all();
+            // Documents requested while the notebook host page was loading.
+            for (const std::string& path : pending) {
+                pushJson("notebook.open", nlohmann::json { { "path", path } });
+            }
         }
         return withId(nlohmann::json { { "result", { { "ok", true } } } });
     }

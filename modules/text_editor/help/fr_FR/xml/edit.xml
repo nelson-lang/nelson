@@ -26,6 +26,8 @@
     <p>Si <b>function_name</b> est le nom d&apos;une fonction Nelson définie,<b>edit(function_name)</b> tente d&apos;ouvrir le fichier associé function_name.m.</p>
     <p>
       <b>edit(dirname)</b> ouvre tous les fichiers .m disponibles dans <b>dirname</b>.</p>
+    <p
+    >Un document Notebook (<b>.nlx</b>) s'ouvre dans l'éditeur Notebook, pas dans l'éditeur de texte : un onglet du bureau web, ou la fenêtre Notebook du bureau Qt. Sans bureau (nelson-cli, nelson-adv-cli), c'est une erreur.</p>
   </description>
   <used_function />
   <bibliography />

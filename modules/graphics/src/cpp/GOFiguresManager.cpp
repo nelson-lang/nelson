@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <atomic>
 #include <memory>
 #include "GOFiguresManager.hpp"
 #include "GOFigure.hpp"
@@ -53,8 +54,7 @@ private:
 public:
     GOFiguresManagerSingleton(const GOFiguresManagerSingleton&) = delete;
     GOFiguresManagerSingleton&
-    operator=(const GOFiguresManagerSingleton&)
-        = delete;
+    operator=(const GOFiguresManagerSingleton&) = delete;
 
     static GOFiguresManagerSingleton&
     getInstance()
@@ -195,10 +195,33 @@ loadQtFigureHostFactory()
     graphicsQtLibrary = load_dynamic_libraryW(libraryPath);
 }
 //=============================================================================
+// Nesting depth of the headless figure scope.
+static std::atomic<int> headlessFigureScopeDepth { 0 };
+//=============================================================================
+void
+beginHeadlessFigureScope()
+{
+    headlessFigureScopeDepth.fetch_add(1);
+}
+//=============================================================================
+void
+endHeadlessFigureScope()
+{
+    if (headlessFigureScopeDepth.load() > 0) {
+        headlessFigureScopeDepth.fetch_sub(1);
+    }
+}
+//=============================================================================
+bool
+isHeadlessFigureScopeActive()
+{
+    return headlessFigureScopeDepth.load() > 0;
+}
+//=============================================================================
 static GOFigureHost*
 createFigureHost(int64 figNum)
 {
-    if (useWebGraphics()) {
+    if (useWebGraphics() || isHeadlessFigureScopeActive()) {
         return createHeadlessFigureHost(figNum);
     }
     if (!hasGuiServices()) {
@@ -220,7 +243,7 @@ createNewFigure(bool show)
     int64 figNum = findAvailableFigureId();
     checkIdValidity(figNum);
     hFigures[figNum] = createFigureHost(figNum);
-    if (show && !useWebGraphics()) {
+    if (show && !useWebGraphics() && !hFigures[figNum]->isHeadlessHost()) {
         saveFocus();
         hFigures[figNum]->presentHost();
         restoreFocus();
@@ -251,7 +274,7 @@ selectFigure(int64 fignum, bool show)
             fignum, true, figureWindowStyle(fignum));
         noteWebFigureOpened();
     }
-    if (show && !useWebGraphics()) {
+    if (show && !useWebGraphics() && !hFigures[fignum]->isHeadlessHost()) {
         saveFocus();
         hFigures[fignum]->presentHost();
         restoreFocus();

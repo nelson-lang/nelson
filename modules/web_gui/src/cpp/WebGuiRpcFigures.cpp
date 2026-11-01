@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <limits>
 #include "WebGuiRpc.hpp"
 #include "ExamplesBridge.hpp"
 #include "ExamplesCatalogHost.hpp"
@@ -450,7 +451,27 @@ WebGuiRpc::notebookRun(const nlohmann::json& params)
     std::wstring out;
     bool ok = false;
     if (m_evaluator != nullptr) {
-        ok = EvaluateConsoleCommandToString(m_evaluator, wcode, out);
+        // The cell runs on the interpreter thread, no timeout, inside the headless figure scope.
+        const bool scoped = ensureGraphicsBridge() && m_beginHeadlessFigureScopeFn != nullptr
+            && m_endHeadlessFigureScopeFn != nullptr;
+        runOnInterpreterThread(
+            [&] {
+                if (scoped) {
+                    m_beginHeadlessFigureScopeFn();
+                }
+                try {
+                    ok = EvaluateConsoleCommandToString(m_evaluator, wcode, out);
+                } catch (...) {
+                    if (scoped) {
+                        m_endHeadlessFigureScopeFn();
+                    }
+                    throw;
+                }
+                if (scoped) {
+                    m_endHeadlessFigureScopeFn();
+                }
+            },
+            (std::numeric_limits<int>::max)());
     }
     const std::string text = wstring_to_utf8(out);
 

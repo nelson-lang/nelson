@@ -99,6 +99,8 @@ private slots:
     textEditor();
     void
     nflow();
+    void
+    notebook();
 
     void
     commandWindowToggle();
@@ -282,6 +284,7 @@ private:
 
     QAction* editorAction;
     QAction* nflowAction = nullptr;
+    QAction* notebookAction = nullptr;
     QAction* packageManagerAction = nullptr;
     DesktopActionBadge* packageManagerBadge = nullptr;
 
@@ -306,6 +309,8 @@ private:
     QString lastCurrentDirectory;
     QString lastRecordedDirectory;
     bool lastAtPrompt;
+    bool lastDebugPaused = false;
+    uint64_t lastDebugStopRevision = 0;
 
     // drag and drop feedback
     QRubberBand* dropIndicator;

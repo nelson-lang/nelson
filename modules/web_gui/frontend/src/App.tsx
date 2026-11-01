@@ -22,10 +22,13 @@ import { forgetGroup } from './desktop/collapse';
 import { ShellTerminalPanel } from './panels/ShellTerminalPanel';
 import { HelpPanel } from './panels/HelpPanel';
 import { ProfilerPanel } from './panels/ProfilerPanel';
+import { BreakpointsPanel } from './panels/BreakpointsPanel';
+import { CallStackPanel } from './panels/CallStackPanel';
 import { DiagnosticsPanel } from './panels/DiagnosticsPanel';
 import { VariablesEditorHost } from './panels/VariablesEditorHost';
 import { PanelHeaderActions } from './panels/PanelHeaderActions';
 import { MenuBar } from './components/MenuBar';
+import { NotebookMenuBar } from './components/NotebookMenuBar';
 import { Sidebar } from './components/Sidebar';
 import { StatusBar } from './components/StatusBar';
 import { DesktopToolbar } from './components/DesktopToolbar';
@@ -41,9 +44,10 @@ import { CommandPalette, OPEN_PALETTE_EVENT } from './components/CommandPalette'
 import { PlotGalleryHost } from './components/PlotGalleryHost';
 import { LocalFileDropHost } from './components/LocalFileDropHost';
 import { AudioUnlockHost } from './components/AudioUnlockHost';
-import { ensureCorePanel, setDockApi } from './desktop/desktop';
+import { ensureCorePanel, setDockApi, watchDebuggerStops } from './desktop/desktop';
+import { DEBUGGER_STRINGS, loadTranslations } from './i18n';
 import { isEngineBusy, onEngineReady, runCommand } from './desktop/engineSession';
-import { installFigureLifecycle } from './desktop/figureLifecycle';
+import { installFigureLifecycle, installNotebookOpenPush } from './desktop/figureLifecycle';
 import {
   buildDefaultLayout,
   buildMobileLayout,
@@ -70,6 +74,7 @@ import { refreshCurrentDirectory } from './desktop/currentDirectory';
 import {
   getDesktopCapabilities,
   refreshDesktopCapabilities,
+  setClientRole,
   setLaunchMode,
   setPackageUpdates,
 } from './desktop/capabilities';
@@ -147,9 +152,9 @@ const components = {
   figure: (props: IDockviewPanelProps<{ handle: number; title: string }>) => (
     <FigurePanel handle={props.params.handle} title={props.params.title} panelApi={props.api} />
   ),
-  editor: (props: IDockviewPanelProps<{ path: string }>) => (
+  editor: (props: IDockviewPanelProps<{ path: string; line?: number; column?: number }>) => (
     <Suspense fallback={<div className="browser__empty">Loading editor…</div>}>
-      <EditorPanel path={props.params.path} />
+      <EditorPanel path={props.params.path} line={props.params.line} column={props.params.column} />
     </Suspense>
   ),
   shell: ShellTerminalPanel,
@@ -172,6 +177,8 @@ const components = {
   diagnostics: DiagnosticsPanel,
   profiler: ProfilerPanel,
   variables: VariablesEditorHost,
+  breakpoints: BreakpointsPanel,
+  callstack: CallStackPanel,
 };
 //=============================================================================
 function focusZone(zone: HTMLElement): void {
@@ -214,7 +221,9 @@ export function App(): JSX.Element {
   // A browser popup carries the figure handle in the URL ('?figure=N'); a native
   // figure window learns it from client.role. 'pending' holds the first render only
   // when there is no URL hint.
-  const [standaloneFigure, setStandaloneFigure] = useState<number | 'desktop' | 'pending'>(() => {
+  const [standaloneFigure, setStandaloneFigure] = useState<
+    number | 'desktop' | 'notebook' | 'pending'
+  >(() => {
     const p = new URLSearchParams(window.location.search).get('figure');
     return p !== null && p !== '' ? Number(p) : 'pending';
   });
@@ -237,7 +246,13 @@ export function App(): JSX.Element {
         // can miss it across the desktop reload, and a new figure must open in its own
         // native window on the WebView desktop.
         setLaunchMode(r.launchMode);
-        const resolved = r.role === 'figure' && r.handle != null ? r.handle : 'desktop';
+        setClientRole(r.role);
+        const resolved =
+          r.role === 'figure' && r.handle != null
+            ? r.handle
+            : r.role === 'notebook'
+            ? 'notebook'
+            : 'desktop';
         setStandaloneFigure((prev) => (prev === 'pending' || prev === 'desktop' ? resolved : prev));
       })
       .catch(() => {
@@ -344,6 +359,8 @@ export function App(): JSX.Element {
         '4': 'variables',
         '5': 'profiler',
         '6': 'newsfeed',
+        '7': 'breakpoints',
+        '8': 'callstack',
       };
       if (panel[e.key]) {
         e.preventDefault();
@@ -411,6 +428,9 @@ export function App(): JSX.Element {
   const onReady = useCallback((event: DockviewReadyEvent) => {
     const api = event.api;
     setDockApi(api);
+    // a debugger stop opens (or fronts) the editor of the paused file
+    watchDebuggerStops();
+    void loadTranslations(DEBUGGER_STRINGS);
 
     // Phones get a single full-width tabbed group; wider screens keep the
     // docked desktop layout. The two are swapped live at the breakpoint.
@@ -470,6 +490,14 @@ export function App(): JSX.Element {
     return () => mq.removeEventListener('change', handler);
   }, [theme]);
 
+  // Notebook window: nothing to restore, the documents arrive as notebook.open pushes.
+  const onNotebookReady = useCallback((event: DockviewReadyEvent) => {
+    setDockApi(event.api);
+    document.title = 'Notebook';
+    installNotebookOpenPush();
+    void rpc('client.ready').catch(() => undefined);
+  }, []);
+
   // Standalone figure window: opened with window.open('?figure=N') and renders just
   // that figure. Diagnostic mode (?renderall=1) fetches the draw list of every open
   // figure without mounting panels, so a verification sweep does not render dozens of
@@ -491,6 +519,36 @@ export function App(): JSX.Element {
 
   if (standaloneFigure === 'pending') {
     return <div className={`nelson-shell nelson-shell--${scheme}`} />;
+  }
+  // Notebook window of the Qt desktop: the same dock and Notebook panels, without the desktop chrome.
+  if (standaloneFigure === 'notebook') {
+    return (
+      <div className={`nelson-shell nelson-shell--${scheme} nelson-shell--notebook`}>
+        <NotebookMenuBar />
+        <div className="nelson-body">
+          <div
+            className="nelson-dock"
+            role="main"
+            aria-label="Notebook documents"
+            data-focus-zone="dock"
+            tabIndex={-1}
+          >
+            <DockviewReact
+              components={components}
+              defaultTabComponent={DesktopTab}
+              rightHeaderActionsComponent={PanelHeaderActions}
+              onReady={onNotebookReady}
+              className={dockviewThemeClass(scheme)}
+            />
+          </div>
+        </div>
+        <DialogHost />
+        <PromptHost />
+        <DesktopFilePickerHost />
+        <AboutHost />
+        <AudioUnlockHost />
+      </div>
+    );
   }
   if (typeof standaloneFigure === 'number') {
     return (

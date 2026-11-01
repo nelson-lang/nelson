@@ -11,30 +11,56 @@ import { useEffect, useRef, useState } from 'react';
 import Editor, { type OnMount } from '@monaco-editor/react';
 import type * as Monaco from 'monaco-editor';
 import { onPush, rpc } from '../rpc/client';
-import { webPrompt } from '../components/PromptHost';
-import { onEngineReady, runCommand } from '../desktop/engineSession';
+import { requestSavePath } from '../components/DesktopFilePickerHost';
+import { baseName, dirName } from '../desktop/paths';
+import { isEngineBusy, onEngineReady, runCommand, subscribeEngine } from '../desktop/engineSession';
 import { openHelp, openEditor, ensureCorePanel } from '../desktop/desktop';
 import { EditorRibbon, type RibbonGroupDef } from './EditorRibbon';
 import { getActiveScheme, subscribeScheme } from '../desktop/theme';
 import { getPrefs, subscribePrefs } from '../desktop/prefs';
-import type { BreakpointsResult, EditorOpenResult } from '../rpc/types';
+import type {
+  AllBreakpointsResult,
+  BreakpointInfo,
+  BreakpointsResult,
+  DebuggerCommand,
+  DebuggerEvaluateResult,
+  DebuggerState,
+  EditorOpenResult,
+} from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { BreakpointPopover } from '../components/BreakpointPopover';
 import { setupMonaco } from '../editor/monacoSetup';
+import {
+  breakpointDecoration,
+  breakpointMarkerState,
+  breakpointMoves,
+  dataTipExpression,
+  debugLineDecorations,
+  pendingBreakpoints,
+  samePath,
+  type EditorBreakpoint,
+} from '../editor/debugDecorations';
+import { subscribeTranslations, t } from '../i18n';
 //=============================================================================
 setupMonaco();
-type DebugState = {
-  running: boolean;
-  currentFile: string | null;
-  currentLine: number | null;
-  stack: { file: string; line: number; function: string }[];
-};
 //=============================================================================
-const emptyDebug: DebugState = {
+const emptyDebug: DebuggerState = {
   running: false,
+  paused: false,
   currentFile: null,
   currentLine: null,
+  currentColumn: 0,
+  function: '',
+  reason: 'none',
+  errorIdentifier: '',
+  errorMessage: '',
+  canStep: true,
   stack: [],
+  revision: 0,
+  breakpointsRevision: 0,
 };
+// latest debugger state revision: data tips are cached per revision
+let latestDebugRevision = 0;
 //=============================================================================
 type AnalyzerEdit = {
   lineStart: number;
@@ -60,9 +86,6 @@ type AnalyzerDiagnostic = {
 // Latest diagnostics per model URI, so the (global) code-action provider can
 // offer each diagnostic's quick fixes.
 const modelDiagnostics = new Map<string, AnalyzerDiagnostic[]>();
-const samePath = (a: string, b: string) =>
-  a.replace(/\\/g, '/').toLowerCase().endsWith(b.replace(/\\/g, '/').toLowerCase()) ||
-  b.replace(/\\/g, '/').toLowerCase().endsWith(a.replace(/\\/g, '/').toLowerCase());
 const monacoTheme = (s: 'light' | 'dark') => (s === 'dark' ? 'vs-dark' : 'light');
 // Cache help(name) lookups so hover / signature help don't hammer the backend.
 const helpCache = new Map<string, Promise<string>>();
@@ -73,6 +96,20 @@ function fetchHelp(name: string): Promise<string> {
       .then((r) => r.text ?? '')
       .catch(() => '');
     helpCache.set(name, p);
+  }
+  return p;
+}
+//=============================================================================
+const dataTipCache = new Map<string, Promise<string>>();
+function fetchDataTip(expr: string): Promise<string> {
+  const key = `${latestDebugRevision}:${expr}`;
+  let p = dataTipCache.get(key);
+  if (!p) {
+    if (dataTipCache.size > 200) dataTipCache.clear();
+    p = rpc<DebuggerEvaluateResult>('debugger.evaluate', { expr })
+      .then((r) => (r.ok && r.text ? r.text : ''))
+      .catch(() => '');
+    dataTipCache.set(key, p);
   }
   return p;
 }
@@ -105,10 +142,20 @@ function registerNelson(monaco: typeof Monaco) {
     provideHover: async (model, position) => {
       const word = model.getWordAtPosition(position);
       if (!word) return null;
+      const contents: Monaco.IMarkdownString[] = [];
+      // data tip: the value of the variable under the pointer while the engine waits at a prompt
+      const expr = dataTipExpression(model.getLineContent(position.lineNumber), word);
+      if (expr && !isEngineBusy()) {
+        const tip = await fetchDataTip(expr);
+        // a variable is not a help topic: the tip alone, without a help() round trip
+        if (tip) return { contents: [{ value: '```text\n' + tip + '\n```' }] };
+      }
       const text = await fetchHelp(word.word);
-      if (!text.trim()) return null;
-      const body = text.split('\n').slice(0, 14).join('\n');
-      return { contents: [{ value: '```text\n' + body + '\n```' }] };
+      if (text.trim()) {
+        const body = text.split('\n').slice(0, 14).join('\n');
+        contents.push({ value: '```text\n' + body + '\n```' });
+      }
+      return contents.length ? { contents } : null;
     },
   });
 
@@ -261,18 +308,35 @@ function registerNelson(monaco: typeof Monaco) {
   });
 }
 //=============================================================================
-export function EditorPanel({ path }: { path: string }): JSX.Element {
+export function EditorPanel({
+  path,
+  line: initialLine,
+  column: initialColumn,
+}: {
+  path: string;
+  line?: number;
+  column?: number;
+}) {
   const [content, setContent] = useState<string>('');
   const [language, setLanguage] = useState<string>('plaintext');
   const [ready, setReady] = useState(false);
   const [scheme, setScheme] = useState<'light' | 'dark'>(getActiveScheme());
-  const debugRef = useRef<DebugState>(emptyDebug);
+  const debugRef = useRef<DebuggerState>(emptyDebug);
   const [, forcePaint] = useState(0);
   const debug = debugRef.current;
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<typeof Monaco | null>(null);
-  const decorationsRef = useRef<string[]>([]);
+  // breakpoints of this file; evaluatorLine 0 marks one added while modified (pending save)
+  const bpRef = useRef<EditorBreakpoint[]>([]);
+  const savedVersionRef = useRef(0);
+  const dirtyRef = useRef(false);
   const debugDecoRef = useRef<string[]>([]);
+  const [popover, setPopover] = useState<{ line: number; x: number; y: number } | null>(null);
+  const [conditionError, setConditionError] = useState('');
+  const [errorBreakpoints, setErrorBreakpoints] = useState({ error: false, caughtError: false });
+  const [notice, setNotice] = useState('');
+  const noticeTimerRef = useRef<number | undefined>(undefined);
+  const [engineBusy, setEngineBusy] = useState(isEngineBusy());
   const prefsOffRef = useRef<(() => void) | null>(null);
   const analyzeTimerRef = useRef<number | undefined>(undefined);
   const [issues, setIssues] = useState<{ errors: number; warnings: number; infos: number }>({
@@ -294,9 +358,216 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     () => () => {
       prefsOffRef.current?.();
       if (analyzeTimerRef.current) window.clearTimeout(analyzeTimerRef.current);
+      if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
     },
     []
   );
+  useEffect(() => subscribeEngine(setEngineBusy), []);
+  useEffect(() => subscribeTranslations(() => forcePaint((n) => n + 1)), []);
+
+  // breakpoints: red, light gray disabled, dark gray while unsaved, orange conditional
+  const showNotice = (text: string) => {
+    setNotice(text);
+    if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
+    noticeTimerRef.current = window.setTimeout(() => setNotice(''), 6000);
+  };
+  const currentLineOf = (decorationId: string): number | null => {
+    const model = editorRef.current?.getModel();
+    return model?.getDecorationRange(decorationId)?.startLineNumber ?? null;
+  };
+  // repaints the gutter from items; lines gives each item's line (decoration line when omitted)
+  const paintBreakpoints = (items: EditorBreakpoint[], lines?: number[]) => {
+    const editor = editorRef.current;
+    const monaco = monacoRef.current;
+    if (!editor || !monaco) return;
+    const placed: { item: EditorBreakpoint; line: number }[] = [];
+    items.forEach((item, index) => {
+      const line = lines ? lines[index] : currentLineOf(item.decorationId);
+      if (line) placed.push({ item, line });
+    });
+    const ids = editor.deltaDecorations(
+      bpRef.current.map((b) => b.decorationId).filter(Boolean),
+      placed.map(({ item, line }) =>
+        breakpointDecoration(monaco, line, item, breakpointMarkerState(item, dirtyRef.current))
+      )
+    );
+    bpRef.current = placed.map(({ item }, index) => ({
+      ...item,
+      decorationId: ids[index] ?? '',
+    }));
+  };
+  // replaces the tracked list with the evaluator's; pending breakpoints and edited lines are kept
+  const acceptBreakpoints = (list: BreakpointInfo[] | undefined, fallbackLines?: number[]) => {
+    const infos: BreakpointInfo[] =
+      list ?? (fallbackLines ?? []).map((line) => ({ id: 0, line, enabled: true, condition: '' }));
+    const known = new Map<number, EditorBreakpoint>();
+    for (const item of bpRef.current) if (item.evaluatorLine) known.set(item.evaluatorLine, item);
+    const items: EditorBreakpoint[] = [];
+    const lines: number[] = [];
+    for (const info of infos) {
+      const prev = known.get(info.line);
+      const line =
+        (prev && dirtyRef.current ? currentLineOf(prev.decorationId) : null) ?? info.line;
+      items.push({
+        decorationId: '',
+        evaluatorLine: info.line,
+        enabled: info.enabled,
+        condition: info.condition ?? '',
+      });
+      lines.push(line);
+    }
+    for (const item of bpRef.current) {
+      if (item.evaluatorLine) continue;
+      const line = currentLineOf(item.decorationId);
+      if (line) {
+        items.push(item);
+        lines.push(line);
+      }
+    }
+    paintBreakpoints(items, lines);
+  };
+  const syncBreakpoints = () =>
+    rpc<BreakpointsResult>('debugger.getBreakpoints', { file: path })
+      .then((r) => acceptBreakpoints(r.breakpoints, r.lines))
+      .catch(() => undefined);
+  const refreshErrorBreakpoints = () =>
+    rpc<AllBreakpointsResult>('debugger.listBreakpoints', {})
+      .then((r) => {
+        if (r?.errorBreakpoints) setErrorBreakpoints(r.errorBreakpoints);
+      })
+      .catch(() => undefined);
+  const trackedAt = (line: number) =>
+    bpRef.current.find((item) => currentLineOf(item.decorationId) === line);
+  const addPendingBreakpoint = (line: number, condition: string) => {
+    const editor = editorRef.current;
+    const monaco = monacoRef.current;
+    if (!editor || !monaco) return;
+    const [id] = editor.deltaDecorations(
+      [],
+      [breakpointDecoration(monaco, line, { enabled: true, condition }, 'invalid')]
+    );
+    bpRef.current = [
+      ...bpRef.current,
+      { decorationId: id, evaluatorLine: 0, enabled: true, condition },
+    ];
+  };
+  // Set/Clear Breakpoint; on a modified file a new breakpoint waits for the save
+  const toggleBreakpointAt = (line: number) => {
+    const existing = trackedAt(line);
+    if (existing && !existing.evaluatorLine) {
+      paintBreakpoints(bpRef.current.filter((item) => item !== existing));
+      return;
+    }
+    if (dirtyRef.current) {
+      if (existing) {
+        rpc<BreakpointsResult>('debugger.removeBreakpoint', {
+          file: path,
+          line: existing.evaluatorLine,
+        })
+          .then((r) => acceptBreakpoints(r.breakpoints, r.lines))
+          .catch(() => undefined);
+      } else {
+        addPendingBreakpoint(line, '');
+      }
+      return;
+    }
+    rpc<BreakpointsResult>('debugger.toggleBreakpoint', { file: path, line })
+      .then((r) => {
+        acceptBreakpoints(r.breakpoints, r.lines);
+        if (r.error) showNotice(r.error);
+      })
+      .catch(() => undefined);
+  };
+  // Set/Modify Condition: the evaluator validates the expression
+  const setConditionAt = (line: number, condition: string) => {
+    const existing = trackedAt(line);
+    if (existing && !existing.evaluatorLine) {
+      existing.condition = condition;
+      paintBreakpoints(bpRef.current);
+      setPopover(null);
+      return;
+    }
+    if (!existing && dirtyRef.current) {
+      addPendingBreakpoint(line, condition);
+      setPopover(null);
+      return;
+    }
+    const target = existing ? existing.evaluatorLine : line;
+    rpc<BreakpointsResult>('debugger.setBreakpoint', { file: path, line: target, condition })
+      .then((r) => {
+        if (r.error) {
+          setConditionError(r.error);
+          return;
+        }
+        acceptBreakpoints(r.breakpoints, r.lines);
+        setConditionError('');
+        setPopover(null);
+      })
+      .catch(() => undefined);
+  };
+  const setEnabledAt = (line: number, enabled: boolean) => {
+    const existing = trackedAt(line);
+    if (!existing) return;
+    if (!existing.evaluatorLine) {
+      existing.enabled = enabled;
+      paintBreakpoints(bpRef.current);
+      return;
+    }
+    rpc<BreakpointsResult>('debugger.setBreakpoint', {
+      file: path,
+      line: existing.evaluatorLine,
+      enabled,
+    })
+      .then((r) => acceptBreakpoints(r.breakpoints, r.lines))
+      .catch(() => undefined);
+  };
+  const setAllEnabledInFile = (enabled: boolean) => {
+    for (const item of bpRef.current) if (!item.evaluatorLine) item.enabled = enabled;
+    rpc('debugger.setAllEnabled', { file: path, enabled })
+      .then(() => syncBreakpoints())
+      .catch(() => undefined);
+  };
+  const clearAllInFile = () => {
+    paintBreakpoints([]);
+    rpc('debugger.removeAllBreakpoints', { file: path })
+      .then(() => syncBreakpoints())
+      .catch(() => undefined);
+  };
+  const clearAllBreakpoints = () => {
+    paintBreakpoints([]);
+    rpc('debugger.removeAllBreakpoints', {})
+      .then(() => syncBreakpoints())
+      .catch(() => undefined);
+  };
+  const setErrorBreakpointFlags = (next: { error: boolean; caughtError: boolean }) => {
+    setErrorBreakpoints(next);
+    rpc<AllBreakpointsResult>('debugger.setErrorBreakpoints', next)
+      .then((r) => {
+        if (r?.errorBreakpoints) setErrorBreakpoints(r.errorBreakpoints);
+      })
+      .catch(() => undefined);
+  };
+  // debugger commands: dbstep, dbcont, dbquit, pause, run to here
+  const debugCommand = (cmd: DebuggerCommand, extra: Record<string, unknown> = {}) =>
+    rpc<{ ok?: boolean; error?: string }>('debugger.command', { cmd, ...extra })
+      .then((r) => {
+        if (r?.error) showNotice(r.error);
+      })
+      .catch(() => undefined);
+  // one step per stop: a held key or a double click must not queue a burst of steps
+  const steppedAtRevisionRef = useRef(-1);
+  const stepCommand = (cmd: DebuggerCommand) => {
+    const d = debugRef.current;
+    if (!d.paused || !d.canStep) return Promise.resolve();
+    if (steppedAtRevisionRef.current === d.revision) return Promise.resolve();
+    steppedAtRevisionRef.current = d.revision;
+    return debugCommand(cmd);
+  };
+  const stopDebugging = () => {
+    if (!debugRef.current.running) return Promise.resolve();
+    return debugCommand('quit');
+  };
+  const cursorLine = () => editorRef.current?.getPosition()?.lineNumber ?? 0;
 
   useEffect(() => {
     rpc<EditorOpenResult>('editor.open', { path })
@@ -312,11 +583,11 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
 
   useEffect(() => {
     const onGoto = (e: Event) => {
-      const d = (e as CustomEvent<{ path?: string; line?: number }>).detail;
+      const d = (e as CustomEvent<{ path?: string; line?: number; column?: number }>).detail;
       const ed = editorRef.current;
       if (!ed || !d?.line || !d.path || !samePath(path, d.path)) return;
       ed.revealLineInCenter(d.line);
-      ed.setPosition({ lineNumber: d.line, column: 1 });
+      ed.setPosition({ lineNumber: d.line, column: d.column && d.column > 0 ? d.column : 1 });
       ed.focus();
     };
     window.addEventListener('nelson-webview.editor-goto', onGoto as EventListener);
@@ -328,17 +599,30 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
   useEffect(() => {
     let alive = true;
     let last = '';
+    let lastBpRevision = -1;
+    const accept = (state: DebuggerState | null | undefined) => {
+      const next = state && typeof state === 'object' ? { ...emptyDebug, ...state } : emptyDebug;
+      debugRef.current = next;
+      latestDebugRevision = next.revision;
+      // a new breakpoints revision (run to here consumed, dbstop or dbclear typed) reloads the gutter
+      if (next.breakpointsRevision !== lastBpRevision) {
+        lastBpRevision = next.breakpointsRevision;
+        void syncBreakpoints();
+      }
+    };
     const pull = async () => {
       try {
-        debugRef.current = (await rpc<DebugState>('debugger.state')) ?? emptyDebug;
+        accept(await rpc<DebuggerState>('debugger.state'));
       } catch {
-        debugRef.current = emptyDebug;
+        accept(null);
       }
     };
     void pull();
     const off = onEngineReady(() => void pull());
-    const offDebug = onPush('debugger.state', (state) => {
-      debugRef.current = (state as DebugState) ?? emptyDebug;
+    const offDebug = onPush('debugger.state', (state) => accept(state as DebuggerState));
+    const offBreakpoints = onPush('debugger.breakpoints', () => {
+      void syncBreakpoints();
+      void refreshErrorBreakpoints();
     });
     // Paint pump: a synchronous setState inside a timer callback reliably
     // flushes dockview's portal, whereas an async setState from the push's
@@ -346,7 +630,8 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     // changed, so the idle cost is a cheap identity check.
     const iv = setInterval(() => {
       if (!alive) return;
-      const sig = `${debugRef.current.running}:${debugRef.current.currentFile}:${debugRef.current.currentLine}`;
+      const d = debugRef.current;
+      const sig = `${d.running}:${d.paused}:${d.currentFile}:${d.currentLine}:${d.reason}:${d.revision}`;
       if (sig !== last) {
         last = sig;
         forcePaint((n) => n + 1);
@@ -356,34 +641,30 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
       alive = false;
       off();
       offDebug();
+      offBreakpoints();
       clearInterval(iv);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path]);
 
-  useEffect(() => {
+  // paints the paused line: on every state change, and once Monaco has mounted
+  const paintDebugLine = () => {
     const editor = editorRef.current;
     const monaco = monacoRef.current;
-    if (!editor || !monaco) return;
-    const here =
-      debug.running && debug.currentFile && debug.currentLine && samePath(path, debug.currentFile)
-        ? debug.currentLine
-        : null;
+    const model = editor?.getModel();
+    if (!editor || !monaco || !model) return;
+    const d = debugRef.current;
+    const line = d.paused && d.currentFile && samePath(path, d.currentFile) ? d.currentLine : null;
+    const maxColumn = line && line <= model.getLineCount() ? model.getLineMaxColumn(line) : 1;
     debugDecoRef.current = editor.deltaDecorations(
       debugDecoRef.current,
-      here
-        ? [
-            {
-              range: new monaco.Range(here, 1, here, 1),
-              options: {
-                isWholeLine: true,
-                className: 'debug-current-line',
-                glyphMarginClassName: 'debug-current-glyph',
-              },
-            },
-          ]
-        : []
+      debugLineDecorations(monaco, d, path, maxColumn)
     );
-    if (here) editor.revealLineInCenter(here);
+    if (line) editor.revealLineInCenter(line);
+  };
+  useEffect(() => {
+    paintDebugLine();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debug, path]);
 
   // Run the code analyzer on the live buffer and show the diagnostics as Monaco
@@ -446,19 +727,6 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     analyzeTimerRef.current = window.setTimeout(runAnalyze, 500);
   };
 
-  const renderBreakpoints = (lines: number[]) => {
-    const editor = editorRef.current;
-    const monaco = monacoRef.current;
-    if (!editor || !monaco) return;
-    decorationsRef.current = editor.deltaDecorations(
-      decorationsRef.current,
-      lines.map((line) => ({
-        range: new monaco.Range(line, 1, line, 1),
-        options: { isWholeLine: false, glyphMarginClassName: 'bp-glyph' },
-      }))
-    );
-  };
-
   // Send the current selection (or, if empty, the current line) to the engine,
   // one line at a time; Nelson's getLine reads a single line per prompt.
   const evaluateSelection = () => {
@@ -494,27 +762,79 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     }
   };
 
-  const runFile = () => {
-    // Persist first so `run` sees the latest edits, then execute the file.
+  // save: breakpoints follow the edits, pending ones are created, a paused session ends
+  const saveFile = async (): Promise<boolean> => {
     const editor = editorRef.current;
-    if (!editor) return;
-    const escaped = path.replace(/'/g, "''");
-    rpc('editor.save', { path, content: editor.getValue() })
-      .then(() => runCommand(`run('${escaped}')`))
-      .catch(() => undefined);
+    const model = editor?.getModel();
+    if (!editor || !model) return false;
+    const moves = breakpointMoves(bpRef.current, currentLineOf);
+    const pending = pendingBreakpoints(bpRef.current, currentLineOf);
+    const wasPaused = debugRef.current.paused;
+    try {
+      await rpc('editor.save', { path, content: editor.getValue() });
+    } catch {
+      return false;
+    }
+    savedVersionRef.current = model.getAlternativeVersionId();
+    dirtyRef.current = false;
+    if (wasPaused) {
+      await debugCommand('quit');
+      showNotice(t('Debugging ended: the file was saved while paused.'));
+    }
+    if (moves.length) {
+      await rpc('debugger.moveBreakpoints', { file: path, moves }).catch(() => undefined);
+    }
+    for (const bp of pending) {
+      await rpc<BreakpointsResult>('debugger.setBreakpoint', { file: path, ...bp })
+        .then((r) => {
+          if (r.error) showNotice(r.error);
+        })
+        .catch(() => undefined);
+    }
+    await syncBreakpoints();
+    runAnalyze();
+    return true;
   };
 
-  const save = () => {
-    const editor = editorRef.current;
-    if (!editor) return;
-    rpc('editor.save', { path, content: editor.getValue() }).catch(() => undefined);
-    runAnalyze();
+  const save = () => void saveFile();
+
+  const runFile = () => {
+    // Persist first so `run` sees the latest edits, then execute the file.
+    const escaped = path.replace(/'/g, "''");
+    void saveFile().then((ok) => (ok ? runCommand(`run('${escaped}')`) : undefined));
+  };
+
+  // Run to Here: runs to the cursor line and pauses before it
+  const runToHere = () => {
+    const line = cursorLine();
+    if (!line) return;
+    const go = () => debugCommand('runToLine', { file: path, line });
+    if (dirtyRef.current) void saveFile().then((ok) => (ok ? go() : undefined));
+    else void go();
+  };
+
+  const onContentChange = () => {
+    scheduleAnalyze();
+    const model = editorRef.current?.getModel();
+    if (!model) return;
+    const dirty = model.getAlternativeVersionId() !== savedVersionRef.current;
+    if (dirty !== dirtyRef.current) {
+      dirtyRef.current = dirty;
+      // the markers turn dark gray while the file has unsaved changes
+      paintBreakpoints(bpRef.current);
+    }
   };
 
   const saveAs = async () => {
     const editor = editorRef.current;
     if (!editor) return;
-    const target = await webPrompt('Save as (path):', path);
+    // Same path picker as the Notebook: native dialog, else the web file picker.
+    const target = await requestSavePath({
+      title: 'Save As',
+      suggestedName: baseName(path),
+      filters: ['.m'],
+      defaultPath: dirName(path) || undefined,
+    });
     if (!target || target === path) return;
     rpc('editor.save', { path: target, content: editor.getValue() })
       .then(() => openEditor(target))
@@ -587,21 +907,54 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     monacoRef.current = monaco;
     registerNelson(monaco);
 
-    rpc<BreakpointsResult>('debugger.getBreakpoints', { file: path })
-      .then((r) => renderBreakpoints(r.lines))
-      .catch(() => undefined);
+    savedVersionRef.current = editor.getModel()?.getAlternativeVersionId() ?? 0;
+    dirtyRef.current = false;
+    void syncBreakpoints();
+    void refreshErrorBreakpoints();
 
     runAnalyze();
+    // the stop may have opened this editor: the state is already known at mount time
+    paintDebugLine();
+    // a panel opened at a line: the goto event fired before this editor could listen
+    if (initialLine && initialLine > 0) {
+      editor.revealLineInCenter(initialLine);
+      editor.setPosition({
+        lineNumber: initialLine,
+        column: initialColumn && initialColumn > 0 ? initialColumn : 1,
+      });
+    }
 
     editor.onMouseDown((e) => {
-      if (e.target.type === monaco.editor.MouseTargetType.GUTTER_GLYPH_MARGIN) {
+      if (
+        e.event.leftButton &&
+        e.target.type === monaco.editor.MouseTargetType.GUTTER_GLYPH_MARGIN
+      ) {
         const line = e.target.position?.lineNumber;
-        if (!line) return;
-        rpc<BreakpointsResult>('debugger.toggleBreakpoint', { file: path, line })
-          .then((r) => renderBreakpoints(r.lines))
-          .catch(() => undefined);
+        if (line) toggleBreakpointAt(line);
       }
     });
+    // right-click in the gutter opens the breakpoint menu before Monaco's own menu
+    editor.getDomNode()?.addEventListener(
+      'contextmenu',
+      (ev) => {
+        const T = monaco.editor.MouseTargetType;
+        const target = editor.getTargetAtClientPoint(ev.clientX, ev.clientY);
+        if (
+          !target ||
+          (target.type !== T.GUTTER_GLYPH_MARGIN && target.type !== T.GUTTER_LINE_NUMBERS)
+        ) {
+          return;
+        }
+        ev.preventDefault();
+        ev.stopPropagation();
+        const line = target.position?.lineNumber;
+        if (line) {
+          setConditionError('');
+          setPopover({ line, x: ev.clientX, y: ev.clientY });
+        }
+      },
+      true
+    );
 
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, save);
     editor.addAction({
@@ -622,11 +975,15 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     });
     editor.addAction({
       id: 'nelson.run',
-      label: 'Run File',
+      label: 'Run File / Continue',
       keybindings: [monaco.KeyCode.F5],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 3,
-      run: runFile,
+      // F5 continues while paused in the debugger
+      run: () => {
+        if (debugRef.current.paused) void debugCommand('continue');
+        else runFile();
+      },
     });
     editor.addAction({
       id: 'nelson.help',
@@ -647,15 +1004,13 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
     });
     editor.addAction({
       id: 'nelson.breakpoint',
-      label: 'Toggle Breakpoint',
+      label: 'Set/Clear Breakpoint',
+      keybindings: [monaco.KeyCode.F12, monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 5,
-      run: (ed) => {
-        const pos = ed.getPosition();
-        if (!pos) return;
-        rpc<BreakpointsResult>('debugger.toggleBreakpoint', { file: path, line: pos.lineNumber })
-          .then((r) => renderBreakpoints(r.lines))
-          .catch(() => undefined);
+      run: () => {
+        const line = cursorLine();
+        if (line) toggleBreakpointAt(line);
       },
     });
     editor.addAction({
@@ -663,17 +1018,32 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
       label: 'Clear All Breakpoints',
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 6,
-      run: () => {
-        void runCommand('dbclear all');
-        setTimeout(
-          () =>
-            rpc<BreakpointsResult>('debugger.getBreakpoints', { file: path })
-              .then((r) => renderBreakpoints(r.lines))
-              .catch(() => undefined),
-          200
-        );
-      },
+      run: clearAllBreakpoints,
     });
+    // debugger keys; F6 (Pause) and Ctrl+F10 (Run to Here) are Nelson's
+    const debugKey = (id: string, label: string, keys: number[], run: () => void) =>
+      editor.addAction({ id, label, keybindings: keys, run });
+    debugKey('nelson.dbstep', 'Step', [monaco.KeyCode.F10], () => void stepCommand('step'));
+    debugKey('nelson.dbstepin', 'Step In', [monaco.KeyCode.F11], () => void stepCommand('stepIn'));
+    debugKey(
+      'nelson.dbstepout',
+      'Step Out',
+      [monaco.KeyMod.Shift | monaco.KeyCode.F11],
+      () => void stepCommand('stepOut')
+    );
+    debugKey(
+      'nelson.dbquit',
+      'Stop',
+      [monaco.KeyMod.Shift | monaco.KeyCode.F5],
+      () => void stopDebugging()
+    );
+    debugKey('nelson.dbpause', 'Pause', [monaco.KeyCode.F6], () => void debugCommand('pause'));
+    debugKey(
+      'nelson.runToHere',
+      'Run to Here',
+      [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
+      runToHere
+    );
     editor.addAction({
       id: 'nelson.gotoSymbol',
       label: 'Go to Function/Section…',
@@ -696,6 +1066,9 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
   if (!ready) return <div className="browser__empty">loading…</div>;
 
   const totalIssues = issues.errors + issues.warnings + issues.infos;
+  const canStep = debug.paused && debug.canStep;
+  const isNelsonFile = /\.m$/i.test(path);
+  const popoverTarget = popover ? trackedAt(popover.line) : undefined;
   const ribbonGroups: RibbonGroupDef[] = [
     {
       id: 'file',
@@ -853,6 +1226,107 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
       ],
     },
     {
+      id: 'debug',
+      label: t('DEBUG'),
+      // folds first: while paused the debug bar holds the stepping buttons
+      priority: 0,
+      actions: [
+        {
+          key: 'step',
+          label: t('Step'),
+          title: `${t('Step')} (F10)`,
+          onClick: () => void stepCommand('step'),
+          disabled: !canStep,
+        },
+        {
+          key: 'stepin',
+          label: t('Step In'),
+          title: `${t('Step In')} (F11)`,
+          onClick: () => void stepCommand('stepIn'),
+          disabled: !canStep,
+        },
+        {
+          key: 'stepout',
+          label: t('Step Out'),
+          title: `${t('Step Out')} (Shift+F11)`,
+          onClick: () => void stepCommand('stepOut'),
+          disabled: !canStep,
+        },
+        {
+          key: 'runtohere',
+          label: t('Run to Here'),
+          title: `${t('Run to Here')} (Ctrl+F10)`,
+          onClick: runToHere,
+          disabled: !isNelsonFile,
+        },
+        {
+          key: 'pause',
+          label: t('Pause'),
+          title: `${t('Pause')} (F6)`,
+          onClick: () => void debugCommand('pause'),
+          disabled: !engineBusy || debug.paused,
+        },
+        {
+          key: 'stop',
+          label: (
+            <>
+              <DesktopIcon name="stop" size={16} /> {t('Stop')}
+            </>
+          ),
+          title: `${t('Stop')} (Shift+F5)`,
+          onClick: () => void stopDebugging(),
+          disabled: !debug.running,
+        },
+        {
+          key: 'bp',
+          label: t('Set/Clear Breakpoint'),
+          title: `${t('Set/Clear Breakpoint')} (F12)`,
+          onClick: () => {
+            const line = cursorLine();
+            if (line) toggleBreakpointAt(line);
+          },
+          disabled: !isNelsonFile,
+        },
+        {
+          key: 'clearbp',
+          label: t('Clear All Breakpoints'),
+          title: t('Clear All Breakpoints'),
+          onClick: clearAllBreakpoints,
+        },
+        {
+          key: 'pauseerr',
+          label: t('Pause on Errors'),
+          title: t('Pause on Errors'),
+          onClick: () =>
+            setErrorBreakpointFlags({ ...errorBreakpoints, error: !errorBreakpoints.error }),
+          className: errorBreakpoints.error ? 'ribbon-btn--on' : '',
+        },
+        {
+          key: 'pausecaught',
+          label: t('Pause on Caught Errors'),
+          title: t('Pause on Caught Errors'),
+          onClick: () =>
+            setErrorBreakpointFlags({
+              ...errorBreakpoints,
+              caughtError: !errorBreakpoints.caughtError,
+            }),
+          className: errorBreakpoints.caughtError ? 'ribbon-btn--on' : '',
+        },
+        {
+          key: 'bppanel',
+          label: t('Breakpoints'),
+          title: t('Breakpoints'),
+          onClick: () => ensureCorePanel('breakpoints'),
+        },
+        {
+          key: 'stackpanel',
+          label: t('Call Stack'),
+          title: t('Call Stack'),
+          onClick: () => ensureCorePanel('callstack'),
+        },
+      ],
+    },
+    {
       id: 'run',
       label: 'RUN',
       priority: 9, // collapses near-last
@@ -861,11 +1335,14 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
           key: 'run',
           label: (
             <>
-              <DesktopIcon name="execute" size={16} /> Run
+              <DesktopIcon name="execute" size={16} /> {debug.paused ? t('Continue') : 'Run'}
             </>
           ),
-          title: 'Run file (F5)',
-          onClick: runFile,
+          title: debug.paused ? `${t('Continue')} (F5)` : 'Run file (F5)',
+          onClick: () => {
+            if (debug.paused) void debugCommand('continue');
+            else runFile();
+          },
           className: 'ribbon-btn--run',
         },
       ],
@@ -875,49 +1352,66 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
   return (
     <div className="editor-panel">
       <EditorRibbon groups={ribbonGroups} />
+      {notice && (
+        <div className="editor-notice" role="status">
+          {notice}
+        </div>
+      )}
       {debug.running && (
-        <div className="editor-debugbar">
+        <div
+          className={
+            'editor-debugbar' + (debug.reason === 'error' ? ' editor-debugbar--error' : '')
+          }
+          title={debug.reason === 'error' ? debug.errorMessage : undefined}
+        >
           <span className="editor-debugbar__label">
-            Paused
-            {debug.stack[0]
-              ? ` · ${debug.stack[0].function || debug.stack[0].file}:${debug.currentLine}`
-              : ''}
+            {debug.reason === 'error'
+              ? `${t('Paused on error')}: ${debug.errorMessage}`
+              : debug.paused
+              ? `${t('Paused')} · ${
+                  debug.function || debug.stack[0]?.function || debug.currentFile || ''
+                }:${debug.currentLine ?? ''}`
+              : t('Running')}
           </span>
           <span className="editor-toolbar__spacer" />
           <button
             className="editor-toolbar__btn"
-            title="Step over (dbstep)"
-            onClick={() => void runCommand('dbstep')}
+            title={`${t('Step')} (F10)`}
+            disabled={!canStep}
+            onClick={() => void stepCommand('step')}
           >
-            Step
+            {t('Step')}
           </button>
           <button
             className="editor-toolbar__btn"
-            title="Step in (dbstep in)"
-            onClick={() => void runCommand('dbstep in')}
+            title={`${t('Step In')} (F11)`}
+            disabled={!canStep}
+            onClick={() => void stepCommand('stepIn')}
           >
-            In
+            {t('Step In')}
           </button>
           <button
             className="editor-toolbar__btn"
-            title="Step out (dbstep out)"
-            onClick={() => void runCommand('dbstep out')}
+            title={`${t('Step Out')} (Shift+F11)`}
+            disabled={!canStep}
+            onClick={() => void stepCommand('stepOut')}
           >
-            Out
+            {t('Step Out')}
           </button>
           <button
             className="editor-toolbar__btn"
-            title="Continue (dbcont)"
-            onClick={() => void runCommand('dbcont')}
+            title={`${t('Continue')} (F5)`}
+            disabled={!debug.paused}
+            onClick={() => void debugCommand('continue')}
           >
-            <DesktopIcon name="execute" size={16} /> Continue
+            <DesktopIcon name="execute" size={16} /> {t('Continue')}
           </button>
           <button
             className="editor-toolbar__btn"
-            title="Quit debugging (dbquit)"
-            onClick={() => void runCommand('dbquit')}
+            title={`${t('Stop')} (Shift+F5)`}
+            onClick={() => void stopDebugging()}
           >
-            <DesktopIcon name="stop" size={16} /> Quit
+            <DesktopIcon name="stop" size={16} /> {t('Stop')}
           </button>
         </div>
       )}
@@ -927,7 +1421,7 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
           language={language}
           value={content}
           onMount={onMount}
-          onChange={scheduleAnalyze}
+          onChange={onContentChange}
           options={{
             glyphMargin: true,
             minimap: { enabled: false },
@@ -945,6 +1439,29 @@ export function EditorPanel({ path }: { path: string }): JSX.Element {
           }}
         />
       </div>
+      {popover && (
+        <BreakpointPopover
+          line={popover.line}
+          x={popover.x}
+          y={popover.y}
+          hasBreakpoint={!!popoverTarget}
+          enabled={popoverTarget?.enabled ?? true}
+          condition={popoverTarget?.condition ?? ''}
+          hasAny={bpRef.current.length > 0}
+          conditionError={conditionError}
+          onToggle={() => toggleBreakpointAt(popover.line)}
+          onSetCondition={(condition) => setConditionAt(popover.line, condition)}
+          onSetEnabled={(enabled) => setEnabledAt(popover.line, enabled)}
+          onEnableAllInFile={() => setAllEnabledInFile(true)}
+          onDisableAllInFile={() => setAllEnabledInFile(false)}
+          onClearAllInFile={clearAllInFile}
+          onClearAll={clearAllBreakpoints}
+          onClose={() => {
+            setPopover(null);
+            setConditionError('');
+          }}
+        />
+      )}
       {showProblems && diagnostics.length > 0 && (
         <div className="editor-problems">
           <div className="editor-problems__head">

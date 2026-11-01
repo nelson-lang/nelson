@@ -214,12 +214,12 @@ private:
     editorSave(const nlohmann::json& params);
     nlohmann::json
     codeAnalyze(const nlohmann::json& params);
+    // debugger.* methods share one implementation with the wasm bridge (DebuggerJson)
     nlohmann::json
-    debuggerGetBreakpoints(const nlohmann::json& params);
+    debuggerRpc(const std::string& method, const nlohmann::json& params);
+    // i18n.translate {keys:[...]} -> {translations:{key:text}} from the UI catalog
     nlohmann::json
-    debuggerToggleBreakpoint(const nlohmann::json& params);
-    nlohmann::json
-    debuggerState();
+    i18nTranslate(const nlohmann::json& params);
 
     // Lazily resolve the nlsGraphics figure bridge (dynamic load, keeps Qt out
     // of nlsWeb_gui). Returns true once the render function is available.
@@ -246,7 +246,11 @@ private:
     using GetFigureSizeFn = bool (*)(long long, int*, int*);
     using SetFigurePositionFn = bool (*)(long long, int, int, int, int);
     using GetFigureTitleFn = int (*)(long long, char*, int);
+    // Headless figure scope, so a cell never opens a Qt figure window.
+    using HeadlessFigureScopeFn = void (*)();
     bool m_graphicsBridgeTried { false };
+    HeadlessFigureScopeFn m_beginHeadlessFigureScopeFn { nullptr };
+    HeadlessFigureScopeFn m_endHeadlessFigureScopeFn { nullptr };
     ListFiguresFn m_listFiguresFn { nullptr };
     CloseFigureFn m_closeFigureFn { nullptr };
     ClearCurrentFigureFn m_clearCurrentFigureFn { nullptr };

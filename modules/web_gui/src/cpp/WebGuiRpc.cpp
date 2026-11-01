@@ -35,6 +35,8 @@
 #include "SystemCommand.hpp"
 #include "GuiDialogProvider.hpp"
 #include "DebugStack.hpp"
+#include "DebuggerJson.hpp"
+#include "i18n.hpp"
 #include "PositionScript.hpp"
 #include "EvaluateCommand.hpp"
 #include "CodeAnalyzer.hpp"
@@ -161,7 +163,10 @@ resolveRunFileDialog()
 WebGuiRpc::WebGuiRpc(WebGuiServer* server, WebGuiTerminal* terminal)
     : m_server(server), m_terminal(terminal)
 {
-    registerDialogProvider();
+    // The notebook host runs inside the Qt desktop, which keeps its own dialogs.
+    if (server == nullptr || !server->notebookHost()) {
+        registerDialogProvider();
+    }
     // With a desktop (a terminal is served), the web tools (examples gallery,
     // package manager) show as docked panels and their events reach the desktop.
     // The figures-only server (advanced CLI --webview) has no desktop to host
@@ -439,17 +444,14 @@ WebGuiRpc::handle(const std::string& method, const nlohmann::json& params)
     if (method == "code.analyze") {
         return codeAnalyze(params);
     }
-    if (method == "debugger.getBreakpoints") {
-        return debuggerGetBreakpoints(params);
-    }
-    if (method == "debugger.toggleBreakpoint") {
-        return debuggerToggleBreakpoint(params);
+    if (method.rfind("debugger.", 0) == 0) {
+        return debuggerRpc(method.substr(9), params);
     }
     if (method == "dialog.reply") {
         return dialogReply(params);
     }
-    if (method == "debugger.state") {
-        return debuggerState();
+    if (method == "i18n.translate") {
+        return i18nTranslate(params);
     }
     throw std::runtime_error("method not implemented in backend yet: " + method);
 }
@@ -515,8 +517,16 @@ WebGuiRpc::termInput(const nlohmann::json& params)
 {
     const std::string line = params.value("line", std::string());
     if (m_terminal == nullptr) {
-        // Figures-only mode (nelson-adv-cli --webview): no browser console.
-        return { { "accepted", false } };
+        // Without a browser console the host console runs the line at its next prompt.
+        if (m_evaluator == nullptr) {
+            return { { "accepted", false } };
+        }
+        m_evaluator->addCommandToQueue(utf8_to_wstring(line) + L";", true);
+        Interface* io = m_evaluator->getInterface();
+        if (io != nullptr) {
+            io->interruptGetLineByEvent();
+        }
+        return { { "accepted", true } };
     }
     m_terminal->pushInputLine(utf8_to_wstring(line));
     return { { "accepted", true } };
@@ -643,6 +653,10 @@ WebGuiRpc::ensureGraphicsBridge()
         = reinterpret_cast<SetFigurePositionFn>(get_function(handle, "nlsWebGuiSetFigurePosition"));
     m_getFigureTitleFn
         = reinterpret_cast<GetFigureTitleFn>(get_function(handle, "nlsWebGuiGetFigureTitle"));
+    m_beginHeadlessFigureScopeFn = reinterpret_cast<HeadlessFigureScopeFn>(
+        get_function(handle, "nlsWebGuiBeginHeadlessFigureScope"));
+    m_endHeadlessFigureScopeFn = reinterpret_cast<HeadlessFigureScopeFn>(
+        get_function(handle, "nlsWebGuiEndHeadlessFigureScope"));
     // The figure-export bridge lives in nlsGraphics_io (it needs ExportGraphics,
     // which nlsGraphics cannot depend on). Optional.
     const std::wstring ioLibName = L"libnlsGraphics_io" + get_dynamic_library_extensionW();
@@ -1024,7 +1038,10 @@ WebGuiRpc::fsDialogStart(const nlohmann::json& params)
 nlohmann::json
 WebGuiRpc::fsDialogNative(const nlohmann::json& params)
 {
-    if (WebDesktopBridge::getInstance()->getWebLaunchMode() != "webview") {
+    // Native dialogs exist in the WebView desktop and in the Notebook window of the Qt desktop.
+    const bool nativeHost = WebDesktopBridge::getInstance()->getWebLaunchMode() == "webview"
+        || (m_server != nullptr && m_server->notebookHost());
+    if (!nativeHost) {
         return { { "available", false }, { "reason", "not_webview" } };
     }
 
@@ -1353,28 +1370,30 @@ WebGuiRpc::helpText(const nlohmann::json& params)
 {
     const std::string name = params.value("name", std::string());
     std::string text;
-    runOnInterpreterThread([&] {
-        if (m_evaluator == nullptr) {
-            return;
-        }
-        std::wstring wname = utf8_to_wstring(name);
-        // Quotes are doubled so the topic cannot break out of the help() call.
-        std::wstring safe;
-        for (wchar_t c : wname) {
-            if (c == L'\'') {
-                safe += L"''";
-            } else {
-                safe += c;
+    runOnInterpreterThread(
+        [&] {
+            if (m_evaluator == nullptr) {
+                return;
             }
-        }
-        std::wstring out;
-        try {
-            EvaluateConsoleCommandToString(m_evaluator, L"help('" + safe + L"');", out);
-        } catch (...) {
-            out.clear();
-        }
-        text = wstring_to_utf8(out);
-    });
+            std::wstring wname = utf8_to_wstring(name);
+            // Quotes are doubled so the topic cannot break out of the help() call.
+            std::wstring safe;
+            for (wchar_t c : wname) {
+                if (c == L'\'') {
+                    safe += L"''";
+                } else {
+                    safe += c;
+                }
+            }
+            std::wstring out;
+            try {
+                EvaluateConsoleCommandToString(m_evaluator, L"help('" + safe + L"');", out);
+            } catch (...) {
+                out.clear();
+            }
+            text = wstring_to_utf8(out);
+        },
+        5000);
     return { { "name", name }, { "text", text } };
 }
 //=============================================================================
@@ -2324,80 +2343,47 @@ WebGuiRpc::codeAnalyze(const nlohmann::json& params)
 }
 //=============================================================================
 nlohmann::json
-WebGuiRpc::debuggerGetBreakpoints(const nlohmann::json& params)
+WebGuiRpc::debuggerRpc(const std::string& method, const nlohmann::json& params)
 {
-    const std::wstring file = utf8_to_wstring(params.value("file", std::string()));
-    nlohmann::json lines = nlohmann::json::array();
-    runOnInterpreterThread([&] {
-        if (m_evaluator == nullptr) {
-            return;
-        }
-        for (size_t l : m_evaluator->getBreakpointLines(file)) {
-            lines.push_back((long long)l);
-        }
-    });
-    return { { "file", params.value("file", std::string()) }, { "lines", lines } };
-}
-//=============================================================================
-nlohmann::json
-WebGuiRpc::debuggerToggleBreakpoint(const nlohmann::json& params)
-{
-    const std::string fileUtf8 = params.value("file", std::string());
-    const std::wstring file = utf8_to_wstring(fileUtf8);
-    const size_t line = params.value("line", 0LL);
-    nlohmann::json lines = nlohmann::json::array();
-    runOnInterpreterThread([&] {
-        if (m_evaluator == nullptr) {
-            return;
-        }
-        if (m_evaluator->hasBreakpoint(file, line)) {
-            m_evaluator->removeBreakpoint(file, line);
-        } else {
-            Breakpoint bp;
-            bp.filename = file;
-            bp.line = line;
-            bp.enabled = true;
-            m_evaluator->addBreakpoint(bp);
-        }
-        for (size_t l : m_evaluator->getBreakpointLines(file)) {
-            lines.push_back((long long)l);
-        }
-    });
-    return { { "file", fileUtf8 }, { "lines", lines } };
-}
-//=============================================================================
-nlohmann::json
-WebGuiRpc::debuggerState()
-{
-    // The interpreter thread drains these tasks even while parked at a debug
-    // (K>>) prompt, so there is no deadlock.
-    nlohmann::json result = { { "running", false }, { "currentLine", nullptr },
-        { "currentFile", nullptr }, { "stack", nlohmann::json::array() } };
     if (m_evaluator == nullptr) {
-        return result;
+        return { { "error", "no evaluator" } };
     }
-    runOnInterpreterThread([&] {
-        if (m_evaluator->getDebugDepth() <= 0) {
-            return;
+    // pause must reach a running interpreter: it only raises an atomic flag, served on this thread
+    if (method == "command" && params.value("cmd", std::string()) == "pause") {
+        return { { "ok", m_evaluator->requestPause() } };
+    }
+    // the interpreter thread drains these tasks even while parked at a K>> prompt
+    std::string result;
+    const std::string paramsJson = params.dump();
+    // a read-only query is asked again at the next prompt: a busy engine must not pin it for long
+    const bool readOnly = method == "state" || method == "getBreakpoints"
+        || method == "listBreakpoints" || method == "evaluate";
+    bool ran = runOnInterpreterThread(
+        [&] { result = Nelson::debuggerRpc(m_evaluator, method, paramsJson); },
+        readOnly ? 5000 : 15000);
+    if (!ran) {
+        return { { "error", "interpreter busy" } };
+    }
+    nlohmann::json parsed = nlohmann::json::parse(result, nullptr, false);
+    if (parsed.is_discarded()) {
+        return { { "error", "invalid debugger result" } };
+    }
+    return parsed;
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::i18nTranslate(const nlohmann::json& params)
+{
+    nlohmann::json translations = nlohmann::json::object();
+    if (params.contains("keys") && params["keys"].is_array()) {
+        for (const auto& key : params["keys"]) {
+            if (key.is_string()) {
+                const std::string text = key.get<std::string>();
+                translations[text] = wstring_to_utf8(gettextw(utf8_to_wstring(text)));
+            }
         }
-        stackTrace trace;
-        DebugStack(m_evaluator->callstack, 0, trace);
-        nlohmann::json stack = nlohmann::json::array();
-        for (const PositionScript& pos : trace) {
-            stack.push_back(
-                { { "file", wstring_to_utf8(pos.getFilename()) }, { "line", pos.getLine() },
-                    { "function", wstring_to_utf8(pos.getFunctionName()) } });
-        }
-        result["running"] = true;
-        result["stack"] = stack;
-        if (!trace.empty()) {
-            // DebugStack orders innermost-first: the current frame is the top.
-            const PositionScript& top = trace.front();
-            result["currentFile"] = wstring_to_utf8(top.getFilename());
-            result["currentLine"] = top.getLine();
-        }
-    });
-    return result;
+    }
+    return { { "translations", translations } };
 }
 //=============================================================================
 } // namespace Nelson
