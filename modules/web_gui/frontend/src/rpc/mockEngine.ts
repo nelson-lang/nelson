@@ -390,9 +390,9 @@ export class MockEngine {
       case 'fs.dialog.start': {
         const key = String(params.historyKey ?? '');
         const explicit = String(params.defaultPath ?? '');
+        const saved = this.dialogDirectories.get(key);
         return {
-          directory:
-            explicit && explicit !== '.' ? explicit : this.dialogDirectories.get(key) || this.cwd,
+          directory: saved || (explicit && explicit !== '.' ? explicit : this.cwd),
         };
       }
       case 'fs.dialog.native':

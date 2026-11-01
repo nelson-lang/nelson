@@ -22,10 +22,10 @@ export function useMenuDismiss(open: boolean, close: () => void, insideSelector:
       if (event.key === 'Escape') close();
     };
     document.addEventListener('pointerdown', onPointerDown, true);
-    document.addEventListener('keydown', onKeyDown, true);
+    document.addEventListener('keydown', onKeyDown);
     return () => {
       document.removeEventListener('pointerdown', onPointerDown, true);
-      document.removeEventListener('keydown', onKeyDown, true);
+      document.removeEventListener('keydown', onKeyDown);
     };
   }, [open, close, insideSelector]);
 }
