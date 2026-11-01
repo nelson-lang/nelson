@@ -54,6 +54,7 @@ target_link_libraries(${module_library_name}
     nlsCommons
     nlsCore
     nlsDebugger
+    nlsI18n
     nlsError_manager
     nlsStream_manager
     nlsText_completion

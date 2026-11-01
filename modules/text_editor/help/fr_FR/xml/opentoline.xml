@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>opentoline</keyword>
+  <short_description>ouvre un fichier dans l'éditeur à une ligne donnée.</short_description>
+  <syntax>
+    <syntax_item>opentoline(filename, linenumber)</syntax_item>
+    <syntax_item>opentoline(filename, linenumber, columnnumber)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : chemin du fichier à ouvrir.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>linenumber</param_name>
+      <param_description>un nombre : ligne où placer le curseur (1 ou plus).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>columnnumber</param_name>
+      <param_description>un nombre : colonne de cette ligne (1 ou plus) ; la fin d'une ligne courte fait limite.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>opentoline</b> ouvre <b>filename</b> dans l'éditeur de texte et place le curseur à la ligne <b>linenumber</b>, en début de ligne ou à la colonne <b>columnnumber</b>.</p>
+    <p>Les numéros de ligne imprimés par le débogueur à un arrêt, et les positions des messages d'erreur, sont des liens qui déclenchent le même comportement dans les bureaux Qt et web.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[opentoline(which('opentoline'), 10, 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${text_editor}editor">editor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -874,9 +874,7 @@ WebGuiServer::handleRpc(const std::string& envelope, size_t window)
     if (m_dispatcher == nullptr) {
         return "{\"error\":{\"message\":\"no dispatcher\"}}";
     }
-    // Once shutdown started the interpreter no longer drains its task queue: a
-    // request dispatched now would block its WebSocket thread until the timeout
-    // and hold the window teardown back (webui_destroy waits for that thread).
+    // after shutdown the interpreter drains no tasks: a request here would delay the teardown
     if (m_shuttingDown.load()) {
         return "{\"error\":{\"message\":\"Nelson is shutting down\"}}";
     }

@@ -79,17 +79,23 @@ function clientFixture(): {
   sendFigure: (frame: NelsonFigureFrame) => void;
   sendDebuggerState: (state: {
     running: boolean;
+    paused?: boolean;
     currentFile: string | null;
     currentLine: number | null;
     stack: Array<{ file: string; line: number; function: string }>;
+    revision?: number;
+    breakpointsRevision?: number;
   }) => void;
 } {
   let figureHandler: (frame: NelsonFigureFrame) => void = () => undefined;
   let debuggerStateHandler: (state: {
     running: boolean;
+    paused?: boolean;
     currentFile: string | null;
     currentLine: number | null;
     stack: Array<{ file: string; line: number; function: string }>;
+    revision?: number;
+    breakpointsRevision?: number;
   }) => void = () => undefined;
   const files = new Map<string, Uint8Array>();
   const writeFile = vi.fn(async (path: string, data: Uint8Array) => {
@@ -184,6 +190,10 @@ function clientFixture(): {
       debuggerToggleBreakpoint: vi.fn(async (file: string, line: number) => ({
         file,
         lines: [line],
+      })),
+      debuggerRpc: vi.fn(async (method: string, params: Record<string, unknown>) => ({
+        method,
+        params,
       })),
       setFigureView: vi.fn(async (handle: number, azimuth: number, elevation: number) => ({
         handle,
@@ -289,6 +299,67 @@ describe('WebAssembly desktop backend', () => {
     ]);
     off();
     backend.dispose();
+  });
+
+  it('routes the extended debugger methods through the generic bridge call', async () => {
+    const fixture = clientFixture();
+    const backend = new WasmDesktopBackend(fixture.client);
+
+    await backend.handle(
+      'debugger.setBreakpoint',
+      { file: '/workspace/demo.m', line: 4, condition: 'x > 2' },
+      signal
+    );
+    expect(fixture.client.debuggerRpc).toHaveBeenCalledWith('setBreakpoint', {
+      file: '/workspace/demo.m',
+      line: 4,
+      condition: 'x > 2',
+    });
+    await backend.handle('debugger.command', { cmd: 'step' }, signal);
+    expect(fixture.client.debuggerRpc).toHaveBeenCalledWith('command', { cmd: 'step' });
+    await backend.handle('debugger.evaluate', { expr: 'x' }, signal);
+    expect(fixture.client.debuggerRpc).toHaveBeenCalledWith('evaluate', { expr: 'x' });
+    // the browser build has no translation catalog
+    await expect(backend.handle('i18n.translate', { keys: ['Step'] }, signal)).resolves.toEqual({
+      translations: {},
+    });
+    backend.dispose();
+  });
+
+  it('shows the K>> prompt while paused and relays breakpoint revisions', async () => {
+    const fixture = clientFixture();
+    const pushes: { channel: string; payload: unknown }[] = [];
+    const previousPush = window.__nelsonPush;
+    window.__nelsonPush = (channel, payload) =>
+      pushes.push({ channel, payload: JSON.parse(payload) as unknown });
+    const backend = new WasmDesktopBackend(fixture.client);
+
+    fixture.sendDebuggerState({
+      running: true,
+      paused: true,
+      currentFile: '/workspace/demo.m',
+      currentLine: 4,
+      stack: [{ file: '/workspace/demo.m', line: 4, function: 'demo' }],
+      revision: 2,
+      breakpointsRevision: 3,
+    });
+    expect(pushes).toContainEqual({ channel: 'debugger.breakpoints', payload: { revision: 3 } });
+    await expect(backend.handle('term.sync', {}, signal)).resolves.toEqual({ prompt: 'K>> ' });
+
+    // same breakpoints revision: no second breakpoints push; prompt back to >>
+    fixture.sendDebuggerState({
+      running: false,
+      paused: false,
+      currentFile: null,
+      currentLine: null,
+      stack: [],
+      revision: 3,
+      breakpointsRevision: 3,
+    });
+    expect(pushes.filter((push) => push.channel === 'debugger.breakpoints')).toHaveLength(1);
+    await expect(backend.handle('term.sync', {}, signal)).resolves.toEqual({ prompt: '>> ' });
+    backend.dispose();
+    window.__nelsonPush = previousPush;
   });
 
   it('evaluates commands and publishes terminal output and a prompt', async () => {

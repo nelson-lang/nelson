@@ -32,6 +32,7 @@
     <p>
       <b>dbstep nlines</b> exécute le nombre spécifié de lignes, s&apos;interrompant à
       tout point d&apos;arrêt rencontré.</p>
+    <p>Hors d'une session de débogage, <b>dbstep</b> lève <code>Debug commands only allowed when stopped in debug mode.</code> Quand le pas est tapé à l'invite <code>K>></code>, la console affiche la ligne qui va s'exécuter, sous la forme <code>4   r = r * 2;</code> ; un pas déclenché depuis l'éditeur déplace la flèche sans rien afficher. À un arrêt sur une erreur non attrapée, <b>dbstep</b> termine la session.</p>
   </description>
   <used_function />
   <bibliography />
@@ -98,6 +99,10 @@ dbstep 4
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>message uniforme hors session de débogage, écho de la ligne à chaque pas, termine la session à un arrêt sur erreur</history_description>
     </history_item>
   </history>
   <authors>

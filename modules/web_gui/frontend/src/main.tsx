@@ -16,6 +16,7 @@ import { scheduleStartupUrlActions } from './desktop/startupUrlActions';
 import './styles.css';
 import './console.css';
 import './panels.css';
+import './debugger.css';
 import './dialogs.css';
 import './shell.css';
 import '@xterm/xterm/css/xterm.css';

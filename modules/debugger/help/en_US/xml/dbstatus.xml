@@ -6,8 +6,21 @@
   <short_description>List all breakpoints during debugging.</short_description>
   <syntax>
     <syntax_item>dbstatus</syntax_item>
-    <syntax_item>b = dbstatus()</syntax_item>
+    <syntax_item>dbstatus file</syntax_item>
+    <syntax_item>dbstatus -completenames</syntax_item>
+    <syntax_item>dbstatus file -completenames</syntax_item>
+    <syntax_item>b = dbstatus(...)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>        Only the breakpoints of this file are listed; the error breakpoints are not included.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-completenames</param_name>
+      <param_description>        Shows the full path of the file followed by the function name instead of the function name alone.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>b</param_name>
@@ -16,17 +29,29 @@
   </param_output>
   <description>
     <p>
-      <b>dbstatus</b> lists all breakpoints currently set.</p>
+      <b>dbstatus</b> lists all breakpoints currently set, one line per file:
+      <b>Breakpoint for buggy is on line 3.</b> or
+      <b>Breakpoints for buggy are on lines 2, 3.</b>, followed by the condition of
+      each conditional breakpoint, then by <b>Stop if error.</b> and
+      <b>Stop if caught error.</b> when these error breakpoints are set.</p>
     <p>      Assigning the output to a variable <b>b</b> allows you to save and restore breakpoints later
       using <b>dbstop(b)</b>.</p>
     <p>      The output structure array <b>b</b> contains one element per file with
-      breakpoints. Each element contains:<ul>
+      breakpoints and one element per error breakpoint. Each element contains:<ul>
         <li>
-          <b>name</b>: Function name</li>
+          <b>name</b>: function name (empty for an error breakpoint)</li>
         <li>
-          <b>file</b>: Full path to file containing breakpoints</li>
+          <b>file</b>: full path to the file containing the breakpoints</li>
         <li>
-          <b>line</b>: Vector of breakpoint line numbers</li>
+          <b>line</b>: row vector of breakpoint line numbers</li>
+        <li>
+          <b>anonymous</b>: row vector of zeros (anonymous function breakpoints are not supported)</li>
+        <li>
+          <b>expression</b>: cell row of the conditions, one per line, empty when unconditional</li>
+        <li>
+          <b>cond</b>: <b>'error'</b> or <b>'caught error'</b> for an error breakpoint, empty otherwise</li>
+        <li>
+          <b>identifier</b>: <b>{'all'}</b> for an error breakpoint, empty otherwise</li>
       </ul>
     </p>
   </description>
@@ -40,6 +65,7 @@
       ><![CDATA[
 dbstop in myfile
 dbstatus
+dbstatus -completenames
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -73,6 +99,11 @@ dbstop(b)
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >file filter, -completenames, seven-field structure with conditions and error breakpoints</history_description>
     </history_item>
   </history>
   <authors>

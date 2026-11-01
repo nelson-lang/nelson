@@ -8,12 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import type { DockviewApi, IDockviewPanel } from 'dockview';
+import { normalizePathKey } from '../editor/debugDecorations';
 import { clearDetached, markDetached } from './figureDetach';
 import { addRecentFile } from './recentFiles';
 import { selectVariable } from './variableHost';
 import { getDesktopCapabilities } from './capabilities';
 import { isMobileViewport } from './layout';
-import { rpc } from '../rpc/client';
+import { onPush, rpc } from '../rpc/client';
 //=============================================================================
 export const FIGURE_CLOSED_EVENT = 'nelson-webview.figure-closed';
 let api: DockviewApi | null = null;
@@ -36,6 +37,27 @@ export function subscribeDock(listener: () => void): () => void {
 //=============================================================================
 export function getDockActivationSerial(): number {
   return dockActivationSerial;
+}
+//=============================================================================
+// a debugger stop opens the paused file in the editor, once per stop (the revision changes)
+let lastDebugStopRevision = -1;
+let debugStopSubscribed = false;
+export function watchDebuggerStops(): void {
+  if (debugStopSubscribed) return;
+  debugStopSubscribed = true;
+  onPush('debugger.state', (payload) => {
+    const state = payload as {
+      paused?: boolean;
+      currentFile?: string | null;
+      currentLine?: number | null;
+      revision?: number;
+    };
+    if (!state?.paused || !state.currentFile || !state.currentLine) return;
+    const revision = typeof state.revision === 'number' ? state.revision : -1;
+    if (revision === lastDebugStopRevision) return;
+    lastDebugStopRevision = revision;
+    openEditor(state.currentFile, state.currentLine);
+  });
 }
 //=============================================================================
 export function setDockApi(next: DockviewApi): void {
@@ -242,7 +264,7 @@ export function openNotebook(path?: string): void {
   }
 }
 //=============================================================================
-export function openEditor(path: string, line?: number): void {
+export function openEditor(path: string, line?: number, column?: number): void {
   // A Notebook document goes to the Notebook editor, not the plain text editor.
   if (/\.nlx$/i.test(path)) {
     openNotebook(path);
@@ -250,12 +272,17 @@ export function openEditor(path: string, line?: number): void {
   }
   const base = path.split(/[\\/]/).pop() ?? path;
   if (path) addRecentFile(path);
-  focusOrAdd(`editor:${path}`, 'editor', base || 'untitled.m', { path });
+  // the id follows one spelling of the path: a stop must find the tab the user opened
+  focusOrAdd(`editor:${normalizePathKey(path)}`, 'editor', base || 'untitled.m', {
+    path,
+    line,
+    column,
+  });
   if (line && line > 0) {
     setTimeout(
       () =>
         window.dispatchEvent(
-          new CustomEvent('nelson-webview.editor-goto', { detail: { path, line } })
+          new CustomEvent('nelson-webview.editor-goto', { detail: { path, line, column } })
         ),
       0
     );
@@ -283,6 +310,8 @@ const CORE_PANELS: Record<string, { component: string; title: string }> = {
   profiler: { component: 'profiler', title: 'Profiler' },
   diagnostics: { component: 'diagnostics', title: 'Diagnostics' },
   terminal: { component: 'shell', title: 'Terminal' },
+  breakpoints: { component: 'breakpoints', title: 'Breakpoints' },
+  callstack: { component: 'callstack', title: 'Call Stack' },
 };
 //=============================================================================
 function corePosition(id: string): Parameters<DockviewApi['addPanel']>[0]['position'] | undefined {
@@ -302,7 +331,18 @@ function corePosition(id: string): Parameters<DockviewApi['addPanel']>[0]['posit
     if (api.getPanel('files')) return { referencePanel: 'files', direction: 'below' };
     if (api.getPanel('console')) return { referencePanel: 'console', direction: 'left' };
   }
-  if (['history', 'variables', 'profiler', 'newsfeed', 'diagnostics', 'terminal'].includes(id)) {
+  if (
+    [
+      'history',
+      'variables',
+      'profiler',
+      'newsfeed',
+      'diagnostics',
+      'terminal',
+      'breakpoints',
+      'callstack',
+    ].includes(id)
+  ) {
     if (!api.getPanel('workspace')) ensureCorePanel('workspace');
     return api.getPanel('workspace')
       ? { referencePanel: 'workspace', direction: 'within' }

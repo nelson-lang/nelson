@@ -7,6 +7,10 @@
   <syntax>
     <syntax_item>dbstop in file</syntax_item>
     <syntax_item>dbstop in file at location</syntax_item>
+    <syntax_item>dbstop in file if expression</syntax_item>
+    <syntax_item>dbstop in file at location if expression</syntax_item>
+    <syntax_item>dbstop if error</syntax_item>
+    <syntax_item>dbstop if caught error</syntax_item>
     <syntax_item>dbstop(b)</syntax_item>
   </syntax>
   <param_input>
@@ -15,25 +19,51 @@
       <param_description>        file name where the breakpoint is set, specified as a character vector
         or string scalar. The file must be accessible on the search path or in
         the current folder. A filemarker (&gt;) can be used to specify a local
-        function.</param_description>
+        function. A filemarker cannot be combined with <b>at location</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>location</param_name>
-      <param_description>        breakpoint location in the file. a line number.</param_description>
+      <param_description>        breakpoint location in the file: a line number, or the name of a local
+        function (its first executable line is used). A breakpoint requested on a
+        comment, a blank line or a function declaration moves to the next
+        executable line. The <b>end</b> line of a for or while loop is a
+        breakpoint location of its own: execution pauses there at every iteration.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>expression</param_name>
+      <param_description>        condition evaluated in the workspace of the paused function each time the
+        line is reached. Execution pauses only when the expression is a scalar
+        logical or numeric value that is true. A non-scalar value or an expression
+        that fails raises a warning and pauses execution anyway. A syntax error is
+        rejected when the breakpoint is set. Setting a breakpoint again on the
+        same line replaces its condition.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
       <param_description>        structure array previously returned by <b>dbstatus</b>, containing
-        saved breakpoints to restore.</param_description>
+        saved breakpoints to restore. The seven fields <b>name</b>, <b>file</b>,
+        <b>line</b>, <b>anonymous</b>, <b>expression</b>, <b>cond</b> and
+        <b>identifier</b> are required; conditions and error breakpoints are
+        restored as well.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>dbstop</b> sets breakpoints in programs for interactive debugging.
-      When execution reaches a breakpoint, execution pauses and the interpreter
-      enters debug mode.</p>
-    <p>      Breakpoints can be set at specific files or at specific locations.</p>
-    <p>      This function can only be called from the command line.</p>
+      When execution reaches a breakpoint, execution pauses, the line about to run
+      is displayed and the interpreter enters debug mode (prompt <b>K&gt;&gt;</b>).</p>
+    <p>
+      <b>dbstop if error</b> pauses execution on the line that raises a run-time
+      error not caught by a <b>try</b>/<b>catch</b> block. The error is reported,
+      the variables of the paused function can be inspected, and <b>dbcont</b>,
+      <b>dbstep</b> or <b>dbquit</b> end the execution.</p>
+    <p>
+      <b>dbstop if caught error</b> pauses execution on a run-time error raised
+      inside the <b>try</b> part of a <b>try</b>/<b>catch</b> block; <b>dbcont</b>
+      resumes in the <b>catch</b> block. The conditions <b>warning</b> and
+      <b>naninf</b> are not supported.</p>
+    <p>      Breakpoints are kept until <b>dbclear</b> removes them or the session
+      ends. This function can only be called from the command line.</p>
     <p
     >Text editor debugging features integrate with these functions for interactive debugging.</p>
     <p> See also the <link
@@ -62,6 +92,25 @@ buggy(1:5)
       <example_item_description>        Set a breakpoint at a local function.</example_item_description>
       <example_item_data><![CDATA[
 dbstop in myfile>myfunc
+dbstop in myfile at myfunc
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>        Pause only when a condition holds.</example_item_description>
+      <example_item_data><![CDATA[
+dbstop in buggy at 3 if n > 2
+dbstatus
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>        Pause on the line raising an uncaught error.</example_item_description>
+      <example_item_data><![CDATA[
+dbstop if error
+buggy(1:5)
+dbquit
+dbclear if error
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -96,6 +145,11 @@ dbstop(b)
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >conditional breakpoints, dbstop if error, dbstop if caught error, local function as location, seven-field dbstatus structure</history_description>
     </history_item>
   </history>
   <authors>

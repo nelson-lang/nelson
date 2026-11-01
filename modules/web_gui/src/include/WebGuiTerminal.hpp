@@ -40,6 +40,8 @@ public:
 
     // Called by the RPC dispatcher on `term.input`.
     void
+    notifyPrompt();
+    void
     pushInputLine(const std::wstring& line);
 
     // Run a callable on the interpreter thread and block until it finishes.
@@ -116,6 +118,9 @@ private:
     std::atomic<bool> m_interrupt { false };
     std::atomic<bool> m_atPrompt { false };
     std::wstring m_currentPrompt;
+    uint64_t m_lastBreakpointsRevision { 0 };
+    void
+    pushDebuggerState();
     size_t m_cols { 80 };
     size_t m_rows { 25 };
     // The last line handed to the REPL was the blank drain of queued graphics

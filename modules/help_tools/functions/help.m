@@ -29,15 +29,11 @@ function varargout = help(varargin)
     keyword = varargin{1};
     json = [nelsonroot(), filesep(), 'modules', filesep(), 'help_tools', filesep(), 'help', filesep(), 'nelson_help_', getlanguage(), '.json'];
     indexExists = isfile(json);
-    helpData = [];
+    indexEmpty = false;
     found = false;
     completeDescription = false;
     if indexExists
-        helpData = jsondecode(json, '-file');
-        found = isfield(helpData, keyword);
-        if found
-            page = helpData.(keyword);
-        end
+        [found, page, indexEmpty] = lookupHelpIndex(json, keyword);
     end
     if ~found
         [page, found] = externalHelpPage(keyword);
@@ -66,7 +62,7 @@ function varargout = help(varargin)
         end
         return
     end
-    if isempty(helpData)
+    if indexEmpty
         warning('Nelson:help:notAvailable', 'No help available for "%s".', keyword);
         if nargout > 0
             varargout{1} = '';
@@ -326,5 +322,48 @@ function txt = limitToTwoSentences(txt)
     end
 
     txt = out;
+end
+%=============================================================================
+function [found, page, indexEmpty] = lookupHelpIndex(json, keyword)
+    % the decoded index is large: only its keyword list and a few pages stay between calls
+    persistent cachedJson cachedDate cachedKeys cachedPages
+    found = false;
+    page = [];
+    indexEmpty = false;
+    info = dir(json);
+    if isempty(info)
+        indexEmpty = true;
+        return
+    end
+    if ~strcmp(cachedJson, json) || ~isequal(cachedDate, info.datenum)
+        helpData = jsondecode(json, '-file');
+        cachedJson = json;
+        cachedDate = info.datenum;
+        cachedKeys = fieldnames(helpData);
+        cachedPages = containers.Map('KeyType', 'char', 'ValueType', 'any');
+        indexEmpty = isempty(cachedKeys);
+        found = isfield(helpData, keyword);
+        if found
+            page = helpData.(keyword);
+            cachedPages(keyword) = page;
+        end
+        return
+    end
+    indexEmpty = isempty(cachedKeys);
+    if ~any(strcmp(cachedKeys, keyword))
+        return
+    end
+    found = true;
+    if isKey(cachedPages, keyword)
+        page = cachedPages(keyword);
+        return
+    end
+    helpData = jsondecode(json, '-file');
+    page = helpData.(keyword);
+    % a bounded page cache: the pages shown so far, dropped together when it fills up
+    if cachedPages.Count >= 64
+        cachedPages = containers.Map('KeyType', 'char', 'ValueType', 'any');
+    end
+    cachedPages(keyword) = page;
 end
 %=============================================================================

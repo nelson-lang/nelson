@@ -4893,14 +4893,11 @@ webui_exit(void)
     // Stop all threads
     _webui_mutex_app_is_exit_now(WEBUI_MUTEX_SET_TRUE);
 
-    // Let's give other threads more time to
-    // safely exit and finish cleaning up.
-    for (size_t i = 0; i < 4; i++) {
-        _webui_sleep(500);
-        if (_webui_servers_get() < 1) {
-            // No more server threads are running
-            break;
-        }
+    // NELSON PATCH: no 500 ms sleep first, wait only while server threads still run
+    _webui_timer_t exit_timer;
+    _webui_timer_start(&exit_timer);
+    while (_webui_servers_get() > 0 && !_webui_timer_is_end(&exit_timer, 2000)) {
+        _webui_sleep(10);
     }
 
     // Break wait() (Blocking and Non-blocking modes)
@@ -9519,14 +9516,11 @@ _webui_clean(void)
     // Make sure app is stopped
     webui_exit();
 
-    // Let's give other threads more time to
-    // safely exit and finish cleaning up before
-    // cleaning memory.
-    for (size_t i = 0; i < 4; i++) {
-        _webui_sleep(500);
-        if (_webui_servers_get() < 1) {
-            break; // No more server threads are running
-        }
+    // NELSON PATCH: same bounded poll as webui_exit(), no sleep once all threads are gone
+    _webui_timer_t clean_timer;
+    _webui_timer_start(&clean_timer);
+    while (_webui_servers_get() > 0 && !_webui_timer_is_end(&clean_timer, 2000)) {
+        _webui_sleep(10);
     }
 
 // NELSON PATCH: in the standard desktop/adv-cli mode webui_wait() (and
@@ -9567,13 +9561,7 @@ _webui_clean(void)
     }
 #endif
 
-    // NELSON PATCH: never free the world under live threads. Detached WS event
-    // threads can outlive the grace period above (e.g. blocked on a host
-    // application queue at teardown); _webui_free_all_mem() would free their
-    // window structs, event objects and packet buffers under them, crashing
-    // the process on exit (0xC0000005 / 0xC0000374). If anything is still
-    // alive after a bounded wait, skip the final cleanup entirely: the
-    // process is terminating and the OS reclaims the memory anyway.
+    // NELSON PATCH: threads still alive after a short wait: skip the final free, the OS reclaims it
     {
         _webui_timer_t quiesce_timer;
         _webui_timer_start(&quiesce_timer);
@@ -9581,7 +9569,7 @@ _webui_clean(void)
             if (_webui_servers_get() < 1 && WEBUI_ATOMIC_GET(_webui.ws_threads_total) == 0) {
                 break;
             }
-            if (_webui_timer_is_end(&quiesce_timer, 3000)) {
+            if (_webui_timer_is_end(&quiesce_timer, 1000)) {
                 return;
             }
             _webui_sleep(25);

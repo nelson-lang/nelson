@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>editor()</syntax_item>
     <syntax_item>editor(filename)</syntax_item>
+    <syntax_item>editor(filename, line)</syntax_item>
+    <syntax_item>editor(filename, line, column)</syntax_item>
     <syntax_item>editor(&apos;editor_command&apos;, cmd)</syntax_item>
   </syntax>
   <param_input>
@@ -14,6 +16,14 @@
       <param_name>filename</param_name>
       <param_description
       >une chaîne : nom de fichier à ouvrir.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>line</param_name>
+      <param_description>un nombre : ligne où placer le curseur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>column</param_name>
+      <param_description>un nombre : colonne de cette ligne.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>cmd</param_name>
@@ -37,6 +47,8 @@
     </p>
     <p
     >Le changement d&apos;éditeur est persistant et sera enregistré dans un fichier de configuration.</p>
+    <p
+    >Touches du débogueur dans l&apos;éditeur : F12 pose/retire un point d&apos;arrêt, F5 exécute ou continue, F10 pas à pas, F11 entre dans la fonction, Shift+F11 sort de la fonction, Shift+F5 arrête, F9 évalue la sélection, F6 pause, Ctrl+F10 exécuter jusqu&apos;ici. Voir la page sur le déroulement du débogage.</p>
   </description>
   <used_function />
   <bibliography />
@@ -72,6 +84,14 @@ editor('editor_command ', '')
       <history_version>1.10.0</history_version>
       <history_description
       >Option pour changer l&apos;éditeur de texte par défaut</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Touches du débogueur et marqueurs de points d&apos;arrêt</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>editor(filename, line, column) ajouté</history_description>
     </history_item>
   </history>
   <authors>

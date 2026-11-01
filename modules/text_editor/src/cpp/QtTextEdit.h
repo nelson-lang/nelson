@@ -19,6 +19,9 @@
 class QCompleter;
 class QAbstractItemModel;
 class QMouseEvent;
+namespace Nelson {
+class Evaluator;
+}
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,6 +31,13 @@ class QtTextEdit : public QTextEdit
 public:
     QtTextEdit();
     ~QtTextEdit() override;
+
+    // data tips: hovering a variable shows its value when the interpreter waits at a prompt
+    void
+    setEvaluator(Evaluator* eval);
+    // text the data tip would show for the given document position ("" when none)
+    QString
+    dataTipAt(int position);
     void
     keyPressEvent(QKeyEvent* event) override;
     void
@@ -68,8 +78,13 @@ public:
 
 private:
     QCompleter* qCompleter;
+    Evaluator* nlsEvaluator = nullptr;
+    QString lastDataTipExpression;
+    QString lastDataTipText;
+    uint64_t lastDataTipRevision = 0;
     int currentDebugLine = -1;
-    QColor debugLineColor = QColor(255, 255, 0, 128);
+    // the line about to run is highlighted in green
+    QColor debugLineColor = QColor(170, 230, 170, 160);
     std::vector<Nelson::CodeAnalyzerDiagnostic> codeAnalyzerDiagnostics;
     QList<QPair<int, int>> searchHighlights;
     int currentSearchHighlight = -1;

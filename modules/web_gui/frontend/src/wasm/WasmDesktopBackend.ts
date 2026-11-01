@@ -249,6 +249,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   private removeFigureListener: (() => void) | null;
   private removeAudioListener: (() => void) | null;
   private removeDebuggerListener: (() => void) | null;
+  private debuggerPaused = false;
+  private lastBreakpointsRevision = -1;
   private removeInputListener: (() => void) | null;
   private removeFilesChangedListener: (() => void) | null = null;
   private examplesChannel: BroadcastChannel | null = null;
@@ -308,7 +310,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       });
     });
     this.removeDebuggerListener = client.onDebuggerState((state) =>
-      emitLocalPush('debugger.state', state)
+      this.receiveDebuggerState(state)
     );
     this.removeInputListener = client.onInputRequest((request) => {
       emitLocalPush('term.inputRequest', request);
@@ -402,7 +404,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         return { ok: true };
       case 'term.sync':
         if (this.isInterpreterBusy()) return { ok: true };
-        return { prompt: '>> ' };
+        return { prompt: this.promptText() };
       case 'notebook.run':
         return this.runNotebook(params);
       case 'notebook.closeFigures':
@@ -494,6 +496,20 @@ export class WasmDesktopBackend implements LocalRpcBackend {
           String(params.file ?? ''),
           Number(params.line) || 0
         );
+      case 'debugger.listBreakpoints':
+      case 'debugger.setBreakpoint':
+      case 'debugger.removeBreakpoint':
+      case 'debugger.removeAllBreakpoints':
+      case 'debugger.setAllEnabled':
+      case 'debugger.moveBreakpoints':
+      case 'debugger.setErrorBreakpoints':
+      case 'debugger.command':
+      case 'debugger.evaluate':
+        // one generic bridge call for the other debugger methods (same contract as the webview)
+        return this.client.debuggerRpc(method.slice('debugger.'.length), params);
+      case 'i18n.translate':
+        // the browser build has no translation catalog: keys are shown as is
+        return { translations: {} };
       case 'fs.dialog.native':
         return { available: false, reason: 'browser' };
       case 'fs.dialog.start':
@@ -608,9 +624,27 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     };
   }
   //=============================================================================
+  // the worker pushes the debugger state at every prompt; a new breakpoints revision is relayed
+  private receiveDebuggerState(state: unknown): void {
+    const info = (state ?? {}) as { paused?: boolean; breakpointsRevision?: number };
+    this.debuggerPaused = info.paused === true;
+    emitLocalPush('debugger.state', state);
+    if (
+      typeof info.breakpointsRevision === 'number' &&
+      info.breakpointsRevision !== this.lastBreakpointsRevision
+    ) {
+      this.lastBreakpointsRevision = info.breakpointsRevision;
+      emitLocalPush('debugger.breakpoints', { revision: info.breakpointsRevision });
+    }
+  }
+  //=============================================================================
+  private promptText(): string {
+    return this.debuggerPaused ? 'K>> ' : '>> ';
+  }
+  //=============================================================================
   private async evaluate(line: string): Promise<{ accepted: boolean }> {
     if (!line.trim()) {
-      emitLocalPush('term.prompt', { prompt: '>> ' });
+      emitLocalPush('term.prompt', { prompt: this.promptText() });
       return { accepted: true };
     }
     this.history.push(line);
@@ -671,7 +705,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       if (this.evaluationGeneration === generation) {
         this.evaluationInProgress = false;
         this.acknowledgeExampleRun();
-        emitLocalPush('term.prompt', { prompt: '>> ', token: promptToken });
+        emitLocalPush('term.prompt', { prompt: this.promptText(), token: promptToken });
       }
     }
     return { accepted: true };
@@ -909,7 +943,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   private endExternalEvaluationPreparation(token: number, prompt: boolean): void {
     if (this.externalEvaluationPreparationToken !== token) return;
     this.externalEvaluationPreparationToken = null;
-    if (prompt) emitLocalPush('term.prompt', { prompt: '>> ', token });
+    if (prompt) emitLocalPush('term.prompt', { prompt: this.promptText(), token });
   }
   //=============================================================================
   private async runExample(
@@ -1691,7 +1725,11 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         }
       }
       if (action.type === 'open-editor') {
-        emitLocalPush('editor.show', { path: action.path, line: action.line });
+        emitLocalPush('editor.show', {
+          path: action.path,
+          line: action.line,
+          column: action.column,
+        });
       }
       if (action.type === 'open-notebook') {
         emitLocalPush('notebook.open', { path: action.path });

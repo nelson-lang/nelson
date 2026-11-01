@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 asserts.isequal(nargin('dbcont'), -1);
 asserts.isequal(nargout('dbcont'), -1);
+asserts.checkerror('dbcont', _('Debug commands only allowed when stopped in debug mode.'), 'Nelson:debugger:notInDebugMode');
 %=============================================================================

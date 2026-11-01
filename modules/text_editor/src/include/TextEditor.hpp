@@ -21,6 +21,8 @@ textEditor(Evaluator* eval, const std::wstring& filename);
 NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval, const std::wstring& filename, int lineNumber);
 NLSTEXT_EDITOR_IMPEXP bool
+textEditor(Evaluator* eval, const std::wstring& filename, int lineNumber, int column);
+NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval, const wstringVector& filenames);
 NLSTEXT_EDITOR_IMPEXP bool
 textEditor(Evaluator* eval, bool importSharedText);
@@ -31,6 +33,11 @@ NLSTEXT_EDITOR_IMPEXP bool
 isTextEditorVisible();
 NLSTEXT_EDITOR_IMPEXP void
 showTextEditor();
+//=============================================================================
+//=============================================================================
+// headless driver of the editor used by the tests (__editor__ builtin), one action per call
+NLSTEXT_EDITOR_IMPEXP ArrayOfVector
+textEditorHook(Evaluator* eval, const std::wstring& action, const ArrayOfVector& args);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

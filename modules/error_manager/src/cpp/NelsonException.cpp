@@ -17,6 +17,7 @@
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "NelsonException.hpp"
+#include "OpenToLineHyperlink.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "ErrorID.hpp"
@@ -51,8 +52,8 @@ percentEncodePath(const std::wstring& path)
 // The GUI and webview command windows turn this into a click that opens the
 // editor at that file and line; plain terminals never receive it (see the
 // withHyperlinks argument threaded down from Interface::supportsHyperlinks).
-static std::wstring
-makeOpenHyperlink(const std::wstring& label, const std::wstring& filename, int line)
+std::wstring
+openToLineHyperlink(const std::wstring& label, const std::wstring& filename, int line)
 {
     if (filename.empty() || line <= 0) {
         return label;
@@ -83,7 +84,7 @@ appendScriptLocation(std::wstring& message, const PositionScript& trace, bool wi
         Nelson::resolveMessageTemplate(L"Nelson:error_manager:atLine", L"at line %s of '%s'"),
         lineStr, filename);
     if (withHyperlinks) {
-        location = makeOpenHyperlink(location, trace.getFilename(), trace.getLine());
+        location = openToLineHyperlink(location, trace.getFilename(), trace.getLine());
     }
     message = message + location + L"\n";
 }
@@ -286,7 +287,7 @@ NelsonException::formattedErrorMessage(bool withHyperlinks) const
             label = functionName;
         }
         if (withHyperlinks && headerLine > 0) {
-            label = makeOpenHyperlink(label, headerFilename, headerLine);
+            label = openToLineHyperlink(label, headerFilename, headerLine);
         }
         message = L"\n" + _W("Error in") + L" " + label + L"\n" + message + L"\n";
     }

@@ -5,32 +5,43 @@
   <keyword>dbclear</keyword>
   <short_description>Remove breakpoints during debugging.</short_description>
   <syntax>
+    <syntax_item>dbclear</syntax_item>
     <syntax_item>dbclear all</syntax_item>
     <syntax_item>dbclear in file</syntax_item>
+    <syntax_item>dbclear all in file</syntax_item>
     <syntax_item>dbclear in file at location</syntax_item>
+    <syntax_item>dbclear if error</syntax_item>
+    <syntax_item>dbclear if caught error</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>file</param_name>
       <param_description>        File name where breakpoints should be cleared, specified as a character vector or string scalar.
-        A filemarker (&gt;) can be used to specify a local or nested function.</param_description>
+        A filemarker (&gt;) can be used to specify a local function.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>location</param_name>
-      <param_description>        Line number, line number with anonymous function index (e.g., 3@2), or local function name
-        of the breakpoint to clear.</param_description>
+      <param_description>        Line number of the breakpoint to clear. The line is adjusted the same way
+        <b>dbstop</b> adjusts it, so the line used with <b>dbstop</b> clears the breakpoint.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>dbclear</b> removes breakpoints set for debugging. You can clear all breakpoints,
-      breakpoints in a specific file, breakpoints at a specific location.</p>
+      breakpoints in a specific file, breakpoints at a specific location, or the
+      error breakpoints.</p>
     <p>
-      <b>dbclear all</b> removes all breakpoints in all files and for all conditions.</p>
+      <b>dbclear</b> and <b>dbclear all</b> remove all breakpoints in all files,
+      including <b>dbstop if error</b> and <b>dbstop if caught error</b>.</p>
     <p>
-      <b>dbclear in file</b> removes all breakpoints in the specified file.</p>
+      <b>dbclear in file</b> and <b>dbclear all in file</b> remove all breakpoints in the
+      specified file; the error breakpoints are kept.</p>
     <p>
       <b>dbclear in file at location</b> removes the breakpoint at the specified location in the file.</p>
+    <p>
+      <b>dbclear if error</b> and <b>dbclear if caught error</b> remove the matching
+      error breakpoint.</p>
+    <p>      Nothing is reported when no breakpoint matches.</p>
   </description>
   <used_function />
   <bibliography />
@@ -58,6 +69,17 @@ dbclear in buggy at 3
 dbstatus
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>        Stop pausing on errors.</example_item_description>
+      <example_item_data
+      ><![CDATA[
+dbstop if error
+dbstatus
+dbclear if error
+dbstatus
+]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -77,6 +99,11 @@ dbstatus
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >dbclear all in file, dbclear if error, dbclear if caught error; line adjustment; silent when no breakpoint matches</history_description>
     </history_item>
   </history>
   <authors>

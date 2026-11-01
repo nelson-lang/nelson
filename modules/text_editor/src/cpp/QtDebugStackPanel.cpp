@@ -12,6 +12,9 @@
 #include <QtCore/QFileInfo>
 #include "DebugStack.hpp"
 #include "QStringConverter.hpp"
+#include "QtTranslation.hpp"
+//=============================================================================
+using namespace Nelson;
 //=============================================================================
 QtDebugStackPanel::QtDebugStackPanel(Nelson::Evaluator* eval, QWidget* parent)
     : QWidget(parent), nlsEvaluator(eval)
@@ -20,7 +23,7 @@ QtDebugStackPanel::QtDebugStackPanel(Nelson::Evaluator* eval, QWidget* parent)
     layout->setContentsMargins(2, 2, 2, 2);
     layout->setSpacing(2);
 
-    QLabel* titleLabel = new QLabel(tr("Call Stack"), this);
+    QLabel* titleLabel = new QLabel(TR("Call Stack"), this);
     QFont titleFont = titleLabel->font();
     titleFont.setBold(true);
     titleLabel->setFont(titleFont);
@@ -47,6 +50,7 @@ QtDebugStackPanel::refreshStack()
 
     for (int i = static_cast<int>(positions.size()) - 1; i >= 0; --i) {
         const Nelson::PositionScript& pos = positions[static_cast<size_t>(i)];
+        // the innermost frame (the paused one) comes last in the list: show it first
 
         std::wstring filename = pos.getFilename();
         std::wstring functionName = pos.getFunctionName();
@@ -70,10 +74,16 @@ QtDebugStackPanel::refreshStack()
         } else if (!functionStr.isEmpty()) {
             displayText = QString("In %1").arg(functionStr);
         } else {
-            displayText = QString("<unknown>");
+            displayText = TR("<unknown>");
         }
 
         item->setText(displayText);
+        if (i == 0) {
+            // the frame where execution is paused
+            QFont boldFont = item->font();
+            boldFont.setBold(true);
+            item->setFont(boldFont);
+        }
 
         if (!filenameStr.isEmpty() && line > 0) {
             item->setToolTip(QString("%1:%2").arg(filenameStr).arg(line));

@@ -77,7 +77,15 @@ export default defineConfig({
     // Scan only the desktop entry; the wasm entry imports @nelson/wasm-client,
     // which is produced by the wasm build and absent during a plain `npm run dev`.
     entries: ['index.html'],
-    include: ['@blocknote/core', '@blocknote/react', '@blocknote/mantine', 'fflate'],
+    // Monaco is pre-bundled: finding it on the first editor open would re-optimize and reload the page
+    include: [
+      '@blocknote/core',
+      '@blocknote/react',
+      '@blocknote/mantine',
+      'fflate',
+      'monaco-editor',
+      '@monaco-editor/react',
+    ],
   },
   build: {
     outDir: 'dist',

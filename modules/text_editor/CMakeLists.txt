@@ -84,6 +84,8 @@ else()
       nlsNelson_manager
       nlsText_completion
       nlsDebugger
+      nlsCore
+      nlsTypes
       Qt6::Core
       Qt6::Concurrent
       Qt6::Widgets

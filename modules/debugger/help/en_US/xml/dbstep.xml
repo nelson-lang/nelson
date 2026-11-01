@@ -33,6 +33,7 @@
       <b>dbstep nlines</b> executes the specified number of lines, pausing at
       any breakpoint encountered.</p>
     <p>      These commands can only be used from the command line while debugging.</p>
+    <p>Outside a debug session, <b>dbstep</b> raises <code>Debug commands only allowed when stopped in debug mode.</code> When the step is typed at the <code>K>></code> prompt, the console prints the line about to run, as <code>4   r = r * 2;</code>; a step driven from the editor moves the arrow without printing it. At a stop on an uncaught error, <b>dbstep</b> ends the session.</p>
   </description>
   <used_function />
   <bibliography />
@@ -101,6 +102,10 @@ dbstep 4
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>uniform message outside a debug session, per-step echo of the line, ends the session at an error stop</history_description>
     </history_item>
   </history>
   <authors>

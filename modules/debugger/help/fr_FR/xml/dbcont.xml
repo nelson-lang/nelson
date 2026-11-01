@@ -16,6 +16,7 @@
     <p>      Utilisez <b>dbcont</b> pour continuer l&apos;exécution après avoir examiné les variables de l&apos;espace de travail ou débogué le code.</p>
     <p>      Remarque : Si vous souhaitez modifier un fichier pendant le débogage, il est recommandé de quitter d&apos;abord
       le mode débogage en utilisant <b>dbquit</b> pour éviter un comportement inattendu.</p>
+    <p>Hors d'une session de débogage, <b>dbcont</b> lève <code>Debug commands only allowed when stopped in debug mode.</code> À un arrêt sur une erreur non attrapée, <b>dbcont</b> termine la session sans réafficher l'erreur ; à un arrêt sur une erreur attrapée, l'exécution reprend dans le bloc <code>catch</code>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -57,6 +58,10 @@ dbcont
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>message uniforme hors session de débogage, comportement aux arrêts sur erreur</history_description>
     </history_item>
   </history>
   <authors>

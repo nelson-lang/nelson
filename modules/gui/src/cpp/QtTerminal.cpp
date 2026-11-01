@@ -1722,6 +1722,13 @@ QtTerminal::clearLine()
 void
 QtTerminal::stopRun()
 {
+    auto* evaluator
+        = static_cast<Nelson::Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    // paused in the debugger: Stop ends the session (dbquit), otherwise interrupt
+    if (evaluator != nullptr && evaluator->isBreakpointActive() && isAtPrompt()) {
+        evaluator->addCommandToQueue(L"dbquit", true);
+        return;
+    }
     NelsonConfiguration::getInstance()->setInterruptPending(true);
 }
 //=============================================================================

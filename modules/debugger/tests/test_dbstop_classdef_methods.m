@@ -41,14 +41,14 @@ dbstop in ClassdefPoint at 23
 bp = dbstatus();
 asserts.isequal(bp.line, 23);
 %=============================================================================
-% line 39 opens the methods (Static) block and line 45 is past the end of the
-% file: no method body covers either
+% line 39 opens a methods block: the breakpoint moves to the next method; 45 is past the file
 dbclear all
-asserts.checkerror('dbstop in ClassdefPoint at 39', ...
-  _('Cannot set breakpoint at line 39: no executable statement found.'), ...
-  'Nelson:dbstop:invalidArgument');
+dbstop in ClassdefPoint at 39
+bp = dbstatus();
+asserts.isequal(bp.line, 41);
+dbclear all
 asserts.checkerror('dbstop in ClassdefPoint at 45', ...
-  _('Cannot set breakpoint at line 45: no executable statement found.'), ...
+  _('Setting or clearing breakpoints past the start of the last expression is not supported.'), ...
   'Nelson:dbstop:invalidArgument');
 %=============================================================================
 % a handle class exposes delete as the generated destructor protocol; the

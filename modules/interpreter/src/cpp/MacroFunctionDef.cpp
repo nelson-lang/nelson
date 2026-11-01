@@ -581,6 +581,10 @@ MacroFunctionDef::canEvaluateScopeFree(Evaluator* eval)
     if (this->nestedFunction || this->isScript) {
         return false;
     }
+    // a debug stop needs the function's own scope for its locals
+    if (eval != nullptr && eval->debuggerHooksArmed()) {
+        return false;
+    }
     // ensureBytecodeCompiled reports whether it *compiled* something, so it
     // returns false once the chunk is already there: test the chunk itself.
     ensureBytecodeCompiled();

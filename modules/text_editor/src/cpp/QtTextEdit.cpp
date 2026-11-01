@@ -22,6 +22,9 @@
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QToolTip>
 #include <algorithm>
+#include "Evaluator.hpp"
+#include "DebugValuePreview.hpp"
+#include "QStringConverter.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -519,6 +522,91 @@ QtTextEdit::updateExtraSelections()
 }
 //=============================================================================
 void
+QtTextEdit::setEvaluator(Evaluator* eval)
+{
+    nlsEvaluator = eval;
+}
+//=============================================================================
+static bool
+isIdentifierChar(QChar ch)
+{
+    return ch.isLetterOrNumber() || ch == QChar('_');
+}
+//=============================================================================
+// the dotted name (s.a.b) around a document position, empty when not on an identifier
+static QString
+dottedNameAt(const QString& text, int column)
+{
+    if (column < 0 || column > text.size()) {
+        return QString();
+    }
+    int start = column;
+    while (start > 0 && isIdentifierChar(text[start - 1])) {
+        start--;
+    }
+    // the hovered identifier keeps the names before it: a field shows the field, not the struct
+    while (start >= 2 && text[start - 1] == QChar('.')) {
+        int k = start - 1;
+        while (k > 0 && isIdentifierChar(text[k - 1])) {
+            k--;
+        }
+        if (k == start - 1) {
+            break;
+        }
+        start = k;
+    }
+    int end = column;
+    while (end < text.size() && isIdentifierChar(text[end])) {
+        end++;
+    }
+    QString name = text.mid(start, end - start);
+    if (name.isEmpty() || name[0].isDigit()) {
+        return QString();
+    }
+    return name;
+}
+//=============================================================================
+QString
+QtTextEdit::dataTipAt(int position)
+{
+    if (nlsEvaluator == nullptr || !nlsEvaluator->isAtPrompt()) {
+        return QString();
+    }
+    QTextCursor selection = textCursor();
+    QString expression;
+    if (selection.hasSelection() && position >= selection.selectionStart()
+        && position <= selection.selectionEnd()) {
+        // a selected expression is evaluated on hover
+        expression = selection.selectedText().trimmed();
+        if (expression.contains(QChar(0x2029))) {
+            return QString();
+        }
+    } else {
+        QTextCursor cursor(document());
+        cursor.setPosition(position);
+        QTextBlock block = cursor.block();
+        expression = dottedNameAt(block.text(), position - block.position());
+    }
+    if (expression.isEmpty()) {
+        return QString();
+    }
+    uint64_t revision = nlsEvaluator->getDebugStateRevision();
+    if (expression == lastDataTipExpression && revision == lastDataTipRevision) {
+        return lastDataTipText;
+    }
+    std::wstring preview;
+    std::wstring errorMessage;
+    QString text;
+    if (debugValuePreview(nlsEvaluator, QStringTowstring(expression), preview, errorMessage)) {
+        text = wstringToQString(preview);
+    }
+    lastDataTipExpression = expression;
+    lastDataTipRevision = revision;
+    lastDataTipText = text;
+    return text;
+}
+//=============================================================================
+void
 QtTextEdit::mouseMoveEvent(QMouseEvent* event)
 {
     QTextCursor cursor = cursorForPosition(event->pos());
@@ -529,6 +617,10 @@ QtTextEdit::mouseMoveEvent(QMouseEvent* event)
             messages << QString::fromStdString(
                 diagnostic.checkId + " " + diagnostic.severity + ": " + diagnostic.message);
         }
+    }
+    QString dataTip = dataTipAt(cursor.position());
+    if (!dataTip.isEmpty()) {
+        messages << dataTip;
     }
     if (!messages.isEmpty()) {
         QToolTip::showText(event->globalPosition().toPoint(), messages.join("\n"), this);

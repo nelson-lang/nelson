@@ -52,7 +52,7 @@ declare module '@nelson/wasm-client' {
     uiActions?: (
       | { type: 'open-examples' }
       | { type: 'open-nflow'; path?: string }
-      | { type: 'open-editor'; path: string; line?: number }
+      | { type: 'open-editor'; path: string; line?: number; column?: number }
       | { type: 'open-notebook'; path: string }
       | {
           type: 'play-audio';
@@ -167,6 +167,8 @@ declare module '@nelson/wasm-client' {
       file: string,
       line: number
     ): Promise<{ file: string; lines: number[] }>;
+    /** Generic debugger RPC (JSON contract shared with the webview desktop). */
+    debuggerRpc(method: string, params: Record<string, unknown>): Promise<unknown>;
     setFigureView(
       handle: number,
       azimuth: number,
@@ -223,9 +225,12 @@ declare module '@nelson/wasm-client' {
     onDebuggerState(
       handler: (state: {
         running: boolean;
+        paused?: boolean;
         currentFile: string | null;
         currentLine: number | null;
         stack: Array<{ file: string; line: number; function: string }>;
+        revision?: number;
+        breakpointsRevision?: number;
       }) => void
     ): () => void;
     onProgress(handler: (progress: NelsonLoadingProgress) => void): () => void;

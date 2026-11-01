@@ -139,6 +139,8 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
             }
         }
     } else {
+        // errors raised by `command` are swallowed here: tell the debugger
+        Evaluator::ScopedErrorCatcher errorCatcher(eval);
         if (nLhs == 0) {
             Context* context = eval->getContext();
             try {

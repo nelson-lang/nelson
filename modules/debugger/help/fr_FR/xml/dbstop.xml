@@ -8,6 +8,10 @@
   <syntax>
     <syntax_item>dbstop in file</syntax_item>
     <syntax_item>dbstop in file at location</syntax_item>
+    <syntax_item>dbstop in file if expression</syntax_item>
+    <syntax_item>dbstop in file at location if expression</syntax_item>
+    <syntax_item>dbstop if error</syntax_item>
+    <syntax_item>dbstop if caught error</syntax_item>
     <syntax_item>dbstop(b)</syntax_item>
   </syntax>
   <param_input>
@@ -15,25 +19,48 @@
       <param_name>file</param_name>
       <param_description>        nom du fichier où le point d&apos;arrêt est défini, spécifié en tant que vecteur de caractères
         ou chaîne de caractères. Le fichier doit être accessible dans le chemin de recherche ou dans
-        le dossier courant. Un marqueur de fichier (&gt;) peut être utilisé pour spécifier une fonction locale.</param_description>
+        le dossier courant. Un marqueur de fichier (&gt;) peut être utilisé pour spécifier une fonction locale.
+        Il ne peut pas être combiné avec <b>at location</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>location</param_name>
-      <param_description>        emplacement du point d&apos;arrêt dans le fichier. un numéro de ligne.</param_description>
+      <param_description>        emplacement du point d&apos;arrêt dans le fichier : un numéro de ligne ou le nom
+        d&apos;une fonction locale (sa première ligne exécutable est utilisée). Un point d&apos;arrêt
+        demandé sur un commentaire, une ligne vide ou une déclaration de fonction est déplacé
+        vers la ligne exécutable suivante. La ligne <b>end</b> d&apos;une boucle for ou while est
+        un emplacement à part entière : l&apos;exécution s&apos;y arrête à chaque itération.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>expression</param_name>
+      <param_description>        condition évaluée dans l&apos;espace de travail de la fonction arrêtée chaque fois que
+        la ligne est atteinte. L&apos;exécution ne s&apos;arrête que si l&apos;expression vaut un scalaire
+        logique ou numérique vrai. Une valeur non scalaire ou une expression qui échoue émet un
+        avertissement et arrête quand même l&apos;exécution. Une erreur de syntaxe est refusée à la
+        pose du point d&apos;arrêt. Reposer un point d&apos;arrêt sur la même ligne remplace sa condition.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
       <param_description>        tableau de structures précédemment renvoyé par <b>dbstatus</b>, contenant
-        les points d&apos;arrêt sauvegardés à restaurer.</param_description>
+        les points d&apos;arrêt sauvegardés à restaurer. Les sept champs <b>name</b>, <b>file</b>,
+        <b>line</b>, <b>anonymous</b>, <b>expression</b>, <b>cond</b> et <b>identifier</b> sont
+        obligatoires ; les conditions et les points d&apos;arrêt sur erreur sont aussi restaurés.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>dbstop</b> définit des points d&apos;arrêt dans les programmes pour le débogage interactif.
-      Lorsque l&apos;exécution atteint un point d&apos;arrêt, l&apos;exécution est suspendue et l&apos;interpréteur
-      entre en mode débogage.</p>
-    <p>      Les points d&apos;arrêt peuvent être définis dans des fichiers spécifiques ou à des emplacements spécifiques.</p>
-    <p>      Cette fonction ne peut être appelée que depuis la ligne de commande.</p>
+      Lorsque l&apos;exécution atteint un point d&apos;arrêt, elle est suspendue, la ligne sur le point
+      d&apos;être exécutée est affichée et l&apos;interpréteur entre en mode débogage (invite <b>K&gt;&gt;</b>).</p>
+    <p>
+      <b>dbstop if error</b> suspend l&apos;exécution sur la ligne qui lève une erreur d&apos;exécution non
+      attrapée par un bloc <b>try</b>/<b>catch</b>. L&apos;erreur est affichée, les variables de la fonction
+      arrêtée peuvent être inspectées, et <b>dbcont</b>, <b>dbstep</b> ou <b>dbquit</b> terminent l&apos;exécution.</p>
+    <p>
+      <b>dbstop if caught error</b> suspend l&apos;exécution sur une erreur levée dans la partie <b>try</b>
+      d&apos;un bloc <b>try</b>/<b>catch</b> ; <b>dbcont</b> reprend dans le bloc <b>catch</b>. Les conditions
+      <b>warning</b> et <b>naninf</b> ne sont pas prises en charge.</p>
+    <p>      Les points d&apos;arrêt sont conservés jusqu&apos;à ce que <b>dbclear</b> les supprime ou que la
+      session se termine. Cette fonction ne peut être appelée que depuis la ligne de commande.</p>
     <p
     >Les fonctionnalités de débogage prises en charge par l&apos;éditeur de texte s&apos;intègrent à ces fonctions pour le débogage interactif.</p>
     <p>Voir également le <link
@@ -62,6 +89,25 @@ buggy(1:5)
       <example_item_description>        Définir un point d&apos;arrêt à une fonction locale.</example_item_description>
       <example_item_data><![CDATA[
 dbstop in myfile>myfunc
+dbstop in myfile at myfunc
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>        S&apos;arrêter seulement quand une condition est vraie.</example_item_description>
+      <example_item_data><![CDATA[
+dbstop in buggy at 3 if n > 2
+dbstatus
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>        S&apos;arrêter sur la ligne qui lève une erreur non attrapée.</example_item_description>
+      <example_item_data><![CDATA[
+dbstop if error
+buggy(1:5)
+dbquit
+dbclear if error
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -96,6 +142,11 @@ dbstop(b)
     <history_item>
       <history_version>1.16.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >points d&apos;arrêt conditionnels, dbstop if error, dbstop if caught error, fonction locale comme emplacement, structure dbstatus à sept champs</history_description>
     </history_item>
   </history>
   <authors>

@@ -30,8 +30,9 @@ dbstop in for_cli at 16
 bp = dbstatus();
 asserts.isequal(bp.name, 'for_cli');
 asserts.istrue(isfile(bp.file));
-asserts.isequal(length(bp.line), 4);
-asserts.isequal(bp.line, [12 13 14 16]);
+% line 15 is the `end` of the for loop: a stop point of its own
+asserts.isequal(length(bp.line), 5);
+asserts.isequal(bp.line, [12 13 14 15 16]);
 %=============================================================================
 dbclear all
 dbstop in function_cli>fun2

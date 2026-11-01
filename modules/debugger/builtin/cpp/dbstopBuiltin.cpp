@@ -7,291 +7,207 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS /* _wfopen */
-#endif
-//=============================================================================
 #include "dbstopBuiltin.hpp"
+#include "BreakpointTarget.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
-#include "ParseFile.hpp"
-#include "MacroFunctionDef.hpp"
-#include "ParserInterface.hpp"
-#include "StringHelpers.hpp"
-#include "PathFunctionIndexerManager.hpp"
-#include "ClassdefParser.hpp"
 #include "ErrorID.hpp"
-#include <cstdio>
+#include "Error.hpp"
 //=============================================================================
 using namespace Nelson;
+using namespace Nelson::DebuggerGateway;
 //=============================================================================
-static size_t
-parsePositionArgument(const ArrayOfVector& argIn);
 static void
-dbstopInAt(Evaluator* eval, const std::wstring& functionOrFilename, size_t position,
-    bool explicitPosition, std::wstring& errorMessage);
+applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct);
+static std::wstring
+joinTokens(const wstringVector& tokens, size_t first);
 static void
-applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& errorMessage);
-static size_t
-firstExecutableLineInFunction(const std::wstring& filename, const std::string& functionName);
+setGlobalCondition(Evaluator* eval, const std::wstring& condition);
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     // dbstop in file
     // dbstop in file at location
-    // dbstop(struct)
-
-    nargincheck(argIn, 1, 4);
+    // dbstop in F [at L] [if expr], dbstop if error, dbstop if caught error, dbstop(b)
+    nargincheck(argIn, 1);
     nargoutcheck(nLhs, 0, 0);
-    std::wstring errorMessage;
-    if (argIn.size() == 1) {
-        applyBreakpointStruct(eval, argIn[0], errorMessage);
-        if (!errorMessage.empty()) {
-            Error(L"Nelson:dbstop:invalidArgument", errorMessage);
-        }
+    if (argIn.size() == 1 && argIn[0].isStruct()) {
+        applyBreakpointStruct(eval, argIn[0]);
         return {};
     }
-
-    if (argIn.size() == 3) {
-        Error("Nelson:wrongNumberOfInputs", "Wrong number of input arguments.");
+    wstringVector tokens = breakpointCommandTokens(argIn);
+    if (tokens[0] == L"if") {
+        setGlobalCondition(eval, joinTokens(tokens, 1));
+        return {};
     }
-
-    if (argIn[0].asWideString() != L"in") {
-        Error("Nelson:dbstop:expectedIn", "Second argument must be 'in'.");
+    if (tokens[0] != L"in") {
+        Error(L"Nelson:dbstop:unknownCommandOption", L"Unknown command option.");
     }
-
-    size_t position = parsePositionArgument(argIn);
-    std::wstring target = argIn[1].asWideString();
-
-    dbstopInAt(eval, target, position, argIn.size() == 4, errorMessage);
-    if (!errorMessage.empty()) {
-        Error(L"Nelson:dbstop:invalidArgument", errorMessage);
+    if (tokens.size() < 2) {
+        Error(L"Nelson:dbstop:fileNameRequired", L"A file name must be specified.");
     }
-
+    std::wstring target = tokens[1];
+    size_t index = 2;
+    bool explicitPosition = false;
+    size_t position = 1;
+    std::wstring condition;
+    if (index < tokens.size() && tokens[index] == L"at") {
+        if (index + 1 >= tokens.size()) {
+            Error(L"Nelson:dbstop:unknownCommandOption", L"Unknown command option.");
+        }
+        if (target.find(L'>') != std::wstring::npos) {
+            Error(L"Nelson:dbstop:invalidOptionCombination",
+                L"Invalid option combination. Specify the line number or specify the local or "
+                L"nested function.");
+        }
+        const std::wstring& location = tokens[index + 1];
+        if (parseBreakpointLineToken(location, position)) {
+            explicitPosition = true;
+        } else {
+            // the location names a local function
+            target = target + L">" + location;
+        }
+        index += 2;
+    }
+    if (index < tokens.size()) {
+        if (tokens[index] != L"if") {
+            Error(L"Nelson:dbstop:unknownCommandOption", L"Unknown command option.");
+        }
+        condition = joinTokens(tokens, index + 1);
+        if (condition.empty()) {
+            Error(L"Nelson:dbstop:unknownCommandOption", L"Unknown command option.");
+        }
+        index = tokens.size();
+    }
+    std::wstring errorMessage;
+    if (!condition.empty() && !eval->validateBreakpointCondition(condition, errorMessage)) {
+        RaiseError(errorMessage, L"Nelson:dbstop:conditionSyntaxError");
+    }
+    size_t adjustedLine = 0;
+    bool created = false;
+    if (!setBreakpointAt(
+            eval, target, position, explicitPosition, adjustedLine, created, errorMessage)) {
+        RaiseError(errorMessage, L"Nelson:dbstop:invalidArgument");
+    }
+    BreakpointTarget resolved;
+    std::wstring resolveError;
+    if (resolveBreakpointTarget(eval, target, resolved, resolveError)) {
+        // a new dbstop on the line replaces the condition, including with none
+        if (!eval->setBreakpointCondition(resolved.filename, adjustedLine, condition, errorMessage)
+            && !errorMessage.empty()) {
+            if (created) {
+                eval->removeBreakpoint(resolved.filename, adjustedLine);
+            }
+            RaiseError(errorMessage, L"Nelson:dbstop:conditionSyntaxError");
+        }
+    }
     return {};
 }
 //=============================================================================
-size_t
-parsePositionArgument(const ArrayOfVector& argIn)
+std::wstring
+joinTokens(const wstringVector& tokens, size_t first)
 {
-    if (argIn.size() != 4) {
-        return 1;
-    }
-
-    if (argIn[2].asWideString() != L"at") {
-        Error(L"Nelson:debugger:expectedAt", L"Third argument must be 'at'.");
-    }
-
-    std::wstring posArg = argIn[3].asWideString();
-    size_t idx = 0;
-
-    try {
-        size_t pos = std::stoul(posArg, &idx);
-        if (idx != posArg.size()) {
-            Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
+    std::wstring joined;
+    for (size_t k = first; k < tokens.size(); ++k) {
+        if (!joined.empty()) {
+            joined += L" ";
         }
-        return pos;
-    } catch (...) {
-        Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
+        joined += tokens[k];
     }
-
-    return 1; // unreachable
+    return joined;
 }
 //=============================================================================
 void
-dbstopInAt(Evaluator* eval, const std::wstring& functionOrFilename, size_t position,
-    bool explicitPosition, std::wstring& errorMessage)
+setGlobalCondition(Evaluator* eval, const std::wstring& condition)
 {
-    bool isSimpleQuoted = StringHelpers::starts_with(functionOrFilename, L"'")
-        && StringHelpers::ends_with(functionOrFilename, L"'");
-    bool isDoubleQuoted = StringHelpers::starts_with(functionOrFilename, L"\"")
-        && StringHelpers::ends_with(functionOrFilename, L"\"");
-    if (isSimpleQuoted || isDoubleQuoted) {
-        std::wstring unquotedFilename = functionOrFilename.substr(1, functionOrFilename.size() - 2);
-        dbstopInAt(eval, unquotedFilename, position, explicitPosition, errorMessage);
+    if (condition == L"error") {
+        eval->setStopOnError(true);
         return;
     }
-
-    Breakpoint breakpoint;
-
-    std::wstring mainFunctionName = functionOrFilename;
-    std::wstring subFunctionName;
-    size_t separatorPos = functionOrFilename.find(L'>');
-    if (separatorPos != std::wstring::npos) {
-        mainFunctionName = functionOrFilename.substr(0, separatorPos);
-        subFunctionName = functionOrFilename.substr(separatorPos + 1);
-    }
-
-    if (!subFunctionName.empty()) {
-        FunctionDef* funcDef = nullptr;
-        std::string asFunctionName = wstring_to_utf8(mainFunctionName);
-        std::string asSubFunctionName = wstring_to_utf8(subFunctionName);
-
-        if (!eval->lookupFunction(asFunctionName, funcDef)) {
-            errorMessage
-                = formatI18nMessage(resolveMessageTemplate(L"Nelson:dbstop:functionNotFound",
-                                        L"Cannot find function '%s'."),
-                    mainFunctionName);
-            return;
-        }
-
-        if (funcDef->type() != NLS_MACRO_FUNCTION) {
-            Error(L"Nelson:dbstop:breakpointNotInMacro",
-                L"Breakpoints can only be set in macro functions.");
-        }
-
-        funcDef->updateCode();
-        MacroFunctionDef* mFuncDef = static_cast<MacroFunctionDef*>(funcDef);
-
-        MacroFunctionDef* targetFunc = nullptr;
-        MacroFunctionDef* searchFunc = mFuncDef->nextFunction;
-        while (searchFunc != nullptr) {
-            if (searchFunc->getName() == asSubFunctionName) {
-                targetFunc = searchFunc;
-                break;
-            }
-            searchFunc = searchFunc->nextFunction;
-        }
-        if (targetFunc == nullptr) {
-            errorMessage
-                = formatI18nMessage(resolveMessageTemplate(L"Nelson:dbstop:subfunctionNotFound",
-                                        L"Cannot find subfunction '%s' in '%s'."),
-                    subFunctionName, mainFunctionName);
-            return;
-        }
-
-        breakpoint.filename = funcDef->getFilename();
-        breakpoint.functionName = asSubFunctionName;
-        if (!explicitPosition && targetFunc->code != nullptr) {
-            const size_t firstExecutable
-                = firstExecutableLineInFunction(funcDef->getFilename(), asSubFunctionName);
-            if (firstExecutable > 0) {
-                breakpoint.line = firstExecutable;
-                eval->addBreakpoint(breakpoint);
-                return;
-            }
-        }
-    } else {
-        FunctionDef* funcDef = nullptr;
-        std::string asFunctionName = wstring_to_utf8(mainFunctionName);
-        if (eval->lookupFunction(asFunctionName, funcDef)) {
-            breakpoint.filename = funcDef->getFilename();
-            // A classdef file can contain multiple method bodies. A file/line breakpoint in the
-            // class file should match whichever class method owns that source line.
-            if (classdefIsClassdefFile(breakpoint.filename)) {
-                breakpoint.functionName = "";
-            } else {
-                breakpoint.functionName = asFunctionName;
-            }
-        } else {
-            std::wstring resolvedFilename;
-            if (PathFunctionIndexerManager::getInstance()->find(asFunctionName, resolvedFilename)) {
-                breakpoint.filename = resolvedFilename;
-            } else {
-                // not in the path: keep the name, it may be a full path
-                breakpoint.filename = mainFunctionName;
-            }
-            // Scripts execute in the global scope, so leave functionName empty
-            breakpoint.functionName = "";
-        }
-    }
-
-    size_t adjustedLineNumber;
-    std::wstring adjustError;
-    // For subfunctions, use the full syntax (mainfunction>subfunction) to get correct line numbers
-    std::wstring functionNameForLineAdjustment = functionOrFilename;
-    if (!eval->adjustBreakpointLine(
-            functionNameForLineAdjustment, position, adjustedLineNumber, adjustError)) {
-        errorMessage = adjustError;
+    if (condition == L"caught error") {
+        eval->setStopOnCaughtError(true);
         return;
     }
-
-    breakpoint.line = adjustedLineNumber;
-    eval->addBreakpoint(breakpoint);
+    if (condition == L"warning" || condition == L"naninf" || condition == L"infnan"
+        || condition == L"unsuppressed output" || condition.rfind(L"error ", 0) == 0
+        || condition.rfind(L"caught error ", 0) == 0 || condition.rfind(L"warning ", 0) == 0) {
+        Error(L"Nelson:dbstop:unsupportedCondition",
+            L"Unsupported dbstop condition '%s'. Supported conditions are 'error' and 'caught "
+            L"error'.",
+            condition);
+    }
+    Error(L"Nelson:dbstop:fileNameRequired", L"A file name must be specified.");
+}
+//=============================================================================
+static std::wstring
+elementAsText(const ArrayOf& value)
+{
+    if (value.isRowVectorCharacterArray() || value.isScalarStringArray()) {
+        return value.asWideString();
+    }
+    return L"";
 }
 //=============================================================================
 void
-applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& errorMessage)
+applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct)
 {
-    if (!bpStruct.isStruct()) {
-        errorMessage = resolveMessageTemplate(
-            L"Nelson:dbstop:notBreakpointStruct", L"Argument must be breakpoint struct.");
-        return;
-    }
-
+    static const stringVector expectedFields
+        = { "name", "file", "line", "anonymous", "expression", "cond", "identifier" };
     stringVector names = bpStruct.fieldNames();
-    if (names.size() != 3 || names[0] != "name" || names[1] != "file" || names[2] != "line") {
-        errorMessage = resolveMessageTemplate(
-            L"Nelson:dbstop:invalidBreakpointStruct", L"Invalid breakpoint struct.");
-        return;
+    for (const std::string& expected : expectedFields) {
+        if (std::find(names.begin(), names.end(), expected) == names.end()) {
+            Error(L"Nelson:dbstop:invalidStructure", L"Invalid structure. Field '%s' is missing.",
+                utf8_to_wstring(expected));
+        }
     }
-
     ArrayOfVector files = bpStruct.fieldAsList("file");
     ArrayOfVector lines = bpStruct.fieldAsList("line");
-
+    ArrayOfVector expressions = bpStruct.fieldAsList("expression");
+    ArrayOfVector conds = bpStruct.fieldAsList("cond");
     size_t count = bpStruct.dimensions().elementCount();
     for (size_t i = 0; i < count; ++i) {
+        std::wstring cond = elementAsText(conds[i]);
+        if (!cond.empty()) {
+            setGlobalCondition(eval, cond);
+            continue;
+        }
         ArrayOf lineArray = lines[i];
-        if (!lineArray.isNumeric() || !lineArray.isRowVector()) {
-            errorMessage = resolveMessageTemplate(
-                L"Nelson:dbstop:invalidLineNumber", L"Invalid line number in breakpoint struct.");
-            return;
+        if (lineArray.isEmpty()) {
+            continue;
         }
-
-        for (auto line : lineArray.asIndexVector()) {
-            dbstopInAt(eval, files[i].asWideString(), (size_t)line, true, errorMessage);
-            if (!errorMessage.empty()) {
-                return;
+        if (!lineArray.isNumeric()) {
+            Error(L"Nelson:dbstop:invalidLineNumber", L"Invalid line number in breakpoint struct.");
+        }
+        std::vector<indexType> lineValues = lineArray.asIndexVector();
+        wstringVector conditions;
+        const ArrayOf& expressionCell = expressions[i];
+        if (expressionCell.isCell()) {
+            const auto* elements = static_cast<const ArrayOf*>(expressionCell.dataPointer());
+            for (indexType k = 0; k < expressionCell.elementCount(); ++k) {
+                conditions.push_back(elementAsText(elements[k]));
+            }
+        }
+        std::wstring file = elementAsText(files[i]);
+        for (size_t k = 0; k < lineValues.size(); ++k) {
+            std::wstring errorMessage;
+            size_t adjustedLine = 0;
+            bool created = false;
+            if (!setBreakpointAt(eval, file, static_cast<size_t>(lineValues[k]), true, adjustedLine,
+                    created, errorMessage)) {
+                RaiseError(errorMessage, L"Nelson:dbstop:invalidArgument");
+            }
+            std::wstring condition = k < conditions.size() ? conditions[k] : L"";
+            BreakpointTarget resolved;
+            std::wstring resolveError;
+            if (resolveBreakpointTarget(eval, file, resolved, resolveError)
+                && !eval->setBreakpointCondition(
+                    resolved.filename, adjustedLine, condition, errorMessage)
+                && !errorMessage.empty()) {
+                RaiseError(errorMessage, L"Nelson:dbstop:conditionSyntaxError");
             }
         }
     }
-}
-//=============================================================================
-size_t
-firstExecutableLineInFunction(const std::wstring& filename, const std::string& functionName)
-{
-    if (filename.empty() || functionName.empty()) {
-        return 0;
-    }
-    FILE* fp = nullptr;
-#ifdef _MSC_VER
-    fp = _wfopen(filename.c_str(), L"rb");
-#else
-    fp = fopen(wstring_to_utf8(filename).c_str(), "rb");
-#endif
-    if (fp == nullptr) {
-        return 0;
-    }
-    size_t currentLine = 1;
-    bool inTargetFunction = false;
-    char buffer[4096];
-    while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
-        std::string line(buffer);
-        while (!line.empty() && (line.back() == '\n' || line.back() == '\r')) {
-            line.pop_back();
-        }
-        size_t first = 0;
-        while (first < line.size() && (line[first] == ' ' || line[first] == '\t')) {
-            first++;
-        }
-        if (first < line.size() && line[first] != '%') {
-            std::string trimmed = line.substr(first);
-            if (!inTargetFunction) {
-                if (StringHelpers::starts_with(trimmed, "function")
-                    && trimmed.find(functionName) != std::string::npos) {
-                    inTargetFunction = true;
-                }
-            } else {
-                fclose(fp);
-                return currentLine;
-            }
-        }
-        currentLine++;
-    }
-    fclose(fp);
-    return 0;
 }
 //=============================================================================
