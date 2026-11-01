@@ -37,6 +37,10 @@ static void
 attachToExplicitParent(GraphicsObject* fp, go_handle thisHandle);
 static void
 finalizeConstruction(GraphicsObject* fp);
+static void
+runCreateFcn(GraphicsObject* fp);
+static void
+discardFailedObject(GraphicsObject* fp, go_handle thisHandle);
 //=============================================================================
 go_handle
 GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
@@ -45,18 +49,29 @@ GOCommonConstructorHelper(GraphicsObject* fp, const ArrayOfVector& arg)
     ArrayOfVector t(arg);
     bool isAutoParent, hasExplicitParent;
 
-    processProperties(fp, t, isAutoParent, hasExplicitParent);
+    // A constructor that fails leaves nothing behind. The object is attached to its parent
+    // before updateState() validates it, so a rejected value (raincloudplot('DensityWidth',
+    // -1)) would otherwise stay in the axes as a half-built child and throw again from every
+    // later paint; a paint driven by the Qt event loop then aborts the process.
+    try {
+        processProperties(fp, t, isAutoParent, hasExplicitParent);
 
-    if (isAutoParent) {
-        // The current axes is only the fallback when no parent is named.
-        if (hasExplicitParent) {
-            attachToExplicitParent(fp, thisHandle);
-        } else {
-            attachToCurrentAxis(fp, thisHandle);
+        if (isAutoParent) {
+            // The current axes is only the fallback when no parent is named.
+            if (hasExplicitParent) {
+                attachToExplicitParent(fp, thisHandle);
+            } else {
+                attachToCurrentAxis(fp, thisHandle);
+            }
         }
+
+        finalizeConstruction(fp);
+    } catch (...) {
+        discardFailedObject(fp, thisHandle);
+        throw;
     }
 
-    finalizeConstruction(fp);
+    runCreateFcn(fp);
     // CurrentObject reports what the user clicked, so building an object must not change it.
     GOFigure* fig = getCurrentGOFigure();
     if (fig && !fig->isRenderingStateInvalid()) {
@@ -202,12 +217,29 @@ finalizeConstruction(GraphicsObject* fp)
             }
         }
     }
-
+}
+//=============================================================================
+void
+runCreateFcn(GraphicsObject* fp)
+{
     GOCallbackProperty* goCallback
         = static_cast<GOCallbackProperty*>(fp->findProperty(GO_CREATE_FCN_PROPERTY_NAME_STR));
     if (goCallback) {
         goCallback->executeNow(fp);
     }
+}
+//=============================================================================
+void
+discardFailedObject(GraphicsObject* fp, go_handle thisHandle)
+{
+    // The object never existed for the user, so its DeleteFcn does not run.
+    GOCallbackProperty* deleteFcn = static_cast<GOCallbackProperty*>(
+        fp->findProperty(GO_DELETE_FCN_PROPERTY_NAME_STR, false));
+    if (deleteFcn) {
+        deleteFcn->set(ArrayOf::empty());
+    }
+    // Detaches it from the parent it may already have joined, then frees the handle.
+    deleteGraphicsObject(thisHandle, false, true);
 }
 //=============================================================================
 } // namespace Nelson::GraphicsGateway
