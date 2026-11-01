@@ -20,7 +20,12 @@ import { subscribeScheme } from '../desktop/theme';
 import { filterHistory } from '../console/history';
 import { registerConsoleInput } from '../desktop/consoleBus';
 import { getDockApi, openHelp, openEditor } from '../desktop/desktop';
-import { isEngineBusy, submitCommand, subscribeEngine } from '../desktop/engineSession';
+import {
+  isEngineBusy,
+  onEngineReady,
+  submitCommand,
+  subscribeEngine,
+} from '../desktop/engineSession';
 import { AnsiParser } from '../console/ansi';
 import { linesWithoutTrailingText, removeTrailingTextFromLine } from '../console/lineTrim';
 import { getHtmlBlocks, subscribeHtml } from '../desktop/htmlStore';
@@ -297,6 +302,10 @@ export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element
     const offPrompt = onPush('term.prompt', (p) => {
       handlePrompt(p);
     });
+    // a prompt that beat the term.input reply is held by the engine session: draw it once accepted
+    const offReady = onEngineReady((p) => {
+      handlePrompt(p);
+    });
     const offInputRequest = onPush('term.inputRequest', (p) => {
       const request = p as { id?: unknown; prompt?: unknown };
       if (typeof request.id !== 'number' || !Number.isFinite(request.id)) return;
@@ -386,6 +395,7 @@ export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element
       offBusy();
       offExpandable();
       offPrompt();
+      offReady();
       offInputRequest();
       offClear();
       offHtml();

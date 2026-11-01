@@ -148,6 +148,39 @@ describe('ConsolePanel prompt lifecycle', () => {
     expect(document.activeElement).toBe(nextInput);
   });
 
+  it('draws a prompt that arrives before the term.input reply', async () => {
+    const host = await renderConsole();
+    const previous = g.webui!.call;
+    g.webui!.call = async (name, payload) => {
+      const request = JSON.parse(payload) as { id: number; method: string };
+      if (request.method === 'term.input') {
+        // the engine stopped at a breakpoint before its reply travelled back
+        window.__nelsonPush?.('term.prompt', JSON.stringify({ prompt: 'K>> ' }));
+        return JSON.stringify({ id: request.id, result: { accepted: true } });
+      }
+      return previous(name, payload);
+    };
+    const input = host.querySelector<HTMLTextAreaElement>('.console-input');
+    input!.focus();
+    await act(async () => {
+      sendToConsoleInput('b2b_dbg(2)');
+    });
+    await act(async () => {
+      input!.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+    });
+    await flush();
+
+    const copy = host.cloneNode(true) as HTMLElement;
+    copy.querySelectorAll('.console-input-stack').forEach((stack) => stack.remove());
+    expect(copy.textContent).toContain('K>> ');
+  });
+
   it('resets the transcript scroll when clc clears the command window', async () => {
     const host = await renderConsole();
     const transcript = host.querySelector<HTMLDivElement>('.console-host');
