@@ -50,7 +50,7 @@ function varargout = plot(varargin)
     go = newplot(go);
   else
     if ~isgraphics(go, 'hggroup') && ~isgraphics(go, 'hgtransform')
-      error('Nelson:graphics:invalidParent', 'Parent must be an axes, hggroup or hgtransform object.');
+      error('Nelson:graphics:invalidParentType', 'Parent must be an axes, hggroup or hgtransform object.');
     end
     ax = ancestor(go, 'axes');
     keepBox = strcmp(ax.NextPlot, 'add');

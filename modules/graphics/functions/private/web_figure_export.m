@@ -10,7 +10,7 @@
 function result = web_figure_export(f, request)
   format = lower(request.format);
   if ~any(strcmp(format, {'png', 'svg', 'pdf'}))
-    error('Nelson:graphics:invalidExport', 'PNG, SVG or PDF format expected.');
+    error('Nelson:graphics:invalidExportFormat', 'PNG, SVG or PDF format expected.');
   end
   scale = request.scale;
   if ~isscalar(scale) || ~isfinite(scale) || scale < 1 || scale > 4
@@ -26,7 +26,7 @@ function result = web_figure_export(f, request)
     __web_export_graphics__(f, path, scale);
     fd = fopen(path, 'rb');
     if fd < 0
-      error('Nelson:graphics:exportFailed', 'Cannot read exported figure.');
+      error('Nelson:graphics:exportReadFailed', 'Cannot read exported figure.');
     end
     data = fread(fd, Inf, '*uint8');
     fclose(fd); fd = -1;

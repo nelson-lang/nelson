@@ -12,7 +12,7 @@ function web_figure_isolate(f, ax, request)
   if ~isgraphics(target) || ~any(strcmp(get(target, 'Type'), {'line', 'scatter', 'surface', 'patch'})) ...
       || ~isequal(ancestor(target, 'axes'), ax) ...
       || ~isequal(ancestor(target, 'figure'), f)
-    error('Nelson:graphics:invalidTarget', 'Select a plotted object of these axes.');
+    error('Nelson:graphics:invalidSelection', 'Select a plotted object of these axes.');
   end
   key = sprintf('axes_%.0f', __web_graphics_handle__(ax, 'number'));
   data = __web_figure_history_data__(f);

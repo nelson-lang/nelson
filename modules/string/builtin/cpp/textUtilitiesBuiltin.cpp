@@ -628,7 +628,7 @@ Nelson::StringGateway::strsplitBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (type == L"simple") {
                 regexDelimiter = false;
             } else {
-                Error(L"Nelson:string:strsplit:invalidOption",
+                Error(L"Nelson:string:strsplit:invalidDelimiterType",
                     L"DelimiterType must be 'Simple' or 'RegularExpression'.");
             }
         } else {

@@ -139,7 +139,7 @@ namespace {
             value.promoteType(NLS_DOUBLE);
             const double number = static_cast<const double*>(value.dataPointer())[0];
             if (std::isfinite(number) && number != std::floor(number)) {
-                Error(L"Nelson:validators:mustBeInteger", L"Value must be an integer.");
+                Error(L"Nelson:validators:mustBeInteger", L"%s must be an integer.", L"Value");
             }
             GOScalarProperty::set(arg);
         }

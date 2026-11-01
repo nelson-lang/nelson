@@ -51,7 +51,7 @@ try
 catch ex
   id = ex.identifier;
 end
-asserts.isequal(id, 'Nelson:graphics:invalidToolbarButtons');
+asserts.isequal(id, 'Nelson:graphics:unknownToolbarButton');
 %=============================================================================
 ax.Toolbar = [];
 id = '';

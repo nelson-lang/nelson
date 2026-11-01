@@ -30,7 +30,7 @@ Nelson::GraphicsGateway::__uicomponent_event__Builtin(int nLhs, const ArrayOfVec
     nargincheck(argIn, 2, 4);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isScalar() || (!argIn[0].isGraphicsObject() && !argIn[0].isNumeric())) {
-        Error(L"Nelson:graphics:expectedGraphicsObject:expectedGraphicsObjectOrWebHandle",
+        Error(L"Nelson:graphics:expectedGraphicsObject",
             L"Expected graphics object.");
     }
     const nelson_handle handle = argIn[0].isGraphicsObject()

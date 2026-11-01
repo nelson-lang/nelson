@@ -19,7 +19,7 @@ function indices = __import_options_resolve_selection__(opts, selection)
   if isnumeric(selection)
     indices = double(selection(:)');
     if any(indices < 1) || any(indices > nvars) || any(indices ~= fix(indices))
-      error('Nelson:spreadsheet:setvaropts:invalidSelection', ...
+      error('Nelson:spreadsheet:setvaropts:indexOutOfRange', ...
         'Variable index out of range.');
     end
     return

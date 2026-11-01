@@ -21,12 +21,12 @@ __web_figure_reference__Builtin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isGraphicsObject() || !argIn[0].isScalar()) {
-        Error(L"Nelson:graphics:expectedAxes", L"Axes object expected.");
+        Error(L"Nelson:graphics:expectedAxes", L"Axes graphic object expected.");
     }
     const auto handle = static_cast<const nelson_handle*>(argIn[0].dataPointer())[0];
     auto* axis = dynamic_cast<GOAxis*>(findGraphicsObject(handle, false));
     if (axis == nullptr) {
-        Error(L"Nelson:graphics:expectedAxes", L"Axes object expected.");
+        Error(L"Nelson:graphics:expectedAxes", L"Axes graphic object expected.");
     }
     ArrayOfVector result;
     result << axis->navigationReferenceView(argIn[1].asLogicalScalar());

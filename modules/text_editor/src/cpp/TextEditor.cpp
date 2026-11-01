@@ -32,9 +32,14 @@ static QPointer<QtTextEditor> edit;
 static std::deque<std::wstring> promptCommands;
 static QPointer<QTimer> promptFeeder;
 //=============================================================================
+static bool feedingCommand = false;
+//=============================================================================
 static void
 feedPromptCommand(Evaluator* eval)
 {
+    if (feedingCommand) {
+        return;
+    }
     if (promptCommands.empty()) {
         if (!promptFeeder.isNull()) {
             promptFeeder->stop();
@@ -52,10 +57,12 @@ feedPromptCommand(Evaluator* eval)
     if (!edit.isNull()) {
         edit->refreshDebugState();
     }
+    feedingCommand = true;
     try {
         eval->evaluateString(command, true);
     } catch (...) {
     }
+    feedingCommand = false;
 }
 //=============================================================================
 static void

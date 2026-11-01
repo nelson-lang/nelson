@@ -28,7 +28,7 @@ classdef polyshape
         x = varargin{1};
         y = varargin{2};
         if ~isnumeric(x) || ~isnumeric(y) || numel(x) ~= numel(y)
-          error('Nelson:polyshape:invalidInput', ...
+          error('Nelson:polyshape:invalidInputVectors', ...
             'X and Y must be numeric vectors of the same length.');
         end
         obj.Vertices = [x(:), y(:)];

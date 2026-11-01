@@ -13,7 +13,7 @@ function varargout = nextpow2(varargin)
   nargoutchk(0, 1);
   X = varargin{1};
   if ~isnumeric(X) && ~islogical(X) && ~ischar(X)
-    error('Nelson:validators:mustBeNumeric', 'Invalid input argument at position %d. Value must be numeric.', 1);
+    error('Nelson:validators:mustBeNumericAtPosition', 'Invalid input argument at position %d. Value must be numeric.', 1);
   end
   classname = class(X);
   if islogical(X) || ischar(X)
