@@ -10,18 +10,24 @@
 #include "Evaluator.hpp"
 #include "NelsonGateway.hpp"
 #include "notebookBuiltin.hpp"
-#include "notebook_editBuiltin.hpp"
+#include "NotebookEditor.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"notebook";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "notebook", (ptrBuiltin)Nelson::NotebookGateway::notebookBuiltin, 1, 1,
+    { "notebook", (ptrBuiltin)Nelson::NotebookGateway::notebookBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "__notebook_edit__", (ptrBuiltin)Nelson::NotebookGateway::notebook_editBuiltin, 1, 1 },
 };
 //=============================================================================
+static bool
+finishNotebookModule(Evaluator*)
+{
+    Nelson::NotebookGateway::closeNotebookWindow();
+    return true;
+}
+//=============================================================================
 NLS_GATEWAY_FUNC(gateway)
-NLS_GATEWAY_REMOVE(gateway)
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishNotebookModule)
 //=============================================================================

@@ -16,32 +16,79 @@ import { openEditor } from '../desktop/desktop';
 import { showStatusMessage } from '../desktop/statusMessage';
 import { rpc } from '../rpc/client';
 //=============================================================================
-export const OPEN_DESKTOP_PICKER_EVENT = 'nelson-webview.open-desktop-picker';
 export type DesktopPickerKind = 'directory' | 'editor' | 'execute';
+export interface PathRequest {
+  mode: 'open' | 'dir' | 'save';
+  title: string;
+  filters?: string[];
+  /** Dialog history key, `desktop.<mode>` by default. */
+  historyKey?: string;
+  /** Initial file name, save mode only. */
+  suggestedName?: string;
+  defaultPath?: string;
+}
+export type SavePathRequest = Omit<PathRequest, 'mode'> & { suggestedName: string };
 interface NativeDialogResult {
   available?: boolean;
   canceled?: boolean;
   path?: string;
 }
-//=============================================================================
-function pickerOptions(kind: DesktopPickerKind): {
-  mode: 'dir' | 'open';
-  title: string;
-  filters?: string[];
+interface WebPicker {
+  request: PathRequest;
   historyKey: string;
-} {
+  defaultPath: string;
+  resolve: (path: string | null) => void;
+}
+// The mounted host shows the web picker when the engine has no native dialog.
+let showWebPicker: ((picker: WebPicker) => void) | null = null;
+//=============================================================================
+function defaultHistoryKey(mode: PathRequest['mode']): string {
+  return mode === 'dir' ? 'desktop.directory' : `desktop.${mode}`;
+}
+//=============================================================================
+/** Ask for a path: native dialog when available, else the web picker; null when canceled. */
+export async function requestPath(request: PathRequest): Promise<string | null> {
+  const historyKey = request.historyKey || defaultHistoryKey(request.mode);
+  const defaultPath = request.defaultPath || getCurrentDirectory().cwd || '.';
+  try {
+    const native = await rpc<NativeDialogResult>('fs.dialog.native', {
+      mode: request.mode,
+      title: request.title,
+      filters: request.filters,
+      suggestedName: request.suggestedName,
+      historyKey,
+      defaultPath,
+    });
+    if (native.available) return !native.canceled && native.path ? native.path : null;
+  } catch {
+    /* no native dialog: use the web picker */
+  }
+  if (!showWebPicker) return null;
+  let directory = defaultPath;
+  try {
+    const start = await rpc<{ directory?: string }>('fs.dialog.start', { historyKey, defaultPath });
+    directory = start.directory || defaultPath;
+  } catch {
+    /* keep the default directory */
+  }
+  return new Promise((resolve) =>
+    showWebPicker?.({ request, historyKey, defaultPath: directory, resolve })
+  );
+}
+//=============================================================================
+/** Ask where to save a file. */
+export function requestSavePath(request: SavePathRequest): Promise<string | null> {
+  return requestPath({ ...request, mode: 'save' });
+}
+//=============================================================================
+function pickerRequest(kind: DesktopPickerKind): PathRequest {
   if (kind === 'directory') {
-    return {
-      mode: 'dir',
-      title: 'Choose current directory',
-      historyKey: 'desktop.directory',
-    };
+    return { mode: 'dir', title: 'Choose current directory' };
   }
   return {
     mode: 'open',
     title: kind === 'editor' ? 'Open in Editor' : 'Execute a Nelson file',
     filters: kind === 'execute' ? ['.m'] : undefined,
-    historyKey: 'desktop.open',
   };
 }
 //=============================================================================
@@ -59,57 +106,44 @@ function useSelectedPath(kind: DesktopPickerKind, path: string): void {
     .catch((error) => showStatusMessage((error as Error).message));
 }
 //=============================================================================
+/** Open the desktop picker for one of its standard tasks and act on the choice. */
 export function openDesktopPicker(kind: DesktopPickerKind): void {
-  window.dispatchEvent(new CustomEvent(OPEN_DESKTOP_PICKER_EVENT, { detail: { kind } }));
+  void requestPath(pickerRequest(kind)).then((path) => {
+    if (path) useSelectedPath(kind, path);
+  });
 }
 //=============================================================================
 export function DesktopFilePickerHost(): JSX.Element | null {
-  const [picker, setPicker] = useState<{ kind: DesktopPickerKind; defaultPath: string } | null>(
-    null
-  );
+  const [picker, setPicker] = useState<WebPicker | null>(null);
 
   useEffect(() => {
-    const open = (event: Event) => {
-      const detail = (event as CustomEvent<{ kind?: DesktopPickerKind }>).detail;
-      const kind = detail?.kind ?? 'directory';
-      const options = pickerOptions(kind);
-      const defaultPath = getCurrentDirectory().cwd || '.';
-      void rpc<NativeDialogResult>('fs.dialog.native', { ...options, defaultPath })
-        .then((result) => {
-          if (result.available) {
-            if (!result.canceled && result.path) useSelectedPath(kind, result.path);
-            return;
-          }
-          return rpc<{ directory?: string }>('fs.dialog.start', {
-            historyKey: options.historyKey,
-          }).then((start) => setPicker({ kind, defaultPath: start.directory || defaultPath }));
-        })
-        .catch(() => setPicker({ kind, defaultPath }));
+    showWebPicker = setPicker;
+    return () => {
+      showWebPicker = null;
     };
-    window.addEventListener(OPEN_DESKTOP_PICKER_EVENT, open as EventListener);
-    return () => window.removeEventListener(OPEN_DESKTOP_PICKER_EVENT, open as EventListener);
   }, []);
 
   if (!picker) return null;
-  const { kind, defaultPath } = picker;
-  const options = pickerOptions(kind);
+  const { request, historyKey, defaultPath, resolve } = picker;
   return (
     <FilePickerDialog
-      mode={options.mode}
-      title={options.title}
+      mode={request.mode}
+      title={request.title}
       defaultPath={defaultPath}
-      filters={options.filters}
+      suggestedName={request.suggestedName}
+      filters={request.filters}
       listDir={(path) => rpc('fs.list', { path })}
       onSubmit={(path) => {
         setPicker(null);
-        void rpc('fs.dialog.accept', {
-          historyKey: options.historyKey,
-          mode: options.mode,
-          path,
-        }).catch(() => undefined);
-        useSelectedPath(kind, path);
+        void rpc('fs.dialog.accept', { historyKey, mode: request.mode, path }).catch(
+          () => undefined
+        );
+        resolve(path);
       }}
-      onCancel={() => setPicker(null)}
+      onCancel={() => {
+        setPicker(null);
+        resolve(null);
+      }}
     />
   );
 }

@@ -37,6 +37,14 @@ import { isEngineBusy, onEngineReady, subscribeEngine } from './engineSession';
 import { isWasmRuntime } from './platform';
 import { isFigureLive } from '../notebook/liveFigures';
 //=============================================================================
+// notebook.open pushes open one tab per document; an empty path is a new untitled document.
+export function installNotebookOpenPush(): () => void {
+  return onPush('notebook.open', (payload) => {
+    const path = String((payload as { path?: string })?.path ?? '');
+    openNotebook(path || undefined);
+  });
+}
+//=============================================================================
 // Only the webview launch mode can own native OS windows.
 function shouldOpenSeparateFigureWindow(style?: FigureWindowStyle): boolean {
   if (getDesktopCapabilities().launchMode !== 'webview') return false;
@@ -155,16 +163,10 @@ export function installFigureLifecycle(api: DockviewApi): () => void {
   const offDetached = startDetachedWatcher(openFigure);
 
   const offEditor = onPush('editor.show', (payload) => {
-    const editor = payload as { path?: string; line?: number };
-    openEditor(String(editor.path ?? ''), editor.line);
+    const editor = payload as { path?: string; line?: number; column?: number };
+    openEditor(String(editor.path ?? ''), editor.line, editor.column);
   });
-  const offNotebookOpen = onPush('notebook.open', (payload) => {
-    const path = String((payload as { path?: string })?.path ?? '');
-    if (!path) return;
-    // One tab per document; the panel reads the file itself and shows its saved
-    // output without auto-running.
-    openNotebook(path);
-  });
+  const offNotebookOpen = installNotebookOpenPush();
   const offClipboard = onPush('clipboard.image', (p) => {
     const dataUrl = String((p as { dataUrl?: string }).dataUrl ?? '');
     if (!dataUrl) return;

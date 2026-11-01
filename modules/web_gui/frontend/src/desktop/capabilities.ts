@@ -13,6 +13,17 @@ import type { AppCapabilitiesResult } from '../rpc/types';
 const unavailable: AppCapabilitiesResult = { nflow: false, packageManager: false };
 let capabilities = unavailable;
 const listeners = new Set<() => void>();
+//=============================================================================
+// What this page is from client.role: the desktop, one figure window or the Notebook window.
+export type ClientRole = 'desktop' | 'figure' | 'notebook';
+let clientRole: ClientRole = 'desktop';
+export function setClientRole(role: ClientRole | undefined): void {
+  if (role === 'desktop' || role === 'figure' || role === 'notebook') clientRole = role;
+}
+//=============================================================================
+export function getClientRole(): ClientRole {
+  return clientRole;
+}
 export function getDesktopCapabilities(): AppCapabilitiesResult {
   return capabilities;
 }

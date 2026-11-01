@@ -34,6 +34,8 @@ struct WebUiLaunchOptions
     // window; each figure opens its own native WebView window. The interpreter
     // I/O stays on the real terminal.
     bool figuresOnly { false };
+    // Notebook host of the Qt desktop: one native WebView window on the Notebook editor.
+    bool notebookHost { false };
 };
 //=============================================================================
 struct WebUiLaunchResult

@@ -242,6 +242,8 @@ function panelActions(): DesktopAction[] {
     ['variables', 'Variables Editor', 'variables', '4'],
     ['profiler', 'Profiler', 'profiler', '5'],
     ['newsfeed', 'News feed', 'newsfeed', '6'],
+    ['breakpoints', 'Breakpoints', 'stop', '7'],
+    ['callstack', 'Call Stack', 'layout', '8'],
     ['diagnostics', 'Diagnostics', 'info'],
     ['terminal', 'Terminal', 'terminal'],
   ];
@@ -372,7 +374,7 @@ function shellAndLayoutActions(): DesktopAction[] {
       id: 'file.newNotebook',
       title: 'New Notebook',
       category: 'File',
-      icon: 'examples',
+      icon: 'notebook',
       run: () => openNotebook(),
     },
     {

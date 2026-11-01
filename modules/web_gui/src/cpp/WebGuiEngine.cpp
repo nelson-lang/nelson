@@ -11,6 +11,7 @@
 #include "WebGuiRpc.hpp"
 #include "WebGuiServer.hpp"
 #include "WebGuiTerminal.hpp"
+#include "WebDesktopBridge.hpp"
 #include "Evaluator.hpp"
 #include <cstdio>
 #include <memory>
@@ -84,6 +85,50 @@ NelsonWebGuiShutdown()
     auto* server = WebGuiServer::activeServer();
     if (server != nullptr) {
         server->shutdown();
+    }
+}
+//=============================================================================
+// The notebook host lives until process exit, like the other native web windows.
+static WebGuiServer* notebookHostServer = nullptr;
+static WebGuiRpc* notebookHostRpc = nullptr;
+//=============================================================================
+bool
+NelsonWebGuiOpenNotebook(void* evaluator, const wchar_t* path)
+{
+    const std::wstring document = path != nullptr ? std::wstring(path) : std::wstring();
+    // A web desktop already serves the Notebook editor as a panel.
+    if (WebDesktopBridge::getInstance()->openWebNotebook(document)) {
+        return true;
+    }
+    if (WebGuiServer::activeServer() != nullptr || evaluator == nullptr) {
+        return false;
+    }
+    if (notebookHostServer == nullptr) {
+        auto server = std::make_unique<WebGuiServer>();
+        WebUiLaunchOptions options;
+        options.notebookHost = true;
+        if (!server->start(L"web_gui/frontend/dist", options)) {
+            std::fprintf(
+                stderr, "Nelson Notebook window failed: %s\n", server->launchError().c_str());
+            return false;
+        }
+        // Built after start(), because the dispatcher reads the host mode of the server.
+        auto rpc = std::make_unique<WebGuiRpc>(server.get(), nullptr);
+        rpc->setEvaluator(static_cast<Evaluator*>(evaluator));
+        server->setDispatcher(rpc.get());
+        server->setEngineReady();
+        notebookHostServer = server.release();
+        notebookHostRpc = rpc.release();
+    }
+    // start() registered the notebook opener, the same path as the web desktop.
+    return WebDesktopBridge::getInstance()->openWebNotebook(document);
+}
+//=============================================================================
+void
+NelsonWebGuiCloseNotebookHost()
+{
+    if (notebookHostServer != nullptr) {
+        notebookHostServer->shutdown();
     }
 }
 //=============================================================================

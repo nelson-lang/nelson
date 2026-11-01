@@ -15,6 +15,7 @@ import { clearedOutputProps, isCellRunning } from '../cellOutputs';
 import { isFigureLive, parseFigureHandles, closeLiveFigures, releaseFigure } from '../liveFigures';
 import { FigurePanel } from '../../panels/FigurePanel';
 import { undockFigure } from '../../desktop/desktop';
+import { getClientRole } from '../../desktop/capabilities';
 //=============================================================================
 interface CodeCellProps {
   block: any;
@@ -185,7 +186,10 @@ export function CodeCell({ block, editor }: CodeCellProps) {
                         ? Number(block.props.runRevision)
                         : src
                     }
-                    onPopOut={() => popOutFigure(i)}
+                    onPopOut={
+                      // The Qt desktop has no web figure panel to receive it.
+                      getClientRole() === 'notebook' ? undefined : () => popOutFigure(i)
+                    }
                   />
                 </div>
               );

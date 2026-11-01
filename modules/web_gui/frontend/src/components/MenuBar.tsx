@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import { useMenuDismiss } from './useMenuDismiss';
 import { getDockApi, listOpenPanels, subscribeDock } from '../desktop/desktop';
 import { getRecentFiles } from '../desktop/recentFiles';
 import { listNamedLayouts } from '../desktop/layout';
@@ -31,7 +32,7 @@ interface MenuItemProps {
   setOpen: (name: string | null) => void;
 }
 //=============================================================================
-function MenuItem({ children, label, name, open, setOpen }: MenuItemProps): JSX.Element {
+export function MenuItem({ children, label, name, open, setOpen }: MenuItemProps): JSX.Element {
   const focusTrigger = () =>
     document
       .querySelector<HTMLButtonElement>(`.menubar__item[data-menu="${name}"] > button`)
@@ -106,20 +107,9 @@ export function MenuBar(): JSX.Element {
     if (nativeMenu) refreshNelsonNativeMenu();
   });
 
-  // Close the open menu on a pointer down outside the menu bar. The open
-  // dropdown renders inside the bar, so it counts as inside.
-  useEffect(() => {
-    if (!open || nativeMenu) return undefined;
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Element | null;
-      if (target?.closest?.('.menubar')) return;
-      setOpen(null);
-    };
-    document.addEventListener('pointerdown', onPointerDown, true);
-    return () => document.removeEventListener('pointerdown', onPointerDown, true);
-  }, [open, nativeMenu]);
-
-  const close = () => setOpen(null);
+  // Close the open menu on a pointer down outside the bar or on Escape.
+  const close = useCallback(() => setOpen(null), []);
+  useMenuDismiss(!!open && !nativeMenu, close, '.menubar');
   const run = (id: string) => {
     executeDesktopAction(id);
     close();

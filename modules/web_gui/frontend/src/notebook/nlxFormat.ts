@@ -41,16 +41,20 @@ interface FigureRef {
   base64: boolean;
 }
 //=============================================================================
-function base64ToBytes(b64: string): Uint8Array {
+export function base64ToBytes(b64: string): Uint8Array {
   const bin = atob(b64);
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
 }
 //=============================================================================
-function bytesToBase64(bytes: Uint8Array): string {
+export function bytesToBase64(bytes: Uint8Array): string {
+  // One call per 32 KiB chunk keeps the argument list small for big files.
   let bin = '';
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
   return btoa(bin);
 }
 //=============================================================================

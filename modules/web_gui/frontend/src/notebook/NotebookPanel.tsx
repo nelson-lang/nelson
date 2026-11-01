@@ -43,8 +43,14 @@ import {
   ipynbToBlocks,
   inlineText,
 } from './exporters';
-import { serializeNlx, parseNlx } from './nlxFormat';
+import { serializeNlx, parseNlx, base64ToBytes } from './nlxFormat';
 import { toggleNotebookMenu, type NotebookMenu } from './menuState';
+import { onNotebookCommand } from './commands';
+import { useMenuDismiss } from '../components/useMenuDismiss';
+import { requestSavePath } from '../components/DesktopFilePickerHost';
+import { isWasmRuntime } from '../desktop/platform';
+import { hasFormat, saveNotebookDocument, type NotebookSaveFormat } from './saveDocument';
+import { baseName } from '../desktop/paths';
 //=============================================================================
 function useDarkScheme(): boolean {
   const read = () =>
@@ -110,6 +116,8 @@ function notifyRunCompleted() {
 //=============================================================================
 interface PanelApiLike {
   setTitle?: (title: string) => void;
+  // dockview tells which panel is active; the menu bar addresses that one
+  isActive?: boolean;
 }
 //=============================================================================
 function ToolbarCaret(): JSX.Element {
@@ -132,6 +140,9 @@ export function NotebookPanel({
   const [runningBlockId, setRunningBlockId] = useState<string | null>(null);
   const [docVersion, setDocVersion] = useState(0);
   const [openMenu, setOpenMenu] = useState<NotebookMenu | null>(null);
+  // The host path the document came from or was last saved to; Save writes there.
+  const [docPath, setDocPath] = useState<string | undefined>(path);
+  const [saveNotice, setSaveNotice] = useState('');
   const editor = useCreateBlockNote({ schema });
   // The code each cell had when it last ran, the basis for staleness.
   const lastRunCode = useRef<Record<string, string>>({});
@@ -377,16 +388,44 @@ export function NotebookPanel({
   }, [allFigureHandles]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const saveNlx = useCallback(() => {
-    download(
-      'notebook.nlx',
-      serializeNlx(editor.document as any[]) as unknown as BlobPart,
-      'application/zip'
-    );
-  }, [editor]);
-  const saveM = useCallback(() => {
-    download('notebook.m', blocksToM(editor.document as any[]), 'text/plain');
-  }, [editor]);
+  // A short notice next to the Save button: where the document went, or why not.
+  const noticeTimer = useRef<number | undefined>(undefined);
+  const notify = useCallback((text: string) => {
+    setSaveNotice(text);
+    if (noticeTimer.current !== undefined) window.clearTimeout(noticeTimer.current);
+    noticeTimer.current = window.setTimeout(() => setSaveNotice(''), 4000);
+  }, []);
+  useEffect(() => () => window.clearTimeout(noticeTimer.current), []);
+  // Save writes on the host through a path picker; the WebAssembly build downloads the file.
+  const saveDocument = useCallback(
+    async (format: NotebookSaveFormat, saveAs: boolean) => {
+      const blocks = editor.document as any[];
+      const result = await saveNotebookDocument(
+        {
+          payload: format === 'nlx' ? serializeNlx(blocks) : blocksToM(blocks),
+          format,
+          path: docPath,
+          saveAs,
+          baseName: docPath ? titleFromName(baseName(docPath)) : 'notebook',
+        },
+        { rpc, pickPath: requestSavePath, download, browserOnly: isWasmRuntime }
+      );
+      if (result.kind === 'saved') {
+        setDocPath(result.path);
+        panelApi?.setTitle?.(titleFromName(baseName(result.path)));
+        notify(`Saved ${baseName(result.path)}`);
+      } else if (result.kind === 'error') {
+        notify(`Save failed: ${result.message}`);
+      }
+    },
+    [editor, docPath, panelApi, notify]
+  );
+  const save = useCallback(
+    () => void saveDocument(hasFormat(docPath, 'm') ? 'm' : 'nlx', false),
+    [saveDocument, docPath]
+  );
+  const saveNlx = useCallback(() => void saveDocument('nlx', true), [saveDocument]);
+  const saveM = useCallback(() => void saveDocument('m', true), [saveDocument]);
   // Decode a document's bytes into blocks by its extension: .m round-trips via
   // its markers (a plain script is converted), .ipynb imports, .nlx unpacks.
   const decodeDocument = useCallback((name: string, bytes: Uint8Array): any[] | null => {
@@ -419,6 +458,22 @@ export function NotebookPanel({
     [loadDocument, decodeDocument]
   );
 
+  // The menu bar of the Notebook window addresses the active document.
+  useEffect(
+    () =>
+      onNotebookCommand(
+        () => panelApi?.isActive ?? true,
+        (command) => {
+          if (command === 'open') fileInputRef.current?.click();
+          else if (command === 'save') save();
+          else if (command === 'saveAs') saveNlx();
+          else if (command === 'saveM') saveM();
+          else if (command === 'runAll') void runAllSafe();
+        }
+      ),
+    [panelApi, save, saveNlx, saveM, runAllSafe]
+  );
+
   // Expose the codecs for e2e and native round-trip checks.
   useEffect(() => {
     (window as any).__notebookNlx = {
@@ -443,11 +498,8 @@ export function NotebookPanel({
       void rpc<{ data?: string; name?: string }>('fs.download', { path })
         .then((r) => {
           if (r.data) {
-            const bin = atob(r.data);
-            const bytes = new Uint8Array(bin.length);
-            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-            const name = r.name || path.split(/[\\/]/).pop() || 'document.nlx';
-            loadDocument(decodeDocument(name, bytes), name);
+            const name = r.name || baseName(path) || 'document.nlx';
+            loadDocument(decodeDocument(name, base64ToBytes(r.data)), name);
           }
           staleReady.current = true;
         })
@@ -535,7 +587,9 @@ export function NotebookPanel({
     ]
   );
 
-  const closeMenu = () => setOpenMenu(null);
+  const closeMenu = useCallback(() => setOpenMenu(null), []);
+  // A toolbar menu closes like a native one: pointer down outside or Escape.
+  useMenuDismiss(openMenu !== null, closeMenu, '.nls-menu[open]');
   const toggleMenu = (menu: NotebookMenu) => (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setOpenMenu((current) => toggleNotebookMenu(current, menu));
@@ -636,10 +690,18 @@ export function NotebookPanel({
                 <button
                   onClick={() => {
                     closeMenu();
+                    save();
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => {
+                    closeMenu();
                     saveNlx();
                   }}
                 >
-                  Notebook (.nlx)
+                  Save As… (.nlx)
                 </button>
                 <button
                   onClick={() => {
@@ -647,10 +709,15 @@ export function NotebookPanel({
                     saveM();
                   }}
                 >
-                  Plain text (.m)
+                  Save as Script… (.m)
                 </button>
               </div>
             </details>
+            {saveNotice && (
+              <span className="nls-save-notice" role="status">
+                {saveNotice}
+              </span>
+            )}
             <input
               ref={fileInputRef}
               type="file"

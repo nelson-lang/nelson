@@ -27,5 +27,11 @@ NelsonWebGuiPumpEvents();
 extern "C" NLSWEB_GUI_IMPEXP void
 NelsonWebGuiShutdown();
 //=============================================================================
+// Open a Notebook document in the Qt Notebook window; an empty path is a new document.
+extern "C" NLSWEB_GUI_IMPEXP bool
+NelsonWebGuiOpenNotebook(void* evaluator, const wchar_t* path);
+extern "C" NLSWEB_GUI_IMPEXP void
+NelsonWebGuiCloseNotebookHost();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

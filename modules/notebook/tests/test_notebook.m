@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('notebook'), 1);
+% notebook() opens the editor, notebook(filename) runs the document
+asserts.isequal(nargin('notebook'), -1);
 asserts.isequal(nargout('notebook'), 1);
 %=============================================================================
 % A plain .m script runs as a single cell.

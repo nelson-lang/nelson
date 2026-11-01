@@ -76,6 +76,15 @@ public:
     {
         return m_launchOptions.figuresOnly;
     }
+    // Notebook host of the Qt desktop: the Notebook editor alone, closing it never quits Nelson.
+    bool
+    notebookHost() const
+    {
+        return m_launchOptions.notebookHost;
+    }
+    // Open a Notebook document in the frontend; an empty path is a new one. False without a window.
+    bool
+    openNotebookDocument(const std::wstring& path);
 
     // Push an event to the frontend: window.__nelsonPush(channel, payloadJson).
     // pushJson targets the main desktop window; pushJsonToWindow targets a
@@ -233,6 +242,12 @@ private:
     // and notifies the desktop so the figure can return to a docked panel.
     static bool
     figureWindowCloseHandler(size_t window);
+    // Close handler of the notebook host window: retires the window id and stops the pushes.
+    static bool
+    notebookWindowCloseHandler(size_t window);
+    // Shows the notebook host window, creating a fresh WebUI window after a close.
+    bool
+    showNotebookWindow();
     void
     drainMainThreadTasks();
     void
@@ -287,6 +302,10 @@ private:
     std::condition_variable m_launchCv;
     bool m_launchCompleted { false };
     bool m_clientReady { false };
+    // Notebook host state: pending documents, retired window id and whether a window is shown.
+    std::vector<std::string> m_pendingNotebookOpens;
+    size_t m_retiredWindow { 0 };
+    std::atomic<bool> m_notebookWindowOpen { false };
     ProcessQtEventsFn m_processQtEvents { nullptr };
     // Push tasks carry their target WebUI window (0 = main desktop window), so
     // figure.frame reaches the separate native window hosting that figure.

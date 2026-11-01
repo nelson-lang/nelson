@@ -34,15 +34,19 @@ const PANELS: RailButton[] = [
   { id: 'variables', icon: 'variables', label: 'Variables Editor', key: '4' },
   { id: 'profiler', icon: 'profiler', label: 'Profiler', key: '5' },
   { id: 'newsfeed', icon: 'newsfeed', label: 'News feed', key: '6' },
+  { id: 'breakpoints', icon: 'stop', label: 'Breakpoints', key: '7' },
+  { id: 'callstack', icon: 'layout', label: 'Call Stack', key: '8' },
   { id: 'diagnostics', icon: 'info', label: 'Diagnostics' },
   { id: 'terminal', icon: 'terminal', label: 'Terminal' },
   { id: 'examples', icon: 'examples', label: 'Examples' },
+  { id: 'notebook', icon: 'notebook', label: 'New Notebook' },
   { id: 'packageManager', icon: 'package', label: 'Package Manager' },
 ];
 //=============================================================================
 // Rail entries that run a desktop action instead of toggling a panel.
 const COMMAND_BUTTONS: Record<string, string> = {
   examples: 'help.examples',
+  notebook: 'file.newNotebook',
   packageManager: 'tools.packageManager',
 };
 //=============================================================================
