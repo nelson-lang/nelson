@@ -82,7 +82,7 @@ webProfilePath()
     char* path = nullptr;
     size_t pathLength = 0;
     if (_dupenv_s(&path, &pathLength, "NELSON_WEB_PROFILE_DISPLAYLIST") != 0 || path == nullptr) {
-        return { };
+        return {};
     }
     std::string result(path);
     free(path);
@@ -334,7 +334,7 @@ encodeMeshColorsUint8(const std::vector<float>& colors)
 struct CachedEncodedMesh
 {
     std::string positionsF16;
-    std::array<double, 6> positionBox { };
+    std::array<double, 6> positionBox {};
     bool drawFaces = false;
     std::string vertexColorsU8;
     std::string triangleIndicesBase64;
