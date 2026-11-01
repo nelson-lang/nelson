@@ -133,7 +133,7 @@ namespace {
         set(ArrayOf arg) override
         {
             if (!arg.isNumeric() || !arg.isScalar()) {
-                Error(L"Nelson:validators:mustBeNumeric", L"Value must be a numeric scalar.");
+                Error(L"Nelson:validators:mustBeNumericScalar", L"Value must be a numeric scalar.");
             }
             ArrayOf value(arg);
             value.promoteType(NLS_DOUBLE);

@@ -28,7 +28,7 @@ function web_figure_properties(f, ax, request)
       error('Nelson:graphics:invalidProperty', 'This property cannot be edited here.');
     end
     if ~any(strcmp(name, writableNames))
-      error('Nelson:graphics:readOnlyProperty', 'This property is read-only.');
+      error('Nelson:graphics:readOnlyProperty', 'Property is read-only: %s', name);
     end
     args = [args, {name, request.properties.(name)}];
   end

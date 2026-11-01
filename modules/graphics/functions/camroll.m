@@ -14,7 +14,7 @@ function camroll(varargin)
   nargoutchk(0, 0);
   [ax, args] = __camAxesArgs__(varargin);
   if (numel(args) ~= 1)
-    error('Nelson:graphics:invalidInputArguments', 'A single roll angle expected.');
+    error('Nelson:camroll:singleRollAngleExpected', 'A single roll angle expected.');
   end
   dtheta = args{1};
   if (~(isnumeric(dtheta) && isscalar(dtheta) && isreal(dtheta) && isfinite(dtheta)))
