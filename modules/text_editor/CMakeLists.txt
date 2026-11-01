@@ -76,6 +76,7 @@ else()
       nlsCharacters_encoding
       nlsCommons
       nlsEngine
+      nlsError_manager
       nlsFunctions_manager
       nlsGui
       nlsI18n
