@@ -16,7 +16,7 @@ function camorbit(varargin)
   nargoutchk(0, 0);
   [ax, args] = __camAxesArgs__(varargin);
   if (numel(args) < 2)
-    error('Nelson:graphics:invalidInputArguments', 'Horizontal and vertical angles expected.');
+    error('Nelson:camorbit:anglesExpected', 'Horizontal and vertical angles expected.');
   end
   dtheta = args{1};
   dphi = args{2};

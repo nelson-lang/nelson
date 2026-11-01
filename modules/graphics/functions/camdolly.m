@@ -16,7 +16,7 @@ function camdolly(varargin)
   nargoutchk(0, 0);
   [ax, args] = __camAxesArgs__(varargin);
   if (numel(args) < 3)
-    error('Nelson:graphics:invalidInputArguments', 'dx, dy and dz expected.');
+    error('Nelson:camdolly:offsetsExpected', 'dx, dy and dz expected.');
   end
   dx = args{1};
   dy = args{2};

@@ -19,7 +19,7 @@ function camlookat(varargin)
   else
     h = varargin{1};
     if (~(isscalar(h) && isgraphics(h)))
-      error('Nelson:graphics:invalidInputArguments', 'A graphics object expected.');
+      error('Nelson:camlookat:graphicsObjectExpected', 'A graphics object expected.');
     end
     if (isgraphics(h, 'axes'))
       ax = h;

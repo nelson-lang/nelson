@@ -35,7 +35,7 @@ function inspect(varargin)
     return;
   end
   if isempty(arg) || ~all(isgraphics(arg(:)))
-    error('Nelson:graphics:invalidHandle', 'A graphics object is expected.');
+    error('Nelson:graphics:invalidHandle', 'Invalid handle.');
   end
   target = arg(1);
   f = local_figure_of(target);
