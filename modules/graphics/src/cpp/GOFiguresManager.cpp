@@ -54,7 +54,8 @@ private:
 public:
     GOFiguresManagerSingleton(const GOFiguresManagerSingleton&) = delete;
     GOFiguresManagerSingleton&
-    operator=(const GOFiguresManagerSingleton&) = delete;
+    operator=(const GOFiguresManagerSingleton&)
+        = delete;
 
     static GOFiguresManagerSingleton&
     getInstance()
