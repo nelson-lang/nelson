@@ -118,9 +118,13 @@ private:
     std::wstring m_currentPrompt;
     size_t m_cols { 80 };
     size_t m_rows { 25 };
+    // The last line handed to the REPL was the blank drain of queued graphics
+    // callbacks, not typed input (guarded by m_mutex).
+    bool m_drainedCallbacks { false };
 
+    // replPrompt: the line is read for the REPL, not for input()/keyboard.
     std::wstring
-    waitForLine(const std::wstring& prompt);
+    waitForLine(const std::wstring& prompt, bool replPrompt);
 };
 //=============================================================================
 } // namespace Nelson

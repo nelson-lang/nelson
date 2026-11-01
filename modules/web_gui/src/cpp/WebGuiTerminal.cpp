@@ -43,16 +43,28 @@ WebGuiTerminal::~WebGuiTerminal()
 }
 //=============================================================================
 std::wstring
-WebGuiTerminal::waitForLine(const std::wstring& prompt)
+WebGuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
 {
+    bool pushPrompt = true;
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_currentPrompt = prompt;
+        if (replPrompt) {
+            // The blank line handed out to drain graphics callbacks is not a command
+            // the user typed. When a typed line already waits behind those callbacks
+            // it is consumed right below: re-pushing the prompt here would draw one
+            // between the echo of that line and its output, and report the engine
+            // Ready while the line is about to run.
+            pushPrompt = !(m_drainedCallbacks && !m_pending.empty());
+        }
+        m_drainedCallbacks = false;
     }
     // Reaching a prompt means the engine finished initialising: open the RPC
     // gate so the frontend's queries can be served.
     m_server->setEngineReady();
-    m_server->pushJson("term.prompt", nlohmann::json { { "prompt", wstring_to_utf8(prompt) } });
+    if (pushPrompt) {
+        m_server->pushJson("term.prompt", nlohmann::json { { "prompt", wstring_to_utf8(prompt) } });
+    }
     std::unique_lock<std::mutex> lock(m_mutex);
     m_atPrompt = true;
     for (;;) {
@@ -87,6 +99,7 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt)
         // CallbackQueue, as adv-cli does.
         if (!CallbackQueue::getInstance()->isEmpty() || !EventQueue::getInstance()->isEmpty()) {
             m_atPrompt = false;
+            m_drainedCallbacks = true;
             return std::wstring(1, L'\n');
         }
         if (!m_pending.empty()) {
@@ -101,7 +114,7 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt)
 std::wstring
 WebGuiTerminal::getLine(const std::wstring& prompt)
 {
-    std::wstring line = waitForLine(prompt);
+    std::wstring line = waitForLine(prompt, true);
     // Record the command in the history manager, as the CLI and Qt terminals do,
     // skipping interrupts (empty) and the synthetic "\n". history.changed is pushed now
     // so the History panel shows the command while it runs.
@@ -115,13 +128,13 @@ WebGuiTerminal::getLine(const std::wstring& prompt)
 std::string
 WebGuiTerminal::getLine(const std::string& prompt)
 {
-    return wstring_to_utf8(waitForLine(utf8_to_wstring(prompt)));
+    return wstring_to_utf8(waitForLine(utf8_to_wstring(prompt), true));
 }
 //=============================================================================
 std::wstring
 WebGuiTerminal::getInput(const std::wstring& prompt)
 {
-    return waitForLine(prompt);
+    return waitForLine(prompt, false);
 }
 //=============================================================================
 void

@@ -204,6 +204,17 @@ asserts.checkerror('raincloudplot({''a'', ''b''}, [1 2]);', getString(message('N
 asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'raincloudplot')));
 asserts.checkerror('raincloudplot([1 2], ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'raincloudplot')), 'Nelson:graphics:unsupportedProperty');
 asserts.checkerror('raincloudplot([1 2], ''FaceAlpha'');', getString(message('Nelson:graphics:nameValueArgumentsExpected')), 'Nelson:graphics:nameValueArgumentsExpected');
+%=============================================================================
+% A rejected property leaves nothing behind: the object is attached to the axes before
+% it is validated, and a half-built child would throw again from every later paint.
+f = figure('Visible', 'off');
+ax = axes();
 asserts.checkerror('raincloudplot([1 2], ''DensityWidth'', -1);', getString(message('Nelson:graphics:mustBePositiveFinite', 'DensityWidth')));
+asserts.istrue(isempty(ax.Children));
+asserts.checkerror('raincloudplot(ax, [1 2], ''FaceAlpha'', 2);', getString(message('Nelson:raincloudplot:outOfRange', 'FaceAlpha')), 'Nelson:raincloudplot:outOfRange');
+asserts.istrue(isempty(ax.Children));
+drawnow();
+__web_display_list__(f);
+close(f);
 close all
 %=============================================================================
