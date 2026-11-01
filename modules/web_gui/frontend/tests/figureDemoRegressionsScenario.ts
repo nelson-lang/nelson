@@ -37,9 +37,9 @@ export async function figureUiLayoutScenario(page: Page, portable = false) {
     await waitForFigureLayout(page);
     const drawing = page.locator('.figure-panel__canvas');
     const width = await drawing.evaluate((element) => element.clientWidth);
-    // flush the figure's queued SizeChangedFcn first so its async output cannot interleave with the prompt and split the marker line
+    // drawnow() deadlocks when Properties is open; poll for figure width instead.
     await run(
-      `drawnow(); asserts.istrue(state.axes.Position(1)*${width}>=329); asserts.istrue(state.statusText.Position(1)+state.statusText.Position(3)<=${width}+1)`
+      `for k=1:40; pause(0.05); if abs(figureHandle.Position(3)-${width})<10; break; end; end; asserts.istrue(state.axes.Position(1)*${width}>=329); asserts.istrue(state.statusText.Position(1)+state.statusText.Position(3)<=${width}+1)`
     );
     await page.getByRole('tab', { name: /Complete UI controls/ }).click();
   }
