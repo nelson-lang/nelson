@@ -28,7 +28,8 @@ try
       benchmarkName = benchmarkNames{1 + benchmarkOpen};
       benchmarkBooleans = {'false', 'true'};
       benchmarkSettings = fopen(benchmarkSettingsPath, 'wt');
-      fprintf(benchmarkSettings, '[FigureWorkspace]\nproperties=%s\nnavigation=false\ndetails=false\nwidth=320\n', benchmarkBooleans{1 + benchmarkOpen});
+      fprintf(benchmarkSettings, '[FigureWorkspace]\nproperties=%s\nnavigation=false\ndetails=false\nwidth=320\n', ...
+        benchmarkBooleans{1 + benchmarkOpen});
       fclose(benchmarkSettings);
       setenv('NELSON_QT_FIGURE_SETTINGS', benchmarkSettingsPath);
       benchmarkPath = fullfile(benchmarkDirectory, sprintf('trial-%d-%s.json', benchmarkTrial, benchmarkName));
@@ -81,7 +82,8 @@ try
   benchmarkOutput = fopen(fullfile(benchmarkDirectory, 'summary.json'), 'wt');
   fprintf(benchmarkOutput, '%s\n', jsonencode(benchmarkSummary));
   fclose(benchmarkOutput);
-  fprintf('Median: closed %.3f FPS, open %.3f FPS, loss %.3f FPS\n', benchmarkClosed, benchmarkOpen, benchmarkClosed - benchmarkOpen);
+  fprintf('Median: closed %.3f FPS, open %.3f FPS, loss %.3f FPS\n', benchmarkClosed, benchmarkOpen, ...
+    benchmarkClosed - benchmarkOpen);
 catch benchmarkFailure
   setenv('NELSON_QT_FIGURE_SETTINGS', benchmarkPreviousSettings);
   rethrow(benchmarkFailure);

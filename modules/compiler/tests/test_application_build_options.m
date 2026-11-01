@@ -21,23 +21,27 @@ if ispc()
 end
 output = fullfile(directory, ['rejected', extension]);
 for options = {[], 1, {true}, struct('unknown', true), repmat(struct('autoDetectDataFiles', true), 1, 2)}
-  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options{1})', 'Invalid application build options.');
+  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options{1})', ...
+    'Invalid application build options.');
   asserts.isfalse(isfile(output));
 end
 for value = {0, 1, [], 'off', [true false]}
   options = struct('autoDetectDataFiles', value{1});
-  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', 'Automatic data detection must be a logical scalar.');
+  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', ...
+    'Automatic data detection must be a logical scalar.');
   asserts.isfalse(isfile(output));
 end
 for value = {true, char([1 2; 3 4]), char(0)}
   options = struct('helpText', value{1});
-  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', 'Invalid application help text.');
+  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', ...
+    'Invalid application help text.');
   asserts.isfalse(isfile(output));
 end
 legacy = fullfile(directory, ['legacy', extension]);
 for value = {0, 1, [], 'off', [true false]}
   options = struct('noConsole', value{1});
-  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', 'No-console mode must be a logical scalar.');
+  asserts.checkerror('__nelsonc_build__(entry, output, {}, false, ''installed'', options)', ...
+    'No-console mode must be a logical scalar.');
   asserts.isfalse(isfile(output));
 end
 __nelsonc_build__(entry, legacy, {}, false, 'installed', 'LEGACY_BUILD_HELP');

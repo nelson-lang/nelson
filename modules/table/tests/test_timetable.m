@@ -57,7 +57,8 @@ asserts.isequal(D.A, [3; 4; 7]);
 msg = _('Timetable row times must be datetime or duration values.');
 asserts.checkerror('timetable([1; 2], [3; 4])', msg);
 msg = _('RowTimes property must contain one time for each row in the timetable.');
-asserts.checkerror('timetable([1; 2], ''RowTimes'', seconds(1), ''VariableNames'', {''A''})', msg, 'Nelson:timetable:incorrectNumberOfRowTimes');
+asserts.checkerror('timetable([1; 2], ''RowTimes'', seconds(1), ''VariableNames'', {''A''})', msg, ...
+  'Nelson:timetable:incorrectNumberOfRowTimes');
 %=============================================================================
 TT = timetable(seconds([3; 1; 2]), [30; 10; 20], 'VariableNames', {'A'});
 [S, I] = sortrows(TT);

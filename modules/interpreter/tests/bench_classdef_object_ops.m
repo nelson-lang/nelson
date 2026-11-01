@@ -27,7 +27,7 @@ asserts.isequal(c.Id, 3);
 % create N objects in a growing array
 tic();
 for i = 1:N_CREATE
-  v(i) = ClassdefBenchPoint(i); %#ok<SAGROW>
+  v(i) = ClassdefBenchPoint(i); %#ok<NLS0039>
 end
 t = toc();
 asserts.isequal(v(N_CREATE).Id, N_CREATE);

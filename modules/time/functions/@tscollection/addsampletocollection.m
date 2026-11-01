@@ -16,7 +16,8 @@ function obj = addsampletocollection(obj, varargin)
     elseif isfield(memberData, names{k})
       obj.Members_.(names{k}) = addsample(obj.Members_.(names{k}), 'Time', time, 'Data', memberData.(names{k}));
     else
-      obj.Members_.(names{k}) = addsample(obj.Members_.(names{k}), 'Time', time, 'Data', missingSample(obj.Members_.(names{k})));
+      obj.Members_.(names{k}) = addsample(obj.Members_.(names{k}), 'Time', time, 'Data', ...
+        missingSample(obj.Members_.(names{k})));
     end
   end
   if ~isempty(names)

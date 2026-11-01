@@ -31,11 +31,17 @@ mustBeA(int8(1), 'integer')
 mustBeA(uint64(1), {'char', 'integer'})
 mustBeA(1, ["char", "numeric"])
 %=============================================================================
-asserts.checkerror('mustBeA(TT, ''table'')', 'Value must have one of these types: ''table''.', 'Nelson:validators:mustBeA');
-asserts.checkerror('mustBeA(T, ''timetable'')', 'Value must have one of these types: ''timetable''.', 'Nelson:validators:mustBeA');
-asserts.checkerror('mustBeA(true, ''numeric'')', 'Value must have one of these types: ''numeric''.', 'Nelson:validators:mustBeA');
-asserts.checkerror('mustBeA(int8(1), ''float'')', 'Value must have one of these types: ''float''.', 'Nelson:validators:mustBeA');
-asserts.checkerror('mustBeA(1, ''integer'')', 'Value must have one of these types: ''integer''.', 'Nelson:validators:mustBeA');
-asserts.checkerror('mustBeA(1, ''NUMERIC'')', 'Value must have one of these types: ''NUMERIC''.', 'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(TT, ''table'')', 'Value must have one of these types: ''table''.', ...
+  'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(T, ''timetable'')', 'Value must have one of these types: ''timetable''.', ...
+  'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(true, ''numeric'')', 'Value must have one of these types: ''numeric''.', ...
+  'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(int8(1), ''float'')', 'Value must have one of these types: ''float''.', ...
+  'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(1, ''integer'')', 'Value must have one of these types: ''integer''.', ...
+  'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(1, ''NUMERIC'')', 'Value must have one of these types: ''NUMERIC''.', ...
+  'Nelson:validators:mustBeA');
 asserts.checkerror('mustBeA(1, {''char'', ''string''}, 2)', sprintf('Invalid input argument at position 2.\nValue must have one of these types: ''char'', or ''string''.'), 'Nelson:validators:mustBeA');
 %=============================================================================

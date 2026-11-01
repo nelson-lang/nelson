@@ -14,12 +14,14 @@ function out = symvar(s)
   end
   if isstring(s)
     if ~isscalar(s)
-      error('Nelson:string:inputArgumentCharacterVectorString', 'Input argument must be a character vector or a string scalar.');
+      error('Nelson:string:inputArgumentCharacterVectorString', ...
+        'Input argument must be a character vector or a string scalar.');
     end
     s = char(s);
   end
   if ~ischar(s) || (~isempty(s) && ~isrow(s))
-    error('Nelson:string:inputArgumentCharacterVectorString', 'Input argument must be a character vector or a string scalar.');
+    error('Nelson:string:inputArgumentCharacterVectorString', ...
+      'Input argument must be a character vector or a string scalar.');
   end
   % Identifiers, together with the character that follows them (after optional
   % spaces), so that a name written as a function call, name(...), can be
@@ -38,7 +40,7 @@ function out = symvar(s)
     if any(strcmp(name, special))
       continue;
     end
-    names{end + 1, 1} = name; %#ok<AGROW>
+    names{end + 1, 1} = name; %#ok<NLS0039>
   end
   if isempty(names)
     out = cell(0, 1);

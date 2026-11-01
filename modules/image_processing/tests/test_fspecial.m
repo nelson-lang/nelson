@@ -37,4 +37,5 @@ asserts.checkerror('fspecial(''gaussian'', [3 3], 0)', sprintf(_('%s must be a p
 %=============================================================================
 asserts.checkerror('fspecial(''disk'', -1)', sprintf(_('%s must be a nonnegative finite scalar.'), 'Disk radius'));
 %=============================================================================
-asserts.checkerror('fspecial(''laplacian'', 2)', sprintf(_('%s must be a finite scalar in the range [%s].'), 'Alpha', '0, 1'));
+asserts.checkerror('fspecial(''laplacian'', 2)', sprintf(_('%s must be a finite scalar in the range [%s].'), ...
+  'Alpha', '0, 1'));

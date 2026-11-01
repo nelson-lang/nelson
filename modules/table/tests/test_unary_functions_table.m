@@ -17,7 +17,8 @@ asserts.isequal(Age, 36);
 asserts.isequal(Height, 71);
 asserts.isequal(Weight, 76);
 asserts.isequal(BloodPressure, 44);
-REF = table(cos(Age), cos(Height), cos(Weight), cos(BloodPressure), 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+REF = table(cos(Age), cos(Height), cos(Weight), cos(BloodPressure), 'VariableNames', {'Age', 'Height', 'Weight', ...
+  'BloodPressure'});
 assert_table_numeric_isapprox(R, REF);
 %=============================================================================
 LastName = {'Smith'};
@@ -88,7 +89,8 @@ T = table(Age, Height, Weight, BloodPressure);
 
 for fun = functions'
   R = fun{1}(T);
-  REF = table(fun{1}(Age), fun{1}(Height), fun{1}(Weight), fun{1}(BloodPressure), 'VariableNames', {'Age', 'Height', 'Weight', 'BloodPressure'});
+  REF = table(fun{1}(Age), fun{1}(Height), fun{1}(Weight), fun{1}(BloodPressure), 'VariableNames', {'Age', 'Height', ...
+    'Weight', 'BloodPressure'});
   assert_table_numeric_isapprox(R, REF)
 end
 %=============================================================================

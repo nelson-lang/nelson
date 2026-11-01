@@ -31,7 +31,8 @@ classdef RegressionSVM
       if nargin == 0
         return
       end
-      error('Nelson:statistics:regressionSVMObjectsCreatedFitrsvm', '%s objects are created by %s.', 'RegressionSVM', 'fitrsvm');
+      error('Nelson:statistics:regressionSVMObjectsCreatedFitrsvm', '%s objects are created by %s.', ...
+        'RegressionSVM', 'fitrsvm');
     end
   end
 end

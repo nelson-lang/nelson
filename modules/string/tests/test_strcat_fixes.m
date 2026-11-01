@@ -16,7 +16,8 @@ asserts.isequal(strcat(['a '; 'b '], 'c'), ['ac'; 'bc']);
 asserts.isequal(strcat(['a '; 'bb'], 'c'), ['ac '; 'bbc']);
 asserts.isequal(strcat('a', [66; 67]), ['aB'; 'aC']);
 asserts.isequal(strcat('ab', [66; 67]), ['abB'; 'abC']);
-asserts.checkerror('R = strcat([''a''; ''b''], [''c''; ''d''; ''e'']);', 'All character array inputs must have the same number of rows.', 'Nelson:string:strcat:rowCountMismatch');
+asserts.checkerror('R = strcat([''a''; ''b''], [''c''; ''d''; ''e'']);', ...
+  'All character array inputs must have the same number of rows.', 'Nelson:string:strcat:rowCountMismatch');
 %=============================================================================
 % numbers are taken as character codes
 asserts.isequal(strcat('a', 65), 'aA');

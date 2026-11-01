@@ -82,14 +82,19 @@ asserts.checkerror('imresize3(sparse([1 2]), 2)', sprintf(_('%s are not supporte
 %=============================================================================
 asserts.checkerror('imresize3(ones(2, 2, 2), 0)', _('Scale factor must be positive and finite.'));
 %=============================================================================
-asserts.checkerror('imresize3(ones(2, 2, 2), [2 2])', _('Scale factor must be a scalar or output size a 3-element vector.'));
+asserts.checkerror('imresize3(ones(2, 2, 2), [2 2])', ...
+  _('Scale factor must be a scalar or output size a 3-element vector.'));
 %=============================================================================
-asserts.checkerror('imresize3(ones(2, 2, 2), [2 Inf 2])', sprintf(_('%s must contain positive finite values.'), 'Output size'));
+asserts.checkerror('imresize3(ones(2, 2, 2), [2 Inf 2])', sprintf(_('%s must contain positive finite values.'), ...
+  'Output size'));
 %=============================================================================
-asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''cubic'')', sprintf(_('Unsupported "%s" option.'), 'interpolation method'));
+asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''cubic'')', sprintf(_('Unsupported "%s" option.'), ...
+  'interpolation method'));
 %=============================================================================
-asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''Method'', 1)', sprintf(_('%s must be a string.'), 'Interpolation method'));
+asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''Method'', 1)', sprintf(_('%s must be a string.'), ...
+  'Interpolation method'));
 %=============================================================================
-asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), 'imresize3'));
+asserts.checkerror('imresize3(ones(2, 2, 2), 2, ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), ...
+  'imresize3'));
 %=============================================================================
 asserts.checkerror('imresize3(ones(2, 2, 2), 2, 1, true)', sprintf(_('%s option name must be a string.'), 'imresize3'));

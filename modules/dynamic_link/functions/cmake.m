@@ -29,7 +29,7 @@ function [status, message] = cmake(varargin)
   previousRC = getenv('RC');
   if ~isempty(previousRC) && ~isfile(previousRC)
     setenv('RC', '');
-    restoreRC = onCleanup(@() setenv('RC', previousRC)); %#ok<NASGU>
+    restoreRC = onCleanup(@() setenv('RC', previousRC)); %#ok<NLS0004>
   end
   [status, message] = unix(cmd);
   status = (status == 0);

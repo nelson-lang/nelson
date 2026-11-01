@@ -44,8 +44,10 @@ assert_isequal(class(TD.Properties.Events.Properties.RowTimes), 'datetime');
 assert_isequal(TD.Properties.Events.EventLabels, "Event 1");
 %=============================================================================
 msg = _('The attached event table''s row times must be the same data type as the corresponding timetable''s row times.');
-assert_checkerror('R = TT; R.Properties.Events = datetime(2020, 1, [1; 2]);', msg, 'Nelson:timetable:InvalidEventsIncompatibleType');
-assert_checkerror('R = TT; R.Properties.Events = eventtable(datetime(2020, 1, 1));', msg, 'Nelson:timetable:InvalidEventsIncompatibleType');
+assert_checkerror('R = TT; R.Properties.Events = datetime(2020, 1, [1; 2]);', msg, ...
+  'Nelson:timetable:InvalidEventsIncompatibleType');
+assert_checkerror('R = TT; R.Properties.Events = eventtable(datetime(2020, 1, 1));', msg, ...
+  'Nelson:timetable:InvalidEventsIncompatibleType');
 assert_checkerror('R = TD; R.Properties.Events = seconds(1);', msg, 'Nelson:timetable:InvalidEventsIncompatibleType');
 %=============================================================================
 msg = _('Events property must be an event table.');

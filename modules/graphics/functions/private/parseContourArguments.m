@@ -33,7 +33,7 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
   end
 
   if ~isempty(dataArguments) && ischar(dataArguments{end})
-    [ps, cs, ms, msg] = colstyle(dataArguments{end}, 'plot', false);
+    [ps, cs, ~, msg] = colstyle(dataArguments{end}, 'plot', false);
     if isempty(msg)
       dataArguments(end) = [];
       propertiesList.LineStyle = ps;

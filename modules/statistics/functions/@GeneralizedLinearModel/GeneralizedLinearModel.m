@@ -38,7 +38,8 @@ classdef GeneralizedLinearModel
       if nargin == 0
         return
       end
-      error('Nelson:statistics:generalizedLinearModelObjectsCreatedFitglm', '%s objects are created by %s.', 'GeneralizedLinearModel', 'fitglm');
+      error('Nelson:statistics:generalizedLinearModelObjectsCreatedFitglm', '%s objects are created by %s.', ...
+        'GeneralizedLinearModel', 'fitglm');
     end
   end
 end

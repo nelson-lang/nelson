@@ -57,14 +57,21 @@ asserts.checkerror('fitrknn([1; 2], [1])', sprintf(_('Y must be a vector with on
 asserts.checkerror('fitrknn(zeros(2,0), [1; 2])', _('X must contain at least one observation and one predictor.'));
 asserts.checkerror('fitrknn([1; Inf], [1; 2])', _('X and Y must contain finite values or NaN missing values.'));
 asserts.checkerror('fitrknn([NaN; NaN], [NaN; NaN])', _('No valid observations remain after removing missing values.'));
-asserts.checkerror('fitrknn([1; 2], [1; 2], ''NumNeighbors'', 3)', _('NumNeighbors must not exceed the number of training observations.'));
-asserts.checkerror('fitrknn([1; 2], [1; 2], ''NumNeighbors'', 1.5)', sprintf(_('%s must be a positive integer scalar.'), 'NumNeighbors'));
+asserts.checkerror('fitrknn([1; 2], [1; 2], ''NumNeighbors'', 3)', ...
+  _('NumNeighbors must not exceed the number of training observations.'));
+asserts.checkerror('fitrknn([1; 2], [1; 2], ''NumNeighbors'', 1.5)', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'NumNeighbors'));
 asserts.checkerror('fitrknn([1; 2], [1; 2], ''Distance'', ''bad'')', sprintf(_('Invalid %s value.'), 'Distance'));
-asserts.checkerror('fitrknn([1; 2], [1; 2], ''DistanceWeight'', ''bad'')', sprintf(_('Invalid %s value.'), 'DistanceWeight'));
-asserts.checkerror('fitrknn([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be true or false.'), 'Standardize'));
-asserts.checkerror('fitrknn([1 2; 3 4], [1; 2], ''Scale'', [1 0])', _('Scale must be a positive finite vector with one value per predictor.'));
+asserts.checkerror('fitrknn([1; 2], [1; 2], ''DistanceWeight'', ''bad'')', sprintf(_('Invalid %s value.'), ...
+  'DistanceWeight'));
+asserts.checkerror('fitrknn([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be true or false.'), ...
+  'Standardize'));
+asserts.checkerror('fitrknn([1 2; 3 4], [1; 2], ''Scale'', [1 0])', ...
+  _('Scale must be a positive finite vector with one value per predictor.'));
 asserts.checkerror('fitrknn(X, y, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
-asserts.checkerror('fitrknn(X, y, ''ResponseName'', 1)', sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('fitrknn(X, y, ''ResponseName'', 1)', ...
+  sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

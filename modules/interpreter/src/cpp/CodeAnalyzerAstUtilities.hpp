@@ -56,6 +56,22 @@ namespace CodeAnalyzerAst {
     int
     countOccurrences(const std::string& value, const std::string& token);
     //=============================================================================
+    // Block keywords opened minus 'end' keywords found on one line, outside of indexing.
+    int
+    inlineBlockBalance(const std::string& line);
+    //=============================================================================
+    // Position of the first top-level ',' or ';' from cursor, or the code size.
+    size_t
+    firstStatementEnd(const std::string& code, size_t cursor);
+    //=============================================================================
+    // True when a block header line, like 'if c, x = 1;', also holds a statement.
+    bool
+    blockHeaderHasStatement(const std::string& line);
+    //=============================================================================
+    // 'arguments' or 'arguments (Input)' opens a block; 'arguments = argv()' does not.
+    bool
+    isArgumentsBlockHeader(const std::string& line);
+    //=============================================================================
 } // namespace CodeAnalyzerAst
 //=============================================================================
 } // namespace Nelson

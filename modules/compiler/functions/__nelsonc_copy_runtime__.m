@@ -48,7 +48,8 @@ function __nelsonc_copy_runtime__(runtime, destination)
       error('Nelson:nelsonc:copy', '%s: %s -> %s', message, item.source, target);
     end
     if ~strcmpi(sha256(target, '-file'), item.sha256)
-      error('Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis', 'Runtime file changed after analysis: %s.', item.source);
+      error('Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis', ...
+        'Runtime file changed after analysis: %s.', item.source);
     end
   end
   orderFile = fullfile(destination, 'modules', 'modules.m');
@@ -85,7 +86,8 @@ function validate_destinations(files, directories)
   end
   if numel(unique(keys)) ~= numel(keys) || any(ismember(keys, directoryKeys)) ...
     || any(ismember(keys, ["runtime.json", "modules/modules.m"]))
-    error('Nelson:nelsonc:runtimeCollision:conflictingRuntimeDestinationPaths', 'Conflicting runtime destination paths.');
+    error('Nelson:nelsonc:runtimeCollision:conflictingRuntimeDestinationPaths', ...
+      'Conflicting runtime destination paths.');
   end
 end
 

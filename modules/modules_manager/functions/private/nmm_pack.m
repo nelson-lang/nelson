@@ -35,7 +35,8 @@ function package_file = nmm_pack(varargin)
       target = options{k + 1};
       k = k + 1;
     else
-      nmm_error('InvalidOptionExpected', '%s expected.', sprintf('#%d argument: ''-no-tests'', ''-dry-run'' or ''-target'' <platform>', k + 3));
+      nmm_error('InvalidOptionExpected', '%s expected.', ...
+        sprintf('#%d argument: ''-no-tests'', ''-dry-run'' or ''-target'' <platform>', k + 3));
     end
     k = k + 1;
   end
@@ -154,7 +155,7 @@ function files = essentialInstallFiles(stagingPath)
     localeEntries = dir([root, 'locale/*.json']);
     for k = 1:numel(localeEntries)
       if ~localeEntries(k).isdir
-        files{end + 1} = ['locale/', localeEntries(k).name]; %#ok<AGROW>
+        files{end + 1} = ['locale/', localeEntries(k).name]; %#ok<NLS0039>
       end
     end
   end

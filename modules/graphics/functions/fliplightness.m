@@ -47,7 +47,8 @@ function newcolors = flipNumericColors(colors)
   end
   sz = size(colors);
   if ~((numel(sz) == 2 && sz(2) == 3) || (numel(sz) == 3 && sz(3) == 3))
-    error('Nelson:graphics:fliplightness:InvalidNumericShape', _('Specify a color array as an m-by-3 RGB matrix or an m-by-n-by-3 truecolor array.'));
+    error('Nelson:graphics:fliplightness:InvalidNumericShape', ...
+      _('Specify a color array as an m-by-3 RGB matrix or an m-by-n-by-3 truecolor array.'));
   end
   classname = class(colors);
   rgb = reshape(double(colors), [], 3);

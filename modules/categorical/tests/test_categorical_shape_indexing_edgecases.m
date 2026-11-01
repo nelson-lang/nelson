@@ -69,7 +69,9 @@ asserts.isequal(codes, double(A));
 asserts.isequal(A.categoryNames, categories(A));
 %=============================================================================
 asserts.checkerror('A{1}', _('Brace indexing is not supported for categorical arrays.'));
-asserts.checkerror('A{1}', _('Brace indexing is not supported for categorical arrays.'), 'Nelson:categorical:braceIndexingNotSupported');
+asserts.checkerror('A{1}', _('Brace indexing is not supported for categorical arrays.'), ...
+  'Nelson:categorical:braceIndexingNotSupported');
 asserts.checkerror('A.invalidProperty', _('Dot indexing is not supported for categorical arrays.'));
-asserts.checkerror('A.invalidProperty', _('Dot indexing is not supported for categorical arrays.'), 'Nelson:categorical:dotIndexingNotSupported');
+asserts.checkerror('A.invalidProperty', _('Dot indexing is not supported for categorical arrays.'), ...
+  'Nelson:categorical:dotIndexingNotSupported');
 %=============================================================================

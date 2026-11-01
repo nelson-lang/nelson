@@ -14,7 +14,7 @@ if isdir(work_dir)
   rmdir(work_dir, 's');
 end
 mkdir(work_dir);
-cleanup_work_dir = onCleanup(@() rmdir(work_dir, 's')); %#ok<NASGU>
+cleanup_work_dir = onCleanup(@() rmdir(work_dir, 's')); %#ok<NLS0004>
 
 requests = {
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}';
@@ -30,7 +30,7 @@ if isdir(space_work_dir)
   rmdir(space_work_dir, 's');
 end
 mkdir(space_work_dir);
-cleanup_space_work_dir = onCleanup(@() rmdir(space_work_dir, 's')); %#ok<NASGU>
+cleanup_space_work_dir = onCleanup(@() rmdir(space_work_dir, 's')); %#ok<NLS0004>
 requests = {
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}';
   '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_nelson_workspace","arguments":{}}}'

@@ -35,7 +35,8 @@ asserts.istrue(isfile([en, '/help_tools/buildhelptypst.typ']));
 asserts.istrue(isfile([destination, '/fr/main.typ']));
 %=============================================================================
 content = fileread([en, '/main.typ']);
-asserts.istrue(startsWith(content, ['#import "nelson_help.typ": nelson-style', newline, '#set document(title: "Nelson")', newline, '#show: nelson-style.with(lang: "en")']));
+asserts.istrue(startsWith(content, ['#import "nelson_help.typ": nelson-style', newline, ...
+  '#set document(title: "Nelson")', newline, '#show: nelson-style.with(lang: "en")']));
 % order: front matter, modules, changelogs, licenses, outline last
 home = strfind(content, '#include "homepage.typ"');
 started = strfind(content, '#include "getting_started.typ"');

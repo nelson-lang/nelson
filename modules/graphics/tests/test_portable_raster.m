@@ -32,7 +32,7 @@ end
 
 function [result, pngBase64] = capture_line_scene()
   f = figure('Visible', 'off', 'Position', [0 0 160 120]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   plot([0 1 2 3 4], [0.1 0.8 0.25 0.9 0.4], ...
     'Color', [0.85 0.1 0.1], 'LineWidth', 3);
   xlim([0 4]);
@@ -45,7 +45,7 @@ end
 
 function result = capture_bar_scene()
   f = figure('Visible', 'off', 'Position', [0 0 160 120]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   h = bar([1 3 2 4]);
   h.FaceColor = [0.15 0.45 0.8];
   ylim([0 5]);
@@ -54,7 +54,7 @@ end
 
 function result = capture_multi2d_scene()
   f = figure('Visible', 'off', 'Position', [0 0 240 180]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   layout = tiledlayout(f, 2, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
   ax = nexttile(layout);
   scatter(ax, [1 2 3 4], [4 1 3 2], 28, [0.8 0.2 0.2], 'filled');
@@ -69,7 +69,7 @@ end
 
 function result = capture_image_contour_scene()
   f = figure('Visible', 'off', 'Position', [0 0 240 140]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   subplot(1, 2, 1);
   imagesc(peaks(12));
   subplot(1, 2, 2);
@@ -79,7 +79,7 @@ end
 
 function result = capture_annotations_scene()
   f = figure('Visible', 'off', 'Position', [0 0 200 150]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   semilogy(1:4, [1 10 100 1000], '-o', 'LineWidth', 2, ...
     'DisplayName', 'growth');
   title('Portable annotations');
@@ -92,7 +92,7 @@ end
 
 function result = capture_surface_scene()
   f = figure('Visible', 'off', 'Position', [0 0 160 120]);
-  cleanup = onCleanup(@() close(f)); %#ok<NASGU>
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
   surf(peaks(15));
   view(45, 25);
   result = raster_fingerprint(getframe(f).cdata, 6, 8);

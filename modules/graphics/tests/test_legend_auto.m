@@ -94,9 +94,12 @@ asserts.isequal(lgd.DeleteFcn, 'disp(4)');
 lgd.DeleteFcn = [];
 title(lgd, 'Legend title');
 asserts.isequal(lgd.Title.String, 'Legend title');
-asserts.checkerror('lgd.Type = ''axes'';', graphicsPropertyErrorMessage('Type', 'Nelson:graphics:readOnlyProperty', 'Type'));
-asserts.checkerror('lgd.Title = [];', graphicsPropertyErrorMessage('Title', 'Nelson:graphics:readOnlyProperty', 'Title'));
-asserts.checkerror('lgd.BeingDeleted = ''on'';', graphicsPropertyErrorMessage('BeingDeleted', 'Nelson:graphics:readOnlyProperty', 'BeingDeleted'));
+asserts.checkerror('lgd.Type = ''axes'';', graphicsPropertyErrorMessage('Type', 'Nelson:graphics:readOnlyProperty', ...
+  'Type'));
+asserts.checkerror('lgd.Title = [];', graphicsPropertyErrorMessage('Title', 'Nelson:graphics:readOnlyProperty', ...
+  'Title'));
+asserts.checkerror('lgd.BeingDeleted = ''on'';', graphicsPropertyErrorMessage('BeingDeleted', ...
+  'Nelson:graphics:readOnlyProperty', 'BeingDeleted'));
 close(f);
 %=============================================================================
 function [f, ax] = make_axes()

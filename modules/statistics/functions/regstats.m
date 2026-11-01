@@ -72,7 +72,8 @@ function terms = modelTermsLocal(p, modelspec)
       terms = degreeTermsLocal(p, positiveIntegerLocal(modelspec));
     else
       if size(modelspec, 2) ~= p
-        error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', 'predictor');
+        error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', ...
+          'predictor');
       end
       terms = double(modelspec);
       terms(all(terms == 0, 2), :) = [];
@@ -116,7 +117,8 @@ end
 function value = positiveIntegerLocal(value)
   if ~(isnumeric(value) && isreal(value) && isscalar(value) && isfinite(value) ...
       && value > 0 && value == fix(value))
-    error('Nelson:statistics:modelDegreePositiveIntegerScalar', '%s must be a positive integer scalar.', 'Model degree');
+    error('Nelson:statistics:modelDegreePositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Model degree');
   end
   value = double(value);
 end
@@ -136,7 +138,8 @@ function names = parseStatNamesLocal(StatNames)
   elseif iscell(StatNames)
     requested = StatNames(:).';
   else
-    error('Nelson:statistics:statNamesCharacterVectorStringArray', 'StatNames must be a character vector, string array, or cell array.');
+    error('Nelson:statistics:statNamesCharacterVectorStringArray', ...
+      'StatNames must be a character vector, string array, or cell array.');
   end
   if any(strcmpi(requested, 'all'))
     names = allNames;

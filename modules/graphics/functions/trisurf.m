@@ -145,7 +145,8 @@ function validateTriangulation(tri, x, y, z)
   end
   x = x(:);
   if any(tri(:) < 1) || any(tri(:) > length(x)) || any(tri(:) ~= fix(tri(:)))
-    error('Nelson:graphics:triangleConnectivityContainsInvalid', 'Triangle connectivity contains invalid point indices.');
+    error('Nelson:graphics:triangleConnectivityContainsInvalid', ...
+      'Triangle connectivity contains invalid point indices.');
   end
 end
 %=============================================================================

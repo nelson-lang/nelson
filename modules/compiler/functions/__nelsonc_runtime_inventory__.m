@@ -14,13 +14,15 @@ function __nelsonc_runtime_inventory__(plan, filename)
     item = runtime.files(k);
     if any(strcmpi(item.relative, {'runtime-install.ini', 'runtime-package.ini'})) ...
       || startsWith(lower(item.relative), 'unins') || startsWith(lower(item.relative), '.nelson-runtime-')
-      error('Nelson:nelsonc:runtimeCollision:runtimeFileCollidesInstallerMetadata', 'Runtime file collides with installer metadata.');
+      error('Nelson:nelsonc:runtimeCollision:runtimeFileCollidesInstallerMetadata', ...
+        'Runtime file collides with installer metadata.');
     end
     files{k} = [item.relative, '|', item.sha256];
   end
   for k = 1:numel(runtime.directories)
     if startsWith(lower(runtime.directories{k}), '.nelson-runtime-')
-      error('Nelson:nelsonc:runtimeCollision:runtimeDirectoryCollidesInstallerRecovery', 'Runtime directory collides with installer recovery metadata.');
+      error('Nelson:nelsonc:runtimeCollision:runtimeDirectoryCollidesInstallerRecovery', ...
+        'Runtime directory collides with installer recovery metadata.');
     end
   end
   lines = {'[Identity]', 'Format=1', ['Architecture=', plan.architecture], ...

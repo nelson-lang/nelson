@@ -97,7 +97,8 @@ function [probabilities, n] = fittedProbabilitiesLocal(values, distribution)
       end
     case 'exponential'
       if any(values < 0)
-        error('Nelson:statistics:xNonnegativeExponentialDistribution', 'X must be nonnegative for the exponential distribution.');
+        error('Nelson:statistics:xNonnegativeExponentialDistribution', ...
+          'X must be nonnegative for the exponential distribution.');
       end
       mu = mean(values);
       probabilities = 1 - exp(-values / mu);

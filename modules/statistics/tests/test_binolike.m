@@ -56,11 +56,17 @@ asserts.checkerror('binolike(0.5, {1 2}, [5 5])', sprintf(_('%s must be real num
 asserts.checkerror('binolike(0.5, [1 2], {5 5})', sprintf(_('%s must be real numeric.'), 'N'));
 asserts.checkerror('binolike(0.5, [], [])', sprintf(_('%s must be nonempty.'), 'X and N'));
 asserts.checkerror('binolike(0.5, ones(2), ones(3))', _('Size mismatch on input arguments'));
-asserts.checkerror('binolike(0.5, [-1 1], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
-asserts.checkerror('binolike(0.5, [1.5 2], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
-asserts.checkerror('binolike(0.5, [1 Inf], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
-asserts.checkerror('binolike(0.5, [1 2], [-5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'N'));
-asserts.checkerror('binolike(0.5, [1 2], [5.5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'N'));
-asserts.checkerror('binolike(0.5, [1 2], [Inf 5])', sprintf(_('%s must contain nonnegative integer finite values.'), 'N'));
+asserts.checkerror('binolike(0.5, [-1 1], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
+asserts.checkerror('binolike(0.5, [1.5 2], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
+asserts.checkerror('binolike(0.5, [1 Inf], [5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
+asserts.checkerror('binolike(0.5, [1 2], [-5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'N'));
+asserts.checkerror('binolike(0.5, [1 2], [5.5 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'N'));
+asserts.checkerror('binolike(0.5, [1 2], [Inf 5])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'N'));
 asserts.checkerror('binolike(0.5, [6 2], [5 5])', _('X must not exceed N.'));
 %=============================================================================

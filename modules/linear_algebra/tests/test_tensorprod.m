@@ -60,5 +60,6 @@ assert_isequal(size(tensorprod(A, [10 20], 'NumDimensionsA', 3)), [2 2 1 1 2]);
 assert_isequal(class(tensorprod(single([1 2]), [3; 4], 2, 1)), 'single');
 %=============================================================================
 % mismatched contracted sizes raise an error
-assert_checkerror('tensorprod([1 2; 3 4], [1 2 3], 2, 1)', _('Specified dimensions of the input arrays must have the same sizes.'));
+assert_checkerror('tensorprod([1 2; 3 4], [1 2 3], 2, 1)', ...
+  _('Specified dimensions of the input arrays must have the same sizes.'));
 %=============================================================================

@@ -198,7 +198,9 @@ asserts.isequal(class(PSCS), 'single');
 asserts.istrue(norm(full(SCS * PSCS - QSCS * RSCS)) < single(1e-5));
 %=============================================================================
 asserts.checkerror('qr([1 2; 3 4], ''bad'')', _('Option must be ''econ'', ''matrix'', or ''vector''.'));
-asserts.checkerror('qr([1 2; 3 4], 1)', _('Right-hand side matrix is only supported if the first input matrix is sparse.'));
-asserts.checkerror('qr([1 2; 3 4], ''econ'', 0)', _('Option 0 must not be combined with other options. Use ''econ'' instead.'));
+asserts.checkerror('qr([1 2; 3 4], 1)', ...
+  _('Right-hand side matrix is only supported if the first input matrix is sparse.'));
+asserts.checkerror('qr([1 2; 3 4], ''econ'', 0)', ...
+  _('Option 0 must not be combined with other options. Use ''econ'' instead.'));
 asserts.checkerror('qr(ones(2, 2, 2))', sprintf(_('%s expected.'), 'Vector or matrix 2D'));
 %=============================================================================

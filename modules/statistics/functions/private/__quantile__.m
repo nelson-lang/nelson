@@ -24,12 +24,14 @@ end
 function [p, method] = parseProbabilitiesLocal(value, allowCount, percentInput)
   method = 'midpoint';
   if ~(isnumeric(value) && isreal(value) && (isscalar(value) || isvector(value)))
-    error('Nelson:statistics:probabilitiesRealNumericScalarVector', '%s must be a real numeric scalar or vector.', 'Probabilities');
+    error('Nelson:statistics:probabilitiesRealNumericScalarVector', '%s must be a real numeric scalar or vector.', ...
+      'Probabilities');
   end
   value = double(value(:).');
   if allowCount && isscalar(value) && value > 1 && isfinite(value) && value == fix(value)
     if value <= 1
-      error('Nelson:statistics:numberQuantilesIntegerGreaterOne', 'Number of quantiles must be an integer greater than one.');
+      error('Nelson:statistics:numberQuantilesIntegerGreaterOne', ...
+        'Number of quantiles must be an integer greater than one.');
     end
     p = (1:value) ./ (value + 1);
     return
@@ -92,7 +94,8 @@ function [dims, allValues] = parseDimensionLocal(value)
   allValues = false;
   if ~(isnumeric(value) && isreal(value) && isvector(value) && all(value == fix(value)) ...
       && all(value >= 1))
-    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', 'Dimension argument must be a positive integer scalar, vector, or ''all''.');
+    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', ...
+      'Dimension argument must be a positive integer scalar, vector, or ''all''.');
   end
   dims = unique(double(value(:).'), 'stable');
 end

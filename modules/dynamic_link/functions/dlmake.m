@@ -59,7 +59,7 @@ function [status, message] = dlmake(destinationdir)
     options = '''Unix Makefiles''';
     make_name = 'make';
     setenv('CMAKE_TOOLCHAIN_FILE', [emsdk, '/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake']);
-    restoreToolchain = onCleanup(@() setenv('CMAKE_TOOLCHAIN_FILE', '')); %#ok<NASGU>
+    restoreToolchain = onCleanup(@() setenv('CMAKE_TOOLCHAIN_FILE', '')); %#ok<NLS0004>
   end
   [status, msg] = cmake('-G', options);
   message = cleanup(msg);
@@ -117,7 +117,7 @@ function removeIntermediateFiles(destinationdir, existingFiles)
     'CMakeCache.txt';
     'Makefile'};
   try
-    [res, msg] = rmdir([destinationdir, '/', directory], 's');
+    [~, ~] = rmdir([destinationdir, '/', directory], 's');
     for f = files'
       [res, msg] = rmfile([destinationdir, '/', f{1}]);
     end

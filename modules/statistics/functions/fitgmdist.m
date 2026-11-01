@@ -61,7 +61,8 @@ function opts = parseOptions(args, variables)
     value = args{pos + 1};
     switch name
       case 'regularizationvalue'
-        opts.RegularizationValue = nonnegativeScalar(value, sprintf(_('%s must be nonnegative.'), 'RegularizationValue'));
+        opts.RegularizationValue = nonnegativeScalar(value, sprintf(_('%s must be nonnegative.'), ...
+          'RegularizationValue'));
       case 'replicates'
         opts.Replicates = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), 'Replicates'));
       case 'start'
@@ -73,7 +74,8 @@ function opts = parseOptions(args, variables)
       case 'sharedcovariance'
         opts.SharedCovariance = logicalScalar(value, sprintf(_('%s must be true or false.'), 'SharedCovariance'));
       case 'probabilitytolerance'
-        opts.ProbabilityTolerance = nonnegativeScalar(value, sprintf(_('%s must be nonnegative.'), 'ProbabilityTolerance'));
+        opts.ProbabilityTolerance = nonnegativeScalar(value, sprintf(_('%s must be nonnegative.'), ...
+          'ProbabilityTolerance'));
       case 'maxiter'
         opts.MaxIter = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), 'MaxIter'));
       case 'tolfun'

@@ -18,7 +18,8 @@ function ip_validate_activecontour_mask(mask, imageSize)
     error('Nelson:validators:mustBeReal', '%s must be real.', 'Initial mask');
   end
   if ~isequal(size(mask), imageSize)
-    error('Nelson:image_processing:initialMaskSameSizeImage', '%s must have the same size as %s.', 'Initial mask', 'the image');
+    error('Nelson:image_processing:initialMaskSameSizeImage', '%s must have the same size as %s.', 'Initial mask', ...
+      'the image');
   end
   d = double(mask);
   if any(~isfinite(d(:)))

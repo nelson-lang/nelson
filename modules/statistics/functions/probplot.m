@@ -147,7 +147,8 @@ end
 %=============================================================================
 function column = expandByFrequencyLocal(column, freq)
   if any(~isfinite(freq)) || any(freq < 0) || any(floor(freq) ~= freq)
-    error('Nelson:statistics:frequencyContainNonnegativeIntegerValues', '%s must contain nonnegative integer values.', 'Frequency');
+    error('Nelson:statistics:frequencyContainNonnegativeIntegerValues', ...
+      '%s must contain nonnegative integer values.', 'Frequency');
   end
   expanded = zeros(sum(freq), 1);
   at = 1;

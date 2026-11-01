@@ -81,7 +81,8 @@ function varargout = hist(y, x)
     % Drawing is the graphics module's side of hist; without it only the counts
     % can be answered, and saying so beats letting bar go missing on its own.
     if isempty(which('bar'))
-      error('Nelson:hist:graphicsModuleRequired', 'Drawing a histogram requires the %s module. Ask for the counts instead: n = hist(...).', 'graphics');
+      error('Nelson:hist:graphicsModuleRequired', ...
+        'Drawing a histogram requires the %s module. Ask for the counts instead: n = hist(...).', 'graphics');
     end
     bar(x, freq);
     return
@@ -138,7 +139,7 @@ function freq = computesFreq(x, y)
       % cut points alongside each column of the sample.
       cutout = repmat(cutout, 1, size(y, 2));
     end
-    [s, idx] = sort([y; cutout], 1);
+    [~, idx] = sort([y; cutout], 1);
     lenY = size(y, 1);
     histValues = cumsum(idx <= lenY);
     x1 = zeros(1, size(y, 2));

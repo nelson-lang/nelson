@@ -70,11 +70,13 @@ function [n, rankB, U1] = placeValidateInputs(A, B, p)
   end
   [mB, ~] = size(B);
   if (mB ~= mA)
-    error('Nelson:control_system:AAndBNumRowsMismatch', 'The number of rows in matrices %s and %s must be equal.', 'A', 'B');
+    error('Nelson:control_system:AAndBNumRowsMismatch', 'The number of rows in matrices %s and %s must be equal.', ...
+      'A', 'B');
   end
   n = nA;
   if (numel(p) ~= n)
-    error('Nelson:control_system:dimagree:polesNeedDimensionMatrixA', 'Poles need to have the same dimension as matrix A')
+    error('Nelson:control_system:dimagree:polesNeedDimensionMatrixA', ...
+      'Poles need to have the same dimension as matrix A')
   end
   rankB = rank(B);
   if (rankB == 0)
@@ -93,7 +95,8 @@ function partner = placePairPoles(p, rankB)
   for i = 1:n
     mult = sum(abs(p - p(i)) <= tolp);
     if (mult > rankB)
-      error('Nelson:control_system:place:multiplicity', 'Pole multiplicity cannot exceed the rank of %s (%d).', 'B', rankB);
+      error('Nelson:control_system:place:multiplicity', 'Pole multiplicity cannot exceed the rank of %s (%d).', 'B', ...
+        rankB);
     end
   end
   used = false(n, 1);

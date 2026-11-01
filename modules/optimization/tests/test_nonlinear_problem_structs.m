@@ -24,7 +24,8 @@ asserts.istrue(max(abs(root(:) - [4; -3])) < 1e-7);
 asserts.istrue(norm(fval) < 1e-8);
 %=============================================================================
 opts = optimoptions('lsqnonlin', 'Jacobian', 'on', 'StepTolerance', 1e-10);
-[x, resnorm, residual, exitflag, output, lambda, jacobian] = lsqnonlin(@optimTestResidualWithJacobian, [0; 0], [3; -4], [5; -2], opts);
+[x, resnorm, residual, exitflag, output, lambda, jacobian] = lsqnonlin(@optimTestResidualWithJacobian, [0; 0], ...
+  [3; -4], [5; -2], opts);
 asserts.istrue(max(abs(x(:) - [4; -3])) < 1e-6);
 asserts.istrue(abs(resnorm) < 1e-8);
 asserts.istrue(exitflag > 0);

@@ -9,7 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 library = dlopen(probePath);
 probe = dlsym(library, 'figureWorkspaceProbe', 'int32', {'cstring', 'cstring'});
 titleText = 'Qt workspace refresh status';
@@ -24,7 +25,8 @@ surf(peaks(8));
 invoke(probe, titleText, struct('operation', 'action', 'name', 'figurePropertiesAction'));
 drain(probe, titleText);
 asserts.isequal(invoke(probe, titleText, struct('operation', 'statusEmpty')), int32(1));
-invoke(probe, titleText, struct('operation', 'select', 'handle', __web_graphics_handle__(get(gca(), 'Title'), 'number')));
+invoke(probe, titleText, struct('operation', 'select', 'handle', __web_graphics_handle__(get(gca(), 'Title'), ...
+  'number')));
 drain(probe, titleText);
 invoke(probe, titleText, struct('operation', 'propertyRetained', 'name', 'String', 'mark', true));
 title(gca(), 'Live fluid title');
@@ -51,7 +53,8 @@ asserts.isequal(gca().XScale, 'log');
 previousView = gca().View;
 view(gca(), 15, 25);
 invoke(probe, titleText, struct('operation', 'backgroundRefresh')); drain(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider', 'expected', round(previousView(1) * 2))), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider', ...
+  'expected', round(previousView(1) * 2))), int32(1));
 invoke(probe, titleText, struct('operation', 'refresh')); drain(probe, titleText);
 asserts.isequal(invoke(probe, titleText, struct('operation', 'sliderValue', 'name', 'figureAzimuthSlider')), int32(30));
 invoke(probe, titleText, struct('operation', 'action', 'name', 'figurePropertiesAction'));

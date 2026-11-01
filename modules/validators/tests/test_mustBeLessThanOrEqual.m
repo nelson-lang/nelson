@@ -22,7 +22,8 @@ mustBeLessThanOrEqual([], -5);
 mustBeLessThanOrEqual([0 1; 2 2], [1; 2]);
 msg = _('Value must be equal to or less than the compared value.');
 asserts.checkerror('mustBeLessThanOrEqual([0 1; 2 3], [1; 2])', msg, 'Nelson:validators:mustBeLessThanOrEqual');
-asserts.checkerror('mustBeLessThanOrEqual(single([1 2]), single([1 1]))', msg, 'Nelson:validators:mustBeLessThanOrEqual');
+asserts.checkerror('mustBeLessThanOrEqual(single([1 2]), single([1 1]))', msg, ...
+  'Nelson:validators:mustBeLessThanOrEqual');
 %=============================================================================
 mustBeLessThanOrEqual('a', 'a');
 %=============================================================================

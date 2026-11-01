@@ -60,7 +60,7 @@ function filename = localFigFilename(filename, forSave)
   if startsWith(filename, '-')
     error('Nelson:savefig:invalidFilename', 'Invalid filename.');
   end
-  [pathstr, name, ext] = fileparts(filename);
+  [pathstr, ~, ext] = fileparts(filename);
   if isempty(ext)
     filename = [filename, '.fig'];
   elseif ~strcmpi(ext, '.fig')

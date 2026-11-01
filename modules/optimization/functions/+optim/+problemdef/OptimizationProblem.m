@@ -308,7 +308,8 @@ function problem = addLinearFields(problem, prob)
       problem.solver = 'intlinprog';
     end
   elseif ~isempty(intcon)
-    error('Nelson:OptimizationProblem:integerNonlinearNotSupported', 'Nonlinear problems with integer variables are not supported.');
+    error('Nelson:OptimizationProblem:integerNonlinearNotSupported', ...
+      'Nonlinear problems with integer variables are not supported.');
   elseif isempty(intcon) && areConstraintsLinear && ~isempty(prob.Objective)
     [H, qf, qconstant, isQuadratic] = quadraticCoefficients(prob);
     if isQuadratic

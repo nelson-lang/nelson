@@ -9,7 +9,7 @@
 %=============================================================================
 d = tempname();
 mkdir(d);
-c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+c = onCleanup(@() rmdir(d, 's')); %#ok<NLS0004>
 dlgenerateloader(d, 'test_c');
 asserts.istrue(isfile(fullfile(d, 'loader.m')));
 txt = fileread(fullfile(d, 'loader.m'));

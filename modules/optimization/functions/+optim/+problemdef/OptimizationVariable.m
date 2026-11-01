@@ -177,7 +177,8 @@ end
 %=============================================================================
 function validateDimensions(dims)
   if any(~isfinite(dims)) || any(dims < 1) || any(abs(dims - round(dims)) > eps)
-    error('Nelson:OptimizationVariable:invalidDimensions', 'Optimization variable dimensions must be positive integers.');
+    error('Nelson:OptimizationVariable:invalidDimensions', ...
+      'Optimization variable dimensions must be positive integers.');
   end
 end
 %=============================================================================
@@ -206,7 +207,8 @@ end
 %=============================================================================
 function validateBoundSize(bound, count)
   if ~(isscalar(bound) || numel(bound) == count)
-    error('Nelson:OptimizationVariable:invalidBoundsSize', 'Variable bounds must be scalar or match the variable size.');
+    error('Nelson:OptimizationVariable:invalidBoundsSize', ...
+      'Variable bounds must be scalar or match the variable size.');
   end
 end
 %=============================================================================

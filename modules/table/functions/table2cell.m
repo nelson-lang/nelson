@@ -55,7 +55,8 @@ function cellArray = localMatrixToCell(matrixData, rowSizes, columnSizes)
   for rowIndex = 1:numRows
     columnStartIndex = 0;
     for columnIndex = 1:numColumns
-      cellArray{rowIndex, columnIndex} = matrixData(rowStartIndex + (1:rowSizes(rowIndex)), columnStartIndex + (1:columnSizes(columnIndex)));
+      cellArray{rowIndex, columnIndex} = matrixData(rowStartIndex + (1:rowSizes(rowIndex)), ...
+        columnStartIndex + (1:columnSizes(columnIndex)));
       columnStartIndex = columnStartIndex + columnSizes(columnIndex);
     end
     rowStartIndex = rowStartIndex + rowSizes(rowIndex);

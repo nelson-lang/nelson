@@ -14,7 +14,7 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 filewrite(fullfile(fixtureDirectory, 'bpl.m'), ['function y = bpl(x)', LF, ...
   '% c', LF, ...
   '', LF, ...
@@ -32,7 +32,7 @@ filewrite(fullfile(fixtureDirectory, 'bpl.m'), ['function y = bpl(x)', LF, ...
   'z = a;', LF, ...
   'end', LF]);
 addpath(fixtureDirectory);
-pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NASGU>
+pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NLS0004>
 dbclear all
 %=============================================================================
 % requested line -> [adjusted line, name]; else and end of if move to the next statement

@@ -148,7 +148,8 @@ asserts.isequal(R{"objects"}{2}.x, 3);
 asserts.isequal(keyType, "string");
 asserts.isequal(valueType, "cell");
 asserts.checkerror('readdictionary(filename, "AllowInfAndNaN", false)', _('JSON object expected.'));
-asserts.checkerror('readdictionary(filename, "AllowInfAndNaN", false)', _('JSON object expected.'), 'Nelson:readdictionary:jsonObjectExpected');
+asserts.checkerror('readdictionary(filename, "AllowInfAndNaN", false)', _('JSON object expected.'), ...
+  'Nelson:readdictionary:jsonObjectExpected');
 %=============================================================================
 s.payload = [NaN Inf];
 s.label = "ok";
@@ -167,13 +168,19 @@ asserts.istrue(iscell(R{"objects"}));
 asserts.isequal(R{"objects"}{1}.x, -Inf);
 asserts.isequal(R{"objects"}{2}.x, 3);
 %=============================================================================
-asserts.checkerror('writedictionary(dictionary(), filename)', _('Unable to write a dictionary when the key and value types are not set.'));
-asserts.checkerror('writedictionary(dictionary(), filename)', _('Unable to write a dictionary when the key and value types are not set.'), 'Nelson:writedictionary:typesNotSet');
-asserts.checkerror('writedictionary(dictionary("a", 1), filename, "FileType", "xml")', _('Only JSON dictionary files are supported.'));
-asserts.checkerror('writedictionary(dictionary("a", 1), filename, "FileType", "xml")', _('Only JSON dictionary files are supported.'), 'Nelson:dictionary:onlyJsonSupported');
+asserts.checkerror('writedictionary(dictionary(), filename)', ...
+  _('Unable to write a dictionary when the key and value types are not set.'));
+asserts.checkerror('writedictionary(dictionary(), filename)', ...
+  _('Unable to write a dictionary when the key and value types are not set.'), 'Nelson:writedictionary:typesNotSet');
+asserts.checkerror('writedictionary(dictionary("a", 1), filename, "FileType", "xml")', ...
+  _('Only JSON dictionary files are supported.'));
+asserts.checkerror('writedictionary(dictionary("a", 1), filename, "FileType", "xml")', ...
+  _('Only JSON dictionary files are supported.'), 'Nelson:dictionary:onlyJsonSupported');
 asserts.checkerror('readdictionary(filename, "FileType", "xml")', _('Only JSON dictionary files are supported.'));
-asserts.checkerror('readdictionary(filename, "FileType", "xml")', _('Only JSON dictionary files are supported.'), 'Nelson:dictionary:onlyJsonSupported');
-asserts.checkerror('readdictionary(filename, "DictionaryNodeName", "root")', _('DictionaryNodeName and DictionarySelector are not supported for JSON dictionary files.'));
+asserts.checkerror('readdictionary(filename, "FileType", "xml")', _('Only JSON dictionary files are supported.'), ...
+  'Nelson:dictionary:onlyJsonSupported');
+asserts.checkerror('readdictionary(filename, "DictionaryNodeName", "root")', ...
+  _('DictionaryNodeName and DictionarySelector are not supported for JSON dictionary files.'));
 asserts.checkerror('readdictionary(filename, "DictionaryNodeName", "root")', _('DictionaryNodeName and DictionarySelector are not supported for JSON dictionary files.'), 'Nelson:readdictionary:optionNotSupportedForJson');
 %=============================================================================
 filewrite(filename, '{"a": 1,}');

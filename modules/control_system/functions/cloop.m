@@ -48,7 +48,8 @@ function model = cloop(varargin)
     feedbackInputCount = length(inputs);
     feedbackOutputCount = length(outputs);
     if feedbackInputCount ~= feedbackOutputCount
-      error('Nelson:control_system:dimagree:numberFeedbackInputsOutputsAreNot', 'The number of feedback inputs and outputs are not equal.');
+      error('Nelson:control_system:dimagree:numberFeedbackInputsOutputsAreNot', ...
+        'The number of feedback inputs and outputs are not equal.');
     end
     stateCount = size(a, 1);
 

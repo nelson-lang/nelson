@@ -50,7 +50,8 @@ function varargout = pyenv(varargin)
       if ~semver(python_version, '>=3.10.0')
         error('Nelson:pyenv:unsupportedVersion', 'Python version is not supported (at least 3.10.0 expected).');
       end
-      python_architecture = getPythonCommandResult(pythonExecutablePath, [pythonScriptsPath, 'findPythonArchitecture.py']);
+      python_architecture = getPythonCommandResult(pythonExecutablePath, [pythonScriptsPath, ...
+        'findPythonArchitecture.py']);
       python_is64bit = strcmpi(python_architecture, 'true');
       compiler_info = version('-compiler');
       nelson_is64bit = strcmpi(compiler_info(3), '64');
@@ -99,7 +100,8 @@ function executablePath = getExecutablePathFromWindowsRegistry(vstr)
   end
   if isempty(executablePath)
     try
-      executablePath = winqueryreg('HKLM', ['SOFTWARE\Python\PythonCore\', pyversion, '\InstallPath'], 'ExecutablePath');
+      executablePath = winqueryreg('HKLM', ['SOFTWARE\Python\PythonCore\', pyversion, '\InstallPath'], ...
+        'ExecutablePath');
     catch
       executablePath = [];
     end

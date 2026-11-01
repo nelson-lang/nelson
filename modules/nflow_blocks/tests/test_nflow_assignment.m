@@ -22,7 +22,8 @@ for k = 1:numel(cases)
   vn = ['as', int2str(k)];
   d = struct();
   d.blocks = {struct('id', 'b', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', base)), struct('id', 'v', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', vals)), struct('id', 'a', 'type', 'assignment', 'inputs', 2, 'outputs', 1, 'params', struct('Indices', idx)), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', vn, 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'))};
-  d.connections = {struct('from', 'b', 'to', 'a', 'fromIndex', 0, 'toIndex', 0), struct('from', 'v', 'to', 'a', 'fromIndex', 0, 'toIndex', 1), struct('from', 'a', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'b', 'to', 'a', 'fromIndex', 0, 'toIndex', 0), struct('from', 'v', 'to', 'a', ...
+    'fromIndex', 0, 'toIndex', 1), struct('from', 'a', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.1; d.solver = 'discrete'; d.variables = struct();
   res = jsondecode(__nflow_simulate__(jsonencode(d)));
   assert_isequal(res.status, 'done');

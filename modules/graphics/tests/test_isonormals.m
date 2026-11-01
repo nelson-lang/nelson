@@ -45,7 +45,10 @@ asserts.isapprox(p.VertexNormals, repmat([-2 -3 -5], 3, 1), 1e-12);
 asserts.isequal(p.VertexNormalsMode, 'manual');
 close(f);
 %=============================================================================
-asserts.checkerror('isonormals(ones(3,3,3), ones(2,2));', getString(message('Nelson:validateIsonormalsVertices:invalidVertices')));
-asserts.checkerror('isonormals(ones(3,3,3), vertices, ''bad'');', getString(message('Nelson:parseIsonormalsOption:invalidIsonormalsOption')));
-asserts.checkerror('isonormals(ones(3,3,3), vertices);', getString(message('Nelson:isonormals:patchHandleExpectedWhen')));
+asserts.checkerror('isonormals(ones(3,3,3), ones(2,2));', ...
+  getString(message('Nelson:validateIsonormalsVertices:invalidVertices')));
+asserts.checkerror('isonormals(ones(3,3,3), vertices, ''bad'');', ...
+  getString(message('Nelson:parseIsonormalsOption:invalidIsonormalsOption')));
+asserts.checkerror('isonormals(ones(3,3,3), vertices);', ...
+  getString(message('Nelson:isonormals:patchHandleExpectedWhen')));
 %=============================================================================

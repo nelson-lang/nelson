@@ -46,14 +46,16 @@ asserts.checkerror('cell2table({1; 2}, ''RowNames'', [1 2])', msg, 'Nelson:table
 %=============================================================================
 msg = _('To assign multiple variable names, specify nonempty names in a string array or a cell array of character vectors.');
 asserts.checkerror('cell2table({1, 2}, ''VariableNames'', ''a'')', msg, 'Nelson:table:invalidVariableNames');
-asserts.checkerror('cell2table({1; 2}, ''RowNames'', {''a''; ''b''}, ''VariableNames'', ''a'')', msg, 'Nelson:table:invalidVariableNames');
+asserts.checkerror('cell2table({1; 2}, ''RowNames'', {''a''; ''b''}, ''VariableNames'', ''a'')', msg, ...
+  'Nelson:table:invalidVariableNames');
 %=============================================================================
 msg = _('Unknown parameter name.');
 asserts.checkerror('cell2table({1, 2}, ''Foo'', 1)', msg, 'Nelson:table:unknownParameter');
 asserts.checkerror('cell2table({1, 2}, ''Description'', ''x'')', msg, 'Nelson:table:unknownParameter');
 %=============================================================================
 msg = _('Name-value arguments must come in pairs.');
-asserts.checkerror('cell2table({1, 2}, ''VariableNames'')', msg, 'Nelson:table:nameValuePair:nameValueArgumentsComePairs');
+asserts.checkerror('cell2table({1, 2}, ''VariableNames'')', msg, ...
+  'Nelson:table:nameValuePair:nameValueArgumentsComePairs');
 %=============================================================================
 msg = _('Parameter name must be a character vector or string scalar.');
 asserts.checkerror('cell2table({1, 2}, 3, 4)', msg, 'Nelson:table:invalidType:parameterNameACharacterVectorString');

@@ -20,7 +20,8 @@ function TT = table2timetable(T, varargin)
   else
     timeVar = resolveTimeVariable(st, opts.TimeVariable);
     if isempty(timeVar)
-      error('Nelson:table:invalidSyntax:aTimeVariableRowTimesSpecified', 'A time variable or RowTimes must be specified.');
+      error('Nelson:table:invalidSyntax:aTimeVariableRowTimesSpecified', ...
+        'A time variable or RowTimes must be specified.');
     end
     timeName = st.Properties.VariableNames{timeVar};
     rowTimes = st.data.(timeName);

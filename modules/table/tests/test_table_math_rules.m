@@ -44,7 +44,8 @@ R = T .* T;
 asserts.isequal(R.Properties.VariableUnits, {});
 R = T .^ 2;
 asserts.isequal(R.Properties.VariableUnits, {});
-asserts.checkerror('U = T; U.Properties.VariableUnits = {''s'', ''m''}; T + U', _('Table variable units must be compatible.'));
+asserts.checkerror('U = T; U.Properties.VariableUnits = {''s'', ''m''}; T + U', ...
+  _('Table variable units must be compatible.'));
 %=============================================================================
 TT1 = timetable(seconds([1; 2]), [1; 2], [3; 4], 'VariableNames', {'A', 'B'});
 TT2 = timetable(seconds([2; 1]), [40; 30], [20; 10], 'VariableNames', {'B', 'A'});

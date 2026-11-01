@@ -14,9 +14,9 @@
 % accept such files, alone or mixed with functions closed by 'end'.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 addpath(workdir);
-pathCleanup = onCleanup(@() rmpath(workdir)); %#ok<NASGU>
+pathCleanup = onCleanup(@() rmpath(workdir)); %#ok<NLS0004>
 formatCommand = nelson_tool_command_for_test('nelson-format');
 nl = char(10);
 %=============================================================================

@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.checkerror('ode(''SeparateComplexParts'', ''maybe'')', sprintf(_('%s must be ''on'' or ''off''.'), 'SeparateComplexParts'));
+asserts.checkerror('ode(''SeparateComplexParts'', ''maybe'')', sprintf(_('%s must be ''on'' or ''off''.'), ...
+  'SeparateComplexParts'));
 complexProblem = ode('ODEFcn', @(t, y) y .* t + 2 * 1i, ...
   'InitialValue', 1 + 1i, ...
   'SeparateComplexParts', 'on');

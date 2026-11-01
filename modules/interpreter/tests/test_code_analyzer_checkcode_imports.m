@@ -10,7 +10,7 @@
 % <--WEIGHT 4-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 scriptDataflow = fullfile(fixtureDirectory, 'nelson_lint_script_dataflow.m');
 filewrite(scriptDataflow, ['unusedScriptValue = 1;', newline(), ...
   'usedScriptValue = 2;', newline(), ...
@@ -18,7 +18,8 @@ filewrite(scriptDataflow, ['unusedScriptValue = 1;', newline(), ...
 issues = checkcode(scriptDataflow, '-struct', '-id');
 ids = {issues.id};
 lineNumbers = [issues.line];
-asserts.istrue(any(strcmp(ids, 'NLS0004') & lineNumbers == 1));
+% A script variable stays in the workspace once the script ends.
+asserts.isfalse(any(strcmp(ids, 'NLS0004') & lineNumbers == 1));
 asserts.isfalse(any(strcmp(ids, 'NLS0004') & lineNumbers == 2));
 asserts.isfalse(any(strcmp(ids, 'NLS0027')));
 

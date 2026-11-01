@@ -22,6 +22,8 @@ Qi = eye(3);
 asserts.isapprox(diag(To).', [1 2 3], 1e-12);
 asserts.isapprox(Qo * To * Qo', Ti, 1e-12);
 %=============================================================================
-asserts.checkerror('schord(eye(2), [1 2], [1 2])', sprintf(_('Wrong size for argument #%d: %s expected.'), 2, 'square matrix'));
-asserts.checkerror('schord(eye(2), eye(2), [1 2 3])', _('Wrong size for argument #3: vector length must match matrix size.'));
+asserts.checkerror('schord(eye(2), [1 2], [1 2])', sprintf(_('Wrong size for argument #%d: %s expected.'), 2, ...
+  'square matrix'));
+asserts.checkerror('schord(eye(2), eye(2), [1 2 3])', ...
+  _('Wrong size for argument #3: vector length must match matrix size.'));
 %=============================================================================

@@ -127,7 +127,8 @@ assert_checkerror('griddedInterpolant([1 2 3], [10 20 30], ''linear'', ''bogus''
 assert_checkerror('griddedInterpolant([3 1 2], [10 20 30])', _('Sample points must be sorted in ascending order.'));
 %=============================================================================
 % Grid length must match the sample values.
-assert_checkerror('griddedInterpolant([1 2 3], [10 20 30 40])', _('Sample points vector corresponding to grid dimension 1 must contain 4 elements.'));
+assert_checkerror('griddedInterpolant([1 2 3], [10 20 30 40])', ...
+  _('Sample points vector corresponding to grid dimension 1 must contain 4 elements.'));
 %=============================================================================
 % N-D 'makima' delegates to the tensor-product modified-Akima evaluator and
 % matches expected behavior for both interior and extrapolated queries.

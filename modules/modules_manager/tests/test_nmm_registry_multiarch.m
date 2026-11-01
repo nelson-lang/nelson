@@ -82,7 +82,8 @@ asserts.istrue(hasTextValue(doctorReport.stats.platforms, currentArch));
 asserts.istrue(hasTextValue(doctorReport.stats.platforms, otherArch));
 
 % re-publishing an architecture already present needs -force
-duplicateMessage = sprintf(_('Package already exists in registry: %s %s. Use -force to replace it.'), moduleName, moduleVersion);
+duplicateMessage = sprintf(_('Package already exists in registry: %s %s. Use -force to replace it.'), moduleName, ...
+  moduleVersion);
 asserts.checkerror(['nmm(''publish'', ''', currentArchive, ''')'], duplicateMessage, 'Nelson:nmm:PackageAlreadyExists');
 asserts.checkerror(['nmm(''publish'', ''', otherArchive, ''')'], duplicateMessage, 'Nelson:nmm:PackageAlreadyExists');
 
@@ -141,8 +142,10 @@ asserts.checkerror('nmm(''install'', ''missing_arch_fixture'', ''1.0.0'', ''-dry
 % opt-in -platform filter: the core search reports every registry entry, while
 % -platform keeps only the packages installable on the running architecture
 platformRegistry = [testRoot, 'platform.json'];
-localPkg = struct('name', 'local_arch_fixture', 'version', '1.0.0', 'platforms', {{currentArch}}, 'summary', 'installable here');
-foreignPkg = struct('name', 'foreign_arch_fixture', 'version', '1.0.0', 'platforms', {{otherArch}}, 'summary', 'other architecture only');
+localPkg = struct('name', 'local_arch_fixture', 'version', '1.0.0', 'platforms', {{currentArch}}, 'summary', ...
+  'installable here');
+foreignPkg = struct('name', 'foreign_arch_fixture', 'version', '1.0.0', 'platforms', {{otherArch}}, 'summary', ...
+  'other architecture only');
 portablePkg = struct('name', 'portable_fixture', 'version', '1.0.0', 'platforms', {{'all'}}, 'summary', 'portable');
 entries(1) = localPkg;
 entries(2) = foreignPkg;

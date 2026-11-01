@@ -52,5 +52,6 @@ asserts.isequal(class(ifft(single([4 1 2 1]), 'symmetric')), 'single');
 % invalid flag
 asserts.checkerror('ifft([1 2], ''badflag'')', _('Symmetry flag must be ''symmetric'' or ''nonsymmetric''.'));
 % the symmetry-flag condition also carries a stable identifier
-asserts.checkerror('ifft([1 2], ''badflag'')', _('Symmetry flag must be ''symmetric'' or ''nonsymmetric''.'), 'Nelson:ifft:invalidSymmetryFlag');
+asserts.checkerror('ifft([1 2], ''badflag'')', _('Symmetry flag must be ''symmetric'' or ''nonsymmetric''.'), ...
+  'Nelson:ifft:invalidSymmetryFlag');
 %=============================================================================

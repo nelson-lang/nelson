@@ -43,7 +43,8 @@ classdef dictionary
           return
         end
         if ~isa(inputValue, 'dictionary')
-          error('Nelson:dictionary:IncorrectNumberOfInputs', 'Incorrect number of input arguments. Each key must be followed by a value.');
+          error('Nelson:dictionary:IncorrectNumberOfInputs', ...
+            'Incorrect number of input arguments. Each key must be followed by a value.');
         end
         % Copy: share the (immutable) store handle; a later write to either
         % dictionary builds its own new store, so the two never alias.
@@ -54,7 +55,8 @@ classdef dictionary
       end
 
       if mod(nargin, 2) ~= 0
-        error('Nelson:dictionary:IncorrectNumberOfInputs', 'Incorrect number of input arguments. Each key must be followed by a value.');
+        error('Nelson:dictionary:IncorrectNumberOfInputs', ...
+          'Incorrect number of input arguments. Each key must be followed by a value.');
       end
 
       for p = 1:2:numel(varargin)
@@ -67,7 +69,8 @@ classdef dictionary
           valueInput = convertCharsToStrings(valueInput);
         end
         if numel(keyInput) ~= numel(valueInput) && numel(valueInput) ~= 1
-          error('Nelson:dictionary:IncorrectNumberOfInputs', 'Incorrect number of input arguments. Each key must be followed by a value.');
+          error('Nelson:dictionary:IncorrectNumberOfInputs', ...
+            'Incorrect number of input arguments. Each key must be followed by a value.');
         end
         if isempty(obj.keyType)
           obj.keyType = class(keyInput);

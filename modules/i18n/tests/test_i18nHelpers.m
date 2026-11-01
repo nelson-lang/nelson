@@ -9,7 +9,7 @@
 %=============================================================================
 srcDir = [tempname(), '/'];
 mkdir(srcDir);
-cleanupSrcDir = onCleanup(@() rmdir(srcDir, 's')); %#ok<NASGU>
+cleanupSrcDir = onCleanup(@() rmdir(srcDir, 's')); %#ok<NLS0004>
 %=============================================================================
 cppLines = {'#include "Error.hpp"'; ...
   'void f()'; ...

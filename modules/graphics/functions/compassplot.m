@@ -108,7 +108,8 @@ end
 function [theta, radius] = matchCompassData(theta, radius)
   if isvector(theta) && isvector(radius)
     if numel(theta) ~= numel(radius)
-      error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', 'R');
+      error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'Theta', ...
+        'R');
     end
     theta = theta(:);
     radius = radius(:);

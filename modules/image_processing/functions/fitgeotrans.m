@@ -13,7 +13,8 @@ function tform = fitgeotrans(movingPoints, fixedPoints, transformType)
   movingPoints = ip_validate_control_points(movingPoints, 'Moving points');
   fixedPoints = ip_validate_control_points(fixedPoints, 'Fixed points');
   if ~isequal(size(movingPoints), size(fixedPoints))
-    error('Nelson:image_processing:movingFixedPointsSameSize', '%s must have the same size.', 'Moving and fixed points');
+    error('Nelson:image_processing:movingFixedPointsSameSize', '%s must have the same size.', ...
+      'Moving and fixed points');
   end
   if ~(ischar(transformType) || isstring(transformType))
     error('Nelson:image_processing:transformationTypeString', '%s must be a string.', 'Transformation type');
@@ -27,7 +28,8 @@ function tform = fitgeotrans(movingPoints, fixedPoints, transformType)
       T = ip_fit_projective_transform(movingPoints, fixedPoints);
       tform = projective2d(T);
     otherwise
-      error('Nelson:image_processing:unsupportedGeometricTransformationType', 'Unsupported "%s" option.', 'geometric transformation type');
+      error('Nelson:image_processing:unsupportedGeometricTransformationType', 'Unsupported "%s" option.', ...
+        'geometric transformation type');
   end
 end
 %=============================================================================

@@ -58,11 +58,13 @@ function [dims, allValues] = parseDimensionLocal(value)
       allValues = true;
       return
     end
-    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', 'Dimension argument must be a positive integer scalar, vector, or ''all''.');
+    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', ...
+      'Dimension argument must be a positive integer scalar, vector, or ''all''.');
   end
   if ~(isnumeric(value) && isreal(value) && isvector(value) && all(value == fix(value)) ...
       && all(value >= 1))
-    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', 'Dimension argument must be a positive integer scalar, vector, or ''all''.');
+    error('Nelson:statistics:invalidDimensionArg:dimensionArgumentAPositiveIntegerScalar', ...
+      'Dimension argument must be a positive integer scalar, vector, or ''all''.');
   end
   dims = unique(double(value(:).'), 'stable');
 end

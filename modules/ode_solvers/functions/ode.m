@@ -173,7 +173,8 @@ classdef ode
       if isempty(value) || isa(value, 'odeSensitivity')
         obj.Sensitivity = value;
       else
-        error('Nelson:ode_solvers:sensitivityDefinitionObjectExpected', '%s definition object expected.', 'Sensitivity');
+        error('Nelson:ode_solvers:sensitivityDefinitionObjectExpected', '%s definition object expected.', ...
+          'Sensitivity');
       end
     end
 
@@ -190,7 +191,8 @@ classdef ode
       if odeHasDelayDefinition(obj.DelayDefinition)
         if ~isempty(obj.Sensitivity)
           if strcmpi(obj.SeparateComplexParts, 'on')
-            error('Nelson:ode_solvers:sensitivityEquationsSeparatedComplexParts', '%s equations with separated complex parts are not supported yet.', 'Sensitivity');
+            error('Nelson:ode_solvers:sensitivityEquationsSeparatedComplexParts', ...
+              '%s equations with separated complex parts are not supported yet.', 'Sensitivity');
           end
           sol = odeRunDelaySensitivity( ...
             obj.SelectedSolver, odefun, tspan, initialValue, initialSlope, options, ...
@@ -199,7 +201,8 @@ classdef ode
           return
         end
         if strcmpi(obj.SeparateComplexParts, 'on')
-          error('Nelson:ode_solvers:delayEquationsSeparatedComplexParts', '%s equations with separated complex parts are not supported yet.', 'Delay');
+          error('Nelson:ode_solvers:delayEquationsSeparatedComplexParts', ...
+            '%s equations with separated complex parts are not supported yet.', 'Delay');
         end
         sol = odeRunDelaySolver( ...
           obj.SelectedSolver, odefun, tspan, initialValue, initialSlope, options, obj.DelayDefinition);
@@ -214,7 +217,8 @@ classdef ode
         obj.SelectedSolver, odefun, tspan(1), initialValue, initialSlope, options);
       if ~isempty(obj.Sensitivity)
         if ~isempty(restore)
-          error('Nelson:ode_solvers:sensitivityEquationsSeparatedComplexParts', '%s equations with separated complex parts are not supported yet.', 'Sensitivity');
+          error('Nelson:ode_solvers:sensitivityEquationsSeparatedComplexParts', ...
+            '%s equations with separated complex parts are not supported yet.', 'Sensitivity');
         end
         sol = odeRunSensitivity( ...
           obj.SelectedSolver, odefun, tspan, initialValue, initialSlope, options, obj.Sensitivity);
@@ -317,7 +321,8 @@ classdef ode
           if isempty(value) || isa(value, 'odeSensitivity')
             obj.Sensitivity = value;
           else
-            error('Nelson:ode_solvers:sensitivityDefinitionObjectExpected', '%s definition object expected.', 'Sensitivity');
+            error('Nelson:ode_solvers:sensitivityDefinitionObjectExpected', '%s definition object expected.', ...
+              'Sensitivity');
           end
         case 'selectedsolver'
           if allowInternal

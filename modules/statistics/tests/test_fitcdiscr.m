@@ -72,5 +72,6 @@ asserts.checkerror('fitcdiscr(X, Y, ''Prior'', ''bad'')', sprintf(_('Invalid %s 
 asserts.checkerror('fitcdiscr(X, Y, ''Gamma'', 2)', sprintf(_('%s must be a scalar in the range [0,1].'), 'Gamma'));
 asserts.checkerror('fitcdiscr(X, Y, ''Delta'', -1)', sprintf(_('%s must be a nonnegative scalar.'), 'Delta'));
 asserts.checkerror('fitcdiscr(X, Y, ''ClassNames'', [1; 1; 2])', _('ClassNames must contain unique labels.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

@@ -52,5 +52,6 @@ assert_isequal(F(1, 1, 1), 2 + 3i);
 assert_isequal(isreal(F), false);
 %=============================================================================
 % a zero subscript is an error
-assert_checkerror('G = zeros(2, 2, 2); G(1, 1, 0) = 1;', _('Zero or negative index encountered.'), 'Nelson:types:invalidIndex:zeroNegativeIndexEncountered');
+assert_checkerror('G = zeros(2, 2, 2); G(1, 1, 0) = 1;', _('Zero or negative index encountered.'), ...
+  'Nelson:types:invalidIndex:zeroNegativeIndexEncountered');
 %=============================================================================

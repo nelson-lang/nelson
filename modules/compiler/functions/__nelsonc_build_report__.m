@@ -10,7 +10,7 @@
 function encoded = __nelsonc_build_report__(report, options, files, stage, packages)
   entries = cell(1, numel(files));
   for k = 1:numel(files)
-    [parent, stem, extension] = fileparts(files{k});
+    [~, stem, extension] = fileparts(files{k});
     name = [stem, extension];
     entries{k} = struct('relative', name, 'sha256', sha256(fullfile(stage, name), '-file'));
   end

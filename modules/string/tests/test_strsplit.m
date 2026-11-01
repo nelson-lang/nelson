@@ -48,8 +48,10 @@ asserts.isequal(strsplit('a,b', ',', 'Collapse', true), {'a', 'b'});
 asserts.isequal(strsplit('a,b,c', ',', 'CollapseDelimiters', 0), {'a', 'b', 'c'});
 asserts.isequal(strsplit('a,,b', ',', 'CollapseDelimiters', int8(0)), {'a', '', 'b'});
 asserts.isequal(strsplit('a,b', ',', 'delimitertype', 'simple'), {'a', 'b'});
-asserts.checkerror('R = strsplit(''a,b'', '','', ''CollapseDelimiters'');', 'Name-value pair arguments require a name followed by a value.', 'Nelson:string:strsplit:nameValue');
-asserts.checkerror('R = strsplit(''a,b'', '','', ''DelimiterType'', ''RegExp'');', 'DelimiterType must be ''Simple'' or ''RegularExpression''.', 'Nelson:string:strsplit:invalidDelimiterType');
+asserts.checkerror('R = strsplit(''a,b'', '','', ''CollapseDelimiters'');', ...
+  'Name-value pair arguments require a name followed by a value.', 'Nelson:string:strsplit:nameValue');
+asserts.checkerror('R = strsplit(''a,b'', '','', ''DelimiterType'', ''RegExp'');', ...
+  'DelimiterType must be ''Simple'' or ''RegularExpression''.', 'Nelson:string:strsplit:invalidDelimiterType');
 %=============================================================================
 % an empty delimiter never splits, the inputs are checked
 asserts.isequal(strsplit('a,b', ''), {'a,b'});
@@ -58,8 +60,10 @@ asserts.isequal(strsplit('a,b', {}), {'a,b'});
 asserts.isequal(strsplit('a,b', {'', ','}), {'a', 'b'});
 asserts.isequal(strsplit(char([97 8192 98])), {'a', 'b'});
 asserts.isequal(strsplit(char([97 160 98])), {'a', 'b'});
-asserts.checkerror('R = strsplit(["a,b", "c,d"], '','');', 'First input must be either a character vector or a string scalar.', 'Nelson:string:strsplit:invalidInput');
-asserts.checkerror('R = strsplit(5, '','');', 'First input must be either a character vector or a string scalar.', 'Nelson:string:strsplit:invalidInput');
+asserts.checkerror('R = strsplit(["a,b", "c,d"], '','');', ...
+  'First input must be either a character vector or a string scalar.', 'Nelson:string:strsplit:invalidInput');
+asserts.checkerror('R = strsplit(5, '','');', 'First input must be either a character vector or a string scalar.', ...
+  'Nelson:string:strsplit:invalidInput');
 msg = 'The delimiter must be either a character vector, a cell array of character vectors, or a string array.';
 asserts.checkerror('R = strsplit(''a,b'', 5);', msg, 'Nelson:string:strsplit:invalidDelimiter');
 asserts.checkerror('R = strsplit(''a,b'', []);', msg, 'Nelson:string:strsplit:invalidDelimiter');

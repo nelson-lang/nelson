@@ -17,7 +17,8 @@ function result = __nelsonc_command__(args, invokingDirectory, displayOutput, st
     if isstring(args{j}) && isscalar(args{j})
       args{j} = char(args{j});
     elseif ~ischar(args{j}) || (~isrow(args{j}) && ~isempty(args{j}))
-      error('Nelson:nelsonc:arguments:argumentsCharacterVectorsScalarStrings', 'Arguments must be character vectors or scalar strings.');
+      error('Nelson:nelsonc:arguments:argumentsCharacterVectorsScalarStrings', ...
+        'Arguments must be character vectors or scalar strings.');
     end
   end
   if isempty(args)
@@ -27,7 +28,8 @@ function result = __nelsonc_command__(args, invokingDirectory, displayOutput, st
     end
     return;
   end
-  [entry, output, included, mode, explain, runtimeMode, helpFile, options, isHelp] = parse_inputs(args, invokingDirectory);
+  [entry, output, included, mode, explain, runtimeMode, helpFile, options, isHelp] = parse_inputs(args, ...
+    invokingDirectory);
   if isHelp
     result = usage;
     if displayOutput; fprintf('%s\n', usage); end

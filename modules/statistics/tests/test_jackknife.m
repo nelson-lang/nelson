@@ -35,7 +35,8 @@ asserts.checkerror('jackknife(@mean, 1)', sprintf(_('At least one %s is required
 asserts.checkerror('jackknife(@mean, x, ''Options'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('jackknife(@mean, x, ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('jackknife(@mean, x, ''Options'', 1)', _('Options must be a structure.'));
-asserts.checkerror('jackknife(@jackknifeMeanSum, x, [1; 2])', sprintf(_('%s must have the same number of rows.'), 'Nonscalar data arguments'));
+asserts.checkerror('jackknife(@jackknifeMeanSum, x, [1; 2])', sprintf(_('%s must have the same number of rows.'), ...
+  'Nonscalar data arguments'));
 %=============================================================================
 function y = jackknifeTwoStats(x)
   y = [mean(x) std(x)];

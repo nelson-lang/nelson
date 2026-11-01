@@ -22,7 +22,8 @@ classdef ClassificationECOC
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationECOCObjectsCreatedFitcecoc', '%s objects are created by %s.', 'ClassificationECOC', 'fitcecoc');
+      error('Nelson:statistics:classificationECOCObjectsCreatedFitcecoc', '%s objects are created by %s.', ...
+        'ClassificationECOC', 'fitcecoc');
     end
   end
 end

@@ -46,7 +46,8 @@ asserts.istrue(contains(content, '#source-ref("snippets/demo.m", title: "Manifes
 asserts.isfalse(contains(content, 'function demo()'));
 % bounded excerpt: listing in a raw block, verbatim (no Typst escaping)
 asserts.istrue(contains(content, '#source-code("snippets/demo.m", title: "Excerpt")['));
-asserts.istrue(contains(content, ['``````matlab', newline, '  % BEGIN excerpt', newline, '  x = 1 + 2; % keep #this $verbatim', newline, '  % END excerpt', newline, '``````']));
+asserts.istrue(contains(content, ['``````matlab', newline, '  % BEGIN excerpt', newline, ...
+  '  x = 1 + 2; % keep #this $verbatim', newline, '  % END excerpt', newline, '``````']));
 rmdir(destination, 's');
 %=============================================================================
 destination = tempname();
@@ -56,7 +57,8 @@ content = fileread([destination, '/with_source.md']);
 asserts.istrue(contains(content, '**Manifest:** `snippets/demo.m`'));
 asserts.isfalse(contains(content, 'function demo()'));
 asserts.istrue(contains(content, '<summary>Excerpt: <code>snippets/demo.m</code></summary>'));
-asserts.istrue(contains(content, ['```matlab', newline, '  % BEGIN excerpt', newline, '  x = 1 + 2; % keep #this $verbatim', newline, '  % END excerpt', newline, '```']));
+asserts.istrue(contains(content, ['```matlab', newline, '  % BEGIN excerpt', newline, ...
+  '  x = 1 + 2; % keep #this $verbatim', newline, '  % END excerpt', newline, '```']));
 rmdir(destination, 's');
 rmdir(source, 's');
 %=============================================================================

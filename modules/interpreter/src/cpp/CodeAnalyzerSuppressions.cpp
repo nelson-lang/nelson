@@ -81,6 +81,18 @@ collectCodeAnalyzerSuppressions(const stringVector& lines)
         }
         CodeAnalyzerSuppression suppression;
         if (parseSuppressionDirective(lines[k].substr(comment), suppression)) {
+            // A directive at the end of a statement continued with '...' covers all its lines.
+            for (size_t first = k; first > 0; --first) {
+                const std::string& previous = lines[first - 1];
+                const size_t previousComment = CodeAnalyzerAst::codeAnalyzerCommentStart(previous);
+                const std::string code = CodeAnalyzerAst::trim(previousComment == std::string::npos
+                        ? previous
+                        : previous.substr(0, previousComment));
+                if (code.size() < 3 || code.compare(code.size() - 3, 3, "...") != 0) {
+                    break;
+                }
+                suppressions.emplace(static_cast<int>(first), suppression);
+            }
             suppressions[static_cast<int>(k + 1)] = std::move(suppression);
         }
     }

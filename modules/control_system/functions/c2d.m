@@ -24,7 +24,7 @@ function varargout = c2d(varargin)
   if ~isempty(msg)
     error(msg.id, msg.message);
   end
-  [mA, nA] = size(A);
+  [~, nA] = size(A);
   [mB, nB] = size(B);
   S = expm([[A, B] * T; zeros(nB, mB + nB)]);
   varargout{1} = S(1:nA, 1:nA);

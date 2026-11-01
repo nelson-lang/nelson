@@ -52,7 +52,8 @@ end
 %=============================================================================
 function txt = dictionaryToJson(d, pretty, preserveInfAndNaN)
   if ~isConfigured(d)
-    error('Nelson:writedictionary:typesNotSet', 'Unable to write a dictionary when the key and value types are not set.');
+    error('Nelson:writedictionary:typesNotSet', ...
+      'Unable to write a dictionary when the key and value types are not set.');
   end
 
   allKeys = keys(d, 'cell');
@@ -210,7 +211,8 @@ function key = dictionaryJsonKey(value)
     end
     key = strtrim(num2str(value, 17));
   else
-    error('Nelson:writedictionary:invalidJsonKeyType', 'Dictionary JSON keys must be text, numeric, or logical scalar values.');
+    error('Nelson:writedictionary:invalidJsonKeyType', ...
+      'Dictionary JSON keys must be text, numeric, or logical scalar values.');
   end
 end
 %=============================================================================

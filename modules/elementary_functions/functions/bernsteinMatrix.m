@@ -21,7 +21,7 @@ function varargout = bernsteinMatrix(varargin)
     return
   end
 
-  [B, T, TT] = calculateCoefficients(approximationOrder, evaluationPoint);
+  [~, T, TT] = calculateCoefficients(approximationOrder, evaluationPoint);
 
   varargout{1} = computeBernsteinMatrix(T, TT);
 end

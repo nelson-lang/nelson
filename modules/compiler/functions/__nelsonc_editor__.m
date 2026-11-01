@@ -48,14 +48,16 @@ function state = create_editor(window)
     state.Buttons{end + 1} = tool_button(tools, window, actions{k}, '', labels{k}, icons{k});
   end
   state.ProjectLabel = uilabel(tools, 'Text', 'Untitled', 'FontWeight', 'bold');
-  state.Buttons{end + 1} = tool_button(tools, window, 'analyze', 'Analyze', 'Analyze dependencies', 'action-search.svg');
+  state.Buttons{end + 1} = tool_button(tools, window, 'analyze', 'Analyze', 'Analyze dependencies', ...
+    'action-search.svg');
   state.Buttons{end + 1} = tool_button(tools, window, 'build', 'Build', 'Build application', 'action-run.svg');
   state.Buttons{end}.BackgroundColor = [0.12, 0.40, 0.27];
   state.Buttons{end}.FontColor = [1, 1, 1];
   state.Buttons{end + 1} = tool_button(tools, window, 'package', 'Installer', 'Create installer', 'action-package.svg');
   state.Tabs = uitabgroup(window);
   state.Project = __nelsonc_project__('new');
-  [state.Controls, state.Target, state.Resources, state.Forms] = __nelsonc_editor_controls__(state.Tabs, window, state.Project);
+  [state.Controls, state.Target, state.Resources, state.Forms] = __nelsonc_editor_controls__(state.Tabs, window, ...
+    state.Project);
   resultTab = uitab(state.Tabs, 'Title', 'Results');
   resultPanel = uipanel(resultTab, 'BorderType', 'none');
   state.Forms{end + 1} = resultPanel;
@@ -63,7 +65,8 @@ function state = create_editor(window)
   resultGrid.RowHeight = {'1x', 30, 150};
   state.Table = uitable(resultGrid, 'Data', cell(0, 2), 'ColumnName', {'Source / output', 'Archive path'}, ...
     'ColumnWidth', {520, 'auto'}, 'RowName', {});
-  state.Buttons{end + 1} = tool_button(resultGrid, window, 'export', 'Export build script', 'Export build script', 'action-save.svg');
+  state.Buttons{end + 1} = tool_button(resultGrid, window, 'export', 'Export build script', 'Export build script', ...
+    'action-save.svg');
   state.Command = uitextarea(resultGrid, 'Editable', 'off', 'Value', {''}, 'FontName', 'Consolas');
   state.Log = uitextarea(window, 'Editable', 'off', 'Value', {''});
   state.Status = uilabel(window, 'Text', 'Ready');

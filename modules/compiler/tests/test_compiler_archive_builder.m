@@ -55,7 +55,8 @@ for gui = [false, true]
 end
 for invalidFingerprint = {'', 'invalid', repmat('g', 1, 64), repmat('a', 1, 65)}
   invalidInstalled = fullfile(directory, 'invalid-installed.exe');
-  assert_rejected(@() __nelsonc_archive__('create-installed', stub, archive, invalidInstalled, false, invalidFingerprint{1}));
+  assert_rejected(@() __nelsonc_archive__('create-installed', stub, archive, invalidInstalled, false, ...
+    invalidFingerprint{1}));
   asserts.isfalse(isfile(invalidInstalled));
 end
 bad = fullfile(directory, 'corrupt.exe');

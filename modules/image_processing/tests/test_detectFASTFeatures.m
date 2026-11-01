@@ -10,6 +10,7 @@
 asserts.checkerror('detectFASTFeatures([1 2], ''MinContrast'', -1)', ...
   sprintf(_('%s must be a finite scalar in the range [%s].'), 'MinContrast', '0, 1'));
 %=============================================================================
-asserts.checkerror('detectFASTFeatures([1 2], ''ROI'', [1 1 Inf 2])', sprintf(_('%s must contain finite values.'), 'ROI'));
+asserts.checkerror('detectFASTFeatures([1 2], ''ROI'', [1 1 Inf 2])', sprintf(_('%s must contain finite values.'), ...
+  'ROI'));
 %=============================================================================
 asserts.checkerror('detectFASTFeatures([1 2], ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), 'feature'));

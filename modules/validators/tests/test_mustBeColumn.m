@@ -15,7 +15,8 @@ mustBeColumn([1; 2; 3]);
 %=============================================================================
 asserts.checkerror('mustBeColumn([])', sprintf(_('%s must be a column vector.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a column vector.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a column vector.'), ...
+  'Value')];
 asserts.checkerror('mustBeColumn([], 3)', msg);
 %=============================================================================
 

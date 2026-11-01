@@ -66,5 +66,6 @@ asserts.checkerror('fitlm(X, y, ''bad'')', _('Name-value arguments must be paire
 asserts.checkerror('fitlm(X, y, [1 0 0])', sprintf(_('Model matrix must have one column per %s.'), 'predictor'));
 asserts.checkerror('fitlm(X, y, ''Intercept'', 2)', sprintf(_('%s must be true or false.'), 'Intercept'));
 asserts.checkerror('fitlm(X, y, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

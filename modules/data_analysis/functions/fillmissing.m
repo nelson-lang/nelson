@@ -35,7 +35,8 @@ function opts = parseFillmissingInputs(method, args)
   opts.Distance = 'euclidean';
   isConstant = strcmp(opts.Method, 'constant');
   isKnn = strcmp(opts.Method, 'knn');
-  takesValue = isConstant || isKnn || isa(opts.Method, 'function_handle') || any(strcmp(opts.Method, {'movmean', 'movmedian'}));
+  takesValue = isConstant || isKnn || isa(opts.Method, 'function_handle') || any(strcmp(opts.Method, {'movmean', ...
+    'movmedian'}));
   % The fill value of 'constant' may itself be text; the window of the
   % moving and function handle methods and k of 'knn' are numeric.
   if takesValue && ~isempty(args) && (isConstant || ~isText(args{1}))
@@ -61,7 +62,8 @@ function opts = parseFillmissingInputs(method, args)
     opts.Dim = args{1};
     args(1) = [];
     if ~(isnumeric(opts.Dim) && isscalar(opts.Dim) && isreal(opts.Dim) && opts.Dim >= 1 && fix(opts.Dim) == opts.Dim)
-      error('Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Dimension argument');
+      error('Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+        'Dimension argument');
     end
   end
   provided = {};
@@ -112,14 +114,16 @@ function distance = checkKnnDistance(distance)
     distance = lower(char(distance));
   end
   if ~(ischar(distance) && any(strcmp(distance, {'euclidean', 'seuclidean'})))
-    error('Nelson:data_analysis:knnInvalidDistance', '''Distance'' value must be ''euclidean'', ''seuclidean'', or a function handle.');
+    error('Nelson:data_analysis:knnInvalidDistance', ...
+      '''Distance'' value must be ''euclidean'', ''seuclidean'', or a function handle.');
   end
 end
 %=============================================================================
 function checkKnnOptions(isKnn, provided)
   if ~isKnn
     if any(strcmp(provided, 'distance'))
-      error('Nelson:data_analysis:distanceOnlyForKnn', 'The ''Distance'' argument is supported only for the ''knn'' method.');
+      error('Nelson:data_analysis:distanceOnlyForKnn', ...
+        'The ''Distance'' argument is supported only for the ''knn'' method.');
     end
     return
   end
@@ -127,7 +131,8 @@ function checkKnnOptions(isKnn, provided)
   labels = {'EndValues', 'MaxGap', 'SamplePoints'};
   for k = 1:length(names)
     if any(strcmp(provided, names{k}))
-      error('Nelson:data_analysis:knnUnsupportedArgument', 'The %s argument is not supported for the ''knn'' method.', labels{k});
+      error('Nelson:data_analysis:knnUnsupportedArgument', ...
+        'The %s argument is not supported for the ''knn'' method.', labels{k});
     end
   end
 end
@@ -140,7 +145,8 @@ function method = checkFillMethod(method)
     error('Nelson:data_analysis:unsupportedFillMethod', 'Unsupported "%s" option.', 'method');
   end
   method = lower(char(method));
-  supported = {'constant', 'previous', 'next', 'nearest', 'linear', 'spline', 'pchip', 'makima', 'movmean', 'movmedian', 'mean', 'median', 'mode', 'knn'};
+  supported = {'constant', 'previous', 'next', 'nearest', 'linear', 'spline', 'pchip', 'makima', 'movmean', ...
+    'movmedian', 'mean', 'median', 'mode', 'knn'};
   if ~any(strcmp(method, supported))
     error('Nelson:data_analysis:unsupportedFillMethod', 'Unsupported "%s" option.', method);
   end
@@ -153,12 +159,14 @@ end
 function [B, FB] = fillTable(A, opts)
   B = A;
   if ~isempty(opts.Dim)
-    error('Nelson:data_analysis:fillmissingDimensionTable', 'Dimension parameter not supported when first argument is a table or timetable.');
+    error('Nelson:data_analysis:fillmissingDimensionTable', ...
+      'Dimension parameter not supported when first argument is a table or timetable.');
   end
   if istimetable(A)
     % The row times are the sample points of a timetable.
     if ~isempty(opts.SamplePoints)
-      error('Nelson:data_analysis:fillmissingSamplePointsTimetable', '''SamplePoints'' parameter not supported when first argument is a timetable.');
+      error('Nelson:data_analysis:fillmissingSamplePointsTimetable', ...
+        '''SamplePoints'' parameter not supported when first argument is a timetable.');
     end
     opts.SamplePoints = A.Properties.RowTimes;
   end
@@ -170,7 +178,8 @@ function [B, FB] = fillTable(A, opts)
     dataVars = 1:width(A);
   else
     stA = struct(A);
-    dataVars = tableResolveVariables(stA.Properties.VariableNames, opts.DataVariables, stA.Properties.VariableTypes, stA.data);
+    dataVars = tableResolveVariables(stA.Properties.VariableNames, opts.DataVariables, stA.Properties.VariableTypes, ...
+      stA.data);
   end
   % Table variables are filled along their rows.
   varOpts = opts;
@@ -229,7 +238,8 @@ function [filledValues, filledMasks] = fillTableKnn(A, opts, names, dataVars)
   for position = 1:nVars
     values{position} = A.(names{position});
     if size(values{position}, 2) ~= 1
-      error('Nelson:data_analysis:knnMultiColumnVariable', 'Table variables with multiple columns are not supported for the ''knn'' method.');
+      error('Nelson:data_analysis:knnMultiColumnVariable', ...
+        'Table variables with multiple columns are not supported for the ''knn'' method.');
     end
     checkKnnInput(values{position}, opts.Distance);
     locations{position} = variableMissingLocations(opts.MissingLocations, names{position}, dataVars(position));
@@ -259,15 +269,18 @@ end
 function checkSliceValues(opts, slices)
   % The fill constant and numeric end values are a scalar or one value per slice.
   if strcmp(opts.Method, 'constant') && ~(ischar(opts.Value) || isscalar(opts.Value) || (isvector(opts.Value) && numel(opts.Value) == slices))
-    error('Nelson:data_analysis:fillmissingConstantSize', 'Fill constant must be a scalar or a %d-element vector.', slices);
+    error('Nelson:data_analysis:fillmissingConstantSize', 'Fill constant must be a scalar or a %d-element vector.', ...
+      slices);
   end
   if ~ischar(opts.EndValues) && ~(isscalar(opts.EndValues) || (isvector(opts.EndValues) && numel(opts.EndValues) == slices))
-    error('Nelson:data_analysis:fillmissingEndValuesSize', '''EndValues'' value must be a scalar or a %d-element vector.', slices);
+    error('Nelson:data_analysis:fillmissingEndValuesSize', ...
+      '''EndValues'' value must be a scalar or a %d-element vector.', slices);
   end
 end
 %=============================================================================
 function missingLocationsError()
-  error('Nelson:data_analysis:fillmissingInvalidMissingLocations', '''MissingLocations'' value must be a logical array of the same size as the first argument.');
+  error('Nelson:data_analysis:fillmissingInvalidMissingLocations', ...
+    '''MissingLocations'' value must be a logical array of the same size as the first argument.');
 end
 %=============================================================================
 function [B, FB] = fillArray(A, opts)
@@ -350,17 +363,20 @@ function opts = checkSliceOptions(opts, n, slices)
   if ~hasWindow && isempty(opts.SamplePoints) && isempty(opts.MaxGap)
     return
   end
-  [opts.SamplePoints, opts.MaxGap, window] = fillmissingSamplePoints(opts.SamplePoints, n, opts.MaxGap, window, isFunction);
+  [opts.SamplePoints, opts.MaxGap, window] = fillmissingSamplePoints(opts.SamplePoints, n, opts.MaxGap, window, ...
+    isFunction);
   if ~hasWindow
     return
   end
   finite = isnumeric(window) && isreal(window) && all(isfinite(window));
   if isFunction
     if ~(finite && ((isscalar(window) && window > 0) || (numel(window) == 2 && all(window >= 0) && any(window > 0))))
-      error('Nelson:data_analysis:fillmissingInvalidGapWindow', 'Window length must be a finite positive scalar or 2-element vector of finite nonnegative scalars.');
+      error('Nelson:data_analysis:fillmissingInvalidGapWindow', ...
+        'Window length must be a finite positive scalar or 2-element vector of finite nonnegative scalars.');
     end
   elseif ~(finite && ((isscalar(window) && window > 0) || (numel(window) == 2 && all(window >= 0))))
-    error('Nelson:data_analysis:windowPositiveScalarTwoElement', 'Window must be a positive scalar or a two-element vector.');
+    error('Nelson:data_analysis:windowPositiveScalarTwoElement', ...
+      'Window must be a positive scalar or a two-element vector.');
   end
   opts.Value = window;
 end
@@ -369,7 +385,8 @@ function [X, filled] = fillMissingEntries(X, M, opts, isExtrap)
   % Generic path: a value is proposed for each missing entry, then EndValues and MaxGap apply.
   n = size(X, 1);
   % Sample points are only built for the methods measuring distances.
-  usesX = ~isempty(opts.MaxGap) || ~any(strcmp(opts.Method, {'constant', 'previous', 'next', 'mean', 'median', 'mode', 'movmean', 'movmedian', 'knn'}));
+  usesX = ~isempty(opts.MaxGap) || ~any(strcmp(opts.Method, {'constant', 'previous', 'next', 'mean', 'median', ...
+    'mode', 'movmean', 'movmedian', 'knn'}));
   if ~isempty(opts.SamplePoints)
     x = double(opts.SamplePoints(:));
   elseif usesX
@@ -377,7 +394,8 @@ function [X, filled] = fillMissingEntries(X, M, opts, isExtrap)
   else
     x = [];
   end
-  withNeighbors = ~isExtrap || ~isempty(opts.MaxGap) || any(strcmp(opts.Method, {'previous', 'next', 'nearest', 'linear'}));
+  withNeighbors = ~isExtrap || ~isempty(opts.MaxGap) || any(strcmp(opts.Method, {'previous', 'next', 'nearest', ...
+    'linear'}));
   loc = missingEntries(M, withNeighbors);
   [Fm, fm] = fillValues(X, M, x, loc, opts);
   if ~isExtrap
@@ -408,16 +426,19 @@ end
 %=============================================================================
 function checkKnnInput(A, distance)
   if ndims(A) > 2
-    error('Nelson:data_analysis:knnMatrixExpected', 'First argument must be a matrix or a table for the ''knn'' method.');
+    error('Nelson:data_analysis:knnMatrixExpected', ...
+      'First argument must be a matrix or a table for the ''knn'' method.');
   end
   if isa(distance, 'function_handle')
     return
   end
   if ~isfloat(A)
-    error('Nelson:data_analysis:knnFloatExpected', 'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
+    error('Nelson:data_analysis:knnFloatExpected', ...
+      'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
   end
   if ~isreal(A)
-    error('Nelson:data_analysis:knnRealExpected', 'First argument must be real when using the ''euclidean'' and ''seuclidean'' distance metrics.');
+    error('Nelson:data_analysis:knnRealExpected', ...
+      'First argument must be real when using the ''euclidean'' and ''seuclidean'' distance metrics.');
   end
 end
 %=============================================================================
@@ -636,7 +657,8 @@ function [Fm, fm] = fillFunction(X, x, t, loc, fun, window)
     sampleIdx = sampleIdx(sampleIdx < rows(1) | sampleIdx > rows(end));
     values = fun(double(X(sampleIdx, c)), t(sampleIdx), t(rows));
     if ~(isscalar(values) || numel(values) == length(rows))
-      error('Nelson:data_analysis:fillmissingFunctionOutputSize', 'Output of function handle must have length 1 or must have the length of the missing value gap.');
+      error('Nelson:data_analysis:fillmissingFunctionOutputSize', ...
+        'Output of function handle must have length 1 or must have the length of the missing value gap.');
     end
     Fm(r) = values(:);
     fm(r) = true;

@@ -63,9 +63,12 @@ asserts.checkerror('lasso()', _('Not enough input arguments.'));
 asserts.checkerror('lasso({1}, [1])', sprintf(_('%s must be a real numeric matrix.'), 'X'));
 asserts.checkerror('lasso([1], {1})', sprintf(_('%s must be a real numeric vector.'), 'Y'));
 asserts.checkerror('lasso([1; 2], [1])', sprintf(_('%s must have the same number of rows.'), 'X and Y'));
-asserts.checkerror('lasso([1; 2], [1; 2], ''Lambda'', -1)', sprintf(_('%s must be a nonnegative numeric vector.'), 'LAMBDA'));
+asserts.checkerror('lasso([1; 2], [1; 2], ''Lambda'', -1)', sprintf(_('%s must be a nonnegative numeric vector.'), ...
+  'LAMBDA'));
 asserts.checkerror('lasso([1; 2], [1; 2], ''Alpha'', 2)', _('ALPHA must be in the range (0,1].'));
-asserts.checkerror('lasso([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be a logical scalar.'), 'STANDARDIZE'));
-asserts.checkerror('lasso([1; 2], [1; 2], ''Weights'', [1 -1])', _('WEIGHTS must contain nonnegative values with at least one positive value.'));
+asserts.checkerror('lasso([1; 2], [1; 2], ''Standardize'', 2)', sprintf(_('%s must be a logical scalar.'), ...
+  'STANDARDIZE'));
+asserts.checkerror('lasso([1; 2], [1; 2], ''Weights'', [1 -1])', ...
+  _('WEIGHTS must contain nonnegative values with at least one positive value.'));
 asserts.checkerror('lasso([1; 2], [1; 2], ''CV'', 5)', _('Invalid name-value argument name.'));
 %=============================================================================

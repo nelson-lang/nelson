@@ -216,7 +216,8 @@ function applyBar3Axes(ax, data, rowPositions, explicitPositions, horizontal, op
     positionLimits = mapRowLimits(horizontalRowLimits(rows, opts, explicitPositions), rowPositions, explicitPositions);
     valueLimits = horizontalValueAxisLimits(data, opts);
   else
-    positionLimits = mapRowLimits(rowLimits(rows, opts, explicitPositions, valueFootprint), rowPositions, explicitPositions);
+    positionLimits = mapRowLimits(rowLimits(rows, opts, explicitPositions, valueFootprint), rowPositions, ...
+      explicitPositions);
     valueLimits = valueAxisLimits(data, opts);
   end
   xLimits = xAxisLimits(cols, opts);

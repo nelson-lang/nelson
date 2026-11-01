@@ -68,9 +68,13 @@ asserts.checkerror('hmmdecode([1 4], trans, emis)', sprintf(_('%s contains inval
 asserts.checkerror('hmmviterbi([1 NaN], trans, emis)', sprintf(_('%s contains invalid indices.'), 'SEQ'));
 asserts.checkerror('hmmestimate({1}, states)', sprintf(_('%s must be a nonempty numeric vector.'), 'SEQ'));
 asserts.checkerror('hmmestimate(seq, [1 2])', sprintf(_('%s must have the same length.'), 'SEQ and STATES'));
-asserts.checkerror('hmmestimate(seq, states, ''NStates'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'NStates'));
+asserts.checkerror('hmmestimate(seq, states, ''NStates'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'NStates'));
 asserts.checkerror('hmmtrain(seq, eye(3), emis)', _('TRANS and EMIS must have the same number of states.'));
-asserts.checkerror('hmmtrain(seq, trans, emis, ''MaxIterations'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MaxIterations'));
-asserts.checkerror('hmmtrain(seq, trans, emis, ''Tolerance'', 0)', sprintf(_('%s must be a positive scalar.'), 'Tolerance'));
-asserts.checkerror('hmmtrain(seq, trans, emis, ''PseudoTransitions'', ones(3))', sprintf(_('%s has incompatible size.'), 'PseudoTransitions'));
+asserts.checkerror('hmmtrain(seq, trans, emis, ''MaxIterations'', 0)', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'MaxIterations'));
+asserts.checkerror('hmmtrain(seq, trans, emis, ''Tolerance'', 0)', sprintf(_('%s must be a positive scalar.'), ...
+  'Tolerance'));
+asserts.checkerror('hmmtrain(seq, trans, emis, ''PseudoTransitions'', ones(3))', ...
+  sprintf(_('%s has incompatible size.'), 'PseudoTransitions'));
 %=============================================================================

@@ -39,7 +39,8 @@ function varargout = d2c(varargin)
   end
   if nargin > 2
     if ~strcmp(method, 'P')
-      error('Nelson:control_system:prewarpMethodExpected', 'Wrong value for #%d argument: ''prewarp'' method expected.', 2);
+      error('Nelson:control_system:prewarpMethodExpected', ...
+        'Wrong value for #%d argument: ''prewarp'' method expected.', 2);
     end
     w0 = varargin{3};
     mustBeNumeric(w0, 3);

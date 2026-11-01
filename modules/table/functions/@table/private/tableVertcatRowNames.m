@@ -29,7 +29,8 @@ function names = tableVertcatRowNames(namesA, nA, namesB, nB)
   end
   [isDuplicate, idx] = ismember(namesB, namesA);
   if any(isDuplicate)
-    error('Nelson:table:vertcat:duplicateRowNames', _('Duplicate table row name: ''%s''.'), namesA{idx(find(isDuplicate, 1))});
+    error('Nelson:table:vertcat:duplicateRowNames', _('Duplicate table row name: ''%s''.'), ...
+      namesA{idx(find(isDuplicate, 1))});
   end
   names = [namesA; namesB];
 end

@@ -144,7 +144,8 @@ function [xLabels, yLabels, colorData] = heatmapDataFromTable(xValues, yValues, 
     colorData = aggregateCount(xAll, yAll, xLabels, yLabels);
   else
     if numel(colorValues) ~= numel(xAll)
-      error('Nelson:heatmap:invalidColorVariable', 'ColorVariable must have the same number of rows as XVariable and YVariable.');
+      error('Nelson:heatmap:invalidColorVariable', ...
+        'ColorVariable must have the same number of rows as XVariable and YVariable.');
     end
     colorData = aggregateMean(xAll, yAll, colorValues, xLabels, yLabels);
   end

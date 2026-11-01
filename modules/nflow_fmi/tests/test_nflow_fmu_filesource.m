@@ -31,7 +31,7 @@ dR.blocks = {...
 dR.connections = {struct('from', 'fs', 'to', 'out', 'fromIndex', 0, 'toIndex', 0)};
 dR.sampleTime = 0.25; dR.duration = 1.25; dR.variables = struct();
 dR_dir = tempname(); mkdir(dR_dir);
-cR = onCleanup(@() rmdir(dR_dir, 's')); %#ok<NASGU>
+cR = onCleanup(@() rmdir(dR_dir, 's')); %#ok<NLS0004>
 mfR = fullfile(dR_dir, 'fs_rust.nflow');
 fid = fopen(mfR, 'wt'); fwrite(fid, jsonencode(dR)); fclose(fid);
 outR = tempname();

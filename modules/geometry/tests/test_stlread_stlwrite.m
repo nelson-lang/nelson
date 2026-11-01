@@ -14,7 +14,7 @@ testDir = [tempname(), '/'];
 if ~isfolder(testDir)
   mkdir(testDir);
 end
-cleanupTestDir = onCleanup(@() rmdir(testDir, 's')); %#ok<NASGU>
+cleanupTestDir = onCleanup(@() rmdir(testDir, 's')); %#ok<NLS0004>
 %=============================================================================
 P = [0 0 0; 1 0 0; 0 1 0; 0 0 1];
 T = [1 2 3; 1 3 4];
@@ -128,12 +128,17 @@ missingFile = [testDir, 'missing.stl'];
 asserts.checkerror(['stlread(''', missingFile, ''')'], sprintf(_('Unable to open file: %s'), missingFile));
 asserts.checkerror(['stlread(''', testDir, 'bad.obj'')'], _('File name must end with .stl or .STL.'));
 % the file-name condition also carries a stable identifier
-asserts.checkerror(['stlread(''', testDir, 'bad.obj'')'], _('File name must end with .stl or .STL.'), 'Nelson:stl:invalidFileName');
+asserts.checkerror(['stlread(''', testDir, 'bad.obj'')'], _('File name must end with .stl or .STL.'), ...
+  'Nelson:stl:invalidFileName');
 asserts.checkerror('stlwrite(eye(3), binaryFile)', _('Triangulation object expected.'));
 asserts.checkerror('stlwrite(TR, [testDir, ''bad.obj''])', _('File name must end with .stl or .STL.'));
 asserts.checkerror('stlwrite(TR, binaryFile, ''ascii'')', _('File format must be ''binary'' or ''text''.'));
-asserts.checkerror('stlwrite(TR, textFile, ''text'', ''Attribute'', uint16([1; 2]))', _('''Attribute'' parameter is only supported when file format is ''binary''.'));
-asserts.checkerror('stlwrite(TR, binaryFile, ''binary'', ''SolidIndex'', [1; 2])', _('''SolidIndex'' parameter is only supported when file format is ''text''.'));
-asserts.checkerror('stlwrite(TR, binaryFile, ''Attribute'', uint16(1))', sprintf(_('%s must be a uint16 vector with one value for each triangle.'), 'Attribute'));
-asserts.checkerror('stlwrite(TR, textFile, ''text'', ''SolidIndex'', 1)', sprintf(_('%s must be a numeric vector with one value for each triangle.'), 'SolidIndex'));
+asserts.checkerror('stlwrite(TR, textFile, ''text'', ''Attribute'', uint16([1; 2]))', ...
+  _('''Attribute'' parameter is only supported when file format is ''binary''.'));
+asserts.checkerror('stlwrite(TR, binaryFile, ''binary'', ''SolidIndex'', [1; 2])', ...
+  _('''SolidIndex'' parameter is only supported when file format is ''text''.'));
+asserts.checkerror('stlwrite(TR, binaryFile, ''Attribute'', uint16(1))', ...
+  sprintf(_('%s must be a uint16 vector with one value for each triangle.'), 'Attribute'));
+asserts.checkerror('stlwrite(TR, textFile, ''text'', ''SolidIndex'', 1)', ...
+  sprintf(_('%s must be a numeric vector with one value for each triangle.'), 'SolidIndex'));
 %=============================================================================

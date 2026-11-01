@@ -21,5 +21,6 @@ addpath([modulepath('functions_manager'), '/tests']);
 asserts.isequal(runtime_narginchk_fixture(1), 1);
 asserts.isequal(runtime_narginchk_fixture(1, 2), 2);
 asserts.checkerror('runtime_narginchk_fixture()', _('Not enough input arguments.'), 'Nelson:narginchk:notEnoughInputs');
-asserts.checkerror('runtime_narginchk_fixture(1, 2, 3)', _('Too many input arguments.'), 'Nelson:narginchk:tooManyInputs');
+asserts.checkerror('runtime_narginchk_fixture(1, 2, 3)', _('Too many input arguments.'), ...
+  'Nelson:narginchk:tooManyInputs');
 %=============================================================================

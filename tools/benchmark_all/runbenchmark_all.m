@@ -24,7 +24,8 @@ try
   platform_map.('glnxa64arm') = 'linux-arm64';
   platform_map.('?') = 'unknown-platform';
   platform = platform_map.(computer('arch'));
-  filedest = ['benchmark_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform, '.*'];
+  filedest = ['benchmark_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), ...
+    '.', mat2str(ver_number(4)), '-', platform, '.*'];
   r = test_run([], 'benchs', [TESTS_RESULT_DIR, '/', filedest]);
 catch
   m = lasterror();

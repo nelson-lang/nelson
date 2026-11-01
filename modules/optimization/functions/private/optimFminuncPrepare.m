@@ -27,7 +27,8 @@ function data = optimFminuncPrepare(fun, x0, opts)
   validateTextChoice(opts.Display, {'off', 'none', 'final', 'final-detailed', 'notify', ...
     'notify-detailed', 'iter', 'iter-detailed'}, sprintf(_('Invalid value for "%s".'), 'Display'));
   validateTextChoice(opts.Diagnostics, {'on', 'off'}, sprintf(_('Invalid value for "%s".'), 'Diagnostics'));
-  validateTextChoice(opts.FiniteDifferenceType, {'forward', 'central'}, sprintf(_('Invalid value for "%s".'), 'FiniteDifferenceType'));
+  validateTextChoice(opts.FiniteDifferenceType, {'forward', 'central'}, sprintf(_('Invalid value for "%s".'), ...
+    'FiniteDifferenceType'));
   if strcmp(algorithm, 'trust-region') && ~hasGradient(opts)
     algorithm = 'quasi-newton';
   end

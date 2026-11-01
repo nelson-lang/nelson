@@ -106,8 +106,10 @@ asserts.isequal(char(ax.XGrid), 'off');
 close(f);
 %=============================================================================
 asserts.checkerror('isosurface(ones(2), 1);', getString(message('Nelson:isosurface:invalidVolumeType')));
-asserts.checkerror('isosurface(ones(3,3,3), [1 2]);', getString(message('Nelson:validateIsosurfaceLevel:invalidIsovalue')));
+asserts.checkerror('isosurface(ones(3,3,3), [1 2]);', ...
+  getString(message('Nelson:validateIsosurfaceLevel:invalidIsovalue')));
 asserts.checkerror('isosurface(ones(3,3,3), 1, ones(2,2,2));', getString(message('Nelson:isosurface:colorMismatch')));
 asserts.checkerror('isosurface(1:2, 1:3, 1:3, ones(3,3,3), 1);', getString(message('Nelson:isosurface:gridMismatch')));
-asserts.checkerror('isosurface(ones(3,3,3), 1, ''bad'');', getString(message('Nelson:parseIsosurfaceOptions:invalidIsosurfaceOption')));
+asserts.checkerror('isosurface(ones(3,3,3), 1, ''bad'');', ...
+  getString(message('Nelson:parseIsosurfaceOptions:invalidIsosurfaceOption')));
 %=============================================================================

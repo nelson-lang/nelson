@@ -15,15 +15,15 @@
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 fixture = fullfile(fixtureDirectory, 'editor_edit_fun.m');
 filewrite(fixture, ['function r = editor_edit_fun(x)', LF, ...
   '  r = x + 1;', LF, ...
   '  r = r * 2;', LF, ...
   'end', LF]);
 addpath(fixtureDirectory);
-pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NASGU>
-editorCleanup = onCleanup(@() __editor__('close')); %#ok<NASGU>
+pathCleanup = onCleanup(@() rmpath(fixtureDirectory)); %#ok<NLS0004>
+editorCleanup = onCleanup(@() __editor__('close')); %#ok<NLS0004>
 dbclear all
 __editor__('open', fixture);
 __editor__('toggleBreakpoint', 3);

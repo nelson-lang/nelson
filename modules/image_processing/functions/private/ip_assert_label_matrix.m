@@ -14,7 +14,8 @@ function ip_assert_label_matrix(labels)
   end
   values = double(labels(:));
   if any(~isfinite(values)) || any(values ~= floor(values)) || any(values < 0)
-    error('Nelson:image_processing:labelMatrixValuesNonnegativeFiniteIntegers', '%s values must be nonnegative finite integers.', 'Label matrix');
+    error('Nelson:image_processing:labelMatrixValuesNonnegativeFiniteIntegers', ...
+      '%s values must be nonnegative finite integers.', 'Label matrix');
   end
 end
 %=============================================================================

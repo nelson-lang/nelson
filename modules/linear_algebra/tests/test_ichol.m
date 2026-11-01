@@ -222,18 +222,24 @@ asserts.isapprox(full(Lhcts), single(REF_COMPLEX_DIAGCOMP_L), 1e-6);
 asserts.checkerror('ichol(A, ones(1, 2))', _('Options must be a scalar structure.'));
 asserts.checkerror('ichol(sparse([1 2]))', sprintf(_('%s expected.'), 'Square matrix'));
 asserts.checkerror('ichol(A, struct(''type'', ''bad''))', sprintf(_('Unsupported %s.'), 'incomplete Cholesky type'));
-asserts.checkerror('ichol(A, struct(''type'', 1))', _('Option value must be a character row vector or a string scalar.'));
-asserts.checkerror('ichol(A, struct(''droptol'', Inf))', sprintf(_('%s must be a finite real scalar.'), 'Option value'));
+asserts.checkerror('ichol(A, struct(''type'', 1))', ...
+  _('Option value must be a character row vector or a string scalar.'));
+asserts.checkerror('ichol(A, struct(''droptol'', Inf))', sprintf(_('%s must be a finite real scalar.'), ...
+  'Option value'));
 asserts.checkerror('ichol(A, struct(''droptol'', -1))', sprintf(_('%s must be a nonnegative scalar.'), 'droptol'));
-asserts.checkerror('ichol(A, struct(''diagcomp'', Inf))', sprintf(_('%s must be a finite real scalar.'), 'Option value'));
+asserts.checkerror('ichol(A, struct(''diagcomp'', Inf))', sprintf(_('%s must be a finite real scalar.'), ...
+  'Option value'));
 asserts.checkerror('ichol(A, struct(''diagcomp'', -1))', sprintf(_('%s must be a nonnegative scalar.'), 'diagcomp'));
 asserts.checkerror('ichol(A, struct(''michol'', ''bad''))', _('michol must be ''on'' or ''off''.'));
-asserts.checkerror('ichol(A, struct(''michol'', 1))', _('Option value must be a character row vector or a string scalar.'));
+asserts.checkerror('ichol(A, struct(''michol'', 1))', ...
+  _('Option value must be a character row vector or a string scalar.'));
 asserts.checkerror('ichol(A, struct(''shape'', ''bad''))', sprintf(_('%s must be ''lower'' or ''upper''.'), 'shape'));
-asserts.checkerror('ichol(A, struct(''shape'', 1))', _('Option value must be a character row vector or a string scalar.'));
+asserts.checkerror('ichol(A, struct(''shape'', 1))', ...
+  _('Option value must be a character row vector or a string scalar.'));
 asserts.checkerror('ichol(A, struct(''unknown'', 1))', sprintf(_('Unsupported %s.'), 'incomplete Cholesky option'));
 asserts.checkerror('ichol(sparse([1 2; 0 1]))', _('Matrix must be symmetric.'));
 asserts.checkerror('ichol(sparse([1 1i; 0 1]))', _('Matrix must be Hermitian.'));
-asserts.checkerror('ichol(sparse([0 0; 0 1]), struct(''diagcomp'', 1))', _('Input matrix must have a structurally nonzero diagonal.'));
+asserts.checkerror('ichol(sparse([0 0; 0 1]), struct(''diagcomp'', 1))', ...
+  _('Input matrix must have a structurally nonzero diagonal.'));
 asserts.checkerror('ichol(sparse([1 2; 2 1]))', sprintf(_('%s failed.'), 'Incomplete Cholesky factorization'));
 %=============================================================================

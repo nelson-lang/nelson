@@ -56,10 +56,14 @@ asserts.checkerror('nbinlike({1 0.5}, [1 2 3])', sprintf(_('%s must be real nume
 asserts.checkerror('nbinlike([1 0.5 2], [1 2 3])', sprintf(_('PARAMS must be a %s vector.'), 'two-element'));
 asserts.checkerror('nbinlike([1 0.5], {1 2 3})', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('nbinlike([1 0.5], [])', sprintf(_('%s must be nonempty.'), 'X'));
-asserts.checkerror('nbinlike([1 0.5], [-1 1 2])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
-asserts.checkerror('nbinlike([1 0.5], [1.5 2 3])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
-asserts.checkerror('nbinlike([1 0.5], [1 Inf 2])', sprintf(_('%s must contain nonnegative integer finite values.'), 'X'));
+asserts.checkerror('nbinlike([1 0.5], [-1 1 2])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
+asserts.checkerror('nbinlike([1 0.5], [1.5 2 3])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
+asserts.checkerror('nbinlike([1 0.5], [1 Inf 2])', sprintf(_('%s must contain nonnegative integer finite values.'), ...
+  'X'));
 asserts.checkerror('nbinlike([1 0.5], [1 2 3], [0 2 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('nbinlike([1 0.5], [1 2 3], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('nbinlike([1 0.5], [1 2 3], [], [1 -1 1])', ...
+  sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
 asserts.checkerror('nbinlike([1 0.5], [1 2 3], ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

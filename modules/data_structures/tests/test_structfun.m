@@ -23,7 +23,8 @@ r2 = structfun(@sum, t);
 assert_isequal(r2, 6);
 %=============================================================================
 asserts.checkerror('structfun(@sin, 3)', _('Second argument must be a scalar structure.'));
-asserts.checkerror('structfun(@sin, 3)', _('Second argument must be a scalar structure.'), 'Nelson:data_structures:secondArgumentScalarStructure');
+asserts.checkerror('structfun(@sin, 3)', _('Second argument must be a scalar structure.'), ...
+  'Nelson:data_structures:secondArgumentScalarStructure');
 %=============================================================================
 % 'ErrorHandler' and several outputs
 R = structfun(@(x) error('boom'), struct('a', 1, 'b', 2), 'ErrorHandler', @(e, x) -1);

@@ -231,7 +231,8 @@ function series = buildErrorBarSeries(x, y, yneg, ypos, xneg, xpos, xMode)
   xColumns = xColumnsForSeries(x, yColumns, count, xMode);
   for k = 1:count
     if numel(xColumns{k}) ~= numel(yColumns{k})
-      error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', 'YData');
+      error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', ...
+        'YData');
     end
   end
   ynegColumns = deltaColumnsForSeries(yneg, yColumns, count, 'YNegativeDelta');
@@ -330,7 +331,8 @@ function columns = xColumnsForSeries(x, yColumns, count, xMode)
   if numel(columns) == 1 && count > 1
     columns = repmat(columns, 1, count);
   elseif numel(columns) ~= count
-    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', 'YData');
+    error('Nelson:dimagree:valueValueNumberElements', '%s and %s must have the same number of elements.', 'XData', ...
+      'YData');
   end
 end
 %=============================================================================

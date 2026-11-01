@@ -11,7 +11,7 @@
 % <--CHECK REF-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 copyfile([modulepath('interpreter', 'tests'), '/smartindent.txt'], fullfile(fixtureDirectory, 'smartindent.txt'));
 smartindent(fullfile(fixtureDirectory, 'smartindent.txt'), 2, true)
 asserts.istrue(isfile(fullfile(fixtureDirectory, 'smartindent.txt.bak')));

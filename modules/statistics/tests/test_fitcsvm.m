@@ -83,16 +83,20 @@ asserts.checkerror('fitcsvm([1; 2; 3], [1; 2; 3])', _('Y must contain exactly tw
 asserts.checkerror('fitcsvm([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitcsvm(X, Y, ''KernelFunction'', ''bad'')', sprintf(_('Invalid %s value.'), 'KernelFunction'));
 asserts.checkerror('fitcsvm(X, Y, ''KernelScale'', 0)', sprintf(_('%s must be a positive scalar.'), 'KernelScale'));
-asserts.checkerror('fitcsvm(X, Y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'PolynomialOrder'));
+asserts.checkerror('fitcsvm(X, Y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'PolynomialOrder'));
 asserts.checkerror('fitcsvm(X, Y, ''BoxConstraint'', 0)', sprintf(_('%s must be a positive scalar.'), 'BoxConstraint'));
 asserts.checkerror('fitcsvm(X, Y, ''Standardize'', 2)', sprintf(_('%s must be true or false.'), 'Standardize'));
-asserts.checkerror('fitcsvm(X, Y, ''IterationLimit'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'IterationLimit'));
+asserts.checkerror('fitcsvm(X, Y, ''IterationLimit'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'IterationLimit'));
 asserts.checkerror('fitcsvm(X, Y, ''Tolerance'', 0)', sprintf(_('%s must be a positive scalar.'), 'Tolerance'));
 asserts.checkerror('fitcsvm(X, Y, ''ClassNames'', [1; 1])', _('ClassNames must contain unique labels.'));
 asserts.checkerror('fitcsvm(X, Y, ''ClassNames'', [1; 2; 3])', _('ClassNames must include all observed classes.'));
 asserts.checkerror('fitcsvm(X, Y, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
-asserts.checkerror('fitcsvm(X, Y, ''Cost'', [0 -1; 1 0])', _('Cost must be a nonnegative square matrix with one row and column per class.'));
+asserts.checkerror('fitcsvm(X, Y, ''Cost'', [0 -1; 1 0])', ...
+  _('Cost must be a nonnegative square matrix with one row and column per class.'));
 asserts.checkerror('fitcsvm(X, Y, ''K'', ''linear'')', _('Ambiguous name-value argument name.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

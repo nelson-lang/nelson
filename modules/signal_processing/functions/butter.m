@@ -23,7 +23,8 @@ function varargout = butter(varargin)
       error('Nelson:signal:invalidCutoffFrequency', 'Cutoff frequency must be a scalar or a two-element vector.');
     end
     if ~(isempty(ftype) || strcmpi(ftype, 'bandpass') || strcmpi(ftype, 'pass') || strcmpi(ftype, 'stop'))
-      error('Nelson:signal:cutoffVectorBandpassBandstop', 'Cutoff frequency must be a two-element vector for bandpass and bandstop filters.');
+      error('Nelson:signal:cutoffVectorBandpassBandstop', ...
+        'Cutoff frequency must be a two-element vector for bandpass and bandstop filters.');
     end
     prototypePoles = signalButterPrototypePoles(n);
     warped = 2 * tan(pi * wn(:).' / 2);
@@ -68,7 +69,8 @@ function varargout = butter(varargin)
   poles = signalButterPrototypePoles(n);
   warped = 2 * tan(pi * wn / 2);
   if ~(isempty(ftype) || strcmpi(ftype, 'low') || strcmpi(ftype, 'high'))
-    error('Nelson:signal:cutoffScalarLowpassHighpass', 'Cutoff frequency must be a scalar for lowpass and highpass filters.');
+    error('Nelson:signal:cutoffScalarLowpassHighpass', ...
+      'Cutoff frequency must be a scalar for lowpass and highpass filters.');
   end
   if strcmpi(ftype, 'high')
     analogPoles = warped ./ poles;

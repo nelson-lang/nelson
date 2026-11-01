@@ -109,7 +109,8 @@ function [result, m] = computeGradient(m, d, idx, nd)
   end
 
   if (m_rows > 2)
-    Y(2:m_rows - 1, :) = ((m(3:m_rows, :) - m(1:m_rows - 2, :)) ./ kron(d{idx}(1:m_rows - 2) + d{idx}(2:m_rows - 1), ones(1, mc)));
+    Y(2:m_rows - 1, :) = ((m(3:m_rows, :) - m(1:m_rows - 2, :)) ./ kron(d{idx}(1:m_rows - 2) + d{idx}(2:m_rows - 1), ...
+      ones(1, mc)));
   end
 
   if (idx == 1)

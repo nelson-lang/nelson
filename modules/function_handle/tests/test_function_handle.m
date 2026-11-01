@@ -11,7 +11,8 @@ asserts.isequal(nargin('str2func'), 1);
 asserts.isequal(nargout('str2func'), 1);
 %=============================================================================
 FH = str2func('run');
-asserts.checkerror('FHS = [FH; FH; FH];', _('Nonscalar arrays of function handles are not allowed; use cell arrays instead.'));
+asserts.checkerror('FHS = [FH; FH; FH];', ...
+  _('Nonscalar arrays of function handles are not allowed; use cell arrays instead.'));
 %=============================================================================
 FHS = {FH; FH; FH};
 %=============================================================================

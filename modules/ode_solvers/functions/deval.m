@@ -80,7 +80,8 @@ function odeValidateEvaluationPoints(t, x)
     invalid = any(x > t(1) | x < t(length(t)));
   end
   if invalid
-    error('Nelson:ode_solvers:evaluationPointsLieInsideSolutionInterval', 'Evaluation points must lie inside the solution interval.');
+    error('Nelson:ode_solvers:evaluationPointsLieInsideSolutionInterval', ...
+      'Evaluation points must lie inside the solution interval.');
   end
 end
 %=============================================================================

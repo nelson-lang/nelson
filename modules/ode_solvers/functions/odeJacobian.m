@@ -25,7 +25,8 @@ classdef odeJacobian
         if iscell(value)
           odeValidateJacobianCell(value);
         elseif ~(isempty(value) || isnumeric(value) || isa(value, 'function_handle'))
-          error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', 'Jacobian');
+          error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', ...
+            '%s must be numeric or a function handle.', 'Jacobian');
         end
         obj.Jacobian = value;
         startIndex = 2;
@@ -43,7 +44,8 @@ classdef odeJacobian
       if iscell(value)
         odeValidateJacobianCell(value);
       elseif ~(isempty(value) || isnumeric(value) || isa(value, 'function_handle'))
-        error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', 'Jacobian');
+        error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', ...
+          '%s must be numeric or a function handle.', 'Jacobian');
       end
       obj.Jacobian = value;
     end
@@ -84,7 +86,8 @@ end
 %=============================================================================
 function odeValidateJacobianCell(value)
   if numel(value) ~= 2 || ~isnumeric(value{1}) || ~isnumeric(value{2})
-    error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', 'Jacobian');
+    error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', ...
+      'Jacobian');
   end
 end
 %=============================================================================

@@ -39,7 +39,8 @@ asserts.checkerror('trace([1 2 3; 4 5 6])', sprintf(_('%s expected.'), 'Square m
 asserts.checkerror('trace([1 2 3])', sprintf(_('%s expected.'), 'Square matrix'));
 asserts.checkerror('trace(zeros(0, 3))', sprintf(_('%s expected.'), 'Square matrix'));
 % the square-matrix condition also carries a stable identifier
-asserts.checkerror('trace([1 2 3; 4 5 6])', sprintf(_('%s expected.'), 'Square matrix'), 'Nelson:linear_algebra:squareMatrixExpected');
+asserts.checkerror('trace([1 2 3; 4 5 6])', sprintf(_('%s expected.'), 'Square matrix'), ...
+  'Nelson:linear_algebra:squareMatrixExpected');
 asserts.isequal(trace([]), 0);
 asserts.isequal(trace(magic(3)), 15);
 %=============================================================================

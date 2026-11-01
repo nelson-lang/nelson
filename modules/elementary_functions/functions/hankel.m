@@ -20,7 +20,8 @@ function H = hankel(c, r)
   hasConflict = nargin == 2 && ~isempty(firstColumn) && ~isempty(lastRow) ...
     && firstColumn(rowCount) ~= lastRow(1);
   if hasConflict
-    warning('Nelson:hankel:AntiDiagonalConflict', 'Last element of input column does not match first element of input row.');
+    warning('Nelson:hankel:AntiDiagonalConflict', ...
+      'Last element of input column does not match first element of input row.');
   end
   lastRow = lastRow(:);
   columnCount = length(lastRow);

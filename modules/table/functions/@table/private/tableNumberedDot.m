@@ -15,7 +15,8 @@ function s = tableNumberedDot(variableNames, s, isAssignment)
     return
   end
   if ~isnumeric(subs)
-    error('Nelson:table:illegalVarSubscript', _('A table variable name must be a string scalar or a character vector.'));
+    error('Nelson:table:illegalVarSubscript', ...
+      _('A table variable name must be a string scalar or a character vector.'));
   end
   if ~isscalar(subs) || ~isreal(subs) || subs < 1 || subs ~= fix(subs)
     error('Nelson:table:illegalVarIndex', _('A variable index must be a real positive integer.'));

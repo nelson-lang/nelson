@@ -14,9 +14,11 @@ mustBeScalar(1);
 mustBeScalar(true);
 mustBeScalar('a');
 %=============================================================================
-asserts.checkerror('mustBeScalar([1 2])', sprintf(_('%s must be a scalar.'), 'Value'), 'Nelson:validators:mustBeScalar');
+asserts.checkerror('mustBeScalar([1 2])', sprintf(_('%s must be a scalar.'), 'Value'), ...
+  'Nelson:validators:mustBeScalar');
 %=============================================================================
-asserts.checkerror('mustBeScalar(zeros(0, 1))', sprintf(_('%s must be a scalar.'), 'Value'), 'Nelson:validators:mustBeScalar');
+asserts.checkerror('mustBeScalar(zeros(0, 1))', sprintf(_('%s must be a scalar.'), 'Value'), ...
+  'Nelson:validators:mustBeScalar');
 %=============================================================================
 msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a scalar.'), 'Value')];
 asserts.checkerror('mustBeScalar([1 2], 3)', msg);

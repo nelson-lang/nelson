@@ -18,14 +18,16 @@ function value = __nelsonc_installer_option__(name, value)
   end
   multiline = any(strcmp(name, {'Description', 'InstallationNotes'}));
   if ~ischar(value) || (~isempty(value) && ~isrow(value)) || numel(value) > 32768
-    error('Nelson:nelsonc:options:characterVectorScalarString', '%s must be a character vector or scalar string.', name);
+    error('Nelson:nelsonc:options:characterVectorScalarString', '%s must be a character vector or scalar string.', ...
+      name);
   end
   controls = value < char(32);
   if multiline
     controls = controls & value ~= char(9) & value ~= char(10) & value ~= char(13);
   end
   if any(controls)
-    error('Nelson:nelsonc:options:containsUnsupportedControlCharacters', '%s contains unsupported control characters.', name);
+    error('Nelson:nelsonc:options:containsUnsupportedControlCharacters', ...
+      '%s contains unsupported control characters.', name);
   end
   switch name
     case {'ApplicationName', 'InstallerName'}
@@ -60,7 +62,8 @@ function value = __nelsonc_installer_option__(name, value)
         value = strrep(value, '\', '/');
         if isempty(regexp(value, '^([A-Za-z]:/|//|%ProgramFiles%/)', 'once')) ...
           || contains(value, '"')
-          error('Nelson:nelsonc:options:defaultInstallationDirAbsoluteTargetPath', 'DefaultInstallationDir must be an absolute target path.');
+          error('Nelson:nelsonc:options:defaultInstallationDirAbsoluteTargetPath', ...
+            'DefaultInstallationDir must be an absolute target path.');
         end
       elseif ~startsWith(value, '/')
         error('Nelson:nelsonc:options:defaultInstallationDirAbsolute', 'DefaultInstallationDir must be absolute.');

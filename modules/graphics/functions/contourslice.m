@@ -103,7 +103,8 @@ end
 %=============================================================================
 function validateInterpolationMethod(method)
   if ~any(strcmp(method, {'linear', 'nearest', 'cubic'}))
-    error('Nelson:contourslice:invalidInterpolationMethod', 'Interpolation method must be ''linear'', ''nearest'', or ''cubic''.');
+    error('Nelson:contourslice:invalidInterpolationMethod', ...
+      'Interpolation method must be ''linear'', ''nearest'', or ''cubic''.');
   end
 end
 %=============================================================================

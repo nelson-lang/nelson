@@ -14,12 +14,14 @@ function runtime = __nelsonc_windows_runtime_package__(engine, stage, payload, r
     'Fingerprint', report.engineFingerprint, 'Architecture', report.architecture, 'Package', '');
   reserved = fullfile(payload, '.nelson-install');
   if isfolder(reserved) || isfile(reserved)
-    error('Nelson:nelsonc:installer:applicationInputsCollideNelsonInstallDir', 'Application inputs collide with .nelson-install.');
+    error('Nelson:nelsonc:installer:applicationInputsCollideNelsonInstallDir', ...
+      'Application inputs collide with .nelson-install.');
   end
   for k = 1:numel(inventory.files)
     [parent, name, extension] = fileparts(inventory.files(k).relative);
     if strcmpi([name, extension], 'nelson-runtime-package.exe')
-      error('Nelson:nelsonc:installer:applicationInputUsesReservedRuntime', 'Application input uses the reserved runtime installer name.');
+      error('Nelson:nelsonc:installer:applicationInputUsesReservedRuntime', ...
+        'Application input uses the reserved runtime installer name.');
     end
   end
   if ~runtime.Included; return; end
@@ -37,7 +39,8 @@ function runtime = __nelsonc_windows_runtime_package__(engine, stage, payload, r
   __nelsonc_inno_build__(engine, packageStage, target, '', child, generator, 'raw');
   runtime.Package = fullfile(child.OutputDir, 'nelson-runtime-package.exe');
   if ~isfile(runtime.Package)
-    error('Nelson:nelsonc:installer:embeddedRuntimeInstallerTooLarge', 'An embedded runtime installer must be smaller than 2 GiB.');
+    error('Nelson:nelsonc:installer:embeddedRuntimeInstallerTooLarge', ...
+      'An embedded runtime installer must be smaller than 2 GiB.');
   end
   clear cleanup;
 end

@@ -172,7 +172,8 @@ function rawValues = dictionaryValuesForKeys(obj, s)
     error('Nelson:dictionary:noKeySpecified', "No key specified");
   end
   if (iscell(s.subs) && (numel(s.subs) > 1))
-    error('Nelson:dictionary:TooManyInputsToParenReference', 'Too many input arguments. To search for multiple entries, utilize an array of keys instead.');
+    error('Nelson:dictionary:TooManyInputsToParenReference', ...
+      'Too many input arguments. To search for multiple entries, utilize an array of keys instead.');
   end
   if (~isConfigured(obj))
     error('Nelson:dictionary:notConfigured', "Dictionary not configured");

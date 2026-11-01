@@ -55,7 +55,8 @@ function [bw, thresh] = edge(varargin)
       [bw, thresh] = ip_edge_canny(d, thresh, sigma);
       return
     otherwise
-      error('Nelson:image_processing:unsupportedEdgeDetectionMethod', 'Unsupported "%s" option.', 'edge detection method');
+      error('Nelson:image_processing:unsupportedEdgeDetectionMethod', 'Unsupported "%s" option.', ...
+        'edge detection method');
   end
   ip_validate_edge_threshold(thresh, false);
   gx = imfilter(d, hx, 'replicate');

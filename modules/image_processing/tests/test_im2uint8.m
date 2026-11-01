@@ -15,7 +15,8 @@ asserts.isequal(im2uint8(single([1 2 256]), 'indexed'), uint8([0 1 255]));
 asserts.isequal(im2uint16(single([1 2 65536]), 'indexed'), uint16([0 1 65535]));
 asserts.isequal(im2single(single([1 2 256]), 'indexed'), single([1 2 256]));
 asserts.checkerror('im2uint8(int8([-128 127]))', _('Image must be double, logical, uint8, uint16, int16, or single.'));
-asserts.checkerror('im2uint16(uint32([0 intmax(''uint32'')]))', _('Image must be double, logical, uint8, uint16, int16, or single.'));
+asserts.checkerror('im2uint16(uint32([0 intmax(''uint32'')]))', ...
+  _('Image must be double, logical, uint8, uint16, int16, or single.'));
 asserts.checkerror('im2uint8(int16([0 1]), ''indexed'')', ...
   _('An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.'));
 asserts.isequal(imcomplement(A), uint8([255 127 0]));
@@ -51,8 +52,11 @@ asserts.isequal(im2uint16(uint8([0 255]), 'indexed'), uint16([0 255]));
 asserts.isequal(im2uint16([1 65536], 'indexed'), uint16([0 65535]));
 asserts.isequal(im2single(uint8([0 255]), 'indexed'), single([1 256]));
 asserts.isequal(im2single(logical([0 1]), 'indexed'), single([0 1]));
-asserts.checkerror('im2uint8(uint16(256), ''indexed'')', _('Indexed uint16 image values must be less than or equal to 255.'));
-asserts.checkerror('im2uint8([0 1], ''indexed'')', sprintf(_('Indexed double image values must be in the range [%d, %d].'), 1, 256));
-asserts.checkerror('im2uint16([0 1], ''indexed'')', sprintf(_('Indexed double image values must be in the range [%d, %d].'), 1, 65536));
+asserts.checkerror('im2uint8(uint16(256), ''indexed'')', ...
+  _('Indexed uint16 image values must be less than or equal to 255.'));
+asserts.checkerror('im2uint8([0 1], ''indexed'')', ...
+  sprintf(_('Indexed double image values must be in the range [%d, %d].'), 1, 256));
+asserts.checkerror('im2uint16([0 1], ''indexed'')', ...
+  sprintf(_('Indexed double image values must be in the range [%d, %d].'), 1, 65536));
 asserts.isequal(im2single(single([1 2]), 'indexed'), single([1 2]));
 asserts.isequal(im2gray([1 2; 3 4]), [1 2; 3 4]);

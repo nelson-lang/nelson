@@ -20,7 +20,7 @@ skip_testsuite(~isfile([modulepath('types'), '/tests/double_scalar_storage.cpp']
 %=============================================================================
 destination = tempname();
 mkdir(destination);
-cleanupDirectory = onCleanup(@() rmdir(destination, 's')); %#ok<NASGU>
+cleanupDirectory = onCleanup(@() rmdir(destination, 's')); %#ok<NLS0004>
 source = [modulepath('types'), '/tests/double_scalar_storage.cpp'];
 [ok, message] = dlgeneratemake('executable', destination, ...
   'double_scalar_storage', source, dlgetnelsonincludes(), [], dlgetnelsonlibraries());
@@ -37,7 +37,7 @@ if ~ok
   error(message);
 end
 previousPath = getenv('PATH');
-cleanupPath = onCleanup(@() setenv('PATH', previousPath)); %#ok<NASGU>
+cleanupPath = onCleanup(@() setenv('PATH', previousPath)); %#ok<NLS0004>
 setenv('PATH', [modulepath('nelson', 'builtin'), pathsep(), previousPath]);
 executable = [destination, '/double_scalar_storage'];
 if ispc()

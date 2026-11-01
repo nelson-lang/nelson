@@ -68,8 +68,10 @@ opts = detectImportOptions(filename, 'TextType', 'char');
 asserts.isequal(opts.VariableTypes, {'cell', 'char'});
 %=============================================================================
 asserts.checkerror('jsonImportOptions(''RepeatedNodeRule'', ''skip'')', _('Invalid value for RepeatedNodeRule.'));
-asserts.checkerror('jsonImportOptions(''RepeatedNodeRule'', ''skip'')', _('Invalid value for RepeatedNodeRule.'), 'Nelson:spreadsheet:invalidOptionValue');
+asserts.checkerror('jsonImportOptions(''RepeatedNodeRule'', ''skip'')', _('Invalid value for RepeatedNodeRule.'), ...
+  'Nelson:spreadsheet:invalidOptionValue');
 asserts.checkerror('jsonImportOptions(''Foo'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('jsonImportOptions(''Foo'', 1)', _('Invalid name-value argument name.'), 'Nelson:spreadsheet:unknownNameValue');
+asserts.checkerror('jsonImportOptions(''Foo'', 1)', _('Invalid name-value argument name.'), ...
+  'Nelson:spreadsheet:unknownNameValue');
 asserts.checkerror('readtable(filename, opts, ''TextType'', ''char'')', _('Import options object expected.'));
 %=============================================================================

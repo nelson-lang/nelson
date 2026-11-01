@@ -151,7 +151,7 @@ function freq = computesFreq(x, y)
       % cut points alongside each column of the sample.
       cutout = repmat(cutout, 1, size(y, 2));
     end
-    [s, idx] = sort([y; cutout], 1);
+    [~, idx] = sort([y; cutout], 1);
     lenY = size(y, 1);
     histValues = cumsum(idx <= lenY);
     x1 = zeros(1, size(y, 2));

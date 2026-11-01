@@ -11,6 +11,7 @@ delay = odeDelay('History', 1, 'ValueDelay', 0.1, 'SlopeDelay', @(t, y) t - 0.1)
 asserts.isequal(delay.History, 1);
 asserts.isequal(delay.ValueDelay, 0.1);
 asserts.istrue(isa(delay.SlopeDelay, 'function_handle'));
-asserts.checkerror('odeDelay(''ValueDelay'', Inf)', sprintf(_('%s must be numeric or a function handle.'), 'ValueDelay'));
+asserts.checkerror('odeDelay(''ValueDelay'', Inf)', sprintf(_('%s must be numeric or a function handle.'), ...
+  'ValueDelay'));
 asserts.checkerror('odeDelay(''Unknown'', 1)', sprintf(_('Unknown %s property.'), 'delay'));
 %=============================================================================

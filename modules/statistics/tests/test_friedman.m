@@ -61,7 +61,8 @@ asserts.checkerror('friedman({1}, 1, ''off'')', sprintf(_('%s must be a real num
 asserts.checkerror('friedman([1 2 3], 1, ''off'')', sprintf(_('%s must have at least two rows and two columns.'), 'X'));
 asserts.checkerror('friedman([1 2; 3 NaN], 1, ''off'')', _('X must contain non-NaN observations.'));
 asserts.checkerror('friedman([1 2; 3 4], 0, ''off'')', sprintf(_('%s must be a positive integer scalar.'), 'REPS'));
-asserts.checkerror('friedman([1 2; 3 4; 5 6], 2, ''off'')', sprintf(_('%s must be a multiple of REPS.'), 'The number of rows in X'));
+asserts.checkerror('friedman([1 2; 3 4; 5 6], 2, ''off'')', sprintf(_('%s must be a multiple of REPS.'), ...
+  'The number of rows in X'));
 asserts.checkerror('friedman([1 2; 3 4], 2, ''off'')', _('X must contain at least two block levels.'));
 asserts.checkerror('friedman([1 2; 3 4], 1, ''bad'')', _('Display option must be ''on'' or ''off''.'));
 %=============================================================================

@@ -32,7 +32,8 @@ function p = checkProportions(p, k)
   end
   p = double(p(:)');
   if length(p) ~= k || any(~isfinite(p)) || any(p < 0) || sum(p) <= 0
-    error('Nelson:statistics:componentProportionsNonnegativeCompatibleMU', 'Component proportions must be nonnegative and compatible with MU.');
+    error('Nelson:statistics:componentProportionsNonnegativeCompatibleMU', ...
+      'Component proportions must be nonnegative and compatible with MU.');
   end
   p = p / sum(p);
 end
@@ -48,7 +49,8 @@ function Sigma = checkSigma(Sigma, d, k)
   Sigma = normalizeSigmaShape(Sigma, d, k);
   for j = 1:k
     if min(eig(Sigma(:, :, j))) <= 0
-      error('Nelson:statistics:SIGMAContainPositiveDefiniteCovariance', 'SIGMA must contain positive definite covariance matrices.');
+      error('Nelson:statistics:SIGMAContainPositiveDefiniteCovariance', ...
+        'SIGMA must contain positive definite covariance matrices.');
     end
   end
 end

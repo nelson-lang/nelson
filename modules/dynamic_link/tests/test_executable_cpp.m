@@ -16,7 +16,7 @@ skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 %=============================================================================
 destinationdir = tempname();
 mkdir(destinationdir);
-cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NASGU>
+cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NLS0004>
 %=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
 copyfile([currentpath, '/test_executable_cpp.cpp'], [destinationdir, '/test_executable_cpp.cpp']);

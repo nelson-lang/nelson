@@ -284,7 +284,7 @@ function tf = isHttpSource(source)
 end
 %=============================================================================
 function tf = isDependencySource(dependencySpec)
-  [isRepository, url, tag_branch] = nmm_is_http_repository(dependencySpec);
+  [isRepository, ~, ~] = nmm_is_http_repository(dependencySpec);
   tf = isRepository || isdir(dependencySpec) || isfile(dependencySpec);
 end
 %=============================================================================

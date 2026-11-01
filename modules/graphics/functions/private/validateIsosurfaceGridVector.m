@@ -9,7 +9,8 @@
 %=============================================================================
 function validateIsosurfaceGridVector(values)
   if any(~isfinite(values)) || numel(values) < 2
-    error('Nelson:validateIsosurfaceGridVector:invalidGridVectors', 'Grid vectors must be finite and contain at least two values.');
+    error('Nelson:validateIsosurfaceGridVector:invalidGridVectors', ...
+      'Grid vectors must be finite and contain at least two values.');
   end
   steps = diff(values);
   if ~(all(steps > 0) || all(steps < 0))

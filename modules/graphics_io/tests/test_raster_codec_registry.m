@@ -181,7 +181,8 @@ asserts.checkerror("imwrite(uint8(zeros(2, 2, 4)), [destination, 'bad-shape.png'
     _('Image data must be either MxN or MxNx3.'));
 asserts.checkerror("imwrite(rgb, palette, [destination, 'bad-map.png'])", ...
     _('A colormap can only be used with an MxN indexed image.'));
-asserts.checkerror("imwrite(rgb, [destination, 'bad-alpha.png'], 'Alpha', uint8(zeros(8, 8, 3)))", _('Wrong size for AlphaMap.'));
+asserts.checkerror("imwrite(rgb, [destination, 'bad-alpha.png'], 'Alpha', uint8(zeros(8, 8, 3)))", ...
+  _('Wrong size for AlphaMap.'));
 %=============================================================================
 noise = uint8(reshape(mod((0:12287) * 73, 256), 64, 64, 3));
 jpegLow = [destination, 'low.jpg'];

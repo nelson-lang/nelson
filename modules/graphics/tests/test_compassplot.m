@@ -73,7 +73,8 @@ close(f);
 %=============================================================================
 asserts.checkerror('compassplot();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('compassplot({1, 2});', getString(message('Nelson:compassplot:numericVectorDataExpected', 'Value')));
-asserts.checkerror('compassplot([1 2], [1 2 3]);', getString(message('Nelson:dimagree:valueValueNumberElements', 'Theta', 'R')));
+asserts.checkerror('compassplot([1 2], [1 2 3]);', getString(message('Nelson:dimagree:valueValueNumberElements', ...
+  'Theta', 'R')));
 cmd = ['f = figure(''Visible'', ''off''); ax = axes(); ', ...
   'compassplot(ax, [1 2], [1 2]); close(f);'];
 asserts.checkerror(cmd, getString(message('Nelson:graphics:invalidParentInput')));

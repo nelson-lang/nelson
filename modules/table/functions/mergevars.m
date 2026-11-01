@@ -20,7 +20,8 @@ function T = mergevars(T, vars, varargin)
       case 'newvariablename'
         newName = varargin{k + 1};
         if ~((ischar(newName) && isrow(newName)) || (isstring(newName) && isscalar(newName)))
-          error('Nelson:table:mergevars:InvalidNewVarName', 'Specify the new variable name as a string or a character vector.');
+          error('Nelson:table:mergevars:InvalidNewVarName', ...
+            'Specify the new variable name as a string or a character vector.');
         end
         newName = char(newName);
       case 'mergeastable'

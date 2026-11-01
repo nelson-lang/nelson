@@ -65,13 +65,17 @@ asserts.checkerror('fitrsvm([1; Inf], [1; 2])', _('X and Y must contain finite v
 asserts.checkerror('fitrsvm([NaN; NaN], [NaN; NaN])', _('No valid observations remain after removing missing values.'));
 asserts.checkerror('fitrsvm(X, y, ''KernelFunction'', ''bad'')', sprintf(_('Invalid %s value.'), 'KernelFunction'));
 asserts.checkerror('fitrsvm(X, y, ''KernelScale'', 0)', sprintf(_('%s must be a positive scalar.'), 'KernelScale'));
-asserts.checkerror('fitrsvm(X, y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'PolynomialOrder'));
+asserts.checkerror('fitrsvm(X, y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'PolynomialOrder'));
 asserts.checkerror('fitrsvm(X, y, ''BoxConstraint'', 0)', sprintf(_('%s must be a positive scalar.'), 'BoxConstraint'));
 asserts.checkerror('fitrsvm(X, y, ''Epsilon'', -1)', sprintf(_('%s must be a nonnegative scalar.'), 'Epsilon'));
 asserts.checkerror('fitrsvm(X, y, ''Standardize'', 2)', sprintf(_('%s must be true or false.'), 'Standardize'));
-asserts.checkerror('fitrsvm(Xs, ys, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
-asserts.checkerror('fitrsvm(Xs, ys, ''ResponseName'', 1)', sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
+asserts.checkerror('fitrsvm(Xs, ys, ''PredictorNames'', {''A''})', ...
+  _('PredictorNames must have one name per predictor.'));
+asserts.checkerror('fitrsvm(Xs, ys, ''ResponseName'', 1)', ...
+  sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
 asserts.checkerror('fitrsvm(X, y, ''K'', ''linear'')', _('Ambiguous name-value argument name.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

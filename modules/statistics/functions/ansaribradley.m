@@ -70,7 +70,8 @@ function [xr, yr, outSize, perm] = reshapeInputsLocal(x, y, dim)
   keep = true(1, nd);
   keep(dim) = false;
   if any(sx(keep) ~= sy(keep))
-    error('Nelson:statistics:xYCompatibleSizesOutside', 'X and Y must have %s.', 'compatible sizes outside the test dimension');
+    error('Nelson:statistics:xYCompatibleSizesOutside', 'X and Y must have %s.', ...
+      'compatible sizes outside the test dimension');
   end
   perm = 1:nd;
   perm([1 dim]) = [dim 1];
@@ -206,7 +207,8 @@ end
 %=============================================================================
 function value = parseDimLocal(value)
   if ~(isnumeric(value) && isreal(value) && isscalar(value) && value == fix(value) && value >= 1)
-    error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar:valueAPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Dimension argument');
+    error('Nelson:statistics:dimensionArgumentPositiveIntegerScalar:valueAPositiveIntegerScalar', ...
+      '%s must be a positive integer scalar.', 'Dimension argument');
   end
   value = double(value);
 end

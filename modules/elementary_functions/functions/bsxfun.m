@@ -23,7 +23,8 @@ function C = bsxfun(fun, A, B)
   sb(end + 1:nd) = 1;
   compatible = (sa == sb) | (sa == 1) | (sb == 1);
   if ~all(compatible)
-    error('Nelson:bsxfun:arrayDimensionsMustMatch', 'Non-singleton dimensions of the two input arrays must match each other.');
+    error('Nelson:bsxfun:arrayDimensionsMustMatch', ...
+      'Non-singleton dimensions of the two input arrays must match each other.');
   end
   % Fast path: when the callback body is a provably element-wise expression
   % whose operators broadcast singleton dimensions, Nelson evaluates it directly

@@ -42,11 +42,13 @@ function [Ar, Br, Cr, Dr] = reduceDescriptor(A, B, C, D, mask)
   narginchk(5, 5);
   nx = size(A, 1);
   if size(A, 2) ~= nx
-    error('Nelson:reduceDescriptor:nFlowInternalReduceDescriptorASquare2', 'NFlow.internal.reduceDescriptor: A must be square.');
+    error('Nelson:reduceDescriptor:nFlowInternalReduceDescriptorASquare2', ...
+      'NFlow.internal.reduceDescriptor: A must be square.');
   end
   mask = logical(mask(:).');
   if numel(mask) ~= nx
-    error('Nelson:reduceDescriptor:nFlowInternalReduceDescriptorMaskLength2', 'NFlow.internal.reduceDescriptor: mask length must equal size(A, 1).');
+    error('Nelson:reduceDescriptor:nFlowInternalReduceDescriptorMaskLength2', ...
+      'NFlow.internal.reduceDescriptor: mask length must equal size(A, 1).');
   end
   if isempty(B); B = zeros(nx, 0); end
   if isempty(C); C = zeros(0, nx); end

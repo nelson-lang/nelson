@@ -55,7 +55,8 @@ R = [3i 4i 6i + 4] / [5 9i - 4 8];
 REF = [0.365591397849462 + 0.252688172043011i];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-asserts.checkerror('R = [1; 4] / [2 4];', _('Requested divide operation requires arguments to have correct dimensions.'));
+asserts.checkerror('R = [1; 4] / [2 4];', ...
+  _('Requested divide operation requires arguments to have correct dimensions.'));
 %=============================================================================
 asserts.checkerror('R = 2 / [1 2 3];', _('Requested divide operation requires arguments to have correct dimensions.'))
 %=============================================================================

@@ -65,12 +65,14 @@ asserts.istrue(isstruct(output));
 %=============================================================================
 asserts.checkerror('fminunc(@(x) x, [])', sprintf(_('%s must be nonempty.'), 'Initial point'));
 asserts.checkerror('fminunc(@(x) x(1), 1 + i)', sprintf(_('%s must be a real numeric array.'), 'Initial point'));
-asserts.checkerror('fminunc(@(x) [x(1); x(1)], 0)', sprintf(_('%s must return a numeric scalar.'), 'Objective function'));
+asserts.checkerror('fminunc(@(x) [x(1); x(1)], 0)', sprintf(_('%s must return a numeric scalar.'), ...
+  'Objective function'));
 badOpts = optimoptions('fminunc', 'Algorithm', 'active-set');
 asserts.checkerror('fminunc(@(x) x(1)^2, 0, badOpts)', sprintf(_('Invalid value for "%s".'), 'Algorithm'));
 badProblem.objective = @(x) x(1) ^ 2;
 badProblem.x0 = 0;
-asserts.checkerror('fminunc(badProblem)', sprintf(_('Problem structure must contain %s fields.'), 'solver and options'));
+asserts.checkerror('fminunc(badProblem)', sprintf(_('Problem structure must contain %s fields.'), ...
+  'solver and options'));
 %=============================================================================
 opts = optimoptions('fminunc');
 asserts.isequal(opts.Algorithm, 'quasi-newton');

@@ -15,7 +15,9 @@ filename = [tempname(), '.json'];
 fid = fopen(filename, 'w', 'n', 'UTF-8');
 fprintf(fid, '%s', '{"a": {"rows": [{"id": 1}, {"id": 2}]}}');
 fclose(fid);
-asserts.checkerror('readtable(filename, ''TableNodeName'', ''nothing'')', 'JSON key not found: nothing', 'Nelson:spreadsheet:jsonKeyNotFound');
-asserts.checkerror('readtable(filename, ''TableSelector'', ''/a/nothing'')', 'JSON Pointer not found: /a/nothing', 'Nelson:spreadsheet:jsonPointerNotFound');
+asserts.checkerror('readtable(filename, ''TableNodeName'', ''nothing'')', 'JSON key not found: nothing', ...
+  'Nelson:spreadsheet:jsonKeyNotFound');
+asserts.checkerror('readtable(filename, ''TableSelector'', ''/a/nothing'')', 'JSON Pointer not found: /a/nothing', ...
+  'Nelson:spreadsheet:jsonPointerNotFound');
 delete(filename);
 %=============================================================================

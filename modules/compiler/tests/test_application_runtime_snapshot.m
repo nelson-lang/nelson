@@ -87,10 +87,12 @@ asserts.istrue(contains(fileread(fullfile(destination, 'modules', 'modules.m')),
 asserts.isfalse(contains(fileread(fullfile(destination, 'modules', 'modules.m')), 'unselected'));
 
 write_text(resource, 'changed resource');
-expect_failure(snapshot, fullfile(directory, 'changed-resource'), 'Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis');
+expect_failure(snapshot, fullfile(directory, 'changed-resource'), ...
+  'Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis');
 write_text(resource, 'original resource');
 write_text(library, 'Changed native library.');
-expect_failure(snapshot, fullfile(directory, 'changed-library'), 'Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis');
+expect_failure(snapshot, fullfile(directory, 'changed-library'), ...
+  'Nelson:nelsonc:runtimeChanged:runtimeFileChangedAfterAnalysis');
 write_text(library, 'Synthetic native-library snapshot fixture.');
 write_text(bootstrap, '% Changed bootstrap.');
 expect_failure(snapshot, fullfile(directory, 'changed-bootstrap'), 'Nelson:nelsonc:runtimeChanged');
@@ -106,7 +108,8 @@ expect_failure(invalid, fullfile(directory, 'invalid-path'), 'Nelson:nelsonc:run
 asserts.isfalse(isfile(fullfile(directory, 'escaped.txt')));
 invalid = snapshot;
 invalid.files(1).relative = 'modules/modules.m';
-expect_failure(invalid, fullfile(directory, 'invalid-reserved'), 'Nelson:nelsonc:runtimeCollision:conflictingRuntimeDestinationPaths');
+expect_failure(invalid, fullfile(directory, 'invalid-reserved'), ...
+  'Nelson:nelsonc:runtimeCollision:conflictingRuntimeDestinationPaths');
 expect_failure(snapshot, destination, 'Nelson:nelsonc:runtimeDestination');
 
 large = runtime;

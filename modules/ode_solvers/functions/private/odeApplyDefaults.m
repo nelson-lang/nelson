@@ -173,7 +173,8 @@ function odeValidateMaxOrder(value, solver)
   end
   if ~isnumeric(value) || ~isscalar(value) || ~isfinite(value) ...
       || fix(value) ~= value || value < 1 || value > maximum
-    error('Nelson:ode_solvers:maxorderIntegerScalarBetween', 'MaxOrder must be an integer scalar between %d and %d.', 1, maximum);
+    error('Nelson:ode_solvers:maxorderIntegerScalarBetween', ...
+      'MaxOrder must be an integer scalar between %d and %d.', 1, maximum);
   end
 end
 %=============================================================================
@@ -182,7 +183,8 @@ function odeValidateMatrixOrFunction(value, n, name)
     return
   end
   if ~isnumeric(value)
-    error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', name);
+    error('Nelson:ode_solvers:invalidType:valueNumericAFunctionHandle', '%s must be numeric or a function handle.', ...
+      name);
   end
   if isscalar(value)
     return
@@ -211,7 +213,8 @@ function tol = odeExpandTolerance(tol, y0)
     tol = tol(:);
   end
   if length(tol) ~= length(y0(:))
-    error('Nelson:ode_solvers:absoluteToleranceSizeNotMatchInitial', 'Absolute tolerance size does not match initial value.');
+    error('Nelson:ode_solvers:absoluteToleranceSizeNotMatchInitial', ...
+      'Absolute tolerance size does not match initial value.');
   end
 end
 %=============================================================================

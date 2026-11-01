@@ -49,6 +49,7 @@ asserts.checkerror('trimmean({1}, 20)', sprintf(_('%s must be a real numeric arr
 asserts.checkerror('trimmean([1 2], -1)', _('PERCENT must be a scalar between 0 and 100.'));
 asserts.checkerror('trimmean([1 2], 101)', _('PERCENT must be a scalar between 0 and 100.'));
 asserts.checkerror('trimmean([1 2], 20, 0)', _('Dimension must be a positive integer scalar, vector, or ''all''.'));
-asserts.checkerror('trimmean([1 2], 20, ''bad'')', _('Dimension must be a positive integer scalar, vector, or ''all''.'));
+asserts.checkerror('trimmean([1 2], 20, ''bad'')', ...
+  _('Dimension must be a positive integer scalar, vector, or ''all''.'));
 asserts.checkerror('trimmean([1 2], 20, ''round'', ''floor'')', _('Invalid trimming flag.'));
 %=============================================================================

@@ -13,7 +13,6 @@ function [frsp] = evalfr(varargin)
   nargoutchk(0, 1);
 
   sys = varargin{1};
-  w = varargin{2};
   if ~islti(sys)
     error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end

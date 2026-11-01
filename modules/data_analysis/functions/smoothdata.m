@@ -22,18 +22,21 @@ function [B, winsz] = smoothdata(A, varargin)
   if hasSamplePoints
     n = size(A, dim);
     if numel(samplePoints) ~= n
-      error('Nelson:data_analysis:samplePointsOneElementDataPoint', '''SamplePoints'' must have one element per data point along the operating dimension.');
+      error('Nelson:data_analysis:samplePointsOneElementDataPoint', ...
+        '''SamplePoints'' must have one element per data point along the operating dimension.');
     end
     dtAll = diff(double(samplePoints(:)));
     if isempty(dtAll)
       dt = 1;
     elseif (max(dtAll) - min(dtAll)) > (eps * max(1, max(abs(double(samplePoints(:))))))
-      error('Nelson:data_analysis:uniformlySpacedSamplePointsSupported', 'Only uniformly spaced ''SamplePoints'' are supported.');
+      error('Nelson:data_analysis:uniformlySpacedSamplePointsSupported', ...
+        'Only uniformly spaced ''SamplePoints'' are supported.');
     else
       dt = dtAll(1);
     end
     if dt <= 0
-      error('Nelson:data_analysis:samplePointsSortedAscendingOrder', '''SamplePoints'' must be sorted in ascending order.');
+      error('Nelson:data_analysis:samplePointsSortedAscendingOrder', ...
+        '''SamplePoints'' must be sorted in ascending order.');
     end
   end
 
@@ -71,11 +74,13 @@ function y = smoothCore(A, method, dim, sampleWindow, nanflag, degree)
       end
     case {'lowess', 'loess', 'sgolay'}
       if ~isscalar(sampleWindow)
-        error('Nelson:data_analysis:twoElementWindowSupportedMethod', 'A two-element window is not supported for this method.');
+        error('Nelson:data_analysis:twoElementWindowSupportedMethod', ...
+          'A two-element window is not supported for this method.');
       end
       y = uniformLocalRegression(A, sampleWindow, dim, degree, method);
     case {'rlowess', 'rloess'}
-      error('Nelson:data_analysis:robustLocalRegressionRlowessRloess', 'Robust local regression (''rlowess''/''rloess'') is not supported yet.');
+      error('Nelson:data_analysis:robustLocalRegressionRlowessRloess', ...
+        'Robust local regression (''rlowess''/''rloess'') is not supported yet.');
     otherwise
       error('Nelson:data_analysis:unsupportedSmoothingMethod', 'Unsupported "%s" option.', method);
   end
@@ -207,7 +212,7 @@ function y = samplePointGaussianSmooth(x, window, dim, omitnan)
 end
 %=============================================================================
 function y = uniformLocalRegression(x, winsz, dim, degree, methodName)
-  isWeighted = ~isempty(strfind(methodName, 'ess')); %#ok<STREMP>
+  isWeighted = ~isempty(strfind(methodName, 'ess')); %#ok<NLS0040>
   if ~isWeighted
     % sgolay: default degree already set to 2 by the parser.
   elseif strcmp(methodName, 'lowess')
@@ -327,7 +332,8 @@ function [method, dim, winsz, nanflag, samplePoints, smoothingFactor, degree] = 
     dim = args{k};
     if ~(isnumeric(dim) || islogical(dim)) || ~isscalar(dim) || ~isreal(dim) || ...
         (dim < 1) || (dim ~= round(dim))
-      error('Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Dimension argument');
+      error('Nelson:data_analysis:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+        'Dimension argument');
     end
     dim = double(dim);
     k = k + 1;
@@ -385,12 +391,14 @@ function [method, dim, winsz, nanflag, samplePoints, smoothingFactor, degree] = 
         samplePoints = value;
       case 2
         if ~isnumeric(value) || ~isscalar(value) || ~isreal(value) || value < 0 || value > 1
-          error('Nelson:data_analysis:smoothingFactorScalarBetween01', '''SmoothingFactor'' must be a scalar between 0 and 1.');
+          error('Nelson:data_analysis:smoothingFactorScalarBetween01', ...
+            '''SmoothingFactor'' must be a scalar between 0 and 1.');
         end
         smoothingFactor = double(value);
       case 3
         if ~isnumeric(value) || ~isscalar(value) || ~isreal(value) || value < 0 || value ~= round(value)
-          error('Nelson:data_analysis:degreeNonnegativeIntegerScalar', '''Degree'' must be a nonnegative integer scalar.');
+          error('Nelson:data_analysis:degreeNonnegativeIntegerScalar', ...
+            '''Degree'' must be a nonnegative integer scalar.');
         end
         degree = double(value);
         userDegree = true;
@@ -399,7 +407,8 @@ function [method, dim, winsz, nanflag, samplePoints, smoothingFactor, degree] = 
   end
 
   if userDegree && ~strcmp(method, 'sgolay')
-    error('Nelson:data_analysis:degreeSupportedSgolayMethod', '''Degree'' is only supported for the ''sgolay'' method.');
+    error('Nelson:data_analysis:degreeSupportedSgolayMethod', ...
+      '''Degree'' is only supported for the ''sgolay'' method.');
   end
 end
 %=============================================================================
@@ -408,7 +417,8 @@ function winsz = checkWindowSize(winsz)
     winsz = double(winsz);
   end
   if ~isnumeric(winsz) || ~isreal(winsz) || isempty(winsz) || numel(winsz) > 2
-    error('Nelson:data_analysis:windowPositiveScalarTwoElement', 'Window must be a positive scalar or a two-element vector.');
+    error('Nelson:data_analysis:windowPositiveScalarTwoElement', ...
+      'Window must be a positive scalar or a two-element vector.');
   end
   winsz = double(winsz(:))';
   if any(winsz < 0)
@@ -438,7 +448,7 @@ function idx = partialMatchOne(names, value)
       return
     end
     if length(value) <= length(nm) && strcmp(nm(1:length(value)), value)
-      hits(end + 1) = i; %#ok<AGROW>
+      hits(end + 1) = i; %#ok<NLS0039>
     end
   end
   if isempty(hits)

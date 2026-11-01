@@ -63,7 +63,8 @@ if ispc()
   fwrite(fid, uint8(0));
   fclose(fid);
   libraryDirectory = modulepath('nelson', 'builtin');
-  assert_rejected(@() __nelsonc_native_closure__({library, duplicate}, libraryDirectory), 'Nelson:nelsonc:nativeConflict:conflictingNativeLibraries');
+  assert_rejected(@() __nelsonc_native_closure__({library, duplicate}, libraryDirectory), ...
+    'Nelson:nelsonc:nativeConflict:conflictingNativeLibraries');
   fid = fopen(duplicate, 'r+', 'ieee-le');
   fseek(fid, 60, 'bof');
   offset = fread(fid, 1, 'uint32');
@@ -72,7 +73,8 @@ if ispc()
   fclose(fid);
   assert_rejected(@() __nelsonc_native_closure__({duplicate}, libraryDirectory), 'Nelson:nelsonc:architecture');
   write_text(library, 'changed native input');
-  assert_rejected(@() __nelsonc_stage_application__(frozen, fullfile(directory, 'changed'), false), 'Nelson:nelsonc:sourceChanged');
+  assert_rejected(@() __nelsonc_stage_application__(frozen, fullfile(directory, 'changed'), false), ...
+    'Nelson:nelsonc:sourceChanged');
 end
 clear cleanup;
 

@@ -88,7 +88,8 @@ asserts.isequal(num2str(complex(1, 2) * [1 2], '%d,%d'), '1,2+2i,+4i');
 asserts.isequal(num2str(complex(1, 2) * [1 2; 3 40], '%d'), ['1+2i 2+4i '; '3+6i40+80i']);
 asserts.isequal(num2str(complex(1, 2), 'a%db'), 'a1ba+2ib');
 asserts.isequal(num2str(eye(3) + 1i, '%d'), ['1+1i0+1i0+1i'; '0+1i1+1i0+1i'; '0+1i0+1i1+1i']);
-asserts.isequal(num2str(eye(3) + 1i, '%5.2f'), ['1.00+1.00i 0.00+1.00i 0.00+1.00i'; '0.00+1.00i 1.00+1.00i 0.00+1.00i'; '0.00+1.00i 0.00+1.00i 1.00+1.00i']);
+asserts.isequal(num2str(eye(3) + 1i, '%5.2f'), ...
+  ['1.00+1.00i 0.00+1.00i 0.00+1.00i'; '0.00+1.00i 1.00+1.00i 0.00+1.00i'; '0.00+1.00i 0.00+1.00i 1.00+1.00i']);
 asserts.isequal(num2str(complex(1, 0), '%5.1f'), '1.0');
 %=============================================================================
 % a string scalar is returned as characters, a missing string as an empty text.

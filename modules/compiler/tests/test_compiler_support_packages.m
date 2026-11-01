@@ -77,7 +77,8 @@ function check_packages()
   end
   asserts.isequal(__nelsonc_option_value__('SupportPackages', ["beta", "alpha", "alpha"]), {'alpha', 'beta'});
   before = sha256(registryFile, '-file');
-  built = compiler.build.standaloneApplication(entry, 'SupportPackages', {'alpha'}, 'OutputDir', fullfile(work, 'build'));
+  built = compiler.build.standaloneApplication(entry, 'SupportPackages', {'alpha'}, 'OutputDir', fullfile(work, ...
+    'build'));
   asserts.isequal(built.IncludedSupportPackages, {'alpha'});
   report = built.__nelsonc_report__();
   asserts.isequal(report.Distribution.includedSupportPackages, {'alpha'});
@@ -105,14 +106,17 @@ end
 function executables = check_executables(entry, work, selected)
   executables = selected.Files(1);
   default = compiler.build.standaloneApplication(entry, 'OutputDir', fullfile(work, 'default'));
-  auto = compiler.build.standaloneApplication(entry, 'SupportPackages', 'autodetect', 'OutputDir', fullfile(work, 'auto'));
+  auto = compiler.build.standaloneApplication(entry, 'SupportPackages', 'autodetect', 'OutputDir', fullfile(work, ...
+    'auto'));
   asserts.isequal(sha256(default.Files{1}, '-file'), sha256(auto.Files{1}, '-file'));
   none = compiler.build.standaloneApplication(entry, 'SupportPackages', 'none', 'OutputDir', fullfile(work, 'none'));
   asserts.isequal(none.IncludedSupportPackages, {});
-  repeated = compiler.build.standaloneApplication(entry, 'SupportPackages', 'alpha', 'OutputDir', fullfile(work, 'repeat'));
+  repeated = compiler.build.standaloneApplication(entry, 'SupportPackages', 'alpha', 'OutputDir', fullfile(work, ...
+    'repeat'));
   asserts.isequal(sha256(selected.Files{1}, '-file'), sha256(repeated.Files{1}, '-file'));
   if ispc()
-    windowed = compiler.build.standaloneWindowsApplication(entry, 'SupportPackages', 'alpha', 'OutputDir', fullfile(work, 'windowed'));
+    windowed = compiler.build.standaloneWindowsApplication(entry, 'SupportPackages', 'alpha', 'OutputDir', ...
+      fullfile(work, 'windowed'));
     asserts.isequal(windowed.IncludedSupportPackages, {'alpha'});
     executables{end + 1} = windowed.Files{1};
   end
@@ -139,7 +143,8 @@ end
 function check_pruning(source, registryFile, registry, options)
   % Excluded code must not be analyzed or retain its unique runtime modules.
   filewrite(fullfile(registry.beta.path, 'support_beta.m'), 'function value = support_beta(); value = fft([1 2]); end');
-  filewrite(fullfile(source, 'prune_entry.m'), 'function prune_entry(); if ~isdeployed(); support_beta(); end; disp(1); end');
+  filewrite(fullfile(source, 'prune_entry.m'), ...
+    'function prune_entry(); if ~isdeployed(); support_beta(); end; disp(1); end');
   options.AppFile = fullfile(source, 'prune_entry.m');
   options.SupportPackages = 'none';
   selected = nelson.compiler.analyze(options);

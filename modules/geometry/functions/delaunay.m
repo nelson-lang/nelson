@@ -24,7 +24,8 @@ function points = parseDelaunayInputs(varargin)
     error('Nelson:geometry:wrongNumberInputArguments', 'Wrong number of input arguments.');
   end
   if ~isnumeric(points) || size(points, 2) < 2
-    error('Nelson:geometry:pointsNumericMatrixLeastTwoColumns', '%s must be a numeric matrix with at least two columns.', 'Points');
+    error('Nelson:geometry:pointsNumericMatrixLeastTwoColumns', ...
+      '%s must be a numeric matrix with at least two columns.', 'Points');
   end
 end
 %=============================================================================

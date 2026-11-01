@@ -52,6 +52,7 @@ asserts.checkerror('fishertest([1 1.5; 2 3])', _('X must contain nonnegative int
 asserts.checkerror('fishertest([0 0; 0 0])', _('X must contain at least one observation.'));
 asserts.checkerror('fishertest([1 2; 3 4], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('fishertest([1 2; 3 4], ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('fishertest([1 2; 3 4], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
+asserts.checkerror('fishertest([1 2; 3 4], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
 asserts.checkerror('fishertest([1 2; 3 4], ''Tail'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'TAIL'));
 %=============================================================================

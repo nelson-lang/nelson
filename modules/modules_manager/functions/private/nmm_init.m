@@ -46,7 +46,8 @@ function result = nmm_init(varargin)
   end
   module_json_path = [destination, 'module.json'];
   if isfile(module_json_path) && ~options.force
-    nmm_error('ModuleJsonAlreadyExists', 'module.json already exists (use ''Force'', true to overwrite): %s', module_json_path);
+    nmm_error('ModuleJsonAlreadyExists', 'module.json already exists (use ''Force'', true to overwrite): %s', ...
+      module_json_path);
   end
   filewrite(module_json_path, json);
 
@@ -332,7 +333,8 @@ function options = promptMissingFields(options, destination)
     options.nelson = promptText('nelson version range', '>=2.0.0');
   end
   if isempty(options.platforms)
-    options.platforms = promptValidated('platforms (comma separated)', 'all', @isPlatformsOk, 'Platform not supported.', @splitList);
+    options.platforms = promptValidated('platforms (comma separated)', 'all', @isPlatformsOk, ...
+      'Platform not supported.', @splitList);
   end
   if isempty(options.keywords)
     answer = promptText('keywords (comma separated)', '');

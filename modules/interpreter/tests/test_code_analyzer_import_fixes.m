@@ -10,7 +10,7 @@
 % <--WEIGHT 2-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 singleLineImportScope = fullfile(fixtureDirectory, 'nelson_lint_single_line_import_scope.m');
 singleLineImportLine = 'import nelson.classdefpkg.Options, nelson.classdefpkg.OtherUnused';
 filewrite(singleLineImportScope, ['function y = nelson_lint_single_line_import_scope()', newline(), ...

@@ -13,7 +13,8 @@ function tform = imregtform(varargin)
   moving = ip_imregcorr_prepare_image(varargin{1});
   fixed = ip_imregcorr_prepare_image(varargin{2});
   if ~isequal(size(moving), size(fixed))
-    error('Nelson:image_processing:movingFixedImagesSameSize', '%s must have the same size.', 'Moving and fixed images');
+    error('Nelson:image_processing:movingFixedImagesSameSize', '%s must have the same size.', ...
+      'Moving and fixed images');
   end
   transformType = ip_registration_transform_type(varargin{3});
   optimizer = ip_registration_optimizer(varargin{4});

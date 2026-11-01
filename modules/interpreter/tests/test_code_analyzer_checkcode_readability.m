@@ -10,7 +10,7 @@
 % <--WEIGHT 2-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-cleanupFixtures = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+cleanupFixtures = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 readabilityChecks = fullfile(fixtureDirectory, 'nelson_lint_readability_checks.m');
 filewrite(readabilityChecks, ['function nelson_lint_readability_checks(x)', newline(), ...
   'disp(sprintf(''value: %d'', x));', newline(), ...
@@ -125,7 +125,9 @@ issues = checkcode(nestedParentShadow, '-struct', '-id');
 ids = {issues.id};
 lineNumbers = [issues.line];
 asserts.istrue(any(strcmp(ids, 'NLS0028') & lineNumbers == 3));
-asserts.istrue(any(strcmp(ids, 'NLS0028') & lineNumbers == 4));
+% The nested function assigns the variable it shares with its parent.
+asserts.isfalse(any(strcmp(ids, 'NLS0028') & lineNumbers == 4));
+asserts.isfalse(any(strcmp(ids, 'NLS0004') & lineNumbers == 4));
 
 recursiveUnusedLocal = fullfile(fixtureDirectory, ...
   'nelson_lint_recursive_unused_local.m');

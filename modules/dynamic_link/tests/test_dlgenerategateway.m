@@ -10,8 +10,9 @@
 % <--WEIGHT 2-->
 d = tempname();
 mkdir(d);
-c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
-dlgenerategateway(d, 'test_gw', {{'cpp_sum', 1, 2, 'CPP_BUILTIN'}, {'cpp_sub', 3, 4}, {'cpp_sub2', 3, 4, 'CPP_BUILTIN_WITH_EVALUATOR'}, {'cpp_sub3', 1, 1, 'CPP_BUILTIN', 'NLS_OVERLOAD_AUTO_OFF'}});
+c = onCleanup(@() rmdir(d, 's')); %#ok<NLS0004>
+dlgenerategateway(d, 'test_gw', {{'cpp_sum', 1, 2, 'CPP_BUILTIN'}, {'cpp_sub', 3, 4}, {'cpp_sub2', 3, 4, ...
+  'CPP_BUILTIN_WITH_EVALUATOR'}, {'cpp_sub3', 1, 1, 'CPP_BUILTIN', 'NLS_OVERLOAD_AUTO_OFF'}});
 asserts.istrue(isfile(fullfile(d, 'Gateway.cpp')));
 txt = fileread(fullfile(d, 'Gateway.cpp'));
 asserts.istrue(contains(txt, '{ "cpp_sum", (ptrBuiltin)cpp_sumBuiltin, 1, 2, CPP_BUILTIN },'));

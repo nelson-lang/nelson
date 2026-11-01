@@ -16,6 +16,7 @@ function gui = __nelsonc_select_mode__(plan, requested)
     error('Nelson:nelsonc:mode', 'Application mode must be auto, cli or gui.');
   end
   if ~gui && plan.requiresGraphics
-    error('Nelson:nelsonc:mode:graphicalDependenciesCannotPackagedCLI', 'Graphical dependencies cannot be packaged in CLI mode.');
+    error('Nelson:nelsonc:mode:graphicalDependenciesCannotPackagedCLI', ...
+      'Graphical dependencies cannot be packaged in CLI mode.');
   end
 end

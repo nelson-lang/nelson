@@ -46,7 +46,8 @@ end
 %=============================================================================
 function [x, y, z, xq, yq, zq] = interp3_default_refined_grid(V, k)
   if ~isscalar(k) || k < 0 || fix(k) ~= k
-    error('Nelson:special_functions:invalidRefinementFactor', 'Refinement factor must be a nonnegative integer scalar.');
+    error('Nelson:special_functions:invalidRefinementFactor', ...
+      'Refinement factor must be a nonnegative integer scalar.');
   end
   step = 1 / (2 ^ k);
   x = 1:size(V, 2);

@@ -9,8 +9,10 @@
 %=============================================================================
 asserts.checkerror('imref3d([2 3])', sprintf(_('%s must contain at least three dimensions.'), 'Image size'));
 %=============================================================================
-asserts.checkerror('imref3d([2 3 4], [0 1], [0 1], [2 2])', sprintf(_('%s must contain increasing finite values.'), 'ZWorldLimits'));
+asserts.checkerror('imref3d([2 3 4], [0 1], [0 1], [2 2])', sprintf(_('%s must contain increasing finite values.'), ...
+  'ZWorldLimits'));
 %=============================================================================
-asserts.checkerror('imref3d([2 3 4], 1, 2, Inf)', sprintf(_('%s must be a positive finite scalar.'), 'PixelExtentInWorldZ'));
+asserts.checkerror('imref3d([2 3 4], 1, 2, Inf)', sprintf(_('%s must be a positive finite scalar.'), ...
+  'PixelExtentInWorldZ'));
 %=============================================================================
 asserts.checkerror('imref3d([2 3 4], 1, 2)', _('imref3d requires image size only or X, Y and Z world arguments.'));

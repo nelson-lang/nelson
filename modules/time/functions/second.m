@@ -50,7 +50,8 @@ function varargout = second(varargin)
   elseif isnumeric(inputDate)
     inputSize = size(inputDate);
   else
-    error('Nelson:time:invalidDateTimeFormatInput', 'Invalid date/time format. Input must be a string, char, or numeric.');
+    error('Nelson:time:invalidDateTimeFormatInput', ...
+      'Invalid date/time format. Input must be a string, char, or numeric.');
   end
 
   dateVector = datevec(inputDate(:));

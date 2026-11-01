@@ -25,7 +25,8 @@ loaded = ode.loadobj(saved);
 asserts.isequal(loaded.SelectedSolver, problem.SelectedSolver);
 asserts.isequal(loaded.InitialValue, problem.InitialValue);
 
-asserts.checkerror('ode(''Sensitivity'', 1, ''ODEFcn'', @(t,y) y, ''InitialValue'', 1)', sprintf(_('%s definition object expected.'), 'Sensitivity'));
+asserts.checkerror('ode(''Sensitivity'', 1, ''ODEFcn'', @(t,y) y, ''InitialValue'', 1)', ...
+  sprintf(_('%s definition object expected.'), 'Sensitivity'));
 asserts.checkerror('ode(''InitialValue'', {1})', _('InitialValue: finite numeric vector expected.'));
 asserts.checkerror('ode(''MassMatrix'', {1})', sprintf(_('%s must be numeric or a function handle.'), 'Mass matrix'));
 asserts.checkerror('ode(''Jacobian'', {1})', sprintf(_('%s must be numeric or a function handle.'), 'Jacobian'));

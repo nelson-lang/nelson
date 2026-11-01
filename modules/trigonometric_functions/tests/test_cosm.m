@@ -55,7 +55,8 @@ asserts.isequal(class(R), 'single');
 %=============================================================================
 asserts.checkerror('cosm([1 , 2])', _('Square matrix expected.'));
 % the square-matrix condition also carries a stable identifier
-asserts.checkerror('cosm([1 , 2])', _('Square matrix expected.'), 'Nelson:trigonometric_functions:squareMatrixExpected');
+asserts.checkerror('cosm([1 , 2])', _('Square matrix expected.'), ...
+  'Nelson:trigonometric_functions:squareMatrixExpected');
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'cosm');
 asserts.checkerror('cosm(''a'')', msg);
 %=============================================================================

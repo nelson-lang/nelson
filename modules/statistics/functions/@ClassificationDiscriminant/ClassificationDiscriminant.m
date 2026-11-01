@@ -25,7 +25,8 @@ classdef ClassificationDiscriminant
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationDiscriminantObjectsCreatedFitcdiscr', '%s objects are created by %s.', 'ClassificationDiscriminant', 'fitcdiscr');
+      error('Nelson:statistics:classificationDiscriminantObjectsCreatedFitcdiscr', '%s objects are created by %s.', ...
+        'ClassificationDiscriminant', 'fitcdiscr');
     end
   end
 end

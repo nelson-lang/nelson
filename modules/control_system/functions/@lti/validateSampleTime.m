@@ -12,7 +12,8 @@ function value = validateSampleTime(value)
     return
   end
   if ~isnumeric(value) || ~isscalar(value) || ~(value == -1 || value >= 0)
-    error('Nelson:control_system:invalidSampleTimeProperty', 'Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.');
+    error('Nelson:control_system:invalidSampleTimeProperty', ...
+      'Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.');
   end
 end
 %=============================================================================

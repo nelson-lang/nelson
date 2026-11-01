@@ -28,7 +28,8 @@ function tableCheckRowNamesCount(props, data)
     return
   end
   if nNames ~= nRows
-    error('Nelson:table:incorrectNumberOfRowNames', _('The RowNames property must contain one name for each row in the table.'));
+    error('Nelson:table:incorrectNumberOfRowNames', ...
+      _('The RowNames property must contain one name for each row in the table.'));
   end
 end
 %=============================================================================

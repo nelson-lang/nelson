@@ -61,7 +61,6 @@ function T = tableJoin(left, right, joinType, varargin)
   leftNames = leftVariableNames;
   rightNames = rightVariableNames;
   leftKeyNames = leftNames(leftKeys);
-  rightKeyNames = rightNames(rightKeys);
   if isempty(opts.LeftVariables)
     leftVariables = 1:width(left);
   else
@@ -80,7 +79,8 @@ function T = tableJoin(left, right, joinType, varargin)
   columns = {};
   if opts.MergeKeys
     for k = 1:length(leftKeys)
-      columns{end + 1} = struct('Source', 'key', 'LeftIndex', leftKeys(k), 'RightIndex', rightKeys(k), 'Name', leftKeyNames{k});
+      columns{end + 1} = struct('Source', 'key', 'LeftIndex', leftKeys(k), 'RightIndex', rightKeys(k), 'Name', ...
+        leftKeyNames{k});
     end
     leftVariables = setdiffIndicesLocal(leftVariables, leftKeys);
     rightVariables = setdiffIndicesLocal(rightVariables, rightKeys);

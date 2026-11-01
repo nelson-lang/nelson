@@ -43,7 +43,7 @@ function files = causalWriteIcons(libRoot)
     end
     fwrite(fid, svg);
     fclose(fid);
-    files{end + 1} = p; %#ok<AGROW>
+    files{end + 1} = p; %#ok<NLS0039>
   end
 end
 %=============================================================================

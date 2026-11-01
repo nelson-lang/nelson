@@ -51,14 +51,18 @@ asserts.checkerror('fitcecoc([1; 2], [1; 1])', _('Y must contain at least two cl
 asserts.checkerror('fitcecoc([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitcecoc(X, Y, ''KernelFunction'', ''bad'')', sprintf(_('Invalid %s value.'), 'KernelFunction'));
 asserts.checkerror('fitcecoc(X, Y, ''KernelScale'', 0)', sprintf(_('%s must be a positive scalar.'), 'KernelScale'));
-asserts.checkerror('fitcecoc(X, Y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'PolynomialOrder'));
-asserts.checkerror('fitcecoc(X, Y, ''BoxConstraint'', 0)', sprintf(_('%s must be a positive scalar.'), 'BoxConstraint'));
+asserts.checkerror('fitcecoc(X, Y, ''PolynomialOrder'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'PolynomialOrder'));
+asserts.checkerror('fitcecoc(X, Y, ''BoxConstraint'', 0)', sprintf(_('%s must be a positive scalar.'), ...
+  'BoxConstraint'));
 asserts.checkerror('fitcecoc(X, Y, ''Standardize'', 2)', sprintf(_('%s must be true or false.'), 'Standardize'));
-asserts.checkerror('fitcecoc(X, Y, ''IterationLimit'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'IterationLimit'));
+asserts.checkerror('fitcecoc(X, Y, ''IterationLimit'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'IterationLimit'));
 asserts.checkerror('fitcecoc(X, Y, ''Tolerance'', 0)', sprintf(_('%s must be a positive scalar.'), 'Tolerance'));
 asserts.checkerror('fitcecoc(X, Y, ''ClassNames'', [1; 1; 2])', _('ClassNames must contain unique labels.'));
 asserts.checkerror('fitcecoc(X, Y, ''ClassNames'', [1; 2])', _('ClassNames must include all observed classes.'));
 asserts.checkerror('fitcecoc(X, Y, ''K'', ''linear'')', _('Ambiguous name-value argument name.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

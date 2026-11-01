@@ -43,7 +43,9 @@ asserts.isequal(crypto.sha512(filename, '-file'), '');
 %=============================================================================
 % argument errors
 asserts.checkerror('crypto.sha512()', _('Not enough input arguments.'));
-asserts.checkerror('crypto.sha512(''abc'', ''-other'')', sprintf(_('#%d argument: ''-file'' or ''-string'' expected.'), 2), 'Nelson:core:cryptoInputOptionExpected');
-asserts.checkerror('crypto.sha512(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, '''uint8'', ''char'', ''string'' or ''cell'''), 'Nelson:types:wrongArgumentTypeExpected');
+asserts.checkerror('crypto.sha512(''abc'', ''-other'')', ...
+  sprintf(_('#%d argument: ''-file'' or ''-string'' expected.'), 2), 'Nelson:core:cryptoInputOptionExpected');
+asserts.checkerror('crypto.sha512(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, ...
+  '''uint8'', ''char'', ''string'' or ''cell'''), 'Nelson:types:wrongArgumentTypeExpected');
 asserts.checkerror('crypto.sha512(uint8(''abc''), ''-file'')', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, '''char'' or ''string'''), 'Nelson:types:wrongArgumentTypeExpected');
 %=============================================================================

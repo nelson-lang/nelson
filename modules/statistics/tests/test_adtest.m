@@ -64,10 +64,15 @@ asserts.checkerror('adtest()', _('Not enough input arguments.'));
 asserts.checkerror('adtest({1})', sprintf(_('%s must be a real numeric vector.'), 'X'));
 asserts.checkerror('adtest([1 NaN])', _('X must contain at least three non-NaN observations.'));
 asserts.checkerror('adtest([1 2 3], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
-asserts.checkerror('adtest([1 2 3], ''Distribution'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'DISTRIBUTION'));
-asserts.checkerror('adtest([-1 1 2], ''Distribution'', ''exp'')', _('X must be nonnegative for the exponential distribution.'));
-asserts.checkerror('adtest([0 1 2], ''Distribution'', ''logn'')', sprintf(_('X must be positive for the %s distribution.'), 'lognormal'));
-asserts.checkerror('adtest([0 1 2], ''Distribution'', ''weibull'')', sprintf(_('X must be positive for the %s distribution.'), 'Weibull'));
-asserts.checkerror('adtest([1 2 3], ''MCTol'', 0.01, ''Asymptotic'', true)', _('ASYMPTOTIC must be false when MCTOL is specified.'));
+asserts.checkerror('adtest([1 2 3], ''Distribution'', ''bad'')', sprintf(_('%s has an unsupported value.'), ...
+  'DISTRIBUTION'));
+asserts.checkerror('adtest([-1 1 2], ''Distribution'', ''exp'')', ...
+  _('X must be nonnegative for the exponential distribution.'));
+asserts.checkerror('adtest([0 1 2], ''Distribution'', ''logn'')', ...
+  sprintf(_('X must be positive for the %s distribution.'), 'lognormal'));
+asserts.checkerror('adtest([0 1 2], ''Distribution'', ''weibull'')', ...
+  sprintf(_('X must be positive for the %s distribution.'), 'Weibull'));
+asserts.checkerror('adtest([1 2 3], ''MCTol'', 0.01, ''Asymptotic'', true)', ...
+  _('ASYMPTOTIC must be false when MCTOL is specified.'));
 asserts.checkerror('adtest([1 2 3], ''Alpha'')', _('Name-value arguments must be paired.'));
 %=============================================================================

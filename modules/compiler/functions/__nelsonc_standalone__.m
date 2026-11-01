@@ -10,7 +10,8 @@
 function result = __nelsonc_standalone__(noConsole, entry, varargin)
   if isa(entry, 'compiler.build.StandaloneApplicationOptions')
     if ~isscalar(entry) || ~isempty(varargin)
-      error('Nelson:nelsonc:options:scalarOptionsObjectWithoutOverrides', 'Pass one scalar options object without name-value overrides.');
+      error('Nelson:nelsonc:options:scalarOptionsObjectWithoutOverrides', ...
+        'Pass one scalar options object without name-value overrides.');
     end
     options = entry;
   else
@@ -70,7 +71,7 @@ function text = readme_text(report, filename)
   end
   archiveText = 'Application code and selected data files are embedded in the executable.';
   if ~report.Options.EmbedArchive
-    [parent, name] = fileparts(filename);
+    [~, name] = fileparts(filename);
     archiveText = ['Keep ', name, '.nca beside the executable; its size and SHA-256 are verified before execution.'];
   end
   lines = {'Nelson standalone application', filename, '', ...

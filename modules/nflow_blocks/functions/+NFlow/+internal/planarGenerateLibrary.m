@@ -19,7 +19,7 @@ function json = planarGenerateLibrary()
   catalog = NFlow.internal.planarCatalog();
   blocks = {};
   for k = 1:numel(catalog)
-    blocks{end + 1} = pl_gen_block(catalog(k)); %#ok<AGROW>
+    blocks{end + 1} = pl_gen_block(catalog(k)); %#ok<NLS0039>
   end
   json = ['{', ...
     '"id":"builtin.acausal_planar",', ...
@@ -42,7 +42,7 @@ function s = pl_gen_block(c)
     if ~isempty(strfind(nm, '<'))
       continue
     end
-    frames{end + 1} = nm; %#ok<AGROW>
+    frames{end + 1} = nm; %#ok<NLS0039>
   end
   pins = {};
   nf = numel(frames);
@@ -56,7 +56,7 @@ function s = pl_gen_block(c)
     end
     pins{end + 1} = sprintf(...
       '{"name":"%s","x":%d,"y":%d,"side":"%s","domain":"planar"}', ...
-      frames{f}, px, py, side); %#ok<AGROW>
+      frames{f}, px, py, side); %#ok<NLS0039>
   end
   % Sensors emit one signal output.
   outputs = '[]';
@@ -68,9 +68,9 @@ function s = pl_gen_block(c)
   for qq = 1:numel(c.params)
     pm = c.params{qq};
     if isnumeric(pm{2})
-      dp{end + 1} = sprintf('"%s":%.15g', pm{1}, pm{2}); %#ok<AGROW>
+      dp{end + 1} = sprintf('"%s":%.15g', pm{1}, pm{2}); %#ok<NLS0039>
     else
-      dp{end + 1} = sprintf('"%s":"%s"', pm{1}, pm{2}); %#ok<AGROW>
+      dp{end + 1} = sprintf('"%s":"%s"', pm{1}, pm{2}); %#ok<NLS0039>
     end
   end
   defaultParams = ['{', strjoin(dp, ','), '}'];

@@ -11,7 +11,8 @@ function records = __nelsonc_mac_inventory__(root)
   root = fullpath(root);
   [status, links] = system(['/usr/bin/find ', shell_argument(root), ' -type l -print -quit']);
   if status ~= 0 || ~isempty(strtrim(links))
-    error('Nelson:nelsonc:installer:symbolicLinksNotSupportedMacOS', 'Symbolic links are not supported in macOS package payloads.');
+    error('Nelson:nelsonc:installer:symbolicLinksNotSupportedMacOS', ...
+      'Symbolic links are not supported in macOS package payloads.');
   end
   [status, output] = system(['/usr/bin/find ', shell_argument(root), ' -type f -perm -111 -print']);
   if status ~= 0; error('Nelson:nelsonc:installer:cannotInspectExecutablePackageInputs', 'Cannot inspect executable package inputs.'); end

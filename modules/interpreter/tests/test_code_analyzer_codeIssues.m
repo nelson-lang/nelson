@@ -12,7 +12,7 @@ folder = tempname();
 if ~isdir(folder)
   mkdir(folder);
 end
-folderCleanup = onCleanup(@() rmdir(folder, 's')); %#ok<NASGU>
+folderCleanup = onCleanup(@() rmdir(folder, 's')); %#ok<NLS0004>
 source = [folder, '/sample_lint_case.m'];
 filewrite(source, ['function y = sample_lint_case(x)', newline(), ...
   'y = x;   ', newline(), ...

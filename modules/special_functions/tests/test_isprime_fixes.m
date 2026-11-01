@@ -11,7 +11,8 @@ asserts.checkerror('isprime(true)', _('Input must contain nonnegative integers.'
 asserts.isequal(isprime(uint64(18446744073709551615)), false);
 asserts.isequal(isprime(intmax('int64')), false);
 asserts.isequal(isprime(sparse([2 3 4])), logical([1 1 0]));
-asserts.checkerror('isprime({1})', _('Check for incorrect argument data type or missing argument in call to function ''isprime''.'));
+asserts.checkerror('isprime({1})', ...
+  _('Check for incorrect argument data type or missing argument in call to function ''isprime''.'));
 asserts.isequal(isprime(7.0), true);
 asserts.isequal(isprime(-0), false);
 asserts.isequal(isprime(1e10+19), true);
@@ -32,7 +33,8 @@ asserts.isequal(isprime(4), false);
 asserts.checkerror('isprime(-2)', _('Input must contain nonnegative integers.'));
 asserts.checkerror('isprime(false)', _('Input must contain nonnegative integers.'));
 asserts.checkerror('isprime(''abc'')', _('Input must contain nonnegative integers.'));
-asserts.checkerror('isprime("a")', _('Check for incorrect argument data type or missing argument in call to function ''isprime''.'));
+asserts.checkerror('isprime("a")', ...
+  _('Check for incorrect argument data type or missing argument in call to function ''isprime''.'));
 asserts.isequal(isprime(uint8(0:20)), logical([0 0 1 1 0 1 0 1 0 0 0 1 0 1 0 0 0 1 0 1 0]));
 asserts.checkerror('isprime(int8(-5:20))', _('Input must contain nonnegative integers.'));
 asserts.isequal(isprime(single(1:30)), logical([0 1 1 0 1 0 1 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 0]));

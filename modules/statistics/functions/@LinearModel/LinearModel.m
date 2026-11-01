@@ -36,7 +36,8 @@ classdef LinearModel
       if nargin == 0
         return
       end
-      error('Nelson:statistics:linearModelObjectsCreatedFitlm', '%s objects are created by %s.', 'LinearModel', 'fitlm');
+      error('Nelson:statistics:linearModelObjectsCreatedFitlm', '%s objects are created by %s.', 'LinearModel', ...
+        'fitlm');
     end
   end
 end

@@ -39,7 +39,8 @@ drawnow();
 assert_isequal(ax.XTickLabel', {'$1,000.00', '$25,000.00', '$1,234,567.00'});
 close(f);
 %=============================================================================
-assert_checkerror('f = figure(''Visible'', ''off''); xtickformat(5); close(f);', getString(message('Nelson:validators:mustBeTextScalar', 'Format')));
+assert_checkerror('f = figure(''Visible'', ''off''); xtickformat(5); close(f);', ...
+  getString(message('Nelson:validators:mustBeTextScalar', 'Format')));
 %=============================================================================
 close all
 %=============================================================================

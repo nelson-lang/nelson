@@ -56,7 +56,8 @@ if isfile(nelson_web)
   [status, output] = run_nelson_cli(nelson_web, ' --web --quiet --url -e "quit"', web_timeout);
   asserts.notEqual(status, 0);
   asserts.istrue(contains(output, 'Nelson:ProgramOptions:MissingValue'));
-  [status, output] = run_nelson_cli(nelson_web, ' --web --quiet --url localhost --url 127.0.0.1 -e "quit"', web_timeout);
+  [status, output] = run_nelson_cli(nelson_web, ' --web --quiet --url localhost --url 127.0.0.1 -e "quit"', ...
+    web_timeout);
   asserts.notEqual(status, 0);
   asserts.istrue(contains(output, 'Nelson:ProgramOptions:DuplicateOption'));
   [status, output] = run_nelson_cli(nelson_web, ' --web --quiet --port 18080 --port 18081 -e "quit"', web_timeout);

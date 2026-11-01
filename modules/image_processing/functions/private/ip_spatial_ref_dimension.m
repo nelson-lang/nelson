@@ -10,7 +10,8 @@
 function [dim, ref] = ip_spatial_ref_dimension(ref)
   if ~isstruct(ref) || ~isfield(ref, 'ImageSize') || ~isfield(ref, 'XWorldLimits') ...
       || ~isfield(ref, 'YWorldLimits')
-    error('Nelson:image_processing:spatialReferenceContainImagesizeXworldlimitsYworldlimits', 'Spatial reference must contain ImageSize, XWorldLimits and YWorldLimits fields.');
+    error('Nelson:image_processing:spatialReferenceContainImagesizeXworldlimitsYworldlimits', ...
+      'Spatial reference must contain ImageSize, XWorldLimits and YWorldLimits fields.');
   end
   if isfield(ref, 'ZWorldLimits')
     ref = ip_validate_imref3d(ref);

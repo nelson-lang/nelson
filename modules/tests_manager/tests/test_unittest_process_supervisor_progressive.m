@@ -27,7 +27,7 @@ events = run_processes_progressive(jobs, 3);
 processOrder = {};
 for k = 1:length(events)
   if strcmp(events{k}.event_type, 'process')
-    processOrder{end + 1} = events{k}.job_id; %#ok<AGROW>
+    processOrder{end + 1} = events{k}.job_id; %#ok<NLS0039>
   end
 end
 asserts.isequal(length(processOrder), 3);
@@ -47,10 +47,10 @@ payloadEvents = run_processes_progressive(payloadJobs, 1);
 payloadOrder = {};
 eventOrder = {};
 for k = 1:length(payloadEvents)
-  eventOrder{end + 1} = payloadEvents{k}.event_type; %#ok<AGROW>
+  eventOrder{end + 1} = payloadEvents{k}.event_type; %#ok<NLS0039>
   if strcmp(payloadEvents{k}.event_type, 'payload')
     payload = decode_runfile_payload(payloadEvents{k}.payload);
-    payloadOrder{end + 1} = payload.stdout; %#ok<AGROW>
+    payloadOrder{end + 1} = payload.stdout; %#ok<NLS0039>
   end
 end
 asserts.isequal(payloadOrder, {'first', 'second'});
@@ -73,7 +73,7 @@ fileReason = '';
 for k = 1:length(fileEvents)
   if strcmp(fileEvents{k}.event_type, 'payload')
     payload = decode_runfile_payload(fileEvents{k}.payload);
-    filePayload{end + 1} = payload.stdout; %#ok<AGROW>
+    filePayload{end + 1} = payload.stdout; %#ok<NLS0039>
   elseif strcmp(fileEvents{k}.event_type, 'process')
     fileReason = fileEvents{k}.reason;
   end

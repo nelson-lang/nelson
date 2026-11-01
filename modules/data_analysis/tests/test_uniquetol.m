@@ -84,7 +84,8 @@ assert_isequal(R, single([1 2]));
 assert_isequal(uniquetol([1 1 2 2 3], 0), [1 2 3]);
 %=============================================================================
 % an integer input is rejected
-assert_checkerror('uniquetol(int32([1 2 3]))', _('First argument must be a real full matrix of type single or double.'));
+assert_checkerror('uniquetol(int32([1 2 3]))', ...
+  _('First argument must be a real full matrix of type single or double.'));
 %=============================================================================
 % a complex input is rejected
 assert_checkerror('uniquetol([1+2i 3])', _('First argument must be a real full matrix of type single or double.'));

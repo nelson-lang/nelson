@@ -34,10 +34,12 @@ function obj = odeSelectSolver(obj, solver)
       end
     case 'autoswitch'
       if strcmp(obj.EquationType, 'fullyimplicit')
-        error('Nelson:ode_solvers:autoSwitchingSupportedExplicitOdeProblems', 'Auto-switching is only supported for explicit ODE problems.');
+        error('Nelson:ode_solvers:autoSwitchingSupportedExplicitOdeProblems', ...
+          'Auto-switching is only supported for explicit ODE problems.');
       end
       if ~isempty(obj.MassMatrix)
-        error('Nelson:ode_solvers:autoSwitchingMassMatricesNotSupported', 'Auto-switching with mass matrices is not supported yet.');
+        error('Nelson:ode_solvers:autoSwitchingMassMatricesNotSupported', ...
+          'Auto-switching with mass matrices is not supported yet.');
       end
       obj.SelectedSolver = 'autoswitch';
     case 'stiff'

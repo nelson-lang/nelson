@@ -20,7 +20,8 @@ function [items, shape, kind] = stringPrivateToCellstr(value)
     items = value;
     kind = 'cell';
   else
-    error('Nelson:string:stringCharacterVectorCellArray', 'String, character vector, or cell array of character vectors expected.');
+    error('Nelson:string:stringCharacterVectorCellArray', ...
+      'String, character vector, or cell array of character vectors expected.');
   end
 end
 %=============================================================================

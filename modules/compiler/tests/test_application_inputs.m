@@ -21,9 +21,12 @@ mkdir(fullfile(extra, 'nested'));
 mkdir(fullfile(extra, 'empty'));
 mkdir(fullfile(extra, 'nested', 'private'));
 mkdir(fullfile(extra, '+inputpkg'));
-write_text(fullfile(source, 'input_entry.m'), sprintf('function result = input_entry()\nresult = nested_value() + inputpkg.value();\nend\n'));
-write_text(fullfile(extra, 'nested', 'nested_value.m'), sprintf('function result = nested_value()\nresult = private_value();\nend\n'));
-write_text(fullfile(extra, 'nested', 'private', 'private_value.m'), sprintf('function result = private_value()\nresult = 40;\nend\n'));
+write_text(fullfile(source, 'input_entry.m'), ...
+  sprintf('function result = input_entry()\nresult = nested_value() + inputpkg.value();\nend\n'));
+write_text(fullfile(extra, 'nested', 'nested_value.m'), ...
+  sprintf('function result = nested_value()\nresult = private_value();\nend\n'));
+write_text(fullfile(extra, 'nested', 'private', 'private_value.m'), ...
+  sprintf('function result = private_value()\nresult = 40;\nend\n'));
 write_text(fullfile(extra, '+inputpkg', 'value.m'), sprintf('function result = value()\nresult = 2;\nend\n'));
 write_text(fullfile(extra, 'nested', 'data.txt'), 'NESTED_DATA');
 write_text(fullfile(extra, 'data[1]+(a).txt'), 'LITERAL_PATTERN');
@@ -53,7 +56,8 @@ frozen = fullfile(directory, 'frozen');
 __nelsonc_stage_application__(plan, frozen, false);
 asserts.isfalse(isfile(fullfile(frozen, 'roots/2/late.txt')));
 write_text(fullfile(extra, 'nested', 'data.txt'), 'CHANGED');
-assert_rejected(@() __nelsonc_stage_application__(plan, fullfile(directory, 'changed'), false), 'changed after analysis');
+assert_rejected(@() __nelsonc_stage_application__(plan, fullfile(directory, 'changed'), false), ...
+  'changed after analysis');
 
 write_text(entry, sprintf('function result = input_entry()\nresult = 1;\nend\n'));
 pattern = jsondecode(__nelsonc_plan__('link', entry, {fullfile(extra, 'data[1]+(?).*')}));
@@ -74,7 +78,8 @@ if ispc()
 else
   assert_rejected(@() __nelsonc_plan__('link', entry, {fullfile(extra, 'DATA*.TXT')}), 'matched no files');
 end
-write_text(entry, sprintf('%%#exclude data1a.txt\nfunction result = input_entry()\nresult = fileread(''data1a.txt'');\nend\n'));
+write_text(entry, ...
+  sprintf('%%#exclude data1a.txt\nfunction result = input_entry()\nresult = fileread(''data1a.txt'');\nend\n'));
 forced = jsondecode(__nelsonc_plan__('link', entry, {extra}, false));
 asserts.istrue(forced.complete);
 asserts.istrue(forced.exclusions.explicitOverride);

@@ -21,7 +21,7 @@ if ~ispc()
   cleanupCommand = ['setenv(''NELSON_EXTERNAL_MODULES_PATH'', ', previousExternalModulesPathLiteral, ');', newline, ...
     'if isdir(', badModulesRootLiteral, '), rmdir(', badModulesRootLiteral, ', ''s''), end'];
   mkdir(badModulesRoot);
-  cleanupBadModules = onCleanup(@() evalc(cleanupCommand)); %#ok<NASGU,NLS0004>
+  cleanupBadModules = onCleanup(@() evalc(cleanupCommand)); %#ok<NLS0004>
   filewrite([badModulesRoot, 'modules.json'], '[]');
   setenv('NELSON_EXTERNAL_MODULES_PATH', badModulesRoot);
   quotedCommand = ['"', replace(nelson_cli, '"', '\"'), '"'];

@@ -79,12 +79,20 @@ asserts.checkerror('isoutlier()', _('Not enough input arguments.'));
 asserts.checkerror('isoutlier({1})', sprintf(_('%s must be a real numeric array.'), 'A'));
 asserts.checkerror('isoutlier([1 2], ''bad'')', sprintf(_('%s has an unsupported value.'), 'METHOD'));
 asserts.checkerror('isoutlier([1 2], ''percentiles'')', sprintf(_('%s must be specified.'), 'Percentile thresholds'));
-asserts.checkerror('isoutlier([1 2], ''percentiles'', [90 10])', _('Percentile thresholds must be a two-element row vector in increasing order.'));
-asserts.checkerror('isoutlier([1 2], ''movmedian'', 0)', _('Window length must be a positive numeric scalar or two-element vector.'));
-asserts.checkerror('isoutlier([1 2], ''mean'', ''ThresholdFactor'', -1)', sprintf(_('%s must be a nonnegative scalar.'), 'ThresholdFactor'));
-asserts.checkerror('isoutlier([1 2 3], ''gesd'', ''ThresholdFactor'', 2)', _('ThresholdFactor must be a scalar in the range (0,1) for this method.'));
-asserts.checkerror('isoutlier([1 2 3], ''gesd'', ''MaxNumOutliers'', 1.5)', sprintf(_('%s must be a positive integer scalar.'), 'MaxNumOutliers'));
-asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2.5)', _('Window length must be a positive integer scalar or two-element vector.'));
-asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2, ''SamplePoints'', [1 1 2])', _('SamplePoints must be sorted and contain unique values.'));
-asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2, ''SamplePoints'', [1 2])', _('SamplePoints must have one element for each input element along the operating dimension.'));
+asserts.checkerror('isoutlier([1 2], ''percentiles'', [90 10])', ...
+  _('Percentile thresholds must be a two-element row vector in increasing order.'));
+asserts.checkerror('isoutlier([1 2], ''movmedian'', 0)', ...
+  _('Window length must be a positive numeric scalar or two-element vector.'));
+asserts.checkerror('isoutlier([1 2], ''mean'', ''ThresholdFactor'', -1)', ...
+  sprintf(_('%s must be a nonnegative scalar.'), 'ThresholdFactor'));
+asserts.checkerror('isoutlier([1 2 3], ''gesd'', ''ThresholdFactor'', 2)', ...
+  _('ThresholdFactor must be a scalar in the range (0,1) for this method.'));
+asserts.checkerror('isoutlier([1 2 3], ''gesd'', ''MaxNumOutliers'', 1.5)', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'MaxNumOutliers'));
+asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2.5)', ...
+  _('Window length must be a positive integer scalar or two-element vector.'));
+asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2, ''SamplePoints'', [1 1 2])', ...
+  _('SamplePoints must be sorted and contain unique values.'));
+asserts.checkerror('isoutlier([1 2 3], ''movmean'', 2, ''SamplePoints'', [1 2])', ...
+  _('SamplePoints must have one element for each input element along the operating dimension.'));
 %=============================================================================

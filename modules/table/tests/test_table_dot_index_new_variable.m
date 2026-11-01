@@ -104,7 +104,8 @@ assert_isequal(TT.Time, seconds([1; 5; 3]));
 R = localNewVariable();
 assert_isequal(R.New, [3; 0]);
 %=============================================================================
-assert_checkerror('T = table([1; 2; 3]); T.D(end) = 9;', _('Unrecognized table variable name ''D''.'), 'Nelson:table:unrecognizedVariable');
+assert_checkerror('T = table([1; 2; 3]); T.D(end) = 9;', _('Unrecognized table variable name ''D''.'), ...
+  'Nelson:table:unrecognizedVariable');
 try
   T = table([1; 2; 3]);
   T.D(2) = [1 2];

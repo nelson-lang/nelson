@@ -16,7 +16,8 @@ function rgb = hsv2rgb(hsv)
       error('Nelson:validators:mustBeNonempty', '%s must be nonempty.', 'HSV colormap');
     end
     if ~(isa(hsv, 'double') || isa(hsv, 'single') || islogical(hsv))
-      error('Nelson:image_processing:hsvColormapDoubleSingleLogical', '%s must be double, single, or logical.', 'HSV colormap');
+      error('Nelson:image_processing:hsvColormapDoubleSingleLogical', '%s must be double, single, or logical.', ...
+        'HSV colormap');
     end
     if any(double(hsv(:)) < 0) || any(double(hsv(:)) > 1)
       error('Nelson:image_processing:hsvColormapValuesRange', 'HSV colormap values must be in the range [0, 1].');

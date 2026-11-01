@@ -8,7 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % cellfun UniformOutput: outputs with a different class must raise an error
-asserts.checkerror('cellfun(@(x) subsref({5, ''z''}, substruct(''{}'', {x})), {1, 2})', _('All outputs of the function must be of the same data type when UniformOutput is true.'));
+asserts.checkerror('cellfun(@(x) subsref({5, ''z''}, substruct(''{}'', {x})), {1, 2})', ...
+  _('All outputs of the function must be of the same data type when UniformOutput is true.'));
 %=============================================================================
 R = cellfun(@(x) x * 2, {1, 2});
 asserts.isequal(R, [2 4]);

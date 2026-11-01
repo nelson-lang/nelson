@@ -13,6 +13,8 @@ asserts.isequal(BW, logical([0 0 1 1; 0 0 1 1]));
 %=============================================================================
 asserts.checkerror('imbinarize([1 2], ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'imbinarize method'));
 %=============================================================================
-asserts.checkerror('imbinarize([1 2], ''adaptive'', ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), 'imbinarize'));
+asserts.checkerror('imbinarize([1 2], ''adaptive'', ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), ...
+  'imbinarize'));
 %=============================================================================
-asserts.checkerror('imbinarize([1 2], ''adaptive'', ''ForegroundPolarity'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'foreground polarity'));
+asserts.checkerror('imbinarize([1 2], ''adaptive'', ''ForegroundPolarity'', ''unknown'')', ...
+  sprintf(_('Unsupported "%s" option.'), 'foreground polarity'));

@@ -15,5 +15,6 @@ asserts.isequal(nargout('uiconfirm'), 1);
 asserts.checkerror('[a, b] = uiconfirm(1, ''message'', ''title'')', _('Too many output arguments.'));
 asserts.checkerror('uiconfirm()', _('Not enough input arguments.'));
 asserts.checkerror('uiconfirm(1, ''message'')', _('Not enough input arguments.'));
-asserts.checkerror('uiconfirm(1, ''message'', ''title'')', _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
+asserts.checkerror('uiconfirm(1, ''message'', ''title'')', ...
+  _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
 %=============================================================================

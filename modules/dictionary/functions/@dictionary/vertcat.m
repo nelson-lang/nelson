@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = vertcat(varargin)
-  error('Nelson:dictionary:cannotCombine', 'Combining ''dictionary'' objects is not allowed as they are designed to be scalar.');
+  error('Nelson:dictionary:cannotCombine', ...
+    'Combining ''dictionary'' objects is not allowed as they are designed to be scalar.');
 end
 %=============================================================================

@@ -19,27 +19,35 @@ assert_checkerror('eventtable(TT, TT)', msg, 'Nelson:eventtable:tooManyInputs');
 assert_checkerror('eventtable(1, 2)', msg, 'Nelson:eventtable:tooManyInputs');
 assert_checkerror('eventtable(seconds([2; 4]), "foo")', msg, 'Nelson:eventtable:tooManyInputs');
 assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'')', msg, 'Nelson:eventtable:tooManyInputs');
-assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', "m", 5, 6)', msg, 'Nelson:eventtable:tooManyInputs');
+assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', "m", 5, 6)', msg, ...
+  'Nelson:eventtable:tooManyInputs');
 %=============================================================================
 msg = 'Invalid argument at position 2. Function requires 0 to 1 positional input(s) before name ''EventLabels''.';
-assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', ["m"; "n"])', msg, 'Nelson:eventtable:tooManyInputs:beforeName');
-assert_checkerror('eventtable(seconds([2; 4]), [1; 2], "EventLabels", "q")', msg, 'Nelson:eventtable:tooManyInputs:beforeName');
-assert_checkerror('eventtable(TT, [1; 2], [3; 4], ''EventLabels'', ["m"; "n"])', msg, 'Nelson:eventtable:tooManyInputs:beforeName');
+assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', ["m"; "n"])', msg, ...
+  'Nelson:eventtable:tooManyInputs:beforeName');
+assert_checkerror('eventtable(seconds([2; 4]), [1; 2], "EventLabels", "q")', msg, ...
+  'Nelson:eventtable:tooManyInputs:beforeName');
+assert_checkerror('eventtable(TT, [1; 2], [3; 4], ''EventLabels'', ["m"; "n"])', msg, ...
+  'Nelson:eventtable:tooManyInputs:beforeName');
 msg = 'Invalid argument at position 2. Function requires 0 to 1 positional input(s) before name ''EventLengths''.';
-assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLengths'', seconds(1))', msg, 'Nelson:eventtable:tooManyInputs:beforeName');
+assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLengths'', seconds(1))', msg, ...
+  'Nelson:eventtable:tooManyInputs:beforeName');
 %=============================================================================
 % a name-value name is checked before the positional count
 msg = 'Invalid argument name ''Foo''. Name must be ''EventLabels'', ''EventLabelsVariable'', ''EventLengths'', ''EventLengthsVariable'', ''EventEnds'', or ''EventEndsVariable''.';
 assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''Foo'', 1)', msg, 'Nelson:eventtable:invalidArgumentName');
-assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', 1, ''Foo'', "q")', msg, 'Nelson:eventtable:invalidArgumentName');
+assert_checkerror('eventtable(seconds([2; 4]), [1; 2], ''EventLabels'', 1, ''Foo'', "q")', msg, ...
+  'Nelson:eventtable:invalidArgumentName');
 msg = 'Invalid argument name ''q''. Name must be ''EventLabels'', ''EventLabelsVariable'', ''EventLengths'', ''EventLengthsVariable'', ''EventEnds'', or ''EventEndsVariable''.';
-assert_checkerror('eventtable(seconds([2; 4]), ''EventLabels'', "q", "Foo")', msg, 'Nelson:eventtable:invalidArgumentName');
+assert_checkerror('eventtable(seconds([2; 4]), ''EventLabels'', "q", "Foo")', msg, ...
+  'Nelson:eventtable:invalidArgumentName');
 %=============================================================================
 % a name without its value
 msg = 'Invalid argument list. Make sure name-value arguments include both the name and the value.';
 assert_checkerror('eventtable(seconds([2; 4]), ''EventLabels'')', msg, 'Nelson:eventtable:nameValuePair');
 assert_checkerror('eventtable(seconds([2; 4]), ''EventEnds'')', msg, 'Nelson:eventtable:nameValuePair');
-assert_checkerror('eventtable(seconds([2; 4]), "EventLabels", ["m"; "n"], [1; 2])', msg, 'Nelson:eventtable:nameValuePair');
+assert_checkerror('eventtable(seconds([2; 4]), "EventLabels", ["m"; "n"], [1; 2])', msg, ...
+  'Nelson:eventtable:nameValuePair');
 assert_checkerror('eventtable(seconds([2; 4]), ''EventLabels'', "m", 5, 6)', msg, 'Nelson:eventtable:nameValuePair');
 %=============================================================================
 % the first input is checked after the name-value arguments

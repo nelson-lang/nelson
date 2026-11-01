@@ -19,7 +19,8 @@ asserts.isapprox(y, [1 1.31717686917767 1.64830695786561 2 2.30567147819209 2.63
 y = interp(1:8, 2, 2, 0.25);
 asserts.isapprox(y, [1.00000000000003 1.49883033670908 2.00000000000006 2.49805056118179 3.00000000000008 3.49727078565451 4.00000000000011 4.49649101012723 5.00000000000014 5.49571123459995 6.00000000000017 6.49493145907267 7.00000000000019 7.49415168354538 8.00000000000022 8.4933719080181], 1e-11);
 %=============================================================================
-asserts.checkerror('interp([1 2 3], 2, 2)', _('Length of data sequence must be at least two times the filter length plus one.'));
+asserts.checkerror('interp([1 2 3], 2, 2)', ...
+  _('Length of data sequence must be at least two times the filter length plus one.'));
 asserts.checkerror('interp([1 2; 3 4; 5 6], 2, 2)', _('Input signal must be a nonempty vector.'));
 asserts.checkerror('interp([], 2)', _('Input signal must be a nonempty vector.'));
 asserts.checkerror('interp(1:8, 0)', _('Value must be positive.'));

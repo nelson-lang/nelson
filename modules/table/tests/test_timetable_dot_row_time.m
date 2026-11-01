@@ -31,10 +31,12 @@ assert_isequal(TD.Var1(datetime(2020, 1, 3)), 3);
 assert_isequal(TD.Var1('2020-01-03'), 3);
 assert_isequal(TD.Var1("2020-01-03"), 3);
 assert_isequal(TD('2020-01-03', :).Var1, 3);
-msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), 'datetime');
+msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), ...
+  'datetime');
 assert_checkerror('TD.Var1(seconds(1));', msg, 'Nelson:timetable:InvalidRowSubscriptsDatetime');
 assert_checkerror('TD(seconds(1), :);', msg, 'Nelson:timetable:InvalidRowSubscriptsDatetime');
-msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), 'duration');
+msg = sprintf(_('Timetable row subscript must be a numeric, logical, or %s array, or a timerange subscripter.'), ...
+  'duration');
 assert_checkerror('TT.A(datetime(2020, 1, 1));', msg, 'Nelson:timetable:InvalidRowSubscriptsDuration');
 %=============================================================================
 % assignment: the first row at that time, or a new row

@@ -33,7 +33,7 @@ function varargout = polarplot(varargin)
         inputArguments(1) = [];
       else
         if ischar(inputArguments{2})
-          [ps, cs, ms, msg] = colstyle(inputArguments{2}, 'plot', false);
+          [~, ~, ~, msg] = colstyle(inputArguments{2}, 'plot', false);
         else
           msg = 'Invalid LineSpec string.';
         end
@@ -230,7 +230,7 @@ function [theta, radius, lineSpec, thetaVariables, radiusVariables, sourceTable,
   lineSpec = '';
   consumed = 3;
   if length(args) >= 4 && ischar(args{4})
-    [ps, cs, ms, msg] = colstyle(args{4}, 'plot', false);
+    [~, ~, ~, msg] = colstyle(args{4}, 'plot', false);
     if isempty(msg)
       lineSpec = args{4};
       consumed = 4;

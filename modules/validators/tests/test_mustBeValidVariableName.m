@@ -17,8 +17,10 @@ asserts.checkerror('mustBeValidVariableName(1)', sprintf(_('%s must be a valid v
 %=============================================================================
 asserts.checkerror('mustBeValidVariableName("8t")', sprintf(_('%s must be a valid variable name.'), 'Value'));
 %=============================================================================
-asserts.checkerror('mustBeValidVariableName("8t")', sprintf(_('%s must be a valid variable name.'), 'Value'), 'Nelson:validators:mustBeValidVariableName');
+asserts.checkerror('mustBeValidVariableName("8t")', sprintf(_('%s must be a valid variable name.'), 'Value'), ...
+  'Nelson:validators:mustBeValidVariableName');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a valid variable name.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be a valid variable name.'), 'Value')];
 asserts.checkerror('mustBeValidVariableName("8t", 3)', msg);
 %=============================================================================

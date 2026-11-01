@@ -11,7 +11,8 @@ function tf = categoricalPatternMatch(fun, functionName, str, pat, varargin)
   % Pattern matching on category names: each category is tested once,
   % then the result is gathered through the codes (undefined elements give false).
   if ~iscategorical(str) || iscategorical(pat)
-    error('Nelson:UndefinedFunction:incorrectArgumentType', _('Check for incorrect argument data type or missing argument in call to function ''%s''.'), functionName);
+    error('Nelson:UndefinedFunction:incorrectArgumentType', ...
+      _('Check for incorrect argument data type or missing argument in call to function ''%s''.'), functionName);
   end
   names = str.categoryNames;
   if isempty(names)

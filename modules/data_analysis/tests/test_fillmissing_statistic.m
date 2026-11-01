@@ -59,5 +59,6 @@ assert_isequal(R.Var2, [4; 4; 8]);
 assert_isequal(size(fillmissing(zeros(0, 3), 'mean')), [0 3]);
 %=============================================================================
 assert_checkerror('fillmissing(["a", missing], ''mean'')', 'Unsupported "mean" option.');
-assert_checkerror('fillmissing(["a", missing], ''mean'')', 'Unsupported "mean" option.', 'Nelson:data_analysis:unsupportedFillMethod');
+assert_checkerror('fillmissing(["a", missing], ''mean'')', 'Unsupported "mean" option.', ...
+  'Nelson:data_analysis:unsupportedFillMethod');
 %=============================================================================

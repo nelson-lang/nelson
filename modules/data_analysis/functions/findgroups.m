@@ -19,7 +19,8 @@ function [G, varargout] = findgroups(varargin)
   for j = 1:nv
     xj = varargin{j}(:);
     if numel(xj) ~= n
-      error('Nelson:data_analysis:allGroupingVariablesSameNumber', 'All grouping variables must have the same number of rows.');
+      error('Nelson:data_analysis:allGroupingVariablesSameNumber', ...
+        'All grouping variables must have the same number of rows.');
     end
     missingMask = missingMask | ismissing(xj);
     [~, ~, ic] = unique(xj);

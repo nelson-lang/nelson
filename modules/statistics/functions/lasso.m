@@ -228,11 +228,13 @@ end
 %=============================================================================
 function weights = parseWeightsLocal(value, n)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && length(value) == n)
-    error('Nelson:statistics:weightsNumericVectorOneValue', '%s must be a numeric vector with one value per observation.', 'WEIGHTS');
+    error('Nelson:statistics:weightsNumericVectorOneValue', ...
+      '%s must be a numeric vector with one value per observation.', 'WEIGHTS');
   end
   weights = double(value(:));
   if any(isnan(weights)) || any(weights < 0) || all(weights == 0)
-    error('Nelson:statistics:WEIGHTSContainNonnegativeValuesLeast', 'WEIGHTS must contain nonnegative values with at least one positive value.');
+    error('Nelson:statistics:WEIGHTSContainNonnegativeValuesLeast', ...
+      'WEIGHTS must contain nonnegative values with at least one positive value.');
   end
 end
 %=============================================================================

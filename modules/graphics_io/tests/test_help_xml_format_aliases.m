@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-skip_testsuite(~isfile([modulepath('graphics_io'), '/help/en_US/xml/chapter.xml']), 'Help XML sources are not available in this build');
+skip_testsuite(~isfile([modulepath('graphics_io'), '/help/en_US/xml/chapter.xml']), ...
+  'Help XML sources are not available in this build');
 requiredTokens = {'png', 'jpg', 'jpeg', 'jfif', 'gif', 'webp', 'tiff', 'tif', ...
                   'bmp', 'dib', 'tga', 'pbm', 'pgm', 'ppm', 'pnm', 'pcx', ...
                   'psd', 'hdr', 'rgbe', 'pic'};

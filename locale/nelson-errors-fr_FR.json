@@ -626,6 +626,7 @@
   "Nelson:control_system:nameValuePair": "%s attendu.",
   "Nelson:control_system:noDynamics": "Le modèle n'a pas de dynamique.",
   "Nelson:control_system:noOutputArguments": "bode sans argument d'entrée ne retourne pas d'arguments de sortie.",
+  "Nelson:control_system:notPositiveSemiDefinite": "La matrice [C D;0 I]'*[Q N;N' R]*[C D;0 I] devrait être semi-définie positive.",
   "Nelson:control_system:notSupported": "La commande ne peut pas être utilisée pour les modèles de classe 'tf'.",
   "Nelson:control_system:place:badAccuracy": "%s",
   "Nelson:control_system:place:complexConjugate": "Les pôles complexes doivent être spécifiés en paires conjuguées.",

@@ -45,5 +45,6 @@ R = unicode2native('片仮名', 'SHIFT_JIS');
 REF = uint8([149 208 137 188 150 188]);
 %=============================================================================
 asserts.checkerror('R = unicode2native(''Виртуальная'', ''_M$_'');', [_('Invalid charset: '), '_M$_'])
-asserts.checkerror('R = unicode2native(''Виртуальная'', ''_M$_'');', [_('Invalid charset: '), '_M$_'], 'Nelson:unicode2native:invalidCharset')
+asserts.checkerror('R = unicode2native(''Виртуальная'', ''_M$_'');', [_('Invalid charset: '), '_M$_'], ...
+  'Nelson:unicode2native:invalidCharset')
 %=============================================================================

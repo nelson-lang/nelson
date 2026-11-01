@@ -23,7 +23,7 @@ function info = fmiInfo(fmu)
   mustBeTextScalar(fmu);
   [fmuDir, tempToClean] = fmiEnsureUnzipped(fmu);
   if ~isempty(tempToClean)
-    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NASGU>
+    cleaner = onCleanup(@() rmdir(tempToClean, 's')); %#ok<NLS0004>
   end
   raw = __nflow_fmi_inspect__(fmuDir);
   % Present a clean, documented public API (consistent with fmiCoSimulate),

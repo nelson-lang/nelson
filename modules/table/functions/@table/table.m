@@ -1094,12 +1094,14 @@ classdef table < tabular
 
     function rethrowBinaryFailure(functionName, value)
       className = class(value);
-      error('Nelson:table:undefinedFunction', 'Undefined function ''%s'' for input arguments of type ''%s''.', functionName, className);
+      error('Nelson:table:undefinedFunction', 'Undefined function ''%s'' for input arguments of type ''%s''.', ...
+        functionName, className);
     end
 
     function rethrowUnaryFailure(functionName, value)
       className = class(value);
-      error('Nelson:table:undefinedFunction', 'Undefined function ''%s'' for input arguments of type ''%s''.', functionName, className);
+      error('Nelson:table:undefinedFunction', 'Undefined function ''%s'' for input arguments of type ''%s''.', ...
+        functionName, className);
     end
   end
 
@@ -1139,7 +1141,8 @@ classdef table < tabular
         return
       end
       if heightA ~= heightB
-        error('Nelson:table:dimagree:valueHeightOneInputOneRow', '%s must have the same height, or one input must have one row.', 'Tables');
+        error('Nelson:table:dimagree:valueHeightOneInputOneRow', ...
+          '%s must have the same height, or one input must have one row.', 'Tables');
       end
       rowsB = (1:heightB)';
       rowNamesA = stA.Properties.RowNames;
@@ -1204,7 +1207,8 @@ classdef table < tabular
       if isequal(sz, [nRows, nVars])
         return
       end
-      error('Nelson:table:dimagree:arrayOperandSizeCompatibleTable', 'Array operand size must be compatible with the table.');
+      error('Nelson:table:dimagree:arrayOperandSizeCompatibleTable', ...
+        'Array operand size must be compatible with the table.');
     end
 
     function value = arrayOperandForVariable(value, k, nRows, nVars)
@@ -1513,7 +1517,8 @@ classdef table < tabular
         option = isConstructorOption(obj, args{k});
         if option.isOption
           if k == length(args)
-            error('Nelson:table:nameValuePair:nameValueArgumentFollowedByA', 'Name-value argument must be followed by a value.');
+            error('Nelson:table:nameValuePair:nameValueArgumentFollowedByA', ...
+              'Name-value argument must be followed by a value.');
           end
           result.opts.(option.name) = args{k + 1};
           k = k + 2;
@@ -1649,7 +1654,8 @@ classdef table < tabular
 
     function obj = preallocate(obj, opts)
       if isempty(opts.Size) || (isnumeric(opts.VariableTypes) && isempty(opts.VariableTypes))
-        error('Nelson:table:invalidSyntax:sizeVariableTypesSpecifiedTogether', 'Size and VariableTypes must be specified together.');
+        error('Nelson:table:invalidSyntax:sizeVariableTypesSpecifiedTogether', ...
+          'Size and VariableTypes must be specified together.');
       end
       if ~isnumeric(opts.Size) || length(opts.Size) ~= 2
         error('Nelson:table:invalidValue:sizeATwoElementNumericVector', 'Size must be a two-element numeric vector.');
@@ -1658,7 +1664,8 @@ classdef table < tabular
       nVars = opts.Size(2);
       variableTypes = toCellstrRow(obj, opts.VariableTypes);
       if length(variableTypes) ~= nVars
-        error('Nelson:table:dimagree:valueMatchNumberVariables', '%s must match the number of variables.', 'VariableTypes');
+        error('Nelson:table:dimagree:valueMatchNumberVariables', '%s must match the number of variables.', ...
+          'VariableTypes');
       end
       if isempty(opts.VariableNames)
         variableNames = cell(1, nVars);
@@ -1669,7 +1676,8 @@ classdef table < tabular
         variableNames = checkedVariableNames(obj, opts.VariableNames);
       end
       if length(variableNames) ~= nVars
-        error('Nelson:table:dimagree:valueMatchNumberVariables', '%s must match the number of variables.', 'VariableNames');
+        error('Nelson:table:dimagree:valueMatchNumberVariables', '%s must match the number of variables.', ...
+          'VariableNames');
       end
       obj.data = struct();
       obj.Properties = defaultProperties(obj);
@@ -1749,7 +1757,8 @@ classdef table < tabular
         nRows = variableHeight(obj, heightVals{heightLoc(1)});
         for k = 2:length(names)
           if ~isequal(nRows, variableHeight(obj, heightVals{heightLoc(k)}))
-            error('Nelson:table:dimagree:valueNumberRows', '%s must have the same number of rows.', 'All table variables');
+            error('Nelson:table:dimagree:valueNumberRows', '%s must have the same number of rows.', ...
+              'All table variables');
           end
         end
         if ~isempty(obj.Properties.RowNames) && length(obj.Properties.RowNames) ~= nRows
@@ -1893,7 +1902,8 @@ classdef table < tabular
       elseif strcmp(field, st.Properties.DimensionNames{2})
         R = braceSubsref(obj, st, struct('type', '{}', 'subs', {{':', ':'}}));
       elseif isfield(st.Properties, field)
-        error('Nelson:table:illegalPropertyReference', _('Access the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
+        error('Nelson:table:illegalPropertyReference', ...
+          _('Access the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
       else
         error('Nelson:table:unrecognizedVariable', _('Unrecognized table variable name ''%s''.'), field);
       end
@@ -1904,7 +1914,8 @@ classdef table < tabular
 
     function R = braceSubsref(obj, st, sref)
       if length(sref(1).subs) ~= 2
-        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', '%s indexing requires row and variable subscripts.', 'Brace');
+        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', ...
+          '%s indexing requires row and variable subscripts.', 'Brace');
       end
       nRows = tableHeight(obj, st);
       rows = tableResolveRows(st, sref(1).subs{1}, nRows);
@@ -1927,7 +1938,8 @@ classdef table < tabular
 
     function R = parenSubsref(obj, st, sref)
       if length(sref(1).subs) ~= 2
-        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', '%s indexing requires row and variable subscripts.', 'Parentheses');
+        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', ...
+          '%s indexing requires row and variable subscripts.', 'Parentheses');
       end
       nRows = tableHeight(obj, st);
       rows = tableResolveRows(st, sref(1).subs{1}, nRows);
@@ -1991,7 +2003,8 @@ classdef table < tabular
       end
       field = sasgn(1).subs; % .Properties is handled by subsasgn
       if strcmp(field, 'RowNames') || strcmp(field, 'VariableNames')
-        error('Nelson:table:invalidPropertyAssignment', _('Assign to the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
+        error('Nelson:table:invalidPropertyAssignment', ...
+          _('Assign to the ''%s'' property of a table using dot subscripting via .Properties.%s.'), field, field);
       end
       nRows = tableHeight(obj, st);
       if isempty(value) && isequal(size(value), [0 0])
@@ -2010,10 +2023,12 @@ classdef table < tabular
         end
       end
       if any(strcmp(st.Properties.VariableNames, field)) && ~isequal(size(value), size(st.data.(field)))
-        error('Nelson:table:dimagree:valueAssignmentSizeExistingValue', 'Value assignment must be same size as existing value.');
+        error('Nelson:table:dimagree:valueAssignmentSizeExistingValue', ...
+          'Value assignment must be same size as existing value.');
       end
       if size(value, 1) ~= nRows
-        error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', 'Value assignment must have the same number of rows as the table.');
+        error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', ...
+          'Value assignment must have the same number of rows as the table.');
       end
       if ~any(strcmp(st.Properties.VariableNames, field))
         st.Properties.VariableNames{end + 1} = field;
@@ -2025,13 +2040,15 @@ classdef table < tabular
 
     function obj = braceSubsasgn(obj, st, sasgn, value)
       if length(sasgn(1).subs) ~= 2
-        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', '%s indexing requires row and variable subscripts.', 'Brace');
+        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', ...
+          '%s indexing requires row and variable subscripts.', 'Brace');
       end
       nRows = tableHeight(obj, st);
       [rows, newRowNames] = tableResolveRows(st, sasgn(1).subs{1}, nRows, true);
       varSub = sasgn(1).subs{2};
       if isempty(value) && isequal(size(value), [0 0])
-        error('Nelson:table:invalidAssignment', 'To delete rows or variables by assigning [], use () subscripting instead of {}.');
+        error('Nelson:table:invalidAssignment', ...
+          'To delete rows or variables by assigning [], use () subscripting instead of {}.');
       end
       if isnumeric(varSub) && any(varSub(:) > length(st.Properties.VariableNames))
         varSub = tableNumberedNewVariables(st.Properties.VariableNames, varSub);
@@ -2050,7 +2067,8 @@ classdef table < tabular
             col(rows, :) = value(:, k);
           end
         catch
-          error('Nelson:table:dimagree:valueAssignmentSizeExistingValue', 'Value assignment must be same size as existing value.');
+          error('Nelson:table:dimagree:valueAssignmentSizeExistingValue', ...
+            'Value assignment must be same size as existing value.');
         end
         st.data.(name) = col;
       end
@@ -2063,10 +2081,12 @@ classdef table < tabular
 
     function obj = parenSubsasgn(obj, st, sasgn, value)
       if length(sasgn(1).subs) ~= 2
-        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', '%s indexing requires row and variable subscripts.', 'Parentheses');
+        error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', ...
+          '%s indexing requires row and variable subscripts.', 'Parentheses');
       end
       nRows = tableHeight(obj, st);
-      isDeletion = isa(value, 'double') && ~issparse(value) && isreal(value) && isequal(size(value), [0 0]); % only [] deletes
+      isDeletion = isa(value, 'double') && ~issparse(value) && isreal(value) && isequal(size(value), ...
+        [0 0]); % only [] deletes
       [rows, newRowNames] = tableResolveRows(st, sasgn(1).subs{1}, nRows, ~isDeletion);
       varSub = sasgn(1).subs{2};
       if isDeletion
@@ -2085,7 +2105,8 @@ classdef table < tabular
             st.Properties.RowNames = st.Properties.RowNames(keep);
           end
         else
-          error('Nelson:table:invalidSubscript:leastOneSubscriptWhenYouDelete', 'At least one subscript must be '':'' when you delete rows or variables by assigning [].');
+          error('Nelson:table:invalidSubscript:leastOneSubscriptWhenYouDelete', ...
+            'At least one subscript must be '':'' when you delete rows or variables by assigning [].');
         end
         obj = table.fromStruct(table.keepZeroWidthHeight(st, nRows));
         if nRows == 0 && iscolumn(st.Properties.RowNames)

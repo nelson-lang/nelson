@@ -45,7 +45,8 @@ function [mode, reference, args] = parseLeadingInputsLocal(x, argsIn)
     reference = double(first);
     args = argsIn(2:end);
   else
-    error('Nelson:statistics:referenceValueRealNumericScalar', 'Reference value must be a real numeric scalar or ''ud''.');
+    error('Nelson:statistics:referenceValueRealNumericScalar', ...
+      'Reference value must be a real numeric scalar or ''ud''.');
   end
   if isempty(reference) && strcmp(mode, 'ab')
     reference = meanOmitNaNLocal(x);

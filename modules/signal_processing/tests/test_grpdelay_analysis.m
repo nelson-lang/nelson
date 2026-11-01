@@ -25,7 +25,8 @@ REF = [0.666666666666667; 0.469582873289067; 0.141176470588235; -0.3597179156328
 asserts.isapprox(gd, REF, 1e-12);
 asserts.isapprox(f, [0; 1.25; 2.5; 3.75], 1e-12);
 %=============================================================================
-asserts.checkerror('grpdelay([1 1], 1, 4, 10, ''whole'')', _('Frequency range must be specified before sampling frequency.'));
+asserts.checkerror('grpdelay([1 1], 1, 4, 10, ''whole'')', ...
+  _('Frequency range must be specified before sampling frequency.'));
 %=============================================================================
 [gd, w] = grpdelay([1 -1], 1, [0 pi]);
 asserts.isapprox(gd, [0.5; 0.5], 1e-12);

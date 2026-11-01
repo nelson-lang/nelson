@@ -26,7 +26,7 @@ skip_testsuite(~isfile([exampleDir, '/cumprod.cpp']), 'Example source not instal
 source = [exampleDir, '/cumprod.cpp'];
 buildDir = [tempname(), '_cumprod'];
 mkdir(buildDir);
-cleaner = onCleanup(@() rmdir(buildDir, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(buildDir, 's')); %#ok<NLS0004>
 %=============================================================================
 [ok, msg] = dlgeneratemake('dynamic_library', buildDir, 'nflow_cumprod', ...
   {source}, dlgetnflowincludes(), {}, dlgetnflowlibraries());

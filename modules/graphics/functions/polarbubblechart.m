@@ -24,7 +24,7 @@ function varargout = polarbubblechart(varargin)
     tableArgs = {};
     [theta, radius, bubbleSize, colorData, args] = parseNumericBubbleData(args);
   end
-  [chartArgs, rendererArgs] = parseBubbleOptions(args);
+  [chartArgs, ~] = parseBubbleOptions(args);
   [orientation, nSeries] = getSeriesOrientation(theta, radius, bubbleSize);
   [fig, previousDrawLater] = polarBeginDrawLater(ax);
   try
@@ -83,7 +83,8 @@ end
 %=============================================================================
 function [theta, radius, bubbleSize, colorData, args] = parseNumericBubbleData(args)
   if numel(args) < 3 || ~isnumeric(args{1}) || ~isnumeric(args{2}) || ~isnumeric(args{3})
-    error('Nelson:polarbubblechart:numericThetaRadiusExpected', 'Numeric theta, radius, and bubble size data expected.');
+    error('Nelson:polarbubblechart:numericThetaRadiusExpected', ...
+      'Numeric theta, radius, and bubble size data expected.');
   end
   theta = args{1};
   radius = args{2};

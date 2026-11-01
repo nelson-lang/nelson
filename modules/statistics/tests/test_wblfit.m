@@ -73,9 +73,12 @@ asserts.checkerror('wblfit([1 2 3], {0.05})', sprintf(_('%s must be numeric.'), 
 asserts.checkerror('wblfit([1 2 3], -0.1)', sprintf(_('%s must be a scalar in the range [0,1].'), 'ALPHA'));
 asserts.checkerror('wblfit([1 2 3], 1.1)', sprintf(_('%s must be a scalar in the range [0,1].'), 'ALPHA'));
 asserts.checkerror('wblfit([1 2 3], [], [0 2 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('wblfit([1 2 3], [], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('wblfit([1 2 3], [], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), ...
+  'FREQ'));
 asserts.checkerror('wblfit([1 2 3], [], ones(2, 2))', _('Size mismatch on input arguments'));
 asserts.checkerror('wblfit([1 2 3], [], [], [], 1)', sprintf(_('%s must be a scalar structure.'), 'OPTIONS'));
-asserts.checkerror('wblfit([1 2 3], [], [], [], statset(''MaxIter'', 0))', sprintf(_('%s must be a positive integer scalar.'), 'OPTIONS MaxIter'));
-asserts.checkerror('wblfit([1 2 3], [], [], [], statset(''TolX'', 0))', sprintf(_('%s must be a positive scalar.'), 'OPTIONS TolX'));
+asserts.checkerror('wblfit([1 2 3], [], [], [], statset(''MaxIter'', 0))', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'OPTIONS MaxIter'));
+asserts.checkerror('wblfit([1 2 3], [], [], [], statset(''TolX'', 0))', sprintf(_('%s must be a positive scalar.'), ...
+  'OPTIONS TolX'));
 %=============================================================================

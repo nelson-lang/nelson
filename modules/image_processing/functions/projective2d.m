@@ -23,7 +23,8 @@ function tform = projective2d(varargin)
     error('Nelson:image_processing:projectiveTransformationMatrix', 'Projective transformation matrix must be 3-by-3.');
   end
   if any(~isfinite(T(:))) || abs(det(T)) <= eps
-    error('Nelson:image_processing:transformationMatrixFiniteNonsingular', 'Transformation matrix must be finite and nonsingular.');
+    error('Nelson:image_processing:transformationMatrixFiniteNonsingular', ...
+      'Transformation matrix must be finite and nonsingular.');
   end
   tform = struct('Type', 'projective', 'Dimensionality', 2, 'T', T);
 end

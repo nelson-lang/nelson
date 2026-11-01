@@ -203,7 +203,7 @@ function value = project_option(section, key, value)
   if sourcePath && ischar(value) && isrow(value) && ~isempty(value) && ~isfile(value) && ~isfolder(value)
     paths = __nelsonc_option_value__('AdditionalFiles', value);
     value = paths{1};
-    [folder, name, extension] = fileparts(value);
+    [~, ~, extension] = fileparts(value);
     if strcmp(key, 'AppFile') && ~strcmp(extension, '.m')
       error('Nelson:compiler:project:appFileNotSource', 'AppFile must name a .m source file.');
     end
@@ -257,7 +257,7 @@ function filename = project_filename(value)
   end
   values = __nelsonc_option_value__('AdditionalFiles', value);
   filename = values{1};
-  [folder, name, extension] = fileparts(filename);
+  [~, ~, extension] = fileparts(filename);
   if ~strcmpi(extension, '.ncproj')
     error('Nelson:compiler:project:extensionExpected', 'Compiler projects use the .ncproj extension.');
   end

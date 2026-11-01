@@ -34,12 +34,16 @@ assert_isequal(isMATLABReleaseOlderThan('R2030a', 'update', 5), true);
 assert_isequal(isMATLABReleaseOlderThan("R2025b"), true);
 %=============================================================================
 % Malformed release strings error.
-assert_checkerror('isMATLABReleaseOlderThan(''2023a'')', _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
-assert_checkerror('isMATLABReleaseOlderThan(''R2023c'')', _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
+assert_checkerror('isMATLABReleaseOlderThan(''2023a'')', ...
+  _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
+assert_checkerror('isMATLABReleaseOlderThan(''R2023c'')', ...
+  _('The release must be of the form ''RYYYYa'' or ''RYYYYb'', such as ''R2023b''.'));
 %=============================================================================
 % Bad option / update value error.
-assert_checkerror('isMATLABReleaseOlderThan(''R2025a'', ''foo'', 1)', _('The option must be ''update'' followed by an integer value.'));
-assert_checkerror('isMATLABReleaseOlderThan(''R2025a'', ''update'', -1)', _('The update value must be a nonnegative integer.'));
+assert_checkerror('isMATLABReleaseOlderThan(''R2025a'', ''foo'', 1)', ...
+  _('The option must be ''update'' followed by an integer value.'));
+assert_checkerror('isMATLABReleaseOlderThan(''R2025a'', ''update'', -1)', ...
+  _('The update value must be a nonnegative integer.'));
 %=============================================================================
 % Wrong argument type errors.
 assert_checkerror('isMATLABReleaseOlderThan(1)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'));

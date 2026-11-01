@@ -46,11 +46,13 @@ function varargout = im2double(varargin)
       if ~isIndexed
         d = (double(img) + 32768) / 65535;
       else
-        error('Nelson:image_processing:indexedImageDataTypeUint8Uint16', 'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.');
+        error('Nelson:image_processing:indexedImageDataTypeUint8Uint16', ...
+          'An indexed image must have a data type of ''uint8'', ''uint16'', ''double'', ''single'', or ''logical''.');
       end
 
     otherwise
-      error('Nelson:image_processing:imageDoubleLogicalUint8Uint16Int16', 'Image must be double, logical, uint8, uint16, int16, or single.');
+      error('Nelson:image_processing:imageDoubleLogicalUint8Uint16Int16', ...
+        'Image must be double, logical, uint8, uint16, int16, or single.');
   end
   varargout{1} = d;
 end

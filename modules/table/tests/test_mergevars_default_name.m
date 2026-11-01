@@ -82,9 +82,11 @@ asserts.isequal(R.Properties.VariableNames, {'Var1', 'Var3', 'Var4'});
 asserts.isequal(R.Var3, [3 5; 4 6]);
 asserts.isequal(R.Var4, [7; 8]);
 asserts.isequal(R.Var1, [1; 2]);
-asserts.checkerror('mergevars(T3, [2 3], ''NewVariableName'', ''Var1'')', sprintf(_('Duplicate table variable name: ''%s''.'), 'Var1'), 'Nelson:table:duplicateVariableNames');
+asserts.checkerror('mergevars(T3, [2 3], ''NewVariableName'', ''Var1'')', ...
+  sprintf(_('Duplicate table variable name: ''%s''.'), 'Var1'), 'Nelson:table:duplicateVariableNames');
 msg = 'Specify the new variable name as a string or a character vector.';
-asserts.checkerror('mergevars(T4, [2 3], ''NewVariableName'', {''S''})', msg, 'Nelson:table:mergevars:InvalidNewVarName');
+asserts.checkerror('mergevars(T4, [2 3], ''NewVariableName'', {''S''})', msg, ...
+  'Nelson:table:mergevars:InvalidNewVarName');
 %=============================================================================
 % timetable
 TT = timetable(seconds([1; 2]), [1; 2], [3; 4]);

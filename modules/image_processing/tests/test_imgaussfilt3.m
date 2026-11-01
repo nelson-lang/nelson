@@ -19,12 +19,16 @@ asserts.checkerror('imgaussfilt3(ones(2, 2, 2), [1 2])', sprintf(_('Sigma must b
 %=============================================================================
 asserts.checkerror('imgaussfilt3(ones(2, 2, 2), 0)', sprintf(_('%s must contain positive finite values.'), 'Sigma'));
 %=============================================================================
-asserts.checkerror('imgaussfilt3(ones(2, 2, 2), 1, ''FilterSize'', [3 3 4])', sprintf(_('%s size must contain positive odd integers.'), 'Filter'));
+asserts.checkerror('imgaussfilt3(ones(2, 2, 2), 1, ''FilterSize'', [3 3 4])', ...
+  sprintf(_('%s size must contain positive odd integers.'), 'Filter'));
 %=============================================================================
-asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''Padding'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'padding'));
+asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''Padding'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), ...
+  'padding'));
 %=============================================================================
 asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''Padding'', Inf)', sprintf(_('%s must be finite.'), 'Padding value'));
 %=============================================================================
-asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''FilterDomain'', ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'imgaussfilt3'));
+asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''FilterDomain'', ''unknown'')', ...
+  sprintf(_('Unsupported "%s" option.'), 'imgaussfilt3'));
 %=============================================================================
-asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), 'imgaussfilt3'));
+asserts.checkerror('imgaussfilt3(ones(2, 2, 2), ''Unknown'', true)', sprintf(_('Unsupported "%s" option.'), ...
+  'imgaussfilt3'));

@@ -55,8 +55,10 @@ asserts.isequal(rgb2gray(UINT8_RGB), uint8([76 150]));
 asserts.isequal(rgb2gray(int8(reshape([127 -128 -128], [1 1 3]))), int8(-52));
 asserts.isequal(rgb2gray(int16(reshape([32767 -32768 -32768], [1 1 3]))), int16(-13177));
 asserts.isequal(rgb2gray(uint32(reshape([intmax('uint32') 0 0], [1 1 3]))), uint32(1283920435));
-asserts.isequal(rgb2gray(int32(reshape([intmax('int32') intmin('int32') intmin('int32')], [1 1 3]))), int32(-863563213));
-asserts.checkerror('rgb2gray(logical(reshape([1 0 0], [1 1 3])))', sprintf(_('%s must be numeric and non-logical.'), 'RGB image'));
+asserts.isequal(rgb2gray(int32(reshape([intmax('int32') intmin('int32') intmin('int32')], [1 1 3]))), ...
+  int32(-863563213));
+asserts.checkerror('rgb2gray(logical(reshape([1 0 0], [1 1 3])))', sprintf(_('%s must be numeric and non-logical.'), ...
+  'RGB image'));
 UINT8_HSV = rgb2hsv(UINT8_RGB);
 asserts.isequal(class(UINT8_HSV), 'double');
 asserts.isapprox(UINT8_HSV(:, :, 1), [0 1 / 3], 1e-15);
@@ -66,9 +68,12 @@ OUT_RGB = zeros(1, 1, 3);
 OUT_RGB(:, :, 1) = 2;
 OUT_HSV = rgb2hsv(OUT_RGB);
 asserts.isapprox(reshape(OUT_HSV, [1 3]), [0 1 2], 1e-15);
-asserts.checkerror('rgb2hsv(logical(reshape([1 0 0], [1 1 3])))', _('RGB image must be double, single, uint8, or uint16.'));
-asserts.checkerror('rgb2hsv(int16(reshape([32767 -32768 -32768], [1 1 3])))', _('RGB image must be double, single, uint8, or uint16.'));
-asserts.checkerror('rgb2hsv(uint32(reshape([intmax(''uint32'') 0 0], [1 1 3])))', _('RGB image must be double, single, uint8, or uint16.'));
+asserts.checkerror('rgb2hsv(logical(reshape([1 0 0], [1 1 3])))', ...
+  _('RGB image must be double, single, uint8, or uint16.'));
+asserts.checkerror('rgb2hsv(int16(reshape([32767 -32768 -32768], [1 1 3])))', ...
+  _('RGB image must be double, single, uint8, or uint16.'));
+asserts.checkerror('rgb2hsv(uint32(reshape([intmax(''uint32'') 0 0], [1 1 3])))', ...
+  _('RGB image must be double, single, uint8, or uint16.'));
 asserts.checkerror('rgb2hsv(reshape([1+2i 0 0], [1 1 3]))', sprintf(_('%s must be real.'), 'RGB image'));
 LOGICAL_HSV = false(1, 1, 3);
 LOGICAL_HSV(:, :, 2) = true;

@@ -129,7 +129,8 @@ function c = applyScale(c, lags, n, x, y, scaleOption)
     c = c ./ (n - abs(lags));
   elseif strcmp(scaleOption, 'coeff') || strcmp(scaleOption, 'normalized')
     if length(x) ~= length(y)
-      error('Nelson:signal:xcorr:invalidScaleOption', 'Scale option must be ''none'' for input vectors of different lengths.');
+      error('Nelson:signal:xcorr:invalidScaleOption', ...
+        'Scale option must be ''none'' for input vectors of different lengths.');
     end
     scale = sqrt(sum(abs(x) .^ 2) * sum(abs(y) .^ 2));
     if scale == 0

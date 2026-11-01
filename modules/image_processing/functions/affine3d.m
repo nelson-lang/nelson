@@ -23,13 +23,16 @@ function tform = affine3d(varargin)
     T = [T; 0 0 0 1];
   end
   if ~isequal(size(T), [4 4])
-    error('Nelson:image_processing:transformationMatrix', '%s must be %d-by-%d or %d-by-%d.', 'Affine transformation matrix', 4, 4, 3, 4);
+    error('Nelson:image_processing:transformationMatrix', '%s must be %d-by-%d or %d-by-%d.', ...
+      'Affine transformation matrix', 4, 4, 3, 4);
   end
   if any(~isfinite(T(:))) || abs(det(T)) <= eps
-    error('Nelson:image_processing:transformationMatrixFiniteNonsingular', 'Transformation matrix must be finite and nonsingular.');
+    error('Nelson:image_processing:transformationMatrixFiniteNonsingular', ...
+      'Transformation matrix must be finite and nonsingular.');
   end
   if any(abs(T(:, 4) - [0; 0; 0; 1]) > sqrt(eps))
-    error('Nelson:image_processing:affineTransformationMatrixLastColumn', 'Affine transformation matrix must have [0 0 0 1] as its last column.');
+    error('Nelson:image_processing:affineTransformationMatrixLastColumn', ...
+      'Affine transformation matrix must have [0 0 0 1] as its last column.');
   end
   tform = struct('Type', 'affine', 'Dimensionality', 3, 'T', T);
 end

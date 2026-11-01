@@ -20,5 +20,6 @@ end
 elapsed = toc();
 ops = n * 2;
 asserts.istrue(value > 0);
-fprintf('BENCH_REFERENCE,numeric,primitive binary scalar dispatch loop,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,numeric,primitive binary scalar dispatch loop,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

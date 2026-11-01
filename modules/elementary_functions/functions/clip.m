@@ -20,7 +20,8 @@ function Y = clip(X, lowerBound, upperBound)
     error('Nelson:elementary_functions:upperBoundNumericScalar', '%s must be a numeric scalar.', 'Upper bound');
   end
   if lowerBound > upperBound
-    error('Nelson:elementary_functions:lowerBoundLessEqualUpper', 'Lower bound must be less than or equal to the upper bound.');
+    error('Nelson:elementary_functions:lowerBoundLessEqualUpper', ...
+      'Lower bound must be less than or equal to the upper bound.');
   end
   if isempty(X)
     Y = X;

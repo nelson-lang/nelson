@@ -15,7 +15,7 @@ function varargout = kalman(varargin)
   narginchk(2, 6);
   nargoutchk(0, 5);
 
-  [a, b, c, d, e, Ts, Q, R, N, sensors, known, md, rrn, nu] = checkInputArguments(varargin{:});
+  [a, b, c, d, e, Ts, Q, R, N, ~, known, md, rrn, nu] = checkInputArguments(varargin{:});
 
   [qb, rb, nb, b, d] = computedReducedMatrices(b, d, Q, R, md, known, N);
   rb = symmetrize(rb);
@@ -110,7 +110,8 @@ function validateSysEMatrix(Q, R, N, Ts)
   [~, V] = eig(R);
   realEigenvalues = real(diag(V));
   if ~isempty(realEigenvalues) && (min(realEigenvalues) < 0 || ((Ts == 0 || Ts == -2) && min(realEigenvalues) == 0))
-    error('Nelson:control_system:wrongValue:wrongValueArgument1SysE', 'Wrong value for argument #1: sys.E matrix must be positive definite.');
+    error('Nelson:control_system:wrongValue:wrongValueArgument1SysE', ...
+      'Wrong value for argument #1: sys.E matrix must be positive definite.');
   end
 end
 %=============================================================================
@@ -190,7 +191,8 @@ function [a, b, c, d, e, Ts, Q, R, N, sensors, known, md, rrn, nu] = checkInputA
 
   Ts = sys.Ts;
   if ~isempty(e) && (rcond(e) < eps())
-    error('Nelson:control_system:wrongValue:wrongValueArgument1SysEXX', 'Wrong value in argument #1: sys.E is a singular matrix.');
+    error('Nelson:control_system:wrongValue:wrongValueArgument1SysEXX', ...
+      'Wrong value in argument #1: sys.E is a singular matrix.');
   end
   if isempty(e)
     if ~isempty(a)

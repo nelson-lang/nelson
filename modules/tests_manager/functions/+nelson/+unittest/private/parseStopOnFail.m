@@ -14,6 +14,7 @@ function stoponfail = parseStopOnFail(param)
   end
   stoponfail = haveStopOnFailOption(param);
   if ~stoponfail
-    error('Nelson:tests_manager:invalidArgument:nArgumentStoponfailExpected', '#%d argument: ''-stoponfail'' or [] expected', 4);
+    error('Nelson:tests_manager:invalidArgument:nArgumentStoponfailExpected', ...
+      '#%d argument: ''-stoponfail'' or [] expected', 4);
   end
 end

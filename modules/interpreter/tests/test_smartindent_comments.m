@@ -10,7 +10,7 @@
 % <--ENGLISH IMPOSED-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 fixtureFile = fullfile(fixtureDirectory, 'quoted_comments.m');
 sq = char(39);
 dq = char(34);

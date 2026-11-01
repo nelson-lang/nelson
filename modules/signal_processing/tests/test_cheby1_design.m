@@ -17,7 +17,8 @@ asserts.isapprox(a, [1 -0.632634458066557 0.558604305903978 0.0683599860361976],
 %=============================================================================
 [b, a] = cheby1(3, 1, [0.2 0.5]);
 asserts.isapprox(b, [0.0343849663518161 0 -0.103154899055448 0 0.103154899055448 0 -0.0343849663518161], 1e-12);
-asserts.isapprox(a, [1 -2.3338328850673 3.5053693358854 -3.44813906569881 2.62544293005673 -1.24779007914603 0.398360312214027], 1e-12);
+asserts.isapprox(a, ...
+  [1 -2.3338328850673 3.5053693358854 -3.44813906569881 2.62544293005673 -1.24779007914603 0.398360312214027], 1e-12);
 %=============================================================================
 [b2, a2] = cheby1(3, 1, [0.2 0.5], 'bandpass');
 asserts.isapprox(b2, b, 1e-12);
@@ -27,6 +28,8 @@ asserts.isapprox(a2, a, 1e-12);
 asserts.isapprox(b, [0.325115009618225 -0.993926228478671 1.98820644551447 -2.33190490269011 1.98820644551447 -0.993926228478671 0.325115009618225], 1e-12);
 asserts.isapprox(a, [1 -2.01797619756209 2.40697954497874 -1.9858469078825 1.22984481798848 -0.315934254202854 -0.0101814527018253], 1e-12);
 %=============================================================================
-asserts.checkerror('cheby1(3, 1, 0.4, ''stop'')', _('Cutoff frequency must be a scalar for lowpass and highpass filters.'));
-asserts.checkerror('cheby1(3, 1, [0.2 0.5], ''high'')', _('Cutoff frequency must be a two-element vector for bandpass and bandstop filters.'));
+asserts.checkerror('cheby1(3, 1, 0.4, ''stop'')', ...
+  _('Cutoff frequency must be a scalar for lowpass and highpass filters.'));
+asserts.checkerror('cheby1(3, 1, [0.2 0.5], ''high'')', ...
+  _('Cutoff frequency must be a two-element vector for bandpass and bandstop filters.'));
 %=============================================================================

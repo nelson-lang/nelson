@@ -160,14 +160,24 @@ asserts.checkerror('dbscan([1 2], 1, 1.5)', sprintf(_('%s must be a positive int
 asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''unknown'')', sprintf(_('Invalid %s value.'), 'Distance'));
 asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''c'')', sprintf(_('Ambiguous %s value.'), 'Distance'));
 asserts.checkerror('dbscan([1 2], 1, 1, ''P'', 3)', sprintf(_('%s is valid only with %s.'), 'P', 'Minkowski distance'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''minkowski'', ''P'', 0)', sprintf(_('%s must be a positive scalar.'), 'P'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Scale'', [1 1])', sprintf(_('%s is valid only with %s.'), 'Scale', 'standardized Euclidean distance'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''seuclidean'', ''Scale'', [1 1 1])', sprintf(_('%s must match the number of columns in X.'), 'Scale length'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''seuclidean'', ''Scale'', [1 0])', _('Scale values must be positive and finite.'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Cov'', eye(2))', sprintf(_('%s is valid only with %s.'), 'Cov', 'Mahalanobis distance'));
-asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''mahalanobis'', ''Cov'', eye(3))', sprintf(_('%s must match the number of columns in X.'), 'Cov size'));
-asserts.checkerror('dbscan([0 0; 1 1], 1, 1, ''Distance'', ''mahalanobis'', ''Cov'', [1 2; 2 1])', _('Cov must be symmetric positive definite.'));
-asserts.checkerror('dbscan(D <= 0.2, 0.2, 2, ''Distance'', ''precomputed'')', _('Epsilon must be empty for logical precomputed distances.'));
-asserts.checkerror('dbscan([1 2 3], [], 2, ''Distance'', ''precomputed'')', sprintf(_('%s must be a positive scalar.'), 'Epsilon'));
-asserts.checkerror('dbscan([1 2 3 4], 1, 2, ''Distance'', ''precomputed'')', _('Precomputed distance vector has invalid length.'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''minkowski'', ''P'', 0)', ...
+  sprintf(_('%s must be a positive scalar.'), 'P'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Scale'', [1 1])', sprintf(_('%s is valid only with %s.'), 'Scale', ...
+  'standardized Euclidean distance'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''seuclidean'', ''Scale'', [1 1 1])', ...
+  sprintf(_('%s must match the number of columns in X.'), 'Scale length'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''seuclidean'', ''Scale'', [1 0])', ...
+  _('Scale values must be positive and finite.'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Cov'', eye(2))', sprintf(_('%s is valid only with %s.'), 'Cov', ...
+  'Mahalanobis distance'));
+asserts.checkerror('dbscan([1 2], 1, 1, ''Distance'', ''mahalanobis'', ''Cov'', eye(3))', ...
+  sprintf(_('%s must match the number of columns in X.'), 'Cov size'));
+asserts.checkerror('dbscan([0 0; 1 1], 1, 1, ''Distance'', ''mahalanobis'', ''Cov'', [1 2; 2 1])', ...
+  _('Cov must be symmetric positive definite.'));
+asserts.checkerror('dbscan(D <= 0.2, 0.2, 2, ''Distance'', ''precomputed'')', ...
+  _('Epsilon must be empty for logical precomputed distances.'));
+asserts.checkerror('dbscan([1 2 3], [], 2, ''Distance'', ''precomputed'')', ...
+  sprintf(_('%s must be a positive scalar.'), 'Epsilon'));
+asserts.checkerror('dbscan([1 2 3 4], 1, 2, ''Distance'', ''precomputed'')', ...
+  _('Precomputed distance vector has invalid length.'));
 %=============================================================================

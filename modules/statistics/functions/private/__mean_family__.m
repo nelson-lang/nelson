@@ -69,7 +69,8 @@ function [dims, returnInput] = parseDimensionLocal(value, sz)
   returnInput = false;
   if ~(isnumeric(value) && isreal(value) && isvector(value) && ~isempty(value) ...
       && all(value == fix(value)) && all(value >= 1))
-    error('Nelson:statistics:dimensionPositiveIntegerScalarVector', 'Dimension must be a positive integer scalar, vector, or ''all''.');
+    error('Nelson:statistics:dimensionPositiveIntegerScalarVector', ...
+      'Dimension must be a positive integer scalar, vector, or ''all''.');
   end
   dims = unique(double(value(:).'), 'stable');
   rank = max(2, length(sz));

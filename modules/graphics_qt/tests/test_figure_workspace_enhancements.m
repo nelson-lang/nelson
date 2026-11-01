@@ -62,12 +62,16 @@ invoke(probe, titleText, struct('operation', 'action', 'name', 'figureInspectAct
 geometry = __figure_native_geometry__(f); point = geometry(3:4) / 2;
 __figure_mouse_event__(f, 'press', point); __figure_mouse_event__(f, 'release', point);
 settle(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', 'Signal')), int32(1));
-asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', 'Point 2')), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', ...
+  'Signal')), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', ...
+  'Point 2')), int32(1));
 invoke(probe, titleText, struct('operation', 'controlKey', 'key', 'Right')); settle(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', 'Point 3')), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', ...
+  'Point 3')), int32(1));
 invoke(probe, titleText, struct('operation', 'controlKey', 'key', 'Left')); settle(probe, titleText);
-asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', 'Point 2')), int32(1));
+asserts.isequal(invoke(probe, titleText, struct('operation', 'textContains', 'name', 'figurePointTip', 'value', ...
+  'Point 2')), int32(1));
 invoke(probe, titleText, struct('operation', 'dockWidth', 'value', 420));
 pause(0.5); drawnow(); close(f); drawnow();
 f = figure('Name', titleText, 'NumberTitle', 'off', 'WindowStyle', 'normal', 'Position', [100 100 1100 700]);

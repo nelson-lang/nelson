@@ -33,9 +33,12 @@ asserts.isequal(options.DataLines, [1 Inf]);
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_1.csv'];
 invalidOptions = struct();
 asserts.checkerror('readcell(csv_filename, invalidOptions);', _('Import options object expected.'));
-asserts.checkerror('readcell(csv_filename, invalidOptions);', _('Import options object expected.'), 'Nelson:spreadsheet:importOptionsExpected');
+asserts.checkerror('readcell(csv_filename, invalidOptions);', _('Import options object expected.'), ...
+  'Nelson:spreadsheet:importOptionsExpected');
 asserts.checkerror('readmatrix(csv_filename, invalidOptions);', _('Import options object expected.'));
-asserts.checkerror('readmatrix(csv_filename, invalidOptions);', _('Import options object expected.'), 'Nelson:spreadsheet:importOptionsExpected');
+asserts.checkerror('readmatrix(csv_filename, invalidOptions);', _('Import options object expected.'), ...
+  'Nelson:spreadsheet:importOptionsExpected');
 asserts.checkerror('readtable(csv_filename, invalidOptions);', _('Import options object expected.'));
-asserts.checkerror('readtable(csv_filename, invalidOptions);', _('Import options object expected.'), 'Nelson:spreadsheet:importOptionsExpected');
+asserts.checkerror('readtable(csv_filename, invalidOptions);', _('Import options object expected.'), ...
+  'Nelson:spreadsheet:importOptionsExpected');
 %=============================================================================

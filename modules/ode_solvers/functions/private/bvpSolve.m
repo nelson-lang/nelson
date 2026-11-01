@@ -63,7 +63,8 @@ function [x, y, parameters] = bvpNormalizeInitialSolution(solinit)
   x = solinit.x(:).';
   y = solinit.y;
   if any(diff(x) <= 0) || size(y, 2) ~= length(x)
-    error('Nelson:ode_solvers:bvpInitialSolutionInconsistentMeshValues', 'BVP initial solution has inconsistent mesh and values.');
+    error('Nelson:ode_solvers:bvpInitialSolutionInconsistentMeshValues', ...
+      'BVP initial solution has inconsistent mesh and values.');
   end
   if isfield(solinit, 'parameters')
     parameters = solinit.parameters(:).';
@@ -113,7 +114,8 @@ function [y, parameters, stats] = bvpNewtonSolve(odefun, bcfun, x, y, parameters
       numel(parameters), stats.residualNorm, options);
   end
   if stats.residualNorm > 10 * tolerance
-    error('Nelson:ode_solvers:bvpSolverFailedMeetRequestedTolerance', 'BVP solver failed to meet the requested tolerance.');
+    error('Nelson:ode_solvers:bvpSolverFailedMeetRequestedTolerance', ...
+      'BVP solver failed to meet the requested tolerance.');
   end
   [y, parameters] = bvpUnpack(u, size(y, 1), length(x), numel(parameters));
 end
@@ -345,7 +347,8 @@ function [dya, dyb, dpar] = bvpBoundaryJacobian(fcn, ya, yb, parameters, n, np)
   if size(dya, 1) ~= n + np || size(dya, 2) ~= n ...
       || size(dyb, 1) ~= n + np || size(dyb, 2) ~= n ...
       || size(dpar, 1) ~= n + np || size(dpar, 2) ~= np
-    error('Nelson:ode_solvers:bvpBoundaryJacobianInconsistentDimensions', 'BVP boundary Jacobian has inconsistent dimensions.');
+    error('Nelson:ode_solvers:bvpBoundaryJacobianInconsistentDimensions', ...
+      'BVP boundary Jacobian has inconsistent dimensions.');
   end
 end
 %=============================================================================
@@ -357,7 +360,8 @@ function value = bvpSingularValue(options, x, y)
   end
   if ~isnumeric(singularTerm) || ~isreal(singularTerm) ...
       || size(singularTerm, 1) ~= size(y, 1) || size(singularTerm, 2) ~= size(y, 1)
-    error('Nelson:ode_solvers:singulartermRealSquareMatrixMatchingState', 'SingularTerm must be a real square matrix matching the state size.');
+    error('Nelson:ode_solvers:singulartermRealSquareMatrixMatchingState', ...
+      'SingularTerm must be a real square matrix matching the state size.');
   end
   if isscalar(x)
     value = bvpScalarSingularValue(singularTerm, x, y);
@@ -373,7 +377,8 @@ function value = bvpScalarSingularValue(singularTerm, x, y)
   product = singularTerm * y;
   if abs(x) <= eps
     if max(abs(product)) > sqrt(eps)
-      error('Nelson:ode_solvers:singulartermRequiresConsistentLeftBoundaryValue', 'SingularTerm requires a consistent left boundary value.');
+      error('Nelson:ode_solvers:singulartermRequiresConsistentLeftBoundaryValue', ...
+        'SingularTerm requires a consistent left boundary value.');
     end
     return
   end

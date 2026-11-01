@@ -27,5 +27,6 @@ assert_isfalse(isenv(name));
 %=============================================================================
 assert_checkerror('unsetenv()', _('Not enough input arguments.'));
 assert_checkerror('unsetenv(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'));
-assert_checkerror('unsetenv(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'), 'Nelson:unsetenv:invalidInputType');
+assert_checkerror('unsetenv(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'), ...
+  'Nelson:unsetenv:invalidInputType');
 %=============================================================================

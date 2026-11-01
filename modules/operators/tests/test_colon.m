@@ -27,7 +27,8 @@ R = 1:int32(2):4;
 REF = int32([1 3]);
 asserts.isequal(R, REF);
 %=============================================================================
-asserts.checkerror('R = 1:char(2):4;', _('For colon operator with char operands, first and last operands must be char.'));
+asserts.checkerror('R = 1:char(2):4;', ...
+  _('For colon operator with char operands, first and last operands must be char.'));
 %=============================================================================
 R = 1:1;
 REF = 1;
@@ -131,7 +132,8 @@ asserts.isequal(R, REF);
 %=============================================================================
 asserts.checkerror('R = 1:1:inf;', _('Invalid range.'));
 %=============================================================================
-asserts.checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type, or mixed with real double scalar.'));
+asserts.checkerror('single(1):int32(2):single(4)', ...
+  _('Colon operands must be all the same type, or mixed with real double scalar.'));
 %=============================================================================
 R = logical(0):logical(1);
 asserts.isequal(R, [0 1]);

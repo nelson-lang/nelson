@@ -19,7 +19,8 @@ function B = flip(A, dim)
     end
   end
   if (~(isnumeric(dim) || islogical(dim)) || ~isscalar(dim) || ~isreal(dim) || ~isfinite(dim) || dim <= 0 || dim ~= fix(dim))
-    error('Nelson:elementary_functions:dimensionArgumentPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Dimension argument');
+    error('Nelson:elementary_functions:dimensionArgumentPositiveIntegerScalar', ...
+      '%s must be a positive integer scalar.', 'Dimension argument');
   end
   dim = double(dim);
   if (~issparse(A) && (isnumeric(A) || islogical(A) || ischar(A)))

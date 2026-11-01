@@ -12,7 +12,8 @@ function Y = factorial(X)
     error('Nelson:elementary_functions:nonNumericInput', 'Input must be numeric.');
   end
   if ~isreal(X) || any(fix(X(:)) ~= X(:)) || any(X(:) < 0)
-    error('Nelson:elementary_functions:e1InputArgumentRealPositive', '#%d argument: must be real positive integer values.', 1);
+    error('Nelson:elementary_functions:e1InputArgumentRealPositive', ...
+      '#%d argument: must be real positive integer values.', 1);
   end
   cl = class(X);
   % a sparse input is processed densely; the result stays sparse

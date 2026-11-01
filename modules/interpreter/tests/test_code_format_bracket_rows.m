@@ -15,7 +15,7 @@
 % back to the statement indentation.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 nl = char(10);
 expected = ['function r = br_case()', nl, ...
   '  requests = {', nl, ...

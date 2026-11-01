@@ -48,7 +48,8 @@ function [iterations, method, smoothFactor, contractionBias] = ip_parse_activeco
       error('Nelson:image_processing:nameValueArgumentsAppearPairs', 'Name-value arguments must be paired.');
     end
     if ~(ischar(args{pos}) || isstring(args{pos}))
-      error('Nelson:image_processing:activecontourOptionNameString', '%s option name must be a string.', 'activecontour');
+      error('Nelson:image_processing:activecontourOptionNameString', '%s option name must be a string.', ...
+        'activecontour');
     end
     name = lower(convertStringsToChars(args{pos}));
     value = args{pos + 1};
@@ -77,7 +78,8 @@ function method = ip_validate_activecontour_method(method)
   end
   method = lower(convertStringsToChars(method));
   if ~(strcmp(method, 'chan-vese') || strcmp(method, 'edge'))
-    error('Nelson:image_processing:unsupportedActiveContourMethod', 'Unsupported "%s" option.', 'active contour method');
+    error('Nelson:image_processing:unsupportedActiveContourMethod', 'Unsupported "%s" option.', ...
+      'active contour method');
   end
 end
 %=============================================================================
@@ -93,7 +95,8 @@ end
 %=============================================================================
 function ip_validate_activecontour_iterations(iterations)
   if ~(isscalar(iterations) && isfinite(iterations) && iterations >= 0 && iterations == floor(iterations))
-    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalar', '%s must be a nonnegative integer scalar.', 'Number of iterations');
+    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalar', ...
+      '%s must be a nonnegative integer scalar.', 'Number of iterations');
   end
 end
 %=============================================================================

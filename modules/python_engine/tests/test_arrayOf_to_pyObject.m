@@ -19,7 +19,8 @@ C = pyrun('', 'A', 'A', [1 2]);
 asserts.isequal(class(C), 'py.array.array');
 %=============================================================================
 M = methods(C);
-E = {'double', 'int8', 'uint8', 'numeric', 'int16', 'logical', 'uint16', 'char', 'int32', 'uint32', 'int64', 'single', 'uint64'};
+E = {'double', 'int8', 'uint8', 'numeric', 'int16', 'logical', 'uint16', 'char', 'int32', 'uint32', 'int64', ...
+  'single', 'uint64'};
 asserts.istrue(all(ismember(E, M)));
 %=============================================================================
 asserts.isequal(C.double(), [1 2]);

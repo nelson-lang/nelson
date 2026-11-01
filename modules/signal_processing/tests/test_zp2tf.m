@@ -30,7 +30,8 @@ asserts.isapprox(p, -0.5, 1e-12);
 asserts.isequal(k, 0);
 %=============================================================================
 asserts.checkerror('tf2zp([1 2], [1 0; 0 1])', _('Second argument must be a vector.'));
-asserts.checkerror('zp2tf([1 2; 3 4], [0], [1])', sprintf(_('Input argument #%d and #%d should have the same column size.'), 1, 3));
+asserts.checkerror('zp2tf([1 2; 3 4], [0], [1])', ...
+  sprintf(_('Input argument #%d and #%d should have the same column size.'), 1, 3));
 %=============================================================================
 z = [49.498, 0; -49.498, 16.362];
 p = [0; -57.753; 53.851; 2.0831];

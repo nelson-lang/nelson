@@ -9,6 +9,7 @@
 %=============================================================================
 asserts.checkerror('bwselect(single([NaN 0]), 1, 1)', _('Conversion to logical with NaN is not possible.'));
 %=============================================================================
-asserts.checkerror('bwselect(logical([1 0]), [1 2], 1)', _('Selection coordinates must be numeric arrays of the same size.'));
+asserts.checkerror('bwselect(logical([1 0]), [1 2], 1)', ...
+  _('Selection coordinates must be numeric arrays of the same size.'));
 %=============================================================================
 asserts.checkerror('bwselect(logical([1 0]), 1, 1, 6)', _('Unsupported connectivity.'));

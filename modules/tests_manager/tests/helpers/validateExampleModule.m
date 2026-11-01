@@ -113,7 +113,7 @@ function [allowed, baseline] = galleryRequirementCatalog()
     for index = 1:numel(entries)
       cachedAllowed{index} = entries(index).name;
       if entries(index).baseline
-        cachedBaseline{end + 1, 1} = entries(index).name; %#ok<AGROW>
+        cachedBaseline{end + 1, 1} = entries(index).name; %#ok<NLS0039>
       end
     end
   end

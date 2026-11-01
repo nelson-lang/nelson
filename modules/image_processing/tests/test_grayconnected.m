@@ -19,6 +19,7 @@ asserts.checkerror('grayconnected([1 2], Inf, 1)', sprintf(_('%s must be a finit
 %=============================================================================
 asserts.checkerror('grayconnected([1 2], 1, 3)', _('Column subscript is outside image bounds.'));
 %=============================================================================
-asserts.checkerror('grayconnected([1 2], 1, 1, -1)', sprintf(_('%s must be a nonnegative finite scalar.'), 'Tolerance'));
+asserts.checkerror('grayconnected([1 2], 1, 1, -1)', sprintf(_('%s must be a nonnegative finite scalar.'), ...
+  'Tolerance'));
 %=============================================================================
 asserts.checkerror('grayconnected([1 2], 1, 1, 0, eye(3))', _('Unsupported connectivity.'));

@@ -17,7 +17,7 @@
 %=============================================================================
 work = tempname();
 mkdir(work);
-cleaner = onCleanup(@() rmdir(work, 's')); %#ok<NASGU>
+cleaner = onCleanup(@() rmdir(work, 's')); %#ok<NLS0004>
 d = struct();
 d.blocks = {...
   struct('id', 'u', 'type', 'labelSource', 'inputs', 0, 'outputs', 1, ...

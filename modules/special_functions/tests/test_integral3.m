@@ -24,5 +24,6 @@ asserts.isapprox(R, 0.779555454655971, 1e-4);
 R = integral3(@(x, y, z) x + y + z, 0, 1, 0, @(x) x, 0, @(x, y) y);
 asserts.isapprox(R, 0.25, 1e-10);
 %=============================================================================
-asserts.checkerror('integral3(3, 0, 1, 0, 1, 0, 1)', _('First argument must be a function handle.'), 'Nelson:special_functions:funArgNotHandle');
+asserts.checkerror('integral3(3, 0, 1, 0, 1, 0, 1)', _('First argument must be a function handle.'), ...
+  'Nelson:special_functions:funArgNotHandle');
 %=============================================================================

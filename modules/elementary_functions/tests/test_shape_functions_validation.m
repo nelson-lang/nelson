@@ -13,11 +13,14 @@ assert_checkerror('repmat(1:3, NaN)', _('Replication factors must be a row vecto
 assert_checkerror('repmat(1:3, Inf)', _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, -Inf)', _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, 1, NaN)', _('Replication factors must be a row vector of integers or integer scalars.'));
-assert_checkerror('repmat(1:3, [1 1.5])', _('Replication factors must be a row vector of integers or integer scalars.'));
-assert_checkerror('repmat(1:3, zeros(1, 0))', _('Replication factors must be a row vector of integers or integer scalars.'));
+assert_checkerror('repmat(1:3, [1 1.5])', ...
+  _('Replication factors must be a row vector of integers or integer scalars.'));
+assert_checkerror('repmat(1:3, zeros(1, 0))', ...
+  _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, [])', _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, [2; 1])', _('Replication factors must be a row vector of integers or integer scalars.'));
-assert_checkerror('repmat(1:3, 2, [2 1])', _('Replication factors must be a row vector of integers or integer scalars.'));
+assert_checkerror('repmat(1:3, 2, [2 1])', ...
+  _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, ''a'')', _('Replication factors must be numeric.'));
 assert_checkerror('repmat(1:3, {2})', _('Replication factors must be numeric.'));
 assert_checkerror('repmat(1:3, 1+1i)', _('Replication factors must be numeric.'));
@@ -33,7 +36,8 @@ asserts.isequal(circshift(1:5, [1 1 1]), [5 1 2 3 4]);
 asserts.isequal(circshift(magic(3), [1 1 1]), reshape([2 6 7 4 8 3 9 1 5], 3, 3));
 asserts.isequal(circshift(magic(3), 1, 3), magic(3));
 asserts.isequal(circshift(magic(3), [0 0 1]), magic(3));
-asserts.isequal(circshift(reshape(1:24, 2, 3, 4), [1 2 3 4]), reshape([10 9 12 11 8 7 16 15 18 17 14 13 22 21 24 23 20 19 4 3 6 5 2 1], 2, 3, 4));
+asserts.isequal(circshift(reshape(1:24, 2, 3, 4), [1 2 3 4]), ...
+  reshape([10 9 12 11 8 7 16 15 18 17 14 13 22 21 24 23 20 19 4 3 6 5 2 1], 2, 3, 4));
 asserts.isequal(circshift(reshape(1:24, 2, 3, 4), 1, 4), reshape(1:24, 2, 3, 4));
 asserts.isequal(circshift(5, [1 2 3]), 5);
 assert_checkerror('circshift(1:5, 1, 0)', _('DIM must be a positive integer scalar.'));
@@ -66,8 +70,10 @@ asserts.isequal([a b], [2 3]);
 asserts.isequal(a, [2 3]);
 [a, b] = size(x, [4 5]);
 asserts.isequal([a b], [1 1]);
-assert_checkerror('size(zeros(2, 3, 4), [1 0])', _('Dimension argument must be a positive integer scalar within indexing range.'));
-assert_checkerror('[a, b] = size(zeros(2, 3, 4), [1 2 3])', _('Number of outputs must match the number of queried dimensions.'));
+assert_checkerror('size(zeros(2, 3, 4), [1 0])', ...
+  _('Dimension argument must be a positive integer scalar within indexing range.'));
+assert_checkerror('[a, b] = size(zeros(2, 3, 4), [1 2 3])', ...
+  _('Number of outputs must match the number of queried dimensions.'));
 assert_checkerror('[a, b, c] = size(zeros(2, 3, 4), [1 2])', _('Too many output arguments.'));
 %=============================================================================
 % reshape: an unknown dimension of an empty result is 0

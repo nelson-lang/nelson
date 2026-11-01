@@ -30,7 +30,7 @@ function svg = mslIconSvg(block, palette, name)
   ctx = struct('ink', palette.ink, 'tint', palette.tint, 'name', name);
   body = '';
   for k = 1:numel(items)
-    body = [body, ms_prim(items{k}, ctx)]; %#ok<AGROW>
+    body = [body, ms_prim(items{k}, ctx)]; %#ok<NLS0039>
   end
   w = hi(1) - lo(1); h = hi(2) - lo(2);
   dash = '';
@@ -188,14 +188,14 @@ function d = ms_bezier(P, closed)
     d = sprintf('M%s %s', ms_num(m(1)), ms_num(m(2)));
     for k = 2:n + 1
       m = (P(k, :) + P(k + 1, :)) / 2;
-      d = [d, sprintf(' Q%s %s %s %s', ms_num(P(k, 1)), ms_num(P(k, 2)), ms_num(m(1)), ms_num(m(2)))]; %#ok<AGROW>
+      d = [d, sprintf(' Q%s %s %s %s', ms_num(P(k, 1)), ms_num(P(k, 2)), ms_num(m(1)), ms_num(m(2)))]; %#ok<NLS0039>
     end
     d = [d, ' Z'];
   else
     d = sprintf('M%s %s', ms_num(P(1, 1)), ms_num(P(1, 2)));
     for k = 2:n - 2
       m = (P(k, :) + P(k + 1, :)) / 2;
-      d = [d, sprintf(' Q%s %s %s %s', ms_num(P(k, 1)), ms_num(P(k, 2)), ms_num(m(1)), ms_num(m(2)))]; %#ok<AGROW>
+      d = [d, sprintf(' Q%s %s %s %s', ms_num(P(k, 1)), ms_num(P(k, 2)), ms_num(m(1)), ms_num(m(2)))]; %#ok<NLS0039>
     end
     d = [d, sprintf(' Q%s %s %s %s', ms_num(P(n - 1, 1)), ms_num(P(n - 1, 2)), ms_num(P(n, 1)), ms_num(P(n, 2)))];
   end

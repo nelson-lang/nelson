@@ -57,8 +57,10 @@ asserts.checkerror('R = strlength([''ab''; ''cd'']);', msg, 'Nelson:string:strle
 asserts.checkerror('R = strlength(char(zeros(3, 0)));', msg, 'Nelson:string:strlength:invalidInput');
 asserts.checkerror('R = strlength(char(zeros(0, 3)));', msg, 'Nelson:string:strlength:invalidInput');
 asserts.checkerror('R = strlength({[''ab''; ''cd'']});', msg, 'Nelson:string:strlength:invalidInput');
-asserts.checkerror('R = strlength({''ab'', 5});', 'Wrong type for argument #1: string or cell expected.', 'Nelson:invalidType');
-asserts.checkerror('R = strlength(zeros(0, 3));', 'Wrong type for argument #1: string or cell expected.', 'Nelson:invalidType');
+asserts.checkerror('R = strlength({''ab'', 5});', 'Wrong type for argument #1: string or cell expected.', ...
+  'Nelson:invalidType');
+asserts.checkerror('R = strlength(zeros(0, 3));', 'Wrong type for argument #1: string or cell expected.', ...
+  'Nelson:invalidType');
 asserts.isequal(strlength(''), 0);
 asserts.isequal(strlength('ab'), 2);
 asserts.isequal(strlength({'ab'; 'cd'}), [2; 2]);

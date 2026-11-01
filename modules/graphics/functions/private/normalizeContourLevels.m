@@ -40,7 +40,8 @@ function levels = normalizeContourLevels(Z, levelsArgument)
       levels = levelsArgument(1);
     else
       if any(diff(levelsArgument) <= 0)
-        error('Nelson:normalizeContourLevels:contourLevelsNotIncreasing', 'Contour levels must be monotonically increasing.');
+        error('Nelson:normalizeContourLevels:contourLevelsNotIncreasing', ...
+          'Contour levels must be monotonically increasing.');
       end
       levels = levelsArgument;
     end

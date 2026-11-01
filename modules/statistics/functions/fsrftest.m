@@ -85,17 +85,20 @@ function categorical = parseCategoricalLocal(value, nvars)
       case 'none'
         categorical(:) = false;
       otherwise
-        error('Nelson:statistics:categoricalPredictorsInvalidValue', '%s has an invalid value.', 'CategoricalPredictors');
+        error('Nelson:statistics:categoricalPredictorsInvalidValue', '%s has an invalid value.', ...
+          'CategoricalPredictors');
     end
   elseif islogical(value) && isvector(value)
     if length(value) ~= nvars
-      error('Nelson:statistics:categoricalPredictorsMatchNumberPredictors', '%s must match the number of predictors.', 'CategoricalPredictors');
+      error('Nelson:statistics:categoricalPredictorsMatchNumberPredictors', ...
+        '%s must match the number of predictors.', 'CategoricalPredictors');
     end
     categorical = value(:)' ~= 0;
   elseif isnumeric(value) && isreal(value) && isvector(value)
     idx = double(value(:))';
     if any(~isfinite(idx)) || any(floor(idx) ~= idx) || any(idx < 1) || any(idx > nvars)
-      error('Nelson:statistics:categoricalPredictorsContainsInvalidPredictorIndices', '%s contains invalid predictor indices.', 'CategoricalPredictors');
+      error('Nelson:statistics:categoricalPredictorsContainsInvalidPredictorIndices', ...
+        '%s contains invalid predictor indices.', 'CategoricalPredictors');
     end
     categorical(idx) = true;
   else
@@ -113,11 +116,13 @@ end
 %=============================================================================
 function weights = parseWeightsLocal(weights, nobs)
   if ~(isnumeric(weights) && isreal(weights) && isvector(weights) && length(weights) == nobs)
-    error('Nelson:statistics:weightsRealNumericVectorOne', 'Weights must be a real numeric vector with one value per observation.');
+    error('Nelson:statistics:weightsRealNumericVectorOne', ...
+      'Weights must be a real numeric vector with one value per observation.');
   end
   weights = double(weights(:));
   if any(~isfinite(weights)) || any(weights < 0) || sum(weights) <= 0
-    error('Nelson:statistics:weightsContainNonnegativeFiniteValues:valueContainNonnegativeFiniteValuesPositive', '%s must contain nonnegative finite values with positive sum.', 'Weights');
+    error('Nelson:statistics:weightsContainNonnegativeFiniteValues:valueContainNonnegativeFiniteValuesPositive', ...
+      '%s must contain nonnegative finite values with positive sum.', 'Weights');
   end
 end
 %=============================================================================

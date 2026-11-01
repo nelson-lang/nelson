@@ -37,7 +37,8 @@ function [gridVectors, values] = griddedInterpolantValidateGrid(gridVectors, val
       expectedDim = valueSize(dim);
     end
     if numel(g) ~= expectedDim
-      error('Nelson:griddedInterpolant:invalidGrid', 'Sample points vector corresponding to grid dimension %d must contain %d elements.', dim, expectedDim);
+      error('Nelson:griddedInterpolant:invalidGrid', ...
+        'Sample points vector corresponding to grid dimension %d must contain %d elements.', dim, expectedDim);
     end
     dg = diff(g(:));
     if any(dg <= 0)

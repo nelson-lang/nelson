@@ -11,7 +11,8 @@ function text = stringPrivateApplyLiteralReplace(text, oldValue, newValue)
   olds = stringPrivateToReplacementList(oldValue);
   news = stringPrivateToReplacementList(newValue);
   if numel(news) ~= 1 && numel(news) ~= numel(olds)
-    error('Nelson:string:replacementTextScalarSameNumber', 'Replacement text must be scalar or have the same number of elements as matched text.');
+    error('Nelson:string:replacementTextScalarSameNumber', ...
+      'Replacement text must be scalar or have the same number of elements as matched text.');
   end
   for k = 1:numel(olds)
     if numel(news) == 1
@@ -29,7 +30,8 @@ function values = stringPrivateToReplacementList(value)
   elseif isstring(value) || iscellstr(value)
     values = cellstr(value);
   else
-    error('Nelson:string:stringCharacterVectorCellArray', 'String, character vector, or cell array of character vectors expected.');
+    error('Nelson:string:stringCharacterVectorCellArray', ...
+      'String, character vector, or cell array of character vectors expected.');
   end
 end
 %=============================================================================

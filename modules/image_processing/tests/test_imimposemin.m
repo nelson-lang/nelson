@@ -13,7 +13,8 @@ asserts.checkerror('imimposemin([1 + i], true)', sprintf(_('%s must be real.'), 
 %=============================================================================
 asserts.checkerror('imimposemin([1 Inf], logical([1 0]))', sprintf(_('%s values must be finite.'), 'Image'));
 %=============================================================================
-asserts.checkerror('imimposemin([1 2], logical([1; 0]))', sprintf(_('%s must have the same size as %s.'), 'Marker mask', 'the image'));
+asserts.checkerror('imimposemin([1 2], logical([1; 0]))', sprintf(_('%s must have the same size as %s.'), ...
+  'Marker mask', 'the image'));
 %=============================================================================
 asserts.checkerror('imimposemin([1 2], [1 + i 0])', sprintf(_('%s must be real.'), 'Marker mask'));
 %=============================================================================

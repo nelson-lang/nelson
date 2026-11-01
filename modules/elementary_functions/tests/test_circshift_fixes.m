@@ -16,8 +16,10 @@ asserts.checkerror('circshift(1:5,1,-1)', _('DIM must be a positive integer scal
 asserts.isequal(circshift(magic(3),1,3), reshape([8 3 4 1 5 9 6 7 2], [3 3]));
 asserts.isequal(circshift(magic(3),[0 0 1]), reshape([8 3 4 1 5 9 6 7 2], [3 3]));
 asserts.isequal(circshift(magic(3),[1 1 1]), reshape([2 6 7 4 8 3 9 1 5], [3 3]));
-asserts.isequal(circshift(reshape(1:24,2,3,4),[1 2 3 4]), reshape([10 9 12 11 8 7 16 15 18 17 14 13 22 21 24 23 20 19 4 3 6 5 2 1], [2 3 4]));
-asserts.isequal(circshift(reshape(1:24,2,3,4),1,4), reshape([1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24], [2 3 4]));
+asserts.isequal(circshift(reshape(1:24,2,3,4),[1 2 3 4]), ...
+  reshape([10 9 12 11 8 7 16 15 18 17 14 13 22 21 24 23 20 19 4 3 6 5 2 1], [2 3 4]));
+asserts.isequal(circshift(reshape(1:24,2,3,4),1,4), ...
+  reshape([1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24], [2 3 4]));
 asserts.isequal(circshift(5,[1 2 3]), 5);
 asserts.isequal(circshift(1:5,[0 0 0]), [1 2 3 4 5]);
 asserts.isequal(circshift(1:5,[2 0 0]), [1 2 3 4 5]);

@@ -20,7 +20,8 @@ asserts.checkerror('cornermetric([NaN])', sprintf(_('%s values must be finite.')
 %=============================================================================
 asserts.checkerror('cornermetric([1 2], ''unknown'')', sprintf(_('Unsupported "%s" option.'), 'corner metric method'));
 %=============================================================================
-asserts.checkerror('cornermetric([1 2], ''FilterSize'')', sprintf(_('Unsupported "%s" option.'), 'corner metric method'));
+asserts.checkerror('cornermetric([1 2], ''FilterSize'')', sprintf(_('Unsupported "%s" option.'), ...
+  'corner metric method'));
 %=============================================================================
 asserts.checkerror('cornermetric([1 2], ''FilterSize'', 4)', ...
   _('FilterSize must be an odd integer scalar greater than or equal to 3.'));

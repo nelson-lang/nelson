@@ -98,5 +98,6 @@ REF = [2024, 12, 11, 1, 3, 0];
 asserts.isequal(R, REF);
 %=============================================================================
 asserts.checkerror('datevec(''bad date string xyz'')', sprintf(_('Failed to convert text to %s.'), 'date number'));
-asserts.checkerror('datevec(''bad date string xyz'')', sprintf(_('Failed to convert text to %s.'), 'date number'), 'Nelson:time:dateConversionFailed');
+asserts.checkerror('datevec(''bad date string xyz'')', sprintf(_('Failed to convert text to %s.'), 'date number'), ...
+  'Nelson:time:dateConversionFailed');
 %=============================================================================

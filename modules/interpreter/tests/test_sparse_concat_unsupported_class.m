@@ -41,8 +41,10 @@ assert_checkerror('[zeros(1, 1, 2), sparse(1), int8(1)]', msgD, idD);
 %=============================================================================
 % char
 assert_checkerror('[sparse(1), ''a'']', sprintf(fmtU, 'double', 'char', unimplemented), idU);
-assert_checkerror('[sparse(true), ''a'']', sprintf(fmtU, 'logical', 'char', _('Conversion to char from logical is not possible.')), idU);
-assert_checkerror('[sparse(1i), ''a'']', sprintf(fmtU, 'double', 'char', _('Complex values cannot be converted to chars')), idU);
+assert_checkerror('[sparse(true), ''a'']', sprintf(fmtU, 'logical', 'char', ...
+  _('Conversion to char from logical is not possible.')), idU);
+assert_checkerror('[sparse(1i), ''a'']', sprintf(fmtU, 'double', 'char', ...
+  _('Complex values cannot be converted to chars')), idU);
 assert_checkerror('[''a'', sparse(1)]', unimplemented, idI);
 assert_checkerror('[''a'', sparse(true)]', unimplemented, idI);
 assert_checkerror('[[], sparse(1), ''a'']', unimplemented, idI);

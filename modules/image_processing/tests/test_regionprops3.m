@@ -106,10 +106,13 @@ asserts.checkerror('regionprops3(cat(3, [1 0], [1 + i 0]), ''Volume'')', sprintf
 %=============================================================================
 asserts.checkerror('regionprops3(sparse([1 0]), ''Volume'')', sprintf(_('%s are not supported.'), 'Sparse volumes'));
 %=============================================================================
-asserts.checkerror('regionprops3(cat(3, [1.5 0], [0 0]), ''Volume'')', sprintf(_('%s values must be nonnegative finite integers.'), 'Label volume'));
+asserts.checkerror('regionprops3(cat(3, [1.5 0], [0 0]), ''Volume'')', ...
+  sprintf(_('%s values must be nonnegative finite integers.'), 'Label volume'));
 %=============================================================================
 asserts.checkerror('regionprops3(true(2, 2, 2), ''MeanIntensity'')', sprintf(_('%s is required.'), 'Intensity volume'));
 %=============================================================================
-asserts.checkerror('regionprops3(true(2, 2, 2), ones(2, 2, 3), ''MeanIntensity'')', sprintf(_('%s must have the same size as %s.'), 'Intensity volume', 'the region volume'));
+asserts.checkerror('regionprops3(true(2, 2, 2), ones(2, 2, 3), ''MeanIntensity'')', ...
+  sprintf(_('%s must have the same size as %s.'), 'Intensity volume', 'the region volume'));
 %=============================================================================
-asserts.checkerror('regionprops3(true(2, 2, 2), ''UnsupportedProperty'')', sprintf(_('Unsupported "%s" option.'), 'region property'));
+asserts.checkerror('regionprops3(true(2, 2, 2), ''UnsupportedProperty'')', sprintf(_('Unsupported "%s" option.'), ...
+  'region property'));

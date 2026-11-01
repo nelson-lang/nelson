@@ -34,7 +34,8 @@ function [Y, K, opts] = parseInputsLocal(Y, K, args)
   end
   Y = double(Y);
   if isempty(Y) || size(Y, 1) < 2 || size(Y, 2) < 2
-    error('Nelson:statistics:yContainLeastTwoObservations', 'Y must contain at least two observations and two variables.');
+    error('Nelson:statistics:yContainLeastTwoObservations', ...
+      'Y must contain at least two observations and two variables.');
   end
   if any(isinf(Y(:)))
     error('Nelson:statistics:yContainInfValues', '%s must not contain Inf values.', 'Y');
@@ -126,10 +127,12 @@ function options = parseOptionsLocal(options)
     error('Nelson:statistics:optionsDisplayInvalidValue', '%s has an invalid value.', 'Options Display');
   end
   if ~isPositiveIntegerLocal(options.MaxIter)
-    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Options MaxIter');
+    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Options MaxIter');
   end
   if ~isPositiveScalarLocal(options.TolFun) || ~isPositiveScalarLocal(options.TolX)
-    error('Nelson:statistics:optionsTolerancesPositiveScalarValues', 'Options tolerances must be %s scalar values.', 'positive');
+    error('Nelson:statistics:optionsTolerancesPositiveScalarValues', 'Options tolerances must be %s scalar values.', ...
+      'positive');
   end
 end
 %=============================================================================
@@ -169,7 +172,8 @@ function mu = meanOmitNaNLocal(Y)
   for j = 1:size(Y, 2)
     values = Y(~isnan(Y(:, j)), j);
     if isempty(values)
-      error('Nelson:statistics:variableContainLeastOneObserved', 'Each variable must contain at least one observed value.');
+      error('Nelson:statistics:variableContainLeastOneObserved', ...
+        'Each variable must contain at least one observed value.');
     end
     mu(j) = mean(values);
   end

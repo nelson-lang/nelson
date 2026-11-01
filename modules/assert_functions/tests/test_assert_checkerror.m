@@ -21,7 +21,8 @@ if (r ~= false)
   error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));
 end
 %=============================================================================
-expectedmsg = sprintf(_('Assertion failed: expected error message = "%s" computed error message = "%s"'), 'Wrong number of input arguments2.', _('Not enough input arguments.'));
+expectedmsg = sprintf(_('Assertion failed: expected error message = "%s" computed error message = "%s"'), ...
+  'Wrong number of input arguments2.', _('Not enough input arguments.'));
 %=============================================================================
 if strcmp(msg, expectedmsg) == false
   error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));

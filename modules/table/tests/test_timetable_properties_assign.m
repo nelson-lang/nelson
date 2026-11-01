@@ -56,7 +56,8 @@ TT = timetable(seconds([1; 2]), [1; 2], [3; 4]);
 assert_checkerror('TT.Properties.VariableNames = {''x'', ''x''};', _('Variable names must be nonempty and distinct.'));
 assert_checkerror('TT.Properties.VariableNames = {''x''};', _('VariableNames must have one name per variable.'));
 assert_checkerror('TT.Properties.VariableUnits = {''m''};', _('VariableUnits must have one element per variable.'));
-assert_checkerror('TT.Properties.VariableDescriptions = {''a'', ''b'', ''c''};', _('VariableDescriptions must have one element per variable.'));
+assert_checkerror('TT.Properties.VariableDescriptions = {''a'', ''b'', ''c''};', ...
+  _('VariableDescriptions must have one element per variable.'));
 assert_isequal(TT.Properties.VariableNames, {'Var1', 'Var2'});
 assert_isequal(TT.Var1, [1; 2]);
 %=============================================================================
@@ -77,10 +78,12 @@ assert_isequal(R.Properties.VariableDescriptions, {'a', 'b'});
 %=============================================================================
 TT = timetable(seconds([1; 2]), [1; 2], [3; 4]);
 asserts.checkerror('TT.Properties = 3;', _('Properties must be a scalar structure.'));
-asserts.checkerror('TT.Properties = 3;', _('Properties must be a scalar structure.'), 'Nelson:table:invalidPropertiesAssignment');
+asserts.checkerror('TT.Properties = 3;', _('Properties must be a scalar structure.'), ...
+  'Nelson:table:invalidPropertiesAssignment');
 p = TT.Properties;
 p.Bogus = 1;
-asserts.checkerror('TT.Properties = p;', sprintf(_('Unknown table property: %s.'), 'Bogus'), 'Nelson:table:unknownProperty');
+asserts.checkerror('TT.Properties = p;', sprintf(_('Unknown table property: %s.'), 'Bogus'), ...
+  'Nelson:table:unknownProperty');
 asserts.isfalse(isfield(TT.Properties, 'Bogus'));
 %=============================================================================
 TT = timetable(seconds([1; 2]), [1; 2], [3; 4]);

@@ -15,7 +15,7 @@ skip_testsuite(~havecompiler())
 %=============================================================================
 destinationdir = tempname();
 mkdir(destinationdir);
-cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NASGU>
+cleanupDestination = onCleanup(@() rmdir(destinationdir, 's')); %#ok<NLS0004>
 %=============================================================================
 currentpath = fileparts(nfilename('fullpathext'));
 copyfile([currentpath, '/test_build_c.c'], [destinationdir, '/test_build_c.c']);

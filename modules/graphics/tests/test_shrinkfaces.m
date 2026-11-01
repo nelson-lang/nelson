@@ -43,7 +43,10 @@ asserts.isequal(p.Faces, [1 2 3 4]);
 asserts.isapprox(p.Vertices, newVertices, 1e-12);
 close(f);
 %=============================================================================
-asserts.checkerror('shrinkfaces(faces, vertices, -1);', getString(message('Nelson:validateShrinkFactor:invalidShrinkFactor')));
-asserts.checkerror('shrinkfaces([1 5], vertices, 1);', getString(message('Nelson:validateShrinkfacesData:facesContainInvalidVertex')));
-asserts.checkerror('shrinkfaces(struct(''faces'', faces), 1);', getString(message('Nelson:shrinkfacesDataFromStruct:invalidStructure')));
+asserts.checkerror('shrinkfaces(faces, vertices, -1);', ...
+  getString(message('Nelson:validateShrinkFactor:invalidShrinkFactor')));
+asserts.checkerror('shrinkfaces([1 5], vertices, 1);', ...
+  getString(message('Nelson:validateShrinkfacesData:facesContainInvalidVertex')));
+asserts.checkerror('shrinkfaces(struct(''faces'', faces), 1);', ...
+  getString(message('Nelson:shrinkfacesDataFromStruct:invalidStructure')));
 %=============================================================================

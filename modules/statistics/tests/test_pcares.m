@@ -40,5 +40,6 @@ asserts.isapprox(double(residuals), [-0.203204024134255 0.129760563114943; ...
 asserts.checkerror('pcares()', _('Not enough input arguments.'));
 asserts.checkerror('pcares({1}, 1)', sprintf(_('%s must be a real numeric matrix.'), 'X'));
 asserts.checkerror('pcares([1 NaN], 1)', _('X must not contain NaN values.'));
-asserts.checkerror('pcares([1 2], 3)', _('NumComponents must be an integer scalar between 0 and the number of variables.'));
+asserts.checkerror('pcares([1 2], 3)', ...
+  _('NumComponents must be an integer scalar between 0 and the number of variables.'));
 %=============================================================================

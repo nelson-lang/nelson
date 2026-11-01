@@ -47,7 +47,8 @@ asserts.isequal(T, [1; 1; 2; 2; 3]);
 asserts.checkerror('clusterdata()', _('Not enough input arguments.'));
 asserts.checkerror('clusterdata({1}, ''MaxClust'', 2)', _('X must be a numeric matrix with at least two rows.'));
 asserts.checkerror('clusterdata([1 2], ''MaxClust'', 2)', _('X must be a numeric matrix with at least two rows.'));
-asserts.checkerror('clusterdata(ones(2, 2, 2), ''MaxClust'', 2)', _('X must be a numeric matrix with at least two rows.'));
+asserts.checkerror('clusterdata(ones(2, 2, 2), ''MaxClust'', 2)', ...
+  _('X must be a numeric matrix with at least two rows.'));
 asserts.checkerror('clusterdata(X, ''MaxClust'')', _('Not enough input arguments.'));
 asserts.checkerror('clusterdata(X, ''MaxClust'', 2, ''Cutoff'', 1)', _('Specify either Cutoff or MaxClust.'));
 asserts.checkerror('clusterdata(X, ''Unknown'', 1, ''MaxClust'', 2)', _('Invalid name-value argument name.'));
@@ -55,8 +56,10 @@ asserts.checkerror('clusterdata(X, '''', 1, ''MaxClust'', 2)', _('Invalid name-v
 asserts.checkerror('clusterdata(X, ''C'', 1, ''MaxClust'', 2)', _('Ambiguous name-value argument name.'));
 asserts.checkerror('clusterdata(X, ''Criterion'', ''bad'', ''MaxClust'', 2)', _('Criterion must be ''distance''.'));
 asserts.checkerror('clusterdata(X, ''Criterion'', '''', ''MaxClust'', 2)', _('Criterion must be ''distance''.'));
-asserts.checkerror('clusterdata(X, ''SaveMemory'', ''bad'', ''MaxClust'', 2)', _('SaveMemory must be ''on'' or ''off''.'));
+asserts.checkerror('clusterdata(X, ''SaveMemory'', ''bad'', ''MaxClust'', 2)', ...
+  _('SaveMemory must be ''on'' or ''off''.'));
 asserts.checkerror('clusterdata(X, ''SaveMemory'', '''', ''MaxClust'', 2)', _('SaveMemory must be ''on'' or ''off''.'));
-asserts.checkerror('clusterdata(X, ''Distance'', ''minkowski'', ''P'', 0, ''MaxClust'', 2)', sprintf(_('%s must be a positive scalar.'), 'P'));
+asserts.checkerror('clusterdata(X, ''Distance'', ''minkowski'', ''P'', 0, ''MaxClust'', 2)', ...
+  sprintf(_('%s must be a positive scalar.'), 'P'));
 asserts.checkerror('clusterdata(X, ''MaxClust'', [])', sprintf(_('%s must be numeric.'), 'MaxClust'));
 %=============================================================================

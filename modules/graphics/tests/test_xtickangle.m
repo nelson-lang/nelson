@@ -25,7 +25,8 @@ xtickangle(ax, 90);
 assert_isequal(xtickangle(ax), 90);
 close(f);
 %=============================================================================
-assert_checkerror('f = figure(''Visible'', ''off''); xtickangle(''foo''); close(f);', getString(message('Nelson:graphics:mustBeNumericScalar', 'Input')));
+assert_checkerror('f = figure(''Visible'', ''off''); xtickangle(''foo''); close(f);', ...
+  getString(message('Nelson:graphics:mustBeNumericScalar', 'Input')));
 %=============================================================================
 close all
 %=============================================================================

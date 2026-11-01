@@ -14,7 +14,8 @@
 asserts.isequal(logical(single(1)), true);
 asserts.isequal(logical(single([0 2; 3 0])), logical([0 1; 1 0]));
 asserts.checkerror('logical(single(NaN))', _('Conversion to logical with NaN is not possible.'));
-asserts.checkerror('logical(single(NaN))', _('Conversion to logical with NaN is not possible.'), 'Nelson:logical:nanNotAllowed');
+asserts.checkerror('logical(single(NaN))', _('Conversion to logical with NaN is not possible.'), ...
+  'Nelson:logical:nanNotAllowed');
 %=============================================================================
 asserts.checkerror('xor(NaN, 0)', _('Conversion to logical with NaN is not possible.'));
 asserts.checkerror('xor(NaN, 0)', _('Conversion to logical with NaN is not possible.'), 'Nelson:logical:nanNotAllowed');

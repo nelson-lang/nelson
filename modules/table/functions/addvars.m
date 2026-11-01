@@ -97,7 +97,8 @@ end
 %=============================================================================
 function localCheckNewNames(names, newNames, nValues)
   if length(newNames) ~= nValues
-    error('Nelson:table:incorrectNumberOfVarNames', _('Specify one new variable name for each variable being added to the table.'));
+    error('Nelson:table:incorrectNumberOfVarNames', ...
+      _('Specify one new variable name for each variable being added to the table.'));
   end
   if any(cellfun('isempty', newNames))
     error('Nelson:table:zeroLengthVarname', _('Table variable names must be nonempty text.'));

@@ -17,7 +17,8 @@ function [executables, processArguments, nativeTimeout, nativeIndex, message] = 
       message{i} = '';
     else
       if isempty(accumulator(i).executable)
-        error('Nelson:tests_manager:executableExpected', 'Native test process supervisor requires an executable for each test.');
+        error('Nelson:tests_manager:executableExpected', ...
+          'Native test process supervisor requires an executable for each test.');
       end
       nativeIndex = [nativeIndex, i];
       executables = [executables, cellstr(accumulator(i).executable)];

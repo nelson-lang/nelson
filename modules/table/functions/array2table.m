@@ -24,7 +24,8 @@ function varargout = array2table(varargin)
   for k = 2:2:nargin
     name = varargin{k};
     if ~(ischar(name) && isrow(name)) && ~(isstring(name) && isscalar(name))
-      error('Nelson:table:invalidType:parameterNameACharacterVectorString', 'Parameter name must be a character vector or string scalar.');
+      error('Nelson:table:invalidType:parameterNameACharacterVectorString', ...
+        'Parameter name must be a character vector or string scalar.');
     end
     value = varargin{k + 1};
     switch lower(char(name))

@@ -37,7 +37,8 @@ U_IN = zeros(N, N);
 INDCON_IN = N;
 NCONT_IN = 1;
 KSTAIR_IN = zeros(1, N);
-[A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL);
+[A_OUT, B_OUT, U_OUT, V, NCONT_OUT, INDCON_OUT, KSTAIR_OUT, INFO] = slicot_ab01od(STAGES, JOBU, JOBV, A_IN, B_IN, ...
+  U_IN, NCONT_IN, INDCON_IN, KSTAIR_IN, TOL);
 %=============================================================================
 A_OUT_REF = [12.8848 3.2345 11.8211 3.3758 -0.8982;
   4.4741 -12.5544 5.3509 5.9403 1.4360;

@@ -59,10 +59,12 @@ function [fileformat, attributes, solidID] = localParseOptions(ntri, varargin)
     end
   end
   if strcmp(fileformat, 'text') && ~isempty(attributes)
-    error('Nelson:geometry:attributeParameterSupportedFileFormatBinary', '''Attribute'' parameter is only supported when file format is ''binary''.');
+    error('Nelson:geometry:attributeParameterSupportedFileFormatBinary', ...
+      '''Attribute'' parameter is only supported when file format is ''binary''.');
   end
   if strcmp(fileformat, 'binary') && ~isempty(solidID)
-    error('Nelson:geometry:solidindexParameterSupportedFileFormatText', '''SolidIndex'' parameter is only supported when file format is ''text''.');
+    error('Nelson:geometry:solidindexParameterSupportedFileFormatText', ...
+      '''SolidIndex'' parameter is only supported when file format is ''text''.');
   end
   if strcmp(fileformat, 'binary') && isempty(attributes)
     attributes = uint16(zeros(ntri, 1));

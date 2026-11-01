@@ -47,5 +47,6 @@ asserts.isequal(size(h.CData), [3 3]);
 close(f);
 %=============================================================================
 asserts.checkerror('slice(ones(2), 1, 1, 1);', getString(message('Nelson:graphics:invalidVolumeData')));
-asserts.checkerror('slice(ones(2,2,2), {1}, [], []);', getString(message('Nelson:validators:mustBeNumeric', 'Slice locations')));
+asserts.checkerror('slice(ones(2,2,2), {1}, [], []);', getString(message('Nelson:validators:mustBeNumeric', ...
+  'Slice locations')));
 %=============================================================================

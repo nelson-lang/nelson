@@ -24,7 +24,8 @@ for k = 1:numel(cases)
   vn = sprintf('sp%d', k); evalin('base', ['clear(''' vn ''')']);
   d = struct();
   d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', u)), struct('id', 'l', 'type', 'lookup1D', 'inputs', 1, 'outputs', 1, 'params', struct('BreakpointsForDimension1', bp, 'Table', tb, 'InterpMethod', interp, 'ExtrapMethod', extrap)), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', vn, 'SaveFormat', 'Array'))};
-  d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', ...
+    'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.1; d.solver = 'discrete'; d.variables = struct();
   r = jsondecode(__nflow_simulate__(jsonencode(d))); assert_isequal(r.status, 'done');
   y = evalin('base', vn); assert_istrue(abs(y(1) - exq) < 1e-6);
@@ -33,7 +34,8 @@ end
 evalin('base', 'clear(''akl'')');
 d = struct();
 d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', 2.5)), struct('id', 'l', 'type', 'lookup1D', 'inputs', 1, 'outputs', 1, 'params', struct('BreakpointsForDimension1', [0 1 2 3 4], 'Table', [0 2 4 6 8], 'InterpMethod', 'Akima spline', 'ExtrapMethod', 'Akima spline')), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', 'akl', 'SaveFormat', 'Array'))};
-d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', ...
+  'fromIndex', 0, 'toIndex', 0)};
 d.sampleTime = 0.1; d.duration = 0.1; d.solver = 'discrete'; d.variables = struct();
 r = jsondecode(__nflow_simulate__(jsonencode(d))); assert_isequal(r.status, 'done');
 akl = evalin('base', 'akl'); assert_istrue(abs(akl(1) - 5) < 1e-9);
@@ -46,7 +48,8 @@ for k = 1:numel(dg)
   c = dg{k}; u = c{1}; act = c{2}; st = c{3};
   d = struct();
   d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', u)), struct('id', 'l', 'type', 'lookup1D', 'inputs', 1, 'outputs', 1, 'params', struct('BreakpointsForDimension1', bp, 'Table', tb, 'InterpMethod', 'Linear point-slope', 'ExtrapMethod', 'Clip', 'DiagnosticForOutOfRangeInput', act)), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', 'dgo', 'SaveFormat', 'Array'))};
-  d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'c', 'to', 'l', 'fromIndex', 0, 'toIndex', 0), struct('from', 'l', 'to', 'w', ...
+    'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.1; d.solver = 'discrete'; d.variables = struct();
   r = jsondecode(__nflow_simulate__(jsonencode(d)));
   assert_isequal(r.status, st);

@@ -28,7 +28,8 @@ classdef RegressionEnsemble
       if nargin == 0
         return
       end
-      error('Nelson:statistics:regressionEnsembleObjectsCreatedFitrensemble', '%s objects are created by %s.', 'RegressionEnsemble', 'fitrensemble');
+      error('Nelson:statistics:regressionEnsembleObjectsCreatedFitrensemble', '%s objects are created by %s.', ...
+        'RegressionEnsemble', 'fitrensemble');
     end
   end
 end

@@ -57,6 +57,7 @@ asserts.isequal(probOptions.MaxIter, 15);
 %=============================================================================
 asserts.checkerror('optimset(''To'', 1)', sprintf(_('Ambiguous optimization option "%s".'), 'To'));
 asserts.checkerror('optimoptions()', _('Solver name expected.'));
-asserts.checkerror('optimoptions(''fsolve'', ''UseParallel'', [true false])', _('UseParallel must be a logical scalar.'));
+asserts.checkerror('optimoptions(''fsolve'', ''UseParallel'', [true false])', ...
+  _('UseParallel must be a logical scalar.'));
 asserts.checkerror('optimoptions(''fsolve'', ''MaxIterations'', NaN)', _('MaxIterations must be a numeric scalar.'));
 %=============================================================================

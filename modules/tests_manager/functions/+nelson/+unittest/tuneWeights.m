@@ -14,7 +14,8 @@ function varargout = tuneWeights(targetsOrResults, varargin)
   [options, runArguments] = tuneWeights_parseOptions(varargin); %#ok<NLS0004>
   if tuneWeights_isResult(targetsOrResults) %#ok<NLS0004>
     if ~isempty(runArguments)
-      error('Nelson:tests_manager:invalidArgument:executionOptionsAreNotAcceptedA', 'Execution options are not accepted with a TestRunResult.');
+      error('Nelson:tests_manager:invalidArgument:executionOptionsAreNotAcceptedA', ...
+        'Execution options are not accepted with a TestRunResult.');
     end
     results = targetsOrResults;
   else

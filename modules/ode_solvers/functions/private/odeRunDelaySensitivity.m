@@ -63,17 +63,21 @@ end
 function odeValidateDelaySensitivity(options, sensitivity)
   if strcmp(sensitivity.Method, 'adjoint')
     if isempty(sensitivity.ObjectiveFcn) && isempty(sensitivity.QuadratureFcn)
-      error('Nelson:ode_solvers:adjointSensitivitiesRequireObjectivefcnQuadraturefcn', 'Adjoint sensitivities require ObjectiveFcn or QuadratureFcn.');
+      error('Nelson:ode_solvers:adjointSensitivitiesRequireObjectivefcnQuadraturefcn', ...
+        'Adjoint sensitivities require ObjectiveFcn or QuadratureFcn.');
     end
     if ~isempty(sensitivity.InitialValue) || ~isempty(sensitivity.InitialSlope)
-      error('Nelson:ode_solvers:adjointSensitivitiesNotUseSensitivityInitial', 'Adjoint sensitivities do not use sensitivity initial conditions.');
+      error('Nelson:ode_solvers:adjointSensitivitiesNotUseSensitivityInitial', ...
+        'Adjoint sensitivities do not use sensitivity initial conditions.');
     end
   end
   if ~isnumeric(options.Parameters) || ~isreal(options.Parameters) || ~isvector(options.Parameters)
-    error('Nelson:ode_solvers:parametersNumericVectorPerformSensitivityAnalysis', 'Parameters must be a numeric vector to perform a sensitivity analysis.');
+    error('Nelson:ode_solvers:parametersNumericVectorPerformSensitivityAnalysis', ...
+      'Parameters must be a numeric vector to perform a sensitivity analysis.');
   end
   if ~isempty(options.OutputFcn)
-    error('Nelson:ode_solvers:sensitivityEquationsDelayedOutputFunctions', 'Sensitivity equations with delayed output functions are not supported yet.');
+    error('Nelson:ode_solvers:sensitivityEquationsDelayedOutputFunctions', ...
+      'Sensitivity equations with delayed output functions are not supported yet.');
   end
 end
 %=============================================================================
@@ -84,7 +88,8 @@ function indices = odeDelaySensitivityParameterIndices(sensitivity, count)
     indices = sensitivity.ParameterIndices(:);
   end
   if any(indices > count)
-    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', 'ParameterIndices exceed the number of parameters.');
+    error('Nelson:ode_solvers:parameterindicesExceedNumberParameters', ...
+      'ParameterIndices exceed the number of parameters.');
   end
 end
 %=============================================================================
@@ -96,7 +101,8 @@ function s0 = odeDelaySensitivityInitialValue(sensitivity, n, p)
   elseif numel(sensitivity.InitialValue) == n * p
     s0 = reshape(sensitivity.InitialValue, n, p);
   else
-    error('Nelson:ode_solvers:sensitivityInitialValueIncompatibleSize', 'Sensitivity initial value has incompatible size.');
+    error('Nelson:ode_solvers:sensitivityInitialValueIncompatibleSize', ...
+      'Sensitivity initial value has incompatible size.');
   end
 end
 %=============================================================================

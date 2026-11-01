@@ -47,7 +47,8 @@ function opts = parseOptions(args)
     value = args{k + 1};
     switch name
       case 'maxiterations'
-        opts.MaxIterations = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), 'MaxIterations'));
+        opts.MaxIterations = positiveInteger(value, sprintf(_('%s must be a positive integer scalar.'), ...
+          'MaxIterations'));
       case 'tolerance'
         opts.Tolerance = positiveScalar(value, sprintf(_('%s must be a positive scalar.'), 'Tolerance'));
       case 'verbose'

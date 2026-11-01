@@ -9,7 +9,8 @@
 %=============================================================================
 function args = __nelsonc_option_arguments__(options)
   if ~isa(options, 'nelson.compiler.BuildOptions') || ~isscalar(options)
-    error('Nelson:nelsonc:options:scalarNelsonCompilerBuildOptionsObject', 'A scalar nelson.compiler.BuildOptions object is required.');
+    error('Nelson:nelsonc:options:scalarNelsonCompilerBuildOptionsObject', ...
+      'A scalar nelson.compiler.BuildOptions object is required.');
   end
   extension = '';
   if ispc()

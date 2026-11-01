@@ -13,7 +13,7 @@ function [Fm, fm] = fillmissingKnn(X, M, loc, k, distance)
   % the row; a row missing one of them is no neighbor. Ties keep the row
   % order. The rows with missing entries are processed by blocks, the
   % candidate rows running along the columns of the distance matrices.
-  [n, p] = size(X);
+  [n, ~] = size(X);
   count = length(loc.miss);
   Fm = NaN(count, 1);
   fm = false(count, 1);

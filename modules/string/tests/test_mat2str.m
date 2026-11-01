@@ -95,7 +95,8 @@ asserts.isequal(mat2str('nelson'), '''nelson''');
 asserts.checkerror('mat2str(ones(8,9), [1 1])', _('A scalar expected.'));
 asserts.checkerror('mat2str(ones(8,9), [1 1])', _('A scalar expected.'), 'Nelson:types:scalarExpected');
 asserts.checkerror('mat2str(rand(2, 2, 3))', sprintf(_('%s must be a 2-D matrix.'), 'Value'));
-asserts.checkerror('mat2str(rand(2, 2, 3))', sprintf(_('%s must be a 2-D matrix.'), 'Value'), 'Nelson:validators:mustBeMatrix');
+asserts.checkerror('mat2str(rand(2, 2, 3))', sprintf(_('%s must be a 2-D matrix.'), 'Value'), ...
+  'Nelson:validators:mustBeMatrix');
 asserts.checkerror('R = mat2str([3.85 2.91; 7.74 8.99], 12,''class'', 3)', _('Too many input arguments.'));
 %=============================================================================
 

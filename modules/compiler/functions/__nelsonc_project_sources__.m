@@ -23,11 +23,13 @@ function status = __nelsonc_project_sources__(project, plan)
   try
     options = __nelsonc_project__('options', project);
     if nargin < 2
-      plan = __nelsonc_link_plan__(options.AppFile, options.AdditionalFiles, options.AutoDetectDataFiles, options.SupportPackages);
+      plan = __nelsonc_link_plan__(options.AppFile, options.AdditionalFiles, options.AutoDetectDataFiles, ...
+        options.SupportPackages);
       plan = __nelsonc_application_native__(plan);
     end
     if ~plan.complete
-      error('Nelson:compiler:project:unresolvedDependencies', 'Unresolved dependencies: %s', jsonencode(plan.diagnostics));
+      error('Nelson:compiler:project:unresolvedDependencies', 'Unresolved dependencies: %s', ...
+        jsonencode(plan.diagnostics));
     end
     helpText = '';
     if ~isempty(options.CustomHelpTextFile); helpText = __nelsonc_help_text__(options.CustomHelpTextFile); end

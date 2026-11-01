@@ -18,7 +18,8 @@ function pairs = __nelsonc_option_pairs__(names, pairs, allowStruct)
   end
   if mod(numel(pairs), 2) ~= 0
     if allowStruct
-      error('Nelson:nelsonc:options:buildOptionsRequireNameValueOrStruct', 'Build options require name-value pairs or a scalar struct.');
+      error('Nelson:nelsonc:options:buildOptionsRequireNameValueOrStruct', ...
+        'Build options require name-value pairs or a scalar struct.');
     end
     error('Nelson:nelsonc:options:buildOptionsRequireNameValuePairs', 'Build options require name-value pairs.');
   end
@@ -28,7 +29,8 @@ function pairs = __nelsonc_option_pairs__(names, pairs, allowStruct)
       name = char(name);
     end
     if ~ischar(name) || ~isrow(name) || isempty(name)
-      error('Nelson:nelsonc:options:buildOptionNamesCharacterVectors', 'Build option names must be character vectors or scalar strings.');
+      error('Nelson:nelsonc:options:buildOptionNamesCharacterVectors', ...
+        'Build option names must be character vectors or scalar strings.');
     end
     index = find(strcmpi(names, name), 1);
     if isempty(index) || strcmpi(name, 'AppFile')

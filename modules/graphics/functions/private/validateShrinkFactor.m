@@ -9,7 +9,8 @@
 %=============================================================================
 function sf = validateShrinkFactor(sf)
   if ~isnumeric(sf) || ~isreal(sf) || ~isscalar(sf) || ~isfinite(sf) || sf < 0
-    error('Nelson:validateShrinkFactor:invalidShrinkFactor', 'Shrink factor must be a nonnegative finite real numeric scalar.');
+    error('Nelson:validateShrinkFactor:invalidShrinkFactor', ...
+      'Shrink factor must be a nonnegative finite real numeric scalar.');
   end
   sf = double(sf);
 end

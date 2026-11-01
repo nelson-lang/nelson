@@ -288,7 +288,8 @@ classdef duration
 
     function out = mod(a, b)
       if ~isa(a, 'duration') || ~isa(b, 'duration')
-        error('Nelson:time:modDurationRequiresBothArguments', '%s of a duration requires both arguments to be durations.', 'mod');
+        error('Nelson:time:modDurationRequiresBothArguments', ...
+          '%s of a duration requires both arguments to be durations.', 'mod');
       end
       [av, bv] = duration.expandPair(a.SecondsValue, b.SecondsValue);
       out = duration.fromSeconds(mod(av, bv), a.FormatValue);
@@ -296,7 +297,8 @@ classdef duration
 
     function out = rem(a, b)
       if ~isa(a, 'duration') || ~isa(b, 'duration')
-        error('Nelson:time:remDurationRequiresBothArguments', '%s of a duration requires both arguments to be durations.', 'rem');
+        error('Nelson:time:remDurationRequiresBothArguments', ...
+          '%s of a duration requires both arguments to be durations.', 'rem');
       end
       [av, bv] = duration.expandPair(a.SecondsValue, b.SecondsValue);
       out = duration.fromSeconds(rem(av, bv), a.FormatValue);
@@ -361,7 +363,8 @@ classdef duration
         out = duration.fromSeconds(double(a) .* b.SecondsValue, b.FormatValue);
         return
       end
-      error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', 'Multiplication');
+      error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', ...
+        'Multiplication');
     end
 
     function out = rdivide(a, b)
@@ -381,7 +384,8 @@ classdef duration
       % Scalar scaling behaves element-wise; matrix products of durations are
       % not supported unless one operand is scalar.
       if ~isscalar(a) && ~isscalar(b)
-        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', 'Multiplication');
+        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', ...
+          'Multiplication');
       end
       out = times(a, b);
     end
@@ -534,7 +538,8 @@ classdef duration
         case 'years'
           s = 365.2425 .* 86400;
         otherwise
-          error('Nelson:time:unitSecondsMinutesHoursDays', 'Unit must be ''seconds'', ''minutes'', ''hours'', ''days'', or ''years''.');
+          error('Nelson:time:unitSecondsMinutesHoursDays', ...
+            'Unit must be ''seconds'', ''minutes'', ''hours'', ''days'', or ''years''.');
       end
     end
 

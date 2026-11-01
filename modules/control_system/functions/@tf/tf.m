@@ -90,10 +90,12 @@ classdef tf < lti
         error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");
       end
       if obj.Ts == 0 && any(strcmp(value, {'z', 'q', 'z^-1', 'q^-1'})) && ~isstatic(obj)
-        error('Nelson:control_system:invalidVariable:discreteTimeVariableRequiresADiscrete', 'Discrete-time variable requires a discrete-time model.');
+        error('Nelson:control_system:invalidVariable:discreteTimeVariableRequiresADiscrete', ...
+          'Discrete-time variable requires a discrete-time model.');
       end
       if (obj.Ts > 0 || obj.Ts == -1) && any(strcmp(value, {'s', 'p'}))
-        error('Nelson:control_system:invalidVariable:continuousTimeVariableRequiresAContinuous', 'Continuous-time variable requires a continuous-time model.');
+        error('Nelson:control_system:invalidVariable:continuousTimeVariableRequiresAContinuous', ...
+          'Continuous-time variable requires a continuous-time model.');
       end
       obj.VariableValue = value;
     end
@@ -317,7 +319,8 @@ function obj = tfConstructor(obj, numerator, denominator, Ts, variableName, isSt
     end
   end
   if length(numerator) ~= length(denominator)
-    error('Nelson:control_system:dimagree:numeratorDenominatorCompatibleSizes', 'Numerator and Denominator must have compatible sizes.');
+    error('Nelson:control_system:dimagree:numeratorDenominatorCompatibleSizes', ...
+      'Numerator and Denominator must have compatible sizes.');
   end
   for k = 1:length(numerator)
     [N, D] = arrangeVectors(numerator{k}, denominator{k});

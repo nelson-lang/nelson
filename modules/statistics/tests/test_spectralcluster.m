@@ -64,13 +64,19 @@ asserts.checkerror('spectralcluster([1; 2], 0)', sprintf(_('%s must be a positiv
 asserts.checkerror('spectralcluster([1; 2], 3)', _('K must not exceed the number of observations.'));
 asserts.checkerror('spectralcluster([1; 2], 1, ''Distance'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('spectralcluster([1; 2], 1, ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('spectralcluster([1; 2], 1, ''Distance'', 1)', sprintf(_('%s must be a character vector or string scalar.'), 'Distance'));
+asserts.checkerror('spectralcluster([1; 2], 1, ''Distance'', 1)', ...
+  sprintf(_('%s must be a character vector or string scalar.'), 'Distance'));
 asserts.checkerror('spectralcluster([1; 2], 1, ''Distance'', ''bad'')', sprintf(_('Invalid %s value.'), 'Distance'));
-asserts.checkerror('spectralcluster([1; 2], 1, ''SimilarityGraph'', ''bad'')', _('SimilarityGraph must be knn or epsilon.'));
-asserts.checkerror('spectralcluster([1; 2], 1, ''SimilarityGraph'', ''epsilon'')', _('Radius must be specified for epsilon similarity graph.'));
-asserts.checkerror('spectralcluster([1; 2], 1, ''KernelScale'', ''bad'')', _('KernelScale must be auto or a positive scalar.'));
-asserts.checkerror('spectralcluster([1 2 3; 4 5 6], 1, ''Distance'', ''precomputed'')', sprintf(_('%s must be square.'), 'Similarity matrix'));
-asserts.checkerror('spectralcluster([0 1; 2 0], 1, ''Distance'', ''precomputed'')', sprintf(_('%s must be symmetric.'), 'Similarity matrix'));
+asserts.checkerror('spectralcluster([1; 2], 1, ''SimilarityGraph'', ''bad'')', ...
+  _('SimilarityGraph must be knn or epsilon.'));
+asserts.checkerror('spectralcluster([1; 2], 1, ''SimilarityGraph'', ''epsilon'')', ...
+  _('Radius must be specified for epsilon similarity graph.'));
+asserts.checkerror('spectralcluster([1; 2], 1, ''KernelScale'', ''bad'')', ...
+  _('KernelScale must be auto or a positive scalar.'));
+asserts.checkerror('spectralcluster([1 2 3; 4 5 6], 1, ''Distance'', ''precomputed'')', ...
+  sprintf(_('%s must be square.'), 'Similarity matrix'));
+asserts.checkerror('spectralcluster([0 1; 2 0], 1, ''Distance'', ''precomputed'')', ...
+  sprintf(_('%s must be symmetric.'), 'Similarity matrix'));
 %=============================================================================
 function labels = canonicalLabels(labels)
   groups = unique(labels(~isnan(labels)), 'stable');

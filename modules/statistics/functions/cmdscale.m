@@ -64,7 +64,8 @@ end
 function p = validatePRequestedLocal(p, n)
   if ~(isnumeric(p) && isreal(p) && isscalar(p) && isfinite(p) ...
       && floor(p) == p && p >= 1 && p <= n)
-    error('Nelson:statistics:pIntegerScalarBetween1', 'p must be an integer scalar between 1 and the number of points.');
+    error('Nelson:statistics:pIntegerScalarBetween1', ...
+      'p must be an integer scalar between 1 and the number of points.');
   end
   p = double(p);
 end

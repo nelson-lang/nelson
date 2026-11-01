@@ -62,7 +62,8 @@ for k = 1:numel(plan.files)
     plan.files(k).relative = '+bad-name/package_entry.m';
   end
 end
-assert_rejected(@() __nelsonc_stage_application__(plan, payload, false), 'Nelson:nelsonc:entry:invalidApplicationEntryName');
+assert_rejected(@() __nelsonc_stage_application__(plan, payload, false), ...
+  'Nelson:nelsonc:entry:invalidApplicationEntryName');
 clear cleanup;
 
 function write_text(filename, text)

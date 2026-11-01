@@ -13,7 +13,7 @@
 % membrane relies on eigs (shift-invert), so it needs ARPACK. Skip the whole
 % suite on builds without ARPACK, exactly like test_eigs / test_svds.
 try
-  probeMembrane = membrane(1, 15); %#ok<NASGU> capture output: nargout>0 avoids the surf() display path
+  probeMembrane = membrane(1, 15); %#ok<NLS0004> capture output: nargout>0 avoids the surf() display path
 catch ex
   skip_testsuite(strcmp(ex.message, _('ARPACK support is not available.')), ex.message);
   rethrow(ex);

@@ -25,7 +25,8 @@ function y = interpftColumns(x, ny)
     return
   end
   if ny < sampleCount
-    error('Nelson:interpft:tooFewOutputPoints', 'The number of output points must be at least the number of input points.');
+    error('Nelson:interpft:tooFewOutputPoints', ...
+      'The number of output points must be at least the number of input points.');
   end
   columnCount = size(x, 2);
   spectrum = fft(x, [], 1);

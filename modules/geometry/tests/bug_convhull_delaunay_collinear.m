@@ -13,8 +13,10 @@
 %=============================================================================
 asserts.checkerror('convhull([1 2 3], [1 2 3])', _('Error computing the convex hull. The points may be collinear.'));
 asserts.checkerror('convhulln([1 1; 2 2; 3 3])', _('Error computing the convex hull. The points may be collinear.'));
-asserts.checkerror('delaunay([1 2 3]'', [1 2 3]'')', _('Error computing the Delaunay triangulation. The points may be collinear.'));
-asserts.checkerror('delaunayn([1 1; 2 2; 3 3; 4 4])', _('Error computing the Delaunay triangulation. The points may be collinear.'));
+asserts.checkerror('delaunay([1 2 3]'', [1 2 3]'')', ...
+  _('Error computing the Delaunay triangulation. The points may be collinear.'));
+asserts.checkerror('delaunayn([1 1; 2 2; 3 3; 4 4])', ...
+  _('Error computing the Delaunay triangulation. The points may be collinear.'));
 %=============================================================================
 % not enough points is also degenerate
 asserts.checkerror('convhull([1 2], [1 2])', _('Error computing the convex hull. The points may be collinear.'));

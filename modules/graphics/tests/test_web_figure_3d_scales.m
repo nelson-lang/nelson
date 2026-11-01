@@ -95,7 +95,8 @@ for scales = 0:7
         asserts.isequal(tracePoints(f), tracePoints(g));
         for pair = [fh gh; ah bh]
           __web_figure_action__(pair(1), jsonencode(struct('action', 'zoom', 'axesHandle', pair(2), 'factor', 1.25)));
-          __web_figure_action__(pair(1), jsonencode(struct('action', 'view', 'axesHandle', pair(2), 'azimuth', -52, 'elevation', 22)));
+          __web_figure_action__(pair(1), jsonencode(struct('action', 'view', 'axesHandle', pair(2), 'azimuth', -52, ...
+            'elevation', 22)));
         end
         asserts.isequal(tracePoints(f), tracePoints(g));
         for pair = [fh gh; ah bh]

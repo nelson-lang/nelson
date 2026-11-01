@@ -66,8 +66,10 @@ close(f);
 %=============================================================================
 asserts.checkerror('fimplicit(1);', getString(message('Nelson:graphics:functionHandleExpected', 'Value')));
 asserts.checkerror('fimplicit(@(x, y) x, @(x, y) y);', getString(message('Nelson:graphics:tooManyFunctions')));
-asserts.checkerror('fimplicit(@(x, y) x, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', 'BadName')));
-asserts.checkerror('fimplicit(@(x, y) x, ''badstyle'');', getString(message('Nelson:graphics:invalidParameter', 'badstyle')));
+asserts.checkerror('fimplicit(@(x, y) x, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', ...
+  'BadName')));
+asserts.checkerror('fimplicit(@(x, y) x, ''badstyle'');', getString(message('Nelson:graphics:invalidParameter', ...
+  'badstyle')));
 %=============================================================================
 function z = scalar_circle(x, y)
   if numel(x) ~= 1 || numel(y) ~= 1

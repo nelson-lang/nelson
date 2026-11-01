@@ -44,7 +44,8 @@ close(f);
 %=============================================================================
 f = figure('Visible', 'off');
 ax = axes();
-asserts.checkerror('polarbubblechart(ax, [1 2], [1 2], [1 2]);', getString(message('Nelson:graphics:invalidParentInput')));
+asserts.checkerror('polarbubblechart(ax, [1 2], [1 2], [1 2]);', ...
+  getString(message('Nelson:graphics:invalidParentInput')));
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');
@@ -78,7 +79,10 @@ asserts.isequal(h(2).ThetaVariable, 'theta');
 close(f);
 %=============================================================================
 asserts.checkerror('polarbubblechart(1, 2);', getString(message('Nelson:narginchk:notEnoughInputs')));
-asserts.checkerror('polarbubblechart({1}, 2, 3);', getString(message('Nelson:polarbubblechart:numericThetaRadiusExpected')));
-asserts.checkerror('polarbubblechart([1 2], [1 2], [1 2], ''BubbleColor'', ''b'');', _('Unrecognized property BubbleColor for class BubbleChart.'));
-asserts.checkerror('polarbubblechart([1 2], [1 2], [1 2], ''Bad'', 1);', _('Unrecognized property Bad for class BubbleChart.'));
+asserts.checkerror('polarbubblechart({1}, 2, 3);', ...
+  getString(message('Nelson:polarbubblechart:numericThetaRadiusExpected')));
+asserts.checkerror('polarbubblechart([1 2], [1 2], [1 2], ''BubbleColor'', ''b'');', ...
+  _('Unrecognized property BubbleColor for class BubbleChart.'));
+asserts.checkerror('polarbubblechart([1 2], [1 2], [1 2], ''Bad'', 1);', ...
+  _('Unrecognized property Bad for class BubbleChart.'));
 %=============================================================================

@@ -90,7 +90,8 @@ function h = surfaceThreeRhs(go, inputArguments, propertiesList)
       X = X(:)';
       Y = Y(:);
     else
-      error('Nelson:surface:invalidSizeZ1', 'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
+      error('Nelson:surface:invalidSizeZ1', ...
+        'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
     end
   elseif (ismatrix(X) && ismatrix(Y) && ismatrix(Z))
     [X_nr, X_nc] = size(X);
@@ -124,7 +125,8 @@ function h = surfaceFourRhs(go, inputArguments, propertiesList)
       X = X(:)';
       Y = Y(:);
     else
-      error('Nelson:surface:invalidSizeZ1', 'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
+      error('Nelson:surface:invalidSizeZ1', ...
+        'size(Z, 1) must be the same as length(Y) and size(Z, 2) must be the same as length(X).');
     end
   elseif (ismatrix(X) && ismatrix(Y) && ismatrix(Z))
     [X_nr, X_nc] = size(X);

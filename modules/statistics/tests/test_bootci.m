@@ -57,8 +57,10 @@ asserts.checkerror('bootci(10, ''mean'', x)', sprintf(_('%s must be a function h
 asserts.checkerror('bootci(10, @mean, 1)', sprintf(_('At least one %s is required.'), 'nonscalar data argument'));
 asserts.checkerror('bootci(10, @mean, x, ''Alpha'', 2)', _('Alpha must be a scalar between 0 and 1.'));
 asserts.checkerror('bootci(10, @mean, x, ''Type'', ''bad'')', sprintf(_('Invalid %s value.'), 'Type'));
-asserts.checkerror('bootci(10, @mean, x, ''Type'', ''student'')', _('Studentized bootstrap confidence intervals are not yet supported.'));
-asserts.checkerror('bootci(10, @mean, x, ''Weights'', ones(2, 1))', _('Weights must be a nonnegative vector with one value per observation.'));
+asserts.checkerror('bootci(10, @mean, x, ''Type'', ''student'')', ...
+  _('Studentized bootstrap confidence intervals are not yet supported.'));
+asserts.checkerror('bootci(10, @mean, x, ''Weights'', ones(2, 1))', ...
+  _('Weights must be a nonnegative vector with one value per observation.'));
 %=============================================================================
 function y = bootciTwoStats(x)
   y = [mean(x) std(x)];

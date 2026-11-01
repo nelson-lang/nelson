@@ -19,7 +19,8 @@ function value = mode(obj, varargin)
     dim = 1;
   end
   if dim ~= 1
-    error('Nelson:time:firstDimensionModeSupportedTimeseries', 'Only first-dimension mode is supported for timeseries data.');
+    error('Nelson:time:firstDimensionModeSupportedTimeseries', ...
+      'Only first-dimension mode is supported for timeseries data.');
   end
   data = reshape(data, size(data, 1), []);
   value = zeros(1, size(data, 2));

@@ -34,6 +34,7 @@ longName = repmat('a', 1, namelengthmax() + 10);
 asserts.isequal(length(nelson.lang.makeValidName(longName)), namelengthmax());
 %=============================================================================
 asserts.checkerror('nelson.lang.makeValidName(''a'', ''ReplacementStyle'')', _('Name-value arguments must be paired.'));
-asserts.checkerror('nelson.lang.makeValidName(''a'', ''ReplacementStyle'', ''bad'')', _('Unsupported replacement style.'));
+asserts.checkerror('nelson.lang.makeValidName(''a'', ''ReplacementStyle'', ''bad'')', ...
+  _('Unsupported replacement style.'));
 asserts.checkerror('nelson.lang.makeValidName(''a'', ''Prefix'', ''1x'')', _('Prefix must be a valid variable name.'));
 %=============================================================================

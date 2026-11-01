@@ -42,13 +42,20 @@ asserts.checkerror('candexch(C, 0)', sprintf(_('%s must be a positive integer sc
 asserts.checkerror('candexch(C, 2, ''Display'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('candexch(C, 2, ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('candexch(C, 2, ''Display'', ''bad'')', _('Display must be on or off.'));
-asserts.checkerror('candexch(C, 2, ''AvoidDuplicates'', 2)', sprintf(_('%s must be a scalar logical value.'), 'AvoidDuplicates'));
-asserts.checkerror('candexch(C, 2, ''MaxIterations'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MaxIterations'));
+asserts.checkerror('candexch(C, 2, ''AvoidDuplicates'', 2)', sprintf(_('%s must be a scalar logical value.'), ...
+  'AvoidDuplicates'));
+asserts.checkerror('candexch(C, 2, ''MaxIterations'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MaxIterations'));
 asserts.checkerror('candexch(C, 2, ''NumTries'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'NumTries'));
-asserts.checkerror('candexch(C, 5, ''AvoidDuplicates'', true)', _('NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.'));
-asserts.checkerror('candexch(C, 2, ''InitialDesign'', [1 2 3; 1 2 4])', sprintf(_('%s must have the same number of columns as C.'), 'InitialDesign'));
-asserts.checkerror('candexch(C, 2, ''InitialDesign'', C(1, :), ''Display'', ''off'')', _('InitialDesign must have NROWS rows.'));
-asserts.checkerror('candexch(C, 2, ''InitialDesign'', [1 10; 1 11], ''Display'', ''off'')', _('InitialDesign rows must be rows from C.'));
-asserts.checkerror('candexch(C, 2, ''FixedRows'', [1 2 3])', sprintf(_('%s must have the same number of columns as C.'), 'FixedRows'));
+asserts.checkerror('candexch(C, 5, ''AvoidDuplicates'', true)', ...
+  _('NROWS must not exceed the number of candidate rows when AvoidDuplicates is true.'));
+asserts.checkerror('candexch(C, 2, ''InitialDesign'', [1 2 3; 1 2 4])', ...
+  sprintf(_('%s must have the same number of columns as C.'), 'InitialDesign'));
+asserts.checkerror('candexch(C, 2, ''InitialDesign'', C(1, :), ''Display'', ''off'')', ...
+  _('InitialDesign must have NROWS rows.'));
+asserts.checkerror('candexch(C, 2, ''InitialDesign'', [1 10; 1 11], ''Display'', ''off'')', ...
+  _('InitialDesign rows must be rows from C.'));
+asserts.checkerror('candexch(C, 2, ''FixedRows'', [1 2 3])', ...
+  sprintf(_('%s must have the same number of columns as C.'), 'FixedRows'));
 asserts.checkerror('candexch(C, 2, ''Options'', 1)', _('Options must be a structure.'));
 %=============================================================================

@@ -83,7 +83,8 @@ msg = _('Right hand side of an assignment into a table must be another table or 
 assert_checkerror('T(:, ''NewVar'') = [1; 2];', msg, 'Nelson:table:invalidRHS');
 assert_checkerror('T(:, ''Var1'') = [1; 2];', msg, 'Nelson:table:invalidRHS');
 assert_checkerror('T(:, ''NewVar'') = table([1; 2; 3]);', _('To assign to or create a variable in a table, the number of rows must match the height of the table.'), 'Nelson:table:RowDimensionMismatch');
-assert_checkerror('T(:, ''NewVar'') = table([1; 2], [3; 4]);', _('The number of table variables in an assignment must match.'), 'Nelson:table:VarDimensionMismatch');
+assert_checkerror('T(:, ''NewVar'') = table([1; 2], [3; 4]);', ...
+  _('The number of table variables in an assignment must match.'), 'Nelson:table:VarDimensionMismatch');
 assert_isequal(T.Properties.VariableNames, {'Var1'});
 %=============================================================================
 TT = timetable(seconds([1; 2]), [3; 4]);

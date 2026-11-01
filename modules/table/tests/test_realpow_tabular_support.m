@@ -41,5 +41,6 @@ asserts.isequal(R.A, [2; 4]);
 asserts.isequal(R.B, [8 16; 32 64]);
 %=============================================================================
 E2 = timetable(seconds([1; 3]), [2; 3], 'VariableNames', {'A'});
-asserts.checkerror('TT .^ E2', sprintf(_('%s must match.'), 'Timetable row times'), 'Nelson:timetable:power:RowTimesMismatch');
+asserts.checkerror('TT .^ E2', sprintf(_('%s must match.'), 'Timetable row times'), ...
+  'Nelson:timetable:power:RowTimesMismatch');
 %=============================================================================

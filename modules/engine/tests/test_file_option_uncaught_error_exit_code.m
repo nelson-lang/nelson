@@ -21,7 +21,8 @@ cleanup_directory = onCleanup(@() rmdir(test_directory, 's'));
 asserts.isequal(status, 1, output);
 asserts.istrue(contains(output, 'boom'));
 %=============================================================================
-[status, output] = run_script(nelson_cli, test_directory, 'script_assert.m', ['asserts.isequal(1, 2);', newline, 'quit']);
+[status, output] = run_script(nelson_cli, test_directory, 'script_assert.m', ['asserts.isequal(1, 2);', newline, ...
+  'quit']);
 asserts.isequal(status, 1, output);
 %=============================================================================
 [status, output] = run_script(nelson_cli, test_directory, 'script_parse_error.m', 'x = [1 2');
@@ -40,7 +41,8 @@ asserts.isequal(status, 0, output);
 [status, output] = run_script(nelson_cli, test_directory, 'script_exit.m', 'exit(3);');
 asserts.isequal(status, 3, output);
 %=============================================================================
-[status, output] = run_nelson_cli(nelson_cli, [' --quiet --no-user-startup --no-ipc -f "', test_directory, '/missing_script.m"']);
+[status, output] = run_nelson_cli(nelson_cli, [' --quiet --no-user-startup --no-ipc -f "', test_directory, ...
+  '/missing_script.m"']);
 asserts.isequal(status, 1, output);
 %=============================================================================
 function [status, output] = run_script(nelson_cli, directory, name, content)

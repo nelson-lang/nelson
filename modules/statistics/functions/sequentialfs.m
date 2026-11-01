@@ -142,7 +142,8 @@ function value = parseNFeaturesLocal(value, nfeatures)
   end
   if ~(isnumeric(value) && isreal(value) && isscalar(value) && isfinite(value) ...
       && floor(value) == value && value >= 0 && value <= nfeatures)
-    error('Nelson:statistics:nFeaturesIntegerScalarBetween0', 'NFeatures must be an integer scalar between 0 and the number of features.');
+    error('Nelson:statistics:nFeaturesIntegerScalarBetween0', ...
+      'NFeatures must be an integer scalar between 0 and the number of features.');
   end
   value = double(value);
 end
@@ -156,7 +157,8 @@ function value = parseCVLocal(value)
   elseif isnumeric(value) && isreal(value) && isscalar(value)
     value = parsePositiveIntegerLocal(value, 'CV');
   else
-    error('Nelson:statistics:CVPositiveIntegerNoneResubstitution', 'CV must be a positive integer, none, or resubstitution.');
+    error('Nelson:statistics:CVPositiveIntegerNoneResubstitution', ...
+      'CV must be a positive integer, none, or resubstitution.');
   end
 end
 %=============================================================================
@@ -177,7 +179,8 @@ function options = parseOptionsLocal(options, nfeatures)
     error('Nelson:statistics:optionsDisplayInvalidValue', '%s has an invalid value.', 'Options Display');
   end
   if ~isPositiveIntegerLocal(options.MaxIter)
-    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Options MaxIter');
+    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Options MaxIter');
   end
   if ~(isnumeric(options.TolFun) && isreal(options.TolFun) && isscalar(options.TolFun) ...
       && isfinite(options.TolFun) && options.TolFun >= 0)
@@ -297,7 +300,8 @@ function crit = criterionLocal(fun, data, selected, opts)
     crit = kfoldCriterionLocal(fun, data, selected, opts.CV);
   end
   if ~(isnumeric(crit) && isreal(crit) && isscalar(crit) && isfinite(crit))
-    error('Nelson:statistics:criterionFunctionReturnFiniteReal', 'Criterion function must return a finite real scalar.');
+    error('Nelson:statistics:criterionFunctionReturnFiniteReal', ...
+      'Criterion function must return a finite real scalar.');
   end
   crit = double(crit);
 end

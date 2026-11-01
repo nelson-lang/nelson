@@ -70,7 +70,8 @@ asserts.isapprox(latent, [1.992794553591540; 0.007205446408460], 1e-12);
 %=============================================================================
 asserts.checkerror('pca()', _('Not enough input arguments.'));
 asserts.checkerror('pca({1})', sprintf(_('%s must be a real numeric matrix.'), 'X'));
-asserts.checkerror('pca([1 2], ''NumComponents'', 3)', _('NumComponents must be an integer scalar between 0 and the number of variables.'));
+asserts.checkerror('pca([1 2], ''NumComponents'', 3)', ...
+  _('NumComponents must be an integer scalar between 0 and the number of variables.'));
 asserts.checkerror('pca([1 NaN], ''Rows'', ''all'')', _('Raw data contains NaN while Rows is all.'));
 asserts.checkerror('pca([1 2], ''Algorithm'', ''als'')', sprintf(_('Unsupported %s.'), 'algorithm'));
 asserts.checkerror('pca([1 2], ''Bad'', 1)', _('Unknown option.'));

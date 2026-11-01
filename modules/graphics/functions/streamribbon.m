@@ -169,7 +169,7 @@ function [vertices, twistangle] = streamVerticesFromField(parent, args)
   % The stream lines are traced in the target itself and thrown away right
   % after: tracing them in the current axes stretched the limits of an axes
   % this call was never handed.
-  [lines, state] = streamlineBase(parent, args{:});
+  [lines, ~] = streamlineBase(parent, args{:});
   vertices = cell(numel(lines), 1);
   twistangle = cell(numel(lines), 1);
   for k = 1:numel(lines)
@@ -186,7 +186,8 @@ function vertices = validateRibbonVertices(vertices)
   for k = 1:numel(vertices)
     pts = vertices{k};
     if ~isnumeric(pts) || size(pts, 2) ~= 3
-      error('Nelson:graphics:verticesNotNumericArrays', 'Streamline vertices must be numeric arrays with three columns.');
+      error('Nelson:graphics:verticesNotNumericArrays', ...
+        'Streamline vertices must be numeric arrays with three columns.');
     end
     vertices{k} = double(pts);
   end

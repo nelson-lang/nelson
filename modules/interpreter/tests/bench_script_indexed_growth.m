@@ -17,7 +17,7 @@ N = 50000;
 %=============================================================================
 tic();
 for i = 1:N
-  benchScriptCell{i} = i; %#ok<SAGROW>
+  benchScriptCell{i} = i; %#ok<NLS0039>
 end
 t = toc();
 asserts.isequal(size(benchScriptCell), [1 N]);
@@ -26,7 +26,7 @@ fprintf('  script cell growth, %d appends:   %0.4f s\n', int32(N), t);
 %=============================================================================
 tic();
 for i = 1:N
-  benchScriptVec(i) = i; %#ok<SAGROW>
+  benchScriptVec(i) = i; %#ok<NLS0039>
 end
 t = toc();
 asserts.isequal(size(benchScriptVec), [1 N]);
@@ -35,7 +35,7 @@ fprintf('  script vector growth, %d appends: %0.4f s\n', int32(N), t);
 %=============================================================================
 tic();
 for i = 1:N
-  benchScriptStruct(i).Id = i; %#ok<SAGROW>
+  benchScriptStruct(i).Id = i; %#ok<NLS0039>
 end
 t = toc();
 asserts.isequal(size(benchScriptStruct), [1 N]);

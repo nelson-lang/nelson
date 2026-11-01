@@ -183,7 +183,8 @@ function expected = expectedCountsLocal(edges, values, frequency, opts)
       error('Nelson:statistics:EXPECTEDMatchNumberBins', 'EXPECTED must match the number of bins.');
     end
     if any(expected < 0) || sum(expected) <= 0
-      error('Nelson:statistics:EXPECTEDContainNonnegativeCountsPositive', 'EXPECTED must contain nonnegative counts with positive sum.');
+      error('Nelson:statistics:EXPECTEDContainNonnegativeCountsPositive', ...
+        'EXPECTED must contain nonnegative counts with positive sum.');
     end
     expected = expected * total / sum(expected);
     return
@@ -225,7 +226,8 @@ function [support, probabilities] = validateCdfMatrixLocal(cdfSpec)
   support = double(cdfSpec(:, 1));
   probabilities = double(cdfSpec(:, 2));
   if any(diff(support) <= 0) || any(diff(probabilities) < 0)
-    error('Nelson:statistics:CDFMatrixValuesSortedNondecreasing', 'CDF matrix values must be sorted and nondecreasing.');
+    error('Nelson:statistics:CDFMatrixValuesSortedNondecreasing', ...
+      'CDF matrix values must be sorted and nondecreasing.');
   end
   if any(probabilities < 0 | probabilities > 1)
     error('Nelson:statistics:invalidCdf', '%s must be in the range [0,1].', 'CDF values');

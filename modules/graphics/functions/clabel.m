@@ -12,7 +12,8 @@ function varargout = clabel(varargin)
   nargoutchk(0, 1);
 
   % parse inputs into canonical form; detect if caller set Visible explicitly
-  [contourMatrix, contourHandle, levelsToLabel, textPropertyPairs, forceToggleVisible, uprightMode, labelSpacing, returnEmptyPlaceholder, hasColorProp, hasHandleVisibilityProp] = parse_inputs(varargin{:});
+  [contourMatrix, ~, levelsToLabel, textPropertyPairs, forceToggleVisible, uprightMode, labelSpacing, ...
+    returnEmptyPlaceholder, hasColorProp, hasHandleVisibilityProp] = parse_inputs(varargin{:});
 
   % Placement works in data coordinates. Querying axes/figure geometry here can
   % spuriously turn on the contour object's own native label rendering (which
@@ -95,7 +96,8 @@ function [contourMatrix, contourHandle, levelsToLabel, textPropertyPairs, forceT
   else
     contourHandle = firstArg;
     if ~isgraphics(contourHandle)
-      error('Nelson:clabel:invalidFirstArgumentTo', 'First argument to clabel must be the handle of a contour or a contour matrix C.');
+      error('Nelson:clabel:invalidFirstArgumentTo', ...
+        'First argument to clabel must be the handle of a contour or a contour matrix C.');
     end
     if (numel(varargin) > 1)
       textPropertyPairs = varargin(2:end);

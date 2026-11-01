@@ -30,7 +30,8 @@ T = table({1 2; 3 4}, 'VariableNames', {'a'});
 assert_isequal(size(T), [2 1]);
 assert_isequal(T.a, {1 2; 3 4});
 %=============================================================================
-assert_checkerror('table({1 2; 3 4}, ''VariableNames'', {''a'', ''b''})', _('Mismatched variable names.'), 'Nelson:table:variableNamesMismatch');
+assert_checkerror('table({1 2; 3 4}, ''VariableNames'', {''a'', ''b''})', _('Mismatched variable names.'), ...
+  'Nelson:table:variableNamesMismatch');
 %=============================================================================
 T = table({1; 2}, [3; 4]);
 assert_isequal(T.Var1, {1; 2});

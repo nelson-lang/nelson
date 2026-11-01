@@ -323,7 +323,8 @@ function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(ext
         r = false;
         return
       end
-      external_libraries_modified = [external_libraries_modified, newline, ['"', uniformizePath(addLibrarySuffix(k{1})), '"']];
+      external_libraries_modified = [external_libraries_modified, newline, ['"', ...
+        uniformizePath(addLibrarySuffix(k{1})), '"']];
     end
     r = true;
   else

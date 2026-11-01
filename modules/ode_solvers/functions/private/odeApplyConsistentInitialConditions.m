@@ -37,13 +37,15 @@ function odeCheckConsistentInitialResidual(residual, t0, initialValue, initialSl
   value = residual(t0, initialValue, initialSlope);
   value = value(:);
   if any(~isfinite(value))
-    error('Nelson:ode_solvers:consistentInitialConditionsProducedNonFinite', 'Consistent initial conditions produced a non-finite residual.');
+    error('Nelson:ode_solvers:consistentInitialConditionsProducedNonFinite', ...
+      'Consistent initial conditions produced a non-finite residual.');
   end
   absTolerance = max(options.AbsTol(:));
   relTolerance = max(options.RelTol(:));
   scale = max(absTolerance, relTolerance * max(1, max(abs(initialValue(:)))));
   if norm(value, inf) > 1000 * scale
-    error('Nelson:ode_solvers:consistentInitialConditionsResidualTooLarge', 'Consistent initial conditions residual is too large.');
+    error('Nelson:ode_solvers:consistentInitialConditionsResidualTooLarge', ...
+      'Consistent initial conditions residual is too large.');
   end
 end
 %=============================================================================

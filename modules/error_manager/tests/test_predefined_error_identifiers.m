@@ -13,5 +13,6 @@
 %=============================================================================
 asserts.checkerror('triu(1, 2, 3)', _('Too many input arguments.'), 'Nelson:tooManyInputs');
 %=============================================================================
-asserts.checkerror('datenum(1, 2, 3, 4)', _('Failed to convert input to date numbers.'), 'Nelson:datenum:ConvertDateVector');
+asserts.checkerror('datenum(1, 2, 3, 4)', _('Failed to convert input to date numbers.'), ...
+  'Nelson:datenum:ConvertDateVector');
 %=============================================================================

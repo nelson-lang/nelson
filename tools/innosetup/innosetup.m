@@ -46,7 +46,8 @@ if fp ~= -1
   if strcmp(compiler{2}, 'debug') == true
     fprintf(fp, ['#define NELSON_DEBUG', char(10)]);
   end
-  fprintf(fp, ['#define APPLICATION_VERSION "', int2str(vernumber(1)), '.', int2str(vernumber(2)), '.', int2str(vernumber(3)), '.', int2str(vernumber(4)), '"', char(10)]);
+  fprintf(fp, ['#define APPLICATION_VERSION "', int2str(vernumber(1)), '.', int2str(vernumber(2)), '.', ...
+    int2str(vernumber(3)), '.', int2str(vernumber(4)), '"', char(10)]);
   currentdate = datevec(now);
   fprintf(fp, ['#define CURRENT_YEAR "', int2str(currentdate(1)), '"', char(10)]);
   fclose(fp);

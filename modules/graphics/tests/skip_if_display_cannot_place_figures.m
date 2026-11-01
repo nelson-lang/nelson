@@ -22,7 +22,7 @@ function skip_if_display_cannot_place_figures(reason)
   end
   requested = [100 100 400 300];
   probe = figure('Visible', 'on', 'Position', requested);
-  cleaner = onCleanup(@() close(probe)); %#ok<NASGU>
+  cleaner = onCleanup(@() close(probe)); %#ok<NLS0004>
   drawnow();
   placed = probe.Position;
   degraded = false;

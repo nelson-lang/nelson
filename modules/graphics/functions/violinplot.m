@@ -47,7 +47,8 @@ function [posArgs, optionArgs] = splitDataAndOptions(args)
       error('Nelson:notEnoughInputs', 'Not enough input arguments.');
     end
   elseif hasPoints || hasDensities
-    error('Nelson:violinplot:densityWithSampleData', '''EvaluationPoints'' and ''DensityValues'' are not supported if sample data is specified.');
+    error('Nelson:violinplot:densityWithSampleData', ...
+      '''EvaluationPoints'' and ''DensityValues'' are not supported if sample data is specified.');
   end
 end
 %=============================================================================

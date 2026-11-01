@@ -23,5 +23,6 @@ assert_isequal(o.instValue(), 7);
 assert_isequal(ClassdefAbstractExternalImpl.staticValue(4), 5);
 %=============================================================================
 % The abstract base itself still cannot be instantiated.
-assert_checkerror('ClassdefAbstractExternalBase();', _('Cannot instantiate abstract class: ClassdefAbstractExternalBase'));
+assert_checkerror('ClassdefAbstractExternalBase();', ...
+  _('Cannot instantiate abstract class: ClassdefAbstractExternalBase'));
 %=============================================================================

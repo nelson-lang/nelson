@@ -39,7 +39,8 @@ classdef qualmetadata
               value = cellstr(value);
             end
             if ~iscell(value)
-              error('Nelson:time:qualityDescriptionsCellArrayText', '%s must be a cell array of text.', 'Quality descriptions');
+              error('Nelson:time:qualityDescriptionsCellArrayText', '%s must be a cell array of text.', ...
+                'Quality descriptions');
             end
             obj.Description = value(:);
           case 'userdata'

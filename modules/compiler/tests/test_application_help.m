@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-skip_testsuite(~isfile([modulepath('modules_manager'), '/help/en_US/xml/chapter.xml']), 'Help XML sources are not available in this build');
+skip_testsuite(~isfile([modulepath('modules_manager'), '/help/en_US/xml/chapter.xml']), ...
+  'Help XML sources are not available in this build');
 directory = tempname();
 mkdir(directory);
 cleanup = onCleanup(@() rmdir(directory, 's'));
@@ -26,10 +27,13 @@ for k = 1:numel(languages)
   generated = fullfile(destination, 'ncc.html');
   asserts.istrue(isfile(generated));
   html = fileread(generated);
-  required = {'ncc', 'nelsonc', 'compiler', '--explain-link', '--gui', '--cli', '.nbc', 'application.runtime', '--runtime', 'NELSONC_RUNTIME_ROOT', 'NELSON_RUNTIME_PATH', 'uicontrol', 'HandleVisibility'};
-  required = [required, {'WITHOUT_COMPILER_MODULE', 'WithoutCompilerModule', 'file_archiver', 'dynamic_link', 'json', 'LD_LIBRARY_PATH', 'AT_SECURE'}];
+  required = {'ncc', 'nelsonc', 'compiler', '--explain-link', '--gui', '--cli', '.nbc', 'application.runtime', ...
+    '--runtime', 'NELSONC_RUNTIME_ROOT', 'NELSON_RUNTIME_PATH', 'uicontrol', 'HandleVisibility'};
+  required = [required, {'WITHOUT_COMPILER_MODULE', 'WithoutCompilerModule', 'file_archiver', 'dynamic_link', ...
+    'json', 'LD_LIBRARY_PATH', 'AT_SECURE'}];
   required = [required, {'Debian 13', 'bin/linux', 'modulepath', 'code 1', 'jsondecode', 'jsonencode'}];
-  required = [required, {'LongPathsEnabled', 'MAX_PATH', '1980-01-01', '--help-file', 'helpText', 'isdeployed', 'ctfroot'}];
+  required = [required, {'LongPathsEnabled', 'MAX_PATH', '1980-01-01', '--help-file', 'helpText', 'isdeployed', ...
+    'ctfroot'}];
   required = [required, {'%#function', '%#exclude', 'exclusions', 'explicitOverride', 'referenceKind'}];
   required = [required, {'-X', '--no-auto-data', 'autoDetectDataFiles', 'ignored-data', 'dlopen'}];
   required = [required, {'-a input', 'roots/N', 'directories', 'pathEntries', 'searchRoots'}];

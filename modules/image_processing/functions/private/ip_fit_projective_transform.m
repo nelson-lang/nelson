@@ -10,7 +10,8 @@
 function T = ip_fit_projective_transform(movingPoints, fixedPoints)
   n = size(movingPoints, 1);
   if n < 4
-    error('Nelson:image_processing:leastFourPointPairsRequiredProjective', 'At least four point pairs are required for a projective transform.');
+    error('Nelson:image_processing:leastFourPointPairsRequiredProjective', ...
+      'At least four point pairs are required for a projective transform.');
   end
   x = movingPoints(:, 1);
   y = movingPoints(:, 2);
@@ -23,7 +24,8 @@ function T = ip_fit_projective_transform(movingPoints, fixedPoints)
   b(1:2:end) = u;
   b(2:2:end) = v;
   if rank(A) < 8
-    error('Nelson:image_processing:controlPointsNotDefineUniqueTransformation', 'Control points do not define a unique transformation.');
+    error('Nelson:image_processing:controlPointsNotDefineUniqueTransformation', ...
+      'Control points do not define a unique transformation.');
   end
   p = A \ b;
   T = [p(1) p(2) p(3); p(4) p(5) p(6); p(7) p(8) 1];

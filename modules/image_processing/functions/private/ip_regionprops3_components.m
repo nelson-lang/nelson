@@ -38,22 +38,26 @@ end
 %=============================================================================
 function [components, imageSize] = ip_regionprops3_components_from_cc(cc)
   if ~isfield(cc, 'ImageSize') || ~isfield(cc, 'PixelIdxList')
-    error('Nelson:image_processing:connectedComponentStructureContainImagesizePixelidxlist', 'Connected-component structure must contain ImageSize and PixelIdxList fields.');
+    error('Nelson:image_processing:connectedComponentStructureContainImagesizePixelidxlist', ...
+      'Connected-component structure must contain ImageSize and PixelIdxList fields.');
   end
   imageSize = double(cc.ImageSize(:).');
   if numel(imageSize) ~= 3 || any(imageSize <= 0) || any(imageSize ~= floor(imageSize))
-    error('Nelson:image_processing:connectedComponentImagesizeDescribeDVolume', 'Connected-component ImageSize must describe a 3-D volume.');
+    error('Nelson:image_processing:connectedComponentImagesizeDescribeDVolume', ...
+      'Connected-component ImageSize must describe a 3-D volume.');
   end
   pixelIdxList = cc.PixelIdxList;
   if ~iscell(pixelIdxList)
-    error('Nelson:image_processing:connectedComponentPixelidxlistCellArray', 'Connected-component PixelIdxList must be a cell array.');
+    error('Nelson:image_processing:connectedComponentPixelidxlistCellArray', ...
+      'Connected-component PixelIdxList must be a cell array.');
   end
   components = cell(1, numel(pixelIdxList));
   maxIndex = prod(imageSize);
   for k = 1:numel(pixelIdxList)
     idx = double(pixelIdxList{k}(:));
     if any(~isfinite(idx)) || any(idx < 1) || any(idx > maxIndex) || any(idx ~= floor(idx))
-      error('Nelson:image_processing:connectedComponentPixelIndicesInvalid', 'Connected-component pixel indices are invalid.');
+      error('Nelson:image_processing:connectedComponentPixelIndicesInvalid', ...
+        'Connected-component pixel indices are invalid.');
     end
     components{k} = sort(idx);
   end
@@ -63,7 +67,8 @@ function [components, imageSize] = ip_regionprops3_components_from_labels(labels
   ip_regionprops3_validate_volume(labels, true);
   values = double(labels);
   if any(~isfinite(values(:))) || any(values(:) < 0) || any(values(:) ~= floor(values(:)))
-    error('Nelson:image_processing:labelVolumeValuesNonnegativeFiniteIntegers', '%s values must be nonnegative finite integers.', 'Label volume');
+    error('Nelson:image_processing:labelVolumeValuesNonnegativeFiniteIntegers', ...
+      '%s values must be nonnegative finite integers.', 'Label volume');
   end
   labelValues = unique(values(:));
   labelValues = labelValues(labelValues > 0);
@@ -92,7 +97,8 @@ end
 function ip_regionprops3_validate_intensity(intensity, imageSize)
   ip_regionprops3_validate_volume(intensity, true);
   if ~isequal([size(intensity, 1), size(intensity, 2), size(intensity, 3)], imageSize)
-    error('Nelson:image_processing:intensityVolumeSameSizeRegionVolume', '%s must have the same size as %s.', 'Intensity volume', 'the region volume');
+    error('Nelson:image_processing:intensityVolumeSameSizeRegionVolume', '%s must have the same size as %s.', ...
+      'Intensity volume', 'the region volume');
   end
 end
 %=============================================================================

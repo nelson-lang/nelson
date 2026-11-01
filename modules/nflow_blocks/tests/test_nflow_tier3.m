@@ -35,11 +35,13 @@ for k = 1:numel(cases)
   blocks = {};
   conns = {};
   for j = 1:n
-    blocks{end + 1} = struct('id', ['c' int2str(j)], 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', ins{j}));
+    blocks{end + 1} = struct('id', ['c' int2str(j)], 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', ...
+      struct('Value', ins{j}));
     conns{end + 1} = struct('from', ['c' int2str(j)], 'to', 'g', 'fromIndex', 0, 'toIndex', j - 1);
   end
   blocks{end + 1} = struct('id', 'g', 'type', type, 'inputs', n, 'outputs', 1, 'params', params);
-  blocks{end + 1} = struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', 't3_out', 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'));
+  blocks{end + 1} = struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', ...
+    struct('VariableName', 't3_out', 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'));
   conns{end + 1} = struct('from', 'g', 'to', 'w', 'fromIndex', 0, 'toIndex', 0);
   d = struct(); d.blocks = blocks; d.connections = conns;
   d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();

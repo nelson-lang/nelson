@@ -48,15 +48,18 @@ asserts.istrue(contains(typst, '#align(center)[#image("banner.png")]'));
 asserts.istrue(contains(typst, ['= Nelson 2.0.0 <main:homepage>', newline]));
 asserts.istrue(contains(typst, ['== Features', newline]));
 % inline constructs and escaping
-asserts.istrue(contains(typst, '#strong[Nelson 2.0]; is a #emph[major]; release with #raw("classdef"); and 50% more \#tags.'));
-asserts.istrue(contains(typst, 'See the #nlink(<main:CHANGELOG>)[Changelog]; and #link("https://nelson-lang.github.io/");.'));
+asserts.istrue(contains(typst, ...
+  '#strong[Nelson 2.0]; is a #emph[major]; release with #raw("classdef"); and 50% more \#tags.'));
+asserts.istrue(contains(typst, ...
+  'See the #nlink(<main:CHANGELOG>)[Changelog]; and #link("https://nelson-lang.github.io/");.'));
 % lists keep nesting and marker type
 asserts.istrue(contains(typst, [newline, '- faster engine', newline, '  - nested item', newline]));
 asserts.istrue(contains(typst, [newline, '+ first step', newline, '+ second step', newline]));
 % fenced code: six backticks, language identifier mapped, content verbatim
 asserts.istrue(contains(typst, ['``````matlab', newline, 'x = [1, 2]; % #not escaped', newline, '``````']));
 % pipe table: header row, separator dropped
-asserts.istrue(contains(typst, ['#table(', newline, '  columns: 2,', newline, '  table.header([Name], [Value]),', newline, '  [alpha], [1],', newline, '  [beta], [2],', newline, ')']));
+asserts.istrue(contains(typst, ['#table(', newline, '  columns: 2,', newline, '  table.header([Name], [Value]),', ...
+  newline, '  [alpha], [1],', newline, '  [beta], [2],', newline, ')']));
 %=============================================================================
 % default helpers path and a page whose first heading is not level 1
 typst = markdown_to_typst(['### Deep title', newline, 'text', newline, '#### Sub'], 'main:deep');

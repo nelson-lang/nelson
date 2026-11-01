@@ -67,7 +67,8 @@ assertErrorIdentifier(@() validateattributes([1 2], {'char'}, {}), 'Nelson:valid
 assertErrorIdentifier(@() validateattributes([1 2], {'numeric'}, {'column'}), 'Nelson:expectedColumn');
 assertErrorIdentifier(@() validateattributes([1 2], {'numeric'}, {'>', 1}), 'Nelson:notGreater');
 % with a function name the identifier is prefixed by it, using the established convention
-assertErrorIdentifier(@() validateattributes(-1, {'numeric'}, {'positive'}, 'myfun', 'X', 2), 'Nelson:myfun:expectedPositive');
+assertErrorIdentifier(@() validateattributes(-1, {'numeric'}, {'positive'}, 'myfun', 'X', 2), ...
+  'Nelson:myfun:expectedPositive');
 assertErrorIdentifier(@() validateattributes([1 2], {'char'}, {}, 'myfun'), 'Nelson:myfun:invalidType');
 assertErrorIdentifier(@() validateattributes([1 2], {'numeric'}, {'>', 1}, 'myfun'), 'Nelson:myfun:notGreater');
 %=============================================================================

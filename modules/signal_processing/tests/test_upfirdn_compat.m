@@ -46,6 +46,8 @@ asserts.checkerror('upfirdn(zeros(0, 1), [1 1])', _('Input signal must be nonemp
 asserts.checkerror('upfirdn([1 2], [])', _('Filter coefficients must be nonempty.'));
 asserts.checkerror('upfirdn(sparse([1 2]), [1])', _('Sparse matrices are not supported.'));
 asserts.checkerror('upfirdn([1 2], sparse([1]))', _('Sparse matrices are not supported.'));
-asserts.checkerror('upfirdn([1 2; 3 4], [1 2 3; 4 5 6])', _('Signal X and filter H must have the same number of columns.'));
-asserts.checkerror('upfirdn([1 2 3; 4 5 6], [1 2 3; 4 5 6], 1, 1, 2)', _('Signal X and filter H must have the same number of columns.'));
+asserts.checkerror('upfirdn([1 2; 3 4], [1 2 3; 4 5 6])', ...
+  _('Signal X and filter H must have the same number of columns.'));
+asserts.checkerror('upfirdn([1 2 3; 4 5 6], [1 2 3; 4 5 6], 1, 1, 2)', ...
+  _('Signal X and filter H must have the same number of columns.'));
 %=============================================================================

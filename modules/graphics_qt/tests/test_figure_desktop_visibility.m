@@ -9,7 +9,8 @@
 %=============================================================================
 % <--GUI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 close all;
 surf(peaks);
 figureObject = gcf();

@@ -24,7 +24,7 @@ function varargout = lsim(varargin)
   if ~isa(sys, 'ss')
     sys = ss(sys);
   end
-  [A, B, C, D, Ts] = ssdata(sys);
+  [~, B, C, ~, ~] = ssdata(sys);
 
   U = varargin{2};
   mustBeNumeric(U, 2);

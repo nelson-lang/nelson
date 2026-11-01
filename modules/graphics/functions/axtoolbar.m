@@ -46,7 +46,8 @@ function checkButtons(buttons)
     buttons = cellstr(buttons);
   end
   if ~iscellstr(buttons)
-    error('Nelson:graphics:invalidToolbarButtons', 'Buttons must be a character vector, a string array or a cell array of character vectors.');
+    error('Nelson:graphics:invalidToolbarButtons', ...
+      'Buttons must be a character vector, a string array or a cell array of character vectors.');
   end
   known = {'default', 'export', 'brush', 'datacursor', 'rotate', 'pan', 'zoom', 'restoreview', 'zoomin', 'zoomout'};
   for k = 1:numel(buttons)

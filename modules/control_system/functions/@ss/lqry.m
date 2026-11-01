@@ -28,7 +28,8 @@ function varargout = lqry(varargin)
   mustBeNumeric(R, 4);
   E = sys.E;
   if ~isempty(E) && rcond(E) < eps()
-    error('Nelson:control_system:wrongValue:wrongValueArgument1SysEX', 'Wrong value for argument #1: sys.E must not be singular.');
+    error('Nelson:control_system:wrongValue:wrongValueArgument1SysEX', ...
+      'Wrong value for argument #1: sys.E must not be singular.');
   end
 
   rA = size(sys.A, 1);
@@ -44,14 +45,18 @@ function varargout = lqry(varargin)
 
   qmod = symmetrize(qmod);
   rmod = symmetrize(rmod);
-  [Veig, eigVals] = eig(rmod);
-  vr = real(diag(eigVals));
+  vr = real(eig(rmod));
   if min(vr) <= 0
-    error('Nelson:control_system:wrongValue:wrongValueInputArguments56', 'Wrong value for input arguments #5 or #6: result must be positive definite.');
+    error('Nelson:control_system:wrongValue:wrongValueInputArguments56', ...
+      'Wrong value for input arguments #5 or #6: result must be positive definite.');
   end
 
-  [Veig, eigVals] = eig([qmod, nmod; nmod', rmod]);
-  vqnr = real(diag(eigVals));
+  % The full weighting matrix may be indefinite: warn, then solve anyway.
+  vqnr = real(eig(symmetrize([qmod, nmod; nmod', rmod])));
+  if min(vqnr) < -1e2 * eps() * max(1, max(abs(vqnr)))
+    warning('Nelson:control_system:notPositiveSemiDefinite', ...
+      'The matrix [C D;0 I]''*[Q N;N'' R]*[C D;0 I] should be positive semi-definite.');
+  end
 
   [K, S, e] = lqr(sys.A, sys.B, qmod, rmod, nmod, sys.E);
   varargout{1} = K;

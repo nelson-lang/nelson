@@ -58,7 +58,9 @@ asserts.checkerror('ztest([1 2 3], 0)', _('Not enough input arguments.'));
 asserts.checkerror('ztest([1 2 3], 0, -1)', sprintf(_('%s must be positive.'), 'SIGMA'));
 asserts.checkerror('ztest([1 2 3], 0, 1, ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('ztest([1 2 3], 0, 1, ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('ztest([1 2 3], 0, 1, ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
+asserts.checkerror('ztest([1 2 3], 0, 1, ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
 asserts.checkerror('ztest([1 2 3], 0, 1, ''Tail'', ''bad'')', _('TAIL must be ''both'', ''right'', or ''left''.'));
-asserts.checkerror('ztest([1 2 3], 0, 1, ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), 'a positive integer scalar within indexing range'));
+asserts.checkerror('ztest([1 2 3], 0, 1, ''Dim'', 0)', sprintf(_('Dimension argument must be %s.'), ...
+  'a positive integer scalar within indexing range'));
 %=============================================================================

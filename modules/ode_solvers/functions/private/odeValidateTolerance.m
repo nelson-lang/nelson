@@ -12,7 +12,8 @@ function odeValidateTolerance(value, name)
     error('Nelson:ode_solvers:invalidValue:valueNonEmptyToleranceExpected', '%s: non-empty tolerance expected.', name);
   end
   if ~isnumeric(value) || any(~isfinite(value(:))) || any(value(:) < 0)
-    error('Nelson:ode_solvers:invalidValue:valueFiniteNonNegativeNumericValue', '%s: finite non-negative numeric value expected.', name);
+    error('Nelson:ode_solvers:invalidValue:valueFiniteNonNegativeNumericValue', ...
+      '%s: finite non-negative numeric value expected.', name);
   end
 end
 %=============================================================================

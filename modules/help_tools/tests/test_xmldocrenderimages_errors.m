@@ -10,7 +10,9 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 asserts.checkerror('xmldocrenderimages([], ''invalid_language'', true)', _('Invalid language'));
-asserts.checkerror('xmldocrenderimages([], ''invalid_language'', true)', _('Invalid language'), 'Nelson:xmldocrenderimages:invalidLanguage');
+asserts.checkerror('xmldocrenderimages([], ''invalid_language'', true)', _('Invalid language'), ...
+  'Nelson:xmldocrenderimages:invalidLanguage');
 asserts.checkerror('xmldocrenderimages('''', [], true)', _('Invalid module name.'));
-asserts.checkerror('xmldocrenderimages('''', [], true)', _('Invalid module name.'), 'Nelson:xmldocrenderimages:invalidModuleName');
+asserts.checkerror('xmldocrenderimages('''', [], true)', _('Invalid module name.'), ...
+  'Nelson:xmldocrenderimages:invalidModuleName');
 %=============================================================================

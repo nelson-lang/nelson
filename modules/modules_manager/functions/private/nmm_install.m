@@ -202,7 +202,8 @@ function refuseYankedPackage(packageInfo)
   if isfield(packageInfo, 'yank_reason') && ischar(packageInfo.yank_reason) && ~isempty(packageInfo.yank_reason)
     reason = [': ', packageInfo.yank_reason];
   end
-  nmm_error('PackageYanked', 'Package version has been yanked from the registry: %s %s%s', packageInfo.name, packageInfo.version, reason);
+  nmm_error('PackageYanked', 'Package version has been yanked from the registry: %s %s%s', packageInfo.name, ...
+    packageInfo.version, reason);
 end
 %=============================================================================
 function runTests = testsFromEnvironment()
@@ -490,7 +491,8 @@ function nmm_install_directory(directory, varargin)
     warning('Nelson:module:alreadyInstalled', '%s already installed.', module_description.module);
     return
   end
-  nmm_progress('install', module_description.module, module_description.version, 'dependencies', steps.dependencies, steps.total);
+  nmm_progress('install', module_description.module, module_description.version, 'dependencies', steps.dependencies, ...
+    steps.total);
   installModuleDependencies(directory, module_description);
   [r, msg] = nmm_is_supported_platform(module_description.platforms);
   if ~r
@@ -499,7 +501,7 @@ function nmm_install_directory(directory, varargin)
   if (module_description.builtin && ~havecompiler())
     installCompiler = false;
     if ispc()
-      [installCompiler, message] = configuremsvc();
+      [installCompiler, ~] = configuremsvc();
     end
     if installCompiler
       warning('Nelson:module:visualStudioConfigured', 'Visual studio detected and configured to be used with Nelson.');
@@ -527,7 +529,8 @@ function nmm_install_repository(url, tag_branch, varargin)
       cleanupDirectory(sourcePath);
       return
     end
-    nmm_progress('install', module_description.module, module_description.version, 'dependencies', steps.dependencies, steps.total);
+    nmm_progress('install', module_description.module, module_description.version, 'dependencies', ...
+      steps.dependencies, steps.total);
     installModuleDependencies(sourcePath, module_description);
     [r, msg] = nmm_is_supported_platform(module_description.platforms);
     if ~r
@@ -536,10 +539,11 @@ function nmm_install_repository(url, tag_branch, varargin)
     if (module_description.builtin && ~havecompiler())
       installCompiler = false;
       if ispc()
-        [installCompiler, message] = configuremsvc();
+        [installCompiler, ~] = configuremsvc();
       end
       if installCompiler
-        warning('Nelson:module:visualStudioConfigured', 'Visual studio detected and configured to be used with Nelson.');
+        warning('Nelson:module:visualStudioConfigured', ...
+          'Visual studio detected and configured to be used with Nelson.');
       else
         nmm_error('CompilerRequired', 'An C/C++ compiler is required by %s', module_description.module);
       end
@@ -624,7 +628,8 @@ function ensureInstalledDependency(requesterName, dependencyName, dependencySpec
       return
     end
     versions = installedVersionsText(dependencyData);
-    nmm_error('DependencyConflict', '%s requires %s %s, installed versions: %s', requesterName, dependencyName, dependencySpec, versions);
+    nmm_error('DependencyConflict', '%s requires %s %s, installed versions: %s', requesterName, dependencyName, ...
+      dependencySpec, versions);
   end
   if isDependencySource(dependencySpec)
     nmm_install_one_rhs(dependencySpec);
@@ -648,7 +653,7 @@ function tf = isMissingRegistryDependencyError(e)
 end
 %=============================================================================
 function r = isDependencySource(dependencySpec)
-  [isRepository, url, tag_branch] = nmm_is_http_repository(dependencySpec);
+  [isRepository, ~, ~] = nmm_is_http_repository(dependencySpec);
   r = isRepository || isdir(dependencySpec) || isfile(dependencySpec);
 end
 %=============================================================================
@@ -722,7 +727,8 @@ function installSourceModule(sourcePath, module_description, varargin)
       runPackageTests(stagingPath);
     end
     createModuleLockJson(stagingPath);
-    nmm_progress('install', module_description.module, module_description.version, 'register', steps.register, steps.total);
+    nmm_progress('install', module_description.module, module_description.version, 'register', steps.register, ...
+      steps.total);
     commitPreparedModule(stagingPath, module_description.module, module_description.version);
     cleanupDirectory(stagingPath);
     nmm_progress('install', module_description.module, module_description.version, 'done', steps.done, steps.total);
@@ -1030,7 +1036,7 @@ end
 %=============================================================================
 function cleanupDirectory(path)
   if ischar(path) && isdir(path)
-    [r, msg] = rmdir(path, 's');
+    [~, ~] = rmdir(path, 's');
   end
 end
 %=============================================================================

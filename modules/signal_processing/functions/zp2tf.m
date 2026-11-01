@@ -44,7 +44,8 @@ function numerator = findNumerator(zerosArray, gain, denominator)
     [zeros_rows, zeros_cols] = size(zerosArray);
     if (gain_rows ~= zeros_cols)
       if ((zeros_rows - 1) ~= 0)
-        error('Nelson:dimagree:inputArgumentNNShouldColumn', 'Input argument #%d and #%d should have the same column size.', 1, 3);
+        error('Nelson:dimagree:inputArgumentNNShouldColumn', ...
+          'Input argument #%d and #%d should have the same column size.', 1, 3);
       else
         error('Nelson:validators:mustBeColumn', '%s must be a column vector.', 'First argument');
       end

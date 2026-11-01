@@ -14,7 +14,8 @@ asserts.isequal(size(zeros(2,3,4),1,3), [2 4]);
 asserts.isequal(size(zeros(2,3,4),3,1), [4 2]);
 asserts.isequal(size(zeros(2,3,4),1,2,3), [2 3 4]);
 asserts.isequal(size(zeros(2,3,4),1,2,3,4), [2 3 4 1]);
-asserts.checkerror('size(zeros(2,3,4),[1 0])', _('Dimension argument must be a positive integer scalar within indexing range.'));
+asserts.checkerror('size(zeros(2,3,4),[1 0])', ...
+  _('Dimension argument must be a positive integer scalar within indexing range.'));
 asserts.isequal(size(zeros(2,3,4),true,true), [2 2]);
 asserts.isequal(zeros([]), zeros([0 0], 'double'));
 asserts.isequal(zeros([],3), zeros([0 3], 'double'));

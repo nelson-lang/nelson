@@ -13,7 +13,8 @@ function T = convertvars(T, vars, conversion)
   names = T.Properties.VariableNames;
   isFun = isa(conversion, 'function_handle');
   if ~isFun && ~(ischar(conversion) || isstring(conversion))
-    error('Nelson:table:invalidType:conversionAFunctionHandleTypeName', 'Conversion must be a function handle or type name.');
+    error('Nelson:table:invalidType:conversionAFunctionHandleTypeName', ...
+      'Conversion must be a function handle or type name.');
   end
   idx = tableResolveVariables(names, vars);
   if isempty(idx)

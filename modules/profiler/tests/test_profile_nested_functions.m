@@ -52,7 +52,8 @@ p = profile('info');
 asserts.isequal(profileValue, 42);
 foundProfileEntry = false;
 for k = 1:length(p)
-  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, 'nested_profile_deeper_case>nested_profile_middle>nested_profile_inner');
+  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, ...
+    'nested_profile_deeper_case>nested_profile_middle>nested_profile_inner');
 end
 asserts.istrue(foundProfileEntry);
 rmpath(path_test);
@@ -77,7 +78,8 @@ p = profile('info');
 asserts.isequal(profileValue, 42);
 foundProfileEntry = false;
 for k = 1:length(p)
-  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, 'nested_profile_closure_factory>nested_profile_closure_helper');
+  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, ...
+    'nested_profile_closure_factory>nested_profile_closure_helper');
 end
 asserts.istrue(foundProfileEntry);
 rmpath(path_test);

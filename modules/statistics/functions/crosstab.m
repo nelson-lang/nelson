@@ -85,7 +85,8 @@ function [codes, labelColumns, labels, keep] = crosstabCodesLocal(inputs, includ
   keep = true(n, 1);
   for dim = 1:length(inputs)
     if numel(inputs{dim}) ~= n
-      error('Nelson:statistics:allGroupingVariablesSameNumber', 'All grouping variables must have the same number of elements.');
+      error('Nelson:statistics:allGroupingVariablesSameNumber', ...
+        'All grouping variables must have the same number of elements.');
     end
     values = crosstabValuesLocal(inputs{dim});
     valuesColumns{dim} = values;
@@ -205,7 +206,8 @@ end
 %=============================================================================
 function T = crosstabTableLocal(counts, labels)
   if ndims(counts) ~= 2
-    error('Nelson:statistics:tableOutputFormatSupportedTwo', 'Table output format is supported for two grouping variables.');
+    error('Nelson:statistics:tableOutputFormatSupportedTwo', ...
+      'Table output format is supported for two grouping variables.');
   end
   T = array2table(counts);
   rowValues = labels(:, 1);

@@ -50,10 +50,12 @@ asserts.isequal(Qinteger, 2);
 asserts.checkerror('quantile()', _('Not enough input arguments.'));
 asserts.checkerror('quantile({1}, 0.5)', sprintf(_('%s must be a real numeric array.'), 'A'));
 asserts.checkerror('quantile([1 2], -0.1)', sprintf(_('%s must be in the range [0,1].'), 'Probabilities'));
-asserts.checkerror('quantile([1 2], -0.1)', sprintf(_('%s must be in the range [0,1].'), 'Probabilities'), 'Nelson:statistics:probabilityOutOfRange');
+asserts.checkerror('quantile([1 2], -0.1)', sprintf(_('%s must be in the range [0,1].'), 'Probabilities'), ...
+  'Nelson:statistics:probabilityOutOfRange');
 asserts.checkerror('quantile([1 2], 1.5)', sprintf(_('%s must be in the range [0,1].'), 'Probabilities'));
 asserts.checkerror('quantile([1 2], [0.5 NaN])', sprintf(_('%s must be in the range [0,1].'), 'Probabilities'));
-asserts.checkerror('quantile([1 2], 0.5, 0)', _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
+asserts.checkerror('quantile([1 2], 0.5, 0)', ...
+  _('Dimension argument must be a positive integer scalar, vector, or ''all''.'));
 asserts.checkerror('quantile([1 2], 0.5, ''bad'')', _('Invalid quantile option.'));
 asserts.checkerror('quantile([1 2], 0.5, ''Method'')', _('Method option requires a value.'));
 asserts.checkerror('quantile([1 2], 0.5, ''Method'', ''bad'')', _('Invalid quantile method.'));

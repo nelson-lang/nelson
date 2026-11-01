@@ -17,7 +17,8 @@ asserts.isequal(P, [0 0 1 0 0]);
 asserts.isequal(TF, [false false true false true false false]);
 asserts.isequal(P, [0 0 3 0 3 0 0]);
 asserts.isequal(islocalmin([0 5 1 3 1 4 0], 'MinSeparation', 4), [false false true false false false false]);
-asserts.isequal(islocalmin([0 9 1 3 0 4 0 3 1 9 0], 'MaxNumExtrema', 3), [false false true false true false true false false false false]);
+asserts.isequal(islocalmin([0 9 1 3 0 4 0 3 1 9 0], 'MaxNumExtrema', 3), ...
+  [false false true false true false true false false false false]);
 %=============================================================================
 % flat regions
 A = [5 2 2 2 2 5 4 5];
@@ -100,5 +101,6 @@ asserts.isapprox(P(TF), [1.770303986244544 3.5547737767075871], 1e-12);
 asserts.isequal(find(islocalmin(A, 'MinProminence', 2)), 72);
 %=============================================================================
 assert_checkerror('islocalmin({1, 2})', 'First argument must be a numeric or logical array, a table, or a timetable.', 'Nelson:isLocalExtrema:FirstInputInvalid');
-assert_checkerror('islocalmin([1 2 1], ''MaxNumExtrema'', 0)', '''MaxNumExtrema'' value must be a positive integer.', 'Nelson:isLocalExtrema:MaxNumInvalid');
+assert_checkerror('islocalmin([1 2 1], ''MaxNumExtrema'', 0)', ...
+  '''MaxNumExtrema'' value must be a positive integer.', 'Nelson:isLocalExtrema:MaxNumInvalid');
 %=============================================================================

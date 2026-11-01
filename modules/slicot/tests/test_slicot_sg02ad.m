@@ -37,7 +37,8 @@ R = [0.0;
   0.0;
   1.0];
 L = zeros(N, N);
-[RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL);
+[RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, ...
+  P, A, E, B, Q, R, L, TOL);
 %=============================================================================
 RCONDU_REF = 0.3013;
 asserts.isapprox(RCONDU, RCONDU_REF, 1e-4);

@@ -64,9 +64,13 @@ asserts.checkerror('fitctree([1; 2], [1; 1])', _('Y must contain at least two cl
 asserts.checkerror('fitctree([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitctree(X, Y, ''SplitCriterion'', ''bad'')', sprintf(_('Invalid %s value.'), 'SplitCriterion'));
 asserts.checkerror('fitctree(X, Y, ''Prior'', ''bad'')', sprintf(_('Invalid %s value.'), 'Prior'));
-asserts.checkerror('fitctree(X, Y, ''MaxNumSplits'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'MaxNumSplits'));
-asserts.checkerror('fitctree(X, Y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinLeafSize'));
-asserts.checkerror('fitctree(X, Y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinParentSize'));
+asserts.checkerror('fitctree(X, Y, ''MaxNumSplits'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), ...
+  'MaxNumSplits'));
+asserts.checkerror('fitctree(X, Y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinLeafSize'));
+asserts.checkerror('fitctree(X, Y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinParentSize'));
 asserts.checkerror('fitctree(X, Y, ''ClassNames'', [1; 1; 2])', _('ClassNames must contain unique labels.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

@@ -122,7 +122,7 @@ function index_dirs = localGetAllModuleXmlDirectories(language)
             for lang = languages(:)'
                 help_path = [modules_path, module_name, '/help/', lang{1}, '/xml'];
                 if isdir(help_path) && isfile([help_path, '/chapter.xml'])
-                    index_dirs{end + 1} = help_path; %#ok<AGROW>
+                    index_dirs{end + 1} = help_path; %#ok<NLS0039>
                 end
             end
         end

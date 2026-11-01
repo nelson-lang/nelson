@@ -14,6 +14,7 @@ mustBeNonmissing([]);
 mustBeNonmissing([true, false]);
 asserts.checkerror('mustBeNonmissing(["hello" string(NaN)])', sprintf(_('%s must be nonmissing.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonmissing.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonmissing.'), ...
+  'Value')];
 asserts.checkerror('mustBeNonmissing(NaN, 3)', msg);
 %=============================================================================

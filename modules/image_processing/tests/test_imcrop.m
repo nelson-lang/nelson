@@ -20,7 +20,8 @@ asserts.checkerror('imcrop([1 2], [1 2 3])', sprintf(_('%s must be a numeric 4-e
 %=============================================================================
 asserts.checkerror('imcrop([1 2], [1 1 NaN 1])', sprintf(_('%s must contain finite values.'), 'Crop rectangle'));
 %=============================================================================
-asserts.checkerror('imcrop([1 2], [1 1 -1 1])', sprintf(_('%s width and height must be nonnegative.'), 'Crop rectangle'));
+asserts.checkerror('imcrop([1 2], [1 1 -1 1])', sprintf(_('%s width and height must be nonnegative.'), ...
+  'Crop rectangle'));
 %=============================================================================
 I = reshape(1:9, 3, 3);
 C = imcrop(I, [1 1 1 1]);

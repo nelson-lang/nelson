@@ -24,7 +24,8 @@ function solout = odextend(sol, odefun, tfinal, options)
     return
   end
   if ~odeCanExtendTo(data.x, tfinal)
-    error('Nelson:ode_solvers:odeSolutionCannotExtendedRequestedDirection', 'ODE solution cannot be extended in the requested direction.');
+    error('Nelson:ode_solvers:odeSolutionCannotExtendedRequestedDirection', ...
+      'ODE solution cannot be extended in the requested direction.');
   end
   y0 = data.y(:, size(data.y, 2));
   tspan = [data.x(lastIndex), tfinal];

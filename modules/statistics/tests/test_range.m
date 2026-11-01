@@ -21,5 +21,6 @@ asserts.isequal(range([1 NaN 5]), 4);
 % column vector
 asserts.isequal(range([2; 9; 4]), 7);
 %=============================================================================
-asserts.checkerror('range(''abc'')', sprintf(_('%s must be numeric or logical.'), 'Input'), 'Nelson:validators:mustBeNumericOrLogical');
+asserts.checkerror('range(''abc'')', sprintf(_('%s must be numeric or logical.'), 'Input'), ...
+  'Nelson:validators:mustBeNumericOrLogical');
 %=============================================================================

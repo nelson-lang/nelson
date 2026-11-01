@@ -20,7 +20,8 @@ function lines = __nelsonc_inno_script__(payload, output, shortcut, options, ima
   if startsWith(directory, '%ProgramFiles%\')
     directory = ['{autopf}\', directory(16:end)];
   end
-  lines = __nelsonc_inno_setup__(output, options.ApplicationName, options.Version, identity, options.InstallerName, options.Compression);
+  lines = __nelsonc_inno_setup__(output, options.ApplicationName, options.Version, identity, options.InstallerName, ...
+    options.Compression);
   lines = [lines, {...
     ['AppPublisher=', literal(options.AuthorCompany)], ...
     ['AppComments=', literal(options.Summary)], ...
@@ -59,7 +60,8 @@ end
 
 function value = literal(value)
   if any(value < char(32))
-    error('Nelson:nelsonc:installer:installerScriptValuesCannotContain', 'Installer script values cannot contain control characters.');
+    error('Nelson:nelsonc:installer:installerScriptValuesCannotContain', ...
+      'Installer script values cannot contain control characters.');
   end
   value = strrep(value, '{', '{{');
 end

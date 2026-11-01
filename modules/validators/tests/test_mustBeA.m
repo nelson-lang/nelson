@@ -18,5 +18,6 @@ mustBeA(A, {'double'})
 mustBeA(A, {'double', 'single'})
 mustBeA(A, ["double", "single"])
 %=============================================================================
-asserts.checkerror('mustBeA(A, ''single'')', 'Value must have one of these types: ''single''.', 'Nelson:validators:mustBeA');
+asserts.checkerror('mustBeA(A, ''single'')', 'Value must have one of these types: ''single''.', ...
+  'Nelson:validators:mustBeA');
 %=============================================================================

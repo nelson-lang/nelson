@@ -76,7 +76,8 @@ asserts.isequal(size(h), [1 1]);
 asserts.istrue(isgraphics(h, 'text'));
 %=============================================================================
 % a dangling property name is rejected
-assert_checkerror('text(''String'', ''a'', ''Color'')', getString(message('Nelson:graphics:pvPairsExpected')), 'Nelson:graphics:pvPairsExpected');
+assert_checkerror('text(''String'', ''a'', ''Color'')', getString(message('Nelson:graphics:pvPairsExpected')), ...
+  'Nelson:graphics:pvPairsExpected');
 %=============================================================================
 % non regression: positional forms are unchanged
 h = text(0.5, 0.5, 'a');
@@ -106,8 +107,10 @@ asserts.isequal(get(h, 'FontSize'), 20);
 h = text(0.7, 0.7, 'f', 'Parent', ax);
 asserts.isequal(get(h, 'Parent'), ax);
 %=============================================================================
-assert_checkerror('text(1, 2)', getString(message('Nelson:narginchk:notEnoughInputs')), 'Nelson:narginchk:notEnoughInputs');
-assert_checkerror('text(1, 2, 3)', getString(message('Nelson:text:invalidLastArgument')), 'Nelson:text:invalidLastArgument');
+assert_checkerror('text(1, 2)', getString(message('Nelson:narginchk:notEnoughInputs')), ...
+  'Nelson:narginchk:notEnoughInputs');
+assert_checkerror('text(1, 2, 3)', getString(message('Nelson:text:invalidLastArgument')), ...
+  'Nelson:text:invalidLastArgument');
 %=============================================================================
 close(f);
 %=============================================================================

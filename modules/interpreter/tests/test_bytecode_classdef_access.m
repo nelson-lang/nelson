@@ -19,7 +19,8 @@ classes = fullfile(directory, 'classes');
 mkdir(callers);
 package = fullfile(classes, '+NcByteAccess', '+nested');
 mkdir(package);
-fixture = fullfile(modulepath('interpreter', 'tests'), 'bytecode_classdef_access', '+NcByteAccess', '+nested', 'Item.m');
+fixture = fullfile(modulepath('interpreter', 'tests'), 'bytecode_classdef_access', '+NcByteAccess', '+nested', ...
+  'Item.m');
 copyfile(fixture, fullfile(package, 'Item.m'));
 names = {'nc_byte_private', 'nc_byte_protected', 'nc_byte_public', 'nc_byte_internal'};
 members = {'secret', 'guarded', 'visible', 'reveal'};

@@ -106,7 +106,8 @@ asserts.checkerror('bicg(A, b, [], [], speye(2))', sprintf(_('%s dimensions must
 asserts.checkerror('bicg(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('bicg(A, b, [], [], [1; 0; 1])', _('Preconditioner diagonal must not contain zeros.'));
 asserts.checkerror('bicg(sparse(1), 1, [], [], sparse(0))', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('bicg(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), 'Preconditioner factorization'));
+asserts.checkerror('bicg(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), ...
+  'Preconditioner factorization'));
 asserts.checkerror('bicg(A, b, [], [], @(x) x)', _('Too many input arguments.'));
 asserts.checkerror('bicg(A, b, [], [], @(x, t) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('bicg(A, b, [], [], [], @(x, t) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));

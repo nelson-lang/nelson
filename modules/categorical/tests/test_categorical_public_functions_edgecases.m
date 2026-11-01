@@ -37,5 +37,6 @@ asserts.checkerror('categorical({''a''}, ''Ordinal'', true, ''Protected'', false
 asserts.checkerror('categorical(''abc'')', ...
   _('Character arrays must be wrapped in a cell array or string array.'));
 asserts.checkerror('categorical({''a''}, {''a''}, {''good'', ''''})', _('Invalid category name.'));
-asserts.checkerror('categorical({''a''}, {''a''}, {''good'', ''''})', _('Invalid category name.'), 'Nelson:categorical:invalidCategoryName');
+asserts.checkerror('categorical({''a''}, {''a''}, {''good'', ''''})', _('Invalid category name.'), ...
+  'Nelson:categorical:invalidCategoryName');
 %=============================================================================

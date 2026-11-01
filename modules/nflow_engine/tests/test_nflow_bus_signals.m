@@ -96,7 +96,8 @@ assert_istrue(~isempty(strfind(r3.reason, 'busSelector')));
 %=============================================================================
 % Unknown member path names the available members.
 d4 = d;
-d4.blocks{4} = struct('id', 'sel', 'type', 'busSelector', 'inputs', 1, 'outputs', 1, 'params', struct('SelectedSignals', {{'missing'}}));
+d4.blocks{4} = struct('id', 'sel', 'type', 'busSelector', 'inputs', 1, 'outputs', 1, 'params', ...
+  struct('SelectedSignals', {{'missing'}}));
 d4.connections = d.connections(1:4);
 d4.connections{4} = struct('from', 'sel', 'to', 'g', 'fromIndex', 0, 'toIndex', 0);
 d4.connections{5} = struct('from', 'g', 'to', 's', 'fromIndex', 0, 'toIndex', 0);
@@ -123,7 +124,8 @@ if isdir(outdir)
 end
 mkdir(outdir);
 db = d;
-db.blocks{end + 1} = struct('id', 'y', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, 'params', struct('GotoTag', 'y'));
+db.blocks{end + 1} = struct('id', 'y', 'type', 'labelSink', 'inputs', 1, 'outputs', 1, 'params', struct('GotoTag', ...
+  'y'));
 db.connections{end + 1} = struct('from', 'g', 'to', 'y', 'fromIndex', 0, 'toIndex', 0);
 model = [outdir, filesep, 'bus.nflow'];
 fid = fopen(model, 'wt');

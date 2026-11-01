@@ -115,7 +115,8 @@ function opts = parseOptionsLocal(opts, options)
   opts.MaxIt = statget(options, 'MaxIter', opts.MaxIt);
   opts.RelTol = statget(options, 'TolX', opts.RelTol);
   if ~isPositiveIntegerLocal(opts.MaxIt)
-    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Options MaxIter');
+    error('Nelson:statistics:optionsMaxIterPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Options MaxIter');
   end
   if ~isPositiveScalarLocal(opts.RelTol)
     error('Nelson:statistics:optionsTolXPositiveScalar', '%s must be a positive scalar.', 'Options TolX');
@@ -128,7 +129,8 @@ function validateStartLocal(value)
     return
   end
   if ~(isnumeric(value) && isreal(value) && ~issparse(value) && all(isfinite(double(value(:)))))
-    error('Nelson:statistics:startSupportedValueFiniteNumeric', 'Start must be a supported value or a finite numeric array.');
+    error('Nelson:statistics:startSupportedValueFiniteNumeric', ...
+      'Start must be a supported value or a finite numeric array.');
   end
   if isscalar(value) && (value <= 0 || floor(value) ~= value)
     error('Nelson:statistics:startPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Start');

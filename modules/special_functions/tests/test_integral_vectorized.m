@@ -33,7 +33,10 @@ asserts.isapprox(q, 12 * log(2) - 12 + 2 * pi, 1e-6);
 q = integral2(@(x, y) x * y, 0, 1, 0, @(x) x, 'Vectorized', false);
 asserts.isapprox(q, 0.125, 1e-9);
 %=============================================================================
-asserts.checkerror('integral(@(x) x, 0, 1, ''Vectorized'', ''a'')', sprintf(_('%s must be a logical scalar.'), 'Vectorized'));
-asserts.checkerror('integral(@(x) x, 0, 1, ''Vectorized'', ''a'')', sprintf(_('%s must be a logical scalar.'), 'Vectorized'), 'Nelson:integral:Vectorized');
-asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Vectorized'', [1 0])', sprintf(_('%s must be a logical scalar.'), 'Vectorized'), 'Nelson:integral2:Vectorized');
+asserts.checkerror('integral(@(x) x, 0, 1, ''Vectorized'', ''a'')', sprintf(_('%s must be a logical scalar.'), ...
+  'Vectorized'));
+asserts.checkerror('integral(@(x) x, 0, 1, ''Vectorized'', ''a'')', sprintf(_('%s must be a logical scalar.'), ...
+  'Vectorized'), 'Nelson:integral:Vectorized');
+asserts.checkerror('integral2(@(x, y) x, 0, 1, 0, 1, ''Vectorized'', [1 0])', ...
+  sprintf(_('%s must be a logical scalar.'), 'Vectorized'), 'Nelson:integral2:Vectorized');
 %=============================================================================

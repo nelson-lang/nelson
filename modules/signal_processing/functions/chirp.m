@@ -36,7 +36,8 @@ function y = chirp(varargin)
     phase = 2 * pi * (f0 * t + beta * t .^ 3 / 3);
   elseif strcmpi(method, 'logarithmic')
     if f0 * f1 <= 0
-      error('Nelson:signal:chirp:invalidFrequencies', 'Frequencies must be nonzero and have the same sign for logarithmic sweeps.');
+      error('Nelson:signal:chirp:invalidFrequencies', ...
+        'Frequencies must be nonzero and have the same sign for logarithmic sweeps.');
     end
     ratio = f1 / f0;
     phase = 2 * pi * f0 * t1 / log(ratio) * (ratio .^ (t / t1) - 1);

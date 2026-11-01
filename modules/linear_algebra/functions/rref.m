@@ -32,7 +32,7 @@ function varargout = rref(varargin)
   used = zeros(1, cols);
   r = 1;
   for c = 1:cols
-    [m, p] = max(abs(A(r:rows, c)));
+    [m, ~] = max(abs(A(r:rows, c)));
     if (m > tol)
       used(1, c) = 1;
       ccols = c:cols;

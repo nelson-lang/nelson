@@ -27,7 +27,8 @@ function varargout = normest(varargin)
     end
     tolerance = real(tolerance);
     if (~isempty(tolerance) && (~isfinite(tolerance) || tolerance < 0))
-      error('Nelson:elementary_functions:toleranceNonNegativeFiniteScalar', 'tolerance must be a nonnegative finite scalar.');
+      error('Nelson:elementary_functions:toleranceNonNegativeFiniteScalar', ...
+        'tolerance must be a nonnegative finite scalar.');
     end
   else
     tolerance = 1.e-6;
@@ -63,7 +64,8 @@ function varargout = normest(varargin)
     x = x / normx;
     count = count + 1;
     if (count > maxIteration)
-      warning('Nelson:normest:notconverge', 'normest did not converge for %d iterations with tolerance %g', maxIteration, tolerance);
+      warning('Nelson:normest:notconverge', 'normest did not converge for %d iterations with tolerance %g', ...
+        maxIteration, tolerance);
       break;
     end
   end

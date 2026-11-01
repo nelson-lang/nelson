@@ -47,7 +47,8 @@ function descending = parseDirection(direction, nVars)
     direction = cellstr(direction);
   end
   if ~iscellstr(direction) || (length(direction) ~= 1 && length(direction) ~= nVars)
-    error('Nelson:table:sortrows:invalidDirection', 'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
+    error('Nelson:table:sortrows:invalidDirection', ...
+      'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
   end
   descending = false(1, length(direction));
   for k = 1:length(direction)

@@ -44,9 +44,11 @@ h = gobjects(2, 3, 4);
 asserts.isequal(size(h), [2 3 4]);
 asserts.isequal(class(h), 'nelson.graphics.GraphicsPlaceholder');
 %=============================================================================
-asserts.checkerror('gobjects([2 -1])', getString(message('Nelson:gobjects:invalidDimensions')), 'Nelson:gobjects:invalidDimensions');
+asserts.checkerror('gobjects([2 -1])', getString(message('Nelson:gobjects:invalidDimensions')), ...
+  'Nelson:gobjects:invalidDimensions');
 %=============================================================================
-asserts.checkerror('gobjects([2 1.5])', getString(message('Nelson:gobjects:invalidDimensions')), 'Nelson:gobjects:invalidDimensions');
+asserts.checkerror('gobjects([2 1.5])', getString(message('Nelson:gobjects:invalidDimensions')), ...
+  'Nelson:gobjects:invalidDimensions');
 %=============================================================================
 h = gobjects(2, 3);
 asserts.isequal(size(h), [2 3]);

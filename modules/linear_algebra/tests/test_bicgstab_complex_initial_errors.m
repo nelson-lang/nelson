@@ -105,11 +105,14 @@ asserts.checkerror('bicgstab(A, b, [], Inf)', _('Expected a nonnegative integer 
 asserts.checkerror('bicgstab(A, b, [], [], [], [], ones(2, 1))', _('Initial guess dimensions must agree.'));
 asserts.checkerror('bicgstab(A, b, [], [], [1; 2])', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
 asserts.checkerror('bicgstab(A, b, [], [], speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
-asserts.checkerror('bicgstab(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
+asserts.checkerror('bicgstab(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimensions must agree.'), ...
+  'Preconditioner'));
 asserts.checkerror('bicgstab(A, b, [], [], [1; 0; 1])', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('bicgstab(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), 'Preconditioner factorization'));
+asserts.checkerror('bicgstab(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), ...
+  'Preconditioner factorization'));
 asserts.checkerror('bicgstab(A, b, [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
-asserts.checkerror('bicgstab(A, b, [], [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), 'Preconditioner'));
+asserts.checkerror('bicgstab(A, b, [], [], [], @(x) x(1:2))', sprintf(_('%s dimensions must agree.'), ...
+  'Preconditioner'));
 asserts.checkerror('bicgstab(sparse([1 2]), [1; 2])', sprintf(_('%s expected.'), 'Square matrix'));
 asserts.checkerror('bicgstab(A, [1; 2])', sprintf(_('%s dimensions must agree.'), 'Matrix and vector'));
 %=============================================================================

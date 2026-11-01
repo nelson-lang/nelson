@@ -17,7 +17,8 @@ function [outputSize, options] = ip_parse_imresize3_options(args, inputSize)
       options.Method = first;
       index = index + 1;
     elseif numel(args) == index
-      error('Nelson:image_processing:unsupportedInterpolationMethod', 'Unsupported "%s" option.', 'interpolation method');
+      error('Nelson:image_processing:unsupportedInterpolationMethod', 'Unsupported "%s" option.', ...
+        'interpolation method');
     end
   end
   while index <= numel(args)
@@ -43,7 +44,8 @@ end
 %=============================================================================
 function outputSize = ip_parse_imresize3_size(value, inputSize)
   if ~isnumeric(value) || ~isreal(value) || issparse(value)
-    error('Nelson:image_processing:scaleFactorOutputSizeNumericReal', 'Scale factor or output size must be numeric and real.');
+    error('Nelson:image_processing:scaleFactorOutputSizeNumericReal', ...
+      'Scale factor or output size must be numeric and real.');
   end
   value = double(value(:).');
   if numel(value) == 1
@@ -53,11 +55,13 @@ function outputSize = ip_parse_imresize3_size(value, inputSize)
     outputSize = max(round(inputSize * value), 1);
   elseif numel(value) == 3
     if any(~isfinite(value)) || any(value <= 0)
-      error('Nelson:image_processing:outputSizeContainPositiveFiniteValues', '%s must contain positive finite values.', 'Output size');
+      error('Nelson:image_processing:outputSizeContainPositiveFiniteValues', ...
+        '%s must contain positive finite values.', 'Output size');
     end
     outputSize = max(round(value), 1);
   else
-    error('Nelson:image_processing:scaleFactorScalarOutputSizeElement', 'Scale factor must be a scalar or output size a 3-element vector.');
+    error('Nelson:image_processing:scaleFactorScalarOutputSizeElement', ...
+      'Scale factor must be a scalar or output size a 3-element vector.');
   end
 end
 %=============================================================================

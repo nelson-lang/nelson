@@ -61,7 +61,8 @@ function name = optionName(value)
     error('Nelson:statistics:unknownNameValue', 'Invalid name-value argument name.');
   end
   text = lower(char(value));
-  names = {'bounds', 'avoidduplicates', 'display', 'initialdesign', 'maxiterations', 'options', 'fixedrows', 'numtries'};
+  names = {'bounds', 'avoidduplicates', 'display', 'initialdesign', 'maxiterations', 'options', 'fixedrows', ...
+    'numtries'};
   matches = {};
   for k = 1:length(names)
     if strncmp(names{k}, text, length(text))

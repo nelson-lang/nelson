@@ -77,5 +77,6 @@ asserts.isequal(diag([1 2 3]), [1 0 0; 0 2 0; 0 0 3]);
 asserts.isequal(diag([1 2; 3 4]), [1; 4]);
 %=============================================================================
 asserts.checkerror('diag(rand(2,2,2))', _('First argument to ''diag'' function must be 2D.'));
-asserts.checkerror('diag(rand(2,2,2))', _('First argument to ''diag'' function must be 2D.'), 'Nelson:constructors_functions:diagInputNot2D');
+asserts.checkerror('diag(rand(2,2,2))', _('First argument to ''diag'' function must be 2D.'), ...
+  'Nelson:constructors_functions:diagInputNot2D');
 %=============================================================================

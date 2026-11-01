@@ -12,7 +12,7 @@ function varargout = esort(varargin)
   nargoutchk(0, 2);
   p = varargin{1};
   p = p(:);
-  [result, index] = sort(real(p), 'descend');
+  [~, index] = sort(real(p), 'descend');
   varargout{1} = p(index);
   if (nargout == 2)
     varargout{2} = index;

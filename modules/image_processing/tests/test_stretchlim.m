@@ -7,4 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.checkerror('stretchlim([0 1], [-0.1 1])', _('Tolerance must be a scalar or a 2-element vector in the range [0, 1].'));
+asserts.checkerror('stretchlim([0 1], [-0.1 1])', ...
+  _('Tolerance must be a scalar or a 2-element vector in the range [0, 1].'));

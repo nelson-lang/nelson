@@ -175,7 +175,8 @@ end
 function cost = costMatrixLocal(value, k)
   if ~(isnumeric(value) && isreal(value) && isequal(size(value), [k k]) ...
       && all(isfinite(value(:))) && all(value(:) >= 0))
-    error('Nelson:statistics:costNonnegativeSquareMatrixOne', 'Cost must be a nonnegative square matrix with one row and column per class.');
+    error('Nelson:statistics:costNonnegativeSquareMatrixOne', ...
+      'Cost must be a nonnegative square matrix with one row and column per class.');
   end
   cost = double(value);
 end

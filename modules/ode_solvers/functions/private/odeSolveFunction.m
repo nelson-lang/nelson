@@ -78,7 +78,8 @@ function options = odeAttachParameters(options, parameters)
   elseif odeIsSolverOptions(options)
     options = struct(options);
   elseif ~isstruct(options)
-    error('Nelson:ode_solvers:optionsArgumentStructureCreatedOdeset', 'Options argument must be a structure created with odeset.');
+    error('Nelson:ode_solvers:optionsArgumentStructureCreatedOdeset', ...
+      'Options argument must be a structure created with odeset.');
   end
   options.Parameters = parameters;
 end

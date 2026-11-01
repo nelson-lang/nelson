@@ -35,7 +35,7 @@ function out = buildSimOutput(result, document)
     end
     value = evalin('base', variableName);
     out.(variableName) = value; % also exposed directly as out.<VariableName>
-    logs(end + 1) = sim_tw_entry(variableName, value, out.tout); %#ok<AGROW>
+    logs(end + 1) = sim_tw_entry(variableName, value, out.tout); %#ok<NLS0039>
   end
   logs = sim_append_scopes(logs, result);
   out.logsout = logs;
@@ -73,7 +73,7 @@ function logs = sim_append_scopes(logs, result)
     if isfield(s, 'times')
       entry.time = s.times(:);
     end
-    logs(end + 1) = entry; %#ok<AGROW>
+    logs(end + 1) = entry; %#ok<NLS0039>
   end
 end
 %=============================================================================

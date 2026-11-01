@@ -13,7 +13,8 @@ function [out, refOut] = ip_imwarp3d_entry(args)
   if numel(args) >= 3 && isstruct(args{2}) && isfield(args{2}, 'ZWorldLimits')
     srcRef = ip_validate_imref3d(args{2});
     if ~isequal(srcRef.ImageSize, [size(volume, 1), size(volume, 2), size(volume, 3)])
-      error('Nelson:image_processing:spatialReferenceImageSizeMatchImage', 'Spatial reference image size must match image size.');
+      error('Nelson:image_processing:spatialReferenceImageSizeMatchImage', ...
+        'Spatial reference image size must match image size.');
     end
     tform = ip_tform_matrix3d(args{3});
     startIndex = 4;
@@ -53,7 +54,8 @@ function [method, fillValue, outputView] = ip_parse_imwarp3d_options(args, start
       method = firstOption;
       startIndex = startIndex + 1;
     elseif strcmp(firstOption, 'cubic')
-      error('Nelson:image_processing:unsupportedInterpolationMethod', 'Unsupported "%s" option.', 'interpolation method');
+      error('Nelson:image_processing:unsupportedInterpolationMethod', 'Unsupported "%s" option.', ...
+        'interpolation method');
     end
   end
   for k = startIndex:2:numel(args)

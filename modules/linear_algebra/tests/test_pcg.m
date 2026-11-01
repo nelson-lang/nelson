@@ -213,7 +213,8 @@ asserts.checkerror('pcg(A, b, [], [], speye(3), speye(2))', sprintf(_('%s dimens
 asserts.checkerror('pcg(A, b, [], [], [1; 0; 1])', _('Preconditioner diagonal must not contain zeros.'));
 asserts.checkerror('pcg(sparse(1), 1, [], [], sparse(0))', _('Preconditioner diagonal must not contain zeros.'));
 asserts.checkerror('pcg(A, b, [], [], sparse(diag([1; 0; 1])))', _('Preconditioner diagonal must not contain zeros.'));
-asserts.checkerror('pcg(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), 'Preconditioner factorization'));
+asserts.checkerror('pcg(A, b, [], [], [1 2 0; 2 4 0; 0 0 1])', sprintf(_('%s failed.'), ...
+  'Preconditioner factorization'));
 asserts.checkerror('pcg(sparse([1 2]), [1; 2])', sprintf(_('%s expected.'), 'Square matrix'));
 asserts.checkerror('pcg(A, [1; 2])', sprintf(_('%s dimensions must agree.'), 'Matrix and vector'));
 %=============================================================================

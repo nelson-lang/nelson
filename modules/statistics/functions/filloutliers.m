@@ -64,7 +64,8 @@ function [opts, fill] = parseNameValuesLocal(opts, fill, args)
         opts.NameValueArgs{end + 1} = args{k};
         opts.NameValueArgs{end + 1} = args{k + 1};
       case {'datavariables', 'outputformat'}
-        error('Nelson:statistics:invalidUsage', '%s is not supported for numeric array input.', canonicalNameLocal(name));
+        error('Nelson:statistics:invalidUsage', '%s is not supported for numeric array input.', ...
+          canonicalNameLocal(name));
     end
   end
 end
@@ -232,7 +233,8 @@ function fill = parseFillMethodLocal(value)
     fill.Method = 'constant';
     fill.Constant = value;
   else
-    error('Nelson:statistics:FILLMETHODSupportedMethodNameNumeric', 'FILLMETHOD must be a supported method name or numeric scalar.');
+    error('Nelson:statistics:FILLMETHODSupportedMethodNameNumeric', ...
+      'FILLMETHOD must be a supported method name or numeric scalar.');
   end
 end
 %=============================================================================
@@ -264,23 +266,27 @@ function fill = validateSamplePointsLocal(fill, n)
     return
   end
   if length(fill.SamplePoints) ~= n
-    error('Nelson:statistics:samplePointsOneElementInputElement', 'SamplePoints must have one element for each input element along the operating dimension.');
+    error('Nelson:statistics:samplePointsOneElementInputElement', ...
+      'SamplePoints must have one element for each input element along the operating dimension.');
   end
   if any(diff(fill.SamplePoints) <= 0)
-    error('Nelson:statistics:samplePointsSortedContainUniqueValues', 'SamplePoints must be sorted and contain unique values.');
+    error('Nelson:statistics:samplePointsSortedContainUniqueValues', ...
+      'SamplePoints must be sorted and contain unique values.');
   end
 end
 %=============================================================================
 function samplePoints = parseSamplePointsLocal(value)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && all(isfinite(value)))
-    error('Nelson:statistics:samplePointsFiniteRealNumericVector', 'SamplePoints must be a finite real numeric vector.');
+    error('Nelson:statistics:samplePointsFiniteRealNumericVector', ...
+      'SamplePoints must be a finite real numeric vector.');
   end
   samplePoints = double(value(:));
 end
 %=============================================================================
 function locations = parseOutlierLocationsLocal(value, sz)
   if ~(islogical(value) && isequal(size(value), sz))
-    error('Nelson:statistics:outlierLocationsLogicalArraySameSize', 'OutlierLocations must be a logical array the same size as A.');
+    error('Nelson:statistics:outlierLocationsLogicalArraySameSize', ...
+      'OutlierLocations must be a logical array the same size as A.');
   end
   locations = value;
 end

@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--GUI MODE-->
-asserts.checkerror('edit MException', _('Unable to edit ''MException''. Editing built-in class or function using the EDIT function is not supported.'))
+asserts.checkerror('edit MException', ...
+  _('Unable to edit ''MException''. Editing built-in class or function using the EDIT function is not supported.'))
 edit
 edit edit

@@ -25,7 +25,7 @@ function sys = mtimes(sys1, sys2)
       D = sysA.D * sysB.D;
     else
       [pA, mA] = size(sysA);
-      [pB, mB] = size(sysB);
+      [~, ~] = size(sysB);
       if (mA ~= pA)
         error('Nelson:control_system:dimagree:matrixDimensionsAgree', 'Matrix dimensions must agree.');
       end

@@ -12,7 +12,8 @@
 %=============================================================================
 close all
 [previousFigurePosition, previousFigureVisible] = graphics_test_reference_figure_position();
-referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, 'DefaultFigureVisible', previousFigureVisible)); %#ok<NASGU>
+referenceFigureCleanup = onCleanup(@() set(groot(), 'DefaultFigurePosition', previousFigurePosition, ...
+  'DefaultFigureVisible', previousFigureVisible)); %#ok<NLS0004>
 %=============================================================================
 contourLocations = {'southoutside'; 'northoutside'; 'south'; 'north'};
 expectedContourAxes = {[0.13 0.245996131528046 0.775 0.690473887814313]; ...

@@ -13,7 +13,8 @@ function value = __predictor_names__(value, p)
   elseif iscellstr(value)
     value = value(:);
   else
-    error('Nelson:validators:mustBeTextArray', '%s must be a string array or cell array of character vectors.', 'PredictorNames');
+    error('Nelson:validators:mustBeTextArray', '%s must be a string array or cell array of character vectors.', ...
+      'PredictorNames');
   end
   if length(value) ~= p
     error('Nelson:statistics:predictorNamesOneNamePredictor', 'PredictorNames must have one name per predictor.');

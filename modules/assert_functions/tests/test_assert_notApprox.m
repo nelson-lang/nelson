@@ -17,5 +17,6 @@ asserts.notApprox(1, 2, eps, 0);
 asserts.isfalse(r);
 asserts.istrue(contains(msg, 'asserts.notApprox'));
 %=============================================================================
-asserts.checkerror('feval(''asserts.notApprox'', 1, 1, eps)', 'Assertion failed: asserts.notApprox expected values to be different.');
+asserts.checkerror('feval(''asserts.notApprox'', 1, 1, eps)', ...
+  'Assertion failed: asserts.notApprox expected values to be different.');
 %=============================================================================

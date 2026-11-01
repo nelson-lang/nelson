@@ -16,7 +16,7 @@ out = tempname();
 if ~isfolder(out)
   mkdir(out);
 end
-cleanupOut = onCleanup(@() rmdir(out, 's')); %#ok<NASGU>
+cleanupOut = onCleanup(@() rmdir(out, 's')); %#ok<NLS0004>
 f = figure();
 plot(1:10, (1:10) .^ 2, 'r-o');
 title('formats');

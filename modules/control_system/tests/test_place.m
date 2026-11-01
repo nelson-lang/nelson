@@ -80,5 +80,6 @@ assert_checkerror('place([0 1; 0 0], [0; 1], [-2 + 1i; -3])', msg, 'Nelson:contr
 %=============================================================================
 % The number of poles must match the number of states.
 msg = _('Poles need to have the same dimension as matrix A');
-assert_checkerror('place([0 1; 0 0], [0; 1], [-1; -2; -3])', msg, 'Nelson:control_system:dimagree:polesNeedDimensionMatrixA');
+assert_checkerror('place([0 1; 0 0], [0; 1], [-1; -2; -3])', msg, ...
+  'Nelson:control_system:dimagree:polesNeedDimensionMatrixA');
 %=============================================================================

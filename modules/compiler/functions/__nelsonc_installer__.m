@@ -10,7 +10,8 @@
 function __nelsonc_installer__(input, varargin)
   if isa(input, 'compiler.build.Results')
     if ~isscalar(input)
-      error('Nelson:nelsonc:installer:applicationInstallerRequiresBuildResult', 'An application installer requires one build result.');
+      error('Nelson:nelsonc:installer:applicationInstallerRequiresBuildResult', ...
+        'An application installer requires one build result.');
     end
     snapshot = input.__nelsonc_report__();
     report = jsondecode(__nelsonc_plan__('build-report', jsonencode(snapshot.Distribution)));
@@ -18,7 +19,8 @@ function __nelsonc_installer__(input, varargin)
     constructor = {input};
   else
     if isempty(varargin)
-      error('Nelson:nelsonc:installer:applicationFilesRequireBuildresultJson', 'Application files require a buildresult.json report.');
+      error('Nelson:nelsonc:installer:applicationFilesRequireBuildresultJson', ...
+        'Application files require a buildresult.json report.');
     end
     reportFile = __nelsonc_option_value__('AdditionalFiles', varargin{1});
     if numel(reportFile) ~= 1 || ~isfile(reportFile{1})
@@ -43,13 +45,16 @@ function __nelsonc_installer__(input, varargin)
     options = compiler.package.InstallerOptions(constructor{:}, varargin{:});
   end
   if ~ispc() && strcmp(options.PackageType, 'zip')
-    error('Nelson:nelsonc:platform:zipApplicationInstallersRequireWindows', 'ZIP application installers require Windows.');
+    error('Nelson:nelsonc:platform:zipApplicationInstallersRequireWindows', ...
+      'ZIP application installers require Windows.');
   end
   if strcmp(options.RuntimeDelivery, 'web')
-    error('Nelson:nelsonc:runtimeDownload', 'Automatic runtime download is unavailable. Use RuntimeDelivery installer or none.');
+    error('Nelson:nelsonc:runtimeDownload', ...
+      'Automatic runtime download is unavailable. Use RuntimeDelivery installer or none.');
   end
   if ~strcmp(report.architecture, computer('arch'))
-    error('Nelson:nelsonc:installer:buildReportArchitectureMismatch', 'The build report architecture differs from the packaging host.');
+    error('Nelson:nelsonc:installer:buildReportArchitectureMismatch', ...
+      'The build report architecture differs from the packaging host.');
   end
   extensions = {'.exe', '.zip'};
   if ismac(); extensions = {'.pkg'}; elseif ~ispc(); extensions = {'.install'}; end
@@ -73,7 +78,8 @@ function __nelsonc_installer__(input, varargin)
     [parent, name] = fileparts(report.executable);
     runtime = fullfile(payload, parent, [name, '.runtime']);
     if isfolder(runtime) || isfile(runtime)
-      error('Nelson:nelsonc:installer:applicationInputsCollideInstalledRuntime', 'Application inputs collide with the installed runtime.');
+      error('Nelson:nelsonc:installer:applicationInputsCollideInstalledRuntime', ...
+        'Application inputs collide with the installed runtime.');
     end
     __application_archive__('directory', runtime);
     __nelsonc_copy_runtime__(plan.runtime, runtime);

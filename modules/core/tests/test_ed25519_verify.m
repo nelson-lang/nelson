@@ -66,9 +66,13 @@ asserts.checkerror('crypto.ed25519.verify(msg3, sig3)', _('Not enough input argu
 asserts.checkerror('crypto.ed25519.verify(msg3, sig3(1:100), pk3)', _('Signature must be 64 bytes (uint8 vector) or 128 hexadecimal characters.'), 'Nelson:core:ed25519SignatureSizeExpected');
 asserts.checkerror('crypto.ed25519.verify(msg3, sig3, pk3(1:10))', _('Public key must be 32 bytes (uint8 vector) or 64 hexadecimal characters.'), 'Nelson:core:ed25519PublicKeySizeExpected');
 badhex = ['zz', sig3(3:end)];
-asserts.checkerror('crypto.ed25519.verify(msg3, badhex, pk3)', _('#2 argument: hexadecimal characters expected.'), 'Nelson:core:ed25519HexStringExpected');
-asserts.checkerror('crypto.ed25519.verify(msg3, sig3, pk3, ''-string'')', _('#4 argument: ''-file'' expected.'), 'Nelson:core:cryptoFileOptionExpected');
-asserts.checkerror('crypto.ed25519.verify(3, sig3, pk3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
+asserts.checkerror('crypto.ed25519.verify(msg3, badhex, pk3)', _('#2 argument: hexadecimal characters expected.'), ...
+  'Nelson:core:ed25519HexStringExpected');
+asserts.checkerror('crypto.ed25519.verify(msg3, sig3, pk3, ''-string'')', _('#4 argument: ''-file'' expected.'), ...
+  'Nelson:core:cryptoFileOptionExpected');
+asserts.checkerror('crypto.ed25519.verify(3, sig3, pk3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, ...
+  '''uint8'' or ''char'''), 'Nelson:types:wrongArgumentTypeExpected');
 missing = [tempname(), '.bin'];
-asserts.checkerror('crypto.ed25519.verify(missing, sig3, pk3, ''-file'')', sprintf(_('File cannot be read: %s'), missing), 'Nelson:core:cryptoFileNotReadable');
+asserts.checkerror('crypto.ed25519.verify(missing, sig3, pk3, ''-file'')', sprintf(_('File cannot be read: %s'), ...
+  missing), 'Nelson:core:cryptoFileNotReadable');
 %=============================================================================

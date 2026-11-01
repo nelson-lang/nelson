@@ -9,6 +9,8 @@
 %=============================================================================
 asserts.checkerror('repmat(1:3,2.5)', _('Replication factors must be a row vector of integers or integer scalars.'));
 asserts.checkerror('repmat(1:3,NaN)', _('Replication factors must be a row vector of integers or integer scalars.'));
-asserts.checkerror('repmat(1:3,zeros(1,0))', _('Replication factors must be a row vector of integers or integer scalars.'));
-asserts.checkerror('repmat(1:3,[1 NaN])', _('Replication factors must be a row vector of integers or integer scalars.'));
+asserts.checkerror('repmat(1:3,zeros(1,0))', ...
+  _('Replication factors must be a row vector of integers or integer scalars.'));
+asserts.checkerror('repmat(1:3,[1 NaN])', ...
+  _('Replication factors must be a row vector of integers or integer scalars.'));
 %=============================================================================

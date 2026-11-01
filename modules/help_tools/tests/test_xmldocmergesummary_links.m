@@ -53,7 +53,8 @@ alpha_toc = fileread([destination, '/alpha/help_toc_summary.xml']);
 asserts.istrue(contains(alpha_toc, 'name="dotted.name" link="aaa_holder.html"'));
 asserts.istrue(contains(alpha_toc, 'alias="true"'));
 
-xmldocmergesummary(destination, {[destination, '/alpha/help_toc_summary.xml']; [destination, '/beta/help_toc_summary.xml']});
+xmldocmergesummary(destination, {[destination, '/alpha/help_toc_summary.xml']; [destination, ...
+  '/beta/help_toc_summary.xml']});
 merged = fileread([destination, '/help_summary.xml']);
 asserts.istrue(contains(merged, 'linkend="${alpha}nested_page" href="./alpha/1_basics/nested_page.html"'));
 asserts.istrue(contains(merged, 'linkend="${beta}beta_page" href="./beta/beta_page.html"'));

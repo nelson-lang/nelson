@@ -13,7 +13,7 @@
 % the formatter, and the comments after it are kept too.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 nl = char(10);
 expected = ['function mq_case()', nl, ...
   '  m = ?A; % first', nl, ...

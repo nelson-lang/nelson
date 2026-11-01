@@ -95,7 +95,8 @@ asserts.checkerror('x = 0b2;', msgb);
 asserts.checkerror('x = 0b101g;', msgb);
 %=============================================================================
 % Too many digits for the specified or implied type.
-msg2 = sprintf(_("Lexical error '%s'"), _('Hexadecimal literal has too many digits for specified or implied type suffix.'));
+msg2 = sprintf(_("Lexical error '%s'"), ...
+  _('Hexadecimal literal has too many digits for specified or implied type suffix.'));
 asserts.checkerror('x = 0xFFFu8;', msg2);
 asserts.checkerror('x = 0x1FFs8;', msg2);
 asserts.checkerror('x = 0x00FFu8;', msg2);

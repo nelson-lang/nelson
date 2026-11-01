@@ -53,7 +53,8 @@ d1 = @(x, m) sum(abs(x(1, :) - x(2, :)), 'omitnan');
 assert_isequal(fillmissing(A, 'knn', 'Distance', d1), [1 3 9 3; -5 1 7 2; -1 1 7 2; 12 1 9 1]);
 assert_isequal(fillmissing([1 NaN; 2 3; 4 5], 'knn', 'Distance', @(x, m) NaN), [1 NaN; 2 3; 4 5]);
 assert_isequal(fillmissing([1 NaN; 2 3; 4 5], 'knn', 'Distance', @(x, m) 5 - x(2, 1)), [1 5; 2 3; 4 5]);
-R = fillmissing(int8([1 2; 2 3; 5 9]), 'knn', 'Distance', d1, 'MissingLocations', [false true; false false; false false]);
+R = fillmissing(int8([1 2; 2 3; 5 9]), 'knn', 'Distance', d1, 'MissingLocations', ...
+  [false true; false false; false false]);
 assert_isequal(R, int8([1 3; 2 3; 5 9]));
 %=============================================================================
 % neighbors are ranked on the unrounded squared distance (no false ties),
@@ -85,16 +86,24 @@ assert_isequal(R{:, :}, [1 4 7 1 4 7; 2 5 8 2 5 8; NaN 6 100 2 6 100]);
 R = fillmissing(table(single([1; 2; NaN]), [4; 5; 6]), 'knn');
 assert_isequal(R.Var1, single([1; 2; 2]));
 %=============================================================================
-assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''EndValues'', ''none'')', 'The EndValues argument is not supported for the ''knn'' method.', 'Nelson:data_analysis:knnUnsupportedArgument');
-assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''MaxGap'', 1)', 'The MaxGap argument is not supported for the ''knn'' method.');
-assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''SamplePoints'', [1 2])', 'The SamplePoints argument is not supported for the ''knn'' method.');
-assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', 0)', '''k'' value must be a real, positive integer.', 'Nelson:data_analysis:knnInvalidK');
+assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''EndValues'', ''none'')', ...
+  'The EndValues argument is not supported for the ''knn'' method.', 'Nelson:data_analysis:knnUnsupportedArgument');
+assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''MaxGap'', 1)', ...
+  'The MaxGap argument is not supported for the ''knn'' method.');
+assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''SamplePoints'', [1 2])', ...
+  'The SamplePoints argument is not supported for the ''knn'' method.');
+assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', 0)', '''k'' value must be a real, positive integer.', ...
+  'Nelson:data_analysis:knnInvalidK');
 assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', 1.5)', '''k'' value must be a real, positive integer.');
 assert_checkerror('fillmissing({''a''; ''''}, ''knn'')', 'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.', 'Nelson:data_analysis:knnFloatExpected');
-assert_checkerror('fillmissing(int8([1 2; 2 3]), ''knn'')', 'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
+assert_checkerror('fillmissing(int8([1 2; 2 3]), ''knn'')', ...
+  'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
 assert_checkerror('fillmissing([1i NaN; 2 3], ''knn'')', 'First argument must be real when using the ''euclidean'' and ''seuclidean'' distance metrics.', 'Nelson:data_analysis:knnRealExpected');
 assert_checkerror('fillmissing([1 NaN; 2 3], ''knn'', ''Distance'', ''cityblock'')', '''Distance'' value must be ''euclidean'', ''seuclidean'', or a function handle.', 'Nelson:data_analysis:knnInvalidDistance');
-assert_checkerror('fillmissing([1 NaN; 2 3], ''previous'', ''Distance'', ''euclidean'')', 'The ''Distance'' argument is supported only for the ''knn'' method.', 'Nelson:data_analysis:distanceOnlyForKnn');
-assert_checkerror('fillmissing(cat(3, [1 NaN; 2 3], [4 5; 6 7]), ''knn'')', 'First argument must be a matrix or a table for the ''knn'' method.', 'Nelson:data_analysis:knnMatrixExpected');
-assert_checkerror('fillmissing(table([1; NaN; 3], {''a''; ''b''; ''c''}), ''knn'')', 'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
+assert_checkerror('fillmissing([1 NaN; 2 3], ''previous'', ''Distance'', ''euclidean'')', ...
+  'The ''Distance'' argument is supported only for the ''knn'' method.', 'Nelson:data_analysis:distanceOnlyForKnn');
+assert_checkerror('fillmissing(cat(3, [1 NaN; 2 3], [4 5; 6 7]), ''knn'')', ...
+  'First argument must be a matrix or a table for the ''knn'' method.', 'Nelson:data_analysis:knnMatrixExpected');
+assert_checkerror('fillmissing(table([1; NaN; 3], {''a''; ''b''; ''c''}), ''knn'')', ...
+  'The ''euclidean'' and ''seuclidean'' distance metrics support only double and single data.');
 %=============================================================================

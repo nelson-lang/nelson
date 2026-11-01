@@ -17,7 +17,8 @@ function [args, launcher] = run_extractLauncher(args)
   while k <= numel(args)
     if (ischar(args{k}) || isstring(args{k})) && strcmpi(char(args{k}), 'Launcher')
       if k == numel(args)
-        error('Nelson:tests_manager:optionValueExpected:optionValueExpectedAfterLauncher', 'Option value expected after ''Launcher''.');
+        error('Nelson:tests_manager:optionValueExpected:optionValueExpectedAfterLauncher', ...
+          'Option value expected after ''Launcher''.');
       end
       launcher = char(args{k + 1});
       args(k:k + 1) = [];

@@ -20,11 +20,13 @@ function rgb = ind2rgb(x, map)
   idx = double(x);
   if isa(x, 'double') || isa(x, 'single')
     if ~isreal(x)
-      error('Nelson:image_processing:indexedImageValuesFiniteIntegers', 'Indexed image values must be finite integers.');
+      error('Nelson:image_processing:indexedImageValuesFiniteIntegers', ...
+        'Indexed image values must be finite integers.');
     end
     finiteIdx = isfinite(idx);
     if any(idx(finiteIdx) ~= floor(idx(finiteIdx)))
-      error('Nelson:image_processing:indexedImageValuesFiniteIntegers', 'Indexed image values must be finite integers.');
+      error('Nelson:image_processing:indexedImageValuesFiniteIntegers', ...
+        'Indexed image values must be finite integers.');
     end
     idx(idx < 1) = 1;
     idx(isnan(idx) | idx > size(map, 1)) = size(map, 1);

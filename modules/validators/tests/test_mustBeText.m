@@ -14,6 +14,7 @@ mustBeText('a text');
 mustBeText("a text");
 asserts.checkerror('mustBeText(Inf)', sprintf(_('%s must contain text: a character vector, string array, or cell array of character vectors.'), 'Value'), 'Nelson:validators:mustBeText');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must contain text: a character vector, string array, or cell array of character vectors.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must contain text: a character vector, string array, or cell array of character vectors.'), 'Value')];
 asserts.checkerror('mustBeText(Inf, 3)', msg, 'Nelson:validators:mustBeText');
 %=============================================================================

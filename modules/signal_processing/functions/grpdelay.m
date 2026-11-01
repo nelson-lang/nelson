@@ -16,7 +16,8 @@ function varargout = grpdelay(varargin)
     a = varargin{2};
   end
   if nargin == 5 && ~(ischar(varargin{4}) || isstring(varargin{4}))
-    error('Nelson:signal:grpdelay:invalidArgumentOrder', 'Frequency range must be specified before sampling frequency.');
+    error('Nelson:signal:grpdelay:invalidArgumentOrder', ...
+      'Frequency range must be specified before sampling frequency.');
   end
   if ismatrix(b) && ~isvector(b) && size(b, 2) == 6 && (nargin == 1 || isscalar(a))
     [b, a] = sos2tf(b);

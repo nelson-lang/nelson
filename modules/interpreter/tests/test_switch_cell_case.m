@@ -42,5 +42,6 @@ asserts.isequal(do_switch('x', {"a", "x"}), 'Y'); % cell of strings
 % reference types remain invalid switch values
 asserts.checkerror('switch {1}, case 1, end', _('Switch argument cannot be a reference type (struct or cell array)'));
 S.a = 1;
-asserts.checkerror('S.a = 1; switch S, case 1, end', _('Switch argument cannot be a reference type (struct or cell array)'));
+asserts.checkerror('S.a = 1; switch S, case 1, end', ...
+  _('Switch argument cannot be a reference type (struct or cell array)'));
 %=============================================================================

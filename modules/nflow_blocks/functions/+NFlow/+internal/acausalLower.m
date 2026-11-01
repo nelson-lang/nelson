@@ -75,10 +75,10 @@ function [json, info] = acausalLower(components, connections, opts)
         'Component #%d must have ''id'' and ''type'' fields.', k);
     end
     if any(strcmp(c.type, twoPin))
-      pinNames{end + 1} = [c.id, '.p']; %#ok<AGROW>
-      pinNames{end + 1} = [c.id, '.n']; %#ok<AGROW>
+      pinNames{end + 1} = [c.id, '.p']; %#ok<NLS0039>
+      pinNames{end + 1} = [c.id, '.n']; %#ok<NLS0039>
     elseif any(strcmp(c.type, onePin))
-      pinNames{end + 1} = [c.id, '.p']; %#ok<AGROW>
+      pinNames{end + 1} = [c.id, '.p']; %#ok<NLS0039>
     else
       error('Nelson:nflow:acausalUnknownType', ...
         'Component ''%s'': unknown type ''%s''.', c.id, c.type);
@@ -129,7 +129,7 @@ function [json, info] = acausalLower(components, connections, opts)
                            'isource', 'currentSensor'}))
       na = node_of_pin(pinNames, nodeOf, [c.id, '.p']);
       nb = node_of_pin(pinNames, nodeOf, [c.id, '.n']);
-      branches{end + 1} = {k, c.type, na, nb}; %#ok<AGROW>
+      branches{end + 1} = {k, c.type, na, nb}; %#ok<NLS0039>
     end
   end
 
@@ -169,7 +169,7 @@ function [json, info] = acausalLower(components, connections, opts)
     if any(islandsSeen == ir)
       continue
     end
-    islandsSeen(end + 1) = ir; %#ok<AGROW>
+    islandsSeen(end + 1) = ir; %#ok<NLS0039>
     members = find(islandRootOfNode == ir);
     if ~any(isGround(members))
       error('Nelson:nflow:acausalNoGround:island', ...
@@ -209,7 +209,7 @@ function [json, info] = acausalLower(components, connections, opts)
     kinds = {};
     for b = 1:numel(branches)
       if branches{b}{3} == n || branches{b}{4} == n
-        kinds{end + 1} = branches{b}{2}; %#ok<AGROW>
+        kinds{end + 1} = branches{b}{2}; %#ok<NLS0039>
       end
     end
     if isempty(kinds)
@@ -337,7 +337,7 @@ function [json, info] = acausalLower(components, connections, opts)
     end
     terms = {};
     for j = 1:numel(kcl{n})
-      terms{end + 1} = {kcl{n}{j}{1}, kcl{n}{j}{2}}; %#ok<AGROW>
+      terms{end + 1} = {kcl{n}{j}{1}, kcl{n}{j}{2}}; %#ok<NLS0039>
     end
     [E, gsig] = emit_lincomb(E, sprintf('kcl_%d', n), terms, 0.0, 1.0);
     E = emit_conn(E, gsig, nodeBlockOf{n}, 0, 0);
@@ -426,28 +426,35 @@ function [json, info] = emit_island_vehicle(components, pinNames, nodeOf, ...
       if isfield(c, 'params') && isfield(c.params, 'name'); name = c.params.name; end
       switch c.type
         case 'resistor'
-          compJson{end + 1} = sprintf('{"kind":"resistor","a":%d,"b":%d,"R":%.15g}', la, lb, required_param(c, 'R')); %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"resistor","a":%d,"b":%d,"R":%.15g}', la, lb, required_param(c, ...
+            'R')); %#ok<NLS0039>
         case 'capacitor'
           ic0 = 0.0; if isfield(c, 'params') && isfield(c.params, 'ic'); ic0 = c.params.ic; end
-          compJson{end + 1} = sprintf('{"kind":"capacitor","a":%d,"b":%d,"C":%.15g,"ic":%.15g}', la, lb, required_param(c, 'C'), ic0); %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"capacitor","a":%d,"b":%d,"C":%.15g,"ic":%.15g}', la, lb, ...
+            required_param(c, 'C'), ic0); %#ok<NLS0039>
         case 'inductor'
           ic0 = 0.0; if isfield(c, 'params') && isfield(c.params, 'ic'); ic0 = c.params.ic; end
-          compJson{end + 1} = sprintf('{"kind":"inductor","a":%d,"b":%d,"L":%.15g,"ic":%.15g}', la, lb, required_param(c, 'L'), ic0); %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"inductor","a":%d,"b":%d,"L":%.15g,"ic":%.15g}', la, lb, ...
+            required_param(c, 'L'), ic0); %#ok<NLS0039>
         case 'vsource'
-          compJson{end + 1} = sprintf('{"kind":"vsource","a":%d,"b":%d,"V":%.15g}', la, lb, required_param(c, 'V')); %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"vsource","a":%d,"b":%d,"V":%.15g}', la, lb, required_param(c, ...
+            'V')); %#ok<NLS0039>
         case 'isource'
-          compJson{end + 1} = sprintf('{"kind":"isource","a":%d,"b":%d,"I":%.15g}', la, lb, required_param(c, 'I')); %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"isource","a":%d,"b":%d,"I":%.15g}', la, lb, required_param(c, ...
+            'I')); %#ok<NLS0039>
         case 'currentSensor'
-          compJson{end + 1} = sprintf('{"kind":"currentSensor","a":%d,"b":%d,"outPort":%d}', la, lb, outPort); %#ok<AGROW>
-          islandLogs{end + 1} = {outPort, name}; %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"currentSensor","a":%d,"b":%d,"outPort":%d}', la, lb, ...
+            outPort); %#ok<NLS0039>
+          islandLogs{end + 1} = {outPort, name}; %#ok<NLS0039>
           outPort = outPort + 1;
         case 'voltageSensor'
-          compJson{end + 1} = sprintf('{"kind":"voltageSensor","a":%d,"b":%d,"outPort":%d}', la, lb, outPort); %#ok<AGROW>
-          islandLogs{end + 1} = {outPort, name}; %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"voltageSensor","a":%d,"b":%d,"outPort":%d}', la, lb, ...
+            outPort); %#ok<NLS0039>
+          islandLogs{end + 1} = {outPort, name}; %#ok<NLS0039>
           outPort = outPort + 1;
         case 'potentialSensor'
-          compJson{end + 1} = sprintf('{"kind":"potentialSensor","a":%d,"outPort":%d}', la, outPort); %#ok<AGROW>
-          islandLogs{end + 1} = {outPort, name}; %#ok<AGROW>
+          compJson{end + 1} = sprintf('{"kind":"potentialSensor","a":%d,"outPort":%d}', la, outPort); %#ok<NLS0039>
+          islandLogs{end + 1} = {outPort, name}; %#ok<NLS0039>
           outPort = outPort + 1;
         otherwise
           error('Nelson:nflow:acausalIslandUnsupportedType', ...
@@ -458,13 +465,13 @@ function [json, info] = emit_island_vehicle(components, pinNames, nodeOf, ...
     islId = sprintf('isl_%d', islandCount);
     blocks{end + 1} = sprintf(['{"id":"%s","type":"physicalIsland","inputs":0,"outputs":%d,', ...
       '"params":{"domain":"electrical","nodes":%d,"components":[%s]}}'], ...
-      islId, outPort, numLocalNodes, strjoin(compJson, ',')); %#ok<AGROW>
+      islId, outPort, numLocalNodes, strjoin(compJson, ',')); %#ok<NLS0039>
     for li = 1:numel(islandLogs)
       port = islandLogs{li}{1};
       nm = islandLogs{li}{2};
       twId = sprintf('tw_%d_%d', islandCount, port);
-      blocks{end + 1} = sprintf('{"id":"%s","type":"toWorkspace","inputs":1,"outputs":0,"params":{"VariableName":"%s"}}', twId, nm); %#ok<AGROW>
-      conns{end + 1} = sprintf('{"from":"%s","to":"%s","fromIndex":%d,"toIndex":0}', islId, twId, port); %#ok<AGROW>
+      blocks{end + 1} = sprintf('{"id":"%s","type":"toWorkspace","inputs":1,"outputs":0,"params":{"VariableName":"%s"}}', twId, nm); %#ok<NLS0039>
+      conns{end + 1} = sprintf('{"from":"%s","to":"%s","fromIndex":%d,"toIndex":0}', islId, twId, port); %#ok<NLS0039>
     end
   end
   json = ['{"blocks":[', strjoin(blocks, ','), '],', ...
@@ -559,7 +566,7 @@ function [E, outId] = emit_lincomb(E, prefix, entries, constTerm, scale)
   live = {};
   for j = 1:numel(entries)
     if ~isempty(entries{j}{1})
-      live{end + 1} = entries{j}; %#ok<AGROW>
+      live{end + 1} = entries{j}; %#ok<NLS0039>
     end
   end
   inputs = {};
@@ -567,12 +574,12 @@ function [E, outId] = emit_lincomb(E, prefix, entries, constTerm, scale)
     src = live{j}{1};
     coeff = live{j}{2};
     if abs(coeff - 1.0) < eps
-      inputs{end + 1} = src; %#ok<AGROW>
+      inputs{end + 1} = src; %#ok<NLS0039>
     else
       gid = sprintf('%s_g%d', prefix, j);
       E = emit_block(E, gid, 'gain', 1, 1, sprintf('{"Gain":%.15g}', coeff));
       E = emit_conn(E, src, gid, 0, 0);
-      inputs{end + 1} = gid; %#ok<AGROW>
+      inputs{end + 1} = gid; %#ok<NLS0039>
     end
   end
   if constTerm ~= 0.0

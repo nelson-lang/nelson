@@ -9,7 +9,7 @@
 %=============================================================================
 __dir1 = tempname();
 mkdir(__dir1);
-c = onCleanup(@() rmdir(__dir1, 's')); %#ok<NASGU>
+c = onCleanup(@() rmdir(__dir1, 's')); %#ok<NLS0004>
 for k = 1:10
   file_name_to_create = [__dir1, '/file_', int2str(k)];
   if ~isfile(file_name_to_create)

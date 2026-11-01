@@ -18,7 +18,8 @@ function [status, message, nativeResults] = run_accumulator_inline(accumulator)
       continue
     end
     if ~isfile(accumulator(i).filename)
-      error('Nelson:tests_manager:fileDoesNotExist', [_('An existing filename expected.'), ' ', accumulator(i).filename]);
+      error('Nelson:tests_manager:fileDoesNotExist', [_('An existing filename expected.'), ' ', ...
+        accumulator(i).filename]);
     end
     resetGraphicsIfRequested();
     tests_manager_trace('inline', ['run ', accumulator(i).filename]);

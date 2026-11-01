@@ -62,6 +62,7 @@ asserts.checkerror('gevlike([0 1 0], {})', sprintf(_('%s must be real numeric.')
 asserts.checkerror('gevlike([0 1 0], [])', sprintf(_('%s must be nonempty.'), 'X'));
 asserts.checkerror('gevlike([0 1 0], [1 Inf 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('gevlike([0 1 0], x, [0 2 0 0 0 0 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('gevlike([0 1 0], x, [], [1 -1 1 1 1 1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('gevlike([0 1 0], x, [], [1 -1 1 1 1 1 1])', ...
+  sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
 asserts.checkerror('gevlike([0 1 0], x, ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

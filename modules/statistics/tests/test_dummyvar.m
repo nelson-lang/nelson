@@ -55,7 +55,8 @@ asserts.istrue(all(isnan(D(2, :))));
 asserts.isequal(D(3:4, :), [0 1; 1 0]);
 %=============================================================================
 asserts.checkerror('dummyvar()', _('Not enough input arguments.'));
-asserts.checkerror('dummyvar({[1;2], [1;2;3]})', sprintf(_('%s must have the same number of rows.'), 'Grouping variables'));
+asserts.checkerror('dummyvar({[1;2], [1;2;3]})', sprintf(_('%s must have the same number of rows.'), ...
+  'Grouping variables'));
 asserts.checkerror('dummyvar([0 1])', _('Numeric GROUP values must be positive integers or NaN.'));
 asserts.checkerror('dummyvar({struct()})', sprintf(_('%s must be a grouping variable.'), 'GROUP'));
 %=============================================================================

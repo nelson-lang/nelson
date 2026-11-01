@@ -72,8 +72,10 @@ T = readtable(filename, 'MissingRule', 'omitrow');
 asserts.isequal(T.b, "x");
 T = readtable(filename, 'MissingRule', 'omitvar');
 asserts.isequal(T.Properties.VariableNames, {'c'});
-asserts.checkerror('readtable(filename, ''MissingRule'', ''error'')', _('Unable to import variable ''a'': missing value found.'));
-asserts.checkerror('readtable(filename, ''MissingRule'', ''error'')', _('Unable to import variable ''a'': missing value found.'), 'Nelson:spreadsheet:jsonImportRule');
+asserts.checkerror('readtable(filename, ''MissingRule'', ''error'')', ...
+  _('Unable to import variable ''a'': missing value found.'));
+asserts.checkerror('readtable(filename, ''MissingRule'', ''error'')', ...
+  _('Unable to import variable ''a'': missing value found.'), 'Nelson:spreadsheet:jsonImportRule');
 %=============================================================================
 % repeated nodes (JSON arrays)
 filename = writeJsonFile('[{"id": 1, "v": [1, 2]}, {"id": 2, "v": [3, 4]}]');
@@ -81,7 +83,8 @@ T = readtable(filename);
 asserts.isequal(T.v, [1 2; 3 4]);
 T = readtable(filename, 'RepeatedNodeRule', 'ignore');
 asserts.isequal(T.v, [1; 3]);
-asserts.checkerror('readtable(filename, ''RepeatedNodeRule'', ''error'')', _('Repeated JSON nodes found (RepeatedNodeRule is ''error'').'));
+asserts.checkerror('readtable(filename, ''RepeatedNodeRule'', ''error'')', ...
+  _('Repeated JSON nodes found (RepeatedNodeRule is ''error'').'));
 %=============================================================================
 % table inside an object: automatic detection, TableSelector and TableNodeName
 txt = '{"meta": {"units": {"temp": "degC", "rpm": "1/min"}}, "records": [{"temp": 20.5, "rpm": 900}, {"temp": 21, "rpm": 950}]}';
@@ -115,9 +118,12 @@ filename = writeJsonFile(txt);
 T = readtable(filename);
 asserts.isequal(T.a, [1; Inf]);
 asserts.isequal(T.b, [NaN; -Inf]);
-asserts.checkerror('readtable(filename, ''ParsingMode'', ''strict'')', _('Comments are not allowed in the JSON file (AllowComments is false).'));
-asserts.checkerror('readtable(filename, ''AllowTrailingCommas'', false)', _('Trailing commas are not allowed in the JSON file (AllowTrailingCommas is false).'));
-asserts.checkerror('readtable(filename, ''AllowInfAndNaN'', false)', _('Inf and NaN values are not allowed in the JSON file (AllowInfAndNaN is false).'));
+asserts.checkerror('readtable(filename, ''ParsingMode'', ''strict'')', ...
+  _('Comments are not allowed in the JSON file (AllowComments is false).'));
+asserts.checkerror('readtable(filename, ''AllowTrailingCommas'', false)', ...
+  _('Trailing commas are not allowed in the JSON file (AllowTrailingCommas is false).'));
+asserts.checkerror('readtable(filename, ''AllowInfAndNaN'', false)', ...
+  _('Inf and NaN values are not allowed in the JSON file (AllowInfAndNaN is false).'));
 filename = writeJsonFile('[{"url": "http://a.b/c", "s": "NaN, // not a comment,]"}]');
 T = readtable(filename, 'ParsingMode', 'strict');
 asserts.isequal(T.url, "http://a.b/c");
@@ -130,5 +136,6 @@ asserts.isequal(class(T.t), 'datetime');
 asserts.isequal(datenum(T.t), datenum([2024 1 1 10 0 0; 2024 1 2 10 0 0]));
 %=============================================================================
 asserts.checkerror('readtable(filename, ''Sheet'', 1)', _('Property name not supported.'));
-asserts.checkerror('readtable(filename, ''Sheet'', 1)', _('Property name not supported.'), 'Nelson:spreadsheet:propertyNotSupported');
+asserts.checkerror('readtable(filename, ''Sheet'', 1)', _('Property name not supported.'), ...
+  'Nelson:spreadsheet:propertyNotSupported');
 %=============================================================================

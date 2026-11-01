@@ -29,7 +29,8 @@ function [X, y] = __regression_training_data__(X, Y)
   X = X(keep, :);
   y = y(keep);
   if isempty(y)
-    error('Nelson:statistics:validObservationsRemainAfterRemoving', 'No valid observations remain after removing missing values.');
+    error('Nelson:statistics:validObservationsRemainAfterRemoving', ...
+      'No valid observations remain after removing missing values.');
   end
 end
 %=============================================================================

@@ -51,7 +51,8 @@ function out = imadjust(varargin)
   for c = 1:channels
     lo = in(1, c); hi = in(2, c);
     if hi == lo
-      error('Nelson:image_processing:inputIntensityRangeDistinctBounds', 'Input intensity range must have distinct bounds.');
+      error('Nelson:image_processing:inputIntensityRangeDistinctBounds', ...
+        'Input intensity range must have distinct bounds.');
     end
     plane = ip_clip01((d(:, :, c) - lo) / (hi - lo));
     plane = plane .^ gamma(c);

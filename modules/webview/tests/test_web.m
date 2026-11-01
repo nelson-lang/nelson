@@ -17,7 +17,8 @@ asserts.isequal(nargin('web'), -1);
 asserts.isequal(nargout('web'), -1);
 %=============================================================================
 asserts.checkerror('web(1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'char or string'));
-asserts.checkerror('web(1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'char or string'), 'Nelson:invalidType');
+asserts.checkerror('web(1);', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'char or string'), ...
+  'Nelson:invalidType');
 asserts.checkerror('web(''text://<html></html>'', ''-badoption'');', _('Unsupported web option.'));
 %=============================================================================
 % In GUI mode the interpreter runs this call on its worker thread, while the Qt

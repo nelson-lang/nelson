@@ -17,7 +17,8 @@ function [TT, vars] = eventtableConstruct(args)
   elseif (isa(first, 'datetime') || isa(first, 'duration')) && ~isequal(size(first), [0 0])
     rowTimes = first(:);
   else
-    error('Nelson:eventtable:invalidEventTimes', 'First input must either be a timetable or it must be a datetime or duration vector.');
+    error('Nelson:eventtable:invalidEventTimes', ...
+      'First input must either be a timetable or it must be a datetime or duration vector.');
   end
   checkOptions(opts, isTimetableInput);
   [newNames, newValues, newFields] = eventOptionVariables(opts, isTimetableInput, rowTimes);
@@ -95,10 +96,12 @@ function opts = parseArguments(args)
   end
   if firstName > 2
     if isTextScalar(args{2}) && any(strcmpi(char(args{2}), optionNames))
-      error('Nelson:eventtable:nameValuePair', 'Invalid argument list. Make sure name-value arguments include both the name and the value.');
+      error('Nelson:eventtable:nameValuePair', ...
+        'Invalid argument list. Make sure name-value arguments include both the name and the value.');
     end
     if firstName > length(args)
-      error('Nelson:eventtable:tooManyInputs', 'Invalid argument at position 2. Function requires 0 to 1 positional input(s).');
+      error('Nelson:eventtable:tooManyInputs', ...
+        'Invalid argument at position 2. Function requires 0 to 1 positional input(s).');
     end
     error('Nelson:eventtable:tooManyInputs:beforeName', 'Invalid argument at position 2. Function requires 0 to 1 positional input(s) before name ''%s''.', char(args{firstName}));
   end
@@ -111,7 +114,8 @@ end
 function checkOptions(opts, isTimetableInput)
   variableOptions = fieldnames(opts.names);
   if ~isTimetableInput && ~isempty(variableOptions)
-    error('Nelson:eventtable:firstInputMustBeTimetable', '''%s'' name-value pair is only supported when the first input is a timetable.', variableOptions{1});
+    error('Nelson:eventtable:firstInputMustBeTimetable', ...
+      '''%s'' name-value pair is only supported when the first input is a timetable.', variableOptions{1});
   end
   kinds = {'labels', 'lengths', 'ends'};
   optionNames = {'EventLabels', 'EventLengths', 'EventEnds'};
@@ -120,7 +124,8 @@ function checkOptions(opts, isTimetableInput)
     hasValue = isfield(opts.values, optionNames{k});
     hasName = isfield(opts.names, [optionNames{k}, 'Variable']);
     if hasValue && hasName
-      error('Nelson:eventtable:bothValueAndVariable', 'Specify either event %s or an event %s variable.', kinds{k}, kinds{k});
+      error('Nelson:eventtable:bothValueAndVariable', 'Specify either event %s or an event %s variable.', kinds{k}, ...
+        kinds{k});
     end
     given(k) = hasValue || hasName;
   end

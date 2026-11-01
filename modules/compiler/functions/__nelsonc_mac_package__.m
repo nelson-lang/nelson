@@ -19,7 +19,8 @@ function __nelsonc_mac_package__(root, scripts, location, identifier, version, o
     '--ownership', 'preserve', '--component-plist', componentList, component}, verbose);
   invoke({'/usr/bin/productbuild', '--package', component, output}, verbose);
   if ~isfile(output)
-    error('Nelson:nelsonc:installerTool:macOSPackageGenerationProducedNoPackage', 'macOS package generation produced no package.');
+    error('Nelson:nelsonc:installerTool:macOSPackageGenerationProducedNoPackage', ...
+      'macOS package generation produced no package.');
   end
 end
 
@@ -28,7 +29,8 @@ function invoke(parts, verbose)
   [status, output] = system(strjoin(parts, ' '), 1800);
   if verbose || status ~= 0; fprintf('%s\n', output); end
   if status ~= 0
-    error('Nelson:nelsonc:installerTool:macOSPackageGenerationFailed', 'macOS package generation failed with status %d.', status);
+    error('Nelson:nelsonc:installerTool:macOSPackageGenerationFailed', ...
+      'macOS package generation failed with status %d.', status);
   end
 end
 

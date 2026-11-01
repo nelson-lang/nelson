@@ -20,7 +20,8 @@ function value = tableParenAssignedValue(value, rows, varSub, variableNames)
     if ~isScalarValue
       checkSize(size(value, 1), size(value, 2), numel(rows), nVars);
     end
-    error('Nelson:table:invalidRHS', 'Right hand side of an assignment into a table must be another table or a cell array.');
+    error('Nelson:table:invalidRHS', ...
+      'Right hand side of an assignment into a table must be another table or a cell array.');
   end
   if height(value) == 1 && width(value) == 1 && nVars > 0
     data = value.(value.Properties.VariableNames{1});
@@ -34,7 +35,8 @@ end
 %=============================================================================
 function checkSize(valueRows, valueVars, nRows, nVars)
   if valueRows ~= nRows
-    error('Nelson:table:RowDimensionMismatch', 'To assign to or create a variable in a table, the number of rows must match the height of the table.');
+    error('Nelson:table:RowDimensionMismatch', ...
+      'To assign to or create a variable in a table, the number of rows must match the height of the table.');
   end
   if valueVars ~= nVars
     error('Nelson:table:VarDimensionMismatch', 'The number of table variables in an assignment must match.');

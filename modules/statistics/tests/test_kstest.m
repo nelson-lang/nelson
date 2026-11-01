@@ -65,7 +65,8 @@ asserts.checkerror('kstest([1 2; 3 4])', sprintf(_('%s must be a vector.'), 'X')
 asserts.checkerror('kstest([NaN NaN])', _('X must contain at least one non-NaN value.'));
 asserts.checkerror('kstest(x, ''CDF'', [0 0.5 1])', _('CDF must be a two-column matrix.'));
 asserts.checkerror('kstest(x, ''CDF'', [0 0; 1 1])', _('CDF must cover all sample values.'));
-asserts.checkerror('kstest(xobj, ''CDF'', @(z) 0.5)', sprintf(_('CDF function must return %s.'), 'one value per sample'));
+asserts.checkerror('kstest(xobj, ''CDF'', @(z) 0.5)', sprintf(_('CDF function must return %s.'), ...
+  'one value per sample'));
 asserts.checkerror('kstest(xobj, ''CDF'', @(z) z + 2)', sprintf(_('%s must be in the range [0,1].'), 'CDF values'));
 asserts.checkerror('kstest(x, ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
 asserts.checkerror('kstest(x, ''Tail'', ''bad'')', _('TAIL must be ''unequal'', ''larger'', or ''smaller''.'));

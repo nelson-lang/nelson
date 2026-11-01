@@ -12,8 +12,10 @@ asserts.isequal(nargout('mustBeSparse'), 0);
 %=============================================================================
 mustBeSparse(sparse([]));
 mustBeSparse(sparse([1, 2]));
-asserts.checkerror('mustBeSparse(Inf)', sprintf(_('%s must be a sparse matrix.'), 'Value'), 'Nelson:validators:mustBeSparse');
+asserts.checkerror('mustBeSparse(Inf)', sprintf(_('%s must be a sparse matrix.'), 'Value'), ...
+  'Nelson:validators:mustBeSparse');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a sparse matrix.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a sparse matrix.'), ...
+  'Value')];
 asserts.checkerror('mustBeSparse(Inf, 3)', msg, 'Nelson:validators:mustBeSparse');
 %=============================================================================

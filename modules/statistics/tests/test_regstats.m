@@ -102,5 +102,6 @@ asserts.checkerror('regstats([1], {1})', sprintf(_('%s must be a real numeric ma
 asserts.checkerror('regstats([1; 2], [1 2])', sprintf(_('%s must have the same number of rows.'), 'Y and X'));
 asserts.checkerror('regstats([1; 2], [1; 2], ''bad'', ''beta'')', _('Invalid model specification.'));
 asserts.checkerror('regstats([1; 2], [1; 2], ''linear'', ''bad'')', _('Invalid statistic name.'));
-asserts.checkerror('regstats([1; 2], [1; 2], [1 0], ''beta'')', sprintf(_('Model matrix must have one column per %s.'), 'predictor'));
+asserts.checkerror('regstats([1; 2], [1; 2], [1 0], ''beta'')', ...
+  sprintf(_('Model matrix must have one column per %s.'), 'predictor'));
 %=============================================================================

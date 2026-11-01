@@ -76,7 +76,8 @@ classdef Map < handle
         options = varargin(3:end);
         obj.parseOptions(options{:});
         if obj.UniformValuesFlag && strcmp(obj.ValueTypeValue, 'any') && ~isempty(valueCells)
-          error('Nelson:containersMap:nonUniformValues', 'When ''UniformValues'' is true, values must be all character arrays or all scalars of matching type.');
+          error('Nelson:containersMap:nonUniformValues', ...
+            'When ''UniformValues'' is true, values must be all character arrays or all scalars of matching type.');
         end
       end
       if ~strcmp(obj.KeyTypeValue, 'char')
@@ -94,11 +95,13 @@ classdef Map < handle
       for k = 1:numel(keyCells)
         if strcmp(obj.KeyTypeValue, 'char')
           if isstring(keyCells{k})
-            error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+            error('Nelson:containersMap:keyTypeMismatch', ...
+              'Specified key type does not match the type expected for this container.');
           end
           key = containers.Map.normalizeCharScalar(keyCells{k});
           if ~(ischar(key) && isrow(key))
-            error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+            error('Nelson:containersMap:keyTypeMismatch', ...
+              'Specified key type does not match the type expected for this container.');
           end
         else
           key = containers.Map.normalizeKeyForType(keyCells{k}, obj.KeyTypeValue);
@@ -250,7 +253,8 @@ classdef Map < handle
         return
       end
       if ~iscell(keySet)
-        error('Nelson:containersMap:invalidKeySet', 'Invalid input for argument 2 (keySet): a cell array of keys expected.');
+        error('Nelson:containersMap:invalidKeySet', ...
+          'Invalid input for argument 2 (keySet): a cell array of keys expected.');
       end
       keyCells = containers.Map.keyCellsFromInput(keySet);
       v = cell(size(keySet));
@@ -302,7 +306,8 @@ classdef Map < handle
       for i = 1:nargin
         m = varargin{i};
         if ~isa(m, 'containers.Map') || ~strcmp(m.KeyType, first.KeyType)
-          error('Nelson:containersMap:concatKeyTypeMismatch', 'All maps must have the same key type to be concatenated.');
+          error('Nelson:containersMap:concatKeyTypeMismatch', ...
+            'All maps must have the same key type to be concatenated.');
         end
         if ~strcmp(m.ValueType, valueType)
           valueType = 'any';
@@ -431,7 +436,8 @@ classdef Map < handle
     function value = lookupCharKey(obj, key)
       key = containers.Map.normalizeCharScalar(key);
       if ~(ischar(key) && isrow(key))
-        error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+        error('Nelson:containersMap:keyTypeMismatch', ...
+          'Specified key type does not match the type expected for this container.');
       end
       if obj.hasNativeStorage()
         value = __containers_map__(obj, '__lookup', key, []);
@@ -453,7 +459,8 @@ classdef Map < handle
       if strcmp(obj.KeyTypeValue, 'char')
         key = containers.Map.normalizeCharScalar(key);
         if ~(ischar(key) && isrow(key))
-          error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+          error('Nelson:containersMap:keyTypeMismatch', ...
+            'Specified key type does not match the type expected for this container.');
         end
         if obj.hasNativeStorage()
           value = containers.Map.normalizeValueForType(value, obj.ValueTypeValue);
@@ -674,7 +681,8 @@ classdef Map < handle
         keyCells = {key};
         return
       end
-      error('Nelson:containersMap:invalidKeySetType', 'Invalid input. KeySet must be a numeric scalar, character vector, string scalar or cell array of keys.');
+      error('Nelson:containersMap:invalidKeySetType', ...
+        'Invalid input. KeySet must be a numeric scalar, character vector, string scalar or cell array of keys.');
     end
 
     function valueCells = valueCellsFromInput(value, keyCount)
@@ -707,7 +715,8 @@ classdef Map < handle
         return
       end
       if isstring(keyCells{1})
-        error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+        error('Nelson:containersMap:keyTypeMismatch', ...
+          'Specified key type does not match the type expected for this container.');
       end
       first = containers.Map.normalizeCharScalar(keyCells{1});
       if ischar(first)
@@ -752,22 +761,26 @@ classdef Map < handle
       if strcmp(typeName, 'char')
         key = containers.Map.normalizeCharScalar(key);
         if ~(ischar(key) && isrow(key))
-          error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+          error('Nelson:containersMap:keyTypeMismatch', ...
+            'Specified key type does not match the type expected for this container.');
         end
         return
       end
       if ischar(key) || isstring(key) || iscell(key)
-        error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+        error('Nelson:containersMap:keyTypeMismatch', ...
+          'Specified key type does not match the type expected for this container.');
       end
       if ~isa(key, typeName)
         try
           key = cast(key, typeName);
         catch
-          error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+          error('Nelson:containersMap:keyTypeMismatch', ...
+            'Specified key type does not match the type expected for this container.');
         end
       end
       if ~isscalar(key)
-        error('Nelson:containersMap:keyTypeMismatch', 'Specified key type does not match the type expected for this container.');
+        error('Nelson:containersMap:keyTypeMismatch', ...
+          'Specified key type does not match the type expected for this container.');
       end
       if isnumeric(key) && isnan(key)
         error('Nelson:containersMap:nanKey', 'NaN-valued key is not allowed for this container.');
@@ -790,7 +803,8 @@ classdef Map < handle
       try
         value = cast(value, typeName);
       catch
-        error('Nelson:containersMap:valueTypeMismatch', 'Specified value type does not match the type expected for this container.');
+        error('Nelson:containersMap:valueTypeMismatch', ...
+          'Specified value type does not match the type expected for this container.');
       end
     end
 

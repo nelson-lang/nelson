@@ -47,7 +47,8 @@ end
 function value = odeAdjointScalar(fcn, t, y, parameters)
   value = feval(fcn, t, y, parameters);
   if ~isnumeric(value) || ~isreal(value) || ~isscalar(value)
-    error('Nelson:ode_solvers:adjointScalarFunctionReturnRealScalar', 'Adjoint scalar function must return a real scalar.');
+    error('Nelson:ode_solvers:adjointScalarFunctionReturnRealScalar', ...
+      'Adjoint scalar function must return a real scalar.');
   end
 end
 %=============================================================================

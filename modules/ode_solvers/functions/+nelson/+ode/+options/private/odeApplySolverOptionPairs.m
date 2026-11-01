@@ -81,11 +81,13 @@ function value = normalizeSolverOptionValue(obj, name, value)
       end
       if ~isnumeric(value) || ~isscalar(value) || value ~= fix(value) || value < 1 ...
           || value > maxOrder
-        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', 'MaxOrder must be an integer scalar between %d and %d.', 1, maxOrder);
+        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', ...
+          'MaxOrder must be an integer scalar between %d and %d.', 1, maxOrder);
       end
     case 'ComputeConsistentInitialConditions'
       if ~(islogical(value) || isnumeric(value)) || ~isscalar(value)
-        error('Nelson:ode_solvers:computeconsistentinitialconditionsScalarLogicalValue', 'ComputeConsistentInitialConditions must be a scalar logical value.');
+        error('Nelson:ode_solvers:computeconsistentinitialconditionsScalarLogicalValue', ...
+          'ComputeConsistentInitialConditions must be a scalar logical value.');
       end
       value = logical(value);
   end

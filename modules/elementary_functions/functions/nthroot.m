@@ -45,7 +45,8 @@ function validateInputs(numberX, rootN)
     sizeX(end + 1:maxDims) = 1;
     sizeN(end + 1:maxDims) = 1;
     if any(sizeX ~= sizeN & sizeX ~= 1 & sizeN ~= 1)
-      error('Nelson:elementary_functions:xNEitherScalarsArrays', 'X and N must either be scalars or arrays of the same size.');
+      error('Nelson:elementary_functions:xNEitherScalarsArrays', ...
+        'X and N must either be scalars or arrays of the same size.');
     end
   end
 

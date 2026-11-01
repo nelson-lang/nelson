@@ -30,7 +30,8 @@ function check_application()
   filewrite(firstEntry, 'function recovery_a(); if ~isdeployed() || ismodule(''compiler''); error(''Invalid runtime.''); end; disp(''RECOVERY_A_OK''); end');
   first = compiler.build.standaloneApplication(firstEntry, 'OutputDir', fullfile(work, 'app-a'));
   secondEntry = fullfile(source, 'recovery_b.m');
-  filewrite(secondEntry, 'function recovery_b(); if sin(0) ~= 0; error(''Invalid result.''); end; disp(''RECOVERY_B_OK''); end');
+  filewrite(secondEntry, ...
+    'function recovery_b(); if sin(0) ~= 0; error(''Invalid result.''); end; disp(''RECOVERY_B_OK''); end');
   second = compiler.build.standaloneWindowsApplication(secondEntry, 'OutputDir', fullfile(work, 'app-b'));
   firstPlan = __nelsonc_distribution_plan__(first);
   secondPlan = __nelsonc_distribution_plan__(second);
@@ -55,7 +56,8 @@ function installer = build_runtime(work, name, plan)
   mkdir(stage);
   __nelsonc_copy_runtime__(plan.runtime, payload);
   __nelsonc_runtime_inventory__(plan, fullfile(stage, 'runtime-package.ini'));
-  options = struct('InstallerName', name, 'PackageType', 'auto', 'Compression', 'normal', 'Verbose', false, 'OutputDir', fullfile(stage, 'output'));
+  options = struct('InstallerName', name, 'PackageType', 'auto', 'Compression', 'normal', 'Verbose', false, ...
+    'OutputDir', fullfile(stage, 'output'));
   generator = @(output) runtime_recovery_script(stage, payload, output, plan, options);
   __nelsonc_inno_build__(__nelsonc_inno_engine__(), stage, payload, '', options, generator);
   installer = fullfile(options.OutputDir, [name, '.exe']);

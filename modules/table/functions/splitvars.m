@@ -47,7 +47,8 @@ function T = splitvars(T, vars, varargin)
       userNames = newNames{find(idx == k, 1)};
       if ~isempty(userNames)
         if length(userNames) ~= length(pieces)
-          error('Nelson:table:dimagree:newVariableNamesMatchNumberAddedVariables', 'NewVariableNames must match the number of added variables.');
+          error('Nelson:table:dimagree:newVariableNamesMatchNumberAddedVariables', ...
+            'NewVariableNames must match the number of added variables.');
         end
         pieceNames = userNames;
       end
@@ -83,7 +84,8 @@ function [idx, newNames] = resolveSplitVariables(names, vars, options)
   k = 1;
   while k <= length(options)
     if k == length(options)
-      error('Nelson:table:nameValuePair:nameValueArgumentFollowedByA', 'Name-value argument must be followed by a value.');
+      error('Nelson:table:nameValuePair:nameValueArgumentFollowedByA', ...
+        'Name-value argument must be followed by a value.');
     end
     switch lower(char(options{k}))
       case 'newvariablenames'
@@ -100,7 +102,8 @@ function [idx, newNames] = resolveSplitVariables(names, vars, options)
   end
   idx = idx(:)';
   if length(unique(idx)) ~= length(idx)
-    error('Nelson:table:splitvars:duplicateVars', 'List of variables to split must not specify any variable more than once.');
+    error('Nelson:table:splitvars:duplicateVars', ...
+      'List of variables to split must not specify any variable more than once.');
   end
   newNames = cell(1, length(idx));
   if ~isempty(userNames)
@@ -173,7 +176,8 @@ function names = namesAsCellstr(names)
     names = cellstr(names);
   end
   if ~iscellstr(names)
-    error('Nelson:table:invalidVariableNames', 'New variable names must be a character vector, string array, or cell array of character vectors.');
+    error('Nelson:table:invalidVariableNames', ...
+      'New variable names must be a character vector, string array, or cell array of character vectors.');
   end
   names = names(:)';
 end

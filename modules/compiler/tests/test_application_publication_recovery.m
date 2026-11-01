@@ -140,7 +140,8 @@ end
 function native_recovery(work)
   helper = fullfile(nelsonroot(), 'modules', 'compiler', 'tests', 'test_publication_process_recovery.ps1');
   launcher = fullfile(modulepath('nelson', 'bin'), 'NelSon-cli.exe');
-  [status, output] = system(['powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "', helper, '" -Work "', work, '" -Launcher "', launcher, '"'], 140);
+  [status, output] = system(['powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "', helper, ...
+    '" -Work "', work, '" -Launcher "', launcher, '"'], 140);
   asserts.istrue(status == 0, output);
   asserts.istrue(contains(output, 'PROCESS_RECOVERY_OK'), output);
 end

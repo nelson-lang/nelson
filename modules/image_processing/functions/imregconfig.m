@@ -26,7 +26,8 @@ function [optimizer, metric] = imregconfig(modality)
         'ShearSearch', 0.05);
       metric = struct('Type', 'Correlation');
     otherwise
-      error('Nelson:image_processing:unsupportedRegistrationModality', 'Unsupported "%s" option.', 'registration modality');
+      error('Nelson:image_processing:unsupportedRegistrationModality', 'Unsupported "%s" option.', ...
+        'registration modality');
   end
 end
 %=============================================================================

@@ -14,7 +14,8 @@ function varargout = worldToSubscript(varargin)
   if dim == 2
     nargoutchk(0, 2);
     if nargin ~= 3
-      error('Nelson:image_processing:dSpatialReferencesRequireXY', '2-D spatial references require X and Y coordinates.');
+      error('Nelson:image_processing:dSpatialReferencesRequireXY', ...
+        '2-D spatial references require X and Y coordinates.');
     end
     [xIntrinsic, yIntrinsic] = worldToIntrinsic(ref, varargin{2}, varargin{3});
     row = round(yIntrinsic);
@@ -28,7 +29,8 @@ function varargout = worldToSubscript(varargin)
   else
     nargoutchk(0, 3);
     if nargin ~= 4
-      error('Nelson:image_processing:dSpatialReferencesRequireXYZ', '3-D spatial references require X, Y and Z coordinates.');
+      error('Nelson:image_processing:dSpatialReferencesRequireXYZ', ...
+        '3-D spatial references require X, Y and Z coordinates.');
     end
     [xIntrinsic, yIntrinsic, zIntrinsic] = worldToIntrinsic(ref, varargin{2}, varargin{3}, ...
       varargin{4});

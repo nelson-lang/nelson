@@ -73,5 +73,6 @@ writetable(T, filename);
 asserts.isequal(fileread(filename), '[]');
 %=============================================================================
 asserts.checkerror('writetable(table(1), filename, ''Delimiter'', '','')', _('Property name not supported.'));
-asserts.checkerror('writetable(table(1), filename, ''Delimiter'', '','')', _('Property name not supported.'), 'Nelson:spreadsheet:propertyNotSupported');
+asserts.checkerror('writetable(table(1), filename, ''Delimiter'', '','')', _('Property name not supported.'), ...
+  'Nelson:spreadsheet:propertyNotSupported');
 %=============================================================================

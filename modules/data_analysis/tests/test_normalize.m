@@ -11,7 +11,8 @@ asserts.isequal(nargin('normalize'), -2);
 asserts.isequal(nargout('normalize'), 3);
 %=============================================================================
 % default: z-score (center mean, scale std)
-asserts.isapprox(normalize([1 2 3 4 5]), [-1.264911064067352 -0.632455532033676 0 0.632455532033676 1.264911064067352], 1e-12);
+asserts.isapprox(normalize([1 2 3 4 5]), ...
+  [-1.264911064067352 -0.632455532033676 0 0.632455532033676 1.264911064067352], 1e-12);
 %=============================================================================
 asserts.isequal(normalize([2 4 6], 'range'), [0 0.5 1]);
 asserts.isequal(normalize([1 2 3], 'range', [0 10]), [0 5 10]);
@@ -32,5 +33,6 @@ asserts.isapprox(B, ([1 2 3 4 5] - C) / S, 1e-12);
 M = [1 10; 2 20; 3 30];
 asserts.isapprox(normalize(M), [normalize([1 2 3]') normalize([10 20 30]')], 1e-12);
 %=============================================================================
-asserts.checkerror('normalize([1 2 3], ''unknownmethod'')', sprintf(_('Unsupported "%s" option.'), 'unknownmethod'), 'Nelson:normalize:invalidMethod');
+asserts.checkerror('normalize([1 2 3], ''unknownmethod'')', sprintf(_('Unsupported "%s" option.'), 'unknownmethod'), ...
+  'Nelson:normalize:invalidMethod');
 %=============================================================================

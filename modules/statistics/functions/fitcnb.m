@@ -65,7 +65,8 @@ function [mu, sigma] = fitNormalParametersLocal(X, yIndex, kClasses, weights)
     sigma(j, :) = sqrt((w(:)' * (centered .^ 2)) / wsum);
   end
   if any(sigma(:) == 0 | isnan(sigma(:)))
-    error('Nelson:statistics:normalDistributionFitBecauseOne', 'A normal distribution cannot be fit because one class has zero variance.');
+    error('Nelson:statistics:normalDistributionFitBecauseOne', ...
+      'A normal distribution cannot be fit because one class has zero variance.');
   end
 end
 %=============================================================================
@@ -122,11 +123,13 @@ function value = distributionNamesLocal(value, p)
       value = repmat(value, 1, p);
     end
   else
-    error('Nelson:statistics:distributionNamesNormalCellArrayNormal', 'DistributionNames must be normal or a cell array of normal values.');
+    error('Nelson:statistics:distributionNamesNormalCellArrayNormal', ...
+      'DistributionNames must be normal or a cell array of normal values.');
   end
   for k = 1:length(value)
     if ~strcmpi(value{k}, 'normal')
-      error('Nelson:statistics:normalPredictorDistributionsSupported', 'Only normal predictor distributions are supported.');
+      error('Nelson:statistics:normalPredictorDistributionsSupported', ...
+        'Only normal predictor distributions are supported.');
     end
     value{k} = 'normal';
   end
@@ -135,7 +138,8 @@ end
 function value = weightsLocal(value, n)
   if ~(isnumeric(value) && isreal(value) && isvector(value) && all(isfinite(value)) ...
       && length(value) == n && all(value >= 0) && sum(value) > 0)
-    error('Nelson:statistics:weightsNonnegativeFiniteNumericVector', 'Weights must be a nonnegative finite numeric vector with positive sum.');
+    error('Nelson:statistics:weightsNonnegativeFiniteNumericVector', ...
+      'Weights must be a nonnegative finite numeric vector with positive sum.');
   end
   value = double(value(:));
 end

@@ -18,6 +18,7 @@ asserts.checkerror('mustBeLogicalScalar([true false])', sprintf(_('%s must be a 
 %=============================================================================
 asserts.checkerror('mustBeLogicalScalar(logical([]))', sprintf(_('%s must be a logical scalar.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a logical scalar.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a logical scalar.'), ...
+  'Value')];
 asserts.checkerror('mustBeLogicalScalar(1, 3)', msg);
 %=============================================================================

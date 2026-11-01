@@ -95,7 +95,8 @@ filewrite([moduleRoot, 'builder.m'], ['nmm_build_loader(''', moduleName, ''', fi
 filewrite([moduleRoot, 'etc/startup.m'], '');
 filewrite([moduleRoot, 'etc/finish.m'], '');
 registry = [testRoot, 'registry.json'];
-filewrite(registry, ['{"packages":[{"name":"', moduleName, '","version":"1.0.0","platforms":["all"],"source":"https://h/p.nmz","yanked":true,"yank_reason":"superseded"}]}']);
+filewrite(registry, ['{"packages":[{"name":"', moduleName, ...
+  '","version":"1.0.0","platforms":["all"],"source":"https://h/p.nmz","yanked":true,"yank_reason":"superseded"}]}']);
 filewrite([registry, '.sha256'], sha256(registry, '-file'));
 previousModulesPath = getenv('NELSON_EXTERNAL_MODULES_PATH');
 previousRegistry = getenv('NELSON_NMM_REGISTRY');
@@ -171,7 +172,8 @@ merged = jsondecode(__nmm_gui_prefs__('{"filter":"installed","width":1100}'));
 assert_isequal(merged.filter, 'installed');
 assert_isequal(merged.width, 1100);
 assert_isequal(jsondecode(__nmm_gui_prefs__()).filter, 'installed');
-assert_checkerror('__nmm_gui_prefs__(''[1,2]'')', _('Preferences must be a JSON object.'), 'Nelson:nmm_gui:invalidPrefs');
+assert_checkerror('__nmm_gui_prefs__(''[1,2]'')', _('Preferences must be a JSON object.'), ...
+  'Nelson:nmm_gui:invalidPrefs');
 if hadPrefs
   filewrite(prefsFile, previousPrefs);
 else
@@ -194,8 +196,10 @@ __nmm_gui_notify__('failed', 'message with ''quotes'' and "double quotes"');
 %=============================================================================
 % Deep link nmm_gui(action, name[, version]): arguments are validated before
 % any window is opened, so these stay headless.
-assert_checkerror('nmm_gui(''bogus'', ''ngen'')', _('Valid actions are ''show'' and ''install''.'), 'Nelson:nmm_gui:invalidAction');
+assert_checkerror('nmm_gui(''bogus'', ''ngen'')', _('Valid actions are ''show'' and ''install''.'), ...
+  'Nelson:nmm_gui:invalidAction');
 assert_checkerror('nmm_gui(''install'')', _('A package name is expected.'), 'Nelson:nmm_gui:nameExpected');
 assert_checkerror('nmm_gui(''install'', ''bad name'')', _('Invalid package name.'), 'Nelson:nmm_gui:invalidName');
-assert_checkerror('nmm_gui(''install'', ''ngen'', ''!!'')', _('Invalid package version.'), 'Nelson:nmm_gui:invalidVersion');
+assert_checkerror('nmm_gui(''install'', ''ngen'', ''!!'')', _('Invalid package version.'), ...
+  'Nelson:nmm_gui:invalidVersion');
 %=============================================================================

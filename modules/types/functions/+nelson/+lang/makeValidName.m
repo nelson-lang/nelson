@@ -120,7 +120,8 @@ function [items, shape, kind] = localTextList(value)
     items = value;
     kind = 'cell';
   else
-    error('Nelson:types:stringArrayCharacterVectorCell2', 'String array, character vector, or cell array of character vectors expected.');
+    error('Nelson:types:stringArrayCharacterVectorCell2', ...
+      'String array, character vector, or cell array of character vectors expected.');
   end
   items = items(:)';
 end

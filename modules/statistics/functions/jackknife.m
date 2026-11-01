@@ -80,7 +80,8 @@ function [n, sampleMask, dataArgs] = validateData(dataArgs)
       if isempty(n)
         n = rows;
       elseif rows ~= n
-        error('Nelson:statistics:nonscalarDataArgumentsSameNumber', '%s must have the same number of rows.', 'Nonscalar data arguments');
+        error('Nelson:statistics:nonscalarDataArgumentsSameNumber', '%s must have the same number of rows.', ...
+          'Nonscalar data arguments');
       end
       sampleMask(k) = true;
     end

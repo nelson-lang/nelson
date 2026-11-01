@@ -15,5 +15,6 @@ asserts.isequal(nargout('uialert'), 0);
 asserts.checkerror('r = uialert()', _('Too many output arguments.'));
 asserts.checkerror('uialert()', _('Not enough input arguments.'));
 asserts.checkerror('uialert(1, ''message'')', _('Not enough input arguments.'));
-asserts.checkerror('uialert(1, ''message'', ''title'')', _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
+asserts.checkerror('uialert(1, ''message'', ''title'')', ...
+  _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
 %=============================================================================

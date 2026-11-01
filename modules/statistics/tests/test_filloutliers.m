@@ -62,7 +62,10 @@ asserts.checkerror('filloutliers({1}, ''linear'')', sprintf(_('%s must be a real
 asserts.checkerror('filloutliers([1 2], ''bad'')', sprintf(_('%s has an unsupported value.'), 'FILLMETHOD'));
 asserts.checkerror('filloutliers([1 2], ''spline'')', sprintf(_('Unsupported %s.'), 'fill method'));
 asserts.checkerror('filloutliers([1 2], ''linear'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'METHOD'));
-asserts.checkerror('filloutliers([1 2], ''linear'', ''OutlierLocations'', [true; false])', _('OutlierLocations must be a logical array the same size as A.'));
-asserts.checkerror('filloutliers([1 2], ''linear'', ''SamplePoints'', [1 1])', _('SamplePoints must be sorted and contain unique values.'));
-asserts.checkerror('filloutliers([1 2], ''linear'', ''DataVariables'', 1)', sprintf(_('%s is not supported for numeric array input.'), 'DataVariables'));
+asserts.checkerror('filloutliers([1 2], ''linear'', ''OutlierLocations'', [true; false])', ...
+  _('OutlierLocations must be a logical array the same size as A.'));
+asserts.checkerror('filloutliers([1 2], ''linear'', ''SamplePoints'', [1 1])', ...
+  _('SamplePoints must be sorted and contain unique values.'));
+asserts.checkerror('filloutliers([1 2], ''linear'', ''DataVariables'', 1)', ...
+  sprintf(_('%s is not supported for numeric array input.'), 'DataVariables'));
 %=============================================================================

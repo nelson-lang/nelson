@@ -12,11 +12,14 @@
 % the SINGLE branch, so a sparse double slipped through -> out-of-bounds read).
 % It must now route to overload and error cleanly, like gammainc does.
 %=============================================================================
-asserts.checkerror('betainc(sparse(0.5), 1, 2)', sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
+asserts.checkerror('betainc(sparse(0.5), 1, 2)', ...
+  sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
 %=============================================================================
-asserts.checkerror('betainc(0.5, sparse(1), 2)', sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
+asserts.checkerror('betainc(0.5, sparse(1), 2)', ...
+  sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
 %=============================================================================
-asserts.checkerror('betainc(0.5, 1, sparse(2))', sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
+asserts.checkerror('betainc(0.5, 1, sparse(2))', ...
+  sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'betainc'));
 %=============================================================================
 % dense inputs still compute correctly (unchanged behavior).
 R = betainc(full(0.5), 1, 2);

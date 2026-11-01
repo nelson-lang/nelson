@@ -95,7 +95,8 @@ end
 logged = ncc('options', entry, 'RuntimeLogFile', 'app.log');
 asserts.isequal(logged.RuntimeLogFile, 'app.log');
 assert_rejected(@() ncc('options', entry, 'OutputDir'), 'Nelson:nelsonc:options:buildOptionsRequireNameValueOrStruct');
-assert_rejected(@() ncc('options', entry, struct('unknown', true)), 'Nelson:nelsonc:options:unknownUnsupportedBuildOption');
+assert_rejected(@() ncc('options', entry, struct('unknown', true)), ...
+  'Nelson:nelsonc:options:unknownUnsupportedBuildOption');
 assert_rejected(@() ncc(copy, true), 'Nelson:nelsonc:arguments:buildOptionsExplainLinkOnly');
 assert_rejected(@() ncc(copy, struct()), 'Nelson:nelsonc:arguments:buildOptionsExplainLinkOnly');
 assert_rejected(@() nelson.compiler.build(struct()), 'Nelson:nelsonc:options:scalarNelsonCompilerBuildOptionsObject');

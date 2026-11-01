@@ -42,7 +42,7 @@ function xml = acausalGenerateHelp(componentName, lang)
   for pp = 1:numel(c.pins)
     pinRows{end + 1} = sprintf(...
       '<tr><td>%s</td><td>%s pin (%s domain, undirected)</td></tr>', ...
-      c.pins{pp}{1}, c.domain, c.domain); %#ok<AGROW>
+      c.pins{pp}{1}, c.domain, c.domain); %#ok<NLS0039>
   end
   % Parameter rows.
   paramRows = {};
@@ -50,7 +50,7 @@ function xml = acausalGenerateHelp(componentName, lang)
     pm = c.params{qq};
     paramRows{end + 1} = sprintf(...
       '<tr><td><code>%s</code></td><td>%.15g</td><td>%s</td></tr>', ...
-      pm{1}, pm{3}, pm{4}); %#ok<AGROW>
+      pm{1}, pm{3}, pm{4}); %#ok<NLS0039>
   end
   if isempty(paramRows)
     paramRows = {'<tr><td>(none)</td><td></td><td></td></tr>'};
@@ -105,10 +105,10 @@ end
 function d = sig_desc(c)
   parts = {};
   if ~isempty(c.signalIn)
-    parts{end + 1} = ['input ', c.signalIn]; %#ok<AGROW>
+    parts{end + 1} = ['input ', c.signalIn]; %#ok<NLS0039>
   end
   if ~isempty(c.signalOut)
-    parts{end + 1} = ['output (', c.signalOut, ' sensor)']; %#ok<AGROW>
+    parts{end + 1} = ['output (', c.signalOut, ' sensor)']; %#ok<NLS0039>
   end
   if isempty(parts)
     d = 'none (pure physical component).';

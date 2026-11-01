@@ -11,7 +11,8 @@ assert_isequal(nargin('assert_istrue'), -1);
 assert_isequal(nargout('assert_istrue'), 2);
 %=============================================================================
 assert_istrue(true);
-assert_checkerror('assert_istrue(false)', _('Assertion failed: found false entry in condition = false.'), 'Nelson:asserts:assertionFailed');
+assert_checkerror('assert_istrue(false)', _('Assertion failed: found false entry in condition = false.'), ...
+  'Nelson:asserts:assertionFailed');
 r = assert_istrue(true);
 if (r ~= true)
   error('Nelson:asserts:testFailure', _('assert_istrue fails.'));

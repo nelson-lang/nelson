@@ -64,7 +64,8 @@ end
 function nbins = validateBinsLocal(nbins)
   if ~(isnumeric(nbins) && isreal(nbins) && isscalar(nbins) && isfinite(nbins) ...
     && nbins > 0 && floor(nbins) == nbins)
-    error('Nelson:statistics:numberBinsPositiveIntegerScalar', '%s must be a positive integer scalar.', 'Number of bins');
+    error('Nelson:statistics:numberBinsPositiveIntegerScalar', '%s must be a positive integer scalar.', ...
+      'Number of bins');
   end
   nbins = double(nbins);
 end

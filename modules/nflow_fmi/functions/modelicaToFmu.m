@@ -93,7 +93,7 @@ function fmu = modelicaToFmu(model, modelName, varargin)
   % Cache key: source + name + omc version + FMU options.
   keyText = [source, '|', modelName, '|', info.version, '|', opts.FmiVersion, '|', opts.FmuType];
   for k = 1:numel(opts.Libraries)
-    keyText = [keyText, '|lib:', opts.Libraries{k}]; %#ok<AGROW>
+    keyText = [keyText, '|lib:', opts.Libraries{k}]; %#ok<NLS0039>
   end
   key = sha256(keyText);
   cacheRoot = [tempdir(), '/nflow_modelica_cache'];
@@ -158,7 +158,8 @@ function opts = modelica_parse_options(args)
         elseif isstring(value)
           opts.Libraries = cellstr(value);
         else
-          error('Nelson:nflow_fmi:modelicaToFmuArg:librariesAStringACellStrings', '''Libraries'' must be a string or a cell of strings.');
+          error('Nelson:nflow_fmi:modelicaToFmuArg:librariesAStringACellStrings', ...
+            '''Libraries'' must be a string or a cell of strings.');
         end
       case 'Rebuild'
         opts.Rebuild = logical(value);
@@ -178,7 +179,7 @@ function [ok, out] = modelica_run_omc(omc, workDir, moPath, modelName, opts)
   lines{end + 1} = ['cd("', wd, '"); getErrorString();'];
   for k = 1:numel(opts.Libraries)
     lib = strrep(modelica_abspath(opts.Libraries{k}), '\', '/');
-    lines{end + 1} = ['loadFile("', lib, '"); getErrorString();']; %#ok<AGROW>
+    lines{end + 1} = ['loadFile("', lib, '"); getErrorString();']; %#ok<NLS0039>
   end
   lines{end + 1} = ['loadFile("', mo, '"); getErrorString();'];
   lines{end + 1} = ['buildModelFMU(', modelName, ', version="', opts.FmiVersion, ...

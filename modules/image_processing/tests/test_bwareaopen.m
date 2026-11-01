@@ -21,8 +21,10 @@ asserts.istrue(K(16, 16));
 %=============================================================================
 asserts.checkerror('bwareaopen(single([NaN 0]), 1)', sprintf(_('%s values must be finite.'), 'Image'));
 %=============================================================================
-asserts.checkerror('bwareaopen(logical([1 0]), -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'Minimum object size'));
+asserts.checkerror('bwareaopen(logical([1 0]), -1)', sprintf(_('%s must be a nonnegative integer scalar.'), ...
+  'Minimum object size'));
 %=============================================================================
-asserts.checkerror('bwareaopen(logical([1 0]), Inf)', sprintf(_('%s must be a nonnegative integer scalar.'), 'Minimum object size'));
+asserts.checkerror('bwareaopen(logical([1 0]), Inf)', sprintf(_('%s must be a nonnegative integer scalar.'), ...
+  'Minimum object size'));
 %=============================================================================
 asserts.checkerror('bwareaopen([1 2], 1)', sprintf(_('%s must contain binary values.'), 'Image'));

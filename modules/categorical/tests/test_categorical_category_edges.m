@@ -55,13 +55,15 @@ asserts.checkerror('addcats(categorical({''a''}, ''Ordinal'', true), ''b'')', ..
   _('Before or After must be specified for ordinal categorical arrays.'));
 asserts.checkerror('addcats(A, ''x'', ''Near'', ''red'')', sprintf(_('Invalid %s option.'), 'addcats'));
 asserts.checkerror('addcats(A, ''x'', ''Before'', ''missing'')', _('Category not found.'));
-asserts.checkerror('addcats(A, ''x'', ''Before'', ''missing'')', _('Category not found.'), 'Nelson:categorical:categoryNotFound');
+asserts.checkerror('addcats(A, ''x'', ''Before'', ''missing'')', _('Category not found.'), ...
+  'Nelson:categorical:categoryNotFound');
 asserts.checkerror('renamecats(A, {''red''}, {''x'', ''y''})', ...
   _('Old and new category names must have the same length.'));
 asserts.checkerror('renamecats(A, {''red''}, {''x'', ''y''})', ...
   _('Old and new category names must have the same length.'), 'Nelson:renamecats:lengthMismatch');
 asserts.checkerror('renamecats(A, {''red''}, {''blue''})', _('Category names must be unique.'));
-asserts.checkerror('renamecats(A, {''red''}, {''blue''})', _('Category names must be unique.'), 'Nelson:categorical:categoryNamesMustBeUnique');
+asserts.checkerror('renamecats(A, {''red''}, {''blue''})', _('Category names must be unique.'), ...
+  'Nelson:categorical:categoryNamesMustBeUnique');
 asserts.checkerror('reordercats(A, {''red'', ''blue''})', ...
   _('New category order must contain all categories.'));
 asserts.checkerror('setcats(A, {''red'', ''red''})', _('Category names must be unique.'));

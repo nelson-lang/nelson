@@ -17,7 +17,8 @@ function n = numel(obj, varargin)
     return
   end
   if nargin ~= 3
-    error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', '%s indexing requires row and variable subscripts.', 'Parentheses');
+    error('Nelson:table:invalidSubscript:valueIndexingRequiresRowVariableSubscripts', ...
+      '%s indexing requires row and variable subscripts.', 'Parentheses');
   end
   n = subscriptCount(obj, varargin, 1) * subscriptCount(obj, varargin, 2);
 end

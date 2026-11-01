@@ -75,6 +75,8 @@ asserts.checkerror('pdist([1], ''unknown'')', sprintf(_('Invalid %s value.'), 'D
 asserts.checkerror('pdist([1], ''s'')', sprintf(_('Ambiguous %s value.'), 'Distance'));
 asserts.checkerror('pdist([1 2; 3 4], ''minkowski'', 0)', sprintf(_('%s must be positive.'), 'Distance parameter'));
 asserts.checkerror('pdist([1 2; 3 4], ''euclidean'', 2)', _('Distance parameter is not supported for this metric.'));
-asserts.checkerror('pdist([1 2; 3 4], ''seuclidean'', [1 2 3])', sprintf(_('%s must be a vector.'), 'Distance parameter'));
-asserts.checkerror('pdist([1 2; 3 4], ''mahalanobis'', eye(3))', sprintf(_('%s must have compatible size.'), 'Distance parameter'));
+asserts.checkerror('pdist([1 2; 3 4], ''seuclidean'', [1 2 3])', sprintf(_('%s must be a vector.'), ...
+  'Distance parameter'));
+asserts.checkerror('pdist([1 2; 3 4], ''mahalanobis'', eye(3))', sprintf(_('%s must have compatible size.'), ...
+  'Distance parameter'));
 %=============================================================================

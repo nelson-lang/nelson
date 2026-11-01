@@ -209,10 +209,14 @@ asserts.istrue(contains(cell_text, '<item>a</item>'));
 asserts.istrue(contains(cell_text, '<item>b</item>'));
 %=============================================================================
 asserts.checkerror('readstruct(filename, ''FileType'', ''json'')', _('Only XML FileType is supported by readstruct.'));
-asserts.checkerror('writestruct(s, out_filename, ''FileType'', ''json'')', _('Only XML FileType is supported by writestruct.'));
-asserts.checkerror('readstruct(filename, ''RegisteredNamespaces'', {''n''})', _('RegisteredNamespaces must contain prefix and URL pairs.'));
-asserts.checkerror('readstruct(filename, ''RegisteredNamespaces'', {''n''})', _('RegisteredNamespaces must contain prefix and URL pairs.'), 'Nelson:readstruct:invalidRegisteredNamespaces');
+asserts.checkerror('writestruct(s, out_filename, ''FileType'', ''json'')', ...
+  _('Only XML FileType is supported by writestruct.'));
+asserts.checkerror('readstruct(filename, ''RegisteredNamespaces'', {''n''})', ...
+  _('RegisteredNamespaces must contain prefix and URL pairs.'));
+asserts.checkerror('readstruct(filename, ''RegisteredNamespaces'', {''n''})', ...
+  _('RegisteredNamespaces must contain prefix and URL pairs.'), 'Nelson:readstruct:invalidRegisteredNamespaces');
 asserts.checkerror('readstruct(filename, ''FileType'')', _('Name-value arguments must be paired.'));
-asserts.checkerror('readstruct(filename, ''FileType'')', _('Name-value arguments must be paired.'), 'Nelson:xml:nameValueNotPaired');
+asserts.checkerror('readstruct(filename, ''FileType'')', _('Name-value arguments must be paired.'), ...
+  'Nelson:xml:nameValueNotPaired');
 asserts.checkerror('writestruct(s, out_filename, ''FileType'')', _('Name-value arguments must be paired.'));
 %=============================================================================

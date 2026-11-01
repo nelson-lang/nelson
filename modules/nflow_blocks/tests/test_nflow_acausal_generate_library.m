@@ -54,7 +54,7 @@ hr = elib.blocks(hi);
 heatDomains = {};
 for k = 1:numel(hr.physicalPins)
   if strcmp(hr.physicalPins(k).name, 'heatPort')
-    heatDomains{end + 1} = hr.physicalPins(k).domain; %#ok<AGROW>
+    heatDomains{end + 1} = hr.physicalPins(k).domain; %#ok<NLS0039>
   end
 end
 assert_isequal(heatDomains, {'thermal'});

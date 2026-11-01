@@ -351,7 +351,8 @@ function report = registryDoctor(varargin)
     report = addIssue(report, ['Package source is missing: ', report.missing_sources{k}]);
   end
   for k = 1:length(report.inconsistent_artifacts)
-    report = addIssue(report, ['Package artifacts are inconsistent with platforms: ', report.inconsistent_artifacts{k}]);
+    report = addIssue(report, ['Package artifacts are inconsistent with platforms: ', ...
+      report.inconsistent_artifacts{k}]);
   end
 end
 %=============================================================================

@@ -71,14 +71,16 @@ classdef ODE15i < nelson.ode.Options
 
     function obj = set.MaxOrder(obj, value)
       if ~isnumeric(value) || ~isscalar(value) || value ~= fix(value) || value < 1 || value > 5
-        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', 'MaxOrder must be an integer scalar between %d and %d.', 1, 5);
+        error('Nelson:ode_solvers:maxorderIntegerScalarBetween', ...
+          'MaxOrder must be an integer scalar between %d and %d.', 1, 5);
       end
       obj.MaxOrder = value;
     end
 
     function obj = set.ComputeConsistentInitialConditions(obj, value)
       if ~(islogical(value) || isnumeric(value)) || ~isscalar(value)
-        error('Nelson:ode_solvers:computeconsistentinitialconditionsScalarLogicalValue', 'ComputeConsistentInitialConditions must be a scalar logical value.');
+        error('Nelson:ode_solvers:computeconsistentinitialconditionsScalarLogicalValue', ...
+          'ComputeConsistentInitialConditions must be a scalar logical value.');
       end
       obj.ComputeConsistentInitialConditions = logical(value);
     end

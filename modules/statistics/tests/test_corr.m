@@ -59,5 +59,6 @@ asserts.checkerror('corr([1; 2], [1 2])', sprintf(_('%s must have the same numbe
 asserts.checkerror('corr([1; 2], ''Type'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'TYPE'));
 asserts.checkerror('corr([1; 2], ''Rows'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'ROWS'));
 asserts.checkerror('corr([1; 2], ''Tail'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'TAIL'));
-asserts.checkerror('corr([1; 2], ''Weights'', [1 -1])', sprintf(_('%s must contain nonnegative finite values.'), 'Weights'));
+asserts.checkerror('corr([1; 2], ''Weights'', [1 -1])', sprintf(_('%s must contain nonnegative finite values.'), ...
+  'Weights'));
 %=============================================================================

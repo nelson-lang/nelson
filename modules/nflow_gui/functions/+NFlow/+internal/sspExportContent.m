@@ -31,7 +31,7 @@ function sspPath = sspExportContent(nflowContent, sspFile)
   end
   fwrite(fid, nflowContent);
   fclose(fid);
-  cleanup = onCleanup(@() ssp_export_delete(tmp)); %#ok<NASGU>
+  cleanup = onCleanup(@() ssp_export_delete(tmp)); %#ok<NLS0004>
   if ssp_export_has_fmu(nflowContent)
     % A composition of FMU blocks: repackage the referenced FMUs directly.
     sspPath = NFlow.sspExportDiagram(tmp, sspFile);
@@ -52,11 +52,11 @@ function sspPath = sspExportContent(nflowContent, sspFile)
       'endElement', {}, 'endConnector', {});
     for i = 1:numel(outNames)
       conns(end + 1) = struct('startElement', compName, 'startConnector', outNames{i}, ...
-        'endElement', '', 'endConnector', outNames{i}); %#ok<AGROW>
+        'endElement', '', 'endConnector', outNames{i}); %#ok<NLS0039>
     end
     for i = 1:numel(inNames)
       conns(end + 1) = struct('startElement', '', 'startConnector', inNames{i}, ...
-        'endElement', compName, 'endConnector', inNames{i}); %#ok<AGROW>
+        'endElement', compName, 'endConnector', inNames{i}); %#ok<NLS0039>
     end
     if isempty(conns)
       sspPath = NFlow.sspExport(sspFile, component);
@@ -97,9 +97,9 @@ function [inNames, outNames] = ssp_export_boundary(nflowContent)
       continue
     end
     if strcmp(b.type, 'labelSource')
-      inNames{end + 1} = tag; %#ok<AGROW>
+      inNames{end + 1} = tag; %#ok<NLS0039>
     elseif strcmp(b.type, 'labelSink')
-      outNames{end + 1} = tag; %#ok<AGROW>
+      outNames{end + 1} = tag; %#ok<NLS0039>
     end
   end
 end

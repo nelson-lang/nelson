@@ -10,7 +10,8 @@
 function tolerance = ip_validate_grayconnected_tolerance(tolerance)
   if ~isnumeric(tolerance) || ~isreal(tolerance) || numel(tolerance) ~= 1 ...
       || ~isfinite(tolerance) || tolerance < 0
-    error('Nelson:image_processing:toleranceNonnegativeFiniteScalar', '%s must be a nonnegative finite scalar.', 'Tolerance');
+    error('Nelson:image_processing:toleranceNonnegativeFiniteScalar', '%s must be a nonnegative finite scalar.', ...
+      'Tolerance');
   end
   tolerance = double(tolerance);
 end

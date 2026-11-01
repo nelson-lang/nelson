@@ -179,7 +179,8 @@ asserts.isequal(value, 5);
 asserts.isequal(observable.LastEvent, 'PostGet');
 asserts.isequal(observable.LastProperty, 'Count');
 delete(postGetListener);
-stableSetListener = addlistener(observable, 'StableCount', 'PostSet', @(src, eventData) src.recordPropertyEvent(eventData));
+stableSetListener = addlistener(observable, 'StableCount', 'PostSet', ...
+  @(src, eventData) src.recordPropertyEvent(eventData));
 observable.LastEvent = '';
 observable.LastProperty = '';
 observable.EventCount = 0;

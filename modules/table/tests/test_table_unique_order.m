@@ -54,7 +54,8 @@ assert_isequal(ia, [2; 3; 1]);
 assert_isequal(ic, [3; 1; 2; 1]);
 %=============================================================================
 % mixed variable types
-T = table(["z"; "a"; "z"; "m"], [true; false; true; false], categorical({'lo'; 'hi'; 'lo'; 'hi'}), datetime(2020, 1, [3; 1; 3; 2]));
+T = table(["z"; "a"; "z"; "m"], [true; false; true; false], categorical({'lo'; 'hi'; 'lo'; 'hi'}), datetime(2020, 1, ...
+  [3; 1; 3; 2]));
 [C, ia, ic] = unique(T);
 assert_isequal(C.Var1, ["a"; "m"; "z"]);
 assert_isequal(C.Var2, [false; false; true]);

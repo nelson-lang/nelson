@@ -92,7 +92,7 @@ classdef NFlow
           legendLabels{j} = sprintf('in %d', j);
         end
         legend(legendLabels, 'Location', 'best');
-        figures(end + 1) = f; %#ok<AGROW>
+        figures(end + 1) = f; %#ok<NLS0039>
       end
     end
 
@@ -109,7 +109,8 @@ classdef NFlow
       %   execution and FMU / nelsonFunction blocks are rejected.
       narginchk(1, 2);
       if ~ischar(modelFile) && ~(isstring(modelFile) && isscalar(modelFile))
-        error('Nelson:nflow_engine:invalidArgument:firstArgumentANflowModelFile', 'First argument must be a .nflow model file path.');
+        error('Nelson:nflow_engine:invalidArgument:firstArgumentANflowModelFile', ...
+          'First argument must be a .nflow model file path.');
       end
       modelFile = char(modelFile);
       if ~isfile(modelFile)
@@ -228,7 +229,7 @@ classdef NFlow
           'type', char(c.getAttribute('type')), ...
           'implementation', char(c.getAttribute('implementation')), ...
           'parameterSources', {srcs}, ...
-          'inlineParameters', inlinePv); %#ok<AGROW>
+          'inlineParameters', inlinePv); %#ok<NLS0039>
       end
       info.components = components;
 
@@ -240,7 +241,7 @@ classdef NFlow
           'startElement', char(k.getAttribute('startElement')), ...
           'startConnector', char(k.getAttribute('startConnector')), ...
           'endElement', char(k.getAttribute('endElement')), ...
-          'endConnector', char(k.getAttribute('endConnector'))); %#ok<AGROW>
+          'endConnector', char(k.getAttribute('endConnector'))); %#ok<NLS0039>
       end
       info.connections = connections;
     end
@@ -303,9 +304,11 @@ classdef NFlow
             ver = NFlow.fmuFmiVersion(fmuPath);
           end
           if ~isempty(ver) && ~strcmp(ver, '2.0') && ~strcmp(ver, '3.0')
-            error('Nelson:nflow_engine:unsupportedFmiVersion', 'SSP component requires FMI 2.0 or 3.0 but is FMI %s: %s', ver, comp.source);
+            error('Nelson:nflow_engine:unsupportedFmiVersion', ...
+              'SSP component requires FMI 2.0 or 3.0 but is FMI %s: %s', ver, comp.source);
           end
-          error('Nelson:nflow_engine:fmuLoadFailed', 'Cannot load SSP component FMU (FMI 2.0 or 3.0 Co-Simulation required): %s', comp.source);
+          error('Nelson:nflow_engine:fmuLoadFailed', ...
+            'Cannot load SSP component FMU (FMI 2.0 or 3.0 Co-Simulation required): %s', comp.source);
         end
         inNames = {}; outNames = {};
         % jsondecode yields a struct array when every variable has the same
@@ -318,9 +321,9 @@ classdef NFlow
             var = vars(v);
           end
           if strcmp(var.causality, 'input')
-            inNames{end + 1} = var.name; %#ok<AGROW>
+            inNames{end + 1} = var.name; %#ok<NLS0039>
           elseif strcmp(var.causality, 'output')
-            outNames{end + 1} = var.name; %#ok<AGROW>
+            outNames{end + 1} = var.name; %#ok<NLS0039>
           end
         end
         blockId = regexprep(comp.name, '[^a-zA-Z0-9_]', '_');
@@ -353,9 +356,9 @@ classdef NFlow
         params.outputNames = outNames;
         blocks{end + 1} = struct('id', blockId, 'type', 'fmu', ...
           'inputs', numel(inNames), 'outputs', max(1, numel(outNames)), ...
-          'params', params); %#ok<AGROW>
+          'params', params); %#ok<NLS0039>
         compIndex(end + 1) = struct('name', comp.name, 'blockId', blockId, ...
-          'inputs', {inNames}, 'outputs', {outNames}); %#ok<AGROW>
+          'inputs', {inNames}, 'outputs', {outNames}); %#ok<NLS0039>
       end
 
       findComp = @(nm) find(strcmp({compIndex.name}, nm), 1);
@@ -376,7 +379,7 @@ classdef NFlow
           end
           connections{end + 1} = struct('from', compIndex(si).blockId, ...
             'fromIndex', fromIdx - 1, 'to', compIndex(di).blockId, ...
-            'toIndex', toIdx - 1); %#ok<AGROW>
+            'toIndex', toIdx - 1); %#ok<NLS0039>
         elseif ~isempty(cn.startElement) && isempty(cn.endElement) && ~isempty(si)
           % Component output -> parent system output: expose it as a recordable
           % To Workspace sink named after the system connector, so the imported
@@ -389,9 +392,9 @@ classdef NFlow
           sinkId = ['out_', sinkVar];
           blocks{end + 1} = struct('id', sinkId, 'type', 'toWorkspace', ...
             'inputs', 1, 'outputs', 0, 'params', struct('VariableName', sinkVar, ...
-            'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf')); %#ok<AGROW>
+            'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf')); %#ok<NLS0039>
           connections{end + 1} = struct('from', compIndex(si).blockId, ...
-            'fromIndex', fromIdx - 1, 'to', sinkId, 'toIndex', 0); %#ok<AGROW>
+            'fromIndex', fromIdx - 1, 'to', sinkId, 'toIndex', 0); %#ok<NLS0039>
         end
         % A parent-system input -> component input (empty startElement) has no
         % driver in the imported model; left unconnected (the FMU input holds 0).
@@ -494,7 +497,7 @@ classdef NFlow
                 connectors = [connectors, ...
                   '        <ssd:Connector name="', esc(var.name), '" kind="', var.causality, '">', char(10), ...
                   '          <ssc:Real/>', char(10), ...
-                  '        </ssd:Connector>', char(10)]; %#ok<AGROW>
+                  '        </ssd:Connector>', char(10)]; %#ok<NLS0039>
               end
             end
           end
@@ -504,7 +507,7 @@ classdef NFlow
           '      <ssd:Component name="', esc(cname), '" source="resources/', esc(cname), '.fmu"', ...
           ' type="application/x-fmu-sharedlibrary" implementation="CoSimulation">', char(10), ...
           '        <ssd:Connectors>', char(10), connectors, '        </ssd:Connectors>', char(10), ...
-          '      </ssd:Component>', char(10)]; %#ok<AGROW>
+          '      </ssd:Component>', char(10)]; %#ok<NLS0039>
       end
 
       connXml = '';
@@ -514,7 +517,7 @@ classdef NFlow
           '      <ssd:Connection startElement="', esc(char(cn.startElement)), ...
           '" startConnector="', esc(char(cn.startConnector)), ...
           '" endElement="', esc(char(cn.endElement)), ...
-          '" endConnector="', esc(char(cn.endConnector)), '"/>', char(10)]; %#ok<AGROW>
+          '" endConnector="', esc(char(cn.endConnector)), '"/>', char(10)]; %#ok<NLS0039>
       end
 
       % Connections that reference the parent system (an empty start/end element)
@@ -536,7 +539,7 @@ classdef NFlow
         sysConnXml = [sysConnXml, ...
           '      <ssd:Connector name="', esc(sysConn(i).name), '" kind="', sysConn(i).kind, '">', char(10), ...
           '        <ssc:Real/>', char(10), ...
-          '      </ssd:Connector>', char(10)]; %#ok<AGROW>
+          '      </ssd:Connector>', char(10)]; %#ok<NLS0039>
       end
       sysConnBlock = '';
       if ~isempty(sysConnXml)
@@ -628,9 +631,9 @@ classdef NFlow
             ' type="application/x-fmu-sharedlibrary" implementation="CoSimulation">', char(10), ...
             '        <ssd:Connectors>', char(10), connectors, '        </ssd:Connectors>', char(10), ...
             paramBinding, ...
-            '      </ssd:Component>', char(10)]; %#ok<AGROW>
+            '      </ssd:Component>', char(10)]; %#ok<NLS0039>
           compIndex(end + 1) = struct('id', char(blk.id), 'name', cname, ...
-            'inputs', {inNames}, 'outputs', {outNames}); %#ok<AGROW>
+            'inputs', {inNames}, 'outputs', {outNames}); %#ok<NLS0039>
         elseif strcmp(btype, 'toWorkspace')
           vn = 'out';
           if isfield(blk, 'params') && isfield(blk.params, 'VariableName')
@@ -668,14 +671,14 @@ classdef NFlow
             '      <ssd:Connection startElement="', esc(compIndex(si).name), ...
             '" startConnector="', esc(startConn), ...
             '" endElement="', esc(compIndex(di).name), ...
-            '" endConnector="', esc(compIndex(di).inputs{toIdx}), '"/>', char(10)]; %#ok<AGROW>
+            '" endConnector="', esc(compIndex(di).inputs{toIdx}), '"/>', char(10)]; %#ok<NLS0039>
         elseif isKey(sinkVar, toId)
           outName = regexprep(sinkVar(toId), '[^a-zA-Z0-9_]', '_');
           sysConn = NFlow.addConnector(sysConn, outName, 'output');
           connXml = [connXml, ...
             '      <ssd:Connection startElement="', esc(compIndex(si).name), ...
             '" startConnector="', esc(startConn), ...
-            '" endElement="" endConnector="', esc(outName), '"/>', char(10)]; %#ok<AGROW>
+            '" endElement="" endConnector="', esc(outName), '"/>', char(10)]; %#ok<NLS0039>
         end
       end
 
@@ -684,7 +687,7 @@ classdef NFlow
         sysConnXml = [sysConnXml, ...
           '      <ssd:Connector name="', esc(sysConn(i).name), '" kind="', sysConn(i).kind, '">', char(10), ...
           '        <ssc:Real/>', char(10), ...
-          '      </ssd:Connector>', char(10)]; %#ok<AGROW>
+          '      </ssd:Connector>', char(10)]; %#ok<NLS0039>
       end
       sysConnBlock = '';
       if ~isempty(sysConnXml)
@@ -730,14 +733,14 @@ classdef NFlow
         end
         if strcmp(var.causality, 'input') || strcmp(var.causality, 'output')
           if strcmp(var.causality, 'input')
-            inNames{end + 1} = var.name; %#ok<AGROW>
+            inNames{end + 1} = var.name; %#ok<NLS0039>
           else
-            outNames{end + 1} = var.name; %#ok<AGROW>
+            outNames{end + 1} = var.name; %#ok<NLS0039>
           end
           connectors = [connectors, ...
             '        <ssd:Connector name="', esc(var.name), '" kind="', var.causality, '">', char(10), ...
             '          <ssc:Real/>', char(10), ...
-            '        </ssd:Connector>', char(10)]; %#ok<AGROW>
+            '        </ssd:Connector>', char(10)]; %#ok<NLS0039>
         end
       end
     end
@@ -852,7 +855,7 @@ classdef NFlow
           typed = ['<ssv:Real value="', sprintf('%.15g', double(v)), '"/>'];
         end
         body = [body, ...
-          '    <ssv:Parameter name="', esc(f{i}), '">', typed, '</ssv:Parameter>', char(10)]; %#ok<AGROW>
+          '    <ssv:Parameter name="', esc(f{i}), '">', typed, '</ssv:Parameter>', char(10)]; %#ok<NLS0039>
       end
       ssv = ['<?xml version="1.0" encoding="UTF-8"?>', char(10), ...
         '<ssv:ParameterSet version="1.0" name="', esc(setName), '"', ...

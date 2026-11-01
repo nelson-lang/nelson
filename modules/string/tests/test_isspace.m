@@ -42,7 +42,8 @@ asserts.isequal(R, REF)
 %=============================================================================
 % Unicode space separators (but not the no-break ones), other types are never blanks.
 asserts.isequal(isspace(char([9 10 11 12 13 28 29 30 31 32])), [true true true true true true true true true true]);
-asserts.isequal(isspace(char([160 5760 8192 8199 8202 8203 8232 8233 8239 8287 12288])), [false true true false true false true true false true true]);
+asserts.isequal(isspace(char([160 5760 8192 8199 8202 8203 8232 8233 8239 8287 12288])), ...
+  [false true true false true false true true false true true]);
 asserts.isequal(isspace(5), false);
 asserts.isequal(isspace([1 2; 3 4]), [false false;false false]);
 asserts.isequal(isspace(true), false);

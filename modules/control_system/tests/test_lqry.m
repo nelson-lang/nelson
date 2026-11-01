@@ -39,3 +39,15 @@ asserts.isapprox(K, K_REF, 1e-4);
 asserts.isapprox(S, S_REF, 1e-4);
 asserts.isapprox(e, e_REF, 1e-4);
 %=============================================================================
+% An indefinite weighting matrix warns and the regulator is still computed.
+sys = ss([-1 1; 0 -2], [0; 1], [1 0], 0);
+lastwarn('');
+[K, S, e] = lqry(sys, 1, 1, 5);
+[msg, id] = lastwarn();
+asserts.isequal(id, 'Nelson:control_system:notPositiveSemiDefinite');
+asserts.isapprox(K, [3.763932022500212, -0.763932022500211], 1e-10);
+lastwarn('');
+[K, S, e] = lqry(sys, 2, 1, 0.5);
+asserts.isequal(lastwarn(), '');
+asserts.isapprox(K, [0.720879176686116, 0.107547948060075], 1e-10);
+%=============================================================================

@@ -41,13 +41,18 @@ asserts.isequal(cellstr(B), {'low'; 'mid'});
 asserts.isequal(I(:), [2; 1]);
 %=============================================================================
 asserts.checkerror('min(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Minimum'));
-asserts.checkerror('min(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Minimum'), 'Nelson:categorical:requiresOrdinal');
+asserts.checkerror('min(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Minimum'), ...
+  'Nelson:categorical:requiresOrdinal');
 asserts.checkerror('max(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Maximum'));
-asserts.checkerror('max(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Maximum'), 'Nelson:categorical:requiresOrdinal');
+asserts.checkerror('max(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Maximum'), ...
+  'Nelson:categorical:requiresOrdinal');
 asserts.checkerror('median(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Median'));
-asserts.checkerror('median(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Median'), 'Nelson:categorical:requiresOrdinal');
+asserts.checkerror('median(A)', sprintf(_('%s requires ordinal categorical arrays.'), 'Median'), ...
+  'Nelson:categorical:requiresOrdinal');
 asserts.checkerror('mink(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'mink'));
-asserts.checkerror('mink(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'mink'), 'Nelson:categorical:requiresOrdinal');
+asserts.checkerror('mink(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'mink'), ...
+  'Nelson:categorical:requiresOrdinal');
 asserts.checkerror('maxk(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'maxk'));
-asserts.checkerror('maxk(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'maxk'), 'Nelson:categorical:requiresOrdinal');
+asserts.checkerror('maxk(A, 1)', sprintf(_('%s requires ordinal categorical arrays.'), 'maxk'), ...
+  'Nelson:categorical:requiresOrdinal');
 %=============================================================================

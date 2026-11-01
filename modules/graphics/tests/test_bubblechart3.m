@@ -108,8 +108,10 @@ close(f);
 %=============================================================================
 asserts.checkerror('bubblechart3(1, 2, 3);', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('bubblechart3({1}, 2, 3, 4);', getString(message('Nelson:bubblechart3:numericXYExpected')));
-asserts.checkerror('bubblechart3(1:3, [3 2 1], [0 1 2], [20 40 60], ''BubbleColor'', ''b'');', _('Unrecognized property BubbleColor for class BubbleChart.'));
+asserts.checkerror('bubblechart3(1:3, [3 2 1], [0 1 2], [20 40 60], ''BubbleColor'', ''b'');', ...
+  _('Unrecognized property BubbleColor for class BubbleChart.'));
 asserts.checkerror('bubblechart3(1:2, 1:3, 1:2, [10 20]);', getString(message('Nelson:dimagree:xYZSize')));
 asserts.checkerror('bubblechart3(1:3, 1:3, 1:3, [10 20]);', getString(message('Nelson:dimagree:sizeSMatchXYZ')));
-asserts.checkerror('bubblechart3([1 2; 3 4], [1 2; 3 4], [1 2; 3 4], 10);', getString(message('Nelson:dimagree:sizeSMatchXYZ')));
+asserts.checkerror('bubblechart3([1 2; 3 4], [1 2; 3 4], [1 2; 3 4], 10);', ...
+  getString(message('Nelson:dimagree:sizeSMatchXYZ')));
 %=============================================================================

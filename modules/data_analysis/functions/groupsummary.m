@@ -21,7 +21,8 @@ function G = groupsummary(T, groupVars, method, dataVars)
   st = struct(T);
   names = st.Properties.VariableNames;
   if nargin < 4
-    dataVars = setdiffIndicesLocal(1:width(T), tableResolveVariables(names, groupVars, st.Properties.VariableTypes, st.data));
+    dataVars = setdiffIndicesLocal(1:width(T), tableResolveVariables(names, groupVars, st.Properties.VariableTypes, ...
+      st.data));
   else
     dataVars = tableResolveVariables(names, dataVars, st.Properties.VariableTypes, st.data);
   end

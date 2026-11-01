@@ -82,8 +82,10 @@ assert_checkerror('addvars(T, x, ''Before'', 5)', msg, 'Nelson:table:varIndexOut
 assert_checkerror('addvars(T, x, ''Before'', logical([0 0 0 1]))', msg, 'Nelson:table:varIndexOutOfRange');
 assert_checkerror('addvars(TT, x, ''Before'', 4)', msg, 'Nelson:table:varIndexOutOfRange');
 msg = _('index must either be real positive integers or logicals.');
-assert_checkerror('addvars(T, x, ''Before'', 0)', msg, 'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
-assert_checkerror('addvars(T, x, ''Before'', 1.5)', msg, 'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
+assert_checkerror('addvars(T, x, ''Before'', 0)', msg, ...
+  'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
+assert_checkerror('addvars(T, x, ''Before'', 1.5)', msg, ...
+  'Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals');
 msg = _('Using a vartype subscripter as a location is not supported. Specify a location as a variable name, a positive integer, or a logical vector containing a single true value.');
 assert_checkerror('addvars(T, x, ''Before'', vartype(''double''))', msg, 'Nelson:table:invalidLocation');
 msg = _('Specify either ''Before'' or ''After'', but not both.');
@@ -92,7 +94,8 @@ msg = _('Incorrect number of arguments.');
 assert_checkerror('addvars(T, x, ''Before'')', msg, 'Nelson:table:wrongNumberArgs');
 assert_checkerror('addvars(T, x, ''B'')', msg, 'Nelson:table:wrongNumberArgs');
 assert_checkerror('addvars(T, x, ''Before'', ''B'', 5)', msg, 'Nelson:table:wrongNumberArgs');
-assert_checkerror('addvars(T, x, ''Foo'', 1)', sprintf(_('Invalid parameter name: %s.'), 'Foo'), 'Nelson:table:badParamName');
+assert_checkerror('addvars(T, x, ''Foo'', 1)', sprintf(_('Invalid parameter name: %s.'), 'Foo'), ...
+  'Nelson:table:badParamName');
 assert_checkerror('addvars(T, x, '''', 1)', _('Invalid parameter name. Parameter name must be a nonempty string or character vector.'), 'Nelson:table:illegalParamName');
 msg = _('Specify one new variable name for each variable being added to the table.');
 assert_checkerror('addvars(T, x, ''NewVariableNames'', {''Z'', ''W''})', msg, 'Nelson:table:incorrectNumberOfVarNames');
@@ -100,7 +103,8 @@ assert_checkerror('addvars(T, x, x, ''NewVariableNames'', {''Z''})', msg, 'Nelso
 msg = _('New variable names must be a character vector, string array, or cell array of character vectors.');
 assert_checkerror('addvars(T, x, ''NewVariableNames'', 5)', msg, 'Nelson:table:invalidVarNames');
 assert_checkerror('addvars(T, x, ''NewVariableNames'', {5})', msg, 'Nelson:table:invalidVarNames');
-assert_checkerror('addvars(T, x, ''NewVariableNames'', '''')', _('Table variable names must be nonempty text.'), 'Nelson:table:zeroLengthVarname');
+assert_checkerror('addvars(T, x, ''NewVariableNames'', '''')', _('Table variable names must be nonempty text.'), ...
+  'Nelson:table:zeroLengthVarname');
 msg = sprintf(_('Duplicate table variable name: ''%s''.'), 'Z');
 assert_checkerror('addvars(T, x, x, ''NewVariableNames'', {''Z'', ''Z''})', msg, 'Nelson:table:duplicateVariableNames');
 msg = sprintf(_('Duplicate table variable name: ''%s''.'), 'A');

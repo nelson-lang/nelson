@@ -35,7 +35,8 @@ for t = 1:numel(cases)
     struct('from', 'sel', 'to', 'wp', 'fromIndex', 0, 'toIndex', 0), struct('from', 'sel', 'to', 'wc', 'fromIndex', 1, 'toIndex', 0)};
   for j = 1:numel(assigned)
     id = ['r', int2str(j)];
-    blocks{end + 1} = struct('id', id, 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', repl{j}));
+    blocks{end + 1} = struct('id', id, 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', ...
+      repl{j}));
     conns{end + 1} = struct('from', id, 'to', 'ba', 'fromIndex', 0, 'toIndex', j);
   end
   d = struct(); d.blocks = blocks; d.connections = conns;

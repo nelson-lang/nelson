@@ -16,7 +16,8 @@ function cleanup = run_applyLauncherBackend(launcher)
   end
   launcher = lower(launcher);
   if ~any(strcmp(launcher, {'default', 'webview'}))
-    error('Nelson:tests_manager:unsupportedLauncher', 'Unsupported ''Launcher'' value: %s (use ''default'' or ''webview'').', launcher);
+    error('Nelson:tests_manager:unsupportedLauncher', ...
+      'Unsupported ''Launcher'' value: %s (use ''default'' or ''webview'').', launcher);
   end
   previous = getenv('NELSON_UNITTEST_LAUNCHER');
   setenv('NELSON_UNITTEST_LAUNCHER', launcher);

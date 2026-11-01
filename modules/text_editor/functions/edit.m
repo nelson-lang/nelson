@@ -20,7 +20,8 @@ function edit(varargin)
         continue;
       end
       if isbuiltin(name)
-        error('Nelson:edit:notSupported', 'Unable to edit ''%s''. Editing built-in class or function using the EDIT function is not supported.', name)
+        error('Nelson:edit:notSupported', ...
+          'Unable to edit ''%s''. Editing built-in class or function using the EDIT function is not supported.', name)
       end
       if ismacro(name)
         filename = which(name);

@@ -41,11 +41,15 @@ filewrite(outside_file, 'a = 1;');
 workspace_option = ['--workspace-root=', test_dir];
 requests = {
   '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}';
-  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', issue_file, '","format":"json"}}}'];
-  ['{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', ok_file, '","format":"json"}}}'];
-  ['{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"check_nelson_format","arguments":{"path":"', format_file, '","config_path":"', format_config_file, '"}}}'];
+  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', ...
+    issue_file, '","format":"json"}}}'];
+  ['{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', ...
+    ok_file, '","format":"json"}}}'];
+  ['{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"check_nelson_format","arguments":{"path":"', ...
+    format_file, '","config_path":"', format_config_file, '"}}}'];
   '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_nelson_function_info","arguments":{"symbol":"mcpserver"}}}';
-  ['{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', outside_file, '"}}}']
+  ['{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', ...
+    outside_file, '"}}}']
 };
 response = ai_mcp_request(requests, 120, workspace_option);
 

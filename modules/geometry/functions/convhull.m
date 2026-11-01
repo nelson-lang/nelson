@@ -23,7 +23,8 @@ function [k, av] = convhull(varargin)
   end
   if nargout == 0
     if size(points, 2) ~= 2
-      error('Nelson:geometry:plottingSupportedTwoDimensionalInputs', 'Plotting is only supported for two-dimensional inputs.');
+      error('Nelson:geometry:plottingSupportedTwoDimensionalInputs', ...
+        'Plotting is only supported for two-dimensional inputs.');
     end
     plot(points(k, 1), points(k, 2));
     return
@@ -58,7 +59,8 @@ function [points, options] = parseConvhullInputs(varargin)
     error('Nelson:geometry:wrongNumberInputArguments', 'Wrong number of input arguments.');
   end
   if ~isnumeric(points) || size(points, 2) < 2
-    error('Nelson:geometry:pointsNumericMatrixLeastTwoColumns', '%s must be a numeric matrix with at least two columns.', 'Points');
+    error('Nelson:geometry:pointsNumericMatrixLeastTwoColumns', ...
+      '%s must be a numeric matrix with at least two columns.', 'Points');
   end
 end
 %=============================================================================

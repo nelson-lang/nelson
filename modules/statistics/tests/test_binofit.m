@@ -67,7 +67,8 @@ asserts.isapprox(PCI(2, 1), 0.4781762498950185, 1e-12);
 %=============================================================================
 asserts.checkerror('binofit()', _('Not enough input arguments.'));
 asserts.checkerror('binofit([], [])', sprintf(_('%s must be nonempty.'), 'X and N'));
-asserts.checkerror('binofit([], [])', sprintf(_('%s must be nonempty.'), 'X and N'), 'Nelson:validators:mustBeNonempty');
+asserts.checkerror('binofit([], [])', sprintf(_('%s must be nonempty.'), 'X and N'), ...
+  'Nelson:validators:mustBeNonempty');
 asserts.checkerror('binofit({1 2}, 10)', sprintf(_('%s must be real numeric.'), 'X'));
 asserts.checkerror('binofit([1 2], {10 10})', sprintf(_('%s must be real numeric.'), 'N'));
 asserts.checkerror('binofit(ones(2), ones(3))', _('Size mismatch on input arguments'));

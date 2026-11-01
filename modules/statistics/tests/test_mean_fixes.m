@@ -18,7 +18,8 @@ asserts.isequal(mean([1 NaN 3],2,'omitmissing'), 2);
 asserts.isequal(mean(sparse([1 NaN 3]),'omitnan'), sparse(2));
 asserts.isequal(mean(sparse([1 NaN 3])), sparse(NaN));
 asserts.isequal(mean(sparse(eye(3))), sparse([0.33333333333333331 0.33333333333333331 0.33333333333333331]));
-asserts.isequal(mean(sparse(eye(3)),2), sparse(reshape([0.33333333333333331 0.33333333333333331 0.33333333333333331], [3 1])));
+asserts.isequal(mean(sparse(eye(3)),2), ...
+  sparse(reshape([0.33333333333333331 0.33333333333333331 0.33333333333333331], [3 1])));
 asserts.isequal(mean(sparse(eye(3)),'all'), sparse(0.33333333333333331));
 asserts.isequal(mean(sparse(eye(3)),3), sparse(reshape([1 0 0 0 1 0 0 0 1], [3 3])));
 asserts.isequal(mean(sparse(true(2))), sparse([1 1]));

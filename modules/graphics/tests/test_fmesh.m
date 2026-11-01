@@ -77,7 +77,8 @@ close(f);
 %=============================================================================
 asserts.checkerror('fmesh(@(x, y) x, [1 2 3]);', getString(message('Nelson:graphics:invalidParameter', '[1 2 3]')));
 asserts.checkerror('fmesh(@(x, y) x, @(x, y) y);', getString(message('Nelson:graphics:tooManyFunctions')));
-asserts.checkerror('fmesh(@(x, y) x, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', 'BadName')));
+asserts.checkerror('fmesh(@(x, y) x, ''BadName'', 1);', getString(message('Nelson:graphics:invalidParameter', ...
+  'BadName')));
 %=============================================================================
 function z = scalar_surface(x, y)
   if numel(x) ~= 1 || numel(y) ~= 1

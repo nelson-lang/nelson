@@ -10,7 +10,7 @@
 % <--WEIGHT 2-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 switchSelectorFile = fullfile(fixtureDirectory, 'nelson_lint_switch_selector_usage.m');
 filewrite(switchSelectorFile, ['function y = nelson_lint_switch_selector_usage(choice)', newline(), ...
   'switch choice', newline(), ...

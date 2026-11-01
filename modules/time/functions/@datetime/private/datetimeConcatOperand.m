@@ -13,7 +13,8 @@ function v = datetimeConcatOperand(v)
     return
   end
   if (isnumeric(v) || islogical(v)) && ~isempty(v)
-    error('Nelson:time:concatenateDatetimeOperands', '%s', 'All inputs must be datetimes or date/time character vectors or date/time strings.');
+    error('Nelson:time:concatenateDatetimeOperands', '%s', ...
+      'All inputs must be datetimes or date/time character vectors or date/time strings.');
   end
   v = datetime(v);
 end

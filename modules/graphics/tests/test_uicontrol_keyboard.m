@@ -80,7 +80,8 @@ function test_uicontrol_keyboard()
   assert_isequal([r1.Value, r2.Value], [0 1]);
   assert_istrue(isempty(bg.UserData));
   %---------------------------------------------------------------------------
-  assert_checkerror('__uicontrol_key_event__(f, ''space'')', getString(message('Nelson:uicontrol:expectedUicontrol')), 'Nelson:uicontrol:expectedUicontrol');
+  assert_checkerror('__uicontrol_key_event__(f, ''space'')', ...
+    getString(message('Nelson:uicontrol:expectedUicontrol')), 'Nelson:uicontrol:expectedUicontrol');
   close(f);
 end
 %=============================================================================

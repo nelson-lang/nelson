@@ -97,7 +97,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
   for i = find(isAc)
     ci = catalog(catOf(i));
     for pp = 1:numel(ci.pins)
-      pinKeys{end + 1} = [blocks{i}.id, '.', ci.pins{pp}{1}]; %#ok<AGROW>
+      pinKeys{end + 1} = [blocks{i}.id, '.', ci.pins{pp}{1}]; %#ok<NLS0039>
     end
   end
   parent = 1:numel(pinKeys);
@@ -136,7 +136,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
   % ---- emit island blocks ---------------------------------------------------
   newBlocks = {};
   for i = 1:numel(blocks)
-    if ~isAc(i); newBlocks{end + 1} = blocks{i}; end %#ok<AGROW>
+    if ~isAc(i); newBlocks{end + 1} = blocks{i}; end %#ok<NLS0039>
   end
   sigOutMap = containers.Map('KeyType', 'char', 'ValueType', 'any');
   sigInMap = containers.Map('KeyType', 'char', 'ValueType', 'any');
@@ -193,7 +193,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
       for pp = 1:numel(ci.pins)
         nd = nodeOfPin([blocks{m}.id, '.', ci.pins{pp}{1}]);
         [localNodes, nextLocal, lv] = ax_ensure(localNodes, nextLocal, nd);
-        nodej = [nodej, sprintf(',"%s":%d', ci.pins{pp}{2}, lv)]; %#ok<AGROW>
+        nodej = [nodej, sprintf(',"%s":%d', ci.pins{pp}{2}, lv)]; %#ok<NLS0039>
       end
       pj = {};
       for qq = 1:numel(ci.params)
@@ -207,7 +207,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
             'Acausal component ''%s'': %s must be greater than zero (got %.15g).', ...
             blocks{m}.id, pmap{1}, pval);
         end
-        pj{end + 1} = sprintf('"%s":%.15g', pmap{2}, pval); %#ok<AGROW>
+        pj{end + 1} = sprintf('"%s":%.15g', pmap{2}, pval); %#ok<NLS0039>
       end
       extra = '';
       if ~isempty(ci.signalIn)
@@ -218,14 +218,14 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
         inPort = inPort + 1;
       end
       if ~isempty(ci.signalOut)
-        extra = [extra, sprintf(',"outPort":%d', outPort)]; %#ok<AGROW>
+        extra = [extra, sprintf(',"outPort":%d', outPort)]; %#ok<NLS0039>
         sigOutMap(blocks{m}.id) = {islId, outPort};
         outPort = outPort + 1;
       end
       comp = ['{"kind":"', ci.kind, '"', nodej];
       if ~isempty(pj); comp = [comp, ',', strjoin(pj, ',')]; end
       newBlocks_comp = [comp, extra, '}'];
-      compJson{end + 1} = newBlocks_comp; %#ok<AGROW>
+      compJson{end + 1} = newBlocks_comp; %#ok<NLS0039>
     end
 
     isl = struct();
@@ -235,7 +235,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
     isl.outputs = outPort;
     isl.params = jsondecode(sprintf('{"domain":"%s","nodes":%d,"components":[%s]}', ...
       ci0.domain, nextLocal, strjoin(compJson, ',')));
-    newBlocks{end + 1} = isl; %#ok<AGROW>
+    newBlocks{end + 1} = isl; %#ok<NLS0039>
   end
 
   % ---- rewrite sensor signal connections to island output ports -------------
@@ -258,7 +258,7 @@ function doc = ax_lower_diagram(doc, catalog, catNames)
       conn.to = v{1};
       conn.toIndex = v{2};
     end
-    newConns{end + 1} = conn; %#ok<AGROW>
+    newConns{end + 1} = conn; %#ok<NLS0039>
   end
 
   doc.blocks = newBlocks;
@@ -323,7 +323,7 @@ function doc = ax_expand_waveforms(doc)
     b = blocks{i};
     row = find(strcmp(map(:, 1), ax_field(b, 'type', '')), 1);
     if isempty(row)
-      out{end + 1} = b; %#ok<AGROW>
+      out{end + 1} = b; %#ok<NLS0039>
       continue
     end
     changed = true;
@@ -333,10 +333,10 @@ function doc = ax_expand_waveforms(doc)
       src.params = ax_runtime_source_params(b.params);
     end
     src.x = ax_field(b, 'x', 0) - 150; src.y = ax_field(b, 'y', 0); src.rotation = 0;
-    out{end + 1} = src; %#ok<AGROW>
+    out{end + 1} = src; %#ok<NLS0039>
     b.type = map{row, 3};
-    out{end + 1} = b; %#ok<AGROW>
-    conns{end + 1} = struct('from', srcId, 'to', b.id, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
+    out{end + 1} = b; %#ok<NLS0039>
+    conns{end + 1} = struct('from', srcId, 'to', b.id, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
   end
   if changed
     doc.blocks = out;
@@ -410,7 +410,7 @@ function doc = ax_expand_composites(doc)
         if isfield(b.params, sk); sp.params.(sk) = b.params.(sk); end
         if isfield(b.params, 'd'); dm.params.d = b.params.d; end
       end
-      out{end + 1} = sp; out{end + 1} = dm; %#ok<AGROW>
+      out{end + 1} = sp; out{end + 1} = dm; %#ok<NLS0039>
       splitIds(b.id) = {kId, dId};
     elseif strcmp(t, 'MassWithWeight')
       % Mass + a constant gravity force (F = -m g) on the same flange net.
@@ -419,10 +419,10 @@ function doc = ax_expand_composites(doc)
       mass = struct('id', mId, 'type', 'Mass', 'params', ...
         struct('m', m, 's0', ax_param(b, 's0', 0), 'v0', ax_param(b, 'v0', 0)));
       wt = struct('id', wId, 'type', 'ConstantForce', 'params', struct('F', -m * g));
-      out{end + 1} = mass; out{end + 1} = wt; %#ok<AGROW>
+      out{end + 1} = mass; out{end + 1} = wt; %#ok<NLS0039>
       splitIds(b.id) = {mId, wId};
     else
-      out{end + 1} = b; %#ok<AGROW>
+      out{end + 1} = b; %#ok<NLS0039>
     end
   end
   if splitIds.Count == 0
@@ -442,10 +442,10 @@ function doc = ax_expand_composites(doc)
       bid = key(1:dot - 1); pin = key(dot:end);
       if ~isempty(dot) && isKey(splitIds, bid)
         v = splitIds(bid);
-        newPins{end + 1} = [v{1}, pin]; %#ok<AGROW>
-        newPins{end + 1} = [v{2}, pin]; %#ok<AGROW>
+        newPins{end + 1} = [v{1}, pin]; %#ok<NLS0039>
+        newPins{end + 1} = [v{2}, pin]; %#ok<NLS0039>
       else
-        newPins{end + 1} = key; %#ok<AGROW>
+        newPins{end + 1} = key; %#ok<NLS0039>
       end
     end
     net.pins = newPins;
@@ -471,23 +471,23 @@ function doc = ax_expand_heating(doc)
   for i = 1:numel(blocks)
     b = blocks{i};
     if ~strcmp(ax_field(b, 'type', ''), 'HeatingResistor')
-      addBlocks{end + 1} = b; %#ok<AGROW>
+      addBlocks{end + 1} = b; %#ok<NLS0039>
       continue
     end
     changed = true;
     R = ax_param(b, 'R', 1);
     rId = [b.id, '_R']; vsId = [b.id, '_vs'];
     sqId = [b.id, '_sq']; gId = [b.id, '_g']; hfId = [b.id, '_hf'];
-    addBlocks{end + 1} = struct('id', rId, 'type', 'Resistor', 'params', struct('R', R)); %#ok<AGROW>
-    addBlocks{end + 1} = struct('id', vsId, 'type', 'VoltageSensor', 'params', struct()); %#ok<AGROW>
+    addBlocks{end + 1} = struct('id', rId, 'type', 'Resistor', 'params', struct('R', R)); %#ok<NLS0039>
+    addBlocks{end + 1} = struct('id', vsId, 'type', 'VoltageSensor', 'params', struct()); %#ok<NLS0039>
     addBlocks{end + 1} = struct('id', sqId, 'type', 'mathFunction', ...
-      'inputs', 1, 'outputs', 1, 'params', struct('Function', 'square')); %#ok<AGROW>
+      'inputs', 1, 'outputs', 1, 'params', struct('Function', 'square')); %#ok<NLS0039>
     addBlocks{end + 1} = struct('id', gId, 'type', 'gain', ...
-      'inputs', 1, 'outputs', 1, 'params', struct('Gain', 1 / R)); %#ok<AGROW>
-    addBlocks{end + 1} = struct('id', hfId, 'type', 'PrescribedHeatFlow', 'params', struct()); %#ok<AGROW>
-    addConns{end + 1} = struct('from', vsId, 'to', sqId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
-    addConns{end + 1} = struct('from', sqId, 'to', gId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
-    addConns{end + 1} = struct('from', gId, 'to', hfId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
+      'inputs', 1, 'outputs', 1, 'params', struct('Gain', 1 / R)); %#ok<NLS0039>
+    addBlocks{end + 1} = struct('id', hfId, 'type', 'PrescribedHeatFlow', 'params', struct()); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', vsId, 'to', sqId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', sqId, 'to', gId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', gId, 'to', hfId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
     % p / n feed both the resistor and the sensor (same electrical node);
     % heatPort feeds the thermal heat-flow source.
     pinRewrite([b.id, '.p']) = {[rId, '.p'], [vsId, '.p']};
@@ -511,9 +511,9 @@ function doc = ax_expand_heating(doc)
     for p = 1:numel(pins)
       key = char(pins{p});
       if isKey(pinRewrite, key)
-        newPins = [newPins, pinRewrite(key)]; %#ok<AGROW>
+        newPins = [newPins, pinRewrite(key)]; %#ok<NLS0039>
       else
-        newPins{end + 1} = key; %#ok<AGROW>
+        newPins{end + 1} = key; %#ok<NLS0039>
       end
     end
     net.pins = newPins;
@@ -549,7 +549,7 @@ function doc = ax_expand_emf(doc)
     b = blocks{i};
     row = find(strcmp(map(:, 1), ax_field(b, 'type', '')), 1);
     if isempty(row)
-      addBlocks{end + 1} = b; %#ok<AGROW>
+      addBlocks{end + 1} = b; %#ok<NLS0039>
       continue
     end
     changed = true;
@@ -558,21 +558,21 @@ function doc = ax_expand_emf(doc)
     wsId = [b.id, '_ws']; tqId = [b.id, '_tq'];
     gvId = [b.id, '_gv']; gtId = [b.id, '_gt'];
     midPin = [vId, '.n']; % internal electrical node between source and ammeter
-    addBlocks{end + 1} = struct('id', vId, 'type', 'SignalVoltage', 'params', struct()); %#ok<AGROW>
-    addBlocks{end + 1} = struct('id', csId, 'type', 'CurrentSensor', 'params', struct()); %#ok<AGROW>
-    addBlocks{end + 1} = struct('id', wsId, 'type', map{row, 3}, 'params', struct()); %#ok<AGROW>
-    addBlocks{end + 1} = struct('id', tqId, 'type', map{row, 2}, 'params', struct()); %#ok<AGROW>
+    addBlocks{end + 1} = struct('id', vId, 'type', 'SignalVoltage', 'params', struct()); %#ok<NLS0039>
+    addBlocks{end + 1} = struct('id', csId, 'type', 'CurrentSensor', 'params', struct()); %#ok<NLS0039>
+    addBlocks{end + 1} = struct('id', wsId, 'type', map{row, 3}, 'params', struct()); %#ok<NLS0039>
+    addBlocks{end + 1} = struct('id', tqId, 'type', map{row, 2}, 'params', struct()); %#ok<NLS0039>
     addBlocks{end + 1} = struct('id', gvId, 'type', 'gain', ...
-      'inputs', 1, 'outputs', 1, 'params', struct('Gain', k)); %#ok<AGROW>
+      'inputs', 1, 'outputs', 1, 'params', struct('Gain', k)); %#ok<NLS0039>
     addBlocks{end + 1} = struct('id', gtId, 'type', 'gain', ...
-      'inputs', 1, 'outputs', 1, 'params', struct('Gain', k)); %#ok<AGROW>
+      'inputs', 1, 'outputs', 1, 'params', struct('Gain', k)); %#ok<NLS0039>
     % w -> gain k -> back-emf source ; i -> gain k -> torque
-    addConns{end + 1} = struct('from', wsId, 'to', gvId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
-    addConns{end + 1} = struct('from', gvId, 'to', vId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
-    addConns{end + 1} = struct('from', csId, 'to', gtId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
-    addConns{end + 1} = struct('from', gtId, 'to', tqId, 'fromIndex', 0, 'toIndex', 0); %#ok<AGROW>
+    addConns{end + 1} = struct('from', wsId, 'to', gvId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', gvId, 'to', vId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', csId, 'to', gtId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
+    addConns{end + 1} = struct('from', gtId, 'to', tqId, 'fromIndex', 0, 'toIndex', 0); %#ok<NLS0039>
     % internal series node: SignalVoltage.n joins CurrentSensor.p
-    addWires{end + 1} = struct('pins', {{midPin, [csId, '.p']}}); %#ok<AGROW>
+    addWires{end + 1} = struct('pins', {{midPin, [csId, '.p']}}); %#ok<NLS0039>
     % external pins: p -> source.p ; n -> ammeter.n ; flange -> sensor + torque
     pinRewrite([b.id, '.p']) = {[vId, '.p']};
     pinRewrite([b.id, '.n']) = {[csId, '.n']};
@@ -595,9 +595,9 @@ function doc = ax_expand_emf(doc)
     for p = 1:numel(pins)
       key = char(pins{p});
       if isKey(pinRewrite, key)
-        newPins = [newPins, pinRewrite(key)]; %#ok<AGROW>
+        newPins = [newPins, pinRewrite(key)]; %#ok<NLS0039>
       else
-        newPins{end + 1} = key; %#ok<AGROW>
+        newPins{end + 1} = key; %#ok<NLS0039>
       end
     end
     net.pins = newPins;

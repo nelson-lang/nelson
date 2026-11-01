@@ -28,7 +28,8 @@ function varargout = bode(varargin)
   switch nargin
     case 0
       if (nargout != 0)
-        error('Nelson:control_system:noOutputArguments', 'bode without input argument does not return output arguments.');
+        error('Nelson:control_system:noOutputArguments', ...
+          'bode without input argument does not return output arguments.');
       end
       numerator = -1;
       denominator = [1 12 58 139 174 102 19];
@@ -161,7 +162,8 @@ function w = checkW(w_maybe, N)
     w_min = log10(w_maybe{1});
     w_max = log10(w_maybe{2});
     if (w_min > w_max)
-      error('Nelson:control_system:invalidFrequencyInterval', '%s frequency interval must be specified as {wmin, wmax} real.', '')
+      error('Nelson:control_system:invalidFrequencyInterval', ...
+        '%s frequency interval must be specified as {wmin, wmax} real.', '')
     end
     w = logspace(w_min, w_max, N);
   elseif (isnumeric(w_maybe) && isvector(w_maybe))
@@ -171,7 +173,8 @@ function w = checkW(w_maybe, N)
       w = sort(w_maybe);
     end
   else
-    error('Nelson:control_system:invalidFrequencyInterval', '%s frequency interval must be specified as {wmin, wmax} real.', '')
+    error('Nelson:control_system:invalidFrequencyInterval', ...
+      '%s frequency interval must be specified as {wmin, wmax} real.', '')
   end
 end
 %=============================================================================
@@ -180,7 +183,7 @@ function [res, lineSpec] = checkLineSpec(var)
   lineSpec = [];
   if ischar(var)
     if ismodule('graphics')
-      [l, c, m, msg] = colstyle(var);
+      [~, ~, ~, msg] = colstyle(var);
       if isempty(msg)
         res = true;
         lineSpec = var;

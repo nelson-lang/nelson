@@ -11,16 +11,24 @@ skip_testsuite((strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm()), ..
   'Portable runtime table properties assignment scenario triggers a runtime crash.');
 T = table([1; 2], [3; 4]);
 asserts.checkerror('T.Properties.VariableNames = {''x''};', _('VariableNames must have one name per variable.'));
-asserts.checkerror('T.Properties.VariableNames = {''x''};', _('VariableNames must have one name per variable.'), 'Nelson:table:invalidVariableNames');
-asserts.checkerror('T.Properties.VariableNames = {''x'', ''y'', ''z''};', _('VariableNames must have one name per variable.'));
+asserts.checkerror('T.Properties.VariableNames = {''x''};', _('VariableNames must have one name per variable.'), ...
+  'Nelson:table:invalidVariableNames');
+asserts.checkerror('T.Properties.VariableNames = {''x'', ''y'', ''z''};', ...
+  _('VariableNames must have one name per variable.'));
 asserts.checkerror('T.Properties.VariableNames = {''x'', ''x''};', _('Variable names must be nonempty and distinct.'));
-asserts.checkerror('T.Properties.VariableNames = {''x'', ''x''};', _('Variable names must be nonempty and distinct.'), 'Nelson:table:duplicateVariableNames');
-asserts.checkerror('T.Properties.VariableNames = {''x'', ''''};', _('Variable names must be nonempty and distinct.'), 'Nelson:table:invalidVariableNames');
-asserts.checkerror('T.Properties.VariableNames = {1, 2};', _('Variable names must be nonempty and distinct.'), 'Nelson:table:invalidVariableNames');
+asserts.checkerror('T.Properties.VariableNames = {''x'', ''x''};', ...
+  _('Variable names must be nonempty and distinct.'), 'Nelson:table:duplicateVariableNames');
+asserts.checkerror('T.Properties.VariableNames = {''x'', ''''};', ...
+  _('Variable names must be nonempty and distinct.'), 'Nelson:table:invalidVariableNames');
+asserts.checkerror('T.Properties.VariableNames = {1, 2};', _('Variable names must be nonempty and distinct.'), ...
+  'Nelson:table:invalidVariableNames');
 asserts.checkerror('T.Properties.VariableUnits = {''m''};', _('VariableUnits must have one element per variable.'));
-asserts.checkerror('T.Properties.VariableUnits = {''m''};', _('VariableUnits must have one element per variable.'), 'Nelson:table:invalidVariableProperty');
-asserts.checkerror('T.Properties.VariableDescriptions = {''a'', ''b'', ''c''};', _('VariableDescriptions must have one element per variable.'));
-asserts.checkerror('T.Properties.VariableContinuity = {''step''};', _('VariableContinuity must have one element per variable.'));
+asserts.checkerror('T.Properties.VariableUnits = {''m''};', _('VariableUnits must have one element per variable.'), ...
+  'Nelson:table:invalidVariableProperty');
+asserts.checkerror('T.Properties.VariableDescriptions = {''a'', ''b'', ''c''};', ...
+  _('VariableDescriptions must have one element per variable.'));
+asserts.checkerror('T.Properties.VariableContinuity = {''step''};', ...
+  _('VariableContinuity must have one element per variable.'));
 p = T.Properties;
 p.VariableNames = {'q'};
 asserts.checkerror('T.Properties = p;', _('VariableNames must have one name per variable.'));
@@ -68,11 +76,13 @@ asserts.isequal(T.Properties.Description, 'renamed');
 %=============================================================================
 T = table([1; 2], [3; 4]);
 asserts.checkerror('T.Properties = 3;', _('Properties must be a scalar structure.'));
-asserts.checkerror('T.Properties = 3;', _('Properties must be a scalar structure.'), 'Nelson:table:invalidPropertiesAssignment');
+asserts.checkerror('T.Properties = 3;', _('Properties must be a scalar structure.'), ...
+  'Nelson:table:invalidPropertiesAssignment');
 p = T.Properties;
 p.Bogus = 1;
 asserts.checkerror('T.Properties = p;', sprintf(_('Unknown table property: %s.'), 'Bogus'));
-asserts.checkerror('T.Properties = p;', sprintf(_('Unknown table property: %s.'), 'Bogus'), 'Nelson:table:unknownProperty');
+asserts.checkerror('T.Properties = p;', sprintf(_('Unknown table property: %s.'), 'Bogus'), ...
+  'Nelson:table:unknownProperty');
 asserts.isfalse(isfield(T.Properties, 'Bogus'));
 %=============================================================================
 T = table([1; 2], [3; 4]);

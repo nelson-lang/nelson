@@ -248,7 +248,8 @@ classdef calendarDuration
         obj = b;
         factor = double(a);
       else
-        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', 'Multiplication');
+        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', ...
+          'Multiplication');
       end
       out = calendarDuration.fromParts(calendarDuration.rawMonths(obj) .* factor, ...
         calendarDuration.rawDays(obj) .* factor, calendarDuration.rawSeconds(obj) .* factor, ...
@@ -257,7 +258,8 @@ classdef calendarDuration
 
     function out = mtimes(a, b)
       if ~isscalar(a) && ~isscalar(b)
-        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', 'Multiplication');
+        error('Nelson:time:multiplicationDefinedTheseOperands', '%s is not defined for these operands.', ...
+          'Multiplication');
       end
       out = times(a, b);
     end

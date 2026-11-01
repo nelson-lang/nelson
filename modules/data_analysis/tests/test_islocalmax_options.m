@@ -26,9 +26,12 @@ asserts.isequal(islocalmax([1 5 3 Inf 1 7 1], 'MinProminence', 6), [false false 
 % MaxNumExtrema: most prominent first, earliest on ties
 asserts.isequal(islocalmax(A, 'MaxNumExtrema', 1), [false true false false false false false]);
 asserts.isequal(islocalmax([0 5 1 3 1 3 0], 'MaxNumExtrema', 2), [false true false true false false false]);
-asserts.isequal(islocalmax([0 9 1 3 0 4 0 3 1 9 0], 'MaxNumExtrema', 3), [false true false false false true false false false true false]);
-asserts.isequal(islocalmax([0 9 9 1 3 0], 'MaxNumExtrema', 1, 'FlatSelection', 'all'), [false true true false false false]);
-asserts.isequal(islocalmax([1 2 3 Inf NaN Inf 3 2 1], 'MaxNumExtrema', 1), [false false false true false false false false false]);
+asserts.isequal(islocalmax([0 9 1 3 0 4 0 3 1 9 0], 'MaxNumExtrema', 3), ...
+  [false true false false false true false false false true false]);
+asserts.isequal(islocalmax([0 9 9 1 3 0], 'MaxNumExtrema', 1, 'FlatSelection', 'all'), ...
+  [false true true false false false]);
+asserts.isequal(islocalmax([1 2 3 Inf NaN Inf 3 2 1], 'MaxNumExtrema', 1), ...
+  [false false false true false false false false false]);
 asserts.isequal(islocalmax([1 5 3 Inf 1 7 1], 'MaxNumExtrema', 2), [false false false true false true false]);
 asserts.isequal(islocalmax([1 2 1], 'MaxNumExtrema', Inf), [false true false]);
 %=============================================================================
@@ -38,14 +41,20 @@ asserts.isequal(islocalmax(A, 'MinSeparation', 4), [false true false false false
 asserts.isequal(islocalmax(A, 'MinSeparation', 4, 'MaxNumExtrema', 1), [false true false false false false false]);
 asserts.isequal(islocalmax(A, 'MinSeparation', 4, 'MinProminence', 4), [false true false false false false false]);
 asserts.isequal(islocalmax([1 3 1 3 1 3 1], 'MinSeparation', 3), [false true false false false true false]);
-asserts.isequal(islocalmax([1 3 1 4 1 4 1 3 1], 'MinSeparation', 3), [false false false true false false false true false]);
-asserts.isequal(islocalmax([1 3 1 4 1 4 1 3 1], 'MinSeparation', 5), [false false false true false false false false false]);
-asserts.isequal(islocalmax([0 9 1 3 0 4 0 3 1 9 0], 'MinSeparation', 4), [false true false false false true false false false true false]);
-asserts.isequal(islocalmax([1 3 3 3 1 2 1 3 1], 'MinSeparation', 3), [false false true false false false false true false]);
+asserts.isequal(islocalmax([1 3 1 4 1 4 1 3 1], 'MinSeparation', 3), ...
+  [false false false true false false false true false]);
+asserts.isequal(islocalmax([1 3 1 4 1 4 1 3 1], 'MinSeparation', 5), ...
+  [false false false true false false false false false]);
+asserts.isequal(islocalmax([0 9 1 3 0 4 0 3 1 9 0], 'MinSeparation', 4), ...
+  [false true false false false true false false false true false]);
+asserts.isequal(islocalmax([1 3 3 3 1 2 1 3 1], 'MinSeparation', 3), ...
+  [false false true false false false false true false]);
 asserts.isequal(islocalmax([1 3 1 Inf 1 3 1], 'MinSeparation', 3), [false false false true false false false]);
 % NaN positions keep their sample point
-asserts.isequal(islocalmax([1 NaN 3 NaN 1 NaN 3 NaN 1], 'MinSeparation', 3.9), [false false true false false false true false false]);
-asserts.isequal(islocalmax([1 NaN 3 NaN 1 NaN 3 NaN 1], 'MinSeparation', 5), [false false true false false false false false false]);
+asserts.isequal(islocalmax([1 NaN 3 NaN 1 NaN 3 NaN 1], 'MinSeparation', 3.9), ...
+  [false false true false false false true false false]);
+asserts.isequal(islocalmax([1 NaN 3 NaN 1 NaN 3 NaN 1], 'MinSeparation', 5), ...
+  [false false true false false false false false false]);
 % with 'last', the extent of an extremum starts one sample before it
 A = [NaN; 2; 0; 0; 2; 2; 1; 0; 3; 4; 3; 0; 4];
 TF = islocalmax(A, 'FlatSelection', 'last', 'MinProminence', 1, 'MinSeparation', 3.5);
@@ -57,7 +66,8 @@ asserts.isequal(find(TF), [5; 10]);
 A = [0 5 1 3 1 4 0];
 x = [1 2 4 8 16 32 64];
 asserts.isequal(islocalmax(A, 'SamplePoints', x, 'MinSeparation', 10), [false true false false false true false]);
-asserts.isequal(islocalmax([1 5 1 2 1], 'MinSeparation', 0.8, 'SamplePoints', [0 0.5 1 1.3 2]), [false true false true false]);
+asserts.isequal(islocalmax([1 5 1 2 1], 'MinSeparation', 0.8, 'SamplePoints', [0 0.5 1 1.3 2]), ...
+  [false true false true false]);
 asserts.isequal(islocalmax([1 2 1], 'SamplePoints', [1 2 3]'), [false true false]);
 t = hours(linspace(0, 3, 15));
 A = [2 4 6 4 3 7 5 6 5 10 4 -1 -3 -2 0];
@@ -132,32 +142,47 @@ asserts.isequal(TF, logical([0 0; 1 1; 0 0]));
 asserts.isequal(P.Var1, uint8([0; 2; 0]));
 %=============================================================================
 % errors
-assert_checkerror('islocalmax(''abcba'')', 'First argument must be a numeric or logical array, a table, or a timetable.');
+assert_checkerror('islocalmax(''abcba'')', ...
+  'First argument must be a numeric or logical array, a table, or a timetable.');
 assert_checkerror('islocalmax(''abcba'')', 'First argument must be a numeric or logical array, a table, or a timetable.', 'Nelson:isLocalExtrema:FirstInputInvalid');
 assert_checkerror('islocalmax([1 2 1] + 1i)', 'Complex input arguments are not supported.');
-assert_checkerror('islocalmax([1 2 1] + 1i)', 'Complex input arguments are not supported.', 'Nelson:isLocalExtrema:ComplexInputArray');
+assert_checkerror('islocalmax([1 2 1] + 1i)', 'Complex input arguments are not supported.', ...
+  'Nelson:isLocalExtrema:ComplexInputArray');
 assert_checkerror('islocalmax([1 2 1], 0)', 'Dimension must be a positive integer.');
-assert_checkerror('islocalmax([1 2 1], 1.5)', 'Dimension must be a positive integer.', 'Nelson:isLocalExtrema:DimensionInvalid');
-assert_checkerror('islocalmax([1 2 1], ''MinProm'')', 'Incorrect number of input arguments. Parameter names and values must occur in pairs.');
+assert_checkerror('islocalmax([1 2 1], 1.5)', 'Dimension must be a positive integer.', ...
+  'Nelson:isLocalExtrema:DimensionInvalid');
+assert_checkerror('islocalmax([1 2 1], ''MinProm'')', ...
+  'Incorrect number of input arguments. Parameter names and values must occur in pairs.');
 assert_checkerror('islocalmax([1 2 1], ''MinProm'')', 'Incorrect number of input arguments. Parameter names and values must occur in pairs.', 'Nelson:isLocalExtrema:NameValuePairs');
 msg = 'Parameter name must be ''MaxNumExtrema'', ''MinSeparation'', ''MinProminence'', ''FlatSelection'', ''SamplePoints'', or ''ProminenceWindow''.';
 assert_checkerror('islocalmax([1 2 1], ''Min'', 1)', msg);
 assert_checkerror('islocalmax([1 2 1], ''Foo'', 1)', msg, 'Nelson:isLocalExtrema:InvalidNameArray');
-assert_checkerror('islocalmax([1 2 1], ''MinProminence'', -1)', '''MinProminence'' value must be a nonnegative numeric scalar.');
-assert_checkerror('islocalmax([1 2 1], ''MinProminence'', Inf)', '''MinProminence'' value must be a nonnegative numeric scalar.', 'Nelson:isLocalExtrema:MinProminenceInvalid');
-assert_checkerror('islocalmax([1 2 1], ''MinSeparation'', -1)', '''MinSeparation'' value must be a nonnegative, real, finite scalar.');
-assert_checkerror('islocalmax([1 2 1], ''MinSeparation'', Inf)', '''MinSeparation'' value must be a nonnegative, real, finite scalar.', 'Nelson:isLocalExtrema:MinSeparationInvalid');
+assert_checkerror('islocalmax([1 2 1], ''MinProminence'', -1)', ...
+  '''MinProminence'' value must be a nonnegative numeric scalar.');
+assert_checkerror('islocalmax([1 2 1], ''MinProminence'', Inf)', ...
+  '''MinProminence'' value must be a nonnegative numeric scalar.', 'Nelson:isLocalExtrema:MinProminenceInvalid');
+assert_checkerror('islocalmax([1 2 1], ''MinSeparation'', -1)', ...
+  '''MinSeparation'' value must be a nonnegative, real, finite scalar.');
+assert_checkerror('islocalmax([1 2 1], ''MinSeparation'', Inf)', ...
+  '''MinSeparation'' value must be a nonnegative, real, finite scalar.', 'Nelson:isLocalExtrema:MinSeparationInvalid');
 assert_checkerror('islocalmax([1 2 1], ''MaxNumExtrema'', 0)', '''MaxNumExtrema'' value must be a positive integer.');
-assert_checkerror('islocalmax([1 2 1], ''MaxNumExtrema'', 1.5)', '''MaxNumExtrema'' value must be a positive integer.', 'Nelson:isLocalExtrema:MaxNumInvalid');
-assert_checkerror('islocalmax([1 2 1], ''FlatSelection'', ''middle'')', '''FlatSelection'' must be ''first'', ''center'', ''last'', or ''all''.');
+assert_checkerror('islocalmax([1 2 1], ''MaxNumExtrema'', 1.5)', ...
+  '''MaxNumExtrema'' value must be a positive integer.', 'Nelson:isLocalExtrema:MaxNumInvalid');
+assert_checkerror('islocalmax([1 2 1], ''FlatSelection'', ''middle'')', ...
+  '''FlatSelection'' must be ''first'', ''center'', ''last'', or ''all''.');
 assert_checkerror('islocalmax([1 2 1], ''FlatSelection'', ''middle'')', '''FlatSelection'' must be ''first'', ''center'', ''last'', or ''all''.', 'Nelson:isLocalExtrema:FlatSelectionInvalid');
 msg = '''ProminenceWindow'' value must be a positive scalar or 2-element vector of nonnegative scalars.';
 assert_checkerror('islocalmax([1 2 1], ''ProminenceWindow'', 0)', msg);
-assert_checkerror('islocalmax([1 2 1], ''ProminenceWindow'', [1 2 3])', msg, 'Nelson:isLocalExtrema:ProminenceWindowLengthInvalid');
-assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [3 2 1])', '''SamplePoints'' value must be sorted in ascending order.');
-assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [3 2 1])', '''SamplePoints'' value must be sorted in ascending order.', 'Nelson:isLocalExtrema:SamplePointsSorted');
-assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [1 1 2])', '''SamplePoints'' value contains duplicates.', 'Nelson:isLocalExtrema:SamplePointsDuplicate');
-assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [1 NaN 2])', '''SamplePoints'' value must not contain Inf or NaN.', 'Nelson:isLocalExtrema:SamplePointsNonFinite');
+assert_checkerror('islocalmax([1 2 1], ''ProminenceWindow'', [1 2 3])', msg, ...
+  'Nelson:isLocalExtrema:ProminenceWindowLengthInvalid');
+assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [3 2 1])', ...
+  '''SamplePoints'' value must be sorted in ascending order.');
+assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [3 2 1])', ...
+  '''SamplePoints'' value must be sorted in ascending order.', 'Nelson:isLocalExtrema:SamplePointsSorted');
+assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [1 1 2])', '''SamplePoints'' value contains duplicates.', ...
+  'Nelson:isLocalExtrema:SamplePointsDuplicate');
+assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [1 NaN 2])', ...
+  '''SamplePoints'' value must not contain Inf or NaN.', 'Nelson:isLocalExtrema:SamplePointsNonFinite');
 assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', [1 2])', 'The sample points vector length must be 3, the same as the size of the input data in the operating dimension.', 'Nelson:isLocalExtrema:SamplePointsLength');
 assert_checkerror('islocalmax([1 2 1], ''SamplePoints'', int8([1 2 3]))', '''SamplePoints'' value must be a vector of type double, single, duration, or datetime.', 'Nelson:isLocalExtrema:SamplePointsInvalidDatatype');
 assert_checkerror('islocalmax([1 2 1], ''DataVariables'', 1)', '''DataVariables'' parameter is only supported when the first input argument is a table or timetable.', 'Nelson:isLocalExtrema:DataVariablesArray');
@@ -167,8 +192,10 @@ assert_checkerror('islocalmax([1 2 1], ''ProminenceWindow'', minutes(3))', '''Pr
 assert_checkerror('islocalmax([1 2 1], ''MinSeparation'', 3, ''SamplePoints'', hours([1 2 3]))', '''MinSeparation'' value must be a duration scalar if the ''SamplePoints'' values are datetimes or durations.', 'Nelson:isLocalExtrema:SeparationMustBeDuration');
 assert_checkerror('islocalmax([1 2 1], ''ProminenceWindow'', 3, ''SamplePoints'', hours([1 2 3]))', '''ProminenceWindow'' value must be a duration if the ''SamplePoints'' values are datetimes or durations.', 'Nelson:isLocalExtrema:ProminenceWindowMustBeDuration');
 assert_checkerror('islocalmax(table([1;2;1]), 1)', 'Dimension is not supported when the first argument is a table or timetable.', 'Nelson:isLocalExtrema:DimensionTable');
-assert_checkerror('islocalmax(table({''a'';''b'';''c''}))', 'Table variables must be numeric.', 'Nelson:isLocalExtrema:NonNumericTableVar');
-assert_checkerror('islocalmax(table([1 2;3 4;1 2]))', 'Table variables must be column vectors.', 'Nelson:isLocalExtrema:NonVectorTableVariable');
+assert_checkerror('islocalmax(table({''a'';''b'';''c''}))', 'Table variables must be numeric.', ...
+  'Nelson:isLocalExtrema:NonNumericTableVar');
+assert_checkerror('islocalmax(table([1 2;3 4;1 2]))', 'Table variables must be column vectors.', ...
+  'Nelson:isLocalExtrema:NonVectorTableVariable');
 assert_checkerror('islocalmax(timetable(hours([0;1;2]), [1;3;1]), ''MinSeparation'', 2)', '''MinSeparation'' value must be a duration scalar when the first input argument is a timetable.', 'Nelson:isLocalExtrema:SeparationMustBeDurationTimetable');
 assert_checkerror('islocalmax(timetable(hours([0;1;2]), [1;3;1]), ''SamplePoints'', 1:3)', '''SamplePoints'' parameter not supported when first argument is a timetable.', 'Nelson:isLocalExtrema:SamplePointsTimeTable');
 %=============================================================================

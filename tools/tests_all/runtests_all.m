@@ -24,7 +24,8 @@ if strcmp(TESTS_RESULT_DIR, '') == true
   TESTS_RESULT_DIR = nelsonroot();
 end
 stop_on_fail = false;
-filebase = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', mat2str(ver_number(4)), '-', platform];
+filebase = ['tests_all-', mat2str(ver_number(1)), '.', mat2str(ver_number(2)), '.', mat2str(ver_number(3)), '.', ...
+  mat2str(ver_number(4)), '-', platform];
 xmlFile = [TESTS_RESULT_DIR, '/', filebase, '.xml'];
 jsonFile = [TESTS_RESULT_DIR, '/', filebase, '.json'];
 try

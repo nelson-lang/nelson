@@ -32,8 +32,8 @@ function model = ssdelete(varargin)
   B = sys.B;
   C = sys.C;
   D = sys.D;
-  [nx, na] = size(sys.A);
-  [ny, nu] = size(sys.D);
+  [nx, ~] = size(sys.A);
+  [~, nu] = size(sys.D);
   if (length(states) ~= nx)
     if ~isempty(sys.A)
       A(:, states) = [];

@@ -13,7 +13,8 @@ function filename = __nelsonc_inno_engine__()
     filename = fullfile(getenv('ProgramFiles(x86)'), 'Inno Setup 6', 'ISCC.exe');
   end
   if ~ispc() || ~isfile(filename) || any(filename < char(32)) || contains(filename, '"')
-    error('Nelson:nelsonc:installerTool:innoSetupRequired', 'Inno Setup 6 ISCC.exe is required. Set NELSONC_ISCC to its full path.');
+    error('Nelson:nelsonc:installerTool:innoSetupRequired', ...
+      'Inno Setup 6 ISCC.exe is required. Set NELSONC_ISCC to its full path.');
   end
   filename = fullpath(filename);
 end

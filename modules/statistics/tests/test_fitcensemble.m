@@ -55,13 +55,18 @@ asserts.checkerror('fitcensemble([1; 2], [1; 1])', _('Y must contain at least tw
 asserts.checkerror('fitcensemble([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitcensemble(X, Y, ''Method'', ''bad'')', sprintf(_('Invalid %s value.'), 'Method'));
 asserts.checkerror('fitcensemble(X, Y, ''Learners'', ''bad'')', sprintf(_('Invalid %s value.'), 'Learners'));
-asserts.checkerror('fitcensemble(X, Y, ''NumLearningCycles'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'NumLearningCycles'));
-asserts.checkerror('fitcensemble(X, Y, ''MaxNumSplits'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'MaxNumSplits'));
-asserts.checkerror('fitcensemble(X, Y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinLeafSize'));
-asserts.checkerror('fitcensemble(X, Y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinParentSize'));
+asserts.checkerror('fitcensemble(X, Y, ''NumLearningCycles'', 0)', ...
+  sprintf(_('%s must be a positive integer scalar.'), 'NumLearningCycles'));
+asserts.checkerror('fitcensemble(X, Y, ''MaxNumSplits'', -1)', ...
+  sprintf(_('%s must be a nonnegative integer scalar.'), 'MaxNumSplits'));
+asserts.checkerror('fitcensemble(X, Y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinLeafSize'));
+asserts.checkerror('fitcensemble(X, Y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinParentSize'));
 asserts.checkerror('fitcensemble(X, Y, ''ClassNames'', [1; 1; 2])', _('ClassNames must contain unique labels.'));
 asserts.checkerror('fitcensemble(X, Y, ''ClassNames'', [1; 2])', _('ClassNames must include all observed classes.'));
 asserts.checkerror('fitcensemble(X, Y, ''M'', ''Bag'')', _('Ambiguous name-value argument name.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

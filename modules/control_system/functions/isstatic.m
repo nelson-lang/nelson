@@ -13,7 +13,8 @@
 % Ts = -1: Discrete-time model with unspecified sampling time.
 % Ts = -2: Static gain model.
 function res = isstatic(sys)
-  error('Nelson:control_system:incorrectDataType', 'Ensure that the data type of the argument is correct in the function call to ''%s''.', 'isstatic');
+  error('Nelson:control_system:incorrectDataType', ...
+    'Ensure that the data type of the argument is correct in the function call to ''%s''.', 'isstatic');
 end
 %=============================================================================
 

@@ -11,7 +11,8 @@ function p = genpath(d)
   narginchk(1, 1);
   nargoutchk(0, 1);
   if ~(ischar(d) || (isstring(d) && isscalar(d)))
-    error('Nelson:files_folders_functions:inputCharacterVectorStringScalar', 'Input must be a character vector or string scalar.');
+    error('Nelson:files_folders_functions:inputCharacterVectorStringScalar', ...
+      'Input must be a character vector or string scalar.');
   end
   d = char(d);
   if isempty(d) || ~isfolder(d)

@@ -55,7 +55,8 @@ function validateCoefficients(b, a)
     error('Nelson:elementary_functions:filterCoefficientsVectors', 'Filter coefficients must be vectors.');
   end
   if a(1) == 0
-    error('Nelson:elementary_functions:firstDenominatorFilterCoefficientNon', 'First denominator filter coefficient must be nonzero.');
+    error('Nelson:elementary_functions:firstDenominatorFilterCoefficientNon', ...
+      'First denominator filter coefficient must be nonzero.');
   end
 end
 %=============================================================================

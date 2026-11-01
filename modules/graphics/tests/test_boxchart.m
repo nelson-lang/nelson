@@ -210,7 +210,10 @@ close(f);
 asserts.checkerror('boxchart();', getString(message('Nelson:narginchk:notEnoughInputs')));
 asserts.checkerror('boxchart({1, 2});', getString(message('Nelson:validators:mustBeNumeric', 'Value')));
 asserts.checkerror('boxchart({''A''}, [1 2]);', getString(message('Nelson:graphics:invalidGroupData')));
-asserts.checkerror('boxchart([1 2], ''BoxFaceAlpha'', 2);', getString(message('Nelson:boxchart:mustBeInRange', 'BoxFaceAlpha')));
-asserts.checkerror('boxchart([1 2], ''BoxWidth'', 0);', getString(message('Nelson:graphics:mustBePositiveFinite', 'BoxWidth')));
-asserts.checkerror('boxchart([1 2], ''NotAProperty'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'boxchart')));
+asserts.checkerror('boxchart([1 2], ''BoxFaceAlpha'', 2);', getString(message('Nelson:boxchart:mustBeInRange', ...
+  'BoxFaceAlpha')));
+asserts.checkerror('boxchart([1 2], ''BoxWidth'', 0);', getString(message('Nelson:graphics:mustBePositiveFinite', ...
+  'BoxWidth')));
+asserts.checkerror('boxchart([1 2], ''NotAProperty'', 1);', getString(message('Nelson:graphics:unsupportedProperty', ...
+  'boxchart')));
 %=============================================================================

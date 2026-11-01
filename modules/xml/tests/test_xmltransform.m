@@ -60,7 +60,8 @@ asserts.isequal(R, source_content);
 % ext:source_code(path, start, end): only the lines from the first line
 % containing `start` to the first following line containing `end`.
 range_source_filename = [tempname(), '.txt'];
-filewrite(range_source_filename, ['alpha', newline(), 'c = entry(''CCC'', ...', newline(), '  ''desc'');', newline(), 'omega']);
+filewrite(range_source_filename, ['alpha', newline(), 'c = entry(''CCC'', ...', newline(), '  ''desc'');', ...
+  newline(), 'omega']);
 xml_range_filename = [tempname(), '.xml'];
 xsl_range_filename = [tempname(), '.xslt'];
 output_range_filename = [tempname(), '.html'];

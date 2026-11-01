@@ -60,7 +60,8 @@ content = fileread([destination, '/my_func.typ']);
 asserts.istrue(contains(content, '= my\_func <escape_mod:my_func>'));
 asserts.istrue(contains(content, 'Price is \$5 \#tag a\_b \*c\* \[d\] \<e\> \@f x\/\/y back\\slash'));
 asserts.istrue(contains(content, '- #raw("y = my_func(a * b, \"s\")")'));
-asserts.istrue(contains(content, '/ a\_b: a value: see #nlink(<other_mod:other_fn>)[other\_fn]; and #raw("x = \"a\\b\"");.'));
+asserts.istrue(contains(content, ...
+  '/ a\_b: a value: see #nlink(<other_mod:other_fn>)[other\_fn]; and #raw("x = \"a\\b\"");.'));
 asserts.istrue(contains(content, '#latex("\\frac{a}{b}")'));
 asserts.istrue(contains(content, 'columns: 2,'));
 asserts.istrue(contains(content, 'table.header([Name], [Value], ),'));

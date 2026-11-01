@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CodeAnalyzerCache.hpp"
+#include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
 #include "nlohmann/json.hpp"
 #include <cstdlib>
@@ -37,7 +38,7 @@ namespace {
     //=============================================================================
     constexpr uint64_t FNV_OFFSET = 14695981039346656037ULL;
     constexpr uint64_t FNV_PRIME = 1099511628211ULL;
-    constexpr int CACHE_VERSION = 3;
+    constexpr int CACHE_VERSION = 6;
     //=============================================================================
     void
     hashBytes(uint64_t& seed, const std::string& value)
@@ -68,6 +69,8 @@ namespace {
     analysisHash(const CodeAnalyzerOptions& options, const fs::path& displayPath)
     {
         uint64_t seed = FNV_OFFSET;
+        // A new Nelson version may change the analysis results.
+        hashBytes(seed, NELSON_VERSION_STRING);
         hashBytes(seed, wstring_to_utf8(displayPath.lexically_normal().wstring()));
         hashNumber(seed, options.includeSuppressed ? 1 : 0);
         hashNumber(seed, options.fullPath ? 1 : 0);

@@ -57,7 +57,8 @@ assert_istrue(min(vMis(1:n)) > -1e-9); % never the negative garbage
 % k >= 1. The mis-ordered bug read 0 in OUTPUT, so it compared 0 against the
 % latched previous input and missed the first transition (0 at k = 1).
 cMis = jsondecode(__nflow_simulate__(mkmodel(true, 'detectChange', struct('InitialCondition', 0)))).scopes(1).series(:);
-cOrd = jsondecode(__nflow_simulate__(mkmodel(false, 'detectChange', struct('InitialCondition', 0)))).scopes(1).series(:);
+cOrd = jsondecode(__nflow_simulate__(mkmodel(false, 'detectChange', struct('InitialCondition', ...
+  0)))).scopes(1).series(:);
 nc = min(numel(cMis), numel(cOrd));
 assert_istrue(nc >= 10);
 assert_istrue(max(abs(cMis(1:nc) - cOrd(1:nc))) < 1e-12);

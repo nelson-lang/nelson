@@ -7,7 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-T = table(["Y"; "Y"; "N"; "N"; "N"], [38; 43; 38; 40; 49], [124 93; 109 77; 125 83; 117 75; 122 80], 'VariableNames', ["Smoker" "Age" "BloodPressure"], 'RowNames', ["Chang" "Brown" "Ruiz" "Lee" "Garcia"]);
+T = table(["Y"; "Y"; "N"; "N"; "N"], [38; 43; 38; 40; 49], [124 93; 109 77; 125 83; 117 75; 122 80], ...
+  'VariableNames', ["Smoker" "Age" "BloodPressure"], 'RowNames', ["Chang" "Brown" "Ruiz" "Lee" "Garcia"]);
 R = table2cell(T);
 REF = {"Y", 38, [124 93];
   "Y", 43, [109 77];

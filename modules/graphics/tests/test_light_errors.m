@@ -16,7 +16,9 @@ ax = axes('Parent', f);
 asserts.checkerror('lightangle(ax, [0 1], 20)', getString(message('Nelson:lightangle:azimuthAndElevationExpected')));
 asserts.checkerror('camlight(ax, ''bad'')', getString(message('Nelson:graphics:invalidInputArguments')));
 asserts.checkerror('camlight(ax, [0 1], 20)', getString(message('Nelson:graphics:invalidInputArguments')));
-asserts.checkerror('light(ax, ''Style'', ''spot'')', graphicsPropertyErrorMessage('Style', 'Nelson:graphics:illegalSelection'));
-asserts.checkerror('light(ax, ''Color'', [1 2])', graphicsPropertyErrorMessage('Color', 'Nelson:color:invalidColorSpec'));
+asserts.checkerror('light(ax, ''Style'', ''spot'')', graphicsPropertyErrorMessage('Style', ...
+  'Nelson:graphics:illegalSelection'));
+asserts.checkerror('light(ax, ''Color'', [1 2])', graphicsPropertyErrorMessage('Color', ...
+  'Nelson:color:invalidColorSpec'));
 close all
 %=============================================================================

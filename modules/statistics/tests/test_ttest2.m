@@ -87,8 +87,10 @@ asserts.isequal(size(stats.sd), [1 0]);
 %=============================================================================
 asserts.checkerror('ttest2([1 2 3], [1 2], ''Alpha'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('ttest2([1 2 3], [1 2], ''Unknown'', 1)', _('Invalid name-value argument name.'));
-asserts.checkerror('ttest2([1 2 3], [1 2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
+asserts.checkerror('ttest2([1 2 3], [1 2], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), ...
+  'ALPHA'));
 asserts.checkerror('ttest2([1 2 3], [1 2], ''Tail'', ''bad'')', _('TAIL must be ''both'', ''right'', or ''left''.'));
 asserts.checkerror('ttest2([1 2 3], [1 2], ''Vartype'', ''bad'')', _('VARTYPE must be ''equal'' or ''unequal''.'));
-asserts.checkerror('ttest2([1 2; 3 4], [1 2 3; 4 5 6], ''Dim'', 1)', sprintf(_('X and Y must have %s.'), 'compatible sizes'));
+asserts.checkerror('ttest2([1 2; 3 4], [1 2 3; 4 5 6], ''Dim'', 1)', sprintf(_('X and Y must have %s.'), ...
+  'compatible sizes'));
 %=============================================================================

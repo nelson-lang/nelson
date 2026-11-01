@@ -33,7 +33,8 @@ classdef scatteredInterpolant
         try
           obj.Triangulation = delaunayn(obj.Points);
         catch
-          warning('Nelson:scatteredInterpolant:emptyTriangulation', 'The underlying triangulation is empty - the points may be collinear.');
+          warning('Nelson:scatteredInterpolant:emptyTriangulation', ...
+            'The underlying triangulation is empty - the points may be collinear.');
           obj.Triangulation = [];
         end
       end

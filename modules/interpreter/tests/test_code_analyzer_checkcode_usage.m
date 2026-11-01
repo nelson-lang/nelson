@@ -10,7 +10,7 @@
 % <--WEIGHT 2-->
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 usedInCall = fullfile(fixtureDirectory, 'nelson_lint_used_in_call.m');
 filewrite(usedInCall, ['function nelson_lint_used_in_call(n)', newline(), ...
   'fmt = [''%0'', int2str(n), ''d''];', newline(), ...
@@ -130,7 +130,8 @@ filewrite(astUnusedCatch, ['function y = nelson_lint_ast_unused_catch()', newlin
 issues = checkcode(astUnusedCatch, '-struct', '-id');
 ids = {issues.id};
 messages = {issues.message};
-asserts.istrue(any(strcmp(ids, 'NLS0004') & contains(messages, '''unusedError''')));
+% The catch variable names the error, it does not need a later use.
+asserts.isfalse(any(strcmp(ids, 'NLS0004') & contains(messages, '''unusedError''')));
 
 classdefMethodModel = fullfile(fixtureDirectory, 'NelsonLintClassdefModel.m');
 filewrite(classdefMethodModel, ['classdef NelsonLintClassdefModel', newline(), ...

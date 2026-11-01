@@ -72,7 +72,8 @@ try
     sha256(registryFile, '-file'), publicKey, signature);
   filewrite(signatureFile, signatureDocument);
   % key not trusted yet
-  asserts.checkerror('nmm(''search'', ''signal'')', sprintf(_('Registry signature key is not trusted: %s'), publicKey), 'Nelson:nmm:RegistrySignatureUntrustedKey');
+  asserts.checkerror('nmm(''search'', ''signal'')', sprintf(_('Registry signature key is not trusted: %s'), ...
+    publicKey), 'Nelson:nmm:RegistrySignatureUntrustedKey');
   report = nmm('registry', 'check');
   asserts.isfalse(report.ok);
   % trust the key through the environment
@@ -89,19 +90,23 @@ try
   asserts.isequal(configReport.trusted_keys, builtinTrustedKeys + 1);
   asserts.isfalse(configReport.allow_unsigned_registry);
   setenv('NELSON_NMM_REGISTRY_PUBLIC_KEY', 'zz');
-  asserts.checkerror('nmm(''config'')', sprintf(_('Registry public key must be 64 hexadecimal characters: %s'), 'zz'), 'Nelson:nmm:RegistryPublicKeyInvalid');
+  asserts.checkerror('nmm(''config'')', sprintf(_('Registry public key must be 64 hexadecimal characters: %s'), ...
+    'zz'), 'Nelson:nmm:RegistryPublicKeyInvalid');
   setenv('NELSON_NMM_REGISTRY_PUBLIC_KEY', upper(publicKey));
   %===========================================================================
   % tampered signature (valid hex, wrong value)
   otherSignature = crypto.ed25519.sign('other content', seed);
   filewrite(signatureFile, strrep(signatureDocument, signature, otherSignature));
-  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature does not match.'), 'Nelson:nmm:RegistrySignatureMismatch');
+  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature does not match.'), ...
+    'Nelson:nmm:RegistrySignatureMismatch');
   % tampered registry content: the mandatory checksum sidecar catches it first
   filewrite(signatureFile, signatureDocument);
   filewrite(registryFile, strrep(registry, 'abc', 'abd'));
-  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry checksum does not match.'), 'Nelson:nmm:RegistryChecksumMismatch');
+  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry checksum does not match.'), ...
+    'Nelson:nmm:RegistryChecksumMismatch');
   filewrite([registryFile, '.sha256'], sha256(registryFile, '-file'));
-  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature does not match.'), 'Nelson:nmm:RegistrySignatureMismatch');
+  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature does not match.'), ...
+    'Nelson:nmm:RegistrySignatureMismatch');
   filewrite(registryFile, registry);
   filewrite([registryFile, '.sha256'], sha256(registryFile, '-file'));
   % malformed sidecars
@@ -167,7 +172,8 @@ try
   asserts.isfalse(stats.is_local);
   % unsigned remote registry: refused unless explicitly allowed
   rmfile(signatureFile);
-  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature file is missing.'), 'Nelson:nmm:RegistrySignatureMissing');
+  asserts.checkerror('nmm(''search'', ''signal'')', _('Registry signature file is missing.'), ...
+    'Nelson:nmm:RegistrySignatureMissing');
   asserts.istrue(isfile([cacheDir, 'registry.json.sig']));
   setenv('NELSON_NMM_REGISTRY_ALLOW_UNSIGNED', '1');
   result = nmm('search', 'signal');

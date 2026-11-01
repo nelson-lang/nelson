@@ -41,14 +41,14 @@ function xml = planarGenerateHelp(blockName, lang)
   for pp = 1:numel(c.frames)
     frameRows{end + 1} = sprintf(...
       '<tr><td>%s</td><td>planar frame connector (position + orientation)</td></tr>', ...
-      esc(c.frames{pp})); %#ok<AGROW>
+      esc(c.frames{pp})); %#ok<NLS0039>
   end
   paramRows = {};
   for qq = 1:numel(c.params)
     pm = c.params{qq};
     paramRows{end + 1} = sprintf(...
       '<tr><td><code>%s</code></td><td>%s</td><td>%s</td></tr>', ...
-      pm{1}, num2str(pm{2}), esc(pm{3})); %#ok<AGROW>
+      pm{1}, num2str(pm{2}), esc(pm{3})); %#ok<NLS0039>
   end
   if isempty(paramRows)
     paramRows = {'<tr><td>(none)</td><td></td><td></td></tr>'};

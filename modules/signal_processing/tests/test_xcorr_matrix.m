@@ -16,5 +16,6 @@ asserts.isequal(lags, [-1; 0; 1]);
 asserts.isequal(c, REF);
 asserts.isequal(lags, [-1; 0; 1]);
 %=============================================================================
-asserts.checkerror('xcorr([1 2 3], [4 5], 1, ''coeff'')', _('Scale option must be ''none'' for input vectors of different lengths.'));
+asserts.checkerror('xcorr([1 2 3], [4 5], 1, ''coeff'')', ...
+  _('Scale option must be ''none'' for input vectors of different lengths.'));
 %=============================================================================

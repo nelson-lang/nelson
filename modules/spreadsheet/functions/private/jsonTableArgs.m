@@ -25,7 +25,8 @@ function args = jsonTableArgs(nameValues)
   for k = 1:2:numel(nameValues)
     name = nameValues{k};
     if ~((ischar(name) && isrow(name)) || (isstring(name) && isscalar(name)))
-      error('Nelson:spreadsheet:invalidParameterName', 'Invalid parameter name. The parameter name must be a nonempty string or character array.');
+      error('Nelson:spreadsheet:invalidParameterName', ...
+        'Invalid parameter name. The parameter name must be a nonempty string or character array.');
     end
     match = strcmpi(supported, char(name));
     if ~any(match)

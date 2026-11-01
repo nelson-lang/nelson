@@ -43,7 +43,7 @@ clear global TIMER_LIFETIME_COUNT
 delete(timerfindall());
 %=============================================================================
 function spawnUnstartedTimer()
-  clock = timer('Tag', 'scope_unstarted_timer', 'TimerFcn', @timerLifetimeCallback); %#ok<NASGU>
+  clock = timer('Tag', 'scope_unstarted_timer', 'TimerFcn', @timerLifetimeCallback); %#ok<NLS0004>
 end
 %=============================================================================
 function spawnStoppedTimer()

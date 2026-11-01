@@ -43,7 +43,8 @@ end
 function value = validateNumComponentsLocal(value, nvars)
   if ~(isnumeric(value) && isreal(value) && isscalar(value) && isfinite(value) ...
       && value >= 0 && floor(value) == value && value <= nvars)
-    error('Nelson:statistics:numComponentsIntegerScalarBetween0', 'NumComponents must be an integer scalar between 0 and the number of variables.');
+    error('Nelson:statistics:numComponentsIntegerScalarBetween0', ...
+      'NumComponents must be an integer scalar between 0 and the number of variables.');
   end
   value = double(value);
 end

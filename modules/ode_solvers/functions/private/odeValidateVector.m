@@ -12,7 +12,8 @@ function odeValidateVector(value, name)
     return
   end
   if ~isnumeric(value) || ~isvector(value) || any(~isfinite(value(:)))
-    error('Nelson:ode_solvers:mustBeFiniteVector:valueFiniteNumericVectorExpected', '%s: finite numeric vector expected.', name);
+    error('Nelson:ode_solvers:mustBeFiniteVector:valueFiniteNumericVectorExpected', ...
+      '%s: finite numeric vector expected.', name);
   end
 end
 %=============================================================================

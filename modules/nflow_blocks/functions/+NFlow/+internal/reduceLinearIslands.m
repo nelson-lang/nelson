@@ -223,7 +223,7 @@ function objs = ph_split_objects(arr)
       elseif c == ']' || c == '}'
         depth = depth - 1;
       elseif c == ',' && depth == 0
-        objs{end + 1} = strtrim(arr(start:k - 1)); %#ok<AGROW>
+        objs{end + 1} = strtrim(arr(start:k - 1)); %#ok<NLS0039>
         start = k + 1;
       end
     end

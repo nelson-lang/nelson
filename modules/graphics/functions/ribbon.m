@@ -61,7 +61,8 @@ function varargout = ribbon(varargin)
 
   if (~isequal(size(x), size(y)))
     if (~isvector(x) || size(y, 1) ~= numel(x))
-      error('Nelson:ribbon:invalidX', 'X must have the same dimensions as Y or be a vector with the same number of rows as Y.');
+      error('Nelson:ribbon:invalidX', ...
+        'X must have the same dimensions as Y or be a vector with the same number of rows as Y.');
     end
     x = repmat(x(:), 1, size(y, 2));
   end

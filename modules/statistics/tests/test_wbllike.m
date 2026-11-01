@@ -52,6 +52,7 @@ asserts.checkerror('wbllike([1 2], [])', sprintf(_('%s must be nonempty.'), 'X')
 asserts.checkerror('wbllike([1 2], [0 1 2])', _('X must contain positive finite values.'));
 asserts.checkerror('wbllike([1 2], [1 Inf 2])', _('X must contain positive finite values.'));
 asserts.checkerror('wbllike([1 2], [1 2 3], [0 2 0])', _('CENSORING must contain 0 or 1 values.'));
-asserts.checkerror('wbllike([1 2], [1 2 3], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), 'FREQ'));
+asserts.checkerror('wbllike([1 2], [1 2 3], [], [1 -1 1])', sprintf(_('%s must contain nonnegative finite values.'), ...
+  'FREQ'));
 asserts.checkerror('wbllike([1 2], [1 2 3], ones(2, 2))', _('Size mismatch on input arguments'));
 %=============================================================================

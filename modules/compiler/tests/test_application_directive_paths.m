@@ -44,7 +44,8 @@ asserts.istrue(endsWith(resources.source, '/source/directive data.txt'));
 
 external = fullfile(second, 'external data.txt');
 filewrite(external, 'external resource');
-filewrite(entry, strjoin({'%#function "external data.txt"', '%#exclude "external data.txt"', 'function directive_paths(); end'}, char(10)));
+filewrite(entry, strjoin({'%#function "external data.txt"', '%#exclude "external data.txt"', ...
+  'function directive_paths(); end'}, char(10)));
 plan = jsondecode(__nelsonc_plan__('link', entry));
 asserts.istrue(plan.complete);
 asserts.isfalse(any(strcmp({plan.files.representation}, 'resource')));

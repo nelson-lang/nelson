@@ -9,11 +9,13 @@
 %=============================================================================
 function n = ip_validate_bwmorph_iterations(value)
   if ~(isnumeric(value) || islogical(value)) || ~isreal(value) || ~isscalar(value)
-    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalarInf', 'Number of iterations must be a nonnegative integer scalar or Inf.');
+    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalarInf', ...
+      'Number of iterations must be a nonnegative integer scalar or Inf.');
   end
   n = double(value);
   if ~(isinf(n) || (isfinite(n) && n >= 0 && n == floor(n)))
-    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalarInf', 'Number of iterations must be a nonnegative integer scalar or Inf.');
+    error('Nelson:image_processing:numberIterationsNonnegativeIntegerScalarInf', ...
+      'Number of iterations must be a nonnegative integer scalar or Inf.');
   end
 end
 %=============================================================================

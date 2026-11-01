@@ -50,7 +50,8 @@ asserts.isequal(R, REF);
 A = eye(3, 4) + i;
 dlmwrite(filename, A, '\t');
 R = fileread(filename, 'char', 'native');
-REF = ['1+1i', tab, '0+1i', tab, '0+1i', tab, '0+1i', eol, '0+1i', tab, '1+1i', tab, '0+1i', tab, '0+1i', eol, '0+1i', tab, '0+1i', tab, '1+1i', tab, '0+1i', eol];
+REF = ['1+1i', tab, '0+1i', tab, '0+1i', tab, '0+1i', eol, '0+1i', tab, '1+1i', tab, '0+1i', tab, '0+1i', eol, ...
+  '0+1i', tab, '0+1i', tab, '1+1i', tab, '0+1i', eol];
 asserts.isequal(R, REF);
 %=============================================================================
 % dlmwrite(filename, M, '-append')

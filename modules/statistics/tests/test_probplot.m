@@ -53,5 +53,6 @@ asserts.checkerror('probplot()', _('Not enough input arguments.'));
 asserts.checkerror('probplot({1})', sprintf(_('%s must be a real numeric array.'), 'Y'));
 asserts.checkerror('probplot(''bad'', [1 2])', sprintf(_('Unsupported %s.'), 'distribution'));
 asserts.checkerror('probplot([1 2], [0 1 0])', sprintf(_('%s must match Y.'), 'Censoring'));
-asserts.checkerror('probplot([1 2], [], [1; -1])', sprintf(_('%s must contain nonnegative integer values.'), 'Frequency'));
+asserts.checkerror('probplot([1 2], [], [1; -1])', sprintf(_('%s must contain nonnegative integer values.'), ...
+  'Frequency'));
 %=============================================================================

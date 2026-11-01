@@ -28,5 +28,6 @@ asserts.checkerror('candgen(0)', sprintf(_('%s must be a positive integer scalar
 asserts.checkerror('candgen(2, ''linear'', ''Bounds'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('candgen(2, ''linear'', ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('candgen(2, ''linear'', ''Bounds'', [0 1])', _('Bounds must have one row per factor.'));
-asserts.checkerror('candgen(2, ''linear'', ''Bounds'', [0; 1])', _('Bounds must contain at least two levels per factor.'));
+asserts.checkerror('candgen(2, ''linear'', ''Bounds'', [0; 1])', ...
+  _('Bounds must contain at least two levels per factor.'));
 %=============================================================================

@@ -301,7 +301,8 @@ function lambda = activeLambda(data, state, working, H)
   lambda.ineqnonlin = take(ineq, size(data.A, 1) + 1, size(data.A, 1) + length(state.cnonlin));
   lowerStart = size(data.A, 1) + length(state.cnonlin) + 1;
   lowerValues = take(ineq, lowerStart, lowerStart + length(data.lowerIndex) - 1);
-  upperValues = take(ineq, lowerStart + length(data.lowerIndex), lowerStart + length(data.lowerIndex) + length(data.upperIndex) - 1);
+  upperValues = take(ineq, lowerStart + length(data.lowerIndex), ...
+    lowerStart + length(data.lowerIndex) + length(data.upperIndex) - 1);
   lambda.lower(data.lowerIndex) = lowerValues;
   lambda.upper(data.upperIndex) = upperValues;
 end

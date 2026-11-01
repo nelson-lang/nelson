@@ -32,7 +32,8 @@ end
 function G = groupcountsTable(T, groupVars, args)
   opts = parseGroupcountsOptions(args);
   if opts.GroupBinsProvided
-    error('Nelson:data_analysis:groupBinsSupportedTableGroupcounts', 'Group bins are not supported for table groupcounts.');
+    error('Nelson:data_analysis:groupBinsSupportedTableGroupcounts', ...
+      'Group bins are not supported for table groupcounts.');
   end
   st = struct(T);
   idx = tableResolveVariables(st.Properties.VariableNames, groupVars, st.Properties.VariableTypes, st.data);

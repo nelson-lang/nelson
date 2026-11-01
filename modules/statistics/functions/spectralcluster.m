@@ -87,7 +87,8 @@ function validateSimilarityInput(S)
     error('Nelson:expectedSquare', '%s must be square.', 'Similarity matrix');
   end
   if any(~isfinite(S(:))) || any(S(:) < 0)
-    error('Nelson:statistics:mustBeFiniteNonnegative', '%s must contain finite nonnegative values.', 'Similarity matrix');
+    error('Nelson:statistics:mustBeFiniteNonnegative', '%s must contain finite nonnegative values.', ...
+      'Similarity matrix');
   end
   % vectorized kernels can differ by an ulp across the diagonal: only a real asymmetry is an error
   tolerance = 1e-10 * max(1, max(abs(S(:))));
@@ -143,7 +144,8 @@ function mask = graphMask(D, opts)
   switch opts.SimilarityGraph
     case 'epsilon'
       if isempty(opts.Radius)
-        error('Nelson:statistics:radiusSpecifiedEpsilonSimilarityGraph', 'Radius must be specified for epsilon similarity graph.');
+        error('Nelson:statistics:radiusSpecifiedEpsilonSimilarityGraph', ...
+          'Radius must be specified for epsilon similarity graph.');
       end
       mask = double(D <= opts.Radius);
       mask(1:n + 1:end) = 0;

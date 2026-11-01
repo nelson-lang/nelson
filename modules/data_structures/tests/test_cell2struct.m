@@ -225,6 +225,7 @@ asserts.isequal(cell2struct({1}, {'a'}, 3), struct('a', 1));
 asserts.isequal(size(cell2struct(cell(0, 3), {}, 1)), [3 1]);
 asserts.isequal(size(cell2struct(cell(0, 2), {'a'; 'b'}, 2)), [0 1]);
 asserts.isequal(size(cell2struct(cell(2, 0), {'a'; 'b'}, 1)), [0 1]);
-asserts.checkerror('cell2struct({}, {''a''}, 1)', _('Number of field names must match number of fields in new structure.'));
+asserts.checkerror('cell2struct({}, {''a''}, 1)', ...
+  _('Number of field names must match number of fields in new structure.'));
 asserts.checkerror('cell2struct({1; 2}, {''1a''; ''b''}, 1)', _('Field names must be valid.'));
 %=============================================================================

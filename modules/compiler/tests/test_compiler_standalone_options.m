@@ -56,7 +56,8 @@ for pair = {{'Verbose', 2}, {'AutoDetectDataFiles', NaN}, {'ExecutableName', 'ba
   try
     compiler.build.StandaloneApplicationOptions(entry, values{:});
   catch ex
-    rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:options') || startsWith(ex.identifier, 'Nelson:nelsonc:options:'));
+    rejected = (strcmp(ex.identifier, 'Nelson:nelsonc:options') || startsWith(ex.identifier, ...
+      'Nelson:nelsonc:options:'));
   end
   asserts.istrue(rejected, values{1});
 end

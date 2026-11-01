@@ -75,7 +75,8 @@ assert_checkerror('[''a'', 1i]', msgComplex, id);
 assert_checkerror('[1i, ''a'']', msgComplex, id);
 assert_checkerror('[''a'', 1i, true]', msgComplex, id);
 assert_checkerror('['''', 1i]', msgComplex, id);
-assert_checkerror('[''a'', single(1i)]', sprintf(fmt, 'single', 'char', _('Complex values cannot be converted to chars')), id);
+assert_checkerror('[''a'', single(1i)]', sprintf(fmt, 'single', 'char', ...
+  _('Complex values cannot be converted to chars')), id);
 %=============================================================================
 % an empty complex operand next to an integer is dropped
 R = [int8(1), complex([])];

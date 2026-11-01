@@ -10,7 +10,8 @@
 function __nelsonc_mac_runtime_package__(package, plan)
   tool = fullfile(modulepath('nelson', 'bin'), 'nelson-runtime-installer');
   if ~isfile(tool)
-    error('Nelson:nelsonc:installerTool:macOSRuntimeInstallerToolMissing', 'The native macOS runtime installer tool is missing. Rebuild or install the compiler module.');
+    error('Nelson:nelsonc:installerTool:macOSRuntimeInstallerToolMissing', ...
+      'The native macOS runtime installer tool is missing. Rebuild or install the compiler module.');
   end
   files = rmfield(plan.runtime.files, 'source');
   for k = 1:numel(files); files(k).mode = 420; end
@@ -24,7 +25,8 @@ function __nelsonc_mac_runtime_package__(package, plan)
   set_mode(helper, '755');
   [status, canonical] = system(['/bin/realpath ', shell_argument(package)]);
   if status ~= 0
-    error('Nelson:nelsonc:installerTool:cannotResolveMacOSRuntimeStaging', 'Cannot resolve the macOS runtime staging path.');
+    error('Nelson:nelsonc:installerTool:cannotResolveMacOSRuntimeStaging', ...
+      'Cannot resolve the macOS runtime staging path.');
   end
   package = strtrim(canonical);
   invoke({fullfile(package, 'runtime-installer'), '--prepare', package});

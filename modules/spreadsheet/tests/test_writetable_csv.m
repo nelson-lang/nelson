@@ -74,7 +74,8 @@ csv_ref_filename = [modulepath('spreadsheet'), '/tests/test_writetable_7.csv'];
 REF =  fileread(csv_ref_filename);
 asserts.isequal(R, REF);
 %=============================================================================
-T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], 'VariableNames', {'A'' B', 'B"" D', 'C" E', 'D F'});
+T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], ...
+  'VariableNames', {'A'' B', 'B"" D', 'C" E', 'D F'});
 filename = [tempname(), '.csv'];
 writetable(T, filename, 'Delimiter', ',', 'QuoteStrings','minimal');
 R = fileread(filename);
@@ -82,7 +83,8 @@ csv_ref_filename = [modulepath('spreadsheet'), '/tests/test_writetable_8.csv'];
 REF =  fileread(csv_ref_filename);
 asserts.isequal(R, REF);
 %=============================================================================
-T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], 'VariableNames', {'A'' B', 'B ""D', 'C" E', 'D F'});
+T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], ...
+  'VariableNames', {'A'' B', 'B ""D', 'C" E', 'D F'});
 filename = [tempname(), '.csv'];
 writetable(T, filename, 'Delimiter', ' ', 'QuoteStrings','minimal');
 R = fileread(filename);
@@ -90,7 +92,8 @@ csv_ref_filename = [modulepath('spreadsheet'), '/tests/test_writetable_9.csv'];
 REF =  fileread(csv_ref_filename);
 asserts.isequal(R, REF);
 %=============================================================================
-T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], 'VariableNames', {'A'' B', 'B ""D', 'C" E', 'D F'});
+T = table(['M';'F';'M'],[45;41;36],  {'New York'', NY';'San "Diego, CA';'Boston, MA'},[true;false;false], ...
+  'VariableNames', {'A'' B', 'B ""D', 'C" E', 'D F'});
 filename = [tempname(), '.csv'];
 writetable(T, filename, 'Delimiter', ' ', 'QuoteStrings','minimal', 'WriteVariableNames', false);
 R = fileread(filename);

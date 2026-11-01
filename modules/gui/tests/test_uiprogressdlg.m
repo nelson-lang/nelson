@@ -14,7 +14,8 @@ asserts.isequal(nargout('uiprogressdlg'), 1);
 %=============================================================================
 asserts.checkerror('[a, b] = uiprogressdlg(1)', _('Too many output arguments.'));
 asserts.checkerror('uiprogressdlg()', _('Not enough input arguments.'));
-asserts.checkerror('uiprogressdlg(1)', _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
+asserts.checkerror('uiprogressdlg(1)', ...
+  _('Invalid or deleted figure handle. First argument must be a valid figure handle.'));
 %=============================================================================
 f = figure('Visible', 'off');
 d = uiprogressdlg(f, 'Title', 'Import', 'Message', 'Reading data', 'Value', 0.25);

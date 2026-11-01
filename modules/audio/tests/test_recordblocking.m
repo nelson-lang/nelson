@@ -14,7 +14,8 @@ r = audiorecorder(8000, 8, 1);
 asserts.checkerror('recordblocking(r, 0)', _('duration > 0 expected.'));
 asserts.checkerror('recordblocking(r, -1)', _('duration > 0 expected.'));
 asserts.checkerror('recordblocking(r, ''abc'')', _('duration in seconds expected.'));
-msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'recordblocking');
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), ...
+  'recordblocking');
 asserts.checkerror('recordblocking(1, 1)', ...
   msg);
 delete(r);

@@ -26,7 +26,8 @@ function labels = graphicsLabelsFromValue(value, expectedCount)
   elseif exist('iscategorical', 'file') && iscategorical(value)
     labels = cellstr(value(:));
   else
-    error('Nelson:graphicsLabelsFromValue:invalidLabels', 'Labels must be character, string, cell string, categorical, or numeric values.');
+    error('Nelson:graphicsLabelsFromValue:invalidLabels', ...
+      'Labels must be character, string, cell string, categorical, or numeric values.');
   end
   if expectedCount >= 0 && numel(labels) ~= expectedCount
     error('Nelson:graphicsLabelsFromValue:invalidNumberOfLabels', 'Number of labels must match data.');

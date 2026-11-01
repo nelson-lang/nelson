@@ -21,7 +21,8 @@ p = profile('info');
 asserts.isequal(profileValue, 42);
 foundProfileEntry = false;
 for k = 1:length(p)
-  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, 'script_local_profile_case>scriptLocalProfileHelper');
+  foundProfileEntry = foundProfileEntry || strcmp(p(k).FunctionName, ...
+    'script_local_profile_case>scriptLocalProfileHelper');
 end
 asserts.istrue(foundProfileEntry);
 rmdir(path_test, 's');

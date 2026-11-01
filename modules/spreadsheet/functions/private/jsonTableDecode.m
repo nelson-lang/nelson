@@ -58,7 +58,8 @@ function txt = handleComments(txt, stringPattern, allowed)
     return
   end
   if ~allowed
-    error('Nelson:spreadsheet:jsonCommentsNotAllowed', 'Comments are not allowed in the JSON file (AllowComments is false).');
+    error('Nelson:spreadsheet:jsonCommentsNotAllowed', ...
+      'Comments are not allowed in the JSON file (AllowComments is false).');
   end
   txt = stripped;
 end
@@ -72,7 +73,8 @@ function txt = handleTrailingCommas(txt, stringPattern, allowed)
     return
   end
   if ~allowed
-    error('Nelson:spreadsheet:jsonTrailingCommasNotAllowed', 'Trailing commas are not allowed in the JSON file (AllowTrailingCommas is false).');
+    error('Nelson:spreadsheet:jsonTrailingCommasNotAllowed', ...
+      'Trailing commas are not allowed in the JSON file (AllowTrailingCommas is false).');
   end
   txt = fixed;
 end
@@ -87,7 +89,8 @@ function txt = handleInfAndNaN(txt, stringPattern, allowed)
     return
   end
   if ~allowed
-    error('Nelson:spreadsheet:jsonInfAndNaNNotAllowed', 'Inf and NaN values are not allowed in the JSON file (AllowInfAndNaN is false).');
+    error('Nelson:spreadsheet:jsonInfAndNaNNotAllowed', ...
+      'Inf and NaN values are not allowed in the JSON file (AllowInfAndNaN is false).');
   end
   if isempty(strfind(txt, 'Infinity'))
     return

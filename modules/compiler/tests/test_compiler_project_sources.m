@@ -46,7 +46,8 @@ function check_sources()
   check_status(project, 'current');
   if ispc()
     tool = fullfile(modulepath('compiler'), 'tests', 'test_compiler_source_timestamps.ps1');
-    [status, text] = system(['powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "', tool, '" -Directory "', source, '"'], 30);
+    [status, text] = system(['powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "', tool, ...
+      '" -Directory "', source, '"'], 30);
     asserts.isequal(status, 0, text);
     check_status(project, 'current');
     snapshot = result.__nelsonc_report__();

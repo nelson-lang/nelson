@@ -53,7 +53,8 @@ D = [1 2 -2;
 %=============================================================================
 % default call for the fortran routine
 M = 3; P = 3;
-[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL);
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, ...
+  M, P, A_IN, E_IN, B, C, D, TOL);
 %=============================================================================
 NFZ_REF = int32(1);
 asserts.isequal(NFZ, NFZ_REF);
@@ -97,19 +98,22 @@ asserts.isequal(INFO, INFO_REF);
 %=============================================================================
 % Compute poles (we need tp call fortran routine with M = 0, P = 0)
 M = 0; P = 0;
-[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL);
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, ...
+  M, P, A_IN, E_IN, B, C, D, TOL);
 INFO_REF = int32(0);
 asserts.isequal(INFO, INFO_REF);
 %=============================================================================
 %  Check the observability and compute the ordered set of the observability indices (call the routine with M = 0).
 M = 0; P = 3;
-[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL);
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, ...
+  M, P, A_IN, E_IN, B, C, D, TOL);
 INFO_REF = int32(0);
 asserts.isequal(INFO, INFO_REF);
 %=============================================================================
 % Check the controllability and compute the ordered set of the controllability indices (call the routine with P = 0)
 M = 3; P = 0;
-[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, M, P, A_IN, E_IN, B, C, D, TOL);
+[A_OUT, E_OUT, NFZ, NRANK, NIZ, DINFZ, NKROR, NINFE, NKROL, INFZ, KRONR, INFE, KRONL, INFO] = slicot_ag08bd(EQUIL, ...
+  M, P, A_IN, E_IN, B, C, D, TOL);
 INFO_REF = int32(0);
 asserts.isequal(INFO, INFO_REF);
 %=============================================================================

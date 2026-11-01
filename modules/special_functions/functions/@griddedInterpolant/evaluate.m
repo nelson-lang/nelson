@@ -29,12 +29,14 @@ end
 %=============================================================================
 function [xq, outSize] = griddedInterpolantQuery1D(varargin)
   if numel(varargin) ~= 1
-    error('Nelson:griddedInterpolant:singleQueryExpected', 'A single query argument is expected for a 1-D interpolant.');
+    error('Nelson:griddedInterpolant:singleQueryExpected', ...
+      'A single query argument is expected for a 1-D interpolant.');
   end
   q = varargin{1};
   if iscell(q)
     if numel(q) ~= 1
-      error('Nelson:griddedInterpolant:queryGridDimensionMismatch', 'The number of query grid vectors must match the interpolant dimensions.');
+      error('Nelson:griddedInterpolant:queryGridDimensionMismatch', ...
+        'The number of query grid vectors must match the interpolant dimensions.');
     end
     xq = q{1}(:);
     outSize = [numel(xq), 1];
@@ -122,7 +124,8 @@ function [queries, outSize] = griddedInterpolantQueryND(nd, varargin)
   if numel(varargin) == 1 && iscell(varargin{1})
     q = varargin{1};
     if numel(q) ~= nd
-      error('Nelson:griddedInterpolant:queryGridDimensionMismatch', 'The number of query grid vectors must match the interpolant dimensions.');
+      error('Nelson:griddedInterpolant:queryGridDimensionMismatch', ...
+        'The number of query grid vectors must match the interpolant dimensions.');
     end
     vectors = cell(1, nd);
     lengths = zeros(1, nd);
@@ -137,7 +140,8 @@ function [queries, outSize] = griddedInterpolantQueryND(nd, varargin)
     return
   end
   if numel(varargin) ~= nd
-    error('Nelson:griddedInterpolant:queryArrayDimensionMismatch', 'The number of query arrays must match the interpolant dimensions.');
+    error('Nelson:griddedInterpolant:queryArrayDimensionMismatch', ...
+      'The number of query arrays must match the interpolant dimensions.');
   end
   outSize = [1, 1];
   for dim = 1:nd
@@ -167,7 +171,8 @@ end
 function vq = griddedInterpolantEvalND(gridVectors, values, queries, method, extrap)
   nd = numel(gridVectors);
   if any(strcmp(method, {'previous', 'next', 'pchip'}))
-    error('Nelson:griddedInterpolant:methodOnly1D', 'The ''previous'', ''next'', and ''pchip'' methods are supported only for 1-D interpolation.');
+    error('Nelson:griddedInterpolant:methodOnly1D', ...
+      'The ''previous'', ''next'', and ''pchip'' methods are supported only for 1-D interpolation.');
   end
   outside = false(size(queries{1}));
   for dim = 1:nd

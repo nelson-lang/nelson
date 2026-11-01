@@ -61,14 +61,21 @@ asserts.checkerror('fitrtree([1; 2], {1})', sprintf(_('%s must be a real numeric
 asserts.checkerror('fitrtree([1; 2], [1])', sprintf(_('Y must be a vector with one %s per row of X.'), 'response'));
 asserts.checkerror('fitrtree(zeros(2,0), [1; 2])', _('X must contain at least one observation and one predictor.'));
 asserts.checkerror('fitrtree([1; Inf], [1; 2])', _('X and Y must contain finite values or NaN missing values.'));
-asserts.checkerror('fitrtree([NaN; NaN], [NaN; NaN])', _('No valid observations remain after removing missing values.'));
+asserts.checkerror('fitrtree([NaN; NaN], [NaN; NaN])', ...
+  _('No valid observations remain after removing missing values.'));
 asserts.checkerror('fitrtree(X, y, ''bad'')', _('Name-value arguments must be paired.'));
 asserts.checkerror('fitrtree(X, y, ''M'', 1)', _('Ambiguous name-value argument name.'));
-asserts.checkerror('fitrtree(X, y, ''MaxNumSplits'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), 'MaxNumSplits'));
-asserts.checkerror('fitrtree(X, y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinLeafSize'));
-asserts.checkerror('fitrtree(X, y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), 'MinParentSize'));
-asserts.checkerror('fitrtree(X, y, ''PredictorNames'', {''A''})', _('PredictorNames must have one name per predictor.'));
-asserts.checkerror('fitrtree(X, y, ''ResponseName'', 1)', sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('fitrtree(X, y, ''MaxNumSplits'', -1)', sprintf(_('%s must be a nonnegative integer scalar.'), ...
+  'MaxNumSplits'));
+asserts.checkerror('fitrtree(X, y, ''MinLeafSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinLeafSize'));
+asserts.checkerror('fitrtree(X, y, ''MinParentSize'', 0)', sprintf(_('%s must be a positive integer scalar.'), ...
+  'MinParentSize'));
+asserts.checkerror('fitrtree(X, y, ''PredictorNames'', {''A''})', ...
+  _('PredictorNames must have one name per predictor.'));
+asserts.checkerror('fitrtree(X, y, ''ResponseName'', 1)', ...
+  sprintf(_('%s must be a character vector or string scalar.'), 'ResponseName'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 asserts.checkerror('predict(mdl, [1 NaN])', sprintf(_('%s must contain finite values.'), 'X'));
 %=============================================================================

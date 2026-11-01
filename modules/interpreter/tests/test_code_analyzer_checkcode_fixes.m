@@ -9,7 +9,7 @@
 %=============================================================================
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
-fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NASGU>
+fixtureDirectoryCleanup = onCleanup(@() rmdir(fixtureDirectory, 's')); %#ok<NLS0004>
 nameMismatch = fullfile(fixtureDirectory, 'nelson_lint_name_mismatch.m');
 filewrite(nameMismatch, ['function y = wrong_lint_name(x)', newline(), ...
   'y = x;', newline(), ...

@@ -69,15 +69,6 @@ namespace {
         return !trimmed.empty() && trimmed[0] == '%';
     }
     //=============================================================================
-    bool
-    isFunctionDeclarationLine(const std::vector<CodeAnalyzerFunction>& functions, int lineNumber)
-    {
-        return std::any_of(
-            functions.begin(), functions.end(), [lineNumber](const CodeAnalyzerFunction& function) {
-                return function.line == lineNumber;
-            });
-    }
-    //=============================================================================
     const CodeAnalyzerLineUsage*
     lineUsageAt(const std::vector<CodeAnalyzerLineUsage>& lineUsages, int lineNumber)
     {
@@ -95,22 +86,23 @@ namespace {
         if (usage == nullptr) {
             return false;
         }
+        // A call without parentheses is an identifier use.
         return std::find(usage->callableUsed.begin(), usage->callableUsed.end(), name)
-            != usage->callableUsed.end();
+            != usage->callableUsed.end()
+            || std::find(usage->used.begin(), usage->used.end(), name) != usage->used.end();
     }
     //=============================================================================
     bool
-    hasCallOutsideFunctionBody(const std::vector<CodeAnalyzerLineUsage>& lineUsages,
-        const CodeAnalyzerFunction& function, const std::vector<CodeAnalyzerFunction>& functions)
+    hasCallOutsideFunctionBody(
+        const std::vector<CodeAnalyzerLineUsage>& lineUsages, const CodeAnalyzerFunction& function)
     {
         for (int lineNumber = 1; lineNumber <= static_cast<int>(lineUsages.size()); ++lineNumber) {
             if (lineNumber >= function.line && lineNumber <= function.endLine) {
                 continue;
             }
-            if (isFunctionDeclarationLine(functions, lineNumber)) {
-                continue;
-            }
-            if (lineCallsFunction(lineUsages, lineNumber, function.name)) {
+            // localfunctions() returns handles to every local function.
+            if (lineCallsFunction(lineUsages, lineNumber, function.name)
+                || lineCallsFunction(lineUsages, lineNumber, "localfunctions")) {
                 return true;
             }
         }
@@ -169,12 +161,17 @@ namespace {
         const std::vector<CodeAnalyzerLineUsage>& lineUsages)
     {
         bool inArgumentsBlock = false;
-        for (int lineNumber = function.line + 1; lineNumber <= function.endLine; ++lineNumber) {
+        for (int lineNumber = function.line; lineNumber <= function.endLine; ++lineNumber) {
             const CodeAnalyzerLineUsage* usage = lineUsageAt(lineUsages, lineNumber);
             if (usage == nullptr) {
                 continue;
             }
-            if (usage->functionDeclaration) {
+            if (lineNumber == function.line) {
+                // The header line counts only for the body of a one-line function.
+                if (!usage->usageFromAst && !usage->assignmentFromAst) {
+                    continue;
+                }
+            } else if (usage->functionDeclaration) {
                 const CodeAnalyzerFunction* child
                     = childFunctionAtLine(function, functions, lineNumber);
                 if (child != nullptr) {
@@ -203,6 +200,10 @@ namespace {
         const std::vector<CodeAnalyzerLineUsage>& lineUsages)
     {
         std::set<std::string> symbols;
+        // Only a nested function shares the workspace of its parent.
+        if (!function.nested) {
+            return symbols;
+        }
         const CodeAnalyzerFunction* parent = functionByLine(functions, function.parentLine);
         while (parent != nullptr) {
             appendFunctionSymbols(symbols, *parent);
@@ -269,6 +270,10 @@ namespace {
         const std::vector<CodeAnalyzerLineUsage>& lineUsages,
         const std::vector<CodeAnalyzerClassdef>& classdefs)
     {
+        const CodeAnalyzerLineUsage* header = lineUsageAt(lineUsages, function.line);
+        if (header != nullptr && header->astUnavailable) {
+            return;
+        }
         std::map<std::string, int> assignedLine;
         std::map<std::string, int> assignedCount;
         std::map<std::string, int> useCount;
@@ -276,6 +281,11 @@ namespace {
         std::set<std::string> outputs(function.outputs.begin(), function.outputs.end());
         std::set<std::string> inputs(function.inputs.begin(), function.inputs.end());
         std::set<std::string> globalNames;
+        // A loop index, a catch variable or an onCleanup object needs no later use.
+        std::set<std::string> usageNotRequiredNames;
+        std::set<std::string> usedByNested;
+        // A use guarded by exist('name', 'var') is not a use before assignment.
+        std::set<std::string> existCheckedNames;
         std::set<std::string> persistentNames;
         std::set<std::string> importedNames;
         std::map<std::string, std::string> importedSpecs;
@@ -324,15 +334,30 @@ namespace {
                     path, lines, appendDiagnostic, output, function.line);
             }
         }
-        for (int lineNumber = function.line + 1; lineNumber <= function.endLine; ++lineNumber) {
+        for (int lineNumber = function.line; lineNumber <= function.endLine; ++lineNumber) {
             const CodeAnalyzerLineUsage* usage = lineUsageAt(lineUsages, lineNumber);
             if (usage == nullptr) {
                 continue;
             }
-            if (usage->functionDeclaration) {
+            if (lineNumber == function.line) {
+                // The header line counts only for the body of a one-line function.
+                if (!usage->usageFromAst && !usage->assignmentFromAst) {
+                    continue;
+                }
+            } else if (usage->functionDeclaration) {
                 const CodeAnalyzerFunction* child
                     = childFunctionAtLine(function, functions, lineNumber);
                 if (child != nullptr) {
+                    // A nested function reads the variables of this workspace.
+                    if (child->nested) {
+                        for (int k = child->line; k <= child->endLine; ++k) {
+                            if (const CodeAnalyzerLineUsage* inner = lineUsageAt(lineUsages, k)) {
+                                usedByNested.insert(inner->used.begin(), inner->used.end());
+                                usedByNested.insert(
+                                    inner->callableUsed.begin(), inner->callableUsed.end());
+                            }
+                        }
+                    }
                     lineNumber = child->endLine;
                     continue;
                 }
@@ -396,9 +421,12 @@ namespace {
                 continue;
             }
             globalNames.insert(usage->globalDeclarations.begin(), usage->globalDeclarations.end());
+            usageNotRequiredNames.insert(
+                usage->usageNotRequired.begin(), usage->usageNotRequired.end());
             persistentNames.insert(
                 usage->persistentDeclarations.begin(), usage->persistentDeclarations.end());
-            dynamic = dynamic || usage->dynamicCode;
+            dynamic = dynamic || usage->dynamicCode || usage->workspaceChanged;
+            existCheckedNames.insert(usage->existChecked.begin(), usage->existChecked.end());
             if (usage->dynamicCode) {
                 CodeAnalyzerDiagnostic diagnostic
                     = makeDiagnostic(path, "NLS0022", "warning", "Security",
@@ -473,8 +501,9 @@ namespace {
                         lineNumber, codeAnalyzerWordColumnInLine(lines[lineNumber - 1], name)));
                 }
                 if (parentScopeSymbols.find(name) != parentScopeSymbols.end()
-                    && reportedParentShadows.insert(name).second) {
-                    appendParentShadowDiagnostic(path, lines, appendDiagnostic, name, lineNumber);
+                    && inputs.find(name) == inputs.end() && outputs.find(name) == outputs.end()) {
+                    // A nested function assigns the variable it shares with its parent.
+                    useCount[name]++;
                 }
                 if (builtinNames.find(name) != builtinNames.end()
                     && reportedBuiltinShadows.insert(name).second) {
@@ -512,7 +541,10 @@ namespace {
                     || globalNames.find(it.first) != globalNames.end()
                     || persistentNames.find(it.first) != persistentNames.end()
                     || importedNames.find(it.first) != importedNames.end();
-                if (!declaredElsewhere && useCount[it.first] == 0) {
+                // A script variable stays in the workspace once the script ends.
+                if (!declaredElsewhere && useCount[it.first] == 0 && !function.script
+                    && usageNotRequiredNames.find(it.first) == usageNotRequiredNames.end()
+                    && usedByNested.find(it.first) == usedByNested.end()) {
                     CodeAnalyzerDiagnostic diagnostic = makeDiagnostic(path, "NLS0004", "info",
                         "Dataflow",
                         quotedNameMessage("Variable", it.first, "is assigned but never used."),
@@ -522,7 +554,8 @@ namespace {
                 }
                 auto firstUse = firstUseLine.find(it.first);
                 if (firstUse != firstUseLine.end() && firstUse->second < it.second
-                    && !declaredElsewhere && !wildcardImport) {
+                    && !declaredElsewhere && !wildcardImport
+                    && existCheckedNames.find(it.first) == existCheckedNames.end()) {
                     appendDiagnostic(makeDiagnostic(path, "NLS0005", "warning", "Dataflow",
                         quotedNameMessage(
                             "Variable", it.first, "is used before a local assignment."),
@@ -531,10 +564,13 @@ namespace {
                 }
             }
         }
+        // The output of a class constructor is the object itself.
+        const bool constructor = function.classdefMethod && !function.classdefOwnerName.empty()
+            && function.name == function.classdefOwnerName;
         for (const std::string& output : function.outputs) {
             bool declaredElsewhere = globalNames.find(output) != globalNames.end()
                 || persistentNames.find(output) != persistentNames.end();
-            if (output != "varargout" && !declaredElsewhere
+            if (output != "varargout" && !constructor && !declaredElsewhere
                 && assignedLine.find(output) == assignedLine.end()) {
                 appendDiagnostic(makeDiagnostic(path, "NLS0006", "warning", "Dataflow",
                     quotedNameMessage("Declared output", output, "is never assigned."),
@@ -543,7 +579,10 @@ namespace {
         }
         for (size_t k = 0; k < function.inputs.size(); ++k) {
             const std::string& input = function.inputs[k];
-            if (input != "varargin" && useCount[input] == 0) {
+            // An input that is also an output is returned, so it is used.
+            if (input != "varargin" && input != "~" && useCount[input] == 0
+                && outputs.find(input) == outputs.end()
+                && usedByNested.find(input) == usedByNested.end()) {
                 if (isClassdefReceiverArgument(function, input, k)) {
                     continue;
                 }
@@ -611,6 +650,10 @@ namespace {
                 addUnreachableCodeFix(diagnostic, lines, usage);
                 appendDiagnostic(std::move(diagnostic));
                 afterExit = false;
+            } else if (usage.unreachableStart && !usage.endsBlock) {
+                // A branch under a constant condition, or code after an endless loop.
+                appendDiagnostic(makeDiagnostic(
+                    path, "NLS0003", "warning", "Flow", "This code can never run.", lineNumber, 1));
             }
             afterExit = usage.exitStatement;
         }
@@ -626,6 +669,29 @@ namespace {
             if (usage.constantCondition) {
                 appendDiagnostic(makeDiagnostic(path, "NLS0009", "warning", "Flow",
                     "Condition is a constant value.", lineNumber, usage.constantConditionColumn));
+            }
+        }
+    }
+    //=============================================================================
+    void
+    applyLoopGrowthAndStrfindRules(const std::filesystem::path& path,
+        const std::vector<CodeAnalyzerLineUsage>& lineUsages,
+        const std::function<void(CodeAnalyzerDiagnostic)>& appendDiagnostic)
+    {
+        for (const CodeAnalyzerLineUsage& usage : lineUsages) {
+            if (!usage.loopGrowthName.empty()) {
+                appendDiagnostic(makeDiagnostic(path, "NLS0039", "info", "Performance",
+                    quotedNameMessage("Variable", usage.loopGrowthName,
+                        "grows on every loop iteration. Consider preallocating it."),
+                    usage.line, usage.loopGrowthColumn));
+            }
+            if (usage.isemptyStrfindCall) {
+                appendDiagnostic(makeDiagnostic(path, "NLS0040", "info", "Readability",
+                    usage.isemptyStrfindNegated ? "Use 'contains(str, pattern)' instead of "
+                                                  "'~isempty(strfind(str, pattern))'."
+                                                : "Use '~contains(str, pattern)' instead of "
+                                                  "'isempty(strfind(str, pattern))'.",
+                    usage.line, usage.isemptyStrfindColumn));
             }
         }
     }
@@ -677,10 +743,12 @@ namespace {
     void
     applyFunctionNamingRules(const std::filesystem::path& path,
         const std::vector<CodeAnalyzerFunction>& functions,
+        const std::vector<CodeAnalyzerClassdef>& classdefs,
         const std::function<void(CodeAnalyzerDiagnostic)>& appendDiagnostic)
     {
         const std::string expected = path.stem().generic_string();
-        if (expected.empty() || functions.empty()) {
+        // In a classdef file the class name is checked, not the first function.
+        if (expected.empty() || functions.empty() || !classdefs.empty()) {
             return;
         }
         const CodeAnalyzerFunction& function = functions.front();
@@ -780,7 +848,7 @@ namespace {
         for (size_t k = 1; k < functions.size(); ++k) {
             const CodeAnalyzerFunction& function = functions[k];
             if (!function.name.empty() && !function.classdefMethod
-                && !hasCallOutsideFunctionBody(lineUsages, function, functions)) {
+                && !hasCallOutsideFunctionBody(lineUsages, function)) {
                 CodeAnalyzerDiagnostic diagnostic
                     = makeDiagnostic(path, "NLS0023", "info", "Dataflow",
                         quotedNameMessage("Local function", function.name, "is never used."),
@@ -802,6 +870,7 @@ applyCodeAnalyzerDataflowRules(const std::filesystem::path& path, const stringVe
     applyEmptyBlockRules(path, model.lineUsages, appendDiagnostic);
     applyUnreachableCodeRules(path, lines, model.lineUsages, appendDiagnostic);
     applyConstantConditionRules(path, model.lineUsages, appendDiagnostic);
+    applyLoopGrowthAndStrfindRules(path, model.lineUsages, appendDiagnostic);
     for (const CodeAnalyzerFunction& function : model.functions) {
         applyForFunction(path, lines, appendDiagnostic, function, model.functions, model.lineUsages,
             model.classdefs);
@@ -810,7 +879,7 @@ applyCodeAnalyzerDataflowRules(const std::filesystem::path& path, const stringVe
     applyFunctionSizeRules(path, options, model.functions, appendDiagnostic);
     applyCyclomaticComplexityRules(path, options, model.functions, appendDiagnostic);
     applyCognitiveComplexityRules(path, options, model.functions, appendDiagnostic);
-    applyFunctionNamingRules(path, model.functions, appendDiagnostic);
+    applyFunctionNamingRules(path, model.functions, model.classdefs, appendDiagnostic);
     applyCodeAnalyzerClassdefRules(path, lines, model.functions, model.classdefs, appendDiagnostic);
     applyDocumentationRules(path, lines, model.functions, model.classdefs, appendDiagnostic);
 }

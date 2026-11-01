@@ -164,11 +164,13 @@ A = [complex(-2, 5), complex(-2, 4)];
 REF = [-2.0000 + 4.0000i -2.0000 + 5.0000i];
 asserts.isequal(B, REF);
 %=============================================================================
-A = [complex(NaN, -4), 2, complex(2, NaN), 1, complex(NaN, 0), complex(NaN, NaN), 3, complex(0, NaN), -1, complex(-1, NaN)];
+A = [complex(NaN, -4), 2, complex(2, NaN), 1, complex(NaN, 0), complex(NaN, NaN), 3, complex(0, NaN), -1, ...
+  complex(-1, NaN)];
 B = sort(A, 'ComparisonMethod', 'real');
 REF = [-1 1 2 3 complex(NaN, -4) complex(2, NaN) complex(NaN, 0) complex(NaN, NaN) complex(0, NaN) complex(-1, NaN)];
 asserts.isequal(B, REF);
-C = [complex(NaN, -4), 2, complex(2, NaN), 1, complex(NaN, 0), complex(NaN, NaN), 3, complex(0, NaN), -1, complex(-1, NaN)];
+C = [complex(NaN, -4), 2, complex(2, NaN), 1, complex(NaN, 0), complex(NaN, NaN), 3, complex(0, NaN), -1, ...
+  complex(-1, NaN)];
 asserts.isequal(A, C);
 %=============================================================================
 A = [3, complex(0, NaN), -1, complex(-1, NaN)];

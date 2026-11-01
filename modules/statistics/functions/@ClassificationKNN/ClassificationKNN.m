@@ -29,7 +29,8 @@ classdef ClassificationKNN
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationKNNObjectsCreatedFitcknn', '%s objects are created by %s.', 'ClassificationKNN', 'fitcknn');
+      error('Nelson:statistics:classificationKNNObjectsCreatedFitcknn', '%s objects are created by %s.', ...
+        'ClassificationKNN', 'fitcknn');
     end
   end
 end

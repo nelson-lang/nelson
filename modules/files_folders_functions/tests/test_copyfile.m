@@ -42,5 +42,6 @@ asserts.istrue(~isempty(msg));
 asserts.istrue(~isempty(msgID));
 %=============================================================================
 asserts.checkerror('copyfile(''nonexistent_source_for_id_lock'', tempdir())', _('Directory source does not exist.'));
-asserts.checkerror('copyfile(''nonexistent_source_for_id_lock'', tempdir())', _('Directory source does not exist.'), 'Nelson:files_folders_functions:directorySourceDoesNotExist');
+asserts.checkerror('copyfile(''nonexistent_source_for_id_lock'', tempdir())', _('Directory source does not exist.'), ...
+  'Nelson:files_folders_functions:directorySourceDoesNotExist');
 %=============================================================================

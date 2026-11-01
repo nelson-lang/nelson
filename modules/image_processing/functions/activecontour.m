@@ -14,7 +14,8 @@ function bw = activecontour(varargin)
   mask = varargin{2};
   [iterations, method, smoothFactor, contractionBias] = ip_parse_activecontour_options(varargin);
   if strcmp(method, 'edge') && ip_activecontour_is_color_image(img)
-    error('Nelson:image_processing:edgeMethodNotSupportedRgbRgba', 'Edge method is not supported for RGB or RGBA images.');
+    error('Nelson:image_processing:edgeMethodNotSupportedRgbRgba', ...
+      'Edge method is not supported for RGB or RGBA images.');
   end
   image2d = ip_activecontour_prepare_image(img);
   d = ip_to_unit_double(image2d);
@@ -27,7 +28,8 @@ function bw = activecontour(varargin)
       mask = ip_to_logical_mask(mask);
       bw = builtin('__activecontour_kernel__', image2d, mask, iterations, method, smoothFactor, contractionBias);
     otherwise
-      error('Nelson:image_processing:unsupportedActiveContourMethod', 'Unsupported "%s" option.', 'active contour method');
+      error('Nelson:image_processing:unsupportedActiveContourMethod', 'Unsupported "%s" option.', ...
+        'active contour method');
   end
 end
 %=============================================================================

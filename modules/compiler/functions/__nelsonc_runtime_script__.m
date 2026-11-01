@@ -10,7 +10,8 @@
 function lines = __nelsonc_runtime_script__(stage, payload, output, plan, options)
   name = ['Nelson Runtime ', plan.runtimeVersion, ' (', plan.architecture, ')'];
   identity = ['Runtime-', plan.architecture, '-', plan.engineFingerprint];
-  lines = __nelsonc_inno_setup__(output, name, plan.runtimeVersion, identity, options.InstallerName, options.Compression);
+  lines = __nelsonc_inno_setup__(output, name, plan.runtimeVersion, identity, options.InstallerName, ...
+    options.Compression);
   key = ['Software\Nelson\Runtime\', plan.architecture, '\', plan.engineFingerprint];
   lines = [lines, {...
     'DefaultDirName={code:RuntimeDirectory}', 'DisableDirPage=auto', ...

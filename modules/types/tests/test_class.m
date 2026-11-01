@@ -96,5 +96,6 @@ res = class(A);
 asserts.isequal(res, 'function_handle');
 %=============================================================================
 asserts.checkerror('[a, b] = class(''a'')', _('Too many output arguments.'));
-asserts.checkerror('r = class(''a'', 3, 4)', _('When called from outside a class constructor, the CLASS function must be called with one input.'));
+asserts.checkerror('r = class(''a'', 3, 4)', ...
+  _('When called from outside a class constructor, the CLASS function must be called with one input.'));
 %=============================================================================

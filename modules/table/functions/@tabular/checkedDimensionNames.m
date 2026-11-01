@@ -18,7 +18,8 @@ function names = checkedDimensionNames(obj, names)
     error('Nelson:table:invalidDimensionNames', _('The DimensionNames property must be a string array or a cell array, with each name containing one or more characters.'));
   end
   if numel(names) ~= 2
-    error('Nelson:table:invalidDimensionNamesCount', _('The DimensionNames property must contain one name for each dimension in the table.'));
+    error('Nelson:table:invalidDimensionNamesCount', ...
+      _('The DimensionNames property must contain one name for each dimension in the table.'));
   end
   if strcmp(names{1}, names{2})
     error('Nelson:table:duplicateDimensionNames', _('Duplicate table dimension name: ''%s''.'), names{1});

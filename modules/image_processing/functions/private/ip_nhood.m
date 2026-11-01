@@ -14,11 +14,13 @@ function nhood = ip_nhood(se)
     raw = se;
   end
   if ~(isnumeric(raw) || islogical(raw)) || issparse(raw) || length(size(raw)) > 3 || isempty(raw)
-    error('Nelson:image_processing:structuringElementNeighborhoodNonemptyDD', 'Structuring element neighborhood must be a nonempty 2-D or 3-D numeric or logical array.');
+    error('Nelson:image_processing:structuringElementNeighborhoodNonemptyDD', ...
+      'Structuring element neighborhood must be a nonempty 2-D or 3-D numeric or logical array.');
   end
   nhood = ip_to_logical_mask(raw);
   if ~any(nhood(:))
-    error('Nelson:image_processing:structuringElementNeighborhoodContainLeastOne', 'Structuring element neighborhood must contain at least one true value.');
+    error('Nelson:image_processing:structuringElementNeighborhoodContainLeastOne', ...
+      'Structuring element neighborhood must contain at least one true value.');
   end
 end
 %=============================================================================

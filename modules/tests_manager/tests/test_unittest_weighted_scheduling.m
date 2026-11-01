@@ -28,7 +28,7 @@ events = run_processes_progressive(jobs, 1);
 processOrder = {};
 for k = 1:length(events)
   if strcmp(events{k}.event_type, 'process')
-    processOrder{end + 1} = events{k}.job_id; %#ok<AGROW>
+    processOrder{end + 1} = events{k}.job_id; %#ok<NLS0039>
   end
 end
 asserts.isequal(processOrder, {'heavy', 'medium', 'light'});

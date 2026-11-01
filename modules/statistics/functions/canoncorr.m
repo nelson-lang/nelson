@@ -16,7 +16,7 @@ function [A, B, r, U, V, stats] = canoncorr(X, Y)
   Y = Y - repmat(mean(Y, 1), n, 1);
   [Xr, keepX] = independentColumnsLocal(X, 'X');
   [Yr, keepY] = independentColumnsLocal(Y, 'Y');
-  [Ax, Bx, r, Ux, Vx] = reducedCanoncorrLocal(Xr, Yr, n);
+  [Ax, Bx, r, ~, ~] = reducedCanoncorrLocal(Xr, Yr, n);
   A = zeros(size(X, 2), size(Ax, 2));
   B = zeros(size(Y, 2), size(Bx, 2));
   if isempty(r)

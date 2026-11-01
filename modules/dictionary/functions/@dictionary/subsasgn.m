@@ -59,10 +59,12 @@ function obj = subsasgn(obj, s, val)
       return
     end
     if ~strcmp(s(1).type, '()') && ~strcmp(s(1).type, '{}')
-      error('Nelson:dictionary:invalidChainedAssignment', 'Chained assignment is supported only for dictionary entries.');
+      error('Nelson:dictionary:invalidChainedAssignment', ...
+        'Chained assignment is supported only for dictionary entries.');
     end
     if numel(dictionaryIndexKey(s(1))) ~= 1
-      error('Nelson:dictionary:invalidChainedAssignment', 'Chained assignment is supported only for dictionary entries.');
+      error('Nelson:dictionary:invalidChainedAssignment', ...
+        'Chained assignment is supported only for dictionary entries.');
     end
     currentValue = subsref(obj, s(1));
     currentValue = subsasgn(currentValue, s(2:end), val);
@@ -84,7 +86,8 @@ end
 %=============================================================================
 function obj = dictionaryParenAssign(obj, s, val)
   if (iscell(s.subs) && (numel(s.subs) > 1))
-    error('Nelson:dictionary:TooManyInputsToParenAssign', 'Too many input arguments. To insert multiple entries, utilize an array of keys instead.');
+    error('Nelson:dictionary:TooManyInputsToParenAssign', ...
+      'Too many input arguments. To insert multiple entries, utilize an array of keys instead.');
   end
   key = dictionaryIndexKey(s);
   if (~isConfigured(obj))
@@ -121,7 +124,8 @@ end
 %=============================================================================
 function obj = dictionaryBraceAssign(obj, s, val)
   if (iscell(s.subs) && (numel(s.subs) > 1))
-    error('Nelson:dictionary:TooManyInputsToBracketAssign', 'Too many input arguments. To insert multiple entries, utilize an array of keys instead.');
+    error('Nelson:dictionary:TooManyInputsToBracketAssign', ...
+      'Too many input arguments. To insert multiple entries, utilize an array of keys instead.');
   end
   key = dictionaryIndexKey(s);
   if (~isConfigured(obj))

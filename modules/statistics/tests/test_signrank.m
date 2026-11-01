@@ -50,5 +50,6 @@ asserts.checkerror('signrank([1], ''Alpha'')', _('Name-value arguments must be p
 asserts.checkerror('signrank([1], ''Unknown'', 1)', _('Invalid name-value argument name.'));
 asserts.checkerror('signrank([1], ''Alpha'', 2)', sprintf(_('%s must be a scalar in the range (0,1).'), 'ALPHA'));
 asserts.checkerror('signrank([1], ''Tail'', ''bad'')', sprintf(_('%s has an unsupported value.'), 'TAIL'));
-asserts.checkerror('signrank([1 2 2], 0, ''Method'', ''exact'')', _('Exact method is not supported when ties are present.'));
+asserts.checkerror('signrank([1 2 2], 0, ''Method'', ''exact'')', ...
+  _('Exact method is not supported when ties are present.'));
 %=============================================================================

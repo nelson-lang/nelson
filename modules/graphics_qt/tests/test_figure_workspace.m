@@ -9,7 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 probePath = getenv('NELSON_QT_WORKSPACE_PROBE');
-skip_testsuite(isempty(probePath) || ~isfile(probePath), 'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
+skip_testsuite(isempty(probePath) || ~isfile(probePath), ...
+  'Build the Qt workspace probe and set NELSON_QT_WORKSPACE_PROBE.');
 library = dlopen(probePath);
 probe = dlsym(library, 'figureWorkspaceProbe', 'int32', {'cstring', 'cstring'});
 titleText = 'Qt workspace integration';

@@ -24,5 +24,6 @@ end
 elapsed = toc();
 ops = n0;
 asserts.istrue(isempty(d) || d(1) > 0);
-fprintf('BENCH_REFERENCE,scalar,bytecode prime factors mod zero while,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ops / elapsed);
+fprintf('BENCH_REFERENCE,scalar,bytecode prime factors mod zero while,%.9g,%d,%.9g,OK\n', elapsed, int32(ops), ...
+  ops / elapsed);
 %=============================================================================

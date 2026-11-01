@@ -21,7 +21,8 @@ function varargout = subsasgn(varargin)
     return
   end
   if strcmp(s(1).type, '{}')
-    error('Nelson:control_system:invalidSubscript:illegalIndexingStructureArgumentTypeValue', 'Illegal indexing structure argument: type %s expected.', "'.' or '()'");
+    error('Nelson:control_system:invalidSubscript:illegalIndexingStructureArgumentTypeValue', ...
+      'Illegal indexing structure argument: type %s expected.', "'.' or '()'");
   end
   if ~strcmp(s(1).type, '.')
     error('Nelson:control_system:invalidSubscript:notAValidIndexingExpression', 'Not a valid indexing expression');
@@ -97,10 +98,12 @@ function value = validateVariable(obj, value)
     error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");
   end
   if obj.Ts == 0 && any(strcmp(value, {'z', 'q', 'z^-1', 'q^-1'})) && ~isstatic(obj)
-    error('Nelson:control_system:invalidVariable:discreteTimeVariableRequiresADiscrete', 'Discrete-time variable requires a discrete-time model.');
+    error('Nelson:control_system:invalidVariable:discreteTimeVariableRequiresADiscrete', ...
+      'Discrete-time variable requires a discrete-time model.');
   end
   if (obj.Ts > 0 || obj.Ts == -1) && any(strcmp(value, {'s', 'p'}))
-    error('Nelson:control_system:invalidVariable:continuousTimeVariableRequiresAContinuous', 'Continuous-time variable requires a continuous-time model.');
+    error('Nelson:control_system:invalidVariable:continuousTimeVariableRequiresAContinuous', ...
+      'Continuous-time variable requires a continuous-time model.');
   end
 end
 %=============================================================================

@@ -23,7 +23,8 @@ classdef ClassificationEnsemble
       if nargin == 0
         return
       end
-      error('Nelson:statistics:classificationEnsembleObjectsCreatedFitcensemble', '%s objects are created by %s.', 'ClassificationEnsemble', 'fitcensemble');
+      error('Nelson:statistics:classificationEnsembleObjectsCreatedFitcensemble', '%s objects are created by %s.', ...
+        'ClassificationEnsemble', 'fitcensemble');
     end
   end
 end

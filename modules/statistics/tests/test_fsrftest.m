@@ -56,12 +56,17 @@ asserts.checkerror('fsrftest([1; 2], {1; 2})', sprintf(_('%s must be a real nume
 asserts.checkerror('fsrftest([1; 2], [1; 2; 3])', sprintf(_('%s must have the same number of rows.'), 'X and Y'));
 asserts.checkerror('fsrftest(zeros(2, 0), [1; 2])', _('X must contain at least one predictor.'));
 asserts.checkerror('fsrftest([Inf; 2], [1; 2])', sprintf(_('%s must not contain Inf values.'), 'X and Y'));
-asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', [4])', sprintf(_('%s contains invalid predictor indices.'), 'CategoricalPredictors'));
-asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', [true false])', sprintf(_('%s must match the number of predictors.'), 'CategoricalPredictors'));
-asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', ''bad'')', sprintf(_('%s has an invalid value.'), 'CategoricalPredictors'));
+asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', [4])', ...
+  sprintf(_('%s contains invalid predictor indices.'), 'CategoricalPredictors'));
+asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', [true false])', ...
+  sprintf(_('%s must match the number of predictors.'), 'CategoricalPredictors'));
+asserts.checkerror('fsrftest(X, Y, ''CategoricalPredictors'', ''bad'')', sprintf(_('%s has an invalid value.'), ...
+  'CategoricalPredictors'));
 asserts.checkerror('fsrftest(X, Y, ''NumBins'', 1)', _('NumBins must be an integer scalar greater than one.'));
 asserts.checkerror('fsrftest(X, Y, ''UseMissing'', 2)', sprintf(_('%s must be a logical scalar.'), 'UseMissing'));
-asserts.checkerror('fsrftest(X, Y, ''Weights'', [1; 2])', _('Weights must be a real numeric vector with one value per observation.'));
-asserts.checkerror('fsrftest(X, Y, ''Weights'', [1; 1; 1; 1; 1; -1])', sprintf(_('%s must contain nonnegative finite values with positive sum.'), 'Weights'));
+asserts.checkerror('fsrftest(X, Y, ''Weights'', [1; 2])', ...
+  _('Weights must be a real numeric vector with one value per observation.'));
+asserts.checkerror('fsrftest(X, Y, ''Weights'', [1; 1; 1; 1; 1; -1])', ...
+  sprintf(_('%s must contain nonnegative finite values with positive sum.'), 'Weights'));
 asserts.checkerror('fsrftest(X, Y, ''Unknown'', 1)', _('Unknown option.'));
 %=============================================================================

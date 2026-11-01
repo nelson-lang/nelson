@@ -66,10 +66,12 @@ function helpForNelsonOnly(destinationdir, locales)
       copyfile([dir_src, '/banner_homepage.png'], [dir_dst, '/banner_homepage.png']);
     end
     convertMarkdownPage([dir_src, '/homepage.md'], [dir_dst, '/homepage.typ'], 'main:homepage', 'nelson_help.typ');
-    convertMarkdownPage([dir_src, '/getting_started.md'], [dir_dst, '/getting_started.typ'], 'main:getting_started', 'nelson_help.typ');
+    convertMarkdownPage([dir_src, '/getting_started.md'], [dir_dst, '/getting_started.typ'], 'main:getting_started', ...
+      'nelson_help.typ');
     mkdir([dir_dst, '/changelogs']);
     for c = changelogFiles()
-      convertMarkdownPage([nelsonroot(), '/', c{1}], [dir_dst, '/changelogs/', strrep(c{1}, '.md', '.typ')], ['main:', strrep(c{1}, '.md', '')], '../nelson_help.typ');
+      convertMarkdownPage([nelsonroot(), '/', c{1}], [dir_dst, '/changelogs/', strrep(c{1}, '.md', '.typ')], ...
+        ['main:', strrep(c{1}, '.md', '')], '../nelson_help.typ');
     end
     mkdir([dir_dst, '/license']);
     for c = {'license.md', 'lgpl-3.0.md', 'gpl-3.0.md'}
@@ -77,7 +79,8 @@ function helpForNelsonOnly(destinationdir, locales)
       if ~isfile(src)
         src = [nelsonroot(), '/', c{1}];
       end
-      convertMarkdownPage(src, [dir_dst, '/license/', strrep(c{1}, '.md', '.typ')], ['main:', strrep(c{1}, '.md', '')], '../nelson_help.typ');
+      convertMarkdownPage(src, [dir_dst, '/license/', strrep(c{1}, '.md', '.typ')], ['main:', strrep(c{1}, '.md', ...
+        '')], '../nelson_help.typ');
     end
   end
 end

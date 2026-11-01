@@ -23,10 +23,12 @@ function X = are(A, B, C)
     error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 1, 'square matrix');
   end
   if ~isequal(size(B), size(A))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentNSizeArgument', 'Wrong size for argument #%d: same size as argument #%d expected.', 2, 1);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentNSizeArgument', ...
+      'Wrong size for argument #%d: same size as argument #%d expected.', 2, 1);
   end
   if ~isequal(size(C), size(A))
-    error('Nelson:control_system:wrongSize:wrongSizeArgumentNSizeArgument', 'Wrong size for argument #%d: same size as argument #%d expected.', 3, 1);
+    error('Nelson:control_system:wrongSize:wrongSizeArgumentNSizeArgument', ...
+      'Wrong size for argument #%d: same size as argument #%d expected.', 3, 1);
   end
   if ~ishermitian(B)
     error('Nelson:control_system:wrongValue', 'Wrong value for argument #%d: %s expected.', 2, 'symmetric matrix');

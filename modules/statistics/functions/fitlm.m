@@ -72,7 +72,8 @@ function opts = parseOptionsLocal(args)
         opts.PredictorNames = textVectorLocal(value, 'PredictorNames');
       case 'responsename'
         if ~(ischar(value) || (isstring(value) && isscalar(value)))
-          error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', 'ResponseName');
+          error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', ...
+            'ResponseName');
         end
         opts.ResponseName = char(value);
     end
@@ -160,7 +161,8 @@ function terms = modelTermsLocal(p, modelspec)
     end
   elseif isnumeric(modelspec)
     if size(modelspec, 2) ~= p
-      error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', 'predictor');
+      error('Nelson:statistics:modelMatrixOneColumnPredictor', 'Model matrix must have one column per %s.', ...
+        'predictor');
     end
     terms = double(modelspec);
     terms(all(terms == 0, 2), :) = [];

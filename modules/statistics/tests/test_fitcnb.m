@@ -66,9 +66,13 @@ asserts.checkerror('fitcnb([1; 2], [1])', sprintf(_('Y must be a vector with one
 asserts.checkerror('fitcnb([1; 2], [1; 1])', _('Y must contain at least two classes.'));
 asserts.checkerror('fitcnb([1; Inf], [1; 2])', sprintf(_('%s must contain finite values.'), 'X'));
 asserts.checkerror('fitcnb([1; 2], [1; 2], ''Prior'', ''bad'')', sprintf(_('Invalid %s value.'), 'Prior'));
-asserts.checkerror('fitcnb([1; 2], [1; 2], ''DistributionNames'', ''kernel'')', _('Only normal predictor distributions are supported.'));
-asserts.checkerror('fitcnb([1; 2], [1; 2], ''Weights'', [1])', _('Weights must be a nonnegative finite numeric vector with positive sum.'));
+asserts.checkerror('fitcnb([1; 2], [1; 2], ''DistributionNames'', ''kernel'')', ...
+  _('Only normal predictor distributions are supported.'));
+asserts.checkerror('fitcnb([1; 2], [1; 2], ''Weights'', [1])', ...
+  _('Weights must be a nonnegative finite numeric vector with positive sum.'));
 asserts.checkerror('fitcnb([1; 2], [1; 2], ''ClassNames'', [1; 1])', _('ClassNames must contain unique labels.'));
-asserts.checkerror('fitcnb([1; 2], [1; 2])', _('A normal distribution cannot be fit because one class has zero variance.'));
-asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), 'the training data'));
+asserts.checkerror('fitcnb([1; 2], [1; 2])', ...
+  _('A normal distribution cannot be fit because one class has zero variance.'));
+asserts.checkerror('predict(mdl, [1 2 3])', sprintf(_('X must have the same number of columns as %s.'), ...
+  'the training data'));
 %=============================================================================

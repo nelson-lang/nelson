@@ -44,7 +44,8 @@ function varargout = c2d(varargin)
 
   if nargin > 3
     if ~strcmp(method, 'P')
-      error('Nelson:control_system:prewarpMethodExpected', 'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
+      error('Nelson:control_system:prewarpMethodExpected', ...
+        'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
     end
     w0 = varargin{4};
     mustBeNumeric(w0, 4);
@@ -63,7 +64,8 @@ function varargout = c2d(varargin)
     else
       beta = w0 / tan(w0 * (Ts / 2));
       if (w0 >= pi / Ts)
-        error('Nelson:control_system:invalidValue:prewarpFrequencyAlsoKnownCriticalFrequency', 'The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.');
+        error('Nelson:control_system:invalidValue:prewarpFrequencyAlsoKnownCriticalFrequency', ...
+          'The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.');
       end
     end
     sysd = c2d_bilinear(sys, beta, Ts);
@@ -77,7 +79,6 @@ function sysd = c2d_zoh(sys, Ts)
   B = sys.B;
   C = sys.C;
   D = sys.D;
-  E = sys.E;
   % Compute sizes
   a1 = size(A, 2) + size(B, 2) - size(A, 1);
   b1 = size(A, 2);

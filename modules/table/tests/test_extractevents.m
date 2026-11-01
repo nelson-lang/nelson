@@ -9,7 +9,8 @@
 %=============================================================================
 TT = timetable(seconds([1; 2; 3; 4]), [10; 20; 30; 40], ["a"; "b"; "c"; "d"], seconds([1; 2; 3; 4]), ...
   'VariableNames', {'A', 'L', 'D'});
-assert_checkerror('extractevents(TT);', sprintf(_('Invalid argument list. Function requires %d more input(s).'), 1), 'Nelson:minrhs');
+assert_checkerror('extractevents(TT);', sprintf(_('Invalid argument list. Function requires %d more input(s).'), 1), ...
+  'Nelson:minrhs');
 %=============================================================================
 % rows: numbers, logical mask, row times, time range, ':'
 E = extractevents(TT, [2 4]);
@@ -79,10 +80,13 @@ assert_checkerror('extractevents(TT, 0);', msg, 'Nelson:eventtable:MustBeCategor
 assert_checkerror('extractevents(TT, "a");', msg, 'Nelson:eventtable:MustBeCategoricalOrTime');
 assert_checkerror('extractevents(TT, {''a''});', msg, 'Nelson:eventtable:MustBeCategoricalOrTime');
 msg = sprintf(_('%s must not be in the list of EventDataVariables.'), 'EventLabelsVariable');
-assert_checkerror('extractevents(TT, [1 2], ''EventLabelsVariable'', ''L'', ''EventDataVariables'', ["L", "A"]);', msg, 'Nelson:eventtable:ConflictingEventAndDataVars');
+assert_checkerror('extractevents(TT, [1 2], ''EventLabelsVariable'', ''L'', ''EventDataVariables'', ["L", "A"]);', ...
+  msg, 'Nelson:eventtable:ConflictingEventAndDataVars');
 msg = sprintf(_('%s must not be in the list of EventDataVariables.'), 'EventLengthsVariable');
-assert_checkerror('extractevents(TT, [1 2], ''EventDataVariables'', ["D", "A"], ''EventLengthsVariable'', ''D'');', msg, 'Nelson:eventtable:ConflictingEventAndDataVars');
-assert_checkerror('extractevents(TT, [1 2], ''EventDataVariables'', ''Z'');', sprintf(_('Unrecognized table variable name ''%s''.'), 'Z'));
+assert_checkerror('extractevents(TT, [1 2], ''EventDataVariables'', ["D", "A"], ''EventLengthsVariable'', ''D'');', ...
+  msg, 'Nelson:eventtable:ConflictingEventAndDataVars');
+assert_checkerror('extractevents(TT, [1 2], ''EventDataVariables'', ''Z'');', ...
+  sprintf(_('Unrecognized table variable name ''%s''.'), 'Z'));
 msg = sprintf(_('Invalid argument at position %d. Make sure name-value arguments include both the name and the value.'), 3);
 assert_checkerror('extractevents(TT, [1 2], ''EventLabels'');', msg, 'Nelson:eventtable:nameValuePair');
 names = 'EventLabels, EventLabelsVariable, EventLengths, EventLengthsVariable, EventEnds, EventEndsVariable, EventDataVariables, PreserveEventVariables';

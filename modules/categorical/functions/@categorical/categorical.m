@@ -141,7 +141,8 @@ classdef categorical
         return
       end
       if strcmp(S(1).type, '{}')
-        error('Nelson:categorical:braceIndexingNotSupported', 'Brace indexing is not supported for categorical arrays.');
+        error('Nelson:categorical:braceIndexingNotSupported', ...
+          'Brace indexing is not supported for categorical arrays.');
       end
       if strcmp(S(1).type, '.')
         switch S(1).subs
@@ -154,7 +155,8 @@ classdef categorical
           case 'isOrdinal'
             out = obj.isOrdinal;
           otherwise
-            error('Nelson:categorical:dotIndexingNotSupported', 'Dot indexing is not supported for categorical arrays.');
+            error('Nelson:categorical:dotIndexingNotSupported', ...
+              'Dot indexing is not supported for categorical arrays.');
         end
         if length(S) > 1
           out = subsref(out, S(2:end));
@@ -327,7 +329,8 @@ classdef categorical
       end
       if ischar(value)
         if rejectChar
-          error('Nelson:categorical:charMustBeWrapped', 'Character arrays must be wrapped in a cell array or string array.');
+          error('Nelson:categorical:charMustBeWrapped', ...
+            'Character arrays must be wrapped in a cell array or string array.');
         end
         value = {value};
       end
@@ -482,7 +485,8 @@ classdef categorical
       end
       names = left.categoryNames;
       if left.isOrdinal && ~isequal(names, right.categoryNames)
-        error('Nelson:categorical:identicalCategoriesRequired', 'Ordinal categorical arrays must have identical categories.');
+        error('Nelson:categorical:identicalCategoriesRequired', ...
+          'Ordinal categorical arrays must have identical categories.');
       end
       map = zeros(length(right.categoryNames), 1);
       for k = 1:length(right.categoryNames)
@@ -525,7 +529,8 @@ classdef categorical
         right = categorical(right);
       end
       if requireOrdinal && (~left.isOrdinal || ~right.isOrdinal)
-        error('Nelson:categorical:relationalRequiresOrdinal', 'Relational comparisons require ordinal categorical arrays.');
+        error('Nelson:categorical:relationalRequiresOrdinal', ...
+          'Relational comparisons require ordinal categorical arrays.');
       end
       if left.isOrdinal ~= right.isOrdinal
         error('Nelson:categorical:ordinalFlagsMismatch', 'Categorical ordinal flags must match.');
@@ -536,7 +541,8 @@ classdef categorical
         return
       end
       if left.isOrdinal || requireOrdinal
-        error('Nelson:categorical:identicalCategoriesRequired', 'Ordinal categorical arrays must have identical categories.');
+        error('Nelson:categorical:identicalCategoriesRequired', ...
+          'Ordinal categorical arrays must have identical categories.');
       end
       map = zeros(length(right.categoryNames), 1);
       for k = 1:length(right.categoryNames)

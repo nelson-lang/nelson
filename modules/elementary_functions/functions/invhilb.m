@@ -20,7 +20,8 @@ function h = invhilb(n, requestedClassName)
     className = convertStringsToChars(className);
   end
   if ~strcmp(className, 'double') && ~strcmp(className, 'single')
-    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', 'single');
+    error('Nelson:elementary_functions:notSupportedClass', '#%d argument must be ''%s'' or ''%s''.', 2, 'double', ...
+      'single');
   end
   h = zeros(n, className);
   for row = 1:n

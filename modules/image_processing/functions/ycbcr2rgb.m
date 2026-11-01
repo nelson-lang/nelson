@@ -13,7 +13,8 @@ function rgb = ycbcr2rgb(ycbcr)
   isMap = ip_is_colormap(ycbcr);
   if isMap
     if ~isa(ycbcr, 'double') || any(ycbcr(:) < 0) || any(ycbcr(:) > 1)
-      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', 'Colormap must be a double matrix with values in the range [0, 1].');
+      error('Nelson:image_processing:colormapDoubleMatrixValuesRange', ...
+        'Colormap must be a double matrix with values in the range [0, 1].');
     end
     ycbcrMap = reshape(ycbcr, size(ycbcr, 1), 1, 3);
     rgbMap = ycbcr2rgb(ycbcrMap);

@@ -89,6 +89,8 @@ assert_isequal(height(R), 0);
 assert_isequal(size(I), [0 1]);
 %=============================================================================
 % invalid direction
-assert_checkerror('sortrows(table([1; 2]), 1, ''up'')', 'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
-assert_checkerror('sortrows(table([1; 2], [3; 4]), [1 2], {''ascend'', ''descend'', ''ascend''})', 'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
+assert_checkerror('sortrows(table([1; 2]), 1, ''up'')', ...
+  'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
+assert_checkerror('sortrows(table([1; 2], [3; 4]), [1 2], {''ascend'', ''descend'', ''ascend''})', ...
+  'Sorting direction must be ''ascend'' or ''descend'', or a cell array with one direction per sorting variable.');
 %=============================================================================

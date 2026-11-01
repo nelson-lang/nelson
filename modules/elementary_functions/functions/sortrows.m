@@ -21,16 +21,19 @@ function varargout = sortrows(varargin)
       direction = arg;
     elseif isnumeric(arg) || islogical(arg)
       if ~isvector(arg) && ~isempty(arg)
-        error('Nelson:elementary_functions:secondInputVectorColumnIndices', 'Second input must be a vector of column indices.');
+        error('Nelson:elementary_functions:secondInputVectorColumnIndices', ...
+          'Second input must be a vector of column indices.');
       end
       col = double(arg(:).');
       colGiven = true;
     else
-      error('Nelson:elementary_functions:secondInputVectorColumnIndices', 'Second input must be a vector of column indices.');
+      error('Nelson:elementary_functions:secondInputVectorColumnIndices', ...
+        'Second input must be a vector of column indices.');
     end
   end
   if colGiven && (any(col == 0) || any(col ~= fix(col)) || any(abs(col) > ncols))
-    error('Nelson:elementary_functions:columnIndicesNonzeroIntegersExceeding', 'Column indices must be nonzero integers not exceeding the number of columns.');
+    error('Nelson:elementary_functions:columnIndicesNonzeroIntegersExceeding', ...
+      'Column indices must be nonzero integers not exceeding the number of columns.');
   end
   % Per-column descending flags: from signed column indices, then overridden
   % by an explicit direction ('ascend'/'descend', scalar or one per column).
@@ -43,7 +46,8 @@ function varargout = sortrows(varargin)
     elseif numel(dirs) == numel(col)
       descendFlags = reshape(strcmpi(dirs, 'descend'), 1, []);
     else
-      error('Nelson:elementary_functions:numberDirectionsMatchNumberColumns', 'The number of directions must match the number of columns.');
+      error('Nelson:elementary_functions:numberDirectionsMatchNumberColumns', ...
+        'The number of directions must match the number of columns.');
     end
   end
   m = size(A, 1);

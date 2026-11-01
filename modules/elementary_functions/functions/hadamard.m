@@ -17,10 +17,12 @@ function H = hadamard(varargin)
     error('Nelson:elementary_functions:wrongSizeArgument1Scalar', 'Wrong size for argument #%d: scalar expected.', 1);
   end
   if ~isfinite(n)
-    error('Nelson:elementary_functions:wrongValueArgument1Finite', 'Wrong value for argument #%d: finite value expected.', 1);
+    error('Nelson:elementary_functions:wrongValueArgument1Finite', ...
+      'Wrong value for argument #%d: finite value expected.', 1);
   end
   if ~isreal(n)
-    error('Nelson:elementary_functions:wrongValueArgument1Real', 'Wrong value for argument #%d: real value expected.', 1);
+    error('Nelson:elementary_functions:wrongValueArgument1Real', ...
+      'Wrong value for argument #%d: real value expected.', 1);
   end
 
   classname = 'double';

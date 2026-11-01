@@ -14,7 +14,7 @@
 % smartindent (evaluator) and nelson-format (no evaluator).
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 nl = char(10);
 expected = ['function [parentAfter, innerResult] = nested_format_case()', nl, ...
   '  f = 1;', nl, ...

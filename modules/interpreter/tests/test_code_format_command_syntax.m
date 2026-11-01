@@ -14,7 +14,7 @@
 % the source itself, and command arguments must be kept as written.
 workdir = tempname();
 mkdir(workdir);
-workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NASGU>
+workdirCleanup = onCleanup(@() rmdir(workdir, 's')); %#ok<NLS0004>
 formatCommand = nelson_tool_command_for_test('nelson-format');
 nl = char(10);
 input = ['csFmtA = 6;', nl, ...

@@ -21,7 +21,8 @@ R = arguments_validation_function([1; 2; 3]);
 REF = {[1, 2, 3], 'linear'};
 asserts.isequal(R, REF);
 %=============================================================================
-asserts.checkerror('arguments_validation_function([1, 2, 3], ''cubic'')', _('Value must be member of the compared value.'));
+asserts.checkerror('arguments_validation_function([1, 2, 3], ''cubic'')', ...
+  _('Value must be member of the compared value.'));
 %=============================================================================
 R = arguments_output_block_function("1", 3, {1, 2; 3, 4});
 asserts.isequal(R, 3);

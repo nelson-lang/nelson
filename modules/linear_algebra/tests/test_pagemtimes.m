@@ -39,5 +39,6 @@ asserts.isequal(pagemtimes([1 2; 3 4], [5; 6]), [1 2; 3 4] * [5; 6]);
 % single input keeps single class
 asserts.isequal(class(pagemtimes(single(A), single(B))), 'single');
 %=============================================================================
-asserts.checkerror('pagemtimes(reshape(1:24,2,3,4), reshape(1:24,2,3,4))', _('Incorrect dimensions for matrix multiplication of the pages.'));
+asserts.checkerror('pagemtimes(reshape(1:24,2,3,4), reshape(1:24,2,3,4))', ...
+  _('Incorrect dimensions for matrix multiplication of the pages.'));
 %=============================================================================

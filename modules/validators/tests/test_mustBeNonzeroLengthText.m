@@ -14,6 +14,7 @@ mustBeNonzeroLengthText('a text');
 mustBeNonzeroLengthText("a text");
 asserts.checkerror('mustBeNonzeroLengthText(Inf)', sprintf(_('%s must contain text: a character vector, string array, or cell array of character vectors.'), 'Value'), 'Nelson:validators:mustBeNonzeroLengthText');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be non zero length text.'), 'Value')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), ...
+  sprintf(_('%s must be non zero length text.'), 'Value')];
 asserts.checkerror('mustBeNonzeroLengthText('''', 3)', msg, 'Nelson:validators:mustBeNonzeroLengthText:zeroLength');
 %=============================================================================

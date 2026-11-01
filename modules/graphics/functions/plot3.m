@@ -61,7 +61,8 @@ function varargout = plot3(varargin)
       h = [h; plot_XYZ(inputArguments{1}, inputArguments{2}, inputArguments{3}, go, propertiesList)];
       inputArguments(1:3) = [];
     elseif ((length(inputArguments) >= 4) && r)
-      h = [h; plot_XYZ(inputArguments{1}, inputArguments{2}, inputArguments{3}, go, completeProperties(cs, ms, ps, propertiesList))];
+      h = [h; plot_XYZ(inputArguments{1}, inputArguments{2}, inputArguments{3}, go, completeProperties(cs, ms, ps, ...
+        propertiesList))];
       inputArguments(1:4) = [];
     end;
   end

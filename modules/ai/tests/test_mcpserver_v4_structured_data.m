@@ -19,7 +19,8 @@ filewrite(test_file, 'asserts.isequal(3 * 3, 9);');
 
 requests = {
   '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_nelson_modules","arguments":{"module":"ai"}}}';
-  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"', test_file, '"}}}'];
+  ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"', ...
+    test_file, '"}}}'];
   '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"find_nelson_symbol","arguments":{"symbol":"mcpserver"}}}'
 };
 response = ai_mcp_request(requests, 120, ['--workspace-root=''', test_dir, '''']);

@@ -20,6 +20,7 @@ mkdir(d, 's');
 t = tempname(string(d));
 asserts.istrue(startsWith(t, d));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 1), char(10), _('Value must be a character vector or string scalar.')];
+msg = [sprintf(_('Invalid input argument at position %d.'), 1), char(10), ...
+  _('Value must be a character vector or string scalar.')];
 asserts.checkerror('t = tempname(1);', msg)
 %=============================================================================

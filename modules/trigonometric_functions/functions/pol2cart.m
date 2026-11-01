@@ -27,7 +27,8 @@ function varargout = pol2cart(varargin)
     if (nargin == 3)
       varargout{3} = z;
     else
-      error('Nelson:trigonometric:threeInputsForThreeOutputs', 'Three input arguments expected to return three output arguments.');
+      error('Nelson:trigonometric:threeInputsForThreeOutputs', ...
+        'Three input arguments expected to return three output arguments.');
     end
   end
 end

@@ -19,7 +19,8 @@ for k = 1:numel(cases)
   c = cases{k}; dir = c{1}; num = c{2}; value = c{3}; expected = c{4};
   d = struct();
   d.blocks = {struct('id', 'c', 'type', 'constant', 'inputs', 0, 'outputs', 1, 'params', struct('Value', value)), struct('id', 'sa', 'type', 'shiftArithmetic', 'inputs', 1, 'outputs', 1, 'params', struct('ShiftDirection', dir, 'ShiftNumber', num)), struct('id', 'w', 'type', 'toWorkspace', 'inputs', 1, 'outputs', 0, 'params', struct('VariableName', 'sa_out', 'SaveFormat', 'Array', 'Decimation', 1, 'MaxDataPoints', 'inf'))};
-  d.connections = {struct('from', 'c', 'to', 'sa', 'fromIndex', 0, 'toIndex', 0), struct('from', 'sa', 'to', 'w', 'fromIndex', 0, 'toIndex', 0)};
+  d.connections = {struct('from', 'c', 'to', 'sa', 'fromIndex', 0, 'toIndex', 0), struct('from', 'sa', 'to', 'w', ...
+    'fromIndex', 0, 'toIndex', 0)};
   d.sampleTime = 0.1; d.duration = 0.2; d.solver = 'discrete'; d.variables = struct();
   res = jsondecode(__nflow_simulate__(jsonencode(d)));
   assert_isequal(res.status, 'done');

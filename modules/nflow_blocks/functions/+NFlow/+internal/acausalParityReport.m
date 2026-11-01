@@ -37,7 +37,7 @@ function report = acausalParityReport()
     n = 0; names = {};
     for k = 1:numel(catalog)
       if strcmp(catalog(k).domain, d)
-        n = n + 1; names{end + 1} = catalog(k).name; %#ok<AGROW>
+        n = n + 1; names{end + 1} = catalog(k).name; %#ok<NLS0039>
       end
     end
     note = '';
@@ -59,7 +59,7 @@ function report = acausalParityReport()
     end
     disp(sprintf('  %-14s  %6d       %6d   %s', d, n, targets(i), note));
     e = struct('domain', d, 'implemented', n, 'target', targets(i), 'names', {names});
-    report.domains{end + 1} = e; %#ok<AGROW>
+    report.domains{end + 1} = e; %#ok<NLS0039>
     totalImpl = totalImpl + n;
     totalTarget = totalTarget + targets(i);
   end

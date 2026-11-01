@@ -11,7 +11,8 @@ asserts.isequal(nargin('mustBeNonSparse'), -1);
 asserts.isequal(nargout('mustBeNonSparse'), 0);
 %=============================================================================
 mustBeNonSparse(1);
-asserts.checkerror('mustBeNonSparse(sparse(0))', sprintf(_('%s must be nonsparse.'), 'Value'), 'Nelson:validators:mustBeNonSparse');
+asserts.checkerror('mustBeNonSparse(sparse(0))', sprintf(_('%s must be nonsparse.'), 'Value'), ...
+  'Nelson:validators:mustBeNonSparse');
 %=============================================================================
 msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonsparse.'), 'Value')];
 asserts.checkerror('mustBeNonSparse(sparse(0), 3)', msg, 'Nelson:validators:mustBeNonSparse');

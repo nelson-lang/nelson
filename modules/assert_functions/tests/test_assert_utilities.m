@@ -53,5 +53,6 @@ asserts.isfalse(r);
 asserts.istrue(contains(msg, 'expected all entries to be false'));
 %=============================================================================
 asserts.checkerror('feval(''asserts.size'', ones(2, 3), ''2 3'')', _('Expected size must be a numeric vector.'));
-asserts.checkerror('feval(''asserts.alltrue'', [1 1])', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'logical'));
+asserts.checkerror('feval(''asserts.alltrue'', [1 1])', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, ...
+  'logical'));
 %=============================================================================
