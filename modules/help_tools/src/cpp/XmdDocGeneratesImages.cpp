@@ -123,6 +123,15 @@ xmlDocGenerateImages(const std::wstring& xmlFileOrDir, const std::wstring& outpu
         fileOutput << "else\n";
         fileOutput << "  imageFigure = gcf();\n";
         fileOutput << "end\n";
+        // force a fixed figure size so generated images are deterministic
+        fileOutput << "if ~isempty(imageFigure) && isgraphics(imageFigure)\n";
+        fileOutput << "  set(imageFigure, 'Units', 'pixels');\n";
+        fileOutput << "  imageFigurePosition = get(imageFigure, 'Position');\n";
+        fileOutput << "  imageFigurePosition(3) = 800;\n";
+        fileOutput << "  imageFigurePosition(4) = 600;\n";
+        fileOutput << "  set(imageFigure, 'Position', imageFigurePosition);\n";
+        fileOutput << "  drawnow();\n";
+        fileOutput << "end\n";
         fileOutput << "sleep(1);\n";
         fileOutput << "imageDestination = \"" << imageDestPath.generic_string() << "\";\n";
         fileOutput << "imageDestination = char(imageDestination);\n";

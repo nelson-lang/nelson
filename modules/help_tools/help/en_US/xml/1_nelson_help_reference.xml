@@ -168,6 +168,7 @@ saveas(gcf(), [tempdir(),'example_plot.svg']);
         src="../../images/example_plot.svg"
         align="center"
         alt="Example plot"
+        generate="true"
       />
     </example_item>
   </examples>

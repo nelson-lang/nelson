@@ -1,25 +1,25 @@
-<svg width="1024" height="766.08" viewBox="0 0 1600 1197" xmlns="http://www.w3.org/2000/svg">
-<rect x="0" y="0" width="1600" height="1197" fill="#ffffff"/>
-<rect x="0" y="0" width="1600" height="1196.88" fill="rgba(255,255,255,1.000000)"/>
-<polygon points="208.594,747.656 549.219,747.656 549.219,405.469 208.594,405.469 " fill="rgba(255,255,255,1.000000)"/>
-<image x="207.812" y="405.917" width="340.625" height="341.291" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
-<line x1="208.594" y1="747.656" x2="549.219" y2="747.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="208.594" y1="405.469" x2="549.219" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="208.594" y1="747.656" x2="208.594" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="549.219" y1="747.656" x2="549.219" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="264.795" y="-3187.67" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">nearest interpolation</text>
-<polygon points="657.031,747.656 997.656,747.656 997.656,405.469 657.031,405.469 " fill="rgba(255,255,255,1.000000)"/>
-<image x="656.25" y="405.917" width="340.625" height="341.291" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
-<line x1="657.031" y1="747.656" x2="997.656" y2="747.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="657.031" y1="405.469" x2="997.656" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="657.031" y1="747.656" x2="657.031" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="997.656" y1="747.656" x2="997.656" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="713.244" y="-3187.67" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">bilinear interpolation</text>
-<polygon points="1107.03,747.656 1447.66,747.656 1447.66,405.469 1107.03,405.469 " fill="rgba(255,255,255,1.000000)"/>
-<image x="1106.25" y="405.917" width="340.625" height="341.291" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
-<line x1="1107.03" y1="747.656" x2="1447.66" y2="747.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="1107.03" y1="405.469" x2="1447.66" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="1107.03" y1="747.656" x2="1107.03" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="1447.66" y1="747.656" x2="1447.66" y2="405.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="1163.89" y="-3187.67" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">bicubic interpolation</text>
+<svg width="800" height="600.32" viewBox="0 0 1250 938" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="1250" height="938" fill="#ffffff"/>
+<rect x="0" y="0" width="1250" height="937.5" fill="rgba(255,255,255,1.000000)"/>
+<polygon points="163.281,585.156 428.906,585.156 428.906,317.969 163.281,317.969 " fill="rgba(255,255,255,1.000000)"/>
+<image x="162.5" y="318.457" width="265.625" height="266.212" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
+<line x1="163.281" y1="585.156" x2="428.906" y2="585.156" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="317.969" x2="428.906" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="585.156" x2="163.281" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="428.906" y1="585.156" x2="428.906" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="181.982" y="-2486.11" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">nearest interpolation</text>
+<polygon points="513.281,585.156 778.906,585.156 778.906,317.969 513.281,317.969 " fill="rgba(255,255,255,1.000000)"/>
+<image x="512.5" y="318.457" width="265.625" height="266.212" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
+<line x1="513.281" y1="585.156" x2="778.906" y2="585.156" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="513.281" y1="317.969" x2="778.906" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="513.281" y1="585.156" x2="513.281" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="778.906" y1="585.156" x2="778.906" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="531.994" y="-2486.11" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">bilinear interpolation</text>
+<polygon points="864.844,585.156 1130.47,585.156 1130.47,317.969 864.844,317.969 " fill="rgba(255,255,255,1.000000)"/>
+<image x="864.062" y="318.457" width="265.625" height="266.212" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADUlEQVR4XmP4DwVwBgCPgg/xCiYREAAAAABJRU5ErkJggg=="/>
+<line x1="864.844" y1="585.156" x2="1130.47" y2="585.156" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="864.844" y1="317.969" x2="1130.47" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="864.844" y1="585.156" x2="864.844" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="1130.47" y1="585.156" x2="1130.47" y2="317.969" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="884.2" y="-2486.11" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">bicubic interpolation</text>
 </svg>
