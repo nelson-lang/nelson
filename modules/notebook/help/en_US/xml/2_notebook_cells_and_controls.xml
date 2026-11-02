@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Notebook cells and controls</keyword>
+  <short_description>The block kinds of a Notebook and the interactive controls.</short_description>
+  <description>
+    <p>A Notebook is a sequence of <b>blocks</b>. Some blocks are narrative, one runs code, and others are interactive controls that drive a variable. You insert any of them by typing <b>/</b> in the document, or from the <b>Insert</b> menu of the toolbar.</p>
+    <p>
+      <img src="../images/notebook_blocks.svg" align="middle" />
+    </p>
+
+    <p><b>Text blocks</b></p>
+    <p>A <b>heading</b> and a <b>paragraph</b> hold formatted text: titles, bold and italic words, and lists. They carry the explanation around the code and never run.</p>
+
+    <p><b>Equations</b></p>
+    <p>An <b>equation</b> block holds a LaTeX formula and renders it inline, next to your text. For example <code>f(x) = \sin(x)\,e^{-\lambda x}</code> is typeset as a mathematical expression. Equations are for display only; they are not evaluated.</p>
+
+    <p><b>Code cells</b></p>
+    <p>A <b>code cell</b> holds Nelson code. Its left margin has three run buttons: run this cell, run up to this cell, and run the section (a code cell together with the text and controls above it, up to the previous heading). The toolbar adds <b>Run all</b> for the whole document.</p>
+    <p>When you change a cell, the cells whose result may now be out of date are marked. <b>Run stale</b> re-runs only those and the cells that depend on them, instead of the whole document. <b>Clear</b> removes every saved output.</p>
+
+    <p><b>Live task</b></p>
+    <p>A <b>live task</b> is a point-and-click cell: you choose an operation and its inputs, and the cell writes the Nelson code for you and runs it. It is a quick way to build a step without writing the code by hand.</p>
+
+    <p><b>Interactive controls</b></p>
+    <p>A control is bound to a workspace variable. When you move or change the control, it sets that variable and re-runs the cells that use it, so a figure updates while you adjust a value. The available controls are:</p>
+    <ul>
+      <li><b>Slider</b> and <b>range slider</b> - a number, or a low and high pair, from a continuous range.</li>
+      <li><b>Number field</b> - a single number typed or stepped.</li>
+      <li><b>Drop-down</b> - one value chosen from a list.</li>
+      <li><b>Check box</b> and <b>state button</b> - a logical on or off.</li>
+      <li><b>Text field</b> - a short text or number.</li>
+      <li><b>Color picker</b> - a colour, as an RGB triplet.</li>
+      <li><b>Date picker</b> - a date, as text.</li>
+      <li><b>File browser</b> - a file path.</li>
+      <li><b>Variable selector</b> - an existing workspace variable, passed on under a new name.</li>
+      <li><b>Button</b> - runs the cells on demand, without binding a variable.</li>
+    </ul>
+    <p>For example, a slider labelled <b>Frequency</b> bound to the variable <code>frequency</code> sets that variable each time you move it, and a cell that plots <code>sin(frequency * x)</code> redraws at once.</p>
+
+    <p><b>A shareable view</b></p>
+    <p><b>Hide code</b> folds the code cells away and keeps the text, the controls and the output, which turns the document into a short report a reader can use without seeing the code. <b>Outline</b> lists the headings so you can move through a long document.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${notebook}1_notebook_first_steps">Your first Nelson Notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${notebook}3_notebook_run_and_share">Run and share a Notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${notebook}nlx">nlx</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="30" y="36" font-size="20" font-weight="700" fill="#0f172a">Executer et partager un notebook</text>
+
+  <!-- document source -->
+  <rect x="40" y="150" width="200" height="130" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="40" y="150" width="200" height="30" rx="10" fill="#eef4fb"/>
+  <rect x="40" y="168" width="200" height="12" fill="#eef4fb"/>
+  <text x="56" y="170" font-size="13.5" font-weight="700" fill="#0b5a93">Document</text>
+  <g font-size="12.5" fill="#475569">
+    <text x="56" y="202">.nlx (conteneur zip)</text>
+    <text x="56" y="222">manifest / document</text>
+    <text x="56" y="242">output / media</text>
+    <text x="56" y="266" fill="#64748b">ou un .m texte</text>
+  </g>
+
+  <!-- editeur -->
+  <rect x="340" y="70" width="250" height="120" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="340" y="70" width="250" height="30" rx="10" fill="#eef4fb"/>
+  <rect x="340" y="88" width="250" height="12" fill="#eef4fb"/>
+  <text x="356" y="90" font-size="13.5" font-weight="700" fill="#0b5a93">Editeur Notebook</text>
+  <g font-size="12.5" fill="#475569">
+    <text x="356" y="122">texte mis en forme, code</text>
+    <text x="356" y="142">sortie et figures en ligne</text>
+    <text x="356" y="162">controles interactifs</text>
+  </g>
+
+  <!-- workspace de base -->
+  <rect x="340" y="250" width="250" height="120" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="340" y="250" width="250" height="30" rx="10" fill="#fdf2e9"/>
+  <rect x="340" y="268" width="250" height="12" fill="#fdf2e9"/>
+  <text x="356" y="270" font-size="13.5" font-weight="700" fill="#b5531a">Workspace de base</text>
+  <g font-size="12.5" fill="#475569">
+    <text x="356" y="302">cellules executees dans l'ordre</text>
+    <text x="356" y="322">sans editeur</text>
+    <text x="356" y="342">ligne de commande, scripts, CI</text>
+  </g>
+
+  <!-- cibles d'export -->
+  <rect x="690" y="70" width="160" height="120" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="690" y="70" width="160" height="30" rx="10" fill="#eafaf0"/>
+  <rect x="690" y="88" width="160" height="12" fill="#eafaf0"/>
+  <text x="706" y="90" font-size="13" font-weight="700" fill="#1f7a46">Export / Enregistrer</text>
+  <g font-size="12.5" fill="#475569">
+    <text x="706" y="120">HTML</text>
+    <text x="706" y="139">Markdown</text>
+    <text x="706" y="158">Word (.docx)</text>
+    <text x="786" y="120">Jupyter</text>
+    <text x="786" y="139">Script (.m)</text>
+  </g>
+
+  <!-- fleches -->
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M240 190 L336 135" marker-end="url(#arrow)"/>
+    <path d="M240 240 L336 300" marker-end="url(#arrow)"/>
+    <path d="M590 130 L686 130" marker-end="url(#arrow)"/>
+  </g>
+  <g font-size="12.5" fill="#334155">
+    <text x="250" y="150">edit()</text>
+    <text x="246" y="286">notebook() / run()</text>
+    <text x="600" y="122">Export</text>
+  </g>
+</svg>

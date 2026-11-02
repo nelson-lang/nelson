@@ -73,6 +73,7 @@ modules_list = {
 {'gui', true};
 {'qml_engine', true};
 {'text_editor', true};
+{'notebook', true};
 {'graphics', true};
 {'graphics_io', true};
 {'image_processing', true};
@@ -97,6 +98,5 @@ modules_list = {
 {'nflow_gui', true};
 {'nmm_gui', true};
 {'compiler', true};
-{'notebook', true};
 };
 % ============================================================================

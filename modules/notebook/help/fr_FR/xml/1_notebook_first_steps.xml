@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>Votre premier Notebook Nelson</keyword>
+  <short_description>Créer, exécuter et enregistrer votre premier document Notebook.</short_description>
+  <description>
+    <p>Un <b>Notebook</b> est un document unique qui réunit du texte mis en forme, du code Nelson et la sortie de ce code, dans l'ordre que vous choisissez. Il est construit à partir de <b>blocs</b> : un titre, un paragraphe, une cellule de code, une équation ou un contrôle interactif. Exécuter une cellule de code affiche sa sortie texte et ses figures juste en dessous du code, si bien que l'explication, le calcul et le résultat restent ensemble.</p>
+    <p>Toutes les cellules de code d'un même document partagent un seul espace de travail, le même espace de travail de base que celui de la ligne de commande. Une variable créée dans une cellule est visible dans les cellules qui s'exécutent ensuite. Ce tutoriel crée un document, l'exécute et l'enregistre.</p>
+
+    <p><b>Ouvrir l'éditeur</b></p>
+    <p>La fonction <b>notebook</b> ouvre l'éditeur Notebook :</p>
+    <ul>
+      <li><b>notebook()</b> sans argument ouvre un nouveau document vide.</li>
+      <li><b>notebook(filename, 'edit')</b> ouvre un document existant, et <b>edit(filename)</b> fait de même pour un fichier <b>.nlx</b>.</li>
+    </ul>
+    <p>Sur le bureau Nelson, vous pouvez aussi utiliser le bouton <b>New Notebook</b> de la barre d'outils, ou le menu <b>Fenêtre</b>. L'éditeur s'ouvre comme un onglet du bureau web ou, sur le bureau Qt, comme la fenêtre Notebook (une seule fenêtre, un onglet par document). Sans bureau (nelson-cli, nelson-adv-cli), l'éditeur ne peut pas s'ouvrir et l'appel signale une erreur.</p>
+    <p>L'éditeur affiche une barre d'outils en haut et le document en dessous. Un nouveau document contient déjà un court exemple que vous pouvez exécuter et modifier.</p>
+    <p>
+      <img src="../images/notebook_editor.png" align="middle" />
+    </p>
+
+    <p><b>Ajouter du texte et du code</b></p>
+    <p>Cliquez dans le document et saisissez du texte. Appuyez sur <b>Entrée</b> pour commencer un nouveau bloc. Pour insérer autre chose qu'un paragraphe, tapez <b>/</b> en début de ligne et choisissez un élément dans la liste, ou utilisez le menu <b>Insert</b> de la barre d'outils. Choisissez <b>Code cell</b> pour ajouter une cellule et y saisir du code Nelson, par exemple :</p>
+    <p><code>x = linspace(0, 2 * pi, 200);</code></p>
+    <p><code>plot(x, sin(x))</code></p>
+
+    <p><b>Exécuter une cellule</b></p>
+    <p>Chaque cellule de code a un bouton d'exécution dans sa marge de gauche. Cliquez dessus pour exécuter cette seule cellule, ou cliquez sur <b>Run all</b> dans la barre d'outils pour exécuter toutes les cellules de code de haut en bas. La sortie texte apparaît sous la cellule, et toute figure dessinée par la cellule est affichée en ligne, dans le document, au lieu d'une fenêtre figure séparée.</p>
+
+    <p><b>L'espace de travail partagé</b></p>
+    <p>Comme les cellules partagent un seul espace de travail, vous pouvez répartir un calcul sur plusieurs cellules. La valeur fixée dans une cellule antérieure est utilisée par une cellule ultérieure :</p>
+    <ol>
+      <li>Première cellule : <code>N = 200;</code></li>
+      <li>Deuxième cellule : <code>x = linspace(0, 2 * pi, N);</code></li>
+      <li>Troisième cellule : <code>plot(x, sin(x))</code></li>
+    </ol>
+    <p>Ce qui compte, c'est l'ordre dans lequel les cellules s'exécutent, pas leur position sur la page. Si une cellule ultérieure signale une variable inconnue, exécutez d'abord les cellules antérieures, ou utilisez <b>Run all</b>.</p>
+
+    <p><b>Enregistrer votre travail</b></p>
+    <p>Utilisez <b>Save</b> dans la barre d'outils pour écrire le document sous forme de fichier <b>.nlx</b>, le format Notebook natif. Le conteneur <b>.nlx</b> garde le texte, le code, la sortie enregistrée et les figures ensemble dans un seul fichier portable. Vous pouvez aussi enregistrer le document comme un script texte <b>.m</b> avec <b>Save as Script</b>. Rouvrez un document enregistré avec <b>Open</b>, avec <b>edit(filename)</b> ou avec <b>notebook(filename, 'edit')</b>.</p>
+
+    <p><b>Pour continuer</b></p>
+    <p>Les tutoriels suivants décrivent les types de blocs et les contrôles interactifs, et comment exécuter ou partager un document sans l'éditeur.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${notebook}2_notebook_cells_and_controls">Cellules et contrôles d'un Notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${notebook}3_notebook_run_and_share">Exécuter et partager un Notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${notebook}notebook">notebook</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${notebook}nlx">nlx</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
