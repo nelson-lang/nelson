@@ -35,11 +35,9 @@ export async function figureUiLayoutScenario(page: Page, portable = false) {
   for (let cycle = 0; cycle < 2; cycle++) {
     await properties.click();
     await waitForFigureLayout(page);
-    const drawing = page.locator('.figure-panel__canvas');
-    const width = await drawing.evaluate((element) => element.clientWidth);
-    // drawnow() deadlocks when Properties is open; poll for figure width instead.
+    // pause()/drawnow() pump the engine event loop, which deadlocks while Properties is open: run the layout callback in-line instead.
     await run(
-      `for k=1:40; pause(0.05); if abs(figureHandle.Position(3)-${width})<10; break; end; end; asserts.istrue(state.axes.Position(1)*${width}>=329); asserts.istrue(state.statusText.Position(1)+state.statusText.Position(3)<=${width}+1)`
+      `feval(figureHandle.SizeChangedFcn, figureHandle, []); pw=figureHandle.Position(3); asserts.istrue(state.axes.Position(1)*pw>=329); asserts.istrue(state.statusText.Position(1)+state.statusText.Position(3)<=pw+1)`
     );
     await page.getByRole('tab', { name: /Complete UI controls/ }).click();
   }
