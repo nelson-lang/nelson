@@ -9,5 +9,7 @@
     >Le module Notebook exécute des documents Notebook en dehors de l'éditeur.</p>
     <p
     >Un Notebook mêle texte mis en forme, code et ses sorties dans un même document. Ce module lit le conteneur natif <b>.nlx</b> et le format texte <b>.m</b>, et exécute leurs cellules de code dans l'espace de travail de base — un document peut donc être lancé depuis la ligne de commande ou un script.</p>
+    <p
+    >Trois tutoriels pas à pas présentent la création d'un premier Notebook, ses cellules et contrôles, et la manière d'exécuter et de partager un document.</p>
   </chapter_description>
 </xmldoc>

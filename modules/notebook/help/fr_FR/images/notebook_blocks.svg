@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" font-family="Segoe UI, Arial, sans-serif">
+  <text x="30" y="40" font-size="22" font-weight="700" fill="#0f172a">Les blocs d'un notebook</text>
+  <text x="30" y="64" font-size="13.5" fill="#64748b">Tapez "/" dans le document pour inserer un bloc ou un controle.</text>
+
+  <!-- Texte -->
+  <rect x="30" y="86" width="390" height="150" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="30" y="86" width="390" height="34" rx="10" fill="#eef4fb"/>
+  <rect x="30" y="106" width="390" height="14" fill="#eef4fb"/>
+  <text x="48" y="109" font-size="14" font-weight="700" fill="#0b5a93">Texte</text>
+  <g font-size="13.5" fill="#334155">
+    <rect x="48" y="138" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="147">Titre</text>
+    <rect x="48" y="166" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="175">Paragraphe</text>
+    <rect x="48" y="194" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="203">Equation (LaTeX)</text>
+  </g>
+
+  <!-- Code -->
+  <rect x="460" y="86" width="390" height="150" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="460" y="86" width="390" height="34" rx="10" fill="#eafaf0"/>
+  <rect x="460" y="106" width="390" height="14" fill="#eafaf0"/>
+  <text x="478" y="109" font-size="14" font-weight="700" fill="#1f7a46">Code</text>
+  <g font-size="13.5" fill="#334155">
+    <rect x="478" y="138" width="9" height="9" rx="2" fill="#1f9d57"/><text x="496" y="147">Cellule de code</text>
+    <text x="496" y="164" font-size="11.5" fill="#64748b">code Nelson ; sortie et figures en ligne</text>
+    <rect x="478" y="190" width="9" height="9" rx="2" fill="#1f9d57"/><text x="496" y="199">Live task</text>
+    <text x="496" y="216" font-size="11.5" fill="#64748b">choisir une operation, la cellule ecrit le code</text>
+  </g>
+
+  <!-- Controles -->
+  <rect x="30" y="266" width="820" height="262" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="30" y="266" width="820" height="34" rx="10" fill="#fdf2e9"/>
+  <rect x="30" y="286" width="820" height="14" fill="#fdf2e9"/>
+  <text x="48" y="289" font-size="14" font-weight="700" fill="#b5531a">Controles interactifs</text>
+  <text x="240" y="289" font-size="12" fill="#9a6a3a">chacun est lie a une variable du workspace et re-execute au changement</text>
+
+  <g font-size="13.5" fill="#334155">
+    <!-- colonne 1 -->
+    <rect x="60" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="341">Slider</text>
+    <rect x="60" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="377">Slider de plage</text>
+    <rect x="60" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="413">Champ numerique</text>
+    <rect x="60" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="449">Liste deroulante</text>
+    <!-- colonne 2 -->
+    <rect x="330" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="341">Case a cocher</text>
+    <rect x="330" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="377">Champ texte</text>
+    <rect x="330" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="413">Selecteur de couleur</text>
+    <rect x="330" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="449">Selecteur de date</text>
+    <!-- colonne 3 -->
+    <rect x="600" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="341">Selecteur de fichier</text>
+    <rect x="600" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="377">Selecteur de variable</text>
+    <rect x="600" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="413">Bouton</text>
+    <rect x="600" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="449">Bouton d'etat</text>
+  </g>
+  <text x="60" y="498" font-size="12" fill="#64748b">Un controle comme un slider tient a jour une variable (par exemple N ou a) dans le workspace partage.</text>
+</svg>

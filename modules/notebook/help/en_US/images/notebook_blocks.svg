@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" font-family="Segoe UI, Arial, sans-serif">
+  <text x="30" y="40" font-size="22" font-weight="700" fill="#0f172a">Building blocks of a notebook</text>
+  <text x="30" y="64" font-size="13.5" fill="#64748b">Type "/" in the document to insert any block or control.</text>
+
+  <!-- Text card -->
+  <rect x="30" y="86" width="390" height="150" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="30" y="86" width="390" height="34" rx="10" fill="#eef4fb"/>
+  <rect x="30" y="106" width="390" height="14" fill="#eef4fb"/>
+  <text x="48" y="109" font-size="14" font-weight="700" fill="#0b5a93">Text</text>
+  <g font-size="13.5" fill="#334155">
+    <rect x="48" y="138" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="147">Heading</text>
+    <rect x="48" y="166" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="175">Paragraph</text>
+    <rect x="48" y="194" width="9" height="9" rx="2" fill="#0072bd"/><text x="66" y="203">Equation (LaTeX)</text>
+  </g>
+
+  <!-- Code card -->
+  <rect x="460" y="86" width="390" height="150" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="460" y="86" width="390" height="34" rx="10" fill="#eafaf0"/>
+  <rect x="460" y="106" width="390" height="14" fill="#eafaf0"/>
+  <text x="478" y="109" font-size="14" font-weight="700" fill="#1f7a46">Code</text>
+  <g font-size="13.5" fill="#334155">
+    <rect x="478" y="138" width="9" height="9" rx="2" fill="#1f9d57"/><text x="496" y="147">Code cell</text>
+    <text x="496" y="164" font-size="11.5" fill="#64748b">Nelson code; its output and figures show inline</text>
+    <rect x="478" y="190" width="9" height="9" rx="2" fill="#1f9d57"/><text x="496" y="199">Live task</text>
+    <text x="496" y="216" font-size="11.5" fill="#64748b">pick an operation, the cell writes the code</text>
+  </g>
+
+  <!-- Controls card -->
+  <rect x="30" y="266" width="820" height="262" rx="10" fill="#ffffff" stroke="#cbd2dc" stroke-width="1.5"/>
+  <rect x="30" y="266" width="820" height="34" rx="10" fill="#fdf2e9"/>
+  <rect x="30" y="286" width="820" height="14" fill="#fdf2e9"/>
+  <text x="48" y="289" font-size="14" font-weight="700" fill="#b5531a">Interactive controls</text>
+  <text x="230" y="289" font-size="12" fill="#9a6a3a">each one is bound to a workspace variable and re-runs on change</text>
+
+  <g font-size="13.5" fill="#334155">
+    <!-- column 1 -->
+    <rect x="60" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="341">Slider</text>
+    <rect x="60" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="377">Range slider</text>
+    <rect x="60" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="413">Number field</text>
+    <rect x="60" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="78" y="449">Drop-down</text>
+    <!-- column 2 -->
+    <rect x="330" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="341">Check box</text>
+    <rect x="330" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="377">Text field</text>
+    <rect x="330" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="413">Color picker</text>
+    <rect x="330" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="348" y="449">Date picker</text>
+    <!-- column 3 -->
+    <rect x="600" y="332" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="341">File browser</text>
+    <rect x="600" y="368" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="377">Variable selector</text>
+    <rect x="600" y="404" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="413">Button</text>
+    <rect x="600" y="440" width="9" height="9" rx="2" fill="#c2410c"/><text x="618" y="449">State button</text>
+  </g>
+  <text x="60" y="498" font-size="12" fill="#64748b">A control such as a slider keeps a variable (for example N or a) in the shared workspace up to date.</text>
+</svg>
