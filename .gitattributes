@@ -1,0 +1,2 @@
+# keep generated help images with stable line endings
+*.svg text eol=lf

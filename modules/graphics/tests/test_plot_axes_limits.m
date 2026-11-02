@@ -15,7 +15,8 @@ plot(ax, 1:10, sin(1:10));
 asserts.isequal(ax.XLim, [1 10]);
 asserts.isequal(ax.XTick, 1:10);
 asserts.isequal(ax.YLim, [-1 1]);
-asserts.isapprox(ax.YTick, -1:0.2:1, 1e-15);
+% ticks are generated as lo+k*step; GCC contracts that to an FMA, so widen the tolerance past last-bit toolchain differences
+asserts.isapprox(ax.YTick, -1:0.2:1, 1e-12);
 close(f);
 %=============================================================================
 f = figure('Visible', 'off', 'Position', [100 100 560 420]);
