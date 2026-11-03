@@ -10,6 +10,7 @@
 import type { DockviewApi, SerializedDockview } from 'dockview';
 import { clearCollapsedGroups, restoreCollapsedGroups, snapshotCollapsedGroups } from './collapse';
 import { getPersistentItem, removePersistentItem, setPersistentItem } from './persistentStorage';
+import { corePanelTitle, retitleCorePanels } from './panelTitles';
 //=============================================================================
 const LAST = 'nelson-webview.layout.last';
 const NAMED = 'nelson-webview.layout.named';
@@ -54,11 +55,11 @@ function resetLayout(api: DockviewApi): void {
 // on the right. Secondary browser tabs are created only when requested.
 export function buildDefaultLayout(api: DockviewApi): void {
   resetLayout(api);
-  api.addPanel({ id: 'console', component: 'console', title: 'Command Window' });
+  api.addPanel({ id: 'console', component: 'console', title: corePanelTitle('console') });
   api.addPanel({
     id: 'files',
     component: 'files',
-    title: 'Files',
+    title: corePanelTitle('files'),
     minimumWidth: 260,
     initialWidth: 320,
     position: { referencePanel: 'console', direction: 'left' },
@@ -66,7 +67,7 @@ export function buildDefaultLayout(api: DockviewApi): void {
   api.addPanel({
     id: 'workspace',
     component: 'workspace',
-    title: 'Workspace',
+    title: corePanelTitle('workspace'),
     minimumWidth: 260,
     position: { referencePanel: 'files', direction: 'below' },
   });
@@ -80,11 +81,11 @@ export function buildTwoColumnsLayout(api: DockviewApi): void {
 //=============================================================================
 export function buildThreeColumnsLayout(api: DockviewApi): void {
   resetLayout(api);
-  api.addPanel({ id: 'console', component: 'console', title: 'Command Window' });
+  api.addPanel({ id: 'console', component: 'console', title: corePanelTitle('console') });
   api.addPanel({
     id: 'files',
     component: 'files',
-    title: 'Files',
+    title: corePanelTitle('files'),
     minimumWidth: 260,
     initialWidth: 260,
     position: { referencePanel: 'console', direction: 'left' },
@@ -92,7 +93,7 @@ export function buildThreeColumnsLayout(api: DockviewApi): void {
   api.addPanel({
     id: 'workspace',
     component: 'workspace',
-    title: 'Workspace',
+    title: corePanelTitle('workspace'),
     minimumWidth: 260,
     initialWidth: 320,
     position: { referencePanel: 'console', direction: 'right' },
@@ -100,7 +101,7 @@ export function buildThreeColumnsLayout(api: DockviewApi): void {
   api.addPanel({
     id: 'history',
     component: 'history',
-    title: 'Command History',
+    title: corePanelTitle('history'),
     minimumWidth: 260,
     position: { referencePanel: 'workspace', direction: 'below' },
   });
@@ -111,7 +112,7 @@ export function buildThreeColumnsLayout(api: DockviewApi): void {
 //=============================================================================
 export function buildCommandOnlyLayout(api: DockviewApi): void {
   resetLayout(api);
-  api.addPanel({ id: 'console', component: 'console', title: 'Command Window' });
+  api.addPanel({ id: 'console', component: 'console', title: corePanelTitle('console') });
 }
 //=============================================================================
 // Below this viewport width the side-by-side docked layout is unusable (the
@@ -125,16 +126,12 @@ export function isMobileViewport(): boolean {
 //=============================================================================
 export function buildMobileLayout(api: DockviewApi): void {
   resetLayout(api);
-  api.addPanel({ id: 'console', component: 'console', title: 'Command Window' });
-  for (const [id, { component, title }] of [
-    ['files', { component: 'files', title: 'Files' }],
-    ['workspace', { component: 'workspace', title: 'Workspace' }],
-    ['history', { component: 'history', title: 'Command History' }],
-  ] as const) {
+  api.addPanel({ id: 'console', component: 'console', title: corePanelTitle('console') });
+  for (const id of ['files', 'workspace', 'history']) {
     api.addPanel({
       id,
-      component,
-      title,
+      component: id,
+      title: corePanelTitle(id),
       position: { referencePanel: 'console', direction: 'within' },
     });
   }
@@ -242,6 +239,7 @@ export function restoreLast(api: DockviewApi): boolean {
     if (!isEnvelope(saved)) return false;
     api.fromJSON(sanitizeDockviewForPersistence(saved.dockview));
     if (!api.getPanel('console')) return false;
+    retitleCorePanels(api);
     restoreCollapsedGroups(api, saved.collapsed);
     return true;
   } catch {
@@ -267,6 +265,7 @@ export function applyNamedLayout(name: string, api: DockviewApi): boolean {
   if (!isEnvelope(saved)) return false;
   try {
     api.fromJSON(sanitizeDockviewForPersistence(saved.dockview));
+    retitleCorePanels(api);
     restoreCollapsedGroups(api, saved.collapsed);
     return true;
   } catch {

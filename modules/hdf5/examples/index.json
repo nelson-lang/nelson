@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "hdf5_roundtrip.m",
-      "title": "HDF5 dataset round trip",
-      "description": "Create a dataset in a temporary HDF5 file and read it back.",
+      "title": {
+        "en_US": "HDF5 dataset round trip",
+        "fr_FR": "Aller-retour d'un jeu de données HDF5"
+      },
+      "description": {
+        "en_US": "Create a dataset in a temporary HDF5 file and read it back.",
+        "fr_FR": "Créer un jeu de données dans un fichier HDF5 temporaire et le relire."
+      },
       "tags": [
         "hdf5",
         "data"

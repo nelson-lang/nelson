@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "build_and_select_table.m",
-      "title": "Build and filter a table",
-      "description": "Create typed columns and select rows with a logical condition.",
+      "title": {
+        "en_US": "Build and filter a table",
+        "fr_FR": "Construire et filtrer une table"
+      },
+      "description": {
+        "en_US": "Create typed columns and select rows with a logical condition.",
+        "fr_FR": "Créer des colonnes typées et sélectionner des lignes avec une condition logique."
+      },
       "tags": [
         "table",
         "filtering"
@@ -13,8 +19,14 @@
     },
     {
       "file": "join_tables.m",
-      "title": "Join related tables",
-      "description": "Combine measurements and metadata by a shared station key.",
+      "title": {
+        "en_US": "Join related tables",
+        "fr_FR": "Joindre des tables liées"
+      },
+      "description": {
+        "en_US": "Combine measurements and metadata by a shared station key.",
+        "fr_FR": "Combiner des mesures et des métadonnées par une clé de station commune."
+      },
       "tags": [
         "table",
         "join"

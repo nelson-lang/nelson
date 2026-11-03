@@ -14,6 +14,7 @@ import {
   WEB_AUDIO_UNLOCKED_EVENT,
   WEB_AUDIO_UNLOCK_REQUIRED_EVENT,
 } from '../wasm/webAudio';
+import { t } from '../i18n';
 //=============================================================================
 export function AudioUnlockHost(): JSX.Element | null {
   const [visible, setVisible] = useState(() => isWasmAudioUnlockPending());
@@ -45,9 +46,11 @@ export function AudioUnlockHost(): JSX.Element | null {
 
   return (
     <div className="audio-unlock" role="status" aria-live="polite">
-      <div className="audio-unlock__message">Audio playback is waiting for browser permission.</div>
+      <div className="audio-unlock__message">
+        {t('Audio playback is waiting for browser permission.')}
+      </div>
       <button type="button" onClick={() => void enableAudio()} disabled={unlocking}>
-        {unlocking ? 'Enabling audio…' : 'Enable sound'}
+        {unlocking ? t('Enabling audio…') : t('Enable sound')}
       </button>
     </div>
   );

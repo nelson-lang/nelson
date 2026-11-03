@@ -40,8 +40,14 @@
     },
     {
       "file": "play_flac.m",
-      "title": "Play lossless audio",
-      "description": "Read and play a bundled FLAC recording.",
+      "title": {
+        "en_US": "Play lossless audio",
+        "fr_FR": "Lire un audio sans perte"
+      },
+      "description": {
+        "en_US": "Read and play a bundled FLAC recording.",
+        "fr_FR": "Lire et jouer un enregistrement FLAC fourni."
+      },
       "tags": [
         "audio",
         "file"
@@ -53,8 +59,14 @@
     },
     {
       "file": "play_ogg.m",
-      "title": "Play Ogg audio",
-      "description": "Read and play a bundled Ogg recording.",
+      "title": {
+        "en_US": "Play Ogg audio",
+        "fr_FR": "Lire un audio Ogg"
+      },
+      "description": {
+        "en_US": "Read and play a bundled Ogg recording.",
+        "fr_FR": "Lire et jouer un enregistrement Ogg fourni."
+      },
       "tags": [
         "audio",
         "file"
@@ -66,8 +78,14 @@
     },
     {
       "file": "play_mp3.m",
-      "title": "Play compressed audio",
-      "description": "Read and play a bundled MP3 recording.",
+      "title": {
+        "en_US": "Play compressed audio",
+        "fr_FR": "Lire un audio compressé"
+      },
+      "description": {
+        "en_US": "Read and play a bundled MP3 recording.",
+        "fr_FR": "Lire et jouer un enregistrement MP3 fourni."
+      },
       "tags": [
         "audio",
         "file"
@@ -100,8 +118,14 @@
     },
     {
       "file": "demo_recorder.m",
-      "title": "Record from a microphone",
-      "description": "Capture a short signal from the default audio input.",
+      "title": {
+        "en_US": "Record from a microphone",
+        "fr_FR": "Enregistrer depuis un microphone"
+      },
+      "description": {
+        "en_US": "Capture a short signal from the default audio input.",
+        "fr_FR": "Capturer un court signal depuis l'entrée audio par défaut."
+      },
       "tags": [
         "audio",
         "recording"

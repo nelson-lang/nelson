@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "html_viewer.m",
-      "title": "Open an HTML viewer",
-      "description": "Display a self-contained HTML page in a dedicated viewer window.",
+      "title": {
+        "en_US": "Open an HTML viewer",
+        "fr_FR": "Ouvrir une visionneuse HTML"
+      },
+      "description": {
+        "en_US": "Display a self-contained HTML page in a dedicated viewer window.",
+        "fr_FR": "Afficher une page HTML autonome dans une fenêtre de visionneuse dédiée."
+      },
       "tags": [
         "webview",
         "html"

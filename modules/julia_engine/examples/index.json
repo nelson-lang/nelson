@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "julia_interop.m",
-      "title": "Exchange data with Julia",
-      "description": "Send an array to Julia and retrieve a computed scalar.",
+      "title": {
+        "en_US": "Exchange data with Julia",
+        "fr_FR": "Échanger des données avec Julia"
+      },
+      "description": {
+        "en_US": "Send an array to Julia and retrieve a computed scalar.",
+        "fr_FR": "Envoyer un tableau à Julia et récupérer un scalaire calculé."
+      },
       "tags": [
         "interop",
         "arrays"

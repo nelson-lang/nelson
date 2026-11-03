@@ -123,6 +123,16 @@ async function getMockEngine(): Promise<import('./mockEngine').MockEngine> {
 //=============================================================================
 export const isBackendConnected = (): boolean =>
   typeof window.webui?.call === 'function' || localBackend !== null;
+//=============================================================================
+// webui.js creates window.webui on DOMContentLoaded, after the bundle ran: earlier calls reach the mock.
+export function whenBridgeReady(): Promise<void> {
+  if (isBackendConnected() || !document.querySelector('script[src*="webui.js"]')) {
+    return Promise.resolve();
+  }
+  return new Promise((resolve) =>
+    document.addEventListener('DOMContentLoaded', () => resolve(), { once: true })
+  );
+}
 // WebUI opens its WebSocket a beat after the page loads, so early calls fail
 // until it is up. The failure is not always the tidy "WebSocket is not
 // connected": webui.js can also throw a TypeError while its internal state is

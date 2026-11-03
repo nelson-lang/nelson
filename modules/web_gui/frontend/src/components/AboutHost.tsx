@@ -9,6 +9,7 @@
 //=============================================================================
 import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
+import { t, tf } from '../i18n';
 //=============================================================================
 // About dialog, opened from the Help menu by a window event, like Preferences.
 export const OPEN_ABOUT_EVENT = 'nelson-webview.open-about';
@@ -35,18 +36,19 @@ export function AboutHost(): JSX.Element | null {
         className="dialog-card about-card"
         role="dialog"
         aria-modal="true"
-        aria-label="About Nelson"
+        aria-label={t('About Nelson')}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
         }}
       >
         <div className="about-card__title">Nelson</div>
-        {version ? <div className="about-card__version">Version {version}</div> : null}
-        <div className="about-card__badge">Web desktop preview</div>
+        {version ? <div className="about-card__version">{tf('Version %1', version)}</div> : null}
+        <div className="about-card__badge">{t('Web desktop preview')}</div>
         <p className="about-card__desc">
-          Nelson is an open-source, matrix-oriented computing environment for numerical analysis,
-          data visualization and engineering.
+          {t(
+            'Nelson is an open-source, matrix-oriented computing environment for numerical analysis, data visualization and engineering.'
+          )}
         </p>
         <div className="about-card__links">
           <a
@@ -54,22 +56,22 @@ export function AboutHost(): JSX.Element | null {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Website
+            {t('Website')}
           </a>
           <a href="https://github.com/nelson-lang/nelson" target="_blank" rel="noopener noreferrer">
-            Source
+            {t('Source')}
           </a>
           <a
             href="https://nelson-lang.github.io/nelson-website/en_US/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Documentation
+            {t('Documentation')}
           </a>
         </div>
         <div className="dialog-card__buttons">
           <button className="dialog-btn dialog-btn--default" onClick={() => setOpen(false)}>
-            OK
+            {t('OK')}
           </button>
         </div>
       </div>

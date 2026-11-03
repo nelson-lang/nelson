@@ -14,6 +14,7 @@ import { ContextMenu, useContextMenu, type MenuItem } from '../components/Contex
 import { sendToConsoleInput } from '../desktop/consoleBus';
 import { runCommand } from '../desktop/engineSession';
 import { openEditor } from '../desktop/desktop';
+import { t } from '../i18n';
 //=============================================================================
 export function HistoryPanel(): JSX.Element {
   const [entries, setEntries] = useState<string[]>([]);
@@ -65,16 +66,20 @@ export function HistoryPanel(): JSX.Element {
   const itemsFor = (e: string, index: number): MenuItem[] => {
     const marker = isMarker(e);
     return [
-      { label: 'Evaluate', onClick: () => rerun(e), disabled: marker },
-      { label: 'Copy to Command Window', onClick: () => sendToConsoleInput(e), disabled: marker },
-      { label: 'Create Script', onClick: () => void createScript(e), disabled: marker },
+      { label: t('Evaluate'), onClick: () => rerun(e), disabled: marker },
       {
-        label: 'Copy',
+        label: t('Copy to Command Window'),
+        onClick: () => sendToConsoleInput(e),
+        disabled: marker,
+      },
+      { label: t('Create Script'), onClick: () => void createScript(e), disabled: marker },
+      {
+        label: t('Copy'),
         onClick: () => void navigator.clipboard?.writeText(e).catch(() => undefined),
       },
       { separator: true },
-      { label: 'Delete', onClick: () => void removeAt(index), disabled: marker },
-      { label: 'Clear history', onClick: clearAll, danger: true },
+      { label: t('Delete'), onClick: () => void removeAt(index), disabled: marker },
+      { label: t('Clear history'), onClick: clearAll, danger: true },
     ];
   };
 
@@ -82,7 +87,7 @@ export function HistoryPanel(): JSX.Element {
     <div className="browser">
       <input
         className="browser__search"
-        placeholder="Search history…"
+        placeholder={t('Search history…')}
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
@@ -100,7 +105,7 @@ export function HistoryPanel(): JSX.Element {
             className={isMarker(e) ? 'history-list__marker' : undefined}
             onDoubleClick={() => !isMarker(e) && rerun(e)}
             onContextMenu={(ev) => openMenu(ev, itemsFor(e, i))}
-            title={isMarker(e) ? undefined : 'Double-click to run'}
+            title={isMarker(e) ? undefined : t('Double-click to run')}
           >
             {e}
           </li>

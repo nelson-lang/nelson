@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "dictionary_lookup.m",
-      "title": "Key-value lookup",
-      "description": "Create a dictionary and retrieve a value by its key.",
+      "title": {
+        "en_US": "Key-value lookup",
+        "fr_FR": "Recherche clé-valeur"
+      },
+      "description": {
+        "en_US": "Create a dictionary and retrieve a value by its key.",
+        "fr_FR": "Créer un dictionnaire et récupérer une valeur par sa clé."
+      },
       "tags": [
         "dictionary",
         "data"

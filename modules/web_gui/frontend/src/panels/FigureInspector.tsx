@@ -17,6 +17,7 @@ import type {
 } from '../rpc/figureTypes';
 import { inspectorList } from '../rpc/figureTypes';
 import { FigureInspectorResize } from './FigureInspectorResize';
+import { t, tf } from '../i18n';
 //=============================================================================
 export function parseFigureProperty(
   text: string,
@@ -24,7 +25,7 @@ export function parseFigureProperty(
   count?: number
 ): unknown {
   if (kind === 'text') return text;
-  if (!text.trim()) throw new Error('A value is required.');
+  if (!text.trim()) throw new Error(t('A value is required.'));
   if (kind === 'color' && !/^[\s\d.,+eE\-\[\]]+$/.test(text)) return text.trim();
   const values = text
     .replace(/[\[\]]/g, '')
@@ -36,7 +37,11 @@ export function parseFigureProperty(
     values.some((value) => !Number.isFinite(value)) ||
     (count !== undefined && values.length !== count)
   )
-    throw new Error(`Enter ${count ?? 'finite'} numeric values.`);
+    throw new Error(
+      count === undefined
+        ? t('Enter finite numeric values.')
+        : tf('Enter %1 numeric values.', count)
+    );
   if (kind === 'number') return values[0];
   return values;
 }
@@ -80,7 +85,7 @@ function Field({
       {kind === 'color' && (
         <input
           type="color"
-          aria-label={`${label} picker`}
+          aria-label={tf('%1 picker', label)}
           value={
             Array.isArray(value) && value.length === 3
               ? '#' +
@@ -211,16 +216,16 @@ function ViewControls({
 }) {
   return (
     <details open>
-      <summary>View</summary>
+      <summary>{t('View')}</summary>
       <Angle
-        label="Azimuth"
+        label={t('Azimuth')}
         value={axes.View[0]}
         min={-180}
         max={180}
         onCommit={(value) => action({ action: 'view', azimuth: value, elevation: axes.View[1] })}
       />
       <Angle
-        label="Elevation"
+        label={t('Elevation')}
         value={axes.View[1]}
         min={-90}
         max={90}
@@ -228,13 +233,13 @@ function ViewControls({
       />
       {axes.CameraPositionMode === 'manual' && (
         <p className="figure-workspace-muted">
-          Camera position is manual. Reset the camera to control its orientation with View.
+          {t('Camera position is manual. Reset the camera to control its orientation with View.')}
         </p>
       )}
       <button
         onClick={() => action({ action: 'view', azimuth: -37.5, elevation: 30, resetCamera: true })}
       >
-        Reset camera
+        {t('Reset camera')}
       </button>
       <label className="figure-property-check">
         <input
@@ -242,7 +247,7 @@ function ViewControls({
           checked={axes.projectionFloor}
           onChange={(event) => action({ action: 'floor', enabled: event.target.checked })}
         />
-        Projection onto floor
+        {t('Projection onto floor')}
       </label>
     </details>
   );
@@ -359,8 +364,8 @@ export function FigureInspector({
   const [filter, setFilter] = useState('');
   if (!state) {
     return (
-      <aside className="figure-inspector" aria-label="Figure properties">
-        Loading properties…
+      <aside className="figure-inspector" aria-label={t('Figure properties')}>
+        {t('Loading properties…')}
       </aside>
     );
   }
@@ -380,27 +385,27 @@ export function FigureInspector({
   return (
     <aside
       className="figure-inspector"
-      aria-label="Figure properties"
+      aria-label={t('Figure properties')}
       style={{ width, flexBasis: width }}
     >
       {onWidthChange && <FigureInspectorResize width={width} onChange={onWidthChange} />}
-      <h3>Properties</h3>
+      <h3>{t('Properties')}</h3>
       {axes && <ViewControls axes={axes} action={action} />}
       <details open>
-        <summary>Objects</summary>
-        <div className="figure-inspector-browser" role="tree" aria-label="Object browser">
+        <summary>{t('Objects')}</summary>
+        <div className="figure-inspector-browser" role="tree" aria-label={t('Object browser')}>
           {tree ? (
             <TreeNode node={tree} selected={selectedObject} onSelect={selectObject} depth={0} />
           ) : (
-            <p className="figure-workspace-muted">Loading objects…</p>
+            <p className="figure-workspace-muted">{t('Loading objects…')}</p>
           )}
         </div>
       </details>
       <input
         className="figure-property-search"
         type="search"
-        aria-label="Search properties"
-        placeholder="Search properties"
+        aria-label={t('Search properties')}
+        placeholder={t('Search properties')}
         value={filter}
         onChange={(event) => setFilter(event.target.value)}
       />
@@ -414,7 +419,9 @@ export function FigureInspector({
             />
           ))
         ) : (
-          <p className="figure-workspace-muted">Select an object to inspect its properties.</p>
+          <p className="figure-workspace-muted">
+            {t('Select an object to inspect its properties.')}
+          </p>
         )}
       </div>
     </aside>

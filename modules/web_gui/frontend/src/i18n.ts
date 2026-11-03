@@ -15,8 +15,19 @@ const translations = new Map<string, string>();
 const listeners = new Set<() => void>();
 let loading: Promise<void> | null = null;
 //=============================================================================
+// Keys shared with the Qt desktop keep their & shortcut marks and '...': the web shows them without.
 export function t(key: string): string {
-  return translations.get(key) ?? key;
+  const text = translations.get(key) ?? key;
+  if (!text.includes('&') && !text.endsWith('...')) return text;
+  return text.replace(/&(.)/g, '$1').replace(/\.\.\.$/, '…');
+}
+//=============================================================================
+// Replaces %1, %2... with the given values.
+export function tf(key: string, ...values: (string | number | undefined)[]): string {
+  return t(key).replace(/%(\d)/g, (m, n: string) => {
+    const index = Number(n) - 1;
+    return index < values.length ? String(values[index] ?? '') : m;
+  });
 }
 //=============================================================================
 // Re-renders subscribers once the catalog arrived.
@@ -25,12 +36,14 @@ export function subscribeTranslations(cb: () => void): () => void {
   return () => listeners.delete(cb);
 }
 //=============================================================================
-export function loadTranslations(keys: string[]): Promise<void> {
-  const missing = keys.filter((k) => !translations.has(k));
-  if (!missing.length) return Promise.resolve();
-  const request = rpc<{ translations?: Record<string, string> }>('i18n.translate', {
-    keys: missing,
-  })
+// Loads the whole translated catalog of the current language once (an empty one in English).
+export function loadTranslations(): Promise<void> {
+  if (loading) return loading;
+  loading = rpc<{ translations?: Record<string, string> }>(
+    'i18n.translate',
+    {},
+    { timeoutMs: 10000 }
+  )
     .then((r) => {
       let changed = false;
       for (const [key, text] of Object.entries(r.translations ?? {})) {
@@ -42,57 +55,6 @@ export function loadTranslations(keys: string[]): Promise<void> {
       if (changed) listeners.forEach((cb) => cb());
     })
     .catch(() => undefined);
-  loading = request;
-  return request;
-}
-//=============================================================================
-export function translationsLoading(): Promise<void> | null {
   return loading;
 }
-//=============================================================================
-// strings of the editor debugger, preloaded at startup
-export const DEBUGGER_STRINGS: string[] = [
-  'Continue',
-  'Step',
-  'Step In',
-  'Step Out',
-  'Run to Here',
-  'Pause',
-  'Stop',
-  'Set/Clear Breakpoint',
-  'Set Breakpoint',
-  'Clear Breakpoint',
-  'Set/Modify Condition...',
-  'Set Conditional Breakpoint...',
-  'Enable Breakpoint',
-  'Disable Breakpoint',
-  'Enable All Breakpoints in File',
-  'Disable All Breakpoints in File',
-  'Clear All Breakpoints in File',
-  'Clear All Breakpoints',
-  'Pause on Errors',
-  'Pause on Caught Errors',
-  'Breakpoints',
-  'Call Stack',
-  'Paused',
-  'Paused on error',
-  'Running',
-  'Condition',
-  'Enabled',
-  'File',
-  'Function',
-  'Line',
-  'Clear',
-  'Clear All',
-  'Enable All',
-  'Disable All',
-  'Debugging ended: the file was saved while paused.',
-  'Invalid until the file is saved.',
-  'Pause on line %1 only when this expression is true:',
-  'Apply',
-  'Cancel',
-  'DEBUG',
-  'No breakpoints',
-  'Not paused',
-];
 //=============================================================================

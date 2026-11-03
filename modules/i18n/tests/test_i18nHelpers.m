@@ -34,6 +34,26 @@ asserts.istrue(contains(uiContent, '"hello from cpp"'));
 asserts.istrue(contains(uiContent, '"hello from m"'));
 asserts.isfalse(contains(uiContent, 'alpha template'));
 %=============================================================================
+% web desktop sources: t('...') and tf('...') literals are harvested
+tsDir = [srcDir, 'web_gui/frontend/src/'];
+mkdir(tsDir);
+crlf = char([13 10]);
+tsLines = {'const a = t(''hello from tsx'');'; ...
+  'const b = tf(''%1 from tf'', n);'; ...
+  'const c = t('; ...
+  '  ''hello on next line'''; ...
+  ');'; ...
+  'const d = shift(''not harvested'');'; ...
+  'const e = obj.t(''member not harvested'');'};
+filewrite([tsDir, 'sample.tsx'], strjoin(tsLines, crlf));
+tsJson = [tempname(), '.json'];
+i18nHelpers('extractUI', srcDir, tsJson);
+tsContent = fileread(tsJson);
+asserts.istrue(contains(tsContent, '"hello from tsx"'));
+asserts.istrue(contains(tsContent, '"%1 from tf"'));
+asserts.istrue(contains(tsContent, '"hello on next line"'));
+asserts.isfalse(contains(tsContent, 'not harvested'));
+%=============================================================================
 errorsJson = [tempname(), '.json'];
 i18nHelpers('extractErrors', srcDir, errorsJson);
 errorsContent = fileread(errorsJson);

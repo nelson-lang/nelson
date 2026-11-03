@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "organize_records.m",
-      "title": "Organize heterogeneous records",
-      "description": "Store named sample arrays in a structure collection.",
+      "title": {
+        "en_US": "Organize heterogeneous records",
+        "fr_FR": "Organiser des enregistrements hétérogènes"
+      },
+      "description": {
+        "en_US": "Store named sample arrays in a structure collection.",
+        "fr_FR": "Stocker des tableaux d'échantillons nommés dans une collection de structures."
+      },
       "tags": [
         "struct",
         "data"

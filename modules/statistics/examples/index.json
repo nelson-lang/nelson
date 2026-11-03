@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "descriptive_statistics.m",
-      "title": "Descriptive statistics",
-      "description": "Summarize measurements with central tendency, spread and a robust range.",
+      "title": {
+        "en_US": "Descriptive statistics",
+        "fr_FR": "Statistiques descriptives"
+      },
+      "description": {
+        "en_US": "Summarize measurements with central tendency, spread and a robust range.",
+        "fr_FR": "Résumer des mesures par leur tendance centrale, leur dispersion et une étendue robuste."
+      },
       "tags": [
         "statistics",
         "beginner"
@@ -13,8 +19,14 @@
     },
     {
       "file": "correlation_analysis.m",
-      "title": "Correlation analysis",
-      "description": "Quantify the linear association between paired observations.",
+      "title": {
+        "en_US": "Correlation analysis",
+        "fr_FR": "Analyse de corrélation"
+      },
+      "description": {
+        "en_US": "Quantify the linear association between paired observations.",
+        "fr_FR": "Quantifier l'association linéaire entre des observations appariées."
+      },
       "tags": [
         "statistics",
         "correlation"

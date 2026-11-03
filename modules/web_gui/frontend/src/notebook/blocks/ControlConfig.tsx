@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+import { t } from '../../i18n';
+//=============================================================================
 interface ControlConfigProps {
   block: { props: Record<string, unknown> };
   editor: { updateBlock: (block: unknown, update: unknown) => void };
@@ -23,41 +25,41 @@ export function ControlConfig({ block, editor, slider, dropdown }: ControlConfig
   const optionsVar = String(block.props.optionsVar ?? '');
   return (
     <details className="nls-cfg" contentEditable={false}>
-      <summary className="nls-cfg-btn" title="Configure control">
+      <summary className="nls-cfg-btn" title={t('Configure control')}>
         &#9881;
       </summary>
       <div className="nls-cfg-pop" onKeyDown={(e) => e.stopPropagation()}>
         <label className="nls-cfg-row">
-          <span>Run</span>
+          <span>{t('Run')}</span>
           <select
             value={runMode}
             onChange={(e) => editor.updateBlock(block, { props: { runMode: e.target.value } })}
           >
-            <option value="all">All sections</option>
-            <option value="section">Current section</option>
-            <option value="reactive">Dependent cells (reactive)</option>
-            <option value="nothing">Nothing</option>
+            <option value="all">{t('All sections')}</option>
+            <option value="section">{t('Current section')}</option>
+            <option value="reactive">{t('Dependent cells (reactive)')}</option>
+            <option value="nothing">{t('Nothing')}</option>
           </select>
         </label>
         {slider && (
           <label className="nls-cfg-row">
-            <span>Run on</span>
+            <span>{t('Run on')}</span>
             <select
               value={runOn}
               onChange={(e) => editor.updateBlock(block, { props: { runOn: e.target.value } })}
             >
-              <option value="change">While moving</option>
-              <option value="release">On release</option>
+              <option value="change">{t('While moving')}</option>
+              <option value="release">{t('On release')}</option>
             </select>
           </label>
         )}
         {dropdown && (
           <label className="nls-cfg-row">
-            <span>Items from</span>
+            <span>{t('Items from')}</span>
             <input
               className="nls-cfg-input"
               defaultValue={optionsVar}
-              placeholder="variable"
+              placeholder={t('variable')}
               onKeyDown={(e) => e.stopPropagation()}
               onBlur={(e) => editor.updateBlock(block, { props: { optionsVar: e.target.value } })}
             />

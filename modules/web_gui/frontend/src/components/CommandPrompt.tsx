@@ -16,6 +16,7 @@ import {
   type MouseEvent,
 } from 'react';
 import { tokenizeNelson } from '../editor/nelsonSyntax';
+import { t } from '../i18n';
 //=============================================================================
 type CommandPromptProps = {
   value: string;
@@ -47,9 +48,9 @@ export const CommandPrompt = forwardRef<HTMLTextAreaElement, CommandPromptProps>
         <textarea
           ref={ref}
           className="console-input"
-          aria-label="Command input"
+          aria-label={t('Command input')}
           aria-keyshortcuts="Enter Shift+Enter"
-          title="Enter to execute; Shift+Enter for a new line"
+          title={t('Enter to execute; Shift+Enter for a new line')}
           value={value}
           disabled={disabled}
           rows={Math.min(12, Math.max(1, value.split('\n').length))}

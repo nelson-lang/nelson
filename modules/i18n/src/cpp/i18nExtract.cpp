@@ -187,6 +187,12 @@ collectTextKeyedLiterals(const std::wstring& sourceRoot)
             if (readFileContent(it->path(), text)) {
                 scanSourceForTextKeyed(text, texts);
             }
+        } else if (isWebDesktopSource(it->path().wstring(), ext)) {
+            // the web desktop looks its t('...') strings up in the UI catalog only
+            std::string text;
+            if (readFileContent(it->path(), text)) {
+                scanTsFileForUiStrings(text, texts);
+            }
         }
     }
     return texts;
@@ -241,7 +247,7 @@ isInTestsDirectory(const std::wstring& path)
         || path.find(L"/tests/") != std::wstring::npos;
 }
 //=============================================================================
-// the web desktop sources translate their debugger strings with the t('...') helper
+// the web desktop sources and their shared dialogs translate with the t('...') helper
 static bool
 isWebDesktopSource(const std::wstring& path, const std::wstring& ext)
 {
@@ -250,24 +256,33 @@ isWebDesktopSource(const std::wstring& path, const std::wstring& ext)
     }
     std::wstring normalized = path;
     std::replace(normalized.begin(), normalized.end(), L'\\', L'/');
-    return normalized.find(L"/web_gui/frontend/src/") != std::wstring::npos;
+    return normalized.find(L"/web_gui/frontend/src/") != std::wstring::npos
+        || normalized.find(L"/webview/frontend/dialogs/") != std::wstring::npos;
 }
 //=============================================================================
-// Collects the literal argument of t('...') and t("...") calls.
+// Collects the literal first argument of t('...') and tf('...') calls.
 static void
 scanTsFileForUiStrings(const std::string& text, std::set<std::string>& texts)
 {
     size_t pos = 0;
-    while ((pos = text.find("t(", pos)) != std::string::npos) {
-        bool identifierBefore = pos > 0
-            && (isalnum(static_cast<unsigned char>(text[pos - 1])) || text[pos - 1] == '_'
-                || text[pos - 1] == '.');
-        size_t cursor = pos + 2;
+    while ((pos = text.find('(', pos)) != std::string::npos) {
+        size_t name = pos;
+        if (name > 0 && text[name - 1] == 'f') {
+            name--;
+        }
+        bool helperName = name > 0 && text[name - 1] == 't';
+        size_t start = helperName ? name - 1 : 0;
+        bool identifierBefore = start > 0
+            && (isalnum(static_cast<unsigned char>(text[start - 1])) || text[start - 1] == '_'
+                || text[start - 1] == '.');
+        size_t cursor = pos + 1;
         pos = cursor;
-        if (identifierBefore) {
+        if (!helperName || identifierBefore) {
             continue;
         }
-        while (cursor < text.size() && (text[cursor] == ' ' || text[cursor] == '\n')) {
+        while (cursor < text.size()
+            && (text[cursor] == ' ' || text[cursor] == '\n' || text[cursor] == '\r'
+                || text[cursor] == '\t')) {
             cursor++;
         }
         if (cursor >= text.size() || (text[cursor] != '\'' && text[cursor] != '"')) {

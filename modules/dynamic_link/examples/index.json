@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "call_c.m",
-      "title": "Call a C function",
-      "description": "Load the platform C runtime and invoke its process identifier function.",
+      "title": {
+        "en_US": "Call a C function",
+        "fr_FR": "Appeler une fonction C"
+      },
+      "description": {
+        "en_US": "Load the platform C runtime and invoke its process identifier function.",
+        "fr_FR": "Charger la bibliothèque d'exécution C de la plateforme et appeler sa fonction d'identifiant de processus."
+      },
       "tags": [
         "c",
         "native"
@@ -13,8 +19,14 @@
     },
     {
       "file": "call_fortran.m",
-      "title": "Call a Fortran function",
-      "description": "Load an available BLAS library and invoke its absolute-sum routine.",
+      "title": {
+        "en_US": "Call a Fortran function",
+        "fr_FR": "Appeler une fonction Fortran"
+      },
+      "description": {
+        "en_US": "Load an available BLAS library and invoke its absolute-sum routine.",
+        "fr_FR": "Charger une bibliothèque BLAS disponible et appeler sa routine de somme des valeurs absolues."
+      },
       "tags": [
         "fortran",
         "native"
@@ -25,8 +37,14 @@
     },
     {
       "file": "dllibinfo_demo.m",
-      "title": "Inspect a dynamic library",
-      "description": "List symbols and metadata exposed by a loaded library.",
+      "title": {
+        "en_US": "Inspect a dynamic library",
+        "fr_FR": "Inspecter une bibliothèque dynamique"
+      },
+      "description": {
+        "en_US": "List symbols and metadata exposed by a loaded library.",
+        "fr_FR": "Lister les symboles et les métadonnées exposés par une bibliothèque chargée."
+      },
       "tags": [
         "native",
         "inspection"

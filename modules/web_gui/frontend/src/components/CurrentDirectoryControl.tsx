@@ -15,6 +15,7 @@ import {
 } from '../desktop/currentDirectory';
 import { showStatusMessage } from '../desktop/statusMessage';
 import { DesktopIcon } from './DesktopIcon';
+import { t, tf } from '../i18n';
 import { openDesktopPicker } from './DesktopFilePickerHost';
 //=============================================================================
 interface CurrentDirectoryControlProps {
@@ -52,11 +53,11 @@ export function CurrentDirectoryControl({ busy }: CurrentDirectoryControlProps):
     void changeCurrentDirectory(requested)
       .then((result) => {
         setDraft(result.cwd);
-        showStatusMessage(`Current directory: ${result.cwd}`);
+        showStatusMessage(tf('Current directory: %1', result.cwd));
       })
       .catch(() => {
         setDraft(directory.cwd);
-        showStatusMessage('Directory does not exist');
+        showStatusMessage(t('Directory does not exist'));
       });
   };
 
@@ -83,8 +84,8 @@ export function CurrentDirectoryControl({ busy }: CurrentDirectoryControlProps):
       <button
         type="button"
         className="desktop-toolbar__icon-btn"
-        title="Choose current directory"
-        aria-label="Choose current directory"
+        title={t('Choose current directory')}
+        aria-label={t('Choose current directory')}
         disabled={busy}
         onClick={() => openDesktopPicker('directory')}
       >
@@ -94,7 +95,7 @@ export function CurrentDirectoryControl({ busy }: CurrentDirectoryControlProps):
         ref={inputRef}
         className="directory-control__input"
         role="combobox"
-        aria-label="Current directory"
+        aria-label={t('Current directory')}
         aria-expanded={open}
         aria-controls={listId}
         aria-autocomplete="list"
@@ -125,8 +126,8 @@ export function CurrentDirectoryControl({ busy }: CurrentDirectoryControlProps):
       <button
         type="button"
         className="directory-control__history"
-        title="Recent directories"
-        aria-label="Recent directories"
+        title={t('Recent directories')}
+        aria-label={t('Recent directories')}
         aria-expanded={open}
         aria-controls={listId}
         disabled={busy || directory.recentDirectories.length === 0}

@@ -14,6 +14,7 @@ import { useMenuDismiss } from './useMenuDismiss';
 import { openNotebook } from '../desktop/desktop';
 import { sendNotebookCommand, type NotebookCommand } from '../notebook/commands';
 import { rpc } from '../rpc/client';
+import { t } from '../i18n';
 //=============================================================================
 const MENU_NAMES = ['file', 'help'];
 //=============================================================================
@@ -50,53 +51,53 @@ export function NotebookMenuBar(): JSX.Element {
     <div
       className="menubar"
       role="menubar"
-      aria-label="Notebook menu"
+      aria-label={t('Notebook menu')}
       data-focus-zone="menubar"
       onKeyDown={onKeyDown}
     >
-      <span className="menubar__brand">Notebook</span>
-      <MenuItem name="file" label="File" open={open} setOpen={setOpen}>
+      <span className="menubar__brand">{t('&Notebook')}</span>
+      <MenuItem name="file" label={t('File')} open={open} setOpen={setOpen}>
         <>
           <button role="menuitem" onClick={run(() => openNotebook())}>
-            New Notebook
+            {t('New Notebook')}
           </button>
           <button role="menuitem" onClick={command('open')}>
-            Open…
+            {t('Open…')}
           </button>
           <hr />
           <button role="menuitem" onClick={command('runAll')}>
-            Run All
+            {t('Run All')}
           </button>
           <hr />
           <button role="menuitem" onClick={command('save')}>
-            Save
+            {t('&Save')}
           </button>
           <button role="menuitem" onClick={command('saveAs')}>
-            Save As…
+            {t('Save As…')}
           </button>
           <button role="menuitem" onClick={command('saveM')}>
-            Save as Script (.m)…
+            {t('Save as Script (.m)…')}
           </button>
           <hr />
           <button role="menuitem" onClick={command('closeDocument')}>
-            Close Document
+            {t('Close Document')}
           </button>
         </>
       </MenuItem>
-      <MenuItem name="help" label="Help" open={open} setOpen={setOpen}>
+      <MenuItem name="help" label={t('Help')} open={open} setOpen={setOpen}>
         <>
           <button role="menuitem" onClick={run(() => runInHost("doc('notebook')"))}>
-            Notebook Documentation
+            {t('Notebook Documentation')}
           </button>
           <button role="menuitem" onClick={run(() => runInHost('doc'))}>
-            Nelson Documentation
+            {t('Nelson Documentation')}
           </button>
           <hr />
           <button
             role="menuitem"
             onClick={run(() => window.dispatchEvent(new Event(OPEN_ABOUT_EVENT)))}
           >
-            About Nelson
+            {t('About Nelson')}
           </button>
         </>
       </MenuItem>

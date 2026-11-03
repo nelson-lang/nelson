@@ -13,6 +13,7 @@ import { resetInterfacePreferences } from '../desktop/persistentStorage';
 import { requestTheme } from '../desktop/theme';
 import { setShellVisibility } from '../desktop/shellState';
 import { showStatusMessage } from '../desktop/statusMessage';
+import { t } from '../i18n';
 //=============================================================================
 // Preferences modal (fonts, sizes, behaviour). Opened by a window event so the
 // menu bar can trigger it without threading state through the dock. Changes
@@ -57,7 +58,7 @@ export function PreferencesHost(): JSX.Element | null {
     requestTheme('system');
     setDraft(DEFAULT_PREFS);
     setOpenState(false);
-    showStatusMessage('Interface preferences reset.');
+    showStatusMessage(t('Interface preferences reset.'));
   };
 
   const num = (label: string, key: keyof Prefs, min: number, max: number) => (
@@ -84,18 +85,18 @@ export function PreferencesHost(): JSX.Element | null {
         className="dialog-card prefs-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Preferences"
+        aria-label={t('Preferences')}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpenState(false);
         }}
       >
-        <div className="dialog-card__title">Preferences</div>
+        <div className="dialog-card__title">{t('Preferences')}</div>
         <div className="dialog-card__body">
-          <div className="prefs-section">Command Window</div>
-          {num('Font size', 'consoleFontSize', 8, 40)}
+          <div className="prefs-section">{t('Command Window')}</div>
+          {num(t('Font size'), 'consoleFontSize', 8, 40)}
           <label className="prefs-row">
-            <span className="prefs-row__label">Font family</span>
+            <span className="prefs-row__label">{t('Font family')}</span>
             <select
               value={draft.consoleFontFamily}
               onChange={(e) => setDraft((d) => ({ ...d, consoleFontFamily: e.target.value }))}
@@ -113,26 +114,26 @@ export function PreferencesHost(): JSX.Element | null {
               checked={draft.consoleWrap}
               onChange={(e) => setDraft((d) => ({ ...d, consoleWrap: e.target.checked }))}
             />
-            <span>Wrap long lines</span>
+            <span>{t('Wrap long lines')}</span>
           </label>
 
-          <div className="prefs-section">Editor</div>
-          {num('Font size', 'editorFontSize', 8, 40)}
-          {num('Tab size', 'editorTabSize', 1, 8)}
+          <div className="prefs-section">{t('Editor')}</div>
+          {num(t('Font size'), 'editorFontSize', 8, 40)}
+          {num(t('Tab size'), 'editorTabSize', 1, 8)}
         </div>
         <div className="dialog-card__buttons">
           <button className="dialog-btn" onClick={reset}>
-            Reset fields
+            {t('Reset fields')}
           </button>
           <button className="dialog-btn" onClick={() => void resetInterface()}>
-            Reset interface
+            {t('Reset interface')}
           </button>
           <span className="editor-toolbar__spacer" />
           <button className="dialog-btn" onClick={() => setOpenState(false)}>
-            Cancel
+            {t('Cancel')}
           </button>
           <button className="dialog-btn dialog-btn--default" onClick={apply}>
-            Apply
+            {t('Apply')}
           </button>
         </div>
       </div>

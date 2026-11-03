@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "profile_computation.m",
-      "title": "Profile a computation",
-      "description": "Collect timing information for repeated matrix decompositions.",
+      "title": {
+        "en_US": "Profile a computation",
+        "fr_FR": "Profiler un calcul"
+      },
+      "description": {
+        "en_US": "Collect timing information for repeated matrix decompositions.",
+        "fr_FR": "Collecter les temps d'exécution de décompositions matricielles répétées."
+      },
       "tags": [
         "profiling",
         "performance"

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "workspace_basics.m",
-      "title": "Workspace basics",
-      "description": "Create an array, transform it and display a concise result.",
+      "title": {
+        "en_US": "Workspace basics",
+        "fr_FR": "Bases de l'espace de travail"
+      },
+      "description": {
+        "en_US": "Create an array, transform it and display a concise result.",
+        "fr_FR": "Créer un tableau, le transformer et afficher un résultat concis."
+      },
       "tags": [
         "beginner",
         "workspace"

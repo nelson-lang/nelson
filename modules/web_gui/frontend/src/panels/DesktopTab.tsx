@@ -13,6 +13,7 @@ import { ContextMenu, useContextMenu, type MenuItem } from '../components/Contex
 import { closeDesktopPanel, undockFigure } from '../desktop/desktop';
 import { isGroupCollapsed, toggleGroupCollapsed } from '../desktop/collapse';
 import { movePanel, panelCanClose, togglePanelFloating } from '../desktop/panelActions';
+import { t, tf } from '../i18n';
 //=============================================================================
 type TabApi = IDockviewPanelHeaderProps['api'];
 function findDockTab(api: TabApi, id = api.id): HTMLElement | undefined {
@@ -31,7 +32,7 @@ function useAccessibleDockTab(api: TabApi): void {
       tab.setAttribute('aria-selected', String(isSelected));
       const tabList = tab.closest('.dv-tabs-container');
       tabList?.setAttribute('role', 'tablist');
-      tabList?.setAttribute('aria-label', 'Panel tabs');
+      tabList?.setAttribute('aria-label', t('Panel tabs'));
       if (!isSelected) return;
       const content = tab
         .closest('.dv-groupview')
@@ -98,30 +99,30 @@ export function DesktopTab(props: IDockviewPanelHeaderProps): JSX.Element {
     const figureHandle = api.id.startsWith('fig:') ? Number(api.id.slice(4)) : null;
     const items: MenuItem[] = [
       {
-        label: floating ? 'Re-dock into the desktop' : 'Detach as floating window',
+        label: floating ? t('Re-dock into the desktop') : t('Detach as floating window'),
         onClick: toggleFloat,
       },
     ];
     if (figureHandle !== null && !Number.isNaN(figureHandle)) {
       items.push({
-        label: 'Undock (separate window)',
-        onClick: () => undockFigure(figureHandle, api.title ?? `Figure ${figureHandle + 1}`),
+        label: t('Undock (separate window)'),
+        onClick: () => undockFigure(figureHandle, api.title ?? tf('Figure %1', figureHandle + 1)),
       });
     }
     items.push(
       {
-        label: isGroupCollapsed(api.group) ? 'Expand panel' : 'Collapse panel',
+        label: isGroupCollapsed(api.group) ? t('Expand panel') : t('Collapse panel'),
         onClick: () => toggleGroupCollapsed(api.group),
         disabled: floating,
       },
       {
         // Maximizing is a grid-only notion: a floating panel is already free.
-        label: api.isMaximized() ? 'Restore size' : 'Maximize',
+        label: api.isMaximized() ? t('Restore size') : t('Maximize'),
         onClick: () => (api.isMaximized() ? api.exitMaximized() : api.maximize()),
         disabled: floating,
       },
       {
-        label: 'Move Left',
+        label: t('Move Left'),
         onClick: () => {
           const current = panel();
           if (current) movePanel(current, containerApi, 'left');
@@ -129,7 +130,7 @@ export function DesktopTab(props: IDockviewPanelHeaderProps): JSX.Element {
         disabled: floating,
       },
       {
-        label: 'Move Right',
+        label: t('Move Right'),
         onClick: () => {
           const current = panel();
           if (current) movePanel(current, containerApi, 'right');
@@ -137,7 +138,7 @@ export function DesktopTab(props: IDockviewPanelHeaderProps): JSX.Element {
         disabled: floating,
       },
       {
-        label: 'Move Bottom',
+        label: t('Move Bottom'),
         onClick: () => {
           const current = panel();
           if (current) movePanel(current, containerApi, 'bottom');
@@ -148,7 +149,7 @@ export function DesktopTab(props: IDockviewPanelHeaderProps): JSX.Element {
       ...(panelCanClose(containerApi.getPanel(api.id)!)
         ? [
             {
-              label: 'Close panel',
+              label: t('Close panel'),
               onClick: () => {
                 const current = panel();
                 if (current) void closeDesktopPanel(current);
@@ -157,7 +158,7 @@ export function DesktopTab(props: IDockviewPanelHeaderProps): JSX.Element {
           ]
         : []),
       {
-        label: 'Close other tabs',
+        label: t('Close other tabs'),
         onClick: closeOthers,
         disabled: api.group.panels.length < 2,
       }

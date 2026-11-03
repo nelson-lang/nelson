@@ -10,6 +10,7 @@
 import { useEffect, useState } from 'react';
 import { runCommand } from '../desktop/engineSession';
 import { DesktopIcon } from './DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Plots gallery for the selected workspace variable, filtered by its shape.
 // Opened from the Workspace panel with the variable name and dimensions.
@@ -26,23 +27,26 @@ interface PlotType {
   applies: (isVector: boolean, isMatrix: boolean) => boolean;
 }
 //=============================================================================
-const PLOTS: PlotType[] = [
-  { cmd: 'plot', label: 'Line', applies: () => true },
-  { cmd: 'bar', label: 'Bar', applies: (v) => v },
-  { cmd: 'barh', label: 'Bar (horizontal)', applies: (v) => v },
-  { cmd: 'area', label: 'Area', applies: (v) => v },
-  { cmd: 'stairs', label: 'Stairs', applies: (v) => v },
-  { cmd: 'stem', label: 'Stem', applies: (v) => v },
-  { cmd: 'pie', label: 'Pie', applies: (v) => v },
-  { cmd: 'hist', label: 'Histogram', applies: () => true },
-  { cmd: 'surf', label: 'Surface', applies: (_v, m) => m },
-  { cmd: 'mesh', label: 'Mesh', applies: (_v, m) => m },
-  { cmd: 'contour', label: 'Contour', applies: (_v, m) => m },
-  { cmd: 'contourf', label: 'Contour (filled)', applies: (_v, m) => m },
-  { cmd: 'pcolor', label: 'Pseudocolor', applies: (_v, m) => m },
-  { cmd: 'imagesc', label: 'Scaled image', applies: (_v, m) => m },
-  { cmd: 'waterfall', label: 'Waterfall', applies: (_v, m) => m },
-];
+// Built on demand so labels use the loaded catalog.
+function plotTypes(): PlotType[] {
+  return [
+    { cmd: 'plot', label: t('Line'), applies: () => true },
+    { cmd: 'bar', label: t('Bar'), applies: (v) => v },
+    { cmd: 'barh', label: t('Bar (horizontal)'), applies: (v) => v },
+    { cmd: 'area', label: t('Area'), applies: (v) => v },
+    { cmd: 'stairs', label: t('Stairs'), applies: (v) => v },
+    { cmd: 'stem', label: t('Stem'), applies: (v) => v },
+    { cmd: 'pie', label: t('Pie'), applies: (v) => v },
+    { cmd: 'hist', label: t('Histogram'), applies: () => true },
+    { cmd: 'surf', label: t('Surface'), applies: (_v, m) => m },
+    { cmd: 'mesh', label: t('Mesh'), applies: (_v, m) => m },
+    { cmd: 'contour', label: t('Contour'), applies: (_v, m) => m },
+    { cmd: 'contourf', label: t('Contour (filled)'), applies: (_v, m) => m },
+    { cmd: 'pcolor', label: t('Pseudocolor'), applies: (_v, m) => m },
+    { cmd: 'imagesc', label: t('Scaled image'), applies: (_v, m) => m },
+    { cmd: 'waterfall', label: t('Waterfall'), applies: (_v, m) => m },
+  ];
+}
 //=============================================================================
 export function PlotGalleryHost(): JSX.Element | null {
   const [open, setOpen] = useState(false);
@@ -63,7 +67,7 @@ export function PlotGalleryHost(): JSX.Element | null {
 
   const isVector = seed.rows <= 1 || seed.cols <= 1;
   const isMatrix = seed.rows > 1 && seed.cols > 1;
-  const available = PLOTS.filter((p) => p.applies(isVector, isMatrix));
+  const available = plotTypes().filter((p) => p.applies(isVector, isMatrix));
   const plot = (cmd: string) => {
     void runCommand(`${cmd}(${seed.name})`);
     setOpen(false);
@@ -75,14 +79,14 @@ export function PlotGalleryHost(): JSX.Element | null {
         className="dialog-card plots-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Plots"
+        aria-label={t('Plots')}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
         }}
       >
         <div className="about-card__title">
-          Plots - <span className="browser__mono">{seed.name}</span>{' '}
+          {t('Plots')} - <span className="browser__mono">{seed.name}</span>{' '}
           <span className="plots-card__dims">
             {seed.rows}×{seed.cols}
           </span>
@@ -99,7 +103,7 @@ export function PlotGalleryHost(): JSX.Element | null {
         </div>
         <div className="dialog-card__buttons">
           <button className="dialog-btn" onClick={() => setOpen(false)}>
-            Close
+            {t('Close')}
           </button>
         </div>
       </div>

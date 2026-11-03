@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "sparse_poisson.m",
-      "title": "Solve a sparse Poisson system",
-      "description": "Assemble a banded sparse operator and solve a boundary-value discretization.",
+      "title": {
+        "en_US": "Solve a sparse Poisson system",
+        "fr_FR": "Résoudre un système de Poisson creux"
+      },
+      "description": {
+        "en_US": "Assemble a banded sparse operator and solve a boundary-value discretization.",
+        "fr_FR": "Assembler un opérateur creux à bande et résoudre la discrétisation d'un problème aux limites."
+      },
       "tags": [
         "sparse",
         "linear-system"

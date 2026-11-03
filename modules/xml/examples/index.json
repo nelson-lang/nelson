@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "xml_roundtrip.m",
-      "title": "XML document round trip",
-      "description": "Write XML to a temporary file, parse it and serialize the document.",
+      "title": {
+        "en_US": "XML document round trip",
+        "fr_FR": "Aller-retour d'un document XML"
+      },
+      "description": {
+        "en_US": "Write XML to a temporary file, parse it and serialize the document.",
+        "fr_FR": "Écrire du XML dans un fichier temporaire, l'analyser et sérialiser le document."
+      },
       "tags": [
         "xml",
         "data"

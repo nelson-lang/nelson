@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "create_archive.m",
-      "title": "Create and extract an archive",
-      "description": "Package a temporary text file and extract it to another temporary folder.",
+      "title": {
+        "en_US": "Create and extract an archive",
+        "fr_FR": "Créer et extraire une archive"
+      },
+      "description": {
+        "en_US": "Package a temporary text file and extract it to another temporary folder.",
+        "fr_FR": "Archiver un fichier texte temporaire et l'extraire dans un autre dossier temporaire."
+      },
       "tags": [
         "zip",
         "files"

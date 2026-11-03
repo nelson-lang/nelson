@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "python_interop.m",
-      "title": "Exchange data with Python",
-      "description": "Send an array to Python and retrieve a computed scalar.",
+      "title": {
+        "en_US": "Exchange data with Python",
+        "fr_FR": "Échanger des données avec Python"
+      },
+      "description": {
+        "en_US": "Send an array to Python and retrieve a computed scalar.",
+        "fr_FR": "Envoyer un tableau à Python et récupérer un scalaire calculé."
+      },
       "tags": [
         "interop",
         "arrays"

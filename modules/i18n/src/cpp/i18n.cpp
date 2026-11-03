@@ -49,6 +49,12 @@ gettext(const std::string& S)
     return I18nManager::getInstance()->getText(S);
 }
 //=============================================================================
+std::map<std::string, std::string>
+getTranslatedTexts()
+{
+    return I18nManager::getInstance()->getTranslatedTexts();
+}
+//=============================================================================
 std::wstring
 getMessageTemplateById(const std::wstring& id)
 {

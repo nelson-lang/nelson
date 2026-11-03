@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "netcdf_roundtrip.m",
-      "title": "NetCDF variable round trip",
-      "description": "Create a temporary NetCDF variable and read its values back.",
+      "title": {
+        "en_US": "NetCDF variable round trip",
+        "fr_FR": "Aller-retour d'une variable NetCDF"
+      },
+      "description": {
+        "en_US": "Create a temporary NetCDF variable and read its values back.",
+        "fr_FR": "Créer une variable NetCDF temporaire et relire ses valeurs."
+      },
       "tags": [
         "netcdf",
         "data"

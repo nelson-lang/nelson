@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+import { t } from '../i18n';
+//=============================================================================
 export async function openFigurePrintPreview(render: () => Promise<Blob>, title: string) {
   const native = (
     window as Window & {
@@ -22,7 +24,7 @@ export async function openFigurePrintPreview(render: () => Promise<Blob>, title:
   }
   // Opening after the asynchronous export loses the click's popup permission.
   const preview = window.open('', '_blank');
-  if (!preview) throw new Error('Allow pop-up windows to open the figure print preview.');
+  if (!preview) throw new Error(t('Allow pop-up windows to open the figure print preview.'));
   const doc = preview.document;
   doc.title = title;
   const style = doc.createElement('style');
@@ -34,14 +36,14 @@ export async function openFigurePrintPreview(render: () => Promise<Blob>, title:
   const controls = doc.createElement('div');
   controls.className = 'print-controls';
   const button = doc.createElement('button');
-  button.textContent = 'Print';
+  button.textContent = t('Print');
   button.disabled = true;
   button.onclick = () => {
     preview.focus();
     preview.print();
   };
   const status = doc.createElement('span');
-  status.textContent = 'Preparing figure…';
+  status.textContent = t('Preparing figure…');
   status.setAttribute('role', 'status');
   controls.append(button, status);
   const image = doc.createElement('img');
@@ -55,11 +57,11 @@ export async function openFigurePrintPreview(render: () => Promise<Blob>, title:
     preview.addEventListener('pagehide', () => URL.revokeObjectURL(url!), { once: true });
     await new Promise<void>((resolve, reject) => {
       image.onload = () => resolve();
-      image.onerror = () => reject(new Error('The figure print preview could not be loaded.'));
+      image.onerror = () => reject(new Error(t('The figure print preview could not be loaded.')));
       image.src = url!;
     });
     if (preview.closed) return;
-    status.textContent = 'Figure ready to print';
+    status.textContent = t('Figure ready to print');
     button.disabled = false;
     preview.focus();
     preview.print();

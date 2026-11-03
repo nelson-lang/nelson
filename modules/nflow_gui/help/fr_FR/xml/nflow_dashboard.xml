@@ -28,7 +28,7 @@
     <syntax_item>Bibliothèque Dashboard : affichages, contrôles, liaisons et actions de rappel</syntax_item>
   </syntax>
   <description>
-    <p>Les blocs Dashboard fournissent des contrôles et des affichages directement sur un diagramme NFlow. Ils n'ont pas de ports d'entrée ou de sortie ordinaires : chaque bloc lit ou modifie une cible choisie dans la section <b>Binding</b> de l'inspecteur.</p>
+    <p>Les blocs Dashboard fournissent des contrôles et des affichages directement sur un diagramme NFlow. Ils n'ont pas de ports d'entrée ou de sortie ordinaires : chaque bloc lit ou modifie une cible choisie dans la section <b>Liaison</b> de l'inspecteur.</p>
     <p><b>Blocs disponibles</b></p>
     <table>
       <tr><th>Famille</th><th>Blocs</th><th>Rôle</th></tr>

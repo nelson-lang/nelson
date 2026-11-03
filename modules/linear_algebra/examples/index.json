@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "solve_linear_system.m",
-      "title": "Solve a linear system",
-      "description": "Solve a small symmetric system and verify its residual.",
+      "title": {
+        "en_US": "Solve a linear system",
+        "fr_FR": "Résoudre un système linéaire"
+      },
+      "description": {
+        "en_US": "Solve a small symmetric system and verify its residual.",
+        "fr_FR": "Résoudre un petit système symétrique et vérifier son résidu."
+      },
       "tags": [
         "linear-system",
         "beginner"
@@ -13,8 +19,14 @@
     },
     {
       "file": "matrix_decompositions.m",
-      "title": "Compare matrix decompositions",
-      "description": "Validate LU, QR and eigenvalue factorizations numerically.",
+      "title": {
+        "en_US": "Compare matrix decompositions",
+        "fr_FR": "Comparer des décompositions matricielles"
+      },
+      "description": {
+        "en_US": "Validate LU, QR and eigenvalue factorizations numerically.",
+        "fr_FR": "Valider numériquement les factorisations LU, QR et en valeurs propres."
+      },
       "tags": [
         "decomposition",
         "matrix"

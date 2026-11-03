@@ -13,6 +13,7 @@ import { openEditor } from './desktop';
 import { getDesktopCapabilities } from './capabilities';
 import { runCommand } from './engineSession';
 import { showStatusMessage } from './statusMessage';
+import { tf } from '../i18n';
 //=============================================================================
 export interface UploadedLocalFile {
   name: string;
@@ -98,8 +99,8 @@ export async function uploadLocalFiles(
   }
   dependencies.showStatusMessage(
     uploaded.length === 1
-      ? `Uploaded ${uploaded[0].name} to ${cwd}`
-      : `Uploaded ${uploaded.length} files to ${cwd}`
+      ? tf('Uploaded %1 to %2', uploaded[0].name, cwd)
+      : tf('Uploaded %1 files to %2', uploaded.length, cwd)
   );
   return uploaded;
 }

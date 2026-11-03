@@ -9,6 +9,7 @@
 //=============================================================================
 import { rpc } from '../rpc/client';
 import type { AppCapabilitiesResult } from '../rpc/types';
+import { t, tf } from '../i18n';
 //=============================================================================
 const unavailable: AppCapabilitiesResult = { nflow: false, packageManager: false };
 let capabilities = unavailable;
@@ -62,7 +63,7 @@ export function setPackageUpdates(count: unknown): void {
 }
 //=============================================================================
 export function packageManagerTitle(count: number | undefined): string {
-  return count ? `Package Manager (${count})` : 'Package Manager';
+  return count ? tf('Package Manager (%1)', count) : t('&Package Manager');
 }
 //=============================================================================
 export function packageUpdatesBadge(count: number | undefined): string {

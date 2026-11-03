@@ -6757,6 +6757,11 @@ GOAxis::drawChildren(RenderInterface& gc)
     if (dataClip.enabled) {
         gc.clearDataClipBox();
     }
+    // Flush deferred 2-D children under this axes' own clip so each is clipped to
+    // its own axes (a Visible 'off' axes never flushes otherwise); 3-D keeps deferring.
+    if (renderedAs2D()) {
+        gc.flushDeferred();
+    }
     gc.setLightingScene(RenderLightingScene());
 }
 //=============================================================================

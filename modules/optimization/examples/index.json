@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "unconstrained_minimum.m",
-      "title": "Unconstrained minimization",
-      "description": "Locate the minimum of a smooth two-variable objective.",
+      "title": {
+        "en_US": "Unconstrained minimization",
+        "fr_FR": "Minimisation sans contrainte"
+      },
+      "description": {
+        "en_US": "Locate the minimum of a smooth two-variable objective.",
+        "fr_FR": "Trouver le minimum d'une fonction objectif lisse à deux variables."
+      },
       "tags": [
         "optimization",
         "unconstrained"
@@ -13,8 +19,14 @@
     },
     {
       "file": "constrained_quadratic.m",
-      "title": "Constrained quadratic program",
-      "description": "Solve a bounded quadratic problem with a linear inequality.",
+      "title": {
+        "en_US": "Constrained quadratic program",
+        "fr_FR": "Programme quadratique sous contraintes"
+      },
+      "description": {
+        "en_US": "Solve a bounded quadratic problem with a linear inequality.",
+        "fr_FR": "Résoudre un problème quadratique borné avec une inégalité linéaire."
+      },
       "tags": [
         "optimization",
         "constraints"

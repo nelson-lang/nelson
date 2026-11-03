@@ -12,6 +12,7 @@ import { rpc } from '../rpc/client';
 import { onEngineReady, runCommand } from '../desktop/engineSession';
 import { webPrompt } from './PromptHost';
 import { DesktopIcon } from './DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Set Path dialog. Mutations go through the addpath/rmpath/savepath/
 // restoredefaultpath builtins and the list reloads on the next prompt.
@@ -45,7 +46,7 @@ export function SetPathHost(): JSX.Element | null {
 
   const quote = (p: string) => `'${p.replace(/'/g, "''")}'`;
   const addFolder = async () => {
-    const p = await webPrompt('Folder to add to the path:');
+    const p = await webPrompt(t('Folder to add to the path:'));
     if (p) void runCommand(`addpath(${quote(p)})`);
   };
   const remove = (p: string) => void runCommand(`rmpath(${quote(p)})`);
@@ -58,14 +59,14 @@ export function SetPathHost(): JSX.Element | null {
         className="dialog-card setpath-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Set Path"
+        aria-label={t('Set Path')}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
         }}
       >
-        <div className="about-card__title">Set Path</div>
-        <p className="setpath-card__hint">Folders on the Nelson search path (in order).</p>
+        <div className="about-card__title">{t('Set Path')}</div>
+        <p className="setpath-card__hint">{t('Folders on the Nelson search path (in order).')}</p>
         <ul className="setpath-list">
           {paths.map((p) => (
             <li key={p} className="setpath-list__item">
@@ -74,28 +75,28 @@ export function SetPathHost(): JSX.Element | null {
               </span>
               <button
                 className="setpath-list__x"
-                title="Remove from path"
+                title={t('Remove from path')}
                 onClick={() => remove(p)}
               >
                 <DesktopIcon name="close" size={16} />
               </button>
             </li>
           ))}
-          {paths.length === 0 ? <li className="setpath-list__empty">(empty)</li> : null}
+          {paths.length === 0 ? <li className="setpath-list__empty">{t('(empty)')}</li> : null}
         </ul>
         <div className="dialog-card__buttons setpath-card__buttons">
           <button className="dialog-btn" onClick={addFolder}>
-            Add Folder…
+            {t('Add Folder…')}
           </button>
           <button className="dialog-btn" onClick={restore}>
-            Restore Default
+            {t('Restore Default')}
           </button>
           <button className="dialog-btn" onClick={save}>
-            Save
+            {t('&Save')}
           </button>
           <span style={{ flex: 1 }} />
           <button className="dialog-btn dialog-btn--default" onClick={() => setOpen(false)}>
-            Close
+            {t('Close')}
           </button>
         </div>
       </div>

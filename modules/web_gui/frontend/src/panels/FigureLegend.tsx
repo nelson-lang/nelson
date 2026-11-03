@@ -9,6 +9,7 @@
 //=============================================================================
 import { useEffect, useRef } from 'react';
 import type { FigurePlotObject } from '../rpc/figureTypes';
+import { t } from '../i18n';
 //=============================================================================
 export function FigureLegend({
   objects,
@@ -23,11 +24,11 @@ export function FigureLegend({
     return () => pending.forEach(clearTimeout);
   }, []);
   return (
-    <div className="figure-workspace-legend" aria-label="Plotted objects">
+    <div className="figure-workspace-legend" aria-label={t('Plotted objects')}>
       {objects.map((object, index) => (
         <button
           key={object.handle}
-          title="Click to show/hide; double-click to isolate/restore"
+          title={t('Click to show/hide; double-click to isolate/restore')}
           aria-pressed={object.visible === 'on'}
           onClick={(event) => {
             clearTimeout(timers.current.get(object.handle));

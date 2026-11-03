@@ -12,6 +12,7 @@ import { rpc } from '../rpc/client';
 import { openEditor } from '../desktop/desktop';
 import type { FsEntry, FsListResult } from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { t, tf } from '../i18n';
 //=============================================================================
 // Start, stop, clear, and inspect per-function profiling data.
 interface ProfRow {
@@ -141,38 +142,38 @@ export function ProfilerPanel(): JSX.Element {
           className={'profiler__btn' + (running ? ' profiler__btn--on' : '')}
           disabled={busy}
           onClick={() => void control(running ? 'off' : 'on').catch(() => undefined)}
-          title={running ? 'Stop profiling (profile off)' : 'Start profiling (profile on)'}
+          title={running ? t('Stop profiling (profile off)') : t('Start profiling (profile on)')}
         >
           <DesktopIcon name={running ? 'stop' : 'execute'} size={16} />
-          {running ? 'Stop' : 'Start'}
+          {running ? t('Stop') : t('Start')}
         </button>
         <button
           className="profiler__btn"
           disabled={busy}
           onClick={() => void control('clear').catch(() => undefined)}
-          title="Clear data (profile clear)"
+          title={t('Clear data (profile clear)')}
         >
-          Clear
+          {t('Clear')}
         </button>
         <button
           className="profiler__btn"
           disabled={busy || running}
           onClick={() => void openExportDialog()}
-          title={running ? 'Stop profiling before exporting' : 'Export profiler report'}
+          title={running ? t('Stop profiling before exporting') : t('Export profiler report')}
         >
-          Export
+          {t('Export')}
         </button>
         <button
           className="profiler__btn"
           disabled={busy}
           onClick={() => void refresh().catch(() => undefined)}
-          title="Refresh report"
+          title={t('Refresh report')}
         >
-          Refresh
+          {t('Refresh')}
         </button>
         {running ? (
           <span className="profiler__on">
-            <span className="profiler__dot" aria-hidden="true" /> profiling…
+            <span className="profiler__dot" aria-hidden="true" /> {t('profiling…')}
           </span>
         ) : null}
         <span className="profiler__hint">
@@ -180,7 +181,7 @@ export function ProfilerPanel(): JSX.Element {
             <span className="profiler__error">{exportError}</span>
           ) : exportPath ? (
             <>
-              Exported:{' '}
+              {t('Exported:')}{' '}
               {exportUrl ? (
                 <a href={exportUrl} target="_blank" rel="noreferrer">
                   {exportPath}
@@ -190,7 +191,7 @@ export function ProfilerPanel(): JSX.Element {
               )}
             </>
           ) : (
-            'Double-click a row to open the file'
+            t('Double-click a row to open the file')
           )}
         </span>
       </div>
@@ -199,18 +200,18 @@ export function ProfilerPanel(): JSX.Element {
           <thead>
             <tr>
               <th className="profiler__sortable" onClick={() => setSort('function')}>
-                Function
+                {t('Function')}
               </th>
-              <th>File</th>
-              <th>Line</th>
+              <th>{t('File')}</th>
+              <th>{t('Line')}</th>
               <th className="profiler__sortable" onClick={() => setSort('calls')}>
-                Calls
+                {t('Calls')}
               </th>
               <th className="profiler__sortable" onClick={() => setSort('total')}>
-                Total (s)
+                {t('Total (s)')}
               </th>
               <th className="profiler__sortable" onClick={() => setSort('perCall')}>
-                Per call (s)
+                {t('Per call (s)')}
               </th>
             </tr>
           </thead>
@@ -219,7 +220,7 @@ export function ProfilerPanel(): JSX.Element {
               <tr
                 key={i}
                 className={r.file ? 'profiler__row--file' : ''}
-                title={r.file ? `${r.file}:${r.line} (double-click to open)` : undefined}
+                title={r.file ? tf('%1:%2 (double-click to open)', r.file, r.line) : undefined}
                 onDoubleClick={() => openRow(r)}
               >
                 <td>{r.function}</td>
@@ -233,7 +234,7 @@ export function ProfilerPanel(): JSX.Element {
             {sorted.length === 0 ? (
               <tr>
                 <td colSpan={6} className="profiler__empty">
-                  No profile data. Click Start, run some code, then Stop.
+                  {t('No profile data. Click Start, run some code, then Stop.')}
                 </td>
               </tr>
             ) : null}
@@ -243,12 +244,12 @@ export function ProfilerPanel(): JSX.Element {
       {exportDialogOpen ? (
         <div className="dialog-overlay">
           <div className="dialog-card profiler__export-dialog">
-            <div className="dialog-card__title">Export Profiler Report</div>
+            <div className="dialog-card__title">{t('Export Profiler Report')}</div>
             <div className="dialog-card__body">
               <div className="dialog-file__path" title={exportDir}>
                 <button
                   className="dialog-btn"
-                  title="Parent folder"
+                  title={t('Parent folder')}
                   onClick={() =>
                     void loadExportDir(parentDir(exportDir)).catch((e) =>
                       setExportDialogError(e instanceof Error ? e.message : String(e))
@@ -276,11 +277,13 @@ export function ProfilerPanel(): JSX.Element {
                   </div>
                 ))}
                 {exportEntries.length === 0 ? (
-                  <div className="dialog-list__item dialog-list__item--empty">No folders</div>
+                  <div className="dialog-list__item dialog-list__item--empty">
+                    {t('No folders')}
+                  </div>
                 ) : null}
               </div>
               <label className="dialog-field">
-                <span className="dialog-field__label">Report folder</span>
+                <span className="dialog-field__label">{t('Report folder')}</span>
                 <input
                   type="text"
                   value={exportName}
@@ -293,14 +296,14 @@ export function ProfilerPanel(): JSX.Element {
             </div>
             <div className="dialog-card__buttons">
               <button className="dialog-btn" onClick={() => setExportDialogOpen(false)}>
-                Cancel
+                {t('Cancel')}
               </button>
               <button
                 className="dialog-btn dialog-btn--default"
                 disabled={busy || exportName.trim().length === 0}
                 onClick={() => void exportProfile(joinPath(exportDir, exportName.trim()))}
               >
-                Export
+                {t('Export')}
               </button>
             </div>
           </div>

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "parquet_roundtrip.m",
-      "title": "Parquet table round trip",
-      "description": "Write a typed table to a temporary Parquet file and read it back.",
+      "title": {
+        "en_US": "Parquet table round trip",
+        "fr_FR": "Aller-retour d'une table Parquet"
+      },
+      "description": {
+        "en_US": "Write a typed table to a temporary Parquet file and read it back.",
+        "fr_FR": "Écrire une table typée dans un fichier Parquet temporaire et la relire."
+      },
       "tags": [
         "parquet",
         "table"

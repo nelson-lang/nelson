@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { FilePickerDialog, type FilePickerListResult } from '@nelson/dialogs';
 import { FILE_PICKER_EVENT } from './modal-events.js';
 import { nflowRpc } from '../native-rpc.js';
+import { t } from '../../utils/i18n.js';
 import type { FilePickerRequestDetail } from '../file-dialogs.js';
 //=============================================================================
 async function listDir(path: string): Promise<FilePickerListResult> {
@@ -61,6 +62,7 @@ export function FilePickerHost(): JSX.Element | null {
       suggestedName={request.suggestedName}
       filters={request.filters}
       listDir={listDir}
+      translate={t}
       onSubmit={accept}
       onCancel={() => finish(null)}
     />

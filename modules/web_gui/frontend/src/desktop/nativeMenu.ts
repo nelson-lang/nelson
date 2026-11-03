@@ -15,6 +15,7 @@ import {
   type NativeMenuItem,
 } from '@nelson/native-menu';
 import { desktopActions, executeDesktopAction, type DesktopAction } from './actions';
+import { t } from '../i18n';
 //=============================================================================
 const separator = (): NativeMenuItem => ({ separator: true });
 function nativeShortcut(shortcut: string | undefined): string | undefined {
@@ -73,18 +74,18 @@ export function nelsonNativeMenuDescriptor(): NativeMenuDescriptor {
           item('help.about'),
           { ...item('edit.preferences'), shortcut: 'cmd+,' },
           separator(),
-          { label: 'Hide Nelson', role: 'hide', shortcut: 'cmd+h' },
-          { label: 'Hide Others', role: 'hideOthers', shortcut: 'alt+cmd+h' },
-          { label: 'Show All', role: 'showAll' },
+          { label: t('Hide Nelson'), role: 'hide', shortcut: 'cmd+h' },
+          { label: t('Hide Others'), role: 'hideOthers', shortcut: 'alt+cmd+h' },
+          { label: t('Show All'), role: 'showAll' },
           separator(),
-          { ...item('file.exit'), label: 'Quit Nelson', shortcut: 'cmd+q' },
+          { ...item('file.exit'), label: t('Quit Nelson'), shortcut: 'cmd+q' },
         ],
       },
       {
-        label: 'File',
+        label: t('&File'),
         items: [
           {
-            label: 'New',
+            label: t('New'),
             items: [item('file.newScript'), item('file.newFunction'), item('file.newFigure')],
           },
           separator(),
@@ -98,11 +99,11 @@ export function nelsonNativeMenuDescriptor(): NativeMenuDescriptor {
           separator(),
           item('file.loadWorkspace'),
           item('file.saveWorkspace'),
-          { label: 'Recent Files', items: recent },
+          { label: t('Recent Files'), items: recent },
         ],
       },
       {
-        label: 'Edit',
+        label: t('&Edit'),
         items: [
           item('edit.selectAll'),
           separator(),
@@ -113,21 +114,21 @@ export function nelsonNativeMenuDescriptor(): NativeMenuDescriptor {
         ],
       },
       {
-        label: 'View',
+        label: t('&View'),
         items: [
           ...category('View'),
           separator(),
-          { label: 'Theme', items: category('Theme') },
+          { label: t('Theme'), items: category('Theme') },
           separator(),
-          { label: 'Layout', items: [...category('Layout'), ...savedLayouts] },
+          { label: t('Layout'), items: [...category('Layout'), ...savedLayouts] },
         ],
       },
       {
-        label: 'Window',
+        label: t('&Window'),
         items: [...windowItems, ...(openPanels.length ? [separator(), ...openPanels] : [])],
       },
       {
-        label: 'Help',
+        label: t('&Help'),
         items: [
           item('help.documentation'),
           item('help.examples'),

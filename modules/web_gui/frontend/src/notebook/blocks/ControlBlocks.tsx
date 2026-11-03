@@ -14,6 +14,7 @@ import { useNotebook } from '../context';
 import { runWithMode } from '../runMode';
 import { ControlConfig } from './ControlConfig';
 import { baseName } from '../../desktop/paths';
+import { t, tf } from '../../i18n';
 //=============================================================================
 async function fetchVarItems(name: string): Promise<string[]> {
   const info = await rpc<VarOpenResult>('var.open', { name });
@@ -92,7 +93,9 @@ export function DropdownCell({ block, editor }: BlockProps) {
           </option>
         ))}
       </select>
-      {optionsVar ? <span className="nls-from-var">from {String(optionsVar)}</span> : null}
+      {optionsVar ? (
+        <span className="nls-from-var">{tf('from %1', String(optionsVar))}</span>
+      ) : null}
       <ControlConfig block={block} editor={editor} dropdown />
     </div>
   );
@@ -124,7 +127,7 @@ export function ButtonCell({ block }: BlockProps) {
   return (
     <div className="nls-control nls-control-button" contentEditable={false}>
       <button className="nls-btn nls-btn-primary" onClick={() => void ctx.runAll()}>
-        {caption || 'Run'}
+        {caption || t('Run')}
       </button>
     </div>
   );
@@ -283,7 +286,7 @@ export function FileBrowserCell({ block, editor }: BlockProps) {
     try {
       const r = await rpc<{ available?: boolean; canceled?: boolean; path?: string }>(
         'fs.dialog.native',
-        { mode: 'open', title: 'Select a file', historyKey: 'desktop.open' }
+        { mode: 'open', title: t('Select a file'), historyKey: 'desktop.open' }
       );
       if (r.available) {
         if (!r.canceled && r.path) setPath(r.path);
@@ -300,9 +303,9 @@ export function FileBrowserCell({ block, editor }: BlockProps) {
       <span className="nls-control-label">{label || varName}</span>
       <span className="nls-var-badge">{varName}</span>
       <button className="nls-btn" onClick={() => void browse()}>
-        Browse&hellip;
+        {t('Browse…')}
       </button>
-      <span className="nls-file-name">{filename || 'no file'}</span>
+      <span className="nls-file-name">{filename || t('no file')}</span>
       <input
         ref={inputRef}
         type="file"
@@ -347,7 +350,7 @@ export function VariableSelectorCell({ block, editor }: BlockProps) {
           runWithMode(ctx, runMode ?? 'all', block.id);
         }}
       >
-        <option value="">(none)</option>
+        <option value="">{t('(none)')}</option>
         {options.map((v) => (
           <option key={v} value={v}>
             {v}

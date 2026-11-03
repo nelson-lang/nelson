@@ -11,6 +11,7 @@ import type { DesktopAction } from '../desktop/actions';
 import { clearRecentFiles } from '../desktop/recentFiles';
 import { removeNamedLayout } from '../desktop/layout';
 import { DesktopIcon } from './DesktopIcon';
+import { t, tf } from '../i18n';
 import { useSyncExternalStore } from 'react';
 import {
   getDesktopCapabilities,
@@ -30,50 +31,50 @@ interface FileMenuProps extends CommonMenuProps {
 export function FileMenu({ close, recent, run }: FileMenuProps): JSX.Element {
   return (
     <>
-      <div className="menu__section">New</div>
+      <div className="menu__section">{t('New')}</div>
       <button role="menuitem" onClick={() => run('file.newScript')}>
-        New Script
+        {t('New Script')}
       </button>
       <button role="menuitem" onClick={() => run('file.newNotebook')}>
-        New Notebook
+        {t('New Notebook')}
       </button>
       <button role="menuitem" onClick={() => run('file.newFunction')}>
-        New Function
+        {t('New Function')}
       </button>
       <button role="menuitem" onClick={() => run('file.newFigure')}>
-        New Figure
+        {t('&New Figure')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('file.execute')}>
-        Execute…
+        {t('&Execute...')}
       </button>
       <button role="menuitem" onClick={() => run('file.openEditor')}>
-        Open in Editor…
+        {t('Open in Editor…')}
       </button>
       <button role="menuitem" onClick={() => run('file.import')}>
-        Import Data…
+        {t('Import Data…')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('file.changeDirectory')}>
-        Change current directory…
+        {t('Change current directory…')}
       </button>
       <button role="menuitem" onClick={() => run('file.displayDirectory')}>
-        Display current directory
+        {t('Display current directory')}
       </button>
       <button role="menuitem" onClick={() => run('file.setpath')}>
-        Set Path…
+        {t('Set Path…')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('file.loadWorkspace')}>
-        Load Workspace…
+        {t('&Load Workspace...')}
       </button>
       <button role="menuitem" onClick={() => run('file.saveWorkspace')}>
-        Save Workspace…
+        {t('&Save Workspace...')}
       </button>
       <RecentFileItems close={close} recent={recent} run={run} />
       <hr />
       <button role="menuitem" onClick={() => run('file.exit')}>
-        Exit
+        {t('E&xit')}
       </button>
     </>
   );
@@ -92,7 +93,7 @@ function RecentFileItems({
   return (
     <>
       <hr />
-      <div className="menu__section">Recent Files</div>
+      <div className="menu__section">{t('Recent Files')}</div>
       {recent.map((path) => (
         <button
           key={path}
@@ -114,7 +115,7 @@ function RecentFileItems({
           close();
         }}
       >
-        Clear recent files
+        {t('Clear recent files')}
       </button>
     </>
   );
@@ -124,18 +125,18 @@ export function EditMenu({ run }: Pick<CommonMenuProps, 'run'>): JSX.Element {
   return (
     <>
       <button role="menuitem" onClick={() => run('edit.selectAll')}>
-        Select All
+        {t('Select All')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('edit.clearConsole')}>
-        Clear Command Window
+        {t('Clear Command Window')}
       </button>
       <button role="menuitem" onClick={() => run('edit.clearWorkspace')}>
-        Clear Workspace
+        {t('Clear Workspace')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('edit.preferences')}>
-        Preferences…
+        {t('&Preferences...')}
       </button>
     </>
   );
@@ -167,7 +168,7 @@ export function ViewMenu(props: ViewMenuProps): JSX.Element {
         </button>
       ))}
       <hr />
-      <div className="menu__section">Theme</div>
+      <div className="menu__section">{t('Theme')}</div>
       {themeActions.map((action) => (
         <button
           key={action.id}
@@ -182,7 +183,7 @@ export function ViewMenu(props: ViewMenuProps): JSX.Element {
         </button>
       ))}
       <hr />
-      <div className="menu__section">Layout</div>
+      <div className="menu__section">{t('Layout')}</div>
       {layoutActions.map((action) => (
         <button key={action.id} role="menuitem" onClick={() => run(action.id)}>
           {action.title}
@@ -195,7 +196,7 @@ export function ViewMenu(props: ViewMenuProps): JSX.Element {
           </button>
           <button
             className="menu__x"
-            aria-label={`Remove layout ${name}`}
+            aria-label={tf('Remove layout %1', name)}
             onClick={() => {
               removeNamedLayout(name);
               close();
@@ -223,10 +224,10 @@ export function WindowMenu({ nflowAvailable, openPanels, run }: WindowMenuProps)
   return (
     <>
       <button role="menuitem" onClick={() => run('window.terminal')}>
-        Terminal
+        {t('Terminal')}
       </button>
       <button role="menuitem" onClick={() => run('file.editor')}>
-        Text Editor
+        {t('Text Editor')}
       </button>
       {nflowAvailable ? (
         <button role="menuitem" onClick={() => run('window.nflow')}>
@@ -239,7 +240,7 @@ export function WindowMenu({ nflowAvailable, openPanels, run }: WindowMenuProps)
         </button>
       ) : null}
       <button role="menuitem" onClick={() => run('window.tile')}>
-        Tile panels
+        {t('Tile panels')}
       </button>
       {openPanels.length ? <hr /> : null}
       {openPanels.map((panel) => (
@@ -255,24 +256,24 @@ export function HelpMenu({ run }: Pick<CommonMenuProps, 'run'>): JSX.Element {
   return (
     <>
       <button role="menuitem" onClick={() => run('help.documentation')}>
-        Documentation
+        {t('Documentation')}
       </button>
       <button role="menuitem" onClick={() => run('help.examples')}>
-        Examples
+        {t('&Examples')}
       </button>
       <button role="menuitem" onClick={() => run('help.checkUpdates')}>
-        Check for updates
+        {t('Check for updates')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('help.website')}>
-        Nelson website
+        {t('Nelson website')}
       </button>
       <button role="menuitem" onClick={() => run('help.issues')}>
-        Bugs and Requests
+        {t('Bugs and Requests')}
       </button>
       <hr />
       <button role="menuitem" onClick={() => run('help.about')}>
-        About Nelson
+        {t('About Nelson')}
       </button>
     </>
   );

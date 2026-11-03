@@ -51,6 +51,7 @@ import { requestSavePath } from '../components/DesktopFilePickerHost';
 import { isWasmRuntime } from '../desktop/platform';
 import { hasFormat, saveNotebookDocument, type NotebookSaveFormat } from './saveDocument';
 import { baseName } from '../desktop/paths';
+import { t, tf } from '../i18n';
 //=============================================================================
 function useDarkScheme(): boolean {
   const read = () =>
@@ -118,6 +119,33 @@ interface PanelApiLike {
   setTitle?: (title: string) => void;
   // dockview tells which panel is active; the menu bar addresses that one
   isActive?: boolean;
+}
+//=============================================================================
+// Cells and controls offered by the slash menu and the Insert menu.
+function insertableBlocks(): { type: string; title: string; subtext: string; aliases: string[] }[] {
+  const mk = (type: string, title: string, subtext: string, aliases: string[]) => ({
+    type,
+    title,
+    subtext,
+    aliases,
+  });
+  return [
+    mk('codecell', t('Code cell'), t('Executable Nelson code'), ['code', 'run']),
+    mk('equation', t('Equation'), t('LaTeX display equation'), ['equation', 'math']),
+    mk('livetask', t('Live task'), t('Interactive code-generating task'), ['task']),
+    mk('varselect', t('Variable selector'), t('Pick a workspace variable'), ['variable']),
+    mk('slider', t('Slider'), t('Numeric slider control'), ['slider']),
+    mk('rangeslider', t('Range slider'), t('Two-thumb interval'), ['range']),
+    mk('numberfield', t('Number field'), t('Numeric spinner'), ['number']),
+    mk('dropdown', t('Drop-down'), t('Choice control'), ['dropdown', 'select']),
+    mk('checkbox', t('Check box'), t('Boolean control'), ['checkbox']),
+    mk('textfield', t('Text field'), t('Text/number field'), ['text', 'edit']),
+    mk('colorpicker', t('Color picker'), t('Color control'), ['color']),
+    mk('datepicker', t('Date picker'), t('Date control'), ['date']),
+    mk('filebrowser', t('File browser'), t('Pick a file'), ['file']),
+    mk('runbutton', t('Button'), t('Run the document'), ['button']),
+    mk('statebutton', t('State button'), t('Toggle on/off'), ['toggle', 'state']),
+  ];
 }
 //=============================================================================
 function ToolbarCaret(): JSX.Element {
@@ -413,9 +441,9 @@ export function NotebookPanel({
       if (result.kind === 'saved') {
         setDocPath(result.path);
         panelApi?.setTitle?.(titleFromName(baseName(result.path)));
-        notify(`Saved ${baseName(result.path)}`);
+        notify(tf('Saved %1', baseName(result.path)));
       } else if (result.kind === 'error') {
-        notify(`Save failed: ${result.message}`);
+        notify(tf('Save failed: %1', result.message));
       }
     },
     [editor, docPath, panelApi, notify]
@@ -508,7 +536,7 @@ export function NotebookPanel({
         });
     } else {
       // A fresh, untitled Notebook: start from the sample and run it.
-      editor.replaceBlocks(editor.document, initialContent as any);
+      editor.replaceBlocks(editor.document, initialContent() as any);
       setDocVersion((v) => v + 1); // populate the outline (replaceBlocks is programmatic)
       void runAllSafe().then(() => {
         staleReady.current = true;
@@ -519,7 +547,7 @@ export function NotebookPanel({
 
   const getSlashItems = useCallback(
     async (query: string) => {
-      const mk = (title: string, subtext: string, aliases: string[], type: string) => ({
+      const custom = insertableBlocks().map(({ type, title, subtext, aliases }) => ({
         title,
         subtext,
         aliases,
@@ -528,24 +556,7 @@ export function NotebookPanel({
           const cur = editor.getTextCursorPosition().block;
           editor.replaceBlocks([cur], [defaultBlockFor(type) as any]);
         },
-      });
-      const custom = [
-        mk('Code cell', 'Executable Nelson code', ['code', 'run'], 'codecell'),
-        mk('Equation', 'LaTeX display equation', ['equation', 'math'], 'equation'),
-        mk('Live task', 'Interactive code-generating task', ['task'], 'livetask'),
-        mk('Variable selector', 'Pick a workspace variable', ['variable'], 'varselect'),
-        mk('Slider', 'Numeric slider control', ['slider'], 'slider'),
-        mk('Range slider', 'Two-thumb interval', ['range'], 'rangeslider'),
-        mk('Number field', 'Numeric spinner', ['number'], 'numberfield'),
-        mk('Drop-down', 'Choice control', ['dropdown', 'select'], 'dropdown'),
-        mk('Check box', 'Boolean control', ['checkbox'], 'checkbox'),
-        mk('Text field', 'Text/number field', ['text', 'edit'], 'textfield'),
-        mk('Color picker', 'Color control', ['color'], 'colorpicker'),
-        mk('Date picker', 'Date control', ['date'], 'datepicker'),
-        mk('File browser', 'Pick a file', ['file'], 'filebrowser'),
-        mk('Button', 'Run the document', ['button'], 'runbutton'),
-        mk('State button', 'Toggle on/off', ['toggle', 'state'], 'statebutton'),
-      ];
+      }));
       return filterSuggestionItems([...getDefaultReactSlashMenuItems(editor), ...custom], query);
     },
     [editor]
@@ -612,60 +623,60 @@ export function NotebookPanel({
   return (
     <NotebookContext.Provider value={ctx}>
       <div className={`nls-panel ${dark ? '' : 'nls-light'}`}>
-        <header className="nls-toolbar" role="toolbar" aria-label="Notebook toolbar">
+        <header className="nls-toolbar" role="toolbar" aria-label={t('Notebook toolbar')}>
           <div className="nls-toolbar__group">
             <button
               type="button"
               className="nls-btn nls-btn-primary"
-              title="Run every code cell in order"
+              title={t('Run every code cell in order')}
               onClick={() => void runAllSafe()}
               disabled={running}
             >
               <DesktopIcon name="execute" />
-              <span className="nls-btn__label">Run all</span>
+              <span className="nls-btn__label">{t('Run all')}</span>
             </button>
             <button
               type="button"
               className="nls-btn"
-              title="Run only the cells that are out of date and their dependents"
+              title={t('Run only the cells that are out of date and their dependents')}
               onClick={() => void runStaleSafe()}
               disabled={running}
             >
               <DesktopIcon name="refresh" />
-              <span className="nls-btn__label">Run stale</span>
+              <span className="nls-btn__label">{t('Run stale')}</span>
             </button>
             <button
               type="button"
               className="nls-btn"
-              title="Clear every cell output"
+              title={t('Clear every cell output')}
               onClick={clearOutputs}
             >
               <DesktopIcon name="close" />
-              <span className="nls-btn__label">Clear</span>
+              <span className="nls-btn__label">{t('Clear')}</span>
             </button>
             {runningBlockId && (
               <button
                 type="button"
                 className="nls-btn nls-running-jump"
-                title="Scroll to the cell being evaluated"
+                title={t('Scroll to the cell being evaluated')}
                 onClick={() =>
                   document
                     .querySelector(`[data-id="${runningBlockId}"]`)
                     ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }
               >
-                <span className="nls-running-dot" /> Running…
+                <span className="nls-running-dot" /> {t('Running…')}
               </button>
             )}
             {errorCells.length > 0 && !runningBlockId && (
               <button
                 type="button"
                 className="nls-btn nls-error-jump"
-                title="Go to the next cell with an error"
+                title={t('Go to the next cell with an error')}
                 onClick={jumpToNextError}
               >
                 <DesktopIcon name="warning" />
-                {errorCells.length} error{errorCells.length > 1 ? 's' : ''}
+                {errorCells.length > 1 ? tf('%1 errors', errorCells.length) : t('1 error')}
               </button>
             )}
           </div>
@@ -674,16 +685,22 @@ export function NotebookPanel({
             <button
               type="button"
               className="nls-btn"
-              title="Open a Notebook (.nlx), a plain script (.m) or a Jupyter notebook (.ipynb)"
+              title={t(
+                'Open a Notebook (.nlx), a plain script (.m) or a Jupyter notebook (.ipynb)'
+              )}
               onClick={() => fileInputRef.current?.click()}
             >
               <DesktopIcon name="folder" />
-              <span className="nls-btn__label">Open</span>
+              <span className="nls-btn__label">{t('&Open')}</span>
             </button>
             <details className="nls-menu" open={openMenu === 'save'}>
-              <summary className="nls-btn" title="Save the document" onClick={toggleMenu('save')}>
+              <summary
+                className="nls-btn"
+                title={t('Save the document')}
+                onClick={toggleMenu('save')}
+              >
                 <DesktopIcon name="save" />
-                <span className="nls-btn__label">Save</span>
+                <span className="nls-btn__label">{t('&Save')}</span>
                 <ToolbarCaret />
               </summary>
               <div className="nls-menu-pop">
@@ -693,7 +710,7 @@ export function NotebookPanel({
                     save();
                   }}
                 >
-                  Save
+                  {t('&Save')}
                 </button>
                 <button
                   onClick={() => {
@@ -701,7 +718,7 @@ export function NotebookPanel({
                     saveNlx();
                   }}
                 >
-                  Save As… (.nlx)
+                  {t('Save As… (.nlx)')}
                 </button>
                 <button
                   onClick={() => {
@@ -709,7 +726,7 @@ export function NotebookPanel({
                     saveM();
                   }}
                 >
-                  Save as Script… (.m)
+                  {t('Save as Script… (.m)')}
                 </button>
               </div>
             </details>
@@ -735,11 +752,11 @@ export function NotebookPanel({
             <details className="nls-menu" open={openMenu === 'insert'}>
               <summary
                 className="nls-btn"
-                title="Insert a cell or a control (or type “/” in the document)"
+                title={t('Insert a cell or a control (or type “/” in the document)')}
                 onClick={toggleMenu('insert')}
               >
                 <DesktopIcon name="add" />
-                <span className="nls-btn__label">Insert</span>
+                <span className="nls-btn__label">{t('Insert')}</span>
                 <ToolbarCaret />
               </summary>
               <div className="nls-menu-pop">
@@ -749,7 +766,7 @@ export function NotebookPanel({
                     insert('codecell');
                   }}
                 >
-                  Code cell
+                  {t('Code cell')}
                 </button>
                 <button
                   onClick={() => {
@@ -757,7 +774,7 @@ export function NotebookPanel({
                     insert('equation');
                   }}
                 >
-                  Equation
+                  {t('Equation')}
                 </button>
                 <button
                   onClick={() => {
@@ -765,30 +782,32 @@ export function NotebookPanel({
                     insert('livetask');
                   }}
                 >
-                  Live task
+                  {t('Live task')}
                 </button>
-                <div className="nls-menu-label">Controls</div>
-                {CONTROL_TYPES.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => {
-                      closeMenu();
-                      insert(t);
-                    }}
-                  >
-                    {t}
-                  </button>
-                ))}
+                <div className="nls-menu-label">{t('Controls')}</div>
+                {insertableBlocks()
+                  .filter((b) => CONTROL_TYPES.includes(b.type))
+                  .map((b) => (
+                    <button
+                      key={b.type}
+                      onClick={() => {
+                        closeMenu();
+                        insert(b.type);
+                      }}
+                    >
+                      {b.title}
+                    </button>
+                  ))}
               </div>
             </details>
             <details className="nls-menu" open={openMenu === 'export'}>
               <summary
                 className="nls-btn"
-                title="Export the document"
+                title={t('Export the document')}
                 onClick={toggleMenu('export')}
               >
                 <DesktopIcon name="upload" />
-                <span className="nls-btn__label">Export</span>
+                <span className="nls-btn__label">{t('Export')}</span>
                 <ToolbarCaret />
               </summary>
               <div className="nls-menu-pop">
@@ -798,7 +817,7 @@ export function NotebookPanel({
                     download('notebook.html', blocksToHtml(editor.document as any[]), 'text/html');
                   }}
                 >
-                  HTML&hellip;
+                  {t('HTML…')}
                 </button>
                 <button
                   onClick={() => {
@@ -810,7 +829,7 @@ export function NotebookPanel({
                     );
                   }}
                 >
-                  Markdown&hellip;
+                  {t('Markdown…')}
                 </button>
                 <button
                   onClick={() => {
@@ -822,7 +841,7 @@ export function NotebookPanel({
                     );
                   }}
                 >
-                  Word (.docx)&hellip;
+                  {t('Word (.docx)…')}
                 </button>
                 <button
                   onClick={() => {
@@ -830,7 +849,7 @@ export function NotebookPanel({
                     printHtml(blocksToHtml(editor.document as any[]));
                   }}
                 >
-                  PDF / Print&hellip;
+                  {t('PDF / Print…')}
                 </button>
                 <button
                   onClick={() => {
@@ -842,7 +861,7 @@ export function NotebookPanel({
                     );
                   }}
                 >
-                  Jupyter (.ipynb)&hellip;
+                  {t('Jupyter (.ipynb)…')}
                 </button>
               </div>
             </details>
@@ -855,35 +874,37 @@ export function NotebookPanel({
               aria-pressed={outputLayout === 'right'}
               title={
                 outputLayout === 'right'
-                  ? 'Output on the right — switch to output below'
-                  : 'Output below — switch to output on the right'
+                  ? t('Output on the right — switch to output below')
+                  : t('Output below — switch to output on the right')
               }
               onClick={() => setOutputLayout((v) => (v === 'right' ? 'inline' : 'right'))}
             >
               <DesktopIcon name="layout" />
               <span className="nls-btn__label">
-                {outputLayout === 'right' ? 'Output right' : 'Output below'}
+                {outputLayout === 'right' ? t('Output right') : t('Output below')}
               </span>
             </button>
             <button
               type="button"
               className={`nls-btn ${showOutline ? 'is-on' : ''}`}
               aria-pressed={showOutline}
-              title="Show or hide the document outline"
+              title={t('Show or hide the document outline')}
               onClick={() => setShowOutline((v) => !v)}
             >
               <DesktopIcon name="files" />
-              <span className="nls-btn__label">Outline</span>
+              <span className="nls-btn__label">{t('Outline')}</span>
             </button>
             <button
               type="button"
               className={`nls-btn ${hideCode ? 'is-on' : ''}`}
               aria-pressed={hideCode}
-              title={hideCode ? 'Show the code cells' : 'Hide the code cells (shareable view)'}
+              title={
+                hideCode ? t('Show the code cells') : t('Hide the code cells (shareable view)')
+              }
               onClick={() => setHideCode((v) => !v)}
             >
               <DesktopIcon name="editor" />
-              <span className="nls-btn__label">{hideCode ? 'Show code' : 'Hide code'}</span>
+              <span className="nls-btn__label">{hideCode ? t('Show code') : t('Hide code')}</span>
             </button>
           </div>
         </header>
@@ -921,9 +942,9 @@ function Outline({ editor, version }: { editor: any; version: number }): JSX.Ele
       .querySelector(`[data-id="${id}"]`)
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return (
-    <nav className="nls-outline" aria-label="Outline">
-      <div className="nls-outline-title">Outline</div>
-      {headings.length === 0 && <div className="nls-outline-empty">No sections</div>}
+    <nav className="nls-outline" aria-label={t('Outline')}>
+      <div className="nls-outline-title">{t('Outline')}</div>
+      {headings.length === 0 && <div className="nls-outline-empty">{t('No sections')}</div>}
       <ul>
         {headings.map((h) => (
           <li key={h.id} className={`nls-outline-l${h.level}`}>

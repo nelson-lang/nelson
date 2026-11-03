@@ -12,6 +12,7 @@ import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { rpc } from '../rpc/client';
 import { getActiveScheme, subscribeScheme, xtermTheme } from '../desktop/theme';
+import { t } from '../i18n';
 //=============================================================================
 interface ShellRunResult {
   output: string;
@@ -141,7 +142,7 @@ export function ShellTerminalPanel(): JSX.Element {
     });
     ro.observe(host);
 
-    term.writeln('\x1b[1mSystem terminal\x1b[0m');
+    term.writeln('\x1b[1m' + t('System terminal') + '\x1b[0m');
     rpc<ShellRunResult>('shell.run', { command: '', cwd: '' })
       .then((r) => {
         cwd = r.cwd;
@@ -157,6 +158,8 @@ export function ShellTerminalPanel(): JSX.Element {
     };
   }, []);
 
-  return <div ref={hostRef} className="console-panel" role="region" aria-label="System terminal" />;
+  return (
+    <div ref={hostRef} className="console-panel" role="region" aria-label={t('System terminal')} />
+  );
 }
 //=============================================================================

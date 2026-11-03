@@ -14,6 +14,8 @@ import { addRecentFile } from './recentFiles';
 import { selectVariable } from './variableHost';
 import { getDesktopCapabilities } from './capabilities';
 import { isMobileViewport } from './layout';
+import { corePanelTitle } from './panelTitles';
+import { tf } from '../i18n';
 import { onPush, rpc } from '../rpc/client';
 //=============================================================================
 export const FIGURE_CLOSED_EVENT = 'nelson-webview.figure-closed';
@@ -292,26 +294,26 @@ export function openEditor(path: string, line?: number, column?: number): void {
 export function openShell(): void {
   if (!api) return;
   const id = `shell:${++shellSeq}`;
-  const panel = api.addPanel({ id, component: 'shell', title: `Terminal ${shellSeq}` });
+  const panel = api.addPanel({ id, component: 'shell', title: tf('Terminal %1', shellSeq) });
   focusPanel(panel);
 }
 //=============================================================================
-const CORE_PANELS: Record<string, { component: string; title: string }> = {
-  console: { component: 'console', title: 'Command Window' },
-  files: { component: 'files', title: 'Files' },
-  workspace: { component: 'workspace', title: 'Workspace' },
-  history: { component: 'history', title: 'Command History' },
-  newsfeed: { component: 'newsfeed', title: 'News feed' },
-  variables: { component: 'variables', title: 'Variables Editor' },
-  help: { component: 'help', title: 'Documentation' },
-  examples: { component: 'examples', title: 'Examples' },
-  notebook: { component: 'notebook', title: 'Notebook' },
-  packages: { component: 'packages', title: 'Package Manager' },
-  profiler: { component: 'profiler', title: 'Profiler' },
-  diagnostics: { component: 'diagnostics', title: 'Diagnostics' },
-  terminal: { component: 'shell', title: 'Terminal' },
-  breakpoints: { component: 'breakpoints', title: 'Breakpoints' },
-  callstack: { component: 'callstack', title: 'Call Stack' },
+const CORE_PANEL_COMPONENTS: Record<string, string> = {
+  console: 'console',
+  files: 'files',
+  workspace: 'workspace',
+  history: 'history',
+  newsfeed: 'newsfeed',
+  variables: 'variables',
+  help: 'help',
+  examples: 'examples',
+  notebook: 'notebook',
+  packages: 'packages',
+  profiler: 'profiler',
+  diagnostics: 'diagnostics',
+  terminal: 'shell',
+  breakpoints: 'breakpoints',
+  callstack: 'callstack',
 };
 //=============================================================================
 function corePosition(id: string): Parameters<DockviewApi['addPanel']>[0]['position'] | undefined {
@@ -375,12 +377,12 @@ export function ensureCorePanel(id: string): void {
     focusPanel(existing);
     return;
   }
-  const spec = CORE_PANELS[id];
-  if (!spec) return;
+  const component = CORE_PANEL_COMPONENTS[id];
+  if (!component) return;
   const panel = api.addPanel({
     id,
-    component: spec.component,
-    title: spec.title,
+    component,
+    title: corePanelTitle(id),
     minimumWidth: id === 'files' || id === 'workspace' ? 260 : undefined,
     initialWidth: id === 'files' ? 320 : undefined,
     position: corePosition(id),

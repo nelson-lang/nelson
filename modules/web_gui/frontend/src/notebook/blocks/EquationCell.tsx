@@ -9,6 +9,7 @@
 //=============================================================================
 import { useRef, useState } from 'react';
 import katex from 'katex';
+import { t } from '../../i18n';
 //=============================================================================
 interface EquationCellProps {
   block: any;
@@ -105,10 +106,10 @@ export function EquationCell({ block, editor }: EquationCellProps) {
             setEditing(false);
           }}
         >
-          Done
+          {t('Done')}
         </button>
         <button className="nls-btn" onClick={() => setEditing(false)}>
-          Cancel
+          {t('Cancel')}
         </button>
       </div>
     </div>

@@ -18,6 +18,8 @@ import {
   subscribeDesktopCapabilities,
 } from '../desktop/capabilities';
 import { handleMenuKeyDown } from '../desktop/menuKeyboard';
+import { corePanelTitle } from '../desktop/panelTitles';
+import { t, tf } from '../i18n';
 //=============================================================================
 interface RailButton {
   id: string;
@@ -26,22 +28,24 @@ interface RailButton {
   key?: string;
 }
 //=============================================================================
-const PANELS: RailButton[] = [
-  { id: 'console', icon: 'command', label: 'Command Window' },
-  { id: 'files', icon: 'files', label: 'Files', key: '2' },
-  { id: 'workspace', icon: 'workspace', label: 'Workspace', key: '3' },
-  { id: 'history', icon: 'history', label: 'Command History', key: '1' },
-  { id: 'variables', icon: 'variables', label: 'Variables Editor', key: '4' },
-  { id: 'profiler', icon: 'profiler', label: 'Profiler', key: '5' },
-  { id: 'newsfeed', icon: 'newsfeed', label: 'News feed', key: '6' },
-  { id: 'breakpoints', icon: 'stop', label: 'Breakpoints', key: '7' },
-  { id: 'callstack', icon: 'layout', label: 'Call Stack', key: '8' },
-  { id: 'diagnostics', icon: 'info', label: 'Diagnostics' },
-  { id: 'terminal', icon: 'terminal', label: 'Terminal' },
-  { id: 'examples', icon: 'examples', label: 'Examples' },
-  { id: 'notebook', icon: 'notebook', label: 'New Notebook' },
-  { id: 'packageManager', icon: 'package', label: 'Package Manager' },
-];
+function allPanels(): RailButton[] {
+  return [
+    { id: 'console', icon: 'command', label: corePanelTitle('console') },
+    { id: 'files', icon: 'files', label: corePanelTitle('files'), key: '2' },
+    { id: 'workspace', icon: 'workspace', label: corePanelTitle('workspace'), key: '3' },
+    { id: 'history', icon: 'history', label: corePanelTitle('history'), key: '1' },
+    { id: 'variables', icon: 'variables', label: corePanelTitle('variables'), key: '4' },
+    { id: 'profiler', icon: 'profiler', label: corePanelTitle('profiler'), key: '5' },
+    { id: 'newsfeed', icon: 'newsfeed', label: corePanelTitle('newsfeed'), key: '6' },
+    { id: 'breakpoints', icon: 'stop', label: corePanelTitle('breakpoints'), key: '7' },
+    { id: 'callstack', icon: 'layout', label: corePanelTitle('callstack'), key: '8' },
+    { id: 'diagnostics', icon: 'info', label: corePanelTitle('diagnostics') },
+    { id: 'terminal', icon: 'terminal', label: corePanelTitle('terminal') },
+    { id: 'examples', icon: 'examples', label: corePanelTitle('examples') },
+    { id: 'notebook', icon: 'notebook', label: t('New Notebook') },
+    { id: 'packageManager', icon: 'package', label: corePanelTitle('packages') },
+  ];
+}
 //=============================================================================
 // Rail entries that run a desktop action instead of toggling a panel.
 const COMMAND_BUTTONS: Record<string, string> = {
@@ -53,7 +57,8 @@ const COMMAND_BUTTONS: Record<string, string> = {
 // The Diagnostics panel reports the browser runtime and the WebAssembly
 // bundle; the native engine only answers with a stub, so hide it there.
 function railPanels(): RailButton[] {
-  return isWasmRuntime() ? PANELS : PANELS.filter((button) => button.id !== 'diagnostics');
+  const panels = allPanels();
+  return isWasmRuntime() ? panels : panels.filter((button) => button.id !== 'diagnostics');
 }
 //=============================================================================
 function dockSnapshot(): string {
@@ -72,7 +77,7 @@ function RailPanelButton({ button }: { button: RailButton }): JSX.Element | null
     const badge =
       button.id === 'packageManager' ? packageUpdatesBadge(capabilities.packageUpdates) : '';
     const label = badge
-      ? `${button.label} (${capabilities.packageUpdates} updates available)`
+      ? tf('%1 (%2 updates available)', button.label, capabilities.packageUpdates)
       : button.label;
     return (
       <button
@@ -114,7 +119,7 @@ export function Sidebar(): JSX.Element {
   const panels = railPanels();
 
   return (
-    <nav className="sidebar" aria-label="Panels sidebar" data-focus-zone="rail">
+    <nav className="sidebar" aria-label={t('Panels sidebar')} data-focus-zone="rail">
       {panels.map((button, index) => (
         <div
           key={button.id}
@@ -128,8 +133,8 @@ export function Sidebar(): JSX.Element {
           ref={moreRef}
           type="button"
           className="sidebar__btn sidebar__more-btn"
-          aria-label="More panels"
-          title="More panels"
+          aria-label={t('More panels')}
+          title={t('More panels')}
           aria-expanded={moreOpen}
           onClick={() => setMoreOpen((open) => !open)}
         >
@@ -148,7 +153,7 @@ export function Sidebar(): JSX.Element {
           >
             {[
               ...panels.filter((button) => !COMMAND_BUTTONS[button.id]),
-              { id: 'help', icon: 'help' as const, label: 'Documentation' },
+              { id: 'help', icon: 'help' as const, label: corePanelTitle('help') },
             ].map((button) => {
               const state = panelState(button.id);
               return (

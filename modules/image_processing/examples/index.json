@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "denoise_image.m",
-      "title": "Denoise a grayscale image",
-      "description": "Apply a median filter to synthetic impulse noise.",
+      "title": {
+        "en_US": "Denoise a grayscale image",
+        "fr_FR": "Débruiter une image en niveaux de gris"
+      },
+      "description": {
+        "en_US": "Apply a median filter to synthetic impulse noise.",
+        "fr_FR": "Appliquer un filtre médian à un bruit impulsionnel synthétique."
+      },
       "tags": [
         "image",
         "filtering"
@@ -15,8 +21,14 @@
     },
     {
       "file": "morphology_shapes.m",
-      "title": "Binary image morphology",
-      "description": "Clean binary regions and display their boundaries.",
+      "title": {
+        "en_US": "Binary image morphology",
+        "fr_FR": "Morphologie d'images binaires"
+      },
+      "description": {
+        "en_US": "Clean binary regions and display their boundaries.",
+        "fr_FR": "Nettoyer des régions binaires et afficher leurs contours."
+      },
       "tags": [
         "image",
         "morphology"

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "reproducible_random.m",
-      "title": "Reproducible random samples",
-      "description": "Seed the generator and create uniform and normal samples.",
+      "title": {
+        "en_US": "Reproducible random samples",
+        "fr_FR": "Échantillons aléatoires reproductibles"
+      },
+      "description": {
+        "en_US": "Seed the generator and create uniform and normal samples.",
+        "fr_FR": "Initialiser le générateur et créer des échantillons uniformes et normaux."
+      },
       "tags": [
         "random",
         "reproducibility"

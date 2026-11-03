@@ -36,6 +36,7 @@ import { getDesktopCapabilities } from './capabilities';
 import { isEngineBusy, onEngineReady, subscribeEngine } from './engineSession';
 import { isWasmRuntime } from './platform';
 import { isFigureLive } from '../notebook/liveFigures';
+import { tf } from '../i18n';
 //=============================================================================
 // notebook.open pushes open one tab per document; an empty path is a new untitled document.
 export function installNotebookOpenPush(): () => void {
@@ -109,9 +110,9 @@ export function installFigureLifecycle(api: DockviewApi): () => void {
     const wantWindow = shouldOpenSeparateFigureWindow(windowStyle);
     const isWindow = isFigureInWindow(handle);
     if (wantWindow && !isWindow) {
-      openFigureInSeparateWindow(handle, `Figure ${handle + 1}`);
+      openFigureInSeparateWindow(handle, tf('Figure %1', handle + 1));
     } else if (!wantWindow && isWindow) {
-      dockFigureFromWindow(handle, `Figure ${handle + 1}`);
+      dockFigureFromWindow(handle, tf('Figure %1', handle + 1));
     }
   });
   const offClosed = onPush('figure.closed', (p) => {
@@ -145,7 +146,7 @@ export function installFigureLifecycle(api: DockviewApi): () => void {
       if (reason === 'close') {
         void rpc('figure.close', { handle }).catch(() => undefined);
       } else if (seen.has(handle)) {
-        openFigure(handle, `Figure ${handle + 1}`);
+        openFigure(handle, tf('Figure %1', handle + 1));
       }
     }
   });
@@ -184,7 +185,7 @@ export function installFigureLifecycle(api: DockviewApi): () => void {
     )
       return;
     seen.add(handle);
-    openFigure(handle, `Figure ${handle + 1}`, {
+    openFigure(handle, tf('Figure %1', handle + 1), {
       focus: newFigureShouldFocus(captureFigureFocusSnapshot()),
     });
     window.__nelsonPush?.('figure.updated', JSON.stringify({ handle }));

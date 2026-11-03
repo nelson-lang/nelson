@@ -11,6 +11,7 @@ import type { IDockviewHeaderActionsProps } from 'dockview';
 import { ContextMenu, useContextMenu } from '../components/ContextMenu';
 import { DesktopIcon } from '../components/DesktopIcon';
 import { panelActionItems } from '../desktop/panelActions';
+import { t } from '../i18n';
 //=============================================================================
 export function PanelHeaderActions(props: IDockviewHeaderActionsProps): JSX.Element | null {
   const { menu, openMenu, closeMenu } = useContextMenu();
@@ -20,8 +21,8 @@ export function PanelHeaderActions(props: IDockviewHeaderActionsProps): JSX.Elem
       <button
         type="button"
         className="panel-actions"
-        title="Panel actions"
-        aria-label="Panel actions"
+        title={t('Panel actions')}
+        aria-label={t('Panel actions')}
         onClick={(event) =>
           openMenu(event, panelActionItems(props.activePanel!, props.containerApi))
         }

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "run_unit_test.m",
-      "title": "Run a unit test",
-      "description": "Create a temporary assertion-based test and execute it with the test manager.",
+      "title": {
+        "en_US": "Run a unit test",
+        "fr_FR": "Exécuter un test unitaire"
+      },
+      "description": {
+        "en_US": "Create a temporary assertion-based test and execute it with the test manager.",
+        "fr_FR": "Créer un test temporaire à base d'assertions et l'exécuter avec le gestionnaire de tests."
+      },
       "tags": [
         "testing",
         "automation"

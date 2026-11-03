@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -92,6 +93,10 @@ public:
     //=============================================================================
     std::string
     getText(const std::string& key);
+    //=============================================================================
+    // every non-empty entry of the user-interface catalog, as UTF-8 key -> text
+    std::map<std::string, std::string>
+    getTranslatedTexts() const;
     //=============================================================================
     // Resolve an error/warning message template from its identifier. Returns the template for the
     // current locale, falling back to the English catalog, then to an empty string when the

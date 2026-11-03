@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "export_plot.m",
-      "title": "Export a plot as an image",
-      "description": "Render a hidden figure and save it as a PNG in the temporary directory.",
+      "title": {
+        "en_US": "Export a plot as an image",
+        "fr_FR": "Exporter un tracé en image"
+      },
+      "description": {
+        "en_US": "Render a hidden figure and save it as a PNG in the temporary directory.",
+        "fr_FR": "Rendre une figure masquée et l'enregistrer en PNG dans le répertoire temporaire."
+      },
       "tags": [
         "graphics",
         "export"

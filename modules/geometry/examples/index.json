@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "convex_hull.m",
-      "title": "Convex hull of a point set",
-      "description": "Compute and display the boundary enclosing planar samples.",
+      "title": {
+        "en_US": "Convex hull of a point set",
+        "fr_FR": "Enveloppe convexe d'un nuage de points"
+      },
+      "description": {
+        "en_US": "Compute and display the boundary enclosing planar samples.",
+        "fr_FR": "Calculer et afficher la frontière qui entoure des échantillons plans."
+      },
       "tags": [
         "geometry",
         "points"

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "mat_file_roundtrip.m",
-      "title": "MAT file round trip",
-      "description": "Save selected variables to a temporary data file and reload them.",
+      "title": {
+        "en_US": "MAT file round trip",
+        "fr_FR": "Aller-retour d'un fichier MAT"
+      },
+      "description": {
+        "en_US": "Save selected variables to a temporary data file and reload them.",
+        "fr_FR": "Enregistrer des variables choisies dans un fichier de données temporaire et les recharger."
+      },
       "tags": [
         "mat-file",
         "workspace"

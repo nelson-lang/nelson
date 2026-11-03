@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "complex/example_complex.m",
-      "title": "Define an overloaded class",
-      "description": "Use a class folder to customize display, indexing and addition.",
+      "title": {
+        "en_US": "Define an overloaded class",
+        "fr_FR": "Définir une classe surchargée"
+      },
+      "description": {
+        "en_US": "Use a class folder to customize display, indexing and addition.",
+        "fr_FR": "Utiliser un dossier de classe pour personnaliser l'affichage, l'indexation et l'addition."
+      },
       "tags": [
         "objects",
         "operators"
@@ -18,7 +24,8 @@
         "fr_FR": "Cube tournant par quaternions"
       },
       "description": {
-        "en_US": "Define a quaternion class that overloads the * operator with the Hamilton product, then spin a 3-D cube by composing rotations with it frame after frame."
+        "en_US": "Define a quaternion class that overloads the * operator with the Hamilton product, then spin a 3-D cube by composing rotations with it frame after frame.",
+        "fr_FR": "Définir une classe quaternion qui surcharge l'opérateur * avec le produit de Hamilton, puis faire tourner un cube 3D en composant les rotations image après image."
       },
       "tags": [
         "animation",

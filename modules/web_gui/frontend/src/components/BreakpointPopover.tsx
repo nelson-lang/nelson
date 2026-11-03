@@ -10,7 +10,7 @@
 // right-click menu of the breakpoint gutter with the inline condition editor
 //=============================================================================
 import { useEffect, useRef, useState } from 'react';
-import { t } from '../i18n';
+import { t, tf } from '../i18n';
 //=============================================================================
 export interface BreakpointPopoverProps {
   line: number;
@@ -87,10 +87,7 @@ export function BreakpointPopover(props: BreakpointPopoverProps) {
           }}
         >
           <label className="bp-popover__label">
-            {t('Pause on line %1 only when this expression is true:').replace(
-              '%1',
-              String(props.line)
-            )}
+            {tf('Pause on line %1 only when this expression is true:', props.line)}
           </label>
           <input
             ref={inputRef}

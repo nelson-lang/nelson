@@ -2375,7 +2375,12 @@ nlohmann::json
 WebGuiRpc::i18nTranslate(const nlohmann::json& params)
 {
     nlohmann::json translations = nlohmann::json::object();
-    if (params.contains("keys") && params["keys"].is_array()) {
+    if (!params.contains("keys")) {
+        // no keys: the whole translated catalog, loaded once by the desktop at startup
+        for (const auto& entry : getTranslatedTexts()) {
+            translations[entry.first] = entry.second;
+        }
+    } else if (params["keys"].is_array()) {
         for (const auto& key : params["keys"]) {
             if (key.is_string()) {
                 const std::string text = key.get<std::string>();
