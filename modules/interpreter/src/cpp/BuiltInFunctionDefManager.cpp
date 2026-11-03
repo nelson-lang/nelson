@@ -63,7 +63,7 @@ BuiltInFunctionDefManager::getInstance()
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::add(FunctionDefPtr ptr)
+BuiltInFunctionDefManager::addLocked(FunctionDefPtr ptr)
 {
     if (ptr != nullptr) {
         builtinVector.push_back(ptr);
@@ -79,6 +79,7 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
     const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
     bool interleavedComplex, FunctionOverloadAutoMode builtinOverloadAutoMode)
 {
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
     for (auto* funcDef : builtinVector) {
         auto* builtinDef = (BuiltInFunctionDef*)funcDef;
         if (builtinDef != nullptr && builtinDef->isLazyGateway() && builtinDef->getName() == name
@@ -115,7 +116,7 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
         f2def->builtinPrototype = builtinPrototype;
         f2def->overloadAutoMode = builtinOverloadAutoMode;
         f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name);
-        return add(f2def);
+        return addLocked(f2def);
     }
     return false;
 }
@@ -145,7 +146,8 @@ BuiltInFunctionDefManager::addLazyGateway(const std::string& name, int argc_in, 
         f2def->builtinPrototype = builtinPrototype;
         f2def->overloadAutoMode = builtinOverloadAutoMode;
         f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name);
-        return add(f2def);
+        std::unique_lock<std::shared_mutex> lock(tableMutex);
+        return addLocked(f2def);
     }
     return false;
 }
@@ -153,6 +155,7 @@ BuiltInFunctionDefManager::addLazyGateway(const std::string& name, int argc_in, 
 bool
 BuiltInFunctionDefManager::setCallerContextAccess(ptrBuiltin fptr, bool callerContextAccess)
 {
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
     bool found = false;
     for (auto* funcDef : builtinVector) {
         auto* builtinDef = (BuiltInFunctionDef*)funcDef;
@@ -165,18 +168,21 @@ BuiltInFunctionDefManager::setCallerContextAccess(ptrBuiltin fptr, bool callerCo
 }
 //=============================================================================
 bool
-BuiltInFunctionDefManager::remove(const std::string& name)
+BuiltInFunctionDefManager::removeMatchingLocked(
+    const std::function<bool(BuiltInFunctionDef*)>& matches)
 {
     bool deleted = false;
     builtinHashMap.clear();
     for (auto it = builtinVector.begin(); it != builtinVector.end();) {
-        if ((*it)->getName() == name) {
-            auto* p = (BuiltInFunctionDef*)*it;
-            delete p;
+        auto* builtinDef = (BuiltInFunctionDef*)*it;
+        if (builtinDef != nullptr && matches(builtinDef)) {
+            delete builtinDef;
             it = builtinVector.erase(it);
             deleted = true;
         } else {
-            builtinHashMap[(*it)->getName()] = *it;
+            if (builtinDef != nullptr) {
+                builtinHashMap[builtinDef->getName()] = builtinDef;
+            }
             ++it;
         }
     }
@@ -184,101 +190,53 @@ BuiltInFunctionDefManager::remove(const std::string& name)
         bumpGeneration();
     }
     return deleted;
+}
+//=============================================================================
+bool
+BuiltInFunctionDefManager::remove(const std::string& name)
+{
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
+    return removeMatchingLocked(
+        [&name](BuiltInFunctionDef* builtinDef) { return builtinDef->getName() == name; });
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::removeByFilename(const std::wstring& dynlibname)
 {
-    bool deleted = false;
-    builtinHashMap.clear();
-    for (auto it = builtinVector.begin(); it != builtinVector.end();) {
-        if ((*it)->getFilename() == dynlibname) {
-            auto* p = (BuiltInFunctionDef*)*it;
-            delete p;
-            it = builtinVector.erase(it);
-            deleted = true;
-        } else {
-            builtinHashMap[(*it)->getName()] = *it;
-            ++it;
-        }
-    }
-    if (deleted) {
-        bumpGeneration();
-    }
-    return deleted;
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
+    return removeMatchingLocked([&dynlibname](BuiltInFunctionDef* builtinDef) {
+        return builtinDef->getFilename() == dynlibname;
+    });
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(FunctionDefPtr ptr)
 {
-    bool deleted = false;
-    builtinHashMap.clear();
-    for (auto it = builtinVector.begin(); it != builtinVector.end();) {
-        if (*it == ptr) {
-            auto* p = (BuiltInFunctionDef*)(*it);
-            delete p;
-            it = builtinVector.erase(it);
-            deleted = true;
-        } else {
-            builtinHashMap[(*it)->getName()] = *it;
-            ++it;
-        }
-    }
-    if (deleted) {
-        bumpGeneration();
-    }
-    return deleted;
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
+    return removeMatchingLocked(
+        [ptr](BuiltInFunctionDef* builtinDef) { return builtinDef == ptr; });
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(BuiltInFunctionDef* ptr)
 {
-    bool deleted = false;
-    builtinHashMap.clear();
-    for (auto it = builtinVector.begin(); it != builtinVector.end();) {
-        if (*it == ptr) {
-            auto* p = (BuiltInFunctionDef*)(*it);
-            delete p;
-            it = builtinVector.erase(it);
-            deleted = true;
-        } else {
-            builtinHashMap[(*it)->getName()] = *it;
-            ++it;
-        }
-    }
-    if (deleted) {
-        bumpGeneration();
-    }
-    return deleted;
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
+    return removeMatchingLocked(
+        [ptr](BuiltInFunctionDef* builtinDef) { return builtinDef == ptr; });
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::remove(ptrBuiltin fptr)
 {
-    bool res = false;
-    builtinHashMap.clear();
-    for (size_t k = 0; k < builtinVector.size();) {
-        auto* asBuiltInPtr = (BuiltInFunctionDef*)builtinVector[k];
-        if (asBuiltInPtr != nullptr && asBuiltInPtr->fptr == fptr) {
-            delete asBuiltInPtr;
-            builtinVector.erase(builtinVector.begin() + k);
-            res = true;
-        } else {
-            if (asBuiltInPtr != nullptr) {
-                builtinHashMap[builtinVector[k]->getName()] = builtinVector[k];
-            }
-            k++;
-        }
-    }
-    if (res) {
-        bumpGeneration();
-    }
-    return res;
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
+    return removeMatchingLocked(
+        [fptr](BuiltInFunctionDef* builtinDef) { return builtinDef->fptr == fptr; });
 }
 //=============================================================================
 bool
 BuiltInFunctionDefManager::removeAll()
 {
+    std::unique_lock<std::shared_mutex> lock(tableMutex);
     for (auto& it : builtinVector) {
         delete it;
     }
@@ -291,6 +249,7 @@ BuiltInFunctionDefManager::removeAll()
 std::vector<FunctionDefPtr>
 BuiltInFunctionDefManager::getTable()
 {
+    std::shared_lock<std::shared_mutex> lock(tableMutex);
     std::vector<FunctionDefPtr> builtinTable;
     builtinTable.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
@@ -302,6 +261,7 @@ BuiltInFunctionDefManager::getTable()
 stringVector
 BuiltInFunctionDefManager::getNameList()
 {
+    std::shared_lock<std::shared_mutex> lock(tableMutex);
     stringVector nameList;
     nameList.reserve(builtinVector.size());
     for (auto& it : builtinVector) {
@@ -313,6 +273,7 @@ BuiltInFunctionDefManager::getNameList()
 bool
 BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
 {
+    std::shared_lock<std::shared_mutex> lock(tableMutex);
     auto it = builtinHashMap.find(name);
     if (it != builtinHashMap.end()) {
         path = it->second->getFilename();
@@ -324,6 +285,7 @@ BuiltInFunctionDefManager::find(const std::string& name, std::wstring& path)
 bool
 BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 {
+    std::shared_lock<std::shared_mutex> lock(tableMutex);
     bool res = false;
     paths.clear();
     if (!builtinVector.empty()) {
@@ -340,6 +302,7 @@ BuiltInFunctionDefManager::find(const std::string& name, wstringVector& paths)
 bool
 BuiltInFunctionDefManager::find(const std::string& name, FunctionDefPtr& ptr)
 {
+    std::shared_lock<std::shared_mutex> lock(tableMutex);
     auto it = builtinHashMap.find(name);
     if (it != builtinHashMap.end()) {
         ptr = it->second;

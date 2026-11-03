@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
 #include <memory>
 #include <string>
 #include "AbstractSyntaxTree.hpp"
@@ -163,6 +164,10 @@ private:
     std::string
     computeCompleteName();
 
+    // caller holds the lazy state lock
+    bool
+    compileBytecodeLocked();
+
     std::string completeNameCache;
     int needsContextScopeCache = -1;
     // Generation of FunctionsInMemory when needsContextScopeCache was computed:
@@ -199,16 +204,13 @@ private:
     openSourceFile();
 
     ParserState
-    parseSource(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
+    parseSource(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
 
     ParserState
-    parseOverloadEndFunction(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
+    parseOverloadEndFunction(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
 
     ParserState
-    parseRegularFile(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
-
-    LexerContext&
-    getOrCreateLexerContext(Evaluator* eval, LexerContext& localContext);
+    parseRegularFile(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode);
 
     void
     assignParsedResult(ParserState pstate);
@@ -219,6 +221,9 @@ private:
     bool isScript;
     bool directScript;
     bool withWatcher;
+    // pool workers share a definition: its lazy bytecode and name are built once, then only read
+    std::atomic<bool> bytecodePublished { false };
+    std::atomic<bool> completeNamePublished { false };
 };
 //=============================================================================
 // Transient-owner keep-alive registry.

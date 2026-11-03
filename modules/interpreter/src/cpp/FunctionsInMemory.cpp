@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <unordered_set>
 #include "FunctionsInMemory.hpp"
 #include "Context.hpp"
 #include "MexFunctionDef.hpp"
@@ -23,7 +24,7 @@ FunctionsInMemory::FunctionsInMemory() = default;
 //=============================================================================
 FunctionsInMemory::~FunctionsInMemory()
 {
-    clearMapCache();
+    clearMapCacheLocked();
     _macroFunctionsInMemory.clear();
     _mexFunctionsInMemory.clear();
     _builtinFunctionInMemory.clear();
@@ -51,6 +52,13 @@ FunctionsInMemory::destroy()
 void
 FunctionsInMemory::clearMapCache()
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
+    clearMapCacheLocked();
+}
+//=============================================================================
+void
+FunctionsInMemory::clearMapCacheLocked()
+{
     bumpGeneration();
     _lastFunctionsInMemory.clear();
     _notExistingFunctionsInMemory.clear();
@@ -59,6 +67,7 @@ FunctionsInMemory::clearMapCache()
 void
 FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     if (function != nullptr) {
         if (function->type() == NLS_MACRO_FUNCTION) {
@@ -78,6 +87,7 @@ FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
 bool
 FunctionsInMemory::deleteMFunction(const std::string& functionName)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     auto it = _macroFunctionsInMemory.find(functionName);
     if (it != _macroFunctionsInMemory.end()) {
@@ -85,7 +95,7 @@ FunctionsInMemory::deleteMFunction(const std::string& functionName)
         if (f != nullptr) {
             destroyMacroFunctionDef(f);
             _macroFunctionsInMemory.erase(it);
-            clearMapCache();
+            clearMapCacheLocked();
             return true;
         }
     }
@@ -95,6 +105,7 @@ FunctionsInMemory::deleteMFunction(const std::string& functionName)
 bool
 FunctionsInMemory::deleteMexFunction(const std::string& functionName)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     auto it = _mexFunctionsInMemory.find(functionName);
     if (it != _mexFunctionsInMemory.end()) {
@@ -103,7 +114,7 @@ FunctionsInMemory::deleteMexFunction(const std::string& functionName)
             if (!f->isLocked()) {
                 delete f;
                 f = nullptr;
-                clearMapCache();
+                clearMapCacheLocked();
                 _mexFunctionsInMemory.erase((it));
                 return true;
             }
@@ -115,6 +126,7 @@ FunctionsInMemory::deleteMexFunction(const std::string& functionName)
 bool
 FunctionsInMemory::deleteBuiltinFunctionReference(const std::string& functionName)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     bool res = false;
     auto it = _builtinFunctionInMemory.find(functionName);
@@ -124,16 +136,17 @@ FunctionsInMemory::deleteBuiltinFunctionReference(const std::string& functionNam
         _builtinFunctionInMemory.erase(it);
         res = true;
     }
-    clearMapCache();
+    clearMapCacheLocked();
     return res;
 }
 //=============================================================================
 void
 FunctionsInMemory::deleteAllBuiltinFunctionReferences()
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     _builtinFunctionInMemory.clear();
-    clearMapCache();
+    clearMapCacheLocked();
 }
 //=============================================================================
 bool
@@ -173,51 +186,56 @@ bool
 FunctionsInMemory::find(
     const std::string& functionName, FunctionDefPtr& function, FIND_FUNCTION_TYPE functionType)
 {
-    if (isNotExistingFunction(functionName)) {
+    {
+        std::shared_lock<std::shared_mutex> lock(tablesMutex);
+        if (isNotExistingFunctionLocked(functionName)) {
+            return false;
+        }
+        switch (functionType) {
+        case FIND_FUNCTION_TYPE::ALL: {
+            auto it = _lastFunctionsInMemory.find(functionName);
+            if (it != _lastFunctionsInMemory.end()) {
+                function = it->second;
+                return true;
+            }
+        } break;
+        case FIND_FUNCTION_TYPE::MACRO: {
+            return findMacro(functionName, function);
+        } break;
+        case FIND_FUNCTION_TYPE::MEX: {
+            return findMex(functionName, function);
+        } break;
+        case FIND_FUNCTION_TYPE::BUILTIN: {
+            return findBuiltin(functionName, function);
+        }
+        default: {
+            return false;
+        } break;
+        }
+    }
+    // a first lookup records its answer: the tables may have changed while unlocked
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
+    if (isNotExistingFunctionLocked(functionName)) {
         return false;
     }
-    switch (functionType) {
-    case FIND_FUNCTION_TYPE::ALL: {
-
-        auto it = _lastFunctionsInMemory.find(functionName);
-        if (it != _lastFunctionsInMemory.end()) {
-            function = it->second;
-            return true;
-        }
-
-        if (findMex(functionName, function)) {
-            _lastFunctionsInMemory.emplace(functionName, function);
-            return true;
-        }
-        if (findMacro(functionName, function)) {
-            _lastFunctionsInMemory.emplace(functionName, function);
-            return true;
-        }
-        if (findBuiltin(functionName, function)) {
-            _lastFunctionsInMemory.emplace(functionName, function);
-            return true;
-        }
-        declareAsNotExistingFunction(functionName);
-        return false;
-    } break;
-    case FIND_FUNCTION_TYPE::MACRO: {
-        return findMacro(functionName, function);
-    } break;
-    case FIND_FUNCTION_TYPE::MEX: {
-        return findMex(functionName, function);
-    } break;
-    case FIND_FUNCTION_TYPE::BUILTIN: {
-        return findBuiltin(functionName, function);
+    auto it = _lastFunctionsInMemory.find(functionName);
+    if (it != _lastFunctionsInMemory.end()) {
+        function = it->second;
+        return true;
     }
-    default: {
-    } break;
+    if (findMex(functionName, function) || findMacro(functionName, function)
+        || findBuiltin(functionName, function)) {
+        _lastFunctionsInMemory.emplace(functionName, function);
+        return true;
     }
+    declareAsNotExistingFunction(functionName);
     return false;
 }
 //=============================================================================
 bool
 FunctionsInMemory::retireIfFileRemoved(const std::string& functionName)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     auto retire = [this, &functionName](std::unordered_map<std::string, FunctionDefPtr>& table) {
         auto it = table.find(functionName);
         if (it == table.end() || it->second == nullptr) {
@@ -228,7 +246,7 @@ FunctionsInMemory::retireIfFileRemoved(const std::string& functionName)
         }
         _retiredFunctions.push_back(it->second);
         table.erase(it);
-        clearMapCache();
+        clearMapCacheLocked();
         return true;
     };
     return retire(_macroFunctionsInMemory) || retire(_mexFunctionsInMemory);
@@ -238,6 +256,7 @@ bool
 FunctionsInMemory::retireIfFileReplaced(
     const std::string& functionName, const std::wstring& resolvedFilename)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     if (resolvedFilename.empty()) {
         return false;
     }
@@ -261,7 +280,7 @@ FunctionsInMemory::retireIfFileReplaced(
         }
         _retiredFunctions.push_back(it->second);
         table.erase(it);
-        clearMapCache();
+        clearMapCacheLocked();
         return true;
     };
     return retire(_macroFunctionsInMemory) || retire(_mexFunctionsInMemory);
@@ -270,6 +289,7 @@ FunctionsInMemory::retireIfFileReplaced(
 stringVector
 FunctionsInMemory::getMacroAndMexNames()
 {
+    std::shared_lock<std::shared_mutex> lock(tablesMutex);
     stringVector names;
     names.reserve(_macroFunctionsInMemory.size() + _mexFunctionsInMemory.size());
     for (const auto& it : _macroFunctionsInMemory) {
@@ -303,6 +323,7 @@ FunctionsInMemory::destroyRetiredFunctions()
 void
 FunctionsInMemory::deleteAllMFunctions()
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     for (auto& iter : _macroFunctionsInMemory) {
         FunctionDefPtr funPtr = iter.second;
@@ -313,12 +334,13 @@ FunctionsInMemory::deleteAllMFunctions()
         }
     }
     _macroFunctionsInMemory.clear();
-    clearMapCache();
+    clearMapCacheLocked();
 }
 //=============================================================================
 bool
 FunctionsInMemory::deleteAllMexFunctions()
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     bool noLocked = true;
     std::unordered_map<std::string, FunctionDefPtr> lockedMex;
@@ -340,7 +362,7 @@ FunctionsInMemory::deleteAllMexFunctions()
         _mexFunctionsInMemory = lockedMex;
     }
     _builtinFunctionInMemory.clear();
-    clearMapCache();
+    clearMapCacheLocked();
     return noLocked;
 }
 //=============================================================================
@@ -361,6 +383,7 @@ FunctionsInMemory::freeRegisteredMexMemory()
 void
 FunctionsInMemory::clear(stringVector exceptedFunctions)
 {
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
     bumpGeneration();
     if (exceptedFunctions.empty()) {
         destroyRetiredFunctions();
@@ -417,12 +440,13 @@ FunctionsInMemory::clear(stringVector exceptedFunctions)
         }
     }
     _builtinFunctionInMemory.clear();
-    clearMapCache();
+    clearMapCacheLocked();
 }
 //=============================================================================
 wstringVector
 FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
 {
+    std::shared_lock<std::shared_mutex> lock(tablesMutex);
     wstringVector names;
     for (auto& it : _macroFunctionsInMemory) {
         MacroFunctionDef* fptr = (MacroFunctionDef*)it.second;
@@ -438,6 +462,7 @@ FunctionsInMemory::getMacroInMemory(bool withCompleteNames)
 wstringVector
 FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 {
+    std::shared_lock<std::shared_mutex> lock(tablesMutex);
     wstringVector names;
     for (auto& it : _mexFunctionsInMemory) {
         MexFunctionDef* fptr = (MexFunctionDef*)it.second;
@@ -452,6 +477,28 @@ FunctionsInMemory::getMexInMemory(bool withCompleteNames)
 //=============================================================================
 bool
 FunctionsInMemory::isNotExistingFunction(const std::string& functionName)
+{
+    // probed on every builtin call: known misses are kept per thread, valid for one generation
+    static thread_local std::unordered_set<std::string> knownMisses;
+    static thread_local uint64 knownMissesGeneration = 0;
+    const uint64 currentGeneration = generation();
+    if (knownMissesGeneration != currentGeneration) {
+        knownMisses.clear();
+        knownMissesGeneration = currentGeneration;
+    }
+    if (knownMisses.find(functionName) != knownMisses.end()) {
+        return true;
+    }
+    std::shared_lock<std::shared_mutex> lock(tablesMutex);
+    if (!isNotExistingFunctionLocked(functionName)) {
+        return false;
+    }
+    knownMisses.insert(functionName);
+    return true;
+}
+//=============================================================================
+bool
+FunctionsInMemory::isNotExistingFunctionLocked(const std::string& functionName)
 {
     auto it = _notExistingFunctionsInMemory.find(functionName);
     return (it != _notExistingFunctionsInMemory.end());
@@ -473,8 +520,9 @@ lookupOverloadFunctionCached(
     if (overloadName.empty() || overloadName[0] != '@') {
         return context->lookupFunction(overloadName, function);
     }
-    static std::unordered_map<std::string, FunctionDefPtr> cache;
-    static uint64 cacheGeneration = 0;
+    // per thread: pool workers dispatch overloads too
+    static thread_local std::unordered_map<std::string, FunctionDefPtr> cache;
+    static thread_local uint64 cacheGeneration = 0;
     const uint64 generation = FunctionsInMemory::getInstance()->generation();
     if (cacheGeneration != generation) {
         cache.clear();

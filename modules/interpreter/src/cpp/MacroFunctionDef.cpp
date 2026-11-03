@@ -504,9 +504,19 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
     return result;
 }
 //=============================================================================
+// taken only while a definition builds its lazy state, never once it is published
+static std::recursive_mutex&
+lazyStateMutex()
+{
+    static auto* mutex = new std::recursive_mutex;
+    return *mutex;
+}
+//=============================================================================
 void
 MacroFunctionDef::invalidateBytecode()
 {
+    bytecodePublished.store(false, std::memory_order_release);
+    completeNamePublished.store(false, std::memory_order_release);
     bytecodeChunk.reset();
     needsContextScopeCache = -1;
     completeNameCache.clear();
@@ -542,6 +552,18 @@ collectTopLevelGlobals(AbstractSyntaxTreePtr body, stringVector& out)
 //=============================================================================
 bool
 MacroFunctionDef::ensureBytecodeCompiled()
+{
+    if (bytecodePublished.load(std::memory_order_acquire)) {
+        return false;
+    }
+    std::lock_guard<std::recursive_mutex> lock(lazyStateMutex());
+    bool compiled = compileBytecodeLocked();
+    bytecodePublished.store(bytecodeChunk != nullptr, std::memory_order_release);
+    return compiled;
+}
+//=============================================================================
+bool
+MacroFunctionDef::compileBytecodeLocked()
 {
     if (bytecodeChunk != nullptr) {
         return false;
@@ -605,8 +627,13 @@ MacroFunctionDef::canEvaluateScopeFree(Evaluator* eval)
 const std::string&
 MacroFunctionDef::getCompleteName()
 {
-    if (completeNameCache.empty()) {
+    if (completeNamePublished.load(std::memory_order_acquire)) {
+        return completeNameCache;
+    }
+    std::lock_guard<std::recursive_mutex> lock(lazyStateMutex());
+    if (!completeNamePublished.load(std::memory_order_relaxed)) {
         completeNameCache = computeCompleteName();
+        completeNamePublished.store(true, std::memory_order_release);
     }
     return completeNameCache;
 }

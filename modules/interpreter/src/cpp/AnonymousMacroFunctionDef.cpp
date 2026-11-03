@@ -27,7 +27,6 @@
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "NelsonConfiguration.hpp"
 #include "Bytecode.hpp"
 #include "MacroFunctionDef.hpp"
 #include <atomic>
@@ -654,14 +653,10 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
     ParserState pstate = ParserState::ParseError;
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
-    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    // a handle may be parsed on a pool worker: never share the main evaluator lexer
+    LexerContext lexerContext;
     try {
-        if (eval) {
-            pstate = parseString(eval->lexerContext, convertToStandardFunction(nLhs));
-        } else {
-            LexerContext lexerContext;
-            pstate = parseString(lexerContext, convertToStandardFunction(nLhs));
-        }
+        pstate = parseString(lexerContext, convertToStandardFunction(nLhs));
         ptAstCode = AbstractSyntaxTree::getReferences();
         // The nodes now belong to this definition (released on the next
         // re-parse and in the destructor): drop them from the shared list.
