@@ -217,7 +217,8 @@ private:
     // debugger.* methods share one implementation with the wasm bridge (DebuggerJson)
     nlohmann::json
     debuggerRpc(const std::string& method, const nlohmann::json& params);
-    // i18n.translate {keys:[...]} -> {translations:{key:text}} from the UI catalog (all without keys)
+    // i18n.translate {keys:[...]} -> {translations:{key:text}} from the UI catalog (all without
+    // keys)
     nlohmann::json
     i18nTranslate(const nlohmann::json& params);
 

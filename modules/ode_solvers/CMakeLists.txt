@@ -240,7 +240,9 @@ if(ODE_SOLVERS_SRC)
             ${MPI_CXX_INCLUDE_DIRS}
             ${MPI_INCLUDE_PATH}
         )
-        target_link_libraries(${module_library_name} PRIVATE ${MPI_CXX_LIBRARIES})
+        target_link_libraries(${module_library_name}
+          PRIVATE ${MPI_CXX_LIBRARIES}
+        )
       endif()
     endif()
   endif()
