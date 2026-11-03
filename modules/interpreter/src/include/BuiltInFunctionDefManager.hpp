@@ -11,6 +11,8 @@
 //=============================================================================
 #include <atomic>
 #include <cstdint>
+#include <functional>
+#include <shared_mutex>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -73,8 +75,11 @@ public:
     }
 
 private:
+    // callers hold tableMutex exclusively
     bool
-    add(FunctionDefPtr ptr);
+    addLocked(FunctionDefPtr ptr);
+    bool
+    removeMatchingLocked(const std::function<bool(BuiltInFunctionDef*)>& matches);
 
     void
     bumpGeneration()
@@ -87,6 +92,8 @@ private:
     std::vector<FunctionDefPtr> builtinVector;
     std::unordered_map<std::string, FunctionDefPtr> builtinHashMap;
     std::atomic<uint64_t> _generation { 0 };
+    // pool workers look builtins up while the main thread loads or unloads gateways
+    mutable std::shared_mutex tableMutex;
 };
 //=============================================================================
 } // namespace Nelson

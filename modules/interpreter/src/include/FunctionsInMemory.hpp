@@ -11,6 +11,7 @@
 //=============================================================================
 #include <atomic>
 #include <functional>
+#include <shared_mutex>
 #include <unordered_map>
 #include <vector>
 #include "FunctionDef.hpp"
@@ -43,6 +44,9 @@ private:
     // loaded. See registerMexMemoryCleanup / freeRegisteredMexMemory.
     std::function<void()> _mexMemoryCleanup;
     //=============================================================================
+    // pool workers look functions up and load them while the main thread changes the tables
+    mutable std::shared_mutex tablesMutex;
+    //=============================================================================
     FunctionsInMemory();
     //=============================================================================
     ~FunctionsInMemory();
@@ -63,6 +67,13 @@ private:
     //=============================================================================
     void
     destroyRetiredFunctions();
+    //=============================================================================
+    // callers hold tablesMutex exclusively
+    void
+    clearMapCacheLocked();
+    //=============================================================================
+    bool
+    isNotExistingFunctionLocked(const std::string& functionName);
 
 public:
     //=============================================================================

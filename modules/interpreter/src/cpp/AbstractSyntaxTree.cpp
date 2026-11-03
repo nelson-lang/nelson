@@ -13,38 +13,33 @@
 #include <cstring>
 #include <algorithm>
 #include "AbstractSyntaxTree.hpp"
-#include <mutex>
-#include <shared_mutex>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class ASTThreadSafeStorage
+// per thread: a parse on another thread (code analyzer, worker) never collects these nodes
+class ASTThreadStorage
 {
     //=============================================================================
 private:
     AbstractSyntaxTreePtrVector storage;
-    mutable std::shared_mutex mutex;
     //=============================================================================
 public:
     //=============================================================================
     void
     clear()
     {
-        std::unique_lock<std::shared_mutex> lock(mutex);
         storage.clear();
     }
     //=============================================================================
     void
     add(AbstractSyntaxTreePtr ptr)
     {
-        std::unique_lock<std::shared_mutex> lock(mutex);
         storage.push_back(ptr);
     }
     //=============================================================================
     void
     deleteAll()
     {
-        std::unique_lock<std::shared_mutex> lock(mutex);
         for (auto& a : storage) {
             if (a != nullptr) {
                 delete a;
@@ -57,13 +52,12 @@ public:
     AbstractSyntaxTreePtrVector
     copy() const
     {
-        std::shared_lock<std::shared_mutex> lock(mutex);
         return storage;
     }
     //=============================================================================
 };
 //=============================================================================
-static ASTThreadSafeStorage g_astStorage;
+static thread_local ASTThreadStorage g_astStorage;
 //=============================================================================
 void
 AbstractSyntaxTree::clearReferences()
@@ -80,7 +74,6 @@ AbstractSyntaxTree::deleteReferences()
 void
 AbstractSyntaxTree::deleteReferences(AbstractSyntaxTreePtrVector& astAsVector)
 {
-    // This method doesn't need to be protected by mutex as it operates on a local copy
     for (auto& a : astAsVector) {
         if (a != nullptr) {
             delete a;

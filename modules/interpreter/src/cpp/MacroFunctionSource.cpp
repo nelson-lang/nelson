@@ -122,8 +122,7 @@ MacroFunctionDef::updateCode()
 
     AbstractSyntaxTree::clearReferences();
     AbstractSyntaxTreePtrVector ptAstCode;
-    Evaluator* eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
-    ParserState pstate = parseSource(eval, fr, ptAstCode);
+    ParserState pstate = parseSource(fr, ptAstCode);
 
     if (pstate == ParserState::ParseError) {
         AbstractSyntaxTree::deleteReferences(ptAstCode);
@@ -186,18 +185,17 @@ MacroFunctionDef::openSourceFile()
 }
 //=============================================================================
 ParserState
-MacroFunctionDef::parseSource(Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
+MacroFunctionDef::parseSource(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
 {
     if (this->isOverload() && StringHelpers::ends_with(this->getFilename(), L"/end.m")) {
-        return parseOverloadEndFunction(eval, fr, ptAstCode);
+        return parseOverloadEndFunction(fr, ptAstCode);
     } else {
-        return parseRegularFile(eval, fr, ptAstCode);
+        return parseRegularFile(fr, ptAstCode);
     }
 }
 //=============================================================================
 ParserState
-MacroFunctionDef::parseOverloadEndFunction(
-    Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
+MacroFunctionDef::parseOverloadEndFunction(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
 {
     std::string fileContent;
     char buffer[4096];
@@ -209,12 +207,11 @@ MacroFunctionDef::parseOverloadEndFunction(
     std::regex pattern(R"(\s*=\s*end\s*\()");
     fileContent = std::regex_replace(fileContent, pattern, " = endmagic(");
 
-    LexerContext localContext;
-    LexerContext& lexerCtx = getOrCreateLexerContext(eval, localContext);
-
+    // a function may load on a pool worker: never share the main evaluator lexer
+    LexerContext lexerContext;
     ParserState pstate = ParserState::ParseError;
     try {
-        pstate = parseString(lexerCtx, fileContent);
+        pstate = parseString(lexerContext, fileContent);
         ptAstCode = AbstractSyntaxTree::getReferences();
     } catch (const NelsonException&) {
         AbstractSyntaxTree::deleteReferences();
@@ -224,15 +221,13 @@ MacroFunctionDef::parseOverloadEndFunction(
 }
 //=============================================================================
 ParserState
-MacroFunctionDef::parseRegularFile(
-    Evaluator* eval, FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
+MacroFunctionDef::parseRegularFile(FILE* fr, AbstractSyntaxTreePtrVector& ptAstCode)
 {
-    LexerContext localContext;
-    LexerContext& lexerCtx = getOrCreateLexerContext(eval, localContext);
-
+    // a function may load on a pool worker: never share the main evaluator lexer
+    LexerContext lexerContext;
     ParserState pstate = ParserState::ParseError;
     try {
-        pstate = parseFile(lexerCtx, fr, wstring_to_utf8(this->getFilename()));
+        pstate = parseFile(lexerContext, fr, wstring_to_utf8(this->getFilename()));
         ptAstCode = AbstractSyntaxTree::getReferences();
     } catch (const NelsonException&) {
         AbstractSyntaxTree::deleteReferences();
@@ -245,15 +240,6 @@ MacroFunctionDef::parseRegularFile(
         fclose(fr);
     }
     return pstate;
-}
-//=============================================================================
-LexerContext&
-MacroFunctionDef::getOrCreateLexerContext(Evaluator* eval, LexerContext& localContext)
-{
-    if (eval) {
-        return eval->lexerContext;
-    }
-    return localContext;
 }
 //=============================================================================
 void
