@@ -49,7 +49,7 @@ export default defineConfig({
   define: {
     __NELSON_WASM__: true,
     __NELSON_WASM_NFLOW__: JSON.stringify(process.env.NELSON_WASM_NFLOW === '1'),
-    __NELSON_WASM_NMM__: JSON.stringify(process.env.NELSON_WASM_NMM === '1'),
+    __NELSON_WASM_NMM__: JSON.stringify(process.env.NELSON_WASM_NMM !== '0'),
   },
   plugins: [react()],
   resolve: {
