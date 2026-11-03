@@ -328,7 +328,12 @@ function svgToSymbol(raw, lib, fname) {
   const m = raw.match(/<svg\b([^>]*)>([\s\S]*)<\/svg>/i);
   if (!m) return null;
   const attrs = m[1];
-  const inner = m[2];
+  // Drop editor metadata (Inkscape/Sodipodi): its prefixes are unbound in the sprite and break the whole XML.
+  const inner = m[2]
+    .replace(/<metadata\b[\s\S]*?<\/metadata>/gi, '')
+    .replace(/<(sodipodi|inkscape):[\w.-]+\b[^>]*?\/>/gi, '')
+    .replace(/<(sodipodi|inkscape):([\w.-]+)\b[^>]*>[\s\S]*?<\/\1:\2>/gi, '')
+    .replace(/\s(sodipodi|inkscape):[\w.-]+\s*=\s*"[^"]*"/gi, '');
   const grab = (re) => {
     const mm = attrs.match(re);
     return mm && mm[1] ? mm[1] : '';
