@@ -13,7 +13,7 @@
 #==============================================================================
 target/
 tools/target/
-tools/wasm/
+tools/wasm
 build*/
 a.out
 cmake_hdf5_test.out
