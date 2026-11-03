@@ -966,10 +966,13 @@ GOFigure::refreshPositionProperties(bool forceUpdate)
     syncFigureUnitsIfChanged(this);
     if (m_win->isHeadlessHost()) {
         syncSimplePositionTriplet(this);
-        // The web panel has its own rendering dimensions. Keep Position as the
-        // logical coordinate space requested by the script, so pixel uicontrols and
-        // plotted content share the same layout.
-        syncRenderingSizeFromPosition(this);
+        // The web panel controls m_width/m_height via setFigureSize. Only
+        // re-derive the rendering size from Position when the script actually
+        // changed the Position property; otherwise the web panel's size would
+        // be overwritten on every render cycle.
+        if (hasChanged(positionNames)) {
+            syncRenderingSizeFromPosition(this);
+        }
         clearChanged(positionNames);
         refreshPaperPosition();
         return;
