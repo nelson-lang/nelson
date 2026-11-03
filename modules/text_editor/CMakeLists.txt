@@ -101,6 +101,7 @@ if(NOT WITHOUT_TEXT_EDITOR_MODULE)
     set(TEXT_EDITOR_BUILTIN
       ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/Gateway.cpp
       ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/editorBuiltin.cpp
+      ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp/editorHookBuiltin.cpp
     )
   else()
     nelson_module_sources_from_glob(

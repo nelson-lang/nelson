@@ -228,19 +228,20 @@ if(ODE_SOLVERS_SRC)
     target_link_libraries(${module_library_name}
       PRIVATE ${NELSON_SUNDIALS_LIBRARIES}
     )
-    if(NOT WIN32)
+    if(NOT WIN32 AND NOT NELSON_WASM_BUILD)
       # SUNDIALS headers from an MPI-enabled build pull in <mpi.h>, which lives
       # outside the default include path (e.g. the OpenMPI include directory).
       if(NOT MPI_FOUND)
-        # without the mpi module nothing searched MPI yet: the distribution SUNDIALS may need it
         find_package(MPI QUIET COMPONENTS C CXX)
       endif()
-      target_include_directories(${module_library_name}
-        PRIVATE
-          ${MPI_CXX_INCLUDE_DIRS}
-          ${MPI_INCLUDE_PATH}
-      )
-      target_link_libraries(${module_library_name} PRIVATE ${MPI_CXX_LIBRARIES})
+      if(MPI_FOUND)
+        target_include_directories(${module_library_name}
+          PRIVATE
+            ${MPI_CXX_INCLUDE_DIRS}
+            ${MPI_INCLUDE_PATH}
+        )
+        target_link_libraries(${module_library_name} PRIVATE ${MPI_CXX_LIBRARIES})
+      endif()
     endif()
   endif()
   nelson_install_library(${module_library_name})
@@ -341,9 +342,7 @@ if(ODE_SOLVERS_BUILTIN)
     target_link_libraries(${module_library_builtin_name}
       PRIVATE ${NELSON_SUNDIALS_LIBRARIES}
     )
-    if(NOT WIN32)
-      # SUNDIALS headers from an MPI-enabled build pull in <mpi.h>, which lives
-      # outside the default include path (e.g. the OpenMPI include directory).
+    if(NOT WIN32 AND NOT NELSON_WASM_BUILD AND MPI_FOUND)
       target_include_directories(${module_library_builtin_name}
         PRIVATE
           ${MPI_CXX_INCLUDE_DIRS}

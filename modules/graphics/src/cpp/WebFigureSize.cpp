@@ -55,8 +55,9 @@ nlsWebGuiSetFigureSize(int64_t handle, int width, int height)
         return true;
     }
     // Keep the script's Position, but recompute cameras, ticks and label layout
-    // for the new drawing area before the first frame. Otherwise Fit performs
-    // this delayed recompute and appears to move unrelated subplot axes.
+    // for the new drawing area before the first frame. Position stays as the
+    // logical coordinate space; m_width/m_height track the web panel's actual
+    // pixel size independently.
     figure->setRenderingSize(width, height, 1.0);
     invalidateAxesLayout(figure);
     // setRenderingSize flagged the children layout stale: re-derive the auto axes
