@@ -15,6 +15,7 @@ import { runCommand } from '../desktop/engineSession';
 import { openEditor } from '../desktop/desktop';
 import { showStatusMessage } from '../desktop/statusMessage';
 import { rpc } from '../rpc/client';
+import { t, tf } from '../i18n';
 //=============================================================================
 export type DesktopPickerKind = 'directory' | 'editor' | 'execute';
 export interface PathRequest {
@@ -83,11 +84,11 @@ export function requestSavePath(request: SavePathRequest): Promise<string | null
 //=============================================================================
 function pickerRequest(kind: DesktopPickerKind): PathRequest {
   if (kind === 'directory') {
-    return { mode: 'dir', title: 'Choose current directory' };
+    return { mode: 'dir', title: t('Choose current directory') };
   }
   return {
     mode: 'open',
-    title: kind === 'editor' ? 'Open in Editor' : 'Execute a Nelson file',
+    title: kind === 'editor' ? t('Open in Editor') : t('Execute a Nelson file'),
     filters: kind === 'execute' ? ['.m'] : undefined,
   };
 }
@@ -102,7 +103,7 @@ function useSelectedPath(kind: DesktopPickerKind, path: string): void {
     return;
   }
   void changeCurrentDirectory(path)
-    .then((result) => showStatusMessage(`Current directory: ${result.cwd}`))
+    .then((result) => showStatusMessage(tf('Current directory: %1', result.cwd)))
     .catch((error) => showStatusMessage((error as Error).message));
 }
 //=============================================================================
@@ -133,6 +134,7 @@ export function DesktopFilePickerHost(): JSX.Element | null {
       suggestedName={request.suggestedName}
       filters={request.filters}
       listDir={(path) => rpc('fs.list', { path })}
+      translate={t}
       onSubmit={(path) => {
         setPicker(null);
         void rpc('fs.dialog.accept', { historyKey, mode: request.mode, path }).catch(

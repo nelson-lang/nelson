@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { useEffect, useRef } from 'react';
+import { t } from '../i18n';
 //=============================================================================
 export function FigureInspectorResize({
   width,
@@ -24,7 +25,7 @@ export function FigureInspectorResize({
       className="figure-inspector-resize"
       role="separator"
       tabIndex={0}
-      aria-label="Properties width"
+      aria-label={t('Properties width')}
       aria-orientation="vertical"
       aria-valuemin={220}
       aria-valuemax={600}

@@ -10,6 +10,7 @@
 import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
 import type { NewsfeedListResult, NewsfeedItem } from '../rpc/types';
+import { t, tf } from '../i18n';
 //=============================================================================
 const DEFAULT_FEEDS = [
   'https://github.com/nelson-lang/nelson/releases.atom',
@@ -31,21 +32,21 @@ export function NewsfeedPanel(): JSX.Element {
   const [url, setUrl] = useState(DEFAULT_FEEDS[0]);
   const [title, setTitle] = useState('');
   const [items, setItems] = useState<NewsfeedItem[]>([]);
-  const [status, setStatus] = useState('Loading…');
+  const [status, setStatus] = useState(() => t('Loading...'));
 
   const load = (feedUrl: string) => {
-    setStatus('Loading…');
+    setStatus(t('Loading...'));
     rpc<NewsfeedListResult>('newsfeed.list', { url: feedUrl })
       .then((r) => {
         const feed = r.feed || {};
         setTitle(feed.title || '');
         const list = Array.isArray(feed.items) ? feed.items : [];
         setItems(list);
-        setStatus(list.length ? `${list.length} items` : 'No item in this feed.');
+        setStatus(list.length ? tf('%1 items', list.length) : t('No item in this feed.'));
       })
       .catch((e) => {
         setItems([]);
-        setStatus(`Unable to load the feed: ${e?.message ?? e}`);
+        setStatus(tf('Unable to load the feed: %1', e?.message ?? e));
       });
   };
 
@@ -67,7 +68,7 @@ export function NewsfeedPanel(): JSX.Element {
               load(url);
             }
           }}
-          placeholder="Feed URL…"
+          placeholder={t('Feed URL…')}
         />
         <datalist id="newsfeed-feeds">
           {DEFAULT_FEEDS.map((f) => (
@@ -75,7 +76,7 @@ export function NewsfeedPanel(): JSX.Element {
           ))}
         </datalist>
         <button className="newsfeed__refresh" onClick={() => load(url)}>
-          Refresh
+          {t('Refresh')}
         </button>
       </div>
       <div className="newsfeed__meta">
@@ -96,10 +97,10 @@ export function NewsfeedPanel(): JSX.Element {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {it.title || '(no title)'}
+                  {it.title || t('(no title)')}
                 </a>
               ) : (
-                <span className="newsfeed__headline">{it.title || '(no title)'}</span>
+                <span className="newsfeed__headline">{it.title || t('(no title)')}</span>
               )}
               {it.date ? <div className="newsfeed__date">{it.date}</div> : null}
               {it.summary ? <div className="newsfeed__summary">{toText(it.summary)}</div> : null}

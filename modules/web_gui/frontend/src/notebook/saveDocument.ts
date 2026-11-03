@@ -10,6 +10,7 @@
 import type { SavePathRequest } from '../components/DesktopFilePickerHost';
 import { dirName } from '../desktop/paths';
 import { bytesToBase64 } from './nlxFormat';
+import { t } from '../i18n';
 //=============================================================================
 export type NotebookSaveFormat = 'nlx' | 'm';
 export interface NotebookSaveInput {
@@ -60,7 +61,7 @@ export async function saveNotebookDocument(
   let target = !input.saveAs && hasFormat(input.path, input.format) ? input.path : undefined;
   if (!target) {
     const picked = await deps.pickPath({
-      title: input.format === 'nlx' ? 'Save Notebook' : 'Save as Script',
+      title: input.format === 'nlx' ? t('Save Notebook') : t('Save as Script'),
       suggestedName: filename,
       filters: [`.${input.format}`],
       defaultPath: input.path ? dirName(input.path) : undefined,
@@ -73,7 +74,7 @@ export async function saveNotebookDocument(
       path?: string;
       error?: { message?: string };
     };
-    if (r.error) return { kind: 'error', message: r.error.message || 'cannot write file' };
+    if (r.error) return { kind: 'error', message: r.error.message || t('cannot write file') };
     return { kind: 'saved', path: r.path || target };
   } catch (e) {
     return { kind: 'error', message: (e as Error).message };

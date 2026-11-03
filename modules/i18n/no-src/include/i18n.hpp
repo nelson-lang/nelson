@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <map>
 #include <string>
 #include "nlsI18n_exports.hpp"
 //=============================================================================
@@ -20,6 +21,8 @@ NLSI18N_IMPEXP std::wstring
 gettextw(const std::string& S);
 NLSI18N_IMPEXP std::string
 gettext(const std::string& S);
+NLSI18N_IMPEXP std::map<std::string, std::string>
+getTranslatedTexts();
 //=============================================================================
 // This ICU-less build ships no error/warning catalog, so these return an empty
 // string and callers fall back to their own message text. The symbols must match

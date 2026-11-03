@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { getCurrentDirectory } from '../desktop/currentDirectory';
 import { uploadLocalFiles } from '../desktop/localFiles';
 import { showStatusMessage } from '../desktop/statusMessage';
+import { t } from '../i18n';
 //=============================================================================
 function carriesFiles(event: DragEvent): boolean {
   return Array.from(event.dataTransfer?.types ?? []).includes('Files');
@@ -45,7 +46,7 @@ export function LocalFileDropHost(): JSX.Element | null {
       const files = event.dataTransfer?.files;
       if (!files?.length) return;
       void uploadLocalFiles(files, getCurrentDirectory().cwd).catch((error) =>
-        showStatusMessage((error as Error).message || 'Upload failed')
+        showStatusMessage((error as Error).message || t('Upload failed'))
       );
     };
     window.addEventListener('dragenter', dragEnter);
@@ -62,7 +63,7 @@ export function LocalFileDropHost(): JSX.Element | null {
 
   return draggingFiles ? (
     <div className="local-file-drop" aria-hidden="true">
-      <div className="local-file-drop__card">Drop files into the current Nelson folder</div>
+      <div className="local-file-drop__card">{t('Drop files into the current Nelson folder')}</div>
     </div>
   ) : null;
 }

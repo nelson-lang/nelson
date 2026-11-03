@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "filter_noisy_signal.m",
-      "title": "Filter a noisy signal",
-      "description": "Design an FIR filter and smooth a synthetic measurement.",
+      "title": {
+        "en_US": "Filter a noisy signal",
+        "fr_FR": "Filtrer un signal bruité"
+      },
+      "description": {
+        "en_US": "Design an FIR filter and smooth a synthetic measurement.",
+        "fr_FR": "Concevoir un filtre RIF et lisser une mesure synthétique."
+      },
       "tags": [
         "signal",
         "filter"
@@ -15,8 +21,14 @@
     },
     {
       "file": "signal_spectrum.m",
-      "title": "Inspect a signal spectrum",
-      "description": "Use a Fourier transform to reveal two frequency components.",
+      "title": {
+        "en_US": "Inspect a signal spectrum",
+        "fr_FR": "Examiner le spectre d'un signal"
+      },
+      "description": {
+        "en_US": "Use a Fourier transform to reveal two frequency components.",
+        "fr_FR": "Utiliser une transformée de Fourier pour révéler deux composantes fréquentielles."
+      },
       "tags": [
         "signal",
         "spectrum"

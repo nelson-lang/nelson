@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { onPush, rpc } from '../rpc/client';
 import { FilePickerDialog, type FilePickerMode } from '@nelson/dialogs';
 import { DesktopIcon, type DesktopIconName } from './DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Serves the native GUI dialogs (inputdlg, uialert, uiconfirm, questdlg,
 // listdlg) that the engine would otherwise draw with Qt. The nlsWeb_gui backend
@@ -138,7 +139,7 @@ export function DialogHost(): JSX.Element | null {
             autoFocus
             onClick={() => setMessage(null)}
           >
-            OK
+            {t('OK')}
           </button>
         </div>
       </div>
@@ -173,6 +174,7 @@ export function DialogHost(): JSX.Element | null {
           suggestedName={dialog.suggestedName}
           filters={dialog.fileFilters}
           listDir={(path) => rpc('fs.list', { path })}
+          translate={t}
           onSubmit={(path) => reply({ ok: true, path })}
           onCancel={cancel}
         />
@@ -249,7 +251,7 @@ export function DialogHost(): JSX.Element | null {
           ) : dialog.kind === 'font' ? (
             <div className="dialog-card__body">
               <label className="dialog-field">
-                <span className="dialog-field__label">Font</span>
+                <span className="dialog-field__label">{t('&Font')}</span>
                 <select
                   value={font.family}
                   onChange={(e) => setFont((f) => ({ ...f, family: e.target.value }))}
@@ -265,7 +267,7 @@ export function DialogHost(): JSX.Element | null {
                 </select>
               </label>
               <label className="dialog-field">
-                <span className="dialog-field__label">Size</span>
+                <span className="dialog-field__label">{t('Size')}</span>
                 <input
                   type="number"
                   min={4}
@@ -280,7 +282,7 @@ export function DialogHost(): JSX.Element | null {
                   checked={font.bold}
                   onChange={(e) => setFont((f) => ({ ...f, bold: e.target.checked }))}
                 />
-                <span>Bold</span>
+                <span>{t('Bold')}</span>
               </label>
               <label className="dialog-field dialog-field--check">
                 <input
@@ -288,7 +290,7 @@ export function DialogHost(): JSX.Element | null {
                   checked={font.italic}
                   onChange={(e) => setFont((f) => ({ ...f, italic: e.target.checked }))}
                 />
-                <span>Italic</span>
+                <span>{t('Italic')}</span>
               </label>
               <div
                 className="dialog-font__preview"
@@ -367,7 +369,7 @@ export function DialogHost(): JSX.Element | null {
                     checked={checked}
                     onChange={(e) => setChecked(e.target.checked)}
                   />
-                  <span>{dialog.checkboxText || 'Do not show this dialog again.'}</span>
+                  <span>{dialog.checkboxText || t('Do not show this dialog again.')}</span>
                 </label>
               ) : null}
             </div>
@@ -417,46 +419,46 @@ export function DialogHost(): JSX.Element | null {
                 className="dialog-btn dialog-btn--default"
                 onClick={() => reply({ ok: true })}
               >
-                OK
+                {t('OK')}
               </button>
             ) : dialog.kind === 'color' ? (
               <>
                 <button className="dialog-btn" onClick={cancel}>
-                  Cancel
+                  {t('Cancel')}
                 </button>
                 <button className="dialog-btn dialog-btn--default" onClick={submitColor}>
-                  OK
+                  {t('OK')}
                 </button>
               </>
             ) : dialog.kind === 'font' ? (
               <>
                 <button className="dialog-btn" onClick={cancel}>
-                  Cancel
+                  {t('Cancel')}
                 </button>
                 <button className="dialog-btn dialog-btn--default" onClick={submitFont}>
-                  OK
+                  {t('OK')}
                 </button>
               </>
             ) : dialog.kind === 'list' ? (
               <>
                 <button className="dialog-btn" onClick={cancel}>
-                  Cancel
+                  {t('Cancel')}
                 </button>
                 <button
                   className="dialog-btn dialog-btn--default"
                   disabled={selection.length === 0}
                   onClick={submitList}
                 >
-                  OK
+                  {t('OK')}
                 </button>
               </>
             ) : (
               <>
                 <button className="dialog-btn" onClick={cancel}>
-                  Cancel
+                  {t('Cancel')}
                 </button>
                 <button className="dialog-btn dialog-btn--default" onClick={submitInput}>
-                  OK
+                  {t('OK')}
                 </button>
               </>
             )}

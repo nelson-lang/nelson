@@ -118,7 +118,8 @@ function BlockLibraryView({ groups }: { groups: BlockLibraryViewGroup[] }): JSX.
                 </span>
               ) : null}
               <span className="tool-label">
-                <strong>{t(item.label)}</strong>
+                {/* block names are not translated */}
+                <strong>{item.label}</strong>
                 <small>{t(group.title || '')}</small>
               </span>
             </button>

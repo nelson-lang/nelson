@@ -30,6 +30,12 @@ gettext(const std::string& S)
     return S;
 }
 //=============================================================================
+std::map<std::string, std::string>
+getTranslatedTexts()
+{
+    return {};
+}
+//=============================================================================
 std::wstring
 getMessageTemplateById(const std::wstring& /* id */)
 {

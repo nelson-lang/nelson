@@ -14,6 +14,7 @@ import { primaryShortcut } from '../desktop/platform';
 import { handleMenuKeyDown } from '../desktop/menuKeyboard';
 import { CurrentDirectoryControl } from './CurrentDirectoryControl';
 import { DesktopIcon } from './DesktopIcon';
+import { t, tf } from '../i18n';
 import {
   getDesktopCapabilities,
   packageUpdatesBadge,
@@ -35,14 +36,14 @@ export function DesktopToolbar(): JSX.Element {
     <div
       className="desktop-toolbar"
       role="toolbar"
-      aria-label="Main toolbar"
+      aria-label={t('Main toolbar')}
       data-focus-zone="toolbar"
     >
       {capabilities.nflow ? (
         <button
           type="button"
           className="desktop-toolbar__action"
-          title="NFlow block-diagram editor"
+          title={t('NFlow block-diagram editor')}
           aria-label="NFlow"
           onClick={() => executeDesktopAction('window.nflow')}
         >
@@ -56,13 +57,16 @@ export function DesktopToolbar(): JSX.Element {
           className="desktop-toolbar__action"
           title={
             updatesBadge
-              ? `Install, update and remove Nelson packages (${capabilities.packageUpdates} updates available)`
-              : 'Install, update and remove Nelson packages'
+              ? tf(
+                  'Install, update and remove Nelson packages (%1 updates available)',
+                  capabilities.packageUpdates
+                )
+              : t('Install, update and remove Nelson packages')
           }
           aria-label={
             updatesBadge
-              ? `Package Manager, ${capabilities.packageUpdates} updates available`
-              : 'Package Manager'
+              ? tf('Package Manager, %1 updates available', capabilities.packageUpdates)
+              : t('&Package Manager')
           }
           onClick={() => executeDesktopAction('tools.packageManager')}
         >
@@ -70,57 +74,57 @@ export function DesktopToolbar(): JSX.Element {
             <DesktopIcon name="package" />
             {updatesBadge ? <span className="desktop-badge">{updatesBadge}</span> : null}
           </span>
-          <span className="desktop-toolbar__label">Packages</span>
+          <span className="desktop-toolbar__label">{t('Packages')}</span>
         </button>
       ) : null}
       <button
         type="button"
         className="desktop-toolbar__action"
-        title="Text Editor"
-        aria-label="Text Editor"
+        title={t('Text Editor')}
+        aria-label={t('Text Editor')}
         onClick={() => executeDesktopAction('file.editor')}
       >
         <DesktopIcon name="editor" />
-        <span className="desktop-toolbar__label">Editor</span>
+        <span className="desktop-toolbar__label">{t('Editor')}</span>
       </button>
       <button
         type="button"
         className="desktop-toolbar__action"
-        title="New Notebook"
-        aria-label="New Notebook"
+        title={t('New Notebook')}
+        aria-label={t('New Notebook')}
         onClick={() => executeDesktopAction('file.newNotebook')}
       >
         <DesktopIcon name="notebook" />
-        <span className="desktop-toolbar__label">Notebook</span>
+        <span className="desktop-toolbar__label">{t('&Notebook')}</span>
       </button>
       <button
         type="button"
         className="desktop-toolbar__action"
-        title="Execute a Nelson file"
-        aria-label="Execute a Nelson file"
+        title={t('Execute a Nelson file')}
+        aria-label={t('Execute a Nelson file')}
         disabled={busy}
         onClick={() => executeDesktopAction('file.execute')}
       >
         <DesktopIcon name="execute" />
-        <span className="desktop-toolbar__label">Execute</span>
+        <span className="desktop-toolbar__label">{t('Execute')}</span>
       </button>
       <button
         type="button"
         className="desktop-toolbar__action"
-        title={`Stop execution (${primaryShortcut('C')})`}
-        aria-label="Stop the current execution"
+        title={tf('Stop execution (%1)', primaryShortcut('C'))}
+        aria-label={t('Stop the current execution')}
         disabled={!busy}
         onClick={() => executeDesktopAction('engine.stop')}
       >
         <DesktopIcon name="stop" />
-        <span className="desktop-toolbar__label">Stop</span>
+        <span className="desktop-toolbar__label">{t('Stop')}</span>
       </button>
       <div className="desktop-toolbar__secondary">
         {(
           [
-            ['file.loadWorkspace', 'load' as const, 'Load Workspace'],
-            ['file.saveWorkspace', 'save' as const, 'Save Workspace'],
-            ['file.import', 'files' as const, 'Import Data'],
+            ['file.loadWorkspace', 'load' as const, t('Load Workspace')],
+            ['file.saveWorkspace', 'save' as const, t('Save Workspace')],
+            ['file.import', 'files' as const, t('Import Data')],
           ] as const
         ).map(([id, icon, title]) => (
           <button
@@ -144,8 +148,8 @@ export function DesktopToolbar(): JSX.Element {
           ref={moreRef}
           type="button"
           className="desktop-toolbar__icon-btn"
-          title="More actions"
-          aria-label="More actions"
+          title={t('More actions')}
+          aria-label={t('More actions')}
           aria-expanded={moreOpen}
           onClick={() => setMoreOpen((open) => !open)}
         >
@@ -164,9 +168,9 @@ export function DesktopToolbar(): JSX.Element {
           >
             {(
               [
-                ['file.loadWorkspace', 'load' as const, 'Load Workspace…'],
-                ['file.saveWorkspace', 'save' as const, 'Save Workspace…'],
-                ['file.import', 'files' as const, 'Import Data…'],
+                ['file.loadWorkspace', 'load' as const, t('&Load Workspace...')],
+                ['file.saveWorkspace', 'save' as const, t('&Save Workspace...')],
+                ['file.import', 'files' as const, t('Import Data…')],
               ] as const
             ).map(([id, icon, title]) => (
               <button

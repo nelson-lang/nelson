@@ -22,6 +22,7 @@ import {
 import { showStatusMessage } from '../desktop/statusMessage';
 import { DesktopIcon } from '../components/DesktopIcon';
 import { uploadLocalFiles } from '../desktop/localFiles';
+import { t, tf } from '../i18n';
 //=============================================================================
 const SCRIPT_TEMPLATE = '%% Nelson script\n';
 const FUNCTION_TEMPLATE = 'function varargout = NAME(varargin)\n  % NAME summary\nend\n';
@@ -61,7 +62,7 @@ export function FilesPanel(): JSX.Element {
   const changeFolder = (path: string) =>
     changeCurrentDirectory(path)
       .then((result) => load(result.cwd))
-      .catch(() => showStatusMessage('Directory does not exist'));
+      .catch(() => showStatusMessage(t('Directory does not exist')));
   const parent = () => {
     const stripped = cwd.replace(/[\\/]+$/, '');
     const cut = stripped.replace(/[\\/][^\\/]*$/, '');
@@ -98,7 +99,7 @@ export function FilesPanel(): JSX.Element {
   const refresh = () => load(cwd);
 
   const createEntry = async (kind: 'file' | 'dir', template?: (name: string) => string) => {
-    const label = kind === 'dir' ? 'New folder name:' : 'New file name:';
+    const label = kind === 'dir' ? t('New folder name:') : t('New file name:');
     const name = await webPrompt(label, kind === 'dir' ? 'untitled' : 'untitled.m');
     if (!name) return;
     const path = join(name);
@@ -109,7 +110,7 @@ export function FilesPanel(): JSX.Element {
   };
 
   const renameEntry = async (entry: FsEntry) => {
-    const name = await webPrompt('Rename to:', entry.name);
+    const name = await webPrompt(t('Rename to:'), entry.name);
     if (!name || name === entry.name) return;
     await rpc('fs.rename', { from: entry.path, to: join(name) }).catch(() => undefined);
     refresh();
@@ -117,8 +118,8 @@ export function FilesPanel(): JSX.Element {
 
   const deleteEntry = async (entry: FsEntry) => {
     if (
-      !(await webConfirm(`Delete "${entry.name}"? This cannot be undone.`, {
-        okLabel: 'Delete',
+      !(await webConfirm(tf('Delete "%1"? This cannot be undone.', entry.name), {
+        okLabel: t('Delete'),
         danger: true,
       }))
     )
@@ -129,7 +130,7 @@ export function FilesPanel(): JSX.Element {
 
   const uploadFiles = async (files: FileList | File[]) => {
     await uploadLocalFiles(files, cwd).catch((error) =>
-      showStatusMessage((error as Error).message || 'Upload failed')
+      showStatusMessage((error as Error).message || t('Upload failed'))
     );
     refresh();
   };
@@ -152,36 +153,39 @@ export function FilesPanel(): JSX.Element {
 
   const backgroundMenu = (e: React.MouseEvent) =>
     openMenu(e, [
-      { label: 'New Script', onClick: () => void createEntry('file', () => SCRIPT_TEMPLATE) },
+      { label: t('New Script'), onClick: () => void createEntry('file', () => SCRIPT_TEMPLATE) },
       {
-        label: 'New Function',
+        label: t('New Function'),
         onClick: () =>
           void createEntry('file', (n) => FUNCTION_TEMPLATE.replace(/NAME/g, n || 'untitled')),
       },
-      { label: 'New Folder', onClick: () => void createEntry('dir') },
+      { label: t('New Folder'), onClick: () => void createEntry('dir') },
       { separator: true },
       {
-        label: showHidden ? 'Hide hidden files' : 'Show hidden files',
+        label: showHidden ? t('Hide hidden files') : t('Show hidden files'),
         onClick: () => setShowHidden((v) => !v),
       },
-      { label: 'Refresh', onClick: refresh },
+      { label: t('Refresh'), onClick: refresh },
     ]);
 
   const itemsFor = (entry: FsEntry): MenuItem[] => {
     const isM = /\.m$/i.test(entry.name);
     const items: MenuItem[] = [];
     if (entry.isDir) {
-      items.push({ label: 'Open', onClick: () => void changeFolder(entry.path) });
-      items.push({ label: 'Set as Current Folder', onClick: () => void changeFolder(entry.path) });
-      items.push({ label: 'Add to Path', onClick: () => run(`addpath('${entry.path}')`) });
-      items.push({ label: 'Remove from Path', onClick: () => run(`rmpath('${entry.path}')`) });
+      items.push({ label: t('&Open'), onClick: () => void changeFolder(entry.path) });
+      items.push({
+        label: t('Set as Current Folder'),
+        onClick: () => void changeFolder(entry.path),
+      });
+      items.push({ label: t('Add to Path'), onClick: () => run(`addpath('${entry.path}')`) });
+      items.push({ label: t('Remove from Path'), onClick: () => run(`rmpath('${entry.path}')`) });
     } else {
-      items.push({ label: 'Edit', onClick: () => openEditor(entry.path) });
-      if (isM) items.push({ label: 'Run', onClick: () => run(`run('${entry.path}')`) });
-      items.push({ label: 'Download', onClick: () => void downloadEntry(entry) });
+      items.push({ label: t('Edit'), onClick: () => openEditor(entry.path) });
+      if (isM) items.push({ label: t('Run'), onClick: () => run(`run('${entry.path}')`) });
+      items.push({ label: t('Download'), onClick: () => void downloadEntry(entry) });
       if (/\.(csv|txt|dat|xlsx?|mat)$/i.test(entry.name)) {
         items.push({
-          label: 'Import Data…',
+          label: t('Import Data…'),
           onClick: () =>
             window.dispatchEvent(
               new CustomEvent('nelson-webview.open-import', { detail: { path: entry.path } })
@@ -190,21 +194,21 @@ export function FilesPanel(): JSX.Element {
       }
     }
     items.push({ separator: true });
-    items.push({ label: 'Rename…', onClick: () => void renameEntry(entry) });
-    items.push({ label: 'Delete', danger: true, onClick: () => void deleteEntry(entry) });
+    items.push({ label: t('Rename…'), onClick: () => void renameEntry(entry) });
+    items.push({ label: t('Delete'), danger: true, onClick: () => void deleteEntry(entry) });
     items.push({ separator: true });
     items.push({
-      label: 'Copy full path',
+      label: t('Copy full path'),
       onClick: () => void navigator.clipboard?.writeText(entry.path).catch(() => undefined),
     });
-    items.push({ label: 'Refresh', onClick: refresh });
+    items.push({ label: t('Refresh'), onClick: refresh });
     return items;
   };
 
   return (
     <div className="browser">
       <div className="files__path">
-        <button className="files__up" onClick={parent} title="Parent folder">
+        <button className="files__up" onClick={parent} title={t('Parent folder')}>
           <DesktopIcon name="up" />
         </button>
         <span className="browser__mono">{cwd}</span>
@@ -212,7 +216,7 @@ export function FilesPanel(): JSX.Element {
         <button
           className="files__up"
           onClick={() => fileInputRef.current?.click()}
-          title="Upload files to this folder"
+          title={t('Upload files to this folder')}
         >
           <DesktopIcon name="upload" />
         </button>
@@ -229,7 +233,7 @@ export function FilesPanel(): JSX.Element {
       </div>
       <input
         className="files__filter"
-        placeholder="Filter (*.m;*.nh5)"
+        placeholder={t('Filter (*.m;*.nh5)')}
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         spellCheck={false}

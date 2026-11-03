@@ -10,6 +10,7 @@
 import type { DockviewApi, DockviewGroupPanel, IDockviewPanel } from 'dockview';
 import { expandGroup, isGroupCollapsed, toggleGroupCollapsed } from './collapse';
 import { closeDesktopPanel } from './desktop';
+import { t } from '../i18n';
 //=============================================================================
 const previousGroups = new Map<string, string>();
 export type PanelActionItem =
@@ -66,25 +67,25 @@ export function panelActionItems(panel: IDockviewPanel, api: DockviewApi): Panel
   const items: PanelActionItem[] = [];
   if (!floating) {
     items.push({
-      label: isGroupCollapsed(panel.group) ? 'Expand panel' : 'Collapse panel',
+      label: isGroupCollapsed(panel.group) ? t('Expand panel') : t('Collapse panel'),
       onClick: () => toggleGroupCollapsed(panel.group),
     });
   }
   items.push({
-    label: floating ? 'Dock panel' : 'Float panel',
+    label: floating ? t('Dock panel') : t('Float panel'),
     onClick: () => togglePanelFloating(panel, api),
   });
   if (!floating) {
     items.push(
-      { label: 'Move Left', onClick: () => movePanel(panel, api, 'left') },
-      { label: 'Move Right', onClick: () => movePanel(panel, api, 'right') },
-      { label: 'Move Bottom', onClick: () => movePanel(panel, api, 'bottom') }
+      { label: t('Move Left'), onClick: () => movePanel(panel, api, 'left') },
+      { label: t('Move Right'), onClick: () => movePanel(panel, api, 'right') },
+      { label: t('Move Bottom'), onClick: () => movePanel(panel, api, 'bottom') }
     );
   }
   if (panelCanClose(panel)) {
     items.push(
       { separator: true },
-      { label: 'Close panel', onClick: () => void closeDesktopPanel(panel) }
+      { label: t('Close panel'), onClick: () => void closeDesktopPanel(panel) }
     );
   }
   return items;

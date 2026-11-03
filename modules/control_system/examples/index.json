@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "step_response.m",
-      "title": "Time-domain response",
-      "description": "Plot the step response of a stable second-order model.",
+      "title": {
+        "en_US": "Time-domain response",
+        "fr_FR": "Réponse temporelle"
+      },
+      "description": {
+        "en_US": "Plot the step response of a stable second-order model.",
+        "fr_FR": "Tracer la réponse indicielle d'un modèle stable du second ordre."
+      },
       "tags": [
         "control",
         "time-response"
@@ -16,8 +22,14 @@
     },
     {
       "file": "frequency_response.m",
-      "title": "Frequency-domain response",
-      "description": "Inspect gain and phase across frequency for a low-pass model.",
+      "title": {
+        "en_US": "Frequency-domain response",
+        "fr_FR": "Réponse fréquentielle"
+      },
+      "description": {
+        "en_US": "Inspect gain and phase across frequency for a low-pass model.",
+        "fr_FR": "Examiner le gain et la phase en fonction de la fréquence pour un modèle passe-bas."
+      },
       "tags": [
         "control",
         "frequency-response"

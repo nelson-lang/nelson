@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "spreadsheet_roundtrip.m",
-      "title": "Spreadsheet round trip",
-      "description": "Write a table to a temporary workbook and read it back.",
+      "title": {
+        "en_US": "Spreadsheet round trip",
+        "fr_FR": "Aller-retour d'un classeur"
+      },
+      "description": {
+        "en_US": "Write a table to a temporary workbook and read it back.",
+        "fr_FR": "Écrire une table dans un classeur temporaire et la relire."
+      },
       "tags": [
         "spreadsheet",
         "table"

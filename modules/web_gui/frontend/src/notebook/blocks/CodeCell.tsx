@@ -16,6 +16,7 @@ import { isFigureLive, parseFigureHandles, closeLiveFigures, releaseFigure } fro
 import { FigurePanel } from '../../panels/FigurePanel';
 import { undockFigure } from '../../desktop/desktop';
 import { getClientRole } from '../../desktop/capabilities';
+import { t, tf } from '../../i18n';
 //=============================================================================
 interface CodeCellProps {
   block: any;
@@ -58,7 +59,7 @@ export function CodeCell({ block, editor }: CodeCellProps) {
     const h = handles[index];
     if (!(h >= 0)) return;
     handles[index] = -1;
-    void releaseFigure(h).then(() => undockFigure(h, `Figure ${h + 1}`));
+    void releaseFigure(h).then(() => undockFigure(h, tf('Figure %1', h + 1)));
     editor.updateBlock(block, { props: { figureHandles: JSON.stringify(handles) } });
   };
 
@@ -76,19 +77,19 @@ export function CodeCell({ block, editor }: CodeCellProps) {
           {stale && (
             <button
               className="nls-stale-badge"
-              title="This cell is out of date — click to re-run it"
+              title={t('This cell is out of date — click to re-run it')}
               onClick={() => {
                 persist();
                 void ctx.runBlock(block.id);
               }}
             >
-              out of date
+              {t('out of date')}
             </button>
           )}
           <div className="nls-gutter">
             <button
               className="nls-run"
-              title="Run this cell"
+              title={t('Run this cell')}
               onClick={() => {
                 persist();
                 void ctx.runBlock(block.id);
@@ -100,7 +101,7 @@ export function CodeCell({ block, editor }: CodeCellProps) {
             </button>
             <button
               className="nls-run nls-run-sub"
-              title="Run to here"
+              title={t('Run to Here')}
               onClick={() => {
                 persist();
                 void ctx.runToHere(block.id);
@@ -112,7 +113,7 @@ export function CodeCell({ block, editor }: CodeCellProps) {
             </button>
             <button
               className="nls-run nls-run-sub"
-              title="Run section"
+              title={t('Run section')}
               onClick={() => {
                 persist();
                 void ctx.runSection(block.id);
@@ -158,13 +159,13 @@ export function CodeCell({ block, editor }: CodeCellProps) {
         <div className="nls-result">
           <button
             className="nls-clear-output"
-            title="Clear this cell's output"
+            title={t("Clear this cell's output")}
             onClick={clearOutput}
           >
-            Clear output
+            {t('Clear output')}
           </button>
           {errorMsg ? (
-            <pre className="nls-output nls-error">Error: {errorMsg}</pre>
+            <pre className="nls-output nls-error">{tf('Error: %1', errorMsg)}</pre>
           ) : (
             output && <pre className="nls-output">{output}</pre>
           )}
@@ -179,7 +180,7 @@ export function CodeCell({ block, editor }: CodeCellProps) {
                 <div className="nls-figure-wrap nls-figure-live" key={`fig-live-${i}`}>
                   <FigurePanel
                     handle={handle}
-                    title={`Figure ${handle + 1}`}
+                    title={tf('Figure %1', handle + 1)}
                     inline
                     reloadToken={
                       Number.isFinite(Number(block.props.runRevision))
@@ -196,7 +197,7 @@ export function CodeCell({ block, editor }: CodeCellProps) {
             }
             return (
               <div className="nls-figure-wrap" key={`img-${i}`}>
-                <img className="nls-figure" src={src} alt="figure" />
+                <img className="nls-figure" src={src} alt={t('figure')} />
               </div>
             );
           })}

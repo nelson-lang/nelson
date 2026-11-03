@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "webread_demo_1.m",
-      "title": "Read audio from the web",
-      "description": "Download, decode and play a short public audio resource.",
+      "title": {
+        "en_US": "Read audio from the web",
+        "fr_FR": "Lire un audio depuis le web"
+      },
+      "description": {
+        "en_US": "Download, decode and play a short public audio resource.",
+        "fr_FR": "Télécharger, décoder et jouer une courte ressource audio publique."
+      },
       "tags": [
         "http",
         "audio"
@@ -16,8 +22,14 @@
     },
     {
       "file": "webread_demo_2.m",
-      "title": "Configure a content reader",
-      "description": "Use a callback while downloading and decoding a public resource.",
+      "title": {
+        "en_US": "Configure a content reader",
+        "fr_FR": "Configurer un lecteur de contenu"
+      },
+      "description": {
+        "en_US": "Use a callback while downloading and decoding a public resource.",
+        "fr_FR": "Utiliser un callback pendant le téléchargement et le décodage d'une ressource publique."
+      },
       "tags": [
         "http",
         "options"
@@ -29,8 +41,14 @@
     },
     {
       "file": "webread_demo_3.m",
-      "title": "Read structured web data",
-      "description": "Retrieve and inspect a structured response.",
+      "title": {
+        "en_US": "Read structured web data",
+        "fr_FR": "Lire des données web structurées"
+      },
+      "description": {
+        "en_US": "Retrieve and inspect a structured response.",
+        "fr_FR": "Récupérer et examiner une réponse structurée."
+      },
       "tags": [
         "http",
         "json"
@@ -41,8 +59,14 @@
     },
     {
       "file": "webread_demo_4.m",
-      "title": "Inspect a web response",
-      "description": "Download one image referenced by a structured response.",
+      "title": {
+        "en_US": "Inspect a web response",
+        "fr_FR": "Examiner une réponse web"
+      },
+      "description": {
+        "en_US": "Download one image referenced by a structured response.",
+        "fr_FR": "Télécharger une image référencée par une réponse structurée."
+      },
       "tags": [
         "http",
         "response"
@@ -53,8 +77,14 @@
     },
     {
       "file": "websave_demo.m",
-      "title": "Download to a temporary file",
-      "description": "Save one public map image in the temporary directory.",
+      "title": {
+        "en_US": "Download to a temporary file",
+        "fr_FR": "Télécharger dans un fichier temporaire"
+      },
+      "description": {
+        "en_US": "Save one public map image in the temporary directory.",
+        "fr_FR": "Enregistrer une image cartographique publique dans le répertoire temporaire."
+      },
       "tags": [
         "http",
         "files"
@@ -65,8 +95,14 @@
     },
     {
       "file": "ollama/ollama_demo.m",
-      "title": "Call a local model server",
-      "description": "Send a fixed prompt to a running local model service.",
+      "title": {
+        "en_US": "Call a local model server",
+        "fr_FR": "Appeler un serveur de modèle local"
+      },
+      "description": {
+        "en_US": "Send a fixed prompt to a running local model service.",
+        "fr_FR": "Envoyer une invite fixe à un service de modèle local en cours d'exécution."
+      },
       "tags": [
         "ai",
         "http"

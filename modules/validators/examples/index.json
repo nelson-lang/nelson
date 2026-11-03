@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "inputParser_example.m",
-      "title": "Parse function inputs",
-      "description": "Define required, optional and named arguments with validation.",
+      "title": {
+        "en_US": "Parse function inputs",
+        "fr_FR": "Analyser les entrées d'une fonction"
+      },
+      "description": {
+        "en_US": "Define required, optional and named arguments with validation.",
+        "fr_FR": "Définir des arguments obligatoires, optionnels et nommés avec validation."
+      },
       "tags": [
         "validation",
         "functions"
@@ -13,8 +19,14 @@
     },
     {
       "file": "validateattributes_example.m",
-      "title": "Validate attributes",
-      "description": "Check value type, dimensions and numeric constraints.",
+      "title": {
+        "en_US": "Validate attributes",
+        "fr_FR": "Valider des attributs"
+      },
+      "description": {
+        "en_US": "Check value type, dimensions and numeric constraints.",
+        "fr_FR": "Vérifier le type, les dimensions et les contraintes numériques d'une valeur."
+      },
       "tags": [
         "validation",
         "errors"
@@ -23,8 +35,14 @@
     },
     {
       "file": "validatestring_example.m",
-      "title": "Validate text choices",
-      "description": "Resolve a text value against an accepted set.",
+      "title": {
+        "en_US": "Validate text choices",
+        "fr_FR": "Valider des choix textuels"
+      },
+      "description": {
+        "en_US": "Resolve a text value against an accepted set.",
+        "fr_FR": "Faire correspondre une valeur textuelle à un ensemble accepté."
+      },
       "tags": [
         "validation",
         "text"

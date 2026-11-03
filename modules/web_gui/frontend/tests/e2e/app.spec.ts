@@ -1166,7 +1166,7 @@ test('F12 toggles a breakpoint and the gutter menu sets a condition', async ({ p
     .click({ button: 'right' });
   const popover = page.getByTestId('breakpoint-popover');
   await expect(popover).toBeVisible();
-  await popover.getByRole('button', { name: 'Set/Modify Condition...' }).click();
+  await popover.getByRole('button', { name: 'Set/Modify Condition…' }).click();
   await page.getByTestId('breakpoint-condition-input').fill('x >>> 2');
   await popover.getByRole('button', { name: 'Apply' }).click();
   await expect(popover).toContainText("The condition 'x >>> 2' contains a syntax error.");

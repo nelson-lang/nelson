@@ -11,6 +11,7 @@
 //=============================================================================
 import type * as Monaco from 'monaco-editor';
 import type { BreakpointInfo, DebuggerState } from '../rpc/types';
+import { t, tf } from '../i18n';
 //=============================================================================
 // a breakpoint as the editor tracks it: evaluator line (0 while pending) and decoration id
 export interface EditorBreakpoint {
@@ -50,9 +51,13 @@ export function breakpointHoverText(
   bp: { line: number; enabled: boolean; condition: string },
   state: BreakpointMarkerState
 ): string {
-  const parts = [`Breakpoint on line ${bp.line}${bp.enabled ? '' : ' (disabled)'}`];
-  if (bp.condition) parts.push(`Condition: ${bp.condition}`);
-  if (state === 'invalid') parts.push('Invalid until the file is saved.');
+  const parts = [
+    bp.enabled
+      ? tf('Breakpoint on line %1', bp.line)
+      : tf('Breakpoint on line %1 (disabled)', bp.line),
+  ];
+  if (bp.condition) parts.push(tf('Condition: %1', bp.condition));
+  if (state === 'invalid') parts.push(t('Invalid until the file is saved.'));
   return parts.join('\n');
 }
 //=============================================================================

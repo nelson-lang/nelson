@@ -348,7 +348,9 @@ describe('desktop shell actions', () => {
   it('keeps the advertised newsfeed shortcut wired globally', () => {
     const app = readFileSync(resolve(process.cwd(), 'src/App.tsx'), 'utf8');
     const sidebar = readFileSync(resolve(process.cwd(), 'src/components/Sidebar.tsx'), 'utf8');
-    expect(sidebar).toContain("{ id: 'newsfeed', icon: 'newsfeed', label: 'News feed', key: '6' }");
+    expect(sidebar).toContain(
+      "{ id: 'newsfeed', icon: 'newsfeed', label: corePanelTitle('newsfeed'), key: '6' }"
+    );
     expect(app).toContain("'6': 'newsfeed'");
   });
 

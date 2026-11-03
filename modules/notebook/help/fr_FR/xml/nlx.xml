@@ -23,7 +23,7 @@
     <p
     ><b>equation</b> - une équation LaTeX (<b>props.latex</b>).</p>
     <p
-    >les contrôles interactifs (slider, liste déroulante, case à cocher, ...) et les live tasks - stockés avec leur variable liée et leur valeur dans <b>props</b>.</p>
+    >les contrôles interactifs (curseur, liste déroulante, case à cocher, ...) et les tâches interactives - stockés avec leur variable liée et leur valeur dans <b>props</b>.</p>
     <p>Seules les cellules <b>codecell</b> sont exécutables. <b>notebook</b> et <b>run</b> évaluent leur <b>props.code</b> dans l'ordre dans l'espace de travail de base ; <b>edit</b> ouvre le document dans l'éditeur Notebook.</p>
     <p>Un Notebook peut aussi être enregistré en texte brut <b>.m</b>, où chaque bloc est écrit sous un marqueur <b>%% [kind]</b> : il s'ouvre dans n'importe quel éditeur et s'exécute comme un script ordinaire.</p>
   </description>

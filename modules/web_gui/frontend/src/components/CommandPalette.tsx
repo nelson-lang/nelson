@@ -9,6 +9,7 @@
 //=============================================================================
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { desktopActions, type DesktopAction } from '../desktop/actions';
+import { t } from '../i18n';
 //=============================================================================
 export const OPEN_PALETTE_EVENT = 'nelson-webview.open-palette';
 export function commandMatchScore(text: string, query: string): number {
@@ -94,14 +95,14 @@ export function CommandPalette(): JSX.Element | null {
         className="palette"
         role="dialog"
         aria-modal="true"
-        aria-label="Command palette"
+        aria-label={t('Command Palette')}
         onMouseDown={(event) => event.stopPropagation()}
       >
         <input
           ref={inputRef}
           className="palette__input"
-          aria-label="Search commands"
-          placeholder="Search commands"
+          aria-label={t('Search commands')}
+          placeholder={t('Search commands')}
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);
@@ -123,7 +124,7 @@ export function CommandPalette(): JSX.Element | null {
             }
           }}
         />
-        <ul className="palette__list" role="listbox" aria-label="Command results">
+        <ul className="palette__list" role="listbox" aria-label={t('Command results')}>
           {filtered.slice(0, 50).map((action, index) => (
             <li
               key={action.id}
@@ -146,7 +147,9 @@ export function CommandPalette(): JSX.Element | null {
               {action.shortcut ? <kbd>{action.shortcut}</kbd> : null}
             </li>
           ))}
-          {filtered.length === 0 ? <li className="palette__empty">No matching command</li> : null}
+          {filtered.length === 0 ? (
+            <li className="palette__empty">{t('No matching command')}</li>
+          ) : null}
         </ul>
       </div>
     </div>

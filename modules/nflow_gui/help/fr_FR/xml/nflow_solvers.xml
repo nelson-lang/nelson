@@ -12,7 +12,7 @@
     <p>
       <b>Selectionner un solveur</b>
     </p>
-    <p>Renseignez le champ <b>solver</b> du modèle, en script avec <b>set_param(model, 'Solver', nom)</b>, ou depuis <b>Simulation Settings</b> dans le menu Simulation de l'éditeur. Les réglages s'ouvrent dans l'onglet Model de l'inspecteur. Le défaut (pas de solveur, ou <b>'discrete'</b>) garde le moteur à pas fixe, donc les modèles existants sont inchangés &#8212; le chemin global est purement optionnel.</p>
+    <p>Renseignez le champ <b>solver</b> du modèle, en script avec <b>set_param(model, 'Solver', nom)</b>, ou depuis <b>Paramètres de simulation</b> dans le menu Simulation de l'éditeur. Les réglages s'ouvrent dans l'onglet Modèle de l'inspecteur. Le défaut (pas de solveur, ou <b>'discrete'</b>) garde le moteur à pas fixe, donc les modèles existants sont inchangés &#8212; le chemin global est purement optionnel.</p>
     <p>
       <b>Solveurs disponibles</b>
     </p>

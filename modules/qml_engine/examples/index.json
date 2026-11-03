@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "basic_window/basic_window.m",
-      "title": "Basic QML window",
-      "description": "Open a minimal declarative user interface.",
+      "title": {
+        "en_US": "Basic QML window",
+        "fr_FR": "Fenêtre QML simple"
+      },
+      "description": {
+        "en_US": "Open a minimal declarative user interface.",
+        "fr_FR": "Ouvrir une interface utilisateur déclarative minimale."
+      },
       "tags": [
         "qml",
         "beginner"
@@ -15,8 +21,14 @@
     },
     {
       "file": "basic_layouts/basic_layouts.m",
-      "title": "QML layouts",
-      "description": "Arrange controls with declarative layouts.",
+      "title": {
+        "en_US": "QML layouts",
+        "fr_FR": "Dispositions QML"
+      },
+      "description": {
+        "en_US": "Arrange controls with declarative layouts.",
+        "fr_FR": "Disposer des contrôles avec des layouts déclaratifs."
+      },
       "tags": [
         "qml",
         "layout"
@@ -27,8 +39,14 @@
     },
     {
       "file": "checkboxes/checkboxes.m",
-      "title": "Checkbox callbacks",
-      "description": "Exchange checkbox state between QML and Nelson.",
+      "title": {
+        "en_US": "Checkbox callbacks",
+        "fr_FR": "Callbacks de cases à cocher"
+      },
+      "description": {
+        "en_US": "Exchange checkbox state between QML and Nelson.",
+        "fr_FR": "Échanger l'état de cases à cocher entre QML et Nelson."
+      },
       "tags": [
         "qml",
         "callbacks"
@@ -39,8 +57,14 @@
     },
     {
       "file": "clock/clock.m",
-      "title": "Animated clock",
-      "description": "Run a richer QML scene with bundled assets.",
+      "title": {
+        "en_US": "Animated clock",
+        "fr_FR": "Horloge animée"
+      },
+      "description": {
+        "en_US": "Run a richer QML scene with bundled assets.",
+        "fr_FR": "Exécuter une scène QML plus riche avec des ressources fournies."
+      },
       "tags": [
         "qml",
         "animation"
@@ -51,8 +75,14 @@
     },
     {
       "file": "colors/colors.m",
-      "title": "Color grid",
-      "description": "Display a reusable QML component grid.",
+      "title": {
+        "en_US": "Color grid",
+        "fr_FR": "Grille de couleurs"
+      },
+      "description": {
+        "en_US": "Display a reusable QML component grid.",
+        "fr_FR": "Afficher une grille de composants QML réutilisables."
+      },
       "tags": [
         "qml",
         "components"
@@ -63,8 +93,14 @@
     },
     {
       "file": "drag_demo/drag_demo.m",
-      "title": "Drag interaction",
-      "description": "Handle a draggable object and callback.",
+      "title": {
+        "en_US": "Drag interaction",
+        "fr_FR": "Interaction par glisser"
+      },
+      "description": {
+        "en_US": "Handle a draggable object and callback.",
+        "fr_FR": "Gérer un objet déplaçable et son callback."
+      },
       "tags": [
         "qml",
         "interaction"
@@ -75,8 +111,14 @@
     },
     {
       "file": "dynamic_scene_demo/dynamic_scene_demo.m",
-      "title": "Dynamic QML scene",
-      "description": "Create and update scene objects dynamically.",
+      "title": {
+        "en_US": "Dynamic QML scene",
+        "fr_FR": "Scène QML dynamique"
+      },
+      "description": {
+        "en_US": "Create and update scene objects dynamically.",
+        "fr_FR": "Créer et mettre à jour dynamiquement les objets d'une scène."
+      },
       "tags": [
         "qml",
         "dynamic"
@@ -87,8 +129,14 @@
     },
     {
       "file": "qcharts_demo/qcharts_demo.m",
-      "title": "QML chart gallery",
-      "description": "Explore chart components in a declarative interface.",
+      "title": {
+        "en_US": "QML chart gallery",
+        "fr_FR": "Galerie de graphiques QML"
+      },
+      "description": {
+        "en_US": "Explore chart components in a declarative interface.",
+        "fr_FR": "Explorer des composants de graphiques dans une interface déclarative."
+      },
       "tags": [
         "qml",
         "charts"
@@ -99,8 +147,14 @@
     },
     {
       "file": "qml_demos/qml_demos.m",
-      "title": "QML controls gallery",
-      "description": "Browse a collection of reusable controls.",
+      "title": {
+        "en_US": "QML controls gallery",
+        "fr_FR": "Galerie de contrôles QML"
+      },
+      "description": {
+        "en_US": "Browse a collection of reusable controls.",
+        "fr_FR": "Parcourir une collection de contrôles réutilisables."
+      },
       "tags": [
         "qml",
         "controls"

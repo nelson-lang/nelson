@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "run_parallel_sum.m",
-      "title": "Parallel reduction with MPI",
-      "description": "Launch four local workers and combine their partial sums.",
+      "title": {
+        "en_US": "Parallel reduction with MPI",
+        "fr_FR": "Réduction parallèle avec MPI"
+      },
+      "description": {
+        "en_US": "Launch four local workers and combine their partial sums.",
+        "fr_FR": "Lancer quatre processus locaux et combiner leurs sommes partielles."
+      },
       "tags": [
         "parallel",
         "reduction"

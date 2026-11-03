@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "mex_engine_demo_1.m",
-      "title": "Build a native engine client",
-      "description": "Copy and compile the first engine client in the temporary directory.",
+      "title": {
+        "en_US": "Build a native engine client",
+        "fr_FR": "Construire un client natif du moteur"
+      },
+      "description": {
+        "en_US": "Copy and compile the first engine client in the temporary directory.",
+        "fr_FR": "Copier et compiler le premier client du moteur dans le répertoire temporaire."
+      },
       "tags": [
         "native",
         "engine"
@@ -15,8 +21,14 @@
     },
     {
       "file": "mex_engine_demo_2.m",
-      "title": "Exchange matrices with an engine client",
-      "description": "Build a second standalone engine client in the temporary directory.",
+      "title": {
+        "en_US": "Exchange matrices with an engine client",
+        "fr_FR": "Échanger des matrices avec un client du moteur"
+      },
+      "description": {
+        "en_US": "Build a second standalone engine client in the temporary directory.",
+        "fr_FR": "Construire un second client autonome du moteur dans le répertoire temporaire."
+      },
       "tags": [
         "native",
         "engine"

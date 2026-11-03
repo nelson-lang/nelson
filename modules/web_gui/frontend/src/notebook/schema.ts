@@ -27,6 +27,7 @@ import {
   VariableSelectorCell,
 } from './blocks/ControlBlocks';
 import { LiveTaskCell } from './blocks/LiveTaskCell';
+import { t } from '../i18n';
 //=============================================================================
 // NB: the block type must not be `code` — BlockNote has a built-in inline `code`
 // mark, and a block of the same name throws "code can not be both a node and a
@@ -307,44 +308,47 @@ export function defaultBlockFor(type: string): any {
     case 'slider':
       return {
         type: 'slider',
-        props: { label: 'Parameter', varName: 'a', value: 1, min: 0, max: 10, step: 0.1 },
+        props: { label: t('Parameter'), varName: 'a', value: 1, min: 0, max: 10, step: 0.1 },
       };
     case 'rangeslider':
       return {
         type: 'rangeslider',
-        props: { label: 'Range', varName: 'r', low: 2, high: 8, min: 0, max: 10, step: 0.1 },
+        props: { label: t('Range'), varName: 'r', low: 2, high: 8, min: 0, max: 10, step: 0.1 },
       };
     case 'numberfield':
       return {
         type: 'numberfield',
-        props: { label: 'Value', varName: 'n', value: 1, min: 0, max: 100, step: 1 },
+        props: { label: t('Value'), varName: 'n', value: 1, min: 0, max: 100, step: 1 },
       };
     case 'dropdown':
       return {
         type: 'dropdown',
-        props: { label: 'Choice', varName: 'k', value: '1', options: '1, 2, 5, 10' },
+        props: { label: t('Choice'), varName: 'k', value: '1', options: '1, 2, 5, 10' },
       };
     case 'checkbox':
-      return { type: 'checkbox', props: { label: 'Enable', varName: 'flag', checked: true } };
+      return { type: 'checkbox', props: { label: t('Enable'), varName: 'flag', checked: true } };
     case 'textfield':
-      return { type: 'textfield', props: { label: 'Text', varName: 't', value: '0' } };
+      return { type: 'textfield', props: { label: t('Text'), varName: 't', value: '0' } };
     case 'colorpicker':
-      return { type: 'colorpicker', props: { label: 'Color', varName: 'c', value: '#0072bd' } };
+      return { type: 'colorpicker', props: { label: t('Color'), varName: 'c', value: '#0072bd' } };
     case 'datepicker':
-      return { type: 'datepicker', props: { label: 'Date', varName: 'day', value: '2026-06-15' } };
+      return {
+        type: 'datepicker',
+        props: { label: t('Date'), varName: 'day', value: '2026-06-15' },
+      };
     case 'filebrowser':
       return {
         type: 'filebrowser',
-        props: { label: 'File', varName: 'f', filename: '', value: '' },
+        props: { label: t('File'), varName: 'f', filename: '', value: '' },
       };
     case 'statebutton':
-      return { type: 'statebutton', props: { label: 'Toggle', varName: 's', on: false } };
+      return { type: 'statebutton', props: { label: t('Toggle'), varName: 's', on: false } };
     case 'varselect':
-      return { type: 'varselect', props: { label: 'Variable', varName: 'v', value: '' } };
+      return { type: 'varselect', props: { label: t('Variable'), varName: 'v', value: '' } };
     case 'livetask':
       return { type: 'livetask', props: { op: 'plot', inputVar: '', outVar: 'result' } };
     case 'runbutton':
-      return { type: 'runbutton', props: { caption: 'Run' } };
+      return { type: 'runbutton', props: { caption: t('Run') } };
     default:
       return { type: 'paragraph', content: '' };
   }

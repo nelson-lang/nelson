@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "colorbar/demo_colorbar.m",
-      "title": "Colorbar layouts",
-      "description": "Compare colorbar placement and styling options.",
+      "title": {
+        "en_US": "Colorbar layouts",
+        "fr_FR": "Dispositions de barres de couleurs"
+      },
+      "description": {
+        "en_US": "Compare colorbar placement and styling options.",
+        "fr_FR": "Comparer les options de placement et de style des barres de couleurs."
+      },
       "tags": [
         "plot",
         "color"
@@ -34,8 +40,14 @@
     },
     {
       "file": "cube/demo_cube.m",
-      "title": "Draw a three-dimensional cube",
-      "description": "Build and render a simple polygonal object.",
+      "title": {
+        "en_US": "Draw a three-dimensional cube",
+        "fr_FR": "Dessiner un cube en trois dimensions"
+      },
+      "description": {
+        "en_US": "Build and render a simple polygonal object.",
+        "fr_FR": "Construire et afficher un objet polygonal simple."
+      },
       "tags": [
         "3d",
         "geometry"
@@ -46,8 +58,14 @@
     },
     {
       "file": "movie/demo_movie.m",
-      "title": "Animate image frames",
-      "description": "Create an animation from bundled image sequences.",
+      "title": {
+        "en_US": "Animate image frames",
+        "fr_FR": "Animer des images"
+      },
+      "description": {
+        "en_US": "Create an animation from bundled image sequences.",
+        "fr_FR": "Créer une animation à partir de séquences d'images fournies."
+      },
       "tags": [
         "animation",
         "images"
@@ -59,8 +77,14 @@
     },
     {
       "file": "surface-lighting/demo_surface_lighting.m",
-      "title": "Surface lighting",
-      "description": "Explore lighting on a three-dimensional surface.",
+      "title": {
+        "en_US": "Surface lighting",
+        "fr_FR": "Éclairage de surface"
+      },
+      "description": {
+        "en_US": "Explore lighting on a three-dimensional surface.",
+        "fr_FR": "Explorer l'éclairage d'une surface en trois dimensions."
+      },
       "tags": [
         "3d",
         "lighting"
@@ -244,8 +268,14 @@
     },
     {
       "file": "nefertiti-mask/nefertiti_mask.m",
-      "title": "Nefertiti point cloud",
-      "description": "Render a bundled three-dimensional scan.",
+      "title": {
+        "en_US": "Nefertiti point cloud",
+        "fr_FR": "Nuage de points de Néfertiti"
+      },
+      "description": {
+        "en_US": "Render a bundled three-dimensional scan.",
+        "fr_FR": "Afficher un scan en trois dimensions fourni."
+      },
       "tags": [
         "3d",
         "data"
@@ -257,8 +287,14 @@
     },
     {
       "file": "stanford-bunny/stanford_bunny.m",
-      "title": "Bunny surface",
-      "description": "Render a bundled triangulated surface.",
+      "title": {
+        "en_US": "Bunny surface",
+        "fr_FR": "Surface du lapin"
+      },
+      "description": {
+        "en_US": "Render a bundled triangulated surface.",
+        "fr_FR": "Afficher une surface triangulée fournie."
+      },
       "tags": [
         "3d",
         "mesh"
@@ -270,8 +306,14 @@
     },
     {
       "file": "utah-teapot/utah_teapot.m",
-      "title": "Teapot surface",
-      "description": "Render a classic parametric surface dataset.",
+      "title": {
+        "en_US": "Teapot surface",
+        "fr_FR": "Surface de la théière"
+      },
+      "description": {
+        "en_US": "Render a classic parametric surface dataset.",
+        "fr_FR": "Afficher un jeu de données classique de surface paramétrique."
+      },
       "tags": [
         "3d",
         "mesh"
@@ -612,8 +654,14 @@
     },
     {
       "file": "uihtml_unit_converter.m",
-      "title": "uihtml: a page and Nelson exchanging values",
-      "description": "A slider in an HTML page sends its value to Nelson, which converts it and writes the result back into Data.",
+      "title": {
+        "en_US": "uihtml: a page and Nelson exchanging values",
+        "fr_FR": "uihtml : une page et Nelson qui échangent des valeurs"
+      },
+      "description": {
+        "en_US": "A slider in an HTML page sends its value to Nelson, which converts it and writes the result back into Data.",
+        "fr_FR": "Un curseur dans une page HTML envoie sa valeur à Nelson, qui la convertit et réécrit le résultat dans Data."
+      },
       "tags": [
         "uihtml",
         "html",
@@ -625,8 +673,14 @@
     },
     {
       "file": "uihtml_wave_packet.m",
-      "title": "uihtml: wave packet in a well you shape",
-      "description": "Nelson diagonalises the Hamiltonian once per shape change; the page animates the exact evolution at 60 fps, phase drawn as hue.",
+      "title": {
+        "en_US": "uihtml: wave packet in a well you shape",
+        "fr_FR": "uihtml : paquet d'ondes dans un puits que vous dessinez"
+      },
+      "description": {
+        "en_US": "Nelson diagonalises the Hamiltonian once per shape change; the page animates the exact evolution at 60 fps, phase drawn as hue.",
+        "fr_FR": "Nelson diagonalise le hamiltonien à chaque changement de forme ; la page anime l'évolution exacte à 60 images/s, la phase étant représentée par la teinte."
+      },
       "tags": [
         "uihtml",
         "quantum",

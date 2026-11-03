@@ -10,6 +10,7 @@
 import { useSyncExternalStore } from 'react';
 import { isEngineBusy, subscribeEngine } from '../desktop/engineSession';
 import { useStatusMessage } from '../desktop/statusMessage';
+import { t } from '../i18n';
 //=============================================================================
 export function StatusBar(): JSX.Element {
   const busy = useSyncExternalStore(subscribeEngine, isEngineBusy, () => false);
@@ -25,7 +26,7 @@ export function StatusBar(): JSX.Element {
       <span className="statusbar__message">{message}</span>
       <span className="statusbar__spacer" />
       <span className={'statusbar__state ' + (busy ? 'busy' : 'ready')}>
-        {busy ? 'Busy' : 'Ready'}
+        {busy ? t('Busy') : t('Ready')}
       </span>
     </div>
   );

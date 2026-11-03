@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "matrix_arithmetic.m",
-      "title": "Matrix arithmetic",
-      "description": "Compare matrix multiplication with element-wise operations.",
+      "title": {
+        "en_US": "Matrix arithmetic",
+        "fr_FR": "Arithmétique matricielle"
+      },
+      "description": {
+        "en_US": "Compare matrix multiplication with element-wise operations.",
+        "fr_FR": "Comparer la multiplication matricielle aux opérations élément par élément."
+      },
       "tags": [
         "beginner",
         "matrices"

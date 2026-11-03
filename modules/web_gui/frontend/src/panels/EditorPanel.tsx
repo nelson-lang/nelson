@@ -40,7 +40,7 @@ import {
   samePath,
   type EditorBreakpoint,
 } from '../editor/debugDecorations';
-import { subscribeTranslations, t } from '../i18n';
+import { subscribeTranslations, t, tf } from '../i18n';
 //=============================================================================
 setupMonaco();
 //=============================================================================
@@ -215,8 +215,8 @@ function registerNelson(monaco: typeof Monaco) {
         const sec = /^\s*%%\s?(.*)$/.exec(lines[i]);
         if (sec) {
           out.push({
-            name: sec[1].trim() || 'section',
-            detail: 'section',
+            name: sec[1].trim() || t('section'),
+            detail: t('section'),
             kind: monaco.languages.SymbolKind.Namespace,
             tags: [],
             range: fullRange(i),
@@ -238,7 +238,7 @@ function registerNelson(monaco: typeof Monaco) {
         if (line < range.startLineNumber || line > range.endLineNumber) continue;
         for (const fix of d.fixes) {
           actions.push({
-            title: fix.title || `Fix: ${d.ruleName}`,
+            title: fix.title || tf('Fix: %1', d.ruleName),
             kind: 'quickfix',
             isPreferred: fix.safe,
             edit: {
@@ -830,7 +830,7 @@ export function EditorPanel({
     if (!editor) return;
     // Same path picker as the Notebook: native dialog, else the web file picker.
     const target = await requestSavePath({
-      title: 'Save As',
+      title: t('Save As'),
       suggestedName: baseName(path),
       filters: ['.m'],
       defaultPath: dirName(path) || undefined,
@@ -959,7 +959,7 @@ export function EditorPanel({
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, save);
     editor.addAction({
       id: 'nelson.evaluate',
-      label: 'Evaluate Selection',
+      label: t('Evaluate Selection'),
       keybindings: [monaco.KeyCode.F9],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 1,
@@ -967,7 +967,7 @@ export function EditorPanel({
     });
     editor.addAction({
       id: 'nelson.section',
-      label: 'Run Section',
+      label: t('Run Section'),
       keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 2,
@@ -975,7 +975,7 @@ export function EditorPanel({
     });
     editor.addAction({
       id: 'nelson.run',
-      label: 'Run File / Continue',
+      label: t('Run File / Continue'),
       keybindings: [monaco.KeyCode.F5],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 3,
@@ -987,7 +987,7 @@ export function EditorPanel({
     });
     editor.addAction({
       id: 'nelson.help',
-      label: 'Help on Selection',
+      label: t('Help on Selection'),
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 4,
       run: (ed) => {
@@ -1004,7 +1004,7 @@ export function EditorPanel({
     });
     editor.addAction({
       id: 'nelson.breakpoint',
-      label: 'Set/Clear Breakpoint',
+      label: t('Set/Clear Breakpoint'),
       keybindings: [monaco.KeyCode.F12, monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9],
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 5,
@@ -1015,7 +1015,7 @@ export function EditorPanel({
     });
     editor.addAction({
       id: 'nelson.clearBreakpoints',
-      label: 'Clear All Breakpoints',
+      label: t('Clear All Breakpoints'),
       contextMenuGroupId: 'nelson',
       contextMenuOrder: 6,
       run: clearAllBreakpoints,
@@ -1023,30 +1023,35 @@ export function EditorPanel({
     // debugger keys; F6 (Pause) and Ctrl+F10 (Run to Here) are Nelson's
     const debugKey = (id: string, label: string, keys: number[], run: () => void) =>
       editor.addAction({ id, label, keybindings: keys, run });
-    debugKey('nelson.dbstep', 'Step', [monaco.KeyCode.F10], () => void stepCommand('step'));
-    debugKey('nelson.dbstepin', 'Step In', [monaco.KeyCode.F11], () => void stepCommand('stepIn'));
+    debugKey('nelson.dbstep', t('Step'), [monaco.KeyCode.F10], () => void stepCommand('step'));
+    debugKey(
+      'nelson.dbstepin',
+      t('Step In'),
+      [monaco.KeyCode.F11],
+      () => void stepCommand('stepIn')
+    );
     debugKey(
       'nelson.dbstepout',
-      'Step Out',
+      t('Step Out'),
       [monaco.KeyMod.Shift | monaco.KeyCode.F11],
       () => void stepCommand('stepOut')
     );
     debugKey(
       'nelson.dbquit',
-      'Stop',
+      t('Stop'),
       [monaco.KeyMod.Shift | monaco.KeyCode.F5],
       () => void stopDebugging()
     );
-    debugKey('nelson.dbpause', 'Pause', [monaco.KeyCode.F6], () => void debugCommand('pause'));
+    debugKey('nelson.dbpause', t('Pause'), [monaco.KeyCode.F6], () => void debugCommand('pause'));
     debugKey(
       'nelson.runToHere',
-      'Run to Here',
+      t('Run to Here'),
       [monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10],
       runToHere
     );
     editor.addAction({
       id: 'nelson.gotoSymbol',
-      label: 'Go to Function/Section…',
+      label: t('Go to Function/Section…'),
       keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyO],
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
@@ -1063,7 +1068,7 @@ export function EditorPanel({
     prefsOffRef.current = subscribePrefs(applyPrefs);
   };
 
-  if (!ready) return <div className="browser__empty">loading…</div>;
+  if (!ready) return <div className="browser__empty">{t('loading…')}</div>;
 
   const totalIssues = issues.errors + issues.warnings + issues.infos;
   const canStep = debug.paused && debug.canStep;
@@ -1072,72 +1077,72 @@ export function EditorPanel({
   const ribbonGroups: RibbonGroupDef[] = [
     {
       id: 'file',
-      label: 'FILE',
+      label: t('FILE'),
       priority: 10, // collapses last (most important)
       actions: [
         {
           key: 'new',
           label: (
             <>
-              <DesktopIcon name="file" size={16} /> New
+              <DesktopIcon name="file" size={16} /> {t('New')}
             </>
           ),
-          title: 'New script',
+          title: t('New script'),
           onClick: newScript,
         },
         {
           key: 'save',
           label: (
             <>
-              <DesktopIcon name="save" size={16} /> Save
+              <DesktopIcon name="save" size={16} /> {t('&Save')}
             </>
           ),
-          title: 'Save (Ctrl+S)',
+          title: t('Save (Ctrl+S)'),
           onClick: save,
         },
-        { key: 'saveas', label: 'Save As', title: 'Save As…', onClick: saveAs },
+        { key: 'saveas', label: t('Save As'), title: t('Save As…'), onClick: saveAs },
       ],
     },
     {
       id: 'navigate',
-      label: 'NAVIGATE',
+      label: t('NAVIGATE'),
       priority: 1,
       actions: [
         {
           key: 'find',
           label: (
             <>
-              <DesktopIcon name="search" size={16} /> Find
+              <DesktopIcon name="search" size={16} /> {t('Find')}
             </>
           ),
-          title: 'Find / Replace (Ctrl+F)',
+          title: t('Find / Replace (Ctrl+F)'),
           onClick: find,
         },
-        { key: 'goto', label: 'Go To', title: 'Go to line (Ctrl+G)', onClick: gotoLine },
+        { key: 'goto', label: t('Go To'), title: t('Go to line (Ctrl+G)'), onClick: gotoLine },
         {
           key: 'sym',
-          label: 'Symbols',
-          title: 'Go to function/section (Ctrl+Shift+O)',
+          label: t('Symbols'),
+          title: t('Go to function/section (Ctrl+Shift+O)'),
           onClick: gotoSymbol,
         },
       ],
     },
     {
       id: 'code',
-      label: 'CODE',
+      label: t('CODE'),
       priority: 2,
       actions: [
         {
           key: 'comment',
-          label: '% Comment',
-          title: 'Comment / Uncomment (Ctrl+/)',
+          label: `% ${t('Comment')}`,
+          title: t('Comment / Uncomment (Ctrl+/)'),
           onClick: commentToggle,
         },
-        { key: 'format', label: 'Format', title: 'Format document', onClick: format },
+        { key: 'format', label: t('Format'), title: t('Format document'), onClick: format },
         {
           key: 'wrap',
-          label: 'Wrap',
-          title: 'Toggle word wrap',
+          label: t('Wrap'),
+          title: t('Toggle word wrap'),
           onClick: toggleWrap,
           className: wrap ? 'ribbon-btn--on' : '',
         },
@@ -1145,13 +1150,13 @@ export function EditorPanel({
     },
     {
       id: 'analyze',
-      label: 'ANALYZE',
+      label: t('ANALYZE'),
       priority: 3,
       actions: [
         {
           key: 'issues',
           className: 'editor-toolbar__issues' + (showProblems ? ' ribbon-btn--on' : ''),
-          title: 'Show code issues',
+          title: t('Show code issues'),
           onClick: () => setShowProblems((v) => !v),
           label:
             totalIssues > 0 ? (
@@ -1170,12 +1175,12 @@ export function EditorPanel({
                   <span className="editor-issues__info">
                     <DesktopIcon name="info" size={16} /> {issues.infos}
                   </span>
-                )}
-                {' Issues'}
+                )}{' '}
+                {t('Issues')}
               </>
             ) : (
               <>
-                <DesktopIcon name="check" size={16} /> No issues
+                <DesktopIcon name="check" size={16} /> {t('No issues')}
               </>
             ),
           disabled: totalIssues === 0,
@@ -1184,43 +1189,43 @@ export function EditorPanel({
           key: 'prof',
           label: (
             <>
-              <DesktopIcon name="profiler" size={16} /> Profiler
+              <DesktopIcon name="profiler" size={16} /> {t('Profiler')}
             </>
           ),
-          title: 'Profiler',
+          title: t('Profiler'),
           onClick: () => ensureCorePanel('profiler'),
         },
       ],
     },
     {
       id: 'section',
-      label: 'SECTION',
+      label: t('SECTION'),
       priority: 4,
       actions: [
         {
           key: 'break',
-          label: '%% Break',
-          title: 'Insert section break (%%)',
+          label: `%% ${t('Break')}`,
+          title: t('Insert section break (%%)'),
           onClick: insertSection,
         },
         {
           key: 'runsec',
           label: (
             <>
-              <DesktopIcon name="execute" size={16} /> Section
+              <DesktopIcon name="execute" size={16} /> {t('Section')}
             </>
           ),
-          title: 'Run section (Ctrl+Enter)',
+          title: t('Run section (Ctrl+Enter)'),
           onClick: runSection,
         },
         {
           key: 'eval',
           label: (
             <>
-              <DesktopIcon name="execute" size={16} /> Evaluate
+              <DesktopIcon name="execute" size={16} /> {t('Evaluate')}
             </>
           ),
-          title: 'Evaluate selection (F9)',
+          title: t('Evaluate selection (F9)'),
           onClick: evaluateSelection,
         },
       ],
@@ -1328,17 +1333,17 @@ export function EditorPanel({
     },
     {
       id: 'run',
-      label: 'RUN',
+      label: t('RUN'),
       priority: 9, // collapses near-last
       actions: [
         {
           key: 'run',
           label: (
             <>
-              <DesktopIcon name="execute" size={16} /> {debug.paused ? t('Continue') : 'Run'}
+              <DesktopIcon name="execute" size={16} /> {debug.paused ? t('Continue') : t('Run')}
             </>
           ),
-          title: debug.paused ? `${t('Continue')} (F5)` : 'Run file (F5)',
+          title: debug.paused ? `${t('Continue')} (F5)` : t('Run file (F5)'),
           onClick: () => {
             if (debug.paused) void debugCommand('continue');
             else runFile();
@@ -1466,11 +1471,13 @@ export function EditorPanel({
         <div className="editor-problems">
           <div className="editor-problems__head">
             <span>
-              {diagnostics.length} issue{diagnostics.length > 1 ? 's' : ''}
+              {diagnostics.length > 1
+                ? tf('%1 issues', diagnostics.length)
+                : tf('%1 issue', diagnostics.length)}
             </span>
             <button
               className="editor-problems__close"
-              title="Hide"
+              title={t('Hide')}
               onClick={() => setShowProblems(false)}
             >
               <DesktopIcon name="close" size={16} />
@@ -1482,7 +1489,7 @@ export function EditorPanel({
                 key={i}
                 className="editor-problems__item"
                 onClick={() => gotoDiagnostic(d)}
-                title="Go to line"
+                title={t('Go to line')}
               >
                 <span className={'editor-problems__sev editor-problems__sev--' + d.severity}>
                   <DesktopIcon
@@ -1501,16 +1508,16 @@ export function EditorPanel({
                 {d.fixes && d.fixes.length > 0 ? (
                   <button
                     className="editor-problems__fix"
-                    title={d.fixes[0].title || 'Apply fix'}
+                    title={d.fixes[0].title || t('Apply fix')}
                     onClick={(e) => {
                       e.stopPropagation();
                       applyFix(d);
                     }}
                   >
-                    Fix
+                    {t('Fix')}
                   </button>
                 ) : null}
-                <span className="editor-problems__loc">Ln {d.lineStart || 1}</span>
+                <span className="editor-problems__loc">{tf('Ln %1', d.lineStart || 1)}</span>
               </li>
             ))}
           </ul>

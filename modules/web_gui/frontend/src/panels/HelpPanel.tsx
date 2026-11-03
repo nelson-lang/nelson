@@ -10,6 +10,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { rpc } from '../rpc/client';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { t, tf } from '../i18n';
 //=============================================================================
 // Documentation browser: a search box plus the configured remote help page or
 // the generated local page for a topic. The text path is retained as a
@@ -34,7 +35,7 @@ export function HelpPanel(): JSX.Element {
     richPath.current = '';
     setRichDocument(null);
     if (!name.trim()) {
-      setText('Type a function name and press Enter to see its documentation.');
+      setText(t('Type a function name and press Enter to see its documentation.'));
       return;
     }
     setLoading(true);
@@ -59,9 +60,9 @@ export function HelpPanel(): JSX.Element {
         console.warn('Nelson rich help unavailable; using text help.', error);
         return rpc<{ text?: string }>('help.text', { name: name.trim() })
           .then((r) =>
-            setText(r.text && r.text.trim() ? r.text : `No documentation found for "${name}".`)
+            setText(r.text && r.text.trim() ? r.text : tf('No documentation found for "%1".', name))
           )
-          .catch(() => setText(`No documentation found for "${name}".`));
+          .catch(() => setText(tf('No documentation found for "%1".', name)));
       })
       .finally(() => setLoading(false));
   };
@@ -69,8 +70,8 @@ export function HelpPanel(): JSX.Element {
   useEffect(() => {
     load('');
     const onTopic = (e: Event) => {
-      const t = (e as CustomEvent<{ topic?: string }>).detail?.topic ?? '';
-      if (t) load(t);
+      const name = (e as CustomEvent<{ topic?: string }>).detail?.topic ?? '';
+      if (name) load(name);
       inputRef.current?.focus();
     };
     window.addEventListener(HELP_TOPIC_EVENT, onTopic as EventListener);
@@ -142,7 +143,7 @@ export function HelpPanel(): JSX.Element {
         <input
           ref={inputRef}
           className="help-panel__search"
-          placeholder="Search documentation (e.g. sin)"
+          placeholder={t('Search documentation (e.g. sin)')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
@@ -150,26 +151,26 @@ export function HelpPanel(): JSX.Element {
           }}
           spellCheck={false}
         />
-        <button className="help-panel__go" onClick={() => load(query)} title="Search">
+        <button className="help-panel__go" onClick={() => load(query)} title={t('Search')}>
           <DesktopIcon name="search" size={18} />
         </button>
       </div>
       <div className="help-panel__body">
         {loading ? (
-          <div className="browser__empty">loading…</div>
+          <div className="browser__empty">{t('loading…')}</div>
         ) : richDocument ? (
           richDocument.url ? (
             <div className="help-panel__text">
               <div className="help-panel__topic">{richDocument.title}</div>
-              <p>Documentation opened in a new browser tab.</p>
+              <p>{t('Documentation opened in a new browser tab.')}</p>
               <a href={richDocument.url} target="_blank" rel="noreferrer">
-                Open documentation
+                {t('Open documentation')}
               </a>
             </div>
           ) : (
             <iframe
               className="help-panel__frame"
-              title={richDocument.title || 'Nelson Documentation'}
+              title={richDocument.title || t('Nelson Documentation')}
               srcDoc={richDocument.html ?? ''}
             />
           )

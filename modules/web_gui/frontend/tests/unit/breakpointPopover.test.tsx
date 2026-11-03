@@ -64,7 +64,7 @@ describe('BreakpointPopover (gutter menu)', () => {
     render(props());
     expect(buttons()).toEqual([
       'Set Breakpoint',
-      'Set Conditional Breakpoint...',
+      'Set Conditional Breakpoint…',
       'Enable All Breakpoints in File',
       'Disable All Breakpoints in File',
       'Clear All Breakpoints in File',
@@ -86,7 +86,7 @@ describe('BreakpointPopover (gutter menu)', () => {
     render(p);
     expect(buttons().slice(0, 3)).toEqual([
       'Clear Breakpoint',
-      'Set/Modify Condition...',
+      'Set/Modify Condition…',
       'Disable Breakpoint',
     ]);
     click('Disable Breakpoint');
@@ -105,7 +105,7 @@ describe('BreakpointPopover (gutter menu)', () => {
   it('edits the condition inline and reports the engine message', () => {
     const p = props({ hasBreakpoint: true, hasAny: true, condition: 'k > 2' });
     render(p);
-    click('Set/Modify Condition...');
+    click('Set/Modify Condition…');
     const input = container.querySelector<HTMLInputElement>(
       '[data-testid="breakpoint-condition-input"]'
     );

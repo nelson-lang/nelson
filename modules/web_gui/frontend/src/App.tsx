@@ -45,7 +45,7 @@ import { PlotGalleryHost } from './components/PlotGalleryHost';
 import { LocalFileDropHost } from './components/LocalFileDropHost';
 import { AudioUnlockHost } from './components/AudioUnlockHost';
 import { ensureCorePanel, setDockApi, watchDebuggerStops } from './desktop/desktop';
-import { DEBUGGER_STRINGS, loadTranslations } from './i18n';
+import { t } from './i18n';
 import { isEngineBusy, onEngineReady, runCommand } from './desktop/engineSession';
 import { installFigureLifecycle, installNotebookOpenPush } from './desktop/figureLifecycle';
 import {
@@ -153,24 +153,24 @@ const components = {
     <FigurePanel handle={props.params.handle} title={props.params.title} panelApi={props.api} />
   ),
   editor: (props: IDockviewPanelProps<{ path: string; line?: number; column?: number }>) => (
-    <Suspense fallback={<div className="browser__empty">Loading editor…</div>}>
+    <Suspense fallback={<div className="browser__empty">{t('Loading editor…')}</div>}>
       <EditorPanel path={props.params.path} line={props.params.line} column={props.params.column} />
     </Suspense>
   ),
   shell: ShellTerminalPanel,
   help: HelpPanel,
   examples: () => (
-    <Suspense fallback={<div className="browser__empty">Loading examples…</div>}>
+    <Suspense fallback={<div className="browser__empty">{t('Loading examples…')}</div>}>
       <ExamplesPanel />
     </Suspense>
   ),
   notebook: (props: IDockviewPanelProps) => (
-    <Suspense fallback={<div className="browser__empty">Loading Notebook…</div>}>
+    <Suspense fallback={<div className="browser__empty">{t('Loading Notebook…')}</div>}>
       <NotebookPanel panelApi={props.api} path={props.params.path as string | undefined} />
     </Suspense>
   ),
   packages: () => (
-    <Suspense fallback={<div className="browser__empty">Loading package manager…</div>}>
+    <Suspense fallback={<div className="browser__empty">{t('Loading package manager…')}</div>}>
       <PackageManagerPanel />
     </Suspense>
   ),
@@ -414,9 +414,9 @@ export function App(): JSX.Element {
     };
   }, []);
 
-  const onTheme = useCallback((t: ThemePref) => {
-    setThemePref(t);
-    setTheme(t);
+  const onTheme = useCallback((theme: ThemePref) => {
+    setThemePref(theme);
+    setTheme(theme);
   }, []);
 
   useEffect(() => {
@@ -430,7 +430,6 @@ export function App(): JSX.Element {
     setDockApi(api);
     // a debugger stop opens (or fronts) the editor of the paused file
     watchDebuggerStops();
-    void loadTranslations(DEBUGGER_STRINGS);
 
     // Phones get a single full-width tabbed group; wider screens keep the
     // docked desktop layout. The two are swapped live at the breakpoint.
@@ -529,7 +528,7 @@ export function App(): JSX.Element {
           <div
             className="nelson-dock"
             role="main"
-            aria-label="Notebook documents"
+            aria-label={t('Notebook documents')}
             data-focus-zone="dock"
             tabIndex={-1}
           >
@@ -573,7 +572,7 @@ export function App(): JSX.Element {
         <div
           className="nelson-dock"
           role="main"
-          aria-label="Desktop panels"
+          aria-label={t('Desktop panels')}
           data-focus-zone="dock"
           tabIndex={-1}
         >
@@ -603,12 +602,12 @@ export function App(): JSX.Element {
       {disconnected && (
         <div className="disconnected">
           <div className="disconnected__card">
-            <div className="disconnected__title">Nelson engine disconnected</div>
+            <div className="disconnected__title">{t('Nelson engine disconnected')}</div>
             <p>
               The <code>nelson-webview</code> process has stopped, so the desktop is now disabled.
-              Start nelson-webview again, then reload this page.
+              {t('Start nelson-webview again, then reload this page.')}
             </p>
-            <button onClick={() => window.location.reload()}>Reload</button>
+            <button onClick={() => window.location.reload()}>{t('Reload')}</button>
           </div>
         </div>
       )}

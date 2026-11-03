@@ -10,7 +10,7 @@
   <description>
     <p>Ceci est le premier de trois courts tutoriels. Vous construisez un modèle à trois blocs, une source Sine, un Gain et un Scope, puis vous l'exécutez et lisez le résultat. Le modèle n'a ni rebouclage ni dynamique : c'est donc une bonne façon d'apprendre l'éditeur lui-même, à savoir poser des blocs, tracer des fils, modifier des paramètres et lancer une simulation.</p>
     <p><b>Ouvrir l'éditeur</b></p>
-    <p>Appelez <b>nflow()</b> depuis la ligne de commande Nelson pour ouvrir un modèle vide. La bibliothèque de blocs est à gauche, le diagramme au centre et l'inspecteur à droite. Sélectionnez un bloc pour voir ses paramètres dans l'inspecteur, ou ne sélectionnez rien pour afficher l'onglet <b>Model</b> et ses réglages de simulation.</p>
+    <p>Appelez <b>nflow()</b> depuis la ligne de commande Nelson pour ouvrir un modèle vide. La bibliothèque de blocs est à gauche, le diagramme au centre et l'inspecteur à droite. Sélectionnez un bloc pour voir ses paramètres dans l'inspecteur, ou ne sélectionnez rien pour afficher l'onglet <b>Modèle</b> et ses réglages de simulation.</p>
     <p><b>Poser les blocs</b></p>
     <ol>
       <li>Dans la bibliothèque, ouvrez le groupe <b>Source</b> et faites glisser un bloc <b>Sine</b> sur le diagramme.</li>
@@ -28,9 +28,9 @@
     <p><b>Régler les paramètres des blocs</b></p>
     <p>Sélectionnez le bloc <b>Gain</b> et réglez <b>Gain</b> à 2 dans l'inspecteur. Sélectionnez le bloc <b>Sine</b> pour régler son amplitude et sa fréquence, ou conservez les valeurs par défaut. Chaque modification est appliquée au bloc au fur et à mesure de la saisie.</p>
     <p><b>Régler la durée de simulation</b></p>
-    <p>Ne sélectionnez rien pour afficher l'onglet <b>Model</b>, puis ouvrez <b>Simulation</b>. Réglez <b>Runtime (s)</b> sur la durée de l'exécution, par exemple 10. Conservez <b>Sample Time (s)</b> à sa valeur par défaut pour ce modèle.</p>
+    <p>Ne sélectionnez rien pour afficher l'onglet <b>Modèle</b>, puis ouvrez <b>Simulation</b>. Réglez <b>Temps d'arrêt (s)</b> sur la durée de l'exécution, par exemple 10. Conservez <b>Temps d'échantillonnage (s)</b> à sa valeur par défaut pour ce modèle.</p>
     <p><b>Exécuter le modèle</b></p>
-    <p>Appuyez sur <b>Run</b> dans la barre d'outils au-dessus du diagramme, ou utilisez le menu <b>Simulation</b>. Le Scope se remplit pendant l'exécution. <b>Stop</b> arrête l'exécution et conserve les résultats déjà calculés. <b>Reset</b> remet le temps à zéro et efface les résultats affichés.</p>
+    <p>Appuyez sur <b>Exécuter</b> dans la barre d'outils au-dessus du diagramme, ou utilisez le menu <b>Simulation</b>. Le Scope se remplit pendant l'exécution. <b>Arrêter</b> arrête l'exécution et conserve les résultats déjà calculés. <b>Réinitialiser</b> remet le temps à zéro et efface les résultats affichés.</p>
     <p><b>Lire le scope</b></p>
     <p>Le Scope montre le sinus amplifié. Sélectionnez le Scope et utilisez l'inspecteur pour régler les plages de temps et de valeurs (<b>t min</b>, <b>t max</b>, <b>y min</b>, <b>y max</b>), afficher les graduations, et définir la couleur du tracé et les libellés d'axes. Laissez un champ de plage vide pour que le Scope s'ajuste aux données.</p>
     <p><b>Pour aller plus loin</b></p>

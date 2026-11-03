@@ -10,6 +10,7 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { DesktopIcon } from '../components/DesktopIcon';
 import type { MenuState } from '../console/consolePanelTypes';
+import { t } from '../i18n';
 //=============================================================================
 type FindState = { term: string; index: number };
 export function ConsoleFindBar({
@@ -32,7 +33,7 @@ export function ConsoleFindBar({
       <input
         ref={findRef}
         className="console-find-bar__input"
-        placeholder="Find"
+        placeholder={t('Find')}
         value={find.term}
         onChange={(e) => onTermChange(e.target.value)}
         onKeyDown={(e) => {
@@ -47,13 +48,13 @@ export function ConsoleFindBar({
       <span className="console-find-bar__count">
         {find.term ? `${matchCount === 0 ? 0 : find.index + 1}/${matchCount}` : ''}
       </span>
-      <button onClick={() => onStep(-1)} title="Previous (Shift+Enter)">
+      <button onClick={() => onStep(-1)} title={t('Previous (Shift+Enter)')}>
         <DesktopIcon name="up" size={16} />
       </button>
-      <button onClick={() => onStep(1)} title="Next (Enter)">
+      <button onClick={() => onStep(1)} title={t('Next (Enter)')}>
         <DesktopIcon name="down" size={16} />
       </button>
-      <button onClick={onClose} title="Close (Esc)">
+      <button onClick={onClose} title={t('Close (Esc)')}>
         <DesktopIcon name="close" size={16} />
       </button>
     </div>
@@ -110,42 +111,42 @@ export function ConsoleContextMenu({
         className={'console-menu__item' + (menu.hasSelection ? '' : ' disabled')}
         onMouseDown={onHelp}
       >
-        <span>Help on Selection</span>
+        <span>{t('Help on Selection')}</span>
       </div>
       <div
         className={'console-menu__item' + (menu.hasSelection ? '' : ' disabled')}
         onMouseDown={onCopy}
       >
-        <span>Copy</span>
+        <span>{t('Copy')}</span>
         <span>Ctrl+C</span>
       </div>
       <div className="console-menu__item" onMouseDown={onPaste}>
-        <span>Paste</span>
+        <span>{t('Paste')}</span>
         <span>Ctrl+V</span>
       </div>
       <div className="console-menu__sep" />
       <div className="console-menu__item" onMouseDown={onFind}>
-        <span>Find…</span>
+        <span>{t('Find…')}</span>
         <span>Ctrl+F</span>
       </div>
       <div className="console-menu__item" onMouseDown={onToggleWrap}>
-        <span>Wrap lines</span>
+        <span>{t('Wrap lines')}</span>
         {wrap ? <DesktopIcon name="check" size={16} /> : null}
       </div>
       <div className="console-menu__item" onMouseDown={onExportHtml}>
-        <span>Export to HTML…</span>
+        <span>{t('Export to HTML…')}</span>
       </div>
       <div className="console-menu__item" onMouseDown={onPrint}>
-        <span>Print…</span>
+        <span>{t('Print…')}</span>
       </div>
       <div className="console-menu__sep" />
       <div className="console-menu__item" onMouseDown={onSelectAll}>
-        <span>Select All</span>
+        <span>{t('Select All')}</span>
         <span>Ctrl+A</span>
       </div>
       <div className="console-menu__sep" />
       <div className="console-menu__item" onMouseDown={onClear}>
-        <span>Clear</span>
+        <span>{t('Clear')}</span>
       </div>
     </div>
   );

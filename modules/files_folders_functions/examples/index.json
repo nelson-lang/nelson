@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "temporary_files.m",
-      "title": "Work with temporary files",
-      "description": "Create, read and clean up a text file under the temporary directory.",
+      "title": {
+        "en_US": "Work with temporary files",
+        "fr_FR": "Travailler avec des fichiers temporaires"
+      },
+      "description": {
+        "en_US": "Create, read and clean up a text file under the temporary directory.",
+        "fr_FR": "Créer, lire puis supprimer un fichier texte dans le répertoire temporaire."
+      },
       "tags": [
         "files",
         "folders"

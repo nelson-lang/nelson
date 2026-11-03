@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import type { IDockviewHeaderActionsProps } from 'dockview';
 import { DesktopIcon } from '../components/DesktopIcon';
 import { isGroupCollapsed, onCollapseChange, toggleGroupCollapsed } from '../desktop/collapse';
+import { t } from '../i18n';
 //=============================================================================
 // Chevron at the left of a group's tab strip, like the Qt desktop's dock title
 // bar: collapses the group to its tab strip and expands it back. Floating
@@ -26,11 +27,12 @@ export function GroupCollapseAction(props: IDockviewHeaderActionsProps): JSX.Ele
     return null;
   }
   const collapsed = isGroupCollapsed(group);
+  const label = collapsed ? t('Expand panel') : t('Collapse panel');
   return (
     <button
       className="group-collapse"
-      title={collapsed ? 'Expand panel' : 'Collapse panel'}
-      aria-label={collapsed ? 'Expand panel' : 'Collapse panel'}
+      title={label}
+      aria-label={label}
       onClick={() => toggleGroupCollapsed(group)}
     >
       <DesktopIcon name={collapsed ? 'expand' : 'collapse'} />

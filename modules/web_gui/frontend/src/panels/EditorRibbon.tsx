@@ -9,6 +9,7 @@
 //=============================================================================
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // A grouped editor toolbar that adapts to the panel width (similar to a
 // toolstrip), in three tiers:
@@ -211,8 +212,8 @@ export function EditorRibbon({ groups }: { groups: RibbonGroupDef[] }): JSX.Elem
         <div className="editor-ribbon__group editor-ribbon__group--collapsed editor-ribbon__overflow">
           <button
             className="editor-ribbon__collapsed-btn"
-            title="More toolbar groups"
-            aria-label="More toolbar groups"
+            title={t('More toolbar groups')}
+            aria-label={t('More toolbar groups')}
             onMouseDown={(e) => {
               e.stopPropagation();
               setOpenMenu((m) => (m === '__overflow__' ? null : '__overflow__'));
@@ -233,7 +234,7 @@ export function EditorRibbon({ groups }: { groups: RibbonGroupDef[] }): JSX.Elem
               ))}
             </div>
           ) : null}
-          <div className="editor-ribbon__label">MORE</div>
+          <div className="editor-ribbon__label">{t('MORE')}</div>
         </div>
       ) : null}
     </div>

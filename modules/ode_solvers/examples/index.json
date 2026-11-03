@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "ballode.m",
-      "title": "Bouncing ball events",
-      "description": "Integrate a bouncing ball model with event detection.",
+      "title": {
+        "en_US": "Bouncing ball events",
+        "fr_FR": "Événements d'une balle qui rebondit"
+      },
+      "description": {
+        "en_US": "Integrate a bouncing ball model with event detection.",
+        "fr_FR": "Intégrer un modèle de balle rebondissante avec détection d'événements."
+      },
       "tags": [
         "ode",
         "events"
@@ -15,8 +21,14 @@
     },
     {
       "file": "dde_bvp_added_features_example.m",
-      "title": "Boundary-value problem",
-      "description": "Solve a delayed boundary-value problem with additional options.",
+      "title": {
+        "en_US": "Boundary-value problem",
+        "fr_FR": "Problème aux limites"
+      },
+      "description": {
+        "en_US": "Solve a delayed boundary-value problem with additional options.",
+        "fr_FR": "Résoudre un problème aux limites à retard avec des options supplémentaires."
+      },
       "tags": [
         "dde",
         "boundary-value"
@@ -25,8 +37,14 @@
     },
     {
       "file": "ode_delay_sensitivity_example.m",
-      "title": "Delay sensitivity",
-      "description": "Study sensitivities in a delayed differential system.",
+      "title": {
+        "en_US": "Delay sensitivity",
+        "fr_FR": "Sensibilité au retard"
+      },
+      "description": {
+        "en_US": "Study sensitivities in a delayed differential system.",
+        "fr_FR": "Étudier les sensibilités d'un système différentiel à retard."
+      },
       "tags": [
         "ode",
         "sensitivity"
@@ -35,8 +53,14 @@
     },
     {
       "file": "ode_fully_implicit_consistent_example.m",
-      "title": "Fully implicit system",
-      "description": "Compute consistent initial conditions for an implicit system.",
+      "title": {
+        "en_US": "Fully implicit system",
+        "fr_FR": "Système entièrement implicite"
+      },
+      "description": {
+        "en_US": "Compute consistent initial conditions for an implicit system.",
+        "fr_FR": "Calculer des conditions initiales cohérentes pour un système implicite."
+      },
       "tags": [
         "ode",
         "implicit"
@@ -45,8 +69,14 @@
     },
     {
       "file": "ode_object_event_interpolation_example.m",
-      "title": "Events and interpolation",
-      "description": "Use solver objects, event locations and dense interpolation.",
+      "title": {
+        "en_US": "Events and interpolation",
+        "fr_FR": "Événements et interpolation"
+      },
+      "description": {
+        "en_US": "Use solver objects, event locations and dense interpolation.",
+        "fr_FR": "Utiliser les objets solveurs, la localisation d'événements et l'interpolation dense."
+      },
       "tags": [
         "ode",
         "events"
@@ -55,8 +85,14 @@
     },
     {
       "file": "ode_sundials_sparse_preconditioner_example.m",
-      "title": "Sparse preconditioning",
-      "description": "Solve a larger system with a sparse preconditioner.",
+      "title": {
+        "en_US": "Sparse preconditioning",
+        "fr_FR": "Préconditionnement creux"
+      },
+      "description": {
+        "en_US": "Solve a larger system with a sparse preconditioner.",
+        "fr_FR": "Résoudre un système plus grand avec un préconditionneur creux."
+      },
       "tags": [
         "ode",
         "sparse"

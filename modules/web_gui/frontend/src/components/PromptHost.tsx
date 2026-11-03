@@ -9,6 +9,7 @@
 //=============================================================================
 import { useEffect, useRef, useState } from 'react';
 import { DesktopIcon } from './DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Non-blocking replacements for window.prompt / window.confirm.
 //
@@ -37,8 +38,8 @@ export function webPrompt(message: string, defaultValue = ''): Promise<string | 
       kind: 'prompt',
       message,
       defaultValue,
-      okLabel: 'OK',
-      cancelLabel: 'Cancel',
+      okLabel: t('OK'),
+      cancelLabel: t('Cancel'),
       danger: false,
       resolve: resolve as (v: string | null | boolean) => void,
     };
@@ -57,8 +58,8 @@ export function webConfirm(
       kind: 'confirm',
       message,
       defaultValue: '',
-      okLabel: opts.okLabel ?? 'OK',
-      cancelLabel: opts.cancelLabel ?? 'Cancel',
+      okLabel: opts.okLabel ?? t('OK'),
+      cancelLabel: opts.cancelLabel ?? t('Cancel'),
       danger: !!opts.danger,
       resolve: resolve as (v: string | null | boolean) => void,
     };

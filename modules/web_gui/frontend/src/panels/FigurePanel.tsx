@@ -56,6 +56,7 @@ import { useFigureMouse } from './useFigureMouse';
 import { createLatestAnimationFrameQueue } from './figureAnimationFrameQueue';
 import { reuseStableDisplayListParts } from './figureDisplayListReuse';
 import { loadInitialFigureSnapshot } from './figureInitialSnapshot';
+import { t, tf } from '../i18n';
 //=============================================================================
 type PanelApi = {
   maximize: () => void;
@@ -294,8 +295,8 @@ export function FigurePanel({
       if (!result.bytes)
         throw new Error(
           result.queued
-            ? 'Printing is available when execution has finished.'
-            : 'No figure received for printing.'
+            ? t('Printing is available when execution has finished.')
+            : t('No figure received for printing.')
         );
       return new Blob([new Uint8Array(result.bytes)], { type: 'image/svg+xml' });
     }, liveTitle).catch((error) =>
@@ -308,8 +309,8 @@ export function FigurePanel({
     setSaveError('');
     const path = await webPrompt(
       typeof __NELSON_WASM__ !== 'undefined' && __NELSON_WASM__
-        ? 'Save figure to workspace (.png / .svg / .pdf):'
-        : 'Save figure to file (.png / .svg / .pdf):',
+        ? t('Save figure to workspace (.png / .svg / .pdf):')
+        : t('Save figure to file (.png / .svg / .pdf):'),
       `figure-${handle}.png`
     );
     if (!path) return;
@@ -838,8 +839,8 @@ export function FigurePanel({
         exporting={figureExport.exporting}
         saveAsLabel={
           typeof __NELSON_WASM__ !== 'undefined' && __NELSON_WASM__
-            ? 'Save to workspace…'
-            : 'Save as…'
+            ? t('Save to workspace…')
+            : t('Save as…')
         }
         saveAs={() => {
           void saveAs();
@@ -848,10 +849,10 @@ export function FigurePanel({
         refresh={refresh}
         detachLabel={
           inline && onPopOut
-            ? 'Open in figure window'
+            ? t('Open in figure window')
             : !standalone
-            ? 'Undock (separate window)'
-            : 'Dock into desktop'
+            ? t('Undock (separate window)')
+            : t('Dock into desktop')
         }
         detach={() => {
           if (inline && onPopOut) onPopOut();
@@ -924,10 +925,11 @@ export function FigurePanel({
                   label={
                     inspector.state?.axes.find((axis) => axis.handle === quick.axis?.handle)
                       ?.title ||
-                    `Axes ${
+                    tf(
+                      'Axes %1',
                       (dl.rotatableAxes?.findIndex((axis) => axis.handle === quick.axis?.handle) ??
                         0) + 1
-                    }`
+                    )
                   }
                 />
               )}
@@ -949,21 +951,25 @@ export function FigurePanel({
               {dl.is3d && tool === 'rotate' && (
                 <div
                   className="figure-panel__rotate"
-                  title="Drag to rotate"
+                  title={t('Drag to rotate')}
                   data-view={dl.view?.join(',')}
                   onMouseDown={startDrag}
                 />
               )}
               {tool === 'pan' && (
-                <div className="figure-panel__pan" title="Drag to pan" onMouseDown={startPan} />
+                <div
+                  className="figure-panel__pan"
+                  title={t('Drag to pan')}
+                  onMouseDown={startPan}
+                />
               )}
               {tool === 'zoom' && (
                 <div
                   className="figure-panel__zoom"
                   title={
                     dl.is3d
-                      ? 'Click to zoom in, Shift-click to zoom out; scroll to zoom'
-                      : 'Drag a box to zoom in; click to zoom in, Shift-click to zoom out'
+                      ? t('Click to zoom in, Shift-click to zoom out; scroll to zoom')
+                      : t('Drag a box to zoom in; click to zoom in, Shift-click to zoom out')
                   }
                   onMouseDown={(event) =>
                     startFigureZoomRegion(event, {
@@ -978,7 +984,7 @@ export function FigurePanel({
               )}
             </div>
           ) : (
-            <div className="browser__empty">rendering…</div>
+            <div className="browser__empty">{t('rendering…')}</div>
           )}
         </div>
         {inspectorOpen && (
@@ -1015,26 +1021,32 @@ export function FigurePanel({
           <div className="figure-workspace-status">
             <span aria-live="polite">
               {inspector.pending
-                ? 'Pending engine update…'
+                ? t('Pending engine update…')
                 : figureExport.exporting
-                ? 'Exporting…'
+                ? t('Exporting…')
                 : tool === 'rotate'
-                ? 'Rotate · drag to change the view'
+                ? t('Rotate · drag to change the view')
                 : tool === 'pan'
-                ? 'Pan · drag to move the view'
+                ? t('Pan · drag to move the view')
                 : tool === 'zoom'
-                ? 'Zoom · drag a box or scroll'
-                : 'Inspect · click a point, drag to pan or rotate'}
+                ? t('Zoom · drag a box or scroll')
+                : t('Inspect · click a point, drag to pan or rotate')}
             </span>
             <span>
               {inspector.point?.found && inspector.point.position
-                ? `Point ${inspector.point.index} · ${inspector.point.position
-                    .map((v, i) => `${'XYZ'[i]} ${Number(v.toPrecision(6))}`)
-                    .join(' · ')}`
+                ? tf(
+                    'Point %1 · %2',
+                    inspector.point.index,
+                    inspector.point.position
+                      .map((v, i) => `${'XYZ'[i]} ${Number(v.toPrecision(6))}`)
+                      .join(' · ')
+                  )
                 : inspector.axes
-                ? `Az ${inspector.axes.View[0].toFixed(1)}° · El ${inspector.axes.View[1].toFixed(
-                    1
-                  )}°`
+                ? tf(
+                    'Az %1° · El %2°',
+                    inspector.axes.View[0].toFixed(1),
+                    inspector.axes.View[1].toFixed(1)
+                  )
                 : ''}
             </span>
           </div>

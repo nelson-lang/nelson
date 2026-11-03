@@ -9,6 +9,7 @@
 //=============================================================================
 import { useState } from 'react';
 import { rpc } from '../rpc/client';
+import { t } from '../i18n';
 //=============================================================================
 export function useFigureExport(handle: number) {
   const [exporting, setExporting] = useState(false);
@@ -27,8 +28,8 @@ export function useFigureExport(handle: number) {
       if (!result.bytes)
         throw new Error(
           result.queued
-            ? 'Export is available when execution has finished.'
-            : 'No exported figure received.'
+            ? t('Export is available when execution has finished.')
+            : t('No exported figure received.')
         );
       const type = { png: 'image/png', svg: 'image/svg+xml', pdf: 'application/pdf' }[format];
       const url = URL.createObjectURL(new Blob([new Uint8Array(result.bytes)], { type }));

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "categorical_summary.m",
-      "title": "Summarize categorical labels",
-      "description": "Encode repeated labels and count each category.",
+      "title": {
+        "en_US": "Summarize categorical labels",
+        "fr_FR": "Résumer des étiquettes catégorielles"
+      },
+      "description": {
+        "en_US": "Encode repeated labels and count each category.",
+        "fr_FR": "Encoder des étiquettes répétées et compter chaque catégorie."
+      },
       "tags": [
         "categorical",
         "summary"

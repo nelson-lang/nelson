@@ -10,6 +10,7 @@
 import { useEffect, useState } from 'react';
 import { onPush } from '../rpc/client';
 import type { ProgressDialogPush } from '../rpc/types';
+import { t } from '../i18n';
 import './ProgressDialogHost.css';
 //=============================================================================
 export function ProgressDialogHost(): JSX.Element | null {
@@ -48,24 +49,24 @@ export function ProgressDialogHost(): JSX.Element | null {
             data-progress-id={dialog.id}
             role="status"
             aria-live="polite"
-            aria-label={dialog.title || 'Progress'}
+            aria-label={dialog.title || t('Progress')}
             key={dialog.id}
           >
-            <div className="progress-dialog__title">{dialog.title || 'Progress'}</div>
+            <div className="progress-dialog__title">{dialog.title || t('Progress')}</div>
             {dialog.message && <div className="progress-dialog__message">{dialog.message}</div>}
             {indeterminate ? (
               <div
                 className="progress-dialog__track progress-dialog__track--indeterminate"
                 role="progressbar"
-                aria-label={dialog.message || dialog.title || 'Progress'}
-                aria-valuetext="In progress"
+                aria-label={dialog.message || dialog.title || t('Progress')}
+                aria-valuetext={t('In progress')}
               >
                 <span />
               </div>
             ) : (
               <div className="progress-dialog__determinate">
                 <progress
-                  aria-label={dialog.message || dialog.title || 'Progress'}
+                  aria-label={dialog.message || dialog.title || t('Progress')}
                   max={range}
                   value={value - minimum}
                 />

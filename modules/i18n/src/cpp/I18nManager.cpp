@@ -207,6 +207,18 @@ I18nManager::getText(const std::string& key)
     return getTranslationInternal(key);
 }
 //=============================================================================
+std::map<std::string, std::string>
+I18nManager::getTranslatedTexts() const
+{
+    std::map<std::string, std::string> texts;
+    for (auto it = translationData.begin(); it != translationData.end(); ++it) {
+        if (it.value().is_string() && !it.value().get<std::string>().empty()) {
+            texts[it.key()] = it.value().get<std::string>();
+        }
+    }
+    return texts;
+}
+//=============================================================================
 std::wstring
 I18nManager::getTemplateById(const std::wstring& id)
 {

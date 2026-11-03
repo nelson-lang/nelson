@@ -41,6 +41,8 @@ import { isEngineBusy, runCommand } from './engineSession';
 import { rpc } from '../rpc/client';
 import { getThemePref, requestTheme, type ThemePref } from './theme';
 import { getDesktopCapabilities, packageManagerTitle } from './capabilities';
+import { corePanelTitle } from './panelTitles';
+import { t, tf } from '../i18n';
 //=============================================================================
 export interface DesktopAction {
   id: string;
@@ -66,13 +68,13 @@ function fileAndEditActions(): DesktopAction[] {
   const actions: DesktopAction[] = [
     {
       id: 'file.newScript',
-      title: 'New Script',
+      title: t('New Script'),
       category: 'File',
       run: () => createAndOpen('untitled.m', '%% Nelson script\n'),
     },
     {
       id: 'file.newFunction',
-      title: 'New Function',
+      title: t('New Function'),
       category: 'File',
       run: () =>
         createAndOpen(
@@ -82,20 +84,20 @@ function fileAndEditActions(): DesktopAction[] {
     },
     {
       id: 'file.newFigure',
-      title: 'New Figure',
+      title: t('&New Figure'),
       category: 'File',
       run: () => void runCommand('figure'),
     },
     {
       id: 'file.editor',
-      title: 'Text Editor',
+      title: t('Text Editor'),
       category: 'File',
       icon: 'editor',
       run: () => openEditor('untitled.m'),
     },
     {
       id: 'file.execute',
-      title: 'Execute…',
+      title: t('&Execute...'),
       category: 'File',
       icon: 'execute',
       enabled: !isEngineBusy(),
@@ -103,7 +105,7 @@ function fileAndEditActions(): DesktopAction[] {
     },
     {
       id: 'engine.stop',
-      title: 'Stop execution',
+      title: t('Stop execution'),
       category: 'Engine',
       icon: 'stop',
       shortcut: primaryShortcut('C'),
@@ -112,87 +114,87 @@ function fileAndEditActions(): DesktopAction[] {
     },
     {
       id: 'file.import',
-      title: 'Import Data…',
+      title: t('Import Data…'),
       category: 'File',
       run: () => fire(OPEN_IMPORT_EVENT, {}),
     },
     {
       id: 'file.openEditor',
-      title: 'Open in Editor…',
+      title: t('Open in Editor…'),
       category: 'File',
       run: () => openDesktopPicker('editor'),
     },
     {
       id: 'file.changeDirectory',
-      title: 'Change current directory…',
+      title: t('Change current directory…'),
       category: 'File',
       icon: 'folder',
       run: () => openDesktopPicker('directory'),
     },
     {
       id: 'file.displayDirectory',
-      title: 'Display current directory',
+      title: t('Display current directory'),
       category: 'File',
       run: () => void runCommand('disp(pwd())'),
     },
     {
       id: 'file.setpath',
-      title: 'Set Path…',
+      title: t('Set Path…'),
       category: 'File',
       run: () => fire(OPEN_SETPATH_EVENT),
     },
     {
       id: 'file.loadWorkspace',
-      title: 'Load Workspace…',
+      title: t('&Load Workspace...'),
       category: 'File',
       icon: 'load',
       run: () =>
-        void webPrompt('Load workspace from file:').then((path) => {
+        void webPrompt(t('Load workspace from file:')).then((path) => {
           if (path) void runCommand(`load('${path.replace(/'/g, "''")}')`);
         }),
     },
     {
       id: 'file.saveWorkspace',
-      title: 'Save Workspace…',
+      title: t('&Save Workspace...'),
       category: 'File',
       icon: 'save',
       run: () =>
-        void webPrompt('Save workspace to file:', 'workspace.nh5').then((path) => {
+        void webPrompt(t('Save workspace to file:'), 'workspace.nh5').then((path) => {
           if (path) void runCommand(`save('${path.replace(/'/g, "''")}')`);
         }),
     },
     {
       id: 'edit.clearConsole',
-      title: 'Clear Command Window',
+      title: t('Clear Command Window'),
       category: 'Edit',
       shortcut: primaryShortcut('L'),
       run: () => void runCommand('clc'),
     },
     {
       id: 'edit.selectAll',
-      title: 'Select All',
+      title: t('Select All'),
       category: 'Edit',
       shortcut: primaryShortcut('A'),
       run: () => fire(SELECT_CONSOLE_ALL_EVENT),
     },
     {
       id: 'edit.clearWorkspace',
-      title: 'Clear Workspace',
+      title: t('Clear Workspace'),
       category: 'Edit',
       run: () => void runCommand('clear'),
     },
     {
       id: 'edit.preferences',
-      title: 'Preferences…',
+      title: t('&Preferences...'),
       category: 'Edit',
       run: () => fire(OPEN_PREFS_EVENT),
     },
     {
       id: 'file.exit',
-      title: 'Exit',
+      title: t('E&xit'),
       category: 'File',
       run: () =>
-        void webConfirm('Exit Nelson?').then((confirmed) => {
+        void webConfirm(t('Exit Nelson?')).then((confirmed) => {
           if (confirmed) void runCommand('exit');
         }),
     },
@@ -220,11 +222,17 @@ function fileAndEditActions(): DesktopAction[] {
   return actions;
 }
 //=============================================================================
+function themeTitle(theme: ThemePref): string {
+  if (theme === 'light') return t('Light');
+  if (theme === 'dark') return t('Dark');
+  return t('System');
+}
+//=============================================================================
 function themeActions(): DesktopAction[] {
   const selected = getThemePref();
   return (['system', 'light', 'dark'] as ThemePref[]).map((theme) => ({
     id: `view.theme.${theme}`,
-    title: theme[0].toUpperCase() + theme.slice(1),
+    title: themeTitle(theme),
     category: 'Theme',
     checked: selected === theme,
     run: () => requestTheme(theme),
@@ -234,26 +242,26 @@ function themeActions(): DesktopAction[] {
 function panelActions(): DesktopAction[] {
   const dock = getDockApi();
   const actions: DesktopAction[] = [];
-  const panels: [string, string, DesktopIconName, string?][] = [
-    ['console', 'Command Window', 'command'],
-    ['files', 'Files', 'files', '2'],
-    ['workspace', 'Workspace', 'workspace', '3'],
-    ['history', 'Command History', 'history', '1'],
-    ['variables', 'Variables Editor', 'variables', '4'],
-    ['profiler', 'Profiler', 'profiler', '5'],
-    ['newsfeed', 'News feed', 'newsfeed', '6'],
-    ['breakpoints', 'Breakpoints', 'stop', '7'],
-    ['callstack', 'Call Stack', 'layout', '8'],
-    ['diagnostics', 'Diagnostics', 'info'],
-    ['terminal', 'Terminal', 'terminal'],
+  const panels: [string, DesktopIconName, string?][] = [
+    ['console', 'command'],
+    ['files', 'files', '2'],
+    ['workspace', 'workspace', '3'],
+    ['history', 'history', '1'],
+    ['variables', 'variables', '4'],
+    ['profiler', 'profiler', '5'],
+    ['newsfeed', 'newsfeed', '6'],
+    ['breakpoints', 'stop', '7'],
+    ['callstack', 'layout', '8'],
+    ['diagnostics', 'info'],
+    ['terminal', 'terminal'],
   ];
-  for (const [id, title, icon, key] of panels) {
+  for (const [id, icon, key] of panels) {
     // Diagnostics describes the browser runtime and the WebAssembly bundle;
     // the native engine only returns a stub, so it has no View entry there.
     if (id === 'diagnostics' && !isWasmRuntime()) continue;
     actions.push({
       id: `view.${id}`,
-      title,
+      title: corePanelTitle(id),
       category: 'View',
       icon,
       shortcut: key ? primaryShortcut(key) : undefined,
@@ -263,7 +271,7 @@ function panelActions(): DesktopAction[] {
   }
   actions.push({
     id: 'view.documentation',
-    title: 'Documentation',
+    title: t('Documentation'),
     category: 'View',
     icon: 'help',
     checked: !!dock?.getPanel('help'),
@@ -277,28 +285,28 @@ function shellAndLayoutActions(): DesktopAction[] {
   return [
     {
       id: 'view.toolbar',
-      title: 'Main toolbar',
+      title: t('Main toolbar'),
       category: 'View',
       checked: shell.toolbar,
       run: () => setShellVisibility('toolbar', !getShellVisibility().toolbar),
     },
     {
       id: 'view.rail',
-      title: 'Panels sidebar',
+      title: t('Panels sidebar'),
       category: 'View',
       checked: shell.rail,
       run: () => setShellVisibility('rail', !getShellVisibility().rail),
     },
     {
       id: 'view.status',
-      title: 'Status bar',
+      title: t('Status bar'),
       category: 'View',
       checked: shell.status,
       run: () => setShellVisibility('status', !getShellVisibility().status),
     },
     {
       id: 'layout.default',
-      title: 'Two columns (Default)',
+      title: t('Two columns (Default)'),
       category: 'Layout',
       icon: 'layout',
       run: () => {
@@ -308,7 +316,7 @@ function shellAndLayoutActions(): DesktopAction[] {
     },
     {
       id: 'layout.threeColumns',
-      title: 'Three columns',
+      title: t('&Three columns'),
       category: 'Layout',
       run: () => {
         const current = getDockApi();
@@ -317,7 +325,7 @@ function shellAndLayoutActions(): DesktopAction[] {
     },
     {
       id: 'layout.commandOnly',
-      title: 'Command Window only',
+      title: t('&Command Window only'),
       category: 'Layout',
       run: () => {
         const current = getDockApi();
@@ -326,7 +334,7 @@ function shellAndLayoutActions(): DesktopAction[] {
     },
     {
       id: 'layout.restore',
-      title: 'Restore default layout',
+      title: t('&Restore default layout'),
       category: 'Layout',
       run: () => {
         const current = getDockApi();
@@ -335,69 +343,69 @@ function shellAndLayoutActions(): DesktopAction[] {
     },
     {
       id: 'layout.save',
-      title: 'Save current layout…',
+      title: t('&Save current layout...'),
       category: 'Layout',
       run: () =>
-        void webPrompt('Layout name:').then((name) => {
+        void webPrompt(t('Layout name:')).then((name) => {
           const current = getDockApi();
           if (current && name) saveNamedLayout(name, current);
         }),
     },
     {
       id: 'window.terminal',
-      title: 'Terminal',
+      title: t('Terminal'),
       category: 'Window',
       icon: 'terminal',
       run: openShell,
     },
     {
       id: 'window.tile',
-      title: 'Tile panels',
+      title: t('Tile panels'),
       category: 'Window',
       run: tilePanels,
     },
     {
       id: 'help.documentation',
-      title: 'Documentation',
+      title: t('Documentation'),
       category: 'Help',
       icon: 'help',
       run: () => openHelp(),
     },
     {
       id: 'help.examples',
-      title: 'Examples',
+      title: t('&Examples'),
       category: 'Help',
       icon: 'examples',
       run: () => ensureCorePanel('examples'),
     },
     {
       id: 'file.newNotebook',
-      title: 'New Notebook',
+      title: t('New Notebook'),
       category: 'File',
       icon: 'notebook',
       run: () => openNotebook(),
     },
     {
       id: 'help.checkUpdates',
-      title: 'Check for updates',
+      title: t('Check for updates'),
       category: 'Help',
       run: () => void runCommand('checkupdate'),
     },
     {
       id: 'help.website',
-      title: 'Nelson website',
+      title: t('Nelson website'),
       category: 'Help',
       run: () => window.open('https://nelson-lang.github.io/nelson-website/', '_blank', 'noopener'),
     },
     {
       id: 'help.issues',
-      title: 'Bugs and Requests',
+      title: t('Bugs and Requests'),
       category: 'Help',
       run: () => window.open('https://github.com/nelson-lang/nelson/issues', '_blank', 'noopener'),
     },
     {
       id: 'help.about',
-      title: 'About Nelson',
+      title: t('About Nelson'),
       category: 'Help',
       run: () => fire(OPEN_ABOUT_EVENT),
     },
@@ -428,14 +436,14 @@ function dynamicActions(): DesktopAction[] {
   for (const path of getRecentFiles()) {
     actions.push({
       id: `recent:${path}`,
-      title: `Open ${path.split(/[\\/]/).pop() ?? path}`,
+      title: tf('Open %1', path.split(/[\\/]/).pop() ?? path),
       category: 'Recent File',
       run: () => openEditor(path),
     });
   }
   actions.push({
     id: 'recent.clear',
-    title: 'Clear recent files',
+    title: t('Clear recent files'),
     category: 'Recent File',
     enabled: getRecentFiles().length > 0,
     run: clearRecentFiles,

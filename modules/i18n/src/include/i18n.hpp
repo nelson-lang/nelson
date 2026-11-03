@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <map>
 #include <string>
 #include <vector>
 #include "nlsI18n_exports.hpp"
@@ -35,6 +36,9 @@ NLSI18N_IMPEXP std::wstring
 gettextw(const std::string& S);
 NLSI18N_IMPEXP std::string
 gettext(const std::string& S);
+// every translated entry of the user-interface catalog for the current locale (UTF-8)
+NLSI18N_IMPEXP std::map<std::string, std::string>
+getTranslatedTexts();
 //=============================================================================
 // Resolve an error/warning message template from its identifier ("Nelson:module:mnemonic").
 // Returns the template for the current locale (falling back to English), or an empty string

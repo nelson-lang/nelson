@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
 import { runCommand } from '../desktop/engineSession';
 import { DesktopIcon } from './DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Import Data dialog: pick a data file, preview it,
 // choose how to read it (table / matrix / cell, or load a .mat), and a target
@@ -84,7 +85,7 @@ export function ImportDataHost(): JSX.Element | null {
           );
           setPreview(text.split('\n').slice(0, 15).join('\n'));
         } catch {
-          setPreview('(binary file)');
+          setPreview(t('(binary file)'));
         }
       })
       .catch(() => setPreview(''));
@@ -114,15 +115,15 @@ export function ImportDataHost(): JSX.Element | null {
         className="dialog-card import-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Import Data"
+        aria-label={t('Import Data')}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') setOpen(false);
         }}
       >
-        <div className="about-card__title">Import Data</div>
+        <div className="about-card__title">{t('Import Data')}</div>
         <label className="import-row">
-          <span>File</span>
+          <span>{t('File')}</span>
           <input
             className="import-input"
             value={path}
@@ -135,7 +136,7 @@ export function ImportDataHost(): JSX.Element | null {
             className="dialog-btn"
             onClick={() => browse(path ? path.replace(/[\\/][^\\/]*$/, '') : '')}
           >
-            Browse…
+            {t('Browse…')}
           </button>
         </label>
         {browseDir !== null ? (
@@ -143,7 +144,7 @@ export function ImportDataHost(): JSX.Element | null {
             <div className="import-browse__path">
               <button
                 className="files__up"
-                title="Parent folder"
+                title={t('Parent folder')}
                 onClick={() => browse(browseDir.replace(/[\\/][^\\/]+$/, '') || '/')}
               >
                 <DesktopIcon name="up" />
@@ -163,22 +164,22 @@ export function ImportDataHost(): JSX.Element | null {
           </div>
         ) : null}
         <label className="import-row">
-          <span>Import as</span>
+          <span>{t('Import as')}</span>
           <select value={kind} onChange={(e) => setKind(e.target.value as ImportKind)}>
             {isMat ? (
-              <option value="load">Load .mat (all variables)</option>
+              <option value="load">{t('Load .mat (all variables)')}</option>
             ) : (
               <>
-                <option value="table">Table (readtable)</option>
-                <option value="matrix">Matrix (readmatrix)</option>
-                <option value="cell">Cell (readcell)</option>
+                <option value="table">{t('Table (readtable)')}</option>
+                <option value="matrix">{t('Matrix (readmatrix)')}</option>
+                <option value="cell">{t('Cell (readcell)')}</option>
               </>
             )}
           </select>
         </label>
         {kind !== 'load' ? (
           <label className="import-row">
-            <span>Variable</span>
+            <span>{t('Variable')}</span>
             <input
               className="import-input"
               value={name}
@@ -190,10 +191,10 @@ export function ImportDataHost(): JSX.Element | null {
         {preview ? <pre className="import-preview">{preview}</pre> : null}
         <div className="dialog-card__buttons">
           <button className="dialog-btn" onClick={() => setOpen(false)}>
-            Cancel
+            {t('Cancel')}
           </button>
           <button className="dialog-btn dialog-btn--default" disabled={!path} onClick={doImport}>
-            Import
+            {t('Import')}
           </button>
         </div>
       </div>

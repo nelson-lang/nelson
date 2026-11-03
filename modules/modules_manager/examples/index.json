@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "create_temporary_module.m",
-      "title": "Create and test a module",
-      "description": "Build a minimal module in the temporary directory, load it, test it and unload it.",
+      "title": {
+        "en_US": "Create and test a module",
+        "fr_FR": "Créer et tester un module"
+      },
+      "description": {
+        "en_US": "Build a minimal module in the temporary directory, load it, test it and unload it.",
+        "fr_FR": "Construire un module minimal dans le répertoire temporaire, le charger, le tester puis le décharger."
+      },
       "tags": [
         "module",
         "testing"

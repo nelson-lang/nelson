@@ -13,6 +13,7 @@ import { webPrompt } from '../components/PromptHost';
 import { runCommand } from '../desktop/engineSession';
 import type { CellValue, VarBlockResult, VarOpenResult } from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { t } from '../i18n';
 //=============================================================================
 // Variable editor: opens a numeric, char or string variable as an editable
 // grid. Every edit (single cell, block paste, insert/delete row-col,
@@ -59,7 +60,7 @@ export function VariableEditorPanel({
       setMeta(m);
       // Tab title: "name [class rows×cols] (read-only)".
       panelApi?.setTitle?.(
-        `${name} [${m.className} ${m.rows}×${m.cols}]${m.editable ? '' : ' (read-only)'}`
+        `${name} [${m.className} ${m.rows}×${m.cols}]${m.editable ? '' : t(' (read-only)')}`
       );
       if (m.kind === 'text') {
         // Full display() dump, rendered as a read-only text block (no grid).
@@ -342,7 +343,7 @@ export function VariableEditorPanel({
   // otherwise the whole variable is copied (`new = name`), e.g. for
   // struct/cell/table where a grid cell is not a plain sub-index.
   const createVariable = async () => {
-    const target = await webPrompt('New variable name:', `${name}_sel`);
+    const target = await webPrompt(t('New variable name:'), `${name}_sel`);
     if (!target || !meta) return;
     const indexable = meta.kind === 'matrix' || meta.kind === 'string';
     const expr = sel && indexable ? `${name}(${sel.r + 1}, ${sel.c + 1})` : name;
@@ -350,7 +351,7 @@ export function VariableEditorPanel({
   };
 
   if (error) return <div className="var-editor__error">{error}</div>;
-  if (!meta) return <div className="browser__empty">loading…</div>;
+  if (!meta) return <div className="browser__empty">{t('loading…')}</div>;
 
   const menuItem = (label: string, fn: () => void) => (
     <div
@@ -378,28 +379,32 @@ export function VariableEditorPanel({
           {rows}×{cols} {meta.className}
         </span>
         <span className="var-editor__spacer" />
-        <button className="var-editor__btn" title="Refresh" onClick={() => load()}>
+        <button className="var-editor__btn" title={t('Refresh')} onClick={() => load()}>
           <DesktopIcon name="refresh" size={18} />
         </button>
-        <button className="var-editor__btn" title="Copy (Ctrl+C)" onClick={copySelection}>
+        <button className="var-editor__btn" title={t('Copy (Ctrl+C)')} onClick={copySelection}>
           <DesktopIcon name="copy" size={18} />
         </button>
         <button
           className="var-editor__btn"
-          title="Create variable from selection"
+          title={t('Create variable from selection')}
           onClick={createVariable}
         >
           <DesktopIcon name="add" size={18} />
         </button>
         {canEdit && (
           <>
-            <button className="var-editor__btn" title="Paste (Ctrl+V)" onClick={pasteClipboard}>
+            <button
+              className="var-editor__btn"
+              title={t('Paste (Ctrl+V)')}
+              onClick={pasteClipboard}
+            >
               <DesktopIcon name="paste" size={18} />
             </button>
-            <button className="var-editor__btn" title="Undo (Ctrl+Z)" onClick={undo}>
+            <button className="var-editor__btn" title={t('Undo (Ctrl+Z)')} onClick={undo}>
               <DesktopIcon name="undo" size={18} />
             </button>
-            <button className="var-editor__btn" title="Redo (Ctrl+Y)" onClick={redo}>
+            <button className="var-editor__btn" title={t('Redo (Ctrl+Y)')} onClick={redo}>
               <DesktopIcon name="redo" size={18} />
             </button>
           </>
@@ -482,13 +487,13 @@ export function VariableEditorPanel({
             position: 'fixed',
           }}
         >
-          {menuItem('Insert row above', () => insertRow(ctxMenu.r))}
-          {menuItem('Insert row below', () => insertRow(ctxMenu.r + 1))}
-          {menuItem('Delete row', () => deleteRow(ctxMenu.r))}
+          {menuItem(t('Insert row above'), () => insertRow(ctxMenu.r))}
+          {menuItem(t('Insert row below'), () => insertRow(ctxMenu.r + 1))}
+          {menuItem(t('Delete row'), () => deleteRow(ctxMenu.r))}
           <div className="console-menu__sep" />
-          {menuItem('Insert column left', () => insertCol(ctxMenu.c))}
-          {menuItem('Insert column right', () => insertCol(ctxMenu.c + 1))}
-          {menuItem('Delete column', () => deleteCol(ctxMenu.c))}
+          {menuItem(t('Insert column left'), () => insertCol(ctxMenu.c))}
+          {menuItem(t('Insert column right'), () => insertCol(ctxMenu.c + 1))}
+          {menuItem(t('Delete column'), () => deleteCol(ctxMenu.c))}
         </div>
       )}
     </div>

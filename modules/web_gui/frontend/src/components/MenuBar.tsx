@@ -15,6 +15,7 @@ import { listNamedLayouts } from '../desktop/layout';
 import { desktopActions, executeDesktopAction } from '../desktop/actions';
 import { useShellVisibility } from '../desktop/shellState';
 import { handleMenuKeyDown } from '../desktop/menuKeyboard';
+import { t } from '../i18n';
 import { EditMenu, FileMenu, HelpMenu, ViewMenu, WindowMenu } from './MenuContents';
 import { getDesktopCapabilities, subscribeDesktopCapabilities } from '../desktop/capabilities';
 import {
@@ -142,20 +143,20 @@ export function MenuBar(): JSX.Element {
     <div
       className="menubar"
       role="menubar"
-      aria-label="Application menu"
+      aria-label={t('Application menu')}
       data-focus-zone="menubar"
       onKeyDown={onTopKeyDown}
     >
       <span className="menubar__brand">Nelson</span>
       {item(
         'file',
-        'File',
+        t('&File'),
         <FileMenu {...shared} recent={open === 'file' ? getRecentFiles() : []} />
       )}
-      {item('edit', 'Edit', <EditMenu run={run} />)}
+      {item('edit', t('&Edit'), <EditMenu run={run} />)}
       {item(
         'view',
-        'View',
+        t('&View'),
         <ViewMenu
           close={close}
           layoutActions={layoutActions}
@@ -167,10 +168,10 @@ export function MenuBar(): JSX.Element {
       )}
       {item(
         'window',
-        'Window',
+        t('&Window'),
         <WindowMenu nflowAvailable={capabilities.nflow} openPanels={listOpenPanels()} run={run} />
       )}
-      {item('help', 'Help', <HelpMenu run={run} />)}
+      {item('help', t('&Help'), <HelpMenu run={run} />)}
       <div className="menubar__spacer" />
     </div>
   );

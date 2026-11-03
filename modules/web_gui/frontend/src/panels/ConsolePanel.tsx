@@ -55,6 +55,7 @@ import {
 import type { MenuState, PanelApi, Segment } from '../console/consolePanelTypes';
 import { ConsoleContextMenu, ConsoleFindBar } from './ConsoleOverlays';
 import { RichBlock, TextSegment } from './ConsoleSegments';
+import { t, tf } from '../i18n';
 //=============================================================================
 const MAX_CONSOLE_SCROLLBACK_ROWS = 5000;
 export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element {
@@ -361,15 +362,14 @@ export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element
       })
       .catch(() => undefined);
 
-    writeOutput('\x1b[1mNelson\x1b[0m - web desktop (nelson-webview)\n');
+    writeOutput('\x1b[1mNelson\x1b[0m - ' + t('web desktop') + ' (nelson-webview)\n');
     void rpc<{ backend?: string; version?: string }>('ping')
       .then((info) => {
-        const backend = isBackendConnected() ? info.backend ?? 'engine' : 'mock (no backend)';
-        writeOutput(
-          `\x1b[90mconnected: ${backend}${info.version ? ' v' + info.version : ''}\x1b[0m\n`
-        );
+        const backend = isBackendConnected() ? info.backend ?? 'engine' : t('mock (no backend)');
+        const version = info.version ? ' v' + info.version : '';
+        writeOutput('\x1b[90m' + tf('connected: %1', backend + version) + '\x1b[0m\n');
       })
-      .catch((err) => writeOutput(`\x1b[31mping failed: ${String(err)}\x1b[0m\n`))
+      .catch((err) => writeOutput('\x1b[31m' + tf('ping failed: %1', String(err)) + '\x1b[0m\n'))
       .finally(() => {
         // Banner complete: release a prompt that raced it, then ask the engine
         // to resend in case none arrived yet (idempotent via atFreshPrompt).
@@ -809,12 +809,12 @@ export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element
     <div
       className="console-panel"
       role="region"
-      aria-label="Command Window"
+      aria-label={t('Command Window')}
       onContextMenu={onContextMenu}
     >
       {panelApi && (
         <div className="console-toolbar">
-          <button onClick={toggleMaximize} title={maximized ? 'Restore' : 'Full window'}>
+          <button onClick={toggleMaximize} title={maximized ? t('Restore') : t('Full window')}>
             <DesktopIcon name={maximized ? 'restore' : 'maximize'} />
           </button>
         </div>
@@ -844,7 +844,7 @@ export function ConsolePanel({ panelApi }: { panelApi?: PanelApi }): JSX.Element
         ref={scrollRef}
         className={'console-host xterm-rows' + (wrap ? '' : ' console-host--nowrap')}
         role="region"
-        aria-label="Command Window transcript"
+        aria-label={t('Command Window transcript')}
         style={{ fontSize, fontFamily }}
         onScroll={onScroll}
         onMouseUp={() => {

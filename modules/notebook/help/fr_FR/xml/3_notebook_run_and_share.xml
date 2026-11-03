@@ -20,7 +20,7 @@
     <p>Un Notebook peut aussi être enregistré comme un script texte <b>.m</b>, où chaque bloc est écrit sous un marqueur <code>%% [kind]</code> (par exemple <code>%% [code]</code> ou <code>%% [text]</code>). Ce fichier s'ouvre dans n'importe quel éditeur de texte et s'exécute comme un script ordinaire. Un fichier <b>.m</b> sans un tel marqueur est traité comme une seule cellule de code et exécuté en entier.</p>
 
     <p><b>Export et import</b></p>
-    <p>Depuis le menu <b>Export</b>, un document est écrit en <b>HTML</b>, <b>Markdown</b>, <b>Word (.docx)</b> ou en notebook <b>Jupyter (.ipynb)</b>, et <b>Save as Script</b> écrit la forme texte <b>.m</b>. <b>Open</b> relit un document <b>.nlx</b>, un script <b>.m</b> ordinaire ou un notebook <b>.ipynb</b> dans l'éditeur.</p>
+    <p>Depuis le menu <b>Exporter</b>, un document est écrit en <b>HTML</b>, <b>Markdown</b>, <b>Word (.docx)</b> ou en notebook <b>Jupyter (.ipynb)</b>, et <b>Enregistrer comme script</b> écrit la forme texte <b>.m</b>. <b>Ouvrir</b> relit un document <b>.nlx</b>, un script <b>.m</b> ordinaire ou un notebook <b>.ipynb</b> dans l'éditeur.</p>
 
     <p><b>Vérifier qu'un document s'exécute de bout en bout</b></p>
     <p>Un document est fiable quand il s'exécute depuis un espace de travail vide, dans l'ordre, sans erreur. Comme les cellules partagent l'espace de travail de base, une variable laissée par une session antérieure peut masquer une étape manquante. Pour vérifier, exécutez le document dans une session neuve, par exemple avec <code>nelson-cli</code> et <b>notebook(filename)</b> ; si une cellule échoue, l'exécution s'arrête sur l'erreur. Ce même contrôle convient à un travail d'intégration continue.</p>

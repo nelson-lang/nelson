@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import type { FigureDataPoint, FigurePlotObject } from '../rpc/figureTypes';
+import { tf, t } from '../i18n';
 //=============================================================================
 export function FigureInspection({
   point,
@@ -22,7 +23,7 @@ export function FigureInspection({
 }) {
   if (!point?.found || !point.pixel || !point.position) return null;
   const object = objects.find((item) => item.handle === point.objectHandle);
-  const name = object?.DisplayName || object?.type || 'Data';
+  const name = object?.DisplayName || object?.type || t('Data');
   const left = point.pixel[0],
     top = height - point.pixel[1];
   return (
@@ -36,9 +37,7 @@ export function FigureInspection({
           top: Math.max(0, Math.min(top - 65, height - 60)),
         }}
       >
-        <strong>
-          {name} · Point {point.index}
-        </strong>
+        <strong>{tf('%1 · Point %2', name, point.index)}</strong>
         <div>
           {point.position
             .map((value, index) => `${'XYZ'[index]} ${Number(value.toPrecision(7))}`)

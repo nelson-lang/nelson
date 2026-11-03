@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "local_model_prompt.m",
-      "title": "Prompt a local AI model",
-      "description": "Send a concise numerical-computing question to a local model service.",
+      "title": {
+        "en_US": "Prompt a local AI model",
+        "fr_FR": "Interroger un modèle d'IA local"
+      },
+      "description": {
+        "en_US": "Send a concise numerical-computing question to a local model service.",
+        "fr_FR": "Envoyer une question concise de calcul numérique à un service de modèle local."
+      },
       "tags": [
         "ai",
         "prompt"

@@ -3,8 +3,14 @@
   "examples": [
     {
       "file": "clean_measurements.m",
-      "title": "Clean a measurement series",
-      "description": "Interpolate missing values and compute a moving average.",
+      "title": {
+        "en_US": "Clean a measurement series",
+        "fr_FR": "Nettoyer une série de mesures"
+      },
+      "description": {
+        "en_US": "Interpolate missing values and compute a moving average.",
+        "fr_FR": "Interpoler les valeurs manquantes et calculer une moyenne glissante."
+      },
       "tags": [
         "data-cleaning",
         "missing-data"
@@ -13,8 +19,14 @@
     },
     {
       "file": "group_observations.m",
-      "title": "Group observations",
-      "description": "Count table rows by category and display a compact summary.",
+      "title": {
+        "en_US": "Group observations",
+        "fr_FR": "Regrouper des observations"
+      },
+      "description": {
+        "en_US": "Count table rows by category and display a compact summary.",
+        "fr_FR": "Compter les lignes d'une table par catégorie et afficher un résumé compact."
+      },
       "tags": [
         "grouping",
         "table"

@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+import { t } from '../i18n';
+//=============================================================================
 function cloneTranscript(host: HTMLElement): HTMLElement {
   const body = host.cloneNode(true) as HTMLElement;
   body.querySelectorAll('.console-input-stack, .console-measure').forEach((node) => node.remove());
@@ -24,7 +26,9 @@ export function selectElementContents(element: HTMLElement): void {
 export function exportConsoleHtml(host: HTMLElement): void {
   const body = cloneTranscript(host);
   const doc =
-    '<!doctype html><meta charset="utf-8"><title>Nelson command window</title>' +
+    '<!doctype html><meta charset="utf-8"><title>' +
+    t('Nelson command window') +
+    '</title>' +
     '<style>body{background:#1e1e1e;color:#d4d4d4;font-family:Consolas,monospace;font-size:13px;white-space:pre-wrap}</style>' +
     body.innerHTML;
   const url = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
@@ -40,7 +44,9 @@ export function printConsole(host: HTMLElement): void {
   const popup = window.open('', '_blank', 'width=800,height=600');
   if (!popup) return;
   popup.document.write(
-    '<!doctype html><meta charset="utf-8"><title>Nelson command window</title>' +
+    '<!doctype html><meta charset="utf-8"><title>' +
+      t('Nelson command window') +
+      '</title>' +
       '<style>body{font-family:Consolas,monospace;font-size:13px;white-space:pre-wrap}</style>' +
       body.innerHTML +
       '<script>onload=function(){setTimeout(function(){print();close();},50);}</script>'

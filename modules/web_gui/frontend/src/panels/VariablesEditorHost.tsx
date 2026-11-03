@@ -13,6 +13,7 @@ import type { WorkspaceListResult } from '../rpc/types';
 import { closeVariable, selectVariable, useVariableHost } from '../desktop/variableHost';
 import { VariableEditorPanel } from './VariableEditorPanel';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { t, tf } from '../i18n';
 //=============================================================================
 export function VariablesEditorHost(): JSX.Element {
   const host = useVariableHost();
@@ -40,14 +41,14 @@ export function VariablesEditorHost(): JSX.Element {
   if (!host.active) {
     return (
       <div className="variables-host variables-host--empty">
-        <label htmlFor="variables-host-select">Open a workspace variable</label>
+        <label htmlFor="variables-host-select">{t('Open a workspace variable')}</label>
         <select
           id="variables-host-select"
           value=""
           onChange={(event) => selectVariable(event.target.value)}
         >
           <option value="" disabled>
-            Select a variable…
+            {t('Select a variable…')}
           </option>
           {available.map((name) => (
             <option key={name} value={name}>
@@ -61,7 +62,7 @@ export function VariablesEditorHost(): JSX.Element {
 
   return (
     <div className="variables-host">
-      <div className="variables-host__tabs" role="tablist" aria-label="Open variables">
+      <div className="variables-host__tabs" role="tablist" aria-label={t('Open variables')}>
         {host.names.map((name) => (
           <div
             key={name}
@@ -78,7 +79,7 @@ export function VariablesEditorHost(): JSX.Element {
             <button
               type="button"
               className="variables-host__close"
-              aria-label={`Close variable ${name}`}
+              aria-label={tf('Close variable %1', name)}
               onClick={() => closeVariable(name)}
             >
               <DesktopIcon name="close" size={16} />
@@ -87,11 +88,11 @@ export function VariablesEditorHost(): JSX.Element {
         ))}
         <select
           className="variables-host__open"
-          aria-label="Open another variable"
+          aria-label={t('Open another variable')}
           value=""
           onChange={(event) => selectVariable(event.target.value)}
         >
-          <option value="">+ Open…</option>
+          <option value="">{t('+ Open…')}</option>
           {available
             .filter((name) => !host.names.includes(name))
             .map((name) => (
