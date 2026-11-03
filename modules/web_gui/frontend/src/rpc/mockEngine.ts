@@ -116,6 +116,11 @@ interface MockFigure {
   // uidemo extras: interactive controls and a menu bar.
   controls?: UIControl[];
   menus?: MenuNode[];
+  // A fixed-layout app (uifigure 'Resize','off'): the panel scales it to fit, and
+  // its drawing area stays at the authored layout size below.
+  resizable?: boolean;
+  layoutW?: number;
+  layoutH?: number;
 }
 //=============================================================================
 type PushFn = (channel: string, payload: unknown) => void;
@@ -975,6 +980,12 @@ export class MockEngine {
       return;
     }
 
+    // appdemo: a fixed-layout app (uifigure 'Resize','off'), scaled to fit.
+    if (body === 'appdemo') {
+      this.createFixedAppFigure();
+      return;
+    }
+
     // animate_demo: streams a few figure.frame pushes, as drawnow does.
     if (body === 'animate_demo') {
       this.createAnimateDemo();
@@ -1312,6 +1323,41 @@ export class MockEngine {
       zoom: 1,
       controls,
       menus,
+    });
+    this.push('figure.created', { handle, title: `Figure ${handle + 1}`, windowStyle: 'normal' });
+  }
+  //=============================================================================
+  private createFixedAppFigure(): void {
+    const handle = this.nextFigure++;
+    // A 400x300 fixed layout; the pushbutton is 25% of the layout width, so after
+    // the panel scales the figure to fit, it stays 25% of the drawing area.
+    this.figures.push({
+      handle,
+      title: `Figure ${handle + 1}`,
+      kind: 'plot',
+      series: Array.from({ length: 30 }, (_, i) => Math.sin(i / 4)),
+      rot: 0,
+      zoom: 1,
+      resizable: false,
+      layoutW: 400,
+      layoutH: 300,
+      controls: [
+        {
+          handle: 9400,
+          style: 'pushbutton',
+          text: 'Fixed',
+          units: 'pixels',
+          x: 10,
+          y: 10,
+          w: 100,
+          h: 30,
+          value: 0,
+          min: 0,
+          max: 1,
+          fontSize: 12,
+          enabled: true,
+        },
+      ],
     });
     this.push('figure.created', { handle, title: `Figure ${handle + 1}`, windowStyle: 'normal' });
   }
@@ -1656,13 +1702,19 @@ export class MockEngine {
   private figureDisplayList(handle: number): FigureDisplayListResult {
     const f = this.figures.find((x) => x.handle === handle);
     if (!f) throw new Error(`Figure ${handle} not found.`);
-    const [w, h] = this.figureSizes.get(handle) ?? [640, 400];
+    const layoutW = f.layoutW ?? 640;
+    const layoutH = f.layoutH ?? 400;
+    const resizable = f.resizable ?? true;
+    // A non-resizable figure keeps its authored drawing area (like a 'Resize','off'
+    // figure whose Position the panel never changes); the panel scales it to fit.
+    const [w, h] = resizable ? this.figureSizes.get(handle) ?? [640, 400] : [layoutW, layoutH];
     const res: FigureDisplayListResult = {
       handle,
       width: w,
       height: h,
-      controlLayoutWidth: 640,
-      controlLayoutHeight: 400,
+      controlLayoutWidth: layoutW,
+      controlLayoutHeight: layoutH,
+      resizable,
       primitives: buildPrimitives(f),
     };
     // surf: a rotatable 3D axes reporting the current View. The mock keeps a

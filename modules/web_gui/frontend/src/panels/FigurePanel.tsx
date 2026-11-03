@@ -192,28 +192,29 @@ export function FigurePanel({
     };
   }, [handle]);
 
-  const controlHeightOffset = dl ? dl.height - (dl.controlLayoutHeight ?? dl.height) : 0;
-  const controlScaleX = dl?.controlLayoutWidth ? dl.width / dl.controlLayoutWidth : 1;
-  const controlScaleY = dl?.controlLayoutHeight ? dl.height / dl.controlLayoutHeight : 1;
-  const needsControlCssScale =
-    Math.abs(controlScaleX - 1) > 0.001 || Math.abs(controlScaleY - 1) > 0.001;
-  useEffect(() => {
-    if (!dl?.controlLayoutWidth || !dl?.controlLayoutHeight) return;
-    if (!dl.controls || dl.controls.length === 0) return;
-    const layoutW = dl.controlLayoutWidth;
-    const layoutH = dl.controlLayoutHeight;
-    if (Math.abs(dl.width - layoutW) > 1 || Math.abs(dl.height - layoutH) > 1) {
-      preserveLayoutSizeRef.current = true;
-      setSize(layoutW, layoutH, true);
-    }
-  }, [dl?.width, dl?.height, dl?.controlLayoutWidth, dl?.controlLayoutHeight, dl?.controls]);
+  // A non-resizable figure (uifigure 'Resize','off') keeps its authored layout; the
+  // stage scales it to fit the panel, so controls stay at their authored coordinates
+  // and are not re-anchored to a different drawing area.
+  const scaleToFit = dl?.resizable === false && !!dl.controlLayoutWidth && !!dl.controlLayoutHeight;
+  const controlHeightOffset =
+    dl && !scaleToFit ? dl.height - (dl.controlLayoutHeight ?? dl.height) : 0;
   const displayedControls = useMemo(
-    () =>
-      needsControlCssScale
-        ? dl?.controls ?? []
-        : dl?.controls?.map((control) => positionFigureControl(control, controlHeightOffset)) ?? [],
-    [dl?.controls, needsControlCssScale, controlHeightOffset]
+    () => dl?.controls?.map((control) => positionFigureControl(control, controlHeightOffset)) ?? [],
+    [dl?.controls, controlHeightOffset]
   );
+  // Pin the rendering size to the authored layout so the stage scale is the only
+  // transform; otherwise the figure is redrawn at the panel size and its pixel
+  // controls reflow to the wrong drawing area.
+  useEffect(() => {
+    if (!scaleToFit || !dl) return;
+    if (
+      Math.abs(dl.width - dl.controlLayoutWidth!) > 1 ||
+      Math.abs(dl.height - dl.controlLayoutHeight!) > 1
+    ) {
+      setSize(dl.controlLayoutWidth!, dl.controlLayoutHeight!, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scaleToFit, dl?.width, dl?.height, dl?.controlLayoutWidth, dl?.controlLayoutHeight]);
   const displayListReady = dl !== null;
 
   // Focus the figure on its first render so WindowKeyPressFcn figures (games) get
@@ -599,7 +600,6 @@ export function FigurePanel({
     last: '',
   });
   const resizeFrame = useRef<number | null>(null);
-  const preserveLayoutSizeRef = useRef(false);
 
   // A live result can replace the display list without changing the inline
   // wrapper geometry. ResizeObserver is intentionally asynchronous and may
@@ -656,9 +656,8 @@ export function FigurePanel({
     const h = Math.round(el.clientHeight);
     if (w <= 10 || h <= 10) return;
     setBox({ w, h });
-    if (!preserveLayoutSizeRef.current) {
-      setSize(w, h, force);
-    }
+    if (scaleToFit) return;
+    setSize(w, h, force);
   };
   // uihtml pages live in iframes owned by uihtmlHost, outside React's control
   // list and this panel: moving an iframe in the DOM reloads its document, the
@@ -783,7 +782,9 @@ export function FigurePanel({
         // meanwhile so the opening (too-small) canvas cannot shrink the figure.
         if (driveStandaloneWindowSize(w, h)) return;
       }
-      if (preserveLayoutSizeRef.current) return;
+      // A non-resizable figure is scaled to fit by the stage, not redrawn at the
+      // panel size: never push the panel size back as the figure size.
+      if (scaleToFit) return;
       if (dl && figureWindowNeedsResize(dl.width, dl.height, w, h)) {
         if (sizeDebounce.current) clearTimeout(sizeDebounce.current);
         if (resizeFrame.current !== null) window.cancelAnimationFrame(resizeFrame.current);
@@ -820,7 +821,7 @@ export function FigurePanel({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handle, displayListReady, standalone, dl?.width, dl?.height]);
+  }, [handle, displayListReady, standalone, dl?.width, dl?.height, scaleToFit]);
 
   return (
     <div
@@ -962,33 +963,13 @@ export function FigurePanel({
                   height={dl.height}
                 />
               )}
-              {displayedControls.length > 0 &&
-                (needsControlCssScale ? (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      width: dl.controlLayoutWidth,
-                      height: dl.controlLayoutHeight,
-                      transform: `scale(${controlScaleX}, ${controlScaleY})`,
-                      transformOrigin: '0 0',
-                      pointerEvents: 'none',
-                    }}
-                  >
-                    <FigureControls
-                      controls={displayedControls}
-                      onAction={controlAction}
-                      onMenuSelect={menuSelect}
-                    />
-                  </div>
-                ) : (
-                  <FigureControls
-                    controls={displayedControls}
-                    onAction={controlAction}
-                    onMenuSelect={menuSelect}
-                  />
-                ))}
+              {displayedControls.length > 0 && (
+                <FigureControls
+                  controls={displayedControls}
+                  onAction={controlAction}
+                  onMenuSelect={menuSelect}
+                />
+              )}
               {dl.is3d && tool === 'rotate' && (
                 <div
                   className="figure-panel__rotate"

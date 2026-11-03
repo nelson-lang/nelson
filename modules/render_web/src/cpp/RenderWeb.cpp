@@ -1565,6 +1565,18 @@ translatePrimitive(WebDrawPrimitive& primitive, double dx, double dy)
         point.first += dx;
         point.second += dy;
     }
+    // Marker batches ("points") keep their centres in pointCenters (x0,y0,x1,y1,...);
+    // translate them too, or a nested axes' markers stay at the untranslated origin.
+    for (size_t i = 0; i + 1 < primitive.pointCenters.size(); i += 2) {
+        primitive.pointCenters[i] += static_cast<float>(dx);
+        primitive.pointCenters[i + 1] += static_cast<float>(dy);
+    }
+    // Rect batches ("rects": bar/histogram bars) are 4 floats per rect (x,y,w,h);
+    // shift the origin, keep the size.
+    for (size_t i = 0; i + 3 < primitive.rectXYWH.size(); i += 4) {
+        primitive.rectXYWH[i] += static_cast<float>(dx);
+        primitive.rectXYWH[i + 1] += static_cast<float>(dy);
+    }
 }
 //=============================================================================
 } // namespace Nelson

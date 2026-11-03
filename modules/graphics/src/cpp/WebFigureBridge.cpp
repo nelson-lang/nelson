@@ -891,6 +891,10 @@ extern "C"
                 result["controlLayoutWidth"] = figurePosition[2];
                 result["controlLayoutHeight"] = figurePosition[3];
             }
+            // A 'Resize','off' figure keeps its authored layout; the panel scales it
+            // to fit rather than redrawing its controls at the panel size.
+            result["resizable"]
+                = fig->stringCheck(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
         }
 
         if (!reuseStableLayout) {
