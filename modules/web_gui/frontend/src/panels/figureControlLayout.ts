@@ -11,6 +11,8 @@ import type { UIControl } from '../rpc/types';
 //=============================================================================
 export function positionFigureControl(control: UIControl, heightOffset: number): UIControl {
   if (control.units !== 'pixels' || heightOffset === 0) return control;
+  // Pixel controls retain their size and bottom-left anchor, just like pixel axes.
+  // Their serialized y coordinate uses the authored figure height.
   return {
     ...control,
     y: control.y + heightOffset,

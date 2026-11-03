@@ -799,6 +799,25 @@ test('pixel uicontrols keep their authored layout when the figure panel resizes'
     .toBeCloseTo(350, 0);
 });
 //=============================================================================
+test('a non-resizable figure scales its controls to fit the panel', async ({ page }) => {
+  // uifigure 'Resize','off': the whole app layout scales to fit the panel, so a
+  // pixel control keeps its authored fraction of the layout instead of a fixed size.
+  await runLine(page, 'appdemo');
+  const canvas = page.locator('.figure-panel__canvas');
+  const button = page.locator('.figure-panel').getByRole('button', { name: 'Fixed' });
+  await expect(button).toBeVisible();
+  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeGreaterThan(500);
+  // Authored at w = 100 in a 400 px layout: 25% of the drawing area at any scale.
+  await expect
+    .poll(async () => {
+      const canvasBox = await canvas.boundingBox();
+      const buttonBox = await button.boundingBox();
+      if (!canvasBox || !buttonBox) return 0;
+      return buttonBox.width / canvasBox.width;
+    })
+    .toBeCloseTo(0.25, 1);
+});
+//=============================================================================
 test('clicking a uicontrol reports the action to the backend', async ({ page }) => {
   await runLine(page, 'uidemo');
   await page.locator('.figure-panel').getByRole('button', { name: 'Push me' }).click();

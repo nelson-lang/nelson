@@ -426,6 +426,9 @@ export interface FigureDisplayListResult {
   height: number;
   controlLayoutWidth?: number;
   controlLayoutHeight?: number;
+  // false for a figure whose Resize property is 'off' (a fixed-layout app): the
+  // panel scales it to fit instead of resizing the drawing area.
+  resizable?: boolean;
   displaySignature?: string;
   layoutSignature?: string;
   primitives: DrawPrimitive[];

@@ -147,11 +147,16 @@ export function HelpPanel(): JSX.Element {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') load(query);
+            // Read the field value, not the query state, which can lag the keystroke.
+            if (e.key === 'Enter') load(e.currentTarget.value);
           }}
           spellCheck={false}
         />
-        <button className="help-panel__go" onClick={() => load(query)} title={t('Search')}>
+        <button
+          className="help-panel__go"
+          onClick={() => load(inputRef.current?.value ?? query)}
+          title={t('Search')}
+        >
           <DesktopIcon name="search" size={18} />
         </button>
       </div>
