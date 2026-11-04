@@ -28,7 +28,7 @@ add_block('nflow/math/gain', 'm/A');
 add_block('nflow/math/gain', 'm/B');
 add_line('m', 'A/1', 'B/1');
 delete_block('m/A');
-asserts.checkerror('get_param(''m/A'', ''gain'')', _('No block named ''A''.'));
+asserts.checkerror('get_param(''m/A'', ''Gain'')', _('No block named ''A''.'));
 % Deleting the block removed the connection; a fresh connection is possible.
 add_block('nflow/math/gain', 'm/C');
 add_line('m', 'C/1', 'B/1');
@@ -36,7 +36,7 @@ bdclose('all');
 %=============================================================================
 % set_param is atomic: an invalid pair leaves the model unchanged.
 new_system('m');
-add_block('nflow/math/gain', 'm/Gain', 'gain', 1);
+add_block('nflow/math/gain', 'm/Gain', 'Gain', 1);
 asserts.checkerror('set_param(''m'', ''StopTime'', 5, ''NoSuchParam'', 1)', ...
   _('Unknown model parameter ''NoSuchParam''.'));
 asserts.isequal(get_param('m', 'StopTime'), '10');

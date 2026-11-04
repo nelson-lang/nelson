@@ -18,7 +18,7 @@ h = new_system('demo');
 asserts.istrue(isa(h, 'double'));
 asserts.istrue(bdIsLoaded('demo'));
 add_block('nflow/source/sine', 'demo/Sine');
-add_block('nflow/math/gain', 'demo/Gain', 'gain', 2);
+add_block('nflow/math/gain', 'demo/Gain', 'Gain', 2);
 add_block('nflow/sink/scope', 'demo/Scope');
 add_line('demo', 'Sine/1', 'Gain/1');
 add_line('demo', 'Gain/1', 'Scope/1');
@@ -27,7 +27,7 @@ set_param('demo', 'StopTime', 10);
 blocks = get_param('demo', 'Blocks');
 asserts.istrue(iscell(blocks));
 asserts.isequal(numel(blocks), 3);
-asserts.isequal(get_param('demo/Gain', 'gain'), '2');
+asserts.isequal(get_param('demo/Gain', 'Gain'), '2');
 asserts.isequal(get_param('demo', 'StopTime'), '10');
 asserts.istrue(bdIsDirty('demo'));
 %=============================================================================
@@ -58,7 +58,7 @@ bdclose('all');
 %=============================================================================
 % Save / load round-trip.
 new_system('rt');
-add_block('nflow/math/gain', 'rt/Gain', 'gain', 5);
+add_block('nflow/math/gain', 'rt/Gain', 'Gain', 5);
 f = [tempname(), '.nflow'];
 saved = save_system('rt', f);
 asserts.istrue(isfile(saved));
@@ -67,7 +67,7 @@ bdclose('rt');
 asserts.isfalse(bdIsLoaded('rt'));
 load_system(saved);
 asserts.istrue(bdIsLoaded('rt'));
-asserts.isequal(get_param('rt/Gain', 'gain'), '5');
+asserts.isequal(get_param('rt/Gain', 'Gain'), '5');
 bdclose('all');
 rmfile(f);
 %=============================================================================

@@ -11,8 +11,8 @@
 %=============================================================================
 new_system('fsmodel');
 add_block('nflow/source/sine', 'fsmodel/Sine');
-add_block('nflow/math/gain', 'fsmodel/Gain', 'gain', 2);
-add_block('nflow/math/gain', 'fsmodel/Gain2', 'gain', 3);
+add_block('nflow/math/gain', 'fsmodel/Gain', 'Gain', 2);
+add_block('nflow/math/gain', 'fsmodel/Gain2', 'Gain', 3);
 add_block('nflow/sink/toWorkspace', 'fsmodel/Out', 'VariableName', 'y');
 %=============================================================================
 % find_system(sys) returns the system and every block path under it.
@@ -43,7 +43,7 @@ asserts.checkerror('find_system(''fsmodel'', ''Nope'', 1)', _('Unknown find_syst
 %=============================================================================
 % Hierarchical search: a subsystem with nested blocks.
 add_block('subsystem', 'fsmodel/Nest');
-add_block('nflow/math/gain', 'fsmodel/Nest/InnerA', 'gain', 4);
+add_block('nflow/math/gain', 'fsmodel/Nest/InnerA', 'Gain', 4);
 add_block('nflow/source/sine', 'fsmodel/Nest/InnerB');
 % Unlimited search reaches nested paths.
 allh = find_system('fsmodel');

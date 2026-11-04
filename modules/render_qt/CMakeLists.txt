@@ -14,11 +14,6 @@ find_package(OpenGL REQUIRED)
 # ==============================================================================
 # Qt/OpenGL render backends: RenderQt (QPainter), RenderOpenGL, their BSP/patch
 # helpers and the shared render helpers (symbol drawing, DPI/point conversion).
-# Split out of graphics so the render backend is a module of its own, mirroring
-# render_web. Needs only header-only bits of graphics (RenderInterface,
-# GOPropertyValues, RenderQtHelpers) — no symbol back-dependency, so the link
-# graph stays acyclic: graphics/graphics_io link nlsRenderQt, not the reverse.
-# See modules/web_gui/ZEROQT.md.
 # ==============================================================================
 nelson_module_sources_from_glob(
   RENDER_QT_SRC
