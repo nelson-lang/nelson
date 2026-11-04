@@ -175,19 +175,84 @@ async function start(): Promise<void> {
   scheduleStartupUrlActions(window.location.href);
 }
 //=============================================================================
-showLoading({ phase: 'wasm', label: 'Loading browser interface', loaded: 0 });
-void start().catch((error: unknown) => {
-  const message =
-    error instanceof Error
-      ? error.message
-      : typeof error === 'object'
-      ? JSON.stringify(error)
-      : String(error);
+function showStartError(message: string): void {
   root.render(
     <main className="wasm-start-error">
       <h1>Nelson WebAssembly could not start</h1>
       <pre>{message}</pre>
+      <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          style={{
+            padding: '8px 20px',
+            fontSize: 14,
+            cursor: 'pointer',
+            border: '1px solid #555',
+            borderRadius: 4,
+            background: '#2f80ed',
+            color: '#fff',
+          }}
+        >
+          Retry
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            if ('caches' in window) {
+              void caches.keys().then((names) => Promise.all(names.map((n) => caches.delete(n))));
+            }
+            if ('serviceWorker' in navigator) {
+              void navigator.serviceWorker
+                .getRegistrations()
+                .then((regs) => regs.forEach((r) => r.unregister()));
+            }
+            setTimeout(() => window.location.reload(), 500);
+          }}
+          style={{
+            padding: '8px 20px',
+            fontSize: 14,
+            cursor: 'pointer',
+            border: '1px solid #555',
+            borderRadius: 4,
+            background: '#333',
+            color: '#e7e7e7',
+          }}
+        >
+          Clear cache &amp; retry
+        </button>
+      </div>
     </main>
   );
-});
+}
+//=============================================================================
+const MAX_START_RETRIES = 2;
+showLoading({ phase: 'wasm', label: 'Loading browser interface', loaded: 0 });
+void (async () => {
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= MAX_START_RETRIES; attempt++) {
+    try {
+      await start();
+      return;
+    } catch (error) {
+      lastError = error;
+      const isFetchError =
+        error instanceof TypeError && /fetch/i.test(error.message);
+      if (!isFetchError || attempt === MAX_START_RETRIES) break;
+      showLoading({
+        phase: 'wasm',
+        label: `Network error, retrying (${attempt + 1}/${MAX_START_RETRIES})`,
+        loaded: 0,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 1500 * (attempt + 1)));
+    }
+  }
+  const message =
+    lastError instanceof Error
+      ? lastError.message
+      : typeof lastError === 'object'
+      ? JSON.stringify(lastError)
+      : String(lastError);
+  showStartError(message);
+})();
 //=============================================================================
