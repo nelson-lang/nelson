@@ -24,9 +24,10 @@ export async function checkModernUi(page: Page, testInfo: TestInfo): Promise<voi
   const figure = page.locator('.figure-panel__canvas').first();
   const field = figure.locator('input[type="number"]').first();
   await expect(field).toBeVisible();
-  // The field is placed at Position [145 555 125 24]. A pixel Position is
-  // one-based (like Qt and MATLAB, [1 1] is the bottom-left pixel), so its CSS
-  // offsets inside the drawing area are 144 from the left and 554 from the bottom.
+  // A fixed-layout app scales its authored 1000x680 layout to fill the panel, so the
+  // field keeps its fractions: left 144/1000, width 125/1000, top (680-554-24)/680.
+  const layoutWidth = 1000;
+  const layoutHeight = 680;
   const checkPosition = async () => {
     await expect
       .poll(async () => {
@@ -34,9 +35,10 @@ export async function checkModernUi(page: Page, testInfo: TestInfo): Promise<voi
         const box = await field.boundingBox();
         if (!canvas || !box) return false;
         return (
-          Math.abs(box.x - canvas.x - 144) < 1 &&
-          Math.abs(box.width - 125) < 1 &&
-          Math.abs(box.y - canvas.y - (canvas.height - 554 - 24)) < 1
+          Math.abs((box.x - canvas.x) / canvas.width - 144 / layoutWidth) < 0.01 &&
+          Math.abs(box.width / canvas.width - 125 / layoutWidth) < 0.01 &&
+          Math.abs((box.y - canvas.y) / canvas.height - (layoutHeight - 554 - 24) / layoutHeight) <
+            0.01
         );
       })
       .toBe(true);

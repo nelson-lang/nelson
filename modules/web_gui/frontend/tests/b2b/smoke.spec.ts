@@ -198,6 +198,12 @@ test('real engine: REPL, history, uicontrol callback, PNG export', async ({ page
   expect(listed.result.entries.some((e: { name: string }) => e.name.startsWith('b2b_fs'))).toBe(
     false
   );
+  // Command Window is the active tab of the shared dock group, hiding Files behind
+  // it; its shortcut brings Files forward (a click on the covered tab is blocked).
+  await page.keyboard.press('Control+2');
+  await expect
+    .poll(async () => (await page.locator('.file-list').first().boundingBox())?.width ?? 0)
+    .toBeGreaterThan(0);
   await expect(page.locator('.files__filter')).toBeVisible();
   await page.locator('.file-list li').first().click({ button: 'right' });
   await expect(page.locator('.ctx-menu__item', { hasText: 'Rename' })).toBeVisible();

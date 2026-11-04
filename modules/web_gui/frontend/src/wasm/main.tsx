@@ -236,8 +236,7 @@ void (async () => {
       return;
     } catch (error) {
       lastError = error;
-      const isFetchError =
-        error instanceof TypeError && /fetch/i.test(error.message);
+      const isFetchError = error instanceof TypeError && /fetch/i.test(error.message);
       if (!isFetchError || attempt === MAX_START_RETRIES) break;
       showLoading({
         phase: 'wasm',

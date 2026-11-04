@@ -14,8 +14,14 @@ import { expect, type Locator, type Page } from '@playwright/test';
 export async function showFigureBars(figure: Page | Locator) {
   await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
   const toggle = figure.getByRole('button', { name: 'Plot details bar', exact: true });
-  if ((await toggle.getAttribute('aria-pressed')) === 'false') await toggle.click();
-  else await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
+  if ((await toggle.getAttribute('aria-pressed')) === 'false') {
+    await toggle.click();
+  } else {
+    // The bar is already shown; dismiss the open menu with Escape instead of
+    // re-clicking the menu button, which its own open dropdown covers.
+    const page = 'keyboard' in figure ? figure : figure.page();
+    await page.keyboard.press('Escape');
+  }
   await waitForFigureLayout(figure);
 }
 //=============================================================================
