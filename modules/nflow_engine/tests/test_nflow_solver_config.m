@@ -15,7 +15,7 @@
 %=============================================================================
 bdclose('all');
 new_system('cfg');
-add_block('nflow/math/gain', 'cfg/G', 'gain', 1);
+add_block('nflow/math/gain', 'cfg/G', 'Gain', 1);
 
 set_param('cfg', 'Solver', 'ode4');
 asserts.isequal(get_param('cfg', 'Solver'), 'ode4');

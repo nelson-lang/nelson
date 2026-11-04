@@ -18,9 +18,9 @@ new_system('m');
 add_block('subsystem', 'm/Sub');
 %=============================================================================
 % Add and configure a block inside the subsystem via its path.
-p = add_block('nflow/math/gain', 'm/Sub/G', 'gain', 5);
+p = add_block('nflow/math/gain', 'm/Sub/G', 'Gain', 5);
 assert_isequal(p, 'm/Sub/G');
-assert_isequal(get_param('m/Sub/G', 'gain'), '5');
+assert_isequal(get_param('m/Sub/G', 'Gain'), '5');
 % The nested block is not visible at the root.
 assert_isfalse(any(strcmp(get_param('m', 'Blocks'), 'G')));
 %=============================================================================
@@ -42,12 +42,12 @@ f = [tempname(), '.nflow'];
 save_system('m', f);
 bdclose('m');
 load_system(f);
-assert_isequal(get_param('m/Sub/G', 'gain'), '5');
+assert_isequal(get_param('m/Sub/G', 'Gain'), '5');
 assert_isequal(get_param('m/Sub/G', 'Position'), [10 20 90 100]);
 %=============================================================================
 % A nested delete removes only the nested block.
 delete_block('m/Sub/G');
-assert_checkerror('get_param(''m/Sub/G'', ''gain'')', _('No block named ''Sub/G''.'));
+assert_checkerror('get_param(''m/Sub/G'', ''Gain'')', _('No block named ''Sub/G''.'));
 bdclose('all');
 rmfile(f);
 %=============================================================================
