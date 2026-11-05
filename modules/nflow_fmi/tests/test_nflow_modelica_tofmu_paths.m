@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--WEIGHT 2-->
+% <--ENGLISH IMPOSED-->
 % modelicaToFmu path handling: a model given as a .mo file path must be
 % resolved as a file (and reported clearly when missing), never silently
 % mistaken for inline Modelica source. Covers install paths that contain

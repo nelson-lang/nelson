@@ -41,7 +41,7 @@ end
 mkdir(outR);
 nflow_codegenerate(mfR, outR, false, 'rust');
 libR = fileread([outR, filesep, 'fs_rust', filesep, 'src', filesep, 'lib.rs']);
-assert_istrue(~isempty(strfind(libR, '__fsrc_v_'))); % emitted the table
+assert_istrue(~isempty(strfind(libR, 'nf_fsrc_v_'))); % emitted the table
 assert_istrue(isempty(strfind(libR, 'TODO'))); % not the placeholder
 rmfile(mfR);
 %=============================================================================

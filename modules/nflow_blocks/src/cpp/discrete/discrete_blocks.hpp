@@ -18,7 +18,7 @@ namespace NFlow {
     //=============================================================================
     // Multi-rate sample rate for the code generators: round(SampleTime / base
     // step), >= 1 (1 = every step / single-rate). Shared by state-holding block
-    // emitters that gate their state advance on the generated __nflow_step index.
+    // emitters that gate their state advance on the generated nf_tick index.
     // Kept in sync with runSimulation's per-block rate.
     inline int
     codegenSampleRate(const nlohmann::json* params, double dt)

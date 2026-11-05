@@ -85,10 +85,10 @@ fclose(fid);
 nflow_codegenerate(fr, tempdir(), false, 'C');
 srcR = fileread([tempdir(), frstem, '/model.c']);
 assert_istrue(isempty(strfind(srcR, 'unknown:')));
-assert_istrue(~isempty(strfind(srcR, '__nflow_rhs'))); % on the RK4 path
+assert_istrue(~isempty(strfind(srcR, 'nflow_rhs'))); % on the RK4 path
 % The packed state is read TWICE: once before the reporting evaluation, once
 % after it, which is where a reset re-seeds the member's field.
-assert_isequal(numel(strfind(srcR, '__x0[0] = s->int_sub_ig;')), 2);
+assert_isequal(numel(strfind(srcR, 'nf_x0[0] = s->int_sub_ig;')), 2);
 % The control latch runs on the reporting pass only.
 assert_istrue(~isempty(strfind(srcR, '  if (out) {')));
 rmfile(fr);
@@ -99,7 +99,7 @@ if __nflow_codegen_toolchain__('C')
   nflow_codegen_check_numeric(dr, 'nfrk_num', 'C', {'y'}, {'nfrk_y'}, 5e-6, 1e-9);
   % And that runner walks k*dt rather than accumulating dt into itself.
   mainR = fileread([tempdir(), 'nfrk_num/main.c']);
-  assert_istrue(~isempty(strfind(mainR, 'const double t = __k * dt;')));
+  assert_istrue(~isempty(strfind(mainR, 'const double t = nf_k * dt;')));
   assert_istrue(isempty(strfind(mainR, 't += dt')));
   if __nflow_codegen_toolchain__('rust')
     nflow_codegen_check_numeric(dr, 'nfrk_num', 'rust', {'y'}, {'nfrk_y'}, 5e-6, 1e-9);

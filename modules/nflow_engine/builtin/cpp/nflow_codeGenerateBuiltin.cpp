@@ -225,9 +225,17 @@ Nelson::NFlowGateway::nflow_codeGenerateBuiltin(
                                                + L")")),
                 L"Nelson:nflow_engine:codegenFailed");
         }
+        if (d.gate == "algebraicLoop") {
+            Error(L"Nelson:nflow_engine:codegenFailed:algebraicLoop",
+                L"Code generation: cannot solve the algebraic loop through or fed by blocks %s: "
+                L"the simulator iterates it to a fixed point but generated code is "
+                L"straight-line. Break the loop with a unitDelay or memory block, or simulate "
+                L"this model instead.",
+                utf8_to_wstring(d.detail));
+        }
         // workspace / expandModelica / expandAcausal / flatten / complexLower
-        // and the generator findings (algebraicLoop, typedPort,
-        // expressionRejected) carry an English detail in `message`;
+        // and the generator findings (typedPort, expressionRejected) carry an
+        // English detail in `message`;
         // hookMissing composes its own full text (prefix included).
         if (!d.message.empty()) {
             Error(L"Nelson:nflow_engine:codegenFailed", L"Code generation: %s",

@@ -166,9 +166,9 @@ emitCMainLines(const CMainSpec& s)
     // additions of 0.05 land just BELOW 0.4) and moves a sample across a boundary
     // that a pulse, step or reset trigger is keyed on. Same as the Rust runner
     // and the simulator.
-    main_lines.push_back("  const long __nsteps = (long)(tEnd / dt) + 1;");
-    main_lines.push_back("  for (long __k = 0; __k <= __nsteps; ++__k) {");
-    main_lines.push_back("    const double t = __k * dt;");
+    main_lines.push_back("  const long nf_nsteps = (long)(tEnd / dt) + 1;");
+    main_lines.push_back("  for (long nf_k = 0; nf_k <= nf_nsteps; ++nf_k) {");
+    main_lines.push_back("    const double t = nf_k * dt;");
     main_lines.push_back("    if (t > tEnd + 1e-9) break;");
     main_lines.push_back("    if (inPath) fill_inputs(&series, &seriesIdx, t, &in);");
     main_lines.push_back("    nflow_step(&state, &in, &out, t);");

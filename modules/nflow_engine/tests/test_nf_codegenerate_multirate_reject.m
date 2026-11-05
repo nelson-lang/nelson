@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % A per-block SampleTime is honored by the generators only for state-holding
 % blocks that gate their state advance on the major-step index (unitDelay, see
 % test_nf_codegenerate_multirate). A SampleTime on any other block type has no

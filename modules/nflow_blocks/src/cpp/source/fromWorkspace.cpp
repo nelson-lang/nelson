@@ -11,6 +11,7 @@
 #include "BlockRegistry.hpp"
 #include "FieldNames.hpp"
 #include "NFlowBlockDescriptor.hpp"
+#include <cctype>
 #include <cmath>
 #include <algorithm>
 #include "source_blocks.hpp"
@@ -272,6 +273,17 @@ numberList(const std::vector<double>& values, const std::function<std::string(do
     return out;
 }
 //=============================================================================
+// Block id in upper case, for Rust const names (`non_upper_case_globals`).
+std::string
+upperId(const std::string& id)
+{
+    std::string r = id;
+    for (auto& c : r) {
+        c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
+    return r;
+}
+//=============================================================================
 } // namespace
 //=============================================================================
 Nelson::NFlow::BlockCodegenTemplate
@@ -373,10 +385,10 @@ Nelson::NFlow::getCodeGenRustFromWorkspace()
             return;
         }
         const std::string n = std::to_string(d.times.size());
-        a.addConst(
-            "const FW_T_" + a.id + ": [f64; " + n + "] = [ " + numberList(d.times, a.fmt) + " ];");
-        a.addConst(
-            "const FW_V_" + a.id + ": [f64; " + n + "] = [ " + numberList(d.values, a.fmt) + " ];");
+        a.addConst("const FW_T_" + upperId(a.id) + ": [f64; " + n + "] = [ "
+            + numberList(d.times, a.fmt) + " ];");
+        a.addConst("const FW_V_" + upperId(a.id) + ": [f64; " + n + "] = [ "
+            + numberList(d.values, a.fmt) + " ];");
     };
     t.emitStep = [](const BlockCodegenArgs& a) {
         BakedData d = bakedDataOf(*asJson(a.params));
@@ -386,8 +398,9 @@ Nelson::NFlow::getCodeGenRustFromWorkspace()
                   "variable)");
             return;
         }
-        a.line("out_" + a.id + " = nflow_from_workspace(&FW_T_" + a.id + ", &FW_V_" + a.id + ", t, "
-            + (d.interpolate ? "true" : "false") + ", " + std::to_string(d.afterMode) + ");");
+        a.line("out_" + a.id + " = nflow_from_workspace(&FW_T_" + upperId(a.id) + ", &FW_V_"
+            + upperId(a.id) + ", t, " + (d.interpolate ? "true" : "false") + ", "
+            + std::to_string(d.afterMode) + ");");
     };
     return t;
 }

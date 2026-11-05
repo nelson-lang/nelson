@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % Modelica blocks are expanded to FMU blocks before code generation. The
 % generated program cannot embed that runtime, so code generation must reject
 % the expanded diagram instead of emitting a constant-0.0 output.

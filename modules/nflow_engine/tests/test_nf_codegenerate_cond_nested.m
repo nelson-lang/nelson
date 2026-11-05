@@ -138,8 +138,8 @@ fclose(fid);
 nflow_codegenerate(fB, tempdir(), false, 'C');
 srcB = fileread([tempdir(), stemB, '/model.c']);
 assert_istrue(isempty(strfind(srcB, 'unknown:')));
-assert_istrue(~isempty(strfind(srcB, '__nflow_rhs'))); % on the RK4 path
-assert_istrue(~isempty(strfind(srcB, '__xdot[0] = 0.0;'))); % freeze mask
+assert_istrue(~isempty(strfind(srcB, 'nflow_rhs'))); % on the RK4 path
+assert_istrue(~isempty(strfind(srcB, 'nf_xdot[0] = 0.0;'))); % freeze mask
 % The freeze reads both gates, not just the innermost.
 assert_istrue(~isempty(strfind(srcB, ' && ')));
 rmfile(fB);

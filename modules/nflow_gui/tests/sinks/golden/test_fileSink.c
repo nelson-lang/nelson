@@ -20,12 +20,12 @@ typedef struct {
   double b2;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 1;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 1;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "b2",
 };
 
@@ -34,9 +34,10 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
-  const double dt = 0.01;
-  double out_b1 = 0.0;
-  double out_b2 = 0.0;
+  (void)s;
+  (void)in;
+  double out_b1;
+  double out_b2;
 
   // sine b1
   out_b1 = 1 * sin(2.0 * M_PI * 1 * t + 0);

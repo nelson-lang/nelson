@@ -21,8 +21,8 @@ namespace {
         return std::string(num) + "/" + den + (rust ? ".0" : "");
     }
     //=============================================================================
-    // "<ind>__nflow_rhs(...)" with the per-language call shape: the C rhs takes a
-    // nullable ModelOutput*, the Rust rhs a __report flag. `gArg` (zero-crossing
+    // "<ind>nflow_rhs(...)" with the per-language call shape: the C rhs takes a
+    // nullable ModelOutput*, the Rust rhs a nf_report flag. `gArg` (zero-crossing
     // mode only) appends the trailing surface-array argument.
     std::string
     rhsCall(bool rust, const std::string& ind, const std::string& tExpr, const std::string& xArr,
@@ -30,10 +30,10 @@ namespace {
     {
         const std::string tail = gArg.empty() ? "" : (", " + gArg);
         if (rust) {
-            return ind + "__nflow_rhs(s, inp, out, " + tExpr + ", &" + xArr + ", &mut " + kArr
+            return ind + "nflow_rhs(s, inp, out, " + tExpr + ", &" + xArr + ", &mut " + kArr
                 + ", " + (report ? "true" : "false") + tail + ");";
         }
-        return ind + "__nflow_rhs(s, in, " + (report ? "out" : "(ModelOutput*)0") + ", " + tExpr
+        return ind + "nflow_rhs(s, in, " + (report ? "out" : "(ModelOutput*)0") + ", " + tExpr
             + ", " + xArr + ", " + kArr + tail + ");";
     }
     //=============================================================================
@@ -48,9 +48,9 @@ namespace {
         const std::string& expr)
     {
         if (rust) {
-            return ind + "for __i in 0.." + N + " { " + target + "[__i] = " + expr + "; }";
+            return ind + "for nf_i in 0.." + N + " { " + target + "[nf_i] = " + expr + "; }";
         }
-        return ind + "for (int __i = 0; __i < " + N + "; ++__i) " + target + "[__i] = " + expr
+        return ind + "for (int nf_i = 0; nf_i < " + N + "; ++nf_i) " + target + "[nf_i] = " + expr
             + ";";
     }
     //=============================================================================
@@ -62,7 +62,7 @@ namespace {
     //=============================================================================
     // The seven Dormand-Prince stages plus the embedded error expression, shared by
     // the plain ode45 stepper (gArg empty) and the zero-crossing variant (gArg = the
-    // null __g form).
+    // null nf_g form).
     std::string
     emitDp45Stages(const SolverEmitSpec& spec, const std::string& ind3, const std::string& gArg)
     {
@@ -70,42 +70,42 @@ namespace {
         const bool ru = spec.rust;
         const std::string& N = spec.stateCount;
         auto F = [&](const char* num, const char* den) { return frac(ru, num, den); };
-        lines.push_back(rhsCall(ru, ind3, "__tc", "__x", "__k1", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__xt", "__x[__i] + __h * (0.2 * __k1[__i])"));
-        lines.push_back(rhsCall(ru, ind3, "__tc + 0.2 * __h", "__xt", "__k2", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__xt",
-            "__x[__i] + __h * (" + F("3.0", "40") + " * __k1[__i] + " + F("9.0", "40")
-                + " * __k2[__i])"));
-        lines.push_back(rhsCall(ru, ind3, "__tc + 0.3 * __h", "__xt", "__k3", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__xt",
-            "__x[__i] + __h * (" + F("44.0", "45") + " * __k1[__i] - " + F("56.0", "15")
-                + " * __k2[__i] + " + F("32.0", "9") + " * __k3[__i])"));
-        lines.push_back(rhsCall(ru, ind3, "__tc + 0.8 * __h", "__xt", "__k4", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__xt",
-            "__x[__i] + __h * (" + F("19372.0", "6561") + " * __k1[__i] - " + F("25360.0", "2187")
-                + " * __k2[__i] + " + F("64448.0", "6561") + " * __k3[__i] - " + F("212.0", "729")
-                + " * __k4[__i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc", "nf_x", "nf_k1", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_xt", "nf_x[nf_i] + nf_h * (0.2 * nf_k1[nf_i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc + 0.2 * nf_h", "nf_xt", "nf_k2", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_xt",
+            "nf_x[nf_i] + nf_h * (" + F("3.0", "40") + " * nf_k1[nf_i] + " + F("9.0", "40")
+                + " * nf_k2[nf_i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc + 0.3 * nf_h", "nf_xt", "nf_k3", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_xt",
+            "nf_x[nf_i] + nf_h * (" + F("44.0", "45") + " * nf_k1[nf_i] - " + F("56.0", "15")
+                + " * nf_k2[nf_i] + " + F("32.0", "9") + " * nf_k3[nf_i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc + 0.8 * nf_h", "nf_xt", "nf_k4", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_xt",
+            "nf_x[nf_i] + nf_h * (" + F("19372.0", "6561") + " * nf_k1[nf_i] - " + F("25360.0", "2187")
+                + " * nf_k2[nf_i] + " + F("64448.0", "6561") + " * nf_k3[nf_i] - " + F("212.0", "729")
+                + " * nf_k4[nf_i])"));
         lines.push_back(
-            rhsCall(ru, ind3, "__tc + " + F("8.0", "9") + " * __h", "__xt", "__k5", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__xt",
-            "__x[__i] + __h * (" + F("9017.0", "3168") + " * __k1[__i] - " + F("355.0", "33")
-                + " * __k2[__i] + " + F("46732.0", "5247") + " * __k3[__i] + " + F("49.0", "176")
-                + " * __k4[__i] - " + F("5103.0", "18656") + " * __k5[__i])"));
-        lines.push_back(rhsCall(ru, ind3, "__tc + __h", "__xt", "__k6", false, gArg));
-        lines.push_back(forAssign(ru, ind3, N, "__x5",
-            "__x[__i] + __h * (" + F("35.0", "384") + " * __k1[__i] + " + F("500.0", "1113")
-                + " * __k3[__i] + " + F("125.0", "192") + " * __k4[__i] - " + F("2187.0", "6784")
-                + " * __k5[__i] + " + F("11.0", "84") + " * __k6[__i])"));
-        lines.push_back(rhsCall(ru, ind3, "__tc + __h", "__x5", "__k7", false, gArg));
-        return "__h * ((" + F("35.0", "384") + " - " + F("5179.0", "57600") + ") * __k1[__i] + ("
-            + F("500.0", "1113") + " - " + F("7571.0", "16695") + ") * __k3[__i] + ("
-            + F("125.0", "192") + " - " + F("393.0", "640") + ") * __k4[__i] + (-"
-            + F("2187.0", "6784") + " - (-" + F("92097.0", "339200") + ")) * __k5[__i] + ("
-            + F("11.0", "84") + " - " + F("187.0", "2100") + ") * __k6[__i] + (0.0 - "
-            + F("1.0", "40") + ") * __k7[__i])";
+            rhsCall(ru, ind3, "nf_tc + " + F("8.0", "9") + " * nf_h", "nf_xt", "nf_k5", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_xt",
+            "nf_x[nf_i] + nf_h * (" + F("9017.0", "3168") + " * nf_k1[nf_i] - " + F("355.0", "33")
+                + " * nf_k2[nf_i] + " + F("46732.0", "5247") + " * nf_k3[nf_i] + " + F("49.0", "176")
+                + " * nf_k4[nf_i] - " + F("5103.0", "18656") + " * nf_k5[nf_i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc + nf_h", "nf_xt", "nf_k6", false, gArg));
+        lines.push_back(forAssign(ru, ind3, N, "nf_x5",
+            "nf_x[nf_i] + nf_h * (" + F("35.0", "384") + " * nf_k1[nf_i] + " + F("500.0", "1113")
+                + " * nf_k3[nf_i] + " + F("125.0", "192") + " * nf_k4[nf_i] - " + F("2187.0", "6784")
+                + " * nf_k5[nf_i] + " + F("11.0", "84") + " * nf_k6[nf_i])"));
+        lines.push_back(rhsCall(ru, ind3, "nf_tc + nf_h", "nf_x5", "nf_k7", false, gArg));
+        return "nf_h * ((" + F("35.0", "384") + " - " + F("5179.0", "57600") + ") * nf_k1[nf_i] + ("
+            + F("500.0", "1113") + " - " + F("7571.0", "16695") + ") * nf_k3[nf_i] + ("
+            + F("125.0", "192") + " - " + F("393.0", "640") + ") * nf_k4[nf_i] + (-"
+            + F("2187.0", "6784") + " - (-" + F("92097.0", "339200") + ")) * nf_k5[nf_i] + ("
+            + F("11.0", "84") + " - " + F("187.0", "2100") + ") * nf_k6[nf_i] + (0.0 - "
+            + F("1.0", "40") + ") * nf_k7[nf_i])";
     }
     //=============================================================================
-    // Fixed-RK4 trial step (__nflow_rk4sub), used by the crossing stepper's advance
+    // Fixed-RK4 trial step (nflow_rk4sub), used by the crossing stepper's advance
     // and by every bisection probe. Same as the simulator's integrateFixedTo: k1
     // recomputed at the step start, 0.5h / 0.5h / h stages, no output report, no
     // surface writes.
@@ -117,52 +117,51 @@ namespace {
         const std::string& N = spec.stateCount;
 
         if (ru) {
-            lines.push_back("#[allow(unused_variables, clippy::needless_range_loop, "
-                            "clippy::too_many_arguments)]");
-            lines.push_back("fn __nflow_rk4sub(s: &mut ModelState, inp: &ModelInput, out: &mut "
-                            "ModelOutput, __t: f64, __hh: f64, __xa: &[f64; "
-                + N + "], __xb: &mut [f64; " + N + "]) {");
-            for (const char* v : { "__k1", "__k2", "__k3", "__k4", "__ts" }) {
+            lines.push_back("#[allow(clippy::needless_range_loop, clippy::too_many_arguments)]");
+            lines.push_back("fn nflow_rk4sub(s: &mut ModelState, inp: &ModelInput, out: &mut "
+                            "ModelOutput, nf_t: f64, nf_hh: f64, nf_xa: &[f64; "
+                + N + "], nf_xb: &mut [f64; " + N + "]) {");
+            for (const char* v : { "nf_k1", "nf_k2", "nf_k3", "nf_k4", "nf_ts" }) {
                 lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
             }
-            lines.push_back("    __nflow_rhs(s, inp, out, __t, __xa, &mut __k1, false, None);");
+            lines.push_back("    nflow_rhs(s, inp, out, nf_t, nf_xa, &mut nf_k1, false, None);");
             lines.push_back(
-                "    for __i in 0.." + N + " { __ts[__i] = __xa[__i] + 0.5 * __hh * __k1[__i]; }");
+                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k1[nf_i]; }");
             lines.push_back(
-                "    __nflow_rhs(s, inp, out, __t + 0.5 * __hh, &__ts, &mut __k2, false, None);");
+                "    nflow_rhs(s, inp, out, nf_t + 0.5 * nf_hh, &nf_ts, &mut nf_k2, false, None);");
             lines.push_back(
-                "    for __i in 0.." + N + " { __ts[__i] = __xa[__i] + 0.5 * __hh * __k2[__i]; }");
+                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k2[nf_i]; }");
             lines.push_back(
-                "    __nflow_rhs(s, inp, out, __t + 0.5 * __hh, &__ts, &mut __k3, false, None);");
+                "    nflow_rhs(s, inp, out, nf_t + 0.5 * nf_hh, &nf_ts, &mut nf_k3, false, None);");
             lines.push_back(
-                "    for __i in 0.." + N + " { __ts[__i] = __xa[__i] + __hh * __k3[__i]; }");
+                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + nf_hh * nf_k3[nf_i]; }");
             lines.push_back(
-                "    __nflow_rhs(s, inp, out, __t + __hh, &__ts, &mut __k4, false, None);");
-            lines.push_back("    for __i in 0.." + N
-                + " { __xb[__i] = __xa[__i] + (__hh / 6.0) * (__k1[__i] + 2.0 * __k2[__i] + 2.0 "
-                  "* __k3[__i] + __k4[__i]); }");
+                "    nflow_rhs(s, inp, out, nf_t + nf_hh, &nf_ts, &mut nf_k4, false, None);");
+            lines.push_back("    for nf_i in 0.." + N
+                + " { nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] + 2.0 "
+                  "* nf_k3[nf_i] + nf_k4[nf_i]); }");
             lines.push_back("}");
         } else {
-            lines.push_back("static void __nflow_rk4sub(ModelState* s, const ModelInput* in, "
-                            "double __t, double __hh, const double* __xa, double* __xb) {");
-            lines.push_back("  double __k1[" + N + "], __k2[" + N + "], __k3[" + N + "], __k4[" + N
-                + "], __ts[" + N + "];");
-            lines.push_back("  __nflow_rhs(s, in, (ModelOutput*)0, __t, __xa, __k1, (double*)0);");
-            lines.push_back("  for (int __i = 0; __i < " + N
-                + "; ++__i) __ts[__i] = __xa[__i] + 0.5 * __hh * __k1[__i];");
-            lines.push_back("  __nflow_rhs(s, in, (ModelOutput*)0, __t + 0.5 * __hh, __ts, __k2, "
+            lines.push_back("static void nflow_rk4sub(ModelState* s, const ModelInput* in, "
+                            "double nf_t, double nf_hh, const double* nf_xa, double* nf_xb) {");
+            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4[" + N
+                + "], nf_ts[" + N + "];");
+            lines.push_back("  nflow_rhs(s, in, (ModelOutput*)0, nf_t, nf_xa, nf_k1, (double*)0);");
+            lines.push_back("  for (int nf_i = 0; nf_i < " + N
+                + "; ++nf_i) nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k1[nf_i];");
+            lines.push_back("  nflow_rhs(s, in, (ModelOutput*)0, nf_t + 0.5 * nf_hh, nf_ts, nf_k2, "
                             "(double*)0);");
-            lines.push_back("  for (int __i = 0; __i < " + N
-                + "; ++__i) __ts[__i] = __xa[__i] + 0.5 * __hh * __k2[__i];");
-            lines.push_back("  __nflow_rhs(s, in, (ModelOutput*)0, __t + 0.5 * __hh, __ts, __k3, "
+            lines.push_back("  for (int nf_i = 0; nf_i < " + N
+                + "; ++nf_i) nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k2[nf_i];");
+            lines.push_back("  nflow_rhs(s, in, (ModelOutput*)0, nf_t + 0.5 * nf_hh, nf_ts, nf_k3, "
                             "(double*)0);");
-            lines.push_back("  for (int __i = 0; __i < " + N
-                + "; ++__i) __ts[__i] = __xa[__i] + __hh * __k3[__i];");
+            lines.push_back("  for (int nf_i = 0; nf_i < " + N
+                + "; ++nf_i) nf_ts[nf_i] = nf_xa[nf_i] + nf_hh * nf_k3[nf_i];");
             lines.push_back(
-                "  __nflow_rhs(s, in, (ModelOutput*)0, __t + __hh, __ts, __k4, (double*)0);");
-            lines.push_back("  for (int __i = 0; __i < " + N
-                + "; ++__i) __xb[__i] = __xa[__i] + (__hh / 6.0) * (__k1[__i] + 2.0 * __k2[__i] "
-                  "+ 2.0 * __k3[__i] + __k4[__i]);");
+                "  nflow_rhs(s, in, (ModelOutput*)0, nf_t + nf_hh, nf_ts, nf_k4, (double*)0);");
+            lines.push_back("  for (int nf_i = 0; nf_i < " + N
+                + "; ++nf_i) nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] "
+                  "+ 2.0 * nf_k3[nf_i] + nf_k4[nf_i]);");
             lines.push_back("}");
         }
         lines.push_back("");
@@ -187,67 +186,67 @@ namespace {
         const bool ru = spec.rust;
         const std::string& NG = spec.crossingCount;
         if (ru) {
-            lines.push_back(ind + "let mut __hit: i32 = -1;");
-            lines.push_back(ind + "for __i in 0.." + NG + " {");
-            lines.push_back(ind + "    if __g0[__i] == 0.0 || __g1[__i] == 0.0 {");
+            lines.push_back(ind + "let mut nf_hit: i32 = -1;");
+            lines.push_back(ind + "for nf_i in 0.." + NG + " {");
+            lines.push_back(ind + "    if nf_g0[nf_i] == 0.0 || nf_g1[nf_i] == 0.0 {");
             lines.push_back(ind
-                + "        if __g1[__i] == 0.0 && __g0[__i] != 0.0 { __hit = __i as i32; break; }");
+                + "        if nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0 { nf_hit = nf_i as i32; break; }");
             lines.push_back(ind + "        continue;");
             lines.push_back(ind + "    }");
             lines.push_back(
-                ind + "    if __g0[__i] * __g1[__i] < 0.0 { __hit = __i as i32; break; }");
+                ind + "    if nf_g0[nf_i] * nf_g1[nf_i] < 0.0 { nf_hit = nf_i as i32; break; }");
             lines.push_back(ind + "}");
-            lines.push_back(ind + "if __hit >= 0 {");
-            lines.push_back(ind + "    let __ga = __g0[__hit as usize];");
-            lines.push_back(ind + "    let mut __lo = " + tStart + ";");
-            lines.push_back(ind + "    let mut __hi = " + tStart + " + " + hVar + ";");
-            lines.push_back(ind + "    let mut __it = 0;");
-            lines.push_back(ind + "    while __it < 60 && (__hi - __lo) > 1e-12 {");
-            lines.push_back(ind + "        let __mid = 0.5 * (__lo + __hi);");
-            lines.push_back(ind + "        __nflow_rk4sub(s, inp, out, " + tStart + ", __mid - "
+            lines.push_back(ind + "if nf_hit >= 0 {");
+            lines.push_back(ind + "    let nf_ga = nf_g0[nf_hit as usize];");
+            lines.push_back(ind + "    let mut nf_lo = " + tStart + ";");
+            lines.push_back(ind + "    let mut nf_hi = " + tStart + " + " + hVar + ";");
+            lines.push_back(ind + "    let mut nf_it = 0;");
+            lines.push_back(ind + "    while nf_it < 60 && (nf_hi - nf_lo) > 1e-12 {");
+            lines.push_back(ind + "        let nf_mid = 0.5 * (nf_lo + nf_hi);");
+            lines.push_back(ind + "        nflow_rk4sub(s, inp, out, " + tStart + ", nf_mid - "
                 + tStart + ", &" + xStart + ", &mut " + xProbe + ");");
-            lines.push_back(ind + "        __nflow_rhs(s, inp, out, __mid, &" + xProbe
-                + ", &mut __ks, false, Some(&mut __g1[..]));");
-            lines.push_back(ind + "        let __gm = __g1[__hit as usize];");
+            lines.push_back(ind + "        nflow_rhs(s, inp, out, nf_mid, &" + xProbe
+                + ", &mut nf_ks, false, Some(&mut nf_g1[..]));");
+            lines.push_back(ind + "        let nf_gm = nf_g1[nf_hit as usize];");
             lines.push_back(ind
-                + "        if (__ga <= 0.0 && __gm <= 0.0) || (__ga > 0.0 && "
-                  "__gm > 0.0) { __lo = __mid; } else { __hi = __mid; }");
-            lines.push_back(ind + "        __it += 1;");
+                + "        if (nf_ga <= 0.0 && nf_gm <= 0.0) || (nf_ga > 0.0 && "
+                  "nf_gm > 0.0) { nf_lo = nf_mid; } else { nf_hi = nf_mid; }");
+            lines.push_back(ind + "        nf_it += 1;");
             lines.push_back(ind + "    }");
-            lines.push_back(ind + "    for __i in 0.." + spec.stateCount + " { " + xStart
-                + "[__i] = " + xProbe + "[__i]; }");
+            lines.push_back(ind + "    for nf_i in 0.." + spec.stateCount + " { " + xStart
+                + "[nf_i] = " + xProbe + "[nf_i]; }");
             lines.push_back(ind + "    " + onRoot);
             lines.push_back(ind + "    " + tailStmt);
             lines.push_back(ind + "}");
         } else {
-            lines.push_back(ind + "int __hit = -1;");
-            lines.push_back(ind + "for (int __i = 0; __i < " + NG + "; ++__i) {");
-            lines.push_back(ind + "  if (__g0[__i] == 0.0 || __g1[__i] == 0.0) {");
+            lines.push_back(ind + "int nf_hit = -1;");
+            lines.push_back(ind + "for (int nf_i = 0; nf_i < " + NG + "; ++nf_i) {");
+            lines.push_back(ind + "  if (nf_g0[nf_i] == 0.0 || nf_g1[nf_i] == 0.0) {");
             lines.push_back(
-                ind + "    if (__g1[__i] == 0.0 && __g0[__i] != 0.0) { __hit = __i; break; }");
+                ind + "    if (nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0) { nf_hit = nf_i; break; }");
             lines.push_back(ind + "    continue;");
             lines.push_back(ind + "  }");
-            lines.push_back(ind + "  if (__g0[__i] * __g1[__i] < 0.0) { __hit = __i; break; }");
+            lines.push_back(ind + "  if (nf_g0[nf_i] * nf_g1[nf_i] < 0.0) { nf_hit = nf_i; break; }");
             lines.push_back(ind + "}");
-            lines.push_back(ind + "if (__hit >= 0) {");
-            lines.push_back(ind + "  const double __ga = __g0[__hit];");
+            lines.push_back(ind + "if (nf_hit >= 0) {");
+            lines.push_back(ind + "  const double nf_ga = nf_g0[nf_hit];");
             lines.push_back(
-                ind + "  double __lo = " + tStart + ", __hi = " + tStart + " + " + hVar + ";");
+                ind + "  double nf_lo = " + tStart + ", nf_hi = " + tStart + " + " + hVar + ";");
             lines.push_back(ind
-                + "  for (int __it = 0; __it < 60 && (__hi - __lo) > 1e-12; "
-                  "++__it) {");
-            lines.push_back(ind + "    const double __mid = 0.5 * (__lo + __hi);");
-            lines.push_back(ind + "    __nflow_rk4sub(s, in, " + tStart + ", __mid - " + tStart
+                + "  for (int nf_it = 0; nf_it < 60 && (nf_hi - nf_lo) > 1e-12; "
+                  "++nf_it) {");
+            lines.push_back(ind + "    const double nf_mid = 0.5 * (nf_lo + nf_hi);");
+            lines.push_back(ind + "    nflow_rk4sub(s, in, " + tStart + ", nf_mid - " + tStart
                 + ", " + xStart + ", " + xProbe + ");");
-            lines.push_back(ind + "    __nflow_rhs(s, in, (ModelOutput*)0, __mid, " + xProbe
-                + ", __ks, __g1);");
-            lines.push_back(ind + "    const double __gm = __g1[__hit];");
+            lines.push_back(ind + "    nflow_rhs(s, in, (ModelOutput*)0, nf_mid, " + xProbe
+                + ", nf_ks, nf_g1);");
+            lines.push_back(ind + "    const double nf_gm = nf_g1[nf_hit];");
             lines.push_back(ind
-                + "    if ((__ga <= 0.0 && __gm <= 0.0) || (__ga > 0.0 && __gm > "
-                  "0.0)) __lo = __mid; else __hi = __mid;");
+                + "    if ((nf_ga <= 0.0 && nf_gm <= 0.0) || (nf_ga > 0.0 && nf_gm > "
+                  "0.0)) nf_lo = nf_mid; else nf_hi = nf_mid;");
             lines.push_back(ind + "  }");
-            lines.push_back(ind + "  for (int __i = 0; __i < " + spec.stateCount + "; ++__i) "
-                + xStart + "[__i] = " + xProbe + "[__i];");
+            lines.push_back(ind + "  for (int nf_i = 0; nf_i < " + spec.stateCount + "; ++nf_i) "
+                + xStart + "[nf_i] = " + xProbe + "[nf_i];");
             lines.push_back(ind + "  " + onRoot);
             lines.push_back(ind + "  " + tailStmt);
             lines.push_back(ind + "}");
@@ -266,91 +265,90 @@ namespace {
         const std::string& N = spec.stateCount;
         const std::string& NG = spec.crossingCount;
         if (ru) {
-            lines.push_back("#[allow(unused_variables, unused_assignments, unused_mut, "
-                            "clippy::needless_range_loop)]");
+            lines.push_back("#[allow(clippy::needless_range_loop)]");
             lines.push_back("pub fn nflow_step(s: &mut ModelState,");
             lines.push_back("                  inp: &ModelInput,");
             lines.push_back("                  out: &mut ModelOutput,");
             lines.push_back("                  t: f64) {");
             lines.push_back("    let dt: f64 = " + spec.dtLiteral + ";");
-            for (const char* v : { "__x0", "__x1", "__ks" }) {
+            for (const char* v : { "nf_x0", "nf_x1", "nf_ks" }) {
                 lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
             }
-            lines.push_back("    let mut __g0 = [0.0f64; " + NG + "];");
-            lines.push_back("    let mut __g1 = [0.0f64; " + NG + "];");
+            lines.push_back("    let mut nf_g0 = [0.0f64; " + NG + "];");
+            lines.push_back("    let mut nf_g1 = [0.0f64; " + NG + "];");
         } else {
             lines.push_back("void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* "
                             "out, double t) {");
             lines.push_back("  const double dt = " + spec.dtLiteral + ";");
-            lines.push_back("  double __x0[" + N + "], __x1[" + N + "], __ks[" + N + "];");
-            lines.push_back("  double __g0[" + NG + "], __g1[" + NG + "];");
+            lines.push_back("  double nf_x0[" + N + "], nf_x1[" + N + "], nf_ks[" + N + "];");
+            lines.push_back("  double nf_g0[" + NG + "], nf_g1[" + NG + "];");
         }
-        spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
+        spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
         // The reporting evaluation doubles as the initial g0 fill; g0 is
-        // re-evaluated only after a bisection restart moved (__tc, __x0).
-        lines.push_back(rhsCall(ru, ru ? "    " : "  ", "t", "__x0", "__ks", true,
-            ru ? "Some(&mut __g0[..])" : "__g0"));
+        // re-evaluated only after a bisection restart moved (nf_tc, nf_x0).
+        lines.push_back(rhsCall(ru, ru ? "    " : "  ", "t", "nf_x0", "nf_ks", true,
+            ru ? "Some(&mut nf_g0[..])" : "nf_g0"));
         if (spec.resetReseed) {
             // See emitRk4Stepper: read back what a reset re-seeded, and refill
             // the surfaces from it (they were filled at the discarded state).
-            spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
-            lines.push_back(rhsCall(ru, ru ? "    " : "  ", "t", "__x0", "__ks", false,
-                ru ? "Some(&mut __g0[..])" : "__g0"));
+            spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
+            lines.push_back(rhsCall(ru, ru ? "    " : "  ", "t", "nf_x0", "nf_ks", false,
+                ru ? "Some(&mut nf_g0[..])" : "nf_g0"));
         }
         // The restart budget (1000 roots per communication step, far above any
         // physical model) never truncates the interval: once exhausted, the rest is
         // integrated in one plain sub-step without root checks. The stepper always
-        // reaches __tend, so a chattering surface cannot hang it.
+        // reaches nf_tend, so a chattering surface cannot hang it.
         if (ru) {
-            lines.push_back("    let mut __tc: f64 = t;");
-            lines.push_back("    let __tend: f64 = t + dt;");
-            lines.push_back("    let mut __rst = 0;");
-            lines.push_back("    let mut __rchk = true;");
-            lines.push_back("    let mut __rgot = true;");
-            lines.push_back("    while __tc < __tend - 1e-12 * dt {");
-            lines.push_back("        let __h = __tend - __tc;");
-            lines.push_back("        if __rchk {");
-            lines.push_back("            if !__rgot { __nflow_rhs(s, inp, out, __tc, &__x0, &mut "
-                            "__ks, false, Some(&mut __g0[..])); }");
-            lines.push_back("            __rgot = false;");
+            lines.push_back("    let mut nf_tc: f64 = t;");
+            lines.push_back("    let nf_tend: f64 = t + dt;");
+            lines.push_back("    let mut nf_rst = 0;");
+            lines.push_back("    let mut nf_rchk = true;");
+            lines.push_back("    let mut nf_rgot = true;");
+            lines.push_back("    while nf_tc < nf_tend - 1e-12 * dt {");
+            lines.push_back("        let nf_h = nf_tend - nf_tc;");
+            lines.push_back("        if nf_rchk {");
+            lines.push_back("            if !nf_rgot { nflow_rhs(s, inp, out, nf_tc, &nf_x0, &mut "
+                            "nf_ks, false, Some(&mut nf_g0[..])); }");
+            lines.push_back("            nf_rgot = false;");
             lines.push_back(
-                "            __nflow_rk4sub(s, inp, out, __tc, __h, &__x0, &mut __x1);");
-            lines.push_back("            __nflow_rhs(s, inp, out, __tc + __h, &__x1, &mut __ks, "
-                            "false, Some(&mut __g1[..]));");
-            emitCrossingScanAndBisect(spec, "            ", "__tc", "__h", "__x0", "__x1",
-                "__tc = 0.5 * (__lo + __hi); __rst += 1; if __rst >= 1000 { __rchk = false; }");
+                "            nflow_rk4sub(s, inp, out, nf_tc, nf_h, &nf_x0, &mut nf_x1);");
+            lines.push_back("            nflow_rhs(s, inp, out, nf_tc + nf_h, &nf_x1, &mut nf_ks, "
+                            "false, Some(&mut nf_g1[..]));");
+            emitCrossingScanAndBisect(spec, "            ", "nf_tc", "nf_h", "nf_x0", "nf_x1",
+                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; }");
             lines.push_back("        } else {");
             lines.push_back(
-                "            __nflow_rk4sub(s, inp, out, __tc, __h, &__x0, &mut __x1);");
+                "            nflow_rk4sub(s, inp, out, nf_tc, nf_h, &nf_x0, &mut nf_x1);");
             lines.push_back("        }");
-            lines.push_back("        for __i in 0.." + N + " { __x0[__i] = __x1[__i]; }");
-            lines.push_back("        __tc = __tend;");
+            lines.push_back("        for nf_i in 0.." + N + " { nf_x0[nf_i] = nf_x1[nf_i]; }");
+            lines.push_back("        nf_tc = nf_tend;");
             lines.push_back("    }");
         } else {
-            lines.push_back("  double __tc = t;");
-            lines.push_back("  const double __tend = t + dt;");
-            lines.push_back("  int __rst = 0;");
-            lines.push_back("  int __rchk = 1;");
-            lines.push_back("  int __rgot = 1;");
-            lines.push_back("  while (__tc < __tend - 1e-12 * dt) {");
-            lines.push_back("    const double __h = __tend - __tc;");
-            lines.push_back("    if (__rchk) {");
-            lines.push_back("      if (!__rgot) __nflow_rhs(s, in, (ModelOutput*)0, __tc, __x0, "
-                            "__ks, __g0);");
-            lines.push_back("      __rgot = 0;");
-            lines.push_back("      __nflow_rk4sub(s, in, __tc, __h, __x0, __x1);");
+            lines.push_back("  double nf_tc = t;");
+            lines.push_back("  const double nf_tend = t + dt;");
+            lines.push_back("  int nf_rst = 0;");
+            lines.push_back("  int nf_rchk = 1;");
+            lines.push_back("  int nf_rgot = 1;");
+            lines.push_back("  while (nf_tc < nf_tend - 1e-12 * dt) {");
+            lines.push_back("    const double nf_h = nf_tend - nf_tc;");
+            lines.push_back("    if (nf_rchk) {");
+            lines.push_back("      if (!nf_rgot) nflow_rhs(s, in, (ModelOutput*)0, nf_tc, nf_x0, "
+                            "nf_ks, nf_g0);");
+            lines.push_back("      nf_rgot = 0;");
+            lines.push_back("      nflow_rk4sub(s, in, nf_tc, nf_h, nf_x0, nf_x1);");
             lines.push_back(
-                "      __nflow_rhs(s, in, (ModelOutput*)0, __tc + __h, __x1, __ks, __g1);");
-            emitCrossingScanAndBisect(spec, "      ", "__tc", "__h", "__x0", "__x1",
-                "__tc = 0.5 * (__lo + __hi); if (++__rst >= 1000) __rchk = 0;");
+                "      nflow_rhs(s, in, (ModelOutput*)0, nf_tc + nf_h, nf_x1, nf_ks, nf_g1);");
+            emitCrossingScanAndBisect(spec, "      ", "nf_tc", "nf_h", "nf_x0", "nf_x1",
+                "nf_tc = 0.5 * (nf_lo + nf_hi); if (++nf_rst >= 1000) nf_rchk = 0;");
             lines.push_back("    } else {");
-            lines.push_back("      __nflow_rk4sub(s, in, __tc, __h, __x0, __x1);");
+            lines.push_back("      nflow_rk4sub(s, in, nf_tc, nf_h, nf_x0, nf_x1);");
             lines.push_back("    }");
-            lines.push_back("    for (int __i = 0; __i < " + N + "; ++__i) __x0[__i] = __x1[__i];");
-            lines.push_back("    __tc = __tend;");
+            lines.push_back("    for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x0[nf_i] = nf_x1[nf_i];");
+            lines.push_back("    nf_tc = nf_tend;");
             lines.push_back("  }");
         }
-        spec.emitSeam(Nelson::NFlow::Rk4Scatter, "__x0");
+        spec.emitSeam(Nelson::NFlow::Rk4Scatter, "nf_x0");
         spec.emitSeam(Nelson::NFlow::Rk4Clamp, "");
         lines.push_back("}");
     }
@@ -371,160 +369,159 @@ namespace {
         const std::string ind2 = ru ? "        " : "    ";
         const std::string ind3 = ru ? "            " : "      ";
         if (ru) {
-            lines.push_back("#[allow(unused_variables, unused_assignments, unused_mut, "
-                            "clippy::needless_range_loop)]");
+            lines.push_back("#[allow(clippy::needless_range_loop)]");
             lines.push_back("pub fn nflow_step(s: &mut ModelState,");
             lines.push_back("                  inp: &ModelInput,");
             lines.push_back("                  out: &mut ModelOutput,");
             lines.push_back("                  t: f64) {");
             lines.push_back("    let dt: f64 = " + spec.dtLiteral + ";");
-            lines.push_back("    let __rtol: f64 = " + spec.rtolLiteral + ";");
-            lines.push_back("    let __atol: f64 = " + spec.atolLiteral + ";");
-            lines.push_back("    let __hmax: f64 = " + spec.hmaxLiteral + ";");
-            for (const char* v : { "__x0", "__x", "__xt", "__x5", "__xsv", "__ks", "__k1", "__k2",
-                     "__k3", "__k4", "__k5", "__k6", "__k7" }) {
+            lines.push_back("    let nf_rtol: f64 = " + spec.rtolLiteral + ";");
+            lines.push_back("    let nf_atol: f64 = " + spec.atolLiteral + ";");
+            lines.push_back("    let nf_hmax: f64 = " + spec.hmaxLiteral + ";");
+            for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_xsv", "nf_ks", "nf_k1", "nf_k2",
+                     "nf_k3", "nf_k4", "nf_k5", "nf_k6", "nf_k7" }) {
                 lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
             }
-            lines.push_back("    let mut __g0 = [0.0f64; " + NG + "];");
-            lines.push_back("    let mut __g1 = [0.0f64; " + NG + "];");
+            lines.push_back("    let mut nf_g0 = [0.0f64; " + NG + "];");
+            lines.push_back("    let mut nf_g1 = [0.0f64; " + NG + "];");
         } else {
             lines.push_back("void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* "
                             "out, double t) {");
             lines.push_back("  const double dt = " + spec.dtLiteral + ";");
-            lines.push_back("  const double __rtol = " + spec.rtolLiteral + ";");
-            lines.push_back("  const double __atol = " + spec.atolLiteral + ";");
-            lines.push_back("  const double __hmax = " + spec.hmaxLiteral + ";");
-            lines.push_back("  double __x0[" + N + "], __x[" + N + "], __xt[" + N + "], __x5[" + N
-                + "], __xsv[" + N + "], __ks[" + N + "];");
-            lines.push_back("  double __k1[" + N + "], __k2[" + N + "], __k3[" + N + "], __k4[" + N
-                + "], __k5[" + N + "], __k6[" + N + "], __k7[" + N + "];");
-            lines.push_back("  double __g0[" + NG + "], __g1[" + NG + "];");
+            lines.push_back("  const double nf_rtol = " + spec.rtolLiteral + ";");
+            lines.push_back("  const double nf_atol = " + spec.atolLiteral + ";");
+            lines.push_back("  const double nf_hmax = " + spec.hmaxLiteral + ";");
+            lines.push_back("  double nf_x0[" + N + "], nf_x[" + N + "], nf_xt[" + N + "], nf_x5[" + N
+                + "], nf_xsv[" + N + "], nf_ks[" + N + "];");
+            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4[" + N
+                + "], nf_k5[" + N + "], nf_k6[" + N + "], nf_k7[" + N + "];");
+            lines.push_back("  double nf_g0[" + NG + "], nf_g1[" + NG + "];");
         }
-        spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
-        lines.push_back(rhsCall(ru, ind, "t", "__x0", "__k1", true, gNull(ru)));
-        lines.push_back(forAssign(ru, ind, N, "__x", "__x0[__i]"));
+        spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
+        lines.push_back(rhsCall(ru, ind, "t", "nf_x0", "nf_k1", true, gNull(ru)));
+        lines.push_back(forAssign(ru, ind, N, "nf_x", "nf_x0[nf_i]"));
         if (ru) {
-            lines.push_back("    __nflow_rhs(s, inp, out, t, &__x, &mut __ks, false, Some(&mut "
-                            "__g0));");
-            lines.push_back("    let mut __tc: f64 = t;");
-            lines.push_back("    let __tend: f64 = t + dt;");
-            lines.push_back("    let mut __h: f64 = dt;");
-            lines.push_back("    if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
-            lines.push_back("    let mut __rooted = false;");
-            lines.push_back("    let mut __rst = 0;");
-            lines.push_back("    let mut __rchk = true;");
-            lines.push_back("    while __tc < __tend - 1e-12 * dt {");
-            lines.push_back("        if __h > __tend - __tc { __h = __tend - __tc; }");
-            lines.push_back("        if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
+            lines.push_back("    nflow_rhs(s, inp, out, t, &nf_x, &mut nf_ks, false, Some(&mut "
+                            "nf_g0));");
+            lines.push_back("    let mut nf_tc: f64 = t;");
+            lines.push_back("    let nf_tend: f64 = t + dt;");
+            lines.push_back("    let mut nf_h: f64 = dt;");
+            lines.push_back("    if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
+            lines.push_back("    let mut nf_rooted = false;");
+            lines.push_back("    let mut nf_rst = 0;");
+            lines.push_back("    let mut nf_rchk = true;");
+            lines.push_back("    while nf_tc < nf_tend - 1e-12 * dt {");
+            lines.push_back("        if nf_h > nf_tend - nf_tc { nf_h = nf_tend - nf_tc; }");
+            lines.push_back("        if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
             lines.push_back("        for _ in 0..50 {");
         } else {
-            lines.push_back("  __nflow_rhs(s, in, (ModelOutput*)0, t, __x, __ks, __g0);");
-            lines.push_back("  double __tc = t;");
-            lines.push_back("  const double __tend = t + dt;");
-            lines.push_back("  double __h = dt;");
-            lines.push_back("  if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
-            lines.push_back("  int __rooted = 0;");
-            lines.push_back("  int __rst = 0;");
-            lines.push_back("  int __rchk = 1;");
-            lines.push_back("  while (__tc < __tend - 1e-12 * dt) {");
-            lines.push_back("    if (__h > __tend - __tc) __h = __tend - __tc;");
-            lines.push_back("    if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
-            lines.push_back("    for (int __att = 0; __att < 50; ++__att) {");
+            lines.push_back("  nflow_rhs(s, in, (ModelOutput*)0, t, nf_x, nf_ks, nf_g0);");
+            lines.push_back("  double nf_tc = t;");
+            lines.push_back("  const double nf_tend = t + dt;");
+            lines.push_back("  double nf_h = dt;");
+            lines.push_back("  if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
+            lines.push_back("  int nf_rooted = 0;");
+            lines.push_back("  int nf_rst = 0;");
+            lines.push_back("  int nf_rchk = 1;");
+            lines.push_back("  while (nf_tc < nf_tend - 1e-12 * dt) {");
+            lines.push_back("    if (nf_h > nf_tend - nf_tc) nf_h = nf_tend - nf_tc;");
+            lines.push_back("    if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
+            lines.push_back("    for (int nf_att = 0; nf_att < 50; ++nf_att) {");
         }
         const std::string errExpr = emitDp45Stages(spec, ind3, gNull(ru));
         if (ru) {
-            lines.push_back("            let mut __acc: f64 = 0.0;");
-            lines.push_back("            for __i in 0.." + N + " {");
-            lines.push_back("                let __e = " + errExpr + ";");
-            lines.push_back("                let __sc = __atol + __rtol * "
-                            "libm::fmax(libm::fabs(__x[__i]), libm::fabs(__x5[__i]));");
-            lines.push_back("                let __r = if __sc > 0.0 { __e / __sc } else { 0.0 };");
-            lines.push_back("                __acc += __r * __r;");
+            lines.push_back("            let mut nf_acc: f64 = 0.0;");
+            lines.push_back("            for nf_i in 0.." + N + " {");
+            lines.push_back("                let nf_e = " + errExpr + ";");
+            lines.push_back("                let nf_sc = nf_atol + nf_rtol * "
+                            "libm::fmax(libm::fabs(nf_x[nf_i]), libm::fabs(nf_x5[nf_i]));");
+            lines.push_back("                let nf_r = if nf_sc > 0.0 { nf_e / nf_sc } else { 0.0 };");
+            lines.push_back("                nf_acc += nf_r * nf_r;");
             lines.push_back("            }");
-            lines.push_back("            let __err = libm::sqrt(__acc / (" + N + " as f64));");
-            lines.push_back("            if __err <= 1.0 || __h <= 1e-13 {");
-            lines.push_back("                if __rchk {");
+            lines.push_back("            let nf_err = libm::sqrt(nf_acc / (" + N + " as f64));");
+            lines.push_back("            if nf_err <= 1.0 || nf_h <= 1e-13 {");
+            lines.push_back("                if nf_rchk {");
             lines.push_back(
-                "                    for __i in 0.." + N + " { __xsv[__i] = __x[__i]; }");
-            lines.push_back("                    __nflow_rhs(s, inp, out, __tc + __h, &__x5, &mut "
-                            "__ks, false, Some(&mut __g1[..]));");
-            emitCrossingScanAndBisect(spec, "                    ", "__tc", "__h", "__xsv", "__xt",
-                "__tc = 0.5 * (__lo + __hi); __rst += 1; if __rst >= 1000 { __rchk = false; } "
-                "for __i in 0.."
+                "                    for nf_i in 0.." + N + " { nf_xsv[nf_i] = nf_x[nf_i]; }");
+            lines.push_back("                    nflow_rhs(s, inp, out, nf_tc + nf_h, &nf_x5, &mut "
+                            "nf_ks, false, Some(&mut nf_g1[..]));");
+            emitCrossingScanAndBisect(spec, "                    ", "nf_tc", "nf_h", "nf_xsv", "nf_xt",
+                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; } "
+                "for nf_i in 0.."
                     + N
-                    + " { __x[__i] = __xsv[__i]; } __nflow_rhs(s, inp, out, __tc, &__x, &mut "
-                      "__ks, false, Some(&mut __g0[..]));",
-                "__rooted = true; break;");
+                    + " { nf_x[nf_i] = nf_xsv[nf_i]; } nflow_rhs(s, inp, out, nf_tc, &nf_x, &mut "
+                      "nf_ks, false, Some(&mut nf_g0[..]));",
+                "nf_rooted = true; break;");
             lines.push_back(
-                "                    for __i in 0.." + NG + " { __g0[__i] = __g1[__i]; }");
+                "                    for nf_i in 0.." + NG + " { nf_g0[nf_i] = nf_g1[nf_i]; }");
             lines.push_back("                }");
-            lines.push_back("                __tc += __h;");
-            lines.push_back("                for __i in 0.." + N + " { __x[__i] = __x5[__i]; }");
-            lines.push_back("                let mut __grow = 0.9 * libm::pow(libm::fmax(__err, "
+            lines.push_back("                nf_tc += nf_h;");
+            lines.push_back("                for nf_i in 0.." + N + " { nf_x[nf_i] = nf_x5[nf_i]; }");
+            lines.push_back("                let mut nf_grow = 0.9 * libm::pow(libm::fmax(nf_err, "
                             "1e-10), -0.2);");
-            lines.push_back("                if __grow < 0.2 { __grow = 0.2; }");
-            lines.push_back("                if __grow > 5.0 { __grow = 5.0; }");
-            lines.push_back("                __h *= __grow;");
+            lines.push_back("                if nf_grow < 0.2 { nf_grow = 0.2; }");
+            lines.push_back("                if nf_grow > 5.0 { nf_grow = 5.0; }");
+            lines.push_back("                nf_h *= nf_grow;");
             lines.push_back("                break;");
             lines.push_back("            } else {");
-            lines.push_back("                let mut __fac = 0.9 * libm::pow(__err, -0.2);");
-            lines.push_back("                if __fac < 0.2 { __fac = 0.2; }");
-            lines.push_back("                if __fac > 1.0 { __fac = 1.0; }");
-            lines.push_back("                __h *= __fac;");
-            lines.push_back("                if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
+            lines.push_back("                let mut nf_fac = 0.9 * libm::pow(nf_err, -0.2);");
+            lines.push_back("                if nf_fac < 0.2 { nf_fac = 0.2; }");
+            lines.push_back("                if nf_fac > 1.0 { nf_fac = 1.0; }");
+            lines.push_back("                nf_h *= nf_fac;");
+            lines.push_back("                if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
             lines.push_back("            }");
             lines.push_back("        }");
-            lines.push_back("        if __rooted { __rooted = false; continue; }");
+            lines.push_back("        if nf_rooted { nf_rooted = false; continue; }");
             lines.push_back("    }");
         } else {
-            lines.push_back("      double __acc = 0.0;");
-            lines.push_back("      for (int __i = 0; __i < " + N + "; ++__i) {");
-            lines.push_back("        double __e = " + errExpr + ";");
-            lines.push_back("        double __xa = __x[__i] < 0.0 ? -__x[__i] : __x[__i];");
-            lines.push_back("        double __x5a = __x5[__i] < 0.0 ? -__x5[__i] : __x5[__i];");
+            lines.push_back("      double nf_acc = 0.0;");
+            lines.push_back("      for (int nf_i = 0; nf_i < " + N + "; ++nf_i) {");
+            lines.push_back("        double nf_e = " + errExpr + ";");
+            lines.push_back("        double nf_xa = nf_x[nf_i] < 0.0 ? -nf_x[nf_i] : nf_x[nf_i];");
+            lines.push_back("        double nf_x5a = nf_x5[nf_i] < 0.0 ? -nf_x5[nf_i] : nf_x5[nf_i];");
             lines.push_back(
-                "        double __sc = __atol + __rtol * (__xa > __x5a ? __xa : __x5a);");
-            lines.push_back("        double __r = (__sc > 0.0) ? __e / __sc : 0.0;");
-            lines.push_back("        __acc += __r * __r;");
+                "        double nf_sc = nf_atol + nf_rtol * (nf_xa > nf_x5a ? nf_xa : nf_x5a);");
+            lines.push_back("        double nf_r = (nf_sc > 0.0) ? nf_e / nf_sc : 0.0;");
+            lines.push_back("        nf_acc += nf_r * nf_r;");
             lines.push_back("      }");
-            lines.push_back("      double __err = sqrt(__acc / (double)" + N + ");");
-            lines.push_back("      if (__err <= 1.0 || __h <= 1e-13) {");
-            lines.push_back("        if (__rchk) {");
+            lines.push_back("      double nf_err = sqrt(nf_acc / (double)" + N + ");");
+            lines.push_back("      if (nf_err <= 1.0 || nf_h <= 1e-13) {");
+            lines.push_back("        if (nf_rchk) {");
             lines.push_back(
-                "          for (int __i = 0; __i < " + N + "; ++__i) __xsv[__i] = __x[__i];");
+                "          for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_xsv[nf_i] = nf_x[nf_i];");
             lines.push_back(
-                "          __nflow_rhs(s, in, (ModelOutput*)0, __tc + __h, __x5, __ks, __g1);");
-            emitCrossingScanAndBisect(spec, "          ", "__tc", "__h", "__xsv", "__xt",
-                "__tc = 0.5 * (__lo + __hi); if (++__rst >= 1000) __rchk = 0; "
-                "for (int __i = 0; __i < "
+                "          nflow_rhs(s, in, (ModelOutput*)0, nf_tc + nf_h, nf_x5, nf_ks, nf_g1);");
+            emitCrossingScanAndBisect(spec, "          ", "nf_tc", "nf_h", "nf_xsv", "nf_xt",
+                "nf_tc = 0.5 * (nf_lo + nf_hi); if (++nf_rst >= 1000) nf_rchk = 0; "
+                "for (int nf_i = 0; nf_i < "
                     + N
-                    + "; ++__i) __x[__i] = __xsv[__i]; __nflow_rhs(s, in, (ModelOutput*)0, __tc, "
-                      "__x, __ks, __g0);",
-                "__rooted = 1; break;");
+                    + "; ++nf_i) nf_x[nf_i] = nf_xsv[nf_i]; nflow_rhs(s, in, (ModelOutput*)0, nf_tc, "
+                      "nf_x, nf_ks, nf_g0);",
+                "nf_rooted = 1; break;");
             lines.push_back(
-                "          for (int __i = 0; __i < " + NG + "; ++__i) __g0[__i] = __g1[__i];");
+                "          for (int nf_i = 0; nf_i < " + NG + "; ++nf_i) nf_g0[nf_i] = nf_g1[nf_i];");
             lines.push_back("        }");
-            lines.push_back("        __tc += __h;");
+            lines.push_back("        nf_tc += nf_h;");
             lines.push_back(
-                "        for (int __i = 0; __i < " + N + "; ++__i) __x[__i] = __x5[__i];");
+                "        for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x[nf_i] = nf_x5[nf_i];");
             lines.push_back(
-                "        double __grow = 0.9 * pow(__err > 1e-10 ? __err : 1e-10, -0.2);");
-            lines.push_back("        if (__grow < 0.2) __grow = 0.2;");
-            lines.push_back("        if (__grow > 5.0) __grow = 5.0;");
-            lines.push_back("        __h *= __grow;");
+                "        double nf_grow = 0.9 * pow(nf_err > 1e-10 ? nf_err : 1e-10, -0.2);");
+            lines.push_back("        if (nf_grow < 0.2) nf_grow = 0.2;");
+            lines.push_back("        if (nf_grow > 5.0) nf_grow = 5.0;");
+            lines.push_back("        nf_h *= nf_grow;");
             lines.push_back("        break;");
             lines.push_back("      } else {");
-            lines.push_back("        double __fac = 0.9 * pow(__err, -0.2);");
-            lines.push_back("        if (__fac < 0.2) __fac = 0.2;");
-            lines.push_back("        if (__fac > 1.0) __fac = 1.0;");
-            lines.push_back("        __h *= __fac;");
-            lines.push_back("        if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
+            lines.push_back("        double nf_fac = 0.9 * pow(nf_err, -0.2);");
+            lines.push_back("        if (nf_fac < 0.2) nf_fac = 0.2;");
+            lines.push_back("        if (nf_fac > 1.0) nf_fac = 1.0;");
+            lines.push_back("        nf_h *= nf_fac;");
+            lines.push_back("        if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
             lines.push_back("      }");
             lines.push_back("    }");
-            lines.push_back("    if (__rooted) { __rooted = 0; continue; }");
+            lines.push_back("    if (nf_rooted) { nf_rooted = 0; continue; }");
             lines.push_back("  }");
         }
-        spec.emitSeam(Nelson::NFlow::Rk4Scatter, "__x");
+        spec.emitSeam(Nelson::NFlow::Rk4Scatter, "nf_x");
         spec.emitSeam(Nelson::NFlow::Rk4Clamp, "");
         lines.push_back("}");
     }
@@ -543,41 +540,40 @@ emitRk4Stepper(const SolverEmitSpec& spec)
     const std::string& N = spec.stateCount;
     const std::string ind = ru ? "    " : "  ";
     if (ru) {
-        lines.push_back("#[allow(unused_variables, unused_assignments, unused_mut, "
-                        "clippy::needless_range_loop)]");
+        lines.push_back("#[allow(clippy::needless_range_loop)]");
         lines.push_back("pub fn nflow_step(s: &mut ModelState,");
         lines.push_back("                  inp: &ModelInput,");
         lines.push_back("                  out: &mut ModelOutput,");
         lines.push_back("                  t: f64) {");
         lines.push_back("    let dt: f64 = " + spec.dtLiteral + ";");
-        for (const char* v : { "__x0", "__k1", "__k2", "__k3", "__k4", "__xs", "__x1" }) {
+        for (const char* v : { "nf_x0", "nf_k1", "nf_k2", "nf_k3", "nf_k4", "nf_xs", "nf_x1" }) {
             lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
         }
     } else {
         lines.push_back("void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* "
                         "out, double t) {");
         lines.push_back("  const double dt = " + spec.dtLiteral + ";");
-        lines.push_back("  double __x0[" + N + "], __k1[" + N + "], __k2[" + N + "], __k3[" + N
-            + "], __k4[" + N + "], __xs[" + N + "], __x1[" + N + "];");
+        lines.push_back("  double nf_x0[" + N + "], nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N
+            + "], nf_k4[" + N + "], nf_xs[" + N + "], nf_x1[" + N + "];");
     }
-    spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
-    lines.push_back(rhsCall(ru, ind, "t", "__x0", "__k1", true));
+    spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
+    lines.push_back(rhsCall(ru, ind, "t", "nf_x0", "nf_k1", true));
     if (spec.resetReseed) {
         // A reset fired by the reporting evaluation re-seeded its members' state
         // fields. Pick those up and evaluate the first stage again, so the step starts
         // from the new initial value and not from the discarded one.
-        spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
-        lines.push_back(rhsCall(ru, ind, "t", "__x0", "__k1", false));
+        spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
+        lines.push_back(rhsCall(ru, ind, "t", "nf_x0", "nf_k1", false));
     }
-    lines.push_back(forAssign(ru, ind, N, "__xs", "__x0[__i] + 0.5 * dt * __k1[__i]"));
-    lines.push_back(rhsCall(ru, ind, "t + 0.5 * dt", "__xs", "__k2", false));
-    lines.push_back(forAssign(ru, ind, N, "__xs", "__x0[__i] + 0.5 * dt * __k2[__i]"));
-    lines.push_back(rhsCall(ru, ind, "t + 0.5 * dt", "__xs", "__k3", false));
-    lines.push_back(forAssign(ru, ind, N, "__xs", "__x0[__i] + dt * __k3[__i]"));
-    lines.push_back(rhsCall(ru, ind, "t + dt", "__xs", "__k4", false));
-    lines.push_back(forAssign(ru, ind, N, "__x1",
-        "__x0[__i] + (dt / 6.0) * (__k1[__i] + 2.0 * __k2[__i] + 2.0 * __k3[__i] + __k4[__i])"));
-    spec.emitSeam(Nelson::NFlow::Rk4Scatter, "__x1");
+    lines.push_back(forAssign(ru, ind, N, "nf_xs", "nf_x0[nf_i] + 0.5 * dt * nf_k1[nf_i]"));
+    lines.push_back(rhsCall(ru, ind, "t + 0.5 * dt", "nf_xs", "nf_k2", false));
+    lines.push_back(forAssign(ru, ind, N, "nf_xs", "nf_x0[nf_i] + 0.5 * dt * nf_k2[nf_i]"));
+    lines.push_back(rhsCall(ru, ind, "t + 0.5 * dt", "nf_xs", "nf_k3", false));
+    lines.push_back(forAssign(ru, ind, N, "nf_xs", "nf_x0[nf_i] + dt * nf_k3[nf_i]"));
+    lines.push_back(rhsCall(ru, ind, "t + dt", "nf_xs", "nf_k4", false));
+    lines.push_back(forAssign(ru, ind, N, "nf_x1",
+        "nf_x0[nf_i] + (dt / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] + 2.0 * nf_k3[nf_i] + nf_k4[nf_i])"));
+    spec.emitSeam(Nelson::NFlow::Rk4Scatter, "nf_x1");
     // Post-step clamp for bounded states (no-op for the others).
     spec.emitSeam(Nelson::NFlow::Rk4Clamp, "");
     lines.push_back("}");
@@ -598,114 +594,113 @@ emitDp45Stepper(const SolverEmitSpec& spec)
     const std::string ind3 = ru ? "            " : "      ";
     const std::string ind4 = ru ? "                " : "        ";
     if (ru) {
-        lines.push_back("#[allow(unused_variables, unused_assignments, unused_mut, "
-                        "clippy::needless_range_loop)]");
+        lines.push_back("#[allow(clippy::needless_range_loop)]");
         lines.push_back("pub fn nflow_step(s: &mut ModelState,");
         lines.push_back("                  inp: &ModelInput,");
         lines.push_back("                  out: &mut ModelOutput,");
         lines.push_back("                  t: f64) {");
         lines.push_back("    let dt: f64 = " + spec.dtLiteral + ";");
-        lines.push_back("    let __rtol: f64 = " + spec.rtolLiteral + ";");
-        lines.push_back("    let __atol: f64 = " + spec.atolLiteral + ";");
-        lines.push_back("    let __hmax: f64 = " + spec.hmaxLiteral + ";");
-        for (const char* v : { "__x0", "__x", "__xt", "__x5", "__k1", "__k2", "__k3", "__k4",
-                 "__k5", "__k6", "__k7" }) {
+        lines.push_back("    let nf_rtol: f64 = " + spec.rtolLiteral + ";");
+        lines.push_back("    let nf_atol: f64 = " + spec.atolLiteral + ";");
+        lines.push_back("    let nf_hmax: f64 = " + spec.hmaxLiteral + ";");
+        for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_k1", "nf_k2", "nf_k3", "nf_k4",
+                 "nf_k5", "nf_k6", "nf_k7" }) {
             lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
         }
     } else {
         lines.push_back("void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* "
                         "out, double t) {");
         lines.push_back("  const double dt = " + spec.dtLiteral + ";");
-        lines.push_back("  const double __rtol = " + spec.rtolLiteral + ";");
-        lines.push_back("  const double __atol = " + spec.atolLiteral + ";");
-        lines.push_back("  const double __hmax = " + spec.hmaxLiteral + ";");
+        lines.push_back("  const double nf_rtol = " + spec.rtolLiteral + ";");
+        lines.push_back("  const double nf_atol = " + spec.atolLiteral + ";");
+        lines.push_back("  const double nf_hmax = " + spec.hmaxLiteral + ";");
         lines.push_back(
-            "  double __x0[" + N + "], __x[" + N + "], __xt[" + N + "], __x5[" + N + "];");
-        lines.push_back("  double __k1[" + N + "], __k2[" + N + "], __k3[" + N + "], __k4[" + N
-            + "], __k5[" + N + "], __k6[" + N + "], __k7[" + N + "];");
+            "  double nf_x0[" + N + "], nf_x[" + N + "], nf_xt[" + N + "], nf_x5[" + N + "];");
+        lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4[" + N
+            + "], nf_k5[" + N + "], nf_k6[" + N + "], nf_k7[" + N + "];");
     }
-    spec.emitSeam(Nelson::NFlow::Rk4Gather, "__x0");
+    spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
     // Report the pre-step output at t (report-then-advance, like ode4).
-    lines.push_back(rhsCall(ru, ind, "t", "__x0", "__k1", true));
-    lines.push_back(forAssign(ru, ind, N, "__x", "__x0[__i]"));
+    lines.push_back(rhsCall(ru, ind, "t", "nf_x0", "nf_k1", true));
+    lines.push_back(forAssign(ru, ind, N, "nf_x", "nf_x0[nf_i]"));
     if (ru) {
-        lines.push_back("    let mut __tc: f64 = t;");
-        lines.push_back("    let __tend: f64 = t + dt;");
-        lines.push_back("    let mut __h: f64 = dt;");
-        lines.push_back("    if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
-        lines.push_back("    while __tc < __tend - 1e-12 * dt {");
-        lines.push_back("        if __h > __tend - __tc { __h = __tend - __tc; }");
-        lines.push_back("        if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
+        lines.push_back("    let mut nf_tc: f64 = t;");
+        lines.push_back("    let nf_tend: f64 = t + dt;");
+        lines.push_back("    let mut nf_h: f64 = dt;");
+        lines.push_back("    if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
+        lines.push_back("    while nf_tc < nf_tend - 1e-12 * dt {");
+        lines.push_back("        if nf_h > nf_tend - nf_tc { nf_h = nf_tend - nf_tc; }");
+        lines.push_back("        if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
         lines.push_back("        for _ in 0..50 {");
     } else {
-        lines.push_back("  double __tc = t;");
-        lines.push_back("  const double __tend = t + dt;");
-        lines.push_back("  double __h = dt;");
-        lines.push_back("  if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
-        lines.push_back("  while (__tc < __tend - 1e-12 * dt) {");
-        lines.push_back("    if (__h > __tend - __tc) __h = __tend - __tc;");
-        lines.push_back("    if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
-        lines.push_back("    for (int __att = 0; __att < 50; ++__att) {");
+        lines.push_back("  double nf_tc = t;");
+        lines.push_back("  const double nf_tend = t + dt;");
+        lines.push_back("  double nf_h = dt;");
+        lines.push_back("  if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
+        lines.push_back("  while (nf_tc < nf_tend - 1e-12 * dt) {");
+        lines.push_back("    if (nf_h > nf_tend - nf_tc) nf_h = nf_tend - nf_tc;");
+        lines.push_back("    if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
+        lines.push_back("    for (int nf_att = 0; nf_att < 50; ++nf_att) {");
     }
     const std::string errExpr = emitDp45Stages(spec, ind3, std::string());
     if (ru) {
-        lines.push_back("            let mut __acc: f64 = 0.0;");
-        lines.push_back("            for __i in 0.." + N + " {");
-        lines.push_back("                let __e = " + errExpr + ";");
-        lines.push_back("                let __sc = __atol + __rtol * "
-                        "libm::fmax(libm::fabs(__x[__i]), libm::fabs(__x5[__i]));");
-        lines.push_back("                let __r = if __sc > 0.0 { __e / __sc } else { 0.0 };");
-        lines.push_back("                __acc += __r * __r;");
+        lines.push_back("            let mut nf_acc: f64 = 0.0;");
+        lines.push_back("            for nf_i in 0.." + N + " {");
+        lines.push_back("                let nf_e = " + errExpr + ";");
+        lines.push_back("                let nf_sc = nf_atol + nf_rtol * "
+                        "libm::fmax(libm::fabs(nf_x[nf_i]), libm::fabs(nf_x5[nf_i]));");
+        lines.push_back("                let nf_r = if nf_sc > 0.0 { nf_e / nf_sc } else { 0.0 };");
+        lines.push_back("                nf_acc += nf_r * nf_r;");
         lines.push_back("            }");
-        lines.push_back("            let __err = libm::sqrt(__acc / (" + N + " as f64));");
-        lines.push_back("            if __err <= 1.0 || __h <= 1e-13 {");
-        lines.push_back("                __tc += __h;");
-        lines.push_back("                for __i in 0.." + N + " { __x[__i] = __x5[__i]; }");
-        lines.push_back("                let mut __grow = 0.9 * libm::pow(libm::fmax(__err, "
+        lines.push_back("            let nf_err = libm::sqrt(nf_acc / (" + N + " as f64));");
+        lines.push_back("            if nf_err <= 1.0 || nf_h <= 1e-13 {");
+        lines.push_back("                nf_tc += nf_h;");
+        lines.push_back("                for nf_i in 0.." + N + " { nf_x[nf_i] = nf_x5[nf_i]; }");
+        lines.push_back("                let mut nf_grow = 0.9 * libm::pow(libm::fmax(nf_err, "
                         "1e-10), -0.2);");
-        lines.push_back("                if __grow < 0.2 { __grow = 0.2; }");
-        lines.push_back("                if __grow > 5.0 { __grow = 5.0; }");
-        lines.push_back("                __h *= __grow;");
+        lines.push_back("                if nf_grow < 0.2 { nf_grow = 0.2; }");
+        lines.push_back("                if nf_grow > 5.0 { nf_grow = 5.0; }");
+        lines.push_back("                nf_h *= nf_grow;");
         lines.push_back("                break;");
         lines.push_back("            } else {");
-        lines.push_back("                let mut __fac = 0.9 * libm::pow(__err, -0.2);");
-        lines.push_back("                if __fac < 0.2 { __fac = 0.2; }");
-        lines.push_back("                if __fac > 1.0 { __fac = 1.0; }");
-        lines.push_back("                __h *= __fac;");
-        lines.push_back("                if __hmax > 0.0 && __h > __hmax { __h = __hmax; }");
+        lines.push_back("                let mut nf_fac = 0.9 * libm::pow(nf_err, -0.2);");
+        lines.push_back("                if nf_fac < 0.2 { nf_fac = 0.2; }");
+        lines.push_back("                if nf_fac > 1.0 { nf_fac = 1.0; }");
+        lines.push_back("                nf_h *= nf_fac;");
+        lines.push_back("                if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
         lines.push_back("            }");
         lines.push_back("        }");
         lines.push_back("    }");
     } else {
-        lines.push_back("      double __acc = 0.0;");
-        lines.push_back("      for (int __i = 0; __i < " + N + "; ++__i) {");
-        lines.push_back("        double __e = " + errExpr + ";");
-        lines.push_back("        double __xa = __x[__i] < 0.0 ? -__x[__i] : __x[__i];");
-        lines.push_back("        double __x5a = __x5[__i] < 0.0 ? -__x5[__i] : __x5[__i];");
-        lines.push_back("        double __sc = __atol + __rtol * (__xa > __x5a ? __xa : __x5a);");
-        lines.push_back("        double __r = (__sc > 0.0) ? __e / __sc : 0.0;");
-        lines.push_back("        __acc += __r * __r;");
+        lines.push_back("      double nf_acc = 0.0;");
+        lines.push_back("      for (int nf_i = 0; nf_i < " + N + "; ++nf_i) {");
+        lines.push_back("        double nf_e = " + errExpr + ";");
+        lines.push_back("        double nf_xa = nf_x[nf_i] < 0.0 ? -nf_x[nf_i] : nf_x[nf_i];");
+        lines.push_back("        double nf_x5a = nf_x5[nf_i] < 0.0 ? -nf_x5[nf_i] : nf_x5[nf_i];");
+        lines.push_back("        double nf_sc = nf_atol + nf_rtol * (nf_xa > nf_x5a ? nf_xa : nf_x5a);");
+        lines.push_back("        double nf_r = (nf_sc > 0.0) ? nf_e / nf_sc : 0.0;");
+        lines.push_back("        nf_acc += nf_r * nf_r;");
         lines.push_back("      }");
-        lines.push_back("      double __err = sqrt(__acc / (double)" + N + ");");
-        lines.push_back("      if (__err <= 1.0 || __h <= 1e-13) {");
-        lines.push_back("        __tc += __h;");
-        lines.push_back("        for (int __i = 0; __i < " + N + "; ++__i) __x[__i] = __x5[__i];");
-        lines.push_back("        double __grow = 0.9 * pow(__err > 1e-10 ? __err : 1e-10, -0.2);");
-        lines.push_back("        if (__grow < 0.2) __grow = 0.2;");
-        lines.push_back("        if (__grow > 5.0) __grow = 5.0;");
-        lines.push_back("        __h *= __grow;");
+        lines.push_back("      double nf_err = sqrt(nf_acc / (double)" + N + ");");
+        lines.push_back("      if (nf_err <= 1.0 || nf_h <= 1e-13) {");
+        lines.push_back("        nf_tc += nf_h;");
+        lines.push_back("        for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x[nf_i] = nf_x5[nf_i];");
+        lines.push_back("        double nf_grow = 0.9 * pow(nf_err > 1e-10 ? nf_err : 1e-10, -0.2);");
+        lines.push_back("        if (nf_grow < 0.2) nf_grow = 0.2;");
+        lines.push_back("        if (nf_grow > 5.0) nf_grow = 5.0;");
+        lines.push_back("        nf_h *= nf_grow;");
         lines.push_back("        break;");
         lines.push_back("      } else {");
-        lines.push_back("        double __fac = 0.9 * pow(__err, -0.2);");
-        lines.push_back("        if (__fac < 0.2) __fac = 0.2;");
-        lines.push_back("        if (__fac > 1.0) __fac = 1.0;");
-        lines.push_back("        __h *= __fac;");
-        lines.push_back("        if (__hmax > 0.0 && __h > __hmax) __h = __hmax;");
+        lines.push_back("        double nf_fac = 0.9 * pow(nf_err, -0.2);");
+        lines.push_back("        if (nf_fac < 0.2) nf_fac = 0.2;");
+        lines.push_back("        if (nf_fac > 1.0) nf_fac = 1.0;");
+        lines.push_back("        nf_h *= nf_fac;");
+        lines.push_back("        if (nf_hmax > 0.0 && nf_h > nf_hmax) nf_h = nf_hmax;");
         lines.push_back("      }");
         lines.push_back("    }");
         lines.push_back("  }");
     }
-    spec.emitSeam(Nelson::NFlow::Rk4Scatter, "__x");
+    spec.emitSeam(Nelson::NFlow::Rk4Scatter, "nf_x");
     // Post-step clamp for bounded states (no-op for the others).
     spec.emitSeam(Nelson::NFlow::Rk4Clamp, "");
     lines.push_back("}");

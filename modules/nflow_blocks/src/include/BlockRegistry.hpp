@@ -169,7 +169,7 @@ namespace NFlow {
         // Zero-crossing lowering: number of scalar surfaces this
         // block contributes under the RK4/DP45 seam (0 / unset = none). A
         // block with surfaces emits them via emitRk4(Rk4Crossing) into the
-        // packed __g array at a.crossingOffset; the generated stepper bisects
+        // packed nf_g array at a.crossingOffset; the generated stepper bisects
         // to the crossing instant on a sign change (fixed RK4 trial steps,
         // mirroring the simulator's localizeRoot).
         std::function<int(const BlockCodegenArgs&)> crossingCount;

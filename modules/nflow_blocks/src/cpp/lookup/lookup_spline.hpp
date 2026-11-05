@@ -511,13 +511,13 @@ namespace NFlow {
                     }
                 }
             }
-            const std::string tv = "__sptb_" + id;
-            const std::string icv = "__spic_" + id;
+            const std::string tv = "nf_sptb_" + id;
+            const std::string icv = "nf_spic_" + id;
             arrLine(tv, tbl);
             arrLine(icv, ic);
             for (int k = 0; k < N; ++k) {
-                arrLine("__spbp_" + id + "_" + std::to_string(k), bps[k]);
-                a.line((rust ? "let __spu_" : "double __spu_") + id + "_" + std::to_string(k)
+                arrLine("nf_spbp_" + id + "_" + std::to_string(k), bps[k]);
+                a.line((rust ? "let nf_spu_" : "double nf_spu_") + id + "_" + std::to_string(k)
                     + " = " + a.in[(size_t)k] + ";");
             }
             int wkMax = 4;
@@ -529,25 +529,25 @@ namespace NFlow {
             }
             const std::string S1 = std::to_string(nCols);
             const std::string n0s = std::to_string(n0);
-            const std::string bp0 = "__spbp_" + id + "_0";
+            const std::string bp0 = "nf_spbp_" + id + "_0";
             if (rust) {
-                a.line("let mut __spv_" + id + " = [0.0_f64; " + S1 + "];");
-                a.line("let mut __spo_" + id + " = [0.0_f64; " + std::to_string(ocMax) + "];");
-                a.line("let mut __spw_" + id + " = [0.0_f64; " + std::to_string(wkMax) + "];");
-                a.line("for __c in 0.." + S1 + " {");
-                a.line("    let __t = nflow_spl_val(&" + bp0 + ", &" + tv + "[__c * " + n0s
-                    + "..__c * " + n0s + " + " + n0s + "], &" + icv + "[__c * " + n0s + "..__c * "
-                    + n0s + " + " + n0s + "], __spu_" + id + "_0, " + akimaLit + ", " + xmodeLit
+                a.line("let mut nf_spv_" + id + " = [0.0_f64; " + S1 + "];");
+                a.line("let mut nf_spo_" + id + " = [0.0_f64; " + std::to_string(ocMax) + "];");
+                a.line("let mut nf_spw_" + id + " = [0.0_f64; " + std::to_string(wkMax) + "];");
+                a.line("for nf_c in 0.." + S1 + " {");
+                a.line("    let nf_t = nflow_spl_val(&" + bp0 + ", &" + tv + "[nf_c * " + n0s
+                    + "..nf_c * " + n0s + " + " + n0s + "], &" + icv + "[nf_c * " + n0s + "..nf_c * "
+                    + n0s + " + " + n0s + "], nf_spu_" + id + "_0, " + akimaLit + ", " + xmodeLit
                     + ");");
-                a.line("    __spv_" + id + "[__c] = __t;");
+                a.line("    nf_spv_" + id + "[nf_c] = nf_t;");
                 a.line("}");
             } else {
-                a.line("double __spv_" + id + "[" + S1 + "];");
-                a.line("double __spo_" + id + "[" + std::to_string(ocMax) + "];");
-                a.line("double __spw_" + id + "[" + std::to_string(wkMax) + "];");
-                a.line("for (int __c = 0; __c < " + S1 + "; __c++) {");
-                a.line("  __spv_" + id + "[__c] = nflow_spl_val(" + bp0 + ", &" + tv + "[__c * "
-                    + n0s + "], &" + icv + "[__c * " + n0s + "], " + n0s + ", __spu_" + id + "_0, "
+                a.line("double nf_spv_" + id + "[" + S1 + "];");
+                a.line("double nf_spo_" + id + "[" + std::to_string(ocMax) + "];");
+                a.line("double nf_spw_" + id + "[" + std::to_string(wkMax) + "];");
+                a.line("for (int nf_c = 0; nf_c < " + S1 + "; nf_c++) {");
+                a.line("  nf_spv_" + id + "[nf_c] = nflow_spl_val(" + bp0 + ", &" + tv + "[nf_c * "
+                    + n0s + "], &" + icv + "[nf_c * " + n0s + "], " + n0s + ", nf_spu_" + id + "_0, "
                     + akimaLit + ", " + xmodeLit + ");");
                 a.line("}");
             }
@@ -557,29 +557,29 @@ namespace NFlow {
                 S /= nk;
                 const std::string Ss = std::to_string(S);
                 const std::string nks = std::to_string(nk);
-                const std::string bpk = "__spbp_" + id + "_" + std::to_string(k);
-                const std::string uk = "__spu_" + id + "_" + std::to_string(k);
+                const std::string bpk = "nf_spbp_" + id + "_" + std::to_string(k);
+                const std::string uk = "nf_spu_" + id + "_" + std::to_string(k);
                 if (rust) {
-                    a.line("for __c in 0.." + Ss + " {");
-                    a.line("    nflow_spl_solve(&" + bpk + ", &__spv_" + id + "[__c * " + nks
-                        + "..__c * " + nks + " + " + nks + "], &mut __spo_" + id + ", &mut __spw_"
+                    a.line("for nf_c in 0.." + Ss + " {");
+                    a.line("    nflow_spl_solve(&" + bpk + ", &nf_spv_" + id + "[nf_c * " + nks
+                        + "..nf_c * " + nks + " + " + nks + "], &mut nf_spo_" + id + ", &mut nf_spw_"
                         + id + ", " + akimaLit + ");");
-                    a.line("    let __t = nflow_spl_val(&" + bpk + ", &__spv_" + id + "[__c * "
-                        + nks + "..__c * " + nks + " + " + nks + "], &__spo_" + id + "[0.." + nks
+                    a.line("    let nf_t = nflow_spl_val(&" + bpk + ", &nf_spv_" + id + "[nf_c * "
+                        + nks + "..nf_c * " + nks + " + " + nks + "], &nf_spo_" + id + "[0.." + nks
                         + "], " + uk + ", " + akimaLit + ", " + xmodeLit + ");");
-                    a.line("    __spv_" + id + "[__c] = __t;");
+                    a.line("    nf_spv_" + id + "[nf_c] = nf_t;");
                     a.line("}");
                 } else {
-                    a.line("for (int __c = 0; __c < " + Ss + "; __c++) {");
-                    a.line("  nflow_spl_solve(" + bpk + ", &__spv_" + id + "[__c * " + nks + "], "
-                        + nks + ", __spo_" + id + ", __spw_" + id + ", " + akimaLit + ");");
-                    a.line("  __spv_" + id + "[__c] = nflow_spl_val(" + bpk + ", &__spv_" + id
-                        + "[__c * " + nks + "], __spo_" + id + ", " + nks + ", " + uk + ", "
+                    a.line("for (int nf_c = 0; nf_c < " + Ss + "; nf_c++) {");
+                    a.line("  nflow_spl_solve(" + bpk + ", &nf_spv_" + id + "[nf_c * " + nks + "], "
+                        + nks + ", nf_spo_" + id + ", nf_spw_" + id + ", " + akimaLit + ");");
+                    a.line("  nf_spv_" + id + "[nf_c] = nflow_spl_val(" + bpk + ", &nf_spv_" + id
+                        + "[nf_c * " + nks + "], nf_spo_" + id + ", " + nks + ", " + uk + ", "
                         + akimaLit + ", " + xmodeLit + ");");
                     a.line("}");
                 }
             }
-            a.line("out_" + id + " = __spv_" + id + "[0];");
+            a.line("out_" + id + " = nf_spv_" + id + "[0];");
         }
         //=============================================================================
     } // namespace lookupspline

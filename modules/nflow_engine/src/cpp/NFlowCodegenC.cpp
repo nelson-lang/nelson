@@ -951,9 +951,9 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
         outColumns.push_back({ name, outputFieldType(name) });
     }
 
-    lines.push_back("static const int INPUT_COUNT = " + std::to_string(inColumns.size()) + ";");
-    lines.push_back("static const int OUTPUT_COUNT = " + std::to_string(outColumns.size()) + ";");
-    lines.push_back("static const char* input_names[] = {");
+    lines.push_back("const int INPUT_COUNT = " + std::to_string(inColumns.size()) + ";");
+    lines.push_back("const int OUTPUT_COUNT = " + std::to_string(outColumns.size()) + ";");
+    lines.push_back("const char* input_names[] = {");
     for (const auto& col : inColumns) {
         lines.push_back("  \"" + col.label + "\",");
     }
@@ -961,7 +961,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
         lines.push_back("  \"_unused\",");
     }
     lines.push_back("};");
-    lines.push_back("static const char* output_names[] = {");
+    lines.push_back("const char* output_names[] = {");
     for (const auto& col : outColumns) {
         lines.push_back("  \"" + col.label + "\",");
     }
@@ -1014,7 +1014,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
         solverName = diagram["solver"].get<std::string>();
     }
     // ode45 selects the embedded adaptive Dormand-Prince 5(4) stepper instead of
-    // the fixed 4-stage RK4; both share the same __nflow_rhs and packed state.
+    // the fixed 4-stage RK4; both share the same nflow_rhs and packed state.
     const bool isOde45 = (solverName == "ode45");
     // Adaptive tolerances / step ceiling, mirroring DormandPrinceBackend's
     // defaults (relTol 1e-6, absTol 1e-8, maxStep unbounded). Read from the same
@@ -1359,7 +1359,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                     return a;
                 };
                 // RK4 rhs() body: a continuous block emits its output from the
-                // scattered global state and writes its derivative into __xdot,
+                // scattered global state and writes its derivative into nf_xdot,
                 // instead of the fused forward-Euler update of its normal
                 // emitStep.
                 if (rhsMode && ctpl.emitRk4) {
@@ -1371,7 +1371,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                         a.rk4Op = Nelson::NFlow::Rk4Output;
                         ctpl.emitRk4(a);
                         a.rk4Op = Nelson::NFlow::Rk4Deriv;
-                        a.rk4Arr = "__xdot";
+                        a.rk4Arr = "nf_xdot";
                         ctpl.emitRk4(a);
                         return;
                     }
@@ -1427,9 +1427,9 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                     const std::string lv = "s->nfgl_" + bid;
                     const std::string live = "((" + tins[0] + " > 0.0) ? 1.0 : 0.0)";
                     // out_<id> is the WIDENED gate (see levelGates).
-                    lines.push_back("  const double __gp_" + bid + " = " + lv + ";");
+                    lines.push_back("  const double nf_gp_" + bid + " = " + lv + ";");
                     lines.push_back("  if (out) { " + lv + " = " + live + "; }");
-                    lines.push_back("  out_" + bid + " = (" + lv + " != 0.0 || __gp_" + bid
+                    lines.push_back("  out_" + bid + " = (" + lv + " != 0.0 || nf_gp_" + bid
                         + " != 0.0) ? 1.0 : 0.0;");
                     return;
                 }
@@ -1680,7 +1680,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                         lines.push_back("  if (!(" + cond + ")) {");
                         for (int i = 0; i < rs.width; ++i) {
                             lines.push_back(
-                                "    __xdot[" + std::to_string(rs.offset + i) + "] = 0.0;");
+                                "    nf_xdot[" + std::to_string(rs.offset + i) + "] = 0.0;");
                         }
                         lines.push_back("  }");
                     }
@@ -1724,7 +1724,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
             "void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {");
         lines.push_back("  const double dt = " + ns(dtVal) + ";");
         if (hasMultiRate) {
-            lines.push_back("  const long __nflow_step = (long)(t / dt + 0.5);");
+            lines.push_back("  const long nf_tick = (long)(t / dt + 0.5);");
         }
         emitOutDecls();
         lines.push_back("");
@@ -1756,24 +1756,24 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
             ctpl.emitRk4(a);
         };
         // Zero-crossing surfaces: packed offsets in diagram order.
-        // The rhs gains a trailing nullable __g and writes every surface in its tail.
+        // The rhs gains a trailing nullable nf_g and writes every surface in its tail.
         const CodegenCrossScan crossScan = buildCodegenCrossScan(blocks, "c", variables);
         const auto& crossingList = crossScan.list;
         const auto& crossParams = crossScan.params;
         const int crossingTotal = crossScan.total;
         const bool hasCross = crossingTotal > 0;
-        // Pure right-hand side: given the packed continuous state __x and time t,
-        // scatter __x into each block's state, evaluate the graph (each continuous
-        // block emits its output plus its derivative into __xdot). ModelOutput is
+        // Pure right-hand side: given the packed continuous state nf_x and time t,
+        // scatter nf_x into each block's state, evaluate the graph (each continuous
+        // block emits its output plus its derivative into nf_xdot). ModelOutput is
         // written only when out != NULL (the reporting stage), so the RK
         // sub-stages skip it.
-        lines.push_back(std::string("static void __nflow_rhs(ModelState* s, const ModelInput* "
-                                    "in, ModelOutput* out, double t, const double* __x, double* "
-                                    "__xdot")
-            + (hasCross ? ", double* __g" : "") + ") {");
-        lines.push_back("  const double dt = " + ns(dtVal) + "; (void)dt;");
+        lines.push_back(std::string("static void nflow_rhs(ModelState* s, const ModelInput* "
+                                    "in, ModelOutput* out, double t, const double* nf_x, double* "
+                                    "nf_xdot")
+            + (hasCross ? ", double* nf_g" : "") + ") {");
+        lines.push_back("  const double dt = " + ns(dtVal) + ";");
         for (const auto& rs : rk4Layout) {
-            rk4EmitOp(rs, Nelson::NFlow::Rk4Scatter, "__x");
+            rk4EmitOp(rs, Nelson::NFlow::Rk4Scatter, "nf_x");
         }
         emitOutDecls();
         lines.push_back("");
@@ -1781,14 +1781,14 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
         emitBlockBody(true);
         if (hasCross) {
             // Surface writes at the current scattered state (sim ZERO_CROSSING).
-            lines.push_back("  if (__g) {");
+            lines.push_back("  if (nf_g) {");
             for (size_t ci = 0; ci < crossingList.size(); ++ci) {
                 const CodegenCrossScan::Entry& ce = crossingList[ci];
                 if (!isOde45 && ce.type == "step") {
                     // Time-only surface, fixed-step path: held constant so the
                     // discontinuity is crossed rather than localised, as in the
                     // simulator's solver loop.
-                    lines.push_back("    __g[" + std::to_string(ce.offset) + "] = -1.0;");
+                    lines.push_back("    nf_g[" + std::to_string(ce.offset) + "] = -1.0;");
                     continue;
                 }
                 Nelson::NFlow::BlockCodegenTemplate xtpl;
@@ -1813,7 +1813,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                 a.sanitize = [](const std::string& s) { return sanitizeId(s); };
                 a.line = [&lines](const std::string& l) { lines.push_back("    " + l); };
                 a.rk4Op = Nelson::NFlow::Rk4Crossing;
-                a.rk4Arr = "__g";
+                a.rk4Arr = "nf_g";
                 a.crossingOffset = ce.offset;
                 xtpl.emitRk4(a);
             }
@@ -1883,6 +1883,14 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
         }
         main_lines = nflow::emitCMainLines(ms);
     }
+
+    // main.c includes model.c, so a static helper only main() calls is used.
+    std::string mainText;
+    for (const auto& l : main_lines) {
+        mainText += l + "\n";
+    }
+    pruneDeadStepCode(model_lines, false);
+    pruneUnusedHelpers(model_lines, false, mainText);
 
     std::string modelSrc;
     for (size_t i = 0; i < model_lines.size(); ++i) {

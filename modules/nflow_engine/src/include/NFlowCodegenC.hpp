@@ -90,8 +90,9 @@ makeAlgebraicLoopDiagnostic(const std::vector<std::string>& cycleIds)
         }
         list += cycleIds[i];
     }
-    d.message = "cannot solve the algebraic loop through or fed by blocks '" + list + "'"
-        + (cycleIds.size() > shown ? ", ..." : "")
+    // `detail` is the quoted block list alone, for the translated template.
+    d.detail = "'" + list + "'" + (cycleIds.size() > shown ? ", ..." : "");
+    d.message = "cannot solve the algebraic loop through or fed by blocks " + d.detail
         + ": the simulator iterates it to a fixed point but generated code is straight-line. "
           "Break the loop with a unitDelay or memory block, or simulate this model instead.";
     return d;

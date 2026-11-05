@@ -38,7 +38,7 @@ nflow_codegen_check_numeric(d2, stem, 'C', {'y'}, {'nfcg_lag'}, 5e-6, 1e-9);
 % The generated model must actually be on the RK4 path (not the Euler
 % fallback): its source carries the shared rhs.
 src = fileread([tempdir(), stem, '/model.c']);
-assert_istrue(~isempty(strfind(src, '__nflow_rhs')));
+assert_istrue(~isempty(strfind(src, 'nflow_rhs')));
 if __nflow_codegen_toolchain__('rust')
   nflow_codegen_check_numeric(d2, stem, 'rust', {'y'}, {'nfcg_lag'}, 5e-6, 1e-9);
 end

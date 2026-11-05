@@ -193,7 +193,7 @@ makeSwitchCaseCodegen(Nelson::NFlow::CodegenLang L)
         const int nCases = showDefault ? std::max(0, nOut - 1) : nOut;
         const std::vector<std::vector<long long>> cases = readCaseConditions(p);
         // The control, truncated toward zero, computed once into a local.
-        const std::string v = "__sc_" + a.id;
+        const std::string v = "nf_sc_" + a.id;
         // The generated Rust is libm-based (no std method on f64 there).
         a.line(L.declLocal(v, L.call("trunc", a.in[0])));
         std::string taken;

@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--WEIGHT 4-->
+% <--ENGLISH IMPOSED-->
 % Acausal palette N0.2: NFlow.internal.acausalExpand lowers a diagram of catalog
 % component blocks + physicalWires into native island blocks, driven by
 % NFlow.internal.acausalCatalog. Reference: an RC circuit authored the GUI way

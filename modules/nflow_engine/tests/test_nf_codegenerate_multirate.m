@@ -10,8 +10,8 @@
 % Code generation honors a per-block SampleTime on a unitDelay:
 % the generated step function advances the block's stored state only on its
 % sample hit, matching the simulator's zero-order-hold sub-rate. The generators
-% emit a major-step index (__nflow_step) and guard the state update with
-% "__nflow_step % rate == 0". A single-rate model emits no such guard.
+% emit a major-step index (nf_tick) and guard the state update with
+% "nf_tick % rate == 0". A single-rate model emits no such guard.
 %=============================================================================
 d = struct();
 d.blocks = {...
@@ -34,7 +34,7 @@ fwrite(fid, jsonencode(d));
 fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'C');
 srcC = fileread([tempdir(), stem, filesep, 'model.c']);
-assert_istrue(~isempty(strfind(srcC, '__nflow_step')));
+assert_istrue(~isempty(strfind(srcC, 'nf_tick')));
 assert_istrue(~isempty(strfind(srcC, '% 2 == 0')));
 %=============================================================================
 % Rust backend: same gating.
@@ -45,7 +45,7 @@ fwrite(fid, jsonencode(d));
 fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'rust');
 srcR = fileread([tempdir(), stem, filesep, 'src', filesep, 'lib.rs']);
-assert_istrue(~isempty(strfind(srcR, '__nflow_step')));
+assert_istrue(~isempty(strfind(srcR, 'nf_tick')));
 assert_istrue(~isempty(strfind(srcR, '% 2 == 0')));
 %=============================================================================
 % A single-rate unit delay (no SampleTime) emits no rate guard.
@@ -82,13 +82,13 @@ fwrite(fid, jsonencode(dd));
 fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'C');
 srcD = fileread([tempdir(), stem, filesep, 'model.c']);
-assert_istrue(~isempty(strfind(srcD, '__nflow_step')));
+assert_istrue(~isempty(strfind(srcD, 'nf_tick')));
 assert_istrue(~isempty(strfind(srcD, '% 2 == 0')));
 %=============================================================================
 % A block with its OWN sample time (Ts), e.g. zoh, is a DIFFERENT mechanism: it
 % self-schedules in the generated code via a time-based next-sample marker
 % (zoh_next), independent of the base step -- so it is not rejected and needs no
-% __nflow_step %% rate guard. This confirms the codegen multi-rate is already
+% nf_tick %% rate guard. This confirms the codegen multi-rate is already
 % complete for the Ts-based discrete blocks (zoh/ddelay/dtf/dstateSpace/foh).
 zz = struct();
 zz.blocks = {...
@@ -109,7 +109,7 @@ fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'C'); % must NOT reject
 srcZ = fileread([tempdir(), stem, filesep, 'model.c']);
 assert_istrue(~isempty(strfind(srcZ, 'zoh_next'))); % time-based self-scheduling
-assert_istrue(isempty(strfind(srcZ, '__nflow_step'))); % not the base-step gate
+assert_istrue(isempty(strfind(srcZ, 'nf_tick'))); % not the base-step gate
 %=============================================================================
 % An edge detector with a slower SampleTime: its emitter gates on the major
 % step through codegenSampleRate, so the multi-rate gate must accept it (it
@@ -133,10 +133,10 @@ fwrite(fid, jsonencode(re));
 fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'C'); % must NOT reject
 srcE = fileread([tempdir(), stem, filesep, 'model.c']);
-assert_istrue(~isempty(strfind(srcE, '__nflow_step'))); % major-step gating emitted
+assert_istrue(~isempty(strfind(srcE, 'nf_tick'))); % major-step gating emitted
 nflow_codegenerate(f, tempdir(), false, 'rust');
 srcER = fileread([tempdir(), stem, filesep, 'src', filesep, 'lib.rs']);
-assert_istrue(~isempty(strfind(srcER, '__nflow_step')));
+assert_istrue(~isempty(strfind(srcER, 'nf_tick')));
 %=============================================================================
 % ode4 + multirate: the simulator honors BOTH (RK4 backend + per-block
 % update rates); generated code demotes to fused Euler. That divergence must

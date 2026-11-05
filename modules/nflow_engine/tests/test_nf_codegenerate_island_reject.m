@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % Electrical / thermal acausal islands are solved as a DAE by the IDAS runtime;
 % code generation must reject them explicitly instead of emitting a constant-0.0
 % output. The mechanicalTranslationalIsland is a pure ODE and DOES generate
@@ -55,13 +57,13 @@ rmodel = [tempname(), '.nflow'];
 fid = fopen(rmodel, 'wt'); fwrite(fid, rect); fclose(fid);
 nflow_codegenerate(rmodel, tempdir(), false, 'C');
 rc = fileread([tempdir(), rmodelstem, '/model.c']);
-assert_istrue(~isempty(strfind(rc, '__isl_res_blk'))); % residual helper
-assert_istrue(~isempty(strfind(rc, 'for (int __it'))); % Newton loop
+assert_istrue(~isempty(strfind(rc, 'nflow_isl_res_blk'))); % residual helper
+assert_istrue(~isempty(strfind(rc, 'for (int nf_it'))); % Newton loop
 assert_istrue(isempty(strfind(rc, '"physicalIsland"')));
 % Rust generates too (embedded Newton mirror).
 nflow_codegenerate(rmodel, tempdir(), false, 'rust');
 rr = fileread([tempdir(), rmodelstem, '/src/lib.rs']);
-assert_istrue(~isempty(strfind(rr, 'fn __isl_res_blk'))); % Rust residual fn
+assert_istrue(~isempty(strfind(rr, 'fn nflow_isl_res_blk'))); % Rust residual fn
 assert_istrue(~isempty(strfind(rr, 'libm::exp'))); % diode via libm
 rmfile(rmodel);
 %=============================================================================
@@ -77,12 +79,12 @@ cmodel = [tempname(), '.nflow'];
 fid = fopen(cmodel, 'wt'); fwrite(fid, rectC); fclose(fid);
 nflow_codegenerate(cmodel, tempdir(), false, 'C');
 ccg = fileread([tempdir(), cmodelstem, '/model.c']);
-assert_istrue(~isempty(strfind(ccg, '__isl_res_blk')));
+assert_istrue(~isempty(strfind(ccg, 'nflow_isl_res_blk')));
 assert_istrue(~isempty(strfind(ccg, 'xprev'))); % backward-Euler
 assert_istrue(isempty(strfind(ccg, '"physicalIsland"')));
 nflow_codegenerate(cmodel, tempdir(), false, 'rust');
 rcg = fileread([tempdir(), cmodelstem, '/src/lib.rs']);
-assert_istrue(~isempty(strfind(rcg, 'fn __isl_res_blk')));
+assert_istrue(~isempty(strfind(rcg, 'fn nflow_isl_res_blk')));
 assert_istrue(~isempty(strfind(rcg, 'xprev'))); % backward-Euler
 rmfile(cmodel);
 %=============================================================================
@@ -107,12 +109,12 @@ smodel = [tempname(), '.nflow'];
 fid = fopen(smodel, 'wt'); fwrite(fid, sw); fclose(fid);
 nflow_codegenerate(smodel, tempdir(), false, 'C');
 scg = fileread([tempdir(), smodelstem, '/model.c']);
-assert_istrue(~isempty(strfind(scg, '__isl_res_blk'))); % embedded Newton
+assert_istrue(~isempty(strfind(scg, 'nflow_isl_res_blk'))); % embedded Newton
 assert_istrue(~isempty(strfind(scg, '> 0.5)'))); % switch mode branch
 assert_istrue(isempty(strfind(scg, '"physicalIsland"')));
 nflow_codegenerate(smodel, tempdir(), false, 'rust');
 srg = fileread([tempdir(), smodelstem, '/src/lib.rs']);
-assert_istrue(~isempty(strfind(srg, 'fn __isl_res_blk')));
+assert_istrue(~isempty(strfind(srg, 'fn nflow_isl_res_blk')));
 assert_istrue(~isempty(strfind(srg, '> 0.5'))); % Rust switch branch
 rmfile(smodel);
 %=============================================================================
@@ -138,7 +140,7 @@ nflow_codegenerate(model, tempdir(), false, 'C');
 cc = fileread([outdir, '/model.c']);
 assert_istrue(~isempty(strfind(cc, 'mech_x_isl_0'))); % packed position state
 assert_istrue(~isempty(strfind(cc, 'mech_x_isl_1'))); % packed velocity state
-assert_istrue(~isempty(strfind(cc, '__fm_isl_0'))); % force accumulator
+assert_istrue(~isempty(strfind(cc, 'nf_fm_isl_0'))); % force accumulator
 assert_istrue(~isempty(strfind(cc, 'out_isl = s->mech_x_isl_0'))); % position sensor
 nflow_codegenerate(model, tempdir(), false, 'rust');
 rr = fileread([outdir, '/src/lib.rs']);

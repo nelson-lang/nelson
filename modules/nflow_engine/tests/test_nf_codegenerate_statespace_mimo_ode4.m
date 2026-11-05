@@ -49,7 +49,7 @@ fwrite(fid, jsonencode(d4));
 fclose(fid);
 nflow_codegenerate(f4, tempdir(), false, 'C');
 src4 = fileread([tempdir(), f4stem, '/model.c']);
-assert_istrue(~isempty(strfind(src4, '__nflow_rhs')));
+assert_istrue(~isempty(strfind(src4, 'nflow_rhs')));
 assert_istrue(~isempty(strfind(src4, 'out_ss_p1 = ')));
 rmfile(f4);
 %=============================================================================

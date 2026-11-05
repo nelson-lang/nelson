@@ -420,11 +420,11 @@ Nelson::NFlow::getCodeGenCStateSpace()
             a.line(ssOutName(a.id, r) + " = " + ssOutputExpr(a, s, r, "s->", uOut) + ";");
         }
         for (int i = 0; i < s.nx; ++i) {
-            a.line("double __ssd_" + a.id + "_" + std::to_string(i) + " = "
+            a.line("double nf_ssd_" + a.id + "_" + std::to_string(i) + " = "
                 + ssDerivExpr(a, s, i, "s->") + ";");
         }
         for (int i = 0; i < s.nx; ++i) {
-            a.line(ssName(a.id, i, s.nx, "s->") + " += dt * __ssd_" + a.id + "_" + std::to_string(i)
+            a.line(ssName(a.id, i, s.nx, "s->") + " += dt * nf_ssd_" + a.id + "_" + std::to_string(i)
                 + ";");
         }
         if (!liveD) {
@@ -520,11 +520,11 @@ Nelson::NFlow::getCodeGenRustStateSpace()
             a.line(ssOutName(a.id, r) + " = " + ssOutputExpr(a, s, r, "s.", uOut) + ";");
         }
         for (int i = 0; i < s.nx; ++i) {
-            a.line("let __ssd_" + a.id + "_" + std::to_string(i) + " = "
+            a.line("let nf_ssd_" + a.id + "_" + std::to_string(i) + " = "
                 + ssDerivExpr(a, s, i, "s.") + ";");
         }
         for (int i = 0; i < s.nx; ++i) {
-            a.line(ssName(a.id, i, s.nx, "s.") + " += dt * __ssd_" + a.id + "_" + std::to_string(i)
+            a.line(ssName(a.id, i, s.nx, "s.") + " += dt * nf_ssd_" + a.id + "_" + std::to_string(i)
                 + ";");
         }
         if (!liveD) {

@@ -60,7 +60,7 @@ Nelson::NFlow::getCodeGenCCounterFreeRunning()
         const std::string upd
             = "s->cfr_count_" + a.id + " = fmod(s->cfr_count_" + a.id + " + 1.0, " + m + ");";
         if (rate > 1) {
-            a.line("if (__nflow_step % " + std::to_string(rate) + " == 0) " + upd);
+            a.line("if (nf_tick % " + std::to_string(rate) + " == 0) " + upd);
         } else {
             a.line(upd);
         }
@@ -84,7 +84,7 @@ Nelson::NFlow::getCodeGenRustCounterFreeRunning()
         const std::string upd
             = "s.cfr_count_" + a.id + " = (s.cfr_count_" + a.id + " + 1.0_f64) % " + m + ";";
         if (rate > 1) {
-            a.line("if __nflow_step % " + std::to_string(rate) + " == 0 { " + upd + " }");
+            a.line("if nf_tick % " + std::to_string(rate) + " == 0 { " + upd + " }");
         } else {
             a.line(upd);
         }

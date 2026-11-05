@@ -57,7 +57,7 @@ Nelson::NFlow::getCodeGenCCounterLimited()
         const std::string upd = "s->cl_count_" + a.id + " = (s->cl_count_" + a.id + " >= " + up
             + ") ? 0.0 : (s->cl_count_" + a.id + " + 1.0);";
         if (rate > 1) {
-            a.line("if (__nflow_step % " + std::to_string(rate) + " == 0) " + upd);
+            a.line("if (nf_tick % " + std::to_string(rate) + " == 0) " + upd);
         } else {
             a.line(upd);
         }
@@ -79,7 +79,7 @@ Nelson::NFlow::getCodeGenRustCounterLimited()
         const std::string upd = "s.cl_count_" + a.id + " = if s.cl_count_" + a.id + " >= " + up
             + " { 0.0_f64 } else { s.cl_count_" + a.id + " + 1.0_f64 };";
         if (rate > 1) {
-            a.line("if __nflow_step % " + std::to_string(rate) + " == 0 { " + upd + " }");
+            a.line("if nf_tick % " + std::to_string(rate) + " == 0 { " + upd + " }");
         } else {
             a.line(upd);
         }

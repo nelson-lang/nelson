@@ -1254,8 +1254,8 @@ namespace NFlow {
                     const std::string n = a.id + "_" + std::to_string(tmp++);
                     std::string rAx, rAy;
                     plRot(a, lang, st, s, c.ax, c.ay, rAx, rAy);
-                    a.line(lang.declLocal("__pax_" + n, st(s + 0) + " + " + rAx));
-                    a.line(lang.declLocal("__pay_" + n, st(s + 1) + " + " + rAy));
+                    a.line(lang.declLocal("nf_pax_" + n, st(s + 0) + " + " + rAx));
+                    a.line(lang.declLocal("nf_pay_" + n, st(s + 1) + " + " + rAy));
                     std::string bx = a.fmt(c.px);
                     std::string by = a.fmt(c.py);
                     if (c.body2 >= 0) {
@@ -1268,18 +1268,18 @@ namespace NFlow {
                             by = st(sb + 1) + " + " + rBy;
                         }
                     }
-                    a.line(lang.declLocal("__pbx_" + n, bx));
-                    a.line(lang.declLocal("__pby_" + n, by));
+                    a.line(lang.declLocal("nf_pbx_" + n, bx));
+                    a.line(lang.declLocal("nf_pby_" + n, by));
                     if (c.kind == PKind::RelPositionX) {
-                        a.line(ov + " = __pax_" + n + " - __pbx_" + n + ";");
+                        a.line(ov + " = nf_pax_" + n + " - nf_pbx_" + n + ";");
                     } else if (c.kind == PKind::RelPositionY) {
-                        a.line(ov + " = __pay_" + n + " - __pby_" + n + ";");
+                        a.line(ov + " = nf_pay_" + n + " - nf_pby_" + n + ";");
                     } else {
                         a.line(ov + " = "
                             + lang.call("sqrt",
-                                "(__pax_" + n + " - __pbx_" + n + ") * (__pax_" + n + " - __pbx_"
-                                    + n + ") + (__pay_" + n + " - __pby_" + n + ") * (__pay_" + n
-                                    + " - __pby_" + n + ")")
+                                "(nf_pax_" + n + " - nf_pbx_" + n + ") * (nf_pax_" + n + " - nf_pbx_"
+                                    + n + ") + (nf_pay_" + n + " - nf_pby_" + n + ") * (nf_pay_" + n
+                                    + " - nf_pby_" + n + ")")
                             + ";");
                     }
                 } break;
@@ -1310,10 +1310,10 @@ namespace NFlow {
                     continue;
                 }
                 const std::string b = std::to_string(bIdx);
-                a.line(lang.declLocal("__qx_" + id + "_" + b, "0.0"));
+                a.line(lang.declLocal("nf_qx_" + id + "_" + b, "0.0"));
                 a.line(
-                    lang.declLocal("__qy_" + id + "_" + b, "-(" + a.fmt(bi.m * L.gravity) + ")"));
-                a.line(lang.declLocal("__qp_" + id + "_" + b, "0.0"));
+                    lang.declLocal("nf_qy_" + id + "_" + b, "-(" + a.fmt(bi.m * L.gravity) + ")"));
+                a.line(lang.declLocal("nf_qp_" + id + "_" + b, "0.0"));
             }
             int tmp = 0;
             for (const PComp& c : L.comps) {
@@ -1326,23 +1326,23 @@ namespace NFlow {
                     continue;
                 }
                 const std::string b = std::to_string(c.body);
-                const std::string fv = "__f_" + id + "_" + std::to_string(tmp++);
+                const std::string fv = "nf_f_" + id + "_" + std::to_string(tmp++);
                 a.line(lang.declLocal(fv, c.port >= 0 ? inExpr(c.port) : a.fmt(c.value)));
                 if (c.kind == PKind::ForceX || c.kind == PKind::ForceY) {
-                    a.line(std::string("__q") + (c.kind == PKind::ForceX ? "x" : "y") + "_" + id
+                    a.line(std::string("nf_q") + (c.kind == PKind::ForceX ? "x" : "y") + "_" + id
                         + "_" + b + " += " + fv + ";");
                     if (c.ax != 0.0 || c.ay != 0.0) {
                         std::string rx, ry;
                         plRot(a, lang, st, bi.stateIndex, c.ax, c.ay, rx, ry);
-                        a.line("__qp_" + id + "_" + b + " += "
+                        a.line("nf_qp_" + id + "_" + b + " += "
                             + (c.kind == PKind::ForceX ? ("-" + ry) : rx) + " * " + fv + ";");
                     }
                 } else if (c.kind == PKind::Torque) {
-                    a.line("__qp_" + id + "_" + b + " += " + fv + ";");
+                    a.line("nf_qp_" + id + "_" + b + " += " + fv + ";");
                 } else { // RelativeTorque: +tau on body, -tau on body2
-                    a.line("__qp_" + id + "_" + b + " += " + fv + ";");
+                    a.line("nf_qp_" + id + "_" + b + " += " + fv + ";");
                     if (c.body2 >= 0 && L.bodies[static_cast<size_t>(c.body2)].present) {
-                        a.line("__qp_" + id + "_" + std::to_string(c.body2) + " -= " + fv + ";");
+                        a.line("nf_qp_" + id + "_" + std::to_string(c.body2) + " -= " + fv + ";");
                     }
                 }
             }
@@ -1359,14 +1359,14 @@ namespace NFlow {
                 const std::string n = id + "_" + std::to_string(tmp++);
                 std::string rAx, rAy;
                 plRot(a, lang, st, sa, c.ax, c.ay, rAx, rAy);
-                a.line(lang.declLocal("__rax_" + n, rAx));
-                a.line(lang.declLocal("__ray_" + n, rAy));
-                a.line(lang.declLocal("__ax_" + n, st(sa + 0) + " + __rax_" + n));
-                a.line(lang.declLocal("__ay_" + n, st(sa + 1) + " + __ray_" + n));
+                a.line(lang.declLocal("nf_rax_" + n, rAx));
+                a.line(lang.declLocal("nf_ray_" + n, rAy));
+                a.line(lang.declLocal("nf_ax_" + n, st(sa + 0) + " + nf_rax_" + n));
+                a.line(lang.declLocal("nf_ay_" + n, st(sa + 1) + " + nf_ray_" + n));
                 a.line(lang.declLocal(
-                    "__avx_" + n, st(sa + 3) + " - " + st(sa + 5) + " * __ray_" + n));
+                    "nf_avx_" + n, st(sa + 3) + " - " + st(sa + 5) + " * nf_ray_" + n));
                 a.line(lang.declLocal(
-                    "__avy_" + n, st(sa + 4) + " + " + st(sa + 5) + " * __rax_" + n));
+                    "nf_avy_" + n, st(sa + 4) + " + " + st(sa + 5) + " * nf_rax_" + n));
                 bool hasB = false;
                 int sb = -1;
                 if (c.body2 >= 0) {
@@ -1379,37 +1379,37 @@ namespace NFlow {
                 if (hasB) {
                     std::string rBx, rBy;
                     plRot(a, lang, st, sb, c.ax2, c.ay2, rBx, rBy);
-                    a.line(lang.declLocal("__rbx_" + n, rBx));
-                    a.line(lang.declLocal("__rby_" + n, rBy));
-                    a.line(lang.declLocal("__bx_" + n, st(sb + 0) + " + __rbx_" + n));
-                    a.line(lang.declLocal("__by_" + n, st(sb + 1) + " + __rby_" + n));
+                    a.line(lang.declLocal("nf_rbx_" + n, rBx));
+                    a.line(lang.declLocal("nf_rby_" + n, rBy));
+                    a.line(lang.declLocal("nf_bx_" + n, st(sb + 0) + " + nf_rbx_" + n));
+                    a.line(lang.declLocal("nf_by_" + n, st(sb + 1) + " + nf_rby_" + n));
                     a.line(lang.declLocal(
-                        "__bvx_" + n, st(sb + 3) + " - " + st(sb + 5) + " * __rby_" + n));
+                        "nf_bvx_" + n, st(sb + 3) + " - " + st(sb + 5) + " * nf_rby_" + n));
                     a.line(lang.declLocal(
-                        "__bvy_" + n, st(sb + 4) + " + " + st(sb + 5) + " * __rbx_" + n));
+                        "nf_bvy_" + n, st(sb + 4) + " + " + st(sb + 5) + " * nf_rbx_" + n));
                 } else {
-                    a.line(lang.declLocal("__bx_" + n, a.fmt(c.px)));
-                    a.line(lang.declLocal("__by_" + n, a.fmt(c.py)));
-                    a.line(lang.declLocal("__bvx_" + n, "0.0"));
-                    a.line(lang.declLocal("__bvy_" + n, "0.0"));
+                    a.line(lang.declLocal("nf_bx_" + n, a.fmt(c.px)));
+                    a.line(lang.declLocal("nf_by_" + n, a.fmt(c.py)));
+                    a.line(lang.declLocal("nf_bvx_" + n, "0.0"));
+                    a.line(lang.declLocal("nf_bvy_" + n, "0.0"));
                 }
-                a.line(lang.declLocal("__fx_" + n,
-                    "-(" + a.fmt(c.value) + " * (__ax_" + n + " - __bx_" + n + ") + "
-                        + a.fmt(c.value2) + " * (__avx_" + n + " - __bvx_" + n + "))"));
-                a.line(lang.declLocal("__fy_" + n,
-                    "-(" + a.fmt(c.value) + " * (__ay_" + n + " - __by_" + n + ") + "
-                        + a.fmt(c.value2) + " * (__avy_" + n + " - __bvy_" + n + "))"));
+                a.line(lang.declLocal("nf_fx_" + n,
+                    "-(" + a.fmt(c.value) + " * (nf_ax_" + n + " - nf_bx_" + n + ") + "
+                        + a.fmt(c.value2) + " * (nf_avx_" + n + " - nf_bvx_" + n + "))"));
+                a.line(lang.declLocal("nf_fy_" + n,
+                    "-(" + a.fmt(c.value) + " * (nf_ay_" + n + " - nf_by_" + n + ") + "
+                        + a.fmt(c.value2) + " * (nf_avy_" + n + " - nf_bvy_" + n + "))"));
                 const std::string bA = std::to_string(c.body);
-                a.line("__qx_" + id + "_" + bA + " += __fx_" + n + ";");
-                a.line("__qy_" + id + "_" + bA + " += __fy_" + n + ";");
-                a.line("__qp_" + id + "_" + bA + " += __rax_" + n + " * __fy_" + n + " - __ray_" + n
-                    + " * __fx_" + n + ";");
+                a.line("nf_qx_" + id + "_" + bA + " += nf_fx_" + n + ";");
+                a.line("nf_qy_" + id + "_" + bA + " += nf_fy_" + n + ";");
+                a.line("nf_qp_" + id + "_" + bA + " += nf_rax_" + n + " * nf_fy_" + n + " - nf_ray_" + n
+                    + " * nf_fx_" + n + ";");
                 if (hasB) {
                     const std::string bB = std::to_string(c.body2);
-                    a.line("__qx_" + id + "_" + bB + " -= __fx_" + n + ";");
-                    a.line("__qy_" + id + "_" + bB + " -= __fy_" + n + ";");
-                    a.line("__qp_" + id + "_" + bB + " += __rby_" + n + " * __fx_" + n + " - __rbx_"
-                        + n + " * __fy_" + n + ";");
+                    a.line("nf_qx_" + id + "_" + bB + " -= nf_fx_" + n + ";");
+                    a.line("nf_qy_" + id + "_" + bB + " -= nf_fy_" + n + ";");
+                    a.line("nf_qp_" + id + "_" + bB + " += nf_rby_" + n + " * nf_fx_" + n + " - nf_rbx_"
+                        + n + " * nf_fy_" + n + ";");
                 }
             }
             // Kinematics + Newton (pointMass bodies freeze phi and w).
@@ -1422,14 +1422,14 @@ namespace NFlow {
                 const std::string b = std::to_string(bIdx);
                 emitDeriv(s + 0, st(s + 3));
                 emitDeriv(s + 1, st(s + 4));
-                emitDeriv(s + 3, "__qx_" + id + "_" + b + " / " + a.fmt(bi.m));
-                emitDeriv(s + 4, "__qy_" + id + "_" + b + " / " + a.fmt(bi.m));
+                emitDeriv(s + 3, "nf_qx_" + id + "_" + b + " / " + a.fmt(bi.m));
+                emitDeriv(s + 4, "nf_qy_" + id + "_" + b + " / " + a.fmt(bi.m));
                 if (bi.pointMass) {
                     emitDeriv(s + 2, "0.0");
                     emitDeriv(s + 5, "0.0");
                 } else {
                     emitDeriv(s + 2, st(s + 5));
-                    emitDeriv(s + 5, "__qp_" + id + "_" + b + " / " + a.fmt(bi.inertia));
+                    emitDeriv(s + 5, "nf_qp_" + id + "_" + b + " / " + a.fmt(bi.inertia));
                 }
             }
         }
@@ -1488,10 +1488,10 @@ namespace NFlow {
                 // that same state, then the forward-Euler advance.
                 emitPlanarOutputs(a, L, lang);
                 emitPlanarDeriv(a, L, lang, [&](int i, const std::string& e) {
-                    a.line(lang.declLocal("__xd_" + id + "_" + std::to_string(i), e));
+                    a.line(lang.declLocal("nf_xd_" + id + "_" + std::to_string(i), e));
                 });
                 for (int i = 0; i < L.numStates; ++i) {
-                    a.line(st(i) + " = " + st(i) + " + dt * __xd_" + id + "_" + std::to_string(i)
+                    a.line(st(i) + " = " + st(i) + " + dt * nf_xd_" + id + "_" + std::to_string(i)
                         + ";");
                 }
             };
