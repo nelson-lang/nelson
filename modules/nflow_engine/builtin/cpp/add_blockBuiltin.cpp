@@ -9,6 +9,7 @@
 //=============================================================================
 #include "add_blockBuiltin.hpp"
 #include "NFlowBuiltinHelpers.hpp"
+#include "NFlowBlockCatalog.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -46,6 +47,15 @@ add_blockBuiltin(int nLhs, const ArrayOfVector& argIn)
             paramValueIndex.push_back(i + 1);
         }
         i += 2;
+    }
+    // Check the names before the block is created, so a typo leaves the model
+    // untouched. An unresolved source is reported by addBlock itself.
+    std::string type;
+    bool ambiguous = false;
+    if (NFlowBlockCatalog::instance().resolveType(source, type, ambiguous)) {
+        for (const std::string& key : paramKeys) {
+            checkBlockParamName(type, key, false);
+        }
     }
 
     std::string outName, err;

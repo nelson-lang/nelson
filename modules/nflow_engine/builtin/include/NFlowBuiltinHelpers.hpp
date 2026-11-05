@@ -64,6 +64,10 @@ jsonParamToArrayOf(const nlohmann::json& v);
 void
 applyTypedBlockParam(Nelson::NFlow::NFlowModelDocument& doc, const std::string& blockName,
     const std::string& key, const ArrayOf& value);
+// Check a block parameter name against its catalog type: a case-only mismatch is an
+// error, any other undeclared name warns (skipped when alreadyPresent).
+void
+checkBlockParamName(const std::string& blockType, const std::string& key, bool alreadyPresent);
 void
 raiseModelError(const std::string& message);
 // Load the built-in block catalog (once) from the nflow_blocks libraries directory.

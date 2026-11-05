@@ -14,6 +14,8 @@
 % serialization. Scalars keep the string convention.
 %=============================================================================
 bdclose('all');
+% The keys below are free-form, not parameters the gain block declares.
+warning('off', 'Nelson:nflow_engine:unknownBlockParameter');
 new_system('m');
 add_block('nflow/math/gain', 'm/G');
 %=============================================================================
@@ -34,8 +36,8 @@ assert_isequal(size(c), [3 1]);
 assert_isequal(c, [10; 20; 30]);
 %=============================================================================
 % Scalars keep the string convention (back-compatible, reference-aligned).
-set_param('m/G', 'gain', 2);
-g = get_param('m/G', 'gain');
+set_param('m/G', 'scalar', 2);
+g = get_param('m/G', 'scalar');
 assert_istrue(ischar(g));
 assert_isequal(g, '2');
 %=============================================================================
@@ -44,8 +46,8 @@ set_param('m/G', 'Position', [100 200 180 260]);
 assert_isequal(get_param('m/G', 'Position'), [100 200 180 260]);
 %=============================================================================
 % add_block accepts typed parameter values too.
-add_block('nflow/math/gain', 'm/H', 'Coeffs', [5 6 7]);
-assert_isequal(get_param('m/H', 'Coeffs'), [5 6 7]);
+add_block('nflow/math/gain', 'm/H', 'Gain', [5 6 7]);
+assert_isequal(get_param('m/H', 'Gain'), [5 6 7]);
 %=============================================================================
 % A malformed Position is rejected and leaves the model unchanged (atomic).
 assert_checkerror('set_param(''m/G'', ''Position'', [1 2 3])', _('Position must be a 1x4 [x y x2 y2] vector.'));

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_reroute</keyword>
+  <short_description>Recalcule le tracé des fils d'un (sous-)système nflow.</short_description>
+  <syntax>
+    <syntax_item>nflow_reroute(sys)</syntax_item>
+    <syntax_item>nflow_reroute(sys, width)</syntax_item>
+    <syntax_item>nflow_reroute(sys, width, height)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>sys</param_name><param_description>une chaîne : nom d'un modèle chargé (<code>'modele'</code>) pour tracer les fils de son diagramme racine, ou chemin d'un sous-système (<code>'modele/Sub'</code>, <code>'modele/Sub/Inner'</code>) pour tracer ceux de ce sous-système ; ou un handle numérique de modèle.</param_description></param_input_item>
+    <param_input_item><param_name>width</param_name><param_description>un scalaire : largeur de la zone de tracé, en unités du diagramme. Par défaut : 4000.</param_description></param_input_item>
+    <param_input_item><param_name>height</param_name><param_description>un scalaire : hauteur de la zone de tracé, en unités du diagramme. Par défaut : 4000.</param_description></param_input_item>
+  </param_input>
+  <description>
+    <p><b>nflow_reroute</b> calcule un nouveau tracé pour chaque connexion d'un (sous-)système et l'enregistre sur la connexion sous forme de liste de points de passage. Les tracés sont orthogonaux et contournent les blocs, du port de sortie au port d'entrée.</p>
+    <p>Les blocs ne bougent pas : appelez d'abord <b>nflow_layout</b> pour les disposer, puis <b>nflow_reroute</b> pour tracer les fils selon les nouvelles positions. La position des ports est estimée à partir du nombre de ports déclaré par chaque type de bloc.</p>
+    <p>Seul le niveau ciblé est tracé : appelez <b>nflow_reroute</b> sur le chemin de chaque sous-système pour le tracer aussi. Seule la géométrie des fils change, le résultat de simulation ne change donc pas.</p>
+    <p>Le modèle doit être chargé (<b>new_system</b> ou <b>load_system</b>). Un chemin de sous-système inconnu, ou un échec du tracé, provoque une erreur. Le modèle est marqué comme modifié ; utilisez <b>save_system</b> pour conserver les tracés.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Disposer un modèle, tracer ses fils et lire le tracé enregistré.</example_item_description>
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/source/sine', 'demo/S');
+add_block('nflow/math/gain', 'demo/G', 'Gain', 2);
+add_line('demo', 'S/1', 'G/1');
+nflow_layout('demo');
+nflow_reroute('demo');
+f = [tempname(), '.nflow'];
+save_system('demo', f);
+m = jsondecode(fileread(f));
+w = m.connections(1).waypoints;
+[[w.x]', [w.y]']
+bdclose('demo');
+rmfile(f);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_layout">nflow_layout</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}save_system">save_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>
