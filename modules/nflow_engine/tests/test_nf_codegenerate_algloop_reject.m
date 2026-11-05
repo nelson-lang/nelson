@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % A genuine algebraic loop (no latched block on the cycle) is iterated to a
 % fixed point by the simulator, but generated code is straight-line: the loop
 % members would be emitted once, in diagram order, producing numerically wrong

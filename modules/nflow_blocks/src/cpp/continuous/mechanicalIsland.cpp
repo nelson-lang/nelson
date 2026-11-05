@@ -585,7 +585,7 @@ namespace NFlow {
                     || L.isSpeedDriven[static_cast<size_t>(r)]) {
                     continue;
                 }
-                a.line(lang.declLocal("__fm_" + id + "_" + std::to_string(si), "0.0"));
+                a.line(lang.declLocal("nf_fm_" + id + "_" + std::to_string(si), "0.0"));
             }
             auto applyForce = [&](int node, const std::string& sign, const std::string& fvar) {
                 if (node <= 0 || L.isFixed[static_cast<size_t>(node)]) {
@@ -602,11 +602,11 @@ namespace NFlow {
                 if (ratio != 1.0) {
                     term += " * " + num(ratio);
                 }
-                a.line("__fm_" + id + "_" + std::to_string(si) + " += " + term + ";");
+                a.line("nf_fm_" + id + "_" + std::to_string(si) + " += " + term + ";");
             };
             int tmp = 0;
             for (const MComp& c : L.comps) {
-                const std::string fv = "__Fc_" + id + "_" + std::to_string(tmp++);
+                const std::string fv = "nf_Fc_" + id + "_" + std::to_string(tmp++);
                 switch (c.kind) {
                 case MKind::Spring:
                     a.line(lang.declLocal(fv,
@@ -722,7 +722,7 @@ namespace NFlow {
                     emitDeriv(si + 1, inExpr(ap));
                 } else {
                     emitDeriv(si + 1,
-                        "__fm_" + id + "_" + std::to_string(si) + " / "
+                        "nf_fm_" + id + "_" + std::to_string(si) + " / "
                             + num(L.jEff[static_cast<size_t>(r)]));
                 }
             }
@@ -818,10 +818,10 @@ namespace NFlow {
             // Derivatives into temps computed from the pre-step state, then the
             // Euler advance (all derivatives read the old state).
             emitMechDeriv(a, L, lang, stateAt, inExpr, [&](int i, const std::string& e) {
-                a.line(lang.declLocal("__xd_" + id + "_" + std::to_string(i), e));
+                a.line(lang.declLocal("nf_xd_" + id + "_" + std::to_string(i), e));
             });
             for (int i = 0; i < L.numStates; ++i) {
-                a.line(lang.sref(id, i) + " = " + lang.sref(id, i) + " + dt * __xd_" + id + "_"
+                a.line(lang.sref(id, i) + " = " + lang.sref(id, i) + " + dt * nf_xd_" + id + "_"
                     + std::to_string(i) + ";");
             }
         }

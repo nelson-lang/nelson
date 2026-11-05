@@ -86,12 +86,12 @@ typedef struct {
   double pid_ctrl;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 6;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 6;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "p_plant_out",
   "pi_plant_out",
   "pid_plant_out",
@@ -114,25 +114,24 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
+  (void)in;
   const double dt = 0.01;
-  double out_r1 = 0.0;
-  double out_e1 = 0.0;
+  double out_r1;
+  double out_e1;
   double out_c1 = 0.0;
-  double out_p1 = 0.0;
-  double out_e2 = 0.0;
+  double out_p1;
+  double out_e2;
   double out_c2 = 0.0;
-  double out_p2 = 0.0;
-  double out_e3 = 0.0;
+  double out_p2;
+  double out_e3;
   double out_c3 = 0.0;
-  double out_p3 = 0.0;
-  double out_sc1 = 0.0;
-  double out_sc2 = 0.0;
-  double out_ls_p_out = 0.0;
-  double out_ls_pi_out = 0.0;
-  double out_ls_pid_out = 0.0;
-  double out_ls_p_ctrl = 0.0;
-  double out_ls_pi_ctrl = 0.0;
-  double out_ls_pid_ctrl = 0.0;
+  double out_p3;
+  double out_ls_p_out;
+  double out_ls_pi_out;
+  double out_ls_pid_out;
+  double out_ls_p_ctrl;
+  double out_ls_pi_ctrl;
+  double out_ls_pid_ctrl;
 
   out_p1 = tf_out(&tf_params_p1, s->tf_p1, out_c1);
   out_p2 = tf_out(&tf_params_p2, s->tf_p2, out_c2);
@@ -145,8 +144,6 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   out_e2 = -out_p2 + out_r1;
   // sum e3
   out_e3 = -out_p3 + out_r1;
-  // scope sc1
-  out_sc1 = out_p1;
   // labelSink ls_p_out
   out_ls_p_out = out_p1;
   if (out) out->p_plant_out = out_ls_p_out;
@@ -163,19 +160,17 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   // pid c3
   out_c3 = pid_step(&pid_params_c3, &s->pid_c3, out_e3, dt);
   // tf p1
-  out_p1 = tf_step(&tf_params_p1, s->tf_p1, out_c1, dt);
+  (void)(tf_step(&tf_params_p1, s->tf_p1, out_c1, dt));
   // labelSink ls_p_ctrl
   out_ls_p_ctrl = out_c1;
   if (out) out->p_ctrl = out_ls_p_ctrl;
   // tf p2
-  out_p2 = tf_step(&tf_params_p2, s->tf_p2, out_c2, dt);
+  (void)(tf_step(&tf_params_p2, s->tf_p2, out_c2, dt));
   // labelSink ls_pi_ctrl
   out_ls_pi_ctrl = out_c2;
   if (out) out->pi_ctrl = out_ls_pi_ctrl;
   // tf p3
-  out_p3 = tf_step(&tf_params_p3, s->tf_p3, out_c3, dt);
-  // scope sc2
-  out_sc2 = out_c1;
+  (void)(tf_step(&tf_params_p3, s->tf_p3, out_c3, dt));
   // labelSink ls_pid_ctrl
   out_ls_pid_ctrl = out_c3;
   if (out) out->pid_ctrl = out_ls_pid_ctrl;
@@ -308,9 +303,9 @@ int main(int argc, char** argv) {
   FILE* outFile = outPath ? fopen(outPath, "w") : stdout;
   if (!outFile) outFile = stdout;
   write_header(outFile);
-  const long __nsteps = (long)(tEnd / dt) + 1;
-  for (long __k = 0; __k <= __nsteps; ++__k) {
-    const double t = __k * dt;
+  const long nf_nsteps = (long)(tEnd / dt) + 1;
+  for (long nf_k = 0; nf_k <= nf_nsteps; ++nf_k) {
+    const double t = nf_k * dt;
     if (t > tEnd + 1e-9) break;
     if (inPath) fill_inputs(&series, &seriesIdx, t, &in);
     nflow_step(&state, &in, &out, t);

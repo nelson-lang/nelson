@@ -26,12 +26,12 @@ typedef struct {
   double _unused;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 0;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 0;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "_unused",
 };
 
@@ -47,18 +47,16 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
+  (void)in;
+  (void)out;
   const double dt = 0.01;
-  double out_b1 = 0.0;
-  double out_b2 = 0.0;
-  double out_b3 = 0.0;
-  double out_b4 = 0.0;
-  double out_b5 = 0.0;
-  double out_b6 = 0.0;
-  double out_b7 = 0.0;
-  double out_b8 = 0.0;
-  double out_b9 = 0.0;
-  double out_b10 = 0.0;
-  double out_b11 = 0.0;
+  double out_b4;
+  double out_b5;
+  double out_b6;
+  double out_b7;
+  double out_b8;
+  double out_b9;
+  double out_b10;
 
   // sine b5
   out_b5 = 1 * sin(2.0 * M_PI * 0.2 * t + 0);
@@ -79,19 +77,13 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   // sum b9
   out_b9 = out_b4 + out_b6;
   // lpf b1
-  out_b1 = s->lpf_x_b1;
   s->lpf_x_b1 = s->lpf_x_b1 + dt * 3.141592653589793 * (out_b8 - s->lpf_x_b1);
   // integrator b10
   out_b10 = s->int_b10;
   s->int_b10 = fmin(fmax(s->int_b10 + out_b9 * dt, -INFINITY), INFINITY);
   // hpf b2
-  out_b2 = s->hpf_uprev_b2 - s->hpf_x_b2;
   s->hpf_x_b2 = s->hpf_x_b2 + dt * 3.141592653589793 * (out_b10 - s->hpf_x_b2);
   s->hpf_uprev_b2 = out_b10;
-  // sum b3
-  out_b3 = out_b1 + out_b2;
-  // scope b11
-  out_b11 = out_b5;
 }
 
 void nflow_terminate(ModelState* s) {
@@ -221,9 +213,9 @@ int main(int argc, char** argv) {
   FILE* outFile = outPath ? fopen(outPath, "w") : stdout;
   if (!outFile) outFile = stdout;
   write_header(outFile);
-  const long __nsteps = (long)(tEnd / dt) + 1;
-  for (long __k = 0; __k <= __nsteps; ++__k) {
-    const double t = __k * dt;
+  const long nf_nsteps = (long)(tEnd / dt) + 1;
+  for (long nf_k = 0; nf_k <= nf_nsteps; ++nf_k) {
+    const double t = nf_k * dt;
     if (t > tEnd + 1e-9) break;
     if (inPath) fill_inputs(&series, &seriesIdx, t, &in);
     nflow_step(&state, &in, &out, t);

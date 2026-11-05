@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ADV-CLI MODE-->
+% <--ENGLISH IMPOSED-->
 %=============================================================================
 % Public .m API (fmiInfo / fmiCoSimulate); resolution and error paths always
 % run (no network / FMU needed); the real FMU run is skipped when absent.

@@ -122,7 +122,7 @@ namespace NFlow {
         BlockCodegenTemplate t;
         t.emitStep = [](const BlockCodegenArgs& a) {
             const int nData = dataInputCount(a);
-            const std::string iv = "__ms_" + a.id;
+            const std::string iv = "nf_ms_" + a.id;
             const std::string nd = std::to_string(nData);
             a.line("int " + iv + " = (int)(" + a.in[0] + ");");
             a.line("if (" + iv + " < 1) " + iv + " = 1; if (" + iv + " > " + nd + ") " + iv + " = "
@@ -143,7 +143,7 @@ namespace NFlow {
         BlockCodegenTemplate t;
         t.emitStep = [](const BlockCodegenArgs& a) {
             const int nData = dataInputCount(a);
-            const std::string iv = "__ms_" + a.id;
+            const std::string iv = "nf_ms_" + a.id;
             const std::string nd = std::to_string(nData);
             a.line("let mut " + iv + ": i32 = (" + a.in[0] + ").trunc() as i32;");
             a.line("if " + iv + " < 1 { " + iv + " = 1; } if " + iv + " > " + nd + " { " + iv

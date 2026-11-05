@@ -20,12 +20,12 @@ typedef struct {
   double _unused;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 0;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 0;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "_unused",
 };
 
@@ -34,28 +34,10 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
-  const double dt = 0.01;
-  double out_k = 0.0;
-  double out_d1 = 0.0;
-  double out_d2 = 0.0;
-  double out_d3 = 0.0;
-  double out_b2 = 0.0;
-  double out_b3 = 0.0;
-
-  // constant k
-  out_k = 2;
-  // constant d1
-  out_d1 = 1e+01;
-  // constant d2
-  out_d2 = 2e+01;
-  // constant d3
-  out_d3 = 3e+01;
-  // multiportSwitch b2
-  int __ms_b2 = (int)(out_k);
-  if (__ms_b2 < 1) __ms_b2 = 1; if (__ms_b2 > 3) __ms_b2 = 3;
-  out_b2 = (__ms_b2 == 1) ? out_d1 : ((__ms_b2 == 2) ? out_d2 : (out_d3));
-  // scope b3
-  out_b3 = 0.0;
+  (void)s;
+  (void)in;
+  (void)out;
+  (void)t;
 }
 
 void nflow_terminate(ModelState* s) {

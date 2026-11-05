@@ -81,7 +81,7 @@ namespace NFlow {
             for (int k = 1; k < N; ++k) {
                 stride[k] = stride[k - 1] * dims[k - 1];
             }
-            const std::string tv = "__dl_tbl_" + a.id;
+            const std::string tv = "nf_dl_tbl_" + a.id;
             std::string td = rust ? "let " + tv + " = [" : "static const double " + tv + "[] = {";
             for (size_t i = 0; i < tbl.size(); ++i) {
                 td += (i ? ", " : "") + a.fmt(tbl[i]);
@@ -90,7 +90,7 @@ namespace NFlow {
             a.line(td);
             std::string offExpr;
             for (int k = 0; k < N; ++k) {
-                const std::string iv = "__di_" + a.id + "_" + std::to_string(k);
+                const std::string iv = "nf_di_" + a.id + "_" + std::to_string(k);
                 const std::string hi = std::to_string(dims[k] - 1);
                 if (rust) {
                     a.line("let mut " + iv + ": i32 = (" + a.in[k] + ").round() as i32;");
@@ -103,7 +103,7 @@ namespace NFlow {
                 }
                 offExpr += (k ? " + " : "") + iv + " * " + std::to_string(stride[k]);
             }
-            const std::string off = "__doff_" + a.id;
+            const std::string off = "nf_doff_" + a.id;
             a.line((rust ? "let " : "int ") + off + " = " + offExpr + ";");
             a.line("out_" + a.id + " = " + tv + "[" + off + (rust ? " as usize" : "") + "];");
         }

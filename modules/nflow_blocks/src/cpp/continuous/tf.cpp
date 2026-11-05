@@ -158,12 +158,12 @@ Nelson::NFlow::getCodeGenCTf()
         const std::string nStr = std::to_string(n);
         switch (a.rk4Op) {
         case Rk4Gather:
-            a.line("for (int __i = 0; __i < " + nStr + "; ++__i) " + a.rk4Arr + "[" + off
-                + " + __i] = s->tf_" + a.id + "[__i];");
+            a.line("for (int nf_i = 0; nf_i < " + nStr + "; ++nf_i) " + a.rk4Arr + "[" + off
+                + " + nf_i] = s->tf_" + a.id + "[nf_i];");
             break;
         case Rk4Scatter:
-            a.line("for (int __i = 0; __i < " + nStr + "; ++__i) s->tf_" + a.id
-                + "[__i] = " + a.rk4Arr + "[" + off + " + __i];");
+            a.line("for (int nf_i = 0; nf_i < " + nStr + "; ++nf_i) s->tf_" + a.id
+                + "[nf_i] = " + a.rk4Arr + "[" + off + " + nf_i];");
             break;
         case Rk4Output:
             a.line("out_" + a.id + " = tf_out(&tf_params_" + a.id + ", s->tf_" + a.id + ", "
@@ -329,12 +329,12 @@ Nelson::NFlow::getCodeGenRustTf()
         const std::string nc = "TF_N_" + cu;
         switch (a.rk4Op) {
         case Rk4Gather:
-            a.line("for __i in 0.." + nc + " { " + a.rk4Arr + "[" + off + " + __i] = s.tf_x_" + a.id
-                + "[__i]; }");
+            a.line("for nf_i in 0.." + nc + " { " + a.rk4Arr + "[" + off + " + nf_i] = s.tf_x_" + a.id
+                + "[nf_i]; }");
             break;
         case Rk4Scatter:
-            a.line("for __i in 0.." + nc + " { s.tf_x_" + a.id + "[__i] = " + a.rk4Arr + "[" + off
-                + " + __i]; }");
+            a.line("for nf_i in 0.." + nc + " { s.tf_x_" + a.id + "[nf_i] = " + a.rk4Arr + "[" + off
+                + " + nf_i]; }");
             break;
         case Rk4Output:
             a.line("out_" + a.id + " = tf_out(" + nc + ", TF_D_" + cu + ", &TF_C_" + cu
@@ -443,7 +443,6 @@ Nelson::NFlow::getCodeGenRustTf()
             a.addHelper("    for j in 0..n { last += a[j] * x[j]; }");
             a.addHelper("    if n > 0 { dx[n - 1] = last; }");
             a.addHelper("}");
-            a.addHelper("#[allow(dead_code)]");
             a.addHelper("fn tf_out(n: usize, d: f64, c: &[f64], x: &[f64], u: f64) -> f64 {");
             a.addHelper("    let mut y = d * u;");
             a.addHelper("    for i in 0..n { y += c[i] * x[i]; }");

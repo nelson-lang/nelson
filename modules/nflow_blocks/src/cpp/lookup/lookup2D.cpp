@@ -125,9 +125,9 @@ namespace NFlow {
                     + "; }");
                 a.line("else if " + uv + " >= " + arr + "[" + N1 + "] { " + iv + " = " + N2 + "; "
                     + fv + " = " + aboveF + "; }");
-                a.line("else { let mut __k = " + N2 + "usize; while __k > 0 && " + uv + " < " + arr
-                    + "[__k] { __k -= 1; } " + iv + " = __k; " + fv + " = (" + uv + " - " + arr
-                    + "[__k]) / (" + arr + "[__k+1] - " + arr + "[__k]); }");
+                a.line("else { let mut nf_k = " + N2 + "usize; while nf_k > 0 && " + uv + " < " + arr
+                    + "[nf_k] { nf_k -= 1; } " + iv + " = nf_k; " + fv + " = (" + uv + " - " + arr
+                    + "[nf_k]) / (" + arr + "[nf_k+1] - " + arr + "[nf_k]); }");
             } else {
                 a.line("int " + iv + "; double " + fv + ";");
                 a.line("if (" + uv + " <= " + arr + "[0]) { " + iv + " = 0; " + fv + " = " + belowF
@@ -176,20 +176,20 @@ namespace NFlow {
                     a, rust, { bp1, bp2 }, tbl, interp, bdp.paramStr("ExtrapMethod", "Linear"));
                 return;
             }
-            const std::string bp1v = "__lu2_bp1_" + a.id;
-            const std::string bp2v = "__lu2_bp2_" + a.id;
-            const std::string tv = "__lu2_tbl_" + a.id;
+            const std::string bp1v = "nf_lu2_bp1_" + a.id;
+            const std::string bp2v = "nf_lu2_bp2_" + a.id;
+            const std::string tv = "nf_lu2_tbl_" + a.id;
             a.line(emitArray(a, bp1v, bp1, rust));
             a.line(emitArray(a, bp2v, bp2, rust));
             a.line(emitArray(a, tv, tbl, rust));
-            const std::string u1 = "__u1_" + a.id, u2 = "__u2_" + a.id;
-            const std::string i1 = "__i1_" + a.id, i2 = "__j1_" + a.id;
-            const std::string f1 = "__f1_" + a.id, f2 = "__f2_" + a.id;
+            const std::string u1 = "nf_u1_" + a.id, u2 = "nf_u2_" + a.id;
+            const std::string i1 = "nf_i1_" + a.id, i2 = "nf_j1_" + a.id;
+            const std::string f1 = "nf_f1_" + a.id, f2 = "nf_f2_" + a.id;
             a.line((rust ? "let " : "double ") + u1 + " = " + a.in[0] + ";");
             a.line((rust ? "let " : "double ") + u2 + " = " + a.in[1] + ";");
             emitLocate(a, rust, bp1v, u1, i1, f1, R, linExtrap);
             emitLocate(a, rust, bp2v, u2, i2, f2, C, linExtrap);
-            const std::string w1 = "__w1_" + a.id, w2 = "__w2_" + a.id;
+            const std::string w1 = "nf_w1_" + a.id, w2 = "nf_w2_" + a.id;
             a.line((rust ? "let " : "double ") + w1 + " = " + weightExpr(f1, interp, rust) + ";");
             a.line((rust ? "let " : "double ") + w2 + " = " + weightExpr(f2, interp, rust) + ";");
             // T(ii,jj) = tv[ii + jj*R]

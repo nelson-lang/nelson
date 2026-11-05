@@ -20,12 +20,12 @@ typedef struct {
   double _unused;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 0;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 0;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "_unused",
 };
 
@@ -34,56 +34,10 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
-  const double dt = 0.01;
-  double out_b1__e0 = 0.0;
-  double out_b1__e1 = 0.0;
-  double out_b1__e2 = 0.0;
-  double out_b4__e0 = 0.0;
-  double out_b4__e1 = 0.0;
-  double out_b4__e2 = 0.0;
-  double out_b2__cr0_p1 = 0.0;
-  double out_b2__cr0_p2 = 0.0;
-  double out_b2__cr0 = 0.0;
-  double out_b2__cr1_p1 = 0.0;
-  double out_b2__cr1_p2 = 0.0;
-  double out_b2__cr1 = 0.0;
-  double out_b2__cr2_p1 = 0.0;
-  double out_b2__cr2_p2 = 0.0;
-  double out_b2__cr2 = 0.0;
-  double out_b3 = 0.0;
-
-  // constant b1__e0
-  out_b1__e0 = 1;
-  // constant b1__e1
-  out_b1__e1 = 0;
-  // constant b1__e2
-  out_b1__e2 = 0;
-  // constant b4__e0
-  out_b4__e0 = 0;
-  // constant b4__e1
-  out_b4__e1 = 1;
-  // constant b4__e2
-  out_b4__e2 = 0;
-  // mult b2__cr1_p1
-  out_b2__cr1_p1 = out_b1__e2 * out_b4__e0;
-  // mult b2__cr2_p2
-  out_b2__cr2_p2 = out_b1__e1 * out_b4__e0;
-  // mult b2__cr0_p2
-  out_b2__cr0_p2 = out_b1__e2 * out_b4__e1;
-  // mult b2__cr2_p1
-  out_b2__cr2_p1 = out_b1__e0 * out_b4__e1;
-  // mult b2__cr0_p1
-  out_b2__cr0_p1 = out_b1__e1 * out_b4__e2;
-  // mult b2__cr1_p2
-  out_b2__cr1_p2 = out_b1__e0 * out_b4__e2;
-  // sum b2__cr2
-  out_b2__cr2 = out_b2__cr2_p1 + -out_b2__cr2_p2;
-  // sum b2__cr0
-  out_b2__cr0 = out_b2__cr0_p1 + -out_b2__cr0_p2;
-  // sum b2__cr1
-  out_b2__cr1 = out_b2__cr1_p1 + -out_b2__cr1_p2;
-  // scope b3
-  out_b3 = 0.0;
+  (void)s;
+  (void)in;
+  (void)out;
+  (void)t;
 }
 
 void nflow_terminate(ModelState* s) {

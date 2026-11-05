@@ -11,7 +11,7 @@
 %=============================================================================
 % Unified codegen 5.3 (b): a model integrated with the variable-step ode45
 % (Dormand-Prince 5(4)) solver generates C and Rust with an embedded adaptive
-% stepper over the shared __nflow_rhs, instead of being rejected. Structural
+% stepper over the shared nflow_rhs, instead of being rejected. Structural
 % checks only (no compiler); numeric validation is the FMU round-trip test.
 %=============================================================================
 % x' = -x, x(0) = 1  ->  e^{-t}. Integrator (IC=1) with -1 feedback.
@@ -45,10 +45,10 @@ cfile = [outDir, filesep, modelstem, filesep, 'model.c'];
 assert_istrue(isfile(cfile));
 txt = fileread(cfile);
 % Shared rhs is present (reused by the adaptive stepper).
-assert_istrue(~isempty(strfind(txt, '__nflow_rhs')));
+assert_istrue(~isempty(strfind(txt, 'nflow_rhs')));
 % Dormand-Prince tableau marker (5th-order b coefficient) + adaptive controls.
 assert_istrue(~isempty(strfind(txt, '35.0/384')));
-assert_istrue(~isempty(strfind(txt, '__att'))); % attempt / reject loop
+assert_istrue(~isempty(strfind(txt, 'nf_att'))); % attempt / reject loop
 assert_istrue(~isempty(strfind(txt, 'pow('))); % step-size control
 % It must NOT be the fixed RK4 emission (dt/6 combination).
 assert_istrue(isempty(strfind(txt, '(dt / 6.0)')));
@@ -63,7 +63,7 @@ nflow_codegenerate(model, outDirR, false, 'rust');
 rfile = [outDirR, filesep, modelstem, filesep, 'src', filesep, 'lib.rs'];
 assert_istrue(isfile(rfile));
 rtxt = fileread(rfile);
-assert_istrue(~isempty(strfind(rtxt, '__nflow_rhs')));
+assert_istrue(~isempty(strfind(rtxt, 'nflow_rhs')));
 assert_istrue(~isempty(strfind(rtxt, '35.0/384.0'))); % Dormand-Prince tableau
 assert_istrue(~isempty(strfind(rtxt, 'libm::pow('))); % adaptive step control (no_std math)
 assert_istrue(~isempty(strfind(rtxt, 'libm::sqrt('))); % RMS error norm

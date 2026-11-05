@@ -81,11 +81,11 @@ fclose(fid);
 nflow_codegenerate(fi, tempdir(), false, 'C');
 srcI = fileread([tempdir(), fistem, '/model.c']);
 assert_istrue(isempty(strfind(srcI, 'unknown:')));
-assert_istrue(~isempty(strfind(srcI, '__nflow_rhs'))); % on the RK4 path, not Euler
-assert_istrue(~isempty(strfind(srcI, '__xdot[0] = 0.0;'))); % freeze mask
+assert_istrue(~isempty(strfind(srcI, 'nflow_rhs'))); % on the RK4 path, not Euler
+assert_istrue(~isempty(strfind(srcI, 'nf_xdot[0] = 0.0;'))); % freeze mask
 nflow_codegenerate(fi, tempdir(), false, 'rust');
 srcIR = fileread([tempdir(), fistem, '/src/lib.rs']);
-assert_istrue(~isempty(strfind(srcIR, '__xdot[0] = 0.0;')));
+assert_istrue(~isempty(strfind(srcIR, 'nf_xdot[0] = 0.0;')));
 rmfile(fi);
 if __nflow_codegen_toolchain__('C')
   nflow_codegen_check_numeric(di, 'nfei_num', 'C', {'y'}, {'nfei_y'}, 5e-6, 1e-9);

@@ -54,10 +54,10 @@ namespace NFlow {
         {
             const int N = L.numStates;
             line("  double G[" + std::to_string(N) + "];");
-            line("  for (int __i = 0; __i < " + std::to_string(N) + "; ++__i) G[__i] = 0.0;");
+            line("  for (int nf_i = 0; nf_i < " + std::to_string(N) + "; ++nf_i) G[nf_i] = 0.0;");
             line("  double kcl[" + std::to_string(L.numNodes) + "];");
-            line("  for (int __n = 0; __n < " + std::to_string(L.numNodes)
-                + "; ++__n) kcl[__n] = 0.0;");
+            line("  for (int nf_n = 0; nf_n < " + std::to_string(L.numNodes)
+                + "; ++nf_n) kcl[nf_n] = 0.0;");
             for (const IslandComp& c : L.comps) {
                 const std::string ea = islandEpot(L, c.a);
                 const std::string eb = islandEpot(L, c.b);
@@ -67,36 +67,36 @@ namespace NFlow {
                 const std::string si1 = std::to_string(c.stateIndex + 1);
                 switch (c.kind) {
                 case Kind::Resistor:
-                    line("  { double __i = ((" + ea + ") - (" + eb + ")) / " + fmt(c.value) + ";"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { double nf_i = ((" + ea + ") - (" + eb + ")) / " + fmt(c.value) + ";"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::Conductor:
-                    line("  { double __i = ((" + ea + ") - (" + eb + ")) * " + fmt(c.value) + ";"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { double nf_i = ((" + ea + ") - (" + eb + ")) * " + fmt(c.value) + ";"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::Diode:
-                    line("  { double __vd = (" + ea + ") - (" + eb + ");"
-                        + " double __arg = __vd / " + fmt(c.vt)
-                        + "; if (__arg > 40.0) __arg = 40.0;" + " double __i = " + fmt(c.value)
-                        + " * (exp(__arg) - 1.0);" + " kcl[" + a + "] += __i; kcl[" + b
-                        + "] -= __i; }");
+                    line("  { double nf_vd = (" + ea + ") - (" + eb + ");"
+                        + " double nf_arg = nf_vd / " + fmt(c.vt)
+                        + "; if (nf_arg > 40.0) nf_arg = 40.0;" + " double nf_i = " + fmt(c.value)
+                        + " * (exp(nf_arg) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 case Kind::ZDiode:
-                    line("  { double __vd = (" + ea + ") - (" + eb + ");" + " double __af = __vd / "
-                        + fmt(c.vt) + "; if (__af > 40.0) __af = 40.0;" + " double __ar = -(__vd + "
-                        + fmt(c.value2) + ") / " + fmt(c.vt) + "; if (__ar > 40.0) __ar = 40.0;"
-                        + " double __i = " + fmt(c.value) + " * (exp(__af) - 1.0) - " + fmt(c.value)
-                        + " * (exp(__ar) - 1.0);" + " kcl[" + a + "] += __i; kcl[" + b
-                        + "] -= __i; }");
+                    line("  { double nf_vd = (" + ea + ") - (" + eb + ");" + " double nf_af = nf_vd / "
+                        + fmt(c.vt) + "; if (nf_af > 40.0) nf_af = 40.0;" + " double nf_ar = -(nf_vd + "
+                        + fmt(c.value2) + ") / " + fmt(c.vt) + "; if (nf_ar > 40.0) nf_ar = 40.0;"
+                        + " double nf_i = " + fmt(c.value) + " * (exp(nf_af) - 1.0) - " + fmt(c.value)
+                        + " * (exp(nf_ar) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 case Kind::IdealDiode:
                     // Hybrid branch on its state s, same modes as the native residual.
-                    line("  { double __s = x[" + si + "]; int __off = (__s < 0.0);"
-                        + " double __vs = " + fmt(c.value3) + " + __s * (__off ? 1.0 : "
-                        + fmt(c.value) + ");" + " double __is = (__off ? " + fmt(c.value2)
-                        + " * __s : __s) + " + fmt(c.value2) + " * " + fmt(c.value3) + ";" + " G["
-                        + si + "] = ((" + ea + ") - (" + eb + ")) - __vs;" + " kcl[" + a
-                        + "] += __is; kcl[" + b + "] -= __is; }");
+                    line("  { double nf_s = x[" + si + "]; int nf_off = (nf_s < 0.0);"
+                        + " double nf_vs = " + fmt(c.value3) + " + nf_s * (nf_off ? 1.0 : "
+                        + fmt(c.value) + ");" + " double nf_is = (nf_off ? " + fmt(c.value2)
+                        + " * nf_s : nf_s) + " + fmt(c.value2) + " * " + fmt(c.value3) + ";" + " G["
+                        + si + "] = ((" + ea + ") - (" + eb + ")) - nf_vs;" + " kcl[" + a
+                        + "] += nf_is; kcl[" + b + "] -= nf_is; }");
                     break;
                 case Kind::Npn:
                 case Kind::Pnp: {
@@ -104,16 +104,16 @@ namespace NFlow {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string cc = std::to_string(c.c);
                     const std::string sgn = (c.kind == Kind::Npn) ? "1.0" : "-1.0";
-                    line("  { double __s = " + sgn + ";" + " double __abe = __s * ((" + ec + ") - ("
-                        + eb + ")) / " + fmt(c.vt) + ";" + " double __abc = __s * ((" + ec + ") - ("
+                    line("  { double nf_s = " + sgn + ";" + " double nf_abe = nf_s * ((" + ec + ") - ("
+                        + eb + ")) / " + fmt(c.vt) + ";" + " double nf_abc = nf_s * ((" + ec + ") - ("
                         + ea + ")) / " + fmt(c.vt) + ";"
-                        + " if (__abe > 40.0) __abe = 40.0; if (__abc > 40.0) __abc = 40.0;"
-                        + " double __ef = exp(__abe) - 1.0; double __er = exp(__abc) - 1.0;"
-                        + " double __ic = __s * (" + fmt(c.value) + " * (__ef - __er) - "
-                        + fmt(c.value / c.value3) + " * __er);" + " double __ib = __s * ("
-                        + fmt(c.value / c.value2) + " * __ef + " + fmt(c.value / c.value3)
-                        + " * __er);" + " kcl[" + a + "] += __ic; kcl[" + cc + "] += __ib;"
-                        + " kcl[" + b + "] -= (__ic + __ib); }");
+                        + " if (nf_abe > 40.0) nf_abe = 40.0; if (nf_abc > 40.0) nf_abc = 40.0;"
+                        + " double nf_ef = exp(nf_abe) - 1.0; double nf_er = exp(nf_abc) - 1.0;"
+                        + " double nf_ic = nf_s * (" + fmt(c.value) + " * (nf_ef - nf_er) - "
+                        + fmt(c.value / c.value3) + " * nf_er);" + " double nf_ib = nf_s * ("
+                        + fmt(c.value / c.value2) + " * nf_ef + " + fmt(c.value / c.value3)
+                        + " * nf_er);" + " kcl[" + a + "] += nf_ic; kcl[" + cc + "] += nf_ib;"
+                        + " kcl[" + b + "] -= (nf_ic + nf_ib); }");
                     break;
                 }
                 case Kind::Nmos:
@@ -121,125 +121,125 @@ namespace NFlow {
                     // Square-law MOSFET (a=D, b=S, c=G), s = +1 NMOS / -1 PMOS.
                     const std::string ec = islandEpot(L, c.c);
                     const std::string sgn = (c.kind == Kind::Nmos) ? "1.0" : "-1.0";
-                    line("  { double __s = " + sgn + ";" + " double __vgs = __s * ((" + ec + ") - ("
-                        + eb + "));" + " double __vds = __s * ((" + ea + ") - (" + eb + "));"
-                        + " double __vov = __vgs - " + fmt(c.value2) + "; double __id = 0.0;"
-                        + " if (__vov > 0.0) { __id = (__vds < __vov) ? " + fmt(c.value)
-                        + " * (__vov * __vds - 0.5 * __vds * __vds) : 0.5 * " + fmt(c.value)
-                        + " * __vov * __vov; }" + " kcl[" + a + "] += __s * __id; kcl[" + b
-                        + "] -= __s * __id; }");
+                    line("  { double nf_s = " + sgn + ";" + " double nf_vgs = nf_s * ((" + ec + ") - ("
+                        + eb + "));" + " double nf_vds = nf_s * ((" + ea + ") - (" + eb + "));"
+                        + " double nf_vov = nf_vgs - " + fmt(c.value2) + "; double nf_id = 0.0;"
+                        + " if (nf_vov > 0.0) { nf_id = (nf_vds < nf_vov) ? " + fmt(c.value)
+                        + " * (nf_vov * nf_vds - 0.5 * nf_vds * nf_vds) : 0.5 * " + fmt(c.value)
+                        + " * nf_vov * nf_vov; }" + " kcl[" + a + "] += nf_s * nf_id; kcl[" + b
+                        + "] -= nf_s * nf_id; }");
                     break;
                 }
                 case Kind::Radiation:
                     // Stefan-Boltzmann: q = Gr (T_a^4 - T_b^4), the node potentials
                     // being temperatures (thermal domain). Smooth nonlinear stamp.
-                    line("  { double __ta = (" + ea + "); double __tb = (" + eb + ");"
-                        + " double __q = " + fmt(c.value)
-                        + " * (__ta * __ta * __ta * __ta - __tb * __tb * __tb * __tb);" + " kcl["
-                        + a + "] += __q; kcl[" + b + "] -= __q; }");
+                    line("  { double nf_ta = (" + ea + "); double nf_tb = (" + eb + ");"
+                        + " double nf_q = " + fmt(c.value)
+                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);" + " kcl["
+                        + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
                     break;
                 case Kind::Capacitor:
                     // state si = v_C (differential), si+1 = i_C (algebraic):
                     //   G[si] = i_C / C ; G[si+1] = v_C - (e_a - e_b) ; i_C into KCL.
-                    line("  { double __vC = x[" + si + "]; double __iC = x[" + si1 + "];" + " G["
-                        + si + "] = __iC / " + fmt(c.value) + ";" + " G[" + si1 + "] = __vC - (("
-                        + ea + ") - (" + eb + "));" + " kcl[" + a + "] += __iC; kcl[" + b
-                        + "] -= __iC; }");
+                    line("  { double nf_vC = x[" + si + "]; double nf_iC = x[" + si1 + "];" + " G["
+                        + si + "] = nf_iC / " + fmt(c.value) + ";" + " G[" + si1 + "] = nf_vC - (("
+                        + ea + ") - (" + eb + "));" + " kcl[" + a + "] += nf_iC; kcl[" + b
+                        + "] -= nf_iC; }");
                     break;
                 case Kind::Inductor:
                     // state si = i_L (differential): G[si] = v_L / L ; i_L into KCL.
-                    line("  { double __iL = x[" + si + "];" + " G[" + si + "] = ((" + ea + ") - ("
-                        + eb + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += __iL; kcl[" + b
-                        + "] -= __iL; }");
+                    line("  { double nf_iL = x[" + si + "];" + " G[" + si + "] = ((" + ea + ") - ("
+                        + eb + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += nf_iL; kcl[" + b
+                        + "] -= nf_iL; }");
                     break;
                 case Kind::VSource:
                 case Kind::CurrentSensor: {
                     const std::string V
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : fmt(c.value);
-                    line("  { double __ib = x[" + si + "];" + " kcl[" + a + "] += __ib; kcl[" + b
-                        + "] -= __ib;" + " G[" + si + "] = ((" + ea + ") - (" + eb + ")) - (" + V
+                    line("  { double nf_ib = x[" + si + "];" + " kcl[" + a + "] += nf_ib; kcl[" + b
+                        + "] -= nf_ib;" + " G[" + si + "] = ((" + ea + ") - (" + eb + ")) - (" + V
                         + "); }");
                     break;
                 }
                 case Kind::ISource: {
                     const std::string I
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : fmt(c.value);
-                    line("  { double __i = " + I + "; kcl[" + a + "] += __i; kcl[" + b
-                        + "] -= __i; }");
+                    line("  { double nf_i = " + I + "; kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 }
                 case Kind::Vccs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __i = " + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { double nf_i = " + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 }
                 case Kind::Vcvs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __ib = x[" + si + "]; kcl[" + a + "] += __ib; kcl[" + b
-                        + "] -= __ib; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
+                    line("  { double nf_ib = x[" + si + "]; kcl[" + a + "] += nf_ib; kcl[" + b
+                        + "] -= nf_ib; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
                         + fmt(c.value) + " * ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::Ccvs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __io = x[" + si + "]; double __is = x[" + si1 + "];" + " kcl["
-                        + a + "] += __io; kcl[" + b + "] -= __io;" + " kcl[" + std::to_string(c.c)
-                        + "] += __is; kcl[" + std::to_string(c.d) + "] -= __is; G[" + si + "] = (("
-                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * __is; G[" + si1
+                    line("  { double nf_io = x[" + si + "]; double nf_is = x[" + si1 + "];" + " kcl["
+                        + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl[" + std::to_string(c.c)
+                        + "] += nf_is; kcl[" + std::to_string(c.d) + "] -= nf_is; G[" + si + "] = (("
+                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * nf_is; G[" + si1
                         + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::Cccs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __is = x[" + si + "]; double __io = " + fmt(c.value)
-                        + " * __is;" + " kcl[" + a + "] += __io; kcl[" + b + "] -= __io;" + " kcl["
-                        + std::to_string(c.c) + "] += __is; kcl[" + std::to_string(c.d)
-                        + "] -= __is; G[" + si + "] = ((" + ec + ") - (" + ed + ")); }");
+                    line("  { double nf_is = x[" + si + "]; double nf_io = " + fmt(c.value)
+                        + " * nf_is;" + " kcl[" + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl["
+                        + std::to_string(c.c) + "] += nf_is; kcl[" + std::to_string(c.d)
+                        + "] -= nf_is; G[" + si + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::OpAmp:
-                    line("  { double __io = x[" + si + "]; G[" + si + "] = (" + ea + ") - (" + eb
-                        + "); kcl[" + std::to_string(c.c) + "] += __io; }");
+                    line("  { double nf_io = x[" + si + "]; G[" + si + "] = (" + ea + ") - (" + eb
+                        + "); kcl[" + std::to_string(c.c) + "] += nf_io; }");
                     break;
                 case Kind::Short:
-                    line("  { double __ib = x[" + si + "]; G[" + si + "] = (" + ea + ") - (" + eb
-                        + "); kcl[" + a + "] += __ib; kcl[" + b + "] -= __ib; }");
+                    line("  { double nf_ib = x[" + si + "]; G[" + si + "] = (" + ea + ") - (" + eb
+                        + "); kcl[" + a + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 case Kind::Idle:
-                    line("  { double __ib = x[" + si + "]; G[" + si + "] = __ib;" + " kcl[" + a
-                        + "] += __ib; kcl[" + b + "] -= __ib; }");
+                    line("  { double nf_ib = x[" + si + "]; G[" + si + "] = nf_ib;" + " kcl[" + a
+                        + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 case Kind::Transformer: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __i1 = x[" + si + "]; double __i2 = -" + fmt(c.value)
-                        + " * __i1; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value)
-                        + " * ((" + ec + ") - (" + ed + "));" + " kcl[" + a + "] += __i1; kcl[" + b
-                        + "] -= __i1; kcl[" + std::to_string(c.c) + "] += __i2; kcl["
-                        + std::to_string(c.d) + "] -= __i2; }");
+                    line("  { double nf_i1 = x[" + si + "]; double nf_i2 = -" + fmt(c.value)
+                        + " * nf_i1; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value)
+                        + " * ((" + ec + ") - (" + ed + "));" + " kcl[" + a + "] += nf_i1; kcl[" + b
+                        + "] -= nf_i1; kcl[" + std::to_string(c.c) + "] += nf_i2; kcl["
+                        + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Gyrator: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double __v1 = (" + ea + ") - (" + eb + "); double __v2 = (" + ec
-                        + ") - (" + ed + "); double __i1 = " + fmt(c.value2) + " * __v2;"
-                        + " double __i2 = -" + fmt(c.value) + " * __v1;" + " kcl[" + a
-                        + "] += __i1; kcl[" + b + "] -= __i1; kcl[" + std::to_string(c.c)
-                        + "] += __i2; kcl[" + std::to_string(c.d) + "] -= __i2; }");
+                    line("  { double nf_v1 = (" + ea + ") - (" + eb + "); double nf_v2 = (" + ec
+                        + ") - (" + ed + "); double nf_i1 = " + fmt(c.value2) + " * nf_v2;"
+                        + " double nf_i2 = -" + fmt(c.value) + " * nf_v1;" + " kcl[" + a
+                        + "] += nf_i1; kcl[" + b + "] -= nf_i1; kcl[" + std::to_string(c.c)
+                        + "] += nf_i2; kcl[" + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Switch: {
                     const std::string ctrl
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : std::string("1.0");
-                    line("  { double __ib = x[" + si + "]; G[" + si + "] = (" + ctrl
-                        + " > 0.5) ? ((" + ea + ") - (" + eb + ")) : __ib;" + " kcl[" + a
-                        + "] += __ib; kcl[" + b + "] -= __ib; }");
+                    line("  { double nf_ib = x[" + si + "]; G[" + si + "] = (" + ctrl
+                        + " > 0.5) ? ((" + ea + ") - (" + eb + ")) : nf_ib;" + " kcl[" + a
+                        + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 }
                 default:
@@ -273,64 +273,64 @@ namespace NFlow {
             const std::string Ns = std::to_string(N);
             const std::string xs = "s->isl_x_" + id;
             a.line("{");
-            a.line("  double* __X = " + xs + ";");
+            a.line("  double* nf_X = " + xs + ";");
             if (np > 0) {
-                a.line("  double __u[" + std::to_string(np) + "];");
+                a.line("  double nf_u[" + std::to_string(np) + "];");
                 for (int p = 0; p < np; ++p) {
                     const std::string e = (p < static_cast<int>(a.in.size()))
                         ? a.in[static_cast<size_t>(p)]
                         : "0.0";
-                    a.line("  __u[" + std::to_string(p) + "] = " + e + ";");
+                    a.line("  nf_u[" + std::to_string(p) + "] = " + e + ";");
                 }
             } else {
-                a.line("  double __u[1]; __u[0] = 0.0; (void)__u;");
+                a.line("  double nf_u[1]; nf_u[0] = 0.0; (void)nf_u;");
             }
             // Backward-Euler: freeze the previous-step state for the implicit
             // residual (unused when the island is purely algebraic).
-            a.line("  double __xprev[" + Ns + "]; for (int __i = 0; __i < " + Ns
-                + "; ++__i) __xprev[__i] = __X[__i];");
-            a.line("  for (int __it = 0; __it < 60; ++__it) {");
-            a.line("    double __F[" + Ns + "]; __isl_res_" + id + "(__X, __xprev, __u, dt, __F);");
-            a.line("    double __nrm = 0.0; for (int __i = 0; __i < " + Ns
-                + "; ++__i) __nrm += __F[__i] * __F[__i];");
-            a.line("    if (__nrm < 1e-24) break;");
-            a.line("    double __J[" + std::to_string(N * N) + "];");
-            a.line("    for (int __j = 0; __j < " + Ns + "; ++__j) {");
-            a.line("      double __xj = __X[__j]; double __h = 1e-7 * (__xj < 0 ? -__xj : __xj) + "
+            a.line("  double nf_xprev[" + Ns + "]; for (int nf_i = 0; nf_i < " + Ns
+                + "; ++nf_i) nf_xprev[nf_i] = nf_X[nf_i];");
+            a.line("  for (int nf_it = 0; nf_it < 60; ++nf_it) {");
+            a.line("    double nf_F[" + Ns + "]; nflow_isl_res_" + id + "(nf_X, nf_xprev, nf_u, dt, nf_F);");
+            a.line("    double nf_nrm = 0.0; for (int nf_i = 0; nf_i < " + Ns
+                + "; ++nf_i) nf_nrm += nf_F[nf_i] * nf_F[nf_i];");
+            a.line("    if (nf_nrm < 1e-24) break;");
+            a.line("    double nf_J[" + std::to_string(N * N) + "];");
+            a.line("    for (int nf_j = 0; nf_j < " + Ns + "; ++nf_j) {");
+            a.line("      double nf_xj = nf_X[nf_j]; double nf_h = 1e-7 * (nf_xj < 0 ? -nf_xj : nf_xj) + "
                    "1e-9;");
-            a.line("      __X[__j] = __xj + __h; double __Fp[" + Ns + "]; __isl_res_" + id
-                + "(__X, __xprev, __u, dt, __Fp); __X[__j] = __xj;");
-            a.line("      for (int __i = 0; __i < " + Ns + "; ++__i) __J[__i * " + Ns
-                + " + __j] = (__Fp[__i] - __F[__i]) / __h;");
+            a.line("      nf_X[nf_j] = nf_xj + nf_h; double nf_Fp[" + Ns + "]; nflow_isl_res_" + id
+                + "(nf_X, nf_xprev, nf_u, dt, nf_Fp); nf_X[nf_j] = nf_xj;");
+            a.line("      for (int nf_i = 0; nf_i < " + Ns + "; ++nf_i) nf_J[nf_i * " + Ns
+                + " + nf_j] = (nf_Fp[nf_i] - nf_F[nf_i]) / nf_h;");
             a.line("    }");
-            a.line("    double __b[" + Ns + "]; for (int __i = 0; __i < " + Ns
-                + "; ++__i) __b[__i] = -__F[__i];");
-            a.line("    for (int __k = 0; __k < " + Ns + "; ++__k) {");
-            a.line("      int __p = __k; double __mx = __J[__k * " + Ns + " + __k];"
-                + " if (__mx < 0) __mx = -__mx;");
-            a.line("      for (int __r = __k + 1; __r < " + Ns + "; ++__r) {"
-                + " double __v = __J[__r * " + Ns + " + __k]; if (__v < 0) __v = -__v;"
-                + " if (__v > __mx) { __mx = __v; __p = __r; } }");
-            a.line("      if (__p != __k) { for (int __col = 0; __col < " + Ns + "; ++__col) {"
-                + " double __t = __J[__k * " + Ns + " + __col]; __J[__k * " + Ns
-                + " + __col] = __J[__p * " + Ns + " + __col]; __J[__p * " + Ns
-                + " + __col] = __t; }"
-                + " double __tb = __b[__k]; __b[__k] = __b[__p]; __b[__p] = __tb; }");
-            a.line("      double __d = __J[__k * " + Ns
-                + " + __k]; if (__d < 1e-30 && __d > -1e-30) __d = 1e-30;");
-            a.line("      for (int __r = __k + 1; __r < " + Ns + "; ++__r) {"
-                + " double __f = __J[__r * " + Ns + " + __k] / __d;"
-                + " for (int __col = __k; __col < " + Ns + "; ++__col) __J[__r * " + Ns
-                + " + __col] -= __f * __J[__k * " + Ns + " + __col];"
-                + " __b[__r] -= __f * __b[__k]; }");
+            a.line("    double nf_b[" + Ns + "]; for (int nf_i = 0; nf_i < " + Ns
+                + "; ++nf_i) nf_b[nf_i] = -nf_F[nf_i];");
+            a.line("    for (int nf_k = 0; nf_k < " + Ns + "; ++nf_k) {");
+            a.line("      int nf_p = nf_k; double nf_mx = nf_J[nf_k * " + Ns + " + nf_k];"
+                + " if (nf_mx < 0) nf_mx = -nf_mx;");
+            a.line("      for (int nf_r = nf_k + 1; nf_r < " + Ns + "; ++nf_r) {"
+                + " double nf_v = nf_J[nf_r * " + Ns + " + nf_k]; if (nf_v < 0) nf_v = -nf_v;"
+                + " if (nf_v > nf_mx) { nf_mx = nf_v; nf_p = nf_r; } }");
+            a.line("      if (nf_p != nf_k) { for (int nf_col = 0; nf_col < " + Ns + "; ++nf_col) {"
+                + " double nf_t = nf_J[nf_k * " + Ns + " + nf_col]; nf_J[nf_k * " + Ns
+                + " + nf_col] = nf_J[nf_p * " + Ns + " + nf_col]; nf_J[nf_p * " + Ns
+                + " + nf_col] = nf_t; }"
+                + " double nf_tb = nf_b[nf_k]; nf_b[nf_k] = nf_b[nf_p]; nf_b[nf_p] = nf_tb; }");
+            a.line("      double nf_d = nf_J[nf_k * " + Ns
+                + " + nf_k]; if (nf_d < 1e-30 && nf_d > -1e-30) nf_d = 1e-30;");
+            a.line("      for (int nf_r = nf_k + 1; nf_r < " + Ns + "; ++nf_r) {"
+                + " double nf_f = nf_J[nf_r * " + Ns + " + nf_k] / nf_d;"
+                + " for (int nf_col = nf_k; nf_col < " + Ns + "; ++nf_col) nf_J[nf_r * " + Ns
+                + " + nf_col] -= nf_f * nf_J[nf_k * " + Ns + " + nf_col];"
+                + " nf_b[nf_r] -= nf_f * nf_b[nf_k]; }");
             a.line("    }");
-            a.line("    for (int __i = " + std::to_string(N - 1) + "; __i >= 0; --__i) {"
-                + " double __s = __b[__i];" + " for (int __col = __i + 1; __col < " + Ns
-                + "; ++__col) __s -= __J[__i * " + Ns + " + __col] * __b[__col];"
-                + " double __d = __J[__i * " + Ns
-                + " + __i]; if (__d < 1e-30 && __d > -1e-30) __d = 1e-30;"
-                + " __b[__i] = __s / __d; }");
-            a.line("    for (int __i = 0; __i < " + Ns + "; ++__i) __X[__i] += __b[__i];");
+            a.line("    for (int nf_i = " + std::to_string(N - 1) + "; nf_i >= 0; --nf_i) {"
+                + " double nf_s = nf_b[nf_i];" + " for (int nf_col = nf_i + 1; nf_col < " + Ns
+                + "; ++nf_col) nf_s -= nf_J[nf_i * " + Ns + " + nf_col] * nf_b[nf_col];"
+                + " double nf_d = nf_J[nf_i * " + Ns
+                + " + nf_i]; if (nf_d < 1e-30 && nf_d > -1e-30) nf_d = 1e-30;"
+                + " nf_b[nf_i] = nf_s / nf_d; }");
+            a.line("    for (int nf_i = 0; nf_i < " + Ns + "; ++nf_i) nf_X[nf_i] += nf_b[nf_i];");
             a.line("  }");
             // Sensor outputs. The node potential here reads the persistent state
             // array (isl_x_<id>), NOT the residual helper's `x` parameter.
@@ -379,53 +379,53 @@ namespace NFlow {
                 const std::string si1 = std::to_string(c.stateIndex + 1);
                 switch (c.kind) {
                 case Kind::Resistor:
-                    line("  { let __i = ((" + ea + ") - (" + eb + ")) / " + fmt(c.value) + ";"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { let nf_i = ((" + ea + ") - (" + eb + ")) / " + fmt(c.value) + ";"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::Conductor:
-                    line("  { let __i = ((" + ea + ") - (" + eb + ")) * " + fmt(c.value) + ";"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { let nf_i = ((" + ea + ") - (" + eb + ")) * " + fmt(c.value) + ";"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::Diode:
-                    line("  { let __vd = (" + ea + ") - (" + eb + ");" + " let mut __arg = __vd / "
-                        + fmt(c.vt) + "; if __arg > 40.0 { __arg = 40.0; }"
-                        + " let __i = " + fmt(c.value) + " * (libm::exp(__arg) - 1.0);" + " kcl["
-                        + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");" + " let mut nf_arg = nf_vd / "
+                        + fmt(c.vt) + "; if nf_arg > 40.0 { nf_arg = 40.0; }"
+                        + " let nf_i = " + fmt(c.value) + " * (libm::exp(nf_arg) - 1.0);" + " kcl["
+                        + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::ZDiode:
-                    line("  { let __vd = (" + ea + ") - (" + eb + ");" + " let mut __af = __vd / "
-                        + fmt(c.vt) + "; if __af > 40.0 { __af = 40.0; }"
-                        + " let mut __ar = -(__vd + " + fmt(c.value2) + ") / " + fmt(c.vt)
-                        + "; if __ar > 40.0 { __ar = 40.0; }" + " let __i = " + fmt(c.value)
-                        + " * (libm::exp(__af) - 1.0) - " + fmt(c.value)
-                        + " * (libm::exp(__ar) - 1.0);" + " kcl[" + a + "] += __i; kcl[" + b
-                        + "] -= __i; }");
+                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");" + " let mut nf_af = nf_vd / "
+                        + fmt(c.vt) + "; if nf_af > 40.0 { nf_af = 40.0; }"
+                        + " let mut nf_ar = -(nf_vd + " + fmt(c.value2) + ") / " + fmt(c.vt)
+                        + "; if nf_ar > 40.0 { nf_ar = 40.0; }" + " let nf_i = " + fmt(c.value)
+                        + " * (libm::exp(nf_af) - 1.0) - " + fmt(c.value)
+                        + " * (libm::exp(nf_ar) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 case Kind::IdealDiode:
-                    line("  { let __s = x[" + si + "]; let __off = __s < 0.0;"
-                        + " let __vs = " + fmt(c.value3) + " + __s * (if __off { 1.0 } else { "
-                        + fmt(c.value) + " });" + " let __is = (if __off { " + fmt(c.value2)
-                        + " * __s } else { __s }) + " + fmt(c.value2) + " * " + fmt(c.value3) + ";"
-                        + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - __vs;" + " kcl[" + a
-                        + "] += __is; kcl[" + b + "] -= __is; }");
+                    line("  { let nf_s = x[" + si + "]; let nf_off = nf_s < 0.0;"
+                        + " let nf_vs = " + fmt(c.value3) + " + nf_s * (if nf_off { 1.0 } else { "
+                        + fmt(c.value) + " });" + " let nf_is = (if nf_off { " + fmt(c.value2)
+                        + " * nf_s } else { nf_s }) + " + fmt(c.value2) + " * " + fmt(c.value3) + ";"
+                        + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - nf_vs;" + " kcl[" + a
+                        + "] += nf_is; kcl[" + b + "] -= nf_is; }");
                     break;
                 case Kind::Capacitor:
-                    line("  { let __vc = x[" + si + "]; let __ic = x[" + si1 + "];" + " g[" + si
-                        + "] = __ic / " + fmt(c.value) + ";" + " g[" + si1 + "] = __vc - ((" + ea
-                        + ") - (" + eb + "));" + " kcl[" + a + "] += __ic; kcl[" + b
-                        + "] -= __ic; }");
+                    line("  { let nf_vc = x[" + si + "]; let nf_ic = x[" + si1 + "];" + " g[" + si
+                        + "] = nf_ic / " + fmt(c.value) + ";" + " g[" + si1 + "] = nf_vc - ((" + ea
+                        + ") - (" + eb + "));" + " kcl[" + a + "] += nf_ic; kcl[" + b
+                        + "] -= nf_ic; }");
                     break;
                 case Kind::Inductor:
-                    line("  { let __il = x[" + si + "];" + " g[" + si + "] = ((" + ea + ") - (" + eb
-                        + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += __il; kcl[" + b
-                        + "] -= __il; }");
+                    line("  { let nf_il = x[" + si + "];" + " g[" + si + "] = ((" + ea + ") - (" + eb
+                        + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += nf_il; kcl[" + b
+                        + "] -= nf_il; }");
                     break;
                 case Kind::VSource:
                 case Kind::CurrentSensor: {
                     const std::string V
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : fmt(c.value);
-                    line("  { let __ib = x[" + si + "];" + " kcl[" + a + "] += __ib; kcl[" + b
-                        + "] -= __ib;" + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - (" + V
+                    line("  { let nf_ib = x[" + si + "];" + " kcl[" + a + "] += nf_ib; kcl[" + b
+                        + "] -= nf_ib;" + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - (" + V
                         + "); }");
                     break;
                 }
@@ -433,7 +433,7 @@ namespace NFlow {
                     const std::string I
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : fmt(c.value);
                     line(
-                        "  { let __i = " + I + "; kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                        "  { let nf_i = " + I + "; kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 }
                 case Kind::Npn:
@@ -441,109 +441,109 @@ namespace NFlow {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string cc = std::to_string(c.c);
                     const std::string sgn = (c.kind == Kind::Npn) ? "1.0" : "-1.0";
-                    line("  { let __s: f64 = " + sgn + ";" + " let mut __abe = __s * ((" + ec
-                        + ") - (" + eb + ")) / " + fmt(c.vt) + ";" + " let mut __abc = __s * (("
+                    line("  { let nf_s: f64 = " + sgn + ";" + " let mut nf_abe = nf_s * ((" + ec
+                        + ") - (" + eb + ")) / " + fmt(c.vt) + ";" + " let mut nf_abc = nf_s * (("
                         + ec + ") - (" + ea + ")) / " + fmt(c.vt) + ";"
-                        + " if __abe > 40.0 { __abe = 40.0; } if __abc > 40.0 { __abc = 40.0; }"
-                        + " let __ef = libm::exp(__abe) - 1.0; let __er = libm::exp(__abc) - 1.0;"
-                        + " let __ic = __s * (" + fmt(c.value) + " * (__ef - __er) - "
-                        + fmt(c.value / c.value3) + " * __er);" + " let __ib = __s * ("
-                        + fmt(c.value / c.value2) + " * __ef + " + fmt(c.value / c.value3)
-                        + " * __er);" + " kcl[" + a + "] += __ic; kcl[" + cc + "] += __ib;"
-                        + " kcl[" + b + "] -= (__ic + __ib); }");
+                        + " if nf_abe > 40.0 { nf_abe = 40.0; } if nf_abc > 40.0 { nf_abc = 40.0; }"
+                        + " let nf_ef = libm::exp(nf_abe) - 1.0; let nf_er = libm::exp(nf_abc) - 1.0;"
+                        + " let nf_ic = nf_s * (" + fmt(c.value) + " * (nf_ef - nf_er) - "
+                        + fmt(c.value / c.value3) + " * nf_er);" + " let nf_ib = nf_s * ("
+                        + fmt(c.value / c.value2) + " * nf_ef + " + fmt(c.value / c.value3)
+                        + " * nf_er);" + " kcl[" + a + "] += nf_ic; kcl[" + cc + "] += nf_ib;"
+                        + " kcl[" + b + "] -= (nf_ic + nf_ib); }");
                     break;
                 }
                 case Kind::Nmos:
                 case Kind::Pmos: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string sgn = (c.kind == Kind::Nmos) ? "1.0" : "-1.0";
-                    line("  { let __s: f64 = " + sgn + ";" + " let __vgs = __s * ((" + ec + ") - ("
-                        + eb + "));" + " let __vds = __s * ((" + ea + ") - (" + eb + "));"
-                        + " let __vov = __vgs - " + fmt(c.value2) + "; let mut __id = 0.0;"
-                        + " if __vov > 0.0 { __id = if __vds < __vov { " + fmt(c.value)
-                        + " * (__vov * __vds - 0.5 * __vds * __vds) } else { 0.5 * " + fmt(c.value)
-                        + " * __vov * __vov }; }" + " kcl[" + a + "] += __s * __id; kcl[" + b
-                        + "] -= __s * __id; }");
+                    line("  { let nf_s: f64 = " + sgn + ";" + " let nf_vgs = nf_s * ((" + ec + ") - ("
+                        + eb + "));" + " let nf_vds = nf_s * ((" + ea + ") - (" + eb + "));"
+                        + " let nf_vov = nf_vgs - " + fmt(c.value2) + "; let mut nf_id = 0.0;"
+                        + " if nf_vov > 0.0 { nf_id = if nf_vds < nf_vov { " + fmt(c.value)
+                        + " * (nf_vov * nf_vds - 0.5 * nf_vds * nf_vds) } else { 0.5 * " + fmt(c.value)
+                        + " * nf_vov * nf_vov }; }" + " kcl[" + a + "] += nf_s * nf_id; kcl[" + b
+                        + "] -= nf_s * nf_id; }");
                     break;
                 }
                 case Kind::Radiation:
-                    line("  { let __ta = (" + ea + "); let __tb = (" + eb + ");"
-                        + " let __q = " + fmt(c.value)
-                        + " * (__ta * __ta * __ta * __ta - __tb * __tb * __tb * __tb);" + " kcl["
-                        + a + "] += __q; kcl[" + b + "] -= __q; }");
+                    line("  { let nf_ta = (" + ea + "); let nf_tb = (" + eb + ");"
+                        + " let nf_q = " + fmt(c.value)
+                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);" + " kcl["
+                        + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
                     break;
                 case Kind::Vccs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __i = " + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));"
-                        + " kcl[" + a + "] += __i; kcl[" + b + "] -= __i; }");
+                    line("  { let nf_i = " + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));"
+                        + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 }
                 case Kind::Vcvs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __ib = x[" + si + "]; kcl[" + a + "] += __ib; kcl[" + b
-                        + "] -= __ib; g[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
+                    line("  { let nf_ib = x[" + si + "]; kcl[" + a + "] += nf_ib; kcl[" + b
+                        + "] -= nf_ib; g[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
                         + fmt(c.value) + " * ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::Ccvs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __io = x[" + si + "]; let __is = x[" + si1 + "];" + " kcl[" + a
-                        + "] += __io; kcl[" + b + "] -= __io;" + " kcl[" + std::to_string(c.c)
-                        + "] += __is; kcl[" + std::to_string(c.d) + "] -= __is; g[" + si + "] = (("
-                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * __is; g[" + si1
+                    line("  { let nf_io = x[" + si + "]; let nf_is = x[" + si1 + "];" + " kcl[" + a
+                        + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl[" + std::to_string(c.c)
+                        + "] += nf_is; kcl[" + std::to_string(c.d) + "] -= nf_is; g[" + si + "] = (("
+                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * nf_is; g[" + si1
                         + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::Cccs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __is = x[" + si + "]; let __io = " + fmt(c.value) + " * __is;"
-                        + " kcl[" + a + "] += __io; kcl[" + b + "] -= __io;" + " kcl["
-                        + std::to_string(c.c) + "] += __is; kcl[" + std::to_string(c.d)
-                        + "] -= __is; g[" + si + "] = ((" + ec + ") - (" + ed + ")); }");
+                    line("  { let nf_is = x[" + si + "]; let nf_io = " + fmt(c.value) + " * nf_is;"
+                        + " kcl[" + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl["
+                        + std::to_string(c.c) + "] += nf_is; kcl[" + std::to_string(c.d)
+                        + "] -= nf_is; g[" + si + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::OpAmp:
-                    line("  { let __io = x[" + si + "]; g[" + si + "] = (" + ea + ") - (" + eb
-                        + "); kcl[" + std::to_string(c.c) + "] += __io; }");
+                    line("  { let nf_io = x[" + si + "]; g[" + si + "] = (" + ea + ") - (" + eb
+                        + "); kcl[" + std::to_string(c.c) + "] += nf_io; }");
                     break;
                 case Kind::Short:
-                    line("  { let __ib = x[" + si + "]; g[" + si + "] = (" + ea + ") - (" + eb
-                        + "); kcl[" + a + "] += __ib; kcl[" + b + "] -= __ib; }");
+                    line("  { let nf_ib = x[" + si + "]; g[" + si + "] = (" + ea + ") - (" + eb
+                        + "); kcl[" + a + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 case Kind::Idle:
-                    line("  { let __ib = x[" + si + "]; g[" + si + "] = __ib;" + " kcl[" + a
-                        + "] += __ib; kcl[" + b + "] -= __ib; }");
+                    line("  { let nf_ib = x[" + si + "]; g[" + si + "] = nf_ib;" + " kcl[" + a
+                        + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 case Kind::Transformer: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __i1 = x[" + si + "]; let __i2 = -" + fmt(c.value) + " * __i1; g["
+                    line("  { let nf_i1 = x[" + si + "]; let nf_i2 = -" + fmt(c.value) + " * nf_i1; g["
                         + si + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * ((" + ec
-                        + ") - (" + ed + "));" + " kcl[" + a + "] += __i1; kcl[" + b
-                        + "] -= __i1; kcl[" + std::to_string(c.c) + "] += __i2; kcl["
-                        + std::to_string(c.d) + "] -= __i2; }");
+                        + ") - (" + ed + "));" + " kcl[" + a + "] += nf_i1; kcl[" + b
+                        + "] -= nf_i1; kcl[" + std::to_string(c.c) + "] += nf_i2; kcl["
+                        + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Gyrator: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let __v1 = (" + ea + ") - (" + eb + "); let __v2 = (" + ec + ") - ("
-                        + ed + "); let __i1 = " + fmt(c.value2) + " * __v2;" + " let __i2 = -"
-                        + fmt(c.value) + " * __v1;" + " kcl[" + a + "] += __i1; kcl[" + b
-                        + "] -= __i1; kcl[" + std::to_string(c.c) + "] += __i2; kcl["
-                        + std::to_string(c.d) + "] -= __i2; }");
+                    line("  { let nf_v1 = (" + ea + ") - (" + eb + "); let nf_v2 = (" + ec + ") - ("
+                        + ed + "); let nf_i1 = " + fmt(c.value2) + " * nf_v2;" + " let nf_i2 = -"
+                        + fmt(c.value) + " * nf_v1;" + " kcl[" + a + "] += nf_i1; kcl[" + b
+                        + "] -= nf_i1; kcl[" + std::to_string(c.c) + "] += nf_i2; kcl["
+                        + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Switch: {
                     const std::string ctrl
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : std::string("1.0");
-                    line("  { let __ib = x[" + si + "]; g[" + si + "] = if " + ctrl + " > 0.5 { ("
-                        + ea + ") - (" + eb + ") } else { __ib };" + " kcl[" + a + "] += __ib; kcl["
-                        + b + "] -= __ib; }");
+                    line("  { let nf_ib = x[" + si + "]; g[" + si + "] = if " + ctrl + " > 0.5 { ("
+                        + ea + ") - (" + eb + ") } else { nf_ib };" + " kcl[" + a + "] += nf_ib; kcl["
+                        + b + "] -= nf_ib; }");
                     break;
                 }
                 default:
@@ -575,67 +575,67 @@ namespace NFlow {
             const int np = islandPortCount(L);
             const std::string Ns = std::to_string(N);
             a.line("{");
-            a.line("  let mut __x = [0.0f64; " + Ns + "];");
+            a.line("  let mut nf_x = [0.0f64; " + Ns + "];");
             for (int i = 0; i < N; ++i) {
-                a.line("  __x[" + std::to_string(i) + "] = s.isl_x_" + id + "_" + std::to_string(i)
+                a.line("  nf_x[" + std::to_string(i) + "] = s.isl_x_" + id + "_" + std::to_string(i)
                     + ";");
             }
             if (np > 0) {
-                a.line("  let mut __u = [0.0f64; " + std::to_string(np) + "];");
+                a.line("  let mut nf_u = [0.0f64; " + std::to_string(np) + "];");
                 for (int p = 0; p < np; ++p) {
                     const std::string e = (p < static_cast<int>(a.in.size()))
                         ? a.in[static_cast<size_t>(p)]
                         : "0.0";
-                    a.line("  __u[" + std::to_string(p) + "] = " + e + ";");
+                    a.line("  nf_u[" + std::to_string(p) + "] = " + e + ";");
                 }
             } else {
-                a.line("  let __u = [0.0f64; 1];");
+                a.line("  let nf_u = [0.0f64; 1];");
             }
-            a.line("  let mut __xprev = [0.0f64; " + Ns + "];");
-            a.line("  for __i in 0usize.." + Ns + " { __xprev[__i] = __x[__i]; }");
+            a.line("  let mut nf_xprev = [0.0f64; " + Ns + "];");
+            a.line("  for nf_i in 0usize.." + Ns + " { nf_xprev[nf_i] = nf_x[nf_i]; }");
             a.line("  for _ in 0..60 {");
-            a.line("    let mut __f = [0.0f64; " + Ns + "]; __isl_res_" + id
-                + "(&__x, &__xprev, &__u, dt, &mut __f);");
-            a.line("    let mut __nrm = 0.0f64; for __i in 0usize.." + Ns
-                + " { __nrm += __f[__i] * __f[__i]; }");
-            a.line("    if __nrm < 1e-24 { break; }");
-            a.line("    let mut __jac = [0.0f64; " + std::to_string(N * N) + "];");
-            a.line("    for __col in 0usize.." + Ns + " {");
-            a.line("      let __xj = __x[__col]; let __h = 1e-7 * libm::fabs(__xj) + 1e-9;");
-            a.line("      __x[__col] = __xj + __h; let mut __fp = [0.0f64; " + Ns + "]; __isl_res_"
-                + id + "(&__x, &__xprev, &__u, dt, &mut __fp); __x[__col] = __xj;");
-            a.line("      for __i in 0usize.." + Ns + " { __jac[__i * " + Ns
-                + " + __col] = (__fp[__i] - __f[__i]) / __h; }");
+            a.line("    let mut nf_f = [0.0f64; " + Ns + "]; nflow_isl_res_" + id
+                + "(&nf_x, &nf_xprev, &nf_u, dt, &mut nf_f);");
+            a.line("    let mut nf_nrm = 0.0f64; for nf_i in 0usize.." + Ns
+                + " { nf_nrm += nf_f[nf_i] * nf_f[nf_i]; }");
+            a.line("    if nf_nrm < 1e-24 { break; }");
+            a.line("    let mut nf_jac = [0.0f64; " + std::to_string(N * N) + "];");
+            a.line("    for nf_col in 0usize.." + Ns + " {");
+            a.line("      let nf_xj = nf_x[nf_col]; let nf_h = 1e-7 * libm::fabs(nf_xj) + 1e-9;");
+            a.line("      nf_x[nf_col] = nf_xj + nf_h; let mut nf_fp = [0.0f64; " + Ns + "]; nflow_isl_res_"
+                + id + "(&nf_x, &nf_xprev, &nf_u, dt, &mut nf_fp); nf_x[nf_col] = nf_xj;");
+            a.line("      for nf_i in 0usize.." + Ns + " { nf_jac[nf_i * " + Ns
+                + " + nf_col] = (nf_fp[nf_i] - nf_f[nf_i]) / nf_h; }");
             a.line("    }");
-            a.line("    let mut __b = [0.0f64; " + Ns + "]; for __i in 0usize.." + Ns
-                + " { __b[__i] = -__f[__i]; }");
-            a.line("    for __k in 0usize.." + Ns + " {");
-            a.line("      let mut __p = __k; let mut __mx = libm::fabs(__jac[__k * " + Ns
-                + " + __k]);");
-            a.line("      for __r in (__k + 1).." + Ns + " { let __v = libm::fabs(__jac[__r * " + Ns
-                + " + __k]); if __v > __mx { __mx = __v; __p = __r; } }");
-            a.line("      if __p != __k { for __col in 0usize.." + Ns + " { let __t = __jac[__k * "
-                + Ns + " + __col]; __jac[__k * " + Ns + " + __col] = __jac[__p * " + Ns
-                + " + __col]; __jac[__p * " + Ns
-                + " + __col] = __t; } let __tb = __b[__k]; __b[__k] = __b[__p]; __b[__p] = __tb; "
+            a.line("    let mut nf_b = [0.0f64; " + Ns + "]; for nf_i in 0usize.." + Ns
+                + " { nf_b[nf_i] = -nf_f[nf_i]; }");
+            a.line("    for nf_k in 0usize.." + Ns + " {");
+            a.line("      let mut nf_p = nf_k; let mut nf_mx = libm::fabs(nf_jac[nf_k * " + Ns
+                + " + nf_k]);");
+            a.line("      for nf_r in (nf_k + 1).." + Ns + " { let nf_v = libm::fabs(nf_jac[nf_r * " + Ns
+                + " + nf_k]); if nf_v > nf_mx { nf_mx = nf_v; nf_p = nf_r; } }");
+            a.line("      if nf_p != nf_k { for nf_col in 0usize.." + Ns + " { let nf_t = nf_jac[nf_k * "
+                + Ns + " + nf_col]; nf_jac[nf_k * " + Ns + " + nf_col] = nf_jac[nf_p * " + Ns
+                + " + nf_col]; nf_jac[nf_p * " + Ns
+                + " + nf_col] = nf_t; } let nf_tb = nf_b[nf_k]; nf_b[nf_k] = nf_b[nf_p]; nf_b[nf_p] = nf_tb; "
                   "}");
-            a.line("      let mut __d = __jac[__k * " + Ns
-                + " + __k]; if __d < 1e-30 && __d > -1e-30 { __d = 1e-30; }");
-            a.line("      for __r in (__k + 1).." + Ns + " { let __fac = __jac[__r * " + Ns
-                + " + __k] / __d; for __col in __k.." + Ns + " { __jac[__r * " + Ns
-                + " + __col] -= __fac * __jac[__k * " + Ns
-                + " + __col]; } __b[__r] -= __fac * __b[__k]; }");
+            a.line("      let mut nf_d = nf_jac[nf_k * " + Ns
+                + " + nf_k]; if nf_d < 1e-30 && nf_d > -1e-30 { nf_d = 1e-30; }");
+            a.line("      for nf_r in (nf_k + 1).." + Ns + " { let nf_fac = nf_jac[nf_r * " + Ns
+                + " + nf_k] / nf_d; for nf_col in nf_k.." + Ns + " { nf_jac[nf_r * " + Ns
+                + " + nf_col] -= nf_fac * nf_jac[nf_k * " + Ns
+                + " + nf_col]; } nf_b[nf_r] -= nf_fac * nf_b[nf_k]; }");
             a.line("    }");
-            a.line("    for __i in (0usize.." + Ns
-                + ").rev() { let mut __s = __b[__i]; for __col in (__i + 1).." + Ns
-                + " { __s -= __jac[__i * " + Ns
-                + " + __col] * __b[__col]; } let mut __d = __jac[__i * " + Ns
-                + " + __i]; if __d < 1e-30 && __d > -1e-30 { __d = 1e-30; } __b[__i] = __s / __d; "
+            a.line("    for nf_i in (0usize.." + Ns
+                + ").rev() { let mut nf_s = nf_b[nf_i]; for nf_col in (nf_i + 1).." + Ns
+                + " { nf_s -= nf_jac[nf_i * " + Ns
+                + " + nf_col] * nf_b[nf_col]; } let mut nf_d = nf_jac[nf_i * " + Ns
+                + " + nf_i]; if nf_d < 1e-30 && nf_d > -1e-30 { nf_d = 1e-30; } nf_b[nf_i] = nf_s / nf_d; "
                   "}");
-            a.line("    for __i in 0usize.." + Ns + " { __x[__i] += __b[__i]; }");
+            a.line("    for nf_i in 0usize.." + Ns + " { nf_x[nf_i] += nf_b[nf_i]; }");
             a.line("  }");
             for (int i = 0; i < N; ++i) {
-                a.line("  s.isl_x_" + id + "_" + std::to_string(i) + " = __x[" + std::to_string(i)
+                a.line("  s.isl_x_" + id + "_" + std::to_string(i) + " = nf_x[" + std::to_string(i)
                     + "];");
             }
             auto epotStep = [&](int node) -> std::string {
@@ -643,7 +643,7 @@ namespace NFlow {
                     return "0.0";
                 }
                 const int si = L.eIndex[static_cast<size_t>(node)];
-                return si < 0 ? std::string("0.0") : ("__x[" + std::to_string(si) + "]");
+                return si < 0 ? std::string("0.0") : ("nf_x[" + std::to_string(si) + "]");
             };
             for (const IslandComp& c : L.comps) {
                 if (c.outPort < 0) {
@@ -657,7 +657,7 @@ namespace NFlow {
                 } else if (c.kind == Kind::PotentialSensor) {
                     a.line("  " + ov + " = " + epotStep(c.a) + ";");
                 } else if (c.kind == Kind::CurrentSensor) {
-                    a.line("  " + ov + " = __x[" + std::to_string(c.stateIndex) + "];");
+                    a.line("  " + ov + " = nf_x[" + std::to_string(c.stateIndex) + "];");
                 }
             }
             a.line("}");
@@ -689,7 +689,7 @@ namespace NFlow {
             if (!a.once("island_res_" + a.id)) {
                 return;
             }
-            a.addHelper("static void __isl_res_" + a.id
+            a.addHelper("static void nflow_isl_res_" + a.id
                 + "(const double* x, const double* xprev, const double* u, double dt, double* F) "
                   "{");
             a.addHelper("  (void)u; (void)xprev; (void)dt;");
@@ -737,8 +737,7 @@ namespace NFlow {
             if (!a.once("island_res_rust_" + a.id)) {
                 return;
             }
-            a.addHelper("#[allow(unused_variables, unused_mut, unused_assignments)]");
-            a.addHelper("fn __isl_res_" + a.id
+            a.addHelper("fn nflow_isl_res_" + a.id
                 + "(x: &[f64], xprev: &[f64], u: &[f64], dt: f64, fout: &mut [f64]) {");
             emitIslandResidualBodyRust(L, a.fmt, [&](const std::string& l) { a.addHelper(l); });
             a.addHelper("}");

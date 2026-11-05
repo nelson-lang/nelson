@@ -82,8 +82,8 @@ Nelson::NFlow::getCodeGenCFileSource()
             a.line("out_" + a.id + " = 0.0;");
             return;
         }
-        std::string ts = "static const double __fsrc_t_" + a.id + "[] = {";
-        std::string vs = "static const double __fsrc_v_" + a.id + "[] = {";
+        std::string ts = "static const double nf_fsrc_t_" + a.id + "[] = {";
+        std::string vs = "static const double nf_fsrc_v_" + a.id + "[] = {";
         for (size_t i = 0; i < times.size(); ++i) {
             ts += (i ? ", " : "") + a.fmt(times[i]);
         }
@@ -96,10 +96,10 @@ Nelson::NFlow::getCodeGenCFileSource()
         a.line(vs);
         const std::string n = std::to_string(times.size());
         const std::string vn = std::to_string(values.size());
-        a.line("{ int __fi = " + n + " - 1; while (__fi > 0 && __fsrc_t_" + a.id
-            + "[__fi] > t) "
-              "__fi--;");
-        a.line("  out_" + a.id + " = __fsrc_v_" + a.id + "[__fi < " + vn + " ? __fi : " + vn
+        a.line("{ int nf_fi = " + n + " - 1; while (nf_fi > 0 && nf_fsrc_t_" + a.id
+            + "[nf_fi] > t) "
+              "nf_fi--;");
+        a.line("  out_" + a.id + " = nf_fsrc_v_" + a.id + "[nf_fi < " + vn + " ? nf_fi : " + vn
             + " - 1]; }");
     };
     return t;
@@ -127,8 +127,8 @@ Nelson::NFlow::getCodeGenRustFileSource()
             a.line("out_" + a.id + " = 0.0_f64;");
             return;
         }
-        std::string ts = "let __fsrc_t_" + a.id + " = [";
-        std::string vs = "let __fsrc_v_" + a.id + " = [";
+        std::string ts = "let nf_fsrc_t_" + a.id + " = [";
+        std::string vs = "let nf_fsrc_v_" + a.id + " = [";
         for (size_t i = 0; i < times.size(); ++i) {
             ts += (i ? ", " : "") + a.fmt(times[i]);
         }
@@ -139,11 +139,11 @@ Nelson::NFlow::getCodeGenRustFileSource()
         vs += "];";
         a.line(ts);
         a.line(vs);
-        a.line("let mut __fi: usize = " + std::to_string(times.size() - 1) + ";");
-        a.line("while __fi > 0 && __fsrc_t_" + a.id + "[__fi] > t { __fi -= 1; }");
-        a.line("let __fj: usize = if __fi < " + std::to_string(values.size()) + " { __fi } else { "
+        a.line("let mut nf_fi: usize = " + std::to_string(times.size() - 1) + ";");
+        a.line("while nf_fi > 0 && nf_fsrc_t_" + a.id + "[nf_fi] > t { nf_fi -= 1; }");
+        a.line("let nf_fj: usize = if nf_fi < " + std::to_string(values.size()) + " { nf_fi } else { "
             + std::to_string(values.size() - 1) + " };");
-        a.line("out_" + a.id + " = __fsrc_v_" + a.id + "[__fj];");
+        a.line("out_" + a.id + " = nf_fsrc_v_" + a.id + "[nf_fj];");
     };
     return t;
 }

@@ -41,7 +41,7 @@ assert_istrue(~isempty(strfind(gen, 'int64_t y;')));
 % Rust mirror: i64 locals, saturating_mul, exact literal, typed output field.
 nflow_codegenerate(model, outdir, false, 'rust');
 genr = fileread([outdir, filesep, 'i64', filesep, 'src', filesep, 'lib.rs']);
-assert_istrue(~isempty(strfind(genr, ': i64 = 0_i64')));
+assert_istrue(~isempty(strfind(genr, 'out_c: i64')));
 assert_istrue(~isempty(strfind(genr, '9007199254740995_i64')));
 assert_istrue(~isempty(strfind(genr, 'saturating_mul')));
 assert_istrue(~isempty(strfind(genr, 'pub y: i64,')));

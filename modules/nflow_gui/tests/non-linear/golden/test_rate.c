@@ -20,12 +20,12 @@ typedef struct {
   double _unused;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 0;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 0;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "_unused",
 };
 
@@ -35,10 +35,10 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
+  (void)in;
+  (void)out;
   const double dt = 0.01;
-  double out_b1 = 0.0;
-  double out_b2 = 0.0;
-  double out_b3 = 0.0;
+  double out_b1;
 
   // step b1
   out_b1 = (t >= 2 ? 1.0 : 0.0);
@@ -49,9 +49,7 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
     if (v > maxRise) v = maxRise;
     if (v < maxFall) v = maxFall;
     s->rate_b2 = v;
-    out_b2 = v; }
-  // scope b3
-  out_b3 = 0.0;
+     }
 }
 
 void nflow_terminate(ModelState* s) {

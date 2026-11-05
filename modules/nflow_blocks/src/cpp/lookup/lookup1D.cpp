@@ -278,12 +278,12 @@ namespace NFlow {
             const int n = (int)bp.size();
             const std::vector<double> M = cubicSplineM(bp, tbl);
             const std::string id = a.id;
-            const std::string bpv = "__sbp_" + id;
-            const std::string tv = "__stbl_" + id;
-            const std::string mv = "__sM_" + id;
-            const std::string su = "__su_" + id;
-            const std::string sy = "__sy_" + id;
-            const std::string si = "__si_" + id;
+            const std::string bpv = "nf_sbp_" + id;
+            const std::string tv = "nf_stbl_" + id;
+            const std::string mv = "nf_sM_" + id;
+            const std::string su = "nf_su_" + id;
+            const std::string sy = "nf_sy_" + id;
+            const std::string si = "nf_si_" + id;
             const std::string last = std::to_string(n - 1);
             const bool sx = (extrap == "Cubic spline");
             auto arr = [&](const std::string& name, const std::vector<double>& v) {
@@ -359,12 +359,12 @@ namespace NFlow {
             const int n = (int)bp.size();
             const std::vector<double> T = akimaDerivs(bp, tbl);
             const std::string id = a.id;
-            const std::string bpv = "__abp_" + id;
-            const std::string tv = "__atbl_" + id;
-            const std::string dv = "__aT_" + id;
-            const std::string su = "__au_" + id;
-            const std::string sy = "__ay_" + id;
-            const std::string si = "__ai_" + id;
+            const std::string bpv = "nf_abp_" + id;
+            const std::string tv = "nf_atbl_" + id;
+            const std::string dv = "nf_aT_" + id;
+            const std::string su = "nf_au_" + id;
+            const std::string sy = "nf_ay_" + id;
+            const std::string si = "nf_ai_" + id;
             const std::string last = std::to_string(n - 1);
             const bool ax = (extrap == "Akima spline");
             auto arr = [&](const std::string& name, const std::vector<double>& v) {
@@ -459,8 +459,8 @@ namespace NFlow {
                 emitAkima1D(a, rust, bp, tbl, extrap, useLast);
                 return;
             }
-            const std::string bpv = "__lu_bp_" + a.id;
-            const std::string tv = "__lu_tbl_" + a.id;
+            const std::string bpv = "nf_lu_bp_" + a.id;
+            const std::string tv = "nf_lu_tbl_" + a.id;
             const std::string N = std::to_string(n);
             std::string bpd
                 = (rust ? "let " + bpv + " = [" : "static const double " + bpv + "[] = {");
@@ -478,7 +478,7 @@ namespace NFlow {
             const std::string idx2 = std::to_string(n - 2);
             auto below = [&]() {
                 if (extrap == "Linear") {
-                    return tv + "[0] + (__u_" + a.id + " - " + bpv + "[0]) * ((" + tv + "[1] - "
+                    return tv + "[0] + (nf_u_" + a.id + " - " + bpv + "[0]) * ((" + tv + "[1] - "
                         + tv + "[0]) / (" + bpv + "[1] - " + bpv + "[0]))";
                 }
                 return tv + "[0]";
@@ -487,12 +487,12 @@ namespace NFlow {
                 if (useLast || extrap == "Clip") {
                     return tv + "[" + idx1 + "]";
                 }
-                return tv + "[" + idx1 + "] + (__u_" + a.id + " - " + bpv + "[" + idx1 + "]) * (("
+                return tv + "[" + idx1 + "] + (nf_u_" + a.id + " - " + bpv + "[" + idx1 + "]) * (("
                     + tv + "[" + idx1 + "] - " + tv + "[" + idx2 + "]) / (" + bpv + "[" + idx1
                     + "] - " + bpv + "[" + idx2 + "]))";
             };
-            const std::string ip = "__i_" + a.id;
-            const std::string fp = "__f_" + a.id;
+            const std::string ip = "nf_i_" + a.id;
+            const std::string fp = "nf_f_" + a.id;
             auto inRange = [&]() {
                 if (interp == "Flat") {
                     return tv + "[" + ip + "]";
@@ -510,8 +510,8 @@ namespace NFlow {
                 return tv + "[" + ip + "] + " + fp + " * (" + tv + "[" + ip + "+1] - " + tv + "["
                     + ip + "])";
             };
-            const std::string u = "__u_" + a.id;
-            const std::string y = "__y_" + a.id;
+            const std::string u = "nf_u_" + a.id;
+            const std::string y = "nf_y_" + a.id;
             if (rust) {
                 a.line("let " + u + " = " + a.in[0] + ";");
                 a.line("let " + y + ";");

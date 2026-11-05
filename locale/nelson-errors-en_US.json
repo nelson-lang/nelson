@@ -2952,6 +2952,7 @@
   "Nelson:nflow_engine:cmakeBuildFailed": "CMake build failed:\n%s",
   "Nelson:nflow_engine:cmakeConfigureFailed": "CMake configure failed:\n%s",
   "Nelson:nflow_engine:codegenFailed": "Code generation: %s",
+  "Nelson:nflow_engine:codegenFailed:algebraicLoop": "Code generation: cannot solve the algebraic loop through or fed by blocks %s: the simulator iterates it to a fixed point but generated code is straight-line. Break the loop with a unitDelay or memory block, or simulate this model instead.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationConstraintBlocks": "Code generation is not supported for constraint (differential-algebraic) blocks; they are solved by the IDAS runtime. Simulate these models with the 'dae' solver instead.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationFmuBlocks": "Code generation is not supported for FMU (FMI Co-Simulation) blocks; the generated program cannot embed the FMU runtime. Remove FMU blocks before generating code.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationIntegratorExternalReset": "Code generation is not supported for an integrator with an external reset or an external initial condition ('%s'): a discrete event on a continuous state has no C / Rust lowering, and emitting an integrator that never resets would not be this model. Simulate it, or reset through a resettable subsystem.",

@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % FMU (FMI Co-Simulation) blocks wrap a precompiled binary run by the FMU
 % runtime and cannot be lowered to standalone C/Rust. Code generation must
 % reject such a diagram explicitly instead of emitting a constant-0.0 output.

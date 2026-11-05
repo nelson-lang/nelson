@@ -57,5 +57,21 @@ NLSNFLOW_ENGINE_IMPEXP void
 appendCondExecutionEdges(
     const std::vector<nlohmann::json>& blocks, std::vector<nlohmann::json>& extraEdges);
 //=============================================================================
+// Dead-code cleanup of the step functions (nflow_step, nflow_rhs,
+// nflow_rk4sub) of a generated C (`rust` false) or Rust source: a local that
+// is never read is dropped and its writes discarded (kept as `let _ = ...;` /
+// `(void)(...);` when they have side effects), a store overwritten before any
+// read is dropped, an initializer overwritten before any read is removed, an
+// unneeded Rust `mut` is removed, and a parameter the body never uses is marked
+// as such (`let _ = p;` / `(void)p;`).
+NLSNFLOW_ENGINE_IMPEXP void
+pruneDeadStepCode(std::vector<std::string>& lines, bool rust);
+//=============================================================================
+// Drop the private helper functions and constants (Rust `fn` / `const`, C
+// `static`) referenced nowhere else in `lines` nor in `extraText` (the C main.c
+// includes model.c).
+NLSNFLOW_ENGINE_IMPEXP void
+pruneUnusedHelpers(std::vector<std::string>& lines, bool rust, const std::string& extraText);
+//=============================================================================
 } // namespace nflow
 //=============================================================================

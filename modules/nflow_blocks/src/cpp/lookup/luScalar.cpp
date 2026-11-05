@@ -74,28 +74,28 @@ namespace NFlow {
                 const std::vector<double> bp = luParamVec(a, "Breakpoints");
                 const int n = (int)bp.size();
                 a.line("{");
-                a.line("double __u_" + id + " = " + a.in[0] + ";");
-                a.line(cArr(a, "__bp_" + id, bp));
+                a.line("double nf_u_" + id + " = " + a.in[0] + ";");
+                a.line(cArr(a, "nf_bp_" + id, bp));
                 if (n < 2) {
                     a.line(out + " = 0.0;");
                     a.line("}");
                     return;
                 }
-                a.line("int __k_" + id + ";");
-                a.line("if (__u_" + id + " <= __bp_" + id + "[0]) __k_" + id + " = 0;");
-                a.line("else if (__u_" + id + " >= __bp_" + id + "[" + std::to_string(n - 1)
-                    + "]) __k_" + id + " = " + std::to_string(n - 2) + ";");
-                a.line("else { int __i = " + std::to_string(n - 2) + "; while (__i > 0 && __u_" + id
-                    + " < __bp_" + id + "[__i]) __i--; __k_" + id + " = __i; }");
+                a.line("int nf_k_" + id + ";");
+                a.line("if (nf_u_" + id + " <= nf_bp_" + id + "[0]) nf_k_" + id + " = 0;");
+                a.line("else if (nf_u_" + id + " >= nf_bp_" + id + "[" + std::to_string(n - 1)
+                    + "]) nf_k_" + id + " = " + std::to_string(n - 2) + ";");
+                a.line("else { int nf_i = " + std::to_string(n - 2) + "; while (nf_i > 0 && nf_u_" + id
+                    + " < nf_bp_" + id + "[nf_i]) nf_i--; nf_k_" + id + " = nf_i; }");
                 if (mode == "prelookupK") {
-                    a.line(out + " = (double)__k_" + id + ";");
+                    a.line(out + " = (double)nf_k_" + id + ";");
                 } else {
-                    a.line("if (__u_" + id + " <= __bp_" + id + "[0]) " + out + " = 0.0;");
-                    a.line("else if (__u_" + id + " >= __bp_" + id + "[" + std::to_string(n - 1)
+                    a.line("if (nf_u_" + id + " <= nf_bp_" + id + "[0]) " + out + " = 0.0;");
+                    a.line("else if (nf_u_" + id + " >= nf_bp_" + id + "[" + std::to_string(n - 1)
                         + "]) " + out + " = 1.0;");
-                    a.line("else { double __d = __bp_" + id + "[__k_" + id + "+1] - __bp_" + id
-                        + "[__k_" + id + "]; " + out + " = (__d != 0.0) ? (__u_" + id + " - __bp_"
-                        + id + "[__k_" + id + "]) / __d : 0.0; }");
+                    a.line("else { double nf_d = nf_bp_" + id + "[nf_k_" + id + "+1] - nf_bp_" + id
+                        + "[nf_k_" + id + "]; " + out + " = (nf_d != 0.0) ? (nf_u_" + id + " - nf_bp_"
+                        + id + "[nf_k_" + id + "]) / nf_d : 0.0; }");
                 }
                 a.line("}");
                 return;
@@ -104,20 +104,20 @@ namespace NFlow {
                 const std::vector<double> tbl = luParamVec(a, "Table");
                 const int m = (int)tbl.size();
                 a.line("{");
-                a.line("double __k_" + id + " = " + a.in[0] + ";");
-                a.line("double __f_" + id + " = " + a.in[1] + ";");
-                a.line(cArr(a, "__t_" + id, tbl));
+                a.line("double nf_k_" + id + " = " + a.in[0] + ";");
+                a.line("double nf_f_" + id + " = " + a.in[1] + ";");
+                a.line(cArr(a, "nf_t_" + id, tbl));
                 if (m < 2) {
                     a.line(out + " = " + (m == 1 ? a.fmt(tbl[0]) : std::string("0.0")) + ";");
                     a.line("}");
                     return;
                 }
-                a.line("int __ki_" + id + " = (int)(__k_" + id + " + 0.5);");
-                a.line("if (__ki_" + id + " < 0) __ki_" + id + " = 0;");
-                a.line("if (__ki_" + id + " > " + std::to_string(m - 2) + ") __ki_" + id + " = "
+                a.line("int nf_ki_" + id + " = (int)(nf_k_" + id + " + 0.5);");
+                a.line("if (nf_ki_" + id + " < 0) nf_ki_" + id + " = 0;");
+                a.line("if (nf_ki_" + id + " > " + std::to_string(m - 2) + ") nf_ki_" + id + " = "
                     + std::to_string(m - 2) + ";");
-                a.line(out + " = __t_" + id + "[__ki_" + id + "] + __f_" + id + " * (__t_" + id
-                    + "[__ki_" + id + "+1] - __t_" + id + "[__ki_" + id + "]);");
+                a.line(out + " = nf_t_" + id + "[nf_ki_" + id + "] + nf_f_" + id + " * (nf_t_" + id
+                    + "[nf_ki_" + id + "+1] - nf_t_" + id + "[nf_ki_" + id + "]);");
                 a.line("}");
                 return;
             }
@@ -125,14 +125,14 @@ namespace NFlow {
                 nflow::BlockDescriptor bd(*a.block, *a.variables);
                 const int W = (int)bd.paramDouble("W", 0.0);
                 a.line("{");
-                a.line("double __x_" + id + " = " + a.in[0] + ";");
+                a.line("double nf_x_" + id + " = " + a.in[0] + ";");
                 if (W < 1) {
                     a.line(out + " = 0.0;");
                     a.line("}");
                     return;
                 }
-                std::string xd = "double __xd_" + id + "[] = { ";
-                std::string yd = "double __yd_" + id + "[] = { ";
+                std::string xd = "double nf_xd_" + id + "[] = { ";
+                std::string yd = "double nf_yd_" + id + "[] = { ";
                 for (int j = 0; j < W; ++j) {
                     xd += (j ? ", " : "") + a.in[1 + j];
                     yd += (j ? ", " : "") + a.in[1 + W + j];
@@ -143,19 +143,19 @@ namespace NFlow {
                 a.line(yd);
                 const std::string wl = std::to_string(W - 1);
                 if (W == 1) {
-                    a.line(out + " = __yd_" + id + "[0];");
+                    a.line(out + " = nf_yd_" + id + "[0];");
                     a.line("}");
                     return;
                 }
                 a.line(
-                    "if (__x_" + id + " <= __xd_" + id + "[0]) " + out + " = __yd_" + id + "[0];");
-                a.line("else if (__x_" + id + " >= __xd_" + id + "[" + wl + "]) " + out + " = __yd_"
+                    "if (nf_x_" + id + " <= nf_xd_" + id + "[0]) " + out + " = nf_yd_" + id + "[0];");
+                a.line("else if (nf_x_" + id + " >= nf_xd_" + id + "[" + wl + "]) " + out + " = nf_yd_"
                     + id + "[" + wl + "];");
-                a.line("else { int __i = " + std::to_string(W - 2) + "; while (__i > 0 && __x_" + id
-                    + " < __xd_" + id + "[__i]) __i--; double __d = __xd_" + id + "[__i+1] - __xd_"
-                    + id + "[__i]; double __f = (__d != 0.0) ? (__x_" + id + " - __xd_" + id
-                    + "[__i]) / __d : 0.0; " + out + " = __yd_" + id + "[__i] + __f * (__yd_" + id
-                    + "[__i+1] - __yd_" + id + "[__i]); }");
+                a.line("else { int nf_i = " + std::to_string(W - 2) + "; while (nf_i > 0 && nf_x_" + id
+                    + " < nf_xd_" + id + "[nf_i]) nf_i--; double nf_d = nf_xd_" + id + "[nf_i+1] - nf_xd_"
+                    + id + "[nf_i]; double nf_f = (nf_d != 0.0) ? (nf_x_" + id + " - nf_xd_" + id
+                    + "[nf_i]) / nf_d : 0.0; " + out + " = nf_yd_" + id + "[nf_i] + nf_f * (nf_yd_" + id
+                    + "[nf_i+1] - nf_yd_" + id + "[nf_i]); }");
                 a.line("}");
                 return;
             }
@@ -183,27 +183,27 @@ namespace NFlow {
                 const std::vector<double> bp = luParamVec(a, "Breakpoints");
                 const int n = (int)bp.size();
                 a.line("{");
-                a.line("let __u = " + a.in[0] + ";");
-                a.line(rArr(a, "__bp", bp));
+                a.line("let nf_u = " + a.in[0] + ";");
+                a.line(rArr(a, "nf_bp", bp));
                 if (n < 2) {
                     a.line(out + " = 0.0_f64;");
                     a.line("}");
                     return;
                 }
-                a.line("let mut __k: usize = 0;");
-                a.line("if __u <= __bp[0] { __k = 0; }");
-                a.line("else if __u >= __bp[" + std::to_string(n - 1)
-                    + "] { __k = " + std::to_string(n - 2) + "; }");
-                a.line("else { let mut __i: usize = " + std::to_string(n - 2)
-                    + "; while __i > 0 && __u < __bp[__i] { __i -= 1; } __k = __i; }");
+                a.line("let mut nf_k: usize = 0;");
+                a.line("if nf_u <= nf_bp[0] { nf_k = 0; }");
+                a.line("else if nf_u >= nf_bp[" + std::to_string(n - 1)
+                    + "] { nf_k = " + std::to_string(n - 2) + "; }");
+                a.line("else { let mut nf_i: usize = " + std::to_string(n - 2)
+                    + "; while nf_i > 0 && nf_u < nf_bp[nf_i] { nf_i -= 1; } nf_k = nf_i; }");
                 if (mode == "prelookupK") {
-                    a.line(out + " = __k as f64;");
+                    a.line(out + " = nf_k as f64;");
                 } else {
-                    a.line("if __u <= __bp[0] { " + out + " = 0.0_f64; }");
-                    a.line("else if __u >= __bp[" + std::to_string(n - 1) + "] { " + out
+                    a.line("if nf_u <= nf_bp[0] { " + out + " = 0.0_f64; }");
+                    a.line("else if nf_u >= nf_bp[" + std::to_string(n - 1) + "] { " + out
                         + " = 1.0_f64; }");
-                    a.line("else { let __d = __bp[__k+1] - __bp[__k]; " + out
-                        + " = if __d != 0.0_f64 { (__u - __bp[__k]) / __d } else { 0.0_f64 }; }");
+                    a.line("else { let nf_d = nf_bp[nf_k+1] - nf_bp[nf_k]; " + out
+                        + " = if nf_d != 0.0_f64 { (nf_u - nf_bp[nf_k]) / nf_d } else { 0.0_f64 }; }");
                 }
                 a.line("}");
                 return;
@@ -212,20 +212,20 @@ namespace NFlow {
                 const std::vector<double> tbl = luParamVec(a, "Table");
                 const int m = (int)tbl.size();
                 a.line("{");
-                a.line("let __k = " + a.in[0] + ";");
-                a.line("let __f = " + a.in[1] + ";");
-                a.line(rArr(a, "__t", tbl));
+                a.line("let nf_k = " + a.in[0] + ";");
+                a.line("let nf_f = " + a.in[1] + ";");
+                a.line(rArr(a, "nf_t", tbl));
                 if (m < 2) {
                     a.line(out + " = " + (m == 1 ? a.fmt(tbl[0]) : std::string("0.0_f64")) + ";");
                     a.line("}");
                     return;
                 }
-                a.line("let mut __ki: i64 = (__k + 0.5) as i64;");
-                a.line("if __ki < 0 { __ki = 0; }");
-                a.line("if __ki > " + std::to_string(m - 2) + " { __ki = " + std::to_string(m - 2)
+                a.line("let mut nf_ki: i64 = (nf_k + 0.5) as i64;");
+                a.line("if nf_ki < 0 { nf_ki = 0; }");
+                a.line("if nf_ki > " + std::to_string(m - 2) + " { nf_ki = " + std::to_string(m - 2)
                     + "; }");
-                a.line("let __ku = __ki as usize;");
-                a.line(out + " = __t[__ku] + __f * (__t[__ku+1] - __t[__ku]);");
+                a.line("let nf_ku = nf_ki as usize;");
+                a.line(out + " = nf_t[nf_ku] + nf_f * (nf_t[nf_ku+1] - nf_t[nf_ku]);");
                 a.line("}");
                 return;
             }
@@ -233,14 +233,14 @@ namespace NFlow {
                 nflow::BlockDescriptor bd(*a.block, *a.variables);
                 const int W = (int)bd.paramDouble("W", 0.0);
                 a.line("{");
-                a.line("let __x = " + a.in[0] + ";");
+                a.line("let nf_x = " + a.in[0] + ";");
                 if (W < 1) {
                     a.line(out + " = 0.0_f64;");
                     a.line("}");
                     return;
                 }
-                std::string xd = "let __xd: [f64; " + std::to_string(W) + "] = [";
-                std::string yd = "let __yd: [f64; " + std::to_string(W) + "] = [";
+                std::string xd = "let nf_xd: [f64; " + std::to_string(W) + "] = [";
+                std::string yd = "let nf_yd: [f64; " + std::to_string(W) + "] = [";
                 for (int j = 0; j < W; ++j) {
                     xd += (j ? ", " : "") + a.in[1 + j];
                     yd += (j ? ", " : "") + a.in[1 + W + j];
@@ -251,17 +251,17 @@ namespace NFlow {
                 a.line(yd);
                 const std::string wl = std::to_string(W - 1);
                 if (W == 1) {
-                    a.line(out + " = __yd[0];");
+                    a.line(out + " = nf_yd[0];");
                     a.line("}");
                     return;
                 }
-                a.line("if __x <= __xd[0] { " + out + " = __yd[0]; }");
-                a.line("else if __x >= __xd[" + wl + "] { " + out + " = __yd[" + wl + "]; }");
-                a.line("else { let mut __i: usize = " + std::to_string(W - 2)
-                    + "; while __i > 0 && __x < __xd[__i] { __i -= 1; } let __d = __xd[__i+1] - "
-                      "__xd[__i]; let __f = if __d != 0.0_f64 { (__x - __xd[__i]) / __d } else { "
+                a.line("if nf_x <= nf_xd[0] { " + out + " = nf_yd[0]; }");
+                a.line("else if nf_x >= nf_xd[" + wl + "] { " + out + " = nf_yd[" + wl + "]; }");
+                a.line("else { let mut nf_i: usize = " + std::to_string(W - 2)
+                    + "; while nf_i > 0 && nf_x < nf_xd[nf_i] { nf_i -= 1; } let nf_d = nf_xd[nf_i+1] - "
+                      "nf_xd[nf_i]; let nf_f = if nf_d != 0.0_f64 { (nf_x - nf_xd[nf_i]) / nf_d } else { "
                       "0.0_f64 }; "
-                    + out + " = __yd[__i] + __f * (__yd[__i+1] - __yd[__i]); }");
+                    + out + " = nf_yd[nf_i] + nf_f * (nf_yd[nf_i+1] - nf_yd[nf_i]); }");
                 a.line("}");
                 return;
             }

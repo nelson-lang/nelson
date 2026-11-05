@@ -67,13 +67,13 @@ nflow_codegenerate(f, tempdir(), false, 'C');
 src = fileread([tempdir(), fstem, '/model.c']);
 assert_istrue(isempty(strfind(src, 'unknown:')));
 % The crossing machinery: extended rhs, surface writes, sub-RK4 bisection.
-assert_istrue(~isempty(strfind(src, 'double* __g')));
-assert_istrue(~isempty(strfind(src, '__nflow_rk4sub')));
-assert_istrue(~isempty(strfind(src, '__g[0] = ')));
+assert_istrue(~isempty(strfind(src, 'double* nf_g')));
+assert_istrue(~isempty(strfind(src, 'nflow_rk4sub')));
+assert_istrue(~isempty(strfind(src, 'nf_g[0] = ')));
 nflow_codegenerate(f, tempdir(), false, 'rust');
 srcR = fileread([tempdir(), fstem, '/src/lib.rs']);
-assert_istrue(~isempty(strfind(srcR, '__g: Option<&mut [f64]>')));
-assert_istrue(~isempty(strfind(srcR, '__nflow_rk4sub')));
+assert_istrue(~isempty(strfind(srcR, 'nf_g: Option<&mut [f64]>')));
+assert_istrue(~isempty(strfind(srcR, 'nflow_rk4sub')));
 rmfile(f);
 %=============================================================================
 % Compiled numeric equivalence vs the simulator (both targets, ode4): the

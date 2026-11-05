@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--ENGLISH IMPOSED-->
+%=============================================================================
 % Schur reduction of a linear descriptor (index-1 DAE) to an explicit ODE
 % state-space, the core of the acausal code-generation. Verified
 % against analytically-known reductions and a numerical descriptor cross-check.

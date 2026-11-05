@@ -20,12 +20,12 @@ typedef struct {
   double _unused;
 } ModelOutput;
 
-static const int INPUT_COUNT = 0;
-static const int OUTPUT_COUNT = 0;
-static const char* input_names[] = {
+const int INPUT_COUNT = 0;
+const int OUTPUT_COUNT = 0;
+const char* input_names[] = {
   "_unused",
 };
-static const char* output_names[] = {
+const char* output_names[] = {
   "_unused",
 };
 
@@ -34,26 +34,10 @@ void nflow_init(ModelState* s) {
 }
 
 void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
-  const double dt = 0.01;
-  double out_b1 = 0.0;
-  double out_b4 = 0.0;
-  double out_b2 = 0.0;
-  double out_b3 = 0.0;
-
-  // constant b1
-  out_b1 = 1;
-  // constant b4
-  out_b4 = 2;
-  // directLookup b2
-  static const double __dl_tbl_b2[] = {0, 1, 1e+01, 11, 2e+01, 21};
-  int __di_b2_0 = (int)lround(out_b1);
-  if (__di_b2_0 < 0) __di_b2_0 = 0; if (__di_b2_0 > 1) __di_b2_0 = 1;
-  int __di_b2_1 = (int)lround(out_b4);
-  if (__di_b2_1 < 0) __di_b2_1 = 0; if (__di_b2_1 > 2) __di_b2_1 = 2;
-  int __doff_b2 = __di_b2_0 * 1 + __di_b2_1 * 2;
-  out_b2 = __dl_tbl_b2[__doff_b2];
-  // scope b3
-  out_b3 = 0.0;
+  (void)s;
+  (void)in;
+  (void)out;
+  (void)t;
 }
 
 void nflow_terminate(ModelState* s) {

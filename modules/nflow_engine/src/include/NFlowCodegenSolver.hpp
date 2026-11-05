@@ -17,7 +17,7 @@
 namespace nflow {
 // Shared emitters for the generated fixed-RK4 (ode4) and adaptive Dormand-Prince
 // 5(4) (ode45) nflow_step bodies, used by the C and Rust generators. The
-// __nflow_rhs function stays in each generator (its body is the block graph).
+// nflow_rhs function stays in each generator (its body is the block graph).
 // The stepper loop is emitted from one place for both targets.
 struct SolverEmitSpec
 {
@@ -33,7 +33,7 @@ struct SolverEmitSpec
     // arr names the packed array, "" for clamp).
     std::function<void(int op, const std::string& arr)> emitSeam;
     // Zero-crossing lowering: packed surface count, decimal text. Empty or "0"
-    // means no surfaces. Otherwise the rhs carries a trailing nullable __g
+    // means no surfaces. Otherwise the rhs carries a trailing nullable nf_g
     // argument and the stepper localizes each sign change by bisection with
     // fixed-RK4 trial steps (60 iters / 1e-12), restarting at the crossing.
     std::string crossingCount;

@@ -2952,6 +2952,7 @@
   "Nelson:nflow_engine:cmakeBuildFailed": "Échec du build CMake :\n%s",
   "Nelson:nflow_engine:cmakeConfigureFailed": "Échec de la configuration CMake :\n%s",
   "Nelson:nflow_engine:codegenFailed": "Génération de code : %s",
+  "Nelson:nflow_engine:codegenFailed:algebraicLoop": "Génération de code : impossible de résoudre la boucle algébrique qui traverse ou alimente les blocs %s : le simulateur l'itère jusqu'à un point fixe, mais le code généré est en ligne droite. Coupez la boucle avec un bloc unitDelay ou memory, ou simulez plutôt ce modèle.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationConstraintBlocks": "La génération de code n'est pas prise en charge pour les blocs de contrainte (algébro-différentiels) ; ils sont résolus par le runtime IDAS. Simulez plutôt ces modèles avec le solveur 'dae'.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationFmuBlocks": "La génération de code n'est pas prise en charge pour les blocs FMU (FMI Co-Simulation) ; le programme généré ne peut pas embarquer le runtime FMU. Supprimez les blocs FMU avant de générer le code.",
   "Nelson:nflow_engine:codegenUnsupported:codeGenerationIntegratorExternalReset": "La génération de code n'est pas prise en charge pour un intégrateur avec réinitialisation externe ou condition initiale externe ('%s') : un événement discret sur un état continu n'a pas de traduction en C / Rust, et émettre un intégrateur qui ne se réinitialise jamais ne correspondrait pas à ce modèle. Simulez-le, ou réinitialisez via un sous-système réinitialisable.",

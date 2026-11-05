@@ -41,9 +41,9 @@ nflow_codegen_check_numeric(d3, stem, 'C', {'y'}, {'nfcg_lag45'}, 5e-6, 1e-6);
 % Seven stages + the error controller, and none of the root-localization
 % machinery: this must be the plain DP45 stepper, not the -WithRoots one.
 src45 = fileread([tempdir(), stem, '/model.c']);
-assert_istrue(~isempty(strfind(src45, '__k7')));
-assert_istrue(~isempty(strfind(src45, '__rtol')));
-assert_istrue(isempty(strfind(src45, '__nflow_rk4sub')));
+assert_istrue(~isempty(strfind(src45, 'nf_k7')));
+assert_istrue(~isempty(strfind(src45, 'nf_rtol')));
+assert_istrue(isempty(strfind(src45, 'nflow_rk4sub')));
 if __nflow_codegen_toolchain__('rust')
   nflow_codegen_check_numeric(d3, stem, 'rust', {'y'}, {'nfcg_lag45'}, 5e-6, 1e-6);
 end

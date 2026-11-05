@@ -132,10 +132,10 @@ namespace NFlow {
                     + "; }");
                 a.line("else if " + uv + " >= " + arr + "[" + N1 + "] { " + iv + " = " + N2 + "; "
                     + fv + " = " + aboveF + "; }");
-                a.line("else { let mut __k2 = " + N2 + "i32; while __k2 > 0 && " + uv + " < " + arr
-                    + "[__k2 as usize] { __k2 -= 1; } " + iv + " = __k2; " + fv + " = (" + uv
-                    + " - " + arr + "[__k2 as usize]) / (" + arr + "[(__k2+1) as usize] - " + arr
-                    + "[__k2 as usize]); }");
+                a.line("else { let mut nf_k2 = " + N2 + "i32; while nf_k2 > 0 && " + uv + " < " + arr
+                    + "[nf_k2 as usize] { nf_k2 -= 1; } " + iv + " = nf_k2; " + fv + " = (" + uv
+                    + " - " + arr + "[nf_k2 as usize]) / (" + arr + "[(nf_k2+1) as usize] - " + arr
+                    + "[nf_k2 as usize]); }");
             } else {
                 a.line("int " + iv + "; double " + fv + ";");
                 a.line("if (" + uv + " <= " + arr + "[0]) { " + iv + " = 0; " + fv + " = " + belowF
@@ -193,7 +193,7 @@ namespace NFlow {
                     a, rust, bps, tbl, interp, bdp.paramStr("ExtrapMethod", "Linear"));
                 return;
             }
-            const std::string tv = "__tblN_" + a.id;
+            const std::string tv = "nf_tblN_" + a.id;
             a.line(emitArray(a, tv, tbl, rust));
             std::vector<std::string> idxNames, wNames;
             std::vector<int> strides(N, 1);
@@ -202,12 +202,12 @@ namespace NFlow {
             }
             for (int k = 0; k < N; ++k) {
                 const std::string ks = std::to_string(k);
-                const std::string bpv = "__bpN_" + a.id + "_" + ks;
+                const std::string bpv = "nf_bpN_" + a.id + "_" + ks;
                 a.line(emitArray(a, bpv, bps[k], rust));
-                const std::string uv = "__uN_" + a.id + "_" + ks;
-                const std::string iv = "__iN_" + a.id + "_" + ks;
-                const std::string fv = "__fN_" + a.id + "_" + ks;
-                const std::string wv = "__wN_" + a.id + "_" + ks;
+                const std::string uv = "nf_uN_" + a.id + "_" + ks;
+                const std::string iv = "nf_iN_" + a.id + "_" + ks;
+                const std::string fv = "nf_fN_" + a.id + "_" + ks;
+                const std::string wv = "nf_wN_" + a.id + "_" + ks;
                 a.line((rust ? "let " : "double ") + uv + " = " + a.in[k] + ";");
                 emitLocate(a, rust, bpv, uv, iv, fv, (int)bps[k].size(), linExtrap);
                 a.line(
@@ -215,7 +215,7 @@ namespace NFlow {
                 idxNames.push_back(iv);
                 wNames.push_back(wv);
             }
-            const std::string y = "__yN_" + a.id;
+            const std::string y = "nf_yN_" + a.id;
             std::string idxArr, wArr, strArr;
             for (int k = 0; k < N; ++k) {
                 idxArr += (k ? ", " : "") + idxNames[k];
@@ -224,37 +224,37 @@ namespace NFlow {
             }
             const std::string Ns = std::to_string(N);
             if (rust) {
-                a.line("let __idxN_" + a.id + ": [i32; " + Ns + "] = [" + idxArr + "];");
-                a.line("let __wArrN_" + a.id + ": [f64; " + Ns + "] = [" + wArr + "];");
-                a.line("let __strideN_" + a.id + ": [i32; " + Ns + "] = [" + strArr + "];");
+                a.line("let nf_idxN_" + a.id + ": [i32; " + Ns + "] = [" + idxArr + "];");
+                a.line("let nf_wArrN_" + a.id + ": [f64; " + Ns + "] = [" + wArr + "];");
+                a.line("let nf_strideN_" + a.id + ": [i32; " + Ns + "] = [" + strArr + "];");
                 a.line("let mut " + y + " = 0.0_f64;");
-                a.line("for __c in 0..(1i32 << " + Ns + ") {");
-                a.line("  let mut __cw = 1.0_f64; let mut __off: i32 = 0;");
-                a.line("  for __k in 0.." + Ns + " {");
-                a.line("    let __bit = (__c >> __k) & 1;");
-                a.line("    __cw *= if __bit == 1 { __wArrN_" + a.id
-                    + "[__k] } else { 1.0 - __wArrN_" + a.id + "[__k] };");
-                a.line("    __off += (__idxN_" + a.id + "[__k] + __bit) * __strideN_" + a.id
-                    + "[__k];");
+                a.line("for nf_c in 0..(1i32 << " + Ns + ") {");
+                a.line("  let mut nf_cw = 1.0_f64; let mut nf_off: i32 = 0;");
+                a.line("  for nf_k in 0.." + Ns + " {");
+                a.line("    let nf_bit = (nf_c >> nf_k) & 1;");
+                a.line("    nf_cw *= if nf_bit == 1 { nf_wArrN_" + a.id
+                    + "[nf_k] } else { 1.0 - nf_wArrN_" + a.id + "[nf_k] };");
+                a.line("    nf_off += (nf_idxN_" + a.id + "[nf_k] + nf_bit) * nf_strideN_" + a.id
+                    + "[nf_k];");
                 a.line("  }");
-                a.line("  " + y + " += __cw * " + tv + "[__off as usize];");
+                a.line("  " + y + " += nf_cw * " + tv + "[nf_off as usize];");
                 a.line("}");
                 a.line("out_" + a.id + " = " + y + ";");
             } else {
-                a.line("int __idxN_" + a.id + "[" + Ns + "] = {" + idxArr + "};");
-                a.line("double __wArrN_" + a.id + "[" + Ns + "] = {" + wArr + "};");
-                a.line("static const int __strideN_" + a.id + "[" + Ns + "] = {" + strArr + "};");
+                a.line("int nf_idxN_" + a.id + "[" + Ns + "] = {" + idxArr + "};");
+                a.line("double nf_wArrN_" + a.id + "[" + Ns + "] = {" + wArr + "};");
+                a.line("static const int nf_strideN_" + a.id + "[" + Ns + "] = {" + strArr + "};");
                 a.line("double " + y + " = 0.0;");
-                a.line("for (int __c = 0; __c < (1 << " + Ns + "); __c++) {");
-                a.line("  double __cw = 1.0; int __off = 0;");
-                a.line("  for (int __k = 0; __k < " + Ns + "; __k++) {");
-                a.line("    int __bit = (__c >> __k) & 1;");
-                a.line("    __cw *= __bit ? __wArrN_" + a.id + "[__k] : (1.0 - __wArrN_" + a.id
-                    + "[__k]);");
-                a.line("    __off += (__idxN_" + a.id + "[__k] + __bit) * __strideN_" + a.id
-                    + "[__k];");
+                a.line("for (int nf_c = 0; nf_c < (1 << " + Ns + "); nf_c++) {");
+                a.line("  double nf_cw = 1.0; int nf_off = 0;");
+                a.line("  for (int nf_k = 0; nf_k < " + Ns + "; nf_k++) {");
+                a.line("    int nf_bit = (nf_c >> nf_k) & 1;");
+                a.line("    nf_cw *= nf_bit ? nf_wArrN_" + a.id + "[nf_k] : (1.0 - nf_wArrN_" + a.id
+                    + "[nf_k]);");
+                a.line("    nf_off += (nf_idxN_" + a.id + "[nf_k] + nf_bit) * nf_strideN_" + a.id
+                    + "[nf_k];");
                 a.line("  }");
-                a.line("  " + y + " += __cw * " + tv + "[__off];");
+                a.line("  " + y + " += nf_cw * " + tv + "[nf_off];");
                 a.line("}");
                 a.line("out_" + a.id + " = " + y + ";");
             }

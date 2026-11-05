@@ -99,7 +99,7 @@ fclose(fid);
 nflow_codegenerate(f, tempdir(), false, 'C');
 src = fileread([tempdir(), fstem, '/model.c']);
 assert_istrue(isempty(strfind(src, 'unknown:')));
-assert_istrue(~isempty(strfind(src, '__nflow_rhs'))); % RK4 seam, no downgrade
+assert_istrue(~isempty(strfind(src, 'nflow_rhs'))); % RK4 seam, no downgrade
 assert_istrue(~isempty(strfind(src, 'pl_x_pi_0')));
 assert_istrue(~isempty(strfind(src, 'pl_x_pi_5')));
 assert_istrue(~isempty(strfind(src, 'out_pi_p4 = ')));
