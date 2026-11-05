@@ -59,6 +59,12 @@ set_paramBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (key == "PortHandles" || key == "PortConnectivity" || key == "LineHandles") {
                 Error("Nelson:nflow_engine:readOnlyParameter", "Parameter '%s' is read-only.", key);
             }
+            std::string type, e;
+            nlohmann::json present;
+            if (target.doc->getBlockParam(target.blockName, "BlockType", type, e)) {
+                checkBlockParamName(
+                    type, key, target.doc->getBlockParamJson(target.blockName, key, present, e));
+            }
         } else {
             if (key == "Dirty") {
                 Error("Nelson:nflow_engine:readOnlyParameter", "Parameter '%s' is read-only.",

@@ -19,6 +19,8 @@
 #include <cctype>
 #include <mutex>
 #include <cstdio>
+#include <iterator>
+#include <vector>
 //=============================================================================
 using namespace Nelson;
 using namespace Nelson::NFlow;
@@ -256,6 +258,47 @@ applyTypedBlockParam(NFlowModelDocument& doc, const std::string& blockName, cons
     if (!ok) {
         Error("Nelson:nflow_engine:setParamFailed", err);
     }
+}
+//=============================================================================
+// Parameters any block may carry without declaring them in its catalog entry.
+static const char* const kGenericBlockParams[] = { "Position", "Name", "Orientation", "BlockType",
+    "Parent", "Commented", "SampleTime", "ExternalReset", "controlPort", "Binding", "gate",
+    "forEach", "maskParameters", "PortHandles", "PortConnectivity", "LineHandles" };
+//=============================================================================
+void
+checkBlockParamName(const std::string& blockType, const std::string& key, bool alreadyPresent)
+{
+    if (alreadyPresent) {
+        return;
+    }
+    ensureCatalogLoaded();
+    const BlockCatalogEntry* entry = NFlowBlockCatalog::instance().find(blockType);
+    // Subsystems take mask parameters and user-defined types declare nothing:
+    // there is no reliable list to check against.
+    if (entry == nullptr || !entry->defaultParams.is_object() || entry->defaultParams.empty()
+        || entry->defaultParams.contains("subsystem")) {
+        return;
+    }
+    std::vector<std::string> known(std::begin(kGenericBlockParams), std::end(kGenericBlockParams));
+    for (auto it = entry->defaultParams.begin(); it != entry->defaultParams.end(); ++it) {
+        known.push_back(it.key());
+    }
+    if (std::find(known.begin(), known.end(), key) != known.end()) {
+        return;
+    }
+    const std::string lowerKey = toLowerCopy(key);
+    for (const std::string& k : known) {
+        if (toLowerCopy(k) == lowerKey) {
+            Error("Nelson:nflow_engine:blockParameterCase",
+                "Block type '%s' has no parameter '%s'; did you mean '%s'? Parameter names are "
+                "case-sensitive.",
+                blockType, key, k);
+        }
+    }
+    Warning("Nelson:nflow_engine:unknownBlockParameter",
+        "Block type '%s' does not declare a parameter '%s': the value is stored but the block may "
+        "ignore it.",
+        blockType, key);
 }
 //=============================================================================
 std::string
