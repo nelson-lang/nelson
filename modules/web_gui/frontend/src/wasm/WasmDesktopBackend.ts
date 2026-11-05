@@ -2521,7 +2521,9 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         entry && typeof entry === 'object' ? String((entry as { file?: unknown }).file ?? '') : ''
       )
       .filter((file) => {
-        const runtimeMatch = /^runtime-resources\/modules\/([^/]+)\/(tests|help|examples)\//.exec(file);
+        const runtimeMatch = /^runtime-resources\/modules\/([^/]+)\/(tests|help|examples)\//.exec(
+          file
+        );
         const examplesMatch = /^examples\/files\/([^/]+)\/(examples)\//.exec(file);
         const match = runtimeMatch ?? examplesMatch;
         if (!match) return false;
