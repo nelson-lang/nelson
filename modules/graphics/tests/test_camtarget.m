@@ -25,7 +25,7 @@ asserts.isequal(char(get(ax, 'CameraTargetMode')), 'manual');
 camtarget(ax, 'auto');
 asserts.isequal(char(camtarget(ax, 'mode')), 'auto');
 %=============================================================================
-asserts.checkerror('camtarget(gca(), ''bad'')', 'Value must be ''auto'', ''manual'' or ''mode''.');
+asserts.checkerror('camtarget(gca(), ''bad'')', getString(message('Nelson:graphics:invalidCamOption')));
 %=============================================================================
 close all;
 %=============================================================================

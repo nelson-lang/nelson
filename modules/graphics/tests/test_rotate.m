@@ -34,6 +34,6 @@ assert_isequal(size(get(s, 'ZData')), [10 10]);
 % errors
 figure();
 h = line([0 1], [0 0]);
-assert_checkerror('rotate(h, [1 0 0 0], 10)', _('DIRECTION must be a two- or three-element vector.'));
-assert_checkerror('rotate(h, [0 0 0], 10)', _('DIRECTION must be nonzero.'));
+assert_checkerror('rotate(h, [1 0 0 0], 10)', getString(message('Nelson:rotate:invalidDirection')));
+assert_checkerror('rotate(h, [0 0 0], 10)', getString(message('Nelson:rotate:zeroDirection')));
 %=============================================================================

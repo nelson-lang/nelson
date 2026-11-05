@@ -40,7 +40,7 @@ asserts.isequal(h.SizeData, [3 2 1]);
 asserts.isequal(h.MaxDisplayWords, 2);
 close(f);
 %=============================================================================
-msg = 'MaxDisplayWords must be a positive integer.';
+msg = getString(message('Nelson:graphics:mustBePositiveInteger', 'MaxDisplayWords'));
 asserts.checkerror('wordcloud({''a'', ''b''}, [2 1], ''MaxDisplayWords'', 0);', msg);
 asserts.checkerror('wordcloud({''a'', ''b''}, [2 1], ''MaxDisplayWords'', -1);', msg);
 asserts.checkerror('wordcloud({''a'', ''b''}, [2 1], ''MaxDisplayWords'', [1 2]);', msg);

@@ -31,6 +31,6 @@ assert_isequal(ancestor(h, 'axes'), ax);
 %=============================================================================
 % errors
 figure();
-assert_checkerror('viscircles([0 0 0], 1)', _('CENTERS must be an N-by-2 matrix.'));
-assert_checkerror('viscircles([0 0; 1 1], [1 2 3])', _('RADII must be a scalar or have one value per circle.'));
+assert_checkerror('viscircles([0 0 0], 1)', getString(message('Nelson:viscircles:invalidCenters')));
+assert_checkerror('viscircles([0 0; 1 1], [1 2 3])', getString(message('Nelson:viscircles:invalidRadii')));
 %=============================================================================

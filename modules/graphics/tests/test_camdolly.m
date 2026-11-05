@@ -34,7 +34,7 @@ camtarget(ax, [0 0 0]);
 camdolly(ax, 1, 2, 3, 'data', 'data');
 asserts.isapprox(camtarget(ax), [1 2 3], 1e-9);
 %=============================================================================
-asserts.checkerror('camdolly(gca(), ''a'', 0, 0)', 'dx, dy and dz must be real scalars.');
+asserts.checkerror('camdolly(gca(), ''a'', 0, 0)', getString(message('Nelson:graphics:invalidCamOffset')));
 %=============================================================================
 close all;
 %=============================================================================

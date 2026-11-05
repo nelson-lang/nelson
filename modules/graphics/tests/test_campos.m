@@ -30,7 +30,7 @@ asserts.isequal(char(campos(ax, 'mode')), 'manual');
 R = campos(ax, [1 2 3]);
 asserts.isequal(R, [1 2 3]);
 %=============================================================================
-asserts.checkerror('campos(gca(), ''bad'')', 'Value must be ''auto'', ''manual'' or ''mode''.');
+asserts.checkerror('campos(gca(), ''bad'')', getString(message('Nelson:graphics:invalidCamOption')));
 %=============================================================================
 close all;
 %=============================================================================

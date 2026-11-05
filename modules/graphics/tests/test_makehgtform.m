@@ -33,7 +33,7 @@ assert_isequal(M, makehgtform('translate', [1 0 0]) * makehgtform('scale', [2 2 
 assert_istrue(norm(M * [1; 0; 0; 1] - [3; 0; 0; 1]) < 1e-12);
 %=============================================================================
 % errors
-assert_checkerror('makehgtform(''zrotate'')', _('Missing value for transformation ''zrotate''.'));
-assert_checkerror('makehgtform(''bogus'', 1)', _('Unknown transformation ''bogus''.'));
-assert_checkerror('makehgtform(''translate'', [1 2])', _('Translation must be a three-element vector.'));
+assert_checkerror('makehgtform(''zrotate'')', getString(message('Nelson:makehgtform:missingValue', 'zrotate')));
+assert_checkerror('makehgtform(''bogus'', 1)', getString(message('Nelson:makehgtform:unknownTransform', 'bogus')));
+assert_checkerror('makehgtform(''translate'', [1 2])', getString(message('Nelson:makehgtform:invalidTranslate')));
 %=============================================================================

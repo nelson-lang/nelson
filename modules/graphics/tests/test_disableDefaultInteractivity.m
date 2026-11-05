@@ -23,15 +23,16 @@ enableDefaultInteractivity(ax);
 assert_isequal(char(get(ax, 'DefaultInteractivity_Hidden')), 'on');
 %=============================================================================
 % a figure is not accepted
-assert_checkerror('disableDefaultInteractivity(f)', 'Input must be an axes handle.');
+assert_checkerror('disableDefaultInteractivity(f)', getString(message('Nelson:graphics:interaction:InvalidInputAxes')));
 %=============================================================================
 % a line is not accepted
 l = plot(axes('Parent', f), 1:3);
-assert_checkerror('disableDefaultInteractivity(l)', 'Input must be an axes handle.');
+assert_checkerror('disableDefaultInteractivity(l)', getString(message('Nelson:graphics:interaction:InvalidInputAxes')));
 %=============================================================================
 % an array of axes is not accepted
 ax2 = axes('Parent', f);
-assert_checkerror('disableDefaultInteractivity([ax ax2])', 'Input must be an axes handle.');
+assert_checkerror('disableDefaultInteractivity([ax ax2])', ...
+  getString(message('Nelson:graphics:interaction:InvalidInputAxes')));
 %=============================================================================
 close(f);
 %=============================================================================
