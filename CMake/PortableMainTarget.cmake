@@ -507,7 +507,7 @@ if(NELSON_PORTABLE_BUILD)
           )
         endif()
         foreach(_module IN LISTS _nelson_runtime_modules)
-          foreach(_resource_dir IN ITEMS tests help)
+          foreach(_resource_dir IN ITEMS tests help examples)
             if(EXISTS "${CMAKE_SOURCE_DIR}/modules/${_module}/${_resource_dir}")
               file(GLOB_RECURSE _nelson_wasm_module_resource_files
                 CONFIGURE_DEPENDS

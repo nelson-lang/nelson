@@ -2413,7 +2413,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   //=============================================================================
   private commandNeedsRuntimeResources(line: string): boolean {
     if (/^\s*help\b/i.test(line)) return this.helpCommandHasTopic(line);
-    return /^\s*(?:test_run|bench_run|deployhelp|buildhelpweb)\b/i.test(line);
+    if (/^\s*(?:test_run|bench_run|deployhelp|buildhelpweb)\b/i.test(line)) return true;
+    return /\/modules\/[A-Za-z][A-Za-z0-9_]*\/examples\b/.test(line);
   }
   //=============================================================================
   private runtimeResourceModulesForLine(line: string): string[] | null {
@@ -2478,7 +2479,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         if (!module || (modules && !modules.has(module))) continue;
         const moduleBundles = (entry as { bundles?: Record<string, unknown> }).bundles;
         if (!moduleBundles || typeof moduleBundles !== 'object') continue;
-        for (const kind of ['tests', 'help', 'archives']) {
+        for (const kind of ['tests', 'help', 'archives', 'examples']) {
           if (!kinds.has(kind)) continue;
           const bundleValue = moduleBundles[kind];
           const candidates = Array.isArray(bundleValue) ? bundleValue : [bundleValue];
@@ -2518,12 +2519,12 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         entry && typeof entry === 'object' ? String((entry as { file?: unknown }).file ?? '') : ''
       )
       .filter((file) => {
-        const runtimeMatch = /^runtime-resources\/modules\/([^/]+)\/(tests|help)\//.exec(file);
+        const runtimeMatch = /^runtime-resources\/modules\/([^/]+)\/(tests|help|examples)\//.exec(file);
         const examplesMatch = /^examples\/files\/([^/]+)\/(examples)\//.exec(file);
         const match = runtimeMatch ?? examplesMatch;
         if (!match) return false;
         if (file.split('/').includes('..')) return false;
-        if (runtimeMatch && hasBundleIndex) return false;
+        if ((runtimeMatch || examplesMatch) && hasBundleIndex) return false;
         if (modules && !modules.has(match[1])) return false;
         if (!kinds.has(match[2])) return false;
         return true;
@@ -2578,25 +2579,43 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     return `/modules/${match[1]}/examples/${match[2]}`;
   }
   //=============================================================================
+  private exampleModulesReferencedByLine(line: string): string[] {
+    if (!line.includes('/modules/')) return [];
+    const modules = new Set<string>();
+    for (const match of line.matchAll(/\/modules\/([A-Za-z][A-Za-z0-9_]*)\/examples\b/g)) {
+      modules.add(match[1]);
+    }
+    return [...modules].sort();
+  }
+  //=============================================================================
   private async ensureRuntimeResourcesMountedForLine(line: string): Promise<void> {
     const command = /^\s*(test_run|bench_run|deployhelp|buildhelpweb|help)\b/i
       .exec(line)?.[1]
       ?.toLowerCase();
-    const kinds =
-      command === 'help'
-        ? ['help']
-        : command === 'deployhelp' || command === 'buildhelpweb'
-        ? ['archives']
-        : ['tests', 'examples'];
-    const modules = this.runtimeResourceModulesForLine(line);
-    await this.ensureRuntimeResourcesMountedForModules({
-      modules,
-      kinds,
-    });
-    if (this.testRunNeedsHelpIndex(line, modules)) {
+    if (command) {
+      const kinds =
+        command === 'help'
+          ? ['help']
+          : command === 'deployhelp' || command === 'buildhelpweb'
+          ? ['archives']
+          : ['tests', 'examples'];
+      const modules = this.runtimeResourceModulesForLine(line);
       await this.ensureRuntimeResourcesMountedForModules({
-        modules: ['help_tools'],
-        kinds: ['help'],
+        modules,
+        kinds,
+      });
+      if (this.testRunNeedsHelpIndex(line, modules)) {
+        await this.ensureRuntimeResourcesMountedForModules({
+          modules: ['help_tools'],
+          kinds: ['help'],
+        });
+      }
+    }
+    const exampleModules = this.exampleModulesReferencedByLine(line);
+    if (exampleModules.length > 0) {
+      await this.ensureRuntimeResourcesMountedForModules({
+        modules: exampleModules,
+        kinds: ['examples'],
       });
     }
   }
@@ -2910,7 +2929,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   private async materializeBrowserExamplesReferencedByLine(line: string): Promise<void> {
     if (!this.options.examplesUrl || !line.includes('/modules/')) return;
     const paths = new Set<string>();
-    const pattern = /(['"])(\/modules\/[^'"]+\/examples\/[^'"]+\.m)\1/g;
+    const pattern = /(['"])(\/modules\/[^'"]+\/examples\/[^'"]+\.\w+)\1/g;
     for (const match of line.matchAll(pattern)) {
       if (typeof match[2] === 'string') paths.add(match[2]);
     }
