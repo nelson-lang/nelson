@@ -85,8 +85,8 @@ namespace NFlow {
                 a.line("if (nf_u_" + id + " <= nf_bp_" + id + "[0]) nf_k_" + id + " = 0;");
                 a.line("else if (nf_u_" + id + " >= nf_bp_" + id + "[" + std::to_string(n - 1)
                     + "]) nf_k_" + id + " = " + std::to_string(n - 2) + ";");
-                a.line("else { int nf_i = " + std::to_string(n - 2) + "; while (nf_i > 0 && nf_u_" + id
-                    + " < nf_bp_" + id + "[nf_i]) nf_i--; nf_k_" + id + " = nf_i; }");
+                a.line("else { int nf_i = " + std::to_string(n - 2) + "; while (nf_i > 0 && nf_u_"
+                    + id + " < nf_bp_" + id + "[nf_i]) nf_i--; nf_k_" + id + " = nf_i; }");
                 if (mode == "prelookupK") {
                     a.line(out + " = (double)nf_k_" + id + ";");
                 } else {
@@ -94,8 +94,8 @@ namespace NFlow {
                     a.line("else if (nf_u_" + id + " >= nf_bp_" + id + "[" + std::to_string(n - 1)
                         + "]) " + out + " = 1.0;");
                     a.line("else { double nf_d = nf_bp_" + id + "[nf_k_" + id + "+1] - nf_bp_" + id
-                        + "[nf_k_" + id + "]; " + out + " = (nf_d != 0.0) ? (nf_u_" + id + " - nf_bp_"
-                        + id + "[nf_k_" + id + "]) / nf_d : 0.0; }");
+                        + "[nf_k_" + id + "]; " + out + " = (nf_d != 0.0) ? (nf_u_" + id
+                        + " - nf_bp_" + id + "[nf_k_" + id + "]) / nf_d : 0.0; }");
                 }
                 a.line("}");
                 return;
@@ -147,15 +147,15 @@ namespace NFlow {
                     a.line("}");
                     return;
                 }
-                a.line(
-                    "if (nf_x_" + id + " <= nf_xd_" + id + "[0]) " + out + " = nf_yd_" + id + "[0];");
-                a.line("else if (nf_x_" + id + " >= nf_xd_" + id + "[" + wl + "]) " + out + " = nf_yd_"
-                    + id + "[" + wl + "];");
-                a.line("else { int nf_i = " + std::to_string(W - 2) + "; while (nf_i > 0 && nf_x_" + id
-                    + " < nf_xd_" + id + "[nf_i]) nf_i--; double nf_d = nf_xd_" + id + "[nf_i+1] - nf_xd_"
-                    + id + "[nf_i]; double nf_f = (nf_d != 0.0) ? (nf_x_" + id + " - nf_xd_" + id
-                    + "[nf_i]) / nf_d : 0.0; " + out + " = nf_yd_" + id + "[nf_i] + nf_f * (nf_yd_" + id
-                    + "[nf_i+1] - nf_yd_" + id + "[nf_i]); }");
+                a.line("if (nf_x_" + id + " <= nf_xd_" + id + "[0]) " + out + " = nf_yd_" + id
+                    + "[0];");
+                a.line("else if (nf_x_" + id + " >= nf_xd_" + id + "[" + wl + "]) " + out
+                    + " = nf_yd_" + id + "[" + wl + "];");
+                a.line("else { int nf_i = " + std::to_string(W - 2) + "; while (nf_i > 0 && nf_x_"
+                    + id + " < nf_xd_" + id + "[nf_i]) nf_i--; double nf_d = nf_xd_" + id
+                    + "[nf_i+1] - nf_xd_" + id + "[nf_i]; double nf_f = (nf_d != 0.0) ? (nf_x_" + id
+                    + " - nf_xd_" + id + "[nf_i]) / nf_d : 0.0; " + out + " = nf_yd_" + id
+                    + "[nf_i] + nf_f * (nf_yd_" + id + "[nf_i+1] - nf_yd_" + id + "[nf_i]); }");
                 a.line("}");
                 return;
             }
@@ -203,7 +203,8 @@ namespace NFlow {
                     a.line("else if nf_u >= nf_bp[" + std::to_string(n - 1) + "] { " + out
                         + " = 1.0_f64; }");
                     a.line("else { let nf_d = nf_bp[nf_k+1] - nf_bp[nf_k]; " + out
-                        + " = if nf_d != 0.0_f64 { (nf_u - nf_bp[nf_k]) / nf_d } else { 0.0_f64 }; }");
+                        + " = if nf_d != 0.0_f64 { (nf_u - nf_bp[nf_k]) / nf_d } else { 0.0_f64 }; "
+                          "}");
                 }
                 a.line("}");
                 return;
@@ -258,8 +259,10 @@ namespace NFlow {
                 a.line("if nf_x <= nf_xd[0] { " + out + " = nf_yd[0]; }");
                 a.line("else if nf_x >= nf_xd[" + wl + "] { " + out + " = nf_yd[" + wl + "]; }");
                 a.line("else { let mut nf_i: usize = " + std::to_string(W - 2)
-                    + "; while nf_i > 0 && nf_x < nf_xd[nf_i] { nf_i -= 1; } let nf_d = nf_xd[nf_i+1] - "
-                      "nf_xd[nf_i]; let nf_f = if nf_d != 0.0_f64 { (nf_x - nf_xd[nf_i]) / nf_d } else { "
+                    + "; while nf_i > 0 && nf_x < nf_xd[nf_i] { nf_i -= 1; } let nf_d = "
+                      "nf_xd[nf_i+1] - "
+                      "nf_xd[nf_i]; let nf_f = if nf_d != 0.0_f64 { (nf_x - nf_xd[nf_i]) / nf_d } "
+                      "else { "
                       "0.0_f64 }; "
                     + out + " = nf_yd[nf_i] + nf_f * (nf_yd[nf_i+1] - nf_yd[nf_i]); }");
                 a.line("}");

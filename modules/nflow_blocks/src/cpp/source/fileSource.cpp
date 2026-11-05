@@ -141,8 +141,8 @@ Nelson::NFlow::getCodeGenRustFileSource()
         a.line(vs);
         a.line("let mut nf_fi: usize = " + std::to_string(times.size() - 1) + ";");
         a.line("while nf_fi > 0 && nf_fsrc_t_" + a.id + "[nf_fi] > t { nf_fi -= 1; }");
-        a.line("let nf_fj: usize = if nf_fi < " + std::to_string(values.size()) + " { nf_fi } else { "
-            + std::to_string(values.size() - 1) + " };");
+        a.line("let nf_fj: usize = if nf_fi < " + std::to_string(values.size())
+            + " { nf_fi } else { " + std::to_string(values.size() - 1) + " };");
         a.line("out_" + a.id + " = nf_fsrc_v_" + a.id + "[nf_fj];");
     };
     return t;

@@ -132,10 +132,10 @@ namespace NFlow {
                     + "; }");
                 a.line("else if " + uv + " >= " + arr + "[" + N1 + "] { " + iv + " = " + N2 + "; "
                     + fv + " = " + aboveF + "; }");
-                a.line("else { let mut nf_k2 = " + N2 + "i32; while nf_k2 > 0 && " + uv + " < " + arr
-                    + "[nf_k2 as usize] { nf_k2 -= 1; } " + iv + " = nf_k2; " + fv + " = (" + uv
-                    + " - " + arr + "[nf_k2 as usize]) / (" + arr + "[(nf_k2+1) as usize] - " + arr
-                    + "[nf_k2 as usize]); }");
+                a.line("else { let mut nf_k2 = " + N2 + "i32; while nf_k2 > 0 && " + uv + " < "
+                    + arr + "[nf_k2 as usize] { nf_k2 -= 1; } " + iv + " = nf_k2; " + fv + " = ("
+                    + uv + " - " + arr + "[nf_k2 as usize]) / (" + arr + "[(nf_k2+1) as usize] - "
+                    + arr + "[nf_k2 as usize]); }");
             } else {
                 a.line("int " + iv + "; double " + fv + ";");
                 a.line("if (" + uv + " <= " + arr + "[0]) { " + iv + " = 0; " + fv + " = " + belowF

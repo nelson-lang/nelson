@@ -329,8 +329,8 @@ Nelson::NFlow::getCodeGenRustTf()
         const std::string nc = "TF_N_" + cu;
         switch (a.rk4Op) {
         case Rk4Gather:
-            a.line("for nf_i in 0.." + nc + " { " + a.rk4Arr + "[" + off + " + nf_i] = s.tf_x_" + a.id
-                + "[nf_i]; }");
+            a.line("for nf_i in 0.." + nc + " { " + a.rk4Arr + "[" + off + " + nf_i] = s.tf_x_"
+                + a.id + "[nf_i]; }");
             break;
         case Rk4Scatter:
             a.line("for nf_i in 0.." + nc + " { s.tf_x_" + a.id + "[nf_i] = " + a.rk4Arr + "[" + off

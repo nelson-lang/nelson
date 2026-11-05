@@ -424,8 +424,8 @@ Nelson::NFlow::getCodeGenCStateSpace()
                 + ssDerivExpr(a, s, i, "s->") + ";");
         }
         for (int i = 0; i < s.nx; ++i) {
-            a.line(ssName(a.id, i, s.nx, "s->") + " += dt * nf_ssd_" + a.id + "_" + std::to_string(i)
-                + ";");
+            a.line(ssName(a.id, i, s.nx, "s->") + " += dt * nf_ssd_" + a.id + "_"
+                + std::to_string(i) + ";");
         }
         if (!liveD) {
             for (int k = 0; k < s.nu; ++k) {
