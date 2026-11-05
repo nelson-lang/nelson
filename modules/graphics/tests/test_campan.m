@@ -26,7 +26,7 @@ asserts.isapprox(campos(ax), p0, 1e-9);
 asserts.isapprox(norm(campos(ax) - camtarget(ax)), d0, 1e-6);
 asserts.istrue(norm(camtarget(ax) - [0 0 0]) > 0);
 %=============================================================================
-asserts.checkerror('campan(gca(), ''a'', 1)', 'Rotation angles must be real scalars.');
+asserts.checkerror('campan(gca(), ''a'', 1)', getString(message('Nelson:graphics:invalidCamAngle')));
 %=============================================================================
 close all;
 %=============================================================================

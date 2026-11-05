@@ -30,7 +30,7 @@ asserts.istrue(abs(p(2)) < 1e-4);
 camorbit(ax, 0, 30);
 asserts.isapprox(norm(campos(ax) - camtarget(ax)), d0, 1e-6);
 %=============================================================================
-asserts.checkerror('camorbit(gca(), ''a'', ''b'')', 'Rotation angles must be real scalars.');
+asserts.checkerror('camorbit(gca(), ''a'', ''b'')', getString(message('Nelson:graphics:invalidCamAngle')));
 %=============================================================================
 close all;
 %=============================================================================

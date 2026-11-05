@@ -29,7 +29,7 @@ camva(ax, 120);
 camzoom(ax, 2);
 asserts.isapprox(camva(ax), 81.786789, 1e-6);
 %=============================================================================
-asserts.checkerror('camzoom(gca(), -1)', 'Zoom factor must be a positive real scalar.');
+asserts.checkerror('camzoom(gca(), -1)', getString(message('Nelson:graphics:invalidZoomFactor')));
 %=============================================================================
 close all;
 %=============================================================================

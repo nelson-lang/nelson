@@ -31,8 +31,8 @@ asserts.isequal(char(camproj(ax)), 'orthographic');
 camproj(ax, 'pers');
 asserts.isequal(char(camproj(ax)), 'perspective');
 %=============================================================================
-asserts.checkerror('camproj(gca(), ''bad'')', 'Projection must be ''orthographic'' or ''perspective''.');
-asserts.checkerror('camproj(gca(), '''')', 'Projection must be ''orthographic'' or ''perspective''.');
+asserts.checkerror('camproj(gca(), ''bad'')', getString(message('Nelson:graphics:invalidProjection')));
+asserts.checkerror('camproj(gca(), '''')', getString(message('Nelson:graphics:invalidProjection')));
 %=============================================================================
 close all;
 %=============================================================================

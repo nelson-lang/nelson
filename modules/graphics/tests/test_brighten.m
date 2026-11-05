@@ -33,5 +33,5 @@ assert_isapprox(cm, brighten(jet(16), 0.5), 1e-12);
 close(f);
 %=============================================================================
 % beta outside (-1, 1) is rejected.
-assert_checkerror('brighten(jet(8), 1.5)', 'BETA must be a scalar in the interval (-1, 1).');
+assert_checkerror('brighten(jet(8), 1.5)', getString(message('Nelson:brighten:invalidBeta')));
 %=============================================================================

@@ -41,10 +41,10 @@ delete(fig);
 % error paths
 %=============================================================================
 assert_checkerror('exportapp()', getString(message('Nelson:narginchk:notEnoughInputs')));
-assert_checkerror('exportapp(42, ''out.png'')', 'First argument must be a single figure handle.');
+assert_checkerror('exportapp(42, ''out.png'')', getString(message('Nelson:exportapp:invalidFigure')));
 fig2 = uifigure('Visible', 'off');
 assert_checkerror('exportapp(fig2)', getString(message('Nelson:narginchk:notEnoughInputs')));
-assert_checkerror('exportapp(fig2, 42)', 'Second argument must be a filename as a character vector or string scalar.');
+assert_checkerror('exportapp(fig2, 42)', getString(message('Nelson:exportapp:invalidFilename')));
 delete(fig2);
 close all
 %=============================================================================

@@ -26,8 +26,8 @@ asserts.isequal(char(camva(ax, 'mode')), 'manual');
 camva(ax, 'auto');
 asserts.isequal(char(camva(ax, 'mode')), 'auto');
 %=============================================================================
-asserts.checkerror('camva(gca(), -1)', 'Camera view angle must be a real scalar in the range (0, 180).');
-asserts.checkerror('camva(gca(), 200)', 'Camera view angle must be a real scalar in the range (0, 180).');
+asserts.checkerror('camva(gca(), -1)', getString(message('Nelson:graphics:invalidCamViewAngle')));
+asserts.checkerror('camva(gca(), 200)', getString(message('Nelson:graphics:invalidCamViewAngle')));
 %=============================================================================
 close all;
 %=============================================================================

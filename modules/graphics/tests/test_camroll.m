@@ -25,7 +25,7 @@ asserts.isapprox(norm(u), 1, 1e-6);
 asserts.isapprox(abs(u(1)), 1, 1e-4);
 asserts.istrue(abs(u(3)) < 1e-6);
 %=============================================================================
-asserts.checkerror('camroll(gca(), ''x'')', 'Roll angle must be a real scalar.');
+asserts.checkerror('camroll(gca(), ''x'')', getString(message('Nelson:graphics:invalidRollAngle')));
 %=============================================================================
 close all;
 %=============================================================================
