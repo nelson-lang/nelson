@@ -82,12 +82,13 @@ namespace NFlow {
                         + "] -= nf_i; }");
                     break;
                 case Kind::ZDiode:
-                    line("  { double nf_vd = (" + ea + ") - (" + eb + ");" + " double nf_af = nf_vd / "
-                        + fmt(c.vt) + "; if (nf_af > 40.0) nf_af = 40.0;" + " double nf_ar = -(nf_vd + "
+                    line("  { double nf_vd = (" + ea + ") - (" + eb + ");"
+                        + " double nf_af = nf_vd / " + fmt(c.vt)
+                        + "; if (nf_af > 40.0) nf_af = 40.0;" + " double nf_ar = -(nf_vd + "
                         + fmt(c.value2) + ") / " + fmt(c.vt) + "; if (nf_ar > 40.0) nf_ar = 40.0;"
-                        + " double nf_i = " + fmt(c.value) + " * (exp(nf_af) - 1.0) - " + fmt(c.value)
-                        + " * (exp(nf_ar) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
-                        + "] -= nf_i; }");
+                        + " double nf_i = " + fmt(c.value) + " * (exp(nf_af) - 1.0) - "
+                        + fmt(c.value) + " * (exp(nf_ar) - 1.0);" + " kcl[" + a + "] += nf_i; kcl["
+                        + b + "] -= nf_i; }");
                     break;
                 case Kind::IdealDiode:
                     // Hybrid branch on its state s, same modes as the native residual.
@@ -104,9 +105,9 @@ namespace NFlow {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string cc = std::to_string(c.c);
                     const std::string sgn = (c.kind == Kind::Npn) ? "1.0" : "-1.0";
-                    line("  { double nf_s = " + sgn + ";" + " double nf_abe = nf_s * ((" + ec + ") - ("
-                        + eb + ")) / " + fmt(c.vt) + ";" + " double nf_abc = nf_s * ((" + ec + ") - ("
-                        + ea + ")) / " + fmt(c.vt) + ";"
+                    line("  { double nf_s = " + sgn + ";" + " double nf_abe = nf_s * ((" + ec
+                        + ") - (" + eb + ")) / " + fmt(c.vt) + ";" + " double nf_abc = nf_s * (("
+                        + ec + ") - (" + ea + ")) / " + fmt(c.vt) + ";"
                         + " if (nf_abe > 40.0) nf_abe = 40.0; if (nf_abc > 40.0) nf_abc = 40.0;"
                         + " double nf_ef = exp(nf_abe) - 1.0; double nf_er = exp(nf_abc) - 1.0;"
                         + " double nf_ic = nf_s * (" + fmt(c.value) + " * (nf_ef - nf_er) - "
@@ -121,9 +122,10 @@ namespace NFlow {
                     // Square-law MOSFET (a=D, b=S, c=G), s = +1 NMOS / -1 PMOS.
                     const std::string ec = islandEpot(L, c.c);
                     const std::string sgn = (c.kind == Kind::Nmos) ? "1.0" : "-1.0";
-                    line("  { double nf_s = " + sgn + ";" + " double nf_vgs = nf_s * ((" + ec + ") - ("
-                        + eb + "));" + " double nf_vds = nf_s * ((" + ea + ") - (" + eb + "));"
-                        + " double nf_vov = nf_vgs - " + fmt(c.value2) + "; double nf_id = 0.0;"
+                    line("  { double nf_s = " + sgn + ";" + " double nf_vgs = nf_s * ((" + ec
+                        + ") - (" + eb + "));" + " double nf_vds = nf_s * ((" + ea + ") - (" + eb
+                        + "));" + " double nf_vov = nf_vgs - " + fmt(c.value2)
+                        + "; double nf_id = 0.0;"
                         + " if (nf_vov > 0.0) { nf_id = (nf_vds < nf_vov) ? " + fmt(c.value)
                         + " * (nf_vov * nf_vds - 0.5 * nf_vds * nf_vds) : 0.5 * " + fmt(c.value)
                         + " * nf_vov * nf_vov; }" + " kcl[" + a + "] += nf_s * nf_id; kcl[" + b
@@ -135,8 +137,8 @@ namespace NFlow {
                     // being temperatures (thermal domain). Smooth nonlinear stamp.
                     line("  { double nf_ta = (" + ea + "); double nf_tb = (" + eb + ");"
                         + " double nf_q = " + fmt(c.value)
-                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);" + " kcl["
-                        + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
+                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);"
+                        + " kcl[" + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
                     break;
                 case Kind::Capacitor:
                     // state si = v_C (differential), si+1 = i_C (algebraic):
@@ -186,19 +188,20 @@ namespace NFlow {
                 case Kind::Ccvs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { double nf_io = x[" + si + "]; double nf_is = x[" + si1 + "];" + " kcl["
-                        + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl[" + std::to_string(c.c)
-                        + "] += nf_is; kcl[" + std::to_string(c.d) + "] -= nf_is; G[" + si + "] = (("
-                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * nf_is; G[" + si1
-                        + "] = ((" + ec + ") - (" + ed + ")); }");
+                    line("  { double nf_io = x[" + si + "]; double nf_is = x[" + si1 + "];"
+                        + " kcl[" + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl["
+                        + std::to_string(c.c) + "] += nf_is; kcl[" + std::to_string(c.d)
+                        + "] -= nf_is; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
+                        + fmt(c.value) + " * nf_is; G[" + si1 + "] = ((" + ec + ") - (" + ed
+                        + ")); }");
                     break;
                 }
                 case Kind::Cccs: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
                     line("  { double nf_is = x[" + si + "]; double nf_io = " + fmt(c.value)
-                        + " * nf_is;" + " kcl[" + a + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl["
-                        + std::to_string(c.c) + "] += nf_is; kcl[" + std::to_string(c.d)
+                        + " * nf_is;" + " kcl[" + a + "] += nf_io; kcl[" + b + "] -= nf_io;"
+                        + " kcl[" + std::to_string(c.c) + "] += nf_is; kcl[" + std::to_string(c.d)
                         + "] -= nf_is; G[" + si + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
@@ -218,10 +221,10 @@ namespace NFlow {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
                     line("  { double nf_i1 = x[" + si + "]; double nf_i2 = -" + fmt(c.value)
-                        + " * nf_i1; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value)
-                        + " * ((" + ec + ") - (" + ed + "));" + " kcl[" + a + "] += nf_i1; kcl[" + b
-                        + "] -= nf_i1; kcl[" + std::to_string(c.c) + "] += nf_i2; kcl["
-                        + std::to_string(c.d) + "] -= nf_i2; }");
+                        + " * nf_i1; G[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
+                        + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));" + " kcl[" + a
+                        + "] += nf_i1; kcl[" + b + "] -= nf_i1; kcl[" + std::to_string(c.c)
+                        + "] += nf_i2; kcl[" + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Gyrator: {
@@ -290,13 +293,15 @@ namespace NFlow {
             a.line("  double nf_xprev[" + Ns + "]; for (int nf_i = 0; nf_i < " + Ns
                 + "; ++nf_i) nf_xprev[nf_i] = nf_X[nf_i];");
             a.line("  for (int nf_it = 0; nf_it < 60; ++nf_it) {");
-            a.line("    double nf_F[" + Ns + "]; nflow_isl_res_" + id + "(nf_X, nf_xprev, nf_u, dt, nf_F);");
+            a.line("    double nf_F[" + Ns + "]; nflow_isl_res_" + id
+                + "(nf_X, nf_xprev, nf_u, dt, nf_F);");
             a.line("    double nf_nrm = 0.0; for (int nf_i = 0; nf_i < " + Ns
                 + "; ++nf_i) nf_nrm += nf_F[nf_i] * nf_F[nf_i];");
             a.line("    if (nf_nrm < 1e-24) break;");
             a.line("    double nf_J[" + std::to_string(N * N) + "];");
             a.line("    for (int nf_j = 0; nf_j < " + Ns + "; ++nf_j) {");
-            a.line("      double nf_xj = nf_X[nf_j]; double nf_h = 1e-7 * (nf_xj < 0 ? -nf_xj : nf_xj) + "
+            a.line("      double nf_xj = nf_X[nf_j]; double nf_h = 1e-7 * (nf_xj < 0 ? -nf_xj : "
+                   "nf_xj) + "
                    "1e-9;");
             a.line("      nf_X[nf_j] = nf_xj + nf_h; double nf_Fp[" + Ns + "]; nflow_isl_res_" + id
                 + "(nf_X, nf_xprev, nf_u, dt, nf_Fp); nf_X[nf_j] = nf_xj;");
@@ -387,27 +392,28 @@ namespace NFlow {
                         + " kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::Diode:
-                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");" + " let mut nf_arg = nf_vd / "
-                        + fmt(c.vt) + "; if nf_arg > 40.0 { nf_arg = 40.0; }"
-                        + " let nf_i = " + fmt(c.value) + " * (libm::exp(nf_arg) - 1.0);" + " kcl["
-                        + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
+                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");"
+                        + " let mut nf_arg = nf_vd / " + fmt(c.vt)
+                        + "; if nf_arg > 40.0 { nf_arg = 40.0; }" + " let nf_i = " + fmt(c.value)
+                        + " * (libm::exp(nf_arg) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 case Kind::ZDiode:
-                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");" + " let mut nf_af = nf_vd / "
-                        + fmt(c.vt) + "; if nf_af > 40.0 { nf_af = 40.0; }"
-                        + " let mut nf_ar = -(nf_vd + " + fmt(c.value2) + ") / " + fmt(c.vt)
-                        + "; if nf_ar > 40.0 { nf_ar = 40.0; }" + " let nf_i = " + fmt(c.value)
-                        + " * (libm::exp(nf_af) - 1.0) - " + fmt(c.value)
-                        + " * (libm::exp(nf_ar) - 1.0);" + " kcl[" + a + "] += nf_i; kcl[" + b
-                        + "] -= nf_i; }");
+                    line("  { let nf_vd = (" + ea + ") - (" + eb + ");"
+                        + " let mut nf_af = nf_vd / " + fmt(c.vt)
+                        + "; if nf_af > 40.0 { nf_af = 40.0; }" + " let mut nf_ar = -(nf_vd + "
+                        + fmt(c.value2) + ") / " + fmt(c.vt) + "; if nf_ar > 40.0 { nf_ar = 40.0; }"
+                        + " let nf_i = " + fmt(c.value) + " * (libm::exp(nf_af) - 1.0) - "
+                        + fmt(c.value) + " * (libm::exp(nf_ar) - 1.0);" + " kcl[" + a
+                        + "] += nf_i; kcl[" + b + "] -= nf_i; }");
                     break;
                 case Kind::IdealDiode:
                     line("  { let nf_s = x[" + si + "]; let nf_off = nf_s < 0.0;"
                         + " let nf_vs = " + fmt(c.value3) + " + nf_s * (if nf_off { 1.0 } else { "
                         + fmt(c.value) + " });" + " let nf_is = (if nf_off { " + fmt(c.value2)
-                        + " * nf_s } else { nf_s }) + " + fmt(c.value2) + " * " + fmt(c.value3) + ";"
-                        + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - nf_vs;" + " kcl[" + a
-                        + "] += nf_is; kcl[" + b + "] -= nf_is; }");
+                        + " * nf_s } else { nf_s }) + " + fmt(c.value2) + " * " + fmt(c.value3)
+                        + ";" + " g[" + si + "] = ((" + ea + ") - (" + eb + ")) - nf_vs;" + " kcl["
+                        + a + "] += nf_is; kcl[" + b + "] -= nf_is; }");
                     break;
                 case Kind::Capacitor:
                     line("  { let nf_vc = x[" + si + "]; let nf_ic = x[" + si1 + "];" + " g[" + si
@@ -416,8 +422,8 @@ namespace NFlow {
                         + "] -= nf_ic; }");
                     break;
                 case Kind::Inductor:
-                    line("  { let nf_il = x[" + si + "];" + " g[" + si + "] = ((" + ea + ") - (" + eb
-                        + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += nf_il; kcl[" + b
+                    line("  { let nf_il = x[" + si + "];" + " g[" + si + "] = ((" + ea + ") - ("
+                        + eb + ")) / " + fmt(c.value) + ";" + " kcl[" + a + "] += nf_il; kcl[" + b
                         + "] -= nf_il; }");
                     break;
                 case Kind::VSource:
@@ -432,8 +438,8 @@ namespace NFlow {
                 case Kind::ISource: {
                     const std::string I
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : fmt(c.value);
-                    line(
-                        "  { let nf_i = " + I + "; kcl[" + a + "] += nf_i; kcl[" + b + "] -= nf_i; }");
+                    line("  { let nf_i = " + I + "; kcl[" + a + "] += nf_i; kcl[" + b
+                        + "] -= nf_i; }");
                     break;
                 }
                 case Kind::Npn:
@@ -445,7 +451,8 @@ namespace NFlow {
                         + ") - (" + eb + ")) / " + fmt(c.vt) + ";" + " let mut nf_abc = nf_s * (("
                         + ec + ") - (" + ea + ")) / " + fmt(c.vt) + ";"
                         + " if nf_abe > 40.0 { nf_abe = 40.0; } if nf_abc > 40.0 { nf_abc = 40.0; }"
-                        + " let nf_ef = libm::exp(nf_abe) - 1.0; let nf_er = libm::exp(nf_abc) - 1.0;"
+                        + " let nf_ef = libm::exp(nf_abe) - 1.0; let nf_er = libm::exp(nf_abc) - "
+                          "1.0;"
                         + " let nf_ic = nf_s * (" + fmt(c.value) + " * (nf_ef - nf_er) - "
                         + fmt(c.value / c.value3) + " * nf_er);" + " let nf_ib = nf_s * ("
                         + fmt(c.value / c.value2) + " * nf_ef + " + fmt(c.value / c.value3)
@@ -457,20 +464,21 @@ namespace NFlow {
                 case Kind::Pmos: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string sgn = (c.kind == Kind::Nmos) ? "1.0" : "-1.0";
-                    line("  { let nf_s: f64 = " + sgn + ";" + " let nf_vgs = nf_s * ((" + ec + ") - ("
-                        + eb + "));" + " let nf_vds = nf_s * ((" + ea + ") - (" + eb + "));"
-                        + " let nf_vov = nf_vgs - " + fmt(c.value2) + "; let mut nf_id = 0.0;"
+                    line("  { let nf_s: f64 = " + sgn + ";" + " let nf_vgs = nf_s * ((" + ec
+                        + ") - (" + eb + "));" + " let nf_vds = nf_s * ((" + ea + ") - (" + eb
+                        + "));" + " let nf_vov = nf_vgs - " + fmt(c.value2)
+                        + "; let mut nf_id = 0.0;"
                         + " if nf_vov > 0.0 { nf_id = if nf_vds < nf_vov { " + fmt(c.value)
-                        + " * (nf_vov * nf_vds - 0.5 * nf_vds * nf_vds) } else { 0.5 * " + fmt(c.value)
-                        + " * nf_vov * nf_vov }; }" + " kcl[" + a + "] += nf_s * nf_id; kcl[" + b
-                        + "] -= nf_s * nf_id; }");
+                        + " * (nf_vov * nf_vds - 0.5 * nf_vds * nf_vds) } else { 0.5 * "
+                        + fmt(c.value) + " * nf_vov * nf_vov }; }" + " kcl[" + a
+                        + "] += nf_s * nf_id; kcl[" + b + "] -= nf_s * nf_id; }");
                     break;
                 }
                 case Kind::Radiation:
                     line("  { let nf_ta = (" + ea + "); let nf_tb = (" + eb + ");"
                         + " let nf_q = " + fmt(c.value)
-                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);" + " kcl["
-                        + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
+                        + " * (nf_ta * nf_ta * nf_ta * nf_ta - nf_tb * nf_tb * nf_tb * nf_tb);"
+                        + " kcl[" + a + "] += nf_q; kcl[" + b + "] -= nf_q; }");
                     break;
                 case Kind::Vccs: {
                     const std::string ec = islandEpot(L, c.c);
@@ -492,9 +500,9 @@ namespace NFlow {
                     const std::string ed = islandEpot(L, c.d);
                     line("  { let nf_io = x[" + si + "]; let nf_is = x[" + si1 + "];" + " kcl[" + a
                         + "] += nf_io; kcl[" + b + "] -= nf_io;" + " kcl[" + std::to_string(c.c)
-                        + "] += nf_is; kcl[" + std::to_string(c.d) + "] -= nf_is; g[" + si + "] = (("
-                        + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * nf_is; g[" + si1
-                        + "] = ((" + ec + ") - (" + ed + ")); }");
+                        + "] += nf_is; kcl[" + std::to_string(c.d) + "] -= nf_is; g[" + si
+                        + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * nf_is; g["
+                        + si1 + "] = ((" + ec + ") - (" + ed + ")); }");
                     break;
                 }
                 case Kind::Cccs: {
@@ -521,11 +529,11 @@ namespace NFlow {
                 case Kind::Transformer: {
                     const std::string ec = islandEpot(L, c.c);
                     const std::string ed = islandEpot(L, c.d);
-                    line("  { let nf_i1 = x[" + si + "]; let nf_i2 = -" + fmt(c.value) + " * nf_i1; g["
-                        + si + "] = ((" + ea + ") - (" + eb + ")) - " + fmt(c.value) + " * ((" + ec
-                        + ") - (" + ed + "));" + " kcl[" + a + "] += nf_i1; kcl[" + b
-                        + "] -= nf_i1; kcl[" + std::to_string(c.c) + "] += nf_i2; kcl["
-                        + std::to_string(c.d) + "] -= nf_i2; }");
+                    line("  { let nf_i1 = x[" + si + "]; let nf_i2 = -" + fmt(c.value)
+                        + " * nf_i1; g[" + si + "] = ((" + ea + ") - (" + eb + ")) - "
+                        + fmt(c.value) + " * ((" + ec + ") - (" + ed + "));" + " kcl[" + a
+                        + "] += nf_i1; kcl[" + b + "] -= nf_i1; kcl[" + std::to_string(c.c)
+                        + "] += nf_i2; kcl[" + std::to_string(c.d) + "] -= nf_i2; }");
                     break;
                 }
                 case Kind::Gyrator: {
@@ -542,8 +550,8 @@ namespace NFlow {
                     const std::string ctrl
                         = c.port >= 0 ? ("u[" + std::to_string(c.port) + "]") : std::string("1.0");
                     line("  { let nf_ib = x[" + si + "]; g[" + si + "] = if " + ctrl + " > 0.5 { ("
-                        + ea + ") - (" + eb + ") } else { nf_ib };" + " kcl[" + a + "] += nf_ib; kcl["
-                        + b + "] -= nf_ib; }");
+                        + ea + ") - (" + eb + ") } else { nf_ib };" + " kcl[" + a
+                        + "] += nf_ib; kcl[" + b + "] -= nf_ib; }");
                     break;
                 }
                 default:
@@ -602,8 +610,9 @@ namespace NFlow {
             a.line("    let mut nf_jac = [0.0f64; " + std::to_string(N * N) + "];");
             a.line("    for nf_col in 0usize.." + Ns + " {");
             a.line("      let nf_xj = nf_x[nf_col]; let nf_h = 1e-7 * libm::fabs(nf_xj) + 1e-9;");
-            a.line("      nf_x[nf_col] = nf_xj + nf_h; let mut nf_fp = [0.0f64; " + Ns + "]; nflow_isl_res_"
-                + id + "(&nf_x, &nf_xprev, &nf_u, dt, &mut nf_fp); nf_x[nf_col] = nf_xj;");
+            a.line("      nf_x[nf_col] = nf_xj + nf_h; let mut nf_fp = [0.0f64; " + Ns
+                + "]; nflow_isl_res_" + id
+                + "(&nf_x, &nf_xprev, &nf_u, dt, &mut nf_fp); nf_x[nf_col] = nf_xj;");
             a.line("      for nf_i in 0usize.." + Ns + " { nf_jac[nf_i * " + Ns
                 + " + nf_col] = (nf_fp[nf_i] - nf_f[nf_i]) / nf_h; }");
             a.line("    }");
@@ -612,12 +621,13 @@ namespace NFlow {
             a.line("    for nf_k in 0usize.." + Ns + " {");
             a.line("      let mut nf_p = nf_k; let mut nf_mx = libm::fabs(nf_jac[nf_k * " + Ns
                 + " + nf_k]);");
-            a.line("      for nf_r in (nf_k + 1).." + Ns + " { let nf_v = libm::fabs(nf_jac[nf_r * " + Ns
-                + " + nf_k]); if nf_v > nf_mx { nf_mx = nf_v; nf_p = nf_r; } }");
-            a.line("      if nf_p != nf_k { for nf_col in 0usize.." + Ns + " { let nf_t = nf_jac[nf_k * "
-                + Ns + " + nf_col]; nf_jac[nf_k * " + Ns + " + nf_col] = nf_jac[nf_p * " + Ns
-                + " + nf_col]; nf_jac[nf_p * " + Ns
-                + " + nf_col] = nf_t; } let nf_tb = nf_b[nf_k]; nf_b[nf_k] = nf_b[nf_p]; nf_b[nf_p] = nf_tb; "
+            a.line("      for nf_r in (nf_k + 1).." + Ns + " { let nf_v = libm::fabs(nf_jac[nf_r * "
+                + Ns + " + nf_k]); if nf_v > nf_mx { nf_mx = nf_v; nf_p = nf_r; } }");
+            a.line("      if nf_p != nf_k { for nf_col in 0usize.." + Ns
+                + " { let nf_t = nf_jac[nf_k * " + Ns + " + nf_col]; nf_jac[nf_k * " + Ns
+                + " + nf_col] = nf_jac[nf_p * " + Ns + " + nf_col]; nf_jac[nf_p * " + Ns
+                + " + nf_col] = nf_t; } let nf_tb = nf_b[nf_k]; nf_b[nf_k] = nf_b[nf_p]; "
+                  "nf_b[nf_p] = nf_tb; "
                   "}");
             a.line("      let mut nf_d = nf_jac[nf_k * " + Ns
                 + " + nf_k]; if nf_d < 1e-30 && nf_d > -1e-30 { nf_d = 1e-30; }");
@@ -630,7 +640,8 @@ namespace NFlow {
                 + ").rev() { let mut nf_s = nf_b[nf_i]; for nf_col in (nf_i + 1).." + Ns
                 + " { nf_s -= nf_jac[nf_i * " + Ns
                 + " + nf_col] * nf_b[nf_col]; } let mut nf_d = nf_jac[nf_i * " + Ns
-                + " + nf_i]; if nf_d < 1e-30 && nf_d > -1e-30 { nf_d = 1e-30; } nf_b[nf_i] = nf_s / nf_d; "
+                + " + nf_i]; if nf_d < 1e-30 && nf_d > -1e-30 { nf_d = 1e-30; } nf_b[nf_i] = nf_s "
+                  "/ nf_d; "
                   "}");
             a.line("    for nf_i in 0usize.." + Ns + " { nf_x[nf_i] += nf_b[nf_i]; }");
             a.line("  }");

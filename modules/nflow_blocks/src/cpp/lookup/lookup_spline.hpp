@@ -536,9 +536,9 @@ namespace NFlow {
                 a.line("let mut nf_spw_" + id + " = [0.0_f64; " + std::to_string(wkMax) + "];");
                 a.line("for nf_c in 0.." + S1 + " {");
                 a.line("    let nf_t = nflow_spl_val(&" + bp0 + ", &" + tv + "[nf_c * " + n0s
-                    + "..nf_c * " + n0s + " + " + n0s + "], &" + icv + "[nf_c * " + n0s + "..nf_c * "
-                    + n0s + " + " + n0s + "], nf_spu_" + id + "_0, " + akimaLit + ", " + xmodeLit
-                    + ");");
+                    + "..nf_c * " + n0s + " + " + n0s + "], &" + icv + "[nf_c * " + n0s
+                    + "..nf_c * " + n0s + " + " + n0s + "], nf_spu_" + id + "_0, " + akimaLit + ", "
+                    + xmodeLit + ");");
                 a.line("    nf_spv_" + id + "[nf_c] = nf_t;");
                 a.line("}");
             } else {
@@ -547,8 +547,8 @@ namespace NFlow {
                 a.line("double nf_spw_" + id + "[" + std::to_string(wkMax) + "];");
                 a.line("for (int nf_c = 0; nf_c < " + S1 + "; nf_c++) {");
                 a.line("  nf_spv_" + id + "[nf_c] = nflow_spl_val(" + bp0 + ", &" + tv + "[nf_c * "
-                    + n0s + "], &" + icv + "[nf_c * " + n0s + "], " + n0s + ", nf_spu_" + id + "_0, "
-                    + akimaLit + ", " + xmodeLit + ");");
+                    + n0s + "], &" + icv + "[nf_c * " + n0s + "], " + n0s + ", nf_spu_" + id
+                    + "_0, " + akimaLit + ", " + xmodeLit + ");");
                 a.line("}");
             }
             int S = nCols;
@@ -562,8 +562,8 @@ namespace NFlow {
                 if (rust) {
                     a.line("for nf_c in 0.." + Ss + " {");
                     a.line("    nflow_spl_solve(&" + bpk + ", &nf_spv_" + id + "[nf_c * " + nks
-                        + "..nf_c * " + nks + " + " + nks + "], &mut nf_spo_" + id + ", &mut nf_spw_"
-                        + id + ", " + akimaLit + ");");
+                        + "..nf_c * " + nks + " + " + nks + "], &mut nf_spo_" + id
+                        + ", &mut nf_spw_" + id + ", " + akimaLit + ");");
                     a.line("    let nf_t = nflow_spl_val(&" + bpk + ", &nf_spv_" + id + "[nf_c * "
                         + nks + "..nf_c * " + nks + " + " + nks + "], &nf_spo_" + id + "[0.." + nks
                         + "], " + uk + ", " + akimaLit + ", " + xmodeLit + ");");

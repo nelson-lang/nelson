@@ -1277,9 +1277,9 @@ namespace NFlow {
                     } else {
                         a.line(ov + " = "
                             + lang.call("sqrt",
-                                "(nf_pax_" + n + " - nf_pbx_" + n + ") * (nf_pax_" + n + " - nf_pbx_"
-                                    + n + ") + (nf_pay_" + n + " - nf_pby_" + n + ") * (nf_pay_" + n
-                                    + " - nf_pby_" + n + ")")
+                                "(nf_pax_" + n + " - nf_pbx_" + n + ") * (nf_pax_" + n
+                                    + " - nf_pbx_" + n + ") + (nf_pay_" + n + " - nf_pby_" + n
+                                    + ") * (nf_pay_" + n + " - nf_pby_" + n + ")")
                             + ";");
                     }
                 } break;
@@ -1402,14 +1402,14 @@ namespace NFlow {
                 const std::string bA = std::to_string(c.body);
                 a.line("nf_qx_" + id + "_" + bA + " += nf_fx_" + n + ";");
                 a.line("nf_qy_" + id + "_" + bA + " += nf_fy_" + n + ";");
-                a.line("nf_qp_" + id + "_" + bA + " += nf_rax_" + n + " * nf_fy_" + n + " - nf_ray_" + n
-                    + " * nf_fx_" + n + ";");
+                a.line("nf_qp_" + id + "_" + bA + " += nf_rax_" + n + " * nf_fy_" + n + " - nf_ray_"
+                    + n + " * nf_fx_" + n + ";");
                 if (hasB) {
                     const std::string bB = std::to_string(c.body2);
                     a.line("nf_qx_" + id + "_" + bB + " -= nf_fx_" + n + ";");
                     a.line("nf_qy_" + id + "_" + bB + " -= nf_fy_" + n + ";");
-                    a.line("nf_qp_" + id + "_" + bB + " += nf_rby_" + n + " * nf_fx_" + n + " - nf_rbx_"
-                        + n + " * nf_fy_" + n + ";");
+                    a.line("nf_qp_" + id + "_" + bB + " += nf_rby_" + n + " * nf_fx_" + n
+                        + " - nf_rbx_" + n + " * nf_fy_" + n + ";");
                 }
             }
             // Kinematics + Newton (pointMass bodies freeze phi and w).

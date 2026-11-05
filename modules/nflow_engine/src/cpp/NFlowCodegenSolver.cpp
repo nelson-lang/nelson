@@ -30,8 +30,8 @@ namespace {
     {
         const std::string tail = gArg.empty() ? "" : (", " + gArg);
         if (rust) {
-            return ind + "nflow_rhs(s, inp, out, " + tExpr + ", &" + xArr + ", &mut " + kArr
-                + ", " + (report ? "true" : "false") + tail + ");";
+            return ind + "nflow_rhs(s, inp, out, " + tExpr + ", &" + xArr + ", &mut " + kArr + ", "
+                + (report ? "true" : "false") + tail + ");";
         }
         return ind + "nflow_rhs(s, in, " + (report ? "out" : "(ModelOutput*)0") + ", " + tExpr
             + ", " + xArr + ", " + kArr + tail + ");";
@@ -82,20 +82,21 @@ namespace {
                 + " * nf_k2[nf_i] + " + F("32.0", "9") + " * nf_k3[nf_i])"));
         lines.push_back(rhsCall(ru, ind3, "nf_tc + 0.8 * nf_h", "nf_xt", "nf_k4", false, gArg));
         lines.push_back(forAssign(ru, ind3, N, "nf_xt",
-            "nf_x[nf_i] + nf_h * (" + F("19372.0", "6561") + " * nf_k1[nf_i] - " + F("25360.0", "2187")
-                + " * nf_k2[nf_i] + " + F("64448.0", "6561") + " * nf_k3[nf_i] - " + F("212.0", "729")
-                + " * nf_k4[nf_i])"));
-        lines.push_back(
-            rhsCall(ru, ind3, "nf_tc + " + F("8.0", "9") + " * nf_h", "nf_xt", "nf_k5", false, gArg));
+            "nf_x[nf_i] + nf_h * (" + F("19372.0", "6561") + " * nf_k1[nf_i] - "
+                + F("25360.0", "2187") + " * nf_k2[nf_i] + " + F("64448.0", "6561")
+                + " * nf_k3[nf_i] - " + F("212.0", "729") + " * nf_k4[nf_i])"));
+        lines.push_back(rhsCall(
+            ru, ind3, "nf_tc + " + F("8.0", "9") + " * nf_h", "nf_xt", "nf_k5", false, gArg));
         lines.push_back(forAssign(ru, ind3, N, "nf_xt",
             "nf_x[nf_i] + nf_h * (" + F("9017.0", "3168") + " * nf_k1[nf_i] - " + F("355.0", "33")
-                + " * nf_k2[nf_i] + " + F("46732.0", "5247") + " * nf_k3[nf_i] + " + F("49.0", "176")
-                + " * nf_k4[nf_i] - " + F("5103.0", "18656") + " * nf_k5[nf_i])"));
+                + " * nf_k2[nf_i] + " + F("46732.0", "5247") + " * nf_k3[nf_i] + "
+                + F("49.0", "176") + " * nf_k4[nf_i] - " + F("5103.0", "18656")
+                + " * nf_k5[nf_i])"));
         lines.push_back(rhsCall(ru, ind3, "nf_tc + nf_h", "nf_xt", "nf_k6", false, gArg));
         lines.push_back(forAssign(ru, ind3, N, "nf_x5",
             "nf_x[nf_i] + nf_h * (" + F("35.0", "384") + " * nf_k1[nf_i] + " + F("500.0", "1113")
-                + " * nf_k3[nf_i] + " + F("125.0", "192") + " * nf_k4[nf_i] - " + F("2187.0", "6784")
-                + " * nf_k5[nf_i] + " + F("11.0", "84") + " * nf_k6[nf_i])"));
+                + " * nf_k3[nf_i] + " + F("125.0", "192") + " * nf_k4[nf_i] - "
+                + F("2187.0", "6784") + " * nf_k5[nf_i] + " + F("11.0", "84") + " * nf_k6[nf_i])"));
         lines.push_back(rhsCall(ru, ind3, "nf_tc + nf_h", "nf_x5", "nf_k7", false, gArg));
         return "nf_h * ((" + F("35.0", "384") + " - " + F("5179.0", "57600") + ") * nf_k1[nf_i] + ("
             + F("500.0", "1113") + " - " + F("7571.0", "16695") + ") * nf_k3[nf_i] + ("
@@ -125,27 +126,28 @@ namespace {
                 lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
             }
             lines.push_back("    nflow_rhs(s, inp, out, nf_t, nf_xa, &mut nf_k1, false, None);");
-            lines.push_back(
-                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k1[nf_i]; }");
+            lines.push_back("    for nf_i in 0.." + N
+                + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k1[nf_i]; }");
             lines.push_back(
                 "    nflow_rhs(s, inp, out, nf_t + 0.5 * nf_hh, &nf_ts, &mut nf_k2, false, None);");
-            lines.push_back(
-                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k2[nf_i]; }");
+            lines.push_back("    for nf_i in 0.." + N
+                + " { nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k2[nf_i]; }");
             lines.push_back(
                 "    nflow_rhs(s, inp, out, nf_t + 0.5 * nf_hh, &nf_ts, &mut nf_k3, false, None);");
-            lines.push_back(
-                "    for nf_i in 0.." + N + " { nf_ts[nf_i] = nf_xa[nf_i] + nf_hh * nf_k3[nf_i]; }");
+            lines.push_back("    for nf_i in 0.." + N
+                + " { nf_ts[nf_i] = nf_xa[nf_i] + nf_hh * nf_k3[nf_i]; }");
             lines.push_back(
                 "    nflow_rhs(s, inp, out, nf_t + nf_hh, &nf_ts, &mut nf_k4, false, None);");
             lines.push_back("    for nf_i in 0.." + N
-                + " { nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] + 2.0 "
+                + " { nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] "
+                  "+ 2.0 "
                   "* nf_k3[nf_i] + nf_k4[nf_i]); }");
             lines.push_back("}");
         } else {
             lines.push_back("static void nflow_rk4sub(ModelState* s, const ModelInput* in, "
                             "double nf_t, double nf_hh, const double* nf_xa, double* nf_xb) {");
-            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4[" + N
-                + "], nf_ts[" + N + "];");
+            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4["
+                + N + "], nf_ts[" + N + "];");
             lines.push_back("  nflow_rhs(s, in, (ModelOutput*)0, nf_t, nf_xa, nf_k1, (double*)0);");
             lines.push_back("  for (int nf_i = 0; nf_i < " + N
                 + "; ++nf_i) nf_ts[nf_i] = nf_xa[nf_i] + 0.5 * nf_hh * nf_k1[nf_i];");
@@ -160,7 +162,8 @@ namespace {
             lines.push_back(
                 "  nflow_rhs(s, in, (ModelOutput*)0, nf_t + nf_hh, nf_ts, nf_k4, (double*)0);");
             lines.push_back("  for (int nf_i = 0; nf_i < " + N
-                + "; ++nf_i) nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] "
+                + "; ++nf_i) nf_xb[nf_i] = nf_xa[nf_i] + (nf_hh / 6.0) * (nf_k1[nf_i] + 2.0 * "
+                  "nf_k2[nf_i] "
                   "+ 2.0 * nf_k3[nf_i] + nf_k4[nf_i]);");
             lines.push_back("}");
         }
@@ -190,7 +193,8 @@ namespace {
             lines.push_back(ind + "for nf_i in 0.." + NG + " {");
             lines.push_back(ind + "    if nf_g0[nf_i] == 0.0 || nf_g1[nf_i] == 0.0 {");
             lines.push_back(ind
-                + "        if nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0 { nf_hit = nf_i as i32; break; }");
+                + "        if nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0 { nf_hit = nf_i as i32; "
+                  "break; }");
             lines.push_back(ind + "        continue;");
             lines.push_back(ind + "    }");
             lines.push_back(
@@ -222,11 +226,12 @@ namespace {
             lines.push_back(ind + "int nf_hit = -1;");
             lines.push_back(ind + "for (int nf_i = 0; nf_i < " + NG + "; ++nf_i) {");
             lines.push_back(ind + "  if (nf_g0[nf_i] == 0.0 || nf_g1[nf_i] == 0.0) {");
-            lines.push_back(
-                ind + "    if (nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0) { nf_hit = nf_i; break; }");
+            lines.push_back(ind
+                + "    if (nf_g1[nf_i] == 0.0 && nf_g0[nf_i] != 0.0) { nf_hit = nf_i; break; }");
             lines.push_back(ind + "    continue;");
             lines.push_back(ind + "  }");
-            lines.push_back(ind + "  if (nf_g0[nf_i] * nf_g1[nf_i] < 0.0) { nf_hit = nf_i; break; }");
+            lines.push_back(
+                ind + "  if (nf_g0[nf_i] * nf_g1[nf_i] < 0.0) { nf_hit = nf_i; break; }");
             lines.push_back(ind + "}");
             lines.push_back(ind + "if (nf_hit >= 0) {");
             lines.push_back(ind + "  const double nf_ga = nf_g0[nf_hit];");
@@ -316,7 +321,8 @@ namespace {
             lines.push_back("            nflow_rhs(s, inp, out, nf_tc + nf_h, &nf_x1, &mut nf_ks, "
                             "false, Some(&mut nf_g1[..]));");
             emitCrossingScanAndBisect(spec, "            ", "nf_tc", "nf_h", "nf_x0", "nf_x1",
-                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; }");
+                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; "
+                "}");
             lines.push_back("        } else {");
             lines.push_back(
                 "            nflow_rk4sub(s, inp, out, nf_tc, nf_h, &nf_x0, &mut nf_x1);");
@@ -344,7 +350,8 @@ namespace {
             lines.push_back("    } else {");
             lines.push_back("      nflow_rk4sub(s, in, nf_tc, nf_h, nf_x0, nf_x1);");
             lines.push_back("    }");
-            lines.push_back("    for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x0[nf_i] = nf_x1[nf_i];");
+            lines.push_back(
+                "    for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x0[nf_i] = nf_x1[nf_i];");
             lines.push_back("    nf_tc = nf_tend;");
             lines.push_back("  }");
         }
@@ -378,8 +385,8 @@ namespace {
             lines.push_back("    let nf_rtol: f64 = " + spec.rtolLiteral + ";");
             lines.push_back("    let nf_atol: f64 = " + spec.atolLiteral + ";");
             lines.push_back("    let nf_hmax: f64 = " + spec.hmaxLiteral + ";");
-            for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_xsv", "nf_ks", "nf_k1", "nf_k2",
-                     "nf_k3", "nf_k4", "nf_k5", "nf_k6", "nf_k7" }) {
+            for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_xsv", "nf_ks", "nf_k1",
+                     "nf_k2", "nf_k3", "nf_k4", "nf_k5", "nf_k6", "nf_k7" }) {
                 lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
             }
             lines.push_back("    let mut nf_g0 = [0.0f64; " + NG + "];");
@@ -391,10 +398,10 @@ namespace {
             lines.push_back("  const double nf_rtol = " + spec.rtolLiteral + ";");
             lines.push_back("  const double nf_atol = " + spec.atolLiteral + ";");
             lines.push_back("  const double nf_hmax = " + spec.hmaxLiteral + ";");
-            lines.push_back("  double nf_x0[" + N + "], nf_x[" + N + "], nf_xt[" + N + "], nf_x5[" + N
-                + "], nf_xsv[" + N + "], nf_ks[" + N + "];");
-            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4[" + N
-                + "], nf_k5[" + N + "], nf_k6[" + N + "], nf_k7[" + N + "];");
+            lines.push_back("  double nf_x0[" + N + "], nf_x[" + N + "], nf_xt[" + N + "], nf_x5["
+                + N + "], nf_xsv[" + N + "], nf_ks[" + N + "];");
+            lines.push_back("  double nf_k1[" + N + "], nf_k2[" + N + "], nf_k3[" + N + "], nf_k4["
+                + N + "], nf_k5[" + N + "], nf_k6[" + N + "], nf_k7[" + N + "];");
             lines.push_back("  double nf_g0[" + NG + "], nf_g1[" + NG + "];");
         }
         spec.emitSeam(Nelson::NFlow::Rk4Gather, "nf_x0");
@@ -435,7 +442,8 @@ namespace {
             lines.push_back("                let nf_e = " + errExpr + ";");
             lines.push_back("                let nf_sc = nf_atol + nf_rtol * "
                             "libm::fmax(libm::fabs(nf_x[nf_i]), libm::fabs(nf_x5[nf_i]));");
-            lines.push_back("                let nf_r = if nf_sc > 0.0 { nf_e / nf_sc } else { 0.0 };");
+            lines.push_back(
+                "                let nf_r = if nf_sc > 0.0 { nf_e / nf_sc } else { 0.0 };");
             lines.push_back("                nf_acc += nf_r * nf_r;");
             lines.push_back("            }");
             lines.push_back("            let nf_err = libm::sqrt(nf_acc / (" + N + " as f64));");
@@ -445,8 +453,10 @@ namespace {
                 "                    for nf_i in 0.." + N + " { nf_xsv[nf_i] = nf_x[nf_i]; }");
             lines.push_back("                    nflow_rhs(s, inp, out, nf_tc + nf_h, &nf_x5, &mut "
                             "nf_ks, false, Some(&mut nf_g1[..]));");
-            emitCrossingScanAndBisect(spec, "                    ", "nf_tc", "nf_h", "nf_xsv", "nf_xt",
-                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; } "
+            emitCrossingScanAndBisect(spec, "                    ", "nf_tc", "nf_h", "nf_xsv",
+                "nf_xt",
+                "nf_tc = 0.5 * (nf_lo + nf_hi); nf_rst += 1; if nf_rst >= 1000 { nf_rchk = false; "
+                "} "
                 "for nf_i in 0.."
                     + N
                     + " { nf_x[nf_i] = nf_xsv[nf_i]; } nflow_rhs(s, inp, out, nf_tc, &nf_x, &mut "
@@ -456,7 +466,8 @@ namespace {
                 "                    for nf_i in 0.." + NG + " { nf_g0[nf_i] = nf_g1[nf_i]; }");
             lines.push_back("                }");
             lines.push_back("                nf_tc += nf_h;");
-            lines.push_back("                for nf_i in 0.." + N + " { nf_x[nf_i] = nf_x5[nf_i]; }");
+            lines.push_back(
+                "                for nf_i in 0.." + N + " { nf_x[nf_i] = nf_x5[nf_i]; }");
             lines.push_back("                let mut nf_grow = 0.9 * libm::pow(libm::fmax(nf_err, "
                             "1e-10), -0.2);");
             lines.push_back("                if nf_grow < 0.2 { nf_grow = 0.2; }");
@@ -468,7 +479,8 @@ namespace {
             lines.push_back("                if nf_fac < 0.2 { nf_fac = 0.2; }");
             lines.push_back("                if nf_fac > 1.0 { nf_fac = 1.0; }");
             lines.push_back("                nf_h *= nf_fac;");
-            lines.push_back("                if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
+            lines.push_back(
+                "                if nf_hmax > 0.0 && nf_h > nf_hmax { nf_h = nf_hmax; }");
             lines.push_back("            }");
             lines.push_back("        }");
             lines.push_back("        if nf_rooted { nf_rooted = false; continue; }");
@@ -478,7 +490,8 @@ namespace {
             lines.push_back("      for (int nf_i = 0; nf_i < " + N + "; ++nf_i) {");
             lines.push_back("        double nf_e = " + errExpr + ";");
             lines.push_back("        double nf_xa = nf_x[nf_i] < 0.0 ? -nf_x[nf_i] : nf_x[nf_i];");
-            lines.push_back("        double nf_x5a = nf_x5[nf_i] < 0.0 ? -nf_x5[nf_i] : nf_x5[nf_i];");
+            lines.push_back(
+                "        double nf_x5a = nf_x5[nf_i] < 0.0 ? -nf_x5[nf_i] : nf_x5[nf_i];");
             lines.push_back(
                 "        double nf_sc = nf_atol + nf_rtol * (nf_xa > nf_x5a ? nf_xa : nf_x5a);");
             lines.push_back("        double nf_r = (nf_sc > 0.0) ? nf_e / nf_sc : 0.0;");
@@ -487,19 +500,20 @@ namespace {
             lines.push_back("      double nf_err = sqrt(nf_acc / (double)" + N + ");");
             lines.push_back("      if (nf_err <= 1.0 || nf_h <= 1e-13) {");
             lines.push_back("        if (nf_rchk) {");
-            lines.push_back(
-                "          for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_xsv[nf_i] = nf_x[nf_i];");
+            lines.push_back("          for (int nf_i = 0; nf_i < " + N
+                + "; ++nf_i) nf_xsv[nf_i] = nf_x[nf_i];");
             lines.push_back(
                 "          nflow_rhs(s, in, (ModelOutput*)0, nf_tc + nf_h, nf_x5, nf_ks, nf_g1);");
             emitCrossingScanAndBisect(spec, "          ", "nf_tc", "nf_h", "nf_xsv", "nf_xt",
                 "nf_tc = 0.5 * (nf_lo + nf_hi); if (++nf_rst >= 1000) nf_rchk = 0; "
                 "for (int nf_i = 0; nf_i < "
                     + N
-                    + "; ++nf_i) nf_x[nf_i] = nf_xsv[nf_i]; nflow_rhs(s, in, (ModelOutput*)0, nf_tc, "
+                    + "; ++nf_i) nf_x[nf_i] = nf_xsv[nf_i]; nflow_rhs(s, in, (ModelOutput*)0, "
+                      "nf_tc, "
                       "nf_x, nf_ks, nf_g0);",
                 "nf_rooted = 1; break;");
-            lines.push_back(
-                "          for (int nf_i = 0; nf_i < " + NG + "; ++nf_i) nf_g0[nf_i] = nf_g1[nf_i];");
+            lines.push_back("          for (int nf_i = 0; nf_i < " + NG
+                + "; ++nf_i) nf_g0[nf_i] = nf_g1[nf_i];");
             lines.push_back("        }");
             lines.push_back("        nf_tc += nf_h;");
             lines.push_back(
@@ -572,7 +586,8 @@ emitRk4Stepper(const SolverEmitSpec& spec)
     lines.push_back(forAssign(ru, ind, N, "nf_xs", "nf_x0[nf_i] + dt * nf_k3[nf_i]"));
     lines.push_back(rhsCall(ru, ind, "t + dt", "nf_xs", "nf_k4", false));
     lines.push_back(forAssign(ru, ind, N, "nf_x1",
-        "nf_x0[nf_i] + (dt / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] + 2.0 * nf_k3[nf_i] + nf_k4[nf_i])"));
+        "nf_x0[nf_i] + (dt / 6.0) * (nf_k1[nf_i] + 2.0 * nf_k2[nf_i] + 2.0 * nf_k3[nf_i] + "
+        "nf_k4[nf_i])"));
     spec.emitSeam(Nelson::NFlow::Rk4Scatter, "nf_x1");
     // Post-step clamp for bounded states (no-op for the others).
     spec.emitSeam(Nelson::NFlow::Rk4Clamp, "");
@@ -603,8 +618,8 @@ emitDp45Stepper(const SolverEmitSpec& spec)
         lines.push_back("    let nf_rtol: f64 = " + spec.rtolLiteral + ";");
         lines.push_back("    let nf_atol: f64 = " + spec.atolLiteral + ";");
         lines.push_back("    let nf_hmax: f64 = " + spec.hmaxLiteral + ";");
-        for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_k1", "nf_k2", "nf_k3", "nf_k4",
-                 "nf_k5", "nf_k6", "nf_k7" }) {
+        for (const char* v : { "nf_x0", "nf_x", "nf_xt", "nf_x5", "nf_k1", "nf_k2", "nf_k3",
+                 "nf_k4", "nf_k5", "nf_k6", "nf_k7" }) {
             lines.push_back("    let mut " + std::string(v) + " = [0.0f64; " + N + "];");
         }
     } else {
@@ -677,15 +692,18 @@ emitDp45Stepper(const SolverEmitSpec& spec)
         lines.push_back("        double nf_e = " + errExpr + ";");
         lines.push_back("        double nf_xa = nf_x[nf_i] < 0.0 ? -nf_x[nf_i] : nf_x[nf_i];");
         lines.push_back("        double nf_x5a = nf_x5[nf_i] < 0.0 ? -nf_x5[nf_i] : nf_x5[nf_i];");
-        lines.push_back("        double nf_sc = nf_atol + nf_rtol * (nf_xa > nf_x5a ? nf_xa : nf_x5a);");
+        lines.push_back(
+            "        double nf_sc = nf_atol + nf_rtol * (nf_xa > nf_x5a ? nf_xa : nf_x5a);");
         lines.push_back("        double nf_r = (nf_sc > 0.0) ? nf_e / nf_sc : 0.0;");
         lines.push_back("        nf_acc += nf_r * nf_r;");
         lines.push_back("      }");
         lines.push_back("      double nf_err = sqrt(nf_acc / (double)" + N + ");");
         lines.push_back("      if (nf_err <= 1.0 || nf_h <= 1e-13) {");
         lines.push_back("        nf_tc += nf_h;");
-        lines.push_back("        for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x[nf_i] = nf_x5[nf_i];");
-        lines.push_back("        double nf_grow = 0.9 * pow(nf_err > 1e-10 ? nf_err : 1e-10, -0.2);");
+        lines.push_back(
+            "        for (int nf_i = 0; nf_i < " + N + "; ++nf_i) nf_x[nf_i] = nf_x5[nf_i];");
+        lines.push_back(
+            "        double nf_grow = 0.9 * pow(nf_err > 1e-10 ? nf_err : 1e-10, -0.2);");
         lines.push_back("        if (nf_grow < 0.2) nf_grow = 0.2;");
         lines.push_back("        if (nf_grow > 5.0) nf_grow = 5.0;");
         lines.push_back("        nf_h *= nf_grow;");
