@@ -2464,6 +2464,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       : null;
     const bundles: string[] = [];
     const bundleFileCounts = new Map<string, number>();
+    const modulesWithExamplesBundle = new Set<string>();
     const index = await this.runtimeResourcesIndex();
     const indexModules = (index as { modules?: unknown })?.modules;
     const hasBundleIndex =
@@ -2479,6 +2480,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         if (!module || (modules && !modules.has(module))) continue;
         const moduleBundles = (entry as { bundles?: Record<string, unknown> }).bundles;
         if (!moduleBundles || typeof moduleBundles !== 'object') continue;
+        if (moduleBundles.examples !== undefined) modulesWithExamplesBundle.add(module);
         for (const kind of ['tests', 'help', 'archives', 'examples']) {
           if (!kinds.has(kind)) continue;
           const bundleValue = moduleBundles[kind];
@@ -2524,7 +2526,9 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         const match = runtimeMatch ?? examplesMatch;
         if (!match) return false;
         if (file.split('/').includes('..')) return false;
-        if ((runtimeMatch || examplesMatch) && hasBundleIndex) return false;
+        // runtime bundles come from the index; loose example files only when the module has no examples bundle
+        if (runtimeMatch && hasBundleIndex) return false;
+        if (examplesMatch && modulesWithExamplesBundle.has(match[1])) return false;
         if (modules && !modules.has(match[1])) return false;
         if (!kinds.has(match[2])) return false;
         return true;
