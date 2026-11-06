@@ -52,6 +52,7 @@ Nelson::NFlow::getCodeGenCDisplay()
 {
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0};";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================
@@ -60,6 +61,7 @@ Nelson::NFlow::getCodeGenRustDisplay()
 {
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0};";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================
