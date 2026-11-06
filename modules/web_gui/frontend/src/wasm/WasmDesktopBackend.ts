@@ -1278,7 +1278,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       const out = result.stdout || streamed;
       const start = out.indexOf(begin);
       const finish = out.lastIndexOf(end);
-      const raw = start >= 0 && finish > start ? out.slice(start + begin.length, finish).trim() : '';
+      const raw =
+        start >= 0 && finish > start ? out.slice(start + begin.length, finish).trim() : '';
       return { lang: raw === 'fr_FR' ? 'fr_FR' : 'en_US' };
     } catch {
       return { lang: 'en_US' };

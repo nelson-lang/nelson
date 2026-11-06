@@ -1500,7 +1500,8 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                 while (std::getline(bodyStream, bodyLine)) {
                     lines.push_back("  " + bodyLine);
                 }
-                // A visualization sink observes each wired input: discard it so dead-code elimination keeps the feeding chain.
+                // A visualization sink observes each wired input: discard it so dead-code
+                // elimination keeps the feeding chain.
                 if (ctpl.observesInputs) {
                     for (int p = 0; p < numInPorts; ++p) {
                         lines.push_back("  (void)(" + tins[static_cast<size_t>(p)] + ");");
