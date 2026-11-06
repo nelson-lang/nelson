@@ -18,5 +18,13 @@ asserts.istrue(iscell(R.Items));
 asserts.isequal(R.Items{1}, T.Items{1}(:));
 asserts.isequal(R.Items{2}, T.Items{2}(:));
 asserts.isequal(R.Items{3}, T.Items{3});
-rmfile(filename);
+% A virus scanner can briefly lock a just-written file on Windows: retry the delete.
+for retry = 1:10
+  try
+    rmfile(filename);
+    break;
+  catch
+    sleep(0.2);
+  end
+end
 %=============================================================================
