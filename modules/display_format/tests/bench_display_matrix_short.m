@@ -9,5 +9,9 @@
 %=============================================================================
 format('short');
 A = rand(1000, 1000);
-tic(), A, toc()
+% Capture the display instead of streaming 1M numbers to the console: a flooded CI log breaks the runner.
+tic();
+txt = evalc('A');
+toc();
+asserts.istrue(~isempty(txt));
 %=============================================================================
