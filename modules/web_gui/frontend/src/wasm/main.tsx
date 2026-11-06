@@ -14,7 +14,7 @@ import { App } from '../App';
 import { installBrowserZoomLock } from '../desktop/browserZoom';
 import { initializePersistentStorage } from '../desktop/persistentStorage';
 import { installLocalRpcBackend } from '../rpc/client';
-import { WasmDesktopBackend } from './WasmDesktopBackend';
+import { WasmDesktopBackend, WASM_HELP_CACHE_ROOT } from './WasmDesktopBackend';
 import { ensureCrossOriginIsolation } from './crossOriginIsolation';
 import {
   installOpenerRpcProxyClient,
@@ -137,6 +137,14 @@ async function start(): Promise<void> {
     runtimeCapabilities,
     onProgress: showLoading,
   });
+  // Keep the engine's help cache in a directory the worker file API can serve (below
+  // /workspace), so help deployed by an interactive `nmm install` lands where the doc
+  // viewer reads it. The engine default (prefdir()/help) is /preferences here, which the
+  // viewer cannot read. Set once at startup so every path (terminal nmm, package manager,
+  // viewer) agrees on one readable cache.
+  await client
+    .evaluate(`setenv('NELSON_HELP_CACHE_DIR', '${WASM_HELP_CACHE_ROOT}');`)
+    .catch(() => undefined);
   const nflowUrl = __NELSON_WASM_NFLOW__ ? browserAssetUrl('./nflow/index.html') : undefined;
   const examplesUrl = browserAssetUrl('./examples/index.html');
   const packageManagerUrl = __NELSON_WASM_NMM__ ? browserAssetUrl('./nmm/index.html') : undefined;

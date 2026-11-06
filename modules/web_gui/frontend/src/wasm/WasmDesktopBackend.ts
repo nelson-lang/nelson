@@ -81,9 +81,12 @@ function parseDocCommandTopic(line: string): string | null | undefined {
   return undefined;
 }
 //=============================================================================
-// The worker file API exposes the persistent virtual workspace and module trees, not
-// the host temporary directory, so the generated help cache lives in the workspace.
-const WASM_HELP_CACHE_ROOT = '/workspace/.nelson-wasm-help';
+// The worker file API only serves files below /workspace, /modules or /user-modules, so
+// the generated help cache must live there (not in prefdir()/help, the engine default,
+// which is /preferences under __EMSCRIPTEN__ and unreadable from the viewer). The engine
+// is pointed at this same directory (NELSON_HELP_CACHE_DIR) so an interactive `nmm install`
+// extracts a toolbox's help here too and the viewer can render it, like every other target.
+export const WASM_HELP_CACHE_ROOT = '/workspace/.nelson-wasm-help';
 function normalizeVirtualPath(path: string): string {
   const parts: string[] = [];
   for (const part of path.split('/')) {
@@ -476,6 +479,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         return this.helpText(String(params.name ?? ''));
       case 'help.document':
         return this.helpDocument(String(params.name ?? ''), String(params.path ?? ''));
+      case 'help.lang':
+        return this.helpLanguage();
       case 'newsfeed.list':
         return this.newsfeed.list(params.url);
       case 'examples.list':
@@ -1255,6 +1260,29 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     const text = stdout.slice(start + begin.length, finish).trim();
     if (!text) throw new Error(`No documentation found for "${topic}".`);
     return { text };
+  }
+  //=============================================================================
+  // The help viewer serves one language tree at a time (/help/<lang>/...); report
+  // the engine's current language so the panel opens the matching tree.
+  private async helpLanguage(): Promise<{ lang: string }> {
+    const begin = '__NELSON_LANG_BEGIN__';
+    const end = '__NELSON_LANG_END__';
+    let streamed = '';
+    try {
+      const result = await this.client.evaluate(
+        `disp('${begin}'); disp(getlanguage()); disp('${end}');`,
+        (output) => {
+          if (output.stream === 'stdout' && output.text) streamed += output.text;
+        }
+      );
+      const out = result.stdout || streamed;
+      const start = out.indexOf(begin);
+      const finish = out.lastIndexOf(end);
+      const raw = start >= 0 && finish > start ? out.slice(start + begin.length, finish).trim() : '';
+      return { lang: raw === 'fr_FR' ? 'fr_FR' : 'en_US' };
+    } catch {
+      return { lang: 'en_US' };
+    }
   }
   //=============================================================================
   private async helpDocument(

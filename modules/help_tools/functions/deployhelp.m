@@ -25,7 +25,7 @@ function varargout = deployhelp(varargin)
         case 'add'
             if ~deployhelp_status()
                 install_help(true);
-                if ~using_help_cache_override()
+                if ~using_help_cache_override() || iswasm()
                     docroot('.');
                 end
             end
@@ -46,7 +46,7 @@ function varargout = deployhelp(varargin)
             else
                 verbose = true;
             end
-            if ~using_help_cache_override()
+            if ~using_help_cache_override() || iswasm()
                 docroot('.');
             end
             install_help(verbose);
@@ -152,6 +152,9 @@ function help_dir = deployhelp_cache_dir(version_string)
 end
 %=============================================================================
 function tf = using_help_cache_override()
+  % A caller-set help cache (e.g. the test suite) means "do not touch the global
+  % docroot". WebAssembly also sets NELSON_HELP_CACHE_DIR, but only to place the cache
+  % in a viewer-readable directory, so there deployhelp still switches to local help.
   tf = ~isempty(getenv('NELSON_HELP_CACHE_DIR'));
 end
 %=============================================================================
