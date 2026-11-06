@@ -13,10 +13,7 @@ function loadHelpSw(): {
   helpContentType: (path: string) => string;
 } {
   const here = dirname(fileURLToPath(import.meta.url));
-  const source = readFileSync(
-    resolve(here, '../../../../../tools/wasm/nelson-help-sw.js'),
-    'utf8'
-  );
+  const source = readFileSync(resolve(here, '../../../../../tools/wasm/nelson-help-sw.js'), 'utf8');
   const sandboxModule = { exports: {} as Record<string, unknown> };
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
   new Function('module', 'exports', 'self', source)(sandboxModule, sandboxModule.exports, {});
@@ -24,7 +21,10 @@ function loadHelpSw(): {
 }
 
 function nlrpack(fileName: string, payload: Uint8Array): Uint8Array {
-  const header = JSON.stringify({ formatVersion: 1, files: [{ file: fileName, offset: 0, bytes: payload.length }] });
+  const header = JSON.stringify({
+    formatVersion: 1,
+    files: [{ file: fileName, offset: 0, bytes: payload.length }],
+  });
   const headerBytes = new TextEncoder().encode(header);
   const out = new Uint8Array(12 + headerBytes.length + payload.length);
   out.set(new TextEncoder().encode('NLRPACK1'), 0);

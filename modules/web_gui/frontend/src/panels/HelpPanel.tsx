@@ -50,7 +50,9 @@ export function HelpPanel(): JSX.Element {
   const ensureIndex = async (lang: string): Promise<HelpIndexEntry[]> => {
     if (indexRef.current) return indexRef.current;
     try {
-      const response = await fetch(new URL(`help/${lang}/index.json`, window.location.href).toString());
+      const response = await fetch(
+        new URL(`help/${lang}/index.json`, window.location.href).toString()
+      );
       const data = response.ok ? await response.json() : [];
       indexRef.current = Array.isArray(data) ? (data as HelpIndexEntry[]) : [];
     } catch {
@@ -71,7 +73,12 @@ export function HelpPanel(): JSX.Element {
         if (document.url) {
           window.open(document.url, '_blank', 'noopener,noreferrer');
         }
-        setMode({ kind: 'inline', html: document.html, url: document.url, title: document.title || name });
+        setMode({
+          kind: 'inline',
+          html: document.html,
+          url: document.url,
+          title: document.title || name,
+        });
       })
       .catch(() =>
         rpc<{ text?: string }>('help.text', { name })
@@ -83,7 +90,11 @@ export function HelpPanel(): JSX.Element {
             })
           )
           .catch(() =>
-            setMode({ kind: 'text', topic: name, text: tf('No documentation found for "%1".', name) })
+            setMode({
+              kind: 'text',
+              topic: name,
+              text: tf('No documentation found for "%1".', name),
+            })
           )
       )
       .finally(() => setLoading(false));
@@ -112,7 +123,10 @@ export function HelpPanel(): JSX.Element {
     const index = await ensureIndex(lang);
     const exact = index.find((entry) => (entry.title || '').toLowerCase() === name.toLowerCase());
     if (exact && (exact.url || exact.path)) {
-      setMode({ kind: 'viewer', src: viewerUrl(lang, { open: (exact.url || exact.path) as string }) });
+      setMode({
+        kind: 'viewer',
+        src: viewerUrl(lang, { open: (exact.url || exact.path) as string }),
+      });
       return;
     }
     // Package-qualified and unknown to the built-in index → installed toolbox.
@@ -136,7 +150,9 @@ export function HelpPanel(): JSX.Element {
         const lang = langRef.current;
         let available = false;
         try {
-          const probe = await fetch(new URL(`help/${lang}/index.json`, window.location.href).toString());
+          const probe = await fetch(
+            new URL(`help/${lang}/index.json`, window.location.href).toString()
+          );
           available = probe.ok;
         } catch {
           available = false;
@@ -181,7 +197,12 @@ export function HelpPanel(): JSX.Element {
             throw new Error('Help page is unavailable');
           }
           richPath.current = document.path;
-          setMode({ kind: 'inline', html: document.html, url: document.url, title: document.title || '' });
+          setMode({
+            kind: 'inline',
+            html: document.html,
+            url: document.url,
+            title: document.title || '',
+          });
         })
         .catch(() => undefined)
         .finally(() => setLoading(false));
