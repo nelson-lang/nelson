@@ -684,6 +684,7 @@ if(NELSON_PORTABLE_BUILD)
           "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/package-lock.json"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-runtime.mjs"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-coi-serviceworker.js"
+          "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-help-sw.js"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-worker.mjs"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-worker-client.mjs"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-worker-protocol.mjs"
