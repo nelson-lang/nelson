@@ -118,6 +118,7 @@ namespace NFlow {
         std::vector<StateVar> state;
         std::string step; // step body template; empty = no codegen for this language
         std::string inputDefault; // unconnected-input default ("" = generator default)
+        bool observesInputs = false; // visualization sink: keep its input chains alive through dead-code elimination
         // Native emitter for blocks whose emission needs logic (loops, parameter
         // conditionals). Takes precedence over `step` when set. Built-in blocks
         // only - the plugin JSON ABI carries declarative templates.

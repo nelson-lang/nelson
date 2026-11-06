@@ -53,6 +53,7 @@ Nelson::NFlow::getCodeGenCScope()
 {
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0};";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================
@@ -61,6 +62,7 @@ Nelson::NFlow::getCodeGenRustScope()
 {
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0};";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================

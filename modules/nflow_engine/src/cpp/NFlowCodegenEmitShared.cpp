@@ -891,6 +891,10 @@ namespace {
     {
         StmtEffects fx;
         const std::string t = trimmed(stmt);
+        // An explicit discard `(void)x` / `let _ = x` marks x as observed: a visualization sink pulls its input into the graph without a later read, so keep its feeding chain.
+        if ((!rust && t.rfind("(void)", 0) == 0) || (rust && t.rfind("let _ =", 0) == 0)) {
+            fx.effect = true;
+        }
         for (const char* kw : { "return", "break", "continue", "goto" }) {
             fx.effect = fx.effect || !identUses(t, kw).empty();
         }

@@ -120,6 +120,7 @@ Nelson::NFlow::getCodeGenCToWorkspace()
     // Workspace logging has no meaning in generated code: intentional no-op.
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0}; /* toWorkspace: no-op in generated code */";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================
@@ -128,6 +129,7 @@ Nelson::NFlow::getCodeGenRustToWorkspace()
 {
     BlockCodegenTemplate t;
     t.step = "out_{id} = {in0}; // toWorkspace: no-op in generated code";
+    t.observesInputs = true;
     return t;
 }
 //=============================================================================
