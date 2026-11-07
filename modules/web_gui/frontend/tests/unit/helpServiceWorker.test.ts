@@ -1,7 +1,14 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
+
+// nelson-help-sw.js lives in the build-time tools/wasm tree, which is not in a
+// plain checkout; skip the suite when that worker source is absent.
+const swPath = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../../../../tools/wasm/nelson-help-sw.js'
+);
 
 // nelson-help-sw.js is a classic worker script (importScripts'd by the COI service
 // worker). Load it in a sandbox so the pure helpers can be exercised in Node.
@@ -12,8 +19,7 @@ function loadHelpSw(): {
   targetForEntry: (entry: string) => string;
   helpContentType: (path: string) => string;
 } {
-  const here = dirname(fileURLToPath(import.meta.url));
-  const source = readFileSync(resolve(here, '../../../../../tools/wasm/nelson-help-sw.js'), 'utf8');
+  const source = readFileSync(swPath, 'utf8');
   const sandboxModule = { exports: {} as Record<string, unknown> };
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
   new Function('module', 'exports', 'self', source)(sandboxModule, sandboxModule.exports, {});
@@ -34,8 +40,12 @@ function nlrpack(fileName: string, payload: Uint8Array): Uint8Array {
   return out;
 }
 
-describe('nelson-help-sw pure helpers', () => {
-  const sw = loadHelpSw();
+describe.skipIf(!existsSync(swPath))('nelson-help-sw pure helpers', () => {
+  // Load in beforeAll, not at collection time, so a skipped suite never reads the file.
+  let sw: ReturnType<typeof loadHelpSw>;
+  beforeAll(() => {
+    sw = loadHelpSw();
+  });
 
   it('unwraps an NLRPACK1 single-member container', () => {
     const payload = new Uint8Array([1, 2, 3, 4, 250, 255]);

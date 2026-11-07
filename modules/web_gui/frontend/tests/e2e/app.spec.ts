@@ -485,8 +485,12 @@ test('Help > Documentation opens the doc panel with searchable help', async ({ p
   await page.locator('.menu').getByText('Documentation', { exact: true }).click();
   const panel = page.locator('.help-panel');
   await expect(panel).toBeVisible();
-  await panel.locator('.help-panel__search').fill('sin');
-  await panel.locator('.help-panel__search').press('Enter');
+  // A topic is pushed from the console doc/help command, not typed in the panel.
+  await page.evaluate(() =>
+    window.dispatchEvent(
+      new CustomEvent('nelson-webview.help-topic', { detail: { topic: 'sin' } })
+    )
+  );
   await expect(panel.locator('.help-panel__text')).toContainText('documentation for sin');
   const seeAlso = panel.locator('.help-link', { hasText: 'cos' });
   await expect(seeAlso).toBeVisible();
