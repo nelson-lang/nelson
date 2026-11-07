@@ -55,6 +55,11 @@ an = animatedline(ax, 'Color', [0 0.4 0.8], 'LineWidth', 2);
 x = linspace(0, 2*pi, 120);
 addpoints(an, x, sin(x));
 drawnow]]></example_item_data>
+      <example_item_img
+        src="../../../../images/animatedline.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

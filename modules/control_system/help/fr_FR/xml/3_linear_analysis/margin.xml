@@ -73,6 +73,16 @@
       ><![CDATA[H = tf(1, [1 3 2 0]);
 [Gm, Pm, Wcg, Wcp] = margin(H)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer la reponse de Bode avec les marges de gain et de phase.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[margin(tf(1, [1 3 2 0]));]]></example_item_data>
+      <example_item_img
+        src="../../images/margin.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>

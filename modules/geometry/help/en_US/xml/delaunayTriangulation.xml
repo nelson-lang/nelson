@@ -28,6 +28,11 @@ IC = incenter(DT);
 triplot(DT)
 hold on
 plot(IC(:, 1), IC(:, 2), '*r')]]></example_item_data>
+      <example_item_img
+        src="../images/delaunayTriangulation.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

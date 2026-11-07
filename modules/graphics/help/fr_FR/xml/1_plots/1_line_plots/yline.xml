@@ -69,6 +69,11 @@
 plot(1:10, (1:10).^2);
 yline(50, '-.b', 'mean');
 ]]></example_item_data>
+      <example_item_img
+        src="../../../../images/yline_1.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -79,6 +84,11 @@ yline(50, '-.b', 'mean');
 plot(1:10, sin(1:10));
 yline([-1 0 1], 'Color', [0 0 1]);
 ]]></example_item_data>
+      <example_item_img
+        src="../../../../images/yline_2.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

@@ -33,6 +33,11 @@
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 plot(nsidedpoly(6, 'Radius', 2));
 axis equal]]></example_item_data>
+      <example_item_img
+        src="../images/nsidedpoly.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

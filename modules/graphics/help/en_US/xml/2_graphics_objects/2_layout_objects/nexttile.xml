@@ -56,6 +56,11 @@ for k = 1:4
   plot(ax, rand(1, 10));
 end
 ]]></example_item_data>
+      <example_item_img
+        src="../../../../images/nexttile.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

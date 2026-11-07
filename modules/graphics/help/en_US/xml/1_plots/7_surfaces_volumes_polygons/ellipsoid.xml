@@ -46,6 +46,11 @@
       ><![CDATA[f = figure();
 ellipsoid(0, 0, 0, 3, 2, 1);
 axis equal]]></example_item_data>
+      <example_item_img
+        src="../../../../images/ellipsoid.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

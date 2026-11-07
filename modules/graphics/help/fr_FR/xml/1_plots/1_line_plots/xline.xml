@@ -69,6 +69,11 @@
 plot(1:10, (1:10).^2);
 xline(5, '--r', 'threshold');
 ]]></example_item_data>
+      <example_item_img
+        src="../../../../images/xline_1.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -79,6 +84,11 @@ xline(5, '--r', 'threshold');
 plot(-10:10, (-10:10).^2);
 xline([-3 3], 'Color', [0 0 1], 'LineWidth', 2);
 ]]></example_item_data>
+      <example_item_img
+        src="../../../../images/xline_2.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

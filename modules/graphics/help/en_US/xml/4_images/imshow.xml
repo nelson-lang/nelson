@@ -61,14 +61,20 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
+      <example_item_description>Display an RGB image.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
-filename = [tempdir, 'apollo_8_earthrise_1968_as08-14-2383.jpg'];
-websave(filename, 'https://www.nasa.gov/wp-content/uploads/2025/05/3dmodels-casa-2025-astro.jpg');
-h = imshow(filename);
-]]></example_item_data>
+n = 128;
+x = linspace(0, 1, n);
+[X, Y] = meshgrid(x, x);
+rgb = cat(3, X, Y, 0.5 * ones(n, n));
+h = imshow(rgb);]]></example_item_data>
+      <example_item_img
+        src="../../../images/imshow.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

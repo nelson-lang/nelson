@@ -21,6 +21,11 @@ x = rand([20, 1]);
 y = rand([20, 1]);
 DT = delaunay(x, y);
 triplot(DT, x, y)]]></example_item_data>
+      <example_item_img
+        src="../images/delaunay.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

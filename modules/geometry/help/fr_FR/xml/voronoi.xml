@@ -21,6 +21,11 @@
       <example_item_description>Tracer un diagramme de Voronoi.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
 voronoi(P)]]></example_item_data>
+      <example_item_img
+        src="../images/voronoi.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

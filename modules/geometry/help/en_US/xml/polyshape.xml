@@ -31,9 +31,16 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
-pg = polyshape([0 1 1 0], [0 0 1 1]);
+t = linspace(0, 2*pi, 6);
+t(end) = [];
+pg = polyshape(cos(t), sin(t));
 plot(pg, 'FaceColor', 'r');
 area(pg)]]></example_item_data>
+      <example_item_img
+        src="../images/polyshape.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

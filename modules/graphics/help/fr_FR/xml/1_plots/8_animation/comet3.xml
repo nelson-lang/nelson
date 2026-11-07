@@ -41,6 +41,11 @@
       <example_item_description />
       <example_item_data runnable="adv-cli"><![CDATA[t = -pi:pi/120:pi;
 comet3(sin(5 * t), cos(3 * t), t, 0.2)]]></example_item_data>
+      <example_item_img
+        src="../../../../images/comet3.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

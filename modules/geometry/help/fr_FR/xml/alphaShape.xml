@@ -21,10 +21,19 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>Creer et tracer un alpha shape.</example_item_description>
-      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
-SHP = alphaShape(P);
+      <example_item_data runnable="gui"><![CDATA[[x, y] = meshgrid(linspace(-1, 1, 16));
+P = [x(:), y(:)];
+P(hypot(P(:, 1), P(:, 2)) > 1, :) = [];
+SHP = alphaShape(P, 0.3);
 A = area(SHP);
-plot(SHP)]]></example_item_data>
+plot(SHP)
+hold('on')
+plot(P(:, 1), P(:, 2), '.')]]></example_item_data>
+      <example_item_img
+        src="../images/alphaShape.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

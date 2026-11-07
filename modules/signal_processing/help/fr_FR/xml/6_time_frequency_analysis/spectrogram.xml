@@ -59,6 +59,16 @@
 [s, f, t] = spectrogram(sin((0:255)' * 0.1), 64, 32, 128, 10);
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher le spectrogramme (transformee de Fourier a court terme).</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[spectrogram(sin((0:255)' * 0.1), 64, 32, 128, 10);]]></example_item_data>
+      <example_item_img
+        src="../../images/spectrogram.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>

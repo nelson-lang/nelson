@@ -34,6 +34,16 @@
 [s, f, t] = stft(sin((0:31)' * 0.2), 10, 'Window', hamming(8), 'OverlapLength', 4, 'FFTLength', 16, 'FrequencyRange', 'onesided');
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display the short-time Fourier transform.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[stft(sin((0:127)' * 0.2), 10, 'Window', hamming(16), 'OverlapLength', 8, 'FFTLength', 32, 'FrequencyRange', 'onesided');]]></example_item_data>
+      <example_item_img
+        src="../../images/stft.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
   </examples>
   <see_also>
     <see_also_item><link linkend="${signal_processing}istft">istft</link></see_also_item>

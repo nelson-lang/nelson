@@ -61,6 +61,11 @@
 f = figure();
 plot(lon, lat);
 axis equal]]></example_item_data>
+      <example_item_img
+        src="../images/ellipse1.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

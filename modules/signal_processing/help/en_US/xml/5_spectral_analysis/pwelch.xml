@@ -26,7 +26,18 @@
   <description><p><b>pwelch</b> estimates a spectrum by averaging periodograms of overlapped segments.</p></description>
   <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
 [pxx, f] = pwelch(rand(256, 1), hamming(64), 32, 128, 1, 'centered');
-]]></example_item_data></example_item></examples>
+]]></example_item_data></example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot Welch's power spectral density estimate.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[pwelch(sin((0:255)' * 0.1) + 0.5 * sin((0:255)' * 0.4), hamming(64), 32, 128, 1, 'centered');]]></example_item_data>
+      <example_item_img
+        src="../../images/pwelch.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
   <see_also><see_also_item><link linkend="${signal_processing}periodogram">periodogram</link></see_also_item><see_also_item><link linkend="${signal_processing}cpsd">cpsd</link></see_also_item></see_also>
   <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
   <authors><author_item>Allan CORNET</author_item></authors>

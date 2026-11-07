@@ -24,6 +24,11 @@
       <example_item_description>Afficher des fleches depuis des valeurs complexes.</example_item_description>
       <example_item_data><![CDATA[Z = [1 + 2i, 2 - 1i, -1 + 1i];
 compass(Z);]]></example_item_data>
+      <example_item_img
+        src="../../../../images/compass_1.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
@@ -32,6 +37,11 @@ compass(Z);]]></example_item_data>
 V = [2 1 -1];
 h = compass(U, V, '-r');
 set(h, 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img
+        src="../../../../images/compass_2.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>

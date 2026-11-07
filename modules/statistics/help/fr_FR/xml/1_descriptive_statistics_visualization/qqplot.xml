@@ -20,6 +20,11 @@
       <example_item_description />
       <example_item_data runnable="adv-cli"><![CDATA[x = randn(100, 1);
 qqplot(x)]]></example_item_data>
+      <example_item_img
+        src="../../images/qqplot.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
   </examples>
   <see_also>
