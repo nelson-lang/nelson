@@ -232,7 +232,10 @@ export function HelpPanel(): JSX.Element {
         const probe = await fetch(
           new URL(`help/${langRef.current}/index.json`, window.location.href).toString()
         );
-        return probe.ok;
+        // A dev/SPA host answers an unknown path with its index.html (200 text/html);
+        // only a real JSON index means the self-contained viewer is actually served.
+        const contentType = probe.headers.get('content-type') ?? '';
+        return probe.ok && contentType.includes('json');
       } catch {
         return false;
       }

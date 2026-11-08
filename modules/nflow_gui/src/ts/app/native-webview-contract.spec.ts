@@ -122,7 +122,7 @@ test('Qt prompt exposes interpreter idle state to the NFlow bridge', () => {
 
   expect(terminal).toContain('taskQueue->setInterpreterIdle(true);');
   expect(terminal).toContain('~IdleReset() { queue->setInterpreterIdle(false); }');
-  expect(terminal).toContain('taskQueue->processTasks(eval);');
+  expect(terminal).toContain('taskQueue->processTasksAtPrompt(eval)');
   expect(bridge).toContain('runNowIfIdleOrQueue(');
   expect(taskQueue).toContain('MainThreadTaskQueue::getInstance()');
 });

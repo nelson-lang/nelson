@@ -480,8 +480,10 @@ test('File > Import Data… previews the file and imports as a table', async ({ 
   await expect(card).toBeHidden();
 });
 //=============================================================================
-test('Help > Documentation opens the doc panel with searchable help', async ({ page }) => {
-  await page.locator('.menubar').getByText('Help', { exact: true }).click();
+test('View > Documentation opens the doc panel with searchable help', async ({ page }) => {
+  // Help > Documentation now opens the standalone viewer window; the docked panel
+  // is the View-menu entry and the engine-rendered fallback.
+  await page.locator('.menubar').getByText('View', { exact: true }).click();
   await page.locator('.menu').getByText('Documentation', { exact: true }).click();
   const panel = page.locator('.help-panel');
   await expect(panel).toBeVisible();
