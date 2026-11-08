@@ -164,6 +164,23 @@ public:
         m_interpreterIdle = idle;
     }
     //=============================================================================
+    // Lock-free: also read from inside a task that runNowIfIdleOrQueue runs in place
+    // while it holds m_idleMutex (nelson-adv-cli --webview figure interactions).
+    bool
+    isInterpreterIdle()
+    {
+        return m_interpreterIdle.load();
+    }
+    //=============================================================================
+    // Runs the tasks of a terminal parked at its prompt; true when one ended the session
+    // (exit from a callback): the terminal returns an empty line so the REPL leaves the prompt.
+    bool
+    processTasksAtPrompt(Evaluator* eval)
+    {
+        processTasks(eval);
+        return eval != nullptr && eval->isQuitOrForceQuitState();
+    }
+    //=============================================================================
     /**
      * Run fn immediately on the CALLING thread if the interpreter is parked at
      * the prompt (idle), otherwise enqueue it and block until the interpreter
@@ -236,7 +253,7 @@ private:
     std::deque<std::shared_ptr<Entry>> m_entries;
     std::function<void()> m_wakeupHook;
     std::mutex m_idleMutex;
-    bool m_interpreterIdle { false };
+    std::atomic<bool> m_interpreterIdle { false };
 };
 //=============================================================================
 } // namespace Nelson

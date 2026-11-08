@@ -385,7 +385,10 @@ QtTerminal::getLine(const std::wstring& prompt)
             break;
         }
 
-        taskQueue->processTasks(eval);
+        // an empty line tells the REPL that a task ended the session (see processTasksAtPrompt)
+        if (taskQueue->processTasksAtPrompt(eval)) {
+            return std::wstring();
+        }
         // A typed or posted line comes first: Enter also marks the prompt as consumed.
         if (!lineToSend.empty() || !lineBuffer.isEmpty()) {
             break;

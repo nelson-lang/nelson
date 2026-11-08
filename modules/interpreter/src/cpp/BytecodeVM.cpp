@@ -3498,7 +3498,11 @@ namespace bcvm_detail {
                 && (hasOpenFigureWindows || coarseBoundary)) {
                 webEventPumpBridge->pumpWebEvents();
             }
-            if (!eval->commandQueue.isEmpty()) {
+            // A task run by a terminal parked at its prompt leaves queued commands to the REPL:
+            // an exit drained here would quit inside that task and the prompt would never return.
+            // Every prompt loop checks the queue itself once the task returns.
+            if (!eval->commandQueue.isEmpty()
+                && !MainThreadTaskQueue::getInstance()->isInterpreterIdle()) {
                 syncAssignedLocalsToContext();
                 // Drain the queued cooperative commands instead of one per statement boundary:
                 // running one at a time serializes a burst of figure key/mouse events and is felt

@@ -106,8 +106,14 @@ WebGuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
         if (!MainThreadTaskQueue::getInstance()->isEmpty()) {
             if (eval != nullptr) {
                 lock.unlock();
-                MainThreadTaskQueue::getInstance()->processTasks(eval);
+                const bool sessionEnded
+                    = MainThreadTaskQueue::getInstance()->processTasksAtPrompt(eval);
                 lock.lock();
+                // an empty line tells the REPL that a task ended the session
+                if (sessionEnded) {
+                    m_atPrompt = false;
+                    return std::wstring();
+                }
             }
             continue;
         }

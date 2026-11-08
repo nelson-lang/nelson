@@ -146,7 +146,7 @@ GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
             this->diary.writeMessage(prompt);
         }
         line = qtterm->getLine(prompt);
-        if (line != L"\n") {
+        if (!line.empty() && line != L"\n") {
             this->diary.writeMessage(line);
             if (bIsInput) {
                 if (StringHelpers::ends_with(line, L"\n")) {
@@ -158,7 +158,7 @@ GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
     if (bIsInput) {
         Nelson::History::setToken(L"");
     } else {
-        if (line != L"\n") {
+        if (!line.empty() && line != L"\n") {
             Nelson::History::addLine(line);
             Nelson::HistoryBrowser::addLine(line);
         }

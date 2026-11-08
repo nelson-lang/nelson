@@ -57,7 +57,8 @@ Evaluator::evalCLI()
         if (!bpActive) {
             clearStacks();
         }
-        if (processCliCallbacks()) {
+        // a callback or cross-thread task may have called exit: leave before asking for a line
+        if (processCliCallbacks() || isQuitOrForceQuitState()) {
             return;
         }
         std::wstring commandLine;
