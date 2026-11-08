@@ -593,7 +593,14 @@ function buildPipelines(
       targets: [{ format, blend: PREMULTIPLIED_BLEND }],
     },
     primitive: { topology: 'triangle-list' },
-    depthStencil: { format: 'depth24plus', depthWriteEnabled: true, depthCompare: 'less-equal' },
+    // Push filled faces back in depth so a mesh's own edge lines, which share the face-edge positions, win the depth test instead of dropping out on steep slopes.
+    depthStencil: {
+      format: 'depth24plus',
+      depthWriteEnabled: true,
+      depthCompare: 'less-equal',
+      depthBias: 1,
+      depthBiasSlopeScale: 1,
+    },
   });
 
   const linePipeline = device.createRenderPipeline({

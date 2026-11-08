@@ -11,6 +11,7 @@
 #include <array>
 #include <cmath>
 #include "GOColorBar.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "GOArrayOfProperty.hpp"
@@ -445,7 +446,7 @@ GOColorBar::applyLocationToPeerAxes()
         base = tiledColorBarPeerPosition(peer, base);
         peer->setFourVectorDefault(
             GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2], base[3]);
-        peer->updateState();
+        requestPeerAxesUpdate(peer);
     }
     bool peer3D = isColorBarPeer3D(peer);
     bool peerContour = isColorBarPeerContour(peer);
@@ -496,10 +497,10 @@ GOColorBar::applyLocationToPeerAxes()
         }
         peer->setFourVectorDefault(
             GO_POSITION_PROPERTY_NAME_STR, newPeer[0], newPeer[1], newPeer[2], newPeer[3]);
-        peer->updateState();
+        requestPeerAxesUpdate(peer);
     } else if (!m_peerPositionBeforeResize.empty()) {
         m_peerPositionBeforeResize.clear();
-        peer->updateState();
+        requestPeerAxesUpdate(peer);
     }
     m_layoutAppliedLocation = loc;
 }

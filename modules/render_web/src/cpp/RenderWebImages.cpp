@@ -856,6 +856,7 @@ RenderWeb::pushSceneDepthImage(const std::vector<unsigned char>& rgba,
     }
     primitive.image = "data:image/png;base64," + pngBase64;
     primitive.depth = -2.0;
+    primitive.smoothImage = ss > 1;
     // The browser draws the WebGL mesh when one was recorded; this image is a
     // fallback kept for the software capture path (getframe / saveas).
     primitive.webglFallback = webglFallback;
@@ -1346,10 +1347,35 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
     return true;
 }
 //=============================================================================
+// True when the patch vertices span a depth range along the view axis.
 bool
-RenderWeb::tryPushZBufferedPatch(
-    const FaceList& faces, const PatchRenderOptions& options, bool webglFallback)
+RenderWeb::patchHasDepthRange(const FaceList& faces)
 {
+    double zmin = std::numeric_limits<double>::infinity();
+    double zmax = -std::numeric_limits<double>::infinity();
+    for (const Face& face : faces) {
+        for (const point& vertex : face.vertices) {
+            if (!std::isfinite(vertex.x) || !std::isfinite(vertex.y) || !std::isfinite(vertex.z)) {
+                continue;
+            }
+            double sx = 0.;
+            double sy = 0.;
+            const double z = mapXYZ(vertex.x, vertex.y, vertex.z, sx, sy);
+            if (!std::isfinite(z)) {
+                continue;
+            }
+            zmin = std::min(zmin, z);
+            zmax = std::max(zmax, z);
+        }
+    }
+    return zmax > zmin && (zmax - zmin) > 1e-9 * std::max(1.0, std::max(std::abs(zmin), std::abs(zmax)));
+}
+//=============================================================================
+bool
+RenderWeb::tryPushZBufferedPatch(const FaceList& faces, const PatchRenderOptions& options,
+    bool webglFallback, bool& edgesRasterized)
+{
+    edgesRasterized = false;
     // Smooth-lit patches (isosurface, Gouraud) need per-pixel color interpolation in
     // the software capture: the single-color polygon fill shows mesh facets and a
     // hard specular polygon instead of a soft highlight. Rasterize the lit
@@ -1371,15 +1397,18 @@ RenderWeb::tryPushZBufferedPatch(
     if (!gouraud && !interpFill) {
         return false;
     }
-    // A Gouraud-lit patch that also draws edges is left to the flat polygon path
-    // (fill + outline). A non-lit 'interp' patch rasterizes its fill here and the
-    // caller strokes the edges on top.
+    // Gouraud-lit with edges: flat polygon path (fill + outline). Non-lit 'interp':
+    // fill and edges share this z-buffer, edges stroked apart would sort by mean depth.
     const bool strokeEdges
         = options.lineStyle != GO_PROPERTY_VALUE_NONE_STR && options.lineWidth > 0.;
-    if (gouraud && strokeEdges && !faces.empty()
-        && faces.front().EdgeColorMode != ColorMode::None) {
+    const bool hasEdges
+        = strokeEdges && !faces.empty() && faces.front().EdgeColorMode != ColorMode::None;
+    if (gouraud && hasEdges) {
         return false;
     }
+    // Edges join the z-buffer only when faces can hide them: a flat (2-D) or single-face
+    // patch keeps the cheap 1x raster and strokes its edges on top as vector lines.
+    const bool rasterEdges = hasEdges && faces.size() > 1 && patchHasDepthRange(faces);
     bool anyOpaqueFace = false;
     for (const Face& face : faces) {
         if (face.FaceColorMode == ColorMode::None || face.vertices.size() < 3) {
@@ -1400,8 +1429,11 @@ RenderWeb::tryPushZBufferedPatch(
     if (!anyOpaqueFace) {
         return false;
     }
-    const int width = std::max(1, static_cast<int>(std::lround(m_width)));
-    const int height = std::max(1, static_cast<int>(std::lround(m_height)));
+    // Oversample z-buffered edges when the raster is exported; a live fallback stays at 1x.
+    const int ss = (rasterEdges && m_encodeImagePngPayloads) ? 2 : 1;
+    const double scale = static_cast<double>(ss);
+    const int width = std::max(1, static_cast<int>(std::lround(m_width)) * ss);
+    const int height = std::max(1, static_cast<int>(std::lround(m_height)) * ss);
     std::vector<unsigned char> rgba(static_cast<size_t>(width) * height * 4, 0);
     std::vector<double> zbuffer(
         static_cast<size_t>(width) * height, std::numeric_limits<double>::infinity());
@@ -1424,6 +1456,8 @@ RenderWeb::tryPushZBufferedPatch(
                 m_lightingScene, m_lightingMaterial);
         }
         target.z = mapXYZ(vertex.x, vertex.y, vertex.z, target.x, target.y);
+        target.x *= scale;
+        target.y *= scale;
         target.r = color.r;
         target.g = color.g;
         target.b = color.b;
@@ -1458,6 +1492,70 @@ RenderWeb::tryPushZBufferedPatch(
         }
         flushRun();
     }
+    // Edges after the faces filled the depth buffer: a back edge stays hidden, as for surfaces.
+    if (rasterEdges) {
+        const bool lightEdges = hasLights && options.edgeLighting != LightingMode::None;
+        const double halfWidth = std::max(1.0, options.lineWidth) * 0.5 * scale;
+        // An edge lies on its own face plane; see tryPushZBufferedSurface.
+        constexpr double depthBias = 2.0e-4;
+        auto edgeVertex = [&](const Face& face, size_t vertexIndex, SurfaceVertex& target) -> bool {
+            const point& vertex = face.vertices[vertexIndex];
+            if (!std::isfinite(vertex.x) || !std::isfinite(vertex.y) || !std::isfinite(vertex.z)) {
+                return false;
+            }
+            RGBAColorData color = face.EdgeColor;
+            if ((face.EdgeColorMode == ColorMode::Flat || face.EdgeColorMode == ColorMode::Interp)
+                && !face.edgecolors.empty()) {
+                const size_t colorIndex = face.EdgeColorMode == ColorMode::Flat
+                    ? 0
+                    : std::min(vertexIndex, face.edgecolors.size() - 1);
+                color = face.edgecolors[colorIndex];
+            }
+            if (lightEdges && vertexIndex < face.normals.size()) {
+                color = RenderLighting::computeLitColor(color, face.normals[vertexIndex], vertex,
+                    model, m_lightingScene, m_lightingMaterial);
+            }
+            target.z = mapXYZ(vertex.x, vertex.y, vertex.z, target.x, target.y);
+            target.x *= scale;
+            target.y *= scale;
+            target.r = color.r;
+            target.g = color.g;
+            target.b = color.b;
+            target.a = color.a;
+            return std::isfinite(target.x) && std::isfinite(target.y) && std::isfinite(target.z);
+        };
+        for (const Face& face : faces) {
+            if (face.vertices.size() < 2 || face.EdgeColorMode == ColorMode::None) {
+                continue;
+            }
+            // NaN vertices split the outline into runs; a run closes on itself.
+            std::vector<size_t> run;
+            auto strokeRun = [&]() {
+                const size_t segments = run.size() < 2 ? 0 : (run.size() == 2 ? 1 : run.size());
+                for (size_t e = 0; e < segments; ++e) {
+                    SurfaceVertex a;
+                    SurfaceVertex b;
+                    if (edgeVertex(face, run[e], a)
+                        && edgeVertex(face, run[(e + 1) % run.size()], b)) {
+                        rasterizeSurfaceEdge(
+                            a, b, halfWidth, depthBias, zbuffer, rgba, width, height, drewPixel);
+                    }
+                }
+                run.clear();
+            };
+            for (size_t vertexIndex = 0; vertexIndex < face.vertices.size(); ++vertexIndex) {
+                const point& vertex = face.vertices[vertexIndex];
+                if (!std::isfinite(vertex.x) || !std::isfinite(vertex.y)
+                    || !std::isfinite(vertex.z)) {
+                    strokeRun();
+                    continue;
+                }
+                run.push_back(vertexIndex);
+            }
+            strokeRun();
+        }
+        edgesRasterized = true;
+    }
     if (!drewPixel) {
         return false;
     }
@@ -1465,19 +1563,19 @@ RenderWeb::tryPushZBufferedPatch(
     primitive.kind = "image";
     primitive.x = 0;
     primitive.y = 0;
-    primitive.w = static_cast<double>(width);
-    primitive.h = static_cast<double>(height);
+    // 1x screen units; the raster maps the oversampled pixels back down.
+    primitive.w = static_cast<double>(width) / scale;
+    primitive.h = static_cast<double>(height) / scale;
     std::string pngBase64;
     if (!renderWebCachedRgbaToPngBase64(rgba.data(), width, height, width * 4, pngBase64,
             primitive.imageToken, primitive.imagePayload)) {
         return false;
     }
     primitive.image = "data:image/png;base64," + pngBase64;
-    // A Gouraud-lit fill keeps the far -2.0 depth so it composites behind the
-    // strokes. A non-lit 'interp' fill sits at the patch mean depth so the edge
-    // strokes (biased toward the camera) draw on top, as in the flat polygon path.
+    // Gouraud-lit fill: far -2.0 depth, behind the strokes. Non-lit 'interp': patch mean depth.
     primitive.depth
         = gouraud ? -2.0 : (depthCount ? depthSum / static_cast<double>(depthCount) : -2.0);
+    primitive.smoothImage = ss > 1;
     primitive.webglFallback = webglFallback;
     m_pending3d.push_back(std::move(primitive));
     return true;
@@ -1781,12 +1879,11 @@ RenderWeb::drawPatch(const FaceList& faces, const PatchRenderOptions& options)
     if (tryPushScenePatch(faces, options, webglPatch)) {
         return;
     }
-    // Gouraud-lit and non-lit 'interp' patches are rasterized into a z-buffer: the
-    // flat polygon fill below collapses each face to one shade. With edges, the
-    // polygon path below still strokes them (fillRasterized suppresses its fill so
-    // faces are not painted twice).
-    const bool fillRasterized = tryPushZBufferedPatch(faces, options, webglPatch);
-    if (fillRasterized && !strokeEdges) {
+    // Shaded patches go to a z-buffer image (a flat polygon fill loses the gradient);
+    // edges not rasterized with it are stroked by the polygon path below, fill off.
+    bool edgesRasterized = false;
+    const bool fillRasterized = tryPushZBufferedPatch(faces, options, webglPatch, edgesRasterized);
+    if (fillRasterized && (!strokeEdges || edgesRasterized)) {
         return;
     }
     // The polygon fallback fills each face with one flat color (a 2D canvas polygon

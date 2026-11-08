@@ -30,6 +30,7 @@ function varargout = bubblecloud(varargin)
   axis(ax, 'equal');
   updateBubbleCloudAxes(ax, x, y, radii);
   updateBubbleCloudLegend(ax, bubbleHandles, groups, groupLevels, opts);
+  fitBubbleCloudLimits(ax, x, y, radii);
   set(h, 'Children', ax);
   removeBubbleCloudAxesFromFigure(chartParent, ax);
   try
@@ -215,7 +216,8 @@ function [x, y, radii, bubbleHandles] = drawBubbleCloud(parent, sizes, labels, g
 end
 %=============================================================================
 function [x, y] = circleData(cx, cy, radius)
-  theta = (0:96) * 2 * pi / 96;
+  % 180 segments keep a large bubble round on screen
+  theta = (0:180) * 2 * pi / 180;
   x = cx + radius * cos(theta);
   y = cy + radius * sin(theta);
 end
@@ -489,6 +491,30 @@ function updateBubbleCloudAxes(ax, x, y, radii)
   ax.YColor = 'none';
 end
 %=============================================================================
+function fitBubbleCloudLimits(ax, x, y, radii)
+  % Like the chart update: once the legend has taken its room, the data box takes
+  % the aspect of the axes box, so the plot fills it and the circles stay round.
+  f = ancestor(ax, 'figure');
+  pixels = ax.Position .* [f.Position(3:4) f.Position(3:4)];
+  if any(pixels(3:4) <= 0)
+    return
+  end
+  aspect = pixels(3) / pixels(4);
+  margin = 0.12;
+  xRange = [min(x - radii) - margin, max(x + radii) + margin];
+  yRange = [min(y - radii) - margin, max(y + radii) + margin];
+  xSpan = diff(xRange);
+  ySpan = diff(yRange);
+  if xSpan / ySpan >= aspect
+    yRange = mean(yRange) + [-0.5 0.5] * (xSpan / aspect);
+  else
+    xRange = mean(xRange) + [-0.5 0.5] * (ySpan * aspect);
+  end
+  ax.XLim = xRange;
+  ax.YLim = yRange;
+  ax.PlotBoxAspectRatio = [aspect 1 1];
+end
+%=============================================================================
 function updateBubbleCloudLegend(ax, bubbleHandles, groups, groupLevels, opts)
   levels = groupLevels;
   if numel(levels) <= 1 || isempty(levels{1})
@@ -506,97 +532,15 @@ function updateBubbleCloudLegend(ax, bubbleHandles, groups, groupLevels, opts)
   if ~isempty(opts.LegendTitle)
     title(lgd, opts.LegendTitle);
   end
-  positionBubbleCloudLegend(ax, lgd);
-  installBubbleCloudResizeFcn(ax, lgd);
-end
-%=============================================================================
-function positionBubbleCloudLegend(ax, lgd)
-  if isempty(lgd) || ~isgraphics(lgd)
-    return
-  end
-  fig = ancestor(ax, 'figure');
-  if isempty(fig) || ~isgraphics(fig)
-    return
-  end
-  figPosition = fig.Position;
-  plotBox = bubbleCloudPlotBoxPixels(ax, figPosition);
-  legendUnits = lgd.Units;
-  legendPosition = lgd.Position;
-  if strcmpi(legendUnits, 'pixels')
-    legendWidth = legendPosition(3);
-    legendHeight = legendPosition(4);
-  else
-    legendWidth = legendPosition(3) * figPosition(3);
-    legendHeight = legendPosition(4) * figPosition(4);
-  end
-  [legendWidth, legendHeight] = bubbleCloudLegendSize(lgd, legendWidth, legendHeight);
-  margin = 8;
-  x = figPosition(3) - legendWidth - margin;
-  y = figPosition(4) - legendHeight - margin;
-  lgd.Units = 'pixels';
-  lgd.Position = [x, y, legendWidth, legendHeight];
-end
-%=============================================================================
-function [legendWidth, legendHeight] = bubbleCloudLegendSize(lgd, legendWidth, legendHeight)
-  labels = lgd.String;
-  if ischar(labels)
-    labels = {labels};
-  end
-  labelCount = numel(labels);
-  maxChars = 0;
-  for k = 1:labelCount
-    maxChars = max(maxChars, length(char(labels{k})));
-  end
-  titleString = '';
-  if isgraphics(lgd.Title)
-    titleString = lgd.Title.String;
-  end
-  hasTitle = ~isempty(titleString);
-  maxChars = max(maxChars, length(char(titleString)));
-  iconWidth = 30;
-  try
-    iconWidth = lgd.IconColumnWidth;
-  catch
-  end
-  compactWidth = max(36, iconWidth + 22 + 6 * maxChars);
-  compactHeight = 8 + 13 * max(1, labelCount);
-  if hasTitle
-    compactHeight = compactHeight + 15;
-  end
-  legendWidth = min(legendWidth, compactWidth);
-  legendHeight = min(legendHeight, compactHeight);
-end
-%=============================================================================
-function plotBox = bubbleCloudPlotBoxPixels(ax, figPosition)
-  axesPosition = ax.Position;
-  plotBox = [axesPosition(1) * figPosition(3), axesPosition(2) * figPosition(4), ...
-    axesPosition(3) * figPosition(3), axesPosition(4) * figPosition(4)];
-  xlim = ax.XLim;
-  ylim = ax.YLim;
-  dataWidth = xlim(2) - xlim(1);
-  dataHeight = ylim(2) - ylim(1);
-  if dataWidth <= 0 || dataHeight <= 0 || plotBox(3) <= 0 || plotBox(4) <= 0
-    return
-  end
-  dataAspect = dataWidth / dataHeight;
-  boxAspect = plotBox(3) / plotBox(4);
-  if boxAspect > dataAspect
-    width = plotBox(4) * dataAspect;
-    plotBox(1) = plotBox(1) + (plotBox(3) - width) / 2;
-    plotBox(3) = width;
-  else
-    height = plotBox(3) / dataAspect;
-    plotBox(2) = plotBox(2) + (plotBox(4) - height) / 2;
-    plotBox(4) = height;
-  end
-end
-%=============================================================================
-function installBubbleCloudResizeFcn(ax, lgd)
-  fig = ancestor(ax, 'figure');
-  if isempty(fig) || ~isgraphics(fig) || ~isempty(fig.SizeChangedFcn)
-    return
-  end
-  fig.SizeChangedFcn = @(src, event) positionBubbleCloudLegend(ax, lgd);
+  % The box gives up room only when the legend (width + 8pt gap + 16pt pad) does not fit
+  % the right margin; the legend takes width + gap from the axes, so start that much wider.
+  f = ancestor(ax, 'figure');
+  W = f.Position(3);
+  gap = 8 * 96 / 72;
+  legendWidth = lgd.Position(3) * W;
+  rightEdge = min((ax.Position(1) + ax.Position(3)) * W, W - legendWidth - 3 * gap);
+  ax.Position(3) = (rightEdge + legendWidth + gap) / W - ax.Position(1);
+  lgd.Location = 'northeastoutside';
 end
 %=============================================================================
 function displayName = legendDisplayName(groups, k)

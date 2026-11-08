@@ -243,6 +243,6 @@
 <text x="130.226" y="601.054" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-1</text>
 <text x="112.851" y="555.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-0.5</text>
 <text x="137.163" y="508.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="554.888" y="876.875" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Frequency (rad/s)</text>
-<text x="0" y="0" transform="translate(85.7686,727.053) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Phase (rad)</text>
+<text x="554.888" y="875.313" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Frequency (rad/s)</text>
+<text x="0" y="0" transform="translate(85.7686,723.928) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Phase (rad)</text>
 </svg>

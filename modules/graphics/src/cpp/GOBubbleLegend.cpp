@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <sstream>
 #include "GOBubbleLegend.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "GOArrayOfProperty.hpp"
@@ -109,12 +110,6 @@ namespace {
     {
         return go && go->haveProperty(GO_STRING_PROPERTY_NAME_STR)
             && !go->findStringProperty(GO_STRING_PROPERTY_NAME_STR).empty();
-    }
-    //=============================================================================
-    bool
-    isOutsideLocation(const std::wstring& loc)
-    {
-        return loc.find(L"outside") != std::wstring::npos;
     }
     //=============================================================================
     std::wstring
@@ -568,66 +563,16 @@ GOBubbleLegend::positionAsPixels(double width, double height)
 void
 GOBubbleLegend::restorePeerAxesPosition()
 {
-    if (m_peerPositionBeforeResize.empty() || m_peerAxesHandle < HANDLE_OFFSET_OBJECT
-        || isDeletedGraphicsObject(m_peerAxesHandle)) {
-        return;
-    }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-    if (!peer) {
-        return;
-    }
-    GOOnOffProperty* deleting = static_cast<GOOnOffProperty*>(
-        peer->findProperty(GO_BEING_DELETED_PROPERTY_NAME_STR, false));
-    if (deleting && deleting->asBool()) {
-        return;
-    }
-    peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, m_peerPositionBeforeResize[0],
-        m_peerPositionBeforeResize[1], m_peerPositionBeforeResize[2],
-        m_peerPositionBeforeResize[3]);
-    peer->updateState();
-    m_peerPositionBeforeResize.clear();
+    releaseAxesLayoutSlot(peerAxes(), m_peerReservation);
 }
 //=============================================================================
-void
-GOBubbleLegend::applyLocationToPeerAxes()
+GraphicsObject*
+GOBubbleLegend::peerAxes()
 {
     if (m_peerAxesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_peerAxesHandle)) {
-        return;
+        return nullptr;
     }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-    if (!peer) {
-        return;
-    }
-    std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
-    if (!isOutsideLocation(loc) || loc == L"layout") {
-        if (!m_peerPositionBeforeResize.empty()) {
-            restorePeerAxesPosition();
-        }
-        return;
-    }
-    if (m_peerPositionBeforeResize.empty()) {
-        m_peerPositionBeforeResize = peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-    }
-    std::vector<double> base = m_peerPositionBeforeResize;
-    if (base.size() < 4) {
-        return;
-    }
-    double reserveX = std::min(base[2] * 0.18, 0.16);
-    double reserveY = std::min(base[3] * 0.18, 0.16);
-    if (loc.find(L"west") != std::wstring::npos) {
-        peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, base[0] + reserveX, base[1],
-            base[2] - reserveX, base[3]);
-    } else if (loc.find(L"east") != std::wstring::npos) {
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2] - reserveX, base[3]);
-    } else if (loc.find(L"south") != std::wstring::npos) {
-        peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, base[0], base[1] + reserveY,
-            base[2], base[3] - reserveY);
-    } else if (loc.find(L"north") != std::wstring::npos) {
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2], base[3] - reserveY);
-    }
-    peer->updateState();
+    return findGraphicsObject(m_peerAxesHandle, false);
 }
 //=============================================================================
 void
@@ -636,72 +581,25 @@ GOBubbleLegend::updateAutoLayout()
     if (applyLegendLayoutTile(this, m_peerAxesHandle, preferredSizeInPixels())) {
         return;
     }
+    GraphicsObject* peer = peerAxes();
     std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
     if (loc == GO_PROPERTY_VALUE_NONE_STR) {
+        releaseAxesLayoutSlot(peer, m_peerReservation);
         return;
     }
     GOFigure* fig = getParentFigure();
     if (!fig) {
         return;
     }
-    double figW = static_cast<double>(fig->getWidth());
-    double figH = static_cast<double>(fig->getHeight());
-    if (figW <= 0. || figH <= 0.) {
+    auto [pixelW, pixelH] = preferredSizeInPixels();
+    std::vector<double> placed = layoutDecorationAroundAxes(peer, loc, pixelW, pixelH,
+        static_cast<double>(fig->getWidth()), static_cast<double>(fig->getHeight()),
+        m_peerReservation);
+    if (placed.size() < 4) {
         return;
     }
-    std::vector<double> base = m_peerPositionBeforeResize.size() >= 4
-        ? m_peerPositionBeforeResize
-        : std::vector<double> { 0.13, 0.11, 0.775, 0.815 };
-    auto [pixelW, pixelH] = preferredSizeInPixels();
-    double w = pixelW / figW;
-    double h = pixelH / figH;
-    double gapX = 8.0 / figW;
-    double gapY = 8.0 / figH;
-    if (loc == L"layout") {
-        loc = GO_PROPERTY_VALUE_EASTOUTSIDE_STR;
-    }
-    double x = base[0] + base[2] - w - gapX;
-    double y = base[1] + base[3] - h - gapY;
-    if (loc == GO_PROPERTY_VALUE_NORTH_STR) {
-        x = base[0] + (base[2] - w) / 2.0;
-        y = base[1] + base[3] - h - gapY;
-    } else if (loc == GO_PROPERTY_VALUE_SOUTH_STR) {
-        x = base[0] + (base[2] - w) / 2.0;
-        y = base[1] + gapY;
-    } else if (loc == GO_PROPERTY_VALUE_EAST_STR) {
-        x = base[0] + base[2] - w - gapX;
-        y = base[1] + (base[3] - h) / 2.0;
-    } else if (loc == GO_PROPERTY_VALUE_WEST_STR) {
-        x = base[0] + gapX;
-        y = base[1] + (base[3] - h) / 2.0;
-    } else if (loc == L"northwest") {
-        x = base[0] + gapX;
-        y = base[1] + base[3] - h - gapY;
-    } else if (loc == L"southeast") {
-        x = base[0] + base[2] - w - gapX;
-        y = base[1] + gapY;
-    } else if (loc == L"southwest") {
-        x = base[0] + gapX;
-        y = base[1] + gapY;
-    } else if (isOutsideLocation(loc)) {
-        if (loc.find(L"west") != std::wstring::npos) {
-            x = std::max(0.0, base[0] - w - gapX);
-            y = base[1] + base[3] - h;
-        } else if (loc.find(L"south") != std::wstring::npos) {
-            x = base[0] + base[2] - w;
-            y = std::max(0.0, base[1] - h - gapY);
-        } else if (loc.find(L"north") != std::wstring::npos
-            && loc.find(L"east") == std::wstring::npos) {
-            x = base[0] + base[2] - w;
-            y = base[1] + base[3] + gapY;
-        } else {
-            x = base[0] + base[2] + gapX;
-            y = base[1] + base[3] - h;
-        }
-    }
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x, y, w, h);
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, placed[0], placed[1], placed[2], placed[3]);
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
-    applyLocationToPeerAxes();
 }
 //=============================================================================
 void

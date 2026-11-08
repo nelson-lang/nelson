@@ -122,8 +122,9 @@
     <p>&apos;southwest&apos; ou &apos;SW&apos; : en bas a gauche.</p>
     <p>
       Les emplacements exterieurs sont aussi pris en charge :
-      &apos;northoutside&apos;, &apos;southoutside&apos;, &apos;eastoutside&apos;
-      et &apos;westoutside&apos;.
+      &apos;northoutside&apos;, &apos;southoutside&apos;, &apos;eastoutside&apos;,
+      &apos;westoutside&apos;, &apos;northeastoutside&apos;, &apos;northwestoutside&apos;,
+      &apos;southeastoutside&apos;, &apos;southwestoutside&apos; et &apos;bestoutside&apos;.
     </p>
     <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.legend.properties">proprietes de legend</link> pour la liste complete des proprietes.</p>
   </description>

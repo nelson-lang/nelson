@@ -113,7 +113,8 @@
     <p>
       Outside locations are also supported:
       &apos;northoutside&apos;, &apos;southoutside&apos;, &apos;eastoutside&apos;,
-      and &apos;westoutside&apos;.
+      &apos;westoutside&apos;, &apos;northeastoutside&apos;, &apos;northwestoutside&apos;,
+      &apos;southeastoutside&apos;, &apos;southwestoutside&apos; and &apos;bestoutside&apos;.
     </p>
     <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.legend.properties">legend properties</link> for the complete property list.</p>
   </description>

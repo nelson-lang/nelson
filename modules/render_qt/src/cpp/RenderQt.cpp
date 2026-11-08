@@ -924,6 +924,33 @@ RenderQt::quadStrips(const std::vector<std::vector<coloredPoint>>& faces, bool f
                             appendBspInterpolatedPolygon(
                                 fpts, colors, QColor(0, 0, 0, 0), 0., GO_PROPERTY_VALUE_NONE_STR);
                         } else {
+                            // An unclipped quad carries its mesh edges (per meshstyle), painted
+                            // right after its fill; a clipped one keeps the separate segments.
+                            auto unclipped = [&]() {
+                                if (clipped.size() != quad.size()) {
+                                    return false;
+                                }
+                                for (size_t k = 0; k < quad.size(); ++k) {
+                                    if (clipped[k].x != quad[k].x || clipped[k].y != quad[k].y
+                                        || clipped[k].z != quad[k].z) {
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            };
+                            const bool ownEdges = edgeStrip != nullptr
+                                && lineStyle != GO_PROPERTY_VALUE_NONE_STR && unclipped();
+                            if (ownEdges) {
+                                const bool column
+                                    = meshstyle == meshStyle::Both || meshstyle == meshStyle::Column;
+                                const bool row
+                                    = meshstyle == meshStyle::Both || meshstyle == meshStyle::Row;
+                                const std::vector<bool> edgeVisible = { column, row, column, row };
+                                appendBspPolygon(fpts, colorFromPoint((*faceStrip)[j - 2]),
+                                    colorFromPoint((*edgeStrip)[j - 2]), edgeWidthPx, lineStyle,
+                                    &edgeVisible);
+                                continue;
+                            }
                             appendBspPolygon(fpts, colorFromPoint((*faceStrip)[j - 2]),
                                 QColor(0, 0, 0, 0), 0., GO_PROPERTY_VALUE_NONE_STR);
                         }

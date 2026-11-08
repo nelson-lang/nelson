@@ -57,12 +57,12 @@
 <text x="102.404" y="329.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">4000</text>
 <text x="102.404" y="202.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">5000</text>
 <text x="102.404" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">6000</text>
-<polygon points="175,140.625 331.25,140.625 331.25,81.25 175,81.25 " fill="rgba(255,255,255,1.000000)"/>
-<polyline points="175,140.625 331.25,140.625 331.25,81.25 175,81.25 175,140.625 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
-<polygon points="184.375,102.344 217.188,102.344 217.188,92.9688 184.375,92.9688 " fill="rgba(16,112,189,1.000000)"/>
-<polyline points="184.375,102.344 217.188,102.344 217.188,92.9688 184.375,92.9688 184.375,102.344 " fill="none" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="231.25" y="102.12" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">Sales</text>
-<polygon points="184.375,122.656 217.188,122.656 217.188,113.281 184.375,113.281 " fill="rgba(220,83,0,1.000000)"/>
-<polyline points="184.375,122.656 217.188,122.656 217.188,113.281 184.375,113.281 184.375,122.656 " fill="none" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="231.25" y="122.433" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">Revenue</text>
+<polygon points="179.167,134.335 333.854,134.335 333.854,85.4167 179.167,85.4167 " fill="rgba(255,255,255,1.000000)"/>
+<polyline points="179.167,134.335 333.854,134.335 333.854,85.4167 179.167,85.4167 179.167,134.335 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
+<polygon points="185.417,106.617 247.917,106.617 247.917,91.4098 185.417,91.4098 " fill="rgba(16,112,189,1.000000)"/>
+<polyline points="185.417,106.617 247.917,106.617 247.917,91.4098 185.417,91.4098 185.417,106.617 " fill="none" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="256.25" y="103.478" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">Sales</text>
+<polygon points="185.417,128.342 247.917,128.342 247.917,113.135 185.417,113.135 " fill="rgba(220,83,0,1.000000)"/>
+<polyline points="185.417,128.342 247.917,128.342 247.917,113.135 185.417,113.135 185.417,128.342 " fill="none" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="256.25" y="125.203" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">Revenue</text>
 </svg>

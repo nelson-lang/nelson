@@ -158,12 +158,12 @@
 <text x="118.639" y="329.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">10⁴</text>
 <text x="118.639" y="202.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">10⁵</text>
 <text x="118.639" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">10⁶</text>
-<polygon points="175,140.625 273.438,140.625 273.438,81.25 175,81.25 " fill="rgba(255,255,255,1.000000)"/>
-<polyline points="175,140.625 273.438,140.625 273.438,81.25 175,81.25 175,140.625 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
-<line x1="184.375" y1="97.6562" x2="217.188" y2="97.6562" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167" stroke-dasharray="4.166667,4.166667"/>
-<text x="231.25" y="105.714" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">x</text>
-<text x="240.625" y="98.4686" fill="rgba(32,32,32,1.000000)" font-size="13.125" font-family="sans-serif" text-anchor="start">2</text>
-<line x1="184.375" y1="117.969" x2="217.188" y2="117.969" stroke="rgba(220,83,0,1.000000)" stroke-width="1.04167"/>
-<text x="231.25" y="126.027" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">x</text>
-<text x="240.625" y="118.781" fill="rgba(32,32,32,1.000000)" font-size="13.125" font-family="sans-serif" text-anchor="start">3</text>
+<polygon points="179.167,134.335 276.042,134.335 276.042,85.4167 179.167,85.4167 " fill="rgba(255,255,255,1.000000)"/>
+<polyline points="179.167,134.335 276.042,134.335 276.042,85.4167 179.167,85.4167 179.167,134.335 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
+<line x1="185.417" y1="99.0135" x2="247.917" y2="99.0135" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167" stroke-dasharray="4.166667,4.166667"/>
+<text x="256.25" y="107.071" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">x</text>
+<text x="265.625" y="99.8259" fill="rgba(32,32,32,1.000000)" font-size="13.125" font-family="sans-serif" text-anchor="start">2</text>
+<line x1="185.417" y1="120.739" x2="247.917" y2="120.739" stroke="rgba(220,83,0,1.000000)" stroke-width="1.04167"/>
+<text x="256.25" y="128.796" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">x</text>
+<text x="265.625" y="121.551" fill="rgba(32,32,32,1.000000)" font-size="13.125" font-family="sans-serif" text-anchor="start">3</text>
 </svg>

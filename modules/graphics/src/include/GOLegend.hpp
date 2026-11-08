@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <set>
+#include "GOAxesLayoutManager.hpp"
 #include "GraphicsObject.hpp"
 #include "Types.hpp"
 #include "nlsGraphics_exports.h"
@@ -18,6 +19,28 @@ namespace Nelson {
 //=============================================================================
 class NLSGRAPHICS_IMPEXP GOLegend : public GraphicsObject
 {
+public:
+    // Pixel layout of the box, shared by the size, the drawing and the hit test:
+    // paddings, icon column, row pitch and title band, all in pixels.
+    struct LegendLayout
+    {
+        double padLeft = 4.0;
+        double padRight = 5.0 / 3.0;
+        double iconTextGap = 16.0 / 3.0;
+        double padTop = 1.75;
+        double padBottom = 1.75;
+        double iconWidth = 40.0;
+        double rowPitch = 14.0;
+        double titleBand = 0.0;
+        double titleWidth = 0.0;
+        double maxTextWidth = 0.0;
+        double columnWidth = 0.0;
+        int columns = 1;
+        int rows = 0;
+        double width = 0.0;
+        double height = 0.0;
+    };
+
 private:
     int64 m_peerAxesHandle = 0;
     int64 m_titleHandle = 0;
@@ -26,8 +49,22 @@ private:
     std::vector<int64> m_iconHandles;
     std::vector<int64> m_textHandles;
     std::set<int64> m_seenPeerChildren;
-    std::vector<double> m_peerPositionBeforeResize;
+    // Room taken from the peer axes by an outside Location.
+    AxesLayoutReservation m_peerReservation;
+    // Position the automatic layout last wrote: a Position flagged changed with
+    // that value (figure resize) is not a user override.
+    std::vector<double> m_autoLayoutPosition;
+    // The peer axes repaint re-runs every legend: the layout runs once per pass.
+    bool m_inAutoLayout = false;
     FontSpec m_font;
+    // Metrics measured once per update: size, drawing and hit test reuse them.
+    mutable bool m_metricsValid = false;
+    mutable LegendLayout m_metrics;
+
+    GraphicsObject*
+    peerAxes();
+    bool
+    isAutoLayoutPosition(const std::vector<double>& position) const;
 
     void
     constructProperties();
@@ -50,9 +87,9 @@ private:
     void
     drawBackground(RenderInterface& gc, const std::vector<double>& pos);
     void
-    drawTitle(RenderInterface& gc, const std::vector<double>& pos, double& y);
+    drawTitle(RenderInterface& gc, const std::vector<double>& pos, const LegendLayout& m);
     void
-    drawEntries(RenderInterface& gc, const std::vector<double>& pos, double y);
+    drawEntries(RenderInterface& gc, const std::vector<double>& pos, const LegendLayout& m);
     std::vector<double>
     positionAsPixels(RenderInterface& gc);
     std::vector<double>
@@ -61,10 +98,15 @@ private:
     visibleLabels() const;
     int
     effectiveNumColumns(size_t labelCount) const;
-    double
-    entryRowHeight() const;
+    // True when every entry is a marker without a line: the icon column then
+    // shrinks to the marker (markerPixels is the widest marker).
+    bool
+    markerOnlyEntries(double& markerPixels) const;
 
 public:
+    LegendLayout
+    layoutMetrics() const;
+
     GOLegend();
     ~GOLegend() override;
 
@@ -104,8 +146,6 @@ public:
     getTextHandles() const;
     std::pair<double, double>
     preferredSizeInPixels() const;
-    void
-    applyLocationToPeerAxes();
     void
     restorePeerAxesPosition();
     bool

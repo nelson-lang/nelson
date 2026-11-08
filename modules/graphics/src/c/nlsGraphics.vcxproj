@@ -116,6 +116,7 @@
     <ClInclude Include="..\include\GOColorBarGeometry.hpp" />
     <ClInclude Include="..\include\GOLegend.hpp" />
     <ClInclude Include="..\include\GOLegendLayout.hpp" />
+    <ClInclude Include="..\include\GOAxesLayoutManager.hpp" />
     <ClInclude Include="..\include\GOCommonProperties.hpp" />
     <ClInclude Include="..\include\GOCompassPlot.hpp" />
     <ClInclude Include="..\include\GOContour.hpp" />
@@ -324,6 +325,7 @@
     <ClCompile Include="..\cpp\GOColorBarUnits.cpp" />
     <ClCompile Include="..\cpp\GOLegend.cpp" />
     <ClCompile Include="..\cpp\GOLegendLayout.cpp" />
+    <ClCompile Include="..\cpp\GOAxesLayoutManager.cpp" />
     <ClCompile Include="..\cpp\GOLegendRender.cpp" />
     <ClCompile Include="..\cpp\GOCommonProperties.cpp" />
     <ClCompile Include="..\cpp\GOCompassPlot.cpp" />

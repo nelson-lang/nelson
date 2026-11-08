@@ -22,11 +22,14 @@ drawnow();
 W = f.Position(3);
 H = f.Position(4);
 p = lg.Position;
-rowH = max(10, ceil(lg.FontSize * 1.35));
-y0 = p(2) * H + p(4) * H - 4;
-baseX = p(1) * W + 6;
-labelPoint = [baseX + 40, y0 - rowH * 1.5];
-iconPoint = [baseX + 3, y0 - rowH * 1.5];
+% row pitch is one text line (1.117 em) plus half a pixel, rows start 1.75 px
+% under the top edge; the icon column is 30 points, the label follows a 16/3 px gap
+rowH = 1.117 * lg.FontSize * 96 / 72 + 0.5;
+y0 = p(2) * H + p(4) * H - 1.75;
+baseX = p(1) * W + 4;
+iconW = 30 * 96 / 72;
+labelPoint = [baseX + iconW + 16 / 3 + 5, y0 - rowH * 1.5];
+iconPoint = [baseX + 10, y0 - rowH * 1.5];
 %=============================================================================
 % a normal click on a label, or a double-click on an icon, does not edit
 __figure_mouse_event__(f, 'press', labelPoint, 'web');

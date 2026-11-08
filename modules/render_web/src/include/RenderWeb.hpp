@@ -60,6 +60,7 @@ struct WebDrawPrimitive
     // with no camera-ward bias, so it is hidden by any nearer opaque face.
     bool solidEdge = false;
     bool webglFallback = false; // retained for software capture, skipped by WebGL display
+    bool smoothImage = false; // oversampled z-buffer raster: scale it filtered, never pixelated
     // kind == "points": a batch of markers of one shape, in screen pixels.
     // pointColors is the per-point fill and pointEdgeColors the per-point outline
     // (empty = none); a marker may have one, the other, or both. pointShape is a
@@ -530,8 +531,10 @@ private:
         meshStyle meshstyle, double lineWidth, bool webglFallback, int oversample,
         bool transparent = false);
     bool
-    tryPushZBufferedPatch(
-        const FaceList& faces, const PatchRenderOptions& options, bool webglFallback);
+    patchHasDepthRange(const FaceList& faces);
+    bool
+    tryPushZBufferedPatch(const FaceList& faces, const PatchRenderOptions& options,
+        bool webglFallback, bool& edgesRasterized);
     bool
     tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& options);
     bool

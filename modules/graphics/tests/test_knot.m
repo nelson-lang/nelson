@@ -54,6 +54,20 @@ ax = get(h, 'Parent');
 assert_isequal(char(get(ax, 'Visible')), 'off');
 close(f);
 %=============================================================================
+% knot() frames the tube as a tight data cube; a following 'axis equal' keeps it
+% fitted and centered, with equal limits on every axis and a cubic plot box.
+f = figure('Visible', 'off');
+knot();
+axis equal;
+ax = gca();
+dataBounds = [min(x(:)), max(x(:))];
+assert_isapprox(get(ax, 'XLim'), dataBounds, 1e-10);
+assert_isapprox(get(ax, 'YLim'), dataBounds, 1e-10);
+assert_isapprox(get(ax, 'ZLim'), dataBounds, 1e-10);
+assert_isequal(get(ax, 'DataAspectRatio'), [1 1 1]);
+assert_isapprox(get(ax, 'PlotBoxAspectRatio'), [1 1 1], 1e-10);
+close(f);
+%=============================================================================
 % A target axes can be supplied.
 f = figure('Visible', 'off');
 ax = axes();

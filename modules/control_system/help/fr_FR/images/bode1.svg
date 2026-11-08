@@ -84,6 +84,6 @@
 <text x="107.053" y="721.366" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-135</text>
 <text x="118.639" y="615.116" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-90</text>
 <text x="118.639" y="508.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-45</text>
-<text x="555.509" y="876.875" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Fréquence [rad/s]</text>
-<text x="0" y="0" transform="translate(79.5186,728.345) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Phase [deg]</text>
+<text x="555.509" y="875.313" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Fréquence [rad/s]</text>
+<text x="0" y="0" transform="translate(79.5186,725.22) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Phase [deg]</text>
 </svg>

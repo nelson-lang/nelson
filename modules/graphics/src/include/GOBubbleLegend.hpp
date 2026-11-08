@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "GOAxesLayoutManager.hpp"
 #include "GraphicsObject.hpp"
 #include "Types.hpp"
 #include "nlsGraphics_exports.h"
@@ -21,8 +22,12 @@ private:
     int64 m_peerAxesHandle = 0;
     int64 m_titleHandle = 0;
     int64 m_layoutHandle = 0;
-    std::vector<double> m_peerPositionBeforeResize;
+    // Room taken from the peer axes by an outside Location.
+    AxesLayoutReservation m_peerReservation;
     FontSpec m_font;
+
+    GraphicsObject*
+    peerAxes();
 
     void
     constructProperties();
@@ -40,8 +45,6 @@ private:
     drawTitle(RenderInterface& gc, const std::vector<double>& pos, double& y);
     void
     drawBubbles(RenderInterface& gc, const std::vector<double>& pos, double y);
-    void
-    applyLocationToPeerAxes();
     void
     updateAutoLayout();
     void

@@ -39,18 +39,25 @@ for k = 1:numel(lineHandles)
 end
 asserts.isequal(sort(markerSizes), [6 6]);
 lgd = findobj(f, 'Type', 'legend');
-asserts.isequal(lgd.Units, 'pixels');
-asserts.istrue(lgd.Position(3) < 90);
-asserts.istrue(lgd.Position(4) <= 60);
+% The legend sits outside the plot box, top right, and the axes gives it the
+% room; the axes layout keeps it placed, so the figure SizeChangedFcn stays
+% free (as a native chart leaves it).
+asserts.istrue(isempty(f.SizeChangedFcn));
+asserts.isequal(char(lgd.Location), 'northeastoutside');
+assertBubbleCloudLegendOutside(ax, lgd, true);
+legendPixelSize = lgd.Position(3:4) .* f.Position(3:4);
+% A resize keeps it outside and in view at the same pixel size, with no
+% SizeChangedFcn.
 figPosition = f.Position;
-expectedPosition = expectedBubbleCloudLegendPosition(figPosition, lgd.Position(3:4));
-asserts.isapprox(lgd.Position(1:2), expectedPosition, 1e-12);
-asserts.isfalse(isempty(f.SizeChangedFcn));
 f.Position = [figPosition(1:2), figPosition(3:4) * 1.25];
-feval(f.SizeChangedFcn, f, []);
-figPosition = f.Position;
-expectedPosition = expectedBubbleCloudLegendPosition(figPosition, lgd.Position(3:4));
-asserts.isapprox(lgd.Position(1:2), expectedPosition, 1e-12);
+drawnow();
+asserts.istrue(isempty(f.SizeChangedFcn));
+assertBubbleCloudLegendOutside(ax, lgd, false);
+asserts.isapprox(lgd.Position(3:4) .* f.Position(3:4), legendPixelSize, 1e-6);
+f.Position = [figPosition(1:2), figPosition(3:4) * 0.6];
+drawnow();
+assertBubbleCloudLegendOutside(ax, lgd, false);
+asserts.isapprox(lgd.Position(3:4) .* f.Position(3:4), legendPixelSize, 1e-6);
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');
@@ -70,19 +77,22 @@ asserts.istrue(istable(h.SourceTable));
 asserts.isapprox(f.Position(3:4), groot().DefaultFigurePosition(3:4), 1e-12);
 asserts.isapprox(h.Position, [0.13 0.11 0.775 0.815], 1e-15);
 ax = h.Children;
-asserts.isapprox(ax.Position, [0.13 0.11 0.775 0.815], 1e-15);
-asserts.isapprox(ax.XLim, [-2.52421356237309 2.11], 1e-12);
-asserts.isapprox(ax.YLim, [-1.45 1.45], 1e-12);
+% the outside legend narrows the axes from the default box, keeping its left edge
+asserts.isapprox(ax.Position([1 2 4]), [0.13 0.11 0.815], 1e-15);
+asserts.istrue(ax.Position(3) < 0.775);
+% the data box takes the aspect of the axes box, with a 0.12 margin around the bubbles
+asserts.isapprox(ax.XLim, [-2.53421356237309 2.12], 1e-12);
+boxPixels = ax.Position(3:4) .* f.Position(3:4);
+asserts.isapprox(diff(ax.XLim) / diff(ax.YLim), boxPixels(1) / boxPixels(2), 1e-9);
+asserts.isapprox(ax.DataAspectRatio, [1 1 1], 1e-12);
 asserts.isequal(numel(ax.XTick), 0);
 asserts.isequal(numel(ax.YTick), 0);
 asserts.isequal(char(ax.Box), 'on');
 asserts.isequal(ax.XColor, 'none');
 asserts.isequal(ax.YColor, 'none');
 lgd = findobj(f, 'Type', 'legend');
-asserts.isequal(lgd.Units, 'pixels');
-asserts.istrue(lgd.Position(3) < 90);
-asserts.istrue(lgd.Position(4) <= 60);
-asserts.isapprox(lgd.Position(1:2), expectedBubbleCloudLegendPosition(f.Position, lgd.Position(3:4)), 1e-12);
+asserts.isequal(char(lgd.Location), 'northeastoutside');
+assertBubbleCloudLegendOutside(ax, lgd, true);
 asserts.isequal(lgd.String, {'G1', 'G2'});
 asserts.isequal(lgd.Title.String, 'Group');
 asserts.isapprox(bubbleCloudTextPosition(ax, 'A'), [-0.5 0], 1e-12);
@@ -197,12 +207,6 @@ asserts.checkerror('bubblecloud([1 2; 3 4]);', getString(message('Nelson:validat
 asserts.checkerror('f = figure(''Visible'', ''off''); ax = axes(); bubblecloud(ax, [1 2]); close(f);', getString(message('Nelson:bubblecloud:bubbleCloudCannotBeA')));
 asserts.checkerror('bubblecloud([1], {''a''}, {''g''}, ''BadName'', 1);', getString(message('Nelson:graphics:unsupportedProperty', 'bubblecloud')));
 %=============================================================================
-function position = expectedBubbleCloudLegendPosition(figPosition, legendSize)
-  margin = 8;
-  position = [figPosition(3) - legendSize(1) - margin, ...
-    figPosition(4) - legendSize(2) - margin];
-end
-%=============================================================================
 function position = bubbleCloudTextPosition(ax, label)
   handles = findobj(ax, 'Type', 'text');
   for k = 1:numel(handles)
@@ -212,5 +216,33 @@ function position = bubbleCloudTextPosition(ax, label)
     end
   end
   error(['Text label not found: ', label]);
+end
+%=============================================================================
+function assertBubbleCloudLegendOutside(ax, lgd, checkWidth)
+  % legend right of the drawn box and top aligned with it, inside the figure
+  f = ancestor(ax, 'figure');
+  W = f.Position(3);
+  H = f.Position(4);
+  if checkWidth
+    % at creation the box gives up room only when the legend does not fit the
+    % right margin: its width plus an 8 point gap and a 16 point pad
+    gap = 8 * 96 / 72;
+    legendWidth = lgd.Position(3) * W;
+    expectedWidth = min(0.775, (W - legendWidth - 3 * gap) / W - 0.13);
+    asserts.isapprox(ax.Position(3), expectedWidth, 1e-6);
+  end
+  % the locked data aspect ratio centres the data box inside Position
+  pixelW = ax.Position(3) * W;
+  pixelH = ax.Position(4) * H;
+  dar = ax.DataAspectRatio;
+  aspect = (diff(ax.XLim) / dar(1)) / (diff(ax.YLim) / dar(2));
+  drawnW = min(pixelW, pixelH * aspect) / W;
+  drawnH = min(pixelH, pixelW / aspect) / H;
+  drawnTop = ax.Position(2) + (ax.Position(4) + drawnH) / 2;
+  drawnRight = ax.Position(1) + (ax.Position(3) + drawnW) / 2;
+  asserts.istrue(lgd.Position(1) >= drawnRight);
+  asserts.isapprox(lgd.Position(2) + lgd.Position(4), drawnTop, 1e-9);
+  asserts.istrue(lgd.Position(1) + lgd.Position(3) <= 1);
+  asserts.istrue(lgd.Position(2) >= 0 && lgd.Position(2) + lgd.Position(4) <= 1);
 end
 %=============================================================================

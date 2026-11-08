@@ -12,6 +12,7 @@
 #include <cmath>
 #include "GOArrayOfProperty.hpp"
 #include "GOColorBarGeometry.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
@@ -174,66 +175,28 @@ isEastLocation(const std::wstring& loc)
     return loc == GO_PROPERTY_VALUE_EAST_STR || loc == GO_PROPERTY_VALUE_EASTOUTSIDE_STR;
 }
 //=============================================================================
-static double
-constrainedPlotBoxAspect(GOAxis* axis)
-{
-    // Effective drawn plot-box aspect (width : height, in pixels) when the peer
-    // axes locks its aspect ratio. Returns 0.0 when the axes is unconstrained.
-    if (!axis->isAuto(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR)) {
-        std::vector<double> pba
-            = axis->findVectorDoubleProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR);
-        if (pba.size() >= 2 && pba[0] > 0.0 && pba[1] > 0.0) {
-            return pba[0] / pba[1];
-        }
-    }
-    if (!axis->isAuto(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR)) {
-        std::vector<double> xlim = axis->findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
-        std::vector<double> ylim = axis->findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-        std::vector<double> dar
-            = axis->findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR);
-        if (xlim.size() >= 2 && ylim.size() >= 2 && dar.size() >= 2) {
-            double dx = std::fabs(xlim[1] - xlim[0]);
-            double dy = std::fabs(ylim[1] - ylim[0]);
-            if (dx > 0.0 && dy > 0.0 && dar[0] > 0.0 && dar[1] > 0.0) {
-                return (dx * dar[1]) / (dy * dar[0]);
-            }
-        }
-    }
-    return 0.0;
-}
-//=============================================================================
 std::vector<double>
 constrainedColorBarPosition(GraphicsObject* peer, const std::wstring& loc,
     const std::vector<double>& colorBarPosition, const std::vector<double>& peerBox,
     double figureWidth, double figureHeight)
 {
     std::vector<double> result = colorBarPosition;
-    GOAxis* axis = dynamic_cast<GOAxis*>(peer);
-    if (!axis || !axis->is2D() || result.size() < 4 || peerBox.size() < 4 || figureWidth <= 0.0
-        || figureHeight <= 0.0 || peerBox[2] <= 0.0 || peerBox[3] <= 0.0) {
+    if (result.size() < 4 || peerBox.size() < 4) {
         return result;
     }
-    double target = constrainedPlotBoxAspect(axis);
-    if (!(target > 0.0) || !std::isfinite(target)) {
+    // The colorbar hugs the box the peer really draws when its aspect is locked.
+    std::vector<double> drawn = axesDrawnBox(peer, peerBox, figureWidth, figureHeight);
+    if (drawn.size() < 4 || drawn == peerBox) {
         return result;
-    }
-    double pxW = peerBox[2] * figureWidth;
-    double pxH = peerBox[3] * figureHeight;
-    double boxW = pxW;
-    double boxH = pxH;
-    if (pxW / pxH >= target) {
-        boxW = pxH * target;
-    } else {
-        boxH = pxW / target;
     }
     const double px = peerBox[0];
     const double py = peerBox[1];
     const double pw = peerBox[2];
     const double ph = peerBox[3];
-    const double bw = boxW / figureWidth;
-    const double bh = boxH / figureHeight;
-    const double bx = px + (pw - bw) * 0.5;
-    const double by = py + (ph - bh) * 0.5;
+    const double bx = drawn[0];
+    const double by = drawn[1];
+    const double bw = drawn[2];
+    const double bh = drawn[3];
 
     if (isHorizontalLocation(loc)) {
         double scaleX = pw > 0.0 ? bw / pw : 1.0;

@@ -1083,13 +1083,14 @@ expandDepthProjectionRange(double& amin, double& amax)
     rerange(amin, amax, range * DEPTH_PROJECTION_CLIP_EXPANSION);
 }
 //=============================================================================
-// The projected data box fills the axes along the dimension where it is relatively larger:
-// the width when xSpan / width >= ySpan / height, the height otherwise. The automatic
-// camera view angle spans that limiting extent, with no correction for the viewport aspect.
+// The view angle spans the extent that fills the axes first. A box stretched to the viewport
+// ('axis equal') ties: the width then wins, so a frozen angle keeps the whole box in view.
+// The tolerance absorbs the device-pixel rounding between the layout size and the on-screen
+// viewport (859x517 at 125 % renders in 1074x646), which would otherwise flip the choice.
 bool
 GOAxis::viewAngleSpansWidth(double xSpan, double ySpan, double width, double height)
 {
-    return xSpan * height >= ySpan * width;
+    return xSpan * height >= ySpan * width * (1.0 - 5e-3);
 }
 //=============================================================================
 double
@@ -3303,7 +3304,11 @@ GOAxis::recalculateTicks()
         clearChanged(GO_Z_LIM_PROPERTY_NAME_STR);
         limits = getAxisLimits();
     }
+    // Content in a top-down view with locked aspect ratios centres its hidden depth range
+    // on zero so it matches the horizontal half-span. A surface carries a real depth extent,
+    // so with tight depth limits its Z stays pinned to the data instead of being centred.
     if (axes2D && !zLogScale && isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)
+        && !(depthSortedSurface && zLimitMethod == GO_PROPERTY_VALUE_TIGHT_STR)
         && !isAuto(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR)
         && !isAuto(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR) && limits.size() >= 6
         && std::isfinite(limits[2]) && std::isfinite(limits[3]) && limits[3] > limits[2]) {
@@ -4461,6 +4466,30 @@ GOAxis::rePackFigure(bool force)
         rePackTitleArea();
         return;
     }
+    std::vector<double> outerpos(getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR));
+    std::vector<double> box = positionFromOuterPixels(outerpos);
+    if (box.size() < 4) {
+        return;
+    }
+    double width = 0;
+    double height = 0;
+    graphicsParentSizeInPixels(this, getParentFigure(), width, height);
+    std::wstring currentUnits = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    std::vector<double> convertedPosition
+        = convertFromPixelsPixelOrigin(currentUnits, box[0], box[1], box[2], box[3], width, height);
+    GOFourVectorProperty* hp
+        = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
+    hp->value(
+        convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
+    hp->clearModified();
+}
+//=============================================================================
+std::vector<double>
+GOAxis::positionFromOuterPixels(const std::vector<double>& outerpos)
+{
+    if (outerpos.size() < 4) {
+        return {};
+    }
     int titleHeight = 0;
     int xlabelHeight = 0;
     int ylabelHeight = 0;
@@ -4549,13 +4578,6 @@ GOAxis::rePackFigure(bool force)
     maxLabelHeight = std::max(titleHeight, xlabelHeight);
     maxLabelHeight = std::max(maxLabelHeight, ylabelHeight);
     maxLabelHeight = std::max(maxLabelHeight, zlabelHeight);
-    std::vector<double> outerpos(getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR));
-    double width = 0;
-    double height = 0;
-    graphicsParentSizeInPixels(this, getParentFigure(), width, height);
-    GOUnitsProperty* unitsProperty
-        = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
-    std::wstring currentUnits = unitsProperty->data();
     double leftInset = std::max(4.0, static_cast<double>(maxTickWidth + ylabelHeight + 4));
     double bottomInset = std::max(4.0, static_cast<double>(maxTickHeight + xlabelHeight + 4));
     double rightInset = 4.0;
@@ -4565,14 +4587,7 @@ GOAxis::rePackFigure(bool force)
     double poswidth = outerpos[2] * 0.775;
     double posheight = outerpos[3] * 0.815;
     if ((maxTickWidth == 0) && (maxTickHeight == 0) && (maxLabelHeight == 0)) {
-        GOFourVectorProperty* hp
-            = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
-        std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
-            currentUnits, posx0, posy0, poswidth, posheight, width, height);
-        hp->value(
-            convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
-        hp->clearModified();
-        return;
+        return { posx0, posy0, poswidth, posheight };
     }
     double leftMargin = std::max(outerpos[2] * 0.13, leftInset);
     double bottomMargin = std::max(outerpos[3] * 0.11, bottomInset);
@@ -4583,15 +4598,7 @@ GOAxis::rePackFigure(bool force)
     posy0 = outerpos[1] + bottomMargin;
     poswidth = outerpos[2] - leftMargin - rightMargin;
     posheight = outerpos[3] - bottomMargin - topMargin;
-    GOFourVectorProperty* hp
-        = static_cast<GOFourVectorProperty*>(findProperty(GO_POSITION_PROPERTY_NAME_STR));
-
-    std::vector<double> convertedPosition = convertFromPixelsPixelOrigin(
-        currentUnits, posx0, posy0, poswidth, posheight, width, height);
-
-    hp->value(
-        convertedPosition[0], convertedPosition[1], convertedPosition[2], convertedPosition[3]);
-    hp->clearModified();
+    return { posx0, posy0, poswidth, posheight };
 }
 //=============================================================================
 // A Position set by the user moves OuterPosition too: the outer box is the position grown by the
@@ -5586,6 +5593,27 @@ GOAxis::handlePlotBoxFlags()
         setThreeVectorDefault(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR, dar[0], dar[1], dar[2]);
         setThreeVectorDefault(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, pba[0], pba[1], pba[2]);
 
+        // Tight auto-limits are pinned to the data extent. With locked data units
+        // (manual DataAspectRatio) the plot box then takes the tightened data-range
+        // shape, instead of the limits stretching to keep an earlier plot box aspect.
+        // A plot box aspect set in this same pass is kept as given (it is 'axis equal'
+        // framing the box to the pixel area before it stretches the limits itself).
+        bool allTightLimits = xflag && yflag && zflag
+            && !hasChanged(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR)
+            && findStringProperty(GO_X_LIMIT_METHOD_PROPERTY_NAME_STR)
+                == GO_PROPERTY_VALUE_TIGHT_STR
+            && findStringProperty(GO_Y_LIMIT_METHOD_PROPERTY_NAME_STR)
+                == GO_PROPERTY_VALUE_TIGHT_STR
+            && findStringProperty(GO_Z_LIMIT_METHOD_PROPERTY_NAME_STR)
+                == GO_PROPERTY_VALUE_TIGHT_STR;
+        if (allTightLimits) {
+            std::vector<double> tightPba = { dx / dar[0], dy / dar[1], dz / dar[2] };
+            normalizeAspectRatio(tightPba);
+            setThreeVectorDefault(
+                GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR, tightPba[0], tightPba[1], tightPba[2]);
+            return;
+        }
+
         bool allAuto = xflag && yflag && zflag;
         bool oneManual = (!xflag && yflag && zflag) || (xflag && !yflag && zflag)
             || (xflag && yflag && !zflag);
@@ -5617,7 +5645,11 @@ GOAxis::handlePlotBoxFlags()
                 rerange(limits[0], limits[1], aspectRange(scale, pba[0], dar[0]));
                 rerange(limits[4], limits[5], aspectRange(scale, pba[2], dar[2]));
             } else if (!zflag) {
-                double scale = scaleFromRange(dz, pba[2], dar[2]);
+                // Top-down view: Z is the hidden depth, so a manual Z (such as an
+                // image's [-1 1]) must not drive the visible box. Keep X and Y at
+                // their data extent and give them equal units between themselves.
+                double scale = std::max(
+                    scaleFromRange(dx, pba[0], dar[0]), scaleFromRange(dy, pba[1], dar[1]));
                 rerange(limits[0], limits[1], aspectRange(scale, pba[0], dar[0]));
                 rerange(limits[2], limits[3], aspectRange(scale, pba[1], dar[1]));
             }
@@ -6784,6 +6816,14 @@ GOAxis::updateUnits()
 void
 GOAxis::updateState()
 {
+    // A decoration laying out from inside this update (the repaint runs the
+    // legends) must not re-enter it: it marks the axes dirty instead.
+    struct UpdateDepthGuard
+    {
+        int& depth;
+        explicit UpdateDepthGuard(int& d) : depth(d) { ++depth; }
+        ~UpdateDepthGuard() { --depth; }
+    } updateDepthGuard(m_updateDepth);
     ensureTextSubObjects();
     ensureYAxisRulers();
     ensureSingleAxisRuler(GO_X_AXIS_PROPERTY_NAME_STR, RULER_AXIS_X);
@@ -6809,9 +6849,10 @@ GOAxis::updateState()
     bool positionOrInnerPositionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR);
     bool outerPositionChanged = hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    if (outerPositionChanged) {
+    if (outerPositionChanged && !m_layoutOuterPosition) {
         m_outerPositionFromUser = true;
     }
+    m_layoutOuterPosition = false;
     bool uiAxesPositionHandled = syncUiAxesPositionProperties(this);
     if (!uiAxesPositionHandled) {
         syncOuterDrivenPositionTriplet(this);
@@ -7180,6 +7221,55 @@ void
 GOAxis::markStateDirty()
 {
     m_stateDirty = true;
+}
+//=============================================================================
+void
+GOAxis::requestLayoutUpdate()
+{
+    if (m_updateDepth > 0) {
+        markStateDirty();
+        return;
+    }
+    updateState();
+}
+//=============================================================================
+void
+GOAxis::setLayoutOuterPosition(const std::vector<double>& outerPosition)
+{
+    if (outerPosition.size() < 4) {
+        return;
+    }
+    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, outerPosition[0], outerPosition[1],
+        outerPosition[2], outerPosition[3]);
+    m_layoutOuterPosition = true;
+}
+//=============================================================================
+void
+GOAxis::setLayoutPosition(const std::vector<double>& position)
+{
+    if (position.size() < 4) {
+        return;
+    }
+    for (const std::wstring& name :
+        { GO_POSITION_PROPERTY_NAME_STR, GO_INNER_POSITION_PROPERTY_NAME_STR }) {
+        auto* hp = static_cast<GOFourVectorProperty*>(findProperty(name, false));
+        if (hp) {
+            hp->value(position[0], position[1], position[2], position[3]);
+            hp->clearModified();
+        }
+    }
+}
+//=============================================================================
+std::vector<double>
+GOAxis::layoutUnitsToPixels(const std::vector<double>& values)
+{
+    return unitsReinterpret(values);
+}
+//=============================================================================
+bool
+GOAxis::usesUiAxesLayout()
+{
+    return isUiFigureLike(getParentFigure());
 }
 //=============================================================================
 void
@@ -7628,11 +7718,8 @@ GOAxis::setupPerspectiveProjection(RenderInterface& gc, double zMappedMin, doubl
         || halfWidth <= 0) {
         return false;
     }
-    gc.projectPerspective(-halfWidth, halfWidth, -halfHeight, halfHeight, nearDist, farDist);
-    gc.viewport(position[0], position[1], position[2], position[3]);
-    if (stringCheck(GO_CLIPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
-        gc.clipToEntireFrame();
-    }
+    finishProjectionViewport(
+        gc, position, -halfWidth, halfWidth, -halfHeight, halfHeight, nearDist, farDist, true);
     return true;
 }
 //=============================================================================
@@ -7781,6 +7868,8 @@ GOAxis::updateCamera()
     if (hasChanged(GO_CAMERA_VIEW_ANGLE_PROPERTY_NAME_STR)) {
         toManual(GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR);
     }
+    // A manual view angle (set by hand or frozen by 'axis vis3d') is kept as given,
+    // whatever the limits do afterwards.
     if (isAuto(GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR)) {
         GOThreeVectorProperty* cameraPositionProperty = static_cast<GOThreeVectorProperty*>(
             findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));

@@ -92,6 +92,32 @@ public:
     void
     updateOuterPositionFromPosition();
     //=============================================================================
+    // Updates now, or only marks the axes dirty when called from inside its own
+    // update (a decoration laying out during the repaint), so it never re-enters.
+    void
+    requestLayoutUpdate();
+    //=============================================================================
+    // OuterPosition written by a layout manager: unlike a user value it keeps
+    // later Position edits moving the outer box.
+    void
+    setLayoutOuterPosition(const std::vector<double>& outerPosition);
+    //=============================================================================
+    // Position and InnerPosition values set by a layout manager, not flagged as edits.
+    void
+    setLayoutPosition(const std::vector<double>& position);
+    //=============================================================================
+    // Position box, in pixels, an outer box leaves after the loose inset or the
+    // room its tick labels, axis labels and title need, whichever is larger.
+    std::vector<double>
+    positionFromOuterPixels(const std::vector<double>& outerPixels);
+    //=============================================================================
+    std::vector<double>
+    layoutUnitsToPixels(const std::vector<double>& values);
+    //=============================================================================
+    // Inside a uifigure the outer box maps to Position with fixed insets instead.
+    bool
+    usesUiAxesLayout();
+    //=============================================================================
     void
     syncTitleTextLayout();
     //=============================================================================
@@ -267,6 +293,10 @@ private:
     // Height taken from the axes by rePackTitleArea, as a fraction of the parent
     // height, so the next call can give it back before measuring the title again.
     double m_titleRepackShrink = 0.0;
+    // Nesting depth of updateState: a layout request made while it runs is deferred.
+    int m_updateDepth = 0;
+    // The pending OuterPosition change came from a layout manager, not the user.
+    bool m_layoutOuterPosition = false;
     FontSpec m_font;
     GenericTable<std::wstring, GOGenericProperty*> properties;
     //=============================================================================
@@ -352,6 +382,12 @@ private:
     setupOrthographicProjection(RenderInterface& gc, const std::vector<double>& scale,
         const std::vector<double>& position, std::vector<double> bounds, double defaultViewAngle,
         bool angleSpansWidth);
+    // Installs the projection and viewport; a data box overflowing the axes rectangle
+    // (manual camera angle) widens the viewport so the overflow is drawn, as the reference does.
+    void
+    finishProjectionViewport(RenderInterface& gc, const std::vector<double>& position,
+        double left, double right, double bottom, double top, double nearDist, double farDist,
+        bool perspective);
     //=============================================================================
     // Returns false when the scene is degenerate for perspective, so the caller falls
     // back to the orthographic projection. zMappedMin/zMappedMax are the data-limit

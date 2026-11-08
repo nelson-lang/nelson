@@ -724,3 +724,110 @@ describe('isMatrixOnlyWebGlFrame', () => {
   });
 });
 //=============================================================================
+describe('WebGL face depth offset', () => {
+  it('draws filled faces with polygon offset so coplanar edge lines are not hidden', async () => {
+    const canvas = document.createElement('canvas');
+    const POLYGON_OFFSET_FILL = 0x8037;
+    const TRIANGLES = 0x0004;
+    const events: string[] = [];
+    let offsetOn = false;
+    let facesDrawnWithOffset = false;
+    const gl = {
+      ARRAY_BUFFER: 0x8892,
+      BLEND: 0x0be2,
+      COLOR_BUFFER_BIT: 0x4000,
+      COMPILE_STATUS: true,
+      DEPTH_BUFFER_BIT: 0x0100,
+      DEPTH_TEST: 0x0b71,
+      ELEMENT_ARRAY_BUFFER: 0x8893,
+      FLOAT: 0x1406,
+      FRAGMENT_SHADER: 0x8b30,
+      LEQUAL: 0x0203,
+      LINK_STATUS: true,
+      ONE_MINUS_SRC_ALPHA: 0x0303,
+      POLYGON_OFFSET_FILL,
+      SRC_ALPHA: 0x0302,
+      STATIC_DRAW: 0x88e4,
+      TRIANGLES,
+      UNSIGNED_INT: 0x1405,
+      UNSIGNED_SHORT: 0x1403,
+      VERTEX_SHADER: 0x8b31,
+      attachShader: () => {},
+      bindBuffer: () => {},
+      bindVertexArray: () => {},
+      blendFuncSeparate: () => {},
+      bufferData: () => {},
+      clear: () => {},
+      clearColor: () => {},
+      clearDepth: () => {},
+      colorMask: () => {},
+      compileShader: () => {},
+      createBuffer: () => ({}),
+      createProgram: () => ({}),
+      createShader: () => ({}),
+      createVertexArray: () => ({}),
+      deleteBuffer: () => {},
+      deleteProgram: () => {},
+      deleteShader: () => {},
+      deleteVertexArray: () => {},
+      depthFunc: () => {},
+      depthMask: () => {},
+      disable: (cap: number) => {
+        if (cap === POLYGON_OFFSET_FILL) {
+          offsetOn = false;
+          events.push('disableOffset');
+        }
+      },
+      drawArraysInstanced: () => {
+        events.push('drawLines');
+      },
+      drawElements: (mode: number) => {
+        if (mode === TRIANGLES) {
+          events.push('drawFaces');
+          if (offsetOn) facesDrawnWithOffset = true;
+        }
+      },
+      enable: (cap: number) => {
+        if (cap === POLYGON_OFFSET_FILL) {
+          offsetOn = true;
+          events.push('enableOffset');
+        }
+      },
+      enableVertexAttribArray: () => {},
+      getProgramInfoLog: () => '',
+      getProgramParameter: () => true,
+      getShaderInfoLog: () => '',
+      getShaderParameter: () => true,
+      getUniformLocation: () => ({}),
+      linkProgram: () => {},
+      polygonOffset: () => {},
+      shaderSource: () => {},
+      uniform1f: () => {},
+      uniform2f: () => {},
+      uniform4fv: () => {},
+      uniformMatrix4fv: () => {},
+      useProgram: () => {},
+      vertexAttribDivisor: () => {},
+      vertexAttribPointer: () => {},
+      viewport: () => {},
+    } as unknown as WebGL2RenderingContext;
+    const originalGetContext = canvas.getContext.bind(canvas);
+    canvas.getContext = ((kind: string) =>
+      kind === 'webgl2' ? gl : originalGetContext(kind as '2d')) as typeof canvas.getContext;
+    const renderer = await createFigureWebGlRenderer(canvas);
+    expect(renderer).not.toBeNull();
+    // A single opaque mesh skips the wireframe depth prepass, so the only face
+    // draw comes from the fill pass and must still carry the offset.
+    renderer?.render([mesh({ drawFaces: true })], 100, 100, 1);
+    expect(facesDrawnWithOffset).toBe(true);
+    expect(events).toContain('drawLines');
+    const enterFill = events.indexOf('enableOffset');
+    const faces = events.indexOf('drawFaces');
+    const leaveFill = events.indexOf('disableOffset');
+    expect(enterFill).toBeGreaterThanOrEqual(0);
+    expect(enterFill).toBeLessThan(faces);
+    expect(faces).toBeLessThan(leaveFill);
+    renderer?.destroy();
+  });
+});
+//=============================================================================

@@ -69,6 +69,8 @@ struct RenderQtBspVertex
     QPointF pixel;
     RGBAColorData color;
     bool hasColor = false;
+    // The edge to the next vertex is a real outline; a cut made by a clip or BSP split is not.
+    bool edgeToNext = true;
 };
 //=============================================================================
 struct RenderQtBspPrimitive
@@ -185,7 +187,8 @@ private:
     //=============================================================================
     void
     appendBspPolygon(const std::vector<point>& vertices, const QColor& fillColor,
-        const QColor& lineColor, double lineWidth, const std::wstring& lineStyle);
+        const QColor& lineColor, double lineWidth, const std::wstring& lineStyle,
+        const std::vector<bool>* edgeVisible = nullptr);
     //=============================================================================
     void
     appendBspInterpolatedPolygon(const std::vector<point>& vertices,

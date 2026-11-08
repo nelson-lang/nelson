@@ -153,9 +153,10 @@ GOLegend::drawBackground(RenderInterface& gc, const std::vector<double>& pos)
 }
 //=============================================================================
 void
-GOLegend::drawTitle(RenderInterface& gc, const std::vector<double>& pos, double& y)
+GOLegend::drawTitle(RenderInterface& gc, const std::vector<double>& pos, const LegendLayout& m)
 {
-    if (m_titleHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_titleHandle)) {
+    if (m.titleBand <= 0.0 || m_titleHandle < HANDLE_OFFSET_OBJECT
+        || isDeletedGraphicsObject(m_titleHandle)) {
         return;
     }
     GraphicsObject* title = findGraphicsObject(m_titleHandle, false);
@@ -166,19 +167,16 @@ GOLegend::drawTitle(RenderInterface& gc, const std::vector<double>& pos, double&
     const bool tex
         = title->findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_TEX_STR;
     std::vector<double> color = title->findVectorDoubleProperty(GO_COLOR_PROPERTY_NAME_STR);
-    drawLegendLabel(gc, pos[0] + pos[2] / 2.0, y, txt, color, RenderInterface::Mean,
-        RenderInterface::Max, m_font, tex);
-    int titleW = 0;
-    int titleH = 0;
-    measureGOText(tex ? texToUnicode(txt) : txt, m_font, titleW, titleH);
-    y -= titleH + 5.0;
+    // centred in the title band at the top of the box
+    drawLegendLabel(gc, pos[0] + pos[2] / 2.0, pos[1] + pos[3] - m.titleBand / 2.0, txt, color,
+        RenderInterface::Mean, RenderInterface::Mean, m_font, tex);
 }
 //=============================================================================
 void
-GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, double y)
+GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, const LegendLayout& m)
 {
     std::vector<std::wstring> labels = visibleLabels();
-    if (labels.empty()) {
+    if (labels.empty() || m.rows < 1) {
         return;
     }
     struct LegendEntry
@@ -195,19 +193,17 @@ GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, doubl
     if (findStringProperty(GO_DIRECTION_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_REVERSE_STR) {
         std::reverse(entries.begin(), entries.end());
     }
-    double rowHeight = entryRowHeight();
-    int columns = effectiveNumColumns(entries.size());
-    int rows = (int)std::ceil((double)entries.size() / (double)columns);
-    auto* iconWidthProperty = static_cast<GOScalarPositiveIntegerValueProperty*>(
-        findProperty(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR));
-    double iconWidth = iconWidthProperty->data();
-    double columnWidth = std::max(1.0, (pos[2] - 8.0) / (double)columns);
+    const double rowHeight = m.rowPitch;
+    const int rows = m.rows;
+    const double iconWidth = m.iconWidth;
+    // rows start under the title band, column-major
+    const double top = pos[1] + pos[3] - m.titleBand - m.padTop;
     std::vector<double> textColor = findVectorDoubleProperty(GO_TEXT_COLOR_PROPERTY_NAME_STR);
     for (size_t i = 0; i < entries.size(); ++i) {
         int col = (int)i / rows;
         int row = (int)i % rows;
-        double baseX = pos[0] + 6.0 + col * columnWidth;
-        double baseY = y - row * rowHeight - rowHeight / 2.0;
+        double baseX = pos[0] + m.padLeft + col * m.columnWidth;
+        double baseY = top - row * rowHeight - rowHeight / 2.0;
         GraphicsObject* plotObject = nullptr;
         if (entries[i].plotHandle >= HANDLE_OFFSET_OBJECT
             && !isDeletedGraphicsObject(entries[i].plotHandle)) {
@@ -226,15 +222,15 @@ GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, doubl
                 = bubbleMarkerColor(plotObject, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR, baseColor);
             std::vector<double> face
                 = bubbleMarkerColor(plotObject, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR, baseColor);
-            DrawSymbol(gc, RenderInterface::Circle, baseX + iconWidth * 0.35, baseY, 0,
+            DrawSymbol(gc, RenderInterface::Circle, baseX + iconWidth * 0.5, baseY, 0,
                 std::max(5.0, rowHeight * 0.55), edge, face, lw);
         } else if (usesFilledLegendIcon(plotObject)) {
             std::vector<double> faceColor
                 = objectColor(plotObject, GO_FACE_COLOR_PROPERTY_NAME_STR, lineColor);
             std::vector<double> edgeColor
                 = objectColor(plotObject, GO_EDGE_COLOR_PROPERTY_NAME_STR, textColor);
-            double halfHeight = std::max(3.0, rowHeight * 0.22);
-            double x2 = baseX + iconWidth * 0.7;
+            double halfHeight = std::max(3.0, rowHeight * 0.35);
+            double x2 = baseX + iconWidth;
             if (isDrawableColor(faceColor)) {
                 gc.color(faceColor);
                 gc.rectFill(baseX, baseY - halfHeight, x2, baseY + halfHeight);
@@ -250,8 +246,9 @@ GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, doubl
                 = plotObject && plotObject->haveProperty(GO_LINE_STYLE_PROPERTY_NAME_STR)
                 ? plotObject->findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR)
                 : L"-";
+            // the line spans the icon column, the marker sits at its middle
             gc.setLineStyle(lineStyle);
-            gc.line(baseX, baseY, baseX + iconWidth * 0.7, baseY);
+            gc.line(baseX, baseY, baseX + iconWidth, baseY);
             if (plotObject && plotObject->haveProperty(GO_MARKER_PROPERTY_NAME_STR)) {
                 RenderInterface::SymbolType marker
                     = StringToSymbol(plotObject->findStringProperty(GO_MARKER_PROPERTY_NAME_STR));
@@ -264,13 +261,13 @@ GOLegend::drawEntries(RenderInterface& gc, const std::vector<double>& pos, doubl
                         ? plotObject->findScalarDoubleProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR)
                         : 3.0;
                     DrawSymbol(
-                        gc, marker, baseX + iconWidth * 0.35, baseY, 0, markerSize, edge, face, lw);
+                        gc, marker, baseX + iconWidth * 0.5, baseY, 0, markerSize, edge, face, lw);
                 }
             }
         }
         const bool tex
             = findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_TEX_STR;
-        drawLegendLabel(gc, baseX + iconWidth, baseY, entries[i].label, textColor,
+        drawLegendLabel(gc, baseX + iconWidth + m.iconTextGap, baseY, entries[i].label, textColor,
             RenderInterface::Min, RenderInterface::Mean, m_font, tex);
     }
 }
@@ -285,9 +282,9 @@ GOLegend::paintMe(RenderInterface& gc)
     std::vector<double> pos = positionAsPixels(gc);
     gc.setupDirectDraw();
     drawBackground(gc, pos);
-    double y = pos[1] + pos[3] - 4.0;
-    drawTitle(gc, pos, y);
-    drawEntries(gc, pos, y);
+    const LegendLayout m = layoutMetrics();
+    drawTitle(gc, pos, m);
+    drawEntries(gc, pos, m);
     if (stringCheck(GO_SELECTED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)
         && stringCheck(GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
         gc.color(0.0, 0.4470, 0.7410);
@@ -325,17 +322,17 @@ GOLegend::hitTestEntry(
         return false;
     }
     std::vector<double> pos = positionAsPixels(width, height);
-    // same layout as drawEntries(): entries fill column-major in rows of
-    // entryRowHeight, starting from y0 = pos top minus 4.
-    double rowHeight = entryRowHeight();
-    int columns = effectiveNumColumns((size_t)n);
-    int rows = (int)std::ceil((double)n / (double)columns);
-    if (rows < 1 || rowHeight <= 0) {
+    // same layout as drawEntries(): entries fill column-major under the title band
+    const LegendLayout m = layoutMetrics();
+    const double rowHeight = m.rowPitch;
+    const int columns = m.columns;
+    const int rows = m.rows;
+    if (rows < 1 || rowHeight <= 0 || m.columnWidth <= 0) {
         return false;
     }
-    double columnWidth = std::max(1.0, (pos[2] - 8.0) / (double)columns);
-    double y0 = pos[1] + pos[3] - 4.0;
-    int col = (int)std::floor((x - (pos[0] + 6.0)) / columnWidth);
+    const double columnWidth = m.columnWidth;
+    double y0 = pos[1] + pos[3] - m.titleBand - m.padTop;
+    int col = (int)std::floor((x - (pos[0] + m.padLeft)) / columnWidth);
     int row = (int)std::floor((y0 - y) / rowHeight);
     if (col < 0) {
         col = 0;
@@ -354,11 +351,8 @@ GOLegend::hitTestEntry(
     if (findStringProperty(GO_DIRECTION_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_REVERSE_STR) {
         plotIndex = n - 1 - displayedIndex;
     }
-    double baseX = pos[0] + 6.0 + col * columnWidth;
-    auto* iconWidthProperty = static_cast<GOScalarPositiveIntegerValueProperty*>(
-        findProperty(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR));
-    double iconWidth = iconWidthProperty->data();
-    regionOut = (x <= baseX + iconWidth) ? 0 : 1;
+    double baseX = pos[0] + m.padLeft + col * columnWidth;
+    regionOut = (x <= baseX + m.iconWidth + m.iconTextGap / 2.0) ? 0 : 1;
     if (plotIndex >= 0 && plotIndex < (int)m_plotHandles.size()) {
         peerHandleOut = m_plotHandles[plotIndex];
     }

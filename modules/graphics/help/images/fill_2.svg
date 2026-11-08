@@ -2,9 +2,9 @@
 <rect x="0" y="0" width="1250" height="938" fill="#ffffff"/>
 <rect x="0" y="0" width="1250" height="937.5" fill="rgba(255,255,255,1.000000)"/>
 <polygon points="163.281,757.031 1132.03,757.031 1132.03,144.531 163.281,144.531 " fill="rgba(255,255,255,1.000000)"/>
-<polygon points="340.491,757.165 646.875,757.165 646.875,450.781 340.491,450.781 " fill="rgba(255,0,0,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
-<polygon points="493.683,603.973 800.067,603.973 800.067,297.589 493.683,297.589 " fill="rgba(0,255,0,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
-<polygon points="646.875,450.781 953.259,450.781 953.259,144.397 646.875,144.397 " fill="rgba(0,0,255,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
+<polygon points="340.301,757.355 646.875,757.355 646.875,450.781 340.301,450.781 " fill="rgba(255,0,0,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
+<polygon points="493.588,604.068 800.162,604.068 800.162,297.494 493.588,297.494 " fill="rgba(0,255,0,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
+<polygon points="646.875,450.781 953.449,450.781 953.449,144.207 646.875,144.207 " fill="rgba(0,0,255,1.000000)" stroke="rgba(32,32,32,1.000000)" stroke-width="1"/>
 <text x="442.413" y="611.855" fill="rgba(255,255,255,1.000000)" font-size="20.8333" font-family="sans-serif" font-weight="bold" text-anchor="start">Polygon 1</text>
 <text x="673.663" y="382.168" fill="rgba(255,255,255,1.000000)" font-size="20.8333" font-family="sans-serif" font-weight="bold" text-anchor="start">Polygon 2</text>
 <text x="750.226" y="611.855" fill="rgba(255,255,255,1.000000)" font-size="20.8333" font-family="sans-serif" font-weight="bold" text-anchor="start">Polygon 3</text>
@@ -26,13 +26,13 @@
 <line x1="953.906" y1="144.531" x2="953.906" y2="153.906" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1107.03" y1="757.031" x2="1107.03" y2="747.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1107.03" y1="144.531" x2="1107.03" y2="153.906" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="168.769" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-0.5</text>
-<text x="334.05" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="478.488" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.5</text>
-<text x="641.863" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
-<text x="786.301" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1.5</text>
-<text x="948.113" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2</text>
-<text x="1092.55" y="780.558" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2.5</text>
+<text x="168.769" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-0.5</text>
+<text x="334.05" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
+<text x="478.488" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.5</text>
+<text x="641.863" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
+<text x="786.301" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1.5</text>
+<text x="948.113" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2</text>
+<text x="1092.55" y="780.564" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2.5</text>
 <line x1="163.281" y1="757.031" x2="172.656" y2="757.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="757.031" x2="1122.66" y2="757.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="696.094" x2="172.656" y2="696.094" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>

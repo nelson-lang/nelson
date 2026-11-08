@@ -77,5 +77,20 @@ lastColor = frame.cdata(:, :, 1) == 0 & frame.cdata(:, :, 2) == 0 & frame.cdata(
 asserts.istrue(sum(lastColor(:)) > 1000);
 close(f);
 %=============================================================================
+% 'axis equal' then a title on an image keeps the image fully in view: the
+% hidden depth limits must not collapse the x and y extent.
+f = figure('Visible', 'off');
+I = zeros(100, 100);
+I(40:60, 20:80) = 128;
+imagesc(I);
+axis equal;
+axis tight;
+title('image');
+drawnow();
+ax = gca();
+asserts.isequal(ax.XLim, [0.5 100.5]);
+asserts.isequal(ax.YLim, [0.5 100.5]);
+close(f);
+%=============================================================================
 close all
 %=============================================================================

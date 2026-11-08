@@ -397,6 +397,9 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     }
     gl.depthMask(true);
     gl.useProgram(this.fillProgram);
+    // Push filled faces back in depth so a mesh's own edge lines, which share the face-edge positions, win the LEQUAL test instead of dropping out on steep slopes.
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(1, 1);
     for (let i = 0; i < meshes.length; i++) {
       const mesh = meshes[i];
       const resource = this.renderResources[i];
@@ -414,6 +417,7 @@ class WebGl2Renderer implements FigureWebGlRenderer {
       gl.bindVertexArray(resource.fillVao);
       gl.drawElements(gl.TRIANGLES, resource.triangleCount, resource.triangleIndexType, 0);
     }
+    gl.disable(gl.POLYGON_OFFSET_FILL);
     gl.depthMask(false);
     gl.useProgram(this.lineProgram);
     for (let i = 0; i < meshes.length; i++) {

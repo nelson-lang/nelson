@@ -14,6 +14,8 @@
 #include "RenderInterface.hpp"
 #include <algorithm>
 #include <cmath>
+#include <limits>
+#include <vector>
 //=============================================================================
 namespace Nelson {
 void
@@ -66,8 +68,75 @@ GOAxis::setupOrthographicProjection(RenderInterface& gc, const std::vector<doubl
             }
         }
     }
-    gc.project(xmin, xmax, ymin, ymax, -zmax, -zmin);
+    finishProjectionViewport(gc, position, xmin, xmax, ymin, ymax, -zmax, -zmin, false);
+}
+//=============================================================================
+// Shifts and stretches a projection range so the same data lands on the same pixels
+// once the viewport moves from [p0, p0 + pw] to [v0, v0 + vw].
+static void
+remapProjectionRange(double& lo, double& hi, double p0, double pw, double v0, double vw)
+{
+    const double span = hi - lo;
+    lo = lo + (v0 - p0) * span / pw;
+    hi = lo + span * vw / pw;
+}
+//=============================================================================
+void
+GOAxis::finishProjectionViewport(RenderInterface& gc, const std::vector<double>& position,
+    double left, double right, double bottom, double top, double nearDist, double farDist,
+    bool perspective)
+{
+    auto install = [&]() {
+        if (perspective) {
+            gc.projectPerspective(left, right, bottom, top, nearDist, farDist);
+        } else {
+            gc.project(left, right, bottom, top, nearDist, farDist);
+        }
+    };
+    install();
     gc.viewport(position[0], position[1], position[2], position[3]);
+    // Pixel box of the data limits under this projection: it exceeds the axes rectangle
+    // when a manual camera angle zooms in, and the reference still draws that overflow.
+    std::vector<double> limits(getAxisLimits());
+    double bx0 = std::numeric_limits<double>::infinity();
+    double by0 = bx0;
+    double bx1 = -bx0;
+    double by1 = -bx0;
+    for (int corner = 0; corner < 8 && limits.size() >= 6; ++corner) {
+        double px = 0;
+        double py = 0;
+        double depth = 0;
+        bool clipped = false;
+        gc.toPixels(limits[(corner & 1) ? 1 : 0], limits[(corner & 2) ? 3 : 2],
+            limits[(corner & 4) ? 5 : 4], px, py, depth, clipped);
+        // clipped also flags corners outside the viewport, the ones that matter here;
+        // only a corner behind the camera (depth sentinel 2) has no pixel position.
+        if (depth > 1.5 || !std::isfinite(px) || !std::isfinite(py)) {
+            continue;
+        }
+        bx0 = std::min(bx0, px);
+        bx1 = std::max(bx1, px);
+        by0 = std::min(by0, py);
+        by1 = std::max(by1, py);
+    }
+    const double x0 = position[0];
+    const double y0 = position[1];
+    const double x1 = position[0] + position[2];
+    const double y1 = position[1] + position[3];
+    const bool overflow = std::isfinite(bx0) && std::isfinite(by0) && position[2] > 0
+        && position[3] > 0
+        && (bx0 < x0 - 0.5 || by0 < y0 - 0.5 || bx1 > x1 + 0.5 || by1 > y1 + 0.5);
+    if (overflow) {
+        // The viewport grows to the overflow kept inside the frame, never below the axes box.
+        const double vx0 = std::min(x0, std::max(0.0, bx0));
+        const double vy0 = std::min(y0, std::max(0.0, by0));
+        const double vx1 = std::max(x1, std::min(gc.width(), bx1));
+        const double vy1 = std::max(y1, std::min(gc.height(), by1));
+        remapProjectionRange(left, right, x0, position[2], vx0, vx1 - vx0);
+        remapProjectionRange(bottom, top, y0, position[3], vy0, vy1 - vy0);
+        install();
+        gc.viewport(vx0, vy0, vx1 - vx0, vy1 - vy0);
+    }
     if (stringCheck(GO_CLIPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         gc.clipToEntireFrame();
     }

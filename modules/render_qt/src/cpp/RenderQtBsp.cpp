@@ -176,7 +176,10 @@ clipPolygonByPlane(const std::vector<RenderQtBspVertex>& input, int axis, double
     for (const auto& current : input) {
         bool currentInside = isInsideClipPlane(current, axis, limit, upper);
         if (currentInside != previousInside) {
-            output.push_back(intersectClipPlane(previous, current, axis, limit));
+            RenderQtBspVertex intersection = intersectClipPlane(previous, current, axis, limit);
+            // Leaving: the edge from the cut runs along the plane. Entering: the real edge goes on.
+            intersection.edgeToNext = currentInside && previous.edgeToNext;
+            output.push_back(intersection);
         }
         if (currentInside) {
             output.push_back(current);
@@ -298,16 +301,27 @@ splitPolygonByPlane(const BspPlane& plane, const RenderQtBspPrimitive& primitive
         bool currentBack = currentDistance < -BSP_EPSILON;
         bool nextFront = nextDistance > BSP_EPSILON;
         bool nextBack = nextDistance < -BSP_EPSILON;
+        // A vertex on the plane joins both parts; in the part its successor leaves,
+        // the edge after it runs along the cut and is not an outline.
         if (!currentBack) {
-            frontVertices.push_back(current);
+            RenderQtBspVertex copy = current;
+            copy.edgeToNext = current.edgeToNext && !(nextBack && !currentFront);
+            frontVertices.push_back(copy);
         }
         if (!currentFront) {
-            backVertices.push_back(current);
+            RenderQtBspVertex copy = current;
+            copy.edgeToNext = current.edgeToNext && !(nextFront && !currentBack);
+            backVertices.push_back(copy);
         }
         if ((currentFront && nextBack) || (currentBack && nextFront)) {
             RenderQtBspVertex intersection = intersectEdgeWithPlane(plane, current, next);
-            frontVertices.push_back(intersection);
-            backVertices.push_back(intersection);
+            // The part the edge leaves continues along the cut; the other part keeps the real edge.
+            RenderQtBspVertex leaving = intersection;
+            leaving.edgeToNext = false;
+            RenderQtBspVertex entering = intersection;
+            entering.edgeToNext = current.edgeToNext;
+            frontVertices.push_back(currentFront ? leaving : entering);
+            backVertices.push_back(currentFront ? entering : leaving);
         }
     }
     front = withVertices(primitive, std::move(frontVertices));
@@ -357,6 +371,11 @@ classifyPrimitive(const BspPlane& plane, const RenderQtBspPrimitive& primitive)
     }
     if (hasBack) {
         return PrimitiveSide::Back;
+    }
+    // A line lying on a face plane (a mesh edge) goes to the camera side, so it is
+    // painted after every face it outlines instead of in insertion order.
+    if (primitive.type == RenderQtBspPrimitiveType::Polyline) {
+        return plane.d > BSP_EPSILON ? PrimitiveSide::Front : PrimitiveSide::Back;
     }
     return PrimitiveSide::Coplanar;
 }
@@ -534,27 +553,34 @@ RenderQt::appendBspPrimitive(RenderQtBspPrimitive primitive)
 //=============================================================================
 void
 RenderQt::appendBspPolygon(const std::vector<point>& vertices, const QColor& fillColor,
-    const QColor& lineColor, double lineWidth, const std::wstring& lineStyle)
+    const QColor& lineColor, double lineWidth, const std::wstring& lineStyle,
+    const std::vector<bool>* edgeVisible)
 {
     if (!collectBspPrimitives || vertices.size() < 3) {
         return;
     }
     bool drawOutline
         = lineStyle != GO_PROPERTY_VALUE_NONE_STR && lineWidth > 0. && lineColor.alpha() != 0;
+    // With per-edge flags the outline travels with the face and is painted right after its
+    // fill, so a neighbour painted later redraws the shared edge instead of covering it.
+    const bool ownOutline
+        = drawOutline && edgeVisible != nullptr && edgeVisible->size() == vertices.size();
     RenderQtBspPrimitive primitive;
     primitive.type = RenderQtBspPrimitiveType::Polygon;
     primitive.fillColor = fillColor;
-    primitive.lineColor = QColor(0, 0, 0, 0);
-    primitive.lineWidth = 0.;
-    primitive.lineStyle = GO_PROPERTY_VALUE_NONE_STR;
+    primitive.lineColor = ownOutline ? lineColor : QColor(0, 0, 0, 0);
+    primitive.lineWidth = ownOutline ? lineWidth : 0.;
+    primitive.lineStyle = ownOutline ? lineStyle : GO_PROPERTY_VALUE_NONE_STR;
     primitive.closed = true;
     primitive.vertices.reserve(vertices.size());
-    for (const point& vertex : vertices) {
+    for (size_t i = 0; i < vertices.size(); ++i) {
         bool clipped = false;
-        RenderQtBspVertex mapped = bspVertex(vertex.x, vertex.y, vertex.z, clipped);
+        RenderQtBspVertex mapped
+            = bspVertex(vertices[i].x, vertices[i].y, vertices[i].z, clipped);
         if (!isFiniteVertex(mapped)) {
             return;
         }
+        mapped.edgeToNext = ownOutline ? (*edgeVisible)[i] : true;
         primitive.vertices.push_back(mapped);
     }
     primitive.vertices = clipPolygonToViewVolume(std::move(primitive.vertices));
@@ -562,7 +588,7 @@ RenderQt::appendBspPolygon(const std::vector<point>& vertices, const QColor& fil
         return;
     }
     appendBspPrimitive(std::move(primitive));
-    if (!drawOutline) {
+    if (!drawOutline || ownOutline) {
         return;
     }
     for (size_t i = 0; i < vertices.size(); ++i) {
@@ -687,19 +713,28 @@ RenderQt::drawBspPrimitive(const RenderQtBspPrimitive& primitive)
             }
         } else {
             pnt->setBrush(QBrush(primitive.fillColor));
-            if (primitive.lineStyle == GO_PROPERTY_VALUE_NONE_STR || primitive.lineWidth <= 0.
-                || primitive.lineColor.alpha() == 0) {
-                pnt->setPen(Qt::NoPen);
+            // Antialiased neighbours leave a half-covered seam along a shared or cut edge:
+            // a one pixel stroke in the fill colour closes it on an opaque face.
+            if (opaqueFill && pnt->testRenderHint(QPainter::Antialiasing)) {
+                QPen seamPen(primitive.fillColor);
+                seamPen.setWidthF(1.0);
+                pnt->setPen(seamPen);
             } else {
-                pnt->setPen(pen);
+                pnt->setPen(Qt::NoPen);
             }
             pnt->drawPolygon(polygon);
         }
-        if (interpolatedFill && primitive.lineStyle != GO_PROPERTY_VALUE_NONE_STR
-            && primitive.lineWidth > 0. && primitive.lineColor.alpha() != 0) {
+        if (primitive.lineStyle != GO_PROPERTY_VALUE_NONE_STR && primitive.lineWidth > 0.
+            && primitive.lineColor.alpha() != 0) {
+            // Only the real outline edges are stroked; a clip or BSP cut stays silent.
             pnt->setBrush(Qt::NoBrush);
             pnt->setPen(pen);
-            pnt->drawPolygon(polygon);
+            const int n = polygon.size();
+            for (int i = 0; i < n; ++i) {
+                if (primitive.vertices[static_cast<size_t>(i)].edgeToNext) {
+                    pnt->drawLine(polygon[i], polygon[(i + 1) % n]);
+                }
+            }
         }
     } else {
         pnt->setBrush(Qt::NoBrush);

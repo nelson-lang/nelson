@@ -74,10 +74,10 @@
 <text x="119.789" y="227.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.6</text>
 <text x="119.789" y="151.054" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.8</text>
 <text x="137.163" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
-<polygon points="580.469,140.625 713.281,140.625 713.281,81.25 580.469,81.25 " fill="rgba(255,255,255,1.000000)"/>
-<polyline points="580.469,140.625 713.281,140.625 713.281,81.25 580.469,81.25 580.469,140.625 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
-<line x1="589.844" y1="97.6562" x2="622.656" y2="97.6562" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167"/>
-<text x="636.719" y="102.12" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">sin(x)</text>
-<line x1="589.844" y1="117.969" x2="622.656" y2="117.969" stroke="rgba(220,83,0,1.000000)" stroke-width="1.04167"/>
-<text x="636.719" y="122.433" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">cos(x)</text>
+<polygon points="581.25,134.335 712.5,134.335 712.5,85.4167 581.25,85.4167 " fill="rgba(255,255,255,1.000000)"/>
+<polyline points="581.25,134.335 712.5,134.335 712.5,85.4167 581.25,85.4167 581.25,134.335 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
+<line x1="587.5" y1="99.0135" x2="650" y2="99.0135" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167"/>
+<text x="658.333" y="103.478" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">sin(x)</text>
+<line x1="587.5" y1="120.739" x2="650" y2="120.739" stroke="rgba(220,83,0,1.000000)" stroke-width="1.04167"/>
+<text x="658.333" y="125.203" fill="rgba(32,32,32,1.000000)" font-size="18.75" font-family="sans-serif" text-anchor="start">cos(x)</text>
 </svg>

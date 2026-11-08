@@ -72,7 +72,7 @@ function varargout = knot(varargin)
     ax = newplot(ax);
     surf(x, y, z, color, 'Parent', ax);
     % Render the tube as a smooth, lit surface with the axes hidden, framed
-    % so that it fills the figure.
+    % so that it fills the figure (same call order as the reference demo).
     shading(ax, 'interp');
     light('Parent', ax);
     lighting(ax, 'gouraud');

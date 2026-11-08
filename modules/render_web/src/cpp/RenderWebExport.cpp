@@ -252,12 +252,12 @@ webPrimitivesToSvgFile(const std::vector<WebDrawPrimitive>& primitives, int widt
             }
             svg << "/>\n";
         } else if (p.kind == "image") {
-            // image-rendering:pixelated so a small CData raster (imagesc/image/
-            // heatmap cells) upscales as crisp flat blocks, not smoothed.
+            // pixelated keeps a small CData raster (imagesc, heatmap cells) as crisp
+            // blocks; an oversampled z-buffer raster is filtered instead.
             svg << "<image x=\"" << p.x << "\" y=\"" << p.y << "\" width=\"" << p.w
-                << "\" height=\"" << p.h
-                << "\" preserveAspectRatio=\"none\" image-rendering=\"pixelated\" href=\""
-                << p.image << "\"/>\n";
+                << "\" height=\"" << p.h << "\" preserveAspectRatio=\"none\""
+                << (p.smoothImage ? "" : " image-rendering=\"pixelated\"") << " href=\"" << p.image
+                << "\"/>\n";
         } else if (p.kind == "text") {
             const char* anchor
                 = p.align == "center" ? "middle" : (p.align == "right" ? "end" : "start");

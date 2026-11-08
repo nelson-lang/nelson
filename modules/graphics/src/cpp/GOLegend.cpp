@@ -11,6 +11,7 @@
 #include <cmath>
 #include <set>
 #include "GOLegend.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "Error.hpp"
@@ -150,15 +151,6 @@ public:
         GORestrictedStringProperty::set(ArrayOf::characterArray(lowerString(arg.asWideString())));
     }
 };
-//=============================================================================
-static bool
-isOutsideLocation(const std::wstring& loc)
-{
-    return loc == GO_PROPERTY_VALUE_NORTHOUTSIDE_STR || loc == GO_PROPERTY_VALUE_SOUTHOUTSIDE_STR
-        || loc == GO_PROPERTY_VALUE_EASTOUTSIDE_STR || loc == GO_PROPERTY_VALUE_WESTOUTSIDE_STR
-        || loc == L"northeastoutside" || loc == L"northwestoutside" || loc == L"southeastoutside"
-        || loc == L"southwestoutside" || loc == L"bestoutside";
-}
 //=============================================================================
 static std::pair<double, double>
 figurePixelSize(GOFigure* fig)
@@ -342,10 +334,7 @@ GOLegend::setPlotHandles(const std::vector<int64>& handles)
 {
     m_plotHandles = handles;
     m_seenPeerChildren.insert(handles.begin(), handles.end());
-    if (m_peerAxesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_peerAxesHandle)) {
-        return;
-    }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
+    GraphicsObject* peer = peerAxes();
     GOGObjectsProperty* children = peer
         ? static_cast<GOGObjectsProperty*>(peer->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
         : nullptr;
@@ -471,21 +460,51 @@ GOLegend::effectiveNumColumns(size_t labelCount) const
     return std::max(1, numColumns);
 }
 //=============================================================================
-double
-GOLegend::entryRowHeight() const
+// Height of a text line of the legend font: ascent plus descent, 1.117 em.
+static double
+textLineHeight(const FontSpec& font)
 {
-    auto* self = const_cast<GOLegend*>(this);
-    double fontSize = self->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
-    return std::max(10.0, std::ceil(fontSize * 1.35));
+    return 1.117 * fontSpecPixelSize(font);
 }
 //=============================================================================
-std::pair<double, double>
-GOLegend::preferredSizeInPixels() const
+bool
+GOLegend::markerOnlyEntries(double& markerPixels) const
 {
+    markerPixels = 0.0;
+    if (m_plotHandles.empty()) {
+        return false;
+    }
+    for (int64 handle : m_plotHandles) {
+        if (handle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(handle)) {
+            return false;
+        }
+        GraphicsObject* object = findGraphicsObject(handle, false);
+        if (!object || !object->haveProperty(GO_LINE_STYLE_PROPERTY_NAME_STR)
+            || !object->haveProperty(GO_MARKER_PROPERTY_NAME_STR)
+            || object->findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR)
+                != GO_PROPERTY_VALUE_NONE_STR
+            || object->findStringProperty(GO_MARKER_PROPERTY_NAME_STR)
+                == GO_PROPERTY_VALUE_NONE_STR) {
+            return false;
+        }
+        double markerSize = object->haveProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR)
+            ? object->findScalarDoubleProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR)
+            : 6.0;
+        markerPixels = std::max(markerPixels, markerSize * 96.0 / 72.0);
+    }
+    return true;
+}
+//=============================================================================
+GOLegend::LegendLayout
+GOLegend::layoutMetrics() const
+{
+    if (m_metricsValid) {
+        return m_metrics;
+    }
     auto* self = const_cast<GOLegend*>(this);
+    LegendLayout m;
     std::vector<std::wstring> labels = visibleLabels();
     int maxWidth = 0;
-    int titleWidth = 0;
     const bool tex
         = self->findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_TEX_STR;
     for (const auto& label : labels) {
@@ -498,25 +517,44 @@ GOLegend::preferredSizeInPixels() const
         }
         maxWidth = std::max(maxWidth, w);
     }
-    int titleHeight = 0;
+    m.maxTextWidth = maxWidth;
+    // The title band is one legend text line plus 4 pixels; the title itself
+    // needs 16.8 pixels more than its text.
     if (m_titleHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_titleHandle)) {
         GraphicsObject* title = findGraphicsObject(m_titleHandle, false);
         if (hasText(title, GO_STRING_PROPERTY_NAME_STR)) {
+            int w = 0;
             int h = 0;
-            measureGOText(
-                title->findStringProperty(GO_STRING_PROPERTY_NAME_STR), m_font, titleWidth, h);
-            titleHeight = h + 7;
+            measureGOText(title->findStringProperty(GO_STRING_PROPERTY_NAME_STR), m_font, w, h);
+            m.titleWidth = w;
+            m.titleBand = textLineHeight(m_font) + 4.0;
         }
     }
-    int columns = effectiveNumColumns(labels.size());
-    int rows = labels.empty() ? 0 : (int)std::ceil((double)labels.size() / (double)columns);
+    m.columns = effectiveNumColumns(labels.size());
+    m.rows = labels.empty() ? 0 : (int)std::ceil((double)labels.size() / (double)m.columns);
+    // The icon column is the token width, given in points; marker-only entries
+    // only need the marker.
     auto* iconWidthProperty = static_cast<GOScalarPositiveIntegerValueProperty*>(
         self->findProperty(GO_ICON_COLUMN_WIDTH_PROPERTY_NAME_STR));
-    double iconWidth = iconWidthProperty->data();
-    double columnWidth = iconWidth + maxWidth + 10.0;
-    double width = std::max(32.0, 12.0 + std::max<double>(titleWidth, columns * columnWidth));
-    double height = std::max(24.0, 12.0 + titleHeight + std::max(1, rows) * entryRowHeight());
-    return { width, height };
+    m.iconWidth = iconWidthProperty->data() * 96.0 / 72.0;
+    double markerPixels = 0.0;
+    if (markerOnlyEntries(markerPixels)) {
+        m.iconWidth = markerPixels + 2.0;
+    }
+    m.rowPitch = textLineHeight(m_font) + 0.5;
+    m.columnWidth = m.padLeft + m.iconWidth + m.iconTextGap + m.maxTextWidth + m.padRight;
+    m.width = std::max(m.columns * m.columnWidth, m.titleWidth + 16.8);
+    m.height = m.titleBand + m.padTop + std::max(1, m.rows) * m.rowPitch + m.padBottom;
+    m_metrics = m;
+    m_metricsValid = true;
+    return m;
+}
+//=============================================================================
+std::pair<double, double>
+GOLegend::preferredSizeInPixels() const
+{
+    LegendLayout m = layoutMetrics();
+    return { m.width, m.height };
 }
 //=============================================================================
 void
@@ -594,9 +632,29 @@ GOLegend::updateModes()
         toManual(GO_DIRECTION_MODE_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_POSITION_PROPERTY_NAME_STR)) {
+        // A figure resize flags every child Position without changing it: only a
+        // Position that differs from the automatic layout is a user override.
+        if (isAutoLayoutPosition(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR))) {
+            clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+            return;
+        }
         restorePeerAxesPosition();
         setRestrictedStringDefault(GO_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     }
+}
+//=============================================================================
+bool
+GOLegend::isAutoLayoutPosition(const std::vector<double>& position) const
+{
+    if (position.size() < 4 || m_autoLayoutPosition.size() < 4) {
+        return false;
+    }
+    for (size_t k = 0; k < 4; ++k) {
+        if (std::abs(position[k] - m_autoLayoutPosition[k]) > 1e-12) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 void
@@ -642,155 +700,63 @@ GOLegend::positionAsPixels(double width, double height)
         findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR), 1.0, width, height);
 }
 //=============================================================================
-void
-GOLegend::restorePeerAxesPosition()
+GraphicsObject*
+GOLegend::peerAxes()
 {
-    if (m_peerPositionBeforeResize.empty() || m_peerAxesHandle < HANDLE_OFFSET_OBJECT
-        || isDeletedGraphicsObject(m_peerAxesHandle)) {
-        return;
+    if (m_peerAxesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_peerAxesHandle)) {
+        return nullptr;
     }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-    if (!peer) {
-        return;
-    }
-    peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, m_peerPositionBeforeResize[0],
-        m_peerPositionBeforeResize[1], m_peerPositionBeforeResize[2],
-        m_peerPositionBeforeResize[3]);
-    peer->updateState();
-    m_peerPositionBeforeResize.clear();
+    return findGraphicsObject(m_peerAxesHandle, false);
 }
 //=============================================================================
 void
-GOLegend::applyLocationToPeerAxes()
+GOLegend::restorePeerAxesPosition()
 {
-    if (m_peerAxesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_peerAxesHandle)) {
-        return;
-    }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-    if (!peer) {
-        return;
-    }
-    std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
-    if (!isOutsideLocation(loc)) {
-        if (!m_peerPositionBeforeResize.empty()) {
-            restorePeerAxesPosition();
-        }
-        return;
-    }
-    if (m_peerPositionBeforeResize.empty()) {
-        m_peerPositionBeforeResize = peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-    }
-    std::vector<double> base = m_peerPositionBeforeResize;
-    if (base.size() < 4) {
-        return;
-    }
-    double reserveX = std::min(base[2] * 0.22, 0.20);
-    double reserveY = std::min(base[3] * 0.18, 0.16);
-    if (loc.find(L"west") != std::wstring::npos) {
-        peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, base[0] + reserveX, base[1],
-            base[2] - reserveX, base[3]);
-    } else if (loc.find(L"east") != std::wstring::npos || loc == L"bestoutside") {
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2] - reserveX, base[3]);
-    } else if (loc.find(L"south") != std::wstring::npos) {
-        peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, base[0], base[1] + reserveY,
-            base[2], base[3] - reserveY);
-    } else if (loc.find(L"north") != std::wstring::npos) {
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2], base[3] - reserveY);
-    }
-    peer->updateState();
+    releaseAxesLayoutSlot(peerAxes(), m_peerReservation);
 }
 //=============================================================================
 void
 GOLegend::updateAutoLayout()
 {
+    // The peer axes repaint re-runs every legend: the layout runs once and the
+    // nested call falls through.
+    if (m_inAutoLayout) {
+        return;
+    }
+    struct AutoLayoutGuard
+    {
+        bool& flag;
+        explicit AutoLayoutGuard(bool& f) : flag(f) { flag = true; }
+        ~AutoLayoutGuard() { flag = false; }
+    } autoLayoutGuard(m_inAutoLayout);
     if (applyLegendLayoutTile(this, m_peerAxesHandle, preferredSizeInPixels())) {
         return;
     }
+    GraphicsObject* peer = peerAxes();
     std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
     if (loc == GO_PROPERTY_VALUE_NONE_STR) {
+        releaseAxesLayoutSlot(peer, m_peerReservation);
         return;
     }
-    GOFigure* fig = getParentFigure();
-    auto [figW, figH] = figurePixelSize(fig);
-    if (figW <= 0 || figH <= 0) {
-        return;
-    }
-    std::vector<double> base = { 0.13, 0.11, 0.775, 0.815 };
-    if (m_peerAxesHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_peerAxesHandle)) {
-        GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-        if (peer) {
-            std::vector<double> peerPosition
-                = peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-            if (peerPosition.size() >= 4) {
-                base = peerPosition;
-            }
-        }
-    }
+    auto [figW, figH] = figurePixelSize(getParentFigure());
     auto [pixelW, pixelH] = preferredSizeInPixels();
-    double w = pixelW / figW;
-    double h = pixelH / figH;
-    double gapX = 8.0 / figW;
-    double gapY = 8.0 / figH;
-    double x = base[0] + base[2] - w - gapX;
-    double y = base[1] + base[3] - h - gapY;
-    if (loc == L"best") {
-        loc = L"northeast";
-    } else if (loc == L"bestoutside") {
-        loc = L"northeastoutside";
-    } else if (loc == L"layout") {
-        loc = L"eastoutside";
-    }
-    if (loc == GO_PROPERTY_VALUE_NORTH_STR) {
-        x = base[0] + (base[2] - w) / 2.0;
-        y = base[1] + base[3] - h - gapY;
-    } else if (loc == GO_PROPERTY_VALUE_SOUTH_STR) {
-        x = base[0] + (base[2] - w) / 2.0;
-        y = base[1] + gapY;
-    } else if (loc == GO_PROPERTY_VALUE_EAST_STR) {
-        x = base[0] + base[2] - w - gapX;
-        y = base[1] + (base[3] - h) / 2.0;
-    } else if (loc == GO_PROPERTY_VALUE_WEST_STR) {
-        x = base[0] + gapX;
-        y = base[1] + (base[3] - h) / 2.0;
-    } else if (loc == L"northwest") {
-        x = base[0] + gapX;
-        y = base[1] + base[3] - h - gapY;
-    } else if (loc == L"southeast") {
-        x = base[0] + base[2] - w - gapX;
-        y = base[1] + gapY;
-    } else if (loc == L"southwest") {
-        x = base[0] + gapX;
-        y = base[1] + gapY;
-    } else if (loc.find(L"outside") != std::wstring::npos) {
-        if (loc.find(L"west") != std::wstring::npos) {
-            x = std::max(0.0, base[0] - w - gapX);
-            y = base[1] + base[3] - h;
-        } else if (loc.find(L"south") != std::wstring::npos) {
-            x = base[0] + base[2] - w;
-            y = std::max(0.0, base[1] - h - gapY);
-        } else if (loc.find(L"north") != std::wstring::npos
-            && loc.find(L"east") == std::wstring::npos) {
-            x = base[0] + base[2] - w;
-            y = base[1] + base[3] + gapY;
-        } else {
-            x = base[0] + base[2] + gapX;
-            y = base[1] + base[3] - h;
-        }
+    std::vector<double> placed
+        = layoutDecorationAroundAxes(peer, loc, pixelW, pixelH, figW, figH, m_peerReservation);
+    if (placed.size() < 4) {
+        return;
     }
     // the layout works in normalized units, Position is stored in the Units of the legend
-    std::vector<double> placed = { x, y, w, h };
     convertPositionPixelOrigin(GO_PROPERTY_VALUE_NORMALIZED_STR,
         findStringProperty(GO_UNITS_PROPERTY_NAME_STR), placed, figW, figH);
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, placed[0], placed[1], placed[2], placed[3]);
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
-    applyLocationToPeerAxes();
+    m_autoLayoutPosition = placed;
 }
 //=============================================================================
 void
 GOLegend::updateState()
 {
+    m_metricsValid = false;
     updateUnits();
     updateModes();
     updateFont();
@@ -892,11 +858,9 @@ GOLegend::updateDynamicEntries()
             refreshedLabels.push_back(displayName.empty() ? label : displayName);
         }
     }
-    if (m_peerAxesHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_peerAxesHandle)) {
-        GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-        GOGObjectsProperty* children = peer ? static_cast<GOGObjectsProperty*>(peer->findProperty(
-                                                  GO_CHILDREN_PROPERTY_NAME_STR, false))
-                                            : nullptr;
+    if (GraphicsObject* peer = peerAxes()) {
+        GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
+            peer->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
         if (children) {
             std::set<int64> known(m_seenPeerChildren.begin(), m_seenPeerChildren.end());
             known.insert(handles.begin(), handles.end());
