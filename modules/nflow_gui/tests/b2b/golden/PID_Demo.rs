@@ -156,6 +156,10 @@ pub fn nflow_step(s: &mut ModelState,
     out_e2 = 0.0_f64 - out_p2 + out_r1;
     // sum  e3
     out_e3 = 0.0_f64 - out_p3 + out_r1;
+    // scope  sc1
+    let _ = out_p1;
+    let _ = out_p2;
+    let _ = out_p3;
     // labelSink  ls_p_out
     out_ls_p_out = out_p1;
     out.p_plant_out = out_ls_p_out;
@@ -222,6 +226,10 @@ pub fn nflow_step(s: &mut ModelState,
     out.pi_ctrl = out_ls_pi_ctrl;
     // tf  p3
     let _ = tf_step(TF_N_P3, TF_D_P3, &TF_C_P3, &TF_A_P3, &mut s.tf_x_p3, out_c3, dt);
+    // scope  sc2
+    let _ = out_c1;
+    let _ = out_c2;
+    let _ = out_c3;
     // labelSink  ls_pid_ctrl
     out_ls_pid_ctrl = out_c3;
     out.pid_ctrl = out_ls_pid_ctrl;

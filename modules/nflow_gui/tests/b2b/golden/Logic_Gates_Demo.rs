@@ -45,6 +45,49 @@ pub fn nflow_step(s: &mut ModelState,
     let _ = inp;
     let _ = out;
     let _ = t;
+
+    let out_and_gate: f64;
+    let out_or_gate: f64;
+    let out_xor_gate: f64;
+    let out_not_gate: f64;
+    let out_b2: f64;
+    let out_b3: f64;
+    let out_b4: f64;
+    let out_b5: f64;
+    let out_b6: f64;
+    let out_b7: f64;
+    let out_b8: f64;
+
+    // toggleSwitch  b2
+    out_b2 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b3
+    out_b3 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b4
+    out_b4 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b5
+    out_b5 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b6
+    out_b6 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b7
+    out_b7 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // toggleSwitch  b8
+    out_b8 = if 1.0_f64 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // and  and_gate
+    out_and_gate = if out_b2 != 0.0_f64 && out_b3 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // or  or_gate
+    out_or_gate = if out_b5 != 0.0_f64 || out_b4 != 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // xor  xor_gate
+    out_xor_gate = if (out_b6 != 0.0_f64) != (out_b7 != 0.0_f64) { 1.0_f64 } else { 0.0_f64 };
+    // not  not_gate
+    out_not_gate = if out_b8 == 0.0_f64 { 1.0_f64 } else { 0.0_f64 };
+    // scope  and_scope
+    let _ = out_and_gate;
+    // scope  or_scope
+    let _ = out_or_gate;
+    // scope  xor_scope
+    let _ = out_xor_gate;
+    // scope  not_scope
+    let _ = out_not_gate;
 }
 
 pub fn nflow_terminate(s: &mut ModelState) {

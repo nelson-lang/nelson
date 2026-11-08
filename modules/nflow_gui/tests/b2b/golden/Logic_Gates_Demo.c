@@ -38,6 +38,48 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_and_gate;
+  double out_or_gate;
+  double out_xor_gate;
+  double out_not_gate;
+  double out_b2;
+  double out_b3;
+  double out_b4;
+  double out_b5;
+  double out_b6;
+  double out_b7;
+  double out_b8;
+
+  // toggleSwitch b2
+  out_b2 = (1 ? 1 : 0);
+  // toggleSwitch b3
+  out_b3 = (1 ? 1 : 0);
+  // toggleSwitch b4
+  out_b4 = (1 ? 1 : 0);
+  // toggleSwitch b5
+  out_b5 = (1 ? 1 : 0);
+  // toggleSwitch b6
+  out_b6 = (1 ? 1 : 0);
+  // toggleSwitch b7
+  out_b7 = (1 ? 1 : 0);
+  // toggleSwitch b8
+  out_b8 = (1 ? 1 : 0);
+  // and and_gate
+  out_and_gate = ((out_b2 != 0.0) && (out_b3 != 0.0)) ? 1.0 : 0.0;
+  // or or_gate
+  out_or_gate = ((out_b5 != 0.0) || (out_b4 != 0.0)) ? 1.0 : 0.0;
+  // xor xor_gate
+  out_xor_gate = (((out_b6 != 0.0) != (out_b7 != 0.0)) ? 1.0 : 0.0);
+  // not not_gate
+  out_not_gate = (out_b8 == 0.0) ? 1.0 : 0.0;
+  // scope and_scope
+  (void)(out_and_gate);
+  // scope or_scope
+  (void)(out_or_gate);
+  // scope xor_scope
+  (void)(out_xor_gate);
+  // scope not_scope
+  (void)(out_not_gate);
 }
 
 void nflow_terminate(ModelState* s) {

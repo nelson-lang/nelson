@@ -50,6 +50,9 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   const double dt = 0.01;
+  double out_b1;
+  double out_b2;
+  double out_b3;
   double out_b4;
   double out_b5;
   double out_b6;
@@ -77,13 +80,21 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   // sum b9
   out_b9 = out_b4 + out_b6;
   // lpf b1
+  out_b1 = s->lpf_x_b1;
   s->lpf_x_b1 = s->lpf_x_b1 + dt * 3.141592653589793 * (out_b8 - s->lpf_x_b1);
   // integrator b10
   out_b10 = s->int_b10;
   s->int_b10 = fmin(fmax(s->int_b10 + out_b9 * dt, -INFINITY), INFINITY);
   // hpf b2
+  out_b2 = s->hpf_uprev_b2 - s->hpf_x_b2;
   s->hpf_x_b2 = s->hpf_x_b2 + dt * 3.141592653589793 * (out_b10 - s->hpf_x_b2);
   s->hpf_uprev_b2 = out_b10;
+  // sum b3
+  out_b3 = out_b1 + out_b2;
+  // scope b11
+  (void)(out_b5);
+  (void)(0.0);
+  (void)(out_b3);
 }
 
 void nflow_terminate(ModelState* s) {

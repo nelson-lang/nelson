@@ -144,6 +144,10 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   out_e2 = -out_p2 + out_r1;
   // sum e3
   out_e3 = -out_p3 + out_r1;
+  // scope sc1
+  (void)(out_p1);
+  (void)(out_p2);
+  (void)(out_p3);
   // labelSink ls_p_out
   out_ls_p_out = out_p1;
   if (out) out->p_plant_out = out_ls_p_out;
@@ -171,6 +175,10 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   if (out) out->pi_ctrl = out_ls_pi_ctrl;
   // tf p3
   (void)(tf_step(&tf_params_p3, s->tf_p3, out_c3, dt));
+  // scope sc2
+  (void)(out_c1);
+  (void)(out_c2);
+  (void)(out_c3);
   // labelSink ls_pid_ctrl
   out_ls_pid_ctrl = out_c3;
   if (out) out->pid_ctrl = out_ls_pid_ctrl;

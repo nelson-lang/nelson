@@ -57,6 +57,9 @@ pub fn nflow_step(s: &mut ModelState,
     let _ = out;
     let dt: f64 = 0.01_f64;
 
+    let out_b1: f64;
+    let out_b2: f64;
+    let out_b3: f64;
     let out_b4: f64;
     let out_b5: f64;
     let out_b6: f64;
@@ -84,13 +87,21 @@ pub fn nflow_step(s: &mut ModelState,
     // sum  b9
     out_b9 = out_b4 + 0.0_f64 + out_b6;
     // lpf  b1
+    out_b1 = s.lpf_x_b1;
     s.lpf_x_b1 = s.lpf_x_b1 + dt * 3.1415926535897931_f64 * (out_b8 - s.lpf_x_b1);
     // integrator  b10
     out_b10 = s.int_b10;
     s.int_b10 = libm::fmin(libm::fmax(s.int_b10 + dt * out_b9, f64::NEG_INFINITY), f64::INFINITY);
     // hpf  b2
+    out_b2 = s.hpf_uprev_b2 - s.hpf_x_b2;
     s.hpf_x_b2 = s.hpf_x_b2 + dt * 3.1415926535897931_f64 * (out_b10 - s.hpf_x_b2);
     s.hpf_uprev_b2 = out_b10;
+    // sum  b3
+    out_b3 = 0.0_f64 + out_b1 + out_b2;
+    // scope  b11
+    let _ = out_b5;
+    let _ = 0.0_f64;
+    let _ = out_b3;
 }
 
 pub fn nflow_terminate(s: &mut ModelState) {
