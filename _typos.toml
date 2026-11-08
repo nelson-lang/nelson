@@ -171,6 +171,8 @@ flate = "flate"
 Flate = "Flate"
 serie = "serie"
 # French words in help generators and example galleries
+commandes = "commandes"
+espace = "espace"
 composant = "composant"
 moteur = "moteur"
 groupe = "groupe"
