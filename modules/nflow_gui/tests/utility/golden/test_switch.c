@@ -37,7 +37,22 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)s;
   (void)in;
   (void)out;
-  (void)t;
+  double out_b1;
+  double out_b2;
+  double out_b3;
+  double out_b4;
+
+  // sine b1
+  out_b1 = 1 * sin(2.0 * M_PI * 0.5 * t + 0);
+  // constant b2
+  out_b2 = 2;
+  // constant b3
+  out_b3 = -2;
+  // switch b4
+  out_b4 = (out_b1 >= 0) ? out_b2 : out_b3;
+  // scope b5
+  (void)(0.0);
+  (void)(out_b4);
 }
 
 void nflow_terminate(ModelState* s) {

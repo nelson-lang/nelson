@@ -38,6 +38,27 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_k;
+  double out_d1;
+  double out_d2;
+  double out_d3;
+  double out_b2;
+
+  // constant k
+  out_k = 2;
+  // constant d1
+  out_d1 = 1e+01;
+  // constant d2
+  out_d2 = 2e+01;
+  // constant d3
+  out_d3 = 3e+01;
+  // multiportSwitch b2
+  int nf_ms_b2 = (int)(out_k);
+  if (nf_ms_b2 < 1) nf_ms_b2 = 1; if (nf_ms_b2 > 3) nf_ms_b2 = 3;
+  out_b2 = (nf_ms_b2 == 1) ? out_d1 : ((nf_ms_b2 == 2) ? out_d2 : (out_d3));
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

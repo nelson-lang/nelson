@@ -37,7 +37,16 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)s;
   (void)in;
   (void)out;
-  (void)t;
+  double out_b1;
+  double out_b2;
+
+  // ramp b1
+  out_b1 = (t >= 0 ? (t - 0) * 1 : 0.0);
+  // saturation b2
+  out_b2 = fmin(fmax(out_b1, -1), 1);
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

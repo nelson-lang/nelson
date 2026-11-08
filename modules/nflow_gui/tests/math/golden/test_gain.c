@@ -38,6 +38,15 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+  double out_b2;
+
+  // constant b1
+  out_b1 = 3;
+  // gain b2
+  out_b2 = out_b1 * 2;
+  // scope b3
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

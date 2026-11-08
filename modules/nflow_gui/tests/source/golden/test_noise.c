@@ -38,9 +38,14 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
 
   // noise b1
   s->rng_state = 1664525u * s->rng_state + 1013904223u;
+  out_b1 = 1 * ((s->rng_state / 4294967295.0) * 2.0 - 1.0);
+  // scope b2
+  (void)(0.0);
+  (void)(out_b1);
 }
 
 void nflow_terminate(ModelState* s) {

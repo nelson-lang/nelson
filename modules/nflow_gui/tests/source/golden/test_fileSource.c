@@ -38,6 +38,12 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+
+  // fileSource b1
+  out_b1 = 0.0;
+  // scope b2
+  (void)(out_b1);
 }
 
 void nflow_terminate(ModelState* s) {

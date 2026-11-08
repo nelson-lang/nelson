@@ -38,6 +38,7 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   double out_b1;
+  double out_b2;
 
   // sine b1
   out_b1 = 2 * sin(2.0 * M_PI * 0.5 * t + 0);
@@ -45,7 +46,10 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   { double v = out_b1;
     if (v > s->backlash_b2 + 1 / 2.0) s->backlash_b2 = v - 1 / 2.0;
     if (v < s->backlash_b2 - 1 / 2.0) s->backlash_b2 = v + 1 / 2.0;
-     }
+    out_b2 = s->backlash_b2; }
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

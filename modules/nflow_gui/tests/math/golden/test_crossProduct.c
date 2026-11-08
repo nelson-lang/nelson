@@ -38,6 +38,57 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1__e0;
+  double out_b1__e1;
+  double out_b1__e2;
+  double out_b4__e0;
+  double out_b4__e1;
+  double out_b4__e2;
+  double out_b2__cr0_p1;
+  double out_b2__cr0_p2;
+  double out_b2__cr0;
+  double out_b2__cr1_p1;
+  double out_b2__cr1_p2;
+  double out_b2__cr1;
+  double out_b2__cr2_p1;
+  double out_b2__cr2_p2;
+  double out_b2__cr2;
+
+  // constant b1__e0
+  out_b1__e0 = 1;
+  // constant b1__e1
+  out_b1__e1 = 0;
+  // constant b1__e2
+  out_b1__e2 = 0;
+  // constant b4__e0
+  out_b4__e0 = 0;
+  // constant b4__e1
+  out_b4__e1 = 1;
+  // constant b4__e2
+  out_b4__e2 = 0;
+  // mult b2__cr1_p1
+  out_b2__cr1_p1 = out_b1__e2 * out_b4__e0;
+  // mult b2__cr2_p2
+  out_b2__cr2_p2 = out_b1__e1 * out_b4__e0;
+  // mult b2__cr0_p2
+  out_b2__cr0_p2 = out_b1__e2 * out_b4__e1;
+  // mult b2__cr2_p1
+  out_b2__cr2_p1 = out_b1__e0 * out_b4__e1;
+  // mult b2__cr0_p1
+  out_b2__cr0_p1 = out_b1__e1 * out_b4__e2;
+  // mult b2__cr1_p2
+  out_b2__cr1_p2 = out_b1__e0 * out_b4__e2;
+  // sum b2__cr2
+  out_b2__cr2 = out_b2__cr2_p1 + -out_b2__cr2_p2;
+  // sum b2__cr0
+  out_b2__cr0 = out_b2__cr0_p1 + -out_b2__cr0_p2;
+  // sum b2__cr1
+  out_b2__cr1 = out_b2__cr1_p1 + -out_b2__cr1_p2;
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2__cr0);
+  (void)(out_b2__cr1);
+  (void)(out_b2__cr2);
 }
 
 void nflow_terminate(ModelState* s) {

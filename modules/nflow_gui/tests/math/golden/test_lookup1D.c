@@ -38,6 +38,28 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+  double out_b2;
+
+  // constant b1
+  out_b1 = 1.5;
+  // lookup1D b2
+  static const double nf_lu_bp_b2[] = {0, 1, 2, 3, 4};
+  static const double nf_lu_tbl_b2[] = {0, 1, 4, 9, 16};
+  double nf_u_b2 = out_b1;
+  double nf_y_b2;
+  if (nf_u_b2 <= nf_lu_bp_b2[0]) { nf_y_b2 = nf_lu_tbl_b2[0] + (nf_u_b2 - nf_lu_bp_b2[0]) * ((nf_lu_tbl_b2[1] - nf_lu_tbl_b2[0]) / (nf_lu_bp_b2[1] - nf_lu_bp_b2[0])); }
+  else if (nf_u_b2 >= nf_lu_bp_b2[4]) { nf_y_b2 = nf_lu_tbl_b2[4] + (nf_u_b2 - nf_lu_bp_b2[4]) * ((nf_lu_tbl_b2[4] - nf_lu_tbl_b2[3]) / (nf_lu_bp_b2[4] - nf_lu_bp_b2[3])); }
+  else {
+    int nf_i_b2 = 3;
+    while (nf_i_b2 > 0 && nf_u_b2 < nf_lu_bp_b2[nf_i_b2]) nf_i_b2--;
+    double nf_f_b2 = (nf_u_b2 - nf_lu_bp_b2[nf_i_b2]) / (nf_lu_bp_b2[nf_i_b2+1] - nf_lu_bp_b2[nf_i_b2]);
+    nf_y_b2 = nf_lu_tbl_b2[nf_i_b2] + nf_f_b2 * (nf_lu_tbl_b2[nf_i_b2+1] - nf_lu_tbl_b2[nf_i_b2]);
+  }
+  out_b2 = nf_y_b2;
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

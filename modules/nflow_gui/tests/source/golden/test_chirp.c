@@ -37,7 +37,15 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)s;
   (void)in;
   (void)out;
-  (void)t;
+  double out_b1;
+
+  // chirp b1
+  { double k = (5 - 1) / 1e+01;
+    double phase = 2.0 * M_PI * (1 * t + 0.5 * k * t * t);
+    out_b1 = 1 * sin(phase); }
+  // scope b2
+  (void)(0.0);
+  (void)(out_b1);
 }
 
 void nflow_terminate(ModelState* s) {

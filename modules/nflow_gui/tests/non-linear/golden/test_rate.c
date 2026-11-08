@@ -39,6 +39,7 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)out;
   const double dt = 0.01;
   double out_b1;
+  double out_b2;
 
   // step b1
   out_b1 = (t >= 2 ? 1.0 : 0.0);
@@ -49,7 +50,11 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
     if (v > maxRise) v = maxRise;
     if (v < maxFall) v = maxFall;
     s->rate_b2 = v;
-     }
+    out_b2 = v; }
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
+  (void)(out_b1);
 }
 
 void nflow_terminate(ModelState* s) {

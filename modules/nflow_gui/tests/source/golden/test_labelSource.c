@@ -39,12 +39,17 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)t;
   double out_b1;
   double out_b2;
+  double out_b3;
 
   // constant b1
   out_b1 = 3.14;
   // labelSink b2
   out_b2 = out_b1;
   if (out) out->sig = out_b2;
+  // labelSource b3
+  out_b3 = out_b1;
+  // scope b4
+  (void)(out_b3);
 }
 
 void nflow_terminate(ModelState* s) {

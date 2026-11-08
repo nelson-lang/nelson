@@ -38,6 +38,57 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+  double out_b4;
+  double out_b5;
+  double out_b2;
+
+  // constant b1
+  out_b1 = 0.5;
+  // constant b4
+  out_b4 = 0.5;
+  // constant b5
+  out_b5 = 0.5;
+  // lookupND b2
+  static const double nf_tblN_b2[] = {0, 1, 1e+01, 11, 1e+02, 101, 1.1e+02, 111};
+  static const double nf_bpN_b2_0[] = {0, 1};
+  double nf_uN_b2_0 = out_b1;
+  int nf_iN_b2_0; double nf_fN_b2_0;
+  if (nf_uN_b2_0 <= nf_bpN_b2_0[0]) { nf_iN_b2_0 = 0; nf_fN_b2_0 = (nf_uN_b2_0 - nf_bpN_b2_0[0]) / (nf_bpN_b2_0[1] - nf_bpN_b2_0[0]); }
+  else if (nf_uN_b2_0 >= nf_bpN_b2_0[1]) { nf_iN_b2_0 = 0; nf_fN_b2_0 = (nf_uN_b2_0 - nf_bpN_b2_0[0]) / (nf_bpN_b2_0[1] - nf_bpN_b2_0[0]); }
+  else { nf_iN_b2_0 = 0; while (nf_iN_b2_0 > 0 && nf_uN_b2_0 < nf_bpN_b2_0[nf_iN_b2_0]) nf_iN_b2_0--; nf_fN_b2_0 = (nf_uN_b2_0 - nf_bpN_b2_0[nf_iN_b2_0]) / (nf_bpN_b2_0[nf_iN_b2_0+1] - nf_bpN_b2_0[nf_iN_b2_0]); }
+  double nf_wN_b2_0 = nf_fN_b2_0;
+  static const double nf_bpN_b2_1[] = {0, 1};
+  double nf_uN_b2_1 = out_b4;
+  int nf_iN_b2_1; double nf_fN_b2_1;
+  if (nf_uN_b2_1 <= nf_bpN_b2_1[0]) { nf_iN_b2_1 = 0; nf_fN_b2_1 = (nf_uN_b2_1 - nf_bpN_b2_1[0]) / (nf_bpN_b2_1[1] - nf_bpN_b2_1[0]); }
+  else if (nf_uN_b2_1 >= nf_bpN_b2_1[1]) { nf_iN_b2_1 = 0; nf_fN_b2_1 = (nf_uN_b2_1 - nf_bpN_b2_1[0]) / (nf_bpN_b2_1[1] - nf_bpN_b2_1[0]); }
+  else { nf_iN_b2_1 = 0; while (nf_iN_b2_1 > 0 && nf_uN_b2_1 < nf_bpN_b2_1[nf_iN_b2_1]) nf_iN_b2_1--; nf_fN_b2_1 = (nf_uN_b2_1 - nf_bpN_b2_1[nf_iN_b2_1]) / (nf_bpN_b2_1[nf_iN_b2_1+1] - nf_bpN_b2_1[nf_iN_b2_1]); }
+  double nf_wN_b2_1 = nf_fN_b2_1;
+  static const double nf_bpN_b2_2[] = {0, 1};
+  double nf_uN_b2_2 = out_b5;
+  int nf_iN_b2_2; double nf_fN_b2_2;
+  if (nf_uN_b2_2 <= nf_bpN_b2_2[0]) { nf_iN_b2_2 = 0; nf_fN_b2_2 = (nf_uN_b2_2 - nf_bpN_b2_2[0]) / (nf_bpN_b2_2[1] - nf_bpN_b2_2[0]); }
+  else if (nf_uN_b2_2 >= nf_bpN_b2_2[1]) { nf_iN_b2_2 = 0; nf_fN_b2_2 = (nf_uN_b2_2 - nf_bpN_b2_2[0]) / (nf_bpN_b2_2[1] - nf_bpN_b2_2[0]); }
+  else { nf_iN_b2_2 = 0; while (nf_iN_b2_2 > 0 && nf_uN_b2_2 < nf_bpN_b2_2[nf_iN_b2_2]) nf_iN_b2_2--; nf_fN_b2_2 = (nf_uN_b2_2 - nf_bpN_b2_2[nf_iN_b2_2]) / (nf_bpN_b2_2[nf_iN_b2_2+1] - nf_bpN_b2_2[nf_iN_b2_2]); }
+  double nf_wN_b2_2 = nf_fN_b2_2;
+  int nf_idxN_b2[3] = {nf_iN_b2_0, nf_iN_b2_1, nf_iN_b2_2};
+  double nf_wArrN_b2[3] = {nf_wN_b2_0, nf_wN_b2_1, nf_wN_b2_2};
+  static const int nf_strideN_b2[3] = {1, 2, 4};
+  double nf_yN_b2 = 0.0;
+  for (int nf_c = 0; nf_c < (1 << 3); nf_c++) {
+    double nf_cw = 1.0; int nf_off = 0;
+    for (int nf_k = 0; nf_k < 3; nf_k++) {
+      int nf_bit = (nf_c >> nf_k) & 1;
+      nf_cw *= nf_bit ? nf_wArrN_b2[nf_k] : (1.0 - nf_wArrN_b2[nf_k]);
+      nf_off += (nf_idxN_b2[nf_k] + nf_bit) * nf_strideN_b2[nf_k];
+    }
+    nf_yN_b2 += nf_cw * nf_tblN_b2[nf_off];
+  }
+  out_b2 = nf_yN_b2;
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

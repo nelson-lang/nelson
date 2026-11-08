@@ -45,6 +45,8 @@ p = lg.Position;                        % normalized [x y w h], bottom-origin
 rowH = max(10, ceil(lg.FontSize * 1.35));
 y0 = p(2) * H + p(4) * H - 4;
 baseX = p(1) * W + 6;
+iconW = lg.IconColumnWidth * 96 / 72;   % icon column width, points to pixels
+labelX = p(1) * W + iconW + 15;         % a point inside the label, right of the icon
 %=============================================================================
 % entry 0 (top row), icon column -> Peer is the first plot, Region 'icon'
 ITEM_HIT_EVENTS = {};
@@ -57,7 +59,7 @@ assert_isequal(ITEM_HIT_EVENTS{1}.Region, 'icon');
 %=============================================================================
 % entry 1 (second row), label column -> Peer is the second plot, Region 'label'
 ITEM_HIT_EVENTS = {};
-__figure_mouse_event__(f, 'press', [baseX + 40, y0 - rowH * 1.5], 'web');
+__figure_mouse_event__(f, 'press', [labelX, y0 - rowH * 1.5], 'web');
 drawnow();
 pause(0.2);
 assert_isequal(numel(ITEM_HIT_EVENTS), 1);

@@ -37,7 +37,14 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)s;
   (void)in;
   (void)out;
-  (void)t;
+  const double dt = 0.01;
+  double out_b1;
+
+  // impulse b1
+  out_b1 = (fabs(t - 2) <= dt * 0.5 ? 3 / fmax(dt, 1e-6) : 0.0);
+  // scope b2
+  (void)(0.0);
+  (void)(out_b1);
 }
 
 void nflow_terminate(ModelState* s) {

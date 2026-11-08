@@ -38,6 +38,34 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+  double out_b4;
+  double out_b2;
+
+  // constant b1
+  out_b1 = 0.5;
+  // constant b4
+  out_b4 = 0.5;
+  // lookup2D b2
+  static const double nf_lu2_bp1_b2[] = {0, 1};
+  static const double nf_lu2_bp2_b2[] = {0, 1};
+  static const double nf_lu2_tbl_b2[] = {0, 1e+01, 1e+02, 1.1e+02};
+  double nf_u1_b2 = out_b1;
+  double nf_u2_b2 = out_b4;
+  int nf_i1_b2; double nf_f1_b2;
+  if (nf_u1_b2 <= nf_lu2_bp1_b2[0]) { nf_i1_b2 = 0; nf_f1_b2 = (nf_u1_b2 - nf_lu2_bp1_b2[0]) / (nf_lu2_bp1_b2[1] - nf_lu2_bp1_b2[0]); }
+  else if (nf_u1_b2 >= nf_lu2_bp1_b2[1]) { nf_i1_b2 = 0; nf_f1_b2 = (nf_u1_b2 - nf_lu2_bp1_b2[0]) / (nf_lu2_bp1_b2[1] - nf_lu2_bp1_b2[0]); }
+  else { nf_i1_b2 = 0; while (nf_i1_b2 > 0 && nf_u1_b2 < nf_lu2_bp1_b2[nf_i1_b2]) nf_i1_b2--; nf_f1_b2 = (nf_u1_b2 - nf_lu2_bp1_b2[nf_i1_b2]) / (nf_lu2_bp1_b2[nf_i1_b2+1] - nf_lu2_bp1_b2[nf_i1_b2]); }
+  int nf_j1_b2; double nf_f2_b2;
+  if (nf_u2_b2 <= nf_lu2_bp2_b2[0]) { nf_j1_b2 = 0; nf_f2_b2 = (nf_u2_b2 - nf_lu2_bp2_b2[0]) / (nf_lu2_bp2_b2[1] - nf_lu2_bp2_b2[0]); }
+  else if (nf_u2_b2 >= nf_lu2_bp2_b2[1]) { nf_j1_b2 = 0; nf_f2_b2 = (nf_u2_b2 - nf_lu2_bp2_b2[0]) / (nf_lu2_bp2_b2[1] - nf_lu2_bp2_b2[0]); }
+  else { nf_j1_b2 = 0; while (nf_j1_b2 > 0 && nf_u2_b2 < nf_lu2_bp2_b2[nf_j1_b2]) nf_j1_b2--; nf_f2_b2 = (nf_u2_b2 - nf_lu2_bp2_b2[nf_j1_b2]) / (nf_lu2_bp2_b2[nf_j1_b2+1] - nf_lu2_bp2_b2[nf_j1_b2]); }
+  double nf_w1_b2 = nf_f1_b2;
+  double nf_w2_b2 = nf_f2_b2;
+  out_b2 = nf_lu2_tbl_b2[nf_i1_b2 + (nf_j1_b2) * 2] * (1.0 - nf_w1_b2) * (1.0 - nf_w2_b2) + nf_lu2_tbl_b2[nf_i1_b2+1 + (nf_j1_b2) * 2] * nf_w1_b2 * (1.0 - nf_w2_b2) + nf_lu2_tbl_b2[nf_i1_b2 + (nf_j1_b2+1) * 2] * (1.0 - nf_w1_b2) * nf_w2_b2 + nf_lu2_tbl_b2[nf_i1_b2+1 + (nf_j1_b2+1) * 2] * nf_w1_b2 * nf_w2_b2;
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {

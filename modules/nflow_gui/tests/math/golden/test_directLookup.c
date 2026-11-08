@@ -38,6 +38,25 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   (void)in;
   (void)out;
   (void)t;
+  double out_b1;
+  double out_b4;
+  double out_b2;
+
+  // constant b1
+  out_b1 = 1;
+  // constant b4
+  out_b4 = 2;
+  // directLookup b2
+  static const double nf_dl_tbl_b2[] = {0, 1, 1e+01, 11, 2e+01, 21};
+  int nf_di_b2_0 = (int)lround(out_b1);
+  if (nf_di_b2_0 < 0) nf_di_b2_0 = 0; if (nf_di_b2_0 > 1) nf_di_b2_0 = 1;
+  int nf_di_b2_1 = (int)lround(out_b4);
+  if (nf_di_b2_1 < 0) nf_di_b2_1 = 0; if (nf_di_b2_1 > 2) nf_di_b2_1 = 2;
+  int nf_doff_b2 = nf_di_b2_0 * 1 + nf_di_b2_1 * 2;
+  out_b2 = nf_dl_tbl_b2[nf_doff_b2];
+  // scope b3
+  (void)(0.0);
+  (void)(out_b2);
 }
 
 void nflow_terminate(ModelState* s) {
