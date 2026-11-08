@@ -29,6 +29,8 @@
   "Block help opened": "Aide du bloc ouverte",
   "Unable to open block help: {error}": "Impossible d'ouvrir l'aide du bloc : {error}",
   "Selected Block Help": "Aide du bloc sélectionné",
+  "Documentation": "Documentation",
+  "Documentation opened": "Documentation ouverte",
   "Related help opened": "Aide associée ouverte",
   "Unable to open help: {error}": "Impossible d'ouvrir l'aide : {error}",
   "Open related help": "Ouvrir l'aide associée",

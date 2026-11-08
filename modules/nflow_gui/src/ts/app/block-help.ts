@@ -104,6 +104,18 @@ export function openHelpTopic(topic: string): Promise<boolean> {
   return requestHelp(topic.trim(), 'Related help opened', 'Unable to open help: {error}');
 }
 //=============================================================================
+export function openDocumentation(): Promise<boolean> {
+  // Open the shared "nelson-help" window on the documentation home page. No topic
+  // and no host round-trip: in the browser build the window is armed, so it opens
+  // straight from the click gesture (an empty target loads help/<lang>/index.html).
+  if (isNflowHelpWindowArmed()) {
+    openNflowHelpWindow({});
+    pushStatus({ level: 'success', message: t('Documentation opened'), durationMs: 2500 });
+    return Promise.resolve(true);
+  }
+  return Promise.resolve(false);
+}
+//=============================================================================
 export function openBlockHelp(block: BlockLike): Promise<boolean> {
   const topic = blockHelpTopic(block);
   if (!topic) return Promise.resolve(false);

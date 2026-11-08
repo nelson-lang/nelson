@@ -29,6 +29,8 @@
   "Block help opened": "",
   "Unable to open block help: {error}": "",
   "Selected Block Help": "",
+  "Documentation": "",
+  "Documentation opened": "",
   "Related help opened": "",
   "Unable to open help: {error}": "",
   "Open related help": "",

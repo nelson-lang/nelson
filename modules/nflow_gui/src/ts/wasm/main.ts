@@ -11,7 +11,11 @@ import { createNelsonWorkerClient, type NelsonLoadingProgress } from '@nelson/wa
 import { installNFlowPushBridge, installWasmWorkerHost } from '../app/native-rpc.js';
 import { OPEN_MODEL_PATH_EVENT } from '../app/components/modal-events.js';
 import type { NFlowWasmExamplesProvider } from '../app/nflow-host.js';
-import { armNflowHelpWindow, openNflowHelpWindow } from '../app/help-window.js';
+import {
+  armNflowHelpWindow,
+  closeNflowHelpWindow,
+  openNflowHelpWindow,
+} from '../app/help-window.js';
 import { createFmuProvider } from './fmu.js';
 //=============================================================================
 // The packaged bundle versions every runtime asset with `?build=<id>`. Derive it
@@ -131,11 +135,13 @@ async function start(): Promise<void> {
     onProgress: showProgress,
   });
   installNFlowPushBridge();
-  // Documentation opens in the shared "nelson-help" window. Arm with a default
+  // Documentation opens in the dedicated "nelson-help" window. Arm with a default
   // language now (so a click works immediately) and refine once the engine
-  // reports its language.
-  armNflowHelpWindow('en_US');
-  void resolveEngineLanguage(client).then((language) => armNflowHelpWindow(language));
+  // reports its language. The same probe lets the window follow a later language
+  // switch, there being no language-change push to subscribe to.
+  const reprobeLanguage = () => resolveEngineLanguage(client);
+  armNflowHelpWindow('en_US', reprobeLanguage);
+  void reprobeLanguage().then((language) => armNflowHelpWindow(language, reprobeLanguage));
   const removeHost = installWasmWorkerHost(
     client,
     createExamplesProvider(),
@@ -154,6 +160,8 @@ async function start(): Promise<void> {
   window.addEventListener(
     'pagehide',
     () => {
+      // The dedicated help window must not outlive the editor that opened it.
+      closeNflowHelpWindow();
       removeHost();
       client.terminate();
     },

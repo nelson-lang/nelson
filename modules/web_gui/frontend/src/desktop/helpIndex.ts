@@ -44,6 +44,27 @@ export async function getHelpLang(): Promise<string> {
   return langPromise;
 }
 //=============================================================================
+// Re-probe the engine's documentation language. When it changed since the last
+// probe, drop the cached search index so the new language's index is fetched on
+// the next resolve. Returns the current language. There is no language-change
+// push to subscribe to, so a long-lived help window follows a language switch by
+// calling this on each open. Best-effort: keeps the known language on failure.
+export async function refreshHelpLang(): Promise<string> {
+  let next: string;
+  try {
+    const r = await rpc<{ lang?: string }>('help.lang', {});
+    next = r?.lang === 'fr_FR' ? 'fr_FR' : 'en_US';
+  } catch {
+    return cachedLang ?? 'en_US';
+  }
+  if (next !== cachedLang) {
+    cachedLang = next;
+    indexCache = null;
+    indexPromise = null;
+  }
+  return next;
+}
+//=============================================================================
 async function loadIndex(lang: string): Promise<HelpIndexEntry[]> {
   if (indexCache) return indexCache;
   if (!indexPromise) {

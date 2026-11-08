@@ -147,6 +147,10 @@ export function persistLast(api: DockviewApi): void {
   }
 }
 //=============================================================================
+// The docked Documentation panel is only the fallback for the dedicated help
+// window (see helpWindow.ts); it is created on demand by ensureCorePanel('help')
+// and deliberately not persisted, so a restored layout never brings back an
+// empty Documentation panel once help moved to its own window.
 const PERSISTENT_PANEL_IDS = new Set([
   'console',
   'files',
@@ -158,7 +162,6 @@ const PERSISTENT_PANEL_IDS = new Set([
   'breakpoints',
   'callstack',
   'terminal',
-  'help',
 ]);
 //=============================================================================
 interface SerializedGroupData {

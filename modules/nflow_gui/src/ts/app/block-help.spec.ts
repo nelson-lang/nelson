@@ -13,6 +13,8 @@ const mocks = vi.hoisted(() => ({
   manifests: new Map<string, Record<string, unknown>>(),
   rpc: vi.fn(),
   status: vi.fn(),
+  armed: vi.fn(() => false),
+  openWindow: vi.fn(),
 }));
 //=============================================================================
 vi.mock('./library-loader.js', () => ({
@@ -21,12 +23,19 @@ vi.mock('./library-loader.js', () => ({
 //=============================================================================
 vi.mock('./native-rpc.js', () => ({ nflowRpc: mocks.rpc }));
 vi.mock('./status-service.js', () => ({ pushStatus: mocks.status }));
-import { blockHelpTopic, openBlockHelp, openHelpTopic } from './block-help.js';
+vi.mock('./help-window.js', () => ({
+  isNflowHelpWindowArmed: mocks.armed,
+  openNflowHelpWindow: mocks.openWindow,
+}));
+import { blockHelpTopic, openBlockHelp, openDocumentation, openHelpTopic } from './block-help.js';
 //=============================================================================
 beforeEach(() => {
   mocks.manifests.clear();
   mocks.rpc.mockReset();
   mocks.status.mockReset();
+  mocks.armed.mockReset();
+  mocks.armed.mockReturnValue(false);
+  mocks.openWindow.mockReset();
 });
 //=============================================================================
 test('builds a documentation topic from a block type', () => {
@@ -75,6 +84,24 @@ test('reports a rejected documentation request', async () => {
   expect(mocks.status).toHaveBeenCalledWith(
     expect.objectContaining({ level: 'error', message: expect.stringContaining('not available') })
   );
+});
+//=============================================================================
+test('opens the documentation home in the shared help window when armed', async () => {
+  mocks.armed.mockReturnValue(true);
+
+  await expect(openDocumentation()).resolves.toBe(true);
+
+  expect(mocks.openWindow).toHaveBeenCalledWith({});
+  expect(mocks.rpc).not.toHaveBeenCalled();
+  expect(mocks.status).toHaveBeenCalledWith(
+    expect.objectContaining({ level: 'success', message: 'Documentation opened' })
+  );
+});
+//=============================================================================
+test('skips the documentation window when it is not armed', async () => {
+  await expect(openDocumentation()).resolves.toBe(false);
+
+  expect(mocks.openWindow).not.toHaveBeenCalled();
 });
 //=============================================================================
 test('opens a validated general help topic and rejects unsafe topics', async () => {

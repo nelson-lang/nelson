@@ -17,6 +17,7 @@ import { isMobileViewport } from './layout';
 import { corePanelTitle } from './panelTitles';
 import {
   getHelpLangSync,
+  refreshHelpLang,
   resolveHelpTarget,
   resolveHelpTargetSync,
   type HelpTarget,
@@ -389,6 +390,14 @@ export function openHelp(topic?: string, target?: { open?: string; search?: stri
     // The index was not primed yet: refine to the exact page once it loads.
     void resolveHelpTarget(name).then((refined) => navigateHelpWindowIfOpen(refined, lang));
   }
+  // Follow a runtime language switch (there is no language-change push): re-probe
+  // and, if the language changed, reload the open window to the same page in the
+  // new language. A full reload is required — the in-place API keeps the old shell.
+  void refreshHelpLang().then(async (fresh) => {
+    if (fresh === lang) return;
+    const refined: HelpTarget = name ? await resolveHelpTarget(name) : resolved ?? {};
+    navigateHelpWindowIfOpen(refined, fresh, true);
+  });
 }
 //=============================================================================
 function openHelpInPanel(topic?: string, target?: { open?: string; search?: string }): void {

@@ -165,6 +165,7 @@ function Titlebar(): JSX.Element {
                 shortcut="F1"
                 disabled
               />
+              <MenuItem action="documentation" label="Documentation" />
               <div className="menubar-divider" />
               <MenuItem action="openExamples" label="Examples" />
               <div className="menubar-divider" />

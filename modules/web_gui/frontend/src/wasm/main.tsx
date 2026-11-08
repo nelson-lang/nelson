@@ -15,6 +15,7 @@ import { installBrowserZoomLock } from '../desktop/browserZoom';
 import { initializePersistentStorage } from '../desktop/persistentStorage';
 import { installLocalRpcBackend } from '../rpc/client';
 import { primeHelpIndex } from '../desktop/helpIndex';
+import { closeHelpWindow } from '../desktop/helpWindow';
 import { WasmDesktopBackend, WASM_HELP_CACHE_ROOT } from './WasmDesktopBackend';
 import { ensureCrossOriginIsolation } from './crossOriginIsolation';
 import {
@@ -175,6 +176,8 @@ async function start(): Promise<void> {
   });
   window.addEventListener('pagehide', removeBackend, { once: true });
   window.addEventListener('pagehide', removeProxyHost, { once: true });
+  // The dedicated help window must not outlive the desktop that opened it.
+  window.addEventListener('pagehide', closeHelpWindow, { once: true });
   // Warm the help language + search index so the dedicated help window can open
   // the right page synchronously from a later gesture (toolbar button, doc, …).
   primeHelpIndex();

@@ -41,7 +41,7 @@ import { openExampleBrowser } from './example-browser.js';
 import { saveViaDialog, openViaDialog, openFilePicker } from './file-dialogs.js';
 import { resetUiPrefs } from './ui-prefs.js';
 import { readNewDiagramDefaults } from './new-diagram-defaults.js';
-import { openBlockHelp } from './block-help.js';
+import { openBlockHelp, openDocumentation } from './block-help.js';
 import { emitAppEvent } from './app-events.js';
 import {
   hideMenubarDropdowns,
@@ -892,6 +892,9 @@ export function handleMenuAction(action: string): void {
       if (block) void openBlockHelp(block);
       break;
     }
+    case 'documentation':
+      void openDocumentation();
+      break;
     case 'about':
       document.dispatchEvent(new CustomEvent(ABOUT_SHOW_EVENT, { cancelable: true }));
       break;
