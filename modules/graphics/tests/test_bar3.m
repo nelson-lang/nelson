@@ -41,7 +41,11 @@ ax = ancestor(h(1), 'axes');
 asserts.isapprox(ax.XLim, [0.6 3.4], 1e-12);
 asserts.isapprox(ax.YLim, [0.6 2.4], 1e-12);
 asserts.isapprox(ax.ZLim, [0 6], 1e-12);
-asserts.isapprox(ax.CameraViewAngle, 9.26296994456129, 1e-12);
+% Auto CameraViewAngle is a step function of the axes box aspect: a landscape
+% canvas is width-bound (9.26), a square or taller one height-bound (10.27).
+% Headless runners differ in canvas aspect, so accept either regime.
+cva = ax.CameraViewAngle;
+asserts.istrue(abs(cva - 9.26296994456129) < 1e-6 || abs(cva - 10.272668158183986) < 1e-6);
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');
