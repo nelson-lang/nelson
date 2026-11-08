@@ -10,6 +10,7 @@
 import { getDiscoveredManifests } from './library-loader.js';
 import { nflowRpc } from './native-rpc.js';
 import { pushStatus } from './status-service.js';
+import { isNflowHelpWindowArmed, openNflowHelpWindow } from './help-window.js';
 import { t } from '../utils/i18n.js';
 //=============================================================================
 type BlockLike = { type?: unknown } | null | undefined;
@@ -97,6 +98,9 @@ async function requestHelp(
 }
 //=============================================================================
 export function openHelpTopic(topic: string): Promise<boolean> {
+  // Browser build: raise the shared help window now, while the click gesture is
+  // still valid, so the host round-trip only has to navigate an open window.
+  if (isNflowHelpWindowArmed()) openNflowHelpWindow();
   return requestHelp(topic.trim(), 'Related help opened', 'Unable to open help: {error}');
 }
 //=============================================================================
@@ -104,6 +108,19 @@ export function openBlockHelp(block: BlockLike): Promise<boolean> {
   const topic = blockHelpTopic(block);
   if (!topic) return Promise.resolve(false);
   const page = blockHelpPage(topic.slice('block:'.length));
+  if (isNflowHelpWindowArmed()) {
+    // Browser build: open the shared "nelson-help" window straight from this
+    // click (gesture preserved, no blocked popup). A built-in block's page is
+    // known synchronously, so no host round-trip is needed.
+    openNflowHelpWindow(page ? { open: page } : {});
+    if (page) {
+      pushStatus({ level: 'success', message: t('Block help opened'), durationMs: 2500 });
+      return Promise.resolve(true);
+    }
+    // External library block: the window is now open; let the host resolve the
+    // page (via doc) and the opener navigates the open window.
+    return requestHelp(topic, 'Block help opened', 'Unable to open block help: {error}');
+  }
   return requestHelp(
     topic,
     'Block help opened',

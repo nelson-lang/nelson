@@ -100,6 +100,16 @@ export function DesktopToolbar(): JSX.Element {
       <button
         type="button"
         className="desktop-toolbar__action"
+        title={t('Documentation')}
+        aria-label={t('Documentation')}
+        onClick={() => executeDesktopAction('help.documentation')}
+      >
+        <DesktopIcon name="help" />
+        <span className="desktop-toolbar__label">{t('Documentation')}</span>
+      </button>
+      <button
+        type="button"
+        className="desktop-toolbar__action"
         title={t('Execute a Nelson file')}
         aria-label={t('Execute a Nelson file')}
         disabled={busy}

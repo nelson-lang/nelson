@@ -15,6 +15,13 @@ import { selectVariable } from './variableHost';
 import { getDesktopCapabilities } from './capabilities';
 import { isMobileViewport } from './layout';
 import { corePanelTitle } from './panelTitles';
+import {
+  getHelpLangSync,
+  resolveHelpTarget,
+  resolveHelpTargetSync,
+  type HelpTarget,
+} from './helpIndex';
+import { navigateHelpWindowIfOpen, showHelpInWindow } from './helpWindow';
 import { tf } from '../i18n';
 import { onPush, rpc } from '../rpc/client';
 //=============================================================================
@@ -359,12 +366,37 @@ function corePosition(id: string): Parameters<DockviewApi['addPanel']>[0]['posit
   return undefined;
 }
 //=============================================================================
-export function openHelp(topic?: string): void {
+// Documentation opens in the dedicated "nelson-help" window. From a user gesture
+// (toolbar, menu, help-on-selection) the window opens/raises; a `doc` typed in
+// the terminal has no gesture, so if the window is not already open the popup is
+// blocked and we fall back to the docked Documentation panel — help is never lost.
+export function openHelp(topic?: string, target?: { open?: string; search?: string }): void {
+  const name = (topic || '').trim();
+  // Installed-toolbox pages live only in the engine filesystem, not in the
+  // service-worker viewer, so they can only render in the docked panel.
+  if (!target && name.includes('.')) {
+    openHelpInPanel(topic, target);
+    return;
+  }
+  const lang = getHelpLangSync();
+  const resolved: HelpTarget | null = target ?? (name ? resolveHelpTargetSync(name) : {});
+  const win = showHelpInWindow(resolved ?? {}, lang);
+  if (!win) {
+    openHelpInPanel(topic, target);
+    return;
+  }
+  if (resolved === null) {
+    // The index was not primed yet: refine to the exact page once it loads.
+    void resolveHelpTarget(name).then((refined) => navigateHelpWindowIfOpen(refined, lang));
+  }
+}
+//=============================================================================
+function openHelpInPanel(topic?: string, target?: { open?: string; search?: string }): void {
   ensureCorePanel('help');
-  if (topic) {
+  if (topic || target?.open || target?.search) {
+    const detail = { topic, open: target?.open, search: target?.search };
     setTimeout(
-      () =>
-        window.dispatchEvent(new CustomEvent('nelson-webview.help-topic', { detail: { topic } })),
+      () => window.dispatchEvent(new CustomEvent('nelson-webview.help-topic', { detail })),
       0
     );
   }

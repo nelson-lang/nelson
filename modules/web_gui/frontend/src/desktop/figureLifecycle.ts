@@ -154,8 +154,15 @@ export function installFigureLifecycle(api: DockviewApi): () => void {
   const offTerminal = onPush('terminal.open', () => openShell());
   // `doc` opens the shared documentation panel, not an operating-system browser.
   const offHelp = onPush('help.show', (payload) => {
-    const topic = String((payload as { topic?: string })?.topic ?? '').trim();
-    openHelp(topic || undefined);
+    const data = payload as { topic?: string; open?: string; search?: string };
+    const topic = String(data?.topic ?? '').trim();
+    const open = String(data?.open ?? '').trim();
+    const search = String(data?.search ?? '').trim();
+    if (open || search) {
+      openHelp(undefined, { open: open || undefined, search: search || undefined });
+    } else {
+      openHelp(topic || undefined);
+    }
   });
   const offTools = installWebToolPushes();
 

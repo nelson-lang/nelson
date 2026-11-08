@@ -11,6 +11,7 @@ import { createNelsonWorkerClient, type NelsonLoadingProgress } from '@nelson/wa
 import { installNFlowPushBridge, installWasmWorkerHost } from '../app/native-rpc.js';
 import { OPEN_MODEL_PATH_EVENT } from '../app/components/modal-events.js';
 import type { NFlowWasmExamplesProvider } from '../app/nflow-host.js';
+import { armNflowHelpWindow, openNflowHelpWindow } from '../app/help-window.js';
 import { createFmuProvider } from './fmu.js';
 //=============================================================================
 // The packaged bundle versions every runtime asset with `?build=<id>`. Derive it
@@ -130,13 +131,17 @@ async function start(): Promise<void> {
     onProgress: showProgress,
   });
   installNFlowPushBridge();
+  // Documentation opens in the shared "nelson-help" window. Arm with a default
+  // language now (so a click works immediately) and refine once the engine
+  // reports its language.
+  armNflowHelpWindow('en_US');
+  void resolveEngineLanguage(client).then((language) => armNflowHelpWindow(language));
   const removeHost = installWasmWorkerHost(
     client,
     createExamplesProvider(),
     (url) => {
-      // Some embedded browsers return null even after opening the tab; that is
-      // not an error.
-      window.open(url, '_blank', 'noopener,noreferrer');
+      const { open, search } = parseHelpTarget(url);
+      openNflowHelpWindow({ open, search });
     },
     createFmuProvider(client),
     (path) => {
@@ -163,6 +168,49 @@ async function start(): Promise<void> {
 // the `?model=` query of a freshly opened page. Paths are engine paths; the
 // host maps packaged example paths when it reads them.
 const NFLOW_MODEL_CHANNEL = 'nelson-wasm-nflow';
+//=============================================================================
+// For topics without a canonical page (external-library blocks, related help),
+// the Wasm host resolves the page with `doc(...)` in dry-run and calls the
+// opener with a viewer URL that encodes it as `?open=`/`#open=` (or a `?search=`
+// fallback). Pull the target out of that URL to drive the shared help window.
+function parseHelpTarget(url: string): { open?: string; search?: string } {
+  let open: string | undefined;
+  let search: string | undefined;
+  const matched = /[?#](open|search)=([^&#]*)/.exec(url);
+  if (matched) {
+    let value = matched[2];
+    try {
+      value = decodeURIComponent(value);
+    } catch {
+      // keep the raw value
+    }
+    if (matched[1] === 'open') open = value;
+    else search = value;
+  }
+  return { open, search };
+}
+//=============================================================================
+// Ask the engine for its documentation language so the help window opens the
+// matching pages. Best-effort: fall back to English when evaluation is absent.
+async function resolveEngineLanguage(client: {
+  evaluate?: (
+    code: string,
+    onOutput?: (output: { stream?: string; text?: string }) => void
+  ) => Promise<unknown>;
+}): Promise<string> {
+  if (typeof client.evaluate !== 'function') return 'en_US';
+  try {
+    const chunks: string[] = [];
+    await client.evaluate("disp(['__NFLANG__' getlanguage()]);", (output) => {
+      if (output.stream === 'stdout' && typeof output.text === 'string') chunks.push(output.text);
+    });
+    const matched = /__NFLANG__\s*([a-z]{2}_[A-Z]{2})/.exec(chunks.join(''));
+    return matched ? matched[1] : 'en_US';
+  } catch {
+    return 'en_US';
+  }
+}
+//=============================================================================
 function openModelInEditor(path: string): void {
   document.dispatchEvent(
     new CustomEvent(OPEN_MODEL_PATH_EVENT, { cancelable: true, detail: { path } })
