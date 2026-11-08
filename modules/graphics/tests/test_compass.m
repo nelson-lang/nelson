@@ -9,8 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-% Pin the calibration geometry for 573x460 on a 1024x768 CI runner.
-set(groot, 'DefaultFigurePosition', [423 180 1074 646]);
+% A small figure that fits any screen is never clamped, so the tick density stays the same everywhere.
+set(groot, 'DefaultFigurePosition', [100 100 480 360]);
 %=============================================================================
 % compass draws one Line object per vector (arrows from the origin).
 f = figure('Visible', 'off');
@@ -25,7 +25,7 @@ close(f);
 f = figure('Visible', 'off');
 h = compass([1 + 2i, 2 - 1i, -1 + 1i]);
 ax = ancestor(h(1), 'axes');
-asserts.isequal(ax.XTick, -2:2);
+asserts.isequal(ax.XTick, -3:3);
 close(f);
 %=============================================================================
 % Each arrow is a shaft plus a two-segment arrowhead scaled by the vector.
