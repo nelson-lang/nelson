@@ -575,8 +575,7 @@ RenderQt::appendBspPolygon(const std::vector<point>& vertices, const QColor& fil
     primitive.vertices.reserve(vertices.size());
     for (size_t i = 0; i < vertices.size(); ++i) {
         bool clipped = false;
-        RenderQtBspVertex mapped
-            = bspVertex(vertices[i].x, vertices[i].y, vertices[i].z, clipped);
+        RenderQtBspVertex mapped = bspVertex(vertices[i].x, vertices[i].y, vertices[i].z, clipped);
         if (!isFiniteVertex(mapped)) {
             return;
         }

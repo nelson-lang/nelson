@@ -1368,7 +1368,8 @@ RenderWeb::patchHasDepthRange(const FaceList& faces)
             zmax = std::max(zmax, z);
         }
     }
-    return zmax > zmin && (zmax - zmin) > 1e-9 * std::max(1.0, std::max(std::abs(zmin), std::abs(zmax)));
+    return zmax > zmin
+        && (zmax - zmin) > 1e-9 * std::max(1.0, std::max(std::abs(zmin), std::abs(zmax)));
 }
 //=============================================================================
 bool

@@ -941,8 +941,8 @@ RenderQt::quadStrips(const std::vector<std::vector<coloredPoint>>& faces, bool f
                             const bool ownEdges = edgeStrip != nullptr
                                 && lineStyle != GO_PROPERTY_VALUE_NONE_STR && unclipped();
                             if (ownEdges) {
-                                const bool column
-                                    = meshstyle == meshStyle::Both || meshstyle == meshStyle::Column;
+                                const bool column = meshstyle == meshStyle::Both
+                                    || meshstyle == meshStyle::Column;
                                 const bool row
                                     = meshstyle == meshStyle::Both || meshstyle == meshStyle::Row;
                                 const std::vector<bool> edgeVisible = { column, row, column, row };

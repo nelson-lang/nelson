@@ -385,9 +385,8 @@ private:
     // Installs the projection and viewport; a data box overflowing the axes rectangle
     // (manual camera angle) widens the viewport so the overflow is drawn, as the reference does.
     void
-    finishProjectionViewport(RenderInterface& gc, const std::vector<double>& position,
-        double left, double right, double bottom, double top, double nearDist, double farDist,
-        bool perspective);
+    finishProjectionViewport(RenderInterface& gc, const std::vector<double>& position, double left,
+        double right, double bottom, double top, double nearDist, double farDist, bool perspective);
     //=============================================================================
     // Returns false when the scene is degenerate for perspective, so the caller falls
     // back to the orthographic projection. zMappedMin/zMappedMax are the data-limit
