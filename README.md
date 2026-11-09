@@ -38,80 +38,91 @@ Nelson follows the array-oriented conventions used by established numerical comp
 
 ![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
+## **What's New in Nelson 2.0**
+
+Nelson 2.0 is a major release. Existing scripts run faster, larger projects can use packages and classes, and Nelson runs in a web browser. This release also includes NFlow, a block diagram editor for modeling and simulation.
+
+- Bytecode engine: loops and recursive functions run much faster.
+- Object-oriented programming with `classdef`.
+- NFlow (1.0.0-beta.1): block diagram editor, simulation, C and Rust code generation, FMI and SSP.
+- Web desktop and WebAssembly build (preview): Nelson in a browser, with no installation.
+- Debugger in the editor and `.nlx` notebooks.
+- `datetime`, `duration`, `table`, `timetable`, `timeseries`, and `categorical`.
+- ODE, DAE, DDE, and BVP solvers, optimization, statistics, image processing, and optional GPU computing.
+- Python package, built-in MCP server for AI agents, and standalone application compiler.
+
+See the [changelog](CHANGELOG.md) for the full list of changes.
+
 ## **Features**
 
-### Data Types Managed by Nelson
+### Language
 
-- **Double and Complex Double**: Supports scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
-- **Single and Complex Single**: Includes scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
-- **Logical**: Handles scalars, vectors, 2D matrices, N-dimensional arrays, and sparse matrices.
-- **Character Arrays**: Supports UNICODE characters.
-- **String Arrays**: Fully supports UNICODE.
-- **Integers**: 8, 16, 32, and 64-bit signed and unsigned scalars, vectors, 2D matrices, and N-dimensional arrays.
-- **Handle Objects**: For object-oriented functionality.
-- **Anonymous Functions**: Allows creation and manipulation of functions without names.
-- **Data Structures**: Supports dictionaries and tables.
-- **Overloading**: All types can be overloaded for custom behavior.
+- Bytecode engine with packages, `import`, nested and local functions, and `arguments` blocks for input validation.
+- Object-oriented programming with `classdef` (value and handle classes, inheritance, enumerations, events) and handle objects.
+- Anonymous functions, and overloading for all types.
 
-### Performance Enhancements
+### Data Types
 
-- **OpenMP and SIMD**: Uses parallel processing and vectorization for faster computations.
+- Double, single, and complex: scalars, vectors, 2-D matrices, N-dimensional arrays, and sparse matrices.
+- Logical, and 8, 16, 32, and 64-bit signed and unsigned integers.
+- Character and string arrays with full UNICODE support.
+- Structures, cells, dictionaries, tables, timetables, time series, and categorical arrays.
+- Dates and times: `datetime`, `duration`, and `calendarDuration`.
 
-### Visualization & Interface
+### Performance
 
-- **2D and 3D Plotting**: High-level commands for visualizations.
-- **User Interface Controls**: Built-in controls for creating custom interfaces.
-- **Desktop Environment**: Comes with history tracking, a file explorer, and workspace browser.
+- OpenMP and SIMD parallel processing and vectorization.
+- Parallel computing on multi-core processors and MPI for distributed computing.
+- Optional GPU computing with `gpuArray` through WebGPU, without CUDA.
+- FFT based on FFTW and MKL.
 
-### Advanced Modules
+### Scientific Computing
 
-- **Parallel Computing**: Enables efficient use of multi-core processors.
-- **Fast Fourier Transform (FFT)**: High-performance FFT functions based on FFTW and MKL.
-- **SLICOT Interface**: Optional support for the Systems and Control Theory subroutine library.
-- **Control System Module**: Tools for control theory and system design.
-- **MPI (Message Passing Interface)**: Functions for distributed parallel computing.
+- Linear algebra, signal processing, polynomials, geometry, and special functions.
+- ODE, DAE, DDE, and BVP solvers, with an optional SUNDIALS backend.
+- Optimization: linear, quadratic, nonlinear, least squares, and problem-based modeling.
+- Statistics: distribution fitting, regression, hypothesis tests, clustering, and classification.
+- 2-D and 3-D image processing.
+- Control system tools and the optional SLICOT interface.
 
-### Data Formats & Interfacing
+### NFlow (1.0.0-beta.1)
 
-- **JSON Support**: Read and write JSON files.
-- **HDF5 Functions**: High-level I/O functions, with HDF5 as the default file format for `.nh5` workspaces.
-- **MAT-File Compatibility**: Load and save workspaces in MAT-file format.
-- **Foreign Function Interface (FFI)**: Build and load C/Fortran code on the fly.
-- **MEX C API Compatibility**: Interfacing with MEX-compatible C APIs.
-- **Nelson Engine API**: Use Nelson as a backend engine within C code, compatible with the MEX Engine API.
-- **Julia Interfacing**: Call Julia scripts and functions from Nelson.
-- **Python Interfacing**: Call Python scripts and functions from Nelson.
-- **RESTful API**: Enables Nelson to interact with web services.
+- Block diagram editor for continuous, discrete, and physical (electrical, mechanical, thermal) models.
+- Simulation from the editor or from scripts with `sim`, `linmod`, and `trim`.
+- C and Rust code generation, FMI 2.0/3.0 and SSP import and export.
 
-### Additional Capabilities
+### Visualization and Interface
 
-- **Inter-Process Communication**: Communicate between Nelson processes.
-- **QML Engine**: Use Qt’s QML framework to display and manipulate graphical content.
-- **Component Object Model (COM)**: Interface with COM components, especially on Windows.
-- **Excel File Support**: Write and read `.xlsx` files using COM on Windows.
-- **Embedded Code Editor**: Integrated editor for Nelson scripts.
+- 2-D and 3-D plotting, including pie, bubble, polar, and box charts, `isosurface`, annotations, and lighting.
+- User interface controls and `uifigure` components to build applications.
+- Desktop environment with command history, file explorer, workspace browser, variable editor, code editor, and debugger.
+- Notebooks (`.nlx`) with code, results, and text.
+- Web desktop and WebAssembly build (preview).
 
-### Help & Testing Tools
+### Data Formats and Interfacing
 
-- **Help Engine**: Generate and view help files in various formats like HTML, Markdown, PDF, or GitBook.
-- **Test Engine**: Validate algorithms using built-in functions, with support for xUnit report export.
+- JSON, XML, HDF5 (default `.nh5` workspace format), MAT-file, and `.xlsx` on every platform.
+- Optional NetCDF and Parquet support.
+- Foreign Function Interface (FFI): build and load C/Fortran code on the fly.
+- MEX C API and Nelson Engine API, plus a C/C++ API to embed Nelson in other applications.
+- Julia and Python interfacing, and a Python package to drive Nelson from Python.
+- RESTful API, inter-process communication, and QML engine.
+- Built-in MCP server for AI agents.
 
-### Debugging
+### Developer Tools
 
-- **Debugger**: Interactive debugger with breakpoints, step-in/step-over/step-out, variable inspection, call stack navigation.
+- Help engine: HTML, Markdown, PDF, or GitBook output.
+- Test engine with HTML, JSON, JUnit XML, and TAP13 reports.
+- Profiler and code coverage.
+- Code analysis with `checkcode`, `nelson-lint`, and `nelson-lsp`.
+- Optional `compiler` module to build standalone applications and installers.
 
-### Profiling & Code Coverage
+### Extensibility
 
-- **Profiler**: Built-in profiler to analyze and optimize code performance.
-- **Code Coverage**: Measure the coverage of your tests to ensure thorough validation.
-
-### Cloud & Extensibility
-
-- **Nelson Cloud**: Instant access to Nelson from any web browser via [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud).
-- **Module Skeleton**: Templates for extending Nelson:
+- Module templates:
   - [Template with Macros and Builtins](https://github.com/nelson-lang/module_skeleton).
   - [Basic Macros Template](https://github.com/nelson-lang/module_skeleton_basic).
-- **Nelson Modules Manager (nmm)**: A package manager to install and manage extensions for Nelson.
+- Nelson Modules Manager (`nmm`): package manager with dependency resolution, lockfiles, and publishing.
 
 ## **Download**
 
@@ -164,19 +175,17 @@ Nelson is an independent free software project, not affiliated with, endorsed by
 
 Nelson is tested on the platforms listed below. **[Download](https://github.com/nelson-lang/nelson/releases)** options and **[continuous integration (CI)](https://github.com/nelson-lang/nelson/actions/workflows/ccpp.yml)** status are shown for each supported target.
 
-| **Operating System** |  **Architecture**   | **CI** |   **Binaries**    |
-| :------------------: | :-----------------: | :----: | :---------------: |
-|  **Windows 10, 11**  | x86-64 (\*1), arm64 |   ✓    |         ✓         |
-|   **macOS Tahoe**    |        arm64        |   ✓    |                   |
-|  **macOS Sequoia**   |        arm64        |   ✓    |                   |
-|   **macOS Sonoma**   |        arm64        |   ✓    |                   |
-|   **macOS Sonoma**   |   x86-64 (64-bit)   |   ✓    |                   |
-|   **Ubuntu 26.04**   |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
-|   **Ubuntu 26.04**   | arm64 (cobalt 100)  |   ✓    | ✓ (Snap, Flatpak) |
-|   **Ubuntu 24.04**   |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
-|   **Ubuntu 24.04**   | arm64 (cobalt 100)  |   ✓    | ✓ (Snap, Flatpak) |
-|    **Fedora 43**     |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
-|    **ArchLinux**     |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
+| **Operating System** | **Architecture** |    **CI**    | **Binaries** |
+| :------------------: | :--------------: | :----------: | :----------: |
+|    Windows 10, 11    |   x86-64 (\*1), arm64   | ✓  |  installer   |
+|     macOS 15, 26     |      arm64       | ✓  |     .dmg     |
+|     Ubuntu 26.04     |      x86-64      | ✓  |  .deb, Snap, Flatpak  |
+|     Ubuntu 26.04     |      arm64       | ✓  |  .deb, Snap, Flatpak  |
+|     Ubuntu 24.04     |      x86-64      |    ✓      |     .deb, Flatpak     |
+|      Fedora 45       |      x86-64      | ✓  |       Flatpak       |
+|      Arch Linux      |      x86-64      | ✓  |   Flatpak          |
+
+The Flatpak package is published on [Flathub](https://flathub.org/apps/io.github.nelson_lang.Nelson).
 
 _Note: The continued support of some platforms may depend on community contributions._
 

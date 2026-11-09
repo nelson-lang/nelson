@@ -7,11 +7,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 2.0.0 - (UNRELEASED)
 
-### Overview
+Nelson 2.0 is a major release. Existing scripts run faster, larger projects can use packages and classes, and Nelson runs in a web browser. This release also includes NFlow, a block diagram editor for modeling and simulation.
 
-Nelson 2.0 is a major release. It includes a faster language engine based on bytecode, object-oriented programming with `classdef`, NFlow (a visual block diagram editor with simulation and C/Rust code generation, first release 1.0.0-beta.1), a preview of the web desktop (including a WebAssembly build that runs in the browser), and many new data types, graphics functions, statistics functions, and developer tools.
+### Added
 
-Existing scripts run faster. Larger projects can use packages, imports, nested and local functions, argument validation, and classes. Data analysis gains dates, tables, timetables, and categorical arrays.
+#### Language
+
+- Bytecode engine: loops and recursive functions run much faster, without changes to existing scripts.
+- Object-oriented programming with `classdef`: value and handle classes, inheritance, enumerations, events and listeners, property validation, custom indexing, save and load.
+- Packages, `import`, nested functions, local functions in scripts, and `arguments` blocks for input validation.
+- Direct indexing of a call result, for example `f().Field` or `f()(1)`.
+
+#### NFlow (1.0.0-beta.1)
+
+- Block diagram editor for continuous, discrete, and physical (electrical, mechanical, thermal) models.
+- Simulation from the editor or from scripts with `sim`, `linmod`, and `trim`, with fixed-step and adaptive solvers.
+- C and Rust code generation, FMI 2.0/3.0 and SSP import and export.
+
+#### Web (preview)
+
+- Web desktop: Command Window, editor, workspace, and figures in a browser or in the `nelson-webview` window.
+- WebAssembly build: Nelson runs entirely in a browser, with no installation and no server.
+
+#### Desktop
+
+- Debugger in the editor on the Qt and web desktops: breakpoints, stepping, and variable inspection.
+- Notebooks (`.nlx`) with code, results, and text.
+- Gallery of animated demos and a documentation window.
+
+#### Data analysis
+
+- `datetime`, `duration`, and `calendarDuration` with time zones and calendar arithmetic.
+- `table`, `timetable`, and `timeseries` with joins, grouping, and missing data handling.
+- `categorical` arrays.
+- Statistics: distribution fitting, regression, hypothesis tests, clustering, and classification.
+- 2-D and 3-D image processing.
+
+#### Scientific computing
+
+- ODE solvers (`ode45`, `ode15s`, ...), delay differential equations (`dde23`), and boundary value problems (`bvp4c`).
+- Optimization: `fminsearch`, `fmincon`, `fsolve`, `linprog`, `quadprog`, and problem-based modeling.
+- Optional GPU computing with `gpuArray` on Windows, Linux, and macOS, without CUDA.
+
+#### Graphics and user interfaces
+
+- Pie, donut, bubble, polar, and box charts, `isosurface`, annotations, and lighting.
+- `uifigure` components: panels, tabs, grids, sliders, gauges, tables, and trees.
+
+#### Interoperability
+
+- `.xlsx` read and write on every platform, and optional NetCDF and Parquet support.
+- Python package to drive Nelson from Python, with NumPy and pandas conversion.
+- Built-in MCP server for AI agents.
+- Optional `compiler` module to build standalone applications and installers from `.m` files.
+
+#### Developer tools
+
+- `checkcode`, `nelson-lint`, and `nelson-lsp`.
+- `nelson.unittest` reports in HTML, JSON, JUnit XML, and TAP13.
+- `nmm`: dependency resolution, lockfiles, and publishing.
+
+### Changed
+
+- `end` is required to close blocks (breaking change).
+- A file whose name differs from its function name raises an error (breaking change).
+- `patch`, `surf`, `text`, and `plot` accept an `hgtransform` parent.
+
+### Removed
+
+- COM support on Windows (`com_engine` module). Excel files are read and written with the native `.xlsx` functions.
+- Nelson in the cloud (`sio_client` module), replaced by the web desktop and the WebAssembly build.
+- Gateway generator (`nig` module).
 
 ## Previous changelog
 

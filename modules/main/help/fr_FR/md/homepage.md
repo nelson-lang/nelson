@@ -119,7 +119,7 @@ Nelson reprend les conventions orientées tableaux utilisées par les environnem
 - **JSON, XML, HDF5** (format d'espace de travail `.nh5` par défaut), **MAT-file**, **`.xlsx`**, **NetCDF** et **Parquet**.
 - **Interface de fonctions étrangères (FFI)** : construction et chargement à la volée de code C/Fortran.
 - Compatibilité **API MEX C** et **API Nelson Engine**.
-- Interfaces **Julia** et **Python**, **API RESTful**, **communication inter-processus**, **moteur QML** et composants **COM** sous Windows.
+- Interfaces **Julia** et **Python**, **API RESTful**, **communication inter-processus** et **moteur QML**.
 
 ### Aide, tests et profilage
 
@@ -131,7 +131,6 @@ Nelson reprend les conventions orientées tableaux utilisées par les environnem
 
 - **Site web** : [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/)
 - **Code source et tickets** : [https://github.com/nelson-lang/nelson](https://github.com/nelson-lang/nelson)
-- **Nelson Cloud** : utiliser Nelson depuis un navigateur web avec [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud).
 - **Nelson Modules Manager (nmm)** : installer et gérer les extensions de Nelson.
 - **Squelettes de module** pour étendre Nelson :
   - [Template avec Macros et Builtins](https://github.com/nelson-lang/module_skeleton).

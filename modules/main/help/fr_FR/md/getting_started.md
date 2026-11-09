@@ -17,7 +17,6 @@ Choisissez la méthode adaptée à votre système :
 - **Windows** : téléchargez l'installateur depuis la [page des versions](https://github.com/nelson-lang/nelson/releases), ou lancez `winget install NelsonNumericalSoftware.Nelson`. Des paquets Chocolatey et Scoop existent aussi.
 - **Linux** : installez depuis le [Snap Store](https://snapcraft.io/nelson) ou depuis [Flathub](https://flathub.org/apps/io.github.nelson_lang.Nelson).
 - **Docker** : `docker pull nelsonsoftware/nelson`.
-- **Navigateur, sans installation** : [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud) exécute Nelson dans une page web.
 
 La compilation depuis les sources est décrite dans le fichier `BUILDING.md` du dépôt.
 
@@ -371,18 +370,16 @@ nmm('help')
 
 ## 11. Aide-mémoire
 
-| Tâche | Commandes |
-| --- | --- |
-| Aide | `help f`, `doc f`, `which f` |
-| Espace de travail | `who`, `whos`, `clear`, `clc` |
-| Tableaux | `[ ]`, `:`, `linspace`, `zeros`, `ones`, `eye`, `rand`, `size`, `numel` |
-| Algèbre linéaire | `A \ b`, `inv`, `det`, `eig`, `rank` |
-| Statistiques | `sum`, `mean`, `max`, `min`, `sort` |
-| Texte | `"..."`, `'...'`, `split`, `num2str`, `sprintf`, `fprintf` |
-| Graphiques | `plot`, `figure`, `hold on`, `subplot`, `xlabel`, `legend`, `saveas` |
-| Fichiers | `save`, `load`, `readtable`, `writetable`, `diary` |
-| Exécuter du code | `run`, `edit`, `nelson -f`, `nelson -e` |
-| Modules | `nmm('install', ...)`, `nmm('list')` |
+- **Aide** : `help f`, `doc f`, `which f`
+- **Espace de travail** : `who`, `whos`, `clear`, `clc`
+- **Tableaux** : `[ ]`, `:`, `linspace`, `zeros`, `ones`, `eye`, `rand`, `size`, `numel`
+- **Algèbre linéaire** : `A \ b`, `inv`, `det`, `eig`, `rank`
+- **Statistiques** : `sum`, `mean`, `max`, `min`, `sort`
+- **Texte** : `"..."`, `'...'`, `split`, `num2str`, `sprintf`, `fprintf`
+- **Graphiques** : `plot`, `figure`, `hold on`, `subplot`, `xlabel`, `legend`, `saveas`
+- **Fichiers** : `save`, `load`, `readtable`, `writetable`, `diary`
+- **Exécuter du code** : `run`, `edit`, `nelson -f`, `nelson -e`
+- **Modules** : `nmm('install', ...)`, `nmm('list')`
 
 ## Pour aller plus loin
 

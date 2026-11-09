@@ -119,7 +119,7 @@ Nelson follows the array-oriented conventions used by established numerical comp
 - **JSON, XML, HDF5** (default `.nh5` workspace format), **MAT-file**, **`.xlsx`**, **NetCDF**, and **Parquet**.
 - **Foreign Function Interface (FFI)**: build and load C/Fortran code on the fly.
 - **MEX C API** and **Nelson Engine API** compatibility.
-- **Julia** and **Python** interfacing, **RESTful API**, **inter-process communication**, **QML engine**, and **COM** components on Windows.
+- **Julia** and **Python** interfacing, **RESTful API**, **inter-process communication**, and **QML engine**.
 
 ### Help, Testing, and Profiling
 
@@ -131,7 +131,6 @@ Nelson follows the array-oriented conventions used by established numerical comp
 
 - **Website**: [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/)
 - **Source code and issues**: [https://github.com/nelson-lang/nelson](https://github.com/nelson-lang/nelson)
-- **Nelson Cloud**: use Nelson from a web browser with [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud).
 - **Nelson Modules Manager (nmm)**: install and manage extensions for Nelson.
 - **Module skeletons** to extend Nelson:
   - [Template with Macros and Builtins](https://github.com/nelson-lang/module_skeleton).

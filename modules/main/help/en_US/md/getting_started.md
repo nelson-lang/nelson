@@ -17,7 +17,6 @@ Pick the method that matches your system:
 - **Windows**: download the installer from the [releases page](https://github.com/nelson-lang/nelson/releases), or run `winget install NelsonNumericalSoftware.Nelson`. Chocolatey and Scoop packages are also available.
 - **Linux**: install from the [Snap Store](https://snapcraft.io/nelson) or from [Flathub](https://flathub.org/apps/io.github.nelson_lang.Nelson).
 - **Docker**: `docker pull nelsonsoftware/nelson`.
-- **Browser, no installation**: [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud) runs Nelson in a web page.
 
 Building from source is described in the `BUILDING.md` file of the repository.
 
@@ -371,18 +370,16 @@ nmm('help')
 
 ## 11. Quick reference
 
-| Task | Commands |
-| --- | --- |
-| Help | `help f`, `doc f`, `which f` |
-| Workspace | `who`, `whos`, `clear`, `clc` |
-| Arrays | `[ ]`, `:`, `linspace`, `zeros`, `ones`, `eye`, `rand`, `size`, `numel` |
-| Linear algebra | `A \ b`, `inv`, `det`, `eig`, `rank` |
-| Statistics | `sum`, `mean`, `max`, `min`, `sort` |
-| Text | `"..."`, `'...'`, `split`, `num2str`, `sprintf`, `fprintf` |
-| Plots | `plot`, `figure`, `hold on`, `subplot`, `xlabel`, `legend`, `saveas` |
-| Files | `save`, `load`, `readtable`, `writetable`, `diary` |
-| Run code | `run`, `edit`, `nelson -f`, `nelson -e` |
-| Modules | `nmm('install', ...)`, `nmm('list')` |
+- **Help**: `help f`, `doc f`, `which f`
+- **Workspace**: `who`, `whos`, `clear`, `clc`
+- **Arrays**: `[ ]`, `:`, `linspace`, `zeros`, `ones`, `eye`, `rand`, `size`, `numel`
+- **Linear algebra**: `A \ b`, `inv`, `det`, `eig`, `rank`
+- **Statistics**: `sum`, `mean`, `max`, `min`, `sort`
+- **Text**: `"..."`, `'...'`, `split`, `num2str`, `sprintf`, `fprintf`
+- **Plots**: `plot`, `figure`, `hold on`, `subplot`, `xlabel`, `legend`, `saveas`
+- **Files**: `save`, `load`, `readtable`, `writetable`, `diary`
+- **Run code**: `run`, `edit`, `nelson -f`, `nelson -e`
+- **Modules**: `nmm('install', ...)`, `nmm('list')`
 
 ## Next steps
 
