@@ -12,7 +12,7 @@
 %=============================================================================
 assert_isequal(loop_switch('beta'), 2);
 assert_isequal(loop_switch('alpha'), 1);
-assert_isequal(loop_switch('alph'), 4);
+assert_isequal(loop_switch('alphabet'), 4);
 assert_isequal(loop_switch("beta"), 2);
 assert_isequal(loop_switch('gamma'), 3);
 assert_isequal(loop_switch(['a', char(0), 'b']), 4);
