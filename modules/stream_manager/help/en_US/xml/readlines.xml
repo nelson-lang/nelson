@@ -51,6 +51,7 @@
     <p>By default, a line ends with a line feed, a carriage return or a carriage return followed by a line feed. When the file ends with a line terminator, the last element of <b>S</b> is an empty string. An empty file returns a 1-by-1 empty string.</p>
     <p>With <b>EmptyLineRule</b> set to &apos;skip&apos;, empty lines are removed. With &apos;error&apos;, an error is raised on the first empty line, giving its row. In both cases, the empty text after a final line terminator is ignored.</p>
     <p>A UTF-8 byte order mark at the beginning of the file is not returned.</p>
+    <p>Names and values of the options are case-insensitive and may be shortened when the prefix is unique.</p>
   </description>
   <used_function />
   <bibliography />
@@ -74,6 +75,9 @@ S = readlines(filename, 'WhitespaceRule', 'trim')]]></example_item_data>
     </see_also_item>
     <see_also_item>
       <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}writelines">writelines</link>
     </see_also_item>
   </see_also>
   <history>

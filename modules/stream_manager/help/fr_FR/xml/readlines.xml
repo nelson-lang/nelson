@@ -51,6 +51,7 @@
     <p>Par défaut, une ligne se termine par un saut de ligne, un retour chariot ou un retour chariot suivi d&apos;un saut de ligne. Quand le fichier se termine par une terminaison de ligne, le dernier élément de <b>S</b> est une chaîne vide. Un fichier vide renvoie une chaîne vide 1 x 1.</p>
     <p>Avec <b>EmptyLineRule</b> à &apos;skip&apos;, les lignes vides sont supprimées. Avec &apos;error&apos;, une erreur est levée sur la première ligne vide, en indiquant son numéro. Dans les deux cas, le texte vide après une terminaison de ligne finale est ignoré.</p>
     <p>Une marque d&apos;ordre des octets UTF-8 en début de fichier n&apos;est pas renvoyée.</p>
+    <p>Les noms et les valeurs des options ne tiennent pas compte de la casse et peuvent être abrégés si le préfixe est unique.</p>
   </description>
   <used_function />
   <bibliography />
@@ -74,6 +75,9 @@ S = readlines(filename, 'WhitespaceRule', 'trim')]]></example_item_data>
     </see_also_item>
     <see_also_item>
       <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}writelines">writelines</link>
     </see_also_item>
   </see_also>
   <history>

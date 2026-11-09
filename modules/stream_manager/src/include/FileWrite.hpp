@@ -12,6 +12,7 @@
 #include "ArrayOf.hpp"
 #include "Endian.hpp"
 #include "File.hpp"
+#include "TextFileWriter.hpp"
 #include "nlsStream_manager_exports.h"
 #include <string>
 //=============================================================================
@@ -27,9 +28,10 @@ enum FWRITE_ERROR_TYPE
     FWRITE_ERROR_ENCODING
 };
 //=============================================================================
+// Writes the lines separated by eol; LF and CR LF inside a line become eol too.
 NLSSTREAM_MANAGER_IMPEXP bool
-writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
-    const std::string& eol, const std::string& encoding, std::wstring& errorMessage);
+writeFile(const std::wstring& filename, const std::vector<TextSpan>& lines, const std::wstring& eol,
+    const std::string& encoding, std::wstring& errorMessage);
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP FWRITE_ERROR_TYPE
 FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLittleEndian,

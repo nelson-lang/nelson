@@ -57,6 +57,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 #### Interoperability
 
 - `.xlsx` read and write on every platform, and optional NetCDF and Parquet support.
+- `readlines` and `writelines` to read and write text files line by line.
 - Python package to drive Nelson from Python, with NumPy and pandas conversion.
 - Built-in MCP server for AI agents.
 - Optional `compiler` module to build standalone applications and installers from `.m` files.
@@ -72,6 +73,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - `end` is required to close blocks (breaking change).
 - A file whose name differs from its function name raises an error (breaking change).
 - `patch`, `surf`, `text`, and `plot` accept an `hgtransform` parent.
+- `filewrite` is about 6 times faster on large text.
 
 ### Removed
 

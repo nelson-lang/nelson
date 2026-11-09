@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include <cwctype>
 #include "readlinesBuiltin.hpp"
 #include "ReadLines.hpp"
+#include "helpers.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
@@ -18,14 +17,6 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static bool
-isTextScalar(const ArrayOf& value);
-static std::wstring
-toLower(std::wstring text);
-static std::wstring
-unescapeText(const std::wstring& text);
-static size_t
-matchChoice(const ArrayOf& value, const std::wstring& name, const wstringVector& choices);
 static void
 setOption(ReadLinesOptions& options, const std::wstring& name, const ArrayOf& value);
 //=============================================================================
@@ -62,8 +53,18 @@ Nelson::StreamGateway::readlinesBuiltin(int nLhs, const ArrayOfVector& argIn)
 void
 setOption(ReadLinesOptions& options, const std::wstring& name, const ArrayOf& value)
 {
-    std::wstring key = toLower(name);
-    if (key == L"lineending") {
+    enum
+    {
+        LINE_ENDING,
+        WHITESPACE,
+        EMPTY_LINE_RULE,
+        WHITESPACE_RULE,
+        ENCODING
+    };
+    const std::wstring errorId = L"Nelson:readlines:invalidOptionValue";
+    switch (matchChoicePrefix(
+        name, { L"lineending", L"whitespace", L"emptylinerule", L"whitespacerule", L"encoding" })) {
+    case LINE_ENDING: {
         wstringVector endings;
         if (value.isCharacterArray() && (value.isRowVector() || value.isEmpty())) {
             endings.push_back(value.asWideString());
@@ -78,98 +79,48 @@ setOption(ReadLinesOptions& options, const std::wstring& name, const ArrayOf& va
             ending = unescapeText(ending);
         }
         options.lineEndings = endings;
-    } else if (key == L"whitespace") {
+    } break;
+    case WHITESPACE: {
         if (!isTextScalar(value)) {
             Error(L"Nelson:readlines:invalidWhitespace",
                 L"Whitespace must be a string scalar or character vector.");
         }
         options.whitespace = unescapeText(value.asWideString());
-    } else if (key == L"emptylinerule") {
+    } break;
+    case EMPTY_LINE_RULE: {
         const ReadLinesEmptyLineRule rules[] = { ReadLinesEmptyLineRule::READ,
             ReadLinesEmptyLineRule::SKIP, ReadLinesEmptyLineRule::ERROR_ON_EMPTY };
-        options.emptyLineRule = rules[matchChoice(value, name, { L"read", L"skip", L"error" })];
-    } else if (key == L"whitespacerule") {
+        options.emptyLineRule = rules[matchOptionValue(
+            value, L"EmptyLineRule", { L"read", L"skip", L"error" }, errorId)];
+    } break;
+    case WHITESPACE_RULE: {
         const ReadLinesWhitespaceRule rules[]
             = { ReadLinesWhitespaceRule::PRESERVE, ReadLinesWhitespaceRule::TRIM,
                   ReadLinesWhitespaceRule::TRIM_LEADING, ReadLinesWhitespaceRule::TRIM_TRAILING };
-        options.whitespaceRule = rules[matchChoice(
-            value, name, { L"preserve", L"trim", L"trimleading", L"trimtrailing" })];
-    } else if (key == L"encoding") {
+        options.whitespaceRule = rules[matchOptionValue(value, L"WhitespaceRule",
+            { L"preserve", L"trim", L"trimleading", L"trimtrailing" }, errorId)];
+    } break;
+    case ENCODING: {
         if (!isTextScalar(value)) {
             Error(L"Nelson:readlines:encodingTypeExpected",
                 L"Encoding must be a string scalar or character vector.");
         }
         std::wstring encoding = value.asWideString();
+        std::wstring lower = toLowerText(encoding);
         if (encoding.empty()) {
             options.encoding = L"auto";
-        } else if (toLower(encoding) == L"system") {
+        } else if (lower == L"system") {
             options.encoding = utf8_to_wstring(getSystemEncoding());
-        } else if (toLower(encoding) != L"auto" && isSupportedEncoding(encoding)) {
-            options.encoding = toLower(encoding) == L"utf-8" ? L"UTF-8" : encoding;
+        } else if (lower != L"auto" && isSupportedEncoding(encoding)) {
+            options.encoding = lower == L"utf-8" ? L"UTF-8" : encoding;
         } else {
             Error(
                 L"Nelson:readlines:invalidEncoding", L"The encoding '%s' is not valid.", encoding);
         }
-    } else {
+    } break;
+    default: {
         Error(L"Nelson:readlines:unknownParameter", L"Unknown Parameter '%s'.", name);
+    } break;
     }
-}
-//=============================================================================
-size_t
-matchChoice(const ArrayOf& value, const std::wstring& name, const wstringVector& choices)
-{
-    if (isTextScalar(value)) {
-        std::wstring text = toLower(value.asWideString());
-        auto it = std::find(choices.begin(), choices.end(), text);
-        if (it != choices.end()) {
-            return static_cast<size_t>(it - choices.begin());
-        }
-    }
-    std::wstring expected;
-    for (const std::wstring& choice : choices) {
-        expected += (expected.empty() ? L"'" : L", '") + choice + L"'";
-    }
-    Error(L"Nelson:readlines:invalidOptionValue", L"%s must be one of these values: %s.", name,
-        expected);
-    return 0;
-}
-//=============================================================================
-bool
-isTextScalar(const ArrayOf& value)
-{
-    return (value.isCharacterArray() && (value.isRowVector() || value.isEmpty()))
-        || value.isScalarStringArray();
-}
-//=============================================================================
-std::wstring
-toLower(std::wstring text)
-{
-    std::transform(text.begin(), text.end(), text.begin(),
-        [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
-    return text;
-}
-//=============================================================================
-std::wstring
-unescapeText(const std::wstring& text)
-{
-    std::wstring result;
-    result.reserve(text.size());
-    for (size_t k = 0; k < text.size(); ++k) {
-        if (text[k] != L'\\' || k + 1 == text.size()) {
-            result.push_back(text[k]);
-            continue;
-        }
-        wchar_t next = text[k + 1];
-        const std::wstring escaped = L"nrtbfv\\";
-        const std::wstring replacement = L"\n\r\t\b\f\v\\";
-        size_t pos = escaped.find(next);
-        if (pos == std::wstring::npos) {
-            result.push_back(text[k]);
-            continue;
-        }
-        result.push_back(replacement[pos]);
-        ++k;
-    }
-    return result;
 }
 //=============================================================================

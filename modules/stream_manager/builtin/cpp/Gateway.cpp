@@ -25,6 +25,7 @@
 #include "fseekBuiltin.hpp"
 #include "fsizeBuiltin.hpp"
 #include "readlinesBuiltin.hpp"
+#include "writelinesBuiltin.hpp"
 #include "ftellBuiltin.hpp"
 #include "fwriteBuiltin.hpp"
 #include "loadBuiltin.hpp"
@@ -47,6 +48,7 @@ static const nlsGateway gateway[] = {
     { "frewind", (ptrBuiltin)Nelson::StreamGateway::frewindBuiltin, 0, 1, CPP_BUILTIN },
     { "fileread", (ptrBuiltin)Nelson::StreamGateway::filereadBuiltin, 1, 1 },
     { "readlines", (ptrBuiltin)Nelson::StreamGateway::readlinesBuiltin, 1, -1, CPP_BUILTIN },
+    { "writelines", (ptrBuiltin)Nelson::StreamGateway::writelinesBuiltin, 0, -1, CPP_BUILTIN },
     { "filewrite", (ptrBuiltin)Nelson::StreamGateway::filewriteBuiltin, 0, 2 },
     { "load", (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },

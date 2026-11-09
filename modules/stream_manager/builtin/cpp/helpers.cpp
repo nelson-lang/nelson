@@ -7,10 +7,86 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <cwctype>
 #include "helpers.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+bool
+isTextScalar(const ArrayOf& value)
+{
+    return (value.isCharacterArray() && (value.isRowVector() || value.isEmpty()))
+        || value.isScalarStringArray();
+}
+//=============================================================================
+std::wstring
+toLowerText(std::wstring text)
+{
+    std::transform(text.begin(), text.end(), text.begin(),
+        [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+    return text;
+}
+//=============================================================================
+std::wstring
+unescapeText(const std::wstring& text)
+{
+    const std::wstring escaped = L"nrtbfv\\";
+    const std::wstring replacement = L"\n\r\t\b\f\v\\";
+    std::wstring result;
+    result.reserve(text.size());
+    for (size_t k = 0; k < text.size(); ++k) {
+        size_t pos = (text[k] == L'\\' && k + 1 < text.size()) ? escaped.find(text[k + 1])
+                                                               : std::wstring::npos;
+        if (pos == std::wstring::npos) {
+            result.push_back(text[k]);
+        } else {
+            result.push_back(replacement[pos]);
+            ++k;
+        }
+    }
+    return result;
+}
+//=============================================================================
+int
+matchChoicePrefix(const std::wstring& text, const wstringVector& lowerCaseChoices)
+{
+    std::wstring lower = toLowerText(text);
+    int found = -1;
+    for (size_t k = 0; k < lowerCaseChoices.size(); ++k) {
+        const std::wstring& choice = lowerCaseChoices[k];
+        if (choice == lower) {
+            return static_cast<int>(k);
+        }
+        if (!lower.empty() && choice.compare(0, lower.size(), lower) == 0) {
+            if (found != -1) {
+                return -1;
+            }
+            found = static_cast<int>(k);
+        }
+    }
+    return found;
+}
+//=============================================================================
+size_t
+matchOptionValue(const ArrayOf& value, const std::wstring& name,
+    const wstringVector& lowerCaseChoices, const std::wstring& errorId)
+{
+    if (isTextScalar(value)) {
+        int index = matchChoicePrefix(value.asWideString(), lowerCaseChoices);
+        if (index >= 0) {
+            return static_cast<size_t>(index);
+        }
+    }
+    std::wstring expected;
+    for (const std::wstring& choice : lowerCaseChoices) {
+        expected += (expected.empty() ? L"'" : L", '") + choice + L"'";
+    }
+    Error(errorId, L"%s must be one of these values: %s.", name, expected);
+    return 0;
+}
 //=============================================================================
 static NelsonType
 precisionNameToType(const std::wstring& str, bool& bOK)

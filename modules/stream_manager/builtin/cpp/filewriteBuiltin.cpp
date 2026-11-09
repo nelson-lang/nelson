@@ -14,13 +14,14 @@
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FileWrite.hpp"
+#include "WriteLines.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 // filewrite(filename, txt [, eol, encoding])
 // eol == 'native' (system default), 'pc' ("\r\n"), 'unix' ("\n")
 //=============================================================================
-static std::pair<std::wstring, std::string>
+static std::wstring
 getEol(const std::wstring& str);
 //=============================================================================
 ArrayOfVector
@@ -32,22 +33,8 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
     std::wstring filename = param1.asWideString();
-    std::wstring weol;
-    std::string eol;
+    std::wstring eol = argIn.size() >= 3 ? getEol(argIn[2].asWideString()) : nativeLineEnding();
     std::string encoding = "UTF-8";
-
-    if (argIn.size() >= 3) {
-        ArrayOf param3 = argIn[2];
-        std::tie(weol, eol) = getEol(param3.asWideString());
-    } else {
-#ifdef _MSC_VER
-        weol = L"\r\n";
-        eol = "\r\n";
-#else
-        weol = L"\n";
-        eol = "\n";
-#endif
-    }
 
     if (argIn.size() == 4) {
         ArrayOf param4 = argIn[3];
@@ -57,30 +44,35 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
 
-    wstringVector lines = param2.asWideStringVector(false);
+    // Char matrices are split in rows, other text is viewed without copy.
+    std::vector<TextSpan> lines;
+    wstringVector rows;
+    if (!textSpans(param2, lines)) {
+        rows = param2.asWideStringVector(false);
+        lines.reserve(rows.size());
+        for (const std::wstring& row : rows) {
+            lines.push_back({ row.data(), row.size() });
+        }
+    }
     std::wstring errorMessage;
-    if (!writeFile(filename, lines, weol, eol, encoding, errorMessage)) {
+    if (!writeFile(filename, lines, eol, encoding, errorMessage)) {
         Error(L"Nelson:filewrite:writeFailed", errorMessage);
     }
     return retval;
 }
 //=============================================================================
-static std::pair<std::wstring, std::string>
+static std::wstring
 getEol(const std::wstring& str)
 {
     if (str == L"pc") {
-        return { L"\r\n", "\r\n" };
-    } else if (str == L"unix") {
-        return { L"\n", "\n" };
-    } else if (str == L"native") {
-#ifdef _MSC_VER
-        return { L"\r\n", "\r\n" };
-#else
-        return { L"\n", "\n" };
-#endif
-    } else {
-        Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 3);
-        return { L"", "" };
+        return L"\r\n";
     }
+    if (str == L"unix") {
+        return L"\n";
+    }
+    if (str != L"native") {
+        Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 3);
+    }
+    return nativeLineEnding();
 }
 //=============================================================================

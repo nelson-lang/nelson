@@ -547,9 +547,8 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
     const std::string filenameTemp = tempFilePath.string();
     const std::wstring wfilenameTemp = utf8_to_wstring(filenameTemp);
 #endif
-    wstringVector lines;
-    lines.push_back(content);
-    if (!writeFile(wfilenameTemp, lines, L"\n", "\n", "UTF-8", errorMessage)) {
+    if (!writeFile(
+            wfilenameTemp, { { content.data(), content.size() } }, L"\n", "UTF-8", errorMessage)) {
         return {};
     }
 #ifdef _MSC_VER

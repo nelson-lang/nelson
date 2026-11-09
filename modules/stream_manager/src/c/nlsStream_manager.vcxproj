@@ -208,6 +208,8 @@
     <ClInclude Include="..\include\MapFileRead.hpp" />
     <ClInclude Include="..\include\NelsonPrint.hpp" />
     <ClInclude Include="..\include\ReadLines.hpp" />
+    <ClInclude Include="..\include\TextFileWriter.hpp" />
+    <ClInclude Include="..\include\WriteLines.hpp" />
     <ClInclude Include="..\include\PrintfFunction.hpp" />
     <ClInclude Include="..\include\SscanfFunction.hpp" />
     <ClInclude Include="..\include\Stream.hpp" />
@@ -235,6 +237,8 @@
     <ClCompile Include="..\cpp\MapFileRead.cpp" />
     <ClCompile Include="..\cpp\NelsonPrint.cpp" />
     <ClCompile Include="..\cpp\ReadLines.cpp" />
+    <ClCompile Include="..\cpp\TextFileWriter.cpp" />
+    <ClCompile Include="..\cpp\WriteLines.cpp" />
     <ClCompile Include="..\cpp\PrintfHelper.cpp" />
     <ClCompile Include="..\cpp\PrintfFunction.cpp" />
     <ClCompile Include="..\cpp\SscanfFunction.cpp" />

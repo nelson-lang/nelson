@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>writelines</keyword>
+  <short_description>Écrire des lignes de texte dans un fichier.</short_description>
+  <syntax>
+    <syntax_item>writelines(lines, filename)</syntax_item>
+    <syntax_item>writelines(lines, filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lines</param_name>
+      <param_description
+      >un vecteur de caractères, un tableau de chaînes ou un tableau de cellules de vecteurs de caractères : lignes à écrire. Les tableaux sont écrits par colonne. Une chaîne manquante est écrite comme une ligne vide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : nom du fichier à écrire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineEnding</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire non vide : texte écrit entre les lignes. Défaut : &apos;\r\n&apos; sous Windows, &apos;\n&apos; sur les autres plateformes. Les séquences d&apos;échappement \n, \r, \t, \b, \f, \v et \\ sont interprétées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Encoding</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : encodage du fichier. Défaut : &apos;UTF-8&apos;, écrit sans marque d&apos;ordre des octets. Un caractère que l&apos;encodage ne peut pas représenter est écrit avec le caractère de substitution (0x1A).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>WriteMode</param_name>
+      <param_description
+      >&apos;overwrite&apos; (défaut) ou &apos;append&apos; : remplacer le contenu du fichier ou ajouter les lignes à la fin du fichier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>TrailingLineEndingRule</param_name>
+      <param_description
+      >&apos;auto&apos; (défaut), &apos;always&apos; ou &apos;never&apos; : écriture ou non d&apos;une fin de ligne après la dernière ligne.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>writelines(lines, filename)</b> écrit les éléments de <b>lines</b> dans le fichier <b>filename</b>, un par ligne. Le texte est écrit tel quel : les fins de ligne contenues dans un élément ne sont pas converties et les séquences d&apos;échappement ne sont pas interprétées.</p>
+    <p>Avec &apos;auto&apos;, une fin de ligne est ajoutée après la dernière ligne si celle-ci n&apos;est pas vide et ne se termine pas déjà par <b>LineEnding</b>. Un dernier élément vide termine déjà le texte : aucune fin de ligne n&apos;est ajoutée après lui, sauf s&apos;il est le seul élément. Sans aucune ligne, &apos;auto&apos; et &apos;always&apos; écrivent une seule fin de ligne et &apos;never&apos; n&apos;écrit rien.</p>
+    <p>Avec <b>WriteMode</b> à &apos;append&apos;, un fichier absent est créé. Si le fichier n&apos;est pas vide et ne se termine pas par <b>LineEnding</b>, une fin de ligne est d&apos;abord écrite pour que les nouvelles lignes commencent sur une nouvelle ligne.</p>
+    <p>Les noms et les valeurs des options ne tiennent pas compte de la casse et peuvent être abrégés si le préfixe est unique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire des lignes puis les relire.</example_item_description>
+      <example_item_data><![CDATA[filename = [tempdir(), 'example_writelines.txt'];
+writelines(["Paris"; "Berlin"; "Rome"], filename);
+S = readlines(filename)
+writelines("Madrid", filename, 'WriteMode', 'append');
+S = readlines(filename, 'EmptyLineRule', 'skip')
+writelines({'a', 'b', 'c'}, filename, 'LineEnding', ';', 'TrailingLineEndingRule', 'never');
+txt = fileread(filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}readlines">readlines</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

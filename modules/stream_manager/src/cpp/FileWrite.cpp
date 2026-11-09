@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cwchar>
 #include "FileWrite.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -311,44 +312,60 @@ computeApproxCharCount(size_t writtenBytes, size_t totalBytes, size_t totalChars
 }
 //=============================================================================
 bool
-writeFile(const std::wstring& filename, const wstringVector& lines, const std::wstring& weol,
-    const std::string& eol, const std::string& encoding, std::wstring& errorMessage)
+writeFile(const std::wstring& filename, const std::vector<TextSpan>& lines, const std::wstring& eol,
+    const std::string& encoding, std::wstring& errorMessage)
 {
-#ifdef _MSC_VER
-    std::ofstream of(filename, std::ios::trunc | std::ios::binary);
-#else
-    std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
-#endif
-    if (!of.is_open()) {
-        errorMessage = Nelson::resolveMessageTemplate(
-            L"Nelson:stream_manager:cannotOpenFile", L"Cannot open file.");
+    std::string eolUtf8;
+    appendUtf8(eolUtf8, eol.data(), eol.size());
+    size_t total = eolUtf8.size() * lines.size();
+    for (const TextSpan& line : lines) {
+        total += line.length;
+    }
+    std::string text;
+    text.reserve(total);
+    for (size_t k = 0; k < lines.size(); ++k) {
+        const wchar_t* data = lines[k].data;
+        size_t length = lines[k].length;
+        size_t lineStart = text.size();
+        // LF and CR LF inside a line become the requested end of line.
+        size_t segment = 0;
+        while (segment < length) {
+            const wchar_t* lf = std::wmemchr(data + segment, L'\n', length - segment);
+            if (lf == nullptr) {
+                break;
+            }
+            auto pos = static_cast<size_t>(lf - data);
+            size_t segmentEnd = (pos > segment && data[pos - 1] == L'\r') ? pos - 1 : pos;
+            appendUtf8(text, data + segment, segmentEnd - segment);
+            text += eolUtf8;
+            segment = pos + 1;
+        }
+        if (segment < length) {
+            appendUtf8(text, data + segment, length - segment);
+        }
+        bool endsWithEol = text.size() - lineStart >= eolUtf8.size()
+            && text.compare(text.size() - eolUtf8.size(), eolUtf8.size(), eolUtf8) == 0;
+        if (!endsWithEol && k + 1 != lines.size()) {
+            text += eolUtf8;
+        }
+    }
+    switch (writeUtf8TextFile(filename, text, encoding, false)) {
+    case TextWriteStatus::OK:
+        return true;
+    case TextWriteStatus::ENCODING_FAILED:
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:stream_manager:encodingSupported", L"Encoding not supported.");
+        return false;
+    case TextWriteStatus::OPEN_FAILED:
+        errorMessage
+            = resolveMessageTemplate(L"Nelson:stream_manager:cannotOpenFile", L"Cannot open file.");
+        return false;
+    case TextWriteStatus::WRITE_FAILED:
+    default:
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:stream_manager:writeFailed", L"Unable to write all data to the file.");
         return false;
     }
-    for (size_t k = 0; k < lines.size(); ++k) {
-        std::wstring line = lines[k];
-
-        StringHelpers::replace_all(line, L"\r\n", L"\n");
-        StringHelpers::replace_all(line, L"\n", weol);
-
-        std::string data;
-        if (encoding == "UTF-8") {
-            data = wstring_to_utf8(line);
-        } else {
-            std::string asUtf8 = wstring_to_utf8(line);
-            if (!utf8ToCharsetConverter(asUtf8, data, encoding)) {
-                of.flush();
-                errorMessage = resolveMessageTemplate(
-                    L"Nelson:stream_manager:encodingSupported", L"Encoding not supported.");
-                return false;
-            }
-        }
-        of << data;
-        if (!StringHelpers::ends_with(data, eol) && k != lines.size() - 1) {
-            of << eol;
-        }
-    }
-    of.flush();
-    return true;
 }
 //=============================================================================
 } // namespace Nelson

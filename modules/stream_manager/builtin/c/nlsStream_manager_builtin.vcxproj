@@ -204,6 +204,7 @@
     <ClCompile Include="..\cpp\fseekBuiltin.cpp" />
     <ClCompile Include="..\cpp\fsizeBuiltin.cpp" />
     <ClCompile Include="..\cpp\readlinesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\writelinesBuiltin.cpp" />
     <ClCompile Include="..\cpp\ftellBuiltin.cpp" />
     <ClCompile Include="..\cpp\fwriteBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="..\include\fseekBuiltin.hpp" />
     <ClInclude Include="..\include\fsizeBuiltin.hpp" />
     <ClInclude Include="..\include\readlinesBuiltin.hpp" />
+    <ClInclude Include="..\include\writelinesBuiltin.hpp" />
     <ClInclude Include="..\include\ftellBuiltin.hpp" />
     <ClInclude Include="..\include\fwriteBuiltin.hpp" />
     <ClInclude Include="..\include\helpers.hpp" />

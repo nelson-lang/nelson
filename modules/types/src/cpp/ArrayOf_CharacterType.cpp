@@ -198,7 +198,7 @@ std::wstring
 ArrayOf::asCharacterArrayWideString() const
 {
     std::wstring str;
-    if (dp->dataClass == NLS_CHAR) {
+    if (dataClass() == NLS_CHAR) {
         indexType M = elementCount();
         auto* buffer = new_with_exception<charType>(M + 1, false);
         const auto* qp = static_cast<const charType*>(dp->data());
@@ -233,7 +233,7 @@ ArrayOf::toAllocatedWideCString() const
         memcpy(buffer, qp, M * sizeof(charType));
         buffer[M] = 0;
     } else {
-        if (dp->dataClass != NLS_CHAR) {
+        if (dataClass() != NLS_CHAR) {
             Error(L"Nelson:stringExpected", L"Unable to convert supplied object to a string.");
         }
         if (!isRowVector()) {
@@ -327,7 +327,7 @@ wstringVector
 ArrayOf::asWideStringVector(bool bCheckVector) const
 {
     wstringVector res;
-    if (dp->dataClass == NLS_CHAR) {
+    if (dataClass() == NLS_CHAR) {
         if (is2D()) {
             indexType rows = dimensions().rows();
             indexType columns = dimensions().columns();

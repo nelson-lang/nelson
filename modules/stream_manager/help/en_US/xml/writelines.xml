@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>writelines</keyword>
+  <short_description>Write lines of text to a file.</short_description>
+  <syntax>
+    <syntax_item>writelines(lines, filename)</syntax_item>
+    <syntax_item>writelines(lines, filename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lines</param_name>
+      <param_description
+      >a character vector, a string array or a cell array of character vectors: lines to write. Arrays are written in column order. A missing string is written as an empty line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a character vector or a string scalar: name of the file to write.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineEnding</param_name>
+      <param_description
+      >a nonempty character vector or string scalar: text written between the lines. Default: &apos;\r\n&apos; on Windows, &apos;\n&apos; on other platforms. Escape sequences \n, \r, \t, \b, \f, \v and \\ are interpreted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Encoding</param_name>
+      <param_description
+      >a character vector or a string scalar: encoding of the file. Default: &apos;UTF-8&apos;, written without byte order mark. A character that the encoding cannot represent is written as the substitute character (0x1A).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>WriteMode</param_name>
+      <param_description
+      >&apos;overwrite&apos; (default) or &apos;append&apos;: replace the file content or add the lines at the end of the file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>TrailingLineEndingRule</param_name>
+      <param_description
+      >&apos;auto&apos; (default), &apos;always&apos; or &apos;never&apos;: whether a line ending is written after the last line.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>writelines(lines, filename)</b> writes the elements of <b>lines</b> to the file <b>filename</b>, one per line. The text is written as is: line endings inside an element are not converted and escape sequences are not interpreted.</p>
+    <p>With &apos;auto&apos;, a line ending is added after the last line when this line is not empty and does not already end with <b>LineEnding</b>. A final empty element already ends the text, so no line ending is added after it, except when it is the only element. Without any line, &apos;auto&apos; and &apos;always&apos; write a single line ending and &apos;never&apos; writes nothing.</p>
+    <p>With <b>WriteMode</b> set to &apos;append&apos;, a missing file is created. When the file is not empty and does not end with <b>LineEnding</b>, a line ending is written first so that the new lines start on a new line.</p>
+    <p>Names and values of the options are case-insensitive and may be shortened when the prefix is unique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write lines and read them back.</example_item_description>
+      <example_item_data><![CDATA[filename = [tempdir(), 'example_writelines.txt'];
+writelines(["Paris"; "Berlin"; "Rome"], filename);
+S = readlines(filename)
+writelines("Madrid", filename, 'WriteMode', 'append');
+S = readlines(filename, 'EmptyLineRule', 'skip')
+writelines({'a', 'b', 'c'}, filename, 'LineEnding', ';', 'TrailingLineEndingRule', 'never');
+txt = fileread(filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}readlines">readlines</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}filewrite">filewrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

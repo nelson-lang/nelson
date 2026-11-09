@@ -105,6 +105,16 @@ S = readlines(F.blank_trim, 'WhitespaceRule', 'trim');
 asserts.isequal(S, [""; ""]);
 S = readlines(F.mixed, 'WHITESPACERULE', 'TRIM');
 asserts.isequal(S, ["a"; ""; "b"; "c"]);
+% names and values may be shortened when the prefix is unique
+S = readlines(F.mixed, 'EmptyLine', 'sk');
+asserts.isequal(S, ["a"; string(['  b ', char(9)]); "c"]);
+S = readlines(F.mixed, 'WhitespaceR', 'trimt');
+asserts.isequal(S, ["a"; ""; "  b"; "c"]);
+asserts.checkerror('readlines(F.mixed, ''White'', '' '')', 'Unknown Parameter ''White''.', ...
+  'Nelson:readlines:unknownParameter');
+asserts.checkerror('readlines(F.mixed, ''WhitespaceRule'', ''trim_'')', ...
+  'WhitespaceRule must be one of these values: ''preserve'', ''trim'', ''trimleading'', ''trimtrailing''.', ...
+  'Nelson:readlines:invalidOptionValue');
 %=============================================================================
 % LineEnding (escape sequences are interpreted)
 S = readlines(F.mixed, 'LineEnding', '\n');

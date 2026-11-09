@@ -60,6 +60,9 @@ filewrite([tempdir(), 'example_filewrite.txt'], str, 'native', 'windows-1251')]]
     <see_also_item>
       <link linkend="${stream_manager}fileread">fileread</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}writelines">writelines</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
