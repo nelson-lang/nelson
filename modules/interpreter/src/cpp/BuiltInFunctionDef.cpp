@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "BuiltInFunctionDef.hpp"
+#include <array>
 #include <exception>
 #include <vector>
 #include "EvaluateBuiltinCatchRuntimeException.hpp"
@@ -28,6 +29,59 @@
 namespace Nelson {
 //=============================================================================
 static LazyGatewayResolver lazyGatewayResolver = nullptr;
+//=============================================================================
+namespace {
+    // Per thread, like the not-existing function cache it mirrors: builtin input classes
+    // known to have no overload of a builtin, for one function table generation.
+    struct BasicOverloadMiss
+    {
+        const BuiltInFunctionDef* builtin = nullptr;
+        uint64 generation = 0;
+        int inputClass = -1;
+    };
+    constexpr size_t basicOverloadMissSlots = 256;
+    thread_local std::array<BasicOverloadMiss, basicOverloadMissSlots> basicOverloadMisses;
+    //=============================================================================
+    // A builtin data class names its overload "@[sparse]class/name": the class and the
+    // sparse storage decide it alone. -1 for objects, handles and function handles.
+    int
+    basicOverloadInputClass(const ArrayOf& value)
+    {
+        const NelsonType type = value.dataClass();
+        if (type >= NLS_FUNCTION_HANDLE) {
+            return -1;
+        }
+        return static_cast<int>(type) * 2 + (value.isSparse() ? 1 : 0);
+    }
+    //=============================================================================
+    BasicOverloadMiss&
+    basicOverloadMissSlot(const BuiltInFunctionDef* builtin, int inputClass)
+    {
+        const size_t key
+            = (reinterpret_cast<uintptr_t>(builtin) >> 4) * 31 + static_cast<size_t>(inputClass);
+        return basicOverloadMisses[key % basicOverloadMissSlots];
+    }
+    //=============================================================================
+    bool
+    isKnownBasicOverloadMiss(const BuiltInFunctionDef* builtin, int inputClass, uint64 generation)
+    {
+        const BasicOverloadMiss& slot = basicOverloadMissSlot(builtin, inputClass);
+        return slot.builtin == builtin && slot.inputClass == inputClass
+            && slot.generation == generation;
+    }
+    //=============================================================================
+    // Recorded only when the probe itself would skip: same answer, without the name.
+    void
+    noteBasicOverloadMiss(const BuiltInFunctionDef* builtin, int inputClass, uint64 generation,
+        const std::string& overloadName)
+    {
+        if (NelsonConfiguration::getInstance()->getOverloadLevelCompatibility()
+                == NLS_OVERLOAD_ALL_TYPES
+            && FunctionsInMemory::getInstance()->isNotExistingFunction(overloadName)) {
+            basicOverloadMissSlot(builtin, inputClass) = { builtin, generation, inputClass };
+        }
+    }
+} // namespace
 //=============================================================================
 void
 SetLazyGatewayResolver(LazyGatewayResolver resolver)
@@ -65,9 +119,10 @@ RunPreModulesTeardownCallbacks()
 static bool
 mustDispatchBuiltinToGuiThread(const std::wstring& moduleName)
 {
-    return hasGuiServices() && !isGuiThread()
-        && (moduleName == L"gui" || moduleName == L"graphics" || moduleName == L"graphics_io"
-            || moduleName == L"qml_engine" || moduleName == L"text_editor");
+    // module name first: the service queries lock and call through the backend
+    return (moduleName == L"gui" || moduleName == L"graphics" || moduleName == L"graphics_io"
+               || moduleName == L"qml_engine" || moduleName == L"text_editor")
+        && hasGuiServices() && !isGuiThread();
 }
 //=============================================================================
 // Listeners (event.listener) and dynamic property descriptors
@@ -88,6 +143,27 @@ isNativeClassdefCompanion(const ArrayOf& value)
     const HandleGenericObject* object = refs[0]->object();
     return dynamic_cast<const ClassdefListenerObject*>(object) != nullptr
         || dynamic_cast<const ClassdefDynamicPropertyObject*>(object) != nullptr;
+}
+//=============================================================================
+bool
+BuiltInFunctionDef::skipsOverloadFor(Evaluator* eval, const ArrayOf& dispatchInput)
+{
+    if (!eval->withOverload) {
+        return true;
+    }
+    if (isOverload() || overloadAutoMode != NLS_OVERLOAD_AUTO_ON) {
+        return false;
+    }
+    const int inputClass = basicOverloadInputClass(dispatchInput);
+    if (inputClass < 0) {
+        return false;
+    }
+    if (NelsonConfiguration::getInstance()->getOverloadLevelCompatibility()
+        != NLS_OVERLOAD_ALL_TYPES) {
+        return true;
+    }
+    return isKnownBasicOverloadMiss(
+        this, inputClass, FunctionsInMemory::getInstance()->generation());
 }
 //=============================================================================
 BuiltInFunctionDef::BuiltInFunctionDef(bool isOverload) : FunctionDef(isOverload)
@@ -149,12 +225,20 @@ BuiltInFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& input
         if (dispatchInput.isClassType()) {
             classdefLoadClass(dispatchInput.classType());
         }
-        bool wasFound = false;
-        ArrayOfVector res = callOverloadedFunction(eval,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout, inputs,
-            getName(), ClassName(dispatchInput), dispatchInput.dataClass(), wasFound);
-        if (wasFound) {
-            return res;
+        const int basicInputClass = basicOverloadInputClass(dispatchInput);
+        const uint64 generation = FunctionsInMemory::getInstance()->generation();
+        if (basicInputClass < 0 || !isKnownBasicOverloadMiss(this, basicInputClass, generation)) {
+            bool wasFound = false;
+            ArrayOfVector res = callOverloadedFunction(eval,
+                NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout,
+                inputs, getName(), ClassName(dispatchInput), dispatchInput.dataClass(), wasFound);
+            if (wasFound) {
+                return res;
+            }
+            if (basicInputClass >= 0) {
+                noteBasicOverloadMiss(this, basicInputClass, generation,
+                    getOverloadFunctionName(ClassName(dispatchInput), getName()));
+            }
         }
         // callOverloadedFunction only checks the exact class; a classdef object
         // may overload this builtin through a method inherited from a superclass

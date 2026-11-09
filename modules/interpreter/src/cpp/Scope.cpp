@@ -128,36 +128,41 @@ void
 Scope::addGlobalVariablePointer(const std::string& varName)
 {
     globalVars.insert(varName);
+    VariablesTable::noteVariableAppearance();
 }
 //=============================================================================
 void
 Scope::deleteGlobalVariablePointer(const std::string& varName)
 {
     globalVars.erase(varName);
+    VariablesTable::noteVariableAppearance();
 }
 //=============================================================================
 bool
 Scope::isVariableGlobal(const std::string& varName)
 {
-    return globalVars.find(varName) != globalVars.end();
+    // checked on every variable lookup: skip hashing the name when nothing is declared
+    return !globalVars.empty() && globalVars.find(varName) != globalVars.end();
 }
 //=============================================================================
 void
 Scope::addPersistentVariablePointer(const std::string& varName)
 {
     persistentVars.insert(varName);
+    VariablesTable::noteVariableAppearance();
 }
 //=============================================================================
 void
 Scope::deletePersistentVariablePointer(const std::string& varName)
 {
     persistentVars.erase(varName);
+    VariablesTable::noteVariableAppearance();
 }
 //=============================================================================
 bool
 Scope::isVariablePersistent(const std::string& varName)
 {
-    return persistentVars.find(varName) != persistentVars.end();
+    return !persistentVars.empty() && persistentVars.find(varName) != persistentVars.end();
 }
 //=============================================================================
 std::string

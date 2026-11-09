@@ -12,7 +12,6 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "quitBuiltin.hpp"
 #include "bannerBuiltin.hpp"
 #include "evalBuiltin.hpp"
@@ -53,16 +52,20 @@ const std::wstring gatewayName = L"core";
 static const nlsGateway gateway[] = {
     { "exit", (ptrBuiltin)Nelson::CoreGateway::quitBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "quit", (ptrBuiltin)Nelson::CoreGateway::quitBuiltin, 0, 2, CPP_BUILTIN_WITH_EVALUATOR },
-    { "run", (ptrBuiltin)Nelson::CoreGateway::runBuiltin, 1, 3, CPP_BUILTIN_WITH_EVALUATOR },
+    { "run", (ptrBuiltin)Nelson::CoreGateway::runBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "nfilename", (ptrBuiltin)Nelson::CoreGateway::nfilenameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "mfilename", (ptrBuiltin)Nelson::CoreGateway::nfilenameBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "execstr", (ptrBuiltin)Nelson::CoreGateway::execstrBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    { "eval", (ptrBuiltin)Nelson::CoreGateway::evalBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "evalc", (ptrBuiltin)Nelson::CoreGateway::evalcBuiltin, -1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "evalin", (ptrBuiltin)Nelson::CoreGateway::evalinBuiltin, -1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
+    { "eval", (ptrBuiltin)Nelson::CoreGateway::evalBuiltin, -1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
+    { "evalc", (ptrBuiltin)Nelson::CoreGateway::evalcBuiltin, -1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
+    { "evalin", (ptrBuiltin)Nelson::CoreGateway::evalinBuiltin, -1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "nargin", (ptrBuiltin)Nelson::CoreGateway::narginBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "narginchk", (ptrBuiltin)Nelson::CoreGateway::narginchkBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR },
@@ -103,24 +106,12 @@ static const nlsGateway gateway[] = {
 };
 //=============================================================================
 static bool
-initializeCoreModule(Nelson::Evaluator* eval)
-{
-    auto* manager = BuiltInFunctionDefManager::getInstance();
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::runBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::execstrBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalcBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalinBuiltin, true);
-    return true;
-}
-//=============================================================================
-static bool
 finishCoreModule(Nelson::Evaluator* eval)
 {
     return true;
 }
 //=============================================================================
-NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeCoreModule)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
 NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishCoreModule)
 //=============================================================================

@@ -233,10 +233,14 @@ private:
                         retained = total - complete;
                         std::memmove(bytes.data(), bytes.data() + complete, retained);
                     } else {
-                        if (stop) {
+                        if (stop && remaining >= 0) {
                             break;
                         }
-                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        // stop seen after an empty read: the bytes written just before it are
+                        // taken by the final snapshot at the top of the loop, never dropped
+                        if (!stop) {
+                            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        }
                     }
                 }
                 // Preserve truncated or non-UTF-8 output verbatim at end of stream.

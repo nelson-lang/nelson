@@ -22,12 +22,20 @@
     <param_input_item>
       <param_name>builtin_table</param_name>
       <param_description
-      >a cell composed of cell with {name exposed in Nelson, nb output arguments, nb input arguments}</param_description>
+      >a cell composed of cell with {name exposed in Nelson, nb output arguments, nb input arguments, builtin type (optional), overload mode (optional)}</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>dlgenerategateway</b> generates a C++ gateway used by<b>addmodule</b>.</p>
+    <p>The builtin type tells how the C++ function is called and what it does with the workspace of its caller:</p>
+    <ul>
+      <li><b>'CPP_BUILTIN'</b> (default): the function receives its inputs only.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR'</b>: the function also receives the evaluator; the variables of the caller are made visible to it before each call.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE'</b>: the function receives the evaluator but never reads or changes the variables of its caller (no eval, no variable lookup, no nargin or inputname, no user callback), so calls are faster.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS'</b>: the function receives the evaluator and reads or changes the variables of its caller, as eval, clear or load do; they are made visible before the call and read back after it.</li>
+    </ul>
+    <p>The overload mode is <b>'NLS_OVERLOAD_AUTO_ON'</b> (default) or <b>'NLS_OVERLOAD_AUTO_OFF'</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,6 +58,10 @@ text = fileread([tempdir(), 'Gateway.cpp'])]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE' and 'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS' builtin types.</history_description>
     </history_item>
   </history>
   <authors>

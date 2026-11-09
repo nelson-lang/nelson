@@ -13,8 +13,11 @@
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
+// a letter followed by letters, digits or underscores
 NLSTYPES_IMPEXP bool
 IsValidFieldname(const std::string& fieldname);
+NLSTYPES_IMPEXP bool
+IsValidFieldname(const std::wstring& fieldname);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

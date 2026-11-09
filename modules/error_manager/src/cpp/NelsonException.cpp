@@ -267,7 +267,7 @@ NelsonException::formattedErrorMessage(bool withHyperlinks) const
         size_t idx = i + 1;
         if (idx < nbTraces) {
             if (traces[idx].getFunctionName() != L"run") {
-                functionName = traces[i].getFunctionName();
+                functionName = traces[i].getDisplayName();
                 headerFilename = traces[i].getFilename();
                 if (traces[i].getLine() != 0) {
                     lineAsString = std::to_wstring(traces[i].getLine());

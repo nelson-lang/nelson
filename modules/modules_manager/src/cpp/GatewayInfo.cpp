@@ -61,6 +61,7 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
     }
 
     library_handle handle = nullptr;
+    std::string loadError;
     {
         CurrentDirectoryGuard guard(dir);
 #ifdef _MSC_VER
@@ -68,12 +69,16 @@ GatewayInfo(const std::wstring& dynlibname, std::wstring& moduleName, stringVect
 #else
         handle = load_dynamic_library(wstring_to_utf8(filename));
 #endif
+        // read now: restoring the directory would overwrite the system error
+        if (handle == nullptr) {
+            loadError = get_dynamic_library_error();
+        }
     }
     if (handle == nullptr) {
         errorMessage = formatI18nMessage(
             Nelson::resolveMessageTemplate(L"Nelson:modules_manager:moduleLoadedLibraryLoaded",
                 L"Module not loaded: library not loaded.\n%s\n%s"),
-            filename, utf8_to_wstring(get_dynamic_library_error()));
+            filename, utf8_to_wstring(loadError));
         return false;
     }
 

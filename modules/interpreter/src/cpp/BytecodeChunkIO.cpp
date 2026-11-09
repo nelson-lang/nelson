@@ -57,6 +57,7 @@ namespace {
             op.imm = read<double>(reader);
             program.ops.push_back(op);
         }
+        program.callsBuiltins = scalarProgramCallsBuiltins(program);
         return program;
     }
     //=============================================================================

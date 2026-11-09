@@ -141,6 +141,11 @@ private:
     std::vector<single> recordBuffer; // interleaved samples
     std::atomic<uint32_t> recordedFrames;
     uint64_t lastTimerFrame = 0; // audio thread only
+    // software rate conversion: device frames per recorded frame (0 when the device runs
+    // SampleRate), pending device frames and the position in them; guarded by recordMutex
+    double resampleStep = 0.0;
+    double resamplePosition = 0.0;
+    std::vector<single> resampleFrames;
     NelsonType recordedDataClass;
 
     AudioplayerObject* audioPlayerObject;

@@ -11,6 +11,7 @@
 #include "ProfilerHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "CallStack.hpp"
+#include "PositionScript.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -37,6 +38,12 @@ computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
                 }
             }
         }
+    }
+    // a local function is listed as file>local, as the call stack displays it
+    if (!isBuiltin && !currentFilename.empty()) {
+        const std::string displayName = wstring_to_utf8(
+            PositionScript(utf8_to_wstring(currentFunctionName), currentFilename).getDisplayName());
+        return std::make_tuple(profilerStack, displayName, currentFilename, isBuiltin);
     }
     return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
 }

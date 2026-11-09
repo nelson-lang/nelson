@@ -46,6 +46,22 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Timed by the profiler: the outermost call of a function or script in its own recursive
+// chain, whatever calls it (the call stack already holds the frame of this call).
+static bool
+isOutermostCallOf(Evaluator* eval, const std::string& filename, const std::string& name)
+{
+    int frames = 0;
+    const CallStack& callstack = eval->callstack;
+    for (size_t k = 0; k < callstack.size(); ++k) {
+        if (callstack.getID(k) == 0 && callstack.getDetail(k) == name
+            && callstack.getContext(k) == filename && ++frames > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
 namespace {
     //=============================================================================
     bool
@@ -205,7 +221,8 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         const std::string& filenameUtf8 = this->getFilenameUtf8();
         eval->callstack.pushDebug(filenameUtf8, getCompleteName());
         uint64 tic = 0;
-        const bool profileThisCall = (recursionDepth == 1) || this->localFunction;
+        const bool profileThisCall = Profiler::getInstance()->isOn()
+            && isOutermostCallOf(eval, filenameUtf8, getCompleteName());
         try {
             if (profileThisCall) {
                 tic = Profiler::getInstance()->tic();
@@ -273,7 +290,8 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         }
     };
     uint64 tic = 0;
-    const bool profileThisCall = (recursionDepth == 1) || this->localFunction;
+    const bool profileThisCall = Profiler::getInstance()->isOn()
+        && isOutermostCallOf(eval, filenameUtf8, getCompleteName());
     try {
         // Only insert local functions on first entry (they don't change during recursion).
         if (recursionDepth == 1) {
@@ -377,18 +395,8 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
     const std::string& filenameUtf8 = this->getFilenameUtf8();
     eval->callstack.pushDebug(filenameUtf8, this->getName(), this->directScript);
 
-    struct RecursionGuard
-    {
-        int& depth;
-        explicit RecursionGuard(int& d) : depth(d) { ++depth; }
-        ~RecursionGuard() { --depth; }
-        RecursionGuard(const RecursionGuard&) = delete;
-        RecursionGuard&
-        operator=(const RecursionGuard&)
-            = delete;
-    };
-    static thread_local int recursionDepthScript = 0;
-    RecursionGuard rgs(recursionDepthScript);
+    const bool profileThisScript
+        = Profiler::getInstance()->isOn() && isOutermostCallOf(eval, filenameUtf8, this->getName());
 
     context->getCurrentScope()->setInputArgumentNames(stringVector());
     context->getCurrentScope()->setNargIn(0);
@@ -400,7 +408,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         if (this->nextFunction != nullptr) {
             localFunctionBindings = insertLocalFunctions(context);
         }
-        if (recursionDepthScript == 1) {
+        if (profileThisScript) {
             tic = Profiler::getInstance()->tic();
         }
         if (bytecodeChunk != nullptr
@@ -408,7 +416,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
             ensureBytecodeCompiled();
             BytecodeVM::executeScript(eval, *bytecodeChunk);
         }
-        if (recursionDepthScript == 1 && tic != 0) {
+        if (profileThisScript && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
@@ -424,7 +432,7 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         restoreLocalFunctions(context, localFunctionBindings);
         eval->callstack.popDebug();
     } catch (const NelsonException&) {
-        if (recursionDepthScript == 1 && tic != 0) {
+        if (profileThisScript && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
@@ -642,11 +650,8 @@ std::string
 MacroFunctionDef::computeCompleteName()
 {
     if (this->localFunction) {
-        MacroFunctionDef* root = this;
-        while (root->prevFunction != nullptr) {
-            root = root->prevFunction;
-        }
-        if (!this->nestedFunction && !root->getIsScript()) {
+        // a local function is named alone, in a script as in a function file
+        if (!this->nestedFunction) {
             return this->getName();
         }
         std::vector<std::string> names;

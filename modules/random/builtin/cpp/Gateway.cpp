@@ -20,9 +20,11 @@ using namespace Nelson;
 const std::wstring gatewayName = L"random";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "randi", (ptrBuiltin)Nelson::RandomGateway::randiBuiltin, 1, -1, CPP_BUILTIN },
-    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN },
     { "__rng_eval__", (ptrBuiltin)Nelson::RandomGateway::__rng_eval__Builtin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },

@@ -642,6 +642,10 @@ public:
     ArrayOf
     bytecodeEndReference(const ArrayOf& v, indexType index, size_t count);
 
+    // `end` of a value without an end overload, used as subscript index of count
+    static double
+    endSubscriptValue(const ArrayOf& v, indexType index, size_t count);
+
     ArrayOfVector
     bytecodeGetHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params);
 

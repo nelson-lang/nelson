@@ -121,6 +121,11 @@ public:
         return lazyGateway;
     }
     //=============================================================================
+    // true when a call with this dispatch input is known to reach the builtin itself, not an
+    // overload (a builtin-class overload is known missing once a call probed it)
+    bool
+    skipsOverloadFor(Evaluator* eval, const ArrayOf& dispatchInput);
+    //=============================================================================
     // "built-in <name>" computed once: pushDebug runs on every builtin call.
     const std::string&
     getDebugDetail()

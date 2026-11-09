@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--RELEASE ONLY-->
+% <--SEQUENTIAL TEST REQUIRED-->
 check_runtime_log();
 
 function check_runtime_log()

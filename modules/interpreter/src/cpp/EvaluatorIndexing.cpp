@@ -950,31 +950,27 @@ Evaluator::bytecodeEndReference(const ArrayOf& v, indexType index, size_t count)
 ArrayOf
 Evaluator::EndReference(const ArrayOf& v, indexType index, size_t count)
 {
-    Dimensions dim(v.dimensions());
-    ArrayOf res;
-    bool useStandardMethod = true;
     if (v.isClassType()) {
         bool needToBeOverloaded = false;
-        res = EndOverloadReference(v, index, count, needToBeOverloaded);
-        useStandardMethod = needToBeOverloaded;
-    }
-    if (useStandardMethod) {
-        if (count == 1) {
-            return ArrayOf::doubleScalar(static_cast<double>(dim.elementCount()));
+        ArrayOf res = EndOverloadReference(v, index, count, needToBeOverloaded);
+        if (!needToBeOverloaded) {
+            return res;
         }
-        if (index + 1 == static_cast<indexType>(count)
-            && static_cast<indexType>(count) < dim.length()) {
-            // the last of fewer subscripts than dimensions spans the trailing
-            // dimensions: A(end,end) on a 2x3x4 array is A(2,12)
-            double folded = 1;
-            for (indexType k = index; k < dim.length(); ++k) {
-                folded *= static_cast<double>(dim.dimensionLength(k));
-            }
-            return ArrayOf::doubleScalar(folded);
-        }
-        return ArrayOf::doubleScalar(static_cast<double>(dim.dimensionLength(index)));
     }
-    return res;
+    return ArrayOf::doubleScalar(endSubscriptValue(v, index, count));
+}
+//=============================================================================
+double
+Evaluator::endSubscriptValue(const ArrayOf& v, indexType index, size_t count)
+{
+    // single subscript: the cached element count, no Dimensions copy
+    if (count <= 1) {
+        return static_cast<double>(v.elementCount());
+    }
+    // the last of fewer subscripts than dimensions spans the trailing ones:
+    // A(end,end) on a 2x3x4 array is A(2,12)
+    return static_cast<double>(
+        v.dimensions().foldForSubscriptCount(static_cast<indexType>(count)).dimensionLength(index));
 }
 //=============================================================================
 ArrayOf

@@ -58,6 +58,41 @@ ArrayOf::fieldNames() const
     return {};
 }
 //=============================================================================
+indexType
+ArrayOf::fieldCount() const
+{
+    if (hasScalarStorage() || dp == nullptr) {
+        return 0;
+    }
+    return static_cast<indexType>(dp->fieldNames().size());
+}
+//=============================================================================
+const ArrayOf*
+ArrayOf::structFieldElement(indexType ordinal, const std::string& fieldName, bool scalarOnly) const
+{
+    if (hasScalarStorage() || dp == nullptr || dp->dataClass != NLS_STRUCT_ARRAY || dp->sparse
+        || ordinal < 1 || ordinal > dp->elementCount() || (scalarOnly && !dp->isScalar())) {
+        return nullptr;
+    }
+    const int64 index = dp->fieldIndexFromName(fieldName);
+    if (index < 0) {
+        return nullptr;
+    }
+    return static_cast<const ArrayOf*>(dp->data())
+        + ((ordinal - 1) * static_cast<indexType>(dp->fieldNames().size())
+            + static_cast<indexType>(index));
+}
+//=============================================================================
+const ArrayOf*
+ArrayOf::cellElementAt(indexType ordinal) const
+{
+    if (hasScalarStorage() || dp == nullptr || dp->dataClass != NLS_CELL_ARRAY || dp->sparse
+        || ordinal < 1 || ordinal > dp->elementCount()) {
+        return nullptr;
+    }
+    return static_cast<const ArrayOf*>(dp->data()) + (ordinal - 1);
+}
+//=============================================================================
 ArrayOf
 ArrayOf::structScalar(const wstringVector& fNames, const ArrayOfVector& values)
 {
@@ -479,6 +514,8 @@ ArrayOf::renameFieldnames(const stringVector& newFieldnames)
     if (dp->fieldNames_.size() != newFieldnames.size()) {
         return false;
     }
+    // the names live on the shared block: detach before renaming
+    ensureSingleOwner();
     dp->fieldNames_ = newFieldnames;
     dp->invalidateFieldIndexCache();
     return true;

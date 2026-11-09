@@ -27,44 +27,14 @@ ArrayOf::allocateArrayOf(
     case NLS_GO_HANDLE: {
         return (void*)new_with_exception<nelson_handle>(length);
     } break;
-    case NLS_STRING_ARRAY: {
-        auto* dp = new_with_exception<ArrayOf>(length, false);
-        for (indexType i = 0; i < length; i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
-    } break;
-    case NLS_CELL_ARRAY: {
-        auto* dp = new_with_exception<ArrayOf>(length, false);
-        for (indexType i = 0; i < length; i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
-    } break;
-    case NLS_FUNCTION_HANDLE: {
-        auto n = static_cast<indexType>(length * names.size());
-        auto* dp = new_with_exception<ArrayOf>(n, false);
-        for (indexType i = 0; i < (n); i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
-    } break;
-    case NLS_CLASS_ARRAY: {
-        auto n = static_cast<indexType>(length * names.size());
-        auto* dp = new_with_exception<ArrayOf>(n, false);
-        for (indexType i = 0; i < (n); i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
-    } break;
-    case NLS_CLASSDEF_ARRAY: {
-        auto n = static_cast<indexType>(length * names.size());
-        auto* dp = new_with_exception<ArrayOf>(n, false);
-        for (indexType i = 0; i < (n); i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
-    } break;
+    // new ArrayOf[] already builds every slot as an empty double: no second construction
+    case NLS_STRING_ARRAY:
+    case NLS_CELL_ARRAY:
+        return new_with_exception<ArrayOf>(length, false);
+    case NLS_FUNCTION_HANDLE:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
+        return new_with_exception<ArrayOf>(static_cast<size_t>(length * names.size()), false);
     case NLS_STRUCT_ARRAY: {
         if (!haveValidFieldNames(names)) {
             Error(L"Nelson:types:invalidFieldNames", L"Field names must be valid.");
@@ -72,12 +42,7 @@ ArrayOf::allocateArrayOf(
         if (!haveUniqueFieldNames(names)) {
             Error(L"Nelson:types:duplicatedFieldName", L"Duplicated field detected.");
         }
-        auto n = static_cast<indexType>(length * names.size());
-        auto* dp = new_with_exception<ArrayOf>(n, false);
-        for (indexType i = 0; i < (n); i++) {
-            dp[i] = ArrayOf(NLS_DOUBLE);
-        }
-        return dp;
+        return new_with_exception<ArrayOf>(static_cast<size_t>(length * names.size()), false);
     } break;
     case NLS_LOGICAL: {
         return (void*)new_with_exception<logical>(length, initializeValues);

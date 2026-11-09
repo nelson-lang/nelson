@@ -16,10 +16,12 @@ asserts.isfalse(0 & 0);
 %=============================================================================
 asserts.istrue(1 | 0);
 asserts.isfalse(0 | 0);
-asserts.isfalse(NaN & 0);
-asserts.istrue(NaN & 1);
-asserts.istrue(NaN | 0);
-asserts.isfalse(~NaN);
+% a NaN cannot be converted to logical
+msg = _('Conversion to logical with NaN is not possible.');
+asserts.checkerror('r = NaN & 0;', msg);
+asserts.checkerror('r = NaN & 1;', msg);
+asserts.checkerror('r = NaN | 0;', msg);
+asserts.checkerror('r = ~NaN;', msg);
 %=============================================================================
 values = [3, -2, NaN, Inf];
 for k = 1:numel(values)
@@ -37,8 +39,9 @@ asserts.isequal(0 \ 1, Inf);
 asserts.isequal(NaN .\ 1, NaN);
 asserts.isequal(NaN \ 1, NaN);
 %=============================================================================
-asserts.isfalse(NaN && false);
+asserts.checkerror('r = NaN && false;', msg);
 asserts.isfalse(false && NaN);
-asserts.istrue(NaN || false);
-asserts.istrue(false || NaN);
+asserts.checkerror('r = NaN || false;', msg);
+asserts.checkerror('r = false || NaN;', msg);
+asserts.istrue(true || NaN);
 %=============================================================================

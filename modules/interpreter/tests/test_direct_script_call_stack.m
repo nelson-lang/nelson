@@ -20,9 +20,10 @@ asserts.istrue(contains(direct_report, 'Error in sprintf'));
 asserts.istrue(contains(direct_report, 'at line    12 of'));
 asserts.istrue(contains(direct_report, 'direct_script_call_stack_case.m'));
 asserts.isequal(fieldnames(direct_exception.stack), {'file'; 'name'; 'line'});
-asserts.isequal(direct_exception.stack(1).name, 'sprintf');
-asserts.isequal(direct_exception.stack(2).name, 'direct_script_call_stack_case');
-asserts.isequal(direct_exception.stack(2).line, 12);
+% the stack lists user code only: the failing builtin has no frame
+asserts.isequal(direct_exception.stack(1).name, 'direct_script_call_stack_case');
+asserts.isequal(direct_exception.stack(1).line, 12);
+asserts.isfalse(any(strcmp({direct_exception.stack.name}, 'sprintf')));
 %=============================================================================
 run_report = '';
 try

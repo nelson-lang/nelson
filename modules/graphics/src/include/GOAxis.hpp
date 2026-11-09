@@ -321,6 +321,9 @@ private:
     //=============================================================================
     void
     setupAxis(RenderInterface& gc);
+    // picks the box edges the x/y/z rulers lie on for the projection set up in gc
+    void
+    computeAxisEdges(RenderInterface& gc, const std::vector<double>& limits);
     //=============================================================================
     void
     recalculateTicks();

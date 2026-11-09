@@ -46,13 +46,20 @@ isScalarBuiltinFastPathCandidate(const ScalarBuiltinFastPath& fastPath)
 //=============================================================================
 bool
 tryEvaluateScalarBuiltinFastPathArg(
-    const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef, const ArrayOf& arg, ArrayOf& result)
+    const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef, const ArrayOf& arg, double& result)
 {
     if (fastPath.inputCount != 1 || !isResolvedBuiltinFastPath(fdef) || !isScalarDouble(arg)) {
         return false;
     }
+    return evaluateUnaryScalarMathBuiltin(fastPath.kind, scalarDoubleValue(arg), result);
+}
+//=============================================================================
+bool
+tryEvaluateScalarBuiltinFastPathArg(
+    const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef, const ArrayOf& arg, ArrayOf& result)
+{
     double scalarResult = 0.;
-    if (!evaluateUnaryScalarMathBuiltin(fastPath.kind, scalarDoubleValue(arg), scalarResult)) {
+    if (!tryEvaluateScalarBuiltinFastPathArg(fastPath, fdef, arg, scalarResult)) {
         return false;
     }
     result = ArrayOf::doubleScalar(scalarResult);
@@ -63,14 +70,8 @@ bool
 tryEvaluateScalarBuiltinFastPathArgs(const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef,
     const ArrayOf& lhsArg, const ArrayOf& rhsArg, ArrayOf& result)
 {
-    if (fastPath.inputCount != 2 || !isResolvedBuiltinFastPath(fdef) || !isScalarDouble(lhsArg)
-        || !isScalarDouble(rhsArg)) {
-        return false;
-    }
-    double lhs = scalarDoubleValue(lhsArg);
-    double rhs = scalarDoubleValue(rhsArg);
     double scalarResult = 0.;
-    if (!evaluateBinaryScalarMathBuiltin(fastPath.kind, lhs, rhs, scalarResult)) {
+    if (!tryEvaluateScalarBuiltinFastPathArgs(fastPath, fdef, lhsArg, rhsArg, scalarResult)) {
         return false;
     }
     result = ArrayOf::doubleScalar(scalarResult);

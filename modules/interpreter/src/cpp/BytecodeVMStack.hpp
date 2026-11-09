@@ -19,9 +19,20 @@ popStackValue(std::vector<ArrayOf>& stack)
     if (stack.empty()) {
         Error(L"Nelson:bytecode:stackUnderflow", L"BytecodeVM: stack underflow.");
     }
-    ArrayOf value = stack.back();
+    ArrayOf value = std::move(stack.back());
     stack.pop_back();
     return value;
+}
+//=============================================================================
+// Moves out the value sitting under `depth` entries without popping anything:
+// the caller pops those entries, then the emptied slot.
+inline ArrayOf
+takeStackValueBelow(std::vector<ArrayOf>& stack, uint16_t depth)
+{
+    if (depth >= stack.size()) {
+        Error(L"Nelson:bytecode:stackUnderflow", L"BytecodeVM: stack underflow.");
+    }
+    return std::move(stack[stack.size() - 1 - depth]);
 }
 //=============================================================================
 inline ArrayOfVector

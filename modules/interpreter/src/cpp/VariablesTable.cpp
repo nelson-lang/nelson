@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <atomic>
 #include "VariablesTable.hpp"
 #include "IsValidVariableName.hpp"
 //=============================================================================
@@ -118,7 +119,8 @@ VariablesTable::getVariablesList(bool withPersistent)
 bool
 VariablesTable::isLockedVariable(const std::string& key)
 {
-    return lockedVariables.find(key) != lockedVariables.end();
+    // Checked on every indexed assignment: skip hashing the name when nothing is locked.
+    return !lockedVariables.empty() && lockedVariables.find(key) != lockedVariables.end();
 }
 //=============================================================================
 bool
@@ -155,13 +157,36 @@ void
 insertUnnamedSymbol(
     GenericTable<std::string, ArrayOf>& table, const std::string& key, const ArrayOf& val)
 {
+    bool created = false;
     if (val.name().empty()) {
-        table.insertSymbol(key, val);
-        return;
+        created = table.insertSymbol(key, val);
+    } else {
+        ArrayOf unnamed(val);
+        unnamed.name("");
+        created = table.insertSymbol(key, unnamed);
     }
-    ArrayOf unnamed(val);
-    unnamed.name("");
-    table.insertSymbol(key, unnamed);
+    if (created) {
+        VariablesTable::noteVariableAppearance();
+    }
+}
+//=============================================================================
+static std::atomic<uint64>&
+appearanceStamp()
+{
+    static std::atomic<uint64> stamp { 0 };
+    return stamp;
+}
+//=============================================================================
+uint64
+VariablesTable::variableAppearanceStamp()
+{
+    return appearanceStamp().load(std::memory_order_relaxed);
+}
+//=============================================================================
+void
+VariablesTable::noteVariableAppearance()
+{
+    appearanceStamp().fetch_add(1, std::memory_order_relaxed);
 }
 //=============================================================================
 } // namespace Nelson

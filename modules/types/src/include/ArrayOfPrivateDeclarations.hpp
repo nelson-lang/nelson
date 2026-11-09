@@ -117,6 +117,9 @@ deleteContents();
  */
 [[nodiscard]] bool
 hasScalarStorage() const noexcept;
+// dense real (numeric, logical or char) 2-D storage, not a scalar slot
+bool
+isDenseRealMatrixStorage() const;
 /**
  * Return whether an existing Data block can become compact scalar storage.
  */

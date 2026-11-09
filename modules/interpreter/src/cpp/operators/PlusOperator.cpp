@@ -31,31 +31,6 @@ isPatternObject(const ArrayOf& value)
     return value.isClassType() && value.classType() == "pattern" && value.isField("Expression");
 }
 //=============================================================================
-static ArrayOf
-denseDoubleAddition(const ArrayOf& A, const ArrayOf& B)
-{
-    const indexType countA = A.elementCount();
-    const indexType countB = B.elementCount();
-    const indexType count = std::max(countA, countB);
-    // Keep large arrays on the vectorized backend and empty arrays on its shape rules.
-    if (countA == 0 || countB == 0 || count <= 1 || count > 64) {
-        return Addition(A, B);
-    }
-    const bool scalarA = countA == 1;
-    const bool scalarB = countB == 1;
-    const Dimensions dimensions = scalarA ? B.dimensions() : A.dimensions();
-    if (!scalarA && !scalarB && !dimensions.equals(B.dimensions())) {
-        return Addition(A, B);
-    }
-    const auto* ptrA = static_cast<const double*>(A.dataPointer());
-    const auto* ptrB = static_cast<const double*>(B.dataPointer());
-    auto* ptrC = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, count));
-    for (indexType k = 0; k < count; ++k) {
-        ptrC[k] = ptrA[scalarA ? 0 : k] + ptrB[scalarB ? 0 : k];
-    }
-    return ArrayOf(NLS_DOUBLE, dimensions, ptrC, false);
-}
-//=============================================================================
 ArrayOf
 Evaluator::plusOperator(const ArrayOfVector& args)
 {
@@ -75,7 +50,7 @@ Evaluator::plusOperator(const ArrayOfVector& args)
     }
     // Resolve primitive-type overloads before selecting a dense numeric kernel.
     if (!isSparse && args[0].dataClass() == NLS_DOUBLE && args[1].dataClass() == NLS_DOUBLE) {
-        return denseDoubleAddition(args[0], args[1]);
+        return denseRealDoublePlus(args[0], args[1]);
     }
     // A + B: add a real operand to a complex one without promoting it.
     if (dotPlusComplexRealScaling(args[0], args[1], res)) {

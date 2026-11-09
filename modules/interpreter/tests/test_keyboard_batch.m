@@ -46,8 +46,8 @@ asserts.istrue(contains(output, 'result 204'));
 filewrite(inputFile, ['dbstack', LF, 'dbstep', LF, 'dbstack', LF, 'dbcont', LF]);
 [status, output] = system([command, ' < "', inputFile, '"'], 90);
 asserts.isequal(status, expectedDbcontStatus);
-asserts.istrue(contains(output, 'function keyboard_pause (line 4)'));
-asserts.istrue(contains(output, 'function keyboard_pause (line 5)'));
+asserts.istrue(contains(output, 'In keyboard_pause (line 4)'));
+asserts.istrue(contains(output, 'In keyboard_pause (line 5)'));
 asserts.istrue(contains(output, 'result 4'));
 %=============================================================================
 % dbquit stops the paused execution (the -e command is aborted, then the

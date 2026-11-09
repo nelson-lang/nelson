@@ -56,6 +56,32 @@ Nelson::DataStructuresGateway::structBuiltin(int nLhs, const ArrayOfVector& argI
         }
         size_t pairCount = argIn.size() / 2;
         stringVector names;
+        names.reserve(pairCount);
+        bool oneElement = true;
+        for (size_t i = 1; i < argIn.size(); i += 2) {
+            oneElement = oneElement && !argIn[i].isCell() && !argIn[i].isStringArray();
+        }
+        if (oneElement) {
+            // no cell value: a 1x1 structure holding the values as they are
+            for (size_t i = 0; i < argIn.size(); i += 2) {
+                if (!(argIn[i].isRowVectorCharacterArray() || argIn[i].isScalarStringArray())) {
+                    Error(L"Nelson:data_structures:requiresPairsFieldNamesValues",
+                        L"requires pairs of field names and values.");
+                }
+                names.push_back(argIn[i].asUtf8String());
+                if (!IsValidFieldname(names.back())) {
+                    Error(L"Nelson:data_structures:requiresValidFieldname",
+                        L"requires a valid fieldname.");
+                }
+            }
+            auto* fields = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, 1, names, false));
+            for (size_t i = 0; i < pairCount; ++i) {
+                fields[i] = argIn[2 * i + 1];
+            }
+            retval << ArrayOf(NLS_STRUCT_ARRAY, Dimensions(1, 1), fields, false, names);
+            return retval;
+        }
         ArrayOfVector values;
         for (size_t i = 0; i < pairCount; i++) {
             values.push_back(ArrayOf());

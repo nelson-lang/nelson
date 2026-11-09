@@ -8,8 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--RELEASE ONLY-->
-% This is the only runtime-package installation allowed in the parallel block:
-% the shared runtime lock rejects a second concurrent installation.
+% <--SEQUENTIAL TEST REQUIRED-->
+% Runs alone: it installs the runtime package (one installation at a time) and
+% takes over a minute, too long for the timeout under the parallel load.
 ncc('--help');
 if ~ispc()
   return;

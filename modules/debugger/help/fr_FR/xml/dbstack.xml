@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>dbstack</syntax_item>
     <syntax_item>st = dbstack()</syntax_item>
+    <syntax_item>dbstack(omit)</syntax_item>
+    <syntax_item>[st, I] = dbstack(omit)</syntax_item>
     <syntax_item>dbstack(&apos;-completenames&apos;)</syntax_item>
     <syntax_item>st = dbstack(&apos;-completenames&apos;)</syntax_item>
     <syntax_item>dbstack(&apos;-completenames&apos;, omit)</syntax_item>
@@ -16,7 +18,7 @@
     <param_input_item>
       <param_name>omit</param_name>
       <param_description
-      >un entier : nombre de trames à omettre (doit être positif).</param_description>
+      >un entier : nombre de trames les plus internes omises (0 par défaut).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,12 +26,19 @@
       <param_name>st</param_name>
       <param_description>une structure</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description
+      >un entier : indice dans st de la trame de l&apos;espace de travail courant (1 sauf après dbup).</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>dbstack</b> affiche les noms de fichiers et les numéros de ligne des appels de fonctions.</p>
     <p>
       <b>dbstack(&apos;-completenames&apos;)</b> affiche les chemins de fichiers complets.</p>
+    <p>Une fonction locale est affichée sous la forme <b>file&gt;local_function</b>, celle que prennent <b>dbstop</b> et <b>which</b> ; le champ <b>name</b> de la sortie contient le nom de la fonction seul.</p>
+    <p>La trame de l&apos;espace de travail courant est marquée par <b>&gt;</b>. Les fonctions intégrées n&apos;ont pas de trame.</p>
   </description>
   <used_function />
   <bibliography />
@@ -52,6 +61,10 @@ end]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Fonctions locales affichées sous la forme file&gt;local_function, une ligne par appel : In nom (line n) ; omit compte les trames affichées ; trame courante marquée ; sortie I.</history_description>
     </history_item>
   </history>
   <authors>

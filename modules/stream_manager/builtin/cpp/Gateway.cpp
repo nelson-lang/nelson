@@ -10,7 +10,6 @@
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "cprintfBuiltin.hpp"
 #include "diaryBuiltin.hpp"
@@ -49,7 +48,8 @@ static const nlsGateway gateway[] = {
     { "fileread", (ptrBuiltin)Nelson::StreamGateway::filereadBuiltin, 1, 1 },
     { "readlines", (ptrBuiltin)Nelson::StreamGateway::readlinesBuiltin, 1, -1, CPP_BUILTIN },
     { "filewrite", (ptrBuiltin)Nelson::StreamGateway::filewriteBuiltin, 0, 2 },
-    { "load", (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "load", (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "save", (ptrBuiltin)Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fopen", (ptrBuiltin)Nelson::StreamGateway::fopenBuiltin, 4, 4, CPP_BUILTIN },
     { "fclose", (ptrBuiltin)Nelson::StreamGateway::fcloseBuiltin, 1, 1, CPP_BUILTIN },
@@ -82,8 +82,6 @@ initializeModule(Nelson::Evaluator* eval)
             NelsonConfiguration::getInstance()->setFileManager((void*)fm);
         }
     }
-    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
-        (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, true);
     return true;
 }
 //=============================================================================

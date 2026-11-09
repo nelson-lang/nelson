@@ -2632,6 +2632,8 @@ GOAxis::recalculateTicks()
     RenderWeb gc(0, 0, width, height);
     setupProjection(gc);
     std::vector<double> limits(getAxisLimits());
+    // tick counts measure the ruler edges: set them here, a hidden figure is never painted
+    computeAxisEdges(gc, limits);
     bool axes2D = is2D();
     bool depthSortedSurface = axisHasDepthSortedSurface(this);
     bool autoZLimits = isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR);
@@ -4038,9 +4040,25 @@ GOAxis::drawPolarBackground(RenderInterface& gc)
 void
 GOAxis::setupAxis(RenderInterface& gc)
 {
+    std::vector<double> limits(getAxisLimits());
+    computeAxisEdges(gc, limits);
+    double x1, y1, x2, y2;
+    gc.toPixels(limits[0], x1pos[1], x1pos[2], x1, y1);
+    gc.toPixels(limits[1], x1pos[1], x1pos[2], x2, y2);
+    xvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
+    gc.toPixels(y1pos[0], limits[2], y1pos[2], x1, y1);
+    gc.toPixels(y1pos[0], limits[3], y1pos[2], x2, y2);
+    yvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
+    gc.toPixels(z1pos[0], z1pos[1], limits[4], x1, y1);
+    gc.toPixels(z1pos[0], z1pos[1], limits[5], x2, y2);
+    zvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
+}
+//=============================================================================
+void
+GOAxis::computeAxisEdges(RenderInterface& gc, const std::vector<double>& limits)
+{
     std::vector<double> model;
     gc.getModelviewMatrix(model);
-    std::vector<double> limits(getAxisLimits());
     auto flipXValue = [&limits](double t) { return t == limits[0] ? limits[1] : limits[0]; };
     auto flipYValue = [&limits](double t) { return t == limits[2] ? limits[3] : limits[2]; };
     auto flipZValue = [&limits](double t) { return t == limits[4] ? limits[5] : limits[4]; };
@@ -4162,16 +4180,6 @@ GOAxis::setupAxis(RenderInterface& gc)
         z2pos[0] = flipXValue(z1pos[0]);
         z2pos[1] = z1pos[1];
     }
-    double x1, y1, x2, y2;
-    gc.toPixels(limits[0], x1pos[1], x1pos[2], x1, y1);
-    gc.toPixels(limits[1], x1pos[1], x1pos[2], x2, y2);
-    xvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
-    gc.toPixels(y1pos[0], limits[2], y1pos[2], x1, y1);
-    gc.toPixels(y1pos[0], limits[3], y1pos[2], x2, y2);
-    yvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
-    gc.toPixels(z1pos[0], z1pos[1], limits[4], x1, y1);
-    gc.toPixels(z1pos[0], z1pos[1], limits[5], x2, y2);
-    zvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
 }
 //=============================================================================
 double

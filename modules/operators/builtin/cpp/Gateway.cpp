@@ -113,7 +113,7 @@ static const nlsGateway gateway[] = {
     { "subsasgn", (ptrBuiltin)Nelson::OperatorsGateway::subsasgnBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "subsref", (ptrBuiltin)Nelson::OperatorsGateway::subsrefBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "ismember", (ptrBuiltin)Nelson::OperatorsGateway::ismemberBuiltin, 1, 2 },
     { "bitand", (ptrBuiltin)Nelson::OperatorsGateway::bitandBuiltin, 1, 2, CPP_BUILTIN },
     { "bitget", (ptrBuiltin)Nelson::OperatorsGateway::bitgetBuiltin, 1, 3, CPP_BUILTIN },

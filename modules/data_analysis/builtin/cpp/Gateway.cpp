@@ -34,10 +34,10 @@ using namespace Nelson;
 const std::wstring gatewayName = L"data_analysis";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "max", (ptrBuiltin)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR,
-        NLS_OVERLOAD_AUTO_OFF },
-    { "min", (ptrBuiltin)Nelson::DataAnalysisGateway::minBuiltin, 2, 4, CPP_BUILTIN_WITH_EVALUATOR,
-        NLS_OVERLOAD_AUTO_OFF },
+    { "max", (ptrBuiltin)Nelson::DataAnalysisGateway::maxBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE, NLS_OVERLOAD_AUTO_OFF },
+    { "min", (ptrBuiltin)Nelson::DataAnalysisGateway::minBuiltin, 2, 4,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE, NLS_OVERLOAD_AUTO_OFF },
     { "prod", (ptrBuiltin)Nelson::DataAnalysisGateway::prodBuiltin, 1, 3 },
     { "sum", (ptrBuiltin)Nelson::DataAnalysisGateway::sumBuiltin, 1, 3 },
     { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4 },
@@ -45,9 +45,9 @@ static const nlsGateway gateway[] = {
     { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1 },
     { "ismembertol", (ptrBuiltin)Nelson::DataAnalysisGateway::ismembertolBuiltin, 2, 3 },
     { "isbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::isbetweenBuiltin, 1, -4,
-        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE, NLS_OVERLOAD_AUTO_OFF },
     { "allbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::allbetweenBuiltin, 1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE, NLS_OVERLOAD_AUTO_OFF },
     { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1 },
     { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4 },
     { "unique", (ptrBuiltin)Nelson::DataAnalysisGateway::uniqueBuiltin, -1, -1, CPP_BUILTIN },

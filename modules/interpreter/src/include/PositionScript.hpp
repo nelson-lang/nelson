@@ -93,10 +93,37 @@ public:
         return this->functionname;
     }
     //=============================================================================
+    // Name shown in stack displays: file>local for a local function (the form dbstop takes),
+    // else the name itself (main function, script, method, package or anonymous function).
+    [[nodiscard]] std::wstring
+    getDisplayName() const
+    {
+        const size_t slash = this->filename.find_last_of(L"/\\");
+        std::wstring stem
+            = slash == std::wstring::npos ? this->filename : this->filename.substr(slash + 1);
+        const size_t dot = stem.rfind(L'.');
+        if (dot != std::wstring::npos) {
+            stem.resize(dot);
+        }
+        if (stem.empty() || this->functionname.empty() || this->functionname == stem
+            || this->functionname.find_first_of(L">.@/") != std::wstring::npos) {
+            return this->functionname.empty() ? stem : this->functionname;
+        }
+        return stem + L">" + this->functionname;
+    }
+    //=============================================================================
     [[nodiscard]] bool
     isDirectScript() const
     {
         return this->directScript;
+    }
+    //=============================================================================
+    // Frames of compiled functions (error, zeros, cellfun...) are not shown in stacks; run is
+    // kept, the scripts it runs being listed below it.
+    [[nodiscard]] bool
+    isShownInStacks() const
+    {
+        return !this->filename.empty() || this->line > 0 || this->functionname == L"run";
     }
     //=============================================================================
     [[nodiscard]] bool

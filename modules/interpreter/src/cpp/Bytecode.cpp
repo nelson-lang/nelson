@@ -328,6 +328,12 @@ opCodeName(OpCode op)
         return "ASGN_DOTDYN_CHAIN_VALUE";
     case OpCode::SUBIDX_DOTDYN_CHAIN:
         return "SUBIDX_DOTDYN_CHAIN";
+    case OpCode::LOAD_PARENS2_LOCAL:
+        return "LOAD_PARENS2_LOCAL";
+    case OpCode::ASSIGN_LOCAL_FIELD:
+        return "ASSIGN_LOCAL_FIELD";
+    case OpCode::ASSIGN_LOCAL_CONTENT:
+        return "ASSIGN_LOCAL_CONTENT";
     case OpCode::OPCODE_COUNT:
         return "OPCODE_COUNT";
     }

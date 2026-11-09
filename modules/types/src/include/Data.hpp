@@ -15,6 +15,7 @@
 #include "nlsTypes_exports.h"
 #include <atomic>
 #include <cstring>
+#include <memory>
 #include <unordered_map>
 //=============================================================================
 namespace Nelson {
@@ -66,9 +67,10 @@ private:
     /**
      * Lazy field-name -> ordinal cache. Built only above a small field count
      * (linear search wins for small structures), kept in sync on in-place
-     * append and invalidated when the field names are replaced.
+     * append and invalidated when the field names are replaced. Allocated on
+     * first use: an empty map already allocates, and most blocks never need it.
      */
-    std::unordered_map<std::string, indexType> fieldNameToIndex_;
+    std::unique_ptr<std::unordered_map<std::string, indexType>> fieldNameToIndex_;
 
     std::string classTypeName_ = std::string(NLS_CLASS_ARRAY_STR);
     ClassdefLayoutPtr classdefLayout_;
@@ -80,6 +82,13 @@ private:
         stringVector fields = stringVector());
     Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize);
     ~Data();
+    /**
+     * The 0x0 real double block shared by every default-constructed ArrayOf. Its owner
+     * count is pinned far above one, so any write detaches through copy-on-write and the
+     * block itself is never mutated nor freed.
+     */
+    static Data*
+    sharedEmptyDouble();
     Data*
     copy();
     /**

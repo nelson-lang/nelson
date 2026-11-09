@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>dbstack</syntax_item>
     <syntax_item>st = dbstack()</syntax_item>
+    <syntax_item>dbstack(omit)</syntax_item>
+    <syntax_item>[st, I] = dbstack(omit)</syntax_item>
     <syntax_item>dbstack(&apos;-completenames&apos;)</syntax_item>
     <syntax_item>st = dbstack(&apos;-completenames&apos;)</syntax_item>
     <syntax_item>dbstack(&apos;-completenames&apos;, omit)</syntax_item>
@@ -16,7 +18,7 @@
     <param_input_item>
       <param_name>omit</param_name>
       <param_description
-      >an integer value: Number of frames to omit (must be positive).</param_description>
+      >an integer value: number of innermost frames left out (0 by default).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,12 +26,19 @@
       <param_name>st</param_name>
       <param_description>a struct</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description
+      >an integer: index in st of the frame of the current workspace (1 unless dbup moved it).</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>dbstack</b> displays the file names and line numbers of the function calls.</p>
     <p>
       <b>dbstack(&apos;-completenames&apos;)</b> displays the full file names.</p>
+    <p>A local function is displayed as <b>file&gt;local_function</b>, the form <b>dbstop</b> and <b>which</b> take; the <b>name</b> field of the output holds the function name alone.</p>
+    <p>The frame of the current workspace is marked with <b>&gt;</b>. Built-in functions have no frame.</p>
   </description>
   <used_function />
   <bibliography />
@@ -52,6 +61,10 @@ end]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Local functions displayed as file&gt;local_function, one line per call: In name (line n); omit counts the frames shown; current frame marked; output I.</history_description>
     </history_item>
   </history>
   <authors>

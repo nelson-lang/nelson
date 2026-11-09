@@ -128,6 +128,11 @@ ArrayOf
 ArrayOf::empty(const Dimensions& dim, bool bIsSparse)
 {
     if (dim.elementCount() == 0) {
+        // a plain 0x0 double is the shared empty block
+        if (!bIsSparse && dim.is2D() && dim.dimensionLength(0) == 0
+            && dim.dimensionLength(1) == 0) {
+            return ArrayOf();
+        }
         return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }
     Error(L"Nelson:types:invalidDimensions:invalidDimensions", L"Invalid dimensions.");
@@ -139,6 +144,9 @@ ArrayOf
 ArrayOf::empty(indexType m, indexType n, bool bIsSparse)
 {
     if (((m == 0) && (n == 0)) || ((m == 0) && (n != 0)) || ((m != 0) && (n == 0))) {
+        if (m == 0 && n == 0 && !bIsSparse) {
+            return ArrayOf();
+        }
         Dimensions dim(m, n);
         return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }

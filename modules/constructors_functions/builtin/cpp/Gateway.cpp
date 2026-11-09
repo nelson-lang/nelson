@@ -27,23 +27,23 @@ using namespace Nelson;
 const std::wstring gatewayName = L"constructors_functions";
 //=============================================================================
 static const nlsGateway gateway[] = { { "eye", (ptrBuiltin)Nelson::ConstructorsGateway::eyeBuiltin,
-                                          1, 0, CPP_BUILTIN_WITH_EVALUATOR },
+                                          1, 0, CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "i", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
     { "j", (ptrBuiltin)Nelson::ConstructorsGateway::iBuiltin, 1, 0 },
     { "nan", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "NaN", (ptrBuiltin)Nelson::ConstructorsGateway::nanBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "Inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "eps", (ptrBuiltin)Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
     { "pi", (ptrBuiltin)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
     { "ones", (ptrBuiltin)Nelson::ConstructorsGateway::onesBuiltin, -1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "zeros", (ptrBuiltin)Nelson::ConstructorsGateway::zerosBuiltin, -1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "diag", (ptrBuiltin)Nelson::ConstructorsGateway::diagBuiltin, 1, 2 } };
 //=============================================================================
 NLS_GATEWAY_FUNC(gateway)

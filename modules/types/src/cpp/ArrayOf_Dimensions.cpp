@@ -13,6 +13,7 @@
 //=============================================================================
 #include <cwchar>
 #include <cstring>
+#include <utility>
 #include "lapack_eigen_config.hpp"
 #include "omp_for_loop.hpp"
 #include <Eigen/Dense>
@@ -114,7 +115,8 @@ ArrayOf::dimensionLength(int t) const
         return scalarDimensions[t];
     }
     if (dp) {
-        return dp->dimensions_[t];
+        // const read: the subscript operator would extend the shape in place
+        return dp->dimensions_.dimensionLength(static_cast<indexType>(t));
     }
     return 0;
 }
@@ -250,7 +252,21 @@ ArrayOf::vectorResize(indexType max_index)
             const stringVector& fieldNames = dp->fieldNames();
             void* dstData = allocateArrayOf(dp->dataClass, capacity, fieldNames, true);
             if (currentCount > 0) {
-                copyElements(0, dstData, 0, currentCount);
+                if (dp->dataClass == NLS_CELL_ARRAY || dp->dataClass == NLS_STRING_ARRAY
+                    || dp->dataClass == NLS_STRUCT_ARRAY) {
+                    // the old block is released below: move the elements, not their
+                    // reference counts; a struct element spans its field count
+                    const indexType slots = dp->dataClass == NLS_STRUCT_ARRAY
+                        ? currentCount * static_cast<indexType>(fieldNames.size())
+                        : currentCount;
+                    auto* source = static_cast<ArrayOf*>(dp->writableData());
+                    auto* destination = static_cast<ArrayOf*>(dstData);
+                    for (indexType k = 0; k < slots; ++k) {
+                        destination[k] = std::move(source[k]);
+                    }
+                } else {
+                    copyElements(0, dstData, 0, currentCount);
+                }
             }
             dp = dp->putData(dp->dataClass, newDim, dstData, dp->sparse, fieldNames, capacity);
             return;
@@ -311,6 +327,8 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
         Error(L"Nelson:types:invalidDimensions:valueOperationCannotChangeNumberElements",
             L"%s operation cannot change the number of elements in array.", L"changeDimensions");
     }
+    // the shape lives on the shared block: detach before changing it
+    ensureSingleOwner();
     dp->dimensions_ = a;
     dp->refreshDimensionCache();
 }

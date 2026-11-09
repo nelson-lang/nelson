@@ -84,11 +84,19 @@ struct NLSINTERPRETER_IMPEXP VMCallFrame
     std::vector<int> namedLocalSlotCache;
     std::vector<FunctionDef*> namedScalarBuiltinCache;
     std::vector<uint8_t> namedScalarBuiltinCacheState;
+    // per name, for one and two inputs: scalar fast path kind + 1, 0 until computed
+    std::vector<uint8_t> namedScalarFastPathKind;
+    // per name: dimension query builtin (numel, isempty, ...) + 1, 0 until computed
+    std::vector<uint8_t> namedQueryBuiltinKind;
     std::vector<FunctionDef*> namedFunctionCache;
     std::vector<uint8_t> namedFunctionCacheState;
     std::vector<double> scalarDoubleConstantCache;
     std::vector<uint8_t> scalarDoubleConstantCacheState;
     uint64 namedBuiltinCacheGeneration = 0;
+    // per name: appearance stamp + 1 at which no variable shadowed the builtin, valid
+    // for builtinShadowScope only
+    std::vector<uint64> builtinShadowFreeStamp;
+    const void* builtinShadowScope = nullptr;
 
     void
     init(const BytecodeChunk& ch, int requestedLhs);

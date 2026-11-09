@@ -61,6 +61,13 @@ private:
     void* ownerUserData = nullptr;
     bool paused = false;
     std::atomic<bool> finished { false };
+    // the callback returned its last frames: the device is playing out its buffers
+    std::atomic<bool> completing { false };
+
+    // lets a stream that just ended play out its buffers (bounded), then closes it, so
+    // that a device opened exclusively (e.g. WDM-KS) is free for the next stream
+    void
+    closeIfCompleting();
 
     static int
     onStreamCallback(const void* input, void* output, unsigned long frameCount,

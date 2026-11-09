@@ -53,6 +53,12 @@ public:
     getVariablesList(bool withPersistent);
     bool
     isLockedVariable(const std::string& key);
+    // Bumped when a name may start resolving to a variable (new variable, global or persistent
+    // change): a lookup that missed stays a miss while the stamp is unchanged.
+    static uint64
+    variableAppearanceStamp();
+    static void
+    noteVariableAppearance();
     bool
     lockVariable(const std::string& key);
     bool

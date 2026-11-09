@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <array>
 #include <cstring>
 #include <functional>
 #include <variant>
@@ -18,6 +19,7 @@
 #include <cctype>
 #include <unordered_map>
 #include <unordered_set>
+#include <optional>
 #include "AnonymousMacroFunctionDef.hpp"
 #include "BuiltInFunctionDef.hpp"
 #include "BytecodeVM.hpp"
@@ -56,6 +58,10 @@
 #include "WebDesktopBridge.hpp"
 #include "NelsonPrint.hpp"
 #include "Operators.hpp"
+#include "Colon.hpp"
+#include "DimensionQueries.hpp"
+#include "CharRowComparison.hpp"
+#include "DotPower.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadDispatchArgument.hpp"
 #include "operators/BinaryOperatorHelpers.hpp"
@@ -185,7 +191,7 @@ namespace bcvm_detail {
     bool
     isNoOutputSentinel(const ArrayOf& value)
     {
-        return value.name() == NO_OUTPUT_SENTINEL_NAME;
+        return value.hasName() && value.name() == NO_OUTPUT_SENTINEL_NAME;
     }
     //=============================================================================
     bool
@@ -337,14 +343,18 @@ namespace bcvm_detail {
     bool
     isCommaListSentinel(const ArrayOf& value)
     {
-        return value.name() == COMMA_LIST_SENTINEL_NAME
-            || value.name() == COMMA_LIST_DOUBLE_ROW_SENTINEL_NAME;
+        // sentinels are named: an unnamed value is rejected without copying its name
+        if (!value.hasName()) {
+            return false;
+        }
+        const std::string name = value.name();
+        return name == COMMA_LIST_SENTINEL_NAME || name == COMMA_LIST_DOUBLE_ROW_SENTINEL_NAME;
     }
     //=============================================================================
     bool
     isCommaListDoubleRowSentinel(const ArrayOf& value)
     {
-        return value.name() == COMMA_LIST_DOUBLE_ROW_SENTINEL_NAME;
+        return value.hasName() && value.name() == COMMA_LIST_DOUBLE_ROW_SENTINEL_NAME;
     }
     //=============================================================================
     ArrayOfVector
@@ -372,8 +382,13 @@ namespace bcvm_detail {
     }
     //=============================================================================
     ArrayOfVector
-    expandCommaLists(const ArrayOfVector& args)
+    expandCommaLists(ArrayOfVector args)
     {
+        // most argument lists hold no comma list: hand the vector back as is
+        if (std::none_of(args.begin(), args.end(),
+                [](const ArrayOf& arg) { return isCommaListSentinel(arg); })) {
+            return args;
+        }
         ArrayOfVector expanded;
         expanded.reserve(args.size());
         for (const auto& arg : args) {
@@ -631,21 +646,81 @@ namespace bcvm_detail {
     //=============================================================================
     bool
     scalarOrdinalIndex(const ArrayOf& index, indexType& value);
+    bool
+    ensureLinearOrdinalAddressable(ArrayOf& base, indexType ordinal);
+    //=============================================================================
+    // 2^digits of indexType: the first double that no longer fits an ordinal
+    constexpr double
+    ordinalLimit()
+    {
+        double limit = 1.0;
+        for (int k = 0; k < std::numeric_limits<indexType>::digits; ++k) {
+            limit *= 2.0;
+        }
+        return limit;
+    }
+    //=============================================================================
+    // 1-based linear ordinal from a double: finite, integral, >= 1 and exactly representable.
+    bool
+    doubleToOrdinal(double raw, indexType& value)
+    {
+        // both comparisons are false for NaN, the second one for +Inf
+        constexpr double limit = ordinalLimit();
+        if (!(raw >= 1.0) || !(raw < limit)) {
+            return false;
+        }
+        const auto ordinal = static_cast<indexType>(raw);
+        if (static_cast<double>(ordinal) != raw) {
+            return false;
+        }
+        value = ordinal;
+        return true;
+    }
     //=============================================================================
     bool
     scalarDoubleOrdinalIndex(const ArrayOf& index, indexType& value)
     {
-        if (!index.isDoubleType(true) || index.elementCount() != 1) {
-            return false;
+        double raw = 0.;
+        return index.realDoubleScalar(raw) && doubleToOrdinal(raw, value);
+    }
+    //=============================================================================
+    // Element of a dense real double array at a 1-based ordinal, or nullptr.
+    const double*
+    doubleElementAt(const ArrayOf& base, indexType ordinal)
+    {
+        indexType count = 0;
+        indexType rows = 0;
+        indexType columns = 0;
+        const double* data = base.realDoubleData(count, rows, columns);
+        return (data != nullptr && ordinal <= count) ? data + (ordinal - 1) : nullptr;
+    }
+    //=============================================================================
+    // Data and element offset of a dense real double array when (row, col) fits its first
+    // two extents (an N-D array folds the trailing ones), nullptr otherwise.
+    const double*
+    doubleScalar2DOffset(const ArrayOf& base, indexType row, indexType col, indexType& offset)
+    {
+        indexType count = 0;
+        indexType rows = 0;
+        indexType columns = 0;
+        const double* data = base.realDoubleData(count, rows, columns);
+        if (data == nullptr || row > rows || col > columns) {
+            return nullptr;
         }
-        double raw = *static_cast<const double*>(index.dataPointer());
-        double rounded = std::floor(raw);
-        if (raw != rounded || !std::isfinite(raw) || raw < 1
-            || raw >= std::ldexp(1.0, std::numeric_limits<indexType>::digits)) {
-            return false;
+        offset = (row - 1) + (col - 1) * rows;
+        return data;
+    }
+    //=============================================================================
+    const double*
+    doubleScalar2DOffsetFromIndices(
+        const ArrayOf& base, const ArrayOf& rowIndex, const ArrayOf& colIndex, indexType& offset)
+    {
+        indexType row = 0;
+        indexType col = 0;
+        if (!scalarDoubleOrdinalIndex(rowIndex, row) || !scalarDoubleOrdinalIndex(colIndex, col)) {
+            return nullptr;
         }
-        value = static_cast<indexType>(raw);
-        return true;
+        return doubleScalar2DOffset(base, row, col, offset);
     }
     //=============================================================================
     bool
@@ -701,6 +776,156 @@ namespace bcvm_detail {
             }
         }
         result = ArrayOf(NLS_DOUBLE, Dimensions(outRows, outCols), output);
+        return true;
+    }
+    //=============================================================================
+    // m(i, j) on a real double 2-D array with two scalar ordinal subscripts: replaces
+    // [base, row, col] on the stack by the element; false leaves the stack untouched.
+    bool
+    tryPushDirectScalar2DSubset(std::vector<ArrayOf>& stack)
+    {
+        indexType offset = 0;
+        const double* data = doubleScalar2DOffsetFromIndices(
+            stack[stack.size() - 3], stack[stack.size() - 2], stack[stack.size() - 1], offset);
+        if (data == nullptr) {
+            return false;
+        }
+        const double value = data[offset];
+        stack.resize(stack.size() - 3);
+        stack.push_back(ArrayOf::doubleScalar(value));
+        return true;
+    }
+    //=============================================================================
+    // v(k) on a real double array with a scalar ordinal subscript: replaces [base, index]
+    // on the stack by the element; false leaves the stack untouched.
+    bool
+    tryPushDirectScalar1DSubset(std::vector<ArrayOf>& stack)
+    {
+        indexType ordinal = 0;
+        const double* element = nullptr;
+        if (!scalarDoubleOrdinalIndex(stack.back(), ordinal)
+            || (element = doubleElementAt(stack[stack.size() - 2], ordinal)) == nullptr) {
+            return false;
+        }
+        const double value = *element;
+        stack.resize(stack.size() - 2);
+        stack.push_back(ArrayOf::doubleScalar(value));
+        return true;
+    }
+    //=============================================================================
+    // m(i, :) and m(:, j) (three operands) or v(a:b) (two operands) on dense real storage, the
+    // values the generic subset gives; false leaves the stack untouched.
+    bool
+    tryPushDirectRowColumnOrRangeSubset(std::vector<ArrayOf>& stack, size_t operands)
+    {
+        const ArrayOf& base = stack[stack.size() - operands];
+        ArrayOf result;
+        if (operands == 3 ? !base.rowColumnSubset(stack[stack.size() - 2], stack.back(), result)
+                          : !base.contiguousRangeSubset(stack.back(), result)) {
+            return false;
+        }
+        stack.resize(stack.size() - operands);
+        stack.push_back(std::move(result));
+        return true;
+    }
+    //=============================================================================
+    // v(a:b) and v(a:end) with integer bounds, when the next instruction is that plain
+    // subscript: the elements are read straight from v and pc moves past the subscript.
+    bool
+    tryReadRangeAtColon(
+        std::vector<ArrayOf>& stack, const BytecodeChunk& chunk, VMCallFrame& frame, uint32_t& pc)
+    {
+        if (stack.size() < 3 || frame.chainCollect.active || Profiler::getInstance()->isOn()) {
+            return false;
+        }
+        uint32_t subscriptPC = pc;
+        const bool closesEndContext
+            = subscriptPC < chunk.code.size() && chunk.code[subscriptPC].op == OpCode::POP_END_CTX;
+        if (closesEndContext) {
+            ++subscriptPC;
+        }
+        if (subscriptPC >= chunk.code.size()) {
+            return false;
+        }
+        const Instruction& subscript = chunk.code[subscriptPC];
+        if (subscript.op != OpCode::SUBIDX_PARENS || subscript.B != 1 || subscript.C != 0
+            || (subscript.flags & ~INST_FLAG_INDEX_ONLY) != 0) {
+            return false;
+        }
+        const ArrayOf& base = stack[stack.size() - 3];
+        double first = 0.;
+        double last = 0.;
+        if (!stack[stack.size() - 2].realDoubleScalar(first) || !stack.back().realDoubleScalar(last)
+            || !(first >= 1.) || !(last >= first) || std::floor(first) != first
+            || std::floor(last) != last || last > static_cast<double>(base.elementCount())) {
+            return false;
+        }
+        ArrayOf result;
+        if (!base.ordinalRangeSubset(static_cast<indexType>(first),
+                static_cast<indexType>(last - first) + 1, true, result)) {
+            return false;
+        }
+        if (closesEndContext && !frame.endContexts.empty()) {
+            frame.endContexts.pop_back();
+        }
+        stack.resize(stack.size() - 3);
+        stack.push_back(std::move(result));
+        pc = subscriptPC + 1;
+        return true;
+    }
+    //=============================================================================
+    // Field of element k of a struct array at a scalar double index, or nullptr;
+    // valid while base is alive and unchanged.
+    const ArrayOf*
+    structElementFieldAt(const ArrayOf& base, indexType ordinal, const std::string& field)
+    {
+        return base.structFieldElement(ordinal, field, false);
+    }
+    //=============================================================================
+    const ArrayOf*
+    structElementFieldPointer(const ArrayOf& base, const ArrayOf& index, const std::string& field)
+    {
+        indexType ordinal = 0;
+        if (!scalarDoubleOrdinalIndex(index, ordinal)) {
+            return nullptr;
+        }
+        return structElementFieldAt(base, ordinal, field);
+    }
+    //=============================================================================
+    // A plain s(k).f read: SUBIDX_DOT with one field name, no argument, no list.
+    const std::string*
+    plainFieldReadName(const BytecodeChunk& chunk, const Instruction& next)
+    {
+        if (next.op != OpCode::SUBIDX_DOT || next.flags != 0 || next.A != 0 || next.C != 0
+            || next.B >= chunk.constants.size()) {
+            return nullptr;
+        }
+        return std::get_if<std::string>(&chunk.constants.get(next.B));
+    }
+    //=============================================================================
+    // [a, b, ...] or [a; b; ...] of real double scalars: builds the vector directly
+    // from the top count stack values.
+    bool
+    tryPushDoubleScalarVector(std::vector<ArrayOf>& stack, uint16_t count, bool asRow)
+    {
+        if (count < 2 || stack.size() < count) {
+            return false;
+        }
+        const size_t first = stack.size() - count;
+        double value = 0.;
+        for (size_t k = first; k < stack.size(); ++k) {
+            if (isCommaListSentinel(stack[k]) || !stack[k].realDoubleScalar(value)) {
+                return false;
+            }
+        }
+        auto* data = static_cast<double*>(
+            ArrayOf::allocateArrayOf(NLS_DOUBLE, count, stringVector(), false));
+        for (size_t k = 0; k < count; ++k) {
+            (void)stack[first + k].realDoubleScalar(data[k]);
+        }
+        stack.resize(first);
+        stack.push_back(
+            ArrayOf(NLS_DOUBLE, asRow ? Dimensions(1, count) : Dimensions(count, 1), data));
         return true;
     }
     //=============================================================================
@@ -882,46 +1107,61 @@ namespace bcvm_detail {
         return true;
     }
     //=============================================================================
+    // Content of a cell at a scalar double linear index, or nullptr; valid while base is.
+    const ArrayOf*
+    cellScalarContentPointer(const ArrayOf& base, const ArrayOf& index)
+    {
+        indexType ordinal = 0;
+        if (!scalarDoubleOrdinalIndex(index, ordinal)) {
+            return nullptr;
+        }
+        return base.cellElementAt(ordinal);
+    }
+    //=============================================================================
     bool
     tryReadCellScalarContentDirect(const ArrayOf& base, const ArrayOf& index, ArrayOf& value)
     {
-        if (!base.isCell() || base.isSparse()) {
+        const ArrayOf* element = cellScalarContentPointer(base, index);
+        if (element == nullptr) {
             return false;
         }
-        indexType ordinal = 0;
-        if (!scalarDoubleOrdinalIndex(index, ordinal) || ordinal > base.elementCount()) {
-            return false;
+        value = *element;
+        return true;
+    }
+    //=============================================================================
+    // Content of a cell at one or two scalar ordinal subscripts, or nullptr.
+    const ArrayOf*
+    cellScalarContentPointer(const ArrayOf& base, const ArrayOfVector& indices)
+    {
+        if (!base.isCell() || base.isSparse() || indices.empty() || indices.size() > 2) {
+            return nullptr;
         }
         const auto* elements = static_cast<const ArrayOf*>(base.dataPointer());
-        value = elements[ordinal - 1];
-        return true;
+        if (indices.size() == 1) {
+            indexType ordinal = 0;
+            if (!scalarOrdinalIndex(indices[0], ordinal) || ordinal > base.elementCount()) {
+                return nullptr;
+            }
+            return elements + (ordinal - 1);
+        }
+        indexType row = 0;
+        indexType column = 0;
+        if (!scalarOrdinalIndex(indices[0], row) || !scalarOrdinalIndex(indices[1], column)
+            || row > base.dimensionLength(0) || column > base.dimensionLength(1)) {
+            return nullptr;
+        }
+        return elements + ((column - 1) * base.dimensionLength(0) + row - 1);
     }
     //=============================================================================
     bool
     tryReadCellScalarContentDirect(
         const ArrayOf& base, const ArrayOfVector& indices, ArrayOf& value)
     {
-        if (!base.isCell() || base.isSparse() || indices.empty() || indices.size() > 2) {
+        const ArrayOf* element = cellScalarContentPointer(base, indices);
+        if (element == nullptr) {
             return false;
         }
-        if (indices.size() == 1) {
-            indexType ordinal = 0;
-            if (!scalarOrdinalIndex(indices[0], ordinal) || ordinal > base.elementCount()) {
-                return false;
-            }
-            const auto* elements = static_cast<const ArrayOf*>(base.dataPointer());
-            value = elements[ordinal - 1];
-            return true;
-        }
-        indexType row = 0;
-        indexType column = 0;
-        if (!scalarOrdinalIndex(indices[0], row) || !scalarOrdinalIndex(indices[1], column)
-            || row > base.dimensionLength(0) || column > base.dimensionLength(1)) {
-            return false;
-        }
-        indexType offset = (column - 1) * base.dimensionLength(0) + row - 1;
-        const auto* elements = static_cast<const ArrayOf*>(base.dataPointer());
-        value = elements[offset];
+        value = *element;
         return true;
     }
     //=============================================================================
@@ -932,12 +1172,24 @@ namespace bcvm_detail {
             return false;
         }
         indexType ordinal = 0;
-        if (!scalarDoubleOrdinalIndex(index, ordinal) || ordinal > base.elementCount()) {
+        if (!scalarDoubleOrdinalIndex(index, ordinal)
+            || !ensureLinearOrdinalAddressable(base, ordinal)) {
             return false;
         }
         auto* elements = static_cast<ArrayOf*>(base.readWriteDataPointer());
         elements[ordinal - 1] = value;
         return true;
+    }
+    //=============================================================================
+    // c(k) = {x} on a cell stores x like c{k} = x
+    bool
+    tryAssignCellElementFromScalarCell(ArrayOf& base, const ArrayOf& index, const ArrayOf& value)
+    {
+        if (!base.isCell() || !value.isCell() || value.isSparse() || value.elementCount() != 1) {
+            return false;
+        }
+        const ArrayOf element = static_cast<const ArrayOf*>(value.dataPointer())[0];
+        return tryAssignCellScalarContentDirect(base, index, element);
     }
     //=============================================================================
     bool
@@ -970,7 +1222,8 @@ namespace bcvm_detail {
         }
         if (indices.size() == 1) {
             indexType ordinal = 0;
-            if (!scalarOrdinalIndex(indices[0], ordinal) || ordinal > base.elementCount()) {
+            if (!scalarOrdinalIndex(indices[0], ordinal)
+                || !ensureLinearOrdinalAddressable(base, ordinal)) {
                 return false;
             }
             auto* elements = static_cast<ArrayOf*>(base.readWriteDataPointer());
@@ -1275,10 +1528,34 @@ namespace bcvm_detail {
         return true;
     }
     //=============================================================================
-    // Element write into an existing real double array through a linear index:
-    // the whole generic subset-assignment machinery is bypassed, so this must
-    // reject anything it would treat differently (growth, logical or non
-    // integral indices, type conversion of the target array).
+    // Makes a 1-based ordinal addressable: grows an empty, scalar or vector base (amortized);
+    // a matrix is refused so the generic path raises its ambiguous-dimension error.
+    bool
+    ensureLinearOrdinalAddressable(ArrayOf& base, indexType ordinal)
+    {
+        if (ordinal <= base.elementCount()) {
+            return true;
+        }
+        if (!base.isEmpty() && !base.isScalar() && !base.isVector()) {
+            return false;
+        }
+        base.vectorResize(ordinal);
+        return true;
+    }
+    //=============================================================================
+    // Writes a real double scalar at a 1-based linear ordinal of a real double array.
+    bool
+    storeDoubleAtLinearOrdinal(ArrayOf& base, indexType ordinal, double value)
+    {
+        if (!ensureLinearOrdinalAddressable(base, ordinal)) {
+            return false;
+        }
+        static_cast<double*>(base.readWriteDataPointer())[ordinal - 1] = value;
+        return true;
+    }
+    //=============================================================================
+    // Linear-index write into a real double array bypassing the generic assignment: refuses
+    // logical or non integral indices, a class change of the target and matrix growth.
     bool
     tryAssignDoubleScalarLinearDirect(ArrayOf& base, const ArrayOf& index, const ArrayOf& value)
     {
@@ -1287,29 +1564,24 @@ namespace bcvm_detail {
             return false;
         }
         indexType ordinal = 0;
-        if (!scalarDoubleOrdinalIndex(index, ordinal) || ordinal > base.elementCount()) {
+        if (!scalarDoubleOrdinalIndex(index, ordinal)) {
             return false;
         }
-        static_cast<double*>(base.readWriteDataPointer())[ordinal - 1]
-            = *static_cast<const double*>(value.dataPointer());
-        return true;
+        return storeDoubleAtLinearOrdinal(
+            base, ordinal, *static_cast<const double*>(value.dataPointer()));
     }
     //=============================================================================
     bool
     tryAssignDoubleScalar2DDirect(
         ArrayOf& base, const ArrayOf& rowIndex, const ArrayOf& colIndex, const ArrayOf& value)
     {
-        if (base.dataClass() != NLS_DOUBLE || base.isSparse() || !value.isDoubleType(true)
-            || value.elementCount() != 1) {
+        if (!value.isDoubleType(true) || value.elementCount() != 1) {
             return false;
         }
-        indexType row = 0;
-        indexType col = 0;
-        if (!scalarDoubleOrdinalIndex(rowIndex, row) || !scalarDoubleOrdinalIndex(colIndex, col)
-            || row > base.dimensionLength(0) || col > base.dimensionLength(1)) {
+        indexType offset = 0;
+        if (!doubleScalar2DOffsetFromIndices(base, rowIndex, colIndex, offset)) {
             return false;
         }
-        const indexType offset = (row - 1) + (col - 1) * base.dimensionLength(0);
         static_cast<double*>(base.readWriteDataPointer())[offset]
             = *static_cast<const double*>(value.dataPointer());
         return true;
@@ -1508,20 +1780,11 @@ namespace bcvm_detail {
                 return false;
             }
         }
-        if (ordinal > base.elementCount()) {
-            ArrayOfVector values;
-            stringVector fields = base.fieldNames();
-            values.reserve(fields.size());
-            for (size_t k = 0; k < fields.size(); ++k) {
-                values.push_back(ArrayOf::empty());
-            }
-            values[static_cast<size_t>(fieldIndex)] = value;
-            ArrayOf scalar = ArrayOf::structScalar(fields, values);
-            ArrayOf index = indices[0];
-            base.setVectorSubset(index, scalar);
-            return true;
+        // growth keeps the amortized capacity; new elements hold empty fields
+        if (!ensureLinearOrdinalAddressable(base, ordinal)) {
+            return false;
         }
-        indexType fieldCount = static_cast<indexType>(base.fieldNames().size());
+        indexType fieldCount = base.fieldCount();
         auto* elements = static_cast<ArrayOf*>(base.readWriteDataPointer());
         elements[(ordinal - 1) * fieldCount + static_cast<indexType>(fieldIndex)] = value;
         elements[(ordinal - 1) * fieldCount + static_cast<indexType>(fieldIndex)].name("");
@@ -1539,7 +1802,7 @@ namespace bcvm_detail {
         if (elementCount == 0) {
             return false;
         }
-        const indexType fieldCount = static_cast<indexType>(base.fieldNames().size());
+        const indexType fieldCount = base.fieldCount();
         const int64 fieldIndex = base.fieldIndex(field);
         if (fieldIndex < 0) {
             return false;
@@ -1663,18 +1926,21 @@ namespace bcvm_detail {
         return true;
     }
     //=============================================================================
+    // Field of a scalar struct, or nullptr; valid while base is alive and unchanged.
+    const ArrayOf*
+    structScalarFieldPointer(const ArrayOf& base, const std::string& field)
+    {
+        return base.structFieldElement(1, field, true);
+    }
+    //=============================================================================
     bool
     tryReadStructScalarFieldDirect(const ArrayOf& base, const std::string& field, ArrayOf& value)
     {
-        if (!base.isStruct() || !base.isScalar() || base.isSparse()) {
+        const ArrayOf* element = structScalarFieldPointer(base, field);
+        if (element == nullptr) {
             return false;
         }
-        int64 fieldIndex = base.fieldIndex(field);
-        if (fieldIndex < 0) {
-            return false;
-        }
-        const auto* elements = static_cast<const ArrayOf*>(base.dataPointer());
-        value = elements[static_cast<indexType>(fieldIndex)];
+        value = *element;
         return true;
     }
     //=============================================================================
@@ -2108,8 +2374,8 @@ namespace bcvm_detail {
         uint16_t nout, BytecodeChunk*& calleeChunk)
     {
         calleeChunk = nullptr;
-        if (funcDef == nullptr || funcDef->type() != NLS_MACRO_FUNCTION || nout != 1
-            || args.size() != 1 || eval->debuggerHooksArmed() || !eval->commandQueue.isEmpty()
+        if (funcDef == nullptr || funcDef->type() != NLS_MACRO_FUNCTION || nout == 0 || args.empty()
+            || eval->debuggerHooksArmed() || !eval->commandQueue.isEmpty()
             || Profiler::getInstance()->isOn()) {
             return false;
         }
@@ -2118,9 +2384,12 @@ namespace bcvm_detail {
             || !macroDef->classdefOwnerClassName.empty()) {
             return false;
         }
-        if (eval->withOverload && macroDef->overloadAutoMode == NLS_OVERLOAD_AUTO_ON
-            && (args[0].isClassType() || args[0].isHandle() || args[0].isFunctionHandle())) {
-            return false;
+        if (eval->withOverload && macroDef->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
+            for (size_t k = 0; k < args.size(); ++k) {
+                if (args[k].isClassType() || args[k].isHandle() || args[k].isFunctionHandle()) {
+                    return false;
+                }
+            }
         }
         macroDef->ensureBytecodeCompiled();
         if (macroDef->bytecodeChunk == nullptr) {
@@ -2129,9 +2398,12 @@ namespace bcvm_detail {
         if (macroDef->inputArgCount() != -1 && args.size() > macroDef->arguments.size()) {
             Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
         }
+        // a leaf body only computes on its locals: any arity matching the signature runs
+        // without a context scope
         BytecodeChunk& directChunk = *macroDef->bytecodeChunk;
-        if (directChunk.argNames.size() != 1 || directChunk.retNames.size() != 1
-            || directChunk.argNames[0] == "varargin" || directChunk.retNames[0] == "varargout") {
+        if (directChunk.argNames.size() != args.size() || directChunk.retNames.size() < nout
+            || (!directChunk.argNames.empty() && directChunk.argNames.back() == "varargin")
+            || (!directChunk.retNames.empty() && directChunk.retNames.back() == "varargout")) {
             return false;
         }
         if (directChunk.usesNarginNargout || !directChunk.directLeafOpsAllowed) {
@@ -2146,6 +2418,39 @@ namespace bcvm_detail {
     // the call (refresh=true)". Results are cached on the callee chunks, keyed
     // on FunctionsInMemory::generation() so that any function-table mutation
     // (which can rebind the names this walk resolved) invalidates them.
+    // A builtin declares itself whether it reads or changes the caller's variables.
+    bool
+    builtinNeedsCallerContext(FunctionDef* funcDef, bool refreshRequired)
+    {
+        auto* builtinDef = dynamic_cast<BuiltInFunctionDef*>(funcDef);
+        if (builtinDef == nullptr) {
+            return true;
+        }
+        return refreshRequired ? builtinDef->mustRefreshCallerContext()
+                               : builtinDef->mustSyncCallerContext();
+    }
+    //=============================================================================
+    // The answer the walk recorded on a callee chunk, if valid for this generation.
+    bool
+    cachedCallerContextAnswer(
+        const BytecodeChunk& calleeChunk, bool refreshRequired, uint64 generation, bool& answer)
+    {
+        if (refreshRequired) {
+            if (calleeChunk.callerContextRefreshCacheValid
+                && calleeChunk.callerContextRefreshCacheGeneration == generation) {
+                answer = calleeChunk.callerContextRefreshRequired;
+                return true;
+            }
+            return false;
+        }
+        if (calleeChunk.callerContextSyncCacheValid
+            && calleeChunk.callerContextSyncCacheGeneration == generation) {
+            answer = calleeChunk.callerContextSyncRequired;
+            return true;
+        }
+        return false;
+    }
+    //=============================================================================
     bool
     functionNeedsCallerContextWalk(Evaluator* eval, FunctionDef* funcDef,
         std::unordered_set<FunctionDef*>& visiting, bool refreshRequired, uint64 generation)
@@ -2154,12 +2459,7 @@ namespace bcvm_detail {
             return true;
         }
         if (funcDef->type() == NLS_BUILT_IN_FUNCTION) {
-            auto* builtinDef = dynamic_cast<BuiltInFunctionDef*>(funcDef);
-            if (builtinDef == nullptr) {
-                return true;
-            }
-            return refreshRequired ? builtinDef->mustRefreshCallerContext()
-                                   : builtinDef->mustSyncCallerContext();
+            return builtinNeedsCallerContext(funcDef, refreshRequired);
         }
         BytecodeChunk* calleeChunkPtr = nullptr;
         if (funcDef->type() == NLS_MACRO_FUNCTION) {
@@ -2202,13 +2502,9 @@ namespace bcvm_detail {
         } else {
             return true;
         }
-        if (refreshRequired && calleeChunkPtr->callerContextRefreshCacheValid
-            && calleeChunkPtr->callerContextRefreshCacheGeneration == generation) {
-            return calleeChunkPtr->callerContextRefreshRequired;
-        }
-        if (!refreshRequired && calleeChunkPtr->callerContextSyncCacheValid
-            && calleeChunkPtr->callerContextSyncCacheGeneration == generation) {
-            return calleeChunkPtr->callerContextSyncRequired;
+        bool cached = false;
+        if (cachedCallerContextAnswer(*calleeChunkPtr, refreshRequired, generation, cached)) {
+            return cached;
         }
         bool result = false;
         const BytecodeChunk& calleeChunk = *calleeChunkPtr;
@@ -2315,31 +2611,96 @@ namespace bcvm_detail {
                 if (op.slot >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, op.slot)) {
                     return ScalarExprOutcome::Refused;
                 }
-                const ArrayOf& value = frame.locals[op.slot];
-                if (!value.isDoubleType(true) || value.elementCount() != 1) {
+                if (!frame.locals[op.slot].realDoubleScalar(registers[top])) {
                     return ScalarExprOutcome::Refused;
                 }
-                registers[top++] = *static_cast<const double*>(value.dataPointer());
+                ++top;
             } break;
             case ScalarExprOpKind::LoadConst:
                 registers[top++] = op.imm;
                 break;
+            case ScalarExprOpKind::LoadEndLocal: {
+                // `end` of a local subscript; a class may overload end
+                if (op.slot >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, op.slot)
+                    || frame.locals[op.slot].isClassType()) {
+                    return ScalarExprOutcome::Refused;
+                }
+                registers[top++]
+                    = Evaluator::endSubscriptValue(frame.locals[op.slot], op.slot2, op.slot3);
+            } break;
+            case ScalarExprOpKind::LoadLocalField: {
+                if (op.slot >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, op.slot)
+                    || op.slot2 >= chunk.constants.size()) {
+                    return ScalarExprOutcome::Refused;
+                }
+                const auto* field = std::get_if<std::string>(&chunk.constants.get(op.slot2));
+                const ArrayOf* element = field != nullptr
+                    ? structScalarFieldPointer(frame.locals[op.slot], *field)
+                    : nullptr;
+                if (element == nullptr || !element->realDoubleScalar(registers[top])) {
+                    return ScalarExprOutcome::Refused;
+                }
+                ++top;
+            } break;
+            case ScalarExprOpKind::LoadCellContent: {
+                if (op.slot >= frame.locals.size() || op.slot2 >= frame.locals.size()
+                    || !isRuntimeAssignedLocalSlot(frame, op.slot)
+                    || !isRuntimeAssignedLocalSlot(frame, op.slot2)) {
+                    return ScalarExprOutcome::Refused;
+                }
+                const ArrayOf* element
+                    = cellScalarContentPointer(frame.locals[op.slot], frame.locals[op.slot2]);
+                if (element == nullptr || !element->realDoubleScalar(registers[top])) {
+                    return ScalarExprOutcome::Refused;
+                }
+                ++top;
+            } break;
+            case ScalarExprOpKind::CallBuiltin1: {
+                double result = 0.;
+                if (!evaluateUnaryScalarMathBuiltin(
+                        static_cast<ScalarMathBuiltinKind>(op.slot2), registers[top - 1], result)) {
+                    return ScalarExprOutcome::Refused;
+                }
+                registers[top - 1] = result;
+            } break;
+            case ScalarExprOpKind::CallBuiltin2: {
+                double result = 0.;
+                --top;
+                if (!evaluateBinaryScalarMathBuiltin(static_cast<ScalarMathBuiltinKind>(op.slot2),
+                        registers[top - 1], registers[top], result)) {
+                    return ScalarExprOutcome::Refused;
+                }
+                registers[top - 1] = result;
+            } break;
+            case ScalarExprOpKind::LoadIndexed2DLocal: {
+                if (op.slot >= frame.locals.size() || op.slot2 >= frame.locals.size()
+                    || op.slot3 >= frame.locals.size()
+                    || !isRuntimeAssignedLocalSlot(frame, op.slot)
+                    || !isRuntimeAssignedLocalSlot(frame, op.slot2)
+                    || !isRuntimeAssignedLocalSlot(frame, op.slot3)) {
+                    return ScalarExprOutcome::Refused;
+                }
+                indexType offset = 0;
+                const double* data = doubleScalar2DOffsetFromIndices(
+                    frame.locals[op.slot], frame.locals[op.slot2], frame.locals[op.slot3], offset);
+                if (data == nullptr) {
+                    return ScalarExprOutcome::Refused;
+                }
+                registers[top++] = data[offset];
+            } break;
             case ScalarExprOpKind::LoadIndexedLocal: {
                 if (op.slot >= frame.locals.size() || op.slot2 >= frame.locals.size()
                     || !isRuntimeAssignedLocalSlot(frame, op.slot)
                     || !isRuntimeAssignedLocalSlot(frame, op.slot2)) {
                     return ScalarExprOutcome::Refused;
                 }
-                const ArrayOf& base = frame.locals[op.slot];
-                if (base.dataClass() != NLS_DOUBLE || base.isSparse()) {
-                    return ScalarExprOutcome::Refused;
-                }
                 indexType ordinal = 0;
+                const double* element = nullptr;
                 if (!scalarDoubleOrdinalIndex(frame.locals[op.slot2], ordinal)
-                    || ordinal > base.elementCount()) {
+                    || (element = doubleElementAt(frame.locals[op.slot], ordinal)) == nullptr) {
                     return ScalarExprOutcome::Refused;
                 }
-                registers[top++] = static_cast<const double*>(base.dataPointer())[ordinal - 1];
+                registers[top++] = *element;
             } break;
             case ScalarExprOpKind::LoadIndexedLocalOffset: {
                 if (op.slot >= frame.locals.size() || op.slot2 >= frame.locals.size()
@@ -2347,22 +2708,15 @@ namespace bcvm_detail {
                     || !isRuntimeAssignedLocalSlot(frame, op.slot2)) {
                     return ScalarExprOutcome::Refused;
                 }
-                const ArrayOf& base = frame.locals[op.slot];
-                if (base.dataClass() != NLS_DOUBLE || base.isSparse()) {
+                double scalarIndex = 0.;
+                indexType ordinal = 0;
+                const double* element = nullptr;
+                if (!frame.locals[op.slot2].realDoubleScalar(scalarIndex)
+                    || !doubleToOrdinal(scalarIndex + op.imm, ordinal)
+                    || (element = doubleElementAt(frame.locals[op.slot], ordinal)) == nullptr) {
                     return ScalarExprOutcome::Refused;
                 }
-                if (!frame.locals[op.slot2].isDoubleType(true)
-                    || frame.locals[op.slot2].elementCount() != 1) {
-                    return ScalarExprOutcome::Refused;
-                }
-                const double scalarIndex
-                    = *static_cast<const double*>(frame.locals[op.slot2].dataPointer()) + op.imm;
-                const auto ordinal = static_cast<indexType>(scalarIndex);
-                if (scalarIndex < 1.0 || scalarIndex != static_cast<double>(ordinal)
-                    || ordinal > base.elementCount()) {
-                    return ScalarExprOutcome::Refused;
-                }
-                registers[top++] = static_cast<const double*>(base.dataPointer())[ordinal - 1];
+                registers[top++] = *element;
             } break;
             case ScalarExprOpKind::LoadIndexedLocalMinusLocal: {
                 if (op.slot >= frame.locals.size() || op.slot2 >= frame.locals.size()
@@ -2372,25 +2726,17 @@ namespace bcvm_detail {
                     || !isRuntimeAssignedLocalSlot(frame, op.slot3)) {
                     return ScalarExprOutcome::Refused;
                 }
-                const ArrayOf& base = frame.locals[op.slot];
-                if (base.dataClass() != NLS_DOUBLE || base.isSparse()) {
+                double scalarIndex = 0.;
+                double scalarOffset = 0.;
+                indexType ordinal = 0;
+                const double* element = nullptr;
+                if (!frame.locals[op.slot2].realDoubleScalar(scalarIndex)
+                    || !frame.locals[op.slot3].realDoubleScalar(scalarOffset)
+                    || !doubleToOrdinal(scalarIndex - scalarOffset, ordinal)
+                    || (element = doubleElementAt(frame.locals[op.slot], ordinal)) == nullptr) {
                     return ScalarExprOutcome::Refused;
                 }
-                if (!frame.locals[op.slot2].isDoubleType(true)
-                    || frame.locals[op.slot2].elementCount() != 1
-                    || !frame.locals[op.slot3].isDoubleType(true)
-                    || frame.locals[op.slot3].elementCount() != 1) {
-                    return ScalarExprOutcome::Refused;
-                }
-                const double scalarIndex
-                    = *static_cast<const double*>(frame.locals[op.slot2].dataPointer())
-                    - *static_cast<const double*>(frame.locals[op.slot3].dataPointer());
-                const auto ordinal = static_cast<indexType>(scalarIndex);
-                if (scalarIndex < 1.0 || scalarIndex != static_cast<double>(ordinal)
-                    || ordinal > base.elementCount()) {
-                    return ScalarExprOutcome::Refused;
-                }
-                registers[top++] = static_cast<const double*>(base.dataPointer())[ordinal - 1];
+                registers[top++] = *element;
             } break;
             case ScalarExprOpKind::Add:
                 --top;
@@ -2407,6 +2753,13 @@ namespace bcvm_detail {
             case ScalarExprOpKind::Div:
                 --top;
                 registers[top - 1] /= registers[top];
+                break;
+            case ScalarExprOpKind::Pow:
+                --top;
+                if (registers[top - 1] < 0) {
+                    return ScalarExprOutcome::Refused;
+                }
+                registers[top - 1] = nonNegativeBaseDoublePower(registers[top - 1], registers[top]);
                 break;
             case ScalarExprOpKind::Neg:
                 registers[top - 1] = -registers[top - 1];
@@ -2459,10 +2812,11 @@ namespace bcvm_detail {
             stack.push_back(ArrayOf::doubleScalar(registers[0]));
             return ScalarExprOutcome::Stored;
         }
-        if (program.resultKind == ScalarExprResultKind::IndexedStore) {
-            if (program.storeSlot >= frame.locals.size() || program.indexSlot >= frame.locals.size()
-                || !isRuntimeAssignedLocalSlot(frame, program.storeSlot)
-                || !isRuntimeAssignedLocalSlot(frame, program.indexSlot)) {
+        if (program.resultKind == ScalarExprResultKind::IndexedStore
+            || program.resultKind == ScalarExprResultKind::IndexedStoreComputed
+            || program.resultKind == ScalarExprResultKind::IndexedStore2DComputed) {
+            if (program.storeSlot >= frame.locals.size()
+                || !isRuntimeAssignedLocalSlot(frame, program.storeSlot)) {
                 return ScalarExprOutcome::Refused;
             }
             if (program.storeSlot < chunk.localNames.size()
@@ -2474,12 +2828,33 @@ namespace bcvm_detail {
             if (base.dataClass() != NLS_DOUBLE || base.isSparse()) {
                 return ScalarExprOutcome::Refused;
             }
+            // the value is registers[0]; m(i, j) = v writes in range only, growth is generic
+            if (program.resultKind == ScalarExprResultKind::IndexedStore2DComputed) {
+                indexType row = 0;
+                indexType col = 0;
+                indexType offset = 0;
+                if (!doubleToOrdinal(registers[1], row) || !doubleToOrdinal(registers[2], col)
+                    || !doubleScalar2DOffset(base, row, col, offset)) {
+                    return ScalarExprOutcome::Refused;
+                }
+                static_cast<double*>(base.readWriteDataPointer())[offset] = registers[0];
+                markRuntimeAssigned(frame, program.storeSlot);
+                return ScalarExprOutcome::Stored;
+            }
+            // the index is a local slot or the top register
             indexType ordinal = 0;
-            if (!scalarDoubleOrdinalIndex(frame.locals[program.indexSlot], ordinal)
-                || ordinal > base.elementCount()) {
+            if (program.resultKind == ScalarExprResultKind::IndexedStore) {
+                if (program.indexSlot >= frame.locals.size()
+                    || !isRuntimeAssignedLocalSlot(frame, program.indexSlot)
+                    || !scalarDoubleOrdinalIndex(frame.locals[program.indexSlot], ordinal)) {
+                    return ScalarExprOutcome::Refused;
+                }
+            } else if (!doubleToOrdinal(registers[1], ordinal)) {
                 return ScalarExprOutcome::Refused;
             }
-            static_cast<double*>(base.readWriteDataPointer())[ordinal - 1] = registers[0];
+            if (!storeDoubleAtLinearOrdinal(base, ordinal, registers[0])) {
+                return ScalarExprOutcome::Refused;
+            }
             markRuntimeAssigned(frame, program.storeSlot);
             return ScalarExprOutcome::Stored;
         }
@@ -2669,6 +3044,151 @@ namespace bcvm_detail {
         }
     }
     //=============================================================================
+    // x = [x y]: dense non-empty rows of one real class (or cells), the head being the
+    // copy of x pushed for the concatenation and the slot its only other owner
+    bool
+    canAppendRowInPlace(const ArrayOf& target, const ArrayOf& head, const ArrayOf& tail)
+    {
+        const bool elementClass = target.isCell()
+            || (!target.isComplex()
+                && (target.isNumeric() || target.isLogical() || target.isCharacterArray()));
+        if (!elementClass || tail.dataClass() != target.dataClass() || target.isSparse()
+            || tail.isSparse() || target.referenceCount() != 2
+            || target.dataPointer() != head.dataPointer()) {
+            return false;
+        }
+        const Dimensions& targetDims = target.dimensions();
+        const Dimensions& tailDims = tail.dimensions();
+        return targetDims.is2D() && targetDims.rows() == 1 && targetDims.columns() >= 1
+            && tailDims.is2D() && tailDims.rows() == 1 && tailDims.columns() >= 1;
+    }
+    //=============================================================================
+    bool
+    denseLogicalScalar(const ArrayOf& value, bool& truth)
+    {
+        if (!value.isLogical() || !value.isScalar() || value.isSparse()) {
+            return false;
+        }
+        truth = *static_cast<const logical*>(value.dataPointer()) != 0;
+        return true;
+    }
+    //=============================================================================
+    // Truth of a dense logical or real double scalar; NaN is left to the generic error.
+    bool
+    scalarTruthValue(const ArrayOf& value, bool& truth)
+    {
+        double scalar = 0.;
+        if (value.realDoubleScalar(scalar)) {
+            truth = scalar != 0.;
+            return !std::isnan(scalar);
+        }
+        return denseLogicalScalar(value, truth);
+    }
+    //=============================================================================
+    // Per thread, like the not-existing function cache it reads: whether "@double/<op>" is known
+    // missing for the current function table generation (+, -, .* and * only).
+    bool
+    doubleOperatorOverloadMissing(OpCode op)
+    {
+        static thread_local std::array<uint64, 4> knownMissing {};
+        const size_t index = op == OpCode::OP_PLUS ? 0
+            : op == OpCode::OP_MINUS               ? 1
+            : op == OpCode::OP_TIMES               ? 2
+                                                   : 3;
+        const uint64 generation = FunctionsInMemory::getInstance()->generation() + 1;
+        if (knownMissing[index] == generation) {
+            return true;
+        }
+        if (NelsonConfiguration::getInstance()->getOverloadLevelCompatibility()
+            != NLS_OVERLOAD_ALL_TYPES) {
+            return true;
+        }
+        if (!FunctionsInMemory::getInstance()->isNotExistingFunction(
+                getOverloadFunctionName(NLS_DOUBLE_STR, profileName(op)))) {
+            return false;
+        }
+        knownMissing[index] = generation;
+        return true;
+    }
+    //=============================================================================
+    // y = a + b, a - b, a .* b or a * b of real dense doubles followed by the plain ASSIGN of a
+    // local y holding an unshared real double array of the result shape: the values are written
+    // into y, as the operator computes them, and pc moves past the ASSIGN.
+    bool
+    tryStoreDenseDoubleResultInPlace(Context* context, VMCallFrame& frame,
+        const BytecodeChunk& chunk, uint32_t& pc, OpCode op, const ArrayOf& a, const ArrayOf& b)
+    {
+        if (pc >= chunk.code.size()) {
+            return false;
+        }
+        const Instruction& assign = chunk.code[pc];
+        if (assign.op != OpCode::ASSIGN || assign.flags != 0 || assign.A >= frame.locals.size()
+            || !isRuntimeAssignedLocalSlot(frame, assign.A) || Profiler::getInstance()->isOn()) {
+            return false;
+        }
+        indexType countA = 0;
+        indexType rowsA = 0;
+        indexType columnsA = 0;
+        indexType countB = 0;
+        indexType rowsB = 0;
+        indexType columnsB = 0;
+        indexType countY = 0;
+        indexType rowsY = 0;
+        indexType columnsY = 0;
+        const double* valuesA = a.realDoubleData(countA, rowsA, columnsA);
+        const double* valuesB
+            = valuesA == nullptr ? nullptr : b.realDoubleData(countB, rowsB, columnsB);
+        ArrayOf& target = frame.locals[assign.A];
+        if (valuesB == nullptr || rowsA * columnsA != countA || rowsB * columnsB != countB
+            || target.realDoubleData(countY, rowsY, columnsY) == nullptr || countY < 2
+            || rowsY * columnsY != countY || target.referenceCount() != 1) {
+            return false;
+        }
+        bool shapeMatches = false;
+        if (op == OpCode::OP_MTIMES) {
+            shapeMatches = countA > 1 && countB > 1 && columnsA == rowsB && rowsY == rowsA
+                && columnsY == columnsB;
+        } else {
+            // one operand at least has the shape of y, the other one too or is a scalar
+            shapeMatches = (countA > 1 || countB > 1)
+                && (countA == 1 || (rowsA == rowsY && columnsA == columnsY))
+                && (countB == 1 || (rowsB == rowsY && columnsB == columnsY));
+        }
+        if (!shapeMatches || !doubleOperatorOverloadMissing(op)
+            || (assign.A < chunk.localNames.size() && !chunk.localNames[assign.A].empty()
+                && context->isLockedVariable(chunk.localNames[assign.A]))) {
+            return false;
+        }
+        auto* y = static_cast<double*>(target.readWriteDataPointer());
+        const indexType stepA = countA == 1 ? 0 : 1;
+        const indexType stepB = countB == 1 ? 0 : 1;
+        switch (op) {
+        case OpCode::OP_MTIMES:
+            if (!realDoubleMatrixProductInto(valuesA, rowsA, columnsA, valuesB, columnsB, y)) {
+                return false;
+            }
+            break;
+        case OpCode::OP_PLUS:
+            for (indexType k = 0; k < countY; ++k) {
+                y[k] = valuesA[k * stepA] + valuesB[k * stepB];
+            }
+            break;
+        case OpCode::OP_MINUS:
+            for (indexType k = 0; k < countY; ++k) {
+                y[k] = valuesA[k * stepA] - valuesB[k * stepB];
+            }
+            break;
+        default:
+            for (indexType k = 0; k < countY; ++k) {
+                y[k] = valuesA[k * stepA] * valuesB[k * stepB];
+            }
+            break;
+        }
+        markRuntimeAssigned(frame, assign.A);
+        ++pc;
+        return true;
+    }
+    //=============================================================================
     ArrayOf
     binaryOperator(Evaluator* eval, OpCode op, const ArrayOf& a, const ArrayOf& b)
     {
@@ -2690,6 +3210,21 @@ namespace bcvm_detail {
             case OpCode::OP_LDIV:
             case OpCode::OP_MLDIV:
                 return ArrayOf::doubleScalar(bv / av);
+            case OpCode::OP_POWER:
+            case OpCode::OP_MPOWER:
+                // a negative base may give a complex result: generic path
+                if (!(av < 0)) {
+                    return ArrayOf::doubleScalar(nonNegativeBaseDoublePower(av, bv));
+                }
+                break;
+            case OpCode::OP_COLON_UNIT: {
+                // the range the generic operator builds once both are doubles
+                bool needToOverload = false;
+                ArrayOf range = Colon(a, b, needToOverload);
+                if (!needToOverload) {
+                    return range;
+                }
+            } break;
             case OpCode::OP_LT:
                 return ArrayOf::logicalScalar(av < bv);
             case OpCode::OP_LEQ:
@@ -2702,12 +3237,44 @@ namespace bcvm_detail {
                 return ArrayOf::logicalScalar(av == bv);
             case OpCode::OP_NEQ:
                 return ArrayOf::logicalScalar(av != bv);
+            // a NaN cannot become a logical: the generic operator raises the error
             case OpCode::OP_AND:
-                return ArrayOf::logicalScalar((av != 0.0) && (bv != 0.0));
+                if (!std::isnan(av) && !std::isnan(bv)) {
+                    return ArrayOf::logicalScalar((av != 0.0) && (bv != 0.0));
+                }
+                break;
             case OpCode::OP_OR:
-                return ArrayOf::logicalScalar((av != 0.0) || (bv != 0.0));
+                if (!std::isnan(av) && !std::isnan(bv)) {
+                    return ArrayOf::logicalScalar((av != 0.0) || (bv != 0.0));
+                }
+                break;
             default:
                 break;
+            }
+        }
+        // real dense doubles: the operator's own kernel while no double overload of it exists
+        if ((op == OpCode::OP_PLUS || op == OpCode::OP_MINUS || op == OpCode::OP_TIMES
+                || op == OpCode::OP_MTIMES)
+            && !Profiler::getInstance()->isOn() && isDenseRealDoublePair(a, b)
+            && doubleOperatorOverloadMissing(op)) {
+            switch (op) {
+            case OpCode::OP_PLUS:
+                return denseRealDoublePlus(a, b);
+            case OpCode::OP_MINUS:
+                return denseRealDoubleMinus(a, b);
+            case OpCode::OP_TIMES:
+                return denseRealDoubleTimes(a, b);
+            default:
+                return denseRealDoubleMtimes(a, b);
+            }
+        }
+        // a & b, a | b with a logical scalar operand (a comparison result): logical result
+        if ((op == OpCode::OP_AND || op == OpCode::OP_OR) && !Profiler::getInstance()->isOn()) {
+            bool aTruth = false;
+            bool bTruth = false;
+            if (scalarTruthValue(a, aTruth) && scalarTruthValue(b, bTruth)) {
+                return ArrayOf::logicalScalar(
+                    op == OpCode::OP_AND ? (aTruth && bTruth) : (aTruth || bTruth));
             }
         }
         // Scalar fast path for complex (or mixed real/complex) double scalars, which the real-only
@@ -2930,10 +3497,18 @@ namespace bcvm_detail {
             case OpCode::OP_UMINUS:
                 return ArrayOf::doubleScalar(-av);
             case OpCode::OP_NOT:
-                return ArrayOf::logicalScalar(!(av != 0.0));
+                if (!std::isnan(av)) {
+                    return ArrayOf::logicalScalar(av == 0.0);
+                }
+                break;
             default:
                 break;
             }
+        }
+        bool truth = false;
+        if (op == OpCode::OP_NOT && !Profiler::getInstance()->isOn()
+            && denseLogicalScalar(a, truth)) {
+            return ArrayOf::logicalScalar(!truth);
         }
         return profiledArrayOperation(eval, profileName(op), [&]() {
             switch (op) {
@@ -3084,7 +3659,8 @@ namespace bcvm_detail {
                 L"BytecodeVM: local operand out of range.");
         }
         ArrayOf& target = locals[slot];
-        if (!target.isDoubleType(true) || target.elementCount() != 1) {
+        double current = 0.;
+        if (!target.realDoubleScalar(current)) {
             target = ArrayOf::doubleScalar(value);
             return;
         }
@@ -3746,11 +4322,200 @@ namespace bcvm_detail {
             fdef = resolved;
             return true;
         };
+        // The kind depends on the name and the input count only: a call site asks it on
+        // every call, cache it per name instead of comparing the name to each builtin.
+        auto cachedScalarFastPath = [&](uint16_t nameIndex, const std::string& name,
+                                        size_t inputCount) -> ScalarBuiltinFastPath {
+            const auto count = static_cast<uint16_t>(inputCount);
+            if (inputCount == 0 || inputCount > 2 || nameIndex >= chunk.names.size()) {
+                return scalarBuiltinFastPathForName(name, count);
+            }
+            std::vector<uint8_t>& kinds = frame.namedScalarFastPathKind;
+            if (kinds.size() != 2 * chunk.names.size()) {
+                kinds.assign(2 * chunk.names.size(), 0);
+            }
+            uint8_t& cached = kinds[2 * static_cast<size_t>(nameIndex) + inputCount - 1];
+            if (cached == 0) {
+                cached = static_cast<uint8_t>(
+                    static_cast<uint8_t>(scalarBuiltinFastPathForName(name, count).kind) + 1);
+            }
+            return { static_cast<ScalarMathBuiltinKind>(cached - 1), count };
+        };
+        // The builtins a fused program calls are still the functions behind their names:
+        // no variable of the same name, same checks as the inline CALL_NAMED path.
+        // The builtin behind a name that no local or context variable shadows; a context
+        // variable can only appear with a new stamp, so its lookup is redone only then.
+        auto builtinBehindName = [&](uint16_t nameIndex, FunctionDef*& fdef) -> bool {
+            if (nameIndex >= chunk.names.size()) {
+                return false;
+            }
+            const int localSlot = localSlotForNameIndex(nameIndex);
+            if (localSlot >= 0
+                && isRuntimeAssignedLocalSlot(frame, static_cast<size_t>(localSlot))) {
+                return false;
+            }
+            const std::string& name = chunk.names[nameIndex];
+            const uint64 stamp = VariablesTable::variableAppearanceStamp() + 1;
+            const void* scope = context->getCurrentScope();
+            if (frame.builtinShadowScope != scope
+                || frame.builtinShadowFreeStamp.size() != chunk.names.size()) {
+                frame.builtinShadowScope = scope;
+                frame.builtinShadowFreeStamp.assign(chunk.names.size(), 0);
+            }
+            if (frame.builtinShadowFreeStamp[nameIndex] != stamp) {
+                if (context->lookupVariable(name) != nullptr) {
+                    return false;
+                }
+                frame.builtinShadowFreeStamp[nameIndex] = stamp;
+            }
+            return lookupCachedScalarBuiltin(nameIndex, name, fdef);
+        };
+        auto scalarProgramBuiltinsResolved = [&](const ScalarExprProgram& program) -> bool {
+            for (const ScalarExprMicroOp& op : program.ops) {
+                FunctionDef* fdef = nullptr;
+                if ((op.kind == ScalarExprOpKind::CallBuiltin1
+                        || op.kind == ScalarExprOpKind::CallBuiltin2)
+                    && !builtinBehindName(op.slot, fdef)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        // numel(x), isempty(x), length(x), ndims(x) and size(x, d) of a builtin-class value
+        // are read from its dimensions, strcmp/strcmpi of two char rows compare them in place,
+        // while the name means the builtin and no overload exists
+        enum class QueryBuiltin : uint8_t
+        {
+            None,
+            Numel,
+            IsEmpty,
+            Length,
+            Ndims,
+            Size,
+            Strcmp,
+            Strcmpi
+        };
+        auto cachedQueryBuiltin = [&](uint16_t nameIndex) -> QueryBuiltin {
+            std::vector<uint8_t>& kinds = frame.namedQueryBuiltinKind;
+            if (kinds.size() != chunk.names.size()) {
+                kinds.assign(chunk.names.size(), 0);
+            }
+            uint8_t& cached = kinds[nameIndex];
+            if (cached == 0) {
+                const std::string& name = chunk.names[nameIndex];
+                QueryBuiltin kind = QueryBuiltin::None;
+                if (name == "numel") {
+                    kind = QueryBuiltin::Numel;
+                } else if (name == "isempty") {
+                    kind = QueryBuiltin::IsEmpty;
+                } else if (name == "length") {
+                    kind = QueryBuiltin::Length;
+                } else if (name == "ndims") {
+                    kind = QueryBuiltin::Ndims;
+                } else if (name == "size") {
+                    kind = QueryBuiltin::Size;
+                } else if (name == "strcmp") {
+                    kind = QueryBuiltin::Strcmp;
+                } else if (name == "strcmpi") {
+                    kind = QueryBuiltin::Strcmpi;
+                }
+                cached = static_cast<uint8_t>(static_cast<uint8_t>(kind) + 1);
+            }
+            return static_cast<QueryBuiltin>(cached - 1);
+        };
+        auto tryEvaluateQueryBuiltinFromStack = [&](const Instruction& call) -> bool {
+            if ((call.flags & INST_FLAG_PRINT) != 0 || call.C != 1 || call.B == 0 || call.B > 2
+                || stack.size() < call.B || call.A >= chunk.names.size()
+                || Profiler::getInstance()->isOn()) {
+                return false;
+            }
+            const QueryBuiltin kind = cachedQueryBuiltin(call.A);
+            const bool comparesText = kind == QueryBuiltin::Strcmp || kind == QueryBuiltin::Strcmpi;
+            if (kind == QueryBuiltin::None
+                || (call.B == 2) != (kind == QueryBuiltin::Size || comparesText)) {
+                return false;
+            }
+            const ArrayOf& value = stack[stack.size() - call.B];
+            if (isCommaListSentinel(value) || value.dataClass() >= NLS_FUNCTION_HANDLE) {
+                return false;
+            }
+            bool textEqual = false;
+            if (comparesText
+                && (isCommaListSentinel(stack.back())
+                    || !tryCompareCharRows(
+                        value, stack.back(), kind == QueryBuiltin::Strcmp, textEqual))) {
+                return false;
+            }
+            // a valid dimension only: anything else gets the builtin's own error
+            double dimension = 0.;
+            if (kind == QueryBuiltin::Size
+                && (isCommaListSentinel(stack.back()) || !stack.back().realDoubleScalar(dimension)
+                    || !(dimension >= 1.) || dimension > 2147483647.
+                    || std::floor(dimension) != dimension)) {
+                return false;
+            }
+            FunctionDef* fdef = nullptr;
+            if (!builtinBehindName(call.A, fdef)
+                || !static_cast<BuiltInFunctionDef*>(fdef)->skipsOverloadFor(eval, value)) {
+                return false;
+            }
+            ArrayOf result;
+            switch (kind) {
+            case QueryBuiltin::Numel:
+                result = ArrayOf::doubleScalar(static_cast<double>(value.numel()));
+                break;
+            case QueryBuiltin::IsEmpty:
+                result = ArrayOf::logicalScalar(value.isEmpty());
+                break;
+            case QueryBuiltin::Length:
+                result = ArrayOf::doubleScalar(arrayLength(value));
+                break;
+            case QueryBuiltin::Ndims:
+                result = ArrayOf::doubleScalar(arrayDimensionCount(value));
+                break;
+            case QueryBuiltin::Strcmp:
+            case QueryBuiltin::Strcmpi:
+                result = ArrayOf::logicalScalar(textEqual);
+                break;
+            default:
+                result = ArrayOf::doubleScalar(
+                    static_cast<double>(value.dimensionLength(static_cast<int>(dimension) - 1)));
+                break;
+            }
+            stack.resize(stack.size() - call.B);
+            stack.push_back(std::move(result));
+            return true;
+        };
 
-        std::function<bool(FunctionDef*)> needsCallerContextSync;
-        std::function<bool(FunctionDef*)> needsCallerContextRefresh;
-        std::function<void(bool, bool)> ensureContextScopeForCall;
-        std::function<FunctionDef*(const ArrayOf&)> functionDefFromHandle;
+        // plain lambdas: a std::function per helper was built on every chunk entry
+        auto needsCallerContextSync = [eval](FunctionDef* funcDef) -> bool {
+            return BytecodeVM::functionNeedsCallerContext(eval, funcDef, false);
+        };
+
+        auto needsCallerContextRefresh = [eval](FunctionDef* funcDef) -> bool {
+            return BytecodeVM::functionNeedsCallerContext(eval, funcDef, true);
+        };
+
+        // Scope-free frames get a context scope on demand the first time a
+        // runtime-resolved callee turns out to need the caller context (e.g. an
+        // overload picked at dispatch time that the static analysis in
+        // bytecodeNeedsContextScope could not see). executeFunction pops it on
+        // every exit path.
+        auto ensureContextScopeForCall = [&](bool syncRequired, bool refreshRequired) {
+            if ((syncRequired || refreshRequired) && !frame.hasContextScope) {
+                context->pushScope(chunk.functionName, chunk.sourcePath);
+                frame.hasContextScope = true;
+                frame.lazyScopePushed = true;
+            }
+        };
+
+        auto functionDefFromHandle = [](const ArrayOf& handle) -> FunctionDef* {
+            if (!handle.isFunctionHandle()) {
+                return nullptr;
+            }
+            function_handle fh = handle.asFunctionHandle();
+            return reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
+        };
 
         auto pushParenSubset = [&](ArrayOf base, ArrayOfVector& indices, uint8_t flags,
                                    uint16_t requestedOutputs) {
@@ -3758,14 +4523,14 @@ namespace bcvm_detail {
                 stack.push_back(logicalScalarFromKeyword(base.asLogicalScalar(), indices));
                 return;
             }
-            ArrayOf tableSubset;
-            if (tryFastTableParenSubset(base, indices, tableSubset)) {
-                stack.push_back(tableSubset);
+            // one out-parameter for every direct path: each default ArrayOf allocates
+            ArrayOf direct;
+            if (tryFastTableParenSubset(base, indices, direct)) {
+                stack.push_back(direct);
                 return;
             }
-            ArrayOf mapValue;
-            if (requestedOutputs <= 1 && tryFastContainersMapLookup(base, indices, mapValue)) {
-                stack.push_back(mapValue);
+            if (requestedOutputs <= 1 && tryFastContainersMapLookup(base, indices, direct)) {
+                stack.push_back(direct);
                 return;
             }
             if (base.isFunctionHandle()) {
@@ -3885,22 +4650,18 @@ namespace bcvm_detail {
                     Error(L"Nelson:interpreter:indexExpressionExpected",
                         L"Index expression expected.");
                 }
-                ArrayOf directMaskSubset;
                 if (indices.size() == 1
-                    && tryDoubleLogicalMaskSubsetDirect(base, indices[0], directMaskSubset)) {
-                    stack.push_back(directMaskSubset);
+                    && tryDoubleLogicalMaskSubsetDirect(base, indices[0], direct)) {
+                    stack.push_back(direct);
                     return;
                 }
-                ArrayOf directLinearSubset;
-                if (indices.size() == 1
-                    && tryDoubleLinearSubsetDirect(base, indices[0], directLinearSubset)) {
-                    stack.push_back(directLinearSubset);
+                if (indices.size() == 1 && tryDoubleLinearSubsetDirect(base, indices[0], direct)) {
+                    stack.push_back(direct);
                     return;
                 }
-                ArrayOf directSubset;
                 if (indices.size() == 2
-                    && tryDoubleMatrix2DSubsetDirect(base, indices[0], indices[1], directSubset)) {
-                    stack.push_back(directSubset);
+                    && tryDoubleMatrix2DSubsetDirect(base, indices[0], indices[1], direct)) {
+                    stack.push_back(direct);
                     return;
                 }
                 if (indices.size() == 1) {
@@ -3936,12 +4697,15 @@ namespace bcvm_detail {
         };
 
         auto tryPushDirectScalarVectorSubsetAt = [&](ArrayOf& base, double scalarIndex) -> bool {
-            if (Profiler::getInstance()->isOn() || base.isSparse()
-                || (!base.isNumeric() && !base.isLogical())) {
+            indexType ordinal = 0;
+            if (!doubleToOrdinal(scalarIndex, ordinal) || Profiler::getInstance()->isOn()) {
                 return false;
             }
-            const auto ordinal = static_cast<uint64>(scalarIndex);
-            if (scalarIndex < 1.0 || scalarIndex != static_cast<double>(ordinal)) {
+            if (const double* element = doubleElementAt(base, ordinal)) {
+                stack.push_back(ArrayOf::doubleScalar(*element));
+                return true;
+            }
+            if (base.isSparse() || (!base.isNumeric() && !base.isLogical())) {
                 return false;
             }
             stack.push_back(base.valueAtIndex(ordinal - 1));
@@ -3958,56 +4722,60 @@ namespace bcvm_detail {
 
         auto tryGetDirectDoubleVectorValue
             = [&](const ArrayOf& base, const ArrayOf& index, double& value) -> bool {
-            if (base.isSparse() || !base.isDoubleType(true) || !index.isDoubleType(true)
-                || index.elementCount() != 1) {
+            indexType ordinal = 0;
+            const double* element = nullptr;
+            if (!scalarDoubleOrdinalIndex(index, ordinal)
+                || (element = doubleElementAt(base, ordinal)) == nullptr) {
                 return false;
             }
-            const double scalarIndex = *static_cast<const double*>(index.dataPointer());
-            const auto ordinal = static_cast<uint64>(scalarIndex);
-            if (scalarIndex < 1.0 || scalarIndex != static_cast<double>(ordinal)
-                || ordinal > static_cast<uint64>(base.elementCount())) {
-                return false;
-            }
-            const auto* data = static_cast<const double*>(base.dataPointer());
-            value = data[ordinal - 1];
+            value = *element;
             return true;
         };
 
+        // Base of an indexed read: the slot itself, or a value looked up in the calling
+        // workspace and kept in contextBase; raises for an undefined name.
+        auto resolveIndexedBase
+            = [&](uint16_t slotIndex, std::optional<ArrayOf>& contextBase) -> ArrayOf* {
+            if (isRuntimeAssignedLocalSlot(frame, slotIndex)) {
+                return &frame.locals[slotIndex];
+            }
+            if (slotIndex < chunk.localNames.size() && !chunk.localNames[slotIndex].empty()) {
+                contextBase.emplace();
+                if (!context->lookupVariable(chunk.localNames[slotIndex], *contextBase)) {
+                    raiseUndefinedVariable(context, chunk, chunk.localNames[slotIndex]);
+                }
+                return &*contextBase;
+            }
+            Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
+            return nullptr;
+        };
+        // Subscript held in a local slot, copied in from the calling workspace on first use.
+        auto resolveIndexSlot = [&](uint16_t slotIndex) -> const ArrayOf* {
+            if (isRuntimeAssignedLocalSlot(frame, slotIndex)) {
+                return &frame.locals[slotIndex];
+            }
+            if (slotIndex < chunk.localNames.size() && !chunk.localNames[slotIndex].empty()) {
+                ArrayOf contextIndex;
+                if (!context->lookupVariable(chunk.localNames[slotIndex], contextIndex)) {
+                    raiseUndefinedVariable(context, chunk, chunk.localNames[slotIndex]);
+                }
+                frame.locals[slotIndex] = contextIndex;
+                markRuntimeAssigned(frame, slotIndex);
+                return &frame.locals[slotIndex];
+            }
+            Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
+            return nullptr;
+        };
         auto executeLoadParensLocal = [&](const Instruction& loadIns) {
             if (loadIns.A >= frame.locals.size() || loadIns.B >= frame.locals.size()) {
                 Error(L"Nelson:bytecode:localSlotOutOfRange",
                     L"BytecodeVM: local slot out of range.");
             }
-            ArrayOf* base = nullptr;
-            ArrayOf contextBase;
-            if (isRuntimeAssignedLocalSlot(frame, loadIns.A)) {
-                base = &frame.locals[loadIns.A];
-            } else if (loadIns.A < chunk.localNames.size()
-                && !chunk.localNames[loadIns.A].empty()) {
-                if (!context->lookupVariable(chunk.localNames[loadIns.A], contextBase)) {
-                    raiseUndefinedVariable(context, chunk, chunk.localNames[loadIns.A]);
-                }
-                base = &contextBase;
-            } else {
-                Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
-            }
-            const ArrayOf* index = nullptr;
-            if (isRuntimeAssignedLocalSlot(frame, loadIns.B)) {
-                index = &frame.locals[loadIns.B];
-            } else if (loadIns.B < chunk.localNames.size()
-                && !chunk.localNames[loadIns.B].empty()) {
-                ArrayOf contextIndex;
-                if (!context->lookupVariable(chunk.localNames[loadIns.B], contextIndex)) {
-                    raiseUndefinedVariable(context, chunk, chunk.localNames[loadIns.B]);
-                }
-                frame.locals[loadIns.B] = contextIndex;
-                markRuntimeAssigned(frame, loadIns.B);
-                index = &frame.locals[loadIns.B];
-            } else {
-                Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
-            }
+            std::optional<ArrayOf> contextBase;
+            ArrayOf* base = resolveIndexedBase(loadIns.A, contextBase);
+            const ArrayOf* index = resolveIndexSlot(loadIns.B);
 
-            ArrayOf offsetIndex;
+            std::optional<ArrayOf> offsetIndex;
             const ArrayOf* effectiveIndex = index;
             if (loadIns.op == OpCode::LOAD_PARENS_LOCAL_OFFSET) {
                 ArrayOf offset = constantAsArray(chunk.constants.get(loadIns.C));
@@ -4020,28 +4788,14 @@ namespace bcvm_detail {
                         return;
                     }
                 }
-                offsetIndex = binaryOperator(eval, OpCode::OP_PLUS, *index, offset);
-                effectiveIndex = &offsetIndex;
+                offsetIndex.emplace(binaryOperator(eval, OpCode::OP_PLUS, *index, offset));
+                effectiveIndex = &*offsetIndex;
             } else if (loadIns.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL) {
                 if (loadIns.C >= frame.locals.size()) {
                     Error(L"Nelson:bytecode:localSlotOutOfRange",
                         L"BytecodeVM: local slot out of range.");
                 }
-                const ArrayOf* offset = nullptr;
-                if (isRuntimeAssignedLocalSlot(frame, loadIns.C)) {
-                    offset = &frame.locals[loadIns.C];
-                } else if (loadIns.C < chunk.localNames.size()
-                    && !chunk.localNames[loadIns.C].empty()) {
-                    ArrayOf contextOffset;
-                    if (!context->lookupVariable(chunk.localNames[loadIns.C], contextOffset)) {
-                        raiseUndefinedVariable(context, chunk, chunk.localNames[loadIns.C]);
-                    }
-                    frame.locals[loadIns.C] = contextOffset;
-                    markRuntimeAssigned(frame, loadIns.C);
-                    offset = &frame.locals[loadIns.C];
-                } else {
-                    Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
-                }
+                const ArrayOf* offset = resolveIndexSlot(loadIns.C);
                 if (!frame.chainCollect.active && index->isDoubleType(true)
                     && index->elementCount() == 1 && offset->isDoubleType(true)
                     && offset->elementCount() == 1) {
@@ -4051,8 +4805,8 @@ namespace bcvm_detail {
                         return;
                     }
                 }
-                offsetIndex = binaryOperator(eval, OpCode::OP_MINUS, *index, *offset);
-                effectiveIndex = &offsetIndex;
+                offsetIndex.emplace(binaryOperator(eval, OpCode::OP_MINUS, *index, *offset));
+                effectiveIndex = &*offsetIndex;
             }
 
             if (frame.chainCollect.active) {
@@ -4068,6 +4822,12 @@ namespace bcvm_detail {
                 && tryPushDirectScalarVectorSubset(*base, *effectiveIndex)) {
                 return;
             }
+            ArrayOf range;
+            if ((loadIns.op != OpCode::LOAD_PARENS_LOCAL || loadIns.C == 0)
+                && base->contiguousRangeSubset(*effectiveIndex, range)) {
+                stack.push_back(std::move(range));
+                return;
+            }
             ArrayOfVector indices;
             indices.push_back(*effectiveIndex);
             ArrayOf baseValue = *base;
@@ -4077,7 +4837,347 @@ namespace bcvm_detail {
                     ? 0
                     : loadIns.C);
         };
+        auto executeLoadParens2Local = [&](const Instruction& loadIns) {
+            if (loadIns.A >= frame.locals.size() || loadIns.B >= frame.locals.size()
+                || loadIns.C >= frame.locals.size()) {
+                Error(L"Nelson:bytecode:localSlotOutOfRange",
+                    L"BytecodeVM: local slot out of range.");
+            }
+            std::optional<ArrayOf> contextBase;
+            const ArrayOf* base = resolveIndexedBase(loadIns.A, contextBase);
+            const ArrayOf* row = resolveIndexSlot(loadIns.B);
+            const ArrayOf* col = resolveIndexSlot(loadIns.C);
+            if (frame.chainCollect.active) {
+                ArrayOfVector collectIdx;
+                collectIdx.push_back(*row);
+                collectIdx.push_back(*col);
+                frame.chainCollect.subtypes.push_back("()");
+                frame.chainCollect.subsindices.push_back(classIndexCell(collectIdx));
+                stack.push_back(ArrayOf::empty());
+                return;
+            }
+            indexType offset = 0;
+            if (const double* data = doubleScalar2DOffsetFromIndices(*base, *row, *col, offset)) {
+                stack.push_back(ArrayOf::doubleScalar(data[offset]));
+                return;
+            }
+            ArrayOfVector indices;
+            indices.reserve(2);
+            indices.push_back(*row);
+            indices.push_back(*col);
+            pushParenSubset(*base, indices, loadIns.flags, 0);
+        };
+        // end context for the in-place indexed-assignment opcodes: the base never
+        // transits through the stack, so it is read from the local slot (seeded from
+        // the calling workspace like the assignment that follows); an unassigned slot
+        // behaves as an empty base, matching LOAD_LOCAL with INST_FLAG_ALLOW_UNDEFINED.
+        auto executePushEndCtxLocal = [&](const Instruction& endIns) {
+            if (endIns.A >= frame.locals.size()) {
+                Error(L"Nelson:bytecode:localSlotOutOfRange",
+                    L"BytecodeVM: local slot out of range.");
+            }
+            seedAssignBaseFromContext(endIns.A);
+            if (isRuntimeAssignedLocalSlot(frame, endIns.A)) {
+                frame.endContexts.push_back(EndContext { frame.locals[endIns.A],
+                    static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
+            } else {
+                frame.endContexts.push_back(EndContext { ArrayOf::empty(),
+                    static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
+            }
+        };
+        // Ordinal read by v(k), v(k + c) or v(k - j) when it is a positive integer.
+        auto localReadOrdinal = [&](const Instruction& loadIns, indexType& ordinal) -> bool {
+            if (loadIns.B >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, loadIns.B)) {
+                return false;
+            }
+            const ArrayOf& index = frame.locals[loadIns.B];
+            if (loadIns.op == OpCode::LOAD_PARENS_LOCAL) {
+                return scalarDoubleOrdinalIndex(index, ordinal);
+            }
+            if (!index.isDoubleType(true) || index.elementCount() != 1) {
+                return false;
+            }
+            double value = *static_cast<const double*>(index.dataPointer());
+            if (loadIns.op == OpCode::LOAD_PARENS_LOCAL_OFFSET) {
+                const ArrayOf offset = constantAsArray(chunk.constants.get(loadIns.C));
+                if (!offset.isDoubleType(true) || offset.elementCount() != 1) {
+                    return false;
+                }
+                value += *static_cast<const double*>(offset.dataPointer());
+            } else {
+                if (loadIns.C >= frame.locals.size()
+                    || !isRuntimeAssignedLocalSlot(frame, loadIns.C)) {
+                    return false;
+                }
+                const ArrayOf& offset = frame.locals[loadIns.C];
+                if (!offset.isDoubleType(true) || offset.elementCount() != 1) {
+                    return false;
+                }
+                value -= *static_cast<const double*>(offset.dataPointer());
+            }
+            return doubleToOrdinal(value, ordinal);
+        };
+        // x = s(k).f on a struct array: the field is read in place, without the 1x1 struct
+        auto tryLoadStructElementField
+            = [&](const Instruction& loadIns, const Instruction& next) -> bool {
+            const std::string* field = plainFieldReadName(chunk, next);
+            if (field == nullptr || loadIns.flags != 0 || frame.chainCollect.active
+                || (loadIns.op == OpCode::LOAD_PARENS_LOCAL && loadIns.C > 1)
+                || loadIns.A >= frame.locals.size()
+                || !isRuntimeAssignedLocalSlot(frame, loadIns.A)) {
+                return false;
+            }
+            indexType ordinal = 0;
+            if (!localReadOrdinal(loadIns, ordinal)) {
+                return false;
+            }
+            const ArrayOf* element = structElementFieldAt(frame.locals[loadIns.A], ordinal, *field);
+            if (element == nullptr) {
+                return false;
+            }
+            stack.push_back(*element);
+            return true;
+        };
 
+        // x = [a, b, ...] or [a; b; ...] of double scalars written in place into an unshared
+        // double vector of that shape held by x; assignPc is the ASSIGN that would store it.
+        auto tryStoreDoubleScalarVectorInPlace
+            = [&](uint16_t count, bool asRow, size_t assignPc) -> bool {
+            constexpr uint16_t maxCount = 16;
+            if (count < 2 || count > maxCount || stack.size() < count
+                || assignPc >= chunk.code.size()) {
+                return false;
+            }
+            const Instruction& assign = chunk.code[assignPc];
+            if (assign.op != OpCode::ASSIGN || assign.flags != 0 || assign.A >= frame.locals.size()
+                || !isRuntimeAssignedLocalSlot(frame, assign.A)
+                || Profiler::getInstance()->isOn()) {
+                return false;
+            }
+            ArrayOf& target = frame.locals[assign.A];
+            indexType elements = 0;
+            indexType rows = 0;
+            indexType columns = 0;
+            if (target.realDoubleData(elements, rows, columns) == nullptr || elements != count
+                || rows != (asRow ? 1 : count) || columns != (asRow ? count : 1)
+                || target.referenceCount() != 1) {
+                return false;
+            }
+            if (assign.A < chunk.localNames.size() && !chunk.localNames[assign.A].empty()
+                && context->isLockedVariable(chunk.localNames[assign.A])) {
+                return false;
+            }
+            const size_t first = stack.size() - count;
+            double values[maxCount];
+            for (size_t k = 0; k < count; ++k) {
+                if (isCommaListSentinel(stack[first + k])
+                    || !stack[first + k].realDoubleScalar(values[k])) {
+                    return false;
+                }
+            }
+            auto* data = static_cast<double*>(target.readWriteDataPointer());
+            std::copy(values, values + count, data);
+            stack.resize(first);
+            markRuntimeAssigned(frame, assign.A);
+            pc = static_cast<uint32_t>(assignPc + 1);
+            return true;
+        };
+        // x = [x y]: grow the local row in place (amortized capacity) instead of copying it
+        // into a new array on every append
+        auto tryAppendRowInPlace = [&](size_t assignPc) -> bool {
+            if (stack.size() < 2 || assignPc >= chunk.code.size()
+                || Profiler::getInstance()->isOn()) {
+                return false;
+            }
+            const Instruction& assign = chunk.code[assignPc];
+            if (assign.op != OpCode::ASSIGN || assign.flags != 0 || assign.A >= frame.locals.size()
+                || !isRuntimeAssignedLocalSlot(frame, assign.A)) {
+                return false;
+            }
+            ArrayOf& target = frame.locals[assign.A];
+            const ArrayOf& head = stack[stack.size() - 2];
+            if (isCommaListSentinel(head) || isCommaListSentinel(stack.back())
+                || !canAppendRowInPlace(target, head, stack.back())) {
+                return false;
+            }
+            if (assign.A < chunk.localNames.size() && !chunk.localNames[assign.A].empty()
+                && context->isLockedVariable(chunk.localNames[assign.A])) {
+                return false;
+            }
+            ArrayOf tail = popStackValue(stack);
+            // dropping the head copy leaves the slot the only owner
+            stack.pop_back();
+            const indexType oldCount = target.elementCount();
+            const indexType tailCount = tail.elementCount();
+            target.vectorResize(oldCount + tailCount);
+            if (target.isCell()) {
+                auto* elements = static_cast<ArrayOf*>(target.readWriteDataPointer());
+                const auto* appended = static_cast<const ArrayOf*>(tail.dataPointer());
+                for (indexType k = 0; k < tailCount; ++k) {
+                    elements[oldCount + k] = appended[k];
+                }
+            } else {
+                const auto bytes = static_cast<size_t>(target.elementSize());
+                auto* data = static_cast<char*>(target.readWriteDataPointer());
+                std::memcpy(data + oldCount * bytes, tail.dataPointer(), tailCount * bytes);
+            }
+            markRuntimeAssigned(frame, assign.A);
+            pc = static_cast<uint32_t>(assignPc + 1);
+            return true;
+        };
+        // x.f read of a local: struct fields in place, then tables, objects, handles
+        auto executeLoadLocalDot = [&](const Instruction& loadIns) {
+            if (loadIns.A >= frame.locals.size()) {
+                Error(L"Nelson:bytecode:localSlotOutOfRange",
+                    L"BytecodeVM: local slot out of range.");
+            }
+            if (loadIns.B >= chunk.constants.size()) {
+                Error(L"Nelson:bytecode:fieldConstantIndexOutOfRange",
+                    L"BytecodeVM: field constant index out of range.");
+            }
+            // the slot is read in place: a scalar struct field needs no base copy
+            const ArrayOf* basePtr = nullptr;
+            std::optional<ArrayOf> contextBase;
+            if (isRuntimeAssignedLocalSlot(frame, loadIns.A)) {
+                basePtr = &frame.locals[loadIns.A];
+            } else if (loadIns.A < chunk.localNames.size()
+                && !chunk.localNames[loadIns.A].empty()) {
+                contextBase.emplace();
+                if (!context->lookupVariable(chunk.localNames[loadIns.A], *contextBase)) {
+                    raiseUndefinedVariable(context, chunk, chunk.localNames[loadIns.A]);
+                }
+                basePtr = &*contextBase;
+            } else {
+                Error(L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
+            }
+            const auto& field = std::get<std::string>(chunk.constants.get(loadIns.B));
+            if (const ArrayOf* element = structScalarFieldPointer(*basePtr, field)) {
+                stack.push_back(*element);
+                return;
+            }
+            ArrayOf base = *basePtr;
+            ArrayOf directValue;
+            if (tryFastTableDotVariable(eval, base, field, directValue)) {
+                stack.push_back(directValue);
+                return;
+            }
+            if (base.isClassType()) {
+                if (tryReadClassdefPlainProperty(eval, base, field, directValue)) {
+                    stack.push_back(directValue);
+                    return;
+                }
+                stringVector subtypes;
+                ArrayOfVector subsindices;
+                subtypes.push_back(".");
+                subsindices.push_back(ArrayOf::characterArray(field));
+                bool haveFunction = false;
+                ArrayOfVector result
+                    = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction, 1);
+                if (!haveFunction) {
+                    // a no-argument method accessed without parentheses on an
+                    // instance held in a variable (obj.method) is invoked, not
+                    // read as a property.
+                    ArrayOfVector methodResult;
+                    if (base.isScalar() && classdefLoadClass(base.classType())
+                        && !classdefHasProperty(base.classType(), field)
+                        && eval->bytecodeInvokeObjectMethodIfExists(
+                            base, field, {}, 1, methodResult)) {
+                        stack.push_back(methodResult.empty() ? ArrayOf::empty() : methodResult[0]);
+                        return;
+                    }
+                    result = getClassdefFieldAsList(eval, base, field);
+                }
+                stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
+                return;
+            }
+            if (base.isHandle() || base.isGraphicsObject()) {
+                ArrayOfVector params;
+                ArrayOfVector result = getOrInvokeHandle(eval, base, field, params);
+                stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
+                return;
+            }
+            if (!base.isStruct()) {
+                Error(L"Nelson:interpreter:invalidIndexing", L"Invalid indexing.");
+            }
+            ArrayOfVector fieldValues = base.fieldAsList(field);
+            stack.push_back(fieldValues.empty() ? ArrayOf::empty() : fieldValues[0]);
+        };
+        // c{k} read of a local through a local index
+        auto executeLoadBracesLocal = [&](const Instruction& loadIns) {
+            if (loadIns.A >= frame.locals.size() || loadIns.B >= frame.locals.size()) {
+                Error(L"Nelson:bytecode:localSlotOutOfRange",
+                    L"BytecodeVM: local slot out of range.");
+            }
+            std::optional<ArrayOf> contextBase;
+            const ArrayOf* base = resolveIndexedBase(loadIns.A, contextBase);
+            const ArrayOf* index = resolveIndexSlot(loadIns.B);
+            if (const ArrayOf* element = cellScalarContentPointer(*base, *index)) {
+                stack.push_back(*element);
+                return;
+            }
+            ArrayOfVector indices;
+            indices.push_back(*index);
+            ArrayOf baseValue = *base;
+            if (baseValue.isClassType() || baseValue.isHandle()) {
+                stringVector subtypes;
+                ArrayOfVector subsindices;
+                subtypes.push_back("{}");
+                subsindices.push_back(classIndexCell(indices));
+                bool haveFunction = false;
+                int nout = 1;
+                if ((loadIns.flags & INST_FLAG_LIST) != 0) {
+                    // comma-separated-list context: the class decides how
+                    // many values via numArgumentsFromSubscript
+                    int reported = objectNumArgumentsFromSubscript(
+                        eval, baseValue, subtypes, subsindices, "Expression");
+                    if (reported >= 0) {
+                        nout = reported;
+                    }
+                }
+                ArrayOfVector result = eval->bytecodeExtractClass(
+                    baseValue, subtypes, subsindices, haveFunction, nout);
+                if (!haveFunction && baseValue.isClassType()) {
+                    Error(L"Nelson:interpreter:invalidIndexing", L"Invalid indexing.");
+                }
+                if (haveFunction) {
+                    if ((loadIns.flags & INST_FLAG_LIST) != 0 && result.size() != 1) {
+                        stack.push_back(commaListSentinel(result));
+                    } else {
+                        stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
+                    }
+                    return;
+                }
+            }
+            resolveObjectIndices(eval, indices);
+            ArrayOfVector values = baseValue.vectorContentsAsList(indices[0]);
+            if ((loadIns.flags & INST_FLAG_LIST) != 0 && values.size() != 1) {
+                // comma-list context: zero or multiple extracted values
+                // must expand at the consuming opcode
+                stack.push_back(commaListSentinel(values));
+                return;
+            }
+            if (values.empty()) {
+                Error(L"Nelson:interpreter:emptyExpression", L"Empty expression!");
+            }
+            stack.push_back(values[0]);
+        };
+        // Store into a local slot with the checks of ASSIGN: permanent variables and a
+        // previous handle value whose context copy must not outlive the store.
+        auto assignLocalValue = [&](uint16_t slot, ArrayOf value) {
+            if (slot >= frame.locals.size()) {
+                Error(L"Nelson:bytecode:localSlotOutOfRange",
+                    L"BytecodeVM: local slot out of range.");
+            }
+            if (slot < chunk.localNames.size() && !chunk.localNames[slot].empty()
+                && context->isLockedVariable(chunk.localNames[slot])) {
+                Error(L"Nelson:interpreter:redefinePermanent", L"Redefining permanent variable.");
+            }
+            if (valueOwnsObject(frame.locals[slot])) {
+                refreshStaleContextHandleCopy(slot, value);
+            }
+            frame.locals[slot] = std::move(value);
+            markRuntimeAssigned(frame, slot);
+        };
         auto invokeFunctionHandleValue = [&](const ArrayOf& value, const ArrayOfVector& params,
                                              int requestedOutputs) -> ArrayOfVector {
             FunctionDef* handleDef = functionDefFromHandle(value);
@@ -4247,27 +5347,39 @@ namespace bcvm_detail {
             return found;
         };
 
-        needsCallerContextSync = [&](FunctionDef* funcDef) -> bool {
-            return BytecodeVM::functionNeedsCallerContext(eval, funcDef, false);
-        };
-
-        needsCallerContextRefresh = [&](FunctionDef* funcDef) -> bool {
-            return BytecodeVM::functionNeedsCallerContext(eval, funcDef, true);
-        };
-
-        // Scope-free frames get a context scope on demand the first time a
-        // runtime-resolved callee turns out to need the caller context (e.g. an
-        // overload picked at dispatch time that the static analysis in
-        // bytecodeNeedsContextScope could not see). executeFunction pops it on
-        // every exit path.
-        ensureContextScopeForCall = [&](bool syncRequired, bool refreshRequired) {
-            if ((syncRequired || refreshRequired) && !frame.hasContextScope) {
-                context->pushScope(chunk.functionName, chunk.sourcePath);
-                frame.hasContextScope = true;
-                frame.lazyScopePushed = true;
+        // A direct call pushes no scope for the callee: the callee frame must not claim one,
+        // or its exit would empty the caller's scope. Its call stack entry is the one a call
+        // through the definition pushes, so errors name the callee.
+        auto runDirectBytecodeCall = [&](MacroFunctionDef* definition, BytecodeChunk& calleeChunk,
+                                         const ArrayOfVector& args, uint16_t nout,
+                                         ArrayOfVector& result) {
+            struct CalleeStackEntry
+            {
+                Evaluator* evaluator;
+                ~CalleeStackEntry() { evaluator->callstack.popDebug(); }
+            };
+            eval->callstack.pushDebug(definition->getFilenameUtf8(), definition->getCompleteName());
+            CalleeStackEntry calleeEntry { eval };
+            if (nout == 1 && args.size() == 1 && calleeChunk.argNames.size() == 1
+                && calleeChunk.argNames[0] != "varargin" && calleeChunk.retNames.size() == 1) {
+                result.resize(1);
+                result[0] = executeFunctionOneArgOneOutput(eval, calleeChunk, args[0], false);
+            } else {
+                result = BytecodeVM::executeFunction(
+                    eval, calleeChunk, args, static_cast<int>(nout), false);
+            }
+            State state(eval->getState());
+            if (state < NLS_STATE_QUIT) {
+                eval->resetState();
+            }
+            if (state == NLS_STATE_ABORT || state == NLS_STATE_QUIT
+                || state == NLS_STATE_FORCE_QUIT) {
+                result = scalarArrayOfToArrayOfVector(ArrayOf::empty());
+            }
+            for (size_t k = 0; k < result.size(); ++k) {
+                result[k].name("");
             }
         };
-
         auto tryEvaluateDirectSelfBytecode = [&](FunctionDef* funcDef, const ArrayOfVector& args,
                                                  uint16_t nout, ArrayOfVector& result) -> bool {
             BytecodeChunk* calleeChunk = nullptr;
@@ -4281,36 +5393,8 @@ namespace bcvm_detail {
             if (macroDef->inputArgCount() != -1 && args.size() > macroDef->arguments.size()) {
                 Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
             }
-            // A direct call pushes no scope for the callee: the callee frame must
-            // not claim one, or its exit would empty the caller's scope.
-            if (nout == 1 && args.size() == 1 && calleeChunk->argNames.size() == 1
-                && calleeChunk->argNames[0] != "varargin" && calleeChunk->retNames.size() == 1) {
-                result.resize(1);
-                result[0] = executeFunctionOneArgOneOutput(eval, *calleeChunk, args[0], false);
-            } else {
-                result = BytecodeVM::executeFunction(
-                    eval, *calleeChunk, args, static_cast<int>(nout), false);
-            }
-            State state(eval->getState());
-            if (state < NLS_STATE_QUIT) {
-                eval->resetState();
-            }
-            if (state == NLS_STATE_ABORT || state == NLS_STATE_QUIT
-                || state == NLS_STATE_FORCE_QUIT) {
-                result = scalarArrayOfToArrayOfVector(ArrayOf::empty());
-            }
-            for (size_t k = 0; k < result.size(); ++k) {
-                result[k].name("");
-            }
+            runDirectBytecodeCall(macroDef, *calleeChunk, args, nout, result);
             return true;
-        };
-
-        functionDefFromHandle = [](const ArrayOf& handle) -> FunctionDef* {
-            if (!handle.isFunctionHandle()) {
-                return nullptr;
-            }
-            function_handle fh = handle.asFunctionHandle();
-            return reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
         };
 
         uint32_t loopBackedgeCounter = 0;
@@ -4346,7 +5430,7 @@ namespace bcvm_detail {
         };
         auto tryEvaluateNamedScalarBuiltinFromStack
             = [&](const Instruction& call, const std::string& name) -> bool {
-            ScalarBuiltinFastPath fastPath = scalarBuiltinFastPathForName(name, call.B);
+            ScalarBuiltinFastPath fastPath = cachedScalarFastPath(call.A, name, call.B);
             if ((call.flags & INST_FLAG_PRINT) != 0 || call.C != 1
                 || !isScalarBuiltinFastPathCandidate(fastPath) || stack.size() < call.B) {
                 return false;
@@ -4356,16 +5440,8 @@ namespace bcvm_detail {
                     return false;
                 }
             }
-            ArrayOf variable;
-            bool hasVariable = tryGetAssignedLocalByNameIndex(call.A, variable);
-            if (!hasVariable) {
-                hasVariable = context->lookupVariable(name, variable);
-            }
-            if (hasVariable) {
-                return false;
-            }
             FunctionDef* fdef = nullptr;
-            if (!lookupCachedScalarBuiltin(call.A, name, fdef)) {
+            if (!builtinBehindName(call.A, fdef)) {
                 return false;
             }
             if (call.B == 2) {
@@ -4400,21 +5476,21 @@ namespace bcvm_detail {
                     stack.push_back(ArrayOf::doubleScalar(scalarBinaryValue));
                     return true;
                 }
-                ArrayOf inlineResult;
-                if (tryEvaluateScalarBuiltinFastPathArgs(fastPath, fdef, lhs, rhs, inlineResult)) {
+                double inlineValue = 0.;
+                if (tryEvaluateScalarBuiltinFastPathArgs(fastPath, fdef, lhs, rhs, inlineValue)) {
                     stack.pop_back();
                     stack.pop_back();
-                    stack.push_back(inlineResult);
+                    stack.push_back(ArrayOf::doubleScalar(inlineValue));
                     return true;
                 }
                 return false;
             }
-            ArrayOf inlineResult;
-            if (!tryEvaluateScalarBuiltinFastPathArg(fastPath, fdef, stack.back(), inlineResult)) {
+            double inlineValue = 0.;
+            if (!tryEvaluateScalarBuiltinFastPathArg(fastPath, fdef, stack.back(), inlineValue)) {
                 return false;
             }
             stack.pop_back();
-            stack.push_back(inlineResult);
+            stack.push_back(ArrayOf::doubleScalar(inlineValue));
             return true;
         };
         bool hasStatementContext = false;
@@ -4562,7 +5638,8 @@ namespace bcvm_detail {
                 case OpCode::SCALAR_EXPR: {
                     const ScalarExprProgram& program = chunk.scalarExprPrograms[ins.A];
                     ScalarExprOutcome outcome = ScalarExprOutcome::Refused;
-                    if (!Profiler::getInstance()->isOn()) {
+                    if (!Profiler::getInstance()->isOn()
+                        && (!program.callsBuiltins || scalarProgramBuiltinsResolved(program))) {
                         outcome
                             = tryExecuteScalarExprProgram(frame, chunk, context, stack, program);
                     }
@@ -4588,171 +5665,84 @@ namespace bcvm_detail {
                         || program.original.op == OpCode::LOAD_PARENS_LOCAL_OFFSET
                         || program.original.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL) {
                         executeLoadParensLocal(program.original);
+                    } else if (program.original.op == OpCode::LOAD_PARENS2_LOCAL) {
+                        executeLoadParens2Local(program.original);
+                    } else if (program.original.op == OpCode::PUSH_END_CTX_LOCAL) {
+                        executePushEndCtxLocal(program.original);
+                    } else if (program.original.op == OpCode::LOAD_LOCAL_DOT) {
+                        executeLoadLocalDot(program.original);
+                    } else if (program.original.op == OpCode::LOAD_BRACES_LOCAL) {
+                        executeLoadBracesLocal(program.original);
                     } else {
                         executeLoadLocal(program.original);
                     }
                 } break;
-                case OpCode::LOAD_LOCAL_DOT: {
-                    if (ins.A >= frame.locals.size()) {
-                        Error(L"Nelson:bytecode:localSlotOutOfRange",
-                            L"BytecodeVM: local slot out of range.");
-                    }
-                    if (ins.B >= chunk.constants.size()) {
-                        Error(L"Nelson:bytecode:fieldConstantIndexOutOfRange",
-                            L"BytecodeVM: field constant index out of range.");
-                    }
-                    ArrayOf base;
-                    if (isRuntimeAssignedLocalSlot(frame, ins.A)) {
-                        base = frame.locals[ins.A];
-                    } else if (ins.A < chunk.localNames.size()
-                        && !chunk.localNames[ins.A].empty()) {
-                        if (!context->lookupVariable(chunk.localNames[ins.A], base)) {
-                            raiseUndefinedVariable(context, chunk, chunk.localNames[ins.A]);
-                        }
-                    } else {
-                        Error(
-                            L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
-                    }
-                    const auto& field = std::get<std::string>(chunk.constants.get(ins.B));
-                    ArrayOf directValue;
-                    if (tryReadStructScalarFieldDirect(base, field, directValue)
-                        || tryFastTableDotVariable(eval, base, field, directValue)) {
-                        stack.push_back(directValue);
-                        break;
-                    }
-                    if (base.isClassType()) {
-                        if (tryReadClassdefPlainProperty(eval, base, field, directValue)) {
-                            stack.push_back(directValue);
-                            break;
-                        }
-                        stringVector subtypes;
-                        ArrayOfVector subsindices;
-                        subtypes.push_back(".");
-                        subsindices.push_back(ArrayOf::characterArray(field));
-                        bool haveFunction = false;
-                        ArrayOfVector result = eval->bytecodeExtractClass(
-                            base, subtypes, subsindices, haveFunction, 1);
-                        if (!haveFunction) {
-                            // a no-argument method accessed without parentheses on an
-                            // instance held in a variable (obj.method) is invoked, not
-                            // read as a property.
-                            ArrayOfVector methodResult;
-                            if (base.isScalar() && classdefLoadClass(base.classType())
-                                && !classdefHasProperty(base.classType(), field)
-                                && eval->bytecodeInvokeObjectMethodIfExists(
-                                    base, field, {}, 1, methodResult)) {
-                                stack.push_back(
-                                    methodResult.empty() ? ArrayOf::empty() : methodResult[0]);
-                                break;
-                            }
-                            result = getClassdefFieldAsList(eval, base, field);
-                        }
-                        stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
-                        break;
-                    }
-                    if (base.isHandle() || base.isGraphicsObject()) {
-                        ArrayOfVector params;
-                        ArrayOfVector result = getOrInvokeHandle(eval, base, field, params);
-                        stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
-                        break;
-                    }
-                    if (!base.isStruct()) {
-                        Error(L"Nelson:interpreter:invalidIndexing", L"Invalid indexing.");
-                    }
-                    ArrayOfVector fieldValues = base.fieldAsList(field);
-                    stack.push_back(fieldValues.empty() ? ArrayOf::empty() : fieldValues[0]);
-                } break;
+                case OpCode::LOAD_LOCAL_DOT:
+                    executeLoadLocalDot(ins);
+                    break;
                 case OpCode::LOAD_PARENS_LOCAL:
                 case OpCode::LOAD_PARENS_LOCAL_OFFSET:
                 case OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL:
+                    if (pc < chunk.code.size() && tryLoadStructElementField(ins, chunk.code[pc])) {
+                        ++pc; // the SUBIDX_DOT is done
+                        break;
+                    }
                     executeLoadParensLocal(ins);
                     break;
-                case OpCode::LOAD_BRACES_LOCAL: {
-                    if (ins.A >= frame.locals.size() || ins.B >= frame.locals.size()) {
+                case OpCode::LOAD_PARENS2_LOCAL:
+                    executeLoadParens2Local(ins);
+                    break;
+                case OpCode::ASSIGN_LOCAL_FIELD: {
+                    if (ins.A >= frame.locals.size() || ins.B >= frame.locals.size()
+                        || ins.C >= chunk.constants.size()) {
                         Error(L"Nelson:bytecode:localSlotOutOfRange",
                             L"BytecodeVM: local slot out of range.");
                     }
-                    const ArrayOf* base = nullptr;
-                    ArrayOf contextBase;
-                    if (isRuntimeAssignedLocalSlot(frame, ins.A)) {
-                        base = &frame.locals[ins.A];
-                    } else if (ins.A < chunk.localNames.size()
-                        && !chunk.localNames[ins.A].empty()) {
-                        if (!context->lookupVariable(chunk.localNames[ins.A], contextBase)) {
-                            raiseUndefinedVariable(context, chunk, chunk.localNames[ins.A]);
-                        }
-                        base = &contextBase;
-                    } else {
-                        Error(
-                            L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
+                    const ArrayOf* element = nullptr;
+                    const auto* field = std::get_if<std::string>(&chunk.constants.get(ins.C));
+                    if (field != nullptr && isRuntimeAssignedLocalSlot(frame, ins.B)) {
+                        element = structScalarFieldPointer(frame.locals[ins.B], *field);
                     }
-                    const ArrayOf* index = nullptr;
-                    if (isRuntimeAssignedLocalSlot(frame, ins.B)) {
-                        index = &frame.locals[ins.B];
-                    } else if (ins.B < chunk.localNames.size()
-                        && !chunk.localNames[ins.B].empty()) {
-                        ArrayOf contextIndex;
-                        if (!context->lookupVariable(chunk.localNames[ins.B], contextIndex)) {
-                            raiseUndefinedVariable(context, chunk, chunk.localNames[ins.B]);
-                        }
-                        frame.locals[ins.B] = contextIndex;
-                        markRuntimeAssigned(frame, ins.B);
-                        index = &frame.locals[ins.B];
-                    } else {
-                        Error(
-                            L"Nelson:UndefinedVariable:undefinedVariable", L"Undefined variable.");
-                    }
-                    ArrayOf directValue;
-                    if (tryReadCellScalarContentDirect(*base, *index, directValue)) {
-                        stack.push_back(directValue);
+                    if (element != nullptr) {
+                        // copied first: the store may release the base (x = x.f)
+                        ArrayOf value = *element;
+                        assignLocalValue(ins.A, std::move(value));
                         break;
                     }
-                    ArrayOfVector indices;
-                    indices.push_back(*index);
-                    ArrayOf baseValue = *base;
-                    if (baseValue.isClassType() || baseValue.isHandle()) {
-                        stringVector subtypes;
-                        ArrayOfVector subsindices;
-                        subtypes.push_back("{}");
-                        subsindices.push_back(classIndexCell(indices));
-                        bool haveFunction = false;
-                        int nout = 1;
-                        if ((ins.flags & INST_FLAG_LIST) != 0) {
-                            // comma-separated-list context: the class decides how
-                            // many values via numArgumentsFromSubscript
-                            int reported = objectNumArgumentsFromSubscript(
-                                eval, baseValue, subtypes, subsindices, "Expression");
-                            if (reported >= 0) {
-                                nout = reported;
-                            }
-                        }
-                        ArrayOfVector result = eval->bytecodeExtractClass(
-                            baseValue, subtypes, subsindices, haveFunction, nout);
-                        if (!haveFunction && baseValue.isClassType()) {
-                            Error(L"Nelson:interpreter:invalidIndexing", L"Invalid indexing.");
-                        }
-                        if (haveFunction) {
-                            if ((ins.flags & INST_FLAG_LIST) != 0 && result.size() != 1) {
-                                stack.push_back(commaListSentinel(result));
-                            } else {
-                                stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
-                            }
-                            break;
-                        }
-                    }
-                    resolveObjectIndices(eval, indices);
-                    ArrayOfVector values = baseValue.vectorContentsAsList(indices[0]);
-                    if ((ins.flags & INST_FLAG_LIST) != 0 && values.size() != 1) {
-                        // comma-list context: zero or multiple extracted values
-                        // must expand at the consuming opcode
-                        stack.push_back(commaListSentinel(values));
-                        break;
-                    }
-                    if (values.empty()) {
-                        Error(L"Nelson:interpreter:emptyExpression", L"Empty expression!");
-                    }
-                    stack.push_back(values[0]);
+                    Instruction load {};
+                    load.op = OpCode::LOAD_LOCAL_DOT;
+                    load.A = ins.B;
+                    load.B = ins.C;
+                    executeLoadLocalDot(load);
+                    assignLocalValue(ins.A, pop());
                 } break;
+                case OpCode::ASSIGN_LOCAL_CONTENT: {
+                    if (ins.A >= frame.locals.size() || ins.B >= frame.locals.size()
+                        || ins.C >= frame.locals.size()) {
+                        Error(L"Nelson:bytecode:localSlotOutOfRange",
+                            L"BytecodeVM: local slot out of range.");
+                    }
+                    const ArrayOf* element = nullptr;
+                    if (isRuntimeAssignedLocalSlot(frame, ins.B)
+                        && isRuntimeAssignedLocalSlot(frame, ins.C)) {
+                        element
+                            = cellScalarContentPointer(frame.locals[ins.B], frame.locals[ins.C]);
+                    }
+                    if (element != nullptr) {
+                        ArrayOf value = *element;
+                        assignLocalValue(ins.A, std::move(value));
+                        break;
+                    }
+                    Instruction load {};
+                    load.op = OpCode::LOAD_BRACES_LOCAL;
+                    load.A = ins.B;
+                    load.B = ins.C;
+                    executeLoadBracesLocal(load);
+                    assignLocalValue(ins.A, pop());
+                } break;
+                case OpCode::LOAD_BRACES_LOCAL:
+                    executeLoadBracesLocal(ins);
+                    break;
                 case OpCode::LOAD_LOCAL_COUNT_RANGE: {
                     if (ins.A >= frame.locals.size()) {
                         Error(L"Nelson:bytecode:localSlotOutOfRange",
@@ -5411,37 +6401,28 @@ namespace bcvm_detail {
                     frame.endContexts.push_back(EndContext {
                         base, static_cast<indexType>(ins.B), static_cast<size_t>(ins.C) });
                 } break;
-                case OpCode::PUSH_END_CTX_LOCAL: {
-                    // end context for the in-place indexed-assignment opcodes:
-                    // the base never transits through the stack, so read it
-                    // from the local slot (seeded from the calling workspace
-                    // exactly like the assignment opcode that follows will);
-                    // an unassigned slot behaves as an empty base, matching
-                    // LOAD_LOCAL with INST_FLAG_ALLOW_UNDEFINED.
-                    if (ins.A >= frame.locals.size()) {
-                        Error(L"Nelson:bytecode:localSlotOutOfRange",
-                            L"BytecodeVM: local slot out of range.");
-                    }
-                    seedAssignBaseFromContext(ins.A);
-                    ArrayOf base = ArrayOf::empty();
-                    if (isRuntimeAssignedLocalSlot(frame, ins.A)) {
-                        base = frame.locals[ins.A];
-                    }
-                    frame.endContexts.push_back(EndContext {
-                        base, static_cast<indexType>(ins.B), static_cast<size_t>(ins.C) });
-                } break;
+                case OpCode::PUSH_END_CTX_LOCAL:
+                    executePushEndCtxLocal(ins);
+                    break;
                 case OpCode::POP_END_CTX:
                     if (!frame.endContexts.empty()) {
                         frame.endContexts.pop_back();
                     }
                     break;
-                case OpCode::LOAD_END:
+                case OpCode::LOAD_END: {
                     if (frame.endContexts.empty()) {
                         Error(L"Nelson:interpreter:illegalEnd", L"END keyword illegal!");
                     }
-                    stack.push_back(eval->bytecodeEndReference(frame.endContexts.back().base,
-                        frame.endContexts.back().index, frame.endContexts.back().count));
-                    break;
+                    const EndContext& endContext = frame.endContexts.back();
+                    // only a class may overload end
+                    if (!endContext.base.isClassType()) {
+                        stack.push_back(ArrayOf::doubleScalar(Evaluator::endSubscriptValue(
+                            endContext.base, endContext.index, endContext.count)));
+                        break;
+                    }
+                    stack.push_back(eval->bytecodeEndReference(
+                        endContext.base, endContext.index, endContext.count));
+                } break;
                 case OpCode::JUMP:
                     if (ins.A < pc) {
                         pollLoopBackedge();
@@ -5604,9 +6585,19 @@ namespace bcvm_detail {
                             switchValue = converted;
                         }
                     }
+                    // two char rows or two real double scalars are compared in place
+                    bool matched = false;
+                    double switchNumber = 0.;
+                    double caseNumber = 0.;
+                    if (!tryCompareCharRows(switchValue, caseValue, true, matched)) {
+                        matched = switchValue.realDoubleScalar(switchNumber)
+                                && caseValue.realDoubleScalar(caseNumber)
+                            ? switchNumber == caseNumber
+                            : switchValue.testForCaseMatch(caseValue);
+                    }
                     if (pc < chunk.code.size() && chunk.code[pc].op == OpCode::JUMP_IF_FALSE) {
                         const Instruction& jump = chunk.code[pc++];
-                        if (!switchValue.testForCaseMatch(caseValue)) {
+                        if (!matched) {
                             if (jump.A < pc) {
                                 pollLoopBackedge();
                             }
@@ -5614,8 +6605,7 @@ namespace bcvm_detail {
                         }
                         break;
                     }
-                    stack.push_back(
-                        ArrayOf::logicalScalar(switchValue.testForCaseMatch(caseValue)));
+                    stack.push_back(ArrayOf::logicalScalar(matched));
                 } break;
                 case OpCode::TRY_BEGIN:
                     frame.exceptionFrames.push_back(ExceptionFrame { pc, ins.A });
@@ -5815,7 +6805,14 @@ namespace bcvm_detail {
                 case OpCode::OP_PLUS:
                 case OpCode::OP_MINUS:
                 case OpCode::OP_MTIMES:
-                case OpCode::OP_TIMES:
+                case OpCode::OP_TIMES: {
+                    ArrayOf b = pop();
+                    ArrayOf a = pop();
+                    if (tryStoreDenseDoubleResultInPlace(context, frame, chunk, pc, ins.op, a, b)) {
+                        break;
+                    }
+                    stack.push_back(binaryOperator(eval, ins.op, a, b));
+                } break;
                 case OpCode::OP_MRDIV:
                 case OpCode::OP_RDIV:
                 case OpCode::OP_MLDIV:
@@ -5829,8 +6826,7 @@ namespace bcvm_detail {
                 case OpCode::OP_EQ:
                 case OpCode::OP_NEQ:
                 case OpCode::OP_AND:
-                case OpCode::OP_OR:
-                case OpCode::OP_COLON_UNIT: {
+                case OpCode::OP_OR: {
                     ArrayOf b = pop();
                     ArrayOf a = pop();
                     bool comparison = false;
@@ -5841,6 +6837,14 @@ namespace bcvm_detail {
                             break;
                         }
                     }
+                    stack.push_back(binaryOperator(eval, ins.op, a, b));
+                } break;
+                case OpCode::OP_COLON_UNIT: {
+                    if (tryReadRangeAtColon(stack, chunk, frame, pc)) {
+                        break;
+                    }
+                    ArrayOf b = pop();
+                    ArrayOf a = pop();
                     stack.push_back(binaryOperator(eval, ins.op, a, b));
                 } break;
                 case OpCode::OP_COLON: {
@@ -5998,13 +7002,14 @@ namespace bcvm_detail {
                             break;
                         }
                     }
-                    if (tryEvaluateNamedScalarBuiltinFromStack(ins, name)) {
+                    if (tryEvaluateNamedScalarBuiltinFromStack(ins, name)
+                        || tryEvaluateQueryBuiltinFromStack(ins)) {
                         break;
                     }
                     // Single shadow check per call: a runtime variable of the
                     // same name takes precedence over the function. Nothing
                     // between here and the dispatch below can create one.
-                    ArrayOf variable = ArrayOf::doubleScalar(0.);
+                    ArrayOf variable;
                     bool hasVariable = tryGetAssignedLocalByNameIndex(ins.A, variable);
                     if (!hasVariable) {
                         hasVariable = context->lookupVariable(name, variable);
@@ -6369,8 +7374,8 @@ namespace bcvm_detail {
                         break;
                     }
                     if ((ins.flags & INST_FLAG_PRINT) == 0 && ins.C == 1) {
-                        ScalarBuiltinFastPath fastPath = scalarBuiltinFastPathForName(
-                            name, static_cast<uint16_t>(args.size()));
+                        ScalarBuiltinFastPath fastPath
+                            = cachedScalarFastPath(ins.A, name, args.size());
                         ArrayOf inlineResult;
                         double scalarBinaryValue = 0;
                         if (tryEvaluateScalarBuiltinFastPath(
@@ -6401,26 +7406,20 @@ namespace bcvm_detail {
                             stack.push_back(inlineResult);
                             break;
                         }
-                        BytecodeChunk* leafChunk = nullptr;
-                        if ((leafChunk != nullptr
-                                || canDirectLeafMacroBytecodeCall(
-                                    eval, fdef, args, ins.C, leafChunk))
-                            && leafChunk != nullptr) {
-                            // direct leaf call: no scope pushed for the callee
-                            ArrayOf value
-                                = executeFunctionOneArgOneOutput(eval, *leafChunk, args[0], false);
-                            State state(eval->getState());
-                            if (state < NLS_STATE_QUIT) {
-                                eval->resetState();
-                            }
-                            if (state == NLS_STATE_ABORT || state == NLS_STATE_QUIT
-                                || state == NLS_STATE_FORCE_QUIT) {
-                                value = ArrayOf::empty();
-                            }
-                            value.name("");
-                            stack.push_back(value);
-                            break;
+                    }
+                    // direct leaf call: no scope pushed for the callee
+                    BytecodeChunk* leafChunk = nullptr;
+                    if ((ins.flags & INST_FLAG_PRINT) == 0
+                        && canDirectLeafMacroBytecodeCall(eval, fdef, args, ins.C, leafChunk)
+                        && leafChunk != nullptr) {
+                        ArrayOfVector leafResult;
+                        runDirectBytecodeCall(static_cast<MacroFunctionDef*>(fdef), *leafChunk,
+                            args, ins.C, leafResult);
+                        for (uint16_t k = 0; k < ins.C; ++k) {
+                            stack.push_back(
+                                k < leafResult.size() ? leafResult[k] : ArrayOf::empty());
                         }
+                        break;
                     }
                     bool syncCallerContext = needsCallerContextSync(fdef);
                     bool refreshCallerContext = needsCallerContextRefresh(fdef);
@@ -6920,6 +7919,34 @@ namespace bcvm_detail {
                     }
                 } break;
                 case OpCode::SUBIDX_PARENS: {
+                    // INST_FLAG_INDEX_ONLY only tells indexing from a call
+                    const bool plainParens = (ins.flags & ~INST_FLAG_INDEX_ONLY) == 0 && ins.C == 0
+                        && !frame.chainCollect.active;
+                    if (plainParens && ins.B == 2 && stack.size() >= 3
+                        && tryPushDirectScalar2DSubset(stack)) {
+                        break;
+                    }
+                    if (plainParens && ins.B == 1 && stack.size() >= 2
+                        && tryPushDirectScalar1DSubset(stack)) {
+                        break;
+                    }
+                    if (plainParens && (ins.B == 1 || ins.B == 2) && stack.size() > ins.B
+                        && tryPushDirectRowColumnOrRangeSubset(stack, ins.B + 1)) {
+                        break;
+                    }
+                    if (plainParens && ins.B == 1 && stack.size() >= 2 && pc < chunk.code.size()) {
+                        // s(expr).f: the field is read in place, the SUBIDX_DOT is done
+                        if (const std::string* field = plainFieldReadName(chunk, chunk.code[pc])) {
+                            if (const ArrayOf* element = structElementFieldPointer(
+                                    stack[stack.size() - 2], stack.back(), *field)) {
+                                ArrayOf value = *element;
+                                stack.resize(stack.size() - 2);
+                                stack.push_back(std::move(value));
+                                ++pc;
+                                break;
+                            }
+                        }
+                    }
                     ArrayOfVector indices;
                     if (ins.B == 1) {
                         ArrayOf indexValue = pop();
@@ -7029,9 +8056,8 @@ namespace bcvm_detail {
                             stack.push_back(ArrayOf::empty());
                             break;
                         }
-                        ArrayOf directValue;
-                        if (tryReadCellScalarContentDirect(base, indices, directValue)) {
-                            stack.push_back(directValue);
+                        if (const ArrayOf* element = cellScalarContentPointer(base, indices)) {
+                            stack.push_back(*element);
                             break;
                         }
                         ArrayOfVector values = indices.size() == 1
@@ -7505,11 +8531,12 @@ namespace bcvm_detail {
                     seedAssignBaseFromContext(ins.A);
                     profiledVoidOperation(eval, SUBSASGN_OPERATOR_STR, [&]() {
                         ArrayOfVector indices;
-                        ArrayOf value;
+                        // taken from under the indices: a default ArrayOf would allocate
+                        ArrayOf value = takeStackValueBelow(stack, ins.B);
                         if (ins.B == 2) {
                             ArrayOf colIndex = pop();
                             ArrayOf rowIndex = pop();
-                            value = pop();
+                            stack.pop_back();
                             ArrayOf& base = frame.locals[ins.A];
                             if (tryAssignDoubleScalar2DDirect(base, rowIndex, colIndex, value)) {
                                 markRuntimeAssigned(frame, ins.A);
@@ -7529,7 +8556,7 @@ namespace bcvm_detail {
                             indices = expandCommaLists(indices);
                         } else if (ins.B == 1) {
                             ArrayOf index = pop();
-                            value = pop();
+                            stack.pop_back();
                             ArrayOf& base = frame.locals[ins.A];
                             if (tryAssignDoubleScalarLinearDirect(base, index, value)) {
                                 markRuntimeAssigned(frame, ins.A);
@@ -7540,6 +8567,10 @@ namespace bcvm_detail {
                                 return;
                             }
                             if (tryAssignDoubleLogicalMaskDirect(base, index, value)) {
+                                markRuntimeAssigned(frame, ins.A);
+                                return;
+                            }
+                            if (tryAssignCellElementFromScalarCell(base, index, value)) {
                                 markRuntimeAssigned(frame, ins.A);
                                 return;
                             }
@@ -7559,7 +8590,7 @@ namespace bcvm_detail {
                             indices = expandCommaLists(indices);
                         } else {
                             indices = expandCommaLists(popVector(ins.B));
-                            value = pop();
+                            stack.pop_back();
                         }
                         if (indices.empty()) {
                             Error(L"Nelson:interpreter:indexExpressionExpected",
@@ -7670,6 +8701,19 @@ namespace bcvm_detail {
                     }
                     seedAssignBaseFromContext(ins.A);
                     profiledVoidOperation(eval, SUBSASGN_OPERATOR_STR, [&]() {
+                        if (ins.B == 1 && stack.size() >= 2) {
+                            // c{k} = v on a cell, k a scalar: no subscript or value vectors
+                            const ArrayOf& indexValue = stack.back();
+                            const ArrayOf& directValue = stack[stack.size() - 2];
+                            if (frame.locals[ins.A].isCell() && !isCommaListSentinel(indexValue)
+                                && !isCommaListSentinel(directValue)
+                                && tryAssignCellScalarContentDirect(
+                                    frame.locals[ins.A], indexValue, directValue)) {
+                                stack.resize(stack.size() - 2);
+                                markRuntimeAssigned(frame, ins.A);
+                                return;
+                            }
+                        }
                         ArrayOfVector indices;
                         if (ins.B == 1) {
                             ArrayOf indexValue = pop();
@@ -7908,21 +8952,30 @@ namespace bcvm_detail {
                     seedAssignBaseFromContext(ins.A);
                     profiledVoidOperation(eval, SUBSASGN_OPERATOR_STR, [&]() {
                         const auto& field = std::get<std::string>(chunk.constants.get(ins.B));
-                        ArrayOf value;
+                        // the value is read in place unless it is the base itself (s.a = s)
+                        const ArrayOf* valuePtr = nullptr;
+                        std::optional<ArrayOf> ownedValue;
                         if (isRuntimeAssignedLocalSlot(frame, ins.C)) {
-                            value = frame.locals[ins.C];
+                            if (ins.C == ins.A) {
+                                ownedValue.emplace(frame.locals[ins.C]);
+                                valuePtr = &*ownedValue;
+                            } else {
+                                valuePtr = &frame.locals[ins.C];
+                            }
                         } else if (ins.C < chunk.localNames.size()
                             && !chunk.localNames[ins.C].empty()) {
-                            if (!context->lookupVariable(chunk.localNames[ins.C], value)) {
+                            ownedValue.emplace();
+                            if (!context->lookupVariable(chunk.localNames[ins.C], *ownedValue)) {
                                 raiseUndefinedVariable(context, chunk, chunk.localNames[ins.C]);
                             }
+                            valuePtr = &*ownedValue;
                         } else {
                             Error(L"Nelson:UndefinedVariable:undefinedVariable",
                                 L"Undefined variable.");
                         }
                         ArrayOf& base = frame.locals[ins.A];
-                        if (!tryAssignStructScalarFieldDirect(base, field, value)) {
-                            assignDotValueGeneric(eval, base, field, value);
+                        if (!tryAssignStructScalarFieldDirect(base, field, *valuePtr)) {
+                            assignDotValueGeneric(eval, base, field, *valuePtr);
                         }
                         markRuntimeAssigned(frame, ins.A);
                     });
@@ -7968,23 +9021,33 @@ namespace bcvm_detail {
                     profiledVoidOperation(eval, SUBSASGN_OPERATOR_STR, [&]() {
                         const auto& parentField = std::get<std::string>(chunk.constants.get(ins.B));
                         const auto& childField = std::get<std::string>(chunk.constants.get(ins.C));
-                        ArrayOf value;
+                        // the value is read in place unless it is the base itself
+                        const ArrayOf* valuePtr = nullptr;
+                        std::optional<ArrayOf> ownedValue;
                         if (isRuntimeAssignedLocalSlot(frame, valueSlot)) {
-                            value = frame.locals[valueSlot];
+                            if (valueSlot == ins.A) {
+                                ownedValue.emplace(frame.locals[valueSlot]);
+                                valuePtr = &*ownedValue;
+                            } else {
+                                valuePtr = &frame.locals[valueSlot];
+                            }
                         } else if (valueSlot < chunk.localNames.size()
                             && !chunk.localNames[valueSlot].empty()) {
-                            if (!context->lookupVariable(chunk.localNames[valueSlot], value)) {
+                            ownedValue.emplace();
+                            if (!context->lookupVariable(
+                                    chunk.localNames[valueSlot], *ownedValue)) {
                                 raiseUndefinedVariable(context, chunk, chunk.localNames[valueSlot]);
                             }
+                            valuePtr = &*ownedValue;
                         } else {
                             Error(L"Nelson:UndefinedVariable:undefinedVariable",
                                 L"Undefined variable.");
                         }
                         ArrayOf& base = frame.locals[ins.A];
                         if (!tryAssignNestedStructScalarFieldDirect(
-                                base, parentField, childField, value)) {
+                                base, parentField, childField, *valuePtr)) {
                             ArrayOf parent = readDotValueForAssign(eval, base, parentField);
-                            assignDotValueGeneric(eval, parent, childField, value);
+                            assignDotValueGeneric(eval, parent, childField, *valuePtr);
                             assignDotValueGeneric(eval, base, parentField, parent);
                         }
                         markRuntimeAssigned(frame, ins.A);
@@ -8582,15 +9645,44 @@ namespace bcvm_detail {
                     });
                 } break;
                 case OpCode::BUILD_ROW: {
+                    // [x] is x, as horzcatOperator returns its single operand
+                    if (ins.A == 1 && !stack.empty() && !isCommaListSentinel(stack.back())) {
+                        break;
+                    }
+                    // x = [a, b] into a same shape double row: BUILD_MATRIX 1 then ASSIGN follow
+                    if (ins.A >= 2 && pc + 1 < chunk.code.size()
+                        && chunk.code[pc].op == OpCode::BUILD_MATRIX && chunk.code[pc].A == 1
+                        && chunk.code[pc].flags == 0
+                        && tryStoreDoubleScalarVectorInPlace(ins.A, true, pc + 1)) {
+                        break;
+                    }
+                    if (ins.A == 2 && pc + 1 < chunk.code.size()
+                        && chunk.code[pc].op == OpCode::BUILD_MATRIX && chunk.code[pc].A == 1
+                        && chunk.code[pc].flags == 0 && tryAppendRowInPlace(pc + 1)) {
+                        break;
+                    }
+                    if (tryPushDoubleScalarVector(stack, ins.A, true)) {
+                        break;
+                    }
                     ArrayOfVector values = popVector(ins.A);
-                    ArrayOf directRow = ArrayOf::doubleScalar(0.);
+                    ArrayOf directRow;
                     if (tryCommaListScalarDoubleRow(values, directRow)) {
                         stack.push_back(directRow);
                     } else {
-                        stack.push_back(eval->horzcatOperator(expandCommaLists(values)));
+                        stack.push_back(eval->horzcatOperator(expandCommaLists(std::move(values))));
                     }
                 } break;
                 case OpCode::BUILD_MATRIX: {
+                    // one row is left as is, as vertcatOperator returns its single operand
+                    if (ins.A == 1 && !stack.empty()) {
+                        break;
+                    }
+                    if (ins.A >= 2 && tryStoreDoubleScalarVectorInPlace(ins.A, false, pc)) {
+                        break;
+                    }
+                    if (tryPushDoubleScalarVector(stack, ins.A, false)) {
+                        break;
+                    }
                     ArrayOfVector rows = popVector(ins.A);
                     stack.push_back(eval->vertcatOperator(rows));
                 } break;
@@ -8932,7 +10024,15 @@ namespace bcvm_detail {
         runChunk(eval, frame);
         frameGuard.restoreLazyScope();
         syncNestedFunctionHandlesInFrame(chunk, frame);
-        ArrayOf output = returnValueOrEmpty(eval, chunk, frame, 0);
+        // an unassigned output, no output or varargout get the checks of the general path
+        ArrayOf output;
+        if (chunk.retNames.size() == 1 && chunk.retNames[0] != "varargout"
+            && isReturnAssigned(eval, chunk, frame, 0)) {
+            output = returnValueOrEmpty(eval, chunk, frame, 0);
+        } else {
+            ArrayOfVector outputs = prepareFunctionOutputsFromFrame(eval, chunk, frame, 1);
+            output = outputs.empty() ? ArrayOf::empty() : outputs[0];
+        }
         if (chunk.selfIsNestedMacro) {
             syncLocalsToContext(eval, chunk, frame);
         }
@@ -8952,25 +10052,34 @@ BytecodeVM::functionNeedsCallerContext(Evaluator* eval, FunctionDef* funcDef, bo
     if (eval->debuggerStatementHookArmed()) {
         return true;
     }
+    // asked twice per builtin call: no visiting set (two allocations) for a builtin
+    if (funcDef != nullptr && funcDef->type() == NLS_BUILT_IN_FUNCTION) {
+        return builtinNeedsCallerContext(funcDef, refreshRequired);
+    }
     const uint64 generation = FunctionsInMemory::getInstance()->generation();
     // Every call site asks this twice per call, so answer straight from the
     // callee chunk cache when it is already valid: the walk below would build
     // its visiting set only to read the very same fields.
+    const BytecodeChunk* calleeChunk = nullptr;
     if (funcDef != nullptr && funcDef->type() == NLS_MACRO_FUNCTION) {
         auto* macroDef = dynamic_cast<MacroFunctionDef*>(funcDef);
-        if (macroDef != nullptr && !macroDef->getIsScript() && !macroDef->nestedFunction
-            && macroDef->bytecodeChunk != nullptr) {
-            const BytecodeChunk& calleeChunk = *macroDef->bytecodeChunk;
-            if (refreshRequired) {
-                if (calleeChunk.callerContextRefreshCacheValid
-                    && calleeChunk.callerContextRefreshCacheGeneration == generation) {
-                    return calleeChunk.callerContextRefreshRequired;
-                }
-            } else if (calleeChunk.callerContextSyncCacheValid
-                && calleeChunk.callerContextSyncCacheGeneration == generation) {
-                return calleeChunk.callerContextSyncRequired;
-            }
+        if (macroDef != nullptr && !macroDef->getIsScript() && !macroDef->nestedFunction) {
+            calleeChunk = macroDef->bytecodeChunk.get();
         }
+    } else if (funcDef != nullptr && funcDef->type() == NLS_ANONYMOUS_MACRO_FUNCTION) {
+        auto* anonymousDef = dynamic_cast<AnonymousMacroFunctionDef*>(funcDef);
+        if (anonymousDef != nullptr && anonymousDef->isStatelessSimpleIdentity()) {
+            return false;
+        }
+        // the answer depends on the body calls only, not on the output count it was built for
+        if (anonymousDef != nullptr && !anonymousDef->isFunctionHandle()) {
+            calleeChunk = anonymousDef->bytecodeChunk.get();
+        }
+    }
+    bool cached = false;
+    if (calleeChunk != nullptr
+        && cachedCallerContextAnswer(*calleeChunk, refreshRequired, generation, cached)) {
+        return cached;
     }
     std::unordered_set<FunctionDef*> visiting;
     return functionNeedsCallerContextWalk(eval, funcDef, visiting, refreshRequired, generation);

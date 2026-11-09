@@ -27,10 +27,27 @@ asserts.checkerror('R = single(NaN) & 1;', msg);
 asserts.checkerror('R = single(NaN) | 0;', msg);
 asserts.checkerror('R = ~single(NaN);', msg);
 %=============================================================================
-% NOTE: 'NaN & 1', 'NaN | 0', '~NaN' with scalar double literals and
-% 'NaN && 1' are evaluated through scalar fast paths of the interpreter
-% (BytecodeVM binaryOperator/unaryOperator fusion and
-% checkShortcutScalarCondition) and are not covered by this fix.
+% scalar paths of the interpreter
+asserts.checkerror('R = NaN & 1;', msg);
+asserts.checkerror('R = 1 & NaN;', msg);
+asserts.checkerror('R = NaN | 0;', msg);
+asserts.checkerror('R = ~NaN;', msg);
+asserts.checkerror('R = NaN & true;', msg);
+%=============================================================================
+% && and || operands and if / while conditions
+asserts.checkerror('R = NaN && true;', msg);
+asserts.checkerror('R = true && NaN;', msg);
+asserts.checkerror('R = NaN || true;', msg);
+asserts.checkerror('R = false || NaN;', msg);
+asserts.isequal(false && NaN, false);
+asserts.isequal(true || NaN, true);
+asserts.checkerror('if NaN, R = 1; end', msg);
+asserts.checkerror('if [0 NaN], R = 1; end', msg);
+asserts.checkerror('if single(NaN), R = 1; end', msg);
+asserts.checkerror('if sparse(NaN), R = 1; end', msg);
+asserts.checkerror('while NaN, break; end', msg);
+asserts.checkerror('if 1 && NaN, R = 1; end', msg);
+asserts.checkerror('if 0 || NaN, R = 1; end', msg);
 %=============================================================================
 % non-NaN paths unchanged
 asserts.isequal(1 & 1, true);

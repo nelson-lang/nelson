@@ -47,7 +47,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"types";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "class", (ptrBuiltin)Nelson::TypeGateway::classBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
+    { "class", (ptrBuiltin)Nelson::TypeGateway::classBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "ischar", (ptrBuiltin)Nelson::TypeGateway::ischarBuiltin, 1, 1 },
     { "isstring", (ptrBuiltin)Nelson::TypeGateway::isstringBuiltin, 1, 1 },
     { "isfloat", (ptrBuiltin)Nelson::TypeGateway::isfloatBuiltin, 1, 1 },

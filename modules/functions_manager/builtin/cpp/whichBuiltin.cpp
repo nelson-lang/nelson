@@ -33,8 +33,15 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                 FunctionDefPtr fptr = nullptr;
                 bool found = BuiltInFunctionDefManager::getInstance()->find(functionname, fptr);
                 std::wstring path = Which(functionname);
+                const size_t separator = functionname.find('>');
                 if (found) {
                     NelsonPrint(_W("built-in") + L" (" + path + L")");
+                } else if (separator != std::string::npos && !path.empty()) {
+                    NelsonPrint(path + L" (" + utf8_to_wstring(functionname.substr(separator + 1))
+                        + L")  % "
+                        + Nelson::resolveMessageTemplate(
+                            L"Nelson:functions_manager:localFunctionOf", L"Local function of")
+                        + L" " + utf8_to_wstring(functionname.substr(0, separator)));
                 } else {
                     if (path.empty()) {
                         NelsonPrint(L"'" + utf8_to_wstring(functionname) + L"' "

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <algorithm>
 #include <string>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
@@ -22,6 +23,10 @@
 #include "Context.hpp"
 #include "ErrorID.hpp"
 #include "ConcatenateDimensions.hpp"
+#include "Addition.hpp"
+#include "Subtraction.hpp"
+#include "ElementWiseMultiplication.hpp"
+#include "MatrixMultiplication.hpp"
 #include "FunctionHandleConcatenation.hpp"
 //=============================================================================
 namespace Nelson {
@@ -134,6 +139,59 @@ tryCallClassdefInheritedOverload(
         }
     }
     return false;
+}
+//=============================================================================
+// A + B, A - B, A .* B and A * B of real dense 2-D doubles once no overload applies: shared
+// by the operators and by the interpreter fast path.
+inline bool
+isDenseRealDoublePair(const ArrayOf& A, const ArrayOf& B)
+{
+    return A.isDoubleType(true) && B.isDoubleType(true);
+}
+//=============================================================================
+inline ArrayOf
+denseRealDoublePlus(const ArrayOf& A, const ArrayOf& B)
+{
+    const indexType countA = A.elementCount();
+    const indexType countB = B.elementCount();
+    const indexType count = std::max(countA, countB);
+    // Keep large arrays on the vectorized backend and empty arrays on its shape rules.
+    if (countA == 0 || countB == 0 || count <= 1 || count > 64) {
+        return Addition(A, B);
+    }
+    const bool scalarA = countA == 1;
+    const bool scalarB = countB == 1;
+    const Dimensions dimensions = scalarA ? B.dimensions() : A.dimensions();
+    if (!scalarA && !scalarB && !dimensions.equals(B.dimensions())) {
+        return Addition(A, B);
+    }
+    const auto* ptrA = static_cast<const double*>(A.dataPointer());
+    const auto* ptrB = static_cast<const double*>(B.dataPointer());
+    auto* ptrC = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, count));
+    for (indexType k = 0; k < count; ++k) {
+        ptrC[k] = ptrA[scalarA ? 0 : k] + ptrB[scalarB ? 0 : k];
+    }
+    return ArrayOf(NLS_DOUBLE, dimensions, ptrC, false);
+}
+//=============================================================================
+inline ArrayOf
+denseRealDoubleMinus(const ArrayOf& A, const ArrayOf& B)
+{
+    return Subtraction(A, B);
+}
+//=============================================================================
+inline ArrayOf
+denseRealDoubleTimes(const ArrayOf& A, const ArrayOf& B)
+{
+    bool needToOverload = false;
+    return elementWiseMultiplication(A, B, needToOverload);
+}
+//=============================================================================
+inline ArrayOf
+denseRealDoubleMtimes(const ArrayOf& A, const ArrayOf& B)
+{
+    bool needToOverload = false;
+    return matrixMultiplication(A, B, needToOverload);
 }
 //=============================================================================
 // Operator overload lookup shared by every operator: the exact-class overload

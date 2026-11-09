@@ -240,6 +240,13 @@ enum class OpCode : uint8_t
     // table variable is indexed directly, otherwise the subsref of T receives
     // both subscripts (timetable row times).
     SUBIDX_DOTDYN_CHAIN,
+    // locals[A](locals[B], locals[C]): two-subscript read of a local through two local
+    // indices, without the end contexts and the subscript vector of SUBIDX_PARENS.
+    LOAD_PARENS2_LOCAL,
+    // locals[A] = locals[B].<constant C>: one field read assigned without the stack trip
+    ASSIGN_LOCAL_FIELD,
+    // locals[A] = locals[B]{locals[C]}: one cell content assigned without the stack trip
+    ASSIGN_LOCAL_CONTENT,
     OPCODE_COUNT
 };
 //=============================================================================
@@ -270,6 +277,7 @@ isDirectLeafMacroOpcode(OpCode op)
     case OpCode::LOAD_PARENS_LOCAL:
     case OpCode::LOAD_PARENS_LOCAL_OFFSET:
     case OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL:
+    case OpCode::LOAD_PARENS2_LOCAL:
     case OpCode::STORE_LOCAL:
     case OpCode::POP:
     case OpCode::DUP:

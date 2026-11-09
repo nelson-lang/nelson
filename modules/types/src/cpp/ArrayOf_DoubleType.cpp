@@ -44,6 +44,45 @@ ArrayOf::isDoubleType(bool realOnly) const
 }
 //=============================================================================
 bool
+ArrayOf::realDoubleScalar(double& value) const
+{
+    if (hasScalarStorage()) {
+        if (scalarType_ != NLS_DOUBLE || scalarDimensionCount_ > 2) {
+            return false;
+        }
+        value = *static_cast<const double*>(scalarDataPointer());
+        return true;
+    }
+    if (dp == nullptr || dp->dataClass != NLS_DOUBLE || dp->sparse || !dp->is2D()
+        || dp->elementCount() != 1) {
+        return false;
+    }
+    value = *static_cast<const double*>(dp->data());
+    return true;
+}
+//=============================================================================
+const double*
+ArrayOf::realDoubleData(indexType& count, indexType& rows, indexType& columns) const
+{
+    if (hasScalarStorage()) {
+        if (scalarType_ != NLS_DOUBLE) {
+            return nullptr;
+        }
+        count = 1;
+        rows = 1;
+        columns = 1;
+        return static_cast<const double*>(scalarDataPointer());
+    }
+    if (dp == nullptr || dp->dataClass != NLS_DOUBLE || dp->sparse) {
+        return nullptr;
+    }
+    count = dp->elementCount();
+    rows = dp->dimensions().dimensionLength(0);
+    columns = dp->dimensions().dimensionLength(1);
+    return static_cast<const double*>(dp->data());
+}
+//=============================================================================
+bool
 ArrayOf::isNdArrayDoubleType(bool realOnly) const
 {
     if (hasScalarStorage()) {

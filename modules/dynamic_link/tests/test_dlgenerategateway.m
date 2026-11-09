@@ -23,3 +23,24 @@ asserts.istrue(contains(txt, 'NLS_GATEWAY_REMOVE(gateway)'));
 asserts.isfalse(contains(txt, 'NLSGATEWAYINFO'));
 asserts.isfalse(contains(txt, 'NLSGATEWAYNAME'));
 %=============================================================================
+% builtins declaring how they use the caller workspace
+dlgenerategateway(d, 'test_gw', {{'cpp_pure', 1, 2, 'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE'}, ...
+  {'cpp_eval', 0, 1, 'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS', 'NLS_OVERLOAD_AUTO_OFF'}});
+txt = fileread(fullfile(d, 'Gateway.cpp'));
+asserts.istrue(contains(txt, ['{ "cpp_pure", (ptrBuiltin)cpp_pureBuiltin, 1, 2, ', ...
+  'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },']));
+asserts.istrue(contains(txt, ['{ "cpp_eval", (ptrBuiltin)cpp_evalBuiltin, 0, 1, ', ...
+  'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS, NLS_OVERLOAD_AUTO_OFF },']));
+asserts.istrue(contains(txt, ['extern ArrayOfVector cpp_pureBuiltin(Evaluator* eval, int nLhs, ', ...
+  'const ArrayOfVector& argIn);']));
+asserts.istrue(contains(txt, ['extern ArrayOfVector cpp_evalBuiltin(Evaluator* eval, int nLhs, ', ...
+  'const ArrayOfVector& argIn);']));
+msg = '';
+try
+  dlgenerategateway(d, 'test_gw', {{'cpp_bad', 1, 1, 'CPP_BUILTIN_UNKNOWN'}});
+catch e
+  msg = e.message;
+end
+asserts.isequal(msg, 'Invalid builtin list.');
+%=============================================================================
+%=============================================================================

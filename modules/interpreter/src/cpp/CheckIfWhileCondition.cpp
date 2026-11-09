@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CheckIfWhileCondition.hpp"
+#include <cmath>
 #include <Eigen/Sparse>
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -39,6 +40,22 @@ checkIfWhileCondition(const ArrayOf& A)
     return res;
 }
 //=============================================================================
+// A NaN cannot become a logical: every element is checked, as logical() does.
+template <class T>
+bool
+checkIfWhileFloatingCondition(const T* values, indexType count)
+{
+    bool allNonZero = true;
+    for (indexType i = 0; i < count; i++) {
+        if (std::isnan(values[i])) {
+            Error(L"Nelson:logical:nanNotAllowed",
+                L"Conversion to logical with NaN is not possible.");
+        }
+        allNonZero = allNonZero && values[i] != T(0);
+    }
+    return allNonZero;
+}
+//=============================================================================
 bool
 checkIfWhileCondition(const ArrayOf& A)
 {
@@ -63,6 +80,7 @@ checkIfWhileCondition(const ArrayOf& A)
                 Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
                     = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
                 Eigen::Index nnz = spMatA->nonZeros();
+                checkIfWhileFloatingCondition(spMatA->valuePtr(), static_cast<indexType>(nnz));
                 if (A.isScalar()) {
                     return (nnz == 1);
                 }
@@ -108,10 +126,12 @@ checkIfWhileCondition(const ArrayOf& A)
                 return checkIfWhileCondition<int64>(A);
             } break;
             case NLS_SINGLE: {
-                return checkIfWhileCondition<single>(A);
+                return checkIfWhileFloatingCondition(
+                    static_cast<const single*>(A.dataPointer()), A.elementCount());
             } break;
             case NLS_DOUBLE: {
-                return checkIfWhileCondition<double>(A);
+                return checkIfWhileFloatingCondition(
+                    static_cast<const double*>(A.dataPointer()), A.elementCount());
             } break;
             case NLS_CHAR: {
                 return checkIfWhileCondition<charType>(A);

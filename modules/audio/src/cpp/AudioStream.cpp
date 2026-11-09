@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <chrono>
 #include <mutex>
+#include <thread>
 #include <unordered_set>
 #include <vector>
 #include "AudioStream.hpp"
@@ -36,7 +38,7 @@ AudioStream::open(const PaStreamParameters* input, const PaStreamParameters* out
     close();
     // streams of other objects which ended by themselves release their device now
     for (AudioStream* audioStream : getOpenStreams()) {
-        audioStream->closeIfFinished();
+        audioStream->closeIfCompleting();
     }
     ownerCallback = callback;
     ownerUserData = userData;
@@ -49,6 +51,7 @@ AudioStream::open(const PaStreamParameters* input, const PaStreamParameters* out
     stream = newStream;
     paused = false;
     finished = false;
+    completing = false;
     registerOpenStream(this, true);
     err = Pa_SetStreamFinishedCallback(stream, &AudioStream::onStreamFinished);
     if (err == paNoError) {
@@ -81,6 +84,7 @@ AudioStream::resume()
     }
     paused = false;
     finished = false;
+    completing = false;
     return Pa_StartStream(stream);
 }
 //=============================================================================
@@ -95,6 +99,7 @@ AudioStream::close()
     stream = nullptr;
     paused = false;
     finished = false;
+    completing = false;
     registerOpenStream(this, false);
 }
 //=============================================================================
@@ -104,6 +109,24 @@ AudioStream::closeIfFinished()
     if (stream && finished && !paused) {
         close();
     }
+}
+//=============================================================================
+void
+AudioStream::closeIfCompleting()
+{
+    if (!stream || paused) {
+        return;
+    }
+    if (completing && !finished) {
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(250);
+        while (!finished && std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        // it ended by itself: closed even if the play out did not report in time
+        close();
+        return;
+    }
+    closeIfFinished();
 }
 //=============================================================================
 bool
@@ -137,8 +160,12 @@ AudioStream::onStreamCallback(const void* input, void* output, unsigned long fra
     const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags, void* userData)
 {
     auto* audioStream = static_cast<AudioStream*>(userData);
-    return audioStream->ownerCallback(
+    const int result = audioStream->ownerCallback(
         input, output, frameCount, timeInfo, statusFlags, audioStream->ownerUserData);
+    if (result != paContinue) {
+        audioStream->completing = true;
+    }
+    return result;
 }
 //=============================================================================
 void

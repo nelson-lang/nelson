@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--RELEASE ONLY-->
+% <--SEQUENTIAL TEST REQUIRED-->
 skip_testsuite(~isfile([modulepath('compiler'), '/help/en_US/xml/chapter.xml']), 'Help XML sources are not available in this build');
 ncc('--help');
 root = modulepath('compiler');

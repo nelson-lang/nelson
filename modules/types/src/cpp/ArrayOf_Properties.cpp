@@ -23,6 +23,8 @@
 #include <cstdio>
 #include <limits>
 #include "StringHelpers.hpp"
+#include "CharRowComparison.hpp"
+#include "ClassName.hpp"
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "HandleState.hpp"
@@ -201,17 +203,124 @@ ArrayOf::isPositive() const
     return false;
 }
 //=============================================================================
-#define caseMacroReal(caseLabel, type)                                                             \
-    case caseLabel:                                                                                \
-        retval = (*((const type*)x_dp) == *((const type*)y_dp));                                   \
-        break;
+namespace {
+    // The characters of a char row or of a scalar string.
+    static const ArrayOf&
+    switchTextOf(const ArrayOf& value)
+    {
+        if (value.isScalarStringArray()) {
+            return static_cast<const ArrayOf*>(value.dataPointer())[0];
+        }
+        return value;
+    }
+    //=============================================================================
+    // One number of any real or complex numeric, logical or char class, kept exact.
+    struct SwitchNumber
+    {
+        bool isInteger = false;
+        bool isNegative = false;
+        uint64 magnitude = 0;
+        double real = 0.;
+        double imag = 0.;
+    };
+    //=============================================================================
+    static bool
+    switchNumberOf(const ArrayOf& value, SwitchNumber& number)
+    {
+        const void* data = value.dataPointer();
+        auto setSigned = [&number](int64 v) {
+            number.isInteger = true;
+            number.isNegative = v < 0;
+            number.magnitude = v < 0 ? static_cast<uint64>(-(v + 1)) + 1 : static_cast<uint64>(v);
+        };
+        auto setUnsigned = [&number](uint64 v) {
+            number.isInteger = true;
+            number.magnitude = v;
+        };
+        switch (value.dataClass()) {
+        case NLS_LOGICAL:
+            setUnsigned(*static_cast<const logical*>(data));
+            return true;
+        case NLS_CHAR:
+            setUnsigned(static_cast<uint64>(*static_cast<const charType*>(data)));
+            return true;
+        case NLS_UINT8:
+            setUnsigned(*static_cast<const uint8*>(data));
+            return true;
+        case NLS_UINT16:
+            setUnsigned(*static_cast<const uint16*>(data));
+            return true;
+        case NLS_UINT32:
+            setUnsigned(*static_cast<const uint32*>(data));
+            return true;
+        case NLS_UINT64:
+            setUnsigned(*static_cast<const uint64*>(data));
+            return true;
+        case NLS_INT8:
+            setSigned(*static_cast<const int8*>(data));
+            return true;
+        case NLS_INT16:
+            setSigned(*static_cast<const int16*>(data));
+            return true;
+        case NLS_INT32:
+            setSigned(*static_cast<const int32*>(data));
+            return true;
+        case NLS_INT64:
+            setSigned(*static_cast<const int64*>(data));
+            return true;
+        case NLS_SINGLE:
+            number.real = *static_cast<const single*>(data);
+            return true;
+        case NLS_DOUBLE:
+            number.real = *static_cast<const double*>(data);
+            return true;
+        case NLS_SCOMPLEX:
+            number.real = static_cast<const single*>(data)[0];
+            number.imag = static_cast<const single*>(data)[1];
+            return true;
+        case NLS_DCOMPLEX:
+            number.real = static_cast<const double*>(data)[0];
+            number.imag = static_cast<const double*>(data)[1];
+            return true;
+        default:
+            return false;
+        }
+    }
+    //=============================================================================
+    // An integer equals a floating value only when that value is the same whole number.
+    static bool
+    integerEqualsFloating(const SwitchNumber& integer, const SwitchNumber& floating)
+    {
+        const double value = floating.real;
+        if (floating.imag != 0. || !std::isfinite(value) || std::floor(value) != value
+            || (value < 0.) != integer.isNegative) {
+            return false;
+        }
+        const double magnitude = std::fabs(value);
+        if (magnitude >= 18446744073709551616.) {
+            return false;
+        }
+        return static_cast<uint64>(magnitude) == integer.magnitude;
+    }
+    //=============================================================================
+    static bool
+    switchNumbersEqual(const SwitchNumber& a, const SwitchNumber& b)
+    {
+        if (a.isInteger && b.isInteger) {
+            return a.magnitude == b.magnitude && (a.isNegative == b.isNegative || a.magnitude == 0);
+        }
+        if (a.isInteger) {
+            return integerEqualsFloating(a, b);
+        }
+        if (b.isInteger) {
+            return integerEqualsFloating(b, a);
+        }
+        return a.real == b.real && a.imag == b.imag;
+    }
+} // namespace
 //=============================================================================
-#define caseMacroComplex(caseLabel, type)                                                          \
-    case caseLabel:                                                                                \
-        retval = (((const type*)x_dp)[0] == ((const type*)y_dp)[0])                                \
-            && (((const type*)x_dp)[1] == ((const type*)y_dp)[1]);                                 \
-        break;
-//=============================================================================
+// Text matches text character by character; one-element values compare by value, exactly
+// across classes; a string compared with anything but text is an error.
 bool
 ArrayOf::testCaseMatchScalar(ArrayOf x) const
 {
@@ -219,61 +328,34 @@ ArrayOf::testCaseMatchScalar(ArrayOf x) const
         Error(L"Nelson:types:sparseNotSupported", L"%s not supported for sparse arrays.",
             L"isPositive");
     }
-    // Character row vectors and scalar strings are interchangeable for switch/case matching.
-    if (isRowVectorCharacterArray() || isScalarStringArray()) {
-        if (!x.isRowVectorCharacterArray() && !x.isScalarStringArray()) {
-            return false;
-        }
-        std::wstring s1 = asWideString();
-        std::wstring s2 = x.asWideString();
-        bool retval = (s1.compare(s2) == 0);
-        return retval;
+    const bool switchIsString = isScalarStringArray();
+    const bool caseIsString = x.isScalarStringArray();
+    const bool switchIsText = switchIsString || isRowVectorCharacterArray();
+    const bool caseIsText = caseIsString || x.isRowVectorCharacterArray();
+    if ((switchIsString || caseIsString) && !(switchIsText && caseIsText)) {
+        Error(L"Nelson:string:ComparisonNotDefined",
+            L"Comparison between %s and %s is not supported.",
+            utf8_to_wstring(ClassName(x)).c_str(), utf8_to_wstring(ClassName(*this)).c_str());
     }
-    if (!x.isScalar()) {
+    if (switchIsText && caseIsText) {
+        const ArrayOf& switchText = switchTextOf(*this);
+        const ArrayOf& caseText = switchTextOf(x);
+        if (switchText.isEmpty() || caseText.isEmpty()) {
+            return switchText.isEmpty() && caseText.isEmpty()
+                && (switchIsString || caseIsString
+                    || switchText.dimensions().equals(caseText.dimensions()));
+        }
+        bool equal = false;
+        return tryCompareCharRows(switchText, caseText, true, equal) && equal;
+    }
+    if (!isScalar() || !x.isScalar()) {
         return false;
     }
-    // Not a string: compare numerically after promoting both to the same type.
-    ArrayOf y = *this;
-    if (x.dataClass() > y.dataClass()) {
-        y.promoteType(x.dataClass());
-    } else {
-        x.promoteType(y.dataClass());
-    }
-    const void* x_dp = x.dataPointer();
-    const void* y_dp = y.dataPointer();
-    bool retval = false;
-    switch (x.dataClass()) {
-    default: {
-    } break;
-    case NLS_CELL_ARRAY:
-    case NLS_STRING_ARRAY:
-    case NLS_CHAR:
-    case NLS_GO_HANDLE:
-    case NLS_HANDLE:
-    case NLS_CLASS_ARRAY:
-    case NLS_CLASSDEF_ARRAY:
-    case NLS_FUNCTION_HANDLE:
-    case NLS_STRUCT_ARRAY:
-        retval = false;
-        break;
-        caseMacroReal(NLS_LOGICAL, logical);
-        caseMacroReal(NLS_UINT8, uint8);
-        caseMacroReal(NLS_INT8, int8);
-        caseMacroReal(NLS_UINT16, uint16);
-        caseMacroReal(NLS_INT16, int16);
-        caseMacroReal(NLS_UINT32, uint32);
-        caseMacroReal(NLS_INT32, int32);
-        caseMacroReal(NLS_UINT64, uint64);
-        caseMacroReal(NLS_INT64, int64);
-        caseMacroReal(NLS_SINGLE, single);
-        caseMacroReal(NLS_DOUBLE, double);
-        caseMacroComplex(NLS_SCOMPLEX, single);
-        caseMacroComplex(NLS_DCOMPLEX, double);
-    }
-    return retval;
+    SwitchNumber switchNumber;
+    SwitchNumber caseNumber;
+    return switchNumberOf(*this, switchNumber) && switchNumberOf(x, caseNumber)
+        && switchNumbersEqual(switchNumber, caseNumber);
 }
-#undef caseMacroReal
-#undef caseMacroComplex
 //=============================================================================
 bool
 ArrayOf::testForCaseMatch(ArrayOf x) const
@@ -300,6 +382,13 @@ ArrayOf::testForCaseMatch(ArrayOf x) const
     if (!xIsCaseList) {
         Error(L"Nelson:types:caseArgument",
             L"Case arguments must either be a scalar or a cell array");
+    }
+    // strings compare with text only
+    if (x.dp->dataClass == NLS_STRING_ARRAY && !isRowVectorCharacterArray()
+        && !isScalarStringArray()) {
+        Error(L"Nelson:string:ComparisonNotDefined",
+            L"Comparison between %s and %s is not supported.",
+            utf8_to_wstring(ClassName(x)).c_str(), utf8_to_wstring(ClassName(*this)).c_str());
     }
     const ArrayOf* qp = (const ArrayOf*)x.dp->data();
     indexType len = x.elementCount();
@@ -588,6 +677,7 @@ void
 ArrayOf::setSparseNzmax(indexType requestedNzmax)
 {
     if (isSparse()) {
+        ensureSingleOwner();
         dp->sparseNzmax = requestedNzmax;
     }
 }

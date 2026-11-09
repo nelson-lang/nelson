@@ -8,15 +8,36 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "IsValidFieldname.hpp"
-#include "MakeValidFieldname.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// The names MakeValidFieldname leaves unchanged, checked without building them.
+template <typename Text>
+static bool
+isValidFieldnameText(const Text& fieldname)
+{
+    auto isLetter = [](auto c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'); };
+    if (fieldname.empty() || !isLetter(fieldname[0])) {
+        return false;
+    }
+    for (auto c : fieldname) {
+        if (!isLetter(c) && !(c >= '0' && c <= '9') && c != '_') {
+            return false;
+        }
+    }
+    return true;
+}
 //=============================================================================
 bool
 IsValidFieldname(const std::string& fieldname)
 {
-    std::string validFieldname = MakeValidFieldname(fieldname);
-    return (validFieldname == fieldname);
+    return isValidFieldnameText(fieldname);
+}
+//=============================================================================
+bool
+IsValidFieldname(const std::wstring& fieldname)
+{
+    return isValidFieldnameText(fieldname);
 }
 //=============================================================================
 } // namespace Nelson

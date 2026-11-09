@@ -21,8 +21,38 @@ enum BUILTIN_PROTOTYPE
 {
     CPP_BUILTIN = 0,
     CPP_BUILTIN_WITH_EVALUATOR = 1,
-    C_MEX_BUILTIN = 2
+    C_MEX_BUILTIN = 2,
+    // Evaluator builtin that never touches the caller workspace: no variable, scope or eval access,
+    // no nargin/inputname/dbup, no user handle or callback (class method overloads are fine)
+    CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE = 0x101,
+    // Evaluator builtin that reads and writes the caller workspace (eval, clear, load, ...):
+    // locals are synced before the call and refreshed after it
+    CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS = 0x201
 };
+//=============================================================================
+// bits set on a prototype by the two workspace declarations above
+constexpr size_t BUILTIN_PROTOTYPE_NO_CALLER_WORKSPACE = 0x100;
+constexpr size_t BUILTIN_PROTOTYPE_CALLER_WORKSPACE_ACCESS = 0x200;
+//=============================================================================
+// calling convention of a gateway prototype (CPP_BUILTIN, CPP_BUILTIN_WITH_EVALUATOR, ...)
+inline size_t
+builtinCallingConvention(size_t prototype)
+{
+    return prototype
+        & ~(BUILTIN_PROTOTYPE_NO_CALLER_WORKSPACE | BUILTIN_PROTOTYPE_CALLER_WORKSPACE_ACCESS);
+}
+//=============================================================================
+inline bool
+builtinLeavesCallerWorkspace(size_t prototype)
+{
+    return (prototype & BUILTIN_PROTOTYPE_NO_CALLER_WORKSPACE) != 0;
+}
+//=============================================================================
+inline bool
+builtinAccessesCallerWorkspace(size_t prototype)
+{
+    return (prototype & BUILTIN_PROTOTYPE_CALLER_WORKSPACE_ACCESS) != 0;
+}
 //=============================================================================
 using nlsGateway = struct nlsGatewayStructType
 {

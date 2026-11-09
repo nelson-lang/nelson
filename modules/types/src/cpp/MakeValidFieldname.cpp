@@ -10,6 +10,7 @@
 #include <regex>
 #include "StringHelpers.hpp"
 #include "MakeValidFieldname.hpp"
+#include "IsValidFieldname.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -27,9 +28,11 @@ MakeValidFieldname(const std::wstring& fieldname, const std::wstring& defaultPre
     if (fieldname.empty()) {
         return defaultPrefix;
     }
-    std::wstring modifiedFieldname = fieldname;
-    std::wregex re(L"[^a-zA-Z_0-9]");
-    modifiedFieldname = std::regex_replace(fieldname, re, L"_");
+    if (IsValidFieldname(fieldname)) {
+        return fieldname;
+    }
+    static const std::wregex re(L"[^a-zA-Z_0-9]");
+    std::wstring modifiedFieldname = std::regex_replace(fieldname, re, L"_");
     if (StringHelpers::starts_with(modifiedFieldname, L"_")) {
         modifiedFieldname = defaultPrefix + modifiedFieldname;
     }

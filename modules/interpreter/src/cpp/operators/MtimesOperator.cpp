@@ -23,6 +23,9 @@ Evaluator::mtimesOperator(const ArrayOfVector& args)
     if (tryCallBinaryOperatorOverload(this, args, functionName, commonType, res)) {
         return res;
     }
+    if (isDenseRealDoublePair(args[0], args[1])) {
+        return denseRealDoubleMtimes(args[0], args[1]);
+    }
 
     bool needToOverload = false;
     ArrayOf A(args[0]);

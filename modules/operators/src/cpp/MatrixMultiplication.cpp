@@ -48,6 +48,53 @@ static void
 blasGemm(lapack_int m, lapack_int n, lapack_int k, const std::complex<float>* A,
     const std::complex<float>* B, std::complex<float>* C);
 //=============================================================================
+// C = A * B below the BLAS size; C is a new buffer, so no temporary is needed
+template <class T>
+static void
+eigenMatrixProduct(
+    const T* ptrA, indexType rowsA, indexType columnsA, const T* ptrB, indexType columnsB, T* ptrC)
+{
+    Eigen::Map<Eigen::Matrix<T, -1, -1>> matA(const_cast<T*>(ptrA), rowsA, columnsA);
+    Eigen::Map<Eigen::Matrix<T, -1, -1>> matB(const_cast<T*>(ptrB), columnsA, columnsB);
+    Eigen::Map<Eigen::Matrix<T, -1, -1>> matC(ptrC, rowsA, columnsB);
+    matC.noalias() = matA * matB;
+}
+//=============================================================================
+// Real dense 2-D double matrices whose inner sizes agree and that stay below the BLAS size:
+// the Eigen product real_mtimes computes, without its general shape checks.
+static bool
+smallRealDoubleMatrixProduct(const ArrayOf& A, const ArrayOf& B, ArrayOf& C)
+{
+    indexType countA = 0;
+    indexType rowsA = 0;
+    indexType columnsA = 0;
+    indexType countB = 0;
+    indexType rowsB = 0;
+    indexType columnsB = 0;
+    const double* ptrA = A.realDoubleData(countA, rowsA, columnsA);
+    const double* ptrB = ptrA == nullptr ? nullptr : B.realDoubleData(countB, rowsB, columnsB);
+    if (ptrB == nullptr || countA <= 1 || countB <= 1 || rowsA * columnsA != countA
+        || rowsB * columnsB != countB || columnsA != rowsB
+        || useBlasGemm(rowsA, columnsA, columnsB)) {
+        return false;
+    }
+    auto* ptrC = new_with_exception<double>(rowsA * columnsB, false);
+    realDoubleMatrixProductInto(ptrA, rowsA, columnsA, ptrB, columnsB, ptrC);
+    C = ArrayOf(NLS_DOUBLE, Dimensions(rowsA, columnsB), ptrC, false);
+    return true;
+}
+//=============================================================================
+bool
+realDoubleMatrixProductInto(const double* A, indexType rowsA, indexType columnsA, const double* B,
+    indexType columnsB, double* C)
+{
+    if (useBlasGemm(rowsA, columnsA, columnsB)) {
+        return false;
+    }
+    eigenMatrixProduct(A, rowsA, columnsA, B, columnsB, C);
+    return true;
+}
+//=============================================================================
 static bool
 isSizeMismatch(const ArrayOf& A, const ArrayOf& B)
 {
@@ -284,14 +331,10 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
     }
     void* Cp = new_with_exception<T>(Clen, false);
     T* ptrC = (T*)Cp;
-    size_t mC = Cdim.rows();
-    size_t nC = Cdim.columns();
-    Eigen::Map<Eigen::Matrix<T, -1, -1>> matC((T*)Cp, mC, nC);
     Dimensions dimA = A.dimensions();
     size_t mA = dimA.rows();
     size_t nA = dimA.columns();
     Dimensions dimB = B.dimensions();
-    size_t mB = dimB.rows();
     size_t nB = dimB.columns();
     if (A.isScalar()) {
         T* ptrA = (T*)_A.dataPointer();
@@ -326,9 +369,8 @@ real_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
             blasGemm((int)mA, (int)nB, (int)nA, (const T*)_A.dataPointer(),
                 (const T*)_B.dataPointer(), ptrC);
         } else {
-            Eigen::Map<Eigen::Matrix<T, -1, -1>> matA((T*)_A.dataPointer(), mA, nA);
-            Eigen::Map<Eigen::Matrix<T, -1, -1>> matB((T*)_B.dataPointer(), mB, nB);
-            matC = matA * matB;
+            eigenMatrixProduct(
+                (const T*)_A.dataPointer(), mA, nA, (const T*)_B.dataPointer(), nB, ptrC);
         }
     }
     return ArrayOf(currentClass, Cdim, Cp, false);
@@ -429,7 +471,6 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
     size_t mA = dimA.rows();
     size_t nA = dimA.columns();
     Dimensions dimB = B.dimensions();
-    size_t mB = dimB.rows();
     size_t nB = dimB.columns();
     if (A.isScalar() && B.isScalar()) {
         std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.dataPointer());
@@ -499,9 +540,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         if (useBlasGemm(mA, nA, nB)) {
             blasGemm((int)mA, (int)nB, (int)nA, Az, Bz, Cz);
         } else {
-            Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
-            Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matB(Bz, mB, nB);
-            matC = matA * matB;
+            eigenMatrixProduct<std::complex<T>>(Az, mA, nA, Bz, nB, Cz);
         }
     }
     return ArrayOf(currentClass, Cdim, Cp, false);
@@ -668,6 +707,10 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         return scaledEmpty ? decomplexify(res) : res;
     }
 
+    ArrayOf smallProduct;
+    if (smallRealDoubleMatrixProduct(A, B, smallProduct)) {
+        return smallProduct;
+    }
     if (A.isDoubleClass() && B.isDoubleClass()) {
         return T_mtimes_T<double>(NLS_DOUBLE, NLS_DCOMPLEX, A, B);
     }

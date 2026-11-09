@@ -29,6 +29,7 @@
   <description>
     <p>
       <b>strcmp</b> compares two strings.</p>
+    <p>Two character arrays are equal when they have the same size and the same characters, empty arrays included: <b>strcmp('', char(zeros(1, 0)))</b> is false. A string or a cell element is compared by its text alone.</p>
   </description>
   <used_function />
   <bibliography />
@@ -59,6 +60,10 @@ strcmp(C, 'C')
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Character arrays compared with their size, every character included.</history_description>
     </history_item>
   </history>
   <authors>

@@ -72,6 +72,16 @@ static ArrayOf
 structScalar(const wstringVector& fNames, const ArrayOfVector& values);
 [[nodiscard]] bool
 isStruct() const;
+// number of fields, without copying the names
+[[nodiscard]] indexType
+fieldCount() const;
+// One call for the hot paths: field of element ordinal (1-based) of a dense struct
+// array, or nullptr; scalarOnly also requires a 1x1 struct.
+[[nodiscard]] const ArrayOf*
+structFieldElement(indexType ordinal, const std::string& fieldName, bool scalarOnly) const;
+// One call for the hot paths: element ordinal (1-based) of a dense cell, or nullptr.
+[[nodiscard]] const ArrayOf*
+cellElementAt(indexType ordinal) const;
 /**
  * Replace field names while preserving field storage order.
  */

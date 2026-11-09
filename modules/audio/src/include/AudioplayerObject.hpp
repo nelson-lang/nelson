@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <atomic>
+#include <cstdint>
 #include <portaudio.h>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
@@ -92,6 +93,11 @@ private:
     AudioStream stream;
     uint32 firstSample;
     uint32 lastSample;
+    // software rate conversion: source samples per device frame (0 when the device runs
+    // SampleRate), then the audio thread position and timer block
+    double resampleStep = 0.0;
+    double resamplePosition = 0.0;
+    int64_t lastTimerBlock = -1;
 
     ArrayOf startFunc;
     ArrayOf stopFunc;
@@ -135,6 +141,10 @@ private:
     paPlayCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
         const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
         void* userData);
+    static int
+    paPlayResampledCallback(const void* inputBuffer, void* outputBuffer,
+        unsigned long framesPerBuffer, const PaStreamCallbackTimeInfo* timeInfo,
+        PaStreamCallbackFlags statusFlags, void* userData);
 
     void
     enqueueStopFcnOnce();

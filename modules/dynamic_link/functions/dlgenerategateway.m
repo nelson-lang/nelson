@@ -32,8 +32,8 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
       else
         builtin_type = k{1}{4};
       end
-      is_supported = strcmp(builtin_type, 'CPP_BUILTIN') == true || strcmp(builtin_type, ...
-        'CPP_BUILTIN_WITH_EVALUATOR') == true;
+      is_supported = any(strcmp(builtin_type, {'CPP_BUILTIN', 'CPP_BUILTIN_WITH_EVALUATOR', ...
+        'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE', 'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS'}));
       if ~is_supported
         status = false;
         return;
@@ -92,7 +92,7 @@ function txt = template(module_name, builtin_table)
   for k = builtin_table(:)'
     name = k{1}{1};
     builtintype = k{1}{4};
-    if strcmp(builtintype, 'CPP_BUILTIN_WITH_EVALUATOR') == true
+    if startsWith(builtintype, 'CPP_BUILTIN_WITH_EVALUATOR')
       txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);']];
     else
       txt = [txt; ['extern ArrayOfVector ', name, 'Builtin(int nLhs, const ArrayOfVector& argIn);']];

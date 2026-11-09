@@ -40,6 +40,9 @@ Evaluator::minusOperator(const ArrayOfVector& args)
             return res;
         }
     }
+    if (isDenseRealDoublePair(args[0], args[1])) {
+        return denseRealDoubleMinus(args[0], args[1]);
+    }
     // A - B: subtract between a complex and a real operand without promoting.
     if (dotMinusComplexRealScaling(args[0], args[1], res)) {
         return res;

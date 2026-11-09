@@ -11,6 +11,7 @@
 #include <utility>
 #include <atomic>
 #include <cstring>
+#include <limits>
 //=============================================================================
 #include "Data.hpp"
 #include "HandleState.hpp"
@@ -52,10 +53,29 @@ Data::Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, si
 //=============================================================================
 Data::~Data() { freeDataBlock(); }
 //=============================================================================
+// The shared empty block is never freed: its owner count is left alone, so default values
+// cost no atomic operation (a racy first use only shifts a count pinned at max / 2).
+static std::atomic<const Data*> immortalEmptyBlock { nullptr };
+//=============================================================================
+Data*
+Data::sharedEmptyDouble()
+{
+    // leaked on purpose: ArrayOf statics may still release it during process exit
+    static Data* shared = [] {
+        auto* block = new Data(NLS_DOUBLE, Dimensions(0, 0), nullptr);
+        block->owners.store(std::numeric_limits<indexType>::max() / 2, std::memory_order_relaxed);
+        immortalEmptyBlock.store(block, std::memory_order_release);
+        return block;
+    }();
+    return shared;
+}
+//=============================================================================
 Data*
 Data::copy()
 {
-    owners.fetch_add(1, std::memory_order_relaxed);
+    if (this != immortalEmptyBlock.load(std::memory_order_relaxed)) {
+        owners.fetch_add(1, std::memory_order_relaxed);
+    }
     return this;
 }
 //=============================================================================
@@ -132,6 +152,9 @@ Data::promoteStructToFunctionHandle()
 indexType
 Data::deleteCopy()
 {
+    if (this == immortalEmptyBlock.load(std::memory_order_relaxed)) {
+        return owners.load(std::memory_order_relaxed);
+    }
     return owners.fetch_sub(1, std::memory_order_acq_rel);
 }
 //=============================================================================
@@ -181,8 +204,8 @@ void
 Data::invalidateFieldIndexCache()
 {
     fieldIndexValid_ = false;
-    if (!fieldNameToIndex_.empty()) {
-        fieldNameToIndex_.clear();
+    if (fieldNameToIndex_) {
+        fieldNameToIndex_->clear();
     }
 }
 //=============================================================================
@@ -204,15 +227,19 @@ Data::fieldIndexFromName(const std::string& name)
         return -1;
     }
     if (!fieldIndexValid_) {
-        fieldNameToIndex_.clear();
-        fieldNameToIndex_.reserve(count);
+        if (fieldNameToIndex_) {
+            fieldNameToIndex_->clear();
+        } else {
+            fieldNameToIndex_ = std::make_unique<std::unordered_map<std::string, indexType>>();
+        }
+        fieldNameToIndex_->reserve(count);
         for (size_t i = 0; i < count; ++i) {
-            fieldNameToIndex_.emplace(names[i], static_cast<indexType>(i));
+            fieldNameToIndex_->emplace(names[i], static_cast<indexType>(i));
         }
         fieldIndexValid_ = true;
     }
-    auto it = fieldNameToIndex_.find(name);
-    if (it == fieldNameToIndex_.end()) {
+    auto it = fieldNameToIndex_->find(name);
+    if (it == fieldNameToIndex_->end()) {
         return -1;
     }
     return static_cast<int64>(it->second);
@@ -221,8 +248,8 @@ Data::fieldIndexFromName(const std::string& name)
 void
 Data::noteAppendedField(const std::string& name, indexType newIndex)
 {
-    if (fieldIndexValid_) {
-        fieldNameToIndex_.emplace(name, newIndex);
+    if (fieldIndexValid_ && fieldNameToIndex_) {
+        fieldNameToIndex_->emplace(name, newIndex);
     }
 }
 //=============================================================================

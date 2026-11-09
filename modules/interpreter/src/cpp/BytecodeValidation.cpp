@@ -9,6 +9,7 @@
 //=============================================================================
 #include "BytecodeIO.hpp"
 #include <algorithm>
+#include "ScalarBuiltinFastPath.hpp"
 //=============================================================================
 namespace Nelson::BytecodeIO {
 //=============================================================================
@@ -29,15 +30,23 @@ namespace {
                 || program.original.op == OpCode::LOAD_CONST
                 || program.original.op == OpCode::LOAD_PARENS_LOCAL
                 || program.original.op == OpCode::LOAD_PARENS_LOCAL_OFFSET
-                || program.original.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL));
+                || program.original.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL
+                || program.original.op == OpCode::LOAD_PARENS2_LOCAL
+                || program.original.op == OpCode::PUSH_END_CTX_LOCAL
+                || program.original.op == OpCode::LOAD_LOCAL_DOT
+                || program.original.op == OpCode::LOAD_BRACES_LOCAL));
         validateInstruction(chunk, pc, program.original);
         require(program.windowLength >= 2 && program.windowLength <= chunk.code.size() - pc);
         require(!program.ops.empty() && program.ops.size() <= 48);
         require(program.resultKind == ScalarExprResultKind::Store
             || program.resultKind == ScalarExprResultKind::Branch
             || program.resultKind == ScalarExprResultKind::Push
-            || program.resultKind == ScalarExprResultKind::IndexedStore);
-        if (program.resultKind == ScalarExprResultKind::Store) {
+            || program.resultKind == ScalarExprResultKind::IndexedStore
+            || program.resultKind == ScalarExprResultKind::IndexedStoreComputed
+            || program.resultKind == ScalarExprResultKind::IndexedStore2DComputed);
+        if (program.resultKind == ScalarExprResultKind::Store
+            || program.resultKind == ScalarExprResultKind::IndexedStoreComputed
+            || program.resultKind == ScalarExprResultKind::IndexedStore2DComputed) {
             require(program.storeSlot < chunk.nLocals);
         } else if (program.resultKind == ScalarExprResultKind::IndexedStore) {
             require(program.storeSlot < chunk.nLocals && program.indexSlot < chunk.nLocals);
@@ -69,6 +78,35 @@ namespace {
             case ScalarExprOpKind::LoadConst:
                 ++depth;
                 break;
+            case ScalarExprOpKind::LoadEndLocal:
+                require(op.slot < chunk.nLocals && op.slot2 < op.slot3);
+                ++depth;
+                break;
+            case ScalarExprOpKind::CallBuiltin1:
+            case ScalarExprOpKind::CallBuiltin2: {
+                // the stored kind must be the one the called name maps to
+                const uint16_t arity = op.kind == ScalarExprOpKind::CallBuiltin1 ? 1 : 2;
+                require(op.slot < chunk.names.size()
+                    && static_cast<uint16_t>(
+                           scalarBuiltinFastPathForName(chunk.names[op.slot], arity).kind)
+                        == op.slot2
+                    && op.slot2 != 0 && depth >= arity);
+                depth -= static_cast<size_t>(arity - 1);
+            } break;
+            case ScalarExprOpKind::LoadLocalField:
+                require(op.slot < chunk.nLocals && op.slot2 < chunk.constants.size()
+                    && std::holds_alternative<std::string>(chunk.constants.get(op.slot2)));
+                ++depth;
+                break;
+            case ScalarExprOpKind::LoadCellContent:
+                require(op.slot < chunk.nLocals && op.slot2 < chunk.nLocals);
+                ++depth;
+                break;
+            case ScalarExprOpKind::LoadIndexed2DLocal:
+                require(op.slot < chunk.nLocals && op.slot2 < chunk.nLocals
+                    && op.slot3 < chunk.nLocals);
+                ++depth;
+                break;
             case ScalarExprOpKind::Neg:
                 require(depth >= 1);
                 break;
@@ -83,7 +121,14 @@ namespace {
             }
             require(depth <= 15, "Bytecode scalar stack limit exceeded.");
         }
-        require(depth == 1);
+        // a computed-index store leaves the value and its one or two subscripts
+        size_t expectedDepth = 1;
+        if (program.resultKind == ScalarExprResultKind::IndexedStoreComputed) {
+            expectedDepth = 2;
+        } else if (program.resultKind == ScalarExprResultKind::IndexedStore2DComputed) {
+            expectedDepth = 3;
+        }
+        require(depth == expectedDepth);
     }
     //=============================================================================
 } // namespace

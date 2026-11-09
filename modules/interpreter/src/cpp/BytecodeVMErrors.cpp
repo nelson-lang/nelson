@@ -28,6 +28,9 @@ readTablePropertiesIndexTarget(Evaluator* eval, const BytecodeChunk& chunk,
     const VMCallFrame& frame, size_t failingPc, ArrayOf& table, std::string& property);
 //=============================================================================
 static bool
+singleValueExpressionStart(const BytecodeChunk& chunk, size_t last, size_t& start);
+//=============================================================================
+static bool
 readPropertiesHead(Evaluator* eval, const BytecodeChunk& chunk, const VMCallFrame& frame,
     size_t head, ArrayOf& table);
 //=============================================================================
@@ -145,23 +148,31 @@ static bool
 readTablePropertiesIndexTarget(Evaluator* eval, const BytecodeChunk& chunk,
     const VMCallFrame& frame, size_t failingPc, ArrayOf& table, std::string& property)
 {
-    if (failingPc < 3 || failingPc >= chunk.code.size()
-        || chunk.code[failingPc - 1].op != OpCode::POP_END_CTX) {
+    if (failingPc < 3 || failingPc >= chunk.code.size()) {
         return false;
     }
+    // pc becomes the first instruction of the index argument
     size_t pc = failingPc - 1;
-    int depth = 0;
-    do {
-        OpCode op = chunk.code[pc].op;
-        if (op == OpCode::POP_END_CTX) {
-            ++depth;
-        } else if (op == OpCode::PUSH_END_CTX || op == OpCode::PUSH_END_CTX_LOCAL) {
-            --depth;
+    if (chunk.code[pc].op == OpCode::POP_END_CTX) {
+        int depth = 0;
+        do {
+            OpCode op = chunk.code[pc].op;
+            if (op == OpCode::POP_END_CTX) {
+                ++depth;
+            } else if (op == OpCode::PUSH_END_CTX || op == OpCode::PUSH_END_CTX_LOCAL) {
+                --depth;
+            }
+        } while (depth > 0 && pc-- > 0);
+        if (depth != 0) {
+            return false;
         }
-    } while (depth > 0 && pc-- > 0);
+    } else if (!singleValueExpressionStart(chunk, failingPc - 1, pc)) {
+        // an argument without `end` has no context around it
+        return false;
+    }
     const Instruction& failing = chunk.code[failingPc];
     const bool nameWithIndex = failing.op == OpCode::SUBIDX_DOT;
-    if (depth != 0 || pc < (nameWithIndex ? 1 : 2)) {
+    if (pc < (nameWithIndex ? 1 : 2)) {
         return false;
     }
     const Instruction& dot = nameWithIndex ? failing : chunk.code[pc - 1];
@@ -169,6 +180,70 @@ readTablePropertiesIndexTarget(Evaluator* eval, const BytecodeChunk& chunk,
     return dot.op == OpCode::SUBIDX_DOT && dot.A == (nameWithIndex ? 1 : 0)
         && dot.C == (nameWithIndex ? 1 : 0) && readTextConstant(chunk, dot.B, property)
         && readPropertiesHead(eval, chunk, frame, head, table);
+}
+//=============================================================================
+// First instruction of the one value expression ending at chunk.code[last], walking back
+// over the loads and arithmetic a plain index argument compiles to; false for anything else.
+static bool
+singleValueExpressionStart(const BytecodeChunk& chunk, size_t last, size_t& start)
+{
+    int needed = 1;
+    size_t pc = last + 1;
+    while (pc > 0) {
+        --pc;
+        Instruction ins = chunk.code[pc];
+        if (ins.op == OpCode::SCALAR_EXPR) {
+            // a fused window keeps its other instructions in place
+            if (ins.A >= chunk.scalarExprPrograms.size()) {
+                return false;
+            }
+            ins = chunk.scalarExprPrograms[ins.A].original;
+        }
+        int produced = 1;
+        int consumed = 0;
+        switch (ins.op) {
+        case OpCode::LOAD_CONST:
+        case OpCode::LOAD_TRUE:
+        case OpCode::LOAD_FALSE:
+        case OpCode::LOAD_EMPTY:
+        case OpCode::LOAD_LOCAL:
+        case OpCode::LOAD_GLOBAL:
+        case OpCode::LOAD_LOCAL_DOT:
+        case OpCode::LOAD_PARENS_LOCAL:
+        case OpCode::LOAD_PARENS_LOCAL_OFFSET:
+        case OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL:
+        case OpCode::LOAD_PARENS2_LOCAL:
+            break;
+        case OpCode::OP_PLUS:
+        case OpCode::OP_MINUS:
+        case OpCode::OP_TIMES:
+        case OpCode::OP_MTIMES:
+        case OpCode::OP_RDIV:
+        case OpCode::OP_MRDIV:
+        case OpCode::OP_COLON_UNIT:
+            consumed = 2;
+            break;
+        case OpCode::OP_COLON:
+            consumed = 3;
+            break;
+        case OpCode::OP_UMINUS:
+        case OpCode::OP_UPLUS:
+            consumed = 1;
+            break;
+        case OpCode::BUILD_ROW:
+        case OpCode::BUILD_MATRIX:
+            consumed = ins.A;
+            break;
+        default:
+            return false;
+        }
+        needed += consumed - produced;
+        if (needed == 0) {
+            start = pc;
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 // The read of T.Properties ending at chunk.code[head], T being a variable.

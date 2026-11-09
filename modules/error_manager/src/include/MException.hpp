@@ -19,6 +19,7 @@
 #include "Error.hpp"
 #include "Types.hpp"
 #include "ErrorID.hpp"
+#include "StackTraceToStruct.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -99,25 +100,7 @@ NelsonExceptionToArrayOf(const NelsonException& e)
             elements[k] = NelsonExceptionToArrayOf(causeExceptions[k]);
         }
     }
-    const std::vector<PositionScript>& trace = e.trace();
-    stringVector traceFieldnames = { "file", "name", "line" };
-    Dimensions dims(trace.size(), 1);
-    auto* elements = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), traceFieldnames, false));
-    ArrayOf stack = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, traceFieldnames);
-    ArrayOfVector files;
-    ArrayOfVector names;
-    ArrayOfVector lines;
-    for (const auto& k : trace) {
-        files.push_back(ArrayOf::characterArray(k.getFilename()));
-        names.push_back(ArrayOf::characterArray(k.getFunctionName()));
-        lines.push_back(ArrayOf::doubleScalar(k.getLine()));
-    }
-    if (!trace.empty()) {
-        stack.setFieldAsList(traceFieldnames[0], files);
-        stack.setFieldAsList(traceFieldnames[1], names);
-        stack.setFieldAsList(traceFieldnames[2], lines);
-    }
+    ArrayOf stack = StackTraceToStruct(e.trace());
 
     ArrayOf correction = NelsonExceptionCorrectionToArrayOf(e);
     ArrayOfVector identifierVector(ArrayOf::characterArray(e.identifier()));

@@ -267,6 +267,13 @@ sparseBroadcastPower(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
 }
 //=============================================================================
 #include "DotPowerKernels.hpp"
+//=============================================================================
+double
+nonNegativeBaseDoublePower(double a, double b)
+{
+    return power_dd(a, b);
+}
+//=============================================================================
 inline ArrayOf
 doPowerBroadcastAssist(
     ArrayOf A, NelsonType AClass, ArrayOf B, NelsonType BClass, NelsonType CClass, vvfun exec)

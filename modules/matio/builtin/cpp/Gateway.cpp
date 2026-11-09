@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "loadmatBuiltin.hpp"
 #include "savematBuiltin.hpp"
 #include "ismatfileBuiltin.hpp"
@@ -23,22 +22,14 @@ static const nlsGateway gateway[] = {
     { "savemat", (ptrBuiltin)Nelson::MatioGateway::savematBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "loadmat", (ptrBuiltin)Nelson::MatioGateway::loadmatBuiltin, 1, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "whosmat", (ptrBuiltin)Nelson::MatioGateway::whosmatBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "whomat", (ptrBuiltin)Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "ismatfile", (ptrBuiltin)Nelson::MatioGateway::ismatfileBuiltin, 1, 1 },
 };
 //=============================================================================
-static bool
-initializeMatioModule(Nelson::Evaluator* eval)
-{
-    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
-        (ptrBuiltin)Nelson::MatioGateway::loadmatBuiltin, true);
-    return true;
-}
-//=============================================================================
-NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeMatioModule)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
 NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

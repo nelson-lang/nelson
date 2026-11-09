@@ -65,17 +65,19 @@ public:
         }
     }
     //=============================================================================
-    void
+    // true when the key is new
+    bool
     insertSymbol(const KEY_TYPE& key, const value_type& val)
     {
         std::unique_lock lock { m_mutex };
         auto it = m_map.find(key);
         if (it != m_map.end()) {
             it->second->second = val;
-        } else {
-            m_list.emplace_back(key, val);
-            m_map[key] = std::prev(m_list.end());
+            return false;
         }
+        m_list.emplace_back(key, val);
+        m_map[key] = std::prev(m_list.end());
+        return true;
     }
     //=============================================================================
     std::vector<KEY_TYPE>

@@ -32,7 +32,7 @@ const std::wstring gatewayName = L"special_functions";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "gcd", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gcdBuiltin, 1, 2,
-        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE, NLS_OVERLOAD_AUTO_OFF },
     { "isprime", (ptrBuiltin)Nelson::SpecialFunctionsGateway::isprimeBuiltin, 1, 1 },
     { "spline", (ptrBuiltin)Nelson::SpecialFunctionsGateway::splineBuiltin, 1, 3, CPP_BUILTIN },
     { "gamma", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1 },

@@ -64,9 +64,9 @@ const std::wstring gatewayName = L"string";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "sprintf", (ptrBuiltin)Nelson::StringGateway::sprintfBuiltin, 2, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "compose", (ptrBuiltin)Nelson::StringGateway::composeBuiltin, 1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "char", (ptrBuiltin)Nelson::StringGateway::charBuiltin, 1, -1 },
     { "strcmp", (ptrBuiltin)Nelson::StringGateway::strcmpBuiltin, 1, 2 },
     { "strcmpi", (ptrBuiltin)Nelson::StringGateway::strcmpiBuiltin, 1, 2 },

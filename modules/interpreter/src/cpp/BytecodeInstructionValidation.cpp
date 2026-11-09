@@ -195,6 +195,9 @@ namespace {
         { OpCode::JUMP_IF_NOT_TABLE, Operand::Jump, Operand::Zero, Operand::Zero },
         { OpCode::ASGN_DOTDYN_CHAIN_VALUE, Operand::Zero, Operand::Value, Operand::Zero },
         { OpCode::SUBIDX_DOTDYN_CHAIN, Operand::Zero, Operand::Value, Operand::Zero },
+        { OpCode::LOAD_PARENS2_LOCAL, Operand::Local, Operand::Local, Operand::Local },
+        { OpCode::ASSIGN_LOCAL_FIELD, Operand::Local, Operand::Local, Operand::Text },
+        { OpCode::ASSIGN_LOCAL_CONTENT, Operand::Local, Operand::Local, Operand::Local },
     };
     //=============================================================================
     static_assert(std::size(rules) == static_cast<size_t>(OpCode::OPCODE_COUNT));

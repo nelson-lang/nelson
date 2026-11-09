@@ -32,10 +32,24 @@ enum class ScalarExprOpKind : uint8_t
     LoadIndexedLocalOffset,
     // locals[slot](locals[slot2] - locals[slot3]), same restrictions.
     LoadIndexedLocalMinusLocal,
+    // `end` of locals[slot] used as subscript slot2 of slot3 subscripts
+    LoadEndLocal,
+    // locals[slot](locals[slot2], locals[slot3]) on a real double array, in range
+    LoadIndexed2DLocal,
+    // chunk.names[slot] resolved at run time to the scalar math builtin of kind slot2,
+    // applied to the top register (one input) or to the top two (two inputs)
+    CallBuiltin1,
+    CallBuiltin2,
+    // locals[slot].<constant slot2>: a real double scalar field of a scalar struct
+    LoadLocalField,
+    // locals[slot]{locals[slot2]}: a real double scalar content of a cell
+    LoadCellContent,
     Add,
     Sub,
     Mul,
     Div,
+    // top two registers a ^ b; a negative base refuses the window (complex result)
+    Pow,
     Neg,
     // Comparisons only ever appear as the final operation of a window whose
     // terminator is a conditional branch, so their result is consumed as a
@@ -54,7 +68,11 @@ enum class ScalarExprResultKind : uint8_t
     Store,
     Branch,
     Push,
-    IndexedStore
+    IndexedStore,
+    // locals[storeSlot](<top register>) = <first register>: the index is computed
+    IndexedStoreComputed,
+    // locals[storeSlot](<second register>, <third register>) = <first register>
+    IndexedStore2DComputed
 };
 //=============================================================================
 struct ScalarExprMicroOp
@@ -79,7 +97,8 @@ struct ScalarExprProgram
     // path success the VM skips the whole window.
     uint32_t windowLength = 0;
     uint16_t storeSlot = 0;
-    // resultKind == IndexedStore: local slot holding the linear index.
+    // resultKind == IndexedStore: local slot holding the linear index
+    // (IndexedStoreComputed takes it from the top register instead).
     uint16_t indexSlot = 0;
     ScalarExprResultKind resultKind = ScalarExprResultKind::Store;
     // resultKind == Branch: the window ends on a conditional jump instead of a
@@ -87,7 +106,22 @@ struct ScalarExprProgram
     // the target stays valid.
     OpCode branchOp = OpCode::NOP;
     uint16_t branchTarget = 0;
+    // derived from ops when fused or loaded, not persisted: the VM checks the called
+    // names still resolve to the builtins before running the program
+    bool callsBuiltins = false;
 };
+//=============================================================================
+inline bool
+scalarProgramCallsBuiltins(const ScalarExprProgram& program)
+{
+    for (const ScalarExprMicroOp& op : program.ops) {
+        if (op.kind == ScalarExprOpKind::CallBuiltin1
+            || op.kind == ScalarExprOpKind::CallBuiltin2) {
+            return true;
+        }
+    }
+    return false;
+}
 //=============================================================================
 class NLSINTERPRETER_IMPEXP BytecodeChunk
 {

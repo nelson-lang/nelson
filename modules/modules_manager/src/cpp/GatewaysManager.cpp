@@ -126,7 +126,7 @@ descriptorToCacheEntry(const ResolvedGatewayLibrary& resolved,
     const Nelson::nlsGatewayDescriptor* descriptor, GatewayCacheEntry& cacheEntry,
     std::wstring& errorMessage);
 static library_handle
-loadGatewayLibrary(const ResolvedGatewayLibrary& resolved);
+loadGatewayLibrary(const ResolvedGatewayLibrary& resolved, std::string& loadError);
 static bool
 registerLazyGateway(const GatewayCacheEntry& cacheEntry);
 static bool
@@ -707,14 +707,22 @@ descriptorToCacheEntry(const ResolvedGatewayLibrary& resolved,
 }
 //=============================================================================
 static library_handle
-loadGatewayLibrary(const ResolvedGatewayLibrary& resolved)
+loadGatewayLibrary(const ResolvedGatewayLibrary& resolved, std::string& loadError)
 {
-    CurrentDirectoryGuard guard(resolved.directory);
+    library_handle handle = nullptr;
+    {
+        CurrentDirectoryGuard guard(resolved.directory);
 #ifdef _MSC_VER
-    return load_dynamic_libraryW(resolved.filename);
+        handle = load_dynamic_libraryW(resolved.filename);
 #else
-    return load_dynamic_library(wstring_to_utf8(resolved.filename));
+        handle = load_dynamic_library(wstring_to_utf8(resolved.filename));
 #endif
+        // read now: restoring the directory or tracing would overwrite the system error
+        if (handle == nullptr) {
+            loadError = get_dynamic_library_error();
+        }
+    }
+    return handle;
 }
 //=============================================================================
 static bool
@@ -744,13 +752,14 @@ mustLoadGatewayEager(const GatewayCacheEntry& cacheEntry)
 static bool
 addGatewayEager(Evaluator* eval, const ResolvedGatewayLibrary& resolved, std::wstring& errorMessage)
 {
-    library_handle handle = loadGatewayLibrary(resolved);
+    std::string loadError;
+    library_handle handle = loadGatewayLibrary(resolved, loadError);
     if (handle == nullptr) {
         traceGateway(L"load failed", resolved.cacheKey);
         errorMessage = formatI18nMessage(Nelson::resolveMessageTemplate(
                                              L"Nelson:modules_manager:moduleLoadedLibraryLoaded",
                                              L"Module not loaded: library not loaded.\n%s\n%s"),
-                           resolved.fullPath, utf8_to_wstring(get_dynamic_library_error()))
+                           resolved.fullPath, utf8_to_wstring(loadError))
             + L"\n";
         return false;
     }

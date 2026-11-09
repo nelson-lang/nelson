@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <vector>
 #include "BytecodeScalarFusion.hpp"
+#include "ScalarBuiltinFastPath.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,7 +24,40 @@ static bool
 isUsefulScalarWindow(const std::vector<ScalarExprMicroOp>& ops, ScalarExprResultKind kind,
     uint16_t slot, size_t arithmetic, size_t loads, size_t length)
 {
+    // An indexed store always pays off: the typed write skips the generic
+    // subset-assignment opcode even when the value is a plain local or constant.
+    if (kind == ScalarExprResultKind::IndexedStore
+        || kind == ScalarExprResultKind::IndexedStoreComputed
+        || kind == ScalarExprResultKind::IndexedStore2DComputed) {
+        return true;
+    }
+    // a scalar builtin call skips the argument naming, the call dispatch and the boxing,
+    // a power the generic operator
+    if (std::any_of(ops.begin(), ops.end(), [](const ScalarExprMicroOp& op) {
+            return op.kind == ScalarExprOpKind::CallBuiltin1
+                || op.kind == ScalarExprOpKind::CallBuiltin2 || op.kind == ScalarExprOpKind::Pow;
+        })) {
+        return true;
+    }
     if (arithmetic > 0 && loads >= 2 && length >= 4) {
+        return true;
+    }
+    // s = s + v(k) or s + m(i, j): an indexed read makes a three-instruction window worth it
+    const bool readsIndexed = std::any_of(ops.begin(), ops.end(), [](const ScalarExprMicroOp& op) {
+        return op.kind == ScalarExprOpKind::LoadIndexedLocal
+            || op.kind == ScalarExprOpKind::LoadIndexed2DLocal;
+    });
+    // s = s + p.f or s + c{k} too
+    const bool readsElement
+        = readsIndexed || std::any_of(ops.begin(), ops.end(), [](const ScalarExprMicroOp& op) {
+              return op.kind == ScalarExprOpKind::LoadLocalField
+                  || op.kind == ScalarExprOpKind::LoadCellContent;
+          });
+    if (arithmetic > 0 && loads >= 2 && length == 3 && readsElement) {
+        return true;
+    }
+    // x = v(k) or x = m(i, j): the typed read skips the boxed element and its stack trip
+    if (kind == ScalarExprResultKind::Store && length == 2 && ops.size() == 1 && readsIndexed) {
         return true;
     }
     return kind == ScalarExprResultKind::Store && length == 2 && ops.size() == 1
@@ -45,7 +80,9 @@ fuseScalarExpressions(BytecodeChunk& chunk)
             && (first.op == OpCode::LOAD_LOCAL || first.op == OpCode::LOAD_CONST
                 || first.op == OpCode::LOAD_PARENS_LOCAL
                 || first.op == OpCode::LOAD_PARENS_LOCAL_OFFSET
-                || first.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL);
+                || first.op == OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL
+                || first.op == OpCode::LOAD_PARENS2_LOCAL || first.op == OpCode::PUSH_END_CTX_LOCAL
+                || first.op == OpCode::LOAD_LOCAL_DOT || first.op == OpCode::LOAD_BRACES_LOCAL);
         if (!startsWindow) {
             ++pc;
             continue;
@@ -57,8 +94,18 @@ fuseScalarExpressions(BytecodeChunk& chunk)
         size_t arithCount = 0;
         bool matched = false;
         bool aborted = false;
+        // longest prefix leaving exactly one value, used when the whole window fails
+        bool hasPrefix = false;
+        size_t prefixEnd = 0;
+        size_t prefixOps = 0;
+        size_t prefixArith = 0;
+        size_t prefixLoads = 0;
         uint16_t storeSlot = 0;
         uint16_t indexSlot = 0;
+        // local whose `end` context is open inside the window, -1 when none
+        int endContextSlot = -1;
+        uint16_t endPosition = 0;
+        uint16_t endCount = 0;
         ScalarExprResultKind resultKind = ScalarExprResultKind::Store;
         OpCode branchOp = OpCode::NOP;
         uint16_t branchTarget = 0;
@@ -99,6 +146,25 @@ fuseScalarExpressions(BytecodeChunk& chunk)
                 ops.push_back(op);
                 ++depth;
                 ++loadCount;
+            } else if (ins.op == OpCode::LOAD_LOCAL_DOT || ins.op == OpCode::LOAD_BRACES_LOCAL) {
+                // p.f and c{k} in value context (a list context sets a flag)
+                ScalarExprMicroOp op;
+                op.kind = ins.op == OpCode::LOAD_LOCAL_DOT ? ScalarExprOpKind::LoadLocalField
+                                                           : ScalarExprOpKind::LoadCellContent;
+                op.slot = ins.A;
+                op.slot2 = ins.B;
+                ops.push_back(op);
+                ++depth;
+                ++loadCount;
+            } else if (ins.op == OpCode::LOAD_PARENS2_LOCAL) {
+                ScalarExprMicroOp op;
+                op.kind = ScalarExprOpKind::LoadIndexed2DLocal;
+                op.slot = ins.A;
+                op.slot2 = ins.B;
+                op.slot3 = ins.C;
+                ops.push_back(op);
+                ++depth;
+                ++loadCount;
             } else if (ins.op == OpCode::LOAD_PARENS_LOCAL_OFFSET) {
                 ScalarExprMicroOp op;
                 op.kind = ScalarExprOpKind::LoadIndexedLocalOffset;
@@ -132,7 +198,8 @@ fuseScalarExpressions(BytecodeChunk& chunk)
                 ++loadCount;
             } else if (ins.op == OpCode::OP_PLUS || ins.op == OpCode::OP_MINUS
                 || ins.op == OpCode::OP_TIMES || ins.op == OpCode::OP_MTIMES
-                || ins.op == OpCode::OP_RDIV || ins.op == OpCode::OP_MRDIV) {
+                || ins.op == OpCode::OP_RDIV || ins.op == OpCode::OP_MRDIV
+                || ins.op == OpCode::OP_POWER || ins.op == OpCode::OP_MPOWER) {
                 if (depth < 2) {
                     break;
                 }
@@ -147,6 +214,10 @@ fuseScalarExpressions(BytecodeChunk& chunk)
                 case OpCode::OP_TIMES:
                 case OpCode::OP_MTIMES:
                     op.kind = ScalarExprOpKind::Mul;
+                    break;
+                case OpCode::OP_POWER:
+                case OpCode::OP_MPOWER:
+                    op.kind = ScalarExprOpKind::Pow;
                     break;
                 default:
                     op.kind = ScalarExprOpKind::Div;
@@ -194,6 +265,69 @@ fuseScalarExpressions(BytecodeChunk& chunk)
                 if (depth < 1) {
                     break;
                 }
+            } else if (ins.op == OpCode::SET_NAME) {
+                // names a call argument for inputname: nothing to do on registers
+                if (depth < 1) {
+                    break;
+                }
+            } else if (ins.op == OpCode::CALL_NAMED) {
+                // abs(x), max(x, y), ...: one output, one or two double inputs; the VM
+                // checks at run time that the name still resolves to the builtin
+                if (ins.C != 1 || (ins.B != 1 && ins.B != 2) || depth < ins.B
+                    || ins.A >= chunk.names.size()) {
+                    break;
+                }
+                const ScalarBuiltinFastPath fastPath
+                    = scalarBuiltinFastPathForName(chunk.names[ins.A], ins.B);
+                if (!isScalarBuiltinFastPathCandidate(fastPath)) {
+                    break;
+                }
+                ScalarExprMicroOp op;
+                op.kind
+                    = ins.B == 1 ? ScalarExprOpKind::CallBuiltin1 : ScalarExprOpKind::CallBuiltin2;
+                op.slot = ins.A;
+                op.slot2 = static_cast<uint16_t>(fastPath.kind);
+                ops.push_back(op);
+                depth -= static_cast<size_t>(ins.B - 1);
+                ++arithCount;
+            } else if (ins.op == OpCode::PUSH_END_CTX_LOCAL) {
+                // `end` of a local subscript (position B of C) becomes that extent; one
+                // context at a time, closed by its POP_END_CTX inside the window.
+                if (endContextSlot >= 0 || ins.C == 0 || ins.B >= ins.C) {
+                    break;
+                }
+                endContextSlot = ins.A;
+                endPosition = ins.B;
+                endCount = ins.C;
+            } else if (ins.op == OpCode::LOAD_END) {
+                if (endContextSlot < 0) {
+                    break;
+                }
+                ScalarExprMicroOp op;
+                op.kind = ScalarExprOpKind::LoadEndLocal;
+                op.slot = static_cast<uint16_t>(endContextSlot);
+                op.slot2 = endPosition;
+                op.slot3 = endCount;
+                ops.push_back(op);
+                ++depth;
+                ++loadCount;
+            } else if (ins.op == OpCode::POP_END_CTX) {
+                if (endContextSlot < 0) {
+                    break;
+                }
+                endContextSlot = -1;
+            } else if (ins.op == OpCode::ASGN_PARENS) {
+                // the value then one or two subscripts computed on the stack
+                if (ins.B == 1 && depth == 2) {
+                    resultKind = ScalarExprResultKind::IndexedStoreComputed;
+                } else if (ins.B == 2 && depth == 3) {
+                    resultKind = ScalarExprResultKind::IndexedStore2DComputed;
+                } else {
+                    break;
+                }
+                storeSlot = ins.A;
+                matched = true;
+                break;
             } else if (ins.op == OpCode::STORE_LOCAL || ins.op == OpCode::ASSIGN) {
                 if (depth != 1) {
                     break;
@@ -221,10 +355,31 @@ fuseScalarExpressions(BytecodeChunk& chunk)
                 aborted = true;
                 break;
             }
+            // not after SET_NAME: the name it gives the value must still be applied
+            if (depth == 1 && arithCount > 0 && loadCount >= 2 && endContextSlot < 0
+                && ins.op != OpCode::SET_NAME) {
+                hasPrefix = true;
+                prefixEnd = q;
+                prefixOps = ops.size();
+                prefixArith = arithCount;
+                prefixLoads = loadCount;
+            }
         }
-        if (!matched && !aborted && depth == 1 && arithCount > 0 && loadCount >= 2) {
+        if (endContextSlot >= 0) {
+            // an end context left open would be skipped with the window while its
+            // POP_END_CTX still runs
+            aborted = true;
+        }
+        if (!matched && hasPrefix) {
+            // e.g. a*b + c inside f(a*b + c, d) or [a*b + c, d]: the value is pushed and
+            // the rest of the original window runs as usual
             resultKind = ScalarExprResultKind::Push;
             matched = true;
+            aborted = false;
+            q = prefixEnd + 1;
+            ops.resize(prefixOps);
+            arithCount = prefixArith;
+            loadCount = prefixLoads;
         }
         const size_t windowLength
             = matched ? (resultKind == ScalarExprResultKind::Push ? q - pc : q - pc + 1) : 0;
@@ -244,6 +399,7 @@ fuseScalarExpressions(BytecodeChunk& chunk)
         program.resultKind = resultKind;
         program.branchOp = branchOp;
         program.branchTarget = branchTarget;
+        program.callsBuiltins = scalarProgramCallsBuiltins(program);
         const auto programIndex = static_cast<uint16_t>(chunk.scalarExprPrograms.size());
         chunk.scalarExprPrograms.push_back(std::move(program));
         Instruction fused {};
@@ -253,7 +409,8 @@ fuseScalarExpressions(BytecodeChunk& chunk)
         fused.B = 0;
         fused.C = 0;
         chunk.code[pc] = fused;
-        pc = q + 1;
+        // a pushed value is consumed by the instruction at q, which may start a window
+        pc = resultKind == ScalarExprResultKind::Push ? q : q + 1;
     }
 }
 //=============================================================================

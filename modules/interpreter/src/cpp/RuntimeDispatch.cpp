@@ -22,11 +22,13 @@ namespace {
         return fn ? fn() : false;
     }
     //=============================================================================
-    RuntimeDispatchBackend
-    currentBackend()
+    // copy one callback under the lock: the backend holds a dozen std::function
+    template <typename Callback>
+    Callback
+    backendCallback(Callback RuntimeDispatchBackend::* member)
     {
         std::lock_guard<std::mutex> lock(backendMutex);
-        return backend;
+        return backend.*member;
     }
     //=============================================================================
 } // namespace
@@ -51,9 +53,9 @@ postToEvaluator(RuntimeDispatchTask task)
     if (!task) {
         return;
     }
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.postToEvaluator) {
-        localBackend.postToEvaluator(std::move(task));
+    auto postToEvaluatorFn = backendCallback(&RuntimeDispatchBackend::postToEvaluator);
+    if (postToEvaluatorFn) {
+        postToEvaluatorFn(std::move(task));
     } else {
         task();
     }
@@ -65,9 +67,9 @@ postToGui(RuntimeDispatchTask task)
     if (!task) {
         return;
     }
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.postToGui) {
-        localBackend.postToGui(std::move(task));
+    auto postToGuiFn = backendCallback(&RuntimeDispatchBackend::postToGui);
+    if (postToGuiFn) {
+        postToGuiFn(std::move(task));
     } else {
         task();
     }
@@ -79,9 +81,9 @@ callGuiSync(RuntimeDispatchTask task)
     if (!task) {
         return;
     }
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.callGuiSync) {
-        localBackend.callGuiSync(std::move(task));
+    auto callGuiSyncFn = backendCallback(&RuntimeDispatchBackend::callGuiSync);
+    if (callGuiSyncFn) {
+        callGuiSyncFn(std::move(task));
     } else {
         task();
     }
@@ -90,27 +92,27 @@ callGuiSync(RuntimeDispatchTask task)
 void
 notifyInterrupt(size_t evaluatorId)
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.notifyInterrupt) {
-        localBackend.notifyInterrupt(evaluatorId);
+    auto notifyInterruptFn = backendCallback(&RuntimeDispatchBackend::notifyInterrupt);
+    if (notifyInterruptFn) {
+        notifyInterruptFn(evaluatorId);
     }
 }
 //=============================================================================
 void
 processGuiEvents(bool waitEvents)
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.processGuiEvents) {
-        localBackend.processGuiEvents(waitEvents);
+    auto processGuiEventsFn = backendCallback(&RuntimeDispatchBackend::processGuiEvents);
+    if (processGuiEventsFn) {
+        processGuiEventsFn(waitEvents);
     }
 }
 //=============================================================================
 bool
 pumpGuiEventsBlocking(int maxTimeMs)
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    if (localBackend.pumpGuiEventsBlocking) {
-        localBackend.pumpGuiEventsBlocking(maxTimeMs);
+    auto pumpGuiEventsBlockingFn = backendCallback(&RuntimeDispatchBackend::pumpGuiEventsBlocking);
+    if (pumpGuiEventsBlockingFn) {
+        pumpGuiEventsBlockingFn(maxTimeMs);
         return true;
     }
     return false;
@@ -119,50 +121,43 @@ pumpGuiEventsBlocking(int maxTimeMs)
 bool
 hasQtRuntime()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.hasQtRuntime);
+    return callBool(backendCallback(&RuntimeDispatchBackend::hasQtRuntime));
 }
 //=============================================================================
 bool
 hasGuiServices()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.hasGuiServices);
+    return callBool(backendCallback(&RuntimeDispatchBackend::hasGuiServices));
 }
 //=============================================================================
 bool
 hasGraphicsServices()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.hasGraphicsServices);
+    return callBool(backendCallback(&RuntimeDispatchBackend::hasGraphicsServices));
 }
 //=============================================================================
 bool
 hasQmlServices()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.hasQmlServices);
+    return callBool(backendCallback(&RuntimeDispatchBackend::hasQmlServices));
 }
 //=============================================================================
 bool
 isGuiThread()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.isGuiThread);
+    return callBool(backendCallback(&RuntimeDispatchBackend::isGuiThread));
 }
 //=============================================================================
 bool
 isEvaluatorThread()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return callBool(localBackend.isEvaluatorThread);
+    return callBool(backendCallback(&RuntimeDispatchBackend::isEvaluatorThread));
 }
 //=============================================================================
 bool
 canRunIdleInterpreterTaskOnCallingThread()
 {
-    RuntimeDispatchBackend localBackend = currentBackend();
-    return !callBool(localBackend.hasGuiServices) || callBool(localBackend.isGuiThread);
+    return !hasGuiServices() || isGuiThread();
 }
 //=============================================================================
 namespace {

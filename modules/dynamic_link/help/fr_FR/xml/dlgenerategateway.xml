@@ -22,12 +22,20 @@
     <param_input_item>
       <param_name>builtin_table</param_name>
       <param_description
-      >a cell composed of cell with {name exposed in Nelson, nb output arguments, nb input arguments}</param_description>
+      >une cellule de cellules {nom exposé dans Nelson, nombre d'arguments de sortie, nombre d'arguments d'entrée, type de fonction native (optionnel), mode de surcharge (optionnel)}</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>dlgenerategateway</b> génère une gateway C++ utilisée par<b>addmodule</b>.</p>
+    <p>Le type de fonction native indique comment la fonction C++ est appelée et ce qu'elle fait de l'espace de travail de son appelant :</p>
+    <ul>
+      <li><b>'CPP_BUILTIN'</b> (par défaut) : la fonction reçoit uniquement ses entrées.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR'</b> : la fonction reçoit aussi l'évaluateur ; les variables de l'appelant lui sont rendues visibles avant chaque appel.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE'</b> : la fonction reçoit l'évaluateur mais ne lit ni ne modifie jamais les variables de son appelant (pas d'eval, pas de recherche de variable, pas de nargin ni d'inputname, pas de callback utilisateur), les appels sont donc plus rapides.</li>
+      <li><b>'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS'</b> : la fonction reçoit l'évaluateur et lit ou modifie les variables de son appelant, comme eval, clear ou load ; elles lui sont rendues visibles avant l'appel et relues après.</li>
+    </ul>
+    <p>Le mode de surcharge est <b>'NLS_OVERLOAD_AUTO_ON'</b> (par défaut) ou <b>'NLS_OVERLOAD_AUTO_OFF'</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,6 +58,10 @@ text = fileread([tempdir(), 'Gateway.cpp'])]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>types de fonctions natives 'CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE' et 'CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS'.</history_description>
     </history_item>
   </history>
   <authors>

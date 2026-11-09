@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
+#include <cstddef>
 #include <map>
 #include <functional>
 #include <unordered_map>
@@ -16,6 +18,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "AudioCallbackHelpers.hpp"
+#include "AudioRateConversion.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
@@ -420,6 +423,37 @@ AudiorecorderObject::appendFrames(const void* inputBuffer, unsigned long framesP
     const size_t count
         = static_cast<size_t>(framesPerBuffer) * static_cast<size_t>(_NumberOfChannels);
     std::lock_guard<std::mutex> lock(recordMutex);
+    if (resampleStep > 0.0) {
+        // float device frames at the device rate, interpolated to SampleRate
+        const size_t channels = static_cast<size_t>(_NumberOfChannels);
+        if (!inputBuffer) {
+            resampleFrames.insert(resampleFrames.end(), count, 0.0f);
+        } else {
+            const float* in = static_cast<const float*>(inputBuffer);
+            resampleFrames.insert(resampleFrames.end(), in, in + count);
+        }
+        const size_t available = resampleFrames.size() / channels;
+        uint32_t produced = 0;
+        while (resamplePosition + 1.0 < static_cast<double>(available)) {
+            const auto index = static_cast<size_t>(resamplePosition);
+            const auto fraction
+                = static_cast<single>(resamplePosition - static_cast<double>(index));
+            for (size_t c = 0; c < channels; ++c) {
+                const single current = resampleFrames[index * channels + c];
+                const single next = resampleFrames[(index + 1) * channels + c];
+                recordBuffer.push_back(current + fraction * (next - current));
+            }
+            resamplePosition += resampleStep;
+            ++produced;
+        }
+        const size_t consumed = std::min(static_cast<size_t>(resamplePosition), available);
+        resampleFrames.erase(resampleFrames.begin(),
+            resampleFrames.begin() + static_cast<std::ptrdiff_t>(consumed * channels));
+        resamplePosition -= static_cast<double>(consumed);
+        recordedFrames += produced;
+        _TotalSamples = static_cast<int>(recordedFrames.load());
+        return;
+    }
     if (!inputBuffer) {
         recordBuffer.insert(recordBuffer.end(), count, 0.0f);
     } else if (inputStreamParameters.sampleFormat == paFloat32) {
@@ -500,8 +534,21 @@ AudiorecorderObject::start()
     lastTimerFrame = 0;
     _Running = true;
     stopFcnPending = true;
+    // a rate the device cannot run (no system mixer) is converted in software
+    PaStreamParameters deviceParameters = inputStreamParameters;
+    double deviceRate = static_cast<double>(_SampleRate);
+    {
+        std::lock_guard<std::mutex> lock(recordMutex);
+        resampleStep = 0.0;
+        resamplePosition = 0.0;
+        resampleFrames.clear();
+        if (deviceRateForUnsupportedRate(inputStreamParameters, true,
+                static_cast<double>(_SampleRate), deviceParameters, deviceRate)) {
+            resampleStep = deviceRate / static_cast<double>(_SampleRate);
+        }
+    }
     PaError err = stream.open(
-        &inputStreamParameters, nullptr, _SampleRate, AudiorecorderObject::paRecordCallback, this);
+        &deviceParameters, nullptr, deviceRate, AudiorecorderObject::paRecordCallback, this);
     if (err != paNoError) {
         _Running = false;
         stopFcnPending = false;

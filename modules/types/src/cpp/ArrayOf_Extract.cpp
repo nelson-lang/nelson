@@ -20,6 +20,7 @@
 #include "Decomplexify.hpp"
 #include <cmath>
 #include <complex>
+#include <cstring>
 #include <vector>
 //=============================================================================
 namespace Nelson {
@@ -36,6 +37,12 @@ isAscendingUnitStrideIndex(constIndexPtr index, indexType length);
 //=============================================================================
 static NelsonType
 ordinalIndexClassForView();
+//=============================================================================
+static bool
+isColonCharIndex(const ArrayOf& index);
+//=============================================================================
+static bool
+isRealPodClass(NelsonType dataClass);
 //=============================================================================
 static bool
 isFullUnitStrideIndex(constIndexPtr index, indexType length, indexType sourceLength);
@@ -151,6 +158,118 @@ ArrayOf::valueAtIndex(uint64 index)
     return res;
 }
 //=============================================================================
+// count elements of Bytes bytes, read every stride elements
+template <size_t Bytes>
+static void
+copyStridedElements(char* target, const char* source, indexType count, indexType stride)
+{
+    for (indexType k = 0; k < count; ++k) {
+        memcpy(target + k * Bytes, source + k * stride * Bytes, Bytes);
+    }
+}
+//=============================================================================
+bool
+ArrayOf::isDenseRealMatrixStorage() const
+{
+    return !hasScalarStorage() && dp != nullptr && !dp->sparse && dp->dimensions_.is2D()
+        && isRealPodClass(dp->dataClass);
+}
+//=============================================================================
+bool
+ArrayOf::rowColumnSubset(const ArrayOf& rowIndex, const ArrayOf& columnIndex, ArrayOf& result) const
+{
+    if (!isDenseRealMatrixStorage()) {
+        return false;
+    }
+    const bool allRows = isColonCharIndex(rowIndex);
+    if (!allRows && !isColonCharIndex(columnIndex)) {
+        return false;
+    }
+    const indexType rows = dp->dimensions_.rows();
+    const indexType columns = dp->dimensions_.columns();
+    double pick = 0.;
+    if (rows == 0 || columns == 0 || !(allRows ? columnIndex : rowIndex).realDoubleScalar(pick)
+        || !(pick >= 1) || pick > static_cast<double>(allRows ? columns : rows)
+        || std::floor(pick) != pick) {
+        return false;
+    }
+    const auto picked = static_cast<indexType>(pick) - 1;
+    const size_t bytes = static_cast<size_t>(elementSize());
+    const auto* source = static_cast<const char*>(dp->data());
+    const indexType count = allRows ? rows : columns;
+    void* copy = allocateArrayOf(dp->dataClass, count, dp->fieldNames(), false);
+    auto* target = static_cast<char*>(copy);
+    if (allRows) {
+        memcpy(target, source + picked * rows * bytes, count * bytes);
+        result = ArrayOf(dp->dataClass, Dimensions(rows, 1), copy);
+        return true;
+    }
+    source += picked * bytes;
+    switch (bytes) {
+    case 8:
+        copyStridedElements<8>(target, source, columns, rows);
+        break;
+    case 4:
+        copyStridedElements<4>(target, source, columns, rows);
+        break;
+    case 2:
+        copyStridedElements<2>(target, source, columns, rows);
+        break;
+    default:
+        copyStridedElements<1>(target, source, columns, rows);
+        break;
+    }
+    result = ArrayOf(dp->dataClass, Dimensions(1, columns), copy);
+    return true;
+}
+//=============================================================================
+bool
+ArrayOf::contiguousRangeSubset(const ArrayOf& index, ArrayOf& result) const
+{
+    if (!isDenseRealMatrixStorage()) {
+        return false;
+    }
+    indexType indexCount = 0;
+    indexType indexRows = 0;
+    indexType indexColumns = 0;
+    const double* ordinals = index.realDoubleData(indexCount, indexRows, indexColumns);
+    if (ordinals == nullptr || indexCount < 2 || (indexRows != 1 && indexColumns != 1)
+        || indexRows * indexColumns != indexCount) {
+        return false;
+    }
+    const double first = ordinals[0];
+    if (!(first >= 1.) || std::floor(first) != first
+        || first + static_cast<double>(indexCount - 1)
+            > static_cast<double>(dp->dimensions_.elementCount())) {
+        return false;
+    }
+    for (indexType k = 1; k < indexCount; ++k) {
+        if (ordinals[k] != first + static_cast<double>(k)) {
+            return false;
+        }
+    }
+    return ordinalRangeSubset(static_cast<indexType>(first), indexCount, indexRows == 1, result);
+}
+//=============================================================================
+bool
+ArrayOf::ordinalRangeSubset(
+    indexType first, indexType count, bool indexIsRow, ArrayOf& result) const
+{
+    if (!isDenseRealMatrixStorage() || first < 1 || count < 1
+        || first - 1 + count > dp->dimensions_.elementCount()) {
+        return false;
+    }
+    // a vector keeps its orientation, a matrix takes the shape of the index
+    const indexType rows = dp->dimensions_.rows();
+    const bool resultIsRow = (rows == 1 || dp->dimensions_.columns() == 1) ? rows == 1 : indexIsRow;
+    const size_t bytes = static_cast<size_t>(elementSize());
+    void* copy = allocateArrayOf(dp->dataClass, count, dp->fieldNames(), false);
+    memcpy(copy, static_cast<const char*>(dp->data()) + (first - 1) * bytes, count * bytes);
+    result
+        = ArrayOf(dp->dataClass, resultIsRow ? Dimensions(1, count) : Dimensions(count, 1), copy);
+    return true;
+}
+//=============================================================================
 ArrayOf
 ArrayOf::vectorSubset(ArrayOf& index)
 {
@@ -217,6 +336,10 @@ ArrayOf::vectorSubset(ArrayOf& index)
                     emptySubsetClass(dp->dataClass), dims, nullptr, isSparse(), dp->fieldNames()));
         }
         materializeScalar();
+        ArrayOf range;
+        if (contiguousRangeSubset(index, range)) {
+            return range;
+        }
         if (index.isLogical() && !index.isSparse() && !isSparse()) {
             ArrayOf gathered;
             if (tryLogicalMaskGather(index, gathered)) {
@@ -291,6 +414,10 @@ ArrayOf
 ArrayOf::nDimSubset(ArrayOfVector& index)
 {
     materializeScalar();
+    ArrayOf rowOrColumn;
+    if (index.size() == 2 && rowColumnSubset(index[0], index[1], rowOrColumn)) {
+        return rowOrColumn;
+    }
     std::vector<constIndexPtr> indx;
     void* qp = nullptr;
     indexType i;
@@ -420,6 +547,22 @@ ArrayOf::nDimSubset(ArrayOfVector& index)
         qp = nullptr;
         throw;
     }
+}
+//=============================================================================
+static bool
+isColonCharIndex(const ArrayOf& index)
+{
+    return index.isRowVectorCharacterArray() && index.elementCount() == 1
+        && *static_cast<const charType*>(index.dataPointer()) == L':';
+}
+//=============================================================================
+// classes stored as plain values: copying their bytes copies the elements
+static bool
+isRealPodClass(NelsonType dataClass)
+{
+    return (dataClass >= NLS_DOUBLE && dataClass <= NLS_LOGICAL && dataClass != NLS_DCOMPLEX
+               && dataClass != NLS_SCOMPLEX)
+        || dataClass == NLS_CHAR;
 }
 //=============================================================================
 static ArrayOf

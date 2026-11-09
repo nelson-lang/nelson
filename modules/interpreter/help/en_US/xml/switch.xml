@@ -13,6 +13,7 @@
       <b>switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
     <p>
       <b>otherwise</b> clause is optional.</p>
+    <p>A case matches text when both are text with the same characters, and a one-element value when both are equal, compared exactly whatever their classes: <b>int8(3)</b> does not match <b>3.4</b>, <b>'a'</b> matches <b>97</b>, NaN matches nothing. A cell case matches when one of its elements matches. Comparing a string with a value that is not text is an error.</p>
   </description>
   <used_function />
   <bibliography />
@@ -54,6 +55,10 @@ demo_switch('?')
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Exact comparison across classes; a string compared with a value that is not text is an error.</history_description>
     </history_item>
   </history>
   <authors>

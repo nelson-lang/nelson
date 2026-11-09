@@ -12,6 +12,7 @@
 #include "AudioplayerObject.hpp"
 #include "AudioDevInfo.hpp"
 #include "AudioCallbackHelpers.hpp"
+#include "AudioRateConversion.hpp"
 #include "ClassName.hpp"
 #include "ComplexTranspose.hpp"
 #include "characters_encoding.hpp"
@@ -535,6 +536,86 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
     return paContinue;
 }
 //=============================================================================
+// Source sample of channel c at frame index, as a float in [-1, 1] for integer data.
+static single
+sourceSampleAsSingle(NelsonType dataClass, const void* samples, size_t index)
+{
+    switch (dataClass) {
+    case NLS_SINGLE:
+        return static_cast<const single*>(samples)[index];
+    case NLS_DOUBLE:
+        return static_cast<single>(static_cast<const double*>(samples)[index]);
+    case NLS_INT8:
+        return static_cast<single>(static_cast<const int8*>(samples)[index]) / 128.0f;
+    case NLS_UINT8:
+        return (static_cast<single>(static_cast<const uint8*>(samples)[index]) - 128.0f) / 128.0f;
+    case NLS_INT16:
+        return static_cast<single>(static_cast<const int16*>(samples)[index]) / 32768.0f;
+    default:
+        return 0.f;
+    }
+}
+//=============================================================================
+// Device frames at the device rate interpolated from the source samples; CurrentSample,
+// the timer and the end of play stay in source samples.
+int
+AudioplayerObject::paPlayResampledCallback(const void* inputBuffer, void* outputBuffer,
+    unsigned long framesPerBuffer, const PaStreamCallbackTimeInfo* timeInfo,
+    PaStreamCallbackFlags statusFlags, void* userData)
+{
+    auto* data = static_cast<AudioplayerObject*>(userData);
+    const bool timerEnabled
+        = (!data->timerFunc.isEmpty() && data->timerPeriodSeconds > 0.0 && data->_SampleRate > 0);
+    int64_t periodSamples = 1;
+    if (timerEnabled) {
+        periodSamples = static_cast<int64_t>(
+            data->timerPeriodSeconds * static_cast<double>(data->_SampleRate));
+        if (periodSamples <= 0) {
+            periodSamples = 1;
+        }
+    }
+    auto* out = static_cast<single*>(outputBuffer);
+    const NelsonType dataClass = data->audioData.dataClass();
+    const void* samples = data->audioData.dataPointer();
+    const size_t totalSamples = static_cast<size_t>(data->_TotalSamples);
+    const double lastSample = static_cast<double>(data->lastSample);
+    double position = data->resamplePosition;
+    for (unsigned long i = 0; i < framesPerBuffer; i++) {
+        const bool hasSample = position < lastSample;
+        const auto index = static_cast<size_t>(position);
+        const auto fraction = static_cast<single>(position - static_cast<double>(index));
+        const bool hasNext = static_cast<double>(index + 1) < lastSample;
+        for (int c = 0; c < data->_NumberOfChannels; c++) {
+            if (!hasSample) {
+                *out++ = 0.f;
+                continue;
+            }
+            const size_t offset = static_cast<size_t>(c) * totalSamples;
+            const single current = sourceSampleAsSingle(dataClass, samples, index + offset);
+            const single next
+                = hasNext ? sourceSampleAsSingle(dataClass, samples, index + 1 + offset) : current;
+            *out++ = current + fraction * (next - current);
+        }
+        if (timerEnabled && hasSample) {
+            const int64_t block = static_cast<int64_t>(index) / periodSamples;
+            if (block != data->lastTimerBlock) {
+                data->lastTimerBlock = block;
+                enqueueAudioCallback(data->timerFunc, data);
+            }
+        }
+        position += data->resampleStep;
+    }
+    data->resamplePosition = position;
+    if (position >= lastSample) {
+        data->_CurrentSample = static_cast<int>(data->lastSample);
+        data->_Running = false;
+        data->enqueueStopFcnOnce();
+        return paComplete;
+    }
+    data->_CurrentSample = static_cast<int>(position);
+    return paContinue;
+}
+//=============================================================================
 PaError
 AudioplayerObject::play(int start, int end)
 {
@@ -556,7 +637,24 @@ AudioplayerObject::play(int start, int end)
     _CurrentSample = firstSample;
     _Running = true;
     stopFcnPending = true;
-    PaError err = stream.open(nullptr, &outputStreamParameters, _SampleRate, paPlayCallback, this);
+    // a rate the device cannot run (no system mixer) is converted in software
+    PaStreamParameters deviceParameters = outputStreamParameters;
+    double deviceRate = static_cast<double>(_SampleRate);
+    PaStreamCallback* callback = paPlayCallback;
+    resampleStep = 0.0;
+    if (deviceRateForUnsupportedRate(outputStreamParameters, false,
+            static_cast<double>(_SampleRate), deviceParameters, deviceRate)) {
+        resampleStep = static_cast<double>(_SampleRate) / deviceRate;
+        resamplePosition = static_cast<double>(firstSample);
+        const int64_t periodSamples
+            = static_cast<int64_t>(timerPeriodSeconds * static_cast<double>(_SampleRate));
+        // as the direct path, the timer fires at the first sample only on a period boundary
+        lastTimerBlock = (periodSamples > 0 && firstSample % periodSamples != 0)
+            ? static_cast<int64_t>(firstSample) / periodSamples
+            : -1;
+        callback = paPlayResampledCallback;
+    }
+    PaError err = stream.open(nullptr, &deviceParameters, deviceRate, callback, this);
     if (err != paNoError) {
         _Running = false;
         stopFcnPending = false;

@@ -25,6 +25,8 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "SlotMap.hpp"
 #include "TextToNumber.hpp"
+#include "Colon.hpp"
+#include "NelsonException.hpp"
 #include "Decomplexify.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -913,6 +915,64 @@ namespace {
             return true;
         }
 
+        static bool
+        isShortCircuitNode(AbstractSyntaxTreePtr node, int opNum)
+        {
+            return node != nullptr && node->type == non_terminal && node->opNum == opNum
+                && node->down != nullptr && node->down->right != nullptr;
+        }
+
+        // && / || condition as jumps: each operand tested like CHECK_SCALAR_AND / OR, no logical
+        // built; jumps to falseJumps when false, falls through when true.
+        void
+        compileShortCircuitFalseJumps(
+            AbstractSyntaxTreePtr operand, std::vector<uint32_t>& falseJumps)
+        {
+            if (isShortCircuitNode(operand, OP_SAND)) {
+                compileShortCircuitFalseJumps(operand->down, falseJumps);
+                compileShortCircuitFalseJumps(operand->down->right, falseJumps);
+                return;
+            }
+            if (isShortCircuitNode(operand, OP_SOR)) {
+                std::vector<uint32_t> trueJumps;
+                compileShortCircuitTrueJumps(operand->down, trueJumps);
+                compileShortCircuitTrueJumps(operand->down->right, trueJumps);
+                falseJumps.push_back(emit(OpCode::JUMP));
+                for (uint32_t trueJump : trueJumps) {
+                    patch(trueJump, static_cast<uint32_t>(chunk_.code.size()));
+                }
+                return;
+            }
+            compileExpr(operand);
+            falseJumps.push_back(emit(OpCode::JUMP_IF_FALSE_SCALAR));
+            pop();
+        }
+
+        // Jumps to trueJumps when the operand is true, falls through when it is false.
+        void
+        compileShortCircuitTrueJumps(
+            AbstractSyntaxTreePtr operand, std::vector<uint32_t>& trueJumps)
+        {
+            if (isShortCircuitNode(operand, OP_SOR)) {
+                compileShortCircuitTrueJumps(operand->down, trueJumps);
+                compileShortCircuitTrueJumps(operand->down->right, trueJumps);
+                return;
+            }
+            if (isShortCircuitNode(operand, OP_SAND)) {
+                std::vector<uint32_t> falseJumps;
+                compileShortCircuitFalseJumps(operand->down, falseJumps);
+                compileShortCircuitFalseJumps(operand->down->right, falseJumps);
+                trueJumps.push_back(emit(OpCode::JUMP));
+                for (uint32_t falseJump : falseJumps) {
+                    patch(falseJump, static_cast<uint32_t>(chunk_.code.size()));
+                }
+                return;
+            }
+            compileExpr(operand);
+            trueJumps.push_back(emit(OpCode::JUMP_IF_TRUE_SCALAR));
+            pop();
+        }
+
         void
         compileIf(AbstractSyntaxTreePtr node)
         {
@@ -925,7 +985,10 @@ namespace {
                 AbstractSyntaxTreePtr condition = conditioned->down;
                 AbstractSyntaxTreePtr codeBlock = condition ? condition->right : nullptr;
                 std::vector<uint32_t> falseJumps;
-                if (!tryCompileNarginComparisonJump(condition, falseJumps)
+                if (isShortCircuitNode(condition, OP_SAND)
+                    || isShortCircuitNode(condition, OP_SOR)) {
+                    compileShortCircuitFalseJumps(condition, falseJumps);
+                } else if (!tryCompileNarginComparisonJump(condition, falseJumps)
                     && !tryCompileArgumentPredicateJump(condition, falseJumps)) {
                     compileExpr(condition);
                     falseJumps.push_back(emit(OpCode::JUMP_IF_FALSE));
@@ -972,9 +1035,14 @@ namespace {
             // compiled so the condition is evaluated on each iteration.
             uint32_t endLine = currentStatementEndLine_;
             uint32_t headerPC = static_cast<uint32_t>(chunk_.code.size());
-            compileExpr(node);
-            uint32_t exitJump = emit(OpCode::WHILE_CHECK);
-            pop();
+            std::vector<uint32_t> exitJumps;
+            if (isShortCircuitNode(node, OP_SAND) || isShortCircuitNode(node, OP_SOR)) {
+                compileShortCircuitFalseJumps(node, exitJumps);
+            } else {
+                compileExpr(node);
+                exitJumps.push_back(emit(OpCode::WHILE_CHECK));
+                pop();
+            }
 
             loopStack_.push_back(LoopPatchContext());
             compileBlock(node->right);
@@ -985,7 +1053,9 @@ namespace {
             uint32_t backEdge = emit(OpCode::JUMP, 0, static_cast<uint16_t>(headerPC));
             recordLoopEndSpan(backEdge, endLine);
             uint32_t exitPC = static_cast<uint32_t>(chunk_.code.size());
-            patch(exitJump, exitPC);
+            for (uint32_t exitJump : exitJumps) {
+                patch(exitJump, exitPC);
+            }
             for (uint32_t breakJump : loopStack_.back().breaks) {
                 patch(breakJump, exitPC);
             }
@@ -1175,7 +1245,9 @@ namespace {
                 emit(OpCode::STORE_GLOBAL, storeContextFlags(lhs->text), nameIndex(lhs->text));
                 pop();
             } else {
-                if (tryCompileLocalParensAssign(rhs, *slot, printIt)) {
+                if (tryCompileLocalParensAssign(rhs, *slot, printIt)
+                    || tryCompileLocalFieldAssign(rhs, *slot, printIt)
+                    || tryCompileLocalContentAssign(rhs, *slot, printIt)) {
                     slots_.markAssigned(lhs->text);
                     return;
                 }
@@ -1395,6 +1467,40 @@ namespace {
                 return false;
             }
             emit(OpCode::ASSIGN_PARENS_LOCAL, 0, targetSlot.index, baseSlot, indexSlot);
+            return true;
+        }
+
+        // x = s.f with s an assigned local and a plain field name
+        bool
+        tryCompileLocalFieldAssign(
+            AbstractSyntaxTreePtr rhs, const SlotInfo& targetSlot, bool printIt)
+        {
+            AbstractSyntaxTreePtr node = simpleSingleNode(rhs);
+            if (printIt || node == nullptr || node->type != id_node || node->down == nullptr
+                || node->down->opNum != OP_DOT || node->down->right != nullptr
+                || node->down->down == nullptr || node->down->down->type != id_node) {
+                return false;
+            }
+            auto base = slots_.resolve(node->text);
+            if (!base.has_value() || base->kind == SlotKind::Global || !base->everAssigned) {
+                return false;
+            }
+            emit(OpCode::ASSIGN_LOCAL_FIELD, 0, targetSlot.index, base->index,
+                chunk_.constants.addName(node->down->down->text));
+            return true;
+        }
+
+        // x = c{k} with c and k assigned locals
+        bool
+        tryCompileLocalContentAssign(
+            AbstractSyntaxTreePtr rhs, const SlotInfo& targetSlot, bool printIt)
+        {
+            uint16_t baseSlot = 0;
+            uint16_t indexSlot = 0;
+            if (printIt || !localBraceReadSlots(rhs, baseSlot, indexSlot)) {
+                return false;
+            }
+            emit(OpCode::ASSIGN_LOCAL_CONTENT, 0, targetSlot.index, baseSlot, indexSlot);
             return true;
         }
 
@@ -3698,6 +3804,28 @@ namespace {
                     return;
                 }
             }
+            if (definitelyLocal && sub->opNum == OP_PARENS && !commaList && !outputOptional
+                && nout <= 1 && sub->down != nullptr && sub->down->right != nullptr
+                && sub->down->right->right == nullptr && !containsEndKeyword(sub)) {
+                auto rowSlot = usableLocalSlot(sub->down);
+                auto colSlot = usableLocalSlot(sub->down->right);
+                if (rowSlot.has_value() && colSlot.has_value()) {
+                    const bool collectChain = sub->right != nullptr && chainIsCollectCapable(sub);
+                    if (collectChain) {
+                        emit(OpCode::CHAIN_BEGIN, 0, slot->index, 0);
+                    }
+                    emit(
+                        OpCode::LOAD_PARENS2_LOCAL, 0, slot->index, rowSlot->index, colSlot->index);
+                    push();
+                    if (sub->right != nullptr) {
+                        compileSubindexChain(sub->right, nout, outputOptional, commaList, false);
+                    }
+                    if (collectChain) {
+                        emit(OpCode::CHAIN_END);
+                    }
+                    return;
+                }
+            }
             if (definitelyLocal && sub->opNum == OP_BRACES && !commaList && nout <= 1
                 && sub->down != nullptr && sub->down->right == nullptr
                 && !containsEndKeyword(sub)) {
@@ -4164,22 +4292,24 @@ namespace {
                     return;
                 }
             }
-            emit(OpCode::PUSH_END_CTX, 0, baseDepth, indexPosition, indexCount);
+            // `end` is lexical: an argument without it never reads the context
+            const bool needsEndContext = indexArgContainsEnd(expr);
+            if (needsEndContext) {
+                emit(OpCode::PUSH_END_CTX, 0, baseDepth, indexPosition, indexCount);
+            }
             if (expr != nullptr && expr->type == non_terminal && expr->opNum == OP_ALL) {
                 emit(OpCode::LOAD_CONST, 0, chunk_.constants.addString(":"));
                 push();
-                emit(OpCode::POP_END_CTX);
-                return;
-            }
-            if (expr != nullptr && expr->type == non_terminal && expr->opNum == OP_RHS
+            } else if (expr != nullptr && expr->type == non_terminal && expr->opNum == OP_RHS
                 && expr->down != nullptr && expr->down->type == id_node
                 && expr->down->down != nullptr) {
                 compileNamedCallOrIndex(expr->down, 1, false, true);
-                emit(OpCode::POP_END_CTX);
-                return;
+            } else {
+                compileExpr(expr);
             }
-            compileExpr(expr);
-            emit(OpCode::POP_END_CTX);
+            if (needsEndContext) {
+                emit(OpCode::POP_END_CTX);
+            }
         }
 
         bool
@@ -4411,11 +4541,70 @@ namespace {
             stackDepth_ = 1;
         }
 
+        bool
+        signedDoubleLiteralNode(AbstractSyntaxTreePtr node, double& value)
+        {
+            node = simpleSingleNode(node);
+            if (node != nullptr && node->type == non_terminal && node->opNum == OP_UMINUS
+                && node->down != nullptr && node->down->right == nullptr
+                && doubleLiteralNode(node->down, value)) {
+                value = -value;
+                return true;
+            }
+            return doubleLiteralNode(node, value);
+        }
+
+        // a:b and a:s:b of double literals: the range is built once, here, as a constant
+        bool
+        tryCompileConstantRange(AbstractSyntaxTreePtr node)
+        {
+            constexpr double maxConstantRangeLength = 1024;
+            const bool ternary = node->down->opNum == OP_COLON;
+            double first = 0.;
+            double step = 1.;
+            double last = 0.;
+            if (ternary) {
+                AbstractSyntaxTreePtr inner = node->down;
+                if (inner->down == nullptr || !signedDoubleLiteralNode(inner->down, first)
+                    || !signedDoubleLiteralNode(inner->down->right, step)) {
+                    return false;
+                }
+            } else if (!signedDoubleLiteralNode(node->down, first)) {
+                return false;
+            }
+            if (!signedDoubleLiteralNode(node->down->right, last)) {
+                return false;
+            }
+            const double count = (last - first) / step;
+            if (!std::isfinite(count) || count > maxConstantRangeLength) {
+                return false;
+            }
+            ArrayOf range;
+            try {
+                bool needOverload = false;
+                range = ternary ? Colon(ArrayOf::doubleScalar(first), ArrayOf::doubleScalar(step),
+                                      ArrayOf::doubleScalar(last), needOverload)
+                                : Colon(ArrayOf::doubleScalar(first), ArrayOf::doubleScalar(last),
+                                      needOverload);
+                if (needOverload) {
+                    return false;
+                }
+            } catch (const NelsonException&) {
+                return false;
+            }
+            emit(OpCode::LOAD_CONST, 0, chunk_.constants.addArray(range));
+            push();
+            return true;
+        }
+
         void
         compileColon(AbstractSyntaxTreePtr node)
         {
             if (node->down == nullptr || node->down->right == nullptr) {
                 unsupported(node, "colon expression");
+            }
+            if (tryCompileConstantRange(node)) {
+                return;
             }
             if (node->down->opNum == OP_COLON) {
                 AbstractSyntaxTreePtr inner = node->down;

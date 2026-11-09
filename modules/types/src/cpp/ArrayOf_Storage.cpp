@@ -207,7 +207,10 @@ ArrayOf::replaceData(
 void
 ArrayOf::copyObject(const ArrayOf& copy)
 {
-    this->_name = copy._name;
+    // most values are unnamed: skip the string assignment then
+    if (!copy._name.empty() || !_name.empty()) {
+        this->_name = copy._name;
+    }
     if (copy.hasScalarStorage()) {
         if (copy.representation_ == Representation::OwnedScalar) {
             setInlineScalar(static_cast<NelsonType>(copy.scalarType_), copy.scalarStorage_.owned,
@@ -230,7 +233,10 @@ ArrayOf::copyObject(const ArrayOf& copy)
 void
 ArrayOf::moveObject(ArrayOf&& move) noexcept
 {
-    _name = std::move(move._name);
+    // most values are unnamed: skip the string move then
+    if (!move._name.empty() || !_name.empty()) {
+        _name = std::move(move._name);
+    }
     if (move.canUseScalarData() && move.dp->numberOfOwners() == 1
         && move.dp->allocatedElementCount == 1) {
         const indexType dimensionCount = move.nDims();
@@ -291,8 +297,9 @@ ArrayOf::deleteContents()
 //=============================================================================
 ArrayOf::ArrayOf()
 {
+    // one shared immutable block: no allocation per empty
     representation_ = Representation::DataRef;
-    dp = new Data(NLS_DOUBLE, Dimensions(0, 0), nullptr);
+    dp = Data::sharedEmptyDouble()->copy();
 }
 //=============================================================================
 ArrayOf::ArrayOf(ArrayOf&& move) noexcept { moveObject(std::move(move)); }
@@ -322,7 +329,8 @@ ArrayOf::ArrayOf(NelsonType type, const Dimensions& dims, const void* scalarData
 ArrayOf::ArrayOf(NelsonType type)
 {
     representation_ = Representation::DataRef;
-    dp = new Data(type, Dimensions(0, 0), nullptr);
+    dp = type == NLS_DOUBLE ? Data::sharedEmptyDouble()->copy()
+                            : new Data(type, Dimensions(0, 0), nullptr);
 }
 //=============================================================================
 void

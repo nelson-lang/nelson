@@ -43,10 +43,14 @@ acquireFrameBuffer(const BytecodeChunk& chunk)
                 buffer->frame.namedLocalSlotCache.clear();
                 buffer->frame.namedScalarBuiltinCache.clear();
                 buffer->frame.namedScalarBuiltinCacheState.clear();
+                buffer->frame.namedScalarFastPathKind.clear();
+                buffer->frame.namedQueryBuiltinKind.clear();
                 buffer->frame.namedFunctionCache.clear();
                 buffer->frame.namedFunctionCacheState.clear();
                 buffer->frame.scalarDoubleConstantCache.clear();
                 buffer->frame.scalarDoubleConstantCacheState.clear();
+                buffer->frame.builtinShadowFreeStamp.clear();
+                buffer->frame.builtinShadowScope = nullptr;
             }
             buffer->inUse = true;
             return buffer.get();

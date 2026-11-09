@@ -98,7 +98,7 @@ static const nlsGateway gateway[] = {
     { "trapz", (ptrBuiltin)Nelson::LinearAlgebraGateway::trapzBuiltin, 1, 3 },
     { "cumtrapz", (ptrBuiltin)Nelson::LinearAlgebraGateway::cumtrapzBuiltin, 1, 3 },
     { "diff", (ptrBuiltin)Nelson::LinearAlgebraGateway::diffBuiltin, 1, -1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "kron", (ptrBuiltin)Nelson::LinearAlgebraGateway::kronBuiltin, 1, 2, CPP_BUILTIN },
 };
 //=============================================================================

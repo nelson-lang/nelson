@@ -40,6 +40,18 @@ vectorSubset(ArrayOf& index);
  */
 ArrayOf
 nDimSubset(ArrayOfVector& index);
+// m(i, :) or m(:, j) of a non-empty dense real 2-D array with a scalar ordinal;
+// false when this case does not apply
+bool
+rowColumnSubset(const ArrayOf& rowIndex, const ArrayOf& columnIndex, ArrayOf& result) const;
+// v(a:b): a real double vector of consecutive ordinals on a dense real 2-D array;
+// false when this case does not apply
+bool
+contiguousRangeSubset(const ArrayOf& index, ArrayOf& result) const;
+// elements first..first+count-1 (1-based) of a dense real 2-D array, as v(a:b) with a row
+// or column index gives them; false when this case does not apply
+bool
+ordinalRangeSubset(indexType first, indexType count, bool indexIsRow, ArrayOf& result) const;
 /**
  * Return one cell content value using linear indexing.
  *

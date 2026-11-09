@@ -17,6 +17,12 @@
  */
 [[nodiscard]] std::string
 name() const;
+// inline and copy free: most values carry no name
+[[nodiscard]] bool
+hasName() const noexcept
+{
+    return !_name.empty();
+}
 /**
  * Set the optional value name attached to this array.
  */
@@ -309,6 +315,14 @@ isNdArrayDoubleType(bool realOnly = false) const;
  */
 [[nodiscard]] bool
 isDoubleType(bool realOnly = false) const;
+// One call for the hot paths: the value of a 2-D 1x1 real double, as
+// isDoubleType(true) && elementCount() == 1 would accept it.
+[[nodiscard]] bool
+realDoubleScalar(double& value) const;
+// One call for the hot paths: dense real double data with its element count and
+// first two extents, or nullptr for any other class, sparse or complex storage.
+[[nodiscard]] const double*
+realDoubleData(indexType& count, indexType& rows, indexType& columns) const;
 /**
  * Return whether the array is dense scalar single storage.
  */

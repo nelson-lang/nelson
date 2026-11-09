@@ -12,7 +12,6 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "acquirevarBuiltin.hpp"
 #include "assigninBuiltin.hpp"
 #include "clearBuiltin.hpp"
@@ -33,9 +32,9 @@ using namespace Nelson;
 const std::wstring gatewayName = L"memory_manager";
 //=============================================================================
 static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGateway::clearBuiltin, 0,
-                                          1, CPP_BUILTIN_WITH_EVALUATOR },
+                                          1, CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "clearvars", (ptrBuiltin)Nelson::MemoryGateway::clearvarsBuiltin, 0, 1,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "who", (ptrBuiltin)Nelson::MemoryGateway::whoBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "whos", (ptrBuiltin)Nelson::MemoryGateway::whosBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "global", (ptrBuiltin)Nelson::MemoryGateway::globalBuiltin, 0, -1,
@@ -45,7 +44,7 @@ static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGatew
     { "persistent", (ptrBuiltin)Nelson::MemoryGateway::persistentBuiltin, 0, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "assignin", (ptrBuiltin)Nelson::MemoryGateway::assigninBuiltin, 0, 3,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "acquirevar", (ptrBuiltin)Nelson::MemoryGateway::acquirevarBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "varlock", (ptrBuiltin)Nelson::MemoryGateway::varlockBuiltin, -1, 2,
@@ -57,17 +56,7 @@ static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGatew
     { "isvar", (ptrBuiltin)Nelson::MemoryGateway::isvarBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "memory", (ptrBuiltin)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN } };
 //=============================================================================
-static bool
-initializeMemoryManagerModule(Nelson::Evaluator* eval)
-{
-    auto* manager = BuiltInFunctionDefManager::getInstance();
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::clearBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::clearvarsBuiltin, true);
-    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::assigninBuiltin, true);
-    return true;
-}
-//=============================================================================
-NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeMemoryManagerModule)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
 NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

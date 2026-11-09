@@ -14,6 +14,7 @@
 #include "GatewayInfo.hpp"
 #include "ModulesManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include "MacroFunctionDef.hpp"
 #include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -103,9 +104,33 @@ WhichAll(const std::string& functionname)
     return result;
 }
 //=============================================================================
+// file>local: the file that defines this local function, '' when it does not
+static std::wstring
+whichLocalFunction(const std::string& fileName, const std::string& localName)
+{
+    FunctionDefPtr definition = nullptr;
+    if (fileName.empty() || localName.empty()
+        || !PathFunctionIndexerManager::getInstance()->find(fileName, definition)
+        || definition == nullptr || definition->type() != NLS_MACRO_FUNCTION) {
+        return {};
+    }
+    for (MacroFunctionDef* local = static_cast<MacroFunctionDef*>(definition)->nextFunction;
+        local != nullptr; local = local->nextFunction) {
+        if (local->getName() == localName) {
+            return Which(fileName);
+        }
+    }
+    return {};
+}
+//=============================================================================
 std::wstring
 Which(const std::string& functionname)
 {
+    const size_t separator = functionname.find('>');
+    if (separator != std::string::npos) {
+        return whichLocalFunction(
+            functionname.substr(0, separator), functionname.substr(separator + 1));
+    }
     std::wstring origin;
     if (!findMatchingName(functionname, origin) && endsWithMacroExtension(functionname)) {
         findMatchingName(macroNameWithoutExtension(functionname), origin);

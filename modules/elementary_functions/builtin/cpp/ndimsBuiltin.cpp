@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ndimsBuiltin.hpp"
+#include "DimensionQueries.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "ClassName.hpp"
@@ -47,12 +48,8 @@ Nelson::ElementaryFunctionsGateway::ndimsBuiltin(int nLhs, const ArrayOfVector& 
     case NLS_CLASSDEF_ARRAY:
     case NLS_HANDLE:
     case NLS_GO_HANDLE: {
-        // The interpreter dispatches to an overload when one exists. ndims is at least 2.
-        double ndims = static_cast<double>(param1.nDims());
-        if (ndims < 2) {
-            ndims = 2;
-        }
-        retval << ArrayOf::doubleScalar(ndims);
+        // The interpreter dispatches to an overload when one exists.
+        retval << ArrayOf::doubleScalar(arrayDimensionCount(param1));
     } break;
     default: {
         Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",

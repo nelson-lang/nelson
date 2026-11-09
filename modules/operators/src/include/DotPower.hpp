@@ -24,5 +24,9 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 NLSOPERATORS_IMPEXP ArrayOf
 DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
+// a .^ b on real double scalars, bit for bit, when the base is not negative (NaN included)
+NLSOPERATORS_IMPEXP double
+nonNegativeBaseDoublePower(double a, double b);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

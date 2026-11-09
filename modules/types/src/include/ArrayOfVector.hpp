@@ -12,11 +12,92 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cstddef>
+#include <new>
+#include <type_traits>
 #include <utility>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 class ArrayOf;
+//=============================================================================
+// Argument and result lists are built and freed on every call and rarely hold more than a few
+// values: their buffers are recycled per thread. Blocks come from operator new, so any code may
+// free them, and the allocator is stateless, so a list keeps the std::vector layout.
+template <typename T> class ListBufferAllocator
+{
+public:
+    using value_type = T;
+    using is_always_equal = std::true_type;
+    ListBufferAllocator() noexcept = default;
+    template <typename U> ListBufferAllocator(const ListBufferAllocator<U>&) noexcept { }
+    //=============================================================================
+    T*
+    allocate(std::size_t n)
+    {
+        if (n >= 1 && n <= recycledSizes) {
+            Slot& slot = threadCache().lists[n - 1];
+            if (slot.count > 0) {
+                return static_cast<T*>(slot.blocks[--slot.count]);
+            }
+        }
+        return static_cast<T*>(::operator new(n * sizeof(T)));
+    }
+    //=============================================================================
+    void
+    deallocate(T* block, std::size_t n) noexcept
+    {
+        if (n >= 1 && n <= recycledSizes) {
+            Slot& slot = threadCache().lists[n - 1];
+            if (slot.count < blocksPerSize) {
+                slot.blocks[slot.count++] = block;
+                return;
+            }
+        }
+        ::operator delete(block);
+    }
+    //=============================================================================
+    template <typename U>
+    bool
+    operator==(const ListBufferAllocator<U>&) const noexcept
+    {
+        return true;
+    }
+    //=============================================================================
+    template <typename U>
+    bool
+    operator!=(const ListBufferAllocator<U>&) const noexcept
+    {
+        return false;
+    }
+    //=============================================================================
+private:
+    static constexpr std::size_t recycledSizes = 4;
+    static constexpr std::size_t blocksPerSize = 16;
+    struct Slot
+    {
+        void* blocks[blocksPerSize];
+        std::size_t count = 0;
+    };
+    struct Cache
+    {
+        Slot lists[recycledSizes];
+        ~Cache()
+        {
+            for (Slot& slot : lists) {
+                while (slot.count > 0) {
+                    ::operator delete(slot.blocks[--slot.count]);
+                }
+            }
+        }
+    };
+    static Cache&
+    threadCache()
+    {
+        static thread_local Cache cache;
+        return cache;
+    }
+};
 //=============================================================================
 /**
  * Small vector wrapper used for Nelson argument and result lists.
@@ -29,7 +110,8 @@ class ArrayOf;
 template <typename T> class ListVector
 {
 private:
-    std::vector<T> vector;
+    using Storage = std::vector<T, ListBufferAllocator<T>>;
+    Storage vector;
     //=============================================================================
 public:
     //=============================================================================
@@ -40,6 +122,9 @@ public:
     inline ListVector(const T& val) { vector.push_back(val); }
     //=============================================================================
     inline ListVector(const ListVector& copy) : vector(copy.vector) { }
+    //=============================================================================
+    // the user-declared copy constructor suppresses the implicit move one
+    inline ListVector(ListVector&& other) noexcept : vector(std::move(other.vector)) { }
     //=============================================================================
     inline ~ListVector() = default;
     //=============================================================================
@@ -191,25 +276,25 @@ public:
         return *this;
     }
     //=============================================================================
-    inline typename std::vector<T>::iterator
+    inline typename Storage::iterator
     begin() noexcept
     {
         return vector.begin();
     }
     //=============================================================================
-    [[nodiscard]] inline typename std::vector<T>::const_iterator
+    [[nodiscard]] inline typename Storage::const_iterator
     begin() const noexcept
     {
         return vector.begin();
     }
     //=============================================================================
-    inline typename std::vector<T>::iterator
+    inline typename Storage::iterator
     end() noexcept
     {
         return vector.end();
     }
     //=============================================================================
-    [[nodiscard]] inline typename std::vector<T>::const_iterator
+    [[nodiscard]] inline typename Storage::const_iterator
     end() const noexcept
     {
         return vector.end();

@@ -11,6 +11,7 @@
   <description>
     <p>L&apos;instruction <b>switch</b> est utilisée pour exécuter sélectivement du code en fonction de la valeur d&apos;un scalaire ou d&apos;une chaîne.</p>
     <p>                  La clause <b>otherwise</b> est optionnelle.</p>
+    <p>Un cas correspond à un texte quand les deux sont du texte avec les mêmes caractères, et à une valeur à un élément quand les deux sont égales, comparées exactement quelles que soient leurs classes : <b>int8(3)</b> ne correspond pas à <b>3.4</b>, <b>'a'</b> correspond à <b>97</b>, NaN ne correspond à rien. Un cas cellule correspond quand l&apos;un de ses éléments correspond. Comparer une chaîne (string) à une valeur qui n&apos;est pas du texte est une erreur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -52,6 +53,10 @@ demo_switch('?')
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Comparaison exacte entre classes ; comparer une chaîne (string) à une valeur qui n&apos;est pas du texte est une erreur.</history_description>
     </history_item>
   </history>
   <authors>

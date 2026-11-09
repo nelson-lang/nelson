@@ -9,28 +9,19 @@
 //=============================================================================
 #include "BuiltInFunctionDefManager.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonGateway.hpp"
 #include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 namespace {
     //=============================================================================
+    // Declared on the builtin's gateway row (CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE);
+    // classdef helper builtins only run class member functions, so their prefix is enough.
     bool
-    isCallerContextNeutralBuiltin(const std::string& name)
+    isCallerContextNeutralBuiltin(const std::string& name, size_t builtinPrototype)
     {
-        // classdef helper builtins take an Evaluator only to run class member
-        // functions (constructors, accessors, validators); they never read or
-        // write the calling workspace by name, so call sites can skip the
-        // locals-to-context sync that evaluator builtins otherwise force
-        if (name.rfind("__classdef_", 0) == 0 || name == "__containers_map__") {
-            return true;
-        }
-        // sprintf takes an Evaluator only to resolve overloaded conversions of
-        // its own arguments; it never touches the calling workspace by name.
-        // Marking it neutral removes the per-call locals-to-context sync, which
-        // otherwise co-owns every caller local and makes building a struct with
-        // sprintf-generated field names in a loop O(nFields^2).
-        return name == "sprintf";
+        return builtinLeavesCallerWorkspace(builtinPrototype) || name.rfind("__classdef_", 0) == 0;
     }
     //=============================================================================
 } // namespace
@@ -88,7 +79,11 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
             builtinDef->argCount = argc_in;
             builtinDef->fptr = fptr;
             builtinDef->interleavedComplex = interleavedComplex;
-            builtinDef->builtinPrototype = builtinPrototype;
+            builtinDef->builtinPrototype = builtinCallingConvention(builtinPrototype);
+            builtinDef->callerContextNeutral
+                = isCallerContextNeutralBuiltin(name, builtinPrototype);
+            builtinDef->callerContextAccess = builtinDef->callerContextAccess
+                || builtinAccessesCallerWorkspace(builtinPrototype);
             builtinDef->overloadAutoMode = builtinOverloadAutoMode;
             builtinDef->moduleName = modulename;
             builtinDef->lazyGateway.store(false, std::memory_order_release);
@@ -113,9 +108,10 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
         f2def->interleavedComplex = interleavedComplex;
         f2def->lazyGateway = false;
         f2def->arguments = std::move(args);
-        f2def->builtinPrototype = builtinPrototype;
+        f2def->builtinPrototype = builtinCallingConvention(builtinPrototype);
         f2def->overloadAutoMode = builtinOverloadAutoMode;
-        f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name);
+        f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name, builtinPrototype);
+        f2def->callerContextAccess = builtinAccessesCallerWorkspace(builtinPrototype);
         return addLocked(f2def);
     }
     return false;
@@ -143,9 +139,10 @@ BuiltInFunctionDefManager::addLazyGateway(const std::string& name, int argc_in, 
         f2def->interleavedComplex = true;
         f2def->lazyGateway = true;
         f2def->arguments = std::move(args);
-        f2def->builtinPrototype = builtinPrototype;
+        f2def->builtinPrototype = builtinCallingConvention(builtinPrototype);
         f2def->overloadAutoMode = builtinOverloadAutoMode;
-        f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name);
+        f2def->callerContextNeutral = isCallerContextNeutralBuiltin(name, builtinPrototype);
+        f2def->callerContextAccess = builtinAccessesCallerWorkspace(builtinPrototype);
         std::unique_lock<std::shared_mutex> lock(tableMutex);
         return addLocked(f2def);
     }

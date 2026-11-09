@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "dbstackBuiltin.hpp"
@@ -52,7 +53,7 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
         if (static_cast<double>(intValue) != value) {
             Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #1");
         }
-        nbOmits = intValue + 1;
+        nbOmits = intValue;
         isNbOmits = true;
     } else {
         Error(L"Nelson:dbstack:invalidOption",
@@ -113,38 +114,44 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
 }
 //=============================================================================
 void
-dbstackPrint(Interface* io, stackTrace positions, bool withCompleteNames)
+dbstackPrint(Interface* io, stackTrace positions, bool withCompleteNames, int currentIndex)
 {
-    for (auto& position : positions) {
-        std::wstring message;
+    for (size_t k = 0; k < positions.size(); ++k) {
+        const PositionScript& position = positions[k];
+        // the frame of the current workspace is marked
+        std::wstring message = static_cast<int>(k) == currentIndex ? L"> " : L"";
         std::wstring filename = position.getFilename();
         if (!withCompleteNames) {
             filename = shortName(position.getFilename());
         }
         if (position.getLine() == 0) {
             if (!filename.empty()) {
-                message = std::wstring(L"In ") + filename + L"\n";
+                message += std::wstring(L"In ") + filename + L"\n";
             }
         } else {
             if (!position.getFunctionName().empty()) {
-                message = std::wstring(L"In ") + filename + L" function "
-                    + position.getFunctionName() + L" (line " + std::to_wstring(position.getLine())
-                    + L")\n";
+                // file>local as dbstop takes it; the full path names every frame
+                const std::wstring displayName = withCompleteNames && !filename.empty()
+                    ? filename + L">" + position.getFunctionName()
+                    : position.getDisplayName();
+                message += std::wstring(L"In ") + displayName + L" (line "
+                    + std::to_wstring(position.getLine()) + L")\n";
             } else {
-                message = std::wstring(L"In ") + filename + L" (line "
+                message += std::wstring(L"In ") + filename + L" (line "
                     + std::to_wstring(position.getLine()) + L")\n";
             }
         }
-        io->outputMessage(message);
+        if (message != L"> ") {
+            io->outputMessage(message);
+        }
     }
-    io->outputMessage(L"\n");
 }
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    int nbOmits = 1;
+    int nbOmits = 0;
     bool withCompleteNames = false;
     stackTrace positions;
     switch (argIn.size()) {
@@ -194,14 +201,22 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     if (eval != nullptr) {
         callstack = eval->callstack;
     }
-    DebugStack(callstack, nbOmits, positions);
+    // frames shown to users only, the first nbOmits of them left out
+    DebugStack(callstack, 0, positions);
+    positions.erase(std::remove_if(positions.begin(), positions.end(),
+                        [](const PositionScript& position) { return !position.isShownInStacks(); }),
+        positions.end());
+    positions.erase(positions.begin(),
+        positions.begin() + std::min<size_t>(std::max(nbOmits, 0), positions.size()));
+    // index of the current workspace (moved by dbup) among the frames kept
+    const int currentIndex = (eval != nullptr ? eval->getDebugDepth() : 0) - nbOmits;
 
     switch (nLhs) {
     case 0: {
         if (eval != nullptr) {
             Interface* io = eval->getInterface();
             if (io != nullptr) {
-                dbstackPrint(io, positions, withCompleteNames);
+                dbstackPrint(io, positions, withCompleteNames, currentIndex);
             }
         }
     } break;
@@ -210,11 +225,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     } break;
     case 2: {
         retval << dbstackAsStruct(positions, withCompleteNames);
-        auto indexWorkspace = static_cast<double>(positions.size());
-        if (indexWorkspace <= 0) {
-            indexWorkspace = 1;
-        }
-        retval << ArrayOf::doubleScalar(indexWorkspace);
+        retval << ArrayOf::doubleScalar(static_cast<double>(std::max(currentIndex, 0) + 1));
     } break;
     default: {
         Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");

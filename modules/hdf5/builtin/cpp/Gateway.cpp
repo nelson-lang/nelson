@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
-#include "BuiltInFunctionDefManager.hpp"
 #include "h5writeBuiltin.hpp"
 #include "h5writeattBuiltin.hpp"
 #include "h5readattBuiltin.hpp"
@@ -31,7 +30,8 @@ static const nlsGateway gateway[] = {
     { "whosnh5", (ptrBuiltin)Nelson::Hdf5Gateway::whosnh5Builtin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "whonh5", (ptrBuiltin)Nelson::Hdf5Gateway::whonh5Builtin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
-    { "loadnh5", (ptrBuiltin)Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
+    { "loadnh5", (ptrBuiltin)Nelson::Hdf5Gateway::h5loadBuiltin, 1, 1,
+        CPP_BUILTIN_WITH_EVALUATOR_CALLER_WORKSPACE_ACCESS },
     { "savenh5", (ptrBuiltin)Nelson::Hdf5Gateway::h5saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "h5write", (ptrBuiltin)Nelson::Hdf5Gateway::h5writeBuiltin, 0, 3 },
     { "h5writeatt", (ptrBuiltin)Nelson::Hdf5Gateway::h5writeattBuiltin, 0, -1 },
@@ -47,8 +47,6 @@ static bool
 initializeHdf5Module(Nelson::Evaluator* eval)
 {
     disableHdf5Warning();
-    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
-        (ptrBuiltin)Nelson::Hdf5Gateway::h5loadBuiltin, true);
     return true;
 }
 //=============================================================================

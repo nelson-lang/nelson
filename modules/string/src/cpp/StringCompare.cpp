@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "StringCompare.hpp"
+#include "CharRowComparison.hpp"
 #include "StringHelpers.hpp"
 #include "ToLower.hpp"
 #include "Error.hpp"
@@ -88,6 +89,22 @@ static ArrayOf
 CompareStringString(const ArrayOf& A, const ArrayOf& B, bool bCaseSensitive, indexType len = 0)
 {
     bool bEq = false;
+    if (len == 0 && tryCompareCharRows(A, B, bCaseSensitive, bEq)) {
+        return ArrayOf::logicalScalar(bEq);
+    }
+    if (len == 0) {
+        // two char arrays: the same size and every character, in any case for strcmpi
+        if (!A.dimensions().equals(B.dimensions())) {
+            return ArrayOf::logicalScalar(false);
+        }
+        const auto count = static_cast<size_t>(A.elementCount());
+        if (count == 0) {
+            return ArrayOf::logicalScalar(true);
+        }
+        const std::wstring textA(static_cast<const charType*>(A.dataPointer()), count);
+        const std::wstring textB(static_cast<const charType*>(B.dataPointer()), count);
+        return ArrayOf::logicalScalar(compareString(textA, textB, bCaseSensitive));
+    }
     if (A.isRowVectorCharacterArray() && B.isRowVectorCharacterArray()) {
         bEq = compareString(A.asWideString(), B.asWideString(), bCaseSensitive, len);
     } else {

@@ -34,6 +34,10 @@ tryEvaluateScalarBuiltinFastPathArg(
     const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef, const ArrayOf& arg, ArrayOf& result);
 //=============================================================================
 bool
+tryEvaluateScalarBuiltinFastPathArg(
+    const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef, const ArrayOf& arg, double& result);
+//=============================================================================
+bool
 tryEvaluateScalarBuiltinFastPathArgs(const ScalarBuiltinFastPath& fastPath, FunctionDef* fdef,
     const ArrayOf& lhsArg, const ArrayOf& rhsArg, ArrayOf& result);
 //=============================================================================

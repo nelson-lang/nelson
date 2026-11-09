@@ -7,6 +7,7 @@
   <syntax>
     <syntax_item>which(function_name)</syntax_item>
     <syntax_item>p = which(function_name)</syntax_item>
+    <syntax_item>p = which(&apos;file&gt;local_function&apos;)</syntax_item>
     <syntax_item>c = which(function_name, &apos;-all&apos;)</syntax_item>
     <syntax_item>m = which(function_name, &apos;-module&apos;)</syntax_item>
   </syntax>
@@ -36,6 +37,7 @@
   <description>
     <p>
       <b>which</b> returns the path of a function or a built-in.</p>
+    <p><b>which(&apos;file&gt;local_function&apos;)</b> returns the path of the file that defines this local function, or an empty string when the file has no local function of that name. It is the form used by <b>dbstop</b>, <b>dbstatus</b> and the call stack displays.</p>
   </description>
   <used_function />
   <bibliography />
@@ -61,6 +63,10 @@ m = which('cos', '-module')
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>file&gt;local_function form.</history_description>
     </history_item>
   </history>
   <authors>
