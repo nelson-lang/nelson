@@ -33,11 +33,10 @@ isHermitianComplex(T* data, indexType N, bool skew)
     if (N == 1) {
         return false;
     }
-    if (skew) {
-        for (indexType k = 0; k < N; k++) {
-            if (data[2 * (k + k * N)] != 0) {
-                return false;
-            }
+    // the diagonal is imaginary for skew-Hermitian, real for Hermitian
+    for (indexType k = 0; k < N; k++) {
+        if (data[2 * (k + k * N) + (skew ? 0 : 1)] != 0) {
+            return false;
         }
     }
     for (indexType col = 1; col < N; col++) {

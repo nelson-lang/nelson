@@ -34,6 +34,10 @@
     <p>
       Pour les exposants scalaires non entiers, Nelson utilise un repli par fonction matricielle
       dense lorsque la classe sparse d'entree le permet.</p>
+    <p>
+      Pour une matrice dense carrée <b>A</b> et un scalaire non entier <b>p</b>, <b>A^p</b> est calculé à partir de la décomposition en valeurs propres de <b>A</b> : V*D^p/V, ou V*D^p*V' lorsque <b>A</b> est hermitienne. Lorsque <b>A</b> est défective (ses vecteurs propres sont singuliers à la précision de calcul), une méthode de Schur (Schur-Padé) est utilisée à la place, si bien que <b>[2 1; 0 2]^0.5</b> est exact. Dans ce cas, une matrice <b>A</b> réelle sans valeur propre réelle négative donne un résultat réel.</p>
+    <p>
+      Pour un scalaire <b>a</b> et une matrice carrée <b>B</b>, <b>a^B</b> est calculé à partir de la décomposition en valeurs propres de <b>B</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -66,6 +70,10 @@ C = S ^ 2]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>méthode de Schur pour les puissances non entières des matrices défectives</history_description>
     </history_item>
   </history>
   <authors>

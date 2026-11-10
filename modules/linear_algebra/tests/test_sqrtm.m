@@ -92,3 +92,9 @@ asserts.isequal(class(sqrtm(singleInput)), 'single');
 asserts.isapprox(sqrtm(singleInput) * sqrtm(singleInput), singleInput, 1e-5);
 asserts.checkerror('sqrtm([1 2])', sprintf(_('%s expected.'), 'Square matrix'));
 %=============================================================================
+% a singular matrix keeps a finite root where one exists
+assert_isequal(sqrtm(zeros(3)), zeros(3));
+assert_isequal(sqrtm(single(zeros(2))), single(zeros(2)));
+assert_isapprox(sqrtm([0 0 0; 0 0 0; 0 0 4]), [0 0 0; 0 0 0; 0 0 2], 1e-12);
+assert_isapprox(sqrtm(single([1 0; 0 0])), single([1 0; 0 0]), 1e-6);
+%=============================================================================

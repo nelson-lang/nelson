@@ -29,6 +29,7 @@ Evaluator::mpowerOperator(const ArrayOfVector& args)
     bool needToOverload = false;
     ArrayOf A(args[0]);
     ArrayOf B(args[1]);
+    checkIntegerMatrixPowerArguments(A, B);
     prepareBinaryPowerOperands(commonType, A, B);
     res = MatrixPower(A, B, needToOverload);
 

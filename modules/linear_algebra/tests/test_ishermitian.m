@@ -80,3 +80,11 @@ asserts.istrue(ishermitian(3))
 asserts.istrue(ishermitian([1 1i; -1i 1]));
 asserts.istrue(ishermitian([0, 2i; 2i, 0], 'skew'));
 %=============================================================================
+% a complex diagonal entry is not Hermitian
+asserts.isfalse(ishermitian([1+1i 0; 0 4]));
+asserts.isfalse(ishermitian(single([2 1i; -1i 3+1i])));
+asserts.istrue(ishermitian(single([2 1i; -1i 3])));
+asserts.isequal(eig([1+1i 0; 0 4]), [1+1i; 4]);
+asserts.istrue(ishermitian([1i 1; -1 2i], 'skew'));
+asserts.isfalse(ishermitian([1+1i 1; -1 2i], 'skew'));
+%=============================================================================

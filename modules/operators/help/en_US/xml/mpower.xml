@@ -31,6 +31,10 @@
       Sparse floating-point square matrices are supported for integer scalar exponents. Double, single, complex double, and complex single sparse matrices keep sparse storage when possible.</p>
     <p>
       For non-integer scalar exponents, Nelson uses a dense matrix-function fallback when the sparse input class supports it.</p>
+    <p>
+      For a dense square <b>A</b> and a non-integer scalar <b>p</b>, <b>A^p</b> is computed from the eigen decomposition of <b>A</b>: V*D^p/V, or V*D^p*V' when <b>A</b> is Hermitian. When <b>A</b> is defective (its eigenvectors are singular to working precision), a Schur method (Schur-Padé) is used instead, so <b>[2 1; 0 2]^0.5</b> is exact. In that case a real <b>A</b> without negative real eigenvalues gives a real result.</p>
+    <p>
+      For a scalar <b>a</b> and a square matrix <b>B</b>, <b>a^B</b> is computed from the eigen decomposition of <b>B</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -66,6 +70,10 @@ full(R)]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>expanded sparse single and complex single matrix power support</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Schur method for non-integer powers of defective matrices</history_description>
     </history_item>
   </history>
   <authors>

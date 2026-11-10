@@ -59,8 +59,33 @@ sqrtmComplex(ArrayOf& A)
             break;
         }
     }
-    MatrixType sqrtT = MatrixType::Zero(matT.rows(), matT.cols());
-    Eigen::matrix_sqrt_triangular(matT, sqrtT);
+    // column by column root of the triangular factor; a zero pivot sum over a zero numerator
+    // gives 0 (a singular matrix such as zeros keeps a finite root), otherwise an infinity
+    Eigen::Index order = matT.rows();
+    MatrixType sqrtT = MatrixType::Zero(order, order);
+    for (Eigen::Index j = 0; j < order; ++j) {
+        sqrtT(j, j) = std::sqrt(matT(j, j));
+        for (Eigen::Index i = j - 1; i >= 0; --i) {
+            Eigen::Index span = j - i - 1;
+            std::complex<T> sum = span > 0
+                ? std::complex<T>(sqrtT.row(i)
+                                      .segment(i + 1, span)
+                                      .transpose()
+                                      .cwiseProduct(sqrtT.col(j).segment(i + 1, span))
+                                      .sum())
+                : std::complex<T>((T)0, (T)0);
+            std::complex<T> numerator = matT(i, j) - sum;
+            std::complex<T> denominator = sqrtT(i, i) + sqrtT(j, j);
+            if (denominator == std::complex<T>((T)0, (T)0)) {
+                sqrtT(i, j) = numerator == std::complex<T>((T)0, (T)0)
+                    ? std::complex<T>((T)0, (T)0)
+                    : std::complex<T>(numerator.real() / (T)0,
+                        numerator.imag() == (T)0 ? (T)0 : numerator.imag() / (T)0);
+            } else {
+                sqrtT(i, j) = numerator / denominator;
+            }
+        }
+    }
     matR = matU * sqrtT * matU.adjoint();
     if (isSingular) {
         Warning(
