@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pagemrdivide</keyword>
+  <short_description>Page-wise right matrix division.</short_description>
+  <syntax>
+    <syntax_item>X = pagemrdivide(B, A)</syntax_item>
+    <syntax_item>[X, rcondA] = pagemrdivide(B, A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a single or double N-D array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a single or double N-D array with as many columns as <b>B</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>the array of solutions: <b>X(:,:,i) = B(:,:,i) / A(:,:,i)</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>rcondA</param_name>
+      <param_description>a 1-by-1-by-pages array of reciprocal condition estimates of the pages of <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = pagemrdivide(B, A)</b> solves <b>X(:,:,i) * A(:,:,i) = B(:,:,i)</b> for every page, like <b>mrdivide</b>.</p>
+    <p>Dimensions beyond the second must be equal or 1: a dimension of size 1 is repeated to match the other input. No warning is shown for badly conditioned pages.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = cat(3, [4 1; 2 3], [2 0; 1 5]);
+X = pagemrdivide([1 2], A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagemldivide">pagemldivide</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagemtimes">pagemtimes</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

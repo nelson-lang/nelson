@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tfqmr</keyword>
+  <short_description>Méthode du quasi-résidu minimal sans transposée.</short_description>
+  <syntax>
+    <syntax_item>x = tfqmr(A, b)</syntax_item>
+    <syntax_item>x = tfqmr(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec] = tfqmr(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice carrée (pleine ou creuse) ou un pointeur de fonction renvoyant <b>A*x</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>second membre en vecteur colonne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>tolérance sur le résidu relatif. Par défaut : 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>nombre maximal d'itérations. Par défaut : <b>min(n, 20)</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>préconditionneurs (matrices ou pointeurs de fonction renvoyant <b>M\x</b>) ; le système est préconditionné à droite par <b>M = M1*M2</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>estimation initiale. Par défaut : zéros.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>la solution, ou l'itéré de plus petit résidu si la méthode n'a pas convergé.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 : convergence, 1 : <b>maxit</b> atteint, 4 : échec de la méthode.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>résidu relatif <b>norm(b - A*x) / norm(b)</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>numéro d'itération de <b>x</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>norme du résidu à chaque demi-itération, en commençant par <b>norm(b - A*x0)</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>x = tfqmr(A, b)</b> résout le système carré <b>A*x = b</b> par la méthode du quasi-résidu minimal sans transposée. Elle n'utilise que des produits par <b>A</b>, jamais par sa transposée.</p>
+    <p>Chaque itération a deux demi-pas ; le vrai résidu est contrôlé à chaque demi-pas et stocké dans <b>resvec</b>. Les entrées peuvent être des gpuArray.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[n = 20;
+e = ones(n, 1);
+A = spdiags([-e, 2.5 * e, -0.5 * e], -1:1, n, n);
+b = (1:n).';
+[x, flag, relres, iter] = tfqmr(A, b, 1e-8, 30)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}qmr">qmr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}bicgstab">bicgstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}gmres">gmres</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

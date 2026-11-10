@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lscov</keyword>
+  <short_description>Least-squares solution with known covariance.</short_description>
+  <syntax>
+    <syntax_item>x = lscov(A, b)</syntax_item>
+    <syntax_item>x = lscov(A, b, w)</syntax_item>
+    <syntax_item>x = lscov(A, b, V)</syntax_item>
+    <syntax_item>x = lscov(A, b, V, alg)</syntax_item>
+    <syntax_item>[x, stdx, mse, S] = lscov(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>an m-by-n single or double matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>a single or double matrix with m rows.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>a vector of m nonnegative weights.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>an m-by-m symmetric positive semidefinite covariance matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alg</param_name>
+      <param_description><b>'chol'</b> (default) or <b>'orth'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>the least-squares solution.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>stdx</param_name>
+      <param_description>estimated standard errors of <b>x</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>mse</param_name>
+      <param_description>mean squared error of the weighted residuals.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>estimated covariance matrix of <b>x</b> (single column <b>b</b> only).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>x = lscov(A, b)</b> returns the ordinary least-squares solution of <b>A * x = b</b>.</p>
+    <p><b>x = lscov(A, b, w)</b> minimizes <b>sum(w .* (b - A*x).^2)</b>. <b>x = lscov(A, b, V)</b> minimizes <b>(b - A*x)' * inv(V) * (b - A*x)</b>. When <b>V</b> is singular, the observations with zero variance are fitted exactly.</p>
+    <p><b>mse</b> is the sum of squared weighted residuals divided by the degrees of freedom <b>m - rank(A)</b>, or 0 when there are none. <b>stdx</b> and <b>S</b> are scaled by <b>mse</b>.</p>
+    <p>When <b>A</b> is rank deficient, a warning is shown and dependent coefficients are set to zero. <b>alg</b> is accepted for compatibility: both values use the same factorization.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 1; 1 2; 1 3];
+b = [1; 2; 2];
+[x, stdx, mse] = lscov(A, b)
+xw = lscov(A, b, [1; 2; 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqminnorm">lsqminnorm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}linsolve">linsolve</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

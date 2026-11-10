@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tfqmr</keyword>
+  <short_description>Transpose-free quasi-minimal residual method.</short_description>
+  <syntax>
+    <syntax_item>x = tfqmr(A, b)</syntax_item>
+    <syntax_item>x = tfqmr(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec] = tfqmr(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a square matrix (full or sparse) or a function handle returning <b>A*x</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>right-hand side column vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>relative residual tolerance. Default: 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>maximum number of iterations. Default: <b>min(n, 20)</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>preconditioners (matrices or function handles returning <b>M\x</b>); the system is preconditioned on the right by <b>M = M1*M2</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>initial guess. Default: zeros.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>the solution, or the iterate with the smallest residual when the method did not converge.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0: converged, 1: <b>maxit</b> reached, 4: breakdown.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>relative residual <b>norm(b - A*x) / norm(b)</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>iteration number of <b>x</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>residual norm at every half iteration, starting with <b>norm(b - A*x0)</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>x = tfqmr(A, b)</b> solves the square system <b>A*x = b</b> with the transpose-free quasi-minimal residual method. It needs only products with <b>A</b>, never with its transpose.</p>
+    <p>Each iteration has two half steps; the true residual is checked at every half step and stored in <b>resvec</b>. Inputs may be gpuArray values.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[n = 20;
+e = ones(n, 1);
+A = spdiags([-e, 2.5 * e, -0.5 * e], -1:1, n, n);
+b = (1:n).';
+[x, flag, relres, iter] = tfqmr(A, b, 1e-8, 30)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}qmr">qmr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}bicgstab">bicgstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}gmres">gmres</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

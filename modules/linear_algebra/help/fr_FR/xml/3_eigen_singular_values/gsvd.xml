@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gsvd</keyword>
+  <short_description>Décomposition en valeurs singulières généralisées.</short_description>
+  <syntax>
+    <syntax_item>sigma = gsvd(A, B)</syntax_item>
+    <syntax_item>[U, V, X, C, S] = gsvd(A, B)</syntax_item>
+    <syntax_item>[U, V, X, C, S] = gsvd(A, B, 'econ')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice m x p single ou double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>une matrice n x p single ou double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>0 ou 'econ'</param_name>
+      <param_description><b>U</b>, <b>V</b>, <b>C</b> et <b>S</b> en taille économique.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>sigma</param_name>
+      <param_description>valeurs singulières généralisées <b>sqrt(diag(C'*C) ./ diag(S'*S))</b> par ordre croissant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U, V</param_name>
+      <param_description>matrices unitaires.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>une matrice p x q, q étant le rang de <b>[A; B]</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C, S</param_name>
+      <param_description>matrices diagonales positives avec <b>C'*C + S'*S = eye(q)</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[U, V, X, C, S] = gsvd(A, B)</b> renvoie <b>A = U*C*X'</b> et <b>B = V*S*X'</b>. La diagonale de <b>C</b> croît et celle de <b>S</b> décroît.</p>
+    <p>Quand <b>m &lt; q</b>, les valeurs non nulles de <b>C</b> sont sur la diagonale qui commence à la colonne <b>q - m + 1</b> ; les valeurs de <b>S</b> sont toujours sur sa diagonale principale.</p>
+    <p><b>sigma = gsvd(A, B)</b> renvoie les valeurs singulières généralisées ; une valeur nulle de <b>S</b> donne <b>Inf</b>.</p>
+    <p>La décomposition vient d'une factorisation QR avec pivotage des colonnes de <b>[A; B]</b>, qui fixe <b>q</b>, suivie d'une décomposition cosinus-sinus de son facteur orthogonal.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 2; 3 4; 5 6; 7 8];
+B = [1 0; 1 1];
+sigma = gsvd(A, B)
+[U, V, X, C, S] = gsvd(A, B);
+norm(U * C * X' - A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}svd">svd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}eig">eig</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

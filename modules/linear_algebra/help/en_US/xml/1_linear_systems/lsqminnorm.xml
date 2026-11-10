@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lsqminnorm</keyword>
+  <short_description>Minimum norm least-squares solution of a linear system.</short_description>
+  <syntax>
+    <syntax_item>X = lsqminnorm(A, B)</syntax_item>
+    <syntax_item>X = lsqminnorm(A, B, tol)</syntax_item>
+    <syntax_item>X = lsqminnorm(..., rankWarn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a single or double matrix (sparse input is converted to full).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a single or double matrix with as many rows as <b>A</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>rank tolerance. Default: <b>max(size(A)) * eps(norm(A, 'fro'))</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rankWarn</param_name>
+      <param_description><b>'nowarn'</b> (default) or <b>'warn'</b> to report a rank deficiency.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>the solution with the smallest norm among the least-squares solutions.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = lsqminnorm(A, B)</b> returns the least-squares solution of <b>A * X = B</b> that has the smallest norm, also when <b>A</b> is rank deficient or has more columns than rows.</p>
+    <p>The rank is set by a QR factorization with column pivoting: diagonal values of the triangular factor not above <b>tol</b> are dropped. A complete orthogonal decomposition then gives the minimum norm solution.</p>
+    <p>With <b>'warn'</b>, a warning reports the rank when it is lower than <b>min(size(A))</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 2; 2 4];
+b = [1; 2];
+x = lsqminnorm(A, b)
+norm(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagelsqminnorm">pagelsqminnorm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}pinv">pinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}lscov">lscov</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

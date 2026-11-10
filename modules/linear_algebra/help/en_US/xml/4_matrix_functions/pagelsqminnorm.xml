@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pagelsqminnorm</keyword>
+  <short_description>Page-wise minimum norm least-squares solution.</short_description>
+  <syntax>
+    <syntax_item>X = pagelsqminnorm(A, B)</syntax_item>
+    <syntax_item>X = pagelsqminnorm(A, B, tol)</syntax_item>
+    <syntax_item>X = pagelsqminnorm(..., rankWarn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a single or double N-D array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a single or double N-D array with as many rows as <b>A</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>rank tolerance, see <b>lsqminnorm</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rankWarn</param_name>
+      <param_description><b>'nowarn'</b> (default) or <b>'warn'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>the array of solutions: <b>X(:,:,i) = lsqminnorm(A(:,:,i), B(:,:,i))</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = pagelsqminnorm(A, B)</b> applies <b>lsqminnorm</b> to every page. Dimensions beyond the second must be equal or 1: a dimension of size 1 is repeated to match the other input.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[X = pagelsqminnorm(cat(3, [1 2; 2 4], [1 0; 0 2]), cat(3, [1; 2], [1; 1]))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}lsqminnorm">lsqminnorm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}pagemldivide">pagemldivide</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

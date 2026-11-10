@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cdf2rdf</keyword>
+  <short_description>Convertit une forme diagonale complexe en forme diagonale par blocs réelle.</short_description>
+  <syntax>
+    <syntax_item>[Vr, Dr] = cdf2rdf(V, D)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>matrice des vecteurs propres, telle que renvoyée par <b>eig</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>D</param_name>
+      <param_description>matrice diagonale des valeurs propres d'une matrice réelle, telle que renvoyée par <b>eig</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Vr</param_name>
+      <param_description>matrice réelle des vecteurs.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Dr</param_name>
+      <param_description>matrice réelle diagonale par blocs.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[Vr, Dr] = cdf2rdf(V, D)</b> remplace chaque paire conjuguée <b>a + bi</b>, <b>a - bi</b> de la diagonale de <b>D</b> par le bloc réel <b>[a b; -b a]</b>. Les deux colonnes correspondantes de <b>V</b> deviennent <b>sqrt(2)</b> fois les parties réelle et imaginaire de la première.</p>
+    <p>Les valeurs propres réelles et leurs vecteurs sont conservés, et <b>A * Vr = Vr * Dr</b> reste vrai.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [1 2 0; -2 1 0; 0 0 3];
+[V, D] = eig(A);
+[Vr, Dr] = cdf2rdf(V, D)
+norm(A * Vr - Vr * Dr)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}eig">eig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}rsf2csf">rsf2csf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
