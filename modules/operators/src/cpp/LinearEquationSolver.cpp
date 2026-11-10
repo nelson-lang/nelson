@@ -261,43 +261,6 @@ template <> struct DenseSolverTraits<std::complex<single>>
 };
 //=============================================================================
 template <class T>
-static T
-conjValue(const T& value)
-{
-    return value;
-}
-//=============================================================================
-template <class T>
-static std::complex<T>
-conjValue(const std::complex<T>& value)
-{
-    return std::conj(value);
-}
-//=============================================================================
-// Division by an exact zero keeps Inf/NaN like a plain substitution would.
-template <class T>
-static T
-pivotDivide(const T& value, const T& pivot)
-{
-    return value / pivot;
-}
-//=============================================================================
-template <class T>
-static std::complex<T>
-pivotDivide(const std::complex<T>& value, const std::complex<T>& pivot)
-{
-    if (pivot.real() == T(0) && pivot.imag() == T(0)) {
-        auto overZero = [](T part) {
-            return (part == T(0) || std::isnan(part))
-                ? std::numeric_limits<T>::quiet_NaN()
-                : std::copysign(std::numeric_limits<T>::infinity(), part);
-        };
-        return { overZero(value.real()), overZero(value.imag()) };
-    }
-    return luDivide(value, pivot);
-}
-//=============================================================================
-template <class T>
 static bool
 isLowerTriangularMatrix(const T* a, indexType n)
 {
@@ -331,21 +294,21 @@ static void
 substituteTriangular(const T* a, indexType n, bool upper, bool adjoint, T* x, indexType nrhs)
 {
     auto at = [&](indexType row, indexType col) {
-        return adjoint ? conjValue(a[col + row * n]) : a[row + col * n];
+        return adjoint ? luConj(a[col + row * n]) : a[row + col * n];
     };
     bool backward = upper != adjoint;
     for (indexType col = 0; col < nrhs; ++col) {
         T* b = x + col * n;
         if (backward) {
             for (indexType k = n; k-- > 0;) {
-                b[k] = pivotDivide(b[k], at(k, k));
+                b[k] = luDivide(b[k], at(k, k));
                 for (indexType i = 0; i < k; ++i) {
                     b[i] -= b[k] * at(i, k);
                 }
             }
         } else {
             for (indexType k = 0; k < n; ++k) {
-                b[k] = pivotDivide(b[k], at(k, k));
+                b[k] = luDivide(b[k], at(k, k));
                 for (indexType i = k + 1; i < n; ++i) {
                     b[i] -= b[k] * at(i, k);
                 }
@@ -375,21 +338,21 @@ substituteSingularLu(
                 }
             }
             for (indexType k = n; k-- > 0;) {
-                b[k] = pivotDivide(b[k], lu[k + k * n]);
+                b[k] = luDivide(b[k], lu[k + k * n]);
                 for (indexType i = 0; i < k; ++i) {
                     b[i] -= b[k] * lu[i + k * n];
                 }
             }
         } else {
             for (indexType k = 0; k < n; ++k) {
-                b[k] = pivotDivide(b[k], conjValue(lu[k + k * n]));
+                b[k] = luDivide(b[k], luConj(lu[k + k * n]));
                 for (indexType i = k + 1; i < n; ++i) {
-                    b[i] -= b[k] * conjValue(lu[k + i * n]);
+                    b[i] -= b[k] * luConj(lu[k + i * n]);
                 }
             }
             for (indexType k = n; k-- > 0;) {
                 for (indexType i = 0; i < k; ++i) {
-                    b[i] -= b[k] * conjValue(lu[k + i * n]);
+                    b[i] -= b[k] * luConj(lu[k + i * n]);
                 }
             }
             for (indexType i = n; i-- > 0;) {
@@ -508,7 +471,7 @@ adjointDot(const T* column, const T* x, indexType first, indexType last)
     if (last <= first || last - first < shortSegment) {
         T sum = T(0);
         for (indexType i = first; i < last; ++i) {
-            sum += conjValue(column[i]) * x[i];
+            sum += luConj(column[i]) * x[i];
         }
         return sum;
     }
@@ -541,7 +504,7 @@ solveUpperAdjoint(const T* factor, indexType n, T* x)
 {
     for (indexType j = 0; j < n; ++j) {
         const T* column = factor + j * n;
-        x[j] = (x[j] - adjointDot<T>(column, x, 0, j)) / conjValue(column[j]);
+        x[j] = (x[j] - adjointDot<T>(column, x, 0, j)) / luConj(column[j]);
     }
 }
 //=============================================================================
@@ -733,7 +696,7 @@ isHermitianMatrix(const T* data, indexType n)
             return false;
         }
         for (indexType row = 0; row < col; ++row) {
-            if (data[row + col * n] != conjValue(data[col + row * n])) {
+            if (data[row + col * n] != luConj(data[col + row * n])) {
                 return false;
             }
         }
@@ -867,7 +830,7 @@ solveGeneralLu(const SquareSystem<T>& sys, std::wstring& warningId, std::string&
     if (storedAdjoint) {
         for (indexType col = 0; col < m; ++col) {
             for (indexType row = 0; row < m; ++row) {
-                factor[col + row * m] = conjValue(A[row + col * m]);
+                factor[col + row * m] = luConj(A[row + col * m]);
             }
         }
     } else {

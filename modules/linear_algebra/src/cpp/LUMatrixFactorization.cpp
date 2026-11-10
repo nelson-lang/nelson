@@ -19,6 +19,7 @@
 #include <omp.h>
 #endif
 #include "LapackPrototypes.hpp"
+#include "LuFactorization.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
 #include "Error.hpp"
@@ -113,6 +114,24 @@ hasPivotInterchanges(const std::vector<lapack_int>& piv)
     return false;
 }
 //=============================================================================
+// Writes the row permutation as a matrix (pmat) or as a 1-based row vector (pvec).
+template <class T>
+static void
+fillPermutation(int nrows, const int* fullpivot, T* pmat, double* pvec)
+{
+    if (pvec != nullptr) {
+        OMP_PARALLEL_FOR_LOOP(nrows)
+        for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
+            pvec[i] = fullpivot ? (double)(fullpivot[i] + 1) : (double)(i + 1);
+        }
+        return;
+    }
+    OMP_PARALLEL_FOR_LOOP(nrows)
+    for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
+        pmat[i + (fullpivot ? fullpivot[i] : (int)i) * nrows] = 1;
+    }
+}
+//=============================================================================
 template <class T>
 void
 RealLUWithoutPivot(int nrows, int ncols, T* l, T* u, const T* a)
@@ -169,7 +188,7 @@ RealLUWithoutPivot(int nrows, int ncols, T* l, T* u, const T* a)
  */
 template <class T>
 void
-ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
+ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, double* pvec, std::complex<T>* a,
     void (*lapack_fn)(const lapack_int* m, const lapack_int* n, std::complex<T>* a,
         const lapack_int* lda, lapack_int* ipiv, lapack_int* info))
 {
@@ -185,11 +204,7 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, std::complex<T>* a,
     lapack_fn(&m, &n, a, &lda, piv.data(), &info);
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
-
-    OMP_PARALLEL_FOR_LOOP(nrows)
-    for (i = 0; i < (ompIndexType)nrows; i++) {
-        pmat[i + fullpivot[i] * nrows] = 1;
-    }
+    fillPermutation<T>(nrows, fullpivot, pmat, pvec);
     delete[] fullpivot;
     fullpivot = nullptr;
 
@@ -349,7 +364,7 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
  */
 template <class T>
 void
-RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
+RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, double* pvec, T* a,
     void (*lapack_fn)(const lapack_int* m, const lapack_int* n, T* a, const lapack_int* lda,
         lapack_int* ipiv, lapack_int* info))
 {
@@ -364,20 +379,13 @@ RealLUP(int nrows, int ncols, T* l, T* u, T* pmat, T* a,
     lapack_fn(&m, &n, a, &lda, piv.data(), &info);
 
     if (!hasPivotInterchanges(piv)) {
-        OMP_PARALLEL_FOR_LOOP(nrows)
-        for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
-            pmat[i + i * nrows] = 1;
-        }
+        fillPermutation<T>(nrows, nullptr, pmat, pvec);
         RealLUWithoutPivot(nrows, ncols, l, u, a);
         return;
     }
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
-
-    OMP_PARALLEL_FOR_LOOP(nrows)
-    for (ompIndexType i = 0; i < (ompIndexType)nrows; i++) {
-        pmat[i + fullpivot[i] * nrows] = 1;
-    }
+    fillPermutation<T>(nrows, fullpivot, pmat, pvec);
     if (nrows > ncols) {
         ompIndexType lrows = nrows;
         ompIndexType lcols = ncols;
@@ -507,12 +515,53 @@ RealLU(int nrows, int ncols, T* l, T* u, T* a,
     }
 }
 //=============================================================================
+// Third LU output: a permutation matrix of class 'cls' or a double row vector.
+template <class T> class PermutationOutput
+{
+    NelsonType cls;
+    int nrows;
+    bool asVector;
+
+public:
+    T* pmat = nullptr;
+    double* pvec = nullptr;
+    PermutationOutput(NelsonType _cls, int _nrows, bool _asVector)
+        : cls(_cls), nrows(_nrows), asVector(_asVector)
+    {
+        if (asVector) {
+            pvec = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nrows, stringVector(), false);
+        } else {
+            pmat = (T*)ArrayOf::allocateArrayOf(
+                cls, (indexType)nrows * (indexType)nrows, stringVector(), true);
+        }
+    }
+    ArrayOf
+    get() const
+    {
+        if (asVector) {
+            return ArrayOf(NLS_DOUBLE, Dimensions(1, nrows), pvec);
+        }
+        return ArrayOf(cls, Dimensions(nrows, nrows), pmat);
+    }
+};
+//=============================================================================
+static ArrayOf
+identityPermutation(int nrows, NelsonType cls, bool asVector)
+{
+    if (!asVector) {
+        return Eye(nrows, nrows, cls, false);
+    }
+    double* pvec = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nrows, stringVector(), false);
+    fillPermutation<double>(nrows, nullptr, nullptr, pvec);
+    return ArrayOf(NLS_DOUBLE, Dimensions(1, nrows), pvec);
+}
+//=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
  */
 ArrayOfVector
-LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
+LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
 
@@ -535,7 +584,7 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
         } else if (nLhs == 3) {
             retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
             retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
-            retval << Eye(nrows, nrows, NLS_DOUBLE, false);
+            retval << identityPermutation(nrows, NLS_DOUBLE, asVector);
         }
         return retval;
     }
@@ -549,7 +598,7 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
         lapack_int info = 0;
         std::vector<lapack_int> piv((size_t)p);
         ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
-        LAPACK_dgetrf(&m, &n, (double*)AA.dataPointer(), &lda, piv.data(), &info);
+        luFactor(&m, &n, (double*)AA.dataPointer(), &lda, piv.data(), &info);
         retval << AA;
         return retval;
     }
@@ -559,30 +608,28 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs)
     if (nLhs == 2) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLU<double>(nrows, ncols, l, u, (double*)AA.dataPointer(), LAPACK_dgetrf);
+        RealLU<double>(nrows, ncols, l, u, (double*)AA.dataPointer(), luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        indexType length = (indexType)(nrows * nrows);
-        double* piv
-            = (double*)ArrayOf::allocateArrayOf(A.dataClass(), length, stringVector(), true);
-
+        PermutationOutput<double> perm(A.dataClass(), nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLUP<double>(nrows, ncols, l, u, piv, (double*)AA.dataPointer(), LAPACK_dgetrf);
+        RealLUP<double>(
+            nrows, ncols, l, u, perm.pmat, perm.pvec, (double*)AA.dataPointer(), luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(A.dataClass(), Dimensions(nrows, nrows), piv);
+        retval << perm.get();
     }
     return retval;
 }
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
  */
 ArrayOfVector
-LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
+LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs, bool asVector)
 {
     if (!isAllFinite<single>(A)) {
         Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
@@ -605,7 +652,7 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
         } else if (nLhs == 3) {
             retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
             retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
-            retval << Eye(nrows, nrows, NLS_SINGLE, false);
+            retval << identityPermutation(nrows, NLS_SINGLE, asVector);
         }
         return retval;
     }
@@ -619,7 +666,7 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
         lapack_int info = 0;
         std::vector<lapack_int> piv((size_t)p);
         ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
-        LAPACK_sgetrf(&m, &n, (single*)AA.dataPointer(), &lda, piv.data(), &info);
+        luFactor(&m, &n, (single*)AA.dataPointer(), &lda, piv.data(), &info);
         retval << AA;
         return retval;
     }
@@ -629,29 +676,28 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs)
     if (nLhs == 2) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLU<single>(nrows, ncols, l, u, (single*)AA.dataPointer(), LAPACK_sgetrf);
+        RealLU<single>(nrows, ncols, l, u, (single*)AA.dataPointer(), luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        single* piv
-            = (single*)ArrayOf::allocateArrayOf(A.dataClass(), nrows * nrows, stringVector(), true);
-
+        PermutationOutput<single> perm(A.dataClass(), nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        RealLUP<single>(nrows, ncols, l, u, piv, (single*)AA.dataPointer(), LAPACK_sgetrf);
+        RealLUP<single>(
+            nrows, ncols, l, u, perm.pmat, perm.pvec, (single*)AA.dataPointer(), luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(A.dataClass(), Dimensions(nrows, nrows), piv);
+        retval << perm.get();
     }
     return retval;
 }
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
  */
 ArrayOfVector
-LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
+LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
     if (!isAllFinite<double>(A)) {
@@ -673,7 +719,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
         } else if (nLhs == 3) {
             retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
             retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
-            retval << Eye(nrows, nrows, NLS_DOUBLE, false);
+            retval << identityPermutation(nrows, NLS_DOUBLE, asVector);
         }
         return retval;
     }
@@ -688,7 +734,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
         lapack_int info = 0;
         std::vector<lapack_int> piv((size_t)p);
         ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
-        LAPACK_zgetrf(&m, &n, ptrZa, &lda, piv.data(), &info);
+        luFactor(&m, &n, ptrZa, &lda, piv.data(), &info);
         retval << AA;
         return retval;
     }
@@ -701,30 +747,29 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs)
         AA.ensureSingleOwner();
         auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
 
-        ComplexLU<double>(nrows, ncols, l, u, ptrZa, LAPACK_zgetrf);
+        ComplexLU<double>(nrows, ncols, l, u, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        double* piv
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nrows * nrows, stringVector(), true);
+        PermutationOutput<double> perm(NLS_DOUBLE, nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
         auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
 
-        ComplexLUP<double>(nrows, ncols, l, u, piv, ptrZa, LAPACK_zgetrf);
+        ComplexLUP<double>(nrows, ncols, l, u, perm.pmat, perm.pvec, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(NLS_DOUBLE, Dimensions(nrows, nrows), piv);
+        retval << perm.get();
     }
     return retval;
 }
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the nrows x nrows permutation matrix. NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
  */
 ArrayOfVector
-LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
+LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
     if (!isAllFinite<single>(A)) {
@@ -746,7 +791,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
         } else if (nLhs == 3) {
             retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), nullptr);
             retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), nullptr);
-            retval << Eye(nrows, nrows, NLS_SINGLE, false);
+            retval << identityPermutation(nrows, NLS_SINGLE, asVector);
         }
         return retval;
     }
@@ -761,7 +806,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
         lapack_int info = 0;
         std::vector<lapack_int> piv((size_t)p);
         ScopedOpenMPThreads scopedThreads(luThreadCount(nrows, ncols));
-        LAPACK_cgetrf(&m, &n, ptrZa, &lda, piv.data(), &info);
+        luFactor(&m, &n, ptrZa, &lda, piv.data(), &info);
         retval << AA;
         return retval;
     }
@@ -774,20 +819,19 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs)
         AA.ensureSingleOwner();
         auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
 
-        ComplexLU<single>(nrows, ncols, l, u, ptrZa, LAPACK_cgetrf);
+        ComplexLU<single>(nrows, ncols, l, u, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
     } else if (nLhs == 3) {
-        single* piv
-            = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, nrows * nrows, stringVector(), true);
+        PermutationOutput<single> perm(NLS_SINGLE, nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
         auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
 
-        ComplexLUP<single>(nrows, ncols, l, u, piv, ptrZa, LAPACK_cgetrf);
+        ComplexLUP<single>(nrows, ncols, l, u, perm.pmat, perm.pvec, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
         retval << ArrayOf(A.dataClass(), Dimensions(p, ncols), u);
-        retval << ArrayOf(NLS_SINGLE, Dimensions(nrows, nrows), piv);
+        retval << perm.get();
     }
     return retval;
 }

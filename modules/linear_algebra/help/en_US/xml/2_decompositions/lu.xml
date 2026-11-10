@@ -7,12 +7,30 @@
   <syntax>
     <syntax_item>[L, U] = lu(A)</syntax_item>
     <syntax_item>[L, U, P] = lu(A)</syntax_item>
+    <syntax_item>Y = lu(A)</syntax_item>
+    <syntax_item>[L, U, p] = lu(A, outputForm)</syntax_item>
+    <syntax_item>[L, U, P, Q] = lu(S)</syntax_item>
+    <syntax_item>[L, U, P, Q, D] = lu(S)</syntax_item>
+    <syntax_item>[L, U, P] = lu(S, thresh)</syntax_item>
+    <syntax_item>[L, U, P, Q] = lu(S, thresh, outputForm)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >a matrix: square, finite single or double, real or complex, dense or sparse.</param_description>
+      >a matrix (square or rectangular): finite single or double, real or complex, dense or sparse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputForm</param_name>
+      <param_description>a character vector or string: 'matrix' (default) or 'vector'. Any leading part of either word is accepted, in any case.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>a sparse matrix: single or double, real or complex.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>thresh</param_name>
+      <param_description>pivot threshold between 0 and 1: a scalar with three outputs or fewer (default 1), a scalar or a vector of two elements with four or five outputs (default [0.1, 0.001]).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,7 +47,15 @@
     <param_output_item>
       <param_name>P</param_name>
       <param_description
-      >Row permutation: matrix (same type A).</param_description>
+      >Row permutation: real matrix (same precision as A), or row vector of double when outputForm is 'vector'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Q</param_name>
+      <param_description>Column permutation: real sparse matrix (same precision as S), or row vector of double when outputForm is 'vector'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>Row scaling: real sparse diagonal matrix (same precision as S).</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -40,6 +66,12 @@
       <b>[L, U, P] = lu(A)</b> function, when used with three output arguments, provides a permutation matrix<b>P</b> in addition to the unit lower triangular matrix<b>L</b> and the upper triangular matrix <b>U</b>.</p>
     <p>This factorization is expressed as <b>A = P&apos;LU</b>, where <b>L</b> is unit lower triangular, and <b>U</b> is upper triangular.</p>
     <p>Sparse double, single, complex double, and complex single matrices are supported. Sparse factors keep sparse storage and keep the input numeric class where applicable.</p>
+    <p>With <b>outputForm</b> set to <b>'vector'</b>, <b>P</b> is returned as a row vector <b>p</b> of row indices such that <b>A(p, :) = L * U</b>.</p>
+    <p><b>[L, U, P, Q] = lu(S)</b> for a sparse matrix <b>S</b> also returns a column permutation <b>Q</b> chosen to keep <b>L</b> and <b>U</b> sparse, with <b>P * S * Q = L * U</b>.</p>
+    <p><b>[L, U, P, Q, D] = lu(S)</b> also returns a diagonal scaling matrix <b>D</b> with <b>P * (D \ S) * Q = L * U</b>. Each diagonal entry of <b>D</b> is the sum of the absolute values (|real part| + |imaginary part|) of a row of <b>S</b>, or 1 for an empty row.</p>
+    <p><b>thresh</b> controls pivoting for sparse matrices. With three outputs or fewer, the current row stays as pivot when its magnitude is at least <b>thresh</b> times the largest candidate; 1 gives partial pivoting. With four or five outputs, <b>thresh(1)</b> is the pivot tolerance among rows and <b>thresh(2)</b> the tolerance used to keep a diagonal pivot. Lower values favour sparsity over numerical stability.</p>
+    <p>With <b>outputForm</b> set to <b>'vector'</b>, <b>Q</b> is also returned as a row vector <b>q</b> such that <b>S(p, q) = L * U</b>.</p>
+    <p>For a sparse matrix, a column without a usable pivot gives a zero on the diagonal of <b>U</b>; no error is raised.</p>
   </description>
   <used_function
   >LAPACK dgetrf, LAPACK sgetrf, LAPACK zgetrf, LAPACK cgetrf</used_function>
@@ -79,6 +111,26 @@ title('U factor')
       ><![CDATA[A = sparse(single([4 1; 2 3]));
 [L, U, P] = lu(A)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Row permutation as a vector.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [2 1 0; 4 3 1; 1 5 9];
+[L, U, p] = lu(A, 'vector')
+A(p, :) - L * U]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sparse factorization with a column permutation and a row scaling.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse([4 1 0 0; 1 5 2 0; 0 2 6 3; 1 0 3 7]);
+[L, U, P, Q, D] = lu(S);
+norm(full(P * (D \ S) * Q - L * U), 1)
+[L, U, p, q] = lu(S, 'vector');
+norm(full(S(p, q) - L * U), 1)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -93,6 +145,14 @@ title('U factor')
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>added sparse single and complex single factorization support</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added outputForm 'matrix' or 'vector'</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added four and five outputs and the pivot threshold for sparse matrices</history_description>
     </history_item>
   </history>
   <authors>

@@ -17,6 +17,7 @@
 #undef EIGEN_USE_MKL
 #undef EIGEN_USE_MKL_VML
 #include "LapackPrototypes.hpp"
+#include "LuFactorization.hpp"
 #include "ReciprocalConditionNumber.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -58,7 +59,7 @@ ReciprocalConditionNumber_Double(const ArrayOf& A, bool precionWarning)
         std::vector<double> factor(input, input + nbElements);
         int info = 0;
         std::vector<int> ipiv((size_t)std::min(m, n));
-        LAPACK_dgetrf(&m, &n, factor.data(), &lda, ipiv.data(), &info);
+        luFactor(&m, &n, factor.data(), &lda, ipiv.data(), &info);
         if (info < 0) {
             Error("Nelson:rcond:lapackError", "LAPACK_%s error code: %d.", "dgetrf", info);
         }
@@ -108,7 +109,7 @@ ReciprocalConditionNumber_DoubleComplex(const ArrayOf& A, bool precionWarning)
         std::vector<doublecomplex> factor(input, input + nbElements);
         int info = 0;
         std::vector<int> ipiv((size_t)std::min(m, n));
-        LAPACK_zgetrf(&m, &n, factor.data(), &lda, ipiv.data(), &info);
+        luFactor(&m, &n, factor.data(), &lda, ipiv.data(), &info);
         if (info < 0) {
             Error("Nelson:rcond:lapackError", "LAPACK_%s error code: %d.", "zgetrf", info);
         }
@@ -158,7 +159,7 @@ ReciprocalConditionNumber_Single(const ArrayOf& A, bool precionWarning)
         std::vector<single> factor(input, input + nbElements);
         int info = 0;
         std::vector<int> ipiv((size_t)std::min(m, n));
-        LAPACK_sgetrf(&m, &n, factor.data(), &lda, ipiv.data(), &info);
+        luFactor(&m, &n, factor.data(), &lda, ipiv.data(), &info);
         if (info < 0) {
             Error("Nelson:rcond:lapackError", "LAPACK_%s error code: %d.", "sgetrf", info);
         }
@@ -209,7 +210,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A, bool precionWarning)
         std::vector<singlecomplex> factor(input, input + nbElements);
         int info = 0;
         std::vector<int> ipiv((size_t)std::min(m, n));
-        LAPACK_cgetrf(&m, &n, factor.data(), &lda, ipiv.data(), &info);
+        luFactor(&m, &n, factor.data(), &lda, ipiv.data(), &info);
         if (info < 0) {
             Error("Nelson:rcond:lapackError", "LAPACK_%s error code: %d.", "cgetrf", info);
         }

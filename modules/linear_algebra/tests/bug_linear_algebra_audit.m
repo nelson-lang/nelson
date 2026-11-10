@@ -9,7 +9,7 @@
 %=============================================================================
 % <-- Short Description -->
 % linear_algebra audit fixes: eig/svd with NaN, trace non square,
-% logm(0), expm/sqrtm on defective matrices, mpower warning
+% logm(0), expm/sqrtm/mpower on defective matrices
 %=============================================================================
 % eig with NaN input returns NaN eigenvalues (was LAPACK garbage)
 asserts.isequal(eig([NaN 1; 1 1]), [NaN; NaN]);
@@ -78,11 +78,12 @@ asserts.isequal(id, 'Nelson:sqrtm:SingularMatrix');
 % non-finite pattern (NaN vs Inf) is not asserted.
 asserts.istrue(any(~isfinite(R(:))));
 %=============================================================================
-% mpower with non-integer exponent on a defective matrix warns
+% mpower with non-integer exponent on a defective matrix is exact and silent
 lastwarn('');
 r = [2 1; 0 2] ^ 0.5;
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:mpower:IllConditionedEigenvectors');
+asserts.isequal(id, '');
+asserts.isapprox(r, [1.4142135623730951 0.35355339059327373; 0 1.4142135623730951], 1e-15);
 %=============================================================================
 % well conditioned mpower does not warn
 lastwarn('');

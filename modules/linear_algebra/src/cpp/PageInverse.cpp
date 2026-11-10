@@ -15,6 +15,7 @@
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LapackPrototypes.hpp"
+#include "LuFactorization.hpp"
 #include "PageInverse.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -28,7 +29,7 @@ invPageD(double* page, int n)
     std::vector<int> ipiv(n);
     int info = 0;
     int nn = n;
-    LAPACK_dgetrf(&nn, &nn, page, &nn, ipiv.data(), &info);
+    luFactor(&nn, &nn, page, &nn, ipiv.data(), &info);
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<double> work(lwork);
@@ -48,7 +49,7 @@ invPageS(single* page, int n)
     std::vector<int> ipiv(n);
     int info = 0;
     int nn = n;
-    LAPACK_sgetrf(&nn, &nn, page, &nn, ipiv.data(), &info);
+    luFactor(&nn, &nn, page, &nn, ipiv.data(), &info);
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<single> work(lwork);
@@ -68,7 +69,7 @@ invPageZ(doublecomplex* page, int n)
     std::vector<int> ipiv(n);
     int info = 0;
     int nn = n;
-    LAPACK_zgetrf(&nn, &nn, page, &nn, ipiv.data(), &info);
+    luFactor(&nn, &nn, page, &nn, ipiv.data(), &info);
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<doublecomplex> work(lwork);
@@ -88,7 +89,7 @@ invPageC(singlecomplex* page, int n)
     std::vector<int> ipiv(n);
     int info = 0;
     int nn = n;
-    LAPACK_cgetrf(&nn, &nn, page, &nn, ipiv.data(), &info);
+    luFactor(&nn, &nn, page, &nn, ipiv.data(), &info);
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<singlecomplex> work(lwork);

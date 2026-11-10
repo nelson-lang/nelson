@@ -12,8 +12,12 @@
 #endif
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
+#include "LapackPrototypes.hpp"
+#include "LuFactorization.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
+#include <algorithm>
+#include <vector>
 #include "DeterminantMatrix.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -21,12 +25,33 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Dense determinant from the same LU as the linear solvers.
+template <class T>
+static T
+denseLuDeterminant(const T* values, indexType n)
+{
+    lapack_int N = (lapack_int)n;
+    lapack_int info = 0;
+    // small matrices are factored on the stack
+    if (isSmallLu<T>(N, N)) {
+        T factor[16 * 16];
+        lapack_int ipiv[16];
+        std::copy(values, values + (size_t)n * (size_t)n, factor);
+        smallLuFactor<T>(N, N, factor, N, ipiv, &info);
+        return luDeterminant(factor, N, ipiv);
+    }
+    std::vector<T> factor(values, values + (size_t)n * (size_t)n);
+    std::vector<lapack_int> ipiv((size_t)n);
+    luFactor(&N, &N, factor.data(), &N, ipiv.data(), &info);
+    return luDeterminant(factor.data(), N, ipiv.data());
+}
+//=============================================================================
 template <class T>
 T
 DeterminantRealMatrix(T* values, indexType rows, indexType columns)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(values, rows, columns);
-    return matA.hasNaN() ? (T)std::nan("") : (T)matA.determinant();
+    return matA.hasNaN() ? (T)std::nan("") : denseLuDeterminant<T>(values, rows);
 }
 //=============================================================================
 template <class Tz, class Tr>
@@ -35,7 +60,8 @@ DeterminantComplexMatrix(Tr* values, indexType rows, indexType columns)
 {
     Tz* pzMat = reinterpret_cast<Tz*>(values);
     Eigen::Map<Eigen::Matrix<Tz, Eigen::Dynamic, Eigen::Dynamic>> matA(pzMat, rows, columns);
-    return matA.hasNaN() ? Tz((Tr)std::nan(""), (Tr)std::nan("")) : matA.determinant();
+    return matA.hasNaN() ? Tz((Tr)std::nan(""), (Tr)std::nan(""))
+                         : denseLuDeterminant<Tz>(pzMat, rows);
 }
 //=============================================================================
 template <class T>

@@ -17,6 +17,7 @@
 #undef EIGEN_USE_MKL_VML
 #undef EIGEN_USE_MKL
 #include "LapackPrototypes.hpp"
+#include "LuFactorization.hpp"
 #include <Eigen/Dense>
 #include "InverseMatrix.hpp"
 #include "ClassName.hpp"
@@ -52,7 +53,7 @@ InverseDouble(const ArrayOf& A, double rcond)
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
 
-        LAPACK_dgetrf(&N, &N, ptrD, &N, IPIV, &INFO);
+        luFactor(&N, &N, ptrD, &N, IPIV, &INFO);
         if (INFO == 0) {
             double* WORK = new_with_exception<double>(LWORK);
             LAPACK_dgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
@@ -97,7 +98,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
-        LAPACK_zgetrf(&N, &N, Rz, &N, IPIV, &INFO);
+        luFactor(&N, &N, Rz, &N, IPIV, &INFO);
         if (INFO == 0) {
             doublecomplex* WORK = new_with_exception<doublecomplex>(LWORK);
             LAPACK_zgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
@@ -145,7 +146,7 @@ InverseSingle(const ArrayOf& A, single rcond)
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
 
-        LAPACK_sgetrf(&N, &N, ptrD, &N, IPIV, &INFO);
+        luFactor(&N, &N, ptrD, &N, IPIV, &INFO);
         if (INFO == 0) {
             single* WORK = new_with_exception<single>(LWORK);
             LAPACK_sgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
@@ -190,7 +191,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
-        LAPACK_cgetrf(&N, &N, Rz, &N, IPIV, &INFO);
+        luFactor(&N, &N, Rz, &N, IPIV, &INFO);
         if (INFO == 0) {
             singlecomplex* WORK = new_with_exception<singlecomplex>(LWORK);
             LAPACK_cgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);

@@ -162,6 +162,10 @@ isCompatibleFloatingClass(const ArrayOf& value, NelsonType dataClass)
 }
 //=============================================================================
 template <class T>
+DenseAdvancedMatrix<T>
+arrayToDenseMatrix(const ArrayOf& value);
+//=============================================================================
+template <class T>
 SparseAdvancedMatrix<T>
 arrayToSparseMatrix(const ArrayOf& value)
 {
@@ -218,6 +222,14 @@ arrayToSparseMatrix(const ArrayOf& value)
         Error(L"Nelson:linear_algebra:inputTypeMismatch",
             L"Input type must match requested numeric class.");
     }
+    DenseAdvancedMatrix<T> dense = arrayToDenseMatrix<T>(value);
+    return dense.sparseView();
+}
+//=============================================================================
+template <class T>
+DenseAdvancedMatrix<T>
+arrayToDenseMatrix(const ArrayOf& value)
+{
     DenseAdvancedMatrix<T> dense(value.rows(), value.columns());
     if (value.dataClass() == NLS_DOUBLE) {
         const double* data = static_cast<const double*>(value.dataPointer());
@@ -267,7 +279,7 @@ arrayToSparseMatrix(const ArrayOf& value)
         Error(L"Nelson:linear_algebra:inputTypeMismatch",
             L"Input type must match requested numeric class.");
     }
-    return dense.sparseView();
+    return dense;
 }
 //=============================================================================
 template <class T>
@@ -744,6 +756,184 @@ applyPreconditionersAdjoint(const ExplicitPreconditioner<T>& first,
         return first.solveAdjoint(rhs);
     }
     return first.solveAdjoint(second.solveAdjoint(rhs));
+}
+//=============================================================================
+// solver matrix: sparse, full, or a function handle giving A*x (and A'*x with 'transp')
+template <class T> class SystemOperator
+{
+    enum class Kind
+    {
+        Sparse,
+        Dense,
+        FunctionHandle,
+    };
+
+    Kind kind = Kind::Sparse;
+    SparseAdvancedMatrix<T> sparse;
+    DenseAdvancedMatrix<T> dense;
+    Evaluator* evaluator = nullptr;
+    FunctionDef* function = nullptr;
+    bool usesTransposeFlag = false;
+    signedIndexType rowCount = 0;
+    signedIndexType columnCount = 0;
+
+    SparseAdvancedVector<T>
+    callFunction(const SparseAdvancedVector<T>& x, const char* flag, signedIndexType expected) const
+    {
+        ArrayOfVector inputs;
+        inputs << vectorToArrayOf<T>(nelsonTypeForScalar<T>(), Dimensions(x.size(), 1), x);
+        if (usesTransposeFlag) {
+            inputs << ArrayOf::characterArray(flag);
+        }
+        ArrayOfVector outputs = function->evaluateFunction(evaluator, inputs, 1);
+        if (outputs.empty() || !outputs[0].isNumeric()) {
+            Error(L"Nelson:linear_algebra:dimensionMismatch",
+                L"Matrix and vector dimensions must agree.");
+        }
+        SparseAdvancedVector<T> result = arrayToVector<T>(outputs[0]);
+        if (expected >= 0 && result.size() != expected) {
+            Error(L"Nelson:linear_algebra:dimensionMismatch",
+                L"Matrix and vector dimensions must agree.");
+        }
+        return result;
+    }
+
+public:
+    // rows is the length of b; a rectangular function finds its column count with one 'transp' call
+    SystemOperator(const ArrayOf& value, Evaluator* eval, bool useTransposeFlag,
+        signedIndexType rows, bool rectangular = false)
+    {
+        if (value.isFunctionHandle()) {
+            function_handle handle = value.asFunctionHandle();
+            if (handle.anonymousHandle == nullptr || eval == nullptr) {
+                Error(L"Nelson:linear_algebra:invalidFunctionHandle",
+                    L"Argument must be a valid function_handle.");
+            }
+            kind = Kind::FunctionHandle;
+            function = reinterpret_cast<FunctionDef*>(handle.anonymousHandle);
+            evaluator = eval;
+            usesTransposeFlag = useTransposeFlag;
+            rowCount = rows;
+            columnCount = rows;
+            if (rectangular) {
+                SparseAdvancedVector<T> zero(rows);
+                zero.setZero();
+                columnCount = callFunction(zero, "transp", -1).size();
+            }
+            return;
+        }
+        if (!value.is2D()) {
+            Error(L"Nelson:linear_algebra:expected2DMatrix", L"2-D matrix expected.");
+        }
+        rowCount = static_cast<signedIndexType>(value.rows());
+        columnCount = static_cast<signedIndexType>(value.columns());
+        if (value.isSparse()) {
+            kind = Kind::Sparse;
+            sparse = arrayToSparseMatrix<T>(value);
+        } else {
+            kind = Kind::Dense;
+            dense = arrayToDenseMatrix<T>(value);
+        }
+    }
+
+    signedIndexType
+    rows() const
+    {
+        return rowCount;
+    }
+
+    signedIndexType
+    cols() const
+    {
+        return columnCount;
+    }
+
+    // the product reads the Eigen expression directly; only a function needs a copy of x
+    template <class Derived>
+    SparseAdvancedVector<T>
+    multiply(const Eigen::MatrixBase<Derived>& x) const
+    {
+        switch (kind) {
+        case Kind::Sparse:
+            return sparse * x;
+        case Kind::Dense:
+            return dense * x;
+        default:
+            return callFunction(SparseAdvancedVector<T>(x), "notransp", rowCount);
+        }
+    }
+
+    template <class Derived>
+    SparseAdvancedVector<T>
+    multiplyAdjoint(const Eigen::MatrixBase<Derived>& x) const
+    {
+        switch (kind) {
+        case Kind::Sparse:
+            return sparse.adjoint() * x;
+        case Kind::Dense:
+            return dense.adjoint() * x;
+        default:
+            return callFunction(SparseAdvancedVector<T>(x), "transp", columnCount);
+        }
+    }
+
+    struct Adjoint
+    {
+        const SystemOperator<T>& op;
+
+        template <class Derived>
+        SparseAdvancedVector<T>
+        operator*(const Eigen::MatrixBase<Derived>& x) const
+        {
+            return op.multiplyAdjoint(x);
+        }
+    };
+
+    Adjoint
+    adjoint() const
+    {
+        return Adjoint { *this };
+    }
+
+    template <class Derived>
+    SparseAdvancedVector<T>
+    operator*(const Eigen::MatrixBase<Derived>& x) const
+    {
+        return multiply(x);
+    }
+};
+//=============================================================================
+// sparse or full floating matrix of the solver class, or a function handle
+inline bool
+isSystemOperatorArgument(const ArrayOf& value, NelsonType dataClass)
+{
+    return value.isFunctionHandle() || isCompatibleFloatingClass(value, dataClass);
+}
+//=============================================================================
+inline bool
+isSystemOperatorCandidate(const ArrayOf& value)
+{
+    return value.isFunctionHandle() || isFloatingPointClass(value.dataClass());
+}
+//=============================================================================
+// class that sets the solver precision: the matrix, or b when A is a function handle
+inline NelsonType
+systemDataClass(const ArrayOf& A, const ArrayOf& b)
+{
+    return A.isFunctionHandle() ? b.dataClass() : A.dataClass();
+}
+//=============================================================================
+template <class T>
+void
+validateSystem(const SystemOperator<T>& A, const SparseAdvancedVector<T>& b)
+{
+    if (A.rows() != A.cols()) {
+        Error(L"Nelson:linear_algebra:expectedSquareMatrix", L"Square matrix expected.");
+    }
+    if (A.rows() != b.size()) {
+        Error(L"Nelson:linear_algebra:dimensionMismatch",
+            L"Matrix and vector dimensions must agree.");
+    }
 }
 //=============================================================================
 template <class T>

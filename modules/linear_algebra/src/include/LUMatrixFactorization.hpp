@@ -15,16 +15,16 @@
 namespace Nelson {
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
-LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs);
+LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs, bool asVector = false);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
-LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs);
+LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector = false);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
-LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs);
+LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs, bool asVector = false);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
-LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs);
+LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

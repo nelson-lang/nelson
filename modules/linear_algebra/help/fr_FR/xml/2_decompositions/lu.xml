@@ -7,41 +7,73 @@
   <syntax>
     <syntax_item>[L, U] = lu(A)</syntax_item>
     <syntax_item>[L, U, P] = lu(A)</syntax_item>
+    <syntax_item>Y = lu(A)</syntax_item>
+    <syntax_item>[L, U, p] = lu(A, outputForm)</syntax_item>
+    <syntax_item>[L, U, P, Q] = lu(S)</syntax_item>
+    <syntax_item>[L, U, P, Q, D] = lu(S)</syntax_item>
+    <syntax_item>[L, U, P] = lu(S, thresh)</syntax_item>
+    <syntax_item>[L, U, P, Q] = lu(S, thresh, outputForm)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >une matrice : carrÃ©e, finie (simple ou double prÃ©cision).</param_description>
+      >une matrice, carrée ou non : finie, simple ou double précision, réelle ou complexe, pleine ou creuse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputForm</param_name>
+      <param_description>un vecteur de caractères ou une chaîne : 'matrix' (par défaut) ou 'vector'. Le début de l'un de ces mots suffit, sans tenir compte de la casse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>une matrice creuse : simple ou double précision, réelle ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>thresh</param_name>
+      <param_description>seuil de pivot entre 0 et 1 : un scalaire avec trois sorties ou moins (1 par défaut), un scalaire ou un vecteur de deux éléments avec quatre ou cinq sorties ([0.1, 0.001] par défaut).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>L</param_name>
       <param_description
-      >Facteur triangulaire infÃ©rieur : matrice (mÃªme type que A)</param_description>
+      >Facteur triangulaire inférieur : matrice (même type que A)</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U</param_name>
       <param_description
-      >Facteur triangulaire supÃ©rieur : matrice (mÃªme type que A).</param_description>
+      >Facteur triangulaire supérieur : matrice (même type que A).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>P</param_name>
       <param_description
-      >Permutation de lignes : matrice (mÃªme type que A).</param_description>
+      >Permutation des lignes : matrice réelle (même précision que A), ou vecteur ligne de double si outputForm vaut 'vector'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Q</param_name>
+      <param_description>Permutation des colonnes : matrice creuse réelle (même précision que S), ou vecteur ligne de double si outputForm vaut 'vector'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>Mise à l'échelle des lignes : matrice diagonale creuse réelle (même précision que S).</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>[L, U] = lu(A)</b> dÃ©compose une matrice pleine <b>A</b> en deux matrices : une matrice triangulaire supÃ©rieure <b>U</b> et une matrice triangulaire infÃ©rieure permutÃ©e <b>L</b>.</p>
-    <p>Cette factorisation satisfait l&apos;Ã©quation <b>A = L * U</b>.</p>
+      <b>[L, U] = lu(A)</b> décompose une matrice pleine <b>A</b> en deux matrices : une matrice triangulaire supérieure <b>U</b> et une matrice triangulaire inférieure permutée <b>L</b>.</p>
+    <p>Cette factorisation satisfait l&apos;équation <b>A = L * U</b>.</p>
     <p>
-      <b>[L, U, P] = lu(A)</b> : avec trois arguments de sortie, la fonction fournit une matrice de permutation<b>P</b> en plus de la matrice triangulaire infÃ©rieure unitaire <b>L</b> et de la matrice triangulaire supÃ©rieure <b>U</b>.</p>
-    <p>Cette factorisation s&apos;exprime comme <b>A = P&apos;LU</b>, oÃ¹<b>L</b> est triangulaire infÃ©rieure unitaire et<b>U</b> est triangulaire supÃ©rieure.</p>
+      <b>[L, U, P] = lu(A)</b> : avec trois arguments de sortie, la fonction fournit une matrice de permutation <b>P</b> en plus de la matrice triangulaire inférieure unitaire <b>L</b> et de la matrice triangulaire supérieure <b>U</b>.</p>
+    <p>Cette factorisation s&apos;exprime comme <b>A = P&apos;LU</b>, où <b>L</b> est triangulaire inférieure unitaire et <b>U</b> est triangulaire supérieure.</p>
     <p>
       Les matrices sparse single et sparse single complexes sont prises en charge. Les facteurs
-      retournes conservent le stockage sparse et la precision de l'entree.</p>
+      retournés conservent le stockage sparse et la précision de l'entrée.</p>
+    <p>Avec <b>outputForm</b> égal à <b>'vector'</b>, <b>P</b> est retourné sous la forme d'un vecteur ligne <b>p</b> d'indices de lignes tel que <b>A(p, :) = L * U</b>.</p>
+    <p><b>[L, U, P, Q] = lu(S)</b> pour une matrice creuse <b>S</b> retourne aussi une permutation des colonnes <b>Q</b> choisie pour garder <b>L</b> et <b>U</b> creuses, avec <b>P * S * Q = L * U</b>.</p>
+    <p><b>[L, U, P, Q, D] = lu(S)</b> retourne aussi une matrice diagonale de mise à l'échelle <b>D</b> avec <b>P * (D \ S) * Q = L * U</b>. Chaque terme diagonal de <b>D</b> est la somme des valeurs absolues (|partie réelle| + |partie imaginaire|) d'une ligne de <b>S</b>, ou 1 pour une ligne vide.</p>
+    <p><b>thresh</b> règle le choix du pivot pour les matrices creuses. Avec trois sorties ou moins, la ligne courante reste le pivot si son module vaut au moins <b>thresh</b> fois le plus grand candidat ; 1 donne le pivot partiel. Avec quatre ou cinq sorties, <b>thresh(1)</b> est la tolérance de pivot entre les lignes et <b>thresh(2)</b> la tolérance pour garder un pivot diagonal. Des valeurs faibles favorisent le creux au détriment de la stabilité numérique.</p>
+    <p>Avec <b>outputForm</b> égal à <b>'vector'</b>, <b>Q</b> est aussi retourné sous la forme d'un vecteur ligne <b>q</b> tel que <b>S(p, q) = L * U</b>.</p>
+    <p>Pour une matrice creuse, une colonne sans pivot utilisable donne un zéro sur la diagonale de <b>U</b> ; aucune erreur n'est levée.</p>
   </description>
   <used_function
   >LAPACK dgetrf, LAPACK sgetrf, LAPACK zgetrf, LAPACK cgetrf</used_function>
@@ -79,6 +111,26 @@ title('U factor')
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1; 2 3]));
 [L, U, P] = lu(A)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Permutation des lignes sous forme de vecteur.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [2 1 0; 4 3 1; 1 5 9];
+[L, U, p] = lu(A, 'vector')
+A(p, :) - L * U]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Factorisation creuse avec permutation des colonnes et mise à l'échelle des lignes.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse([4 1 0 0; 1 5 2 0; 0 2 6 3; 1 0 3 7]);
+[L, U, P, Q, D] = lu(S);
+norm(full(P * (D \ S) * Q - L * U), 1)
+[L, U, p, q] = lu(S, 'vector');
+norm(full(S(p, q) - L * U), 1)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -93,6 +145,14 @@ title('U factor')
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout de outputForm 'matrix' ou 'vector'</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout de quatre et cinq sorties et du seuil de pivot pour les matrices creuses</history_description>
     </history_item>
   </history>
   <authors>
