@@ -8,10 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cfloat>
+#include <limits>
 #include "flintmaxBuiltin.hpp"
-#include "Error.hpp"
-#include "ErrorID.hpp"
-#include "i18n.hpp"
+#include "ConstantClassArguments.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -19,47 +18,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
     nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() == 1) {
-        ArrayOf param1 = argIn[0];
-        std::wstring paramStr = param1.asWideString();
-        if ((paramStr == L"double" || paramStr == L"single")) {
-            if (paramStr == L"double") {
-                double intmax = (1ULL << DBL_MANT_DIG);
-                retval << ArrayOf::doubleScalar(intmax);
-            } else {
-                single intmax = (1UL << FLT_MANT_DIG);
-                retval << ArrayOf::singleScalar(intmax);
-            }
-        } else {
-            Error(L"Nelson:double:invalidClassName", L"%s expected.", L"#1 'double' or 'single'");
-        }
-    } else if (argIn.size() == 2) {
-        if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-            std::wstring param = argIn[0].asWideString();
-            if (param == L"like") {
-                if (argIn[1].isDoubleType()) {
-                    double intmax = (1ULL << DBL_MANT_DIG);
-                    retval << ArrayOf::doubleScalar(intmax);
-                } else if (argIn[1].isSingleType()) {
-                    single intmax = (1UL << FLT_MANT_DIG);
-                    retval << ArrayOf::singleScalar(intmax);
-                } else {
-                    Error("Nelson:flintmax:secondArgNotFloat",
-                        "Second argument must a double or single variable.");
-                }
-            } else {
-                Error("Nelson:flintmax:firstArgNotLike", "First argument must be 'like'.");
-            }
-        } else {
-            Error("Nelson:flintmax:firstArgNotLike", "First argument must be 'like'.");
-        }
-    } else {
-        double intmax = (1ULL << DBL_MANT_DIG);
-        retval << ArrayOf::doubleScalar(intmax);
-    }
+    ConstantClassRequest request = parseConstantClassArguments(argIn, false);
+    ArrayOf value = request.className == L"single"
+        ? ArrayOf::singleScalar(static_cast<single>(1UL << FLT_MANT_DIG))
+        : ArrayOf::doubleScalar(static_cast<double>(1ULL << DBL_MANT_DIG));
+    ArrayOfVector retval;
+    retval << applyConstantClassRequest(value, request);
     return retval;
 }
 //=============================================================================

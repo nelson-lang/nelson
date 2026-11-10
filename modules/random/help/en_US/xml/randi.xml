@@ -11,6 +11,7 @@
     <syntax_item>X = randi(imax, ..., typename)</syntax_item>
     <syntax_item>X = randi(imax, ..., &apos;like&apos;, p)</syntax_item>
     <syntax_item>X = randi([imin, imax], ...)</syntax_item>
+    <syntax_item>X = randi(imax, ..., &apos;gpuArray&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -61,6 +62,7 @@
     >X = randi(imax, ..., &apos;like&apos;, p) returns an array of random integers like p (same type and complexity).</p>
     <p
     >X = randi([imin, imax], ...) returns random integers between imin and imax.</p>
+    <p>X = randi(imax, ..., 'gpuArray') returns the random integers as a <b>gpuArray</b>.</p>
   </description>
   <used_function />
   <examples>
@@ -138,6 +140,10 @@ X = randi([5, 15], 2, 3)
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'gpuArray' typename added.</history_description>
     </history_item>
   </history>
   <authors>

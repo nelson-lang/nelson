@@ -7,4 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+rmpath(modulepath('constructors_functions', 'functions'));
 removegateway(modulepath('constructors_functions', 'builtin'));

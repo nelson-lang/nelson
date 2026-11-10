@@ -10,9 +10,7 @@
 #include <cfloat>
 #include <limits>
 #include "realminBuiltin.hpp"
-#include "Error.hpp"
-#include "ErrorID.hpp"
-#include "i18n.hpp"
+#include "ConstantClassArguments.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -20,27 +18,14 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::DoubleGateway::realminBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
-    ArrayOfVector retval;
-    nargincheck(argIn, 0, 1);
+    nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() == 1) {
-        ArrayOf param1 = argIn[0];
-        std::wstring paramStr = param1.asWideString();
-        if ((paramStr == L"double" || paramStr == L"single")) {
-            if (paramStr == L"double") {
-                double realmin = std::numeric_limits<double>::min();
-                retval << ArrayOf::doubleScalar(realmin);
-            } else {
-                single realmin = std::numeric_limits<single>::min();
-                retval << ArrayOf::singleScalar(realmin);
-            }
-        } else {
-            Error(L"Nelson:double:invalidClassName", L"%s expected.", L"#1 'double' or 'single'");
-        }
-    } else {
-        double realmin = std::numeric_limits<double>::min();
-        retval << ArrayOf::doubleScalar(realmin);
-    }
+    ConstantClassRequest request = parseConstantClassArguments(argIn, false);
+    ArrayOf value = request.className == L"single"
+        ? ArrayOf::singleScalar(std::numeric_limits<single>::min())
+        : ArrayOf::doubleScalar(std::numeric_limits<double>::min());
+    ArrayOfVector retval;
+    retval << applyConstantClassRequest(value, request);
     return retval;
 }
 //=============================================================================

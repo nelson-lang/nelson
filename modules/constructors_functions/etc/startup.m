@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('constructors_functions', 'builtin'), 'constructors_functions');
+addpath(modulepath('constructors_functions', 'functions'), '-frozen');
 %=============================================================================

@@ -8,11 +8,16 @@
   <syntax>
     <syntax_item>imax = intmax()</syntax_item>
     <syntax_item>imax = intmax(classname)</syntax_item>
+    <syntax_item>imax = intmax(&apos;like&apos;, p)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>classname</param_name>
       <param_description>a string: by default: int32</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>an integer array whose class is given to the result.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -49,6 +54,7 @@
     <p>
       &apos;uint64&apos;
     </p>
+    <p><b>intmax('like', p)</b> returns the value for the integer class of <b>p</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -82,6 +88,10 @@ res = class(C)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'like' form added.</history_description>
     </history_item>
   </history>
   <authors>

@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('realmin'), 1);
+asserts.isequal(nargin('realmin'), 2);
 asserts.isequal(nargout('realmin'), 1);
 %=============================================================================
 R = realmin();

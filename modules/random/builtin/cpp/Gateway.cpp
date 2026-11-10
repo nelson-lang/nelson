@@ -22,7 +22,8 @@ const std::wstring gatewayName = L"random";
 static const nlsGateway gateway[] = {
     { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
-    { "randi", (ptrBuiltin)Nelson::RandomGateway::randiBuiltin, 1, -1, CPP_BUILTIN },
+    { "randi", (ptrBuiltin)Nelson::RandomGateway::randiBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN },

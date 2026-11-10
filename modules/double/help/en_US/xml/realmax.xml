@@ -8,7 +8,14 @@
     <syntax_item>R = realmax()</syntax_item>
     <syntax_item>R = realmax(&apos;double&apos;)</syntax_item>
     <syntax_item>R = realmax(&apos;single&apos;)</syntax_item>
+    <syntax_item>R = realmax(&apos;like&apos;, p)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>an array whose class, complexity and sparsity are given to the result.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
@@ -18,6 +25,7 @@
   <description>
     <p>
       <b>realmax</b> returns largest positive floating-point number.</p>
+    <p><b>realmax('like', p)</b> returns the value for the class of <b>p</b>; a complex or sparse <b>p</b> gives a complex or sparse result.</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,6 +49,10 @@ realmax('single')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'like' form added.</history_description>
     </history_item>
   </history>
   <authors>

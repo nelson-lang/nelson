@@ -5,27 +5,34 @@
   <keyword>eps</keyword>
   <short_description>Crée un epsilon (précision machine)</short_description>
   <syntax>
-    <syntax_item>eps</syntax_item>
-    <syntax_item>eps</syntax_item>
-    <syntax_item>eps(n)</syntax_item>
-    <syntax_item>eps(n, m)</syntax_item>
-    <syntax_item>eps(&apos;double&apos;)</syntax_item>
-    <syntax_item>eps(&apos;single&apos;)</syntax_item>
+    <syntax_item>d = eps</syntax_item>
+    <syntax_item>d = eps(X)</syntax_item>
+    <syntax_item>d = eps(&apos;double&apos;)</syntax_item>
+    <syntax_item>d = eps(&apos;single&apos;)</syntax_item>
+    <syntax_item>d = eps(&apos;like&apos;, p)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>n</param_name>
-      <param_description>une variable : matrice n-par-n</param_description>
+      <param_name>X</param_name>
+      <param_description>un tableau double ou single (réel ou complexe, plein ou creux).</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>m</param_name>
-      <param_description>une variable : matrice n-par-m</param_description>
+      <param_name>p</param_name>
+      <param_description>un tableau dont la classe, la complexité et le caractère creux sont repris par le résultat.</param_description>
     </param_input_item>
   </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>un double ou single : l&apos;écart entre nombres flottants.</param_description>
+    </param_output_item>
+  </param_output>
   <description>
     <p>
       <b>eps</b> retourne la précision machine 2^(-52) pour double et 2^(-23) pour single.</p>
     <p>eps(Inf), eps(-Inf) et eps(NaN) retournent NaN.</p>
+    <p><b>eps(X)</b> renvoie, élément par élément, la distance entre <b>abs(X)</b> et le nombre suivant de même classe ; le résultat est réel et plein, de la taille de <b>X</b>.</p>
+    <p><b>eps('like', p)</b> renvoie la valeur pour la classe de <b>p</b> ; un <b>p</b> complexe ou creux donne un résultat complexe ou creux.</p>
   </description>
   <used_function />
   <bibliography />
@@ -62,6 +69,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>eps(X) sur les tableaux et forme &apos;like&apos; ajoutés.</history_description>
     </history_item>
   </history>
   <authors>

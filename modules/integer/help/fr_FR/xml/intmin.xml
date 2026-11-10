@@ -8,11 +8,16 @@
   <syntax>
     <syntax_item>imin = intmin()</syntax_item>
     <syntax_item>imin = intmin(classname)</syntax_item>
+    <syntax_item>imin = intmin(&apos;like&apos;, p)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>classname</param_name>
       <param_description>une chaîne : par défaut : int32</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>un tableau d'entiers dont la classe est reprise par le résultat.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -49,6 +54,7 @@
     <p>
       &apos;uint64&apos;
     </p>
+    <p><b>intmin('like', p)</b> renvoie la valeur pour la classe entière de <b>p</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -82,6 +88,10 @@ res = class(C)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>forme 'like' ajoutée.</history_description>
     </history_item>
   </history>
   <authors>

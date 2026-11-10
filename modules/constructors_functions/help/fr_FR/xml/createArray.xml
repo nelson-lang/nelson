@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>createArray</keyword>
+  <short_description>Crée un tableau rempli d'une valeur.</short_description>
+  <syntax>
+    <syntax_item>A = createArray(n)</syntax_item>
+    <syntax_item>A = createArray(sz1, ..., szN)</syntax_item>
+    <syntax_item>A = createArray(sz)</syntax_item>
+    <syntax_item>A = createArray(..., classname)</syntax_item>
+    <syntax_item>A = createArray(..., 'like', p)</syntax_item>
+    <syntax_item>A = createArray(..., 'FillValue', v)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n, sz1, ..., szN, sz</param_name>
+      <param_description>taille : n donne n x n, une liste de tailles ou un vecteur de taille. Les tailles négatives deviennent 0.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>classname</param_name>
+      <param_description>classe du résultat : une classe numérique, <b>'logical'</b>, <b>'char'</b>, <b>'string'</b> ou <b>'cell'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>prototype donné avec <b>'like'</b> : le résultat a sa classe, sa complexité et son emplacement gpuArray.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>FillValue</param_name>
+      <param_description>valeur de chaque élément. Par défaut : 0, <b>false</b>, <b>char(0)</b>, une chaîne manquante ou une cellule vide.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>le nouveau tableau.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>A = createArray(sz)</b> renvoie un tableau de zéros de taille <b>sz</b>.</p>
+    <p>La classe vient de <b>classname</b>, du prototype donné avec <b>'like'</b>, ou sinon de <b>FillValue</b>. Quand une classe est donnée, <b>FillValue</b> y est converti, avec saturation pour les classes entières.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[createArray(2, 3)
+createArray(1, 3, 'int8', 'FillValue', 300)
+createArray(1, 2, 'FillValue', "x")]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${constructors_functions}zeros">zeros</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}ones">ones</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -14,7 +14,7 @@
   <param_input>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>une variable double ou single.</param_description>
+      <param_description>un tableau dont la classe, la complexité et le caractère creux sont repris par le résultat.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,6 +26,7 @@
   <description>
     <p>
       <b>flintmax</b> renvoie le plus grand entier consécutif représentable au format virgule flottante.</p>
+    <p><b>flintmax('like', V)</b> renvoie la valeur pour la classe de <b>V</b> ; un <b>V</b> complexe ou creux donne un résultat complexe ou creux.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,6 +51,10 @@ flintmax('single')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'like' conserve la complexité et le caractère creux du prototype.</history_description>
     </history_item>
   </history>
   <authors>

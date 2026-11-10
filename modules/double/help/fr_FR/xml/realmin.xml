@@ -8,7 +8,14 @@
     <syntax_item>R = realmin()</syntax_item>
     <syntax_item>R = realmin(&apos;double&apos;)</syntax_item>
     <syntax_item>R = realmin(&apos;single&apos;)</syntax_item>
+    <syntax_item>R = realmin(&apos;like&apos;, p)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>un tableau dont la classe, la complexité et le caractère creux sont repris par le résultat.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
@@ -18,6 +25,7 @@
   <description>
     <p>
       <b>realmin</b> renvoie le plus petit nombre flottant positif.</p>
+    <p><b>realmin('like', p)</b> renvoie la valeur pour la classe de <b>p</b> ; un <b>p</b> complexe ou creux donne un résultat complexe ou creux.</p>
   </description>
   <used_function />
   <bibliography />
@@ -44,6 +52,10 @@ realmin('single')]]></example_item_data>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>forme 'like' ajoutée.</history_description>
     </history_item>
   </history>
   <authors>

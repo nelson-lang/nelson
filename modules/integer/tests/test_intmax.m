@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('intmax'), -1);
-asserts.isequal(nargout('intmax'), -1);
+asserts.isequal(nargin('intmax'), 2);
+asserts.isequal(nargout('intmax'), 1);
 %=============================================================================
 asserts.isequal(intmax(), intmax('int32'));
 asserts.isequal(intmax('int32'), int32(2147483647));
@@ -20,9 +20,10 @@ asserts.isequal(intmax('uint32'), uint32(4294967295));
 asserts.isequal(intmax('int64'), int64(9223372036854775807i64));
 asserts.isequal(intmax('uint64'), uint64(18446744073709551615u64));
 %=============================================================================
-asserts.checkerror('intmax(''uint64'', 3)', _('Too many input arguments.'));
-asserts.checkerror('intmax(3)', sprintf(_('Wrong type for argument #%d: %s expected.'), 1, 'string'));
-asserts.checkerror('intmax(''t'')', _('The name of an integer class expected.'));
-asserts.checkerror('intmax(''t'')', _('The name of an integer class expected.'), 'Nelson:integer:invalidClassName');
+msg = _('With two inputs, the first one must be ''like''.');
+asserts.checkerror('intmax(''uint64'', 3)', msg, 'Nelson:constants:firstArgNotLike');
+msg = _('Class name must be an integer class such as ''int8'' or ''uint64''.');
+asserts.checkerror('intmax(3)', msg, 'Nelson:constants:integerClassExpected');
+asserts.checkerror('intmax(''t'')', msg, 'Nelson:constants:integerClassExpected');
 asserts.checkerror('[a, b] = intmax()', _('Too many output arguments.'));
 %=============================================================================

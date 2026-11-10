@@ -38,7 +38,7 @@ static const nlsGateway gateway[] = { { "eye", (ptrBuiltin)Nelson::ConstructorsG
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "Inf", (ptrBuiltin)Nelson::ConstructorsGateway::infBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
-    { "eps", (ptrBuiltin)Nelson::ConstructorsGateway::epsBuiltin, 1, 0 },
+    { "eps", (ptrBuiltin)Nelson::ConstructorsGateway::epsBuiltin, 1, 2 },
     { "pi", (ptrBuiltin)Nelson::ConstructorsGateway::piBuiltin, 1, 0 },
     { "ones", (ptrBuiltin)Nelson::ConstructorsGateway::onesBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },

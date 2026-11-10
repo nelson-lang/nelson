@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('eps'), 0);
+asserts.isequal(nargin('eps'), 2);
 asserts.isequal(nargout('eps'), 1);
 %=============================================================================
 asserts.isequal(eps(), eps(1));

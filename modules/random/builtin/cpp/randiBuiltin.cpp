@@ -15,6 +15,8 @@
 #include "RandInteger.hpp"
 #include "nlsBuildConfig.h"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "Context.hpp"
+#include "FunctionDef.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,7 +41,7 @@ validateRandiLimits(double iminAsDouble, double imaxAsDouble, bool scalarForm)
 }
 //=============================================================================
 ArrayOfVector
-Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::RandomGateway::randiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
@@ -51,6 +53,8 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
     NelsonType cl = NLS_DOUBLE;
     bool useLike = false;
     ArrayOf likeArray;
+    // set by the gpuArray typename
+    FunctionDefPtr classConstructor = nullptr;
 
     sizeType nRhs = argIn.size();
     sizeType argIdx = 0;
@@ -149,6 +153,10 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
                 } else {
                     Error(L"Nelson:randi:invalidLike", L"'like' must be followed by an array.");
                 }
+            } else if (paramstr == L"gpuArray" && eval != nullptr
+                && eval->getContext()->lookupFunction("gpuArray", classConstructor)
+                && classConstructor != nullptr) {
+                // values drawn on the host, then moved with the gpuArray constructor
             } else {
                 Error(L"Nelson:randi:unknownTypename", L"Unknown typename: %s.", paramstr);
             }
@@ -163,6 +171,11 @@ Nelson::RandomGateway::randiBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     ArrayOf result = RandInteger(imin, imax, dims, cl);
+    if (classConstructor != nullptr) {
+        ArrayOfVector constructorArgs;
+        constructorArgs << result;
+        return classConstructor->evaluateFunction(eval, constructorArgs, 1);
+    }
     retval << result;
     return retval;
 }

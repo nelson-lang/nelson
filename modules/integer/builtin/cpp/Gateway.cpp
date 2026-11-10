@@ -32,8 +32,8 @@ static const nlsGateway gateway[] = {
     { "uint16", (ptrBuiltin)Nelson::IntegerGateway::uint16Builtin, 1, 1 },
     { "uint32", (ptrBuiltin)Nelson::IntegerGateway::uint32Builtin, 1, 1 },
     { "uint64", (ptrBuiltin)Nelson::IntegerGateway::uint64Builtin, 1, 1 },
-    { "intmax", (ptrBuiltin)Nelson::IntegerGateway::intmaxBuiltin, -1, -1 },
-    { "intmin", (ptrBuiltin)Nelson::IntegerGateway::intminBuiltin, -1, -1 },
+    { "intmax", (ptrBuiltin)Nelson::IntegerGateway::intmaxBuiltin, 1, 2 },
+    { "intmin", (ptrBuiltin)Nelson::IntegerGateway::intminBuiltin, 1, 2 },
 };
 //=============================================================================
 NLS_GATEWAY_FUNC(gateway)

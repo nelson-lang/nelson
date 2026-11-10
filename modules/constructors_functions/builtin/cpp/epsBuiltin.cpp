@@ -7,55 +7,56 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <complex>
 #include "epsBuiltin.hpp"
 #include "Epsilon.hpp"
-#include "Error.hpp"
-#include "ErrorID.hpp"
-#include "i18n.hpp"
+#include "ConstantClassArguments.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+template <class T>
+static ArrayOf
+epsOfArray(const ArrayOf& X, NelsonType realType)
+{
+    indexType n = X.elementCount();
+    T* out = static_cast<T*>(ArrayOf::allocateArrayOf(realType, n));
+    if (X.isComplex()) {
+        const auto* in = static_cast<const std::complex<T>*>(X.dataPointer());
+        for (indexType k = 0; k < n; ++k) {
+            out[k] = Epsilon(std::abs(in[k]));
+        }
+    } else {
+        const T* in = static_cast<const T*>(X.dataPointer());
+        for (indexType k = 0; k < n; ++k) {
+            out[k] = Epsilon(in[k]);
+        }
+    }
+    return ArrayOf(realType, X.dimensions(), out);
+}
 //=============================================================================
 ArrayOfVector
 Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 0, 1);
-    ArrayOfVector retval(1);
-    if (argIn.empty()) {
-        retval << ArrayOf::doubleScalar(Epsilon(1.0));
-    } else {
-        if (argIn[0].dataClass() == NLS_DOUBLE || argIn[0].dataClass() == NLS_DCOMPLEX) {
-            if (!argIn[0].isScalar()) {
-                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
-                    (1));
-            }
-            auto* pV = (double*)argIn[0].dataPointer();
-            double dV = pV[0];
-            retval << ArrayOf::doubleScalar(Epsilon(dV));
-        } else if (argIn[0].dataClass() == NLS_SINGLE || argIn[0].dataClass() == NLS_SCOMPLEX) {
-            if (!argIn[0].isScalar()) {
-                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
-                    (1));
-            }
-            auto* pV = (single*)argIn[0].dataPointer();
-            single dV = pV[0];
-            retval << ArrayOf::singleScalar(Epsilon(dV));
-        } else if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring arg = argIn[0].asWideString();
-            if (arg == L"single") {
-                retval << ArrayOf::singleScalar(Epsilon(static_cast<single>(1.0)));
-            } else if (arg == L"double") {
-                retval << ArrayOf::doubleScalar(Epsilon(1.0));
-            } else {
-                Error(L"Nelson:constructors_functions:typeDoubleSingleExpected",
-                    L"Type \'double\' or \'single\' expected.");
-            }
-        } else {
-            Error(L"Nelson:constructors_functions:typeDoubleSingleExpected",
-                L"Type \'double\' or \'single\' expected.");
+    nargincheck(argIn, 0, 2);
+    ArrayOfVector retval;
+    NelsonType cls = argIn.size() == 1 ? argIn[0].dataClass() : NLS_UNKNOWN;
+    if (cls == NLS_DOUBLE || cls == NLS_DCOMPLEX || cls == NLS_SINGLE || cls == NLS_SCOMPLEX) {
+        // spacing of each element, always real and full
+        ArrayOf X = argIn[0];
+        if (X.isSparse()) {
+            X.makeDense();
         }
+        retval << (X.isSingleType() ? epsOfArray<single>(X, NLS_SINGLE)
+                                    : epsOfArray<double>(X, NLS_DOUBLE));
+        return retval;
     }
+    ConstantClassRequest request = parseConstantClassArguments(argIn, false);
+    ArrayOf value = request.className == L"single"
+        ? ArrayOf::singleScalar(Epsilon(static_cast<single>(1.0)))
+        : ArrayOf::doubleScalar(Epsilon(1.0));
+    retval << applyConstantClassRequest(value, request);
     return retval;
 }
 //=============================================================================
