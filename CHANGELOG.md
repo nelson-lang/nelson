@@ -75,6 +75,11 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - A file whose name differs from its function name raises an error (breaking change).
 - `patch`, `surf`, `text`, and `plot` accept an `hgtransform` parent.
 - `filewrite` is about 6 times faster on large text.
+- `\` with a full diagonal matrix is 3 to 30 times faster, and a badly scaled diagonal now warns like a triangular one; `\` with a dense N-D operand raises an error instead of returning a wrong result.
+- `B / A` with a dense square `A` no longer transposes its operands and runs as fast as `A \ B'`.
+- `lu`, `det`, `inv`, `rcond`, `\`, and `/` on small dense matrices (up to 16 by 16 real, 8 by 8 complex) round in a fixed order without fused multiply-add, so they give the same bits on every platform; `det` uses the same LU and is faster.
+- `eps(X)` works element by element on arrays; `eps`, `realmax`, `realmin`, `flintmax`, `intmax`, and `intmin` accept `'like', p`; `randi` accepts `'gpuArray'`.
+- `spline` sorts sample points given in any order and ignores NaN points.
 
 ### Removed
 
