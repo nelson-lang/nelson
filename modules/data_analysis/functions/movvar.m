@@ -8,6 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [y, m] = movvar(x, window, varargin)
+  if isinteger(x)
+    error('Nelson:movfun:integerInput', 'The data must be single or double.');
+  end
   y = movingWindowApply(x, window, '', @varAlongFirst, varargin{:});
   if nargout > 1
     % moving mean over the same windows

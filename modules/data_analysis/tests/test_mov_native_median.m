@@ -50,7 +50,7 @@ asserts.isequal(movmedian(X, [3 1], 2), ref);
 %=============================================================================
 % single precision values
 xs = single(x);
-ref = zeros(1, n);
+ref = zeros(1, n, 'single');
 for k = 1:n
   ref(k) = median(xs(max(1, k - 1):min(n, k + 2)));
 end
@@ -58,12 +58,12 @@ asserts.isequal(movmedian(xs, [1 2]), ref);
 %=============================================================================
 % integer values: the median of two values is rounded, deviations saturate
 x8 = int8(round(60 * (sin((1:n) * 0.37) + cos((1:n) * 1.3))));
-ref = zeros(1, n);
-mad = zeros(1, n);
+ref = zeros(1, n, 'int8');
+mad = zeros(1, n, 'int8');
 for k = 1:n
   w = x8(max(1, k - 2):min(n, k + 1));
-  ref(k) = double(median(w));
-  mad(k) = double(median(abs(w - median(w))));
+  ref(k) = median(w);
+  mad(k) = median(abs(w - median(w)));
 end
 asserts.isequal(movmedian(x8, 4), ref);
 asserts.isequal(movmad(x8, 4), mad);

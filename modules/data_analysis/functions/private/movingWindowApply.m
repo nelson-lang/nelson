@@ -54,14 +54,28 @@ function y = movingWindowApply(x, window, operation, fun, varargin)
   else
     yr = movingWindowRows(xr, before, after, rows, fun, nanflag);
   end
-  y = ipermute(reshape(yr, sz), perm);
+  y = resultClass(ipermute(reshape(yr, sz), perm), x, operation);
+end
+%=============================================================================
+function y = resultClass(y, x, operation)
+  % single stays single; integers keep their class for order statistics, logicals for
+  % min and max; everything else is double
+  if isa(x, 'single')
+    y = single(y);
+  elseif isinteger(x) && any(strcmp(operation, {'median', 'mad', 'min', 'max'}))
+    y = cast(y, class(x));
+  elseif islogical(x) && any(strcmp(operation, {'min', 'max'}))
+    y = logical(y);
+  end
 end
 %=============================================================================
 function native = movingWindowIsNative(xr, operation, nanflag)
   % the native kernel covers full real arrays of numeric, logical or char
   % values. The mean of single values without their NaN values is
   % accumulated in single precision by the reduction, not by the kernel.
-  native = ~isempty(operation) && isreal(xr) && ~issparse(xr) && (isnumeric(xr) || islogical(xr) || ischar(xr));
+  % a handle array (device data) is reduced through fun instead
+  native = ~isempty(operation) && isreal(xr) && ~issparse(xr) && (isnumeric(xr) || islogical(xr) || ischar(xr)) ...
+    && ~isa(xr, 'handle');
   if native && strcmp(operation, 'mean') && strcmp(nanflag, 'omitnan') && isa(xr, 'single')
     native = false;
   end
@@ -157,7 +171,12 @@ function [dim, nanflag, endpoints] = parseMovingOptions(szx, varargin)
   nanflag = '';
   endpoints = 'shrink';
   args = varargin;
-  if ~isempty(args) && isnumeric(args{1}) && isscalar(args{1})
+  if ~isempty(args) && isnumeric(args{1})
+    % moving functions take one dimension, not a vector of dimensions
+    if ~isscalar(args{1})
+      error('Nelson:getdimarg:dimensionMustBePositiveInteger', ...
+            'Dimension argument must be a positive integer scalar within indexing range.');
+    end
     dim = args{1};
     args = args(2:end);
   end
