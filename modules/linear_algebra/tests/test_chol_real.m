@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--REUSE PROCESS-->
-asserts.isequal(nargin('chol'), 1);
+asserts.isequal(nargin('chol'), 2);
 asserts.isequal(nargout('chol'), 2);
 %=============================================================================
 R = chol([]);

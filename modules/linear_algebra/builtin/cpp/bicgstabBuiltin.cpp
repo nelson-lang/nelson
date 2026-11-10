@@ -29,7 +29,7 @@ template <class T> struct BicgstabResult
 //=============================================================================
 template <class T>
 BicgstabResult<T>
-runBicgstab(const SparseAdvancedMatrix<T>& A, const SparseAdvancedVector<T>& b, double tolerance,
+runBicgstab(const SystemOperator<T>& A, const SparseAdvancedVector<T>& b, double tolerance,
     indexType maxIterations, const ExplicitPreconditioner<T>& M1,
     const ExplicitPreconditioner<T>& M2, const SparseAdvancedVector<T>& x0)
 {
@@ -122,11 +122,10 @@ bicgstabTyped(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, NelsonType 
 {
     ArrayOf Aarg = argIn[0];
     ArrayOf barg = argIn[1];
-    if (!Aarg.isSparse() || !isCompatibleFloatingClass(Aarg, dataClass)
-        || !isCompatibleFloatingClass(barg, dataClass)) {
+    if (!isSystemOperatorArgument(Aarg, dataClass) || !isCompatibleFloatingClass(barg, dataClass)) {
         OverloadRequired("bicgstab");
     }
-    SparseAdvancedMatrix<T> A = arrayToSparseMatrix<T>(Aarg);
+    SystemOperator<T> A(Aarg, eval, false, static_cast<signedIndexType>(barg.elementCount()));
     SparseAdvancedVector<T> b = arrayToVector<T>(barg);
     double tolerance = optionalTolerance(argIn, 2, 1e-6);
     indexType defaultMax = std::min<indexType>(A.rows(), 20);
@@ -174,25 +173,25 @@ Nelson::LinearAlgebraGateway::bicgstabBuiltin(Evaluator* eval, int nLhs, const A
 {
     nargincheck(argIn, 2, 7);
     nargoutcheck(nLhs, 0, 5);
-    if (!argIn[0].isSparse() || !isFloatingPointClass(argIn[0].dataClass())
-        || !isFloatingPointClass(argIn[1].dataClass())) {
+    if (!isSystemOperatorCandidate(argIn[0]) || !isFloatingPointClass(argIn[1].dataClass())) {
         OverloadRequired("bicgstab");
     }
-    if (argIn[0].dataClass() == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
+    NelsonType systemClass = systemDataClass(argIn[0], argIn[1]);
+    if (systemClass == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
         || anyArgumentHasDataClass(argIn, { 4, 5, 6 }, NLS_SCOMPLEX)) {
         return bicgstabTyped<singlecomplex>(eval, nLhs, argIn, NLS_SCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
+    if (systemClass == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
         || anyArgumentHasDataClass(argIn, { 4, 5, 6 }, NLS_DCOMPLEX)) {
         return bicgstabTyped<doublecomplex>(eval, nLhs, argIn, NLS_DCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_SINGLE) {
+    if (systemClass == NLS_SINGLE) {
         return bicgstabTyped<single>(eval, nLhs, argIn, NLS_SINGLE);
     }
-    if (argIn[0].dataClass() == NLS_DOUBLE) {
+    if (systemClass == NLS_DOUBLE) {
         return bicgstabTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("bicgstab");
-    return {};
+    return { };
 }
 //=============================================================================

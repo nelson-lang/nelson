@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>une matrice sparse flottante reelle ou complexe.</param_description>
+      <param_description>une matrice réelle ou complexe single ou double, creuse ou pleine, ou un pointeur de fonction : <b>afun(x, 'notransp')</b> renvoie <b>A*x</b> et <b>afun(x, 'transp')</b> renvoie <b>A'*x</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
@@ -114,6 +114,10 @@ M2 = [1 0.5; 0 3];
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>ajout de la couverture single, single complexe, preconditionneur a droite, vecteur initial et historique des residus.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>A peut être une matrice pleine ou un pointeur de fonction</history_description>
     </history_item>
   </history>
   <authors>

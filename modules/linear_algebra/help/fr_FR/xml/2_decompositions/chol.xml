@@ -6,12 +6,18 @@
   <short_description>Factorisation de Cholesky.</short_description>
   <syntax>
     <syntax_item>F = chol(A)</syntax_item>
+    <syntax_item>F = chol(A, triangle)</syntax_item>
+    <syntax_item>[F, p] = chol(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
       >une matrice : carrée et définie positive (symétrique définie positive).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>triangle</param_name>
+      <param_description>un vecteur de caractères ou une chaîne : 'upper' (par défaut) ou 'lower', sans distinction de casse et éventuellement abrégé.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,6 +32,7 @@
     <p>
       Les matrices sparse single et sparse single complexes definies positives sont prises en
       charge. Le facteur retourne conserve le stockage sparse et la precision de l'entree.</p>
+    <p><b>F = chol(A, 'lower')</b> utilise le triangle inférieur de <b>A</b> et retourne une matrice triangulaire inférieure F telle que <b>A = F * F&apos;</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -59,6 +66,10 @@ R = chol(A)]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout de l'option de triangle 'upper' ou 'lower'</history_description>
     </history_item>
   </history>
   <authors>

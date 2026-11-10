@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>matrice sparse carree des coefficients.</param_description>
+      <param_description>une matrice carrée réelle ou complexe single ou double, creuse ou pleine, ou un pointeur de fonction renvoyant <b>A*x</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
@@ -120,6 +120,10 @@ b = single([1; 2]);
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>prise en charge des donnees sparse single, sparse single complexes, des preconditionneurs matriciels et des handles de fonction.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>A peut être une matrice pleine ou un pointeur de fonction</history_description>
     </history_item>
   </history>
   <authors>

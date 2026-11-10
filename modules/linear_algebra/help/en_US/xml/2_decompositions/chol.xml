@@ -6,12 +6,18 @@
   <short_description>Cholesky factorization.</short_description>
   <syntax>
     <syntax_item>F = chol(A)</syntax_item>
+    <syntax_item>F = chol(A, triangle)</syntax_item>
+    <syntax_item>[F, p] = chol(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
       >a matrix: square symmetric positive definite or Hermitian positive definite, dense or sparse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>triangle</param_name>
+      <param_description>a character vector or string: 'upper' (default) or 'lower', in any case and possibly shortened.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,6 +31,7 @@
       <b>F = chol(A)</b> factorizes symmetric positive definite matrix<b>A</b> into an upper triangular F that satisfies <b>A = F&apos; * F</b>.</p>
     <p>Sparse double, single, complex double, and complex single matrices are supported. Sparse factors keep sparse storage and keep the input numeric class where applicable.</p>
     <p>When the two-output form is used, the second output reports the failure index for non-positive-definite sparse matrices.</p>
+    <p><b>F = chol(A, 'lower')</b> uses the lower triangle of <b>A</b> and returns a lower triangular F that satisfies <b>A = F * F&apos;</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -60,6 +67,10 @@ R = chol(A)]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>added sparse single and complex single factorization support</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added triangle option 'upper' or 'lower'</history_description>
     </history_item>
   </history>
   <authors>

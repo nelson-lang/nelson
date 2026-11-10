@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a sparse real or complex floating-point matrix.</param_description>
+      <param_description>a real or complex single or double matrix, sparse or full, or a function handle: <b>afun(x, 'notransp')</b> returns <b>A*x</b> and <b>afun(x, 'transp')</b> returns <b>A'*x</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
@@ -106,6 +106,10 @@ M2 = [1 0.5; 0 3];
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>added single, complex single, right-preconditioner, initial guess, and residual-history coverage</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>A can be a full matrix or a function handle</history_description>
     </history_item>
   </history>
   <authors>

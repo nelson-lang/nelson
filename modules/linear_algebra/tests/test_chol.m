@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--REUSE PROCESS-->
-asserts.isequal(nargin('chol'), 1);
+asserts.isequal(nargin('chol'), 2);
 asserts.isequal(nargout('chol'), 2);
 %=============================================================================
 A = [4 2; 2 3];
@@ -59,4 +59,28 @@ asserts.istrue(issparse(Rbad));
 asserts.isequal(class(Rbad), 'single');
 asserts.isequal(size(Rbad), [2 2]);
 asserts.isequal(pbad, 2);
+%=============================================================================
+% triangle option
+A = [4 1 2; 1 3 0; 2 0 5];
+L = chol(A, 'lower');
+assert_isapprox(L, chol(A)', 1e-12);
+assert_isapprox(L * L', A, 1e-12);
+T = A;
+T(1, 3) = 99;
+assert_isapprox(chol(T, 'lower'), L, 1e-12);
+T = A;
+T(3, 1) = 99;
+assert_isapprox(chol(T, 'upper'), chol(A), 1e-12);
+assert_isapprox(chol(A, 'Lower'), L, 1e-12);
+assert_isapprox(chol(A, 'low'), L, 1e-12);
+assert_isapprox(chol(A, "u"), chol(A), 1e-12);
+assert_isequal(class(chol(single(A), 'lower')), 'single');
+[Lp, p] = chol([1 2; 2 1], 'lower');
+assert_isequal(Lp, 1);
+assert_isequal(p, 2);
+C = [4 1i; -1i 3];
+LC = chol(C, 'lower');
+assert_isapprox(LC * LC', C, 1e-12);
+assert_isapprox(full(chol(sparse(A), 'lower')), L, 1e-12);
+assert_checkerror('chol(A, ''foo'')', _('The triangle option must be ''upper'' or ''lower''.'));
 %=============================================================================

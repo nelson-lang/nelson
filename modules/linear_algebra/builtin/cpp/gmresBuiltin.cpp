@@ -39,7 +39,7 @@ optionalRestart(const ArrayOfVector& argIn, size_t index, indexType matrixSize)
 //=============================================================================
 template <class T>
 double
-preconditionedResidualNorm(const SparseAdvancedMatrix<T>& A, const SparseAdvancedVector<T>& b,
+preconditionedResidualNorm(const SystemOperator<T>& A, const SparseAdvancedVector<T>& b,
     const SparseAdvancedVector<T>& x, const ExplicitPreconditioner<T>& M1,
     const ExplicitPreconditioner<T>& M2)
 {
@@ -48,7 +48,7 @@ preconditionedResidualNorm(const SparseAdvancedMatrix<T>& A, const SparseAdvance
 //=============================================================================
 template <class T>
 GmresResult<T>
-runGmres(const SparseAdvancedMatrix<T>& A, const SparseAdvancedVector<T>& b, indexType restart,
+runGmres(const SystemOperator<T>& A, const SparseAdvancedVector<T>& b, indexType restart,
     double tolerance, indexType maxOuterIterations, const ExplicitPreconditioner<T>& M1,
     const ExplicitPreconditioner<T>& M2, const SparseAdvancedVector<T>& x0)
 {
@@ -137,11 +137,10 @@ gmresTyped(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, NelsonType dat
 {
     ArrayOf Aarg = argIn[0];
     ArrayOf barg = argIn[1];
-    if (!Aarg.isSparse() || !isCompatibleFloatingClass(Aarg, dataClass)
-        || !isCompatibleFloatingClass(barg, dataClass)) {
+    if (!isSystemOperatorArgument(Aarg, dataClass) || !isCompatibleFloatingClass(barg, dataClass)) {
         OverloadRequired("gmres");
     }
-    SparseAdvancedMatrix<T> A = arrayToSparseMatrix<T>(Aarg);
+    SystemOperator<T> A(Aarg, eval, false, static_cast<signedIndexType>(barg.elementCount()));
     SparseAdvancedVector<T> b = arrayToVector<T>(barg);
     indexType restart = optionalRestart(argIn, 2, A.rows());
     double tolerance = optionalTolerance(argIn, 3, 1e-6);
@@ -190,25 +189,25 @@ Nelson::LinearAlgebraGateway::gmresBuiltin(Evaluator* eval, int nLhs, const Arra
 {
     nargincheck(argIn, 2, 8);
     nargoutcheck(nLhs, 0, 5);
-    if (!argIn[0].isSparse() || !isFloatingPointClass(argIn[0].dataClass())
-        || !isFloatingPointClass(argIn[1].dataClass())) {
+    if (!isSystemOperatorCandidate(argIn[0]) || !isFloatingPointClass(argIn[1].dataClass())) {
         OverloadRequired("gmres");
     }
-    if (argIn[0].dataClass() == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
+    NelsonType systemClass = systemDataClass(argIn[0], argIn[1]);
+    if (systemClass == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
         || anyArgumentHasDataClass(argIn, { 5, 6, 7 }, NLS_SCOMPLEX)) {
         return gmresTyped<singlecomplex>(eval, nLhs, argIn, NLS_SCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
+    if (systemClass == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
         || anyArgumentHasDataClass(argIn, { 5, 6, 7 }, NLS_DCOMPLEX)) {
         return gmresTyped<doublecomplex>(eval, nLhs, argIn, NLS_DCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_SINGLE) {
+    if (systemClass == NLS_SINGLE) {
         return gmresTyped<single>(eval, nLhs, argIn, NLS_SINGLE);
     }
-    if (argIn[0].dataClass() == NLS_DOUBLE) {
+    if (systemClass == NLS_DOUBLE) {
         return gmresTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("gmres");
-    return {};
+    return { };
 }
 //=============================================================================

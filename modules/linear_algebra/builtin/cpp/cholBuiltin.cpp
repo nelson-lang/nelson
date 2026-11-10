@@ -17,6 +17,8 @@
 #include "i18n.hpp"
 #include <Eigen/Dense>
 #include <Eigen/SparseCholesky>
+#include <algorithm>
+#include <cwctype>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -46,17 +48,19 @@ sparseCholeskyFailureIndex(const Eigen::SparseMatrix<T, 0, signedIndexType>& mat
 //=============================================================================
 template <class T>
 static ArrayOfVector
-sparseCholeskyFactorization(const ArrayOf& A, int nLhs)
+sparseCholeskyFactorization(const ArrayOf& A, int nLhs, bool lowerTriangle)
 {
     if (!A.isSquare()) {
         Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");
     }
     using SparseMatrix = Eigen::SparseMatrix<T, 0, signedIndexType>;
     const auto* spmat = static_cast<const SparseMatrix*>(A.sparseDataPointer());
+    // the lower triangle is read as the conjugate transpose of an upper one
+    SparseMatrix source = lowerTriangle ? SparseMatrix(spmat->adjoint()) : *spmat;
     Eigen::SimplicialLLT<SparseMatrix, Eigen::Upper, Eigen::NaturalOrdering<signedIndexType>>
         solver;
-    solver.compute(*spmat);
-    int p = solver.info() == Eigen::Success ? 0 : sparseCholeskyFailureIndex<T>(*spmat);
+    solver.compute(source);
+    int p = solver.info() == Eigen::Success ? 0 : sparseCholeskyFailureIndex<T>(source);
     if (p != 0 && nLhs < 2) {
         Error(L"Nelson:chol:positiveFiniteMatrixExpected", L"%s expected.",
             L"Positive finite matrix");
@@ -65,6 +69,9 @@ sparseCholeskyFactorization(const ArrayOf& A, int nLhs)
     SparseMatrix R;
     if (p == 0) {
         R = solver.matrixU();
+        if (lowerTriangle) {
+            R = SparseMatrix(R.adjoint());
+        }
         R.makeCompressed();
     } else {
         R.resize(A.rows(), A.columns());
@@ -78,30 +85,49 @@ sparseCholeskyFactorization(const ArrayOf& A, int nLhs)
     return retval;
 }
 //=============================================================================
+// true for 'lower', false for 'upper'; any leading part of either word, any case
+static bool
+parseTriangleOption(const ArrayOf& arg)
+{
+    if (arg.isRowVectorCharacterArray() || arg.isScalarStringArray()) {
+        std::wstring text = arg.asWideString();
+        std::transform(text.begin(), text.end(), text.begin(), ::towlower);
+        if (!text.empty() && std::wstring(L"lower").rfind(text, 0) == 0) {
+            return true;
+        }
+        if (!text.empty() && std::wstring(L"upper").rfind(text, 0) == 0) {
+            return false;
+        }
+    }
+    Error(L"Nelson:chol:invalidOption", L"The triangle option must be 'upper' or 'lower'.");
+    return false;
+}
+//=============================================================================
 ArrayOfVector
 Nelson::LinearAlgebraGateway::cholBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 1);
+    nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 2);
+    bool lowerTriangle = argIn.size() == 2 && parseTriangleOption(argIn[1]);
     bool needToOverload;
     ArrayOf param1 = argIn[0];
     if (param1.isSparse()) {
         switch (param1.dataClass()) {
         case NLS_DOUBLE:
-            return sparseCholeskyFactorization<double>(param1, nLhs);
+            return sparseCholeskyFactorization<double>(param1, nLhs, lowerTriangle);
         case NLS_DCOMPLEX:
-            return sparseCholeskyFactorization<doublecomplex>(param1, nLhs);
+            return sparseCholeskyFactorization<doublecomplex>(param1, nLhs, lowerTriangle);
         case NLS_SINGLE:
-            return sparseCholeskyFactorization<single>(param1, nLhs);
+            return sparseCholeskyFactorization<single>(param1, nLhs, lowerTriangle);
         case NLS_SCOMPLEX:
-            return sparseCholeskyFactorization<singlecomplex>(param1, nLhs);
+            return sparseCholeskyFactorization<singlecomplex>(param1, nLhs, lowerTriangle);
         default:
             OverloadRequired("chol");
         }
     }
     int p = 0;
-    ArrayOf res = CholeskyFactorization(param1, false, needToOverload, p);
+    ArrayOf res = CholeskyFactorization(param1, lowerTriangle, needToOverload, p);
     if (needToOverload) {
         OverloadRequired("chol");
     } else {

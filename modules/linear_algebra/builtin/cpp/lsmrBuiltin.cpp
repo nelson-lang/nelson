@@ -47,7 +47,7 @@ applyRightPreconditionerAdjoint(const ExplicitPreconditioner<T>& M1,
 //=============================================================================
 template <class T>
 LsmrResult<T>
-runLsmr(const SparseAdvancedMatrix<T>& A, const SparseAdvancedVector<T>& b, double tolerance,
+runLsmr(const SystemOperator<T>& A, const SparseAdvancedVector<T>& b, double tolerance,
     indexType maxIterations, const ExplicitPreconditioner<T>& M1,
     const ExplicitPreconditioner<T>& M2, const SparseAdvancedVector<T>& x0)
 {
@@ -216,11 +216,10 @@ lsmrTyped(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, NelsonType data
 {
     ArrayOf Aarg = argIn[0];
     ArrayOf barg = argIn[1];
-    if (!Aarg.isSparse() || !isCompatibleFloatingClass(Aarg, dataClass)
-        || !isCompatibleFloatingClass(barg, dataClass)) {
+    if (!isSystemOperatorArgument(Aarg, dataClass) || !isCompatibleFloatingClass(barg, dataClass)) {
         OverloadRequired("lsmr");
     }
-    SparseAdvancedMatrix<T> A = arrayToSparseMatrix<T>(Aarg);
+    SystemOperator<T> A(Aarg, eval, true, static_cast<signedIndexType>(barg.elementCount()), true);
     SparseAdvancedVector<T> b = arrayToVector<T>(barg);
     double tolerance = optionalTolerance(argIn, 2, 1e-6);
     indexType maxIterations = optionalIterationCount(argIn, 3, std::min<indexType>(A.cols(), 20));
@@ -244,7 +243,7 @@ lsmrTyped(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, NelsonType data
 
     LsmrResult<T> result = runLsmr<T>(A, b, tolerance, maxIterations, M1, M2, x0);
     ArrayOfVector retval;
-    retval << vectorToArrayOf<T>(dataClass, Dimensions(Aarg.columns(), 1), result.x);
+    retval << vectorToArrayOf<T>(dataClass, Dimensions(A.cols(), 1), result.x);
     if (nLhs > 1) {
         retval << ArrayOf::doubleScalar(result.flag);
     }
@@ -270,25 +269,25 @@ Nelson::LinearAlgebraGateway::lsmrBuiltin(Evaluator* eval, int nLhs, const Array
 {
     nargincheck(argIn, 2, 7);
     nargoutcheck(nLhs, 0, 6);
-    if (!argIn[0].isSparse() || !isFloatingPointClass(argIn[0].dataClass())
-        || !isFloatingPointClass(argIn[1].dataClass())) {
+    if (!isSystemOperatorCandidate(argIn[0]) || !isFloatingPointClass(argIn[1].dataClass())) {
         OverloadRequired("lsmr");
     }
-    if (argIn[0].dataClass() == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
+    NelsonType systemClass = systemDataClass(argIn[0], argIn[1]);
+    if (systemClass == NLS_SCOMPLEX || argIn[1].dataClass() == NLS_SCOMPLEX
         || anyArgumentHasDataClass(argIn, { 4, 5, 6 }, NLS_SCOMPLEX)) {
         return lsmrTyped<singlecomplex>(eval, nLhs, argIn, NLS_SCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
+    if (systemClass == NLS_DCOMPLEX || argIn[1].dataClass() == NLS_DCOMPLEX
         || anyArgumentHasDataClass(argIn, { 4, 5, 6 }, NLS_DCOMPLEX)) {
         return lsmrTyped<doublecomplex>(eval, nLhs, argIn, NLS_DCOMPLEX);
     }
-    if (argIn[0].dataClass() == NLS_SINGLE) {
+    if (systemClass == NLS_SINGLE) {
         return lsmrTyped<single>(eval, nLhs, argIn, NLS_SINGLE);
     }
-    if (argIn[0].dataClass() == NLS_DOUBLE) {
+    if (systemClass == NLS_DOUBLE) {
         return lsmrTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("lsmr");
-    return {};
+    return { };
 }
 //=============================================================================

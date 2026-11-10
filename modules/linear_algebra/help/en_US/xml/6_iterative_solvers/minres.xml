@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a sparse real or complex floating-point square symmetric or Hermitian matrix.</param_description>
+      <param_description>a real or complex single or double square symmetric or Hermitian matrix, sparse or full, or a function handle returning <b>A*x</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
@@ -110,6 +110,10 @@ M2 = diag([2 2 3]);
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>added single, complex single, preconditioner, initial guess, and breakdown coverage</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>A can be a full matrix or a function handle</history_description>
     </history_item>
   </history>
   <authors>
