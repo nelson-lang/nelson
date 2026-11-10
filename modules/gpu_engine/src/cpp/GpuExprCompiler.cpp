@@ -43,6 +43,13 @@ namespace {
     const std::unordered_map<std::string, const char*> binaryFunctions
         = { { "min", "min" }, { "max", "max" }, { "atan2", "atan2" }, { "pow", "pow" } };
     //=============================================================================
+    // float kernels call the accurate library instead of the hardware approximations
+    const std::unordered_map<std::string, const char*> accurateFunctions = { { "sin", "nlsSin" },
+        { "cos", "nlsCos" }, { "tan", "nlsTan" }, { "asin", "nlsAsin" }, { "acos", "nlsAcos" },
+        { "atan", "nlsAtan" }, { "sinh", "nlsSinh" }, { "cosh", "nlsCosh" }, { "tanh", "nlsTanh" },
+        { "atan2", "nlsAtan2" }, { "pow", "nlsPower" }, { "round", "nlsRound" },
+        { "sign", "nlsSign" } };
+    //=============================================================================
     class ExprCompiler
     {
     public:
@@ -62,6 +69,13 @@ namespace {
             m_integerMode = true;
             m_lo = std::to_string(lo);
             m_hi = std::to_string(hi);
+        }
+
+        const char*
+        accurateName(const std::string& name, const char* builtin) const
+        {
+            auto found = accurateFunctions.find(name);
+            return (m_integerMode || found == accurateFunctions.end()) ? builtin : found->second;
         }
 
         bool
@@ -218,7 +232,7 @@ namespace {
                     m_reason = name + " expects 1 argument";
                     return false;
                 }
-                out += u->second;
+                out += accurateName(name, u->second);
                 out += "(";
                 if (!emit(args[0], out)) {
                     return false;
@@ -232,7 +246,7 @@ namespace {
                     m_reason = name + " expects 2 arguments";
                     return false;
                 }
-                out += b->second;
+                out += accurateName(name, b->second);
                 out += "(";
                 if (!emit(args[0], out)) {
                     return false;
@@ -436,7 +450,7 @@ namespace {
                 return true;
             }
             if (op == OP_POWER || op == OP_MPOWER) {
-                out += "pow((";
+                out += m_integerMode ? "pow((" : "nlsPower((";
                 if (!emit(left, out)) {
                     return false;
                 }

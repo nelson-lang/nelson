@@ -357,8 +357,7 @@ public:
         ~DebugHooksSuppressor() { m_eval->popDebugHooksSuppression(); }
         DebugHooksSuppressor(const DebugHooksSuppressor&) = delete;
         DebugHooksSuppressor&
-        operator=(const DebugHooksSuppressor&)
-            = delete;
+        operator=(const DebugHooksSuppressor&) = delete;
 
     private:
         Evaluator* m_eval;
@@ -374,8 +373,7 @@ public:
         ~ScopedErrorCatcher() { m_eval->popCppErrorCatcher(); }
         ScopedErrorCatcher(const ScopedErrorCatcher&) = delete;
         ScopedErrorCatcher&
-        operator=(const ScopedErrorCatcher&)
-            = delete;
+        operator=(const ScopedErrorCatcher&) = delete;
 
     private:
         Evaluator* m_eval;
@@ -672,7 +670,17 @@ public:
     bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
         const ArrayOfVector& subsindices, const ArrayOf& value, bool& haveFunction);
 
+    // r(...) = value for a plain r and a native handle value: the value class's subsasgn
+    ArrayOf
+    bytecodeAssignByValueClass(const ArrayOf& r, const stringVector& subtypes,
+        const ArrayOfVector& subsindices, const ArrayOf& value, bool& haveFunction);
+
 private:
+    // calls subsasgn(r, S, value) with the struct S built from subtypes and subsindices
+    ArrayOf
+    callSubsasgnWithStruct(FunctionDef* funcDef, const ArrayOf& r, const stringVector& subtypes,
+        const ArrayOfVector& subsindices, const ArrayOf& value);
+
     ArrayOfVector
     extractClass(const ArrayOf& r, const stringVector& subtypes, const ArrayOfVector& subsindices,
         bool& haveFunction, int nLhs = 1);

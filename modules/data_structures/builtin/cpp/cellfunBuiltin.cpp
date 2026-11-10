@@ -171,6 +171,7 @@ cellfun_uniformBuiltin(int nargout, bool isStatementCall, const ArrayOfVector& a
             Error(L"Nelson:data_structures:functionReturnedFewerOutputsExpected",
                 L"function returned fewer outputs than expected");
         }
+        DataStructuresGateway::gatherUniformOutputs(eval, ret);
         if (i == 0) {
             for (indexType j = 0; j < (indexType)nargout; j++) {
                 if (!ret[j].isScalar()) {

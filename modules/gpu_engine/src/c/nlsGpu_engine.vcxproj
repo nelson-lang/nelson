@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GpuArrayObject.hpp" />
+    <ClInclude Include="..\include\GpuBessel.hpp" />
     <ClInclude Include="..\include\GpuContext.hpp" />
     <ClInclude Include="..\include\GpuExprCompiler.hpp" />
     <ClInclude Include="..\include\GpuDispatch.hpp" />
@@ -211,6 +212,15 @@
     <ClCompile Include="..\cpp\GpuShape.cpp" />
     <ClCompile Include="..\cpp\GpuMathFunctions.cpp" />
     <ClCompile Include="..\cpp\GpuBitwise.cpp" />
+    <ClCompile Include="..\cpp\GpuCast.cpp" />
+    <ClCompile Include="..\cpp\GpuElementwiseMath.cpp" />
+    <ClCompile Include="..\cpp\GpuBessel.cpp" />
+    <ClCompile Include="..\cpp\GpuRearrange.cpp" />
+    <ClCompile Include="..\cpp\GpuSignal.cpp" />
+    <ClCompile Include="..\cpp\GpuMatrixStructure.cpp" />
+    <ClCompile Include="..\cpp\GpuFft.cpp" />
+    <ClCompile Include="..\cpp\GpuHistogram.cpp" />
+    <ClCompile Include="..\cpp\GpuLinearAlgebra.cpp" />
     <ClCompile Include="..\cpp\GpuPredicates.cpp" />
     <ClCompile Include="..\cpp\GpuExprCompiler.cpp" />
     <ClCompile Include="..\cpp\GpuContext.cpp" />

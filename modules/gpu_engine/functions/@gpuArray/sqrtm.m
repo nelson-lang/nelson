@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = sqrtm(a)
-  % matrix square root: CPU fallback (a dense matrix factorization), computed on the
-  % host and re-wrapped as gpuArray. Results may be complex, which the
-  % device also stores.
-  r = gpuArray(sqrtm(gather(a)));
+function X = sqrtm(A)
+  % principal square root by the Denman-Beavers iteration on the device; a matrix whose root is
+  % not real, or that does not converge, keeps the host answer
+  [X, ok] = __gpuArray_sqrtm__(A);
+  if ~ok
+    X = __gpuArray_host__('sqrtm', A);
+  end
 end
 %=============================================================================

@@ -11,22 +11,20 @@
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
-      <param_description>un cellule colonne de vecteurs de caractères : les noms triés des fonctions surchargées pour <b>gpuArray</b>.</param_description>
+      <param_description>une cellule colonne de vecteurs de caractères : les noms triés des fonctions qui acceptent un <b>gpuArray</b>.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>c = gpuArrayFunctions()</b> renvoie la liste des fonctions et opérateurs qui s'exécutent sur un <b>gpuArray</b>. Appeler <b>gpuArrayFunctions()</b> sans argument de sortie affiche la liste.</p>
-    <p>La liste est dérivée des opérations réellement enregistrées par le module <b>gpu_engine</b> (à la fois les builtins du périphérique et les surcharges de méthode), elle reflète donc toujours la version courante. Elle regroupe, entre autres :</p>
-    <p><b>Opérateurs</b> : plus, minus, times, rdivide, ldivide, power, mtimes, uminus, transpose, ctranspose, eq, ne, lt, le, gt, ge, and, or, xor, not.</p>
-    <p><b>Mathématiques élément par élément</b> : abs, sqrt, exp, expm1, log, log1p, log2, log10, pow2, sin, cos, tan, sec, csc, cot, asin, acos, atan, asec, acsc, acot, atan2, hypot, sinh, cosh, tanh, sech, csch, coth, asinh, acosh, atanh, deg2rad, rad2deg, floor, ceil, round, fix, sign, mod, rem.</p>
-    <p><b>Bit à bit</b> (entier) : bitand, bitor, bitxor, bitshift.</p>
-    <p><b>Réductions et balayages</b> : sum, prod, mean, var, std, any, all, cumsum, cumprod, cummax, cummin, sort, find, dot, norm.</p>
-    <p><b>Algèbre linéaire</b> : mtimes et, sur le périphérique lorsque c'est possible, dot et les normes vectorielles ; les factorisations (mldivide, inv, lu, qr, eig, svd), les fonctions matricielles (expm, logm, sqrtm) et fft/ifft retombent sur l'hôte.</p>
-    <p><b>Complexe</b> : real, imag, conj, angle, isreal (floor/ceil/round/fix/sign et les prédicats NaN/Inf acceptent aussi le complexe).</p>
-    <p><b>Forme</b> : reshape, transpose, ctranspose, flip, fliplr, flipud, rot90, circshift, repmat, squeeze, diff, triu, tril, diag, kron, trace, cross, horzcat, vertcat, cat.</p>
-    <p><b>Statistiques d'ordre et fonctions ensemblistes</b> : median, mode, prctile, histcounts, unique, ismember, sortrows, issorted, nonzeros, gradient (évaluées sur l'hôte, ré-encapsulées en gpuArray).</p>
-    <p><b>Prédicats et dimensions</b> : isnan, isinf, isfinite, isreal, isempty, isscalar, isvector, ismatrix, isrow, iscolumn, isnumeric, isfloat, isinteger, islogical, length, nnz, underlyingType, isUnderlyingType.</p>
-    <p><b>Constructeurs</b> : zeros, ones, eye, nan, inf, true, false, rand, randn (via les formes <b>'gpuArray'</b> / <b>'like'</b>), et linspace / colon à partir d'une borne gpuArray.</p>
+    <p><b>c = gpuArrayFunctions()</b> renvoie la liste des fonctions et opérateurs qui acceptent un <b>gpuArray</b>. Appeler <b>gpuArrayFunctions()</b> sans argument de sortie affiche la liste.</p>
+    <p>La liste réunit les opérations enregistrées par le module <b>gpu_engine</b> (builtins du périphérique et méthodes <b>@gpuArray</b>) et les fonctions génériques dont le code s'exécute sans changement sur des <b>gpuArray</b> ; elle suit donc la version courante. La plupart des fonctions calculent sur le périphérique ; quelques-unes, comme les tracés, les sorties texte, les valeurs propres complexes ou les résultats creux, rapatrient les données et s'exécutent sur l'hôte. Elle regroupe, entre autres :</p>
+    <p><b>Opérateurs</b> : plus, minus, times, rdivide, ldivide, power, mtimes, mldivide, mrdivide, mpower, uminus, transpose, ctranspose, eq, ne, lt, le, gt, ge, and, or, xor, not.</p>
+    <p><b>Mathématiques élément par élément</b> : abs, sqrt, exp, log, les fonctions trigonométriques et hyperboliques et leurs inverses, floor, ceil, round, fix, sign, mod, rem, gamma, gammaln, gammainc, gammaincinv, betainc, betaincinv, erf, erfinv, psi, expint, legendre, besselj, bessely, besseli, besselk.</p>
+    <p><b>Bit à bit</b> (entier) : bitand, bitor, bitxor, bitshift, bitcmp, bitget, bitset.</p>
+    <p><b>Réductions, balayages et statistiques</b> : sum, prod, mean, var, std, rms, median, mode, quantile, prctile, iqr, bounds, cov, corrcoef, cumsum, cumprod, cummax, cummin, les statistiques glissantes, normalize, rescale, rmse, mape.</p>
+    <p><b>Algèbre linéaire</b> : lu, chol, qr, svd, eig (symétrique), det, inv, pinv, rank, null, orth, linsolve, lsqminnorm, lscov, gsvd, expm, logm, sqrtm, les fonctions page par page (pagemtimes, pagemldivide, pagemrdivide, pagesvd, pagepinv, pageinv), et les solveurs itératifs pcg, gmres, bicg, bicgstab, cgs, qmr, lsqr, tfqmr.</p>
+    <p><b>Signal et interpolation</b> : fft, ifft, conv, conv2, convn, filter, filter2, xcorr, interp1, interp2, interp3, interpn, spline, pchip, makima, polyfit, polyval, trapz, cumtrapz.</p>
+    <p><b>Forme, ensembles et outils de données</b> : reshape, permute, flip, circshift, repmat, cat, sort, sortrows, unique, ismember, union, intersect, setdiff, find, trimdata, paddata, fillmissing, rmmissing, ismissing, anynan, numunique, isuniform.</p>
+    <p><b>Constructeurs</b> : zeros, ones, eye, nan, inf, true, false, rand, randn, createArray (via les formes <b>'gpuArray'</b> / <b>'like'</b>), et linspace / colon à partir d'une borne gpuArray.</p>
     <p>Les données sont transférées avec <b>gpuArray</b> et <b>gather</b> ; utilisez <b>arrayfun</b> pour exécuter une expression élément par élément fusionnée sur le périphérique.</p>
   </description>
   <used_function />
@@ -241,6 +239,10 @@ gpuArrayFunctions()]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>la liste inclut aussi les fonctions génériques qui acceptent des gpuArray</history_description>
     </history_item>
   </history>
   <authors>

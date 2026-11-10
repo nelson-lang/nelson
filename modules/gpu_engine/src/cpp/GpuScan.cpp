@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <string>
 #include "GpuKernels.hpp"
 #include "GpuDispatch.hpp"
@@ -18,44 +19,76 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// One thread per lane; sequential prefix scan writing the running value at
-// each position along the scanned dimension (column-major before/step layout).
-static std::string
-buildScanWgsl(const std::string& combineExpr)
+static void
+checkUsable(GpuArrayObject* a)
 {
-    return std::string("struct Params { laneCount : u32, redLen : u32, before : u32 };\n"
-                       "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                       "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                       "@group(0) @binding(2) var<uniform> params : Params;\n"
-                       "@compute @workgroup_size(256)\n"
-                       "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                       "    let lane = gid.x;\n"
-                       "    if (lane < params.laneCount) {\n"
-                       "        let iB = lane % params.before;\n"
-                       "        let iA = lane / params.before;\n"
-                       "        let start = iB + iA * (params.before * params.redLen);\n"
-                       "        var acc : f32 = a[start];\n"
-                       "        c[start] = acc;\n"
-                       "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-                       "            let idx = start + k * params.before;\n"
-                       "            let v = a[idx];\n"
-                       "            acc = ")
-        + combineExpr
-        + ";\n"
-          "            c[idx] = acc;\n"
-          "        }\n    }\n}\n";
-}
-//=============================================================================
-static ArrayOf
-gpuScan(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& combineExpr)
-{
-    GpuContext* context = GpuContext::getInstance();
     if (a == nullptr || !a->isValid()) {
         Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
     }
-    if (!context->isAvailable()) {
+    if (!GpuContext::getInstance()->isAvailable()) {
         Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
     }
+}
+//=============================================================================
+// scan `a` into a new array of the same size, freeing it if the dispatch fails
+static ArrayOf
+runScan(GpuArrayObject* a, const GpuLaneGeometry& lane, const std::string& opKey,
+    const GpuLaneSpec& spec, const std::string& resultType, bool complex)
+{
+    GpuArrayObject* output = AllocateGpuArray(a->dimensions(), resultType, complex);
+    try {
+        GpuRunLaneScan(opKey, spec, lane, a->buffer(), { output->buffer() });
+    } catch (...) {
+        delete output;
+        throw;
+    }
+    return ArrayOf::handle(output);
+}
+//=============================================================================
+// stepwise saturating scan on the host, for lanes too long for one GPU thread
+static ArrayOf
+hostSaturatingScan(
+    GpuArrayObject* a, const GpuLaneGeometry& lane, bool isProduct, double lo, double hi)
+{
+    ArrayOf host = GatherGpuArray(a);
+    NelsonType hostClass = host.dataClass();
+    host.promoteType(NLS_DOUBLE);
+    double* values = (double*)host.readWriteDataPointer();
+    uint64_t before = lane.before;
+    uint64_t redLen = lane.redLen;
+    for (uint64_t o = 0; o < lane.laneCount; ++o) {
+        uint64_t start = (o % before) + (o / before) * before * redLen;
+        double acc = values[start];
+        for (uint64_t k = 1; k < redLen; ++k) {
+            uint64_t e = start + k * before;
+            acc = isProduct ? acc * values[e] : acc + values[e];
+            acc = std::min(std::max(acc, lo), hi);
+            values[e] = acc;
+        }
+    }
+    host.promoteType(hostClass);
+    return CreateGpuArray(host);
+}
+//=============================================================================
+static GpuLaneSpec
+realScanSpec(const std::string& combineExpr)
+{
+    GpuLaneSpec spec;
+    spec.state = { { "acc", "f32" } };
+    spec.load = "    let v = a[e];\n";
+    spec.mergeLoad = "    let v = other_acc;\n";
+    spec.init = "    acc = v;\n";
+    spec.update = "    acc = " + combineExpr + ";\n";
+    spec.store = "    c[e] = acc;\n";
+    spec.outputs = { "c" };
+    return spec;
+}
+//=============================================================================
+static ArrayOf
+gpuScan(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& combineExpr,
+    bool saturating = false, bool isProduct = false)
+{
+    checkUsable(a);
     if (a->isComplex()) {
         Error(L"Nelson:gpuArray:complexUnsupported",
             L"This operation is not supported for complex gpuArray yet.");
@@ -70,122 +103,81 @@ gpuScan(GpuArrayObject* a, int dim, const std::string& opKey, const std::string&
     if (lane.identity || lane.redLen <= 1 || dims.elementCount() == 0) {
         return ArrayOf::handle(CloneGpuArray(a));
     }
-    std::string source = buildScanWgsl(combineExpr);
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
+    GpuLaneSpec spec = realScanSpec(combineExpr);
+    // a saturating integer step does not regroup, so the lane is scanned in order
+    spec.associative = !saturating;
+    if (saturating && GpuLaneTooLongForSerialScan(lane)) {
+        NelsonType hostClass = NLS_SINGLE;
+        std::string lo, hi;
+        GpuIntegerUnderlyingType(a->underlyingType(), hostClass, lo, hi);
+        return hostSaturatingScan(a, lane, isProduct, std::stod(lo), std::stod(hi));
     }
-    GpuArrayObject* output = AllocateGpuArray(dims, a->underlyingType());
-    uint32_t params[3] = { lane.laneCount, lane.redLen, lane.before };
-    uint32_t workgroupCountX = (lane.laneCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
-    return ArrayOf::handle(output);
+    return runScan(a, lane, opKey, spec, a->underlyingType(), false);
 }
 //=============================================================================
 static ArrayOf
 gpuComplexScan(GpuArrayObject* a, int dim, const std::string& opKey,
     const std::string& combineReExpr, const std::string& combineImExpr)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     Dimensions dims = a->dimensions();
     GpuLaneGeometry lane = GpuComputeLaneGeometry(dims, dim);
     if (lane.identity || lane.redLen <= 1 || dims.elementCount() == 0) {
         return ArrayOf::handle(CloneGpuArray(a));
     }
-    std::string source
-        = std::string("struct Params { laneCount : u32, redLen : u32, before : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let lane = gid.x;\n"
-                      "    if (lane < params.laneCount) {\n"
-                      "        let iB = lane % params.before;\n"
-                      "        let iA = lane / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n"
-                      "        var accRe : f32 = a[2u * start];\n"
-                      "        var accIm : f32 = a[2u * start + 1u];\n"
-                      "        c[2u * start] = accRe;\n"
-                      "        c[2u * start + 1u] = accIm;\n"
-                      "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-                      "            let idx = start + k * params.before;\n"
-                      "            let vRe = a[2u * idx];\n"
-                      "            let vIm = a[2u * idx + 1u];\n"
-                      "            let nr = ")
-        + combineReExpr + ";\n            let ni = " + combineImExpr
-        + ";\n            accRe = nr;\n            accIm = ni;\n"
-          "            c[2u * idx] = accRe;\n            c[2u * idx + 1u] = accIm;\n"
-          "        }\n    }\n}\n";
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
-    GpuArrayObject* output = AllocateGpuArray(dims, "single", true);
-    uint32_t params[3] = { lane.laneCount, lane.redLen, lane.before };
-    uint32_t workgroupCountX = (lane.laneCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
-    return ArrayOf::handle(output);
+    GpuLaneSpec spec;
+    spec.state = { { "accRe", "f32" }, { "accIm", "f32" } };
+    spec.load = "    let vRe = a[2u * e];\n    let vIm = a[2u * e + 1u];\n";
+    spec.mergeLoad = "    let vRe = other_accRe;\n    let vIm = other_accIm;\n";
+    spec.init = "    accRe = vRe;\n    accIm = vIm;\n";
+    spec.update = "    let nr = " + combineReExpr + ";\n    let ni = " + combineImExpr
+        + ";\n    accRe = nr;\n    accIm = ni;\n";
+    spec.store = "    c[2u * e] = accRe;\n    c[2u * e + 1u] = accIm;\n";
+    spec.outputs = { "c" };
+    return runScan(a, lane, opKey, spec, "single", true);
 }
 //=============================================================================
-// int32/uint32 prefix scan on the raw-bit storage: bitcast to i32/u32, combine
-// with saturation at each step (cumsum/cumprod keep the integer class, unlike
-// sum/prod), and write the running value back as bits.
 static ArrayOf
 gpuInt32Scan(GpuArrayObject* a, int dim, const std::string& op)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     std::string intType = a->underlyingType();
     bool isUnsigned = (intType == "uint32");
-    const char* T = isUnsigned ? "u32" : "i32";
+    const std::string T = isUnsigned ? "u32" : "i32";
 
     std::string combine;
     if (op == "sum") {
         if (isUnsigned) {
-            combine = "            let s = acc + v;\n"
-                      "            if (s < acc) { acc = 4294967295u; } else { acc = s; }\n";
+            combine = "    let s = acc + v;\n"
+                      "    if (s < acc) { acc = 4294967295u; } else { acc = s; }\n";
         } else {
-            combine
-                = "            let s = acc + v;\n"
-                  "            if (acc > 0 && v > 0 && s < 0) { acc = 2147483647; }\n"
-                  "            else if (acc < 0 && v < 0 && s >= 0) { acc = (-2147483647 - 1); }\n"
-                  "            else { acc = s; }\n";
+            combine = "    let s = acc + v;\n"
+                      "    if (acc > 0 && v > 0 && s < 0) { acc = 2147483647; }\n"
+                      "    else if (acc < 0 && v < 0 && s >= 0) { acc = (-2147483647 - 1); }\n"
+                      "    else { acc = s; }\n";
         }
     } else if (op == "max") {
-        combine = "            if (v > acc) { acc = v; }\n";
+        combine = "    if (v > acc) { acc = v; }\n";
     } else if (op == "min") {
-        combine = "            if (v < acc) { acc = v; }\n";
+        combine = "    if (v < acc) { acc = v; }\n";
     } else { // prod
         if (isUnsigned) {
-            combine = "            let p = acc * v;\n"
-                      "            if (acc != 0u && p / acc != v) { acc = 4294967295u; }\n"
-                      "            else { acc = p; }\n";
+            combine = "    let p = acc * v;\n"
+                      "    if (acc != 0u && p / acc != v) { acc = 4294967295u; }\n"
+                      "    else { acc = p; }\n";
         } else {
-            combine = "            if (acc == (-2147483647 - 1) && v == -1) { acc = 2147483647; }\n"
-                      "            else if (v == (-2147483647 - 1) && acc == -1) { acc = "
+            combine = "    if (acc == (-2147483647 - 1) && v == -1) { acc = 2147483647; }\n"
+                      "    else if (v == (-2147483647 - 1) && acc == -1) { acc = 2147483647; }\n"
+                      "    else {\n"
+                      "        let p = acc * v;\n"
+                      "        var ov = false;\n"
+                      "        if (acc != 0) { if (p / acc != v) { ov = true; } }\n"
+                      "        if (ov) {\n"
+                      "            if ((acc > 0 && v > 0) || (acc < 0 && v < 0)) { acc = "
                       "2147483647; }\n"
-                      "            else {\n"
-                      "                let p = acc * v;\n"
-                      "                var ov = false;\n"
-                      "                if (acc != 0) { if (p / acc != v) { ov = true; } }\n"
-                      "                if (ov) {\n"
-                      "                    if ((acc > 0 && v > 0) || (acc < 0 && v < 0)) { acc = "
-                      "2147483647; }\n"
-                      "                    else { acc = (-2147483647 - 1); }\n"
-                      "                } else { acc = p; }\n"
-                      "            }\n";
+                      "            else { acc = (-2147483647 - 1); }\n"
+                      "        } else { acc = p; }\n"
+                      "    }\n";
         }
     }
 
@@ -194,35 +186,22 @@ gpuInt32Scan(GpuArrayObject* a, int dim, const std::string& op)
     if (lane.identity || lane.redLen <= 1 || dims.elementCount() == 0) {
         return ArrayOf::handle(CloneGpuArray(a));
     }
-    std::string source
-        = std::string("struct Params { laneCount : u32, redLen : u32, before : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let lane = gid.x;\n"
-                      "    if (lane < params.laneCount) {\n"
-                      "        let iB = lane % params.before;\n"
-                      "        let iA = lane / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n"
-                      "        var acc : ")
-        + T + " = bitcast<" + T + ">(a[start]);\n" + "        c[start] = bitcast<f32>(acc);\n"
-        + "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-        + "            let idx = start + k * params.before;\n" + "            let v = bitcast<" + T
-        + ">(a[idx]);\n" + combine
-        + "            c[idx] = bitcast<f32>(acc);\n        }\n    }\n}\n";
-
-    WGPUComputePipeline pipeline
-        = context->pipelineFor("gpuArray:i32scan:" + op + ":" + intType, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
+    bool saturating = (op == "sum" || op == "prod");
+    if (saturating && GpuLaneTooLongForSerialScan(lane)) {
+        double lo = isUnsigned ? 0.0 : -2147483648.0;
+        double hi = isUnsigned ? 4294967295.0 : 2147483647.0;
+        return hostSaturatingScan(a, lane, op == "prod", lo, hi);
     }
-    GpuArrayObject* output = AllocateGpuArray(dims, intType, false);
-    uint32_t params[3] = { lane.laneCount, lane.redLen, lane.before };
-    uint32_t workgroupCountX = (lane.laneCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
-    return ArrayOf::handle(output);
+    GpuLaneSpec spec;
+    spec.state = { { "acc", T } };
+    spec.load = "    let v = bitcast<" + T + ">(a[e]);\n";
+    spec.mergeLoad = "    let v = other_acc;\n";
+    spec.init = "    acc = v;\n";
+    spec.update = combine;
+    spec.store = "    c[e] = bitcast<f32>(acc);\n";
+    spec.outputs = { "c" };
+    spec.associative = !saturating;
+    return runScan(a, lane, "gpuArray:i32scan:" + op + ":" + intType, spec, intType, false);
 }
 //=============================================================================
 ArrayOf
@@ -238,7 +217,8 @@ GpuCumsum(GpuArrayObject* a, int dim)
     // exact in f32, so the saturating combine reproduces the host result).
     std::string intType = GpuIntegerResultType(a, a);
     if (!intType.empty()) {
-        return gpuScan(a, dim, "gpuArray:cumsum:" + intType, GpuSaturateExpr("acc + v", intType));
+        return gpuScan(
+            a, dim, "gpuArray:cumsum:" + intType, GpuSaturateExpr("acc + v", intType), true);
     }
     return gpuScan(a, dim, "gpuArray:cumsum", "acc + v");
 }
@@ -255,7 +235,8 @@ GpuCumprod(GpuArrayObject* a, int dim)
     }
     std::string intType = GpuIntegerResultType(a, a);
     if (!intType.empty()) {
-        return gpuScan(a, dim, "gpuArray:cumprod:" + intType, GpuSaturateExpr("acc * v", intType));
+        return gpuScan(
+            a, dim, "gpuArray:cumprod:" + intType, GpuSaturateExpr("acc * v", intType), true, true);
     }
     return gpuScan(a, dim, "gpuArray:cumprod", "acc * v");
 }
@@ -272,7 +253,7 @@ GpuCummax(GpuArrayObject* a, int dim)
     }
     std::string intType = GpuIntegerResultType(a, a);
     std::string key = intType.empty() ? "gpuArray:cummax" : "gpuArray:cummax:" + intType;
-    return gpuScan(a, dim, key, "max(acc, v)");
+    return gpuScan(a, dim, key + ":nan", GpuWgslExtreme("acc", "v", true, false));
 }
 //=============================================================================
 ArrayOf
@@ -287,7 +268,7 @@ GpuCummin(GpuArrayObject* a, int dim)
     }
     std::string intType = GpuIntegerResultType(a, a);
     std::string key = intType.empty() ? "gpuArray:cummin" : "gpuArray:cummin:" + intType;
-    return gpuScan(a, dim, key, "min(acc, v)");
+    return gpuScan(a, dim, key + ":nan", GpuWgslExtreme("acc", "v", false, false));
 }
 //=============================================================================
 } // namespace Nelson

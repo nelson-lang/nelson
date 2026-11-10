@@ -13,6 +13,14 @@ function r = subsref(a, s)
   end
   subs = s(1).subs;
   n = numel(subs);
+  % A(:) is always a column
+  if n == 1 && ischar(subs{1}) && isequal(subs{1}, ':')
+    r = reshape(a, [], 1);
+    if numel(s) > 1
+      r = subsref(r, s(2:end));
+    end
+    return
+  end
   for k = 1:n
     if ischar(subs{k}) && isequal(subs{k}, ':')
       if n == 1
@@ -20,6 +28,9 @@ function r = subsref(a, s)
       else
         subs{k} = (1:size(a, k))';
       end
+    elseif islogical(subs{k})
+      % a mask selects the positions of its true values
+      subs{k} = find(subs{k});
     end
   end
   r = __gpuArray_index__(a, subs{:});

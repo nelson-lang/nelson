@@ -7,17 +7,33 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = eig(varargin)
-  % CPU fallback: computed on host in double precision (results may be complex,
-  % so they are returned as host arrays; gpuArray stores real single/logical).
-  args = varargin;
-  for k = 1:numel(args)
-    if isgpuarray(args{k})
-      args{k} = double(gather(args{k}));
+function varargout = eig(A, varargin)
+  % eigenvalues of a real symmetric matrix from the Jacobi sweeps on the device; other cases
+  % (not symmetric, options, generalized problems, mixed signs of equal size) run on the host
+  done = false;
+  if nargin == 1 && nargout <= 2 && isfloat(A) && isreal(A) && ismatrix(A) && ~isempty(A) ...
+      && size(A, 1) == size(A, 2) && issymmetric(A)
+    [W, V, ok] = __gpuArray_jacobi_svd__(A);
+    if ok
+      % signed eigenvalues: Rayleigh quotient of each right vector
+      lambda = sum(V .* W, 1);
+      [~, order] = sort(gather(lambda), 'ascend');
+      lambda = lambda(order);
+      V = V(:, order);
+      scale = max(1, double(gather(max(abs(lambda)))));
+      residual = double(gather(max(max(abs(A * V - V .* lambda)))));
+      done = residual <= 1e-4 * scale;
     end
   end
-  n = max(nargout, 1);
-  varargout = cell(1, n);
-  [varargout{1:n}] = eig(args{:});
+  if done
+    if nargout <= 1
+      varargout{1} = lambda(:);
+    else
+      varargout{1} = V;
+      varargout{2} = diag(lambda);
+    end
+    return
+  end
+  [varargout{1:max(1, nargout)}] = __gpuArray_host__('eig', A, varargin{:});
 end
 %=============================================================================

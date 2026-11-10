@@ -7,8 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <cstring>
 #include "GpuContext.hpp"
+#include "Error.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,6 +32,14 @@ onQueueWorkDone(
 static void
 onPipelineErrorScope(WGPUPopErrorScopeStatus status, WGPUErrorType type, WGPUStringView message,
     void* userdata1, void* userdata2);
+static void
+onUncapturedError(WGPUDevice const* device, WGPUErrorType type, WGPUStringView message,
+    void* userdata1, void* userdata2);
+static void
+onDeviceLost(WGPUDevice const* device, WGPUDeviceLostReason reason, WGPUStringView message,
+    void* userdata1, void* userdata2);
+static std::string
+linearizeEntryPoint(const char* wgslSource);
 //=============================================================================
 GpuContext* GpuContext::m_instance = nullptr;
 //=============================================================================
@@ -49,7 +61,10 @@ GpuContext::destroy()
     }
 }
 //=============================================================================
-GpuContext::~GpuContext()
+GpuContext::~GpuContext() { releaseDevice(); }
+//=============================================================================
+void
+GpuContext::releaseDevice()
 {
     for (auto& entry : m_pipelineCache) {
         if (entry.second != nullptr) {
@@ -57,6 +72,7 @@ GpuContext::~GpuContext()
         }
     }
     m_pipelineCache.clear();
+    m_available = false;
     if (m_wgpuQueue != nullptr) {
         wgpuQueueRelease(m_wgpuQueue);
         m_wgpuQueue = nullptr;
@@ -123,6 +139,61 @@ GpuContext::maxBufferSize()
     return m_maxBufferSize;
 }
 //=============================================================================
+uint32_t
+GpuContext::maxWorkgroupsPerDimension()
+{
+    tryInitialize();
+    return m_maxWorkgroupsPerDimension;
+}
+//=============================================================================
+void
+GpuContext::reportUncapturedError(const std::string& message)
+{
+    std::scoped_lock<std::mutex> lock(m_errorMutex);
+    // keep the first error: the next ones are usually its consequences
+    if (!m_hasPendingError) {
+        m_pendingError = message;
+        m_hasPendingError = true;
+    }
+}
+//=============================================================================
+void
+GpuContext::reportDeviceLost(const std::string& message)
+{
+    std::scoped_lock<std::mutex> lock(m_errorMutex);
+    m_deviceLostMessage = message;
+    m_deviceLost = true;
+}
+//=============================================================================
+void
+GpuContext::throwIfFailed()
+{
+    if (!m_deviceLost && !m_hasPendingError) {
+        return;
+    }
+    std::string message;
+    bool lost = false;
+    {
+        std::scoped_lock<std::mutex> lock(m_errorMutex);
+        lost = m_deviceLost;
+        message = lost ? m_deviceLostMessage : m_pendingError;
+        m_pendingError.clear();
+        m_hasPendingError = false;
+        m_deviceLost = false;
+        m_deviceLostMessage.clear();
+    }
+    if (lost) {
+        // the next GPU call creates a new device; old gpuArray data is gone
+        releaseDevice();
+        m_initialized = false;
+        Error(std::string("Nelson:GPU:deviceLost"),
+            std::string("The GPU device was lost (%s). Existing gpuArray data is no longer valid."),
+            message);
+    }
+    Error(std::string("Nelson:GPU:operationFailed"), std::string("A GPU operation failed: %s"),
+        message);
+}
+//=============================================================================
 WGPUInstance
 GpuContext::instance()
 {
@@ -178,9 +249,10 @@ GpuContext::pipelineFor(const std::string& key, const char* wgslSource, const ch
     if (found != m_pipelineCache.end()) {
         return found->second;
     }
+    std::string linearSource = linearizeEntryPoint(wgslSource);
     WGPUShaderSourceWGSL wgslDesc = WGPU_SHADER_SOURCE_WGSL_INIT;
-    wgslDesc.code.data = wgslSource;
-    wgslDesc.code.length = strlen(wgslSource);
+    wgslDesc.code.data = linearSource.c_str();
+    wgslDesc.code.length = linearSource.size();
 
     WGPUShaderModuleDescriptor shaderDesc = WGPU_SHADER_MODULE_DESCRIPTOR_INIT;
     shaderDesc.nextInChain = &wgslDesc.chain;
@@ -272,12 +344,21 @@ GpuContext::tryInitialize()
         wgpuAdapterInfoFreeMembers(adapterInfo);
     }
 
-    WGPULimits limits = WGPU_LIMITS_INIT;
-    if (wgpuAdapterGetLimits(m_wgpuAdapter, &limits) == WGPUStatus_Success) {
-        m_maxBufferSize = limits.maxBufferSize;
-    }
+    // ask for the adapter limits: the defaults cap a storage binding at 128 MiB
+    WGPULimits adapterLimits = WGPU_LIMITS_INIT;
+    bool haveAdapterLimits
+        = (wgpuAdapterGetLimits(m_wgpuAdapter, &adapterLimits) == WGPUStatus_Success);
+    adapterLimits.nextInChain = nullptr;
 
     WGPUDeviceDescriptor deviceDesc = WGPU_DEVICE_DESCRIPTOR_INIT;
+    if (haveAdapterLimits) {
+        deviceDesc.requiredLimits = &adapterLimits;
+    }
+    deviceDesc.deviceLostCallbackInfo.mode = WGPUCallbackMode_AllowSpontaneous;
+    deviceDesc.deviceLostCallbackInfo.callback = onDeviceLost;
+    deviceDesc.deviceLostCallbackInfo.userdata1 = this;
+    deviceDesc.uncapturedErrorCallbackInfo.callback = onUncapturedError;
+    deviceDesc.uncapturedErrorCallbackInfo.userdata1 = this;
 
     WGPURequestDeviceCallbackInfo deviceCallbackInfo = WGPU_REQUEST_DEVICE_CALLBACK_INFO_INIT;
     deviceCallbackInfo.mode = WGPUCallbackMode_WaitAnyOnly;
@@ -293,6 +374,13 @@ GpuContext::tryInitialize()
     if (m_wgpuQueue == nullptr) {
         return;
     }
+    // a gpuArray is bound as one storage buffer, so both limits bound its size
+    WGPULimits deviceLimits = WGPU_LIMITS_INIT;
+    if (wgpuDeviceGetLimits(m_wgpuDevice, &deviceLimits) == WGPUStatus_Success) {
+        m_maxBufferSize
+            = std::min(deviceLimits.maxBufferSize, deviceLimits.maxStorageBufferBindingSize);
+        m_maxWorkgroupsPerDimension = deviceLimits.maxComputeWorkgroupsPerDimension;
+    }
     m_available = true;
 }
 //=============================================================================
@@ -302,7 +390,7 @@ static std::string
 toStdString(WGPUStringView view)
 {
     if (view.data == nullptr || view.length == 0) {
-        return {};
+        return { };
     }
     return std::string(view.data, view.length);
 }
@@ -368,6 +456,45 @@ onPipelineErrorScope(WGPUPopErrorScopeStatus status, WGPUErrorType type, WGPUStr
     if (type != WGPUErrorType_NoError && message.data != nullptr && message.length > 0) {
         destination->assign(message.data, message.length);
     }
+}
+//=============================================================================
+static void
+onUncapturedError(WGPUDevice const* device, WGPUErrorType type, WGPUStringView message,
+    void* userdata1, void* userdata2)
+{
+    if (type == WGPUErrorType_NoError || userdata1 == nullptr) {
+        return;
+    }
+    static_cast<GpuContext*>(userdata1)->reportUncapturedError(toStdString(message));
+}
+//=============================================================================
+static void
+onDeviceLost(WGPUDevice const* device, WGPUDeviceLostReason reason, WGPUStringView message,
+    void* userdata1, void* userdata2)
+{
+    // our own release at shutdown also ends here
+    if (reason == WGPUDeviceLostReason_Destroyed || reason == WGPUDeviceLostReason_CallbackCancelled
+        || userdata1 == nullptr) {
+        return;
+    }
+    static_cast<GpuContext*>(userdata1)->reportDeviceLost(toStdString(message));
+}
+//=============================================================================
+static std::string
+linearizeEntryPoint(const char* wgslSource)
+{
+    // 1-D kernels index with gid.x: rebuild it from a 2-D grid so large arrays fit
+    static const std::string entry = "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {";
+    std::string source(wgslSource);
+    size_t pos = source.find(entry);
+    if (pos == std::string::npos || source.find("@workgroup_size(256)") == std::string::npos) {
+        return source;
+    }
+    source.replace(pos, entry.size(),
+        "fn main(@builtin(global_invocation_id) gridId : vec3<u32>,\n"
+        "        @builtin(num_workgroups) gridSize : vec3<u32>) {\n"
+        "    let gid = vec3<u32>(gridId.x + gridId.y * gridSize.x * 256u, 0u, 0u);");
+    return source;
 }
 //=============================================================================
 } // namespace Nelson

@@ -91,3 +91,13 @@ assert_isequal(gather(arrayfun(@(x, y) x ./ y, gpuArray(int8([10 7])), gpuArray(
 assert_isequal(gather(arrayfun(@(x, y) x + y, gpuArray(uint16(60000)), gpuArray(uint16(10000)))), ...
   uint16(65535));
 %=============================================================================
+% transcendental functions keep single precision accuracy on every backend
+x = single(linspace(-3, 3, 1001));
+r = gather(arrayfun(@(t) sin(t) * cos(2 * t) + atan2(t, 1) + t ^ 3, gpuArray(x)));
+xd = double(x);
+ref = sin(xd) .* cos(2 * xd) + atan2(xd, 1) + xd .^ 3;
+assert_istrue(max(abs(double(r) - ref) ./ max(1, abs(ref))) < 1e-6);
+% round takes halves away from zero
+h = gpuArray(single([0.5 1.5 2.5 -0.5 -2.5]));
+assert_isequal(gather(arrayfun(@(t) round(t), h)), single([1 2 3 -1 -3]));
+%=============================================================================

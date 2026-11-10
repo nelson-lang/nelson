@@ -34,9 +34,11 @@ assert_isequal(gather(bitshift(gpuArray(int32(-8)), -1)), bitshift(int32(-8), -1
 assert_isequal(gather(bitshift(gpuArray(uint32(1073741824)), 2)), bitshift(uint32(1073741824), 2));
 assert_isequal(underlyingType(bitshift(gpuArray(int32(1)), 1)), 'int32');
 %=============================================================================
-% non-integer / int8 bitshift raise a clear error
-assert_checkerror('bitand(gpuArray(single(1)), gpuArray(single(1)))', ...
-  _('Bitwise operations require an integer gpuArray.'));
-assert_checkerror('bitshift(gpuArray(int8(1)), 2)', ...
-  _('bitshift on int8/int16 gpuArray is not supported; use int32/uint32.'));
+% device floats are taken as double: whole values give the host double result, as a gpuArray
+r = bitand(gpuArray(5), gpuArray(3));
+assert_istrue(isgpuarray(r));
+assert_isequal(gather(r), single(bitand(5, 3)));
+assert_isequal(gather(bitor(gpuArray([12 5]), 3)), single(bitor([12 5], 3)));
+assert_isequal(gather(bitshift(gpuArray(int8(1)), 2)), bitshift(int8(1), 2));
+assert_isequal(gather(bitshift(gpuArray(3), 1)), single(bitshift(3, 1)));
 %=============================================================================

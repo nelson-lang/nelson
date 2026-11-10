@@ -32,50 +32,6 @@ Nelson::GpuEngineGateway::gpuArrayFlipBuiltin(Evaluator* eval, int nLhs, const A
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayCircshiftBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 2, 3);
-    nargoutcheck(nLhs, 0, 1);
-    int shift = (int)argIn[1].asDoubleScalar();
-    int dim = (argIn.size() == 3) ? (int)argIn[2].asScalarIndex(false) : -1;
-    ArrayOfVector retval;
-    retval << GpuCircshift(asGpu(argIn[0]), shift, dim);
-    return retval;
-}
-//=============================================================================
-ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayRepmatBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 2, 3);
-    nargoutcheck(nLhs, 0, 1);
-    indexType rowCopies = 1;
-    indexType colCopies = 1;
-    if (argIn.size() == 2) {
-        ArrayOf rep = argIn[1];
-        if (rep.isScalar()) {
-            rowCopies = rep.asScalarIndex(false);
-            colCopies = rowCopies;
-        } else if (rep.isRowVector() && rep.elementCount() == 2) {
-            ArrayOf r(rep);
-            const indexType* p = (const indexType*)r.indexPointer();
-            rowCopies = p[0];
-            colCopies = p[1];
-        } else {
-            Error(L"Nelson:repmat:invalidReplicationFactor",
-                L"repmat: replication factor must be a scalar or a 2-element vector.");
-        }
-    } else {
-        rowCopies = argIn[1].asScalarIndex(false);
-        colCopies = argIn[2].asScalarIndex(false);
-    }
-    ArrayOfVector retval;
-    retval << GpuRepmat(asGpu(argIn[0]), rowCopies, colCopies);
-    return retval;
-}
-//=============================================================================
-ArrayOfVector
 Nelson::GpuEngineGateway::gpuArrayDiffBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 3);

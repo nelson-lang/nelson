@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isbetweenBuiltin.hpp"
+#include "objectArgumentOverload.hpp"
 #include "IsBetween.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include <limits>
@@ -17,6 +18,10 @@ using namespace Nelson;
 ArrayOfVector
 Nelson::DataAnalysisGateway::isbetweenBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
+    ArrayOfVector overloaded;
+    if (callObjectArgumentOverload(eval, nLhs, argIn, "isbetween", overloaded)) {
+        return overloaded;
+    }
     nargincheck(argIn, 3, std::numeric_limits<int>::max());
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;

@@ -23,6 +23,7 @@ GpuArrayObject*
 AllocateGpuArray(const Dimensions& dims, const std::string& underlyingType, bool complex)
 {
     GpuContext* context = GpuContext::getInstance();
+    context->throwIfFailed();
     if (!context->isAvailable()) {
         Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
     }
@@ -243,7 +244,17 @@ GatherGpuArray(GpuArrayObject* gpuObject)
         wgpuBufferMapAsync(stagingBuffer, WGPUMapMode_Read, 0, byteSize, mapCallbackInfo));
     if (!waited || !mapResult.success) {
         wgpuBufferRelease(stagingBuffer);
+        // a lost device or an earlier GPU error explains the failure better
+        context->throwIfFailed();
         Error(L"Nelson:GPU:readbackFailed", L"Cannot read back GPU buffer.");
+    }
+    // the values are wrong if any GPU call since the last check failed
+    try {
+        context->throwIfFailed();
+    } catch (...) {
+        wgpuBufferUnmap(stagingBuffer);
+        wgpuBufferRelease(stagingBuffer);
+        throw;
     }
     const void* mapped = wgpuBufferGetConstMappedRange(stagingBuffer, 0, byteSize);
     if (mapped == nullptr) {

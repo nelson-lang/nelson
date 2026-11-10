@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include "GpuKernels.hpp"
+#include "GpuElementwiseMath.hpp"
 #include "GpuDispatch.hpp"
 #include "GpuContext.hpp"
 #include "GpuTransfer.hpp"
@@ -40,21 +41,22 @@ fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
 // `body` runs with locals ar, ai, br, bi in scope and must write the result to
 // c[2u * i] (re) and c[2u * i + 1u] (im). Allows intermediates (e.g. cpow).
 static std::string
-buildComplexBinaryWgsl(const std::string& body)
+buildComplexBinaryWgsl(const std::string& body, bool expand)
 {
-    return std::string("struct Params { n : u32, aStride : u32, bStride : u32 };\n"
-                       "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                       "@group(0) @binding(1) var<storage, read> b : array<f32>;\n"
-                       "@group(0) @binding(2) var<storage, read_write> c : array<f32>;\n"
-                       "@group(0) @binding(3) var<uniform> params : Params;\n"
-                       "@compute @workgroup_size(256)\n"
-                       "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                       "    let i = gid.x;\n"
-                       "    if (i < params.n) {\n"
-                       "        let ia = i * params.aStride;\n"
-                       "        let ib = i * params.bStride;\n"
-                       "        let ar = a[2u * ia]; let ai = a[2u * ia + 1u];\n"
-                       "        let br = b[2u * ib]; let bi = b[2u * ib + 1u];\n")
+    return GpuMathHelpersWgsl() + GpuBinaryParamsWgsl(expand)
+        + "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
+          "@group(0) @binding(1) var<storage, read> b : array<f32>;\n"
+          "@group(0) @binding(2) var<storage, read_write> c : array<f32>;\n"
+          "@group(0) @binding(3) var<uniform> params : Params;\n"
+          "@compute @workgroup_size(256)\n"
+          "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
+          "    let i = gid.x;\n"
+          "    if (i < params.n) {\n"
+          "        let ix = operandIndex(i);\n"
+          "        let ia = ix.x;\n"
+          "        let ib = ix.y;\n"
+          "        let ar = a[2u * ia]; let ai = a[2u * ia + 1u];\n"
+          "        let br = b[2u * ib]; let bi = b[2u * ib + 1u];\n"
         + body + "\n    }\n}\n";
 }
 //=============================================================================
@@ -66,29 +68,30 @@ complexAssign(const std::string& crExpr, const std::string& ciExpr)
 //=============================================================================
 // Complex binary comparison -> real (logical) output: c[i] = <expr(ar,ai,br,bi)>.
 static std::string
-buildComplexCompareWgsl(const std::string& expr)
+buildComplexCompareWgsl(const std::string& expr, bool expand)
 {
-    return std::string("struct Params { n : u32, aStride : u32, bStride : u32 };\n"
-                       "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                       "@group(0) @binding(1) var<storage, read> b : array<f32>;\n"
-                       "@group(0) @binding(2) var<storage, read_write> c : array<f32>;\n"
-                       "@group(0) @binding(3) var<uniform> params : Params;\n"
-                       "@compute @workgroup_size(256)\n"
-                       "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                       "    let i = gid.x;\n"
-                       "    if (i < params.n) {\n"
-                       "        let ia = i * params.aStride;\n"
-                       "        let ib = i * params.bStride;\n"
-                       "        let ar = a[2u * ia]; let ai = a[2u * ia + 1u];\n"
-                       "        let br = b[2u * ib]; let bi = b[2u * ib + 1u];\n"
-                       "        c[i] = ")
+    return GpuMathHelpersWgsl() + GpuBinaryParamsWgsl(expand)
+        + "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
+          "@group(0) @binding(1) var<storage, read> b : array<f32>;\n"
+          "@group(0) @binding(2) var<storage, read_write> c : array<f32>;\n"
+          "@group(0) @binding(3) var<uniform> params : Params;\n"
+          "@compute @workgroup_size(256)\n"
+          "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
+          "    let i = gid.x;\n"
+          "    if (i < params.n) {\n"
+          "        let ix = operandIndex(i);\n"
+          "        let ia = ix.x;\n"
+          "        let ib = ix.y;\n"
+          "        let ar = a[2u * ia]; let ai = a[2u * ia + 1u];\n"
+          "        let br = b[2u * ib]; let bi = b[2u * ib + 1u];\n"
+          "        c[i] = "
         + expr + ";\n    }\n}\n";
 }
 //=============================================================================
 static std::string
 buildComplexUnaryWgsl(const std::string& crExpr, const std::string& ciExpr)
 {
-    return std::string("struct Params { n : u32 };\n"
+    return GpuMathHelpersWgsl() + std::string("struct Params { n : u32 };\n"
                        "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
                        "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
                        "@group(0) @binding(2) var<uniform> params : Params;\n"
@@ -104,7 +107,7 @@ buildComplexUnaryWgsl(const std::string& crExpr, const std::string& ciExpr)
 static std::string
 buildComplexToRealWgsl(const std::string& expr)
 {
-    return std::string("struct Params { n : u32 };\n"
+    return GpuMathHelpersWgsl() + std::string("struct Params { n : u32 };\n"
                        "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
                        "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
                        "@group(0) @binding(2) var<uniform> params : Params;\n"
@@ -154,21 +157,22 @@ GpuComplexDiv(GpuArrayObject* a, GpuArrayObject* b)
 {
     // (ar + i ai) / (br + i bi) = ((ar br + ai bi) + i(ai br - ar bi)) / (br^2 + bi^2)
     return complexBinary(a, b, "gpuArray:cdiv",
-        complexAssign("(ar * br + ai * bi) / (br * br + bi * bi)",
-            "(ai * br - ar * bi) / (br * br + bi * bi)"));
+        "        let q = nlsCdiv(ar, ai, br, bi);\n" + complexAssign("q.x", "q.y"));
 }
 //=============================================================================
 ArrayOf
 GpuComplexPower(GpuArrayObject* a, GpuArrayObject* b)
 {
     // a ^ b = exp(b * log(a)), all complex
-    const char* body = "        let lar = 0.5 * log(ar * ar + ai * ai);\n"
-                       "        let lai = atan2(ai, ar);\n"
-                       "        let pr = br * lar - bi * lai;\n"
-                       "        let pim = br * lai + bi * lar;\n"
-                       "        let er = exp(pr);\n"
-                       "        c[2u * i] = er * cos(pim);\n"
-                       "        c[2u * i + 1u] = er * sin(pim);";
+    // a zero base gives 0 for a positive real exponent and 1 for a zero exponent
+    const char* body = "        let l = nlsClog(ar, ai);\n"
+                       "        var p = nlsCexp(br * l.x - bi * l.y, br * l.y + bi * l.x);\n"
+                       "        if (ar == 0.0 && ai == 0.0 && bi == 0.0) {\n"
+                       "            p = select(vec2<f32>(0.0, 0.0), vec2<f32>(1.0, 0.0), br == 0.0);\n"
+                       "            if (br < 0.0) { p = vec2<f32>(nlsInf(), 0.0); }\n"
+                       "        }\n"
+                       "        c[2u * i] = p.x;\n"
+                       "        c[2u * i + 1u] = p.y;";
     return complexBinary(a, b, "gpuArray:cpow", body);
 }
 //=============================================================================
@@ -194,45 +198,44 @@ ArrayOf
 GpuComplexExp(GpuArrayObject* a)
 {
     // exp(re + i im) = exp(re) * (cos(im) + i sin(im))
-    return complexUnary(a, "gpuArray:cexp", "exp(ar) * cos(ai)", "exp(ar) * sin(ai)");
+    return complexUnary(a, "gpuArray:cexp", "nlsCexp(ar, ai).x", "nlsCexp(ar, ai).y");
 }
 //=============================================================================
 ArrayOf
 GpuComplexLog(GpuArrayObject* a)
 {
     // log(z) = 0.5 ln(re^2 + im^2) + i atan2(im, re)
-    return complexUnary(a, "gpuArray:clog", "0.5 * log(ar * ar + ai * ai)", "atan2(ai, ar)");
+    return complexUnary(a, "gpuArray:clog", "nlsClog(ar, ai).x", "nlsClog(ar, ai).y");
 }
 //=============================================================================
 ArrayOf
 GpuComplexSqrt(GpuArrayObject* a)
 {
     // sqrt(z) = |z|^(1/2) * (cos(theta/2) + i sin(theta/2)), theta = atan2(im, re)
-    return complexUnary(a, "gpuArray:csqrt",
-        "sqrt(sqrt(ar * ar + ai * ai)) * cos(0.5 * atan2(ai, ar))",
-        "sqrt(sqrt(ar * ar + ai * ai)) * sin(0.5 * atan2(ai, ar))");
+    return complexUnary(a, "gpuArray:csqrt", "nlsCsqrt(ar, ai).x", "nlsCsqrt(ar, ai).y");
 }
 //=============================================================================
 ArrayOf
 GpuComplexSin(GpuArrayObject* a)
 {
     // sin(re + i im) = sin(re) cosh(im) + i cos(re) sinh(im)
-    return complexUnary(a, "gpuArray:csin", "sin(ar) * cosh(ai)", "cos(ar) * sinh(ai)");
+    return complexUnary(
+        a, "gpuArray:csin", "nlsSin(ar) * nlsCosh(ai)", "nlsCos(ar) * nlsSinh(ai)");
 }
 //=============================================================================
 ArrayOf
 GpuComplexCos(GpuArrayObject* a)
 {
     // cos(re + i im) = cos(re) cosh(im) - i sin(re) sinh(im)
-    return complexUnary(a, "gpuArray:ccos", "cos(ar) * cosh(ai)", "-sin(ar) * sinh(ai)");
+    return complexUnary(
+        a, "gpuArray:ccos", "nlsCos(ar) * nlsCosh(ai)", "-nlsSin(ar) * nlsSinh(ai)");
 }
 //=============================================================================
 ArrayOf
 GpuComplexTan(GpuArrayObject* a)
 {
     // tan(z) = (sin(2re) + i sinh(2im)) / (cos(2re) + cosh(2im))
-    return complexUnary(a, "gpuArray:ctan", "sin(2.0 * ar) / (cos(2.0 * ar) + cosh(2.0 * ai))",
-        "sinh(2.0 * ai) / (cos(2.0 * ar) + cosh(2.0 * ai))");
+    return complexUnary(a, "gpuArray:ctan", "nlsCtan(ar, ai).x", "nlsCtan(ar, ai).y");
 }
 //=============================================================================
 ArrayOf
@@ -268,7 +271,7 @@ GpuComplexAbs(GpuArrayObject* a)
     if (!a->isComplex()) {
         return GpuUnaryElementwise(a, "gpuArray:abs", "abs(ai)");
     }
-    return complexToReal(a, "gpuArray:cabs", "sqrt(ar * ar + ai * ai)");
+    return complexToReal(a, "gpuArray:cabs", "nlsHypot(ar, ai)");
 }
 //=============================================================================
 ArrayOf
@@ -278,7 +281,7 @@ GpuAngle(GpuArrayObject* a)
         // angle of a real value: 0 when >= 0, pi when < 0
         return GpuUnaryElementwise(a, "gpuArray:rangle", "f32(ai < 0.0) * 3.1415927");
     }
-    return complexToReal(a, "gpuArray:cangle", "atan2(ai, ar)");
+    return complexToReal(a, "gpuArray:cangle", "nlsAtan2(ai, ar)");
 }
 //=============================================================================
 ArrayOf
@@ -378,24 +381,8 @@ complexBinary(
     if (a == nullptr || b == nullptr || !a->isValid() || !b->isValid()) {
         Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
     }
-    bool aScalar = a->dimensions().isScalar();
-    bool bScalar = b->dimensions().isScalar();
-    Dimensions outputDims;
-    uint32_t aStride = 1;
-    uint32_t bStride = 1;
-    if (aScalar && !bScalar) {
-        outputDims = b->dimensions();
-        aStride = 0;
-    } else if (bScalar && !aScalar) {
-        outputDims = a->dimensions();
-        bStride = 0;
-    } else {
-        if (!a->dimensions().equals(b->dimensions())) {
-            Error(L"Nelson:gpuArray:sizeMismatch",
-                L"Arrays have incompatible sizes for this operation.");
-        }
-        outputDims = a->dimensions();
-    }
+    GpuBinaryGeometry geometry = GpuComputeBinaryGeometry(a->dimensions(), b->dimensions());
+    Dimensions outputDims = geometry.outputDims;
     // both operands must be complex-resident
     GpuArrayObject* aTemp = a->isComplex() ? nullptr : GpuPromoteToComplex(a);
     GpuArrayObject* bTemp = b->isComplex() ? nullptr : GpuPromoteToComplex(b);
@@ -404,20 +391,11 @@ complexBinary(
 
     ArrayOf result;
     try {
-        std::string source = buildComplexBinaryWgsl(body);
-        WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-        if (pipeline == nullptr) {
-            Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-        }
+        std::string source = buildComplexBinaryWgsl(body, geometry.expand);
         GpuArrayObject* output = AllocateGpuArray(outputDims, "single", true);
-        uint32_t elementCount = (uint32_t)outputDims.elementCount();
-        if (elementCount > 0) {
-            uint32_t params[3] = { elementCount, aStride, bStride };
-            uint32_t workgroupCountX = (elementCount + 255u) / 256u;
-            GpuDispatchKernel(pipeline, { aC->buffer(), bC->buffer(), output->buffer() }, params, 3,
-                workgroupCountX, 1);
-        }
         result = ArrayOf::handle(output);
+        GpuRunBinaryKernel(
+            opKey, source, geometry, { aC->buffer(), bC->buffer(), output->buffer() });
     } catch (...) {
         delete aTemp;
         delete bTemp;
@@ -436,24 +414,8 @@ complexCompare(
     if (a == nullptr || b == nullptr || !a->isValid() || !b->isValid()) {
         Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
     }
-    bool aScalar = a->dimensions().isScalar();
-    bool bScalar = b->dimensions().isScalar();
-    Dimensions outputDims;
-    uint32_t aStride = 1;
-    uint32_t bStride = 1;
-    if (aScalar && !bScalar) {
-        outputDims = b->dimensions();
-        aStride = 0;
-    } else if (bScalar && !aScalar) {
-        outputDims = a->dimensions();
-        bStride = 0;
-    } else {
-        if (!a->dimensions().equals(b->dimensions())) {
-            Error(L"Nelson:gpuArray:sizeMismatch",
-                L"Arrays have incompatible sizes for this operation.");
-        }
-        outputDims = a->dimensions();
-    }
+    GpuBinaryGeometry geometry = GpuComputeBinaryGeometry(a->dimensions(), b->dimensions());
+    Dimensions outputDims = geometry.outputDims;
     GpuArrayObject* aTemp = a->isComplex() ? nullptr : GpuPromoteToComplex(a);
     GpuArrayObject* bTemp = b->isComplex() ? nullptr : GpuPromoteToComplex(b);
     GpuArrayObject* aC = aTemp ? aTemp : a;
@@ -461,21 +423,12 @@ complexCompare(
 
     ArrayOf result;
     try {
-        std::string source = buildComplexCompareWgsl(expr);
-        WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-        if (pipeline == nullptr) {
-            Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-        }
+        std::string source = buildComplexCompareWgsl(expr, geometry.expand);
         // real logical output (one f32 per element)
         GpuArrayObject* output = AllocateGpuArray(outputDims, "logical", false);
-        uint32_t elementCount = (uint32_t)outputDims.elementCount();
-        if (elementCount > 0) {
-            uint32_t params[3] = { elementCount, aStride, bStride };
-            uint32_t workgroupCountX = (elementCount + 255u) / 256u;
-            GpuDispatchKernel(pipeline, { aC->buffer(), bC->buffer(), output->buffer() }, params, 3,
-                workgroupCountX, 1);
-        }
         result = ArrayOf::handle(output);
+        GpuRunBinaryKernel(
+            opKey, source, geometry, { aC->buffer(), bC->buffer(), output->buffer() });
     } catch (...) {
         delete aTemp;
         delete bTemp;

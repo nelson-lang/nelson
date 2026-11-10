@@ -7,8 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cmath>
+#include <cstring>
 #include <vector>
 #include "GpuKernels.hpp"
+#include "GpuElementwiseMath.hpp"
 #include "GpuDispatch.hpp"
 #include "GpuContext.hpp"
 #include "GpuTransfer.hpp"
@@ -18,24 +21,57 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Reduction geometry for a column-major array reduced along `dim` (0-based).
 struct ReduceGeometry
 {
     bool identity = false; // reducing a singleton dimension => copy input
-    uint32_t outCount = 0;
-    uint32_t redLen = 0;
-    uint32_t before = 0;
+    GpuLaneGeometry lane;
     Dimensions outputDims;
 };
 //=============================================================================
 static ReduceGeometry
 computeGeometry(const Dimensions& dims, int dim);
+static void
+checkUsable(GpuArrayObject* a);
+// emptyValue fills the result of a zero-length reduction (0 for sum, 1 for prod, NaN for mean)
 static ArrayOf
 gpuReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& initExpr,
     const std::string& combineExpr, const std::string& finishExpr,
-    const std::string& resultType = "single");
+    const std::string& resultType = "single", float emptyValue = 0.0f);
 static ArrayOfVector
 gpuArgReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& compareExpr);
+//=============================================================================
+std::string
+GpuWgslIsNan(const std::string& value)
+{
+    return "((bitcast<u32>(" + value + ") & 0x7fffffffu) > 0x7f800000u)";
+}
+//=============================================================================
+std::string
+GpuWgslExtreme(const std::string& acc, const std::string& v, bool isMax, bool includeNan)
+{
+    std::string plain = std::string(isMax ? "max(" : "min(") + acc + ", " + v + ")";
+    if (includeNan) {
+        // the first NaN met is kept
+        return "select(select(" + plain + ", " + v + ", " + GpuWgslIsNan(v) + "), " + acc + ", "
+            + GpuWgslIsNan(acc) + ")";
+    }
+    return "select(select(" + plain + ", " + acc + ", " + GpuWgslIsNan(v) + "), " + v + ", "
+        + GpuWgslIsNan(acc) + ")";
+}
+//=============================================================================
+// argmax/argmin choice of v over acc, NaN handled like GpuWgslExtreme
+static std::string
+argCompare(bool isMax, bool includeNan)
+{
+    std::string better = isMax ? "v > acc" : "v < acc";
+    std::string nv = GpuWgslIsNan("v");
+    std::string na = GpuWgslIsNan("acc");
+    if (includeNan) {
+        return "(" + nv + " && !" + na + ") || (" + nv + " && " + na + " && kk < best) || (!" + nv
+            + " && !" + na + " && " + better + ")";
+    }
+    return "!" + nv + " && (" + na + " || " + better + ")";
+}
 static ArrayOf
 gpuComplexReduce(GpuArrayObject* a, int dim, const std::string& opKey,
     const std::string& combineReExpr, const std::string& combineImExpr,
@@ -59,7 +95,7 @@ GpuSum(GpuArrayObject* a, int dim)
     }
     // integer sum() promotes to a floating result (no saturation), matching the
     // host default; int8/16 already store f32 values so the plain path applies.
-    return gpuReduce(a, dim, "gpuArray:sum", "a[start]", "acc + v", "acc");
+    return gpuReduce(a, dim, "gpuArray:sum", "v", "acc + v", "acc");
 }
 //=============================================================================
 ArrayOf
@@ -73,7 +109,7 @@ GpuProd(GpuArrayObject* a, int dim)
         return GpuInt32Reduce(a, dim, "prod");
     }
     // integer prod() promotes to a floating result (no saturation), like sum().
-    return gpuReduce(a, dim, "gpuArray:prod", "a[start]", "acc * v", "acc");
+    return gpuReduce(a, dim, "gpuArray:prod", "v", "acc * v", "acc", "single", 1.0f);
 }
 //=============================================================================
 ArrayOf
@@ -86,11 +122,12 @@ GpuMean(GpuArrayObject* a, int dim)
     if (a->isRawIntStorage()) {
         return GpuInt32Reduce(a, dim, "mean");
     }
-    return gpuReduce(a, dim, "gpuArray:mean", "a[start]", "acc + v", "acc / redLenF");
+    return gpuReduce(
+        a, dim, "gpuArray:mean", "v", "acc + v", "acc / redLenF", "single", std::nanf(""));
 }
 //=============================================================================
 ArrayOf
-GpuMaxAlong(GpuArrayObject* a, int dim)
+GpuMaxAlong(GpuArrayObject* a, int dim, bool includeNan)
 {
     if (a->isComplex()) {
         // complex ordering is by magnitude
@@ -103,13 +140,14 @@ GpuMaxAlong(GpuArrayObject* a, int dim)
     if (!intType.empty()) {
         // extreme value is already in range: keep the class tag, no saturation
         return gpuReduce(
-            a, dim, "gpuArray:maxreduce:" + intType, "a[start]", "max(acc, v)", "acc", intType);
+            a, dim, "gpuArray:maxreduce:" + intType, "v", "max(acc, v)", "acc", intType);
     }
-    return gpuReduce(a, dim, "gpuArray:maxreduce", "a[start]", "max(acc, v)", "acc");
+    return gpuReduce(a, dim, std::string("gpuArray:maxreduce:") + (includeNan ? "nan" : "omit"), "v",
+        GpuWgslExtreme("acc", "v", true, includeNan), "acc");
 }
 //=============================================================================
 ArrayOf
-GpuMinAlong(GpuArrayObject* a, int dim)
+GpuMinAlong(GpuArrayObject* a, int dim, bool includeNan)
 {
     if (a->isComplex()) {
         return gpuComplexMaxMin(a, dim, "gpuArray:cmin", "vMag < bestMag");
@@ -120,9 +158,10 @@ GpuMinAlong(GpuArrayObject* a, int dim)
     std::string intType = GpuIntegerResultType(a, a);
     if (!intType.empty()) {
         return gpuReduce(
-            a, dim, "gpuArray:minreduce:" + intType, "a[start]", "min(acc, v)", "acc", intType);
+            a, dim, "gpuArray:minreduce:" + intType, "v", "min(acc, v)", "acc", intType);
     }
-    return gpuReduce(a, dim, "gpuArray:minreduce", "a[start]", "min(acc, v)", "acc");
+    return gpuReduce(a, dim, std::string("gpuArray:minreduce:") + (includeNan ? "nan" : "omit"), "v",
+        GpuWgslExtreme("acc", "v", false, includeNan), "acc");
 }
 //=============================================================================
 ArrayOf
@@ -131,8 +170,10 @@ GpuAny(GpuArrayObject* a, int dim)
     if (a->isComplex()) {
         return gpuComplexReduceLogical(a, dim, "gpuArray:cany", "f32((acc != 0.0) || (nz != 0.0))");
     }
-    return gpuReduce(a, dim, "gpuArray:any", "f32(a[start] != 0.0)",
-        "f32((acc != 0.0) || (v != 0.0))", "acc", "logical");
+    // NaN is ignored by any
+    std::string nonzero = "f32(v != 0.0 && !" + GpuWgslIsNan("v") + ")";
+    return gpuReduce(a, dim, "gpuArray:any:nan", nonzero,
+        "f32((acc != 0.0) || (" + nonzero + " != 0.0))", "acc", "logical");
 }
 //=============================================================================
 ArrayOf
@@ -141,32 +182,28 @@ GpuAll(GpuArrayObject* a, int dim)
     if (a->isComplex()) {
         return gpuComplexReduceLogical(a, dim, "gpuArray:call", "f32((acc != 0.0) && (nz != 0.0))");
     }
-    return gpuReduce(a, dim, "gpuArray:all", "f32(a[start] != 0.0)",
-        "f32((acc != 0.0) && (v != 0.0))", "acc", "logical");
+    return gpuReduce(a, dim, "gpuArray:all", "f32(v != 0.0)", "f32((acc != 0.0) && (v != 0.0))",
+        "acc", "logical", 1.0f);
 }
 //=============================================================================
 ArrayOfVector
-GpuMaxAlong2(GpuArrayObject* a, int dim)
+GpuMaxAlong2(GpuArrayObject* a, int dim, bool includeNan)
 {
-    return gpuArgReduce(a, dim, "gpuArray:argmax", "v > acc");
+    return gpuArgReduce(a, dim, std::string("gpuArray:argmax:") + (includeNan ? "nan" : "omit"),
+        argCompare(true, includeNan));
 }
 //=============================================================================
 ArrayOfVector
-GpuMinAlong2(GpuArrayObject* a, int dim)
+GpuMinAlong2(GpuArrayObject* a, int dim, bool includeNan)
 {
-    return gpuArgReduce(a, dim, "gpuArray:argmin", "v < acc");
+    return gpuArgReduce(a, dim, std::string("gpuArray:argmin:") + (includeNan ? "nan" : "omit"),
+        argCompare(false, includeNan));
 }
 //=============================================================================
 static ArrayOf
 gpuVarStd(GpuArrayObject* a, int dim, bool normalizeByN, bool doSqrt)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     if (a->isComplex() || a->isRawIntStorage() || !GpuIntegerResultType(a, a).empty()) {
         Error(
             L"Nelson:gpuArray:varStdRequiresFloat", L"var/std require a floating-point gpuArray.");
@@ -183,49 +220,176 @@ gpuVarStd(GpuArrayObject* a, int dim, bool normalizeByN, bool doSqrt)
         return CreateGpuArray(ArrayOf(NLS_SINGLE, dims, zeros));
     }
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single");
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
+    if (a->dimensions().elementCount() == 0 || geometry.lane.redLen == 0) {
         return ArrayOf::handle(output);
     }
-    std::string finish = doSqrt ? "sqrt(result)" : "result";
-    std::string source
-        = std::string("struct Params { outCount : u32, redLen : u32, before : u32, normN : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let o = gid.x;\n"
-                      "    if (o < params.outCount) {\n"
-                      "        let iB = o % params.before;\n"
-                      "        let iA = o / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n"
-                      "        var s : f32 = 0.0;\n"
-                      "        var sq : f32 = 0.0;\n"
-                      "        for (var k : u32 = 0u; k < params.redLen; k = k + 1u) {\n"
-                      "            let v = a[start + k * params.before];\n"
-                      "            s = s + v;\n"
-                      "            sq = sq + v * v;\n"
-                      "        }\n"
-                      "        let n = f32(params.redLen);\n"
-                      "        let numer = max(sq - s * s / n, 0.0);\n"
-                      "        var result : f32 = 0.0;\n"
-                      "        if (params.redLen > 1u) {\n"
-                      "            if (params.normN == 1u) { result = numer / n; }\n"
-                      "            else { result = numer / (n - 1.0); }\n"
-                      "        }\n"
-                      "        c[o] = ")
-        + finish + ";\n    }\n}\n";
+    // running sum and sum of squares
+    GpuLaneSpec spec;
+    spec.state = { { "s", "f32" }, { "sq", "f32" } };
+    spec.load = "    let v = a[e];\n    let v2 = v * v;\n";
+    spec.mergeLoad = "    let v = other_s;\n    let v2 = other_sq;\n";
+    spec.init = "    s = v;\n    sq = v2;\n";
+    spec.update = "    s = s + v;\n    sq = sq + v2;\n";
+    spec.store = std::string("    let numer = max(sq - s * s / redLenF, 0.0);\n"
+                             "    var result : f32 = 0.0;\n"
+                             "    if (params.redLen > 1u) {\n"
+                             "        if (params.normN == 1u) { result = numer / redLenF; }\n"
+                             "        else { result = numer / (redLenF - 1.0); }\n"
+                             "    }\n"
+                             "    c[o] = ")
+        + (doSqrt ? "sqrt(result)" : "result") + ";\n";
+    spec.outputs = { "c" };
+    spec.extraParams = { "normN" };
     std::string opKey
         = std::string(doSqrt ? "gpuArray:std:" : "gpuArray:var:") + (normalizeByN ? "N" : "N1");
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
+    try {
+        GpuRunLaneReduce(opKey, spec, geometry.lane, a->buffer(), { output->buffer() },
+            { normalizeByN ? 1u : 0u });
+    } catch (...) {
+        delete output;
+        throw;
+    }
+    return ArrayOf::handle(output);
+}
+//=============================================================================
+ArrayOf
+GpuVecnorm(GpuArrayObject* a, double p, int dim)
+{
+    checkUsable(a);
+    if (a->isRawIntStorage() || !GpuIntegerResultType(a, a).empty()) {
+        Error(L"Nelson:gpuArray:normRequiresFloat", L"norm requires a floating-point gpuArray.");
+    }
+    ReduceGeometry geometry = computeGeometry(a->dimensions(), dim);
+    if (geometry.identity) {
+        return GpuAbs(a);
+    }
+    if (geometry.lane.redLen == 0) {
+        return GpuFilled(geometry.outputDims, 0.0f, "single");
+    }
+    std::string magnitude = a->isComplex() ? "nlsHypot(a[2u * e], a[2u * e + 1u])" : "abs(a[e])";
+    std::string nan = GpuWgslIsNan("vs");
+    GpuLaneSpec spec;
+    spec.outputs = { "c" };
+    std::string key;
+    if (p == 2.0) {
+        // scale and sum of squares: the norm is scale * sqrt(ssq), with no overflow
+        spec.state = { { "scale", "f32" }, { "ssq", "f32" } };
+        spec.load = "    let vs = " + magnitude + ";\n    let vq = select(1.0, 0.0, vs == 0.0);\n";
+        spec.mergeLoad = "    let vs = other_scale;\n    let vq = other_ssq;\n";
+        spec.init = "    scale = vs;\n    ssq = vq;\n";
+        spec.update = "    if (" + nan + " || " + GpuWgslIsNan("scale")
+            + ") { scale = vs + scale; ssq = 1.0; }\n"
+              "    else if (vs > 3.4e38 || scale > 3.4e38) { scale = max(vs, scale); ssq = 1.0; }\n"
+              "    else if (vs > scale) { ssq = vq + ssq * (scale / vs) * (scale / vs); scale = vs; }\n"
+              "    else if (vs > 0.0) { ssq = ssq + vq * (vs / scale) * (vs / scale); }\n";
+        spec.store = "    c[o] = scale * sqrt(ssq);\n";
+        key = "gpuArray:norm2";
+    } else if (std::isinf(p)) {
+        spec.state = { { "acc", "f32" } };
+        spec.load = "    let vs = " + magnitude + ";\n";
+        spec.mergeLoad = "    let vs = other_acc;\n";
+        spec.init = "    acc = vs;\n";
+        spec.update = "    acc = " + GpuWgslExtreme("acc", "vs", p > 0, true) + ";\n";
+        spec.store = "    c[o] = acc;\n";
+        key = p > 0 ? "gpuArray:norminf" : "gpuArray:normneginf";
+    } else {
+        // sum of |x|^p, then the p-th root (p == 1 is the plain sum)
+        spec.state = { { "acc", "f32" } };
+        spec.load = "    let vs = pow(" + magnitude + ", bitcast<f32>(params.p));\n";
+        spec.mergeLoad = "    let vs = other_acc;\n";
+        spec.init = "    acc = vs;\n";
+        spec.update = "    acc = acc + vs;\n";
+        spec.store = "    c[o] = pow(acc, 1.0 / bitcast<f32>(params.p));\n";
+        if (p == 1.0) {
+            spec.load = "    let vs = " + magnitude + ";\n";
+            spec.store = "    c[o] = acc;\n";
+        }
+        spec.extraParams = { "p" };
+        key = p == 1.0 ? "gpuArray:norm1" : "gpuArray:normp";
+    }
+    // the accurate library supplies nlsHypot for complex magnitudes
+    if (a->isComplex()) {
+        spec.helpers = GpuMathHelpersWgsl();
+    }
+    GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single", false);
+    float pf = (float)p;
+    uint32_t pBits;
+    std::memcpy(&pBits, &pf, sizeof(pBits));
+    try {
+        GpuRunLaneReduce(key + (a->isComplex() ? ":c" : ""), spec, geometry.lane, a->buffer(),
+            { output->buffer() },
+            spec.extraParams.empty() ? std::vector<uint32_t> {} : std::vector<uint32_t> { pBits });
+    } catch (...) {
+        delete output;
+        throw;
+    }
+    return ArrayOf::handle(output);
+}
+//=============================================================================
+// middle of every sorted lane; NaN sit at the lane end after sorting
+static const char* MEDIAN_PICK_WGSL = R"WGSL(
+struct Params { laneCount : u32, redLen : u32, before : u32, omitNan : u32 };
+@group(0) @binding(0) var<storage, read> s : array<f32>;
+@group(0) @binding(1) var<storage, read_write> c : array<f32>;
+@group(0) @binding(2) var<uniform> params : Params;
+fn isNan(t : f32) -> bool { return (bitcast<u32>(t) & 0x7fffffffu) > 0x7f800000u; }
+@compute @workgroup_size(256)
+fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
+    let o = gid.x;
+    if (o >= params.laneCount) { return; }
+    let start = o % params.before + (o / params.before) * params.before * params.redLen;
+    let step = params.before;
+    var nanBits : u32 = 0x7fc00000u;
+    var count = params.redLen;
+    if (isNan(s[start + (count - 1u) * step])) {
+        if (params.omitNan == 0u) { c[o] = bitcast<f32>(nanBits); return; }
+        // first NaN position by bisection
+        var lo = 0u;
+        var hi = count - 1u;
+        loop {
+            if (lo >= hi) { break; }
+            let mid = (lo + hi) / 2u;
+            if (isNan(s[start + mid * step])) { hi = mid; } else { lo = mid + 1u; }
+        }
+        count = lo;
+    }
+    if (count == 0u) { c[o] = bitcast<f32>(nanBits); return; }
+    let a = s[start + ((count - 1u) / 2u) * step];
+    let b = s[start + (count / 2u) * step];
+    // written to avoid overflow for large values of the same sign
+    c[o] = select(a + (b - a) * 0.5, a, a == b);
+}
+)WGSL";
+//=============================================================================
+ArrayOf
+GpuMedian(GpuArrayObject* a, int dim, bool omitNan)
+{
+    checkUsable(a);
+    if (a->isComplex() || a->isRawIntStorage() || !GpuIntegerResultType(a, a).empty()) {
+        Error(L"Nelson:gpuArray:medianRequiresFloat",
+            L"median requires a real floating-point gpuArray.");
+    }
+    ReduceGeometry geometry = computeGeometry(a->dimensions(), dim);
+    if (geometry.identity) {
+        return ArrayOf::handle(CloneGpuArray(a));
+    }
+    if (geometry.lane.redLen == 0) {
+        return GpuFilled(geometry.outputDims, std::nanf(""), "single");
+    }
+    ArrayOfVector sorted = GpuSort(a, geometry.lane.dimension, false);
+    GpuArrayObject* s = AsGpuArrayObject(sorted[0]);
+    GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single", false);
+    ArrayOf result = ArrayOf::handle(output);
+    WGPUComputePipeline pipeline = GpuContext::getInstance()->pipelineFor(
+        "gpuArray:medianpick", MEDIAN_PICK_WGSL, "main");
     if (pipeline == nullptr) {
         Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
     }
-    uint32_t params[4]
-        = { geometry.outCount, geometry.redLen, geometry.before, normalizeByN ? 1u : 0u };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 4, workgroupCountX, 1);
-    return ArrayOf::handle(output);
+    uint32_t params[4] = { geometry.lane.laneCount, geometry.lane.redLen, geometry.lane.before,
+        omitNan ? 1u : 0u };
+    GpuDispatchKernel(pipeline, { s->buffer(), output->buffer() }, params, 4,
+        (geometry.lane.laneCount + 255u) / 256u, 1);
+    return result;
 }
 //=============================================================================
 ArrayOf
@@ -243,16 +407,11 @@ GpuStd(GpuArrayObject* a, int dim, bool normalizeByN)
 ArrayOf
 GpuInt32Reduce(GpuArrayObject* a, int dim, const std::string& op)
 {
+    checkUsable(a);
     GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
     std::string intType = a->underlyingType();
     bool isUnsigned = (intType == "uint32");
-    const char* T = isUnsigned ? "u32" : "i32";
+    const std::string T = isUnsigned ? "u32" : "i32";
 
     // sum/prod/mean promote to a floating result (host default: no saturation);
     // max/min keep the integer class. floatMode selects f32 accumulation.
@@ -295,69 +454,47 @@ GpuInt32Reduce(GpuArrayObject* a, int dim, const std::string& op)
         return ArrayOf::handle(CloneGpuArray(a));
     }
 
-    // per-op combine over the loaded value `v` updating the accumulator `acc`
-    std::string combine;
-    std::string finish = "acc";
-    if (floatMode) {
-        combine = (op == "prod") ? "            acc = acc * v;\n" : "            acc = acc + v;\n";
-        if (op == "mean") {
-            finish = "acc / f32(params.redLen)";
-        }
-    } else if (op == "max") {
-        combine = "            acc = max(acc, v);\n";
-    } else {
-        combine = "            acc = min(acc, v);\n";
-    }
-
     std::string resultType = floatMode ? "single" : intType;
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, resultType, false);
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
+    if (a->dimensions().elementCount() == 0 || geometry.lane.redLen == 0) {
         return ArrayOf::handle(output);
     }
-
-    std::string loadInit;
-    std::string loadStep;
-    std::string store;
+    GpuLaneSpec spec;
+    spec.mergeLoad = "    let v = other_acc;\n";
+    spec.init = "    acc = v;\n";
     if (floatMode) {
         // accumulate in f32 (bitcast raw int -> integer -> float), output single
-        loadInit = std::string("        var acc : f32 = f32(bitcast<") + T + ">(a[start]));\n";
-        loadStep = std::string("            let v = f32(bitcast<") + T
-            + ">(a[start + k * params.before]));\n";
-        store = std::string("        c[o] = ") + finish + ";\n";
+        spec.state = { { "acc", "f32" } };
+        spec.load = "    let v = f32(bitcast<" + T + ">(a[e]));\n";
+        spec.update = (op == "prod") ? "    acc = acc * v;\n" : "    acc = acc + v;\n";
+        spec.store = (op == "mean") ? "    c[o] = acc / redLenF;\n" : "    c[o] = acc;\n";
     } else {
-        loadInit = std::string("        var acc : ") + T + " = bitcast<" + T + ">(a[start]);\n";
-        loadStep = std::string("            let v = bitcast<") + T
-            + ">(a[start + k * params.before]);\n";
-        store = "        c[o] = bitcast<f32>(acc);\n";
+        spec.state = { { "acc", T } };
+        spec.load = "    let v = bitcast<" + T + ">(a[e]);\n";
+        spec.update = (op == "max") ? "    acc = max(acc, v);\n" : "    acc = min(acc, v);\n";
+        spec.store = "    c[o] = bitcast<f32>(acc);\n";
     }
-
-    std::string source
-        = std::string("struct Params { outCount : u32, redLen : u32, before : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let o = gid.x;\n"
-                      "    if (o < params.outCount) {\n"
-                      "        let iB = o % params.before;\n"
-                      "        let iA = o / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n")
-        + loadInit + "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n" + loadStep
-        + combine + "        }\n" + store + "    }\n}\n";
-
-    WGPUComputePipeline pipeline
-        = context->pipelineFor("gpuArray:i32reduce:" + op + ":" + intType, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
+    spec.outputs = { "c" };
+    try {
+        GpuRunLaneReduce("gpuArray:i32reduce:" + op + ":" + intType, spec, geometry.lane,
+            a->buffer(), { output->buffer() });
+    } catch (...) {
+        delete output;
+        throw;
     }
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
     return ArrayOf::handle(output);
 }
 //=============================================================================
-// static helper functions
+static void
+checkUsable(GpuArrayObject* a)
+{
+    if (a == nullptr || !a->isValid()) {
+        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
+    }
+    if (!GpuContext::getInstance()->isAvailable()) {
+        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
+    }
+}
 //=============================================================================
 static ReduceGeometry
 computeGeometry(const Dimensions& dims, int dim)
@@ -368,9 +505,7 @@ computeGeometry(const Dimensions& dims, int dim)
         geometry.identity = true;
         return geometry;
     }
-    geometry.before = lane.before;
-    geometry.redLen = lane.redLen;
-    geometry.outCount = lane.laneCount;
+    geometry.lane = lane;
 
     indexType ndims = dims.length();
     if (ndims < 2) {
@@ -387,17 +522,31 @@ computeGeometry(const Dimensions& dims, int dim)
     return geometry;
 }
 //=============================================================================
+// run `spec` into a new output array, freeing the outputs if the dispatch fails
+static void
+runReduce(const std::string& opKey, const GpuLaneSpec& spec, const ReduceGeometry& geometry,
+    GpuArrayObject* a, const std::vector<GpuArrayObject*>& outputs)
+{
+    std::vector<WGPUBuffer> buffers;
+    for (GpuArrayObject* output : outputs) {
+        buffers.push_back(output->buffer());
+    }
+    try {
+        GpuRunLaneReduce(opKey, spec, geometry.lane, a->buffer(), buffers);
+    } catch (...) {
+        for (GpuArrayObject* output : outputs) {
+            delete output;
+        }
+        throw;
+    }
+}
+//=============================================================================
 static ArrayOf
 gpuReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& initExpr,
-    const std::string& combineExpr, const std::string& finishExpr, const std::string& resultType)
+    const std::string& combineExpr, const std::string& finishExpr, const std::string& resultType,
+    float emptyValue)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     if (a->isComplex()) {
         Error(L"Nelson:gpuArray:complexUnsupported",
             L"This operation is not supported for complex gpuArray yet.");
@@ -410,34 +559,31 @@ gpuReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::strin
     if (geometry.identity) {
         // preserve the requested result type (e.g. any/all of a singleton dim)
         return GpuUnaryElementwise(a, "gpuArray:copyto:" + resultType,
-            initExpr == "a[start]" ? "ai" : "f32(ai != 0.0)", resultType);
+            initExpr == "v" ? "ai" : "f32(ai != 0.0)", resultType);
     }
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
-        GpuArrayObject* emptyOutput = AllocateGpuArray(geometry.outputDims, resultType);
-        return ArrayOf::handle(emptyOutput);
-    }
-    std::string source = GpuBuildReduceWgsl(initExpr, combineExpr, finishExpr);
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
+    if (geometry.lane.redLen == 0) {
+        return GpuFilled(geometry.outputDims, emptyValue, resultType);
     }
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, resultType);
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
+    if (a->dimensions().elementCount() == 0) {
+        return ArrayOf::handle(output);
+    }
+    GpuLaneSpec spec;
+    spec.state = { { "acc", "f32" } };
+    spec.load = "    let v = a[e];\n";
+    spec.mergeLoad = "    let v = other_acc;\n";
+    spec.init = "    acc = " + initExpr + ";\n";
+    spec.update = "    acc = " + combineExpr + ";\n";
+    spec.store = "    c[o] = " + finishExpr + ";\n";
+    spec.outputs = { "c" };
+    runReduce(opKey, spec, geometry, a, { output });
     return ArrayOf::handle(output);
 }
 //=============================================================================
 static ArrayOfVector
 gpuArgReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::string& compareExpr)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     if (a->isComplex() || a->isRawIntStorage()) {
         Error(L"Nelson:gpuArray:typeUnsupported",
             L"This operation is not supported for this gpuArray type yet.");
@@ -450,22 +596,21 @@ gpuArgReduce(GpuArrayObject* a, int dim, const std::string& opKey, const std::st
         retval << GpuUnaryElementwise(a, "gpuArray:oneidx", "1.0");
         return retval;
     }
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
-        retval << ArrayOf::handle(AllocateGpuArray(geometry.outputDims));
-        retval << ArrayOf::handle(AllocateGpuArray(geometry.outputDims));
-        return retval;
-    }
-    std::string source = GpuBuildArgReduceWgsl(compareExpr);
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
     GpuArrayObject* values = AllocateGpuArray(geometry.outputDims);
     GpuArrayObject* indices = AllocateGpuArray(geometry.outputDims);
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), values->buffer(), indices->buffer() }, params, 3,
-        workgroupCountX, 1);
+    if (a->dimensions().elementCount() > 0 && geometry.lane.redLen > 0) {
+        // on a tie the lower position wins, as in a left-to-right scan
+        GpuLaneSpec spec;
+        spec.state = { { "acc", "f32" }, { "best", "u32" } };
+        spec.load = "    let v = a[e];\n    let kk = k;\n";
+        spec.mergeLoad = "    let v = other_acc;\n    let kk = other_best;\n";
+        spec.init = "    acc = v;\n    best = kk;\n";
+        spec.update = "    if ((" + compareExpr
+            + ") || (v == acc && kk < best)) {\n        acc = v;\n        best = kk;\n    }\n";
+        spec.store = "    vals[o] = acc;\n    idx[o] = f32(best + 1u);\n";
+        spec.outputs = { "vals", "idx" };
+        runReduce(opKey, spec, geometry, a, { values, indices });
+    }
     retval << ArrayOf::handle(values);
     retval << ArrayOf::handle(indices);
     return retval;
@@ -476,54 +621,27 @@ gpuComplexReduce(GpuArrayObject* a, int dim, const std::string& opKey,
     const std::string& combineReExpr, const std::string& combineImExpr,
     const std::string& finishReExpr, const std::string& finishImExpr)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     ReduceGeometry geometry = computeGeometry(a->dimensions(), dim);
     if (geometry.identity) {
         return ArrayOf::handle(CloneGpuArray(a));
     }
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
-        return ArrayOf::handle(AllocateGpuArray(geometry.outputDims, "single", true));
-    }
-    // interleaved (re, im) reduction: one thread per output element
-    std::string source
-        = std::string("struct Params { outCount : u32, redLen : u32, before : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let o = gid.x;\n"
-                      "    if (o < params.outCount) {\n"
-                      "        let iB = o % params.before;\n"
-                      "        let iA = o / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n"
-                      "        var accRe : f32 = a[2u * start];\n"
-                      "        var accIm : f32 = a[2u * start + 1u];\n"
-                      "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-                      "            let idx = start + k * params.before;\n"
-                      "            let vRe = a[2u * idx];\n"
-                      "            let vIm = a[2u * idx + 1u];\n"
-                      "            let nr = ")
-        + combineReExpr + ";\n            let ni = " + combineImExpr
-        + ";\n            accRe = nr;\n            accIm = ni;\n        }\n"
-          "        let redLenF = f32(params.redLen);\n"
-          "        c[2u * o] = "
-        + finishReExpr + ";\n        c[2u * o + 1u] = " + finishImExpr + ";\n    }\n}\n";
-
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single", true);
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
+    if (a->dimensions().elementCount() == 0 || geometry.lane.redLen == 0) {
+        return ArrayOf::handle(output);
+    }
+    // interleaved (re, im) values
+    GpuLaneSpec spec;
+    spec.state = { { "accRe", "f32" }, { "accIm", "f32" } };
+    spec.load = "    let vRe = a[2u * e];\n    let vIm = a[2u * e + 1u];\n";
+    spec.mergeLoad = "    let vRe = other_accRe;\n    let vIm = other_accIm;\n";
+    spec.init = "    accRe = vRe;\n    accIm = vIm;\n";
+    spec.update = "    let nr = " + combineReExpr + ";\n    let ni = " + combineImExpr
+        + ";\n    accRe = nr;\n    accIm = ni;\n";
+    spec.store
+        = "    c[2u * o] = " + finishReExpr + ";\n    c[2u * o + 1u] = " + finishImExpr + ";\n";
+    spec.outputs = { "c" };
+    runReduce(opKey, spec, geometry, a, { output });
     return ArrayOf::handle(output);
 }
 //=============================================================================
@@ -531,13 +649,7 @@ static ArrayOf
 gpuComplexReduceLogical(
     GpuArrayObject* a, int dim, const std::string& opKey, const std::string& combineExpr)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     ReduceGeometry geometry = computeGeometry(a->dimensions(), dim);
     if (geometry.identity) {
         // reducing along a trailing singleton dimension: rarely requested for
@@ -545,38 +657,20 @@ gpuComplexReduceLogical(
         Error(L"Nelson:gpuArray:complexUnsupported",
             L"This operation is not supported for complex gpuArray yet.");
     }
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
-        return ArrayOf::handle(AllocateGpuArray(geometry.outputDims, "logical", false));
+    GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "logical", false);
+    if (a->dimensions().elementCount() == 0 || geometry.lane.redLen == 0) {
+        return ArrayOf::handle(output);
     }
     // nonzero test on interleaved (re, im); reduce booleans to a logical result
-    std::string source
-        = std::string(
-              "struct Params { outCount : u32, redLen : u32, before : u32 };\n"
-              "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-              "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-              "@group(0) @binding(2) var<uniform> params : Params;\n"
-              "@compute @workgroup_size(256)\n"
-              "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-              "    let o = gid.x;\n"
-              "    if (o < params.outCount) {\n"
-              "        let iB = o % params.before;\n"
-              "        let iA = o / params.before;\n"
-              "        let start = iB + iA * (params.before * params.redLen);\n"
-              "        var acc : f32 = f32((a[2u * start] != 0.0) || (a[2u * start + 1u] != "
-              "0.0));\n"
-              "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-              "            let idx = start + k * params.before;\n"
-              "            let nz = f32((a[2u * idx] != 0.0) || (a[2u * idx + 1u] != 0.0));\n"
-              "            acc = ")
-        + combineExpr + ";\n        }\n        c[o] = acc;\n    }\n}\n";
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
-    GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "logical", false);
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
+    GpuLaneSpec spec;
+    spec.state = { { "acc", "f32" } };
+    spec.load = "    let nz = f32((a[2u * e] != 0.0) || (a[2u * e + 1u] != 0.0));\n";
+    spec.mergeLoad = "    let nz = other_acc;\n";
+    spec.init = "    acc = nz;\n";
+    spec.update = "    acc = " + combineExpr + ";\n";
+    spec.store = "    c[o] = acc;\n";
+    spec.outputs = { "c" };
+    runReduce(opKey, spec, geometry, a, { output });
     return ArrayOf::handle(output);
 }
 //=============================================================================
@@ -584,56 +678,31 @@ static ArrayOf
 gpuComplexMaxMin(
     GpuArrayObject* a, int dim, const std::string& opKey, const std::string& compareExpr)
 {
-    GpuContext* context = GpuContext::getInstance();
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!context->isAvailable()) {
-        Error(L"Nelson:GPU:noDeviceAvailable", L"No compatible GPU device found.");
-    }
+    checkUsable(a);
     ReduceGeometry geometry = computeGeometry(a->dimensions(), dim);
     if (geometry.identity) {
         return ArrayOf::handle(CloneGpuArray(a));
     }
-    if (a->dimensions().elementCount() == 0 || geometry.redLen == 0) {
-        return ArrayOf::handle(AllocateGpuArray(geometry.outputDims, "single", true));
-    }
-    // keep the element with the extreme magnitude; output the complex value
-    std::string source
-        = std::string("struct Params { outCount : u32, redLen : u32, before : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                      "@group(0) @binding(2) var<uniform> params : Params;\n"
-                      "@compute @workgroup_size(256)\n"
-                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                      "    let o = gid.x;\n"
-                      "    if (o < params.outCount) {\n"
-                      "        let iB = o % params.before;\n"
-                      "        let iA = o / params.before;\n"
-                      "        let start = iB + iA * (params.before * params.redLen);\n"
-                      "        var bestRe : f32 = a[2u * start];\n"
-                      "        var bestIm : f32 = a[2u * start + 1u];\n"
-                      "        var bestMag : f32 = bestRe * bestRe + bestIm * bestIm;\n"
-                      "        for (var k : u32 = 1u; k < params.redLen; k = k + 1u) {\n"
-                      "            let idx = start + k * params.before;\n"
-                      "            let vRe = a[2u * idx];\n"
-                      "            let vIm = a[2u * idx + 1u];\n"
-                      "            let vMag = vRe * vRe + vIm * vIm;\n"
-                      "            if (")
-        + compareExpr
-        + ") {\n"
-          "                bestRe = vRe;\n                bestIm = vIm;\n                bestMag = "
-          "vMag;\n"
-          "            }\n        }\n"
-          "        c[2u * o] = bestRe;\n        c[2u * o + 1u] = bestIm;\n    }\n}\n";
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single", true);
-    uint32_t params[3] = { geometry.outCount, geometry.redLen, geometry.before };
-    uint32_t workgroupCountX = (geometry.outCount + 255u) / 256u;
-    GpuDispatchKernel(pipeline, { a->buffer(), output->buffer() }, params, 3, workgroupCountX, 1);
+    if (a->dimensions().elementCount() == 0 || geometry.lane.redLen == 0) {
+        return ArrayOf::handle(output);
+    }
+    // keep the element with the extreme magnitude (first one on a tie)
+    GpuLaneSpec spec;
+    spec.state
+        = { { "bestRe", "f32" }, { "bestIm", "f32" }, { "bestMag", "f32" }, { "bestK", "u32" } };
+    spec.load = "    let vRe = a[2u * e];\n    let vIm = a[2u * e + 1u];\n"
+                "    let vMag = vRe * vRe + vIm * vIm;\n    let kk = k;\n";
+    spec.mergeLoad = "    let vRe = other_bestRe;\n    let vIm = other_bestIm;\n"
+                     "    let vMag = other_bestMag;\n    let kk = other_bestK;\n";
+    spec.init = "    bestRe = vRe;\n    bestIm = vIm;\n    bestMag = vMag;\n    bestK = kk;\n";
+    spec.update = "    if ((" + compareExpr
+        + ") || (vMag == bestMag && kk < bestK)) {\n"
+          "        bestRe = vRe;\n        bestIm = vIm;\n        bestMag = vMag;\n"
+          "        bestK = kk;\n    }\n";
+    spec.store = "    c[2u * o] = bestRe;\n    c[2u * o + 1u] = bestIm;\n";
+    spec.outputs = { "c" };
+    runReduce(opKey, spec, geometry, a, { output });
     return ArrayOf::handle(output);
 }
 //=============================================================================

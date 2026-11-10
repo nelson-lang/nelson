@@ -36,10 +36,22 @@ void
 GpuArrayObject::releaseBuffer()
 {
     if (m_buffer != nullptr) {
-        wgpuBufferDestroy(m_buffer);
+        if (m_ownsBuffer) {
+            wgpuBufferDestroy(m_buffer);
+        }
         wgpuBufferRelease(m_buffer);
         m_buffer = nullptr;
     }
+}
+//=============================================================================
+GpuArrayObject*
+GpuArrayObject::view(GpuArrayObject* source, const Dimensions& dims)
+{
+    wgpuBufferAddRef(source->buffer());
+    auto* shared
+        = new GpuArrayObject(source->buffer(), dims, source->underlyingType(), source->isComplex());
+    shared->m_ownsBuffer = false;
+    return shared;
 }
 //=============================================================================
 GpuArrayObject*

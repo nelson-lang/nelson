@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isUnderlyingType</keyword>
+  <short_description>Teste le type de données sous-jacent.</short_description>
+  <syntax>
+    <syntax_item>tf = isUnderlyingType(X, typename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>une valeur quelconque.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>typename</param_name>
+      <param_description>un nom de classe, ou une catégorie : <b>'numeric'</b>, <b>'float'</b> ou <b>'integer'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>un scalaire logique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tf = isUnderlyingType(X, typename)</b> renvoie <b>true</b> si <b>underlyingType(X)</b> vaut <b>typename</b>, ou appartient à la catégorie donnée. Pour un gpuArray, c'est le type des données sur le périphérique qui est utilisé.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[isUnderlyingType(single(1), 'float')
+isUnderlyingType(int8(1), 'single')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}underlyingType">underlyingType</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -16,6 +16,9 @@
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "GpuElementwiseMath.hpp"
+#include "gpuFallbackBuiltin.hpp"
+#include <cmath>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -53,7 +56,33 @@ GPU_BINARY_BUILTIN(gpuArrayMinusBuiltin, GpuMinus)
 GPU_BINARY_BUILTIN(gpuArrayTimesBuiltin, GpuTimes)
 GPU_BINARY_BUILTIN(gpuArrayRdivideBuiltin, GpuRdivide)
 GPU_BINARY_BUILTIN(gpuArrayLdivideBuiltin, GpuLdivide)
-GPU_BINARY_BUILTIN(gpuArrayPowerBuiltin, GpuPower)
+//=============================================================================
+// x.^n with a whole host exponent cannot turn complex: no device-side domain check
+ArrayOfVector
+Nelson::GpuEngineGateway::gpuArrayPowerBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    nargincheck(argIn, 2, 2);
+    nargoutcheck(nLhs, 0, 1);
+    GpuArrayObject* base = AsGpuArrayObject(argIn[0]);
+    const ArrayOf& exponent = argIn[1];
+    ArrayOfVector retval;
+    if (base != nullptr && !base->isComplex() && !base->isRawIntStorage()
+        && GpuIntegerResultType(base, base).empty() && AsGpuArrayObject(exponent) == nullptr
+        && exponent.isScalar() && !exponent.isComplex() && !exponent.isSparse()
+        && (exponent.isDoubleType() || exponent.isSingleType())) {
+        double n = exponent.asDoubleScalar();
+        ArrayOf result;
+        if (n == std::floor(n) && std::fabs(n) <= 1048576.0
+            && GpuElementwiseMath("power:wholeexponent", argIn, result)) {
+            retval << result;
+            return retval;
+        }
+    }
+    retval << binaryGpuOperator(argIn, GpuPower);
+    return retval;
+}
+//=============================================================================
 GPU_BINARY_BUILTIN(gpuArrayMtimesBuiltin, GpuMtimes)
 //=============================================================================
 GPU_UNARY_BUILTIN(gpuArrayRealBuiltin, GpuReal)
@@ -62,12 +91,7 @@ GPU_UNARY_BUILTIN(gpuArrayConjBuiltin, GpuConj)
 GPU_UNARY_BUILTIN(gpuArrayAngleBuiltin, GpuAngle)
 GPU_UNARY_BUILTIN(gpuArrayUminusBuiltin, GpuUminus)
 GPU_UNARY_BUILTIN(gpuArrayAbsBuiltin, GpuAbs)
-GPU_UNARY_BUILTIN(gpuArraySqrtBuiltin, GpuSqrt)
 GPU_UNARY_BUILTIN(gpuArrayExpBuiltin, GpuExp)
-GPU_UNARY_BUILTIN(gpuArrayLogBuiltin, GpuLog)
-GPU_UNARY_BUILTIN(gpuArraySinBuiltin, GpuSin)
-GPU_UNARY_BUILTIN(gpuArrayCosBuiltin, GpuCos)
-GPU_UNARY_BUILTIN(gpuArrayTanBuiltin, GpuTan)
 GPU_UNARY_BUILTIN(gpuArrayFloorBuiltin, GpuFloor)
 GPU_UNARY_BUILTIN(gpuArrayCeilBuiltin, GpuCeil)
 GPU_UNARY_BUILTIN(gpuArrayRoundBuiltin, GpuRound)
@@ -75,40 +99,64 @@ GPU_UNARY_BUILTIN(gpuArrayFixBuiltin, GpuFix)
 GPU_UNARY_BUILTIN(gpuArraySignBuiltin, GpuSign)
 GPU_BINARY_BUILTIN(gpuArrayModBuiltin, GpuMod)
 GPU_BINARY_BUILTIN(gpuArrayRemBuiltin, GpuRem)
-GPU_UNARY_BUILTIN(gpuArraySinhBuiltin, GpuSinh)
-GPU_UNARY_BUILTIN(gpuArrayCoshBuiltin, GpuCosh)
-GPU_UNARY_BUILTIN(gpuArrayTanhBuiltin, GpuTanh)
-GPU_UNARY_BUILTIN(gpuArrayAsinBuiltin, GpuAsin)
-GPU_UNARY_BUILTIN(gpuArrayAcosBuiltin, GpuAcos)
-GPU_UNARY_BUILTIN(gpuArrayAtanBuiltin, GpuAtan)
-GPU_UNARY_BUILTIN(gpuArrayLog2Builtin, GpuLog2)
-GPU_UNARY_BUILTIN(gpuArrayLog10Builtin, GpuLog10)
-GPU_BINARY_BUILTIN(gpuArrayAtan2Builtin, GpuAtan2)
-GPU_BINARY_BUILTIN(gpuArrayHypotBuiltin, GpuHypot)
-GPU_UNARY_BUILTIN(gpuArrayExpm1Builtin, GpuExpm1)
-GPU_UNARY_BUILTIN(gpuArrayLog1pBuiltin, GpuLog1p)
 GPU_UNARY_BUILTIN(gpuArrayPow2Builtin, GpuPow2)
-GPU_UNARY_BUILTIN(gpuArraySecBuiltin, GpuSec)
-GPU_UNARY_BUILTIN(gpuArrayCscBuiltin, GpuCsc)
-GPU_UNARY_BUILTIN(gpuArrayCotBuiltin, GpuCot)
-GPU_UNARY_BUILTIN(gpuArrayAsecBuiltin, GpuAsec)
-GPU_UNARY_BUILTIN(gpuArrayAcscBuiltin, GpuAcsc)
-GPU_UNARY_BUILTIN(gpuArrayAcotBuiltin, GpuAcot)
-GPU_UNARY_BUILTIN(gpuArraySechBuiltin, GpuSech)
-GPU_UNARY_BUILTIN(gpuArrayCschBuiltin, GpuCsch)
-GPU_UNARY_BUILTIN(gpuArrayCothBuiltin, GpuCoth)
-GPU_UNARY_BUILTIN(gpuArrayAsinhBuiltin, GpuAsinh)
-GPU_UNARY_BUILTIN(gpuArrayAcoshBuiltin, GpuAcosh)
-GPU_UNARY_BUILTIN(gpuArrayAtanhBuiltin, GpuAtanh)
 GPU_UNARY_BUILTIN(gpuArrayDeg2radBuiltin, GpuDeg2rad)
 GPU_UNARY_BUILTIN(gpuArrayRad2degBuiltin, GpuRad2deg)
 GPU_UNARY_BUILTIN(gpuArrayIsnanBuiltin, GpuIsNaN)
 GPU_UNARY_BUILTIN(gpuArrayIsinfBuiltin, GpuIsInf)
 GPU_UNARY_BUILTIN(gpuArrayIsfiniteBuiltin, GpuIsFinite)
-GPU_BINARY_BUILTIN(gpuArrayBitandBuiltin, GpuBitand)
-GPU_BINARY_BUILTIN(gpuArrayBitorBuiltin, GpuBitor)
-GPU_BINARY_BUILTIN(gpuArrayBitxorBuiltin, GpuBitxor)
-GPU_BINARY_BUILTIN(gpuArrayBitshiftBuiltin, GpuBitshift)
+//=============================================================================
+// integer operands run on the device; whole-valued floats and int8/int16 shifts on the host
+static bool
+bitwiseOnDevice(const ArrayOfVector& argIn, bool shift)
+{
+    GpuArrayObject* a = AsGpuArrayObject(argIn[0]);
+    GpuArrayObject* b = AsGpuArrayObject(argIn[1]);
+    auto isInteger = [shift](GpuArrayObject* g) {
+        return g != nullptr && !g->isComplex()
+            && (g->isRawIntStorage() || (!shift && !GpuIntegerResultType(g, g).empty()));
+    };
+    if (shift) {
+        return isInteger(a);
+    }
+    return isInteger(a) || isInteger(b) || (a == nullptr && IS_INTEGER_TYPE(argIn[0].dataClass()))
+        || (b == nullptr && IS_INTEGER_TYPE(argIn[1].dataClass()));
+}
+//=============================================================================
+// device floats hold double values: the host bit functions get them back as double
+static ArrayOfVector
+bitwiseHost(Evaluator* eval, const wchar_t* name, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector args;
+    bool device = false;
+    for (const ArrayOf& value : argIn) {
+        GpuArrayObject* g = AsGpuArrayObject(value);
+        if (g != nullptr && !g->isComplex() && g->underlyingType() == "single") {
+            ArrayOf host = GatherGpuArray(g);
+            host.promoteType(NLS_DOUBLE);
+            args << host;
+            device = true;
+        } else {
+            args << value;
+        }
+    }
+    ArrayOfVector results = GpuEngineGateway::gpuArrayHostFallback(eval, name, nLhs, args);
+    for (size_t k = 0; device && k < results.size(); ++k) {
+        if (AsGpuArrayObject(results[k]) == nullptr
+            && (results[k].isNumeric() || results[k].isLogical()) && !results[k].isSparse()
+            && results[k].dataClass() != NLS_INT64 && results[k].dataClass() != NLS_UINT64) {
+            results[k] = CreateGpuArray(results[k]);
+        }
+    }
+    return results;
+}
+//=============================================================================
+#define GPU_BITWISE_BUILTIN(BUILTIN_NAME, KERNEL_FN, NAME, SHIFT)                                      ArrayOfVector Nelson::GpuEngineGateway::BUILTIN_NAME(                                                  Evaluator* eval, int nLhs, const ArrayOfVector& argIn)                                         {                                                                                                      if (argIn.size() != 2 || nLhs > 1 || !bitwiseOnDevice(argIn, SHIFT)) {                                 return bitwiseHost(eval, NAME, nLhs, argIn);                                                   }                                                                                                  ArrayOfVector retval;                                                                              retval << binaryGpuOperator(argIn, KERNEL_FN);                                                     return retval;                                                                                 }
+GPU_BITWISE_BUILTIN(gpuArrayBitandBuiltin, GpuBitand, L"bitand", false)
+GPU_BITWISE_BUILTIN(gpuArrayBitorBuiltin, GpuBitor, L"bitor", false)
+GPU_BITWISE_BUILTIN(gpuArrayBitxorBuiltin, GpuBitxor, L"bitxor", false)
+GPU_BITWISE_BUILTIN(gpuArrayBitshiftBuiltin, GpuBitshift, L"bitshift", true)
+#undef GPU_BITWISE_BUILTIN
 //=============================================================================
 GPU_BINARY_BUILTIN(gpuArrayEqBuiltin, GpuEq)
 GPU_BINARY_BUILTIN(gpuArrayNeBuiltin, GpuNe)
@@ -120,12 +168,6 @@ GPU_BINARY_BUILTIN(gpuArrayAndBuiltin, GpuAnd)
 GPU_BINARY_BUILTIN(gpuArrayOrBuiltin, GpuOr)
 GPU_BINARY_BUILTIN(gpuArrayXorBuiltin, GpuXor)
 GPU_UNARY_BUILTIN(gpuArrayNotBuiltin, GpuNot)
-//=============================================================================
-static int
-reductionDim(const ArrayOf& dimArg)
-{
-    return (int)dimArg.asScalarIndex(false);
-}
 //=============================================================================
 ArrayOfVector
 Nelson::GpuEngineGateway::gpuArraySortBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -165,11 +207,10 @@ Nelson::GpuEngineGateway::gpuArraySortBuiltin(Evaluator* eval, int nLhs, const A
 ArrayOfVector
 Nelson::GpuEngineGateway::gpuArrayFindBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 1, 1);
-    nargoutcheck(nLhs, 0, 1);
-    GpuArrayObject* a = AsGpuArrayObject(argIn[0]);
-    if (a == nullptr) {
-        Error(L"Nelson:gpuArray:notGpuArray", L"gpuArray expected.");
+    GpuArrayObject* a = argIn.size() == 1 ? AsGpuArrayObject(argIn[0]) : nullptr;
+    // subscripts, values, count and direction come from the host
+    if (a == nullptr || nLhs > 1) {
+        return gpuArrayHostFallback(eval, L"find", nLhs, argIn);
     }
     ArrayOfVector retval;
     retval << GpuFind(a);
@@ -178,69 +219,6 @@ Nelson::GpuEngineGateway::gpuArrayFindBuiltin(Evaluator* eval, int nLhs, const A
 //=============================================================================
 // max/min: max(A), max(A,[],dim), max(A,B)  (single output only for now)
 //=============================================================================
-static ArrayOfVector
-gpuMaxMin(int nLhs, const ArrayOfVector& argIn, ArrayOf (*reduceKernel)(GpuArrayObject*, int),
-    ArrayOfVector (*argReduceKernel)(GpuArrayObject*, int),
-    ArrayOf (*binaryKernel)(GpuArrayObject*, GpuArrayObject*))
-{
-    bool wantIndices = (nLhs >= 2);
-    if (argIn.size() == 1) {
-        GpuArrayObject* a = AsGpuArrayObject(argIn[0]);
-        if (a == nullptr) {
-            Error(L"Nelson:gpuArray:notGpuArray", L"gpuArray expected.");
-        }
-        if (wantIndices) {
-            return argReduceKernel(a, -1);
-        }
-        ArrayOfVector retval;
-        retval << reduceKernel(a, -1);
-        return retval;
-    }
-    if (argIn.size() == 2) {
-        if (argIn[1].isEmpty()) {
-            Error(L"Nelson:GPU:maxMinInvalidSyntax",
-                L"Use the three-argument form (A, [], dim) to reduce along a dimension.");
-        }
-        if (wantIndices) {
-            Error(L"Nelson:GPU:maxMinSingleOutput",
-                L"max/min with two arrays returns a single output.");
-        }
-        ArrayOfVector retval;
-        retval << binaryGpuOperator(argIn, binaryKernel);
-        return retval;
-    }
-    if (!argIn[1].isEmpty()) {
-        Error(L"Nelson:GPU:maxMinInvalidSecondArgument",
-            L"Second argument must be [] when a dimension is specified.");
-    }
-    GpuArrayObject* a = AsGpuArrayObject(argIn[0]);
-    if (a == nullptr) {
-        Error(L"Nelson:gpuArray:notGpuArray", L"gpuArray expected.");
-    }
-    int dim = reductionDim(argIn[2]);
-    if (wantIndices) {
-        return argReduceKernel(a, dim);
-    }
-    ArrayOfVector retval;
-    retval << reduceKernel(a, dim);
-    return retval;
-}
-//=============================================================================
-ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayMaxBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 1, 3);
-    nargoutcheck(nLhs, 0, 2);
-    return gpuMaxMin(nLhs, argIn, GpuMaxAlong, GpuMaxAlong2, GpuMaxBinary);
-}
-//=============================================================================
-ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayMinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 1, 3);
-    nargoutcheck(nLhs, 0, 2);
-    return gpuMaxMin(nLhs, argIn, GpuMinAlong, GpuMinAlong2, GpuMinBinary);
-}
 //=============================================================================
 ArrayOfVector
 Nelson::GpuEngineGateway::gpuArraySizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)

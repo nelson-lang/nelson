@@ -17,10 +17,6 @@ namespace Nelson::GpuEngineGateway {
 ArrayOfVector
 gpuArrayFlipBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
-gpuArrayCircshiftBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayRepmatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
 gpuArrayDiffBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayKronBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);

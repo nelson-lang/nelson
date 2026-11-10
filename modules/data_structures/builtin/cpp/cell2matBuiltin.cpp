@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "cell2matBuiltin.hpp"
+#include "FunctionDef.hpp"
+#include "Context.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "ConcatenateDimensions.hpp"
@@ -285,10 +287,41 @@ cell2matDense(ArrayOf* cells, const Dimensions& cellDims, NelsonType dataClass,
     return ArrayOf(dataClass, layout.outputDims, destination, false, fieldNames);
 }
 //=============================================================================
+//=============================================================================
+ArrayOf
+callConcatenation(Evaluator* eval, const char* name, const ArrayOfVector& parts)
+{
+    FunctionDef* def = nullptr;
+    if (!eval->getContext()->lookupFunction(name, def) || def == nullptr) {
+        Error(L"Nelson:data_structures:cellCellsObjectSupported",
+            L"Cell with cells or object not supported.");
+    }
+    ArrayOfVector result = def->evaluateFunction(eval, parts, 1);
+    return result.empty() ? ArrayOf::empty() : result[0];
+}
+//=============================================================================
+// cells of device arrays (handles): rows concatenated side by side, then stacked
+ArrayOf
+cell2matHandles(Evaluator* eval, const ArrayOf& input)
+{
+    const auto* cells = static_cast<const ArrayOf*>(input.dataPointer());
+    indexType rows = input.dimensions().rows();
+    indexType columns = input.dimensions().columns();
+    ArrayOfVector stacked;
+    for (indexType i = 0; i < rows; ++i) {
+        ArrayOfVector row;
+        for (indexType j = 0; j < columns; ++j) {
+            row.push_back(cells[i + j * rows]);
+        }
+        stacked.push_back(columns == 1 ? row[0] : callConcatenation(eval, "horzcat", row));
+    }
+    return rows == 1 ? stacked[0] : callConcatenation(eval, "vertcat", stacked);
+}
+//=============================================================================
 } // namespace
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::cell2matBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::cell2matBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
@@ -304,6 +337,9 @@ Nelson::DataStructuresGateway::cell2matBuiltin(int nLhs, const ArrayOfVector& ar
     const ArrayOf& first = cells[0];
     if (input.isScalar() && isSupportedScalarContent(first)) {
         return { first };
+    }
+    if (first.isHandle() && !first.isGraphicsObject() && input.dimensions().is2D()) {
+        return { cell2matHandles(eval, input) };
     }
     if (first.isCell() || isObjectValue(first)) {
         Error(L"Nelson:data_structures:cellCellsObjectSupported",

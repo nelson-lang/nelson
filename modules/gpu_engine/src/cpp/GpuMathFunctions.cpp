@@ -12,6 +12,7 @@
 // inputs route to the GpuComplex* kernels; integer rounding keeps the class.
 //=============================================================================
 #include "GpuKernels.hpp"
+#include "GpuElementwiseMath.hpp"
 #include "GpuTransfer.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -20,57 +21,12 @@
 namespace Nelson {
 //=============================================================================
 ArrayOf
-GpuSqrt(GpuArrayObject* a)
-{
-    if (a->isComplex()) {
-        return GpuComplexSqrt(a);
-    }
-    return GpuUnaryElementwise(a, "gpuArray:sqrt", "sqrt(ai)");
-}
-//=============================================================================
-ArrayOf
 GpuExp(GpuArrayObject* a)
 {
     if (a->isComplex()) {
         return GpuComplexExp(a);
     }
     return GpuUnaryElementwise(a, "gpuArray:exp", "exp(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuLog(GpuArrayObject* a)
-{
-    if (a->isComplex()) {
-        return GpuComplexLog(a);
-    }
-    return GpuUnaryElementwise(a, "gpuArray:log", "log(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuSin(GpuArrayObject* a)
-{
-    if (a->isComplex()) {
-        return GpuComplexSin(a);
-    }
-    return GpuUnaryElementwise(a, "gpuArray:sin", "sin(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCos(GpuArrayObject* a)
-{
-    if (a->isComplex()) {
-        return GpuComplexCos(a);
-    }
-    return GpuUnaryElementwise(a, "gpuArray:cos", "cos(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuTan(GpuArrayObject* a)
-{
-    if (a->isComplex()) {
-        return GpuComplexTan(a);
-    }
-    return GpuUnaryElementwise(a, "gpuArray:tan", "tan(ai)");
 }
 //=============================================================================
 // Rounding functions. An integer input is returned unchanged (floor/ceil/round/
@@ -138,7 +94,9 @@ GpuSign(GpuArrayObject* a)
     if (!intType.empty()) {
         return GpuUnaryElementwise(a, "gpuArray:sign:" + intType, "sign(ai)", intType);
     }
-    return GpuUnaryElementwise(a, "gpuArray:sign", "sign(ai)");
+    // NaN keeps its value (the hardware sign gives 0)
+    return GpuUnaryElementwise(a, "gpuArray:sign",
+        "select(sign(ai), ai, (bitcast<u32>(ai) & 0x7fffffffu) > 0x7f800000u)");
 }
 //=============================================================================
 ArrayOf
@@ -146,6 +104,11 @@ GpuMod(GpuArrayObject* a, GpuArrayObject* b)
 {
     if (a->isComplex() || b->isComplex()) {
         Error(L"Nelson:GPU:argumentNotReal", L"Argument must be real.");
+    }
+    // real operands: quotients within rounding of an integer count as that integer
+    ArrayOf result;
+    if (GpuElementwiseMath("mod", std::vector<GpuArrayObject*> { a, b }, result)) {
+        return result;
     }
     // mod(x, y) = x - floor(x / y) * y, with mod(x, 0) == x. The (bi == 0) mask
     // avoids the division by zero while forcing the subtracted term to 0.
@@ -163,6 +126,11 @@ GpuRem(GpuArrayObject* a, GpuArrayObject* b)
     if (a->isComplex() || b->isComplex()) {
         Error(L"Nelson:GPU:argumentNotReal", L"Argument must be real.");
     }
+    // real operands: quotients within rounding of an integer count as that integer
+    ArrayOf result;
+    if (GpuElementwiseMath("rem", std::vector<GpuArrayObject*> { a, b }, result)) {
+        return result;
+    }
     // rem(x, y) = x - fix(x / y) * y, with rem(x, 0) == NaN (produced naturally
     // by the division by zero).
     const char* expr = "ai - trunc(ai / bi) * bi";
@@ -176,159 +144,14 @@ GpuRem(GpuArrayObject* a, GpuArrayObject* b)
 // Additional real elementwise math functions. GpuUnaryElementwise already
 // rejects complex and 32-bit-integer inputs; results are single.
 //=============================================================================
-ArrayOf
-GpuSinh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:sinh", "sinh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCosh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:cosh", "cosh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuTanh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:tanh", "tanh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAsin(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:asin", "asin(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAcos(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:acos", "acos(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAtan(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:atan", "atan(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuLog2(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:log2", "log2(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuLog10(GpuArrayObject* a)
-{
-    // WGSL has no log10; use the natural log ratio.
-    return GpuUnaryElementwise(a, "gpuArray:log10", "log(ai) / log(10.0)");
-}
-//=============================================================================
-ArrayOf
-GpuAtan2(GpuArrayObject* a, GpuArrayObject* b)
-{
-    return GpuBinaryElementwise(a, b, "gpuArray:atan2", "atan2(ai, bi)");
-}
-//=============================================================================
-ArrayOf
-GpuHypot(GpuArrayObject* a, GpuArrayObject* b)
-{
-    return GpuBinaryElementwise(a, b, "gpuArray:hypot", "sqrt(ai * ai + bi * bi)");
-}
-//=============================================================================
 // Reciprocal trigonometry, inverse hyperbolic, exp/log variants and angle
 // conversions. All single-result; GpuUnaryElementwise rejects complex and
 // 32-bit-integer inputs with a clear error.
 //=============================================================================
 ArrayOf
-GpuExpm1(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:expm1", "exp(ai) - 1.0");
-}
-//=============================================================================
-ArrayOf
-GpuLog1p(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:log1p", "log(1.0 + ai)");
-}
-//=============================================================================
-ArrayOf
 GpuPow2(GpuArrayObject* a)
 {
     return GpuUnaryElementwise(a, "gpuArray:pow2", "exp2(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuSec(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:sec", "1.0 / cos(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCsc(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:csc", "1.0 / sin(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCot(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:cot", "cos(ai) / sin(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAsec(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:asec", "acos(1.0 / ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAcsc(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:acsc", "asin(1.0 / ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAcot(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:acot", "atan(1.0 / ai)");
-}
-//=============================================================================
-ArrayOf
-GpuSech(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:sech", "1.0 / cosh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCsch(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:csch", "1.0 / sinh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuCoth(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:coth", "cosh(ai) / sinh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAsinh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:asinh", "asinh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAcosh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:acosh", "acosh(ai)");
-}
-//=============================================================================
-ArrayOf
-GpuAtanh(GpuArrayObject* a)
-{
-    return GpuUnaryElementwise(a, "gpuArray:atanh", "atanh(ai)");
 }
 //=============================================================================
 ArrayOf

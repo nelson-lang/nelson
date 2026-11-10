@@ -52,54 +52,6 @@ GpuFlip(GpuArrayObject* a, int dim)
 }
 //=============================================================================
 ArrayOf
-GpuCircshift(GpuArrayObject* a, int shift, int dim)
-{
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    Dimensions dims = a->dimensions();
-    GpuLaneGeometry lane = GpuComputeLaneGeometry(dims, dim);
-    if (lane.identity || lane.redLen <= 1 || dims.elementCount() == 0) {
-        return ArrayOf::handle(CloneGpuArray(a));
-    }
-    uint32_t nComp = a->isComplex() ? 2u : 1u;
-    // positive modulo of the shift so the source position wraps around
-    int r = shift % (int)lane.redLen;
-    uint32_t shiftMod = (uint32_t)((r % (int)lane.redLen + (int)lane.redLen) % (int)lane.redLen);
-    std::string body = "        let iB = i % params.p1;\n"
-                       "        let rest = i / params.p1;\n"
-                       "        let k = rest % params.p2;\n"
-                       "        let iA = rest / params.p2;\n"
-                       "        let start = iB + iA * (params.p1 * params.p2);\n"
-                       "        let srcK = (k + params.p2 - params.p3) % params.p2;\n"
-                       "        let src = start + srcK * params.p1;\n";
-    uint32_t extra[3] = { lane.before, lane.redLen, shiftMod };
-    return runGather(a, dims, nComp, "gpuArray:circshift", body, extra, 3);
-}
-//=============================================================================
-ArrayOf
-GpuRepmat(GpuArrayObject* a, indexType rowCopies, indexType colCopies)
-{
-    if (a == nullptr || !a->isValid()) {
-        Error(L"Nelson:gpuArray:invalidHandle", L"Invalid gpuArray handle.");
-    }
-    if (!a->dimensions().is2D()) {
-        Error(L"Nelson:repmat:not2D", L"repmat: only 2-D gpuArray is supported.");
-    }
-    uint32_t r = (uint32_t)a->dimensions().rows();
-    uint32_t c = (uint32_t)a->dimensions().columns();
-    Dimensions outputDims((indexType)r * rowCopies, (indexType)c * colCopies);
-    uint32_t nComp = a->isComplex() ? 2u : 1u;
-    // out(i,j) = a(i mod r, j mod c), column-major
-    std::string body = "        let outRows = params.p1 * params.p3;\n" // r * rowCopies
-                       "        let oi = i % outRows;\n"
-                       "        let oj = i / outRows;\n"
-                       "        let src = (oi % params.p1) + (oj % params.p2) * params.p1;\n";
-    uint32_t extra[3] = { r, c, (uint32_t)rowCopies };
-    return runGather(a, outputDims, nComp, "gpuArray:repmat", body, extra, 3);
-}
-//=============================================================================
-ArrayOf
 GpuDiff(GpuArrayObject* a, int order, int dim)
 {
     if (a == nullptr || !a->isValid()) {

@@ -185,16 +185,13 @@ GpuIndex2D(GpuArrayObject* a, const std::vector<double>& oneBasedRows,
     return gatherByLinearIndex(a, zeroBased, outDims);
 }
 //=============================================================================
-// Turn N one-based subscript lists into the flat column-major linear indices of
-// their cartesian product (subscript 0 varies fastest). Each subscript indexes
-// its own dimension against the array's natural strides; dimensions not covered
-// by a subscript are implicitly index 1, and extra subscripts must be 1 - the
-// same rule the host interpreter applies (it does not fold trailing dimensions).
+// Linear indices of the cartesian product of N one-based subscript lists (first varies fastest);
+// the last subscript spans the trailing dimensions, extra subscripts must be 1.
 std::vector<uint32_t>
 GpuCartesianLinearIndices(
     const Dimensions& dims, const std::vector<std::vector<double>>& subs, Dimensions& outDims)
 {
-    Dimensions workingDims(dims);
+    Dimensions workingDims = dims.foldForSubscriptCount((indexType)subs.size());
     indexType rank = (indexType)workingDims.length();
     indexType nbSubs = (indexType)subs.size();
     // effective size along each subscript axis, and the array's natural strides

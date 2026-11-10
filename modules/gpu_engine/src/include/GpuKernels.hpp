@@ -74,9 +74,10 @@ GpuProd(GpuArrayObject* a, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuMean(GpuArrayObject* a, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuMaxAlong(GpuArrayObject* a, int dim);
+GpuMaxAlong(GpuArrayObject* a, int dim, bool includeNan = false);
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuMinAlong(GpuArrayObject* a, int dim);
+GpuMinAlong(GpuArrayObject* a, int dim, bool includeNan = false);
+// NaN counts as false for any (and as true for all)
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuAny(GpuArrayObject* a, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
@@ -87,6 +88,12 @@ GpuAll(GpuArrayObject* a, int dim);
 // form). Integer and complex inputs raise a clear error, as on the host.
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuVar(GpuArrayObject* a, int dim, bool normalizeByN);
+// median of every lane along dim (NaN gives NaN unless omitNan)
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuMedian(GpuArrayObject* a, int dim, bool omitNan);
+// p-norm of every lane along dim (p may be +-Inf); overflow-safe for p == 2
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuVecnorm(GpuArrayObject* a, double p, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuStd(GpuArrayObject* a, int dim, bool normalizeByN);
 //=============================================================================
@@ -100,15 +107,10 @@ GpuCummax(GpuArrayObject* a, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuCummin(GpuArrayObject* a, int dim);
 //=============================================================================
-// flip reverses along a dimension; circshift shifts (with wrap-around); repmat
-// tiles an m-by-n grid of copies; diff takes n-th order differences along a
+// flip reverses along a dimension; diff takes n-th order differences along a
 // dimension; kron is the Kronecker product; trace sums the main diagonal.
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuFlip(GpuArrayObject* a, int dim);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCircshift(GpuArrayObject* a, int shift, int dim);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuRepmat(GpuArrayObject* a, indexType rowCopies, indexType colCopies);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuDiff(GpuArrayObject* a, int order, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
@@ -126,6 +128,14 @@ GpuCumsum(GpuArrayObject* a, int dim);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuCumprod(GpuArrayObject* a, int dim);
 //=============================================================================
+// WGSL test for a NaN value that survives fast-math compilers
+NLSGPU_ENGINE_IMPEXP std::string
+GpuWgslIsNan(const std::string& value);
+//=============================================================================
+// WGSL max/min of acc and v: NaN is skipped unless includeNan, where it wins
+NLSGPU_ENGINE_IMPEXP std::string
+GpuWgslExtreme(const std::string& acc, const std::string& v, bool isMax, bool includeNan);
+//=============================================================================
 // Sort along a dimension. Returns {sortedValues, indices} (indices 1-based),
 // both device resident. `descend` selects descending order.
 NLSGPU_ENGINE_IMPEXP ArrayOfVector
@@ -136,6 +146,40 @@ GpuSort(GpuArrayObject* a, int dim, bool descend);
 // primitive. `limit` <= 0 returns all matches.
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuFind(GpuArrayObject* a);
+//=============================================================================
+// one output axis of GpuRearrange: coordinate c reads ((c / repeat) + offset) % length
+struct GpuRearrangeAxis
+{
+    uint32_t outLength = 1;
+    uint32_t repeat = 1;
+    uint32_t offset = 0;
+    uint32_t length = 1;
+    uint32_t stride = 0;
+};
+//=============================================================================
+// copy of `a` read through one GpuRearrangeAxis per output dimension (any class)
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuRearrange(GpuArrayObject* a, const std::vector<GpuRearrangeAxis>& axes);
+//=============================================================================
+// order holds 1-based dimensions
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuPermute(GpuArrayObject* a, const std::vector<indexType>& order);
+//=============================================================================
+// each element repeated elementCopies[d] times, then the block tiled tileCopies[d] times
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuRepeat(GpuArrayObject* a, const std::vector<indexType>& elementCopies,
+    const std::vector<indexType>& tileCopies);
+//=============================================================================
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuCircshiftND(GpuArrayObject* a, const std::vector<int64_t>& shifts);
+//=============================================================================
+// grid of gridLengths whose values follow vector v along dimension `axis` (0-based)
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuGridAxis(GpuArrayObject* v, const std::vector<indexType>& gridLengths, size_t axis);
+//=============================================================================
+// convert a gpuArray to another class on the device (round, saturate, NaN -> 0)
+NLSGPU_ENGINE_IMPEXP ArrayOf
+GpuCast(const ArrayOf& value, const std::string& targetClass);
 //=============================================================================
 // arrayfun: run a compiled WGSL elementwise expression over N device inputs in
 // a single fused kernel. `wgslExpr` references inputs as p0, p1, ... in order.
@@ -154,9 +198,9 @@ GpuArrayfunInteger(const std::string& wgslExpr, bool logicalResult, const std::s
 // max/min with a second output: {values, indices} (1-based), both device
 // resident. Indices are returned as a single gpuArray.
 NLSGPU_ENGINE_IMPEXP ArrayOfVector
-GpuMaxAlong2(GpuArrayObject* a, int dim);
+GpuMaxAlong2(GpuArrayObject* a, int dim, bool includeNan = false);
 NLSGPU_ENGINE_IMPEXP ArrayOfVector
-GpuMinAlong2(GpuArrayObject* a, int dim);
+GpuMinAlong2(GpuArrayObject* a, int dim, bool includeNan = false);
 //=============================================================================
 /**
  * Matrix multiplication (*) on the device (tiled f32 GEMM, column-major).

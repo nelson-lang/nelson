@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <vector>
+#include "gpuFallbackBuiltin.hpp"
 #include "gpuOperatorsBuiltin.hpp"
 #include "GpuArrayObject.hpp"
 #include "GpuKernels.hpp"
@@ -65,21 +66,29 @@ Nelson::GpuEngineGateway::gpuArrayReshapeBuiltin(
     nargincheck(argIn, 2, 32);
     nargoutcheck(nLhs, 0, 1);
     GpuArrayObject* a = AsGpuArrayObject(argIn[0]);
+    // host data with a device size: the host reshapes
     if (a == nullptr) {
-        Error(L"Nelson:gpuArray:notGpuArray", L"gpuArray expected.");
+        return GpuEngineGateway::gpuArrayHostFallback(eval, L"reshape", nLhs, argIn);
     }
+    // sizes given as device values are read on the host
+    ArrayOfVector sizes;
+    sizes << argIn[0];
+    for (size_t k = 1; k < argIn.size(); ++k) {
+        sizes << toHostArray(argIn[k]);
+    }
+    const ArrayOfVector& args = sizes;
     indexType total = a->dimensions().elementCount();
 
     // collect requested dimension lengths; a single empty argument means the
     // corresponding dimension is inferred from the total element count.
     std::vector<double> requested;
     int inferredPosition = -1;
-    if (argIn.size() == 2 && !argIn[1].isEmpty() && !argIn[1].isScalar()) {
+    if (args.size() == 2 && !args[1].isEmpty() && !args[1].isScalar()) {
         // reshape(A, sizeVector)
-        requested = argIn[1].asDoubleVector();
+        requested = args[1].asDoubleVector();
     } else {
-        for (size_t k = 1; k < argIn.size(); ++k) {
-            if (argIn[k].isEmpty()) {
+        for (size_t k = 1; k < args.size(); ++k) {
+            if (args[k].isEmpty()) {
                 if (inferredPosition >= 0) {
                     Error(L"Nelson:reshape:multipleUnknownDimensions",
                         L"reshape: only one dimension can be inferred with [] .");
@@ -87,7 +96,7 @@ Nelson::GpuEngineGateway::gpuArrayReshapeBuiltin(
                 inferredPosition = (int)(k - 1);
                 requested.push_back(0);
             } else {
-                requested.push_back(argIn[k].asDoubleScalar());
+                requested.push_back(args[k].asDoubleScalar());
             }
         }
     }
@@ -126,7 +135,15 @@ Nelson::GpuEngineGateway::gpuArrayIndexBuiltin(
     ArrayOfVector retval;
     if (argIn.size() == 2) {
         ArrayOf idxHost = toHostArray(argIn[1]);
-        retval << GpuIndexLinear(a, idxHost.asDoubleVector(), idxHost.dimensions());
+        Dimensions outDims = idxHost.dimensions();
+        Dimensions source = a->dimensions();
+        // a vector indexed by a vector keeps its own orientation
+        bool indexIsVector = outDims.is2D() && (outDims.rows() == 1 || outDims.columns() == 1);
+        if (source.isVector() && !source.isScalar() && indexIsVector) {
+            indexType count = outDims.elementCount();
+            outDims = source.isColumnVector() ? Dimensions(count, 1) : Dimensions(1, count);
+        }
+        retval << GpuIndexLinear(a, idxHost.asDoubleVector(), outDims);
     } else if (argIn.size() == 3 && a->dimensions().is2D()) {
         ArrayOf rowsHost = toHostArray(argIn[1]);
         ArrayOf colsHost = toHostArray(argIn[2]);

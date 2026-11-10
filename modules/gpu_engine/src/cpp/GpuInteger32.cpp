@@ -458,45 +458,18 @@ runInt32Binary(GpuArrayObject* a, GpuArrayObject* b, const std::string& intType,
     bool isUnsigned = (storageType == "uint32");
     const char* T = isUnsigned ? "u32" : "i32";
 
+    // the size check runs before any temporary is made
+    GpuBinaryGeometry geometry = GpuComputeBinaryGeometry(a->dimensions(), b->dimensions());
     bool ownA = false;
     bool ownB = false;
     GpuArrayObject* ao = materializeInt(a, storageType, ownA);
     GpuArrayObject* bo = materializeInt(b, storageType, ownB);
 
-    bool aScalar = ao->dimensions().isScalar();
-    bool bScalar = bo->dimensions().isScalar();
-    Dimensions outputDims;
-    uint32_t aStride = 1;
-    uint32_t bStride = 1;
-    bool sizeError = false;
-    if (aScalar && !bScalar) {
-        outputDims = bo->dimensions();
-        aStride = 0;
-    } else if (bScalar && !aScalar) {
-        outputDims = ao->dimensions();
-        bStride = 0;
-    } else {
-        if (!ao->dimensions().equals(bo->dimensions())) {
-            sizeError = true;
-        }
-        outputDims = ao->dimensions();
-    }
-    if (sizeError) {
-        if (ownA) {
-            delete ao;
-        }
-        if (ownB) {
-            delete bo;
-        }
-        Error(
-            L"Nelson:gpuArray:sizeMismatch", L"Arrays have incompatible sizes for this operation.");
-    }
-
     // comparison writes the logical result straight into c; arithmetic writes
     // res (an i32/u32) and stores its bits.
-    std::string prologue = std::string("        let ai = bitcast<") + T
-        + ">(a[i * params.aStride]);\n        let bi = bitcast<" + T
-        + ">(b[i * params.bStride]);\n";
+    std::string prologue
+        = std::string("        let ix = operandIndex(i);\n        let ai = bitcast<") + T
+        + ">(a[ix.x]);\n        let bi = bitcast<" + T + ">(b[ix.y]);\n";
     std::string body2 = body;
     std::string declRes;
     std::string epilogue;
@@ -504,9 +477,8 @@ runInt32Binary(GpuArrayObject* a, GpuArrayObject* b, const std::string& intType,
         declRes = std::string("        var res : ") + T + " = " + T + "(0);\n";
         epilogue = "        c[i] = bitcast<f32>(res);\n";
     }
-    std::string source
-        = std::string("struct Params { n : u32, aStride : u32, bStride : u32 };\n"
-                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
+    std::string source = GpuBinaryParamsWgsl(geometry.expand)
+        + std::string("@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
                       "@group(0) @binding(1) var<storage, read> b : array<f32>;\n"
                       "@group(0) @binding(2) var<storage, read_write> c : array<f32>;\n"
                       "@group(0) @binding(3) var<uniform> params : Params;\n"
@@ -516,24 +488,20 @@ runInt32Binary(GpuArrayObject* a, GpuArrayObject* b, const std::string& intType,
                       "    if (i < params.n) {\n")
         + prologue + declRes + body2 + epilogue + "    }\n}\n";
 
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
+    GpuArrayObject* output = nullptr;
+    try {
+        output = AllocateGpuArray(geometry.outputDims, comparison ? "logical" : storageType, false);
+        GpuRunBinaryKernel(
+            opKey, source, geometry, { ao->buffer(), bo->buffer(), output->buffer() });
+    } catch (...) {
+        delete output;
         if (ownA) {
             delete ao;
         }
         if (ownB) {
             delete bo;
         }
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
-    GpuArrayObject* output
-        = AllocateGpuArray(outputDims, comparison ? "logical" : storageType, false);
-    uint32_t elementCount = (uint32_t)outputDims.elementCount();
-    if (elementCount > 0) {
-        uint32_t params[3] = { elementCount, aStride, bStride };
-        uint32_t workgroupCountX = (elementCount + 255u) / 256u;
-        GpuDispatchKernel(pipeline, { ao->buffer(), bo->buffer(), output->buffer() }, params, 3,
-            workgroupCountX, 1);
+        throw;
     }
     if (ownA) {
         delete ao;

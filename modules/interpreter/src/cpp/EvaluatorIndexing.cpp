@@ -290,7 +290,7 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
                 && getContext()->lookupFunction(resolvedSubsasgn, subsasgnDef)
                 && subsasgnDef != nullptr && subsasgnDef->type() == NLS_MACRO_FUNCTION
                 && classSubsrefIsUserDefined(subsasgnDef->getFilename())) {
-                return {};
+                return { };
             }
         }
     }
@@ -305,7 +305,7 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
         // overloaded subsasgn. Dispatch to it when present, otherwise use the default assignment.
         FunctionDef* handleSubsasgn = nullptr;
         if (!lookupOverloadFunctionCached(getContext(), functionName, handleSubsasgn)) {
-            return {};
+            return { };
         }
     }
     bool useClassSpecificSubsasgn = true;
@@ -454,19 +454,43 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
                         + currentClass + "' objects.",
                     "Nelson:class:parenAssignScalar");
             }
-            return {};
+            return { };
         }
         functionName
             = getOverloadFunctionName(std::string(NLS_CLASS_ARRAY_STR), SUBSASGN_OPERATOR_STR);
         if (!lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
-            return {};
+            return { };
         }
     }
     haveFunction = true;
+    return callSubsasgnWithStruct(funcDef, r, subtypes, subsindices, value);
+}
+//=============================================================================
+ArrayOf
+Evaluator::bytecodeAssignByValueClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, const ArrayOf& value, bool& haveFunction)
+{
+    haveFunction = false;
+    if (!value.isHandle() || value.isGraphicsObject() || r.isHandle() || r.isClassType()) {
+        return { };
+    }
+    FunctionDef* funcDef = nullptr;
+    std::string functionName
+        = getOverloadFunctionName(value.handleCategory(), SUBSASGN_OPERATOR_STR);
+    if (!lookupOverloadFunctionCached(getContext(), functionName, funcDef) || funcDef == nullptr) {
+        return { };
+    }
+    haveFunction = true;
+    return callSubsasgnWithStruct(funcDef, r, subtypes, subsindices, value);
+}
+//=============================================================================
+ArrayOf
+Evaluator::callSubsasgnWithStruct(FunctionDef* funcDef, const ArrayOf& r,
+    const stringVector& subtypes, const ArrayOfVector& subsindices, const ArrayOf& value)
+{
     if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
         Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
     }
-
     stringVector fieldnames = { EVALUATOR_INDEXING_FIELD_TYPE, EVALUATOR_INDEXING_FIELD_SUBS };
     Dimensions dims(1, subtypes.size());
     auto* elements = static_cast<ArrayOf*>(
@@ -707,7 +731,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
             const std::string currentFunction = getCurrentFunctionName();
             if (currentFunction == SUBSREF_OPERATOR_STR
                 || currentFunction == SUBSASGN_OPERATOR_STR) {
-                return {};
+                return { };
             }
             // User-defined classes use the built-in object-array subset for obj(i) in every method,
             // so a method such as feval doing f(1) reads the first element instead of recursing. A
@@ -723,7 +747,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
                     && getContext()->lookupFunction(resolvedSubsref, subsrefDef)
                     && subsrefDef != nullptr && subsrefDef->type() == NLS_MACRO_FUNCTION
                     && classSubsrefIsUserDefined(subsrefDef->getFilename())) {
-                    return {};
+                    return { };
                 }
             }
         }
@@ -757,7 +781,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
             r.classType(), EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE)) {
         // no paren-read hooks: skip the overload-name construction and lookups,
         // the caller applies its direct subset fallback
-        return {};
+        return { };
     }
     std::string currentClass = r.isGraphicsObject() ? ClassToString(r.dataClass())
         : r.isHandle()                              ? r.handleCategory()
@@ -788,7 +812,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
             && subsindices.front().isRowVectorCharacterArray()) {
             std::string propertyName = subsindices.front().asUtf8String();
             if (isDirectPropertyAccess(currentClass, propertyName, useClassSpecificSubsref)) {
-                return {};
+                return { };
             }
             if (!classdefHasMethodDefinition(currentClass, propertyName)
                 && classdefHasMethodDefinition(
@@ -891,7 +915,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
             // and path files are all covered by the check above), so the
             // generic overload lookup below cannot succeed: skip its repeated
             // negative resolution
-            return {};
+            return { };
         }
     }
     if (lookupOverloadFunctionCached(_context, functionNameSimpleExtractClass, funcDef)) {
@@ -938,7 +962,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
         callstack = backupCallStack;
         return rv;
     }
-    return {};
+    return { };
 }
 //=============================================================================
 ArrayOf
@@ -950,7 +974,8 @@ Evaluator::bytecodeEndReference(const ArrayOf& v, indexType index, size_t count)
 ArrayOf
 Evaluator::EndReference(const ArrayOf& v, indexType index, size_t count)
 {
-    if (v.isClassType()) {
+    // a handle (device array, ...) knows its own size through its end overload
+    if (v.isClassType() || v.isHandle()) {
         bool needToBeOverloaded = false;
         ArrayOf res = EndOverloadReference(v, index, count, needToBeOverloaded);
         if (!needToBeOverloaded) {
@@ -998,7 +1023,7 @@ Evaluator::EndOverloadReference(
         }
     }
     needToBeOverloaded = true;
-    return {};
+    return { };
 }
 //=============================================================================
 } // namespace Nelson

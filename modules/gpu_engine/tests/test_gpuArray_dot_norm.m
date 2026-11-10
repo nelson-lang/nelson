@@ -47,3 +47,20 @@ assert_istrue(isgpuarray(norm(gpuArray(M))));
 % norm of a complex vector
 assert_isapprox(gather(norm(gpuArray(za))), norm(za), 1e-4);
 %=============================================================================
+% norms computed in one pass on the device, without overflow
+M = single([1 -2; 3 4]);
+assert_isequal(gather(norm(gpuArray(M), 1)), single(6));
+assert_isequal(gather(norm(gpuArray(M), Inf)), single(7));
+assert_isapprox(gather(norm(gpuArray(M), 'fro')), norm(M, 'fro'), 1e-6);
+assert_isapprox(gather(norm(gpuArray(single([1e30 1e30])))), single(sqrt(2) * 1e30), 1e-6);
+assert_istrue(isnan(gather(norm(gpuArray(single([1 NaN]))))));
+assert_isequal(gather(norm(gpuArray(single([1 Inf])))), single(Inf));
+assert_isapprox(gather(norm(gpuArray(single([3 + 4i, 1 - 1i])))), norm(single([3 + 4i, 1 - 1i])), 1e-6);
+assert_isapprox(gather(norm(gpuArray(single([3 4 0 -12])), 3)), norm(single([3 4 0 -12]), 3), 1e-6);
+assert_isequal(gather(norm(gpuArray(single([3 4 0 -12])), -Inf)), single(0));
+assert_isapprox(gather(vecnorm(gpuArray(M))), vecnorm(M), 1e-6);
+assert_isequal(gather(vecnorm(gpuArray(M), 1, 2)), single([3; 7]));
+assert_isequal(gather(vecnorm(gpuArray(M), Inf)), single([3 4]));
+v = rand(1e6, 1, 'single');
+assert_isapprox(double(gather(norm(gpuArray(v)))), norm(double(v)), 1e-6);
+%=============================================================================

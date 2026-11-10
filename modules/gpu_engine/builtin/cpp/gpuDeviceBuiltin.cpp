@@ -17,6 +17,7 @@
 #include "BuiltInFunctionDefManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "OverloadName.hpp"
+#include "gpuGenericFunctionsList.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,9 +30,8 @@ Nelson::GpuEngineGateway::gpuArrayFunctionsBuiltin(
 {
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    // The list is derived from the actually registered @gpuArray/<op> overloads
-    // (both the module builtins and the .m method overloads), so it stays
-    // correct as functions are added.
+    // registered @gpuArray overloads (builtins and .m methods) plus generic functions known to run
+    // on gpuArray
     const std::string prefix = getOverloadFunctionName("gpuArray", "");
     stringVector names;
     stringVector builtinNames = BuiltInFunctionDefManager::getInstance()->getNameList();
@@ -49,6 +49,9 @@ Nelson::GpuEngineGateway::gpuArrayFunctionsBuiltin(
             names.push_back(plain);
         }
     }
+#define GPU_GENERIC_NAME(NAME) names.push_back(#NAME);
+    GPU_GENERIC_FUNCTIONS(GPU_GENERIC_NAME)
+#undef GPU_GENERIC_NAME
     std::sort(names.begin(), names.end());
     names.erase(std::unique(names.begin(), names.end()), names.end());
     ArrayOfVector retval;
@@ -113,7 +116,7 @@ overloadNameToAscii(const std::wstring& name, const std::wstring& prefix)
 {
     // an @gpuArray method name: strip the prefix; overload names are ASCII
     if (name.size() <= prefix.size() || name.compare(0, prefix.size(), prefix) != 0) {
-        return {};
+        return { };
     }
     std::string plain;
     plain.reserve(name.size() - prefix.size());

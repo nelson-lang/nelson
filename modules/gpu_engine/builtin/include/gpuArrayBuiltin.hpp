@@ -26,8 +26,5 @@ isgpuarrayBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 underlyingTypeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-ArrayOfVector
-isUnderlyingTypeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
 } // namespace Nelson::GpuEngineGateway
 //=============================================================================

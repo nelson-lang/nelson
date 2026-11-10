@@ -45,17 +45,7 @@ gpuArrayUminusBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayAbsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
-gpuArraySqrtBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
 gpuArrayExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayLogBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArraySinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayTanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayFloorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
@@ -71,55 +61,7 @@ gpuArrayModBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayRemBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
-gpuArraySinhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCoshBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayTanhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAsinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAcosBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAtanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayLog2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayLog10Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAtan2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayHypotBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayExpm1Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayLog1pBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
 gpuArrayPow2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArraySecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCscBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCotBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAsecBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAcscBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAcotBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArraySechBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCschBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayCothBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAsinhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAcoshBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-ArrayOfVector
-gpuArrayAtanhBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayDeg2radBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector

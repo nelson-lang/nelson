@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GpuKernels.hpp"
+#include "GpuElementwiseMath.hpp"
 #include "GpuDispatch.hpp"
 #include "GpuContext.hpp"
 #include "GpuTransfer.hpp"
@@ -42,40 +43,14 @@ GpuBinaryElementwise(GpuArrayObject* a, GpuArrayObject* b, const std::string& op
         Error(L"Nelson:gpuArray:int32Unsupported",
             L"This operation is not supported for int32 gpuArray yet.");
     }
-    bool aScalar = a->dimensions().isScalar();
-    bool bScalar = b->dimensions().isScalar();
-
-    Dimensions outputDims;
-    uint32_t aStride = 1;
-    uint32_t bStride = 1;
-    if (aScalar && !bScalar) {
-        outputDims = b->dimensions();
-        aStride = 0;
-        bStride = 1;
-    } else if (bScalar && !aScalar) {
-        outputDims = a->dimensions();
-        aStride = 1;
-        bStride = 0;
-    } else {
-        if (!a->dimensions().equals(b->dimensions())) {
-            Error(L"Nelson:gpuArray:sizeMismatch",
-                L"Arrays have incompatible sizes for this operation.");
-        }
-        outputDims = a->dimensions();
-    }
-
-    std::string source = GpuBuildBinaryWgsl(wgslExpr);
-    WGPUComputePipeline pipeline = context->pipelineFor(opKey, source.c_str(), "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
-    GpuArrayObject* output = AllocateGpuArray(outputDims, resultType);
-    uint32_t elementCount = (uint32_t)outputDims.elementCount();
-    if (elementCount > 0) {
-        uint32_t params[3] = { elementCount, aStride, bStride };
-        uint32_t workgroupCountX = (elementCount + 255u) / 256u;
-        GpuDispatchKernel(pipeline, { a->buffer(), b->buffer(), output->buffer() }, params, 3,
-            workgroupCountX, 1);
+    GpuBinaryGeometry geometry = GpuComputeBinaryGeometry(a->dimensions(), b->dimensions());
+    std::string source = GpuBuildBinaryWgsl(wgslExpr, geometry.expand);
+    GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, resultType);
+    try {
+        GpuRunBinaryKernel(opKey, source, geometry, { a->buffer(), b->buffer(), output->buffer() });
+    } catch (...) {
+        delete output;
+        throw;
     }
     return ArrayOf::handle(output);
 }
@@ -223,11 +198,16 @@ GpuPower(GpuArrayObject* a, GpuArrayObject* b)
         return GpuBinaryElementwise(
             a, b, "gpuArray:power:" + intType, GpuSaturateExpr(expr, intType), intType);
     }
+    // real operands: exact whole powers, complex result for a negative base and a fractional power
+    ArrayOf result;
+    if (GpuElementwiseMath("power", std::vector<GpuArrayObject*> { a, b }, result)) {
+        return result;
+    }
     return GpuBinaryElementwise(a, b, "gpuArray:power", "pow(ai, bi)");
 }
 //=============================================================================
 ArrayOf
-GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b)
+GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan)
 {
     if (a->isRawIntStorage() || b->isRawIntStorage()) {
         return GpuInt32Binary(a, b, "max");
@@ -237,11 +217,12 @@ GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b)
         return GpuBinaryElementwise(
             a, b, "gpuArray:maxbin:" + intType, GpuSaturateExpr("max(ai, bi)", intType), intType);
     }
-    return GpuBinaryElementwise(a, b, "gpuArray:maxbin", "max(ai, bi)");
+    return GpuBinaryElementwise(a, b, std::string("gpuArray:maxbin:") + (includeNan ? "nan" : "omit"),
+        GpuWgslExtreme("ai", "bi", true, includeNan));
 }
 //=============================================================================
 ArrayOf
-GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b)
+GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan)
 {
     if (a->isRawIntStorage() || b->isRawIntStorage()) {
         return GpuInt32Binary(a, b, "min");
@@ -251,7 +232,8 @@ GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b)
         return GpuBinaryElementwise(
             a, b, "gpuArray:minbin:" + intType, GpuSaturateExpr("min(ai, bi)", intType), intType);
     }
-    return GpuBinaryElementwise(a, b, "gpuArray:minbin", "min(ai, bi)");
+    return GpuBinaryElementwise(a, b, std::string("gpuArray:minbin:") + (includeNan ? "nan" : "omit"),
+        GpuWgslExtreme("ai", "bi", false, includeNan));
 }
 //=============================================================================
 // Unary operators / elementwise math functions

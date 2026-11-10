@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include "GpuKernels.hpp"
+#include "GpuElementwiseMath.hpp"
 #include "GpuDispatch.hpp"
 #include "GpuContext.hpp"
 #include "GpuTransfer.hpp"
@@ -41,7 +42,7 @@ buildArrayfunWgsl(const std::string& wgslExpr, size_t inputCount)
     std::string uniformBinding = "@group(0) @binding(" + std::to_string(inputCount + 1)
         + ") var<uniform> params : Params;\n";
 
-    return params + bindings + outBinding + uniformBinding
+    return GpuMathHelpersWgsl() + params + bindings + outBinding + uniformBinding
         + "@compute @workgroup_size(256)\n"
           "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
           "    let i = gid.x;\n"

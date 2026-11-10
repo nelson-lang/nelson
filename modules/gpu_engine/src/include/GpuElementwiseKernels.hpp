@@ -55,17 +55,7 @@ GpuUminus(GpuArrayObject* a);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuAbs(GpuArrayObject* a);
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuSqrt(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuExp(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuLog(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuSin(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCos(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuTan(GpuArrayObject* a);
 //=============================================================================
 // Rounding and sign (elementwise). floor/ceil/round/fix keep an integer input
 // unchanged (identity); round uses round-half-away-from-zero. Real inputs give
@@ -100,59 +90,11 @@ GpuRem(GpuArrayObject* a, GpuArrayObject* b);
 //=============================================================================
 // Additional real elementwise math functions (single result). Complex and
 // 32-bit-integer inputs raise a clear error.
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuSinh(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCosh(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuTanh(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAsin(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAcos(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAtan(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuLog2(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuLog10(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAtan2(GpuArrayObject* a, GpuArrayObject* b);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuHypot(GpuArrayObject* a, GpuArrayObject* b);
 //=============================================================================
 // More real elementwise math (single result): reciprocal trigonometry, inverse
 // hyperbolic, exp/log variants, angle conversions. Same complex/int rules.
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuExpm1(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuLog1p(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuPow2(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuSec(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCsc(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCot(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAsec(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAcsc(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAcot(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuSech(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCsch(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuCoth(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAsinh(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAcosh(GpuArrayObject* a);
-NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuAtanh(GpuArrayObject* a);
 NLSGPU_ENGINE_IMPEXP ArrayOf
 GpuDeg2rad(GpuArrayObject* a);
 NLSGPU_ENGINE_IMPEXP ArrayOf
@@ -169,9 +111,9 @@ GpuIsFinite(GpuArrayObject* a);
 //=============================================================================
 // Binary elementwise max/min (max(A,B) / min(A,B))
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b);
+GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan = false);
 NLSGPU_ENGINE_IMPEXP ArrayOf
-GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b);
+GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan = false);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

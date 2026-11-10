@@ -90,11 +90,19 @@ overloadDispatchArgumentIndex(const ArrayOfVector& argsIn, const std::string& fu
     for (size_t k = 1; k < argsIn.size(); ++k) {
         const ArrayOf& arg = argsIn[k];
         const bool isHandleObject = arg.isHandle() && isClassdefHandleObject(arg);
-        if (!arg.isClassType() && !isHandleObject) {
+        // a native handle such as a gpuArray also owns the call when no earlier argument does
+        const bool isNativeHandle = arg.isHandle() && !isHandleObject && !arg.isGraphicsObject();
+        if (!arg.isClassType() && !isHandleObject && !isNativeHandle) {
             continue;
         }
         if (dispatchesOnFirstArgumentOnly(functionName)) {
             return 0;
+        }
+        if (isNativeHandle) {
+            if (selected == noObject) {
+                selected = k;
+            }
+            continue;
         }
         if (isHandleObject && isGeneratedHandleAccessor(functionName)) {
             continue;

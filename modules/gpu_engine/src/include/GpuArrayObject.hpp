@@ -127,6 +127,9 @@ public:
     {
         return m_buffer != nullptr;
     }
+    // same device data seen with other dimensions; the view never frees the buffer
+    static GpuArrayObject*
+    view(GpuArrayObject* source, const Dimensions& dims);
 
 private:
     void
@@ -136,6 +139,7 @@ private:
     Dimensions m_dimensions;
     std::string m_underlyingType;
     bool m_complex = false;
+    bool m_ownsBuffer = true;
 };
 //=============================================================================
 /**

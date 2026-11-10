@@ -190,6 +190,15 @@
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gpuArrayBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuCastBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuFallbackBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuBesselBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuRearrangeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuSignalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuMatrixStructureBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuFftBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuHistogramBuiltin.cpp" />
+    <ClCompile Include="..\cpp\gpuLinearAlgebraBuiltin.cpp" />
     <ClCompile Include="..\cpp\gpuDeviceBuiltin.cpp" />
     <ClCompile Include="..\cpp\gpuArrayfunBuiltin.cpp" />
     <ClCompile Include="..\cpp\gpuConstructorsBuiltin.cpp" />
@@ -204,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\gpuArrayBuiltin.hpp" />
+    <ClInclude Include="..\include\gpuBesselBuiltin.hpp" />
     <ClInclude Include="..\include\gpuDeviceBuiltin.hpp" />
     <ClInclude Include="..\include\gpuOperatorsBuiltin.hpp" />
     <ClInclude Include="..\include\nlsGpu_engine_builtin_exports.h" />

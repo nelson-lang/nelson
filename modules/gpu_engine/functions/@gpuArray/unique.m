@@ -8,23 +8,19 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = unique(varargin)
-  % Host fallback: gpuArray arguments are gathered, the host function runs, and
-  % numeric/logical results are re-wrapped as gpuArray to stay device-resident.
-  args = varargin;
-  for k = 1:numel(args)
-    if isgpuarray(args{k})
-      args{k} = gather(args{k});
+  % sorted distinct values on the device; other forms run on the host
+  a = varargin{1};
+  if nargin == 1 && nargout <= 1 && isgpuarray(a) && ~isempty(a) && isreal(a)
+    v = sort(a(:));
+    if numel(v) > 1
+      v = v([true; v(2:end) ~= v(1:end - 1)]);
     end
-  end
-  n = max(nargout, 1);
-  outputs = cell(1, n);
-  [outputs{1:n}] = unique(args{:});
-  for k = 1:numel(outputs)
-    o = outputs{k};
-    if isnumeric(o) || islogical(o)
-      outputs{k} = gpuArray(o);
+    if isrow(a)
+      v = v.';
     end
+    varargout{1} = v;
+    return
   end
-  varargout = outputs;
+  [varargout{1:max(1, nargout)}] = __gpuArray_host__('unique', varargin{:});
 end
 %=============================================================================

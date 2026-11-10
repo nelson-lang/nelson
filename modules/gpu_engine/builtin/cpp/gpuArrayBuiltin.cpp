@@ -23,6 +23,11 @@ Nelson::GpuEngineGateway::gpuArrayBuiltin(Evaluator* eval, int nLhs, const Array
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
+    // a device array is returned as it is
+    if (AsGpuArrayObject(argIn[0]) != nullptr) {
+        retval << argIn[0];
+        return retval;
+    }
     retval << CreateGpuArray(argIn[0]);
     return retval;
 }
@@ -66,25 +71,6 @@ Nelson::GpuEngineGateway::underlyingTypeBuiltin(
     } else {
         retval << ArrayOf::characterArray(ClassName(argIn[0]));
     }
-    return retval;
-}
-//=============================================================================
-ArrayOfVector
-Nelson::GpuEngineGateway::isUnderlyingTypeBuiltin(
-    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
-{
-    nargincheck(argIn, 2, 2);
-    nargoutcheck(nLhs, 0, 1);
-    std::string expectedType = argIn[1].asUtf8String();
-    std::string effectiveType;
-    GpuArrayObject* gpuObject = AsGpuArrayObject(argIn[0]);
-    if (gpuObject != nullptr) {
-        effectiveType = gpuObject->underlyingType();
-    } else {
-        effectiveType = ClassName(argIn[0]);
-    }
-    ArrayOfVector retval;
-    retval << ArrayOf::logicalScalar(effectiveType == expectedType);
     return retval;
 }
 //=============================================================================

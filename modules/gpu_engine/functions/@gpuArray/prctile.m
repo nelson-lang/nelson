@@ -7,24 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = prctile(varargin)
-  % Host fallback: gpuArray arguments are gathered, the host function runs, and
-  % numeric/logical results are re-wrapped as gpuArray to stay device-resident.
-  args = varargin;
-  for k = 1:numel(args)
-    if isgpuarray(args{k})
-      args{k} = gather(args{k});
+function Y = prctile(X, p, varargin)
+  % percentiles on the device for data without NaN; other forms run on the host
+  ok = false;
+  if isnumeric(p) && ~isgpuarray(p) && (nargin == 2 || (nargin == 3 && isnumeric(varargin{1}) && isscalar(varargin{1}) && ~isgpuarray(varargin{1})))
+    dim = [];
+    if nargin == 3
+      dim = varargin{1};
     end
+    [Y, ok] = __gpuArray_quantile__(X, p / 100, dim);
   end
-  n = max(nargout, 1);
-  outputs = cell(1, n);
-  [outputs{1:n}] = prctile(args{:});
-  for k = 1:numel(outputs)
-    o = outputs{k};
-    if isnumeric(o) || islogical(o)
-      outputs{k} = gpuArray(o);
-    end
+  if ~ok
+    Y = __gpuArray_host__('prctile', X, p, varargin{:});
   end
-  varargout = outputs;
 end
 %=============================================================================

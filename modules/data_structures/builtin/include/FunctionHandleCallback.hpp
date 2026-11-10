@@ -14,6 +14,7 @@
 #include "ArrayOf.hpp"
 #include "BytecodeVM.hpp"
 #include "Evaluator.hpp"
+#include "Context.hpp"
 #include "FunctionDef.hpp"
 //=============================================================================
 namespace Nelson::DataStructuresGateway {
@@ -62,6 +63,28 @@ evaluateCallback(Evaluator* eval, FunctionDefPtr fptr, FunctionDefPtr fptrHandle
         in2.push_back(errorHandlerInfo(e, elementIndex));
         in2 += input;
         return fptrHandleError->evaluateFunction(eval, in2, nargout);
+    }
+}
+//=============================================================================
+// A uniform output is a plain array: a device value (a handle with gather) is
+// read back to the host before it is stored.
+inline void
+gatherUniformOutputs(Evaluator* eval, ArrayOfVector& values)
+{
+    for (auto& value : values) {
+        if (!value.isHandle() || value.isGraphicsObject()) {
+            continue;
+        }
+        FunctionDef* gatherDef = nullptr;
+        if (!eval->getContext()->lookupFunction("gather", gatherDef) || gatherDef == nullptr) {
+            return;
+        }
+        ArrayOfVector args;
+        args.push_back(value);
+        ArrayOfVector host = gatherDef->evaluateFunction(eval, args, 1);
+        if (!host.empty()) {
+            value = host[0];
+        }
     }
 }
 //=============================================================================

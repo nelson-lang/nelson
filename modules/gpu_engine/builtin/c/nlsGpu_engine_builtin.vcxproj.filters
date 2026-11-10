@@ -21,6 +21,9 @@
     <ClCompile Include="..\cpp\gpuReductionsBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\gpuBesselBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\gpuSequenceBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\gpuArrayBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gpuBesselBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\gpuDeviceBuiltin.hpp">

@@ -8,23 +8,37 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = ismember(varargin)
-  % Host fallback: gpuArray arguments are gathered, the host function runs, and
-  % numeric/logical results are re-wrapped as gpuArray to stay device-resident.
-  args = varargin;
-  for k = 1:numel(args)
-    if isgpuarray(args{k})
-      args{k} = gather(args{k});
-    end
+  % membership by binary search in the sorted set on the device; other forms run on the host
+  ok = false;
+  if nargin == 2 && nargout <= 1
+    [ok, a, b] = __gpuArray_set_operands__(varargin{1}, varargin{2}, true);
   end
-  n = max(nargout, 1);
-  outputs = cell(1, n);
-  [outputs{1:n}] = ismember(args{:});
-  for k = 1:numel(outputs)
-    o = outputs{k};
-    if isnumeric(o) || islogical(o)
-      outputs{k} = gpuArray(o);
-    end
+  if ok
+    u = unique(b(:));
+    u = u(~isnan(u));
+    varargout{1} = sortedMember(a, u);
+    return
   end
-  varargout = outputs;
+  [varargout{1:max(1, nargout)}] = __gpuArray_host__('ismember', varargin{:});
+end
+%=============================================================================
+function tf = sortedMember(a, u)
+  tf = isnan(a) & false;
+  if isempty(u)
+    return
+  end
+  hasInf = u(end) == Inf;
+  if hasInf
+    u = u(1:end - 1);
+  end
+  if ~isempty(u)
+    bin = discretize(a, [u; Inf]);
+    found = ~isnan(bin);
+    bin(~found) = 1;
+    tf = found & (reshape(u(bin), size(a)) == a);
+  end
+  if hasInf
+    tf = tf | (a == Inf);
+  end
 end
 %=============================================================================

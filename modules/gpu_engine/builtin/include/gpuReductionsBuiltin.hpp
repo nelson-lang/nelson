@@ -34,5 +34,20 @@ gpuArrayVarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 gpuArrayStdBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+ArrayOfVector
+gpuArrayNormBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+gpuArrayVecnormBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+gpuArrayMedianBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+gpuArrayRmsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+ArrayOfVector
+gpuArrayBoundsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson::GpuEngineGateway
 //=============================================================================

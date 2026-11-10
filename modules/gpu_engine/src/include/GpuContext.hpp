@@ -13,8 +13,10 @@
 #pragma warning(disable : 4251)
 #endif
 //=============================================================================
+#include <atomic>
 #include <cstdint>
 #include <map>
+#include <mutex>
 #include <string>
 #include "GpuWebGpu.hpp"
 #include "nlsGpu_engine_exports.h"
@@ -54,6 +56,18 @@ public:
     backendName();
     uint64_t
     maxBufferSize();
+    // largest workgroup count accepted on one dispatch axis
+    uint32_t
+    maxWorkgroupsPerDimension();
+
+    // raise a Nelson error for a lost device or a GPU error left by an earlier call
+    void
+    throwIfFailed();
+    // called from the device callbacks
+    void
+    reportUncapturedError(const std::string& message);
+    void
+    reportDeviceLost(const std::string& message);
 
     WGPUInstance
     instance();
@@ -87,6 +101,8 @@ private:
 
     void
     tryInitialize();
+    void
+    releaseDevice();
 
     static GpuContext* m_instance;
 
@@ -103,9 +119,16 @@ private:
     std::string m_architectureName;
     std::string m_backendName;
     uint64_t m_maxBufferSize = 0;
+    uint32_t m_maxWorkgroupsPerDimension = 65535;
 
     std::map<std::string, WGPUComputePipeline> m_pipelineCache;
     std::string m_lastPipelineError;
+
+    std::mutex m_errorMutex;
+    std::string m_pendingError;
+    std::atomic<bool> m_hasPendingError { false };
+    std::atomic<bool> m_deviceLost { false };
+    std::string m_deviceLostMessage;
 };
 //=============================================================================
 } // namespace Nelson

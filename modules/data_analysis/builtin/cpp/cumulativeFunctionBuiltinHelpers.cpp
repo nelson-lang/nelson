@@ -19,6 +19,17 @@
 //=============================================================================
 namespace Nelson::DataAnalysisGateway {
 //=============================================================================
+// cumulative functions take one dimension: a vector of dimensions is refused clearly
+static indexType
+getCumulativeDimension(const ArrayOf& arg)
+{
+    if (arg.isNumeric() && !arg.isScalar()) {
+        Error(L"Nelson:getdimarg:dimensionMustBePositiveInteger",
+            L"Dimension argument must be a positive integer scalar within indexing range.");
+    }
+    return arg.asScalarIndex(false);
+}
+//=============================================================================
 static inline void
 getCumulativeArgument(const ArrayOfVector& argIn, int pos, bool& withNaN, bool& reverse)
 {
@@ -63,7 +74,7 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
         if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
             getCumulativeArgument(argIn, 1, withNaN, reverse);
         } else {
-            n = argIn[1].asScalarIndex(false);
+            n = getCumulativeDimension(argIn[1]);
         }
     } break;
     case 3: {
@@ -77,12 +88,12 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
             getCumulativeArgument(argIn, 1, withNaN, reverse);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
         } else {
-            n = argIn[1].asScalarIndex(false);
+            n = getCumulativeDimension(argIn[1]);
             getCumulativeArgument(argIn, 2, withNaN, reverse);
         }
     } break;
     case 4: {
-        n = argIn[1].asScalarIndex(false);
+        n = getCumulativeDimension(argIn[1]);
         std::wstring wstr1 = argIn[2].asWideString();
         std::wstring wstr2 = argIn[3].asWideString();
         if (wstr1 == wstr2) {

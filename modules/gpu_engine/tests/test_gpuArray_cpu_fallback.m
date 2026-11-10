@@ -25,18 +25,18 @@ assert_isapprox(gather(inv(A)), inv(single([4 1; 2 3])), tol);
 assert_istrue(isgpuarray(norm(A)));
 assert_isapprox(gather(norm(A)), norm(single([4 1; 2 3])), tol);
 %=============================================================================
-% eig / svd / fft return host results in double precision (may be complex)
+% eig / svd / fft run on the host and return gpuArray results (complex when needed)
 e = eig(A);
-assert_isfalse(isgpuarray(e));
-assert_isapprox(sort(real(e)), sort(real(eig(double([4 1; 2 3])))), tol);
+assert_istrue(isgpuarray(e));
+assert_isapprox(sort(real(gather(e))), sort(real(eig(single([4 1; 2 3])))), tol);
 %=============================================================================
 s = svd(A);
-assert_isfalse(isgpuarray(s));
-assert_isapprox(s, svd(double([4 1; 2 3])), tol);
+assert_istrue(isgpuarray(s));
+assert_isapprox(gather(s), svd(single([4 1; 2 3])), tol);
 %=============================================================================
 f = fft(gpuArray(single([1 2 3 4])));
-assert_isfalse(isgpuarray(f));
-assert_isapprox(f, fft(double([1 2 3 4])), tol);
+assert_istrue(isgpuarray(f));
+assert_isapprox(gather(f), fft(single([1 2 3 4])), tol);
 %=============================================================================
 % matrix functions expm / logm / sqrtm: host fallback, re-wrapped as gpuArray
 M = single([4 2; 1 3]);

@@ -18,135 +18,169 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// One thread per lane; in-place selection sort of `vals` (pre-cloned from the
-// input) along the sorted dimension, tracking 1-based indices in `idx`.
-static const char* SORT_WGSL = R"WGSL(
-struct Params { laneCount : u32, redLen : u32, before : u32, descend : u32 };
-@group(0) @binding(0) var<storage, read_write> vals : array<f32>;
-@group(0) @binding(1) var<storage, read_write> idx : array<f32>;
-@group(0) @binding(2) var<uniform> params : Params;
-@compute @workgroup_size(256)
-fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
-    let lane : u32 = gid.x;
-    if (lane >= params.laneCount) {
-        return;
-    }
-    let iB : u32 = lane % params.before;
-    let iA : u32 = lane / params.before;
-    let start : u32 = iB + iA * (params.before * params.redLen);
-    let step : u32 = params.before;
-    for (var k : u32 = 0u; k < params.redLen; k = k + 1u) {
-        idx[start + k * step] = f32(k + 1u);
-    }
-    for (var i : u32 = 0u; i + 1u < params.redLen; i = i + 1u) {
-        var best : u32 = i;
-        for (var j : u32 = i + 1u; j < params.redLen; j = j + 1u) {
-            let vj : f32 = vals[start + j * step];
-            let vb : f32 = vals[start + best * step];
-            var isBetter : bool = vj < vb;
-            if (params.descend != 0u) {
-                isBetter = vj > vb;
-            }
-            if (isBetter) {
-                best = j;
-            }
-        }
-        if (best != i) {
-            let pi : u32 = start + i * step;
-            let pb : u32 = start + best * step;
-            let tv : f32 = vals[pi];
-            vals[pi] = vals[pb];
-            vals[pb] = tv;
-            let ti : f32 = idx[pi];
-            idx[pi] = idx[pb];
-            idx[pb] = ti;
-        }
-    }
-}
-)WGSL";
-// Complex per-lane selection sort by magnitude; vals is interleaved (re, im),
-// idx is one f32 per element (1-based).
-static const char* SORT_COMPLEX_WGSL = R"WGSL(
-struct Params { laneCount : u32, redLen : u32, before : u32, descend : u32 };
-@group(0) @binding(0) var<storage, read_write> vals : array<f32>;
-@group(0) @binding(1) var<storage, read_write> idx : array<f32>;
-@group(0) @binding(2) var<uniform> params : Params;
-@compute @workgroup_size(256)
-fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
-    let lane : u32 = gid.x;
-    if (lane >= params.laneCount) {
-        return;
-    }
-    let iB : u32 = lane % params.before;
-    let iA : u32 = lane / params.before;
-    let start : u32 = iB + iA * (params.before * params.redLen);
-    let step : u32 = params.before;
-    for (var k : u32 = 0u; k < params.redLen; k = k + 1u) {
-        idx[start + k * step] = f32(k + 1u);
-    }
-    for (var i : u32 = 0u; i + 1u < params.redLen; i = i + 1u) {
-        var best : u32 = i;
-        let pbi : u32 = start + i * step;
-        var bestMag : f32 = vals[2u * pbi] * vals[2u * pbi] + vals[2u * pbi + 1u] * vals[2u * pbi + 1u];
-        for (var j : u32 = i + 1u; j < params.redLen; j = j + 1u) {
-            let pj : u32 = start + j * step;
-            let vm : f32 = vals[2u * pj] * vals[2u * pj] + vals[2u * pj + 1u] * vals[2u * pj + 1u];
-            var better : bool = vm < bestMag;
-            if (params.descend != 0u) {
-                better = vm > bestMag;
-            }
-            if (better) {
-                best = j;
-                bestMag = vm;
-            }
-        }
-        if (best != i) {
-            let pi : u32 = start + i * step;
-            let pb : u32 = start + best * step;
-            let tr : f32 = vals[2u * pi]; vals[2u * pi] = vals[2u * pb]; vals[2u * pb] = tr;
-            let tim : f32 = vals[2u * pi + 1u]; vals[2u * pi + 1u] = vals[2u * pb + 1u]; vals[2u * pb + 1u] = tim;
-            let ti : f32 = idx[pi]; idx[pi] = idx[pb]; idx[pb] = ti;
-        }
-    }
-}
-)WGSL";
-// Selection sort for the raw-int storage: identical to SORT_WGSL but the
-// comparison bitcasts to i32/u32 (the swaps move the raw f32 bits unchanged).
+// stable order of two elements: value, then NaN placement, then original position
 static std::string
-buildIntSortWgsl(const char* scalarType)
+precedesWgsl(GpuStorage storage, bool complex)
 {
-    std::string T = scalarType;
-    return std::string(
-               "struct Params { laneCount : u32, redLen : u32, before : u32, descend : u32 };\n"
-               "@group(0) @binding(0) var<storage, read_write> vals : array<f32>;\n"
-               "@group(0) @binding(1) var<storage, read_write> idx : array<f32>;\n"
-               "@group(0) @binding(2) var<uniform> params : Params;\n"
-               "@compute @workgroup_size(256)\n"
-               "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-               "    let lane : u32 = gid.x;\n"
-               "    if (lane >= params.laneCount) { return; }\n"
-               "    let iB : u32 = lane % params.before;\n"
-               "    let iA : u32 = lane / params.before;\n"
-               "    let start : u32 = iB + iA * (params.before * params.redLen);\n"
-               "    let step : u32 = params.before;\n"
-               "    for (var k : u32 = 0u; k < params.redLen; k = k + 1u) {\n"
-               "        idx[start + k * step] = f32(k + 1u);\n    }\n"
-               "    for (var i : u32 = 0u; i + 1u < params.redLen; i = i + 1u) {\n"
-               "        var best : u32 = i;\n"
-               "        for (var j : u32 = i + 1u; j < params.redLen; j = j + 1u) {\n"
-               "            let vj : ")
-        + T + " = bitcast<" + T + ">(vals[start + j * step]);\n            let vb : " + T
-        + " = bitcast<" + T
-        + ">(vals[start + best * step]);\n"
-          "            var isBetter : bool = vj < vb;\n"
-          "            if (params.descend != 0u) { isBetter = vj > vb; }\n"
-          "            if (isBetter) { best = j; }\n        }\n"
-          "        if (best != i) {\n"
-          "            let pi : u32 = start + i * step;\n"
-          "            let pb : u32 = start + best * step;\n"
-          "            let tv : f32 = vals[pi]; vals[pi] = vals[pb]; vals[pb] = tv;\n"
-          "            let ti : f32 = idx[pi]; idx[pi] = idx[pb]; idx[pb] = ti;\n"
-          "        }\n    }\n}\n";
+    std::string s = "fn isNan(x : f32) -> bool {\n"
+                    "    return (bitcast<u32>(x) & 0x7fffffffu) > 0x7f800000u;\n"
+                    "}\n"
+                    "fn byPosition(pa : u32, pb : u32) -> bool {\n"
+                    "    return bitcast<u32>(idx[pa]) < bitcast<u32>(idx[pb]);\n"
+                    "}\n"
+                    "fn precedes(pa : u32, pb : u32) -> bool {\n";
+    if (storage != GpuStorage::Float32) {
+        std::string T = (storage == GpuStorage::Uint32) ? "u32" : "i32";
+        return s + "    let x = bitcast<" + T + ">(vals[pa]);\n    let y = bitcast<" + T
+            + ">(vals[pb]);\n"
+              "    if (x != y) { if (params.descend != 0u) { return x > y; } return x < y; }\n"
+              "    return byPosition(pa, pb);\n}\n";
+    }
+    // NaN goes last in ascending order and first in descending order
+    std::string nanRule
+        = "    if (nx != ny) { if (params.descend != 0u) { return nx; } return ny; }\n";
+    if (complex) {
+        // by magnitude, then by angle
+        return s
+            + "    let xr = vals[2u * pa]; let xi = vals[2u * pa + 1u];\n"
+              "    let yr = vals[2u * pb]; let yi = vals[2u * pb + 1u];\n"
+              "    let x = xr * xr + xi * xi;\n    let y = yr * yr + yi * yi;\n"
+              "    let nx = isNan(x);\n    let ny = isNan(y);\n"
+            + nanRule
+            + "    if (!nx) {\n"
+              "        if (x != y) { if (params.descend != 0u) { return x > y; } return x < y; }\n"
+              "        let gx = atan2(xi, xr);\n        let gy = atan2(yi, yr);\n"
+              "        if (gx != gy) { if (params.descend != 0u) { return gx > gy; } return gx < "
+              "gy; }\n"
+              "    }\n    return byPosition(pa, pb);\n}\n";
+    }
+    return s
+        + "    let x = vals[pa];\n    let y = vals[pb];\n"
+          "    let nx = isNan(x);\n    let ny = isNan(y);\n"
+        + nanRule
+        + "    if (!nx && x != y) { if (params.descend != 0u) { return x > y; } return x < y; }\n"
+          "    return byPosition(pa, pb);\n}\n";
+}
+//=============================================================================
+// one compare-exchange per thread for one step of a bitonic sort along every lane
+static std::string
+buildBitonicStepWgsl(GpuStorage storage, bool complex)
+{
+    std::string swap = complex
+        ? "        let tr = vals[2u * pi]; vals[2u * pi] = vals[2u * pl]; vals[2u * pl] = tr;\n"
+          "        let ti = vals[2u * pi + 1u]; vals[2u * pi + 1u] = vals[2u * pl + 1u];\n"
+          "        vals[2u * pl + 1u] = ti;\n"
+        : "        let tv = vals[pi]; vals[pi] = vals[pl]; vals[pl] = tv;\n";
+    return std::string("struct Params { pairCount : u32, redLen : u32, before : u32, half : u32,\n"
+                       "    block : u32, dist : u32, flip : u32, descend : u32 };\n"
+                       "@group(0) @binding(0) var<storage, read_write> vals : array<f32>;\n"
+                       "@group(0) @binding(1) var<storage, read_write> idx : array<f32>;\n"
+                       "@group(0) @binding(2) var<uniform> params : Params;\n")
+        + precedesWgsl(storage, complex)
+        + "@compute @workgroup_size(256)\n"
+          "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
+          "    let t = gid.x;\n"
+          "    if (t >= params.pairCount) { return; }\n"
+          "    let lane = t / params.half;\n"
+          "    let p = t % params.half;\n"
+          "    var i : u32;\n"
+          "    var l : u32;\n"
+          "    if (params.flip != 0u) {\n"
+          "        let h = params.block / 2u;\n"
+          "        let first = (p / h) * params.block;\n"
+          "        i = first + p % h;\n"
+          "        l = first + params.block - 1u - p % h;\n"
+          "    } else {\n"
+          "        i = 2u * params.dist * (p / params.dist) + p % params.dist;\n"
+          "        l = i + params.dist;\n"
+          "    }\n"
+          // positions past the lane end act as +infinity and never move
+          "    if (l >= params.redLen) { return; }\n"
+          "    let iB = lane % params.before;\n"
+          "    let iA = lane / params.before;\n"
+          "    let start = iB + iA * (params.before * params.redLen);\n"
+          "    let pi = start + i * params.before;\n"
+          "    let pl = start + l * params.before;\n"
+          "    if (precedes(pl, pi)) {\n"
+        + swap
+        + "        let tk = idx[pi]; idx[pi] = idx[pl]; idx[pl] = tk;\n"
+          "    }\n}\n";
+}
+//=============================================================================
+// idx holds the lane position as raw u32 bits while sorting, then 1-based f32
+static const char* SORT_INDEX_INIT_WGSL = R"WGSL(
+struct Params { n : u32, redLen : u32, before : u32 };
+@group(0) @binding(0) var<storage, read_write> idx : array<f32>;
+@group(0) @binding(1) var<uniform> params : Params;
+@compute @workgroup_size(256)
+fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
+    let i = gid.x;
+    if (i < params.n) {
+        idx[i] = bitcast<f32>((i / params.before) % params.redLen);
+    }
+}
+)WGSL";
+//=============================================================================
+static const char* SORT_INDEX_FINISH_WGSL = R"WGSL(
+struct Params { n : u32 };
+@group(0) @binding(0) var<storage, read_write> idx : array<f32>;
+@group(0) @binding(1) var<uniform> params : Params;
+@compute @workgroup_size(256)
+fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
+    let i = gid.x;
+    if (i < params.n) {
+        idx[i] = f32(bitcast<u32>(idx[i]) + 1u);
+    }
+}
+)WGSL";
+//=============================================================================
+static WGPUComputePipeline
+sortPipeline(const std::string& key, const char* source)
+{
+    WGPUComputePipeline pipeline = GpuContext::getInstance()->pipelineFor(key, source, "main");
+    if (pipeline == nullptr) {
+        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
+    }
+    return pipeline;
+}
+//=============================================================================
+static void
+bitonicSort(GpuArrayObject* values, GpuArrayObject* indices, const GpuLaneGeometry& lane,
+    GpuStorage storage, bool complex, bool descend)
+{
+    uint32_t n = (uint32_t)values->elementCount();
+    uint32_t workgroups = (n + 255u) / 256u;
+    uint32_t initParams[3] = { n, lane.redLen, lane.before };
+    GpuDispatchKernel(sortPipeline("gpuArray:sort:index", SORT_INDEX_INIT_WGSL),
+        { indices->buffer() }, initParams, 3, workgroups, 1);
+
+    uint32_t padded = 1;
+    while (padded < lane.redLen) {
+        padded <<= 1;
+    }
+    uint32_t half = padded / 2u;
+    uint32_t pairCount = lane.laneCount * half;
+    std::vector<std::vector<uint32_t>> steps;
+    // the first step of each merge compares mirrored pairs so every step sorts upward
+    for (uint32_t block = 2; block <= padded; block <<= 1) {
+        steps.push_back({ pairCount, lane.redLen, lane.before, half, block, block / 2u, 1u,
+            descend ? 1u : 0u });
+        for (uint32_t dist = block / 4u; dist >= 1u; dist >>= 1) {
+            steps.push_back(
+                { pairCount, lane.redLen, lane.before, half, block, dist, 0u, descend ? 1u : 0u });
+        }
+    }
+    std::string kind = complex
+        ? "complex"
+        : (storage == GpuStorage::Float32 ? "real"
+                                          : (storage == GpuStorage::Uint32 ? "u32" : "i32"));
+    std::string stepSource = buildBitonicStepWgsl(storage, complex);
+    GpuDispatchKernelSequence(sortPipeline("gpuArray:sort:step:" + kind, stepSource.c_str()),
+        { values->buffer(), indices->buffer() }, steps, (pairCount + 255u) / 256u, 1);
+
+    uint32_t finishParams[1] = { n };
+    GpuDispatchKernel(sortPipeline("gpuArray:sort:indexfinish", SORT_INDEX_FINISH_WGSL),
+        { indices->buffer() }, finishParams, 1, workgroups, 1);
 }
 //=============================================================================
 ArrayOfVector
@@ -162,13 +196,6 @@ GpuSort(GpuArrayObject* a, int dim, bool descend)
     Dimensions dims = a->dimensions();
     ArrayOfVector retval;
     GpuLaneGeometry lane = GpuComputeLaneGeometry(dims, dim);
-    bool complex = a->isComplex();
-    GpuStorage storage = a->storageKind();
-    bool rawInt = (storage != GpuStorage::Float32);
-
-    // sorted values start as a copy of the input (sorted in place on device)
-    GpuArrayObject* values = CloneGpuArray(a);
-    GpuArrayObject* indices = AllocateGpuArray(dims);
 
     if (lane.identity || lane.redLen <= 1 || dims.elementCount() == 0) {
         // nothing to reorder along a singleton dimension: indices are all 1
@@ -177,30 +204,21 @@ GpuSort(GpuArrayObject* a, int dim, bool descend)
         for (indexType k = 0; k < elementCount; ++k) {
             ones[k] = 1.0f;
         }
-        retval << ArrayOf::handle(values);
+        retval << ArrayOf::handle(CloneGpuArray(a));
         retval << CreateGpuArray(ArrayOf(NLS_SINGLE, dims, ones));
-        delete indices;
         return retval;
     }
-    std::string intSortSource;
-    std::string key = "gpuArray:sort";
-    const char* source = SORT_WGSL;
-    if (complex) {
-        key = "gpuArray:sort_complex";
-        source = SORT_COMPLEX_WGSL;
-    } else if (rawInt) {
-        intSortSource = buildIntSortWgsl(storage == GpuStorage::Uint32 ? "u32" : "i32");
-        key = "gpuArray:sort_i32:" + a->underlyingType();
-        source = intSortSource.c_str();
+    // sorted values start as a copy of the input (sorted in place on device)
+    GpuArrayObject* values = CloneGpuArray(a);
+    GpuArrayObject* indices = nullptr;
+    try {
+        indices = AllocateGpuArray(dims);
+        bitonicSort(values, indices, lane, a->storageKind(), a->isComplex(), descend);
+    } catch (...) {
+        delete values;
+        delete indices;
+        throw;
     }
-    WGPUComputePipeline pipeline = context->pipelineFor(key, source, "main");
-    if (pipeline == nullptr) {
-        Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
-    }
-    uint32_t params[4] = { lane.laneCount, lane.redLen, lane.before, descend ? 1u : 0u };
-    uint32_t workgroupCountX = (lane.laneCount + 255u) / 256u;
-    GpuDispatchKernel(
-        pipeline, { values->buffer(), indices->buffer() }, params, 4, workgroupCountX, 1);
     retval << ArrayOf::handle(values);
     retval << ArrayOf::handle(indices);
     return retval;

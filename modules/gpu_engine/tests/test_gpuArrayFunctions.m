@@ -7,8 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% gpuArrayFunctions lists the functions supported on a gpuArray. It does not
-% require a GPU device (the list comes from the registered overloads).
+% gpuArrayFunctions lists the functions supported on a gpuArray, with no GPU device needed
 c = gpuArrayFunctions();
 assert_isequal(class(c), 'cell');
 assert_istrue(iscolumn(c));
@@ -28,5 +27,14 @@ expected = {'plus', 'minus', 'times', 'mtimes', 'sum', 'prod', 'mean', ...
   'dot', 'norm', 'eig', 'svd', 'inv', 'fft'};
 for k = 1:numel(expected)
   assert_istrue(any(strcmp(c, expected{k})), expected{k});
+end
+%=============================================================================
+% generic functions without a gpuArray method are listed too, and all exist
+generic = {'psi', 'gammaincinv', 'betaincinv', 'legendre', 'lscov', 'lsqminnorm', 'gsvd', 'tfqmr', ...
+  'pagemldivide', 'pagesvd', 'convn', 'trimdata', 'paddata', 'inpolygon', 'createArray', 'rmse', 'mape', ...
+  'anynan', 'numunique', 'isuniform', 'pinv', 'null', 'orth', 'rank', 'normalize', 'rescale'};
+for k = 1:numel(generic)
+  assert_istrue(any(strcmp(c, generic{k})), generic{k});
+  assert_istrue(exist(generic{k}) > 0, generic{k});
 end
 %=============================================================================

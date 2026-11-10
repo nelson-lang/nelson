@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function c = cross(a, b)
+function c = cross(a, b, varargin)
   % cross product of two 3-element vectors, composed from the device overloads.
-  if numel(a) ~= 3 || numel(b) ~= 3
-    error('Nelson:gpuArray:cross:invalidInput', 'cross: inputs must be 3-element vectors.');
+  if nargin > 2 || numel(a) ~= 3 || numel(b) ~= 3
+    % other shapes and the dimension argument are computed on the host
+    c = gpuArray(cross(gather(a), gather(b), varargin{:}));
+    return
   end
   a1 = a(1); a2 = a(2); a3 = a(3);
   b1 = b(1); b2 = b(2); b3 = b(3);

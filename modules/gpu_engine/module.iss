@@ -18,6 +18,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_GPU_ENGINE};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@gpuArray\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@gpuArray\;Components: {#COMPONENT_GPU_ENGINE};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@gpuArray\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@gpuArray\private\;Components: {#COMPONENT_GPU_ENGINE};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_GPU_ENGINE};
 ;==============================================================================

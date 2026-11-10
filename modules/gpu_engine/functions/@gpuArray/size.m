@@ -8,14 +8,21 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = size(varargin)
-  narginchk(1, 2);
   d = __gpuArray_size__(varargin{1});
-  if nargin == 2
-    dim = varargin{2};
-    if dim <= length(d)
-      varargout{1} = d(dim);
+  if nargin > 1
+    % the host checks the dimension arguments on a scalar, the values come from d
+    size(1, varargin{2:end});
+    if nargin == 2 && (ischar(varargin{2}) || isstring(varargin{2}))
+      dims = 1 + strcmp(char(varargin{2}), 'c');
     else
-      varargout{1} = 1;
+      dims = double([varargin{2:end}]);
+    end
+    d(end + 1:max(dims)) = 1;
+    out = d(dims);
+    if nargout <= 1
+      varargout{1} = out;
+    else
+      varargout = num2cell(out);
     end
     return
   end

@@ -65,6 +65,9 @@
 #include "OverloadHelpers.hpp"
 #include "OverloadDispatchArgument.hpp"
 #include "operators/BinaryOperatorHelpers.hpp"
+#include "LeftDivide.hpp"
+#include "RightDivide.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 #include "OverloadName.hpp"
 #include "Profiler.hpp"
 #include "ProfilerHelpers.hpp"
@@ -323,12 +326,48 @@ namespace bcvm_detail {
         return eval->bytecodeGetOrInvokeHandle(base, field, params);
     }
     //=============================================================================
+    // a device array as a for-loop range loops over its gathered columns
+    ArrayOf
+    loopRangeValues(Evaluator* eval, const ArrayOf& range)
+    {
+        if (range.isHandle() && !range.isGraphicsObject()) {
+            bool gathered = false;
+            ArrayOf host = callOperatorOverload(eval, range, "gather", gathered);
+            if (gathered) {
+                return host;
+            }
+        }
+        return range;
+    }
+    //=============================================================================
     ArrayOf
     classIndexCell(const ArrayOfVector& indices)
     {
         ArrayOfMatrix matrix;
         matrix.push_back(indices);
         return ArrayOf::cellArray(matrix);
+    }
+    //=============================================================================
+    // base(...) = value with a plain base and a native handle value (a device array): the value
+    // class assigns, so the result follows the value; only tried once the plain store failed
+    bool
+    assignHandleValueToPlain(
+        Evaluator* eval, ArrayOf& base, const ArrayOfVector& indices, const ArrayOf& value)
+    {
+        if (!value.isHandle() || base.isHandle() || base.isClassType()) {
+            return false;
+        }
+        stringVector subtypes;
+        subtypes.push_back("()");
+        ArrayOfVector subsindices;
+        subsindices.push_back(classIndexCell(indices));
+        bool haveFunction = false;
+        ArrayOf assigned
+            = eval->bytecodeAssignByValueClass(base, subtypes, subsindices, value, haveFunction);
+        if (haveFunction) {
+            base = assigned;
+        }
+        return haveFunction;
     }
     //=============================================================================
     // x.(indexOp): a nelson.indexing.IndexingOperation (scalar or array) used as a dynamic field
@@ -490,6 +529,14 @@ namespace bcvm_detail {
             bool wasFound = false;
             ArrayOf converted = callOperatorOverload(eval, value, "logical", wasFound);
             if (wasFound) {
+                // a device array converts on the device: its gather overload brings it back
+                if (converted.isHandle()) {
+                    bool gathered = false;
+                    ArrayOf host = callOperatorOverload(eval, converted, "gather", gathered);
+                    if (gathered) {
+                        return checkIfWhileCondition(host);
+                    }
+                }
                 return checkIfWhileCondition(converted);
             }
             Error("Nelson:interpreter:cannotConvertToLogical",
@@ -1272,7 +1319,8 @@ namespace bcvm_detail {
             Error(L"Nelson:interpreter:scalarClassdefHandleExpected",
                 L"Scalar classdef handle expected.");
         }
-        void* elements = ArrayOf::allocateArrayOf(NLS_HANDLE, dimensions.elementCount(), {}, false);
+        void* elements
+            = ArrayOf::allocateArrayOf(NLS_HANDLE, dimensions.elementCount(), { }, false);
         for (indexType k = 0; k < dimensions.elementCount(); ++k) {
             ArrayOf object = k == 0 ? firstDefault : evaluateDefaultClassdefObject(eval, className);
             if (!object.isHandle() || !object.isScalar() || ClassName(object) != className) {
@@ -1335,7 +1383,7 @@ namespace bcvm_detail {
             Error(L"Nelson:interpreter:cannotCreateClassdefObject",
                 L"Cannot create default classdef object.");
         }
-        ArrayOfVector result = constructor->evaluateFunction(eval, {}, 1);
+        ArrayOfVector result = constructor->evaluateFunction(eval, { }, 1);
         if (result.empty() || !result[0].isScalar()) {
             Error(L"Nelson:interpreter:cannotCreateClassdefObject",
                 L"Cannot create default classdef object.");
@@ -2190,10 +2238,17 @@ namespace bcvm_detail {
             }
             return base;
         }
-        if (indices.size() == 1) {
-            base.setVectorSubset(indices[0], value);
-        } else {
-            base.setNDimSubset(indices, value);
+        try {
+            if (indices.size() == 1) {
+                base.setVectorSubset(indices[0], value);
+            } else {
+                base.setNDimSubset(indices, value);
+            }
+        } catch (const NelsonException&) {
+            // a device value into a plain array: the value class assigns
+            if (!assignHandleValueToPlain(eval, base, indices, value)) {
+                throw;
+            }
         }
         return base;
     }
@@ -2227,7 +2282,8 @@ namespace bcvm_detail {
         }
         auto* elements = static_cast<ArrayOf*>(base.readWriteDataPointer());
         const ArrayOf& current = elements[offset];
-        if (current.isCharacterArray() && current.elementCount() == element.elementCount()
+        // a reshape shares data across shapes: equal pointers need equal dimensions too
+        if (current.isCharacterArray() && current.dimensions().equals(element.dimensions())
             && current.dataPointer() == element.dataPointer()) {
             return true;
         }
@@ -2620,9 +2676,9 @@ namespace bcvm_detail {
                 registers[top++] = op.imm;
                 break;
             case ScalarExprOpKind::LoadEndLocal: {
-                // `end` of a local subscript; a class may overload end
+                // `end` of a local subscript; a class or handle may overload end
                 if (op.slot >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, op.slot)
-                    || frame.locals[op.slot].isClassType()) {
+                    || frame.locals[op.slot].isClassType() || frame.locals[op.slot].isHandle()) {
                     return ScalarExprOutcome::Refused;
                 }
                 registers[top++]
@@ -2920,7 +2976,7 @@ namespace bcvm_detail {
                 "nelson.mixin.util.IndexingContext", contextMember, enumFunctionName)) {
             FunctionDef* enumDef = nullptr;
             if (eval->lookupFunction(enumFunctionName, enumDef)) {
-                ArrayOfVector enumResult = enumDef->evaluateFunction(eval, {}, 1);
+                ArrayOfVector enumResult = enumDef->evaluateFunction(eval, { }, 1);
                 if (!enumResult.empty()) {
                     contextValue = enumResult[0];
                 }
@@ -3040,7 +3096,7 @@ namespace bcvm_detail {
         case OpCode::OP_OR:
             return OR_OPERATOR_STR;
         default:
-            return {};
+            return { };
         }
     }
     //=============================================================================
@@ -3054,7 +3110,8 @@ namespace bcvm_detail {
                 && (target.isNumeric() || target.isLogical() || target.isCharacterArray()));
         if (!elementClass || tail.dataClass() != target.dataClass() || target.isSparse()
             || tail.isSparse() || target.referenceCount() != 2
-            || target.dataPointer() != head.dataPointer()) {
+            || target.dataPointer() != head.dataPointer()
+            || !target.dimensions().equals(head.dimensions())) {
             return false;
         }
         const Dimensions& targetDims = target.dimensions();
@@ -3090,11 +3147,13 @@ namespace bcvm_detail {
     bool
     doubleOperatorOverloadMissing(OpCode op)
     {
-        static thread_local std::array<uint64, 4> knownMissing {};
+        static thread_local std::array<uint64, 6> knownMissing { };
         const size_t index = op == OpCode::OP_PLUS ? 0
             : op == OpCode::OP_MINUS               ? 1
             : op == OpCode::OP_TIMES               ? 2
-                                                   : 3;
+            : op == OpCode::OP_MTIMES              ? 3
+            : op == OpCode::OP_MLDIV               ? 4
+                                                   : 5;
         const uint64 generation = FunctionsInMemory::getInstance()->generation() + 1;
         if (knownMissing[index] == generation) {
             return true;
@@ -3268,6 +3327,18 @@ namespace bcvm_detail {
                 return denseRealDoubleMtimes(a, b);
             }
         }
+        // A \ B and A / B of dense doubles of one class (real or complex): the solver directly
+        // while no double overload of it exists; mixed classes keep the generic promotion
+        if ((op == OpCode::OP_MLDIV || op == OpCode::OP_MRDIV) && !Profiler::getInstance()->isOn()
+            && a.isDoubleType(false) && b.isDoubleType(false) && a.dataClass() == b.dataClass()
+            && doubleOperatorOverloadMissing(op)) {
+            bool needToOverload = false;
+            ArrayOf result = op == OpCode::OP_MLDIV ? LeftDivide(a, b, needToOverload)
+                                                    : RightDivide(a, b, needToOverload);
+            if (!needToOverload) {
+                return result;
+            }
+        }
         // a & b, a | b with a logical scalar operand (a comparison result): logical result
         if ((op == OpCode::OP_AND || op == OpCode::OP_OR) && !Profiler::getInstance()->isOn()) {
             bool aTruth = false;
@@ -3289,22 +3360,29 @@ namespace bcvm_detail {
                 }
                 return std::complex<double>(ptr[0], 0.0);
             };
-            // Divide: a real divisor scales both parts (bit-identical to the complex/real kernel);
-            // a zero divisor gives NaN+NaNi (like normalizeComplexZeroDivisors).
+            // Same rules as the array kernels: a finite nonzero real divisor scales both parts,
+            // other cases use complexQuotient.
             auto scalarComplexDivide = [](std::complex<double> num, std::complex<double> den,
                                            bool denIsReal) -> std::complex<double> {
                 if (denIsReal) {
                     const double c = den.real();
-                    if (std::isfinite(c) && c != 0.0 && std::isfinite(num.real())
-                        && std::isfinite(num.imag())) {
+                    if (std::isfinite(c) && c != 0.0) {
                         return std::complex<double>(num.real() / c, num.imag() / c);
                     }
                 }
-                if (den.real() == 0.0 && den.imag() == 0.0) {
-                    const double nan = std::numeric_limits<double>::quiet_NaN();
-                    return std::complex<double>(nan, nan);
+                return complexQuotient<double>(num, den);
+            };
+            // complex times a finite nonzero real: same rule as the array kernels
+            auto scalarComplexTimes
+                = [](std::complex<double> x, bool xIsReal, std::complex<double> y,
+                      bool yIsReal) -> std::complex<double> {
+                if (xIsReal != yIsReal) {
+                    const double c = xIsReal ? x.real() : y.real();
+                    if (std::isfinite(c) && c != 0.0) {
+                        return complexTimesRealScalar<double>(xIsReal ? y : x, c);
+                    }
                 }
-                return num / den;
+                return x * y;
             };
             const std::complex<double> av = readScalarComplex(a);
             const std::complex<double> bv = readScalarComplex(b);
@@ -3319,7 +3397,7 @@ namespace bcvm_detail {
                 break;
             case OpCode::OP_TIMES:
             case OpCode::OP_MTIMES:
-                result = av * bv;
+                result = scalarComplexTimes(av, !a.isComplex(), bv, !b.isComplex());
                 break;
             case OpCode::OP_RDIV:
             case OpCode::OP_MRDIV:
@@ -3740,12 +3818,19 @@ namespace bcvm_detail {
         expandColonParensAssignmentIndices(base, indices, value);
         normalizeParensAssignmentValueForTarget(indices, value);
         expandClassdefAssignmentBaseWithDefaults(eval, base, indices, value);
-        if (indices.size() == 1) {
-            if (!assignStructVectorSubset(base, indices[0], value)) {
-                base.setVectorSubset(indices[0], value);
+        try {
+            if (indices.size() == 1) {
+                if (!assignStructVectorSubset(base, indices[0], value)) {
+                    base.setVectorSubset(indices[0], value);
+                }
+            } else if (!tryAssignRowColonSlice(base, indices, value)) {
+                base.setNDimSubset(indices, value);
             }
-        } else if (!tryAssignRowColonSlice(base, indices, value)) {
-            base.setNDimSubset(indices, value);
+        } catch (const NelsonException&) {
+            // a device value into a plain array: the value class assigns
+            if (!assignHandleValueToPlain(eval, base, indices, value)) {
+                throw;
+            }
         }
         return base;
     }
@@ -3894,8 +3979,15 @@ namespace bcvm_detail {
             return;
         }
         alignStructFieldsForSubsetAssign(base, value);
-        if (!assignStructVectorSubset(base, index, value)) {
-            base.setVectorSubset(index, value);
+        try {
+            if (!assignStructVectorSubset(base, index, value)) {
+                base.setVectorSubset(index, value);
+            }
+        } catch (const NelsonException&) {
+            // a device value into a plain array: the value class assigns
+            if (!assignHandleValueToPlain(eval, base, indices, value)) {
+                throw;
+            }
         }
         markRuntimeAssigned(frame, slot);
     }
@@ -5081,7 +5173,7 @@ namespace bcvm_detail {
                     if (base.isScalar() && classdefLoadClass(base.classType())
                         && !classdefHasProperty(base.classType(), field)
                         && eval->bytecodeInvokeObjectMethodIfExists(
-                            base, field, {}, 1, methodResult)) {
+                            base, field, { }, 1, methodResult)) {
                         stack.push_back(methodResult.empty() ? ArrayOf::empty() : methodResult[0]);
                         return;
                     }
@@ -5324,7 +5416,7 @@ namespace bcvm_detail {
                 const std::string field = next == std::string::npos
                     ? middlePath.substr(start)
                     : middlePath.substr(start, next - start);
-                ArrayOfVector fieldResult = evaluateDotReference(current, field, {});
+                ArrayOfVector fieldResult = evaluateDotReference(current, field, { });
                 current = fieldResult.empty() ? ArrayOf::empty() : fieldResult[0];
                 if (next == std::string::npos) {
                     break;
@@ -5709,7 +5801,7 @@ namespace bcvm_detail {
                         assignLocalValue(ins.A, std::move(value));
                         break;
                     }
-                    Instruction load {};
+                    Instruction load { };
                     load.op = OpCode::LOAD_LOCAL_DOT;
                     load.A = ins.B;
                     load.B = ins.C;
@@ -5733,7 +5825,7 @@ namespace bcvm_detail {
                         assignLocalValue(ins.A, std::move(value));
                         break;
                     }
-                    Instruction load {};
+                    Instruction load { };
                     load.op = OpCode::LOAD_BRACES_LOCAL;
                     load.A = ins.B;
                     load.B = ins.C;
@@ -6147,7 +6239,7 @@ namespace bcvm_detail {
                         FunctionDef* fdef = nullptr;
                         if (eval->lookupFunction(name, fdef)) {
                             try {
-                                ArrayOfVector result = fdef->evaluateFunction(eval, {}, 1);
+                                ArrayOfVector result = fdef->evaluateFunction(eval, { }, 1);
                                 stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
                             } catch (const NelsonException& e) {
                                 if (e.identifier() != L"Nelson:tooManyOutputs"
@@ -6158,7 +6250,7 @@ namespace bcvm_detail {
                                             L"Not enough outputs in varargout to satisfy call.")) {
                                     throw;
                                 }
-                                (void)fdef->evaluateFunction(eval, {}, 0);
+                                (void)fdef->evaluateFunction(eval, { }, 0);
                                 stack.push_back(noOutputSentinel());
                             }
                         } else {
@@ -6209,7 +6301,7 @@ namespace bcvm_detail {
                     }
                     if (eval->lookupFunction(name, fdef)) {
                         try {
-                            ArrayOfVector result = fdef->evaluateFunction(eval, {}, 1);
+                            ArrayOfVector result = fdef->evaluateFunction(eval, { }, 1);
                             stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
                         } catch (const NelsonException& e) {
                             if (e.identifier() != L"Nelson:tooManyOutputs"
@@ -6220,7 +6312,7 @@ namespace bcvm_detail {
                                         L"Not enough outputs in varargout to satisfy call.")) {
                                 throw;
                             }
-                            (void)fdef->evaluateFunction(eval, {}, 0);
+                            (void)fdef->evaluateFunction(eval, { }, 0);
                             stack.push_back(noOutputSentinel());
                         }
                         break;
@@ -6414,8 +6506,8 @@ namespace bcvm_detail {
                         Error(L"Nelson:interpreter:illegalEnd", L"END keyword illegal!");
                     }
                     const EndContext& endContext = frame.endContexts.back();
-                    // only a class may overload end
-                    if (!endContext.base.isClassType()) {
+                    // only a class or a handle may overload end
+                    if (!endContext.base.isClassType() && !endContext.base.isHandle()) {
                         stack.push_back(ArrayOf::doubleScalar(Evaluator::endSubscriptValue(
                             endContext.base, endContext.index, endContext.count)));
                         break;
@@ -6548,6 +6640,10 @@ namespace bcvm_detail {
                             *base, std::get<std::string>(chunk.constants.get(ins.C)));
                     } else {
                         predicate = base->isScalar();
+                        // an object or handle is one element here: its own isscalar decides
+                        if (predicate && (base->isHandle() || base->isClassType())) {
+                            break;
+                        }
                     }
                     const bool jumpTaken
                         = (ins.flags & ARG_PRED_JUMP_ON_TRUE) != 0 ? predicate : !predicate;
@@ -6643,11 +6739,12 @@ namespace bcvm_detail {
                     }
                 } break;
                 case OpCode::FOR_INIT: {
+                    ArrayOf range = loopRangeValues(eval, pop());
                     if ((ins.flags & INST_FLAG_GLOBAL) != 0) {
                         initGenericLoopGlobal(
-                            context, chunk, frame, ins.A, ins.B, pop(), pc, ins.C);
+                            context, chunk, frame, ins.A, ins.B, range, pc, ins.C);
                     } else {
-                        initGenericLoop(frame, ins.A, ins.B, pop(), pc, ins.C);
+                        initGenericLoop(frame, ins.A, ins.B, range, pc, ins.C);
                     }
                 } break;
                 case OpCode::FOR_STEP: {
@@ -6675,6 +6772,7 @@ namespace bcvm_detail {
                     }
                     ArrayOf indexSet = pop();
                     if (!indexSet.isRowVector() || !indexSet.isDoubleType(true)) {
+                        indexSet = loopRangeValues(eval, indexSet);
                         frame.dblLoops[ins.A].dataPtr = nullptr;
                         if (isGlobal) {
                             initGenericLoopGlobal(
@@ -6748,10 +6846,12 @@ namespace bcvm_detail {
                             L"BytecodeVM: range for-loop operand out of range.");
                     }
                     RangeLoopState& state = frame.rangeLoops[ins.A];
-                    state.stop = pop().asDoubleScalar();
-                    state.step
-                        = (ins.flags & INST_FLAG_RANGE_HAS_STEP) ? pop().asDoubleScalar() : 1.0;
-                    state.start = pop().asDoubleScalar();
+                    // device scalars as bounds are read on the host
+                    state.stop = loopRangeValues(eval, pop()).asDoubleScalar();
+                    state.step = (ins.flags & INST_FLAG_RANGE_HAS_STEP)
+                        ? loopRangeValues(eval, pop()).asDoubleScalar()
+                        : 1.0;
+                    state.start = loopRangeValues(eval, pop()).asDoubleScalar();
                     state.current = state.start;
                     profiledVoidOperation(eval, COLON_OPERATOR_STR, []() { });
                     if (state.step == 0.0 || (state.step > 0.0 && state.current > state.stop)
@@ -7126,7 +7226,7 @@ namespace bcvm_detail {
                                                 L"call.")) {
                                         throw;
                                     }
-                                    result = {};
+                                    result = { };
                                 }
                                 refreshAfterVariableClear(clearEpoch);
                                 if (refreshCallerContext) {
@@ -7479,7 +7579,7 @@ namespace bcvm_detail {
                                             L"Not enough outputs in varargout to satisfy call.")) {
                                     throw;
                                 }
-                                result = {};
+                                result = { };
                             }
                             refreshAfterVariableClear(clearEpoch);
                             if (refreshCallerContext) {
@@ -7654,7 +7754,7 @@ namespace bcvm_detail {
                                 : className.substr(0, headDot);
                             FunctionDef* baseDef = nullptr;
                             if (eval->lookupFunction(headName, baseDef)) {
-                                ArrayOfVector baseResult = baseDef->evaluateFunction(eval, {}, 1);
+                                ArrayOfVector baseResult = baseDef->evaluateFunction(eval, { }, 1);
                                 ArrayOf base
                                     = baseResult.empty() ? ArrayOf::empty() : baseResult[0];
                                 base = applyClassdefMemberMiddlePath(base, className);
@@ -8278,7 +8378,7 @@ namespace bcvm_detail {
                                     && classdefLoadClass(base.classType())
                                     && !classdefHasProperty(base.classType(), field)
                                     && eval->bytecodeInvokeObjectMethodIfExists(
-                                        base, field, {}, 1, methodResult)) {
+                                        base, field, { }, 1, methodResult)) {
                                     result = methodResult;
                                 } else {
                                     result = getClassdefFieldAsList(eval, base, field);
@@ -8681,10 +8781,17 @@ namespace bcvm_detail {
                         expandColonParensAssignmentIndices(base, indices, value);
                         normalizeParensAssignmentValueForTarget(indices, value);
                         expandClassdefAssignmentBaseWithDefaults(eval, base, indices, value);
-                        if (indices.size() == 1) {
-                            base.setVectorSubset(indices[0], value);
-                        } else if (!tryAssignRowColonSlice(base, indices, value)) {
-                            base.setNDimSubset(indices, value);
+                        try {
+                            if (indices.size() == 1) {
+                                base.setVectorSubset(indices[0], value);
+                            } else if (!tryAssignRowColonSlice(base, indices, value)) {
+                                base.setNDimSubset(indices, value);
+                            }
+                        } catch (const NelsonException&) {
+                            // a device value into a plain array: the value class assigns
+                            if (!assignHandleValueToPlain(eval, base, indices, value)) {
+                                throw;
+                            }
                         }
                         markRuntimeAssigned(frame, ins.A);
                     });
@@ -9308,15 +9415,22 @@ namespace bcvm_detail {
                         expandColonParensAssignmentIndices(base, indices, value);
                         normalizeParensAssignmentValueForTarget(indices, value);
                         expandClassdefAssignmentBaseWithDefaults(eval, base, indices, value);
-                        if (indices.size() == 1) {
-                            if (!assignStructVectorSubset(base, indices[0], value)) {
-                                base.setVectorSubset(indices[0], value);
+                        try {
+                            if (indices.size() == 1) {
+                                if (!assignStructVectorSubset(base, indices[0], value)) {
+                                    base.setVectorSubset(indices[0], value);
+                                }
+                            } else if (tryAssignRowColonSlice(base, indices, value)) {
+                                stack.push_back(base);
+                                return;
+                            } else {
+                                base.setNDimSubset(indices, value);
                             }
-                        } else if (tryAssignRowColonSlice(base, indices, value)) {
-                            stack.push_back(base);
-                            return;
-                        } else {
-                            base.setNDimSubset(indices, value);
+                        } catch (const NelsonException&) {
+                            // a device value into a plain array: the value class assigns
+                            if (!assignHandleValueToPlain(eval, base, indices, value)) {
+                                throw;
+                            }
                         }
                         stack.push_back(base);
                     });
@@ -10002,8 +10116,7 @@ namespace bcvm_detail {
         ~VMFrameDepthGuard() { --vmActiveFrameDepth; }
         VMFrameDepthGuard(const VMFrameDepthGuard&) = delete;
         VMFrameDepthGuard&
-        operator=(const VMFrameDepthGuard&)
-            = delete;
+        operator=(const VMFrameDepthGuard&) = delete;
     };
     //=============================================================================
     ArrayOf
