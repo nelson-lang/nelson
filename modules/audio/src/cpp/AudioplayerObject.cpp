@@ -637,12 +637,14 @@ AudioplayerObject::play(int start, int end)
     _CurrentSample = firstSample;
     _Running = true;
     stopFcnPending = true;
+    resampleStep = 0.0;
+    PaError err = stream.open(
+        nullptr, &outputStreamParameters, static_cast<double>(_SampleRate), paPlayCallback, this);
     // a rate the device cannot run (no system mixer) is converted in software
     PaStreamParameters deviceParameters = outputStreamParameters;
     double deviceRate = static_cast<double>(_SampleRate);
-    PaStreamCallback* callback = paPlayCallback;
-    resampleStep = 0.0;
-    if (deviceRateForUnsupportedRate(outputStreamParameters, false,
+    if (err != paNoError
+        && deviceRateForUnsupportedRate(outputStreamParameters, false,
             static_cast<double>(_SampleRate), deviceParameters, deviceRate)) {
         resampleStep = static_cast<double>(_SampleRate) / deviceRate;
         resamplePosition = static_cast<double>(firstSample);
@@ -652,9 +654,8 @@ AudioplayerObject::play(int start, int end)
         lastTimerBlock = (periodSamples > 0 && firstSample % periodSamples != 0)
             ? static_cast<int64_t>(firstSample) / periodSamples
             : -1;
-        callback = paPlayResampledCallback;
+        err = stream.open(nullptr, &deviceParameters, deviceRate, paPlayResampledCallback, this);
     }
-    PaError err = stream.open(nullptr, &deviceParameters, deviceRate, callback, this);
     if (err != paNoError) {
         _Running = false;
         stopFcnPending = false;

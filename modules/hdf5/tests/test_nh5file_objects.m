@@ -11,7 +11,6 @@ folder = tempname();
 mkdir(folder);
 previous = cd(folder);
 cleanup = onCleanup(@() cd(previous));
-addpath(folder);
 addpath([modulepath('interpreter', 'tests'), '/classdef']);
 %=============================================================================
 % value and handle classes defined for this test
@@ -23,6 +22,8 @@ fclose(fid);
 fid = fopen(fullfile(folder, 'Nh5Counter.m'), 'wt');
 fprintf(fid, 'classdef Nh5Counter < handle\n  properties\n    Count = 0\n  end\nend\n');
 fclose(fid);
+% the folder joins the path once the class files exist
+addpath(folder);
 %=============================================================================
 d = dictionary(["a", "b", "c"], [1 2 3]);
 dc = dictionary([10 20], {struct('p', 1), 'text'});

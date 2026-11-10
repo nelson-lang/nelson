@@ -63,9 +63,11 @@ private:
     std::atomic<bool> finished { false };
     // the callback returned its last frames: the device is playing out its buffers
     std::atomic<bool> completing { false };
+    // the host API opens the device exclusively (WDM-KS): one stream at a time
+    bool exclusiveDevice = false;
 
     // lets a stream that just ended play out its buffers (bounded), then closes it, so
-    // that a device opened exclusively (e.g. WDM-KS) is free for the next stream
+    // that a device opened exclusively is free for the next stream
     void
     closeIfCompleting();
 

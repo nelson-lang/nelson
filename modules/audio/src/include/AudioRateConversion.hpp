@@ -13,19 +13,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// A device reached without a system mixer (e.g. WDM-KS) only runs its native rates.
-// When requestedRate is not one of them, gives the float parameters and the device default
-// rate to open instead, the caller converting the samples; false when requestedRate is
-// supported as is or the device cannot run its default rate either.
+// After a failed open at requestedRate (device without mixer, e.g. WDM-KS): float parameters
+// and device default rate to open instead, caller converts; no probe up front (costs an open)
 inline bool
 deviceRateForUnsupportedRate(const PaStreamParameters& parameters, bool isInput,
     double requestedRate, PaStreamParameters& deviceParameters, double& deviceRate)
 {
-    const PaStreamParameters* input = isInput ? &parameters : nullptr;
-    const PaStreamParameters* output = isInput ? nullptr : &parameters;
-    if (Pa_IsFormatSupported(input, output, requestedRate) == paFormatIsSupported) {
-        return false;
-    }
     const PaDeviceInfo* info = Pa_GetDeviceInfo(parameters.device);
     if (info == nullptr || info->defaultSampleRate <= 0
         || info->defaultSampleRate == requestedRate) {

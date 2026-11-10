@@ -534,21 +534,27 @@ AudiorecorderObject::start()
     lastTimerFrame = 0;
     _Running = true;
     stopFcnPending = true;
-    // a rate the device cannot run (no system mixer) is converted in software
-    PaStreamParameters deviceParameters = inputStreamParameters;
-    double deviceRate = static_cast<double>(_SampleRate);
     {
         std::lock_guard<std::mutex> lock(recordMutex);
         resampleStep = 0.0;
         resamplePosition = 0.0;
         resampleFrames.clear();
-        if (deviceRateForUnsupportedRate(inputStreamParameters, true,
-                static_cast<double>(_SampleRate), deviceParameters, deviceRate)) {
+    }
+    PaError err = stream.open(&inputStreamParameters, nullptr, static_cast<double>(_SampleRate),
+        AudiorecorderObject::paRecordCallback, this);
+    // a rate the device cannot run (no system mixer) is converted in software
+    PaStreamParameters deviceParameters = inputStreamParameters;
+    double deviceRate = static_cast<double>(_SampleRate);
+    if (err != paNoError
+        && deviceRateForUnsupportedRate(inputStreamParameters, true,
+            static_cast<double>(_SampleRate), deviceParameters, deviceRate)) {
+        {
+            std::lock_guard<std::mutex> lock(recordMutex);
             resampleStep = deviceRate / static_cast<double>(_SampleRate);
         }
+        err = stream.open(
+            &deviceParameters, nullptr, deviceRate, AudiorecorderObject::paRecordCallback, this);
     }
-    PaError err = stream.open(
-        &deviceParameters, nullptr, deviceRate, AudiorecorderObject::paRecordCallback, this);
     if (err != paNoError) {
         _Running = false;
         stopFcnPending = false;

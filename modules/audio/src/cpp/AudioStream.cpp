@@ -29,6 +29,14 @@ registerOpenStream(AudioStream* audioStream, bool isOpen);
 static std::wstring
 errorText(PaError err);
 //=============================================================================
+static bool
+isExclusiveDevice(const PaStreamParameters* parameters)
+{
+    const PaDeviceInfo* info = parameters ? Pa_GetDeviceInfo(parameters->device) : nullptr;
+    const PaHostApiInfo* hostApi = info ? Pa_GetHostApiInfo(info->hostApi) : nullptr;
+    return hostApi != nullptr && hostApi->type == paWDMKS;
+}
+//=============================================================================
 AudioStream::~AudioStream() { close(); }
 //=============================================================================
 PaError
@@ -36,9 +44,14 @@ AudioStream::open(const PaStreamParameters* input, const PaStreamParameters* out
     double sampleRate, PaStreamCallback* callback, void* userData)
 {
     close();
-    // streams of other objects which ended by themselves release their device now
+    // streams of other objects which ended by themselves release their device now; only an
+    // exclusive device waits for the play out, a shared one never blocks the new stream
     for (AudioStream* audioStream : getOpenStreams()) {
-        audioStream->closeIfCompleting();
+        if (audioStream->exclusiveDevice) {
+            audioStream->closeIfCompleting();
+        } else {
+            audioStream->closeIfFinished();
+        }
     }
     ownerCallback = callback;
     ownerUserData = userData;
@@ -52,6 +65,7 @@ AudioStream::open(const PaStreamParameters* input, const PaStreamParameters* out
     paused = false;
     finished = false;
     completing = false;
+    exclusiveDevice = isExclusiveDevice(output ? output : input);
     registerOpenStream(this, true);
     err = Pa_SetStreamFinishedCallback(stream, &AudioStream::onStreamFinished);
     if (err == paNoError) {

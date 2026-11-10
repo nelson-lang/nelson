@@ -11,6 +11,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
+#include <QtCore/QPointer>
 #include <QtCore/QUrl>
 #include <QtCore/QTextStream>
 #include <QtCore/QSettings>
@@ -3232,13 +3233,27 @@ QtTextEditor::reloadFile(const QString filenameModified)
                 if (filesModifiedMessageDisplayedList.contains(filenameModified)) {
                     return;
                 }
+                // a file deleted on disk keeps its text in the editor: nothing to reopen
+                if (!QFileInfo::exists(filenameModified)) {
+                    return;
+                }
                 filesModifiedMessageDisplayedList.append(filenameModified);
-                if (QMessageBox::question(this, TR("Nelson"),
-                        TR("File %1 was modified by an external software.\nDo you want to reopen "
-                           "it?")
-                            .arg(filenameModified),
-                        QMessageBox::Yes | QMessageBox::Default, QMessageBox::No)
-                    == QMessageBox::No) {
+                // the editor can be destroyed (exit) while the question is open
+                QPointer<QtTextEditor> self(this);
+                const int answer = QMessageBox::question(this,
+                    TR("Nelson"),
+                    TR("File %1 was modified by an external software.\nDo you want to reopen "
+                       "it?")
+                        .arg(filenameModified),
+                    QMessageBox::Yes | QMessageBox::Default, QMessageBox::No);
+                if (self.isNull()) {
+                    return;
+                }
+                if (answer == QMessageBox::No) {
+                    filesModifiedMessageDisplayedList.removeAll(filenameModified);
+                    return;
+                }
+                if (!QFileInfo::exists(filenameModified)) {
                     filesModifiedMessageDisplayedList.removeAll(filenameModified);
                     return;
                 }
