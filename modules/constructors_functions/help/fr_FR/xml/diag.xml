@@ -34,6 +34,8 @@
   <description>
     <p>
       <b>diag</b> retourne les éléments diagonaux d&apos;une matrice ou crée une matrice diagonale.</p>
+    <p>Les entrées pleines et creuses de type double, single (réelles ou complexes) et logical sont prises en charge ; une entrée creuse donne un résultat creux.</p>
+    <p>Une diagonale extraite d'une matrice complexe est réelle si aucune de ses valeurs n'a de partie imaginaire.</p>
   </description>
   <used_function />
   <bibliography />
@@ -56,6 +58,10 @@ diag(diag(eye(3)))]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des entrées creuses single ; une diagonale extraite d'une matrice complexe est réelle si ses valeurs sont réelles</history_description>
     </history_item>
   </history>
   <authors>

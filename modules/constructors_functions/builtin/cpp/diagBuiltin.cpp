@@ -100,6 +100,12 @@ sparseDiagonal(const ArrayOf& a, int64 diagonalOrder)
     case NLS_DCOMPLEX:
         return isVector ? sparseVectorDiagonal<doublecomplex>(a, diagonalOrder)
                         : sparseMatrixDiagonal<doublecomplex>(a, diagonalOrder);
+    case NLS_SINGLE:
+        return isVector ? sparseVectorDiagonal<single>(a, diagonalOrder)
+                        : sparseMatrixDiagonal<single>(a, diagonalOrder);
+    case NLS_SCOMPLEX:
+        return isVector ? sparseVectorDiagonal<singlecomplex>(a, diagonalOrder)
+                        : sparseMatrixDiagonal<singlecomplex>(a, diagonalOrder);
     case NLS_LOGICAL:
         return isVector ? sparseVectorDiagonal<logical>(a, diagonalOrder)
                         : sparseMatrixDiagonal<logical>(a, diagonalOrder);
@@ -154,8 +160,9 @@ Nelson::ConstructorsGateway::diagBuiltin(int nLhs, const ArrayOfVector& argIn)
     } else {
         diag = a.diagonal(diagonalOrder);
     }
-    // the diagonal of no elements holds no imaginary part: it is real
-    retval << (a.isEmpty() ? decomplexify(diag) : diag);
+    // a diagonal taken from a matrix is real when none of its values has an imaginary part
+    bool fromVector = !a.isEmpty() && ((a.dimensionLength(1) == 1) || (a.dimensionLength(0) == 1));
+    retval << (fromVector ? diag : decomplexify(diag));
     return retval;
 }
 //=============================================================================

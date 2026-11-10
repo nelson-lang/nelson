@@ -34,6 +34,8 @@
   <description>
     <p>
       <b>diag</b> returns diagonal elements of matrix or create diagonal matrix.</p>
+    <p>Dense and sparse inputs of type double, single (real or complex) and logical are supported; a sparse input gives a sparse result.</p>
+    <p>A diagonal taken from a complex matrix is real when none of its values has an imaginary part.</p>
   </description>
   <used_function />
   <bibliography />
@@ -56,6 +58,10 @@ diag(diag(eye(3)))]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single inputs supported; a diagonal taken from a complex matrix is real when its values are real</history_description>
     </history_item>
   </history>
   <authors>
