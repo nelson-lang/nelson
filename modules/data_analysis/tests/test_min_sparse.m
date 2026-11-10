@@ -24,10 +24,10 @@ R = min(A, 0);
 asserts.istrue(issparse(R));
 asserts.isequal(full(R), min(FA, 0));
 %=============================================================================
-% min(A, -2) : negative scalar fills the implicit zeros -> full result
+% min(A, -2) : negative scalar fills the implicit zeros, result still sparse
 R = min(A, -2);
-asserts.isfalse(issparse(R));
-asserts.isequal(R, min(FA, -2));
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), min(FA, -2));
 %=============================================================================
 % min(A, 2) : positive scalar preserves the zeros -> stays sparse
 R = min(A, 2);
@@ -39,10 +39,10 @@ R = min(0, A);
 asserts.istrue(issparse(R));
 asserts.isequal(full(R), min(0, FA));
 %=============================================================================
-% min(A, full(B)) : sparse vs full of equal size -> full result
+% min(A, full(B)) : sparse vs full of equal size -> sparse result
 R = min(A, FB);
-asserts.isfalse(issparse(R));
-asserts.isequal(R, min(FA, FB));
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), min(FA, FB));
 %=============================================================================
 % comparison against the dense equivalent, keeping the result sparse
 C = sparse([1 2 3 4], [1 2 3 4], [-3 5 -1 2], 4, 4);
@@ -74,4 +74,33 @@ L1 = sparse(logical([1 0 1 0]));
 L2 = sparse(logical([0 0 1 1]));
 R = min(L1, L2);
 asserts.isequal(full(R), min(full(L1), full(L2)));
+%=============================================================================
+% any sparse operand gives a sparse result
+R = min(sparse(66), [65 67]);
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), [65 66]);
+R = min(FA, A');
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), min(FA, FA'));
+R = min(sparse(2), [1 3]);
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), [1 2]);
+R = min(sparse(-1i), [1 2]);
+asserts.istrue(issparse(R));
+asserts.isequal(full(R), [-1i -1i]);
+%=============================================================================
+% sparse against a scalar matches the dense result for every flag and side
+S = sparse([0 NaN 0; -3 0 4]);
+flags = {'omitnan', 'includenan'};
+scalars = [0 2 -2 NaN];
+for f = 1:numel(flags)
+  for k = 1:numel(scalars)
+    R = min(S, scalars(k), flags{f});
+    asserts.istrue(issparse(R));
+    asserts.isequal(full(R), min(full(S), scalars(k), flags{f}));
+    R = min(scalars(k), S, flags{f});
+    asserts.istrue(issparse(R));
+    asserts.isequal(full(R), min(scalars(k), full(S), flags{f}));
+  end
+end
 %=============================================================================

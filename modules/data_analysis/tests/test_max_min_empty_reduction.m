@@ -38,7 +38,7 @@ for f = {@max, @min}
   asserts.isequal(fn(int8(zeros(3, 0))), int8(zeros(1, 0)));
   asserts.isequal(fn(single(zeros(0, 3)), [], 2), single(zeros(0, 1)));
   asserts.isequal(fn(false(3, 0)), false(1, 0));
-  asserts.isequal(fn(char(zeros(0, 3)), [], 2), char(zeros(0, 1)));
+  asserts.isequal(fn(char(zeros(0, 3)), [], 2), zeros(0, 1));
   % index output
   [m, i] = fn(zeros(0, 3));
   asserts.isequal(m, zeros(0, 3));

@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <cmath>
+#include <cwctype>
 #include <unordered_set>
 #include <vector>
 #include "extremumBuiltinHelpers.hpp"
@@ -33,6 +35,8 @@ struct ExtremumOptions
 //=============================================================================
 static void
 invalidArgument(size_t position);
+static void
+checkSecondInput(const ArrayOf& A, const ArrayOf& B, const std::string& functionName);
 static bool
 isTextArgument(const ArrayOf& arg);
 static bool
@@ -85,7 +89,11 @@ reduceBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
     for (size_t k = 2; k < argIn.size(); ++k) {
         parseReductionOption(argIn[k], k + 1, options);
     }
-    const ArrayOf& A = argIn[0];
+    // the extremum of characters is a double value
+    ArrayOf A(argIn[0]);
+    if (A.dataClass() == NLS_CHAR) {
+        A.promoteType(NLS_DOUBLE);
+    }
     bool wantIndex = (nLhs > 1);
     bool needToOverload = false;
     ArrayOfVector retval;
@@ -174,6 +182,7 @@ binaryBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn,
             return res;
         }
     }
+    checkSecondInput(argIn[0], argIn[1], functionName);
     ArrayOfVector retval;
     if (commonType <= NLS_CHAR) {
         NelsonType valueType = commonType;
@@ -342,6 +351,37 @@ bool
 isTextArgument(const ArrayOf& arg)
 {
     return arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar());
+}
+//=============================================================================
+// text is never a data operand in the second position, and char data cannot mix with integers
+void
+checkSecondInput(const ArrayOf& A, const ArrayOf& B, const std::string& functionName)
+{
+    std::wstring name(functionName.begin(), functionName.end());
+    if (isTextArgument(B)) {
+        std::wstring text = B.asWideString();
+        std::transform(text.begin(), text.end(), text.begin(), ::towlower);
+        bool omitNaN = true;
+        if (parseNanFlag(text, omitNaN)) {
+            Error(L"Nelson:data_analysis:secondInputFlag",
+                L"Invalid second argument. To give an option, call %s(A,[],option).", name.c_str());
+        }
+        if (!text.empty() && std::wstring(L"all").compare(0, text.size(), text) == 0) {
+            Error(L"Nelson:data_analysis:secondInputAll",
+                L"Invalid second argument. To reduce over all elements, call %s(A,[],'all').",
+                name.c_str());
+        }
+        Error(L"Nelson:data_analysis:secondInputText",
+            L"Invalid second argument. To pass extra arguments, call %s(A,[],...).", name.c_str());
+    }
+    if (B.dataClass() == NLS_CHAR || B.isStringArray()) {
+        Error(L"Nelson:data_analysis:secondInputType",
+            L"Invalid data type for the second input array.");
+    }
+    if (A.dataClass() == NLS_CHAR && B.isIntegerType()) {
+        Error(L"Nelson:interpreter:integerClassMismatch",
+            L"Integers can only be combined with integers of the same class, or scalar doubles.");
+    }
 }
 //=============================================================================
 void

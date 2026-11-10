@@ -69,6 +69,8 @@
     <p>Si <b>A</b> est une matrice alors <b>M = min(A)</b> est un vecteur ligne contenant la valeur minimale de chaque colonne.</p>
     <p>Si <b>A</b> est un vecteur alors <b>M = min(A)</b> renverra le minimum de <b>A</b>.</p>
     <p>Si <b>A</b> est un nombre complexe alors <b>M = min(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
+    <p>Si <b>A</b> est un tableau de caractères, <b>min</b> renvoie des valeurs de type double. Un tableau de caractères n'est pas accepté comme deuxième entrée <b>B</b>.</p>
+    <p>Si <b>A</b> ou <b>B</b> est creux, <b>C = min(A, B)</b> est creux.</p>
   </description>
   <used_function />
   <bibliography />

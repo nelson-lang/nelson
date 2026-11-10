@@ -356,12 +356,6 @@ MaximumBroadcast(bool omitNaN, const ArrayOf& A, const ArrayOf& B, const BinaryB
             res.promoteType(NLS_DOUBLE);
         }
     } break;
-    case NLS_CHAR: {
-        charType* ptr = (charType*)ArrayOf::allocateArrayOf(commonType, outDim.elementCount());
-        res = ArrayOf(commonType, outDim, ptr);
-        TMaxBroadcastInteger<charType>(
-            (const charType*)A.dataPointer(), (const charType*)B.dataPointer(), ptr, info);
-    } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRUCT_ARRAY:
@@ -407,8 +401,7 @@ scalarValueAs(const ArrayOf& A)
     return ((const T*)A.dataPointer())[0];
 }
 //=============================================================================
-// Densify the sparse operand(s) and reuse the dense element-wise kernel. Used
-// whenever the result is genuinely dense (e.g. max(A, 2), sparse vs full).
+// Densify, reuse the dense kernel, then make the result sparse again.
 static ArrayOf
 densifyDelegateMaximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
@@ -420,13 +413,14 @@ densifyDelegateMaximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& n
     if (Bd.isSparse()) {
         Bd.makeDense();
     }
-    return Maximum(omitNaN, Ad, Bd, needToOverload);
+    ArrayOf res = Maximum(omitNaN, Ad, Bd, needToOverload);
+    if (!needToOverload) {
+        res.makeSparse();
+    }
+    return res;
 }
 //=============================================================================
-// C = max(A, B) where at least one operand is sparse and both share dataClass T.
-// The result stays sparse only when it is sparsity preserving (the implicit
-// zeros of the sparse operand stay zero); otherwise it densifies
-// (e.g. max(A, 2) returns a full matrix).
+// C = max(A, B) with a sparse operand and both of dataClass T: the result is always sparse.
 template <class T>
 static ArrayOf
 SparseMaximumBinaryTemplate(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
@@ -436,28 +430,21 @@ SparseMaximumBinaryTemplate(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bo
 
     bool aScalar = A.isScalar();
     bool bScalar = B.isScalar();
-    bool bothMat = !aScalar && !bScalar;
-
     T fillA = aScalar ? scalarValueAs<T>(A) : T(0);
     T fillB = bScalar ? scalarValueAs<T>(B) : T(0);
     T background = maxCombine<T>(fillA, fillB, omitNaN);
-    if (!sparseExtremumStaysSparse(A, B, background == T(0))) {
-        return densifyDelegateMaximum(omitNaN, A, B, needToOverload);
-    }
-    if (A.isEmpty() || B.isEmpty()) {
-        ArrayOf res = densifyDelegateMaximum(omitNaN, A, B, needToOverload);
-        res.makeSparse();
-        return res;
-    }
-
-    // background == 0, so only stored nonzeros can produce nonzero results.
-    indexType rows = 0;
-    indexType cols = 0;
-    std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
-    if (bothMat) {
+    auto combine = [omitNaN](T a, T b) { return maxCombine<T>(a, b, omitNaN); };
+    const ArrayOf& M = aScalar ? B : A;
+    SparseMatrix* spmatDST = nullptr;
+    if (aScalar != bScalar && M.isSparse() && !M.isEmpty()) {
+        spmatDST = sparseScalarExtremum<T>(*static_cast<const SparseMatrix*>(M.sparseDataPointer()),
+            aScalar ? fillA : fillB, aScalar, combine);
+    } else if (sparseExtremumKernelApplies(A, B, background == T(0)) && !A.isEmpty()
+        && !B.isEmpty()) {
+        // zero background: only entries stored in A or B can be nonzero
         Dimensions dims = A.dimensions();
-        rows = dims.rows();
-        cols = dims.columns();
+        indexType rows = dims.rows();
+        indexType cols = dims.columns();
         const auto* sparseA = static_cast<const SparseMatrix*>(A.sparseDataPointer());
         const auto* sparseB = static_cast<const SparseMatrix*>(B.sparseDataPointer());
         std::unordered_set<indexType> candidateIndices;
@@ -472,6 +459,7 @@ SparseMaximumBinaryTemplate(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bo
                 candidateIndices.insert((indexType)(it.row() + it.col() * rows));
             }
         }
+        std::vector<Eigen::Triplet<T, signedIndexType>> triplets;
         triplets.reserve(candidateIndices.size());
         for (indexType linearIndex : candidateIndices) {
             auto r = (signedIndexType)(linearIndex % rows);
@@ -481,28 +469,14 @@ SparseMaximumBinaryTemplate(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bo
                 triplets.emplace_back(r, c, v);
             }
         }
+        spmatDST = new SparseMatrix((signedIndexType)rows, (signedIndexType)cols);
+        spmatDST->setFromTriplets(triplets.begin(), triplets.end());
     } else {
-        const ArrayOf& M = aScalar ? B : A;
-        T fill = aScalar ? fillA : fillB;
-        Dimensions dims = M.dimensions();
-        rows = dims.rows();
-        cols = dims.columns();
-        const auto* sparseM = static_cast<const SparseMatrix*>(M.sparseDataPointer());
-        triplets.reserve(sparseM->nonZeros());
-        for (signedIndexType c = 0; c < sparseM->outerSize(); ++c) {
-            for (typename SparseMatrix::InnerIterator it(*sparseM, c); it; ++it) {
-                T v = aScalar ? maxCombine<T>(fill, it.value(), omitNaN)
-                              : maxCombine<T>(it.value(), fill, omitNaN);
-                if (v != T(0)) {
-                    triplets.emplace_back(it.row(), it.col(), v);
-                }
-            }
-        }
+        return densifyDelegateMaximum(omitNaN, A, B, needToOverload);
     }
-    auto* spmatDST = new SparseMatrix((signedIndexType)rows, (signedIndexType)cols);
-    spmatDST->setFromTriplets(triplets.begin(), triplets.end());
     indexType nz = spmatDST->nonZeros();
-    ArrayOf res = makeSparseResult(A.dataClass(), Dimensions(rows, cols), spmatDST, true);
+    ArrayOf res = makeSparseResult(
+        A.dataClass(), Dimensions(spmatDST->rows(), spmatDST->cols()), spmatDST, true);
     if (nz == 0) {
         res.setSparseNzmax(1);
     }
@@ -527,16 +501,8 @@ SparseMaximumBinary(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& need
         return SparseMaximumBinaryTemplate<logical>(omitNaN, A, B, needToOverload);
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX: {
-        // Complex magnitude comparison is handled by the dense kernel; restore
-        // sparsity afterwards with the same rule as the real classes.
-        ArrayOf background
-            = Maximum(omitNaN, sparseExtremumFill(A), sparseExtremumFill(B), needToOverload);
-        bool keepSparse = sparseExtremumStaysSparse(A, B, sparseExtremumIsZero(background));
-        ArrayOf res = densifyDelegateMaximum(omitNaN, A, B, needToOverload);
-        if (!needToOverload && keepSparse) {
-            res.makeSparse();
-        }
-        return res;
+        // complex magnitude comparison is done by the dense kernel
+        return densifyDelegateMaximum(omitNaN, A, B, needToOverload);
     }
     default:
         needToOverload = true;
@@ -668,12 +634,6 @@ Maximum(bool omitNaN, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
-    } break;
-    case NLS_CHAR: {
-        charType* ptr = (charType*)ArrayOf::allocateArrayOf(commonType, outDim.elementCount());
-        res = ArrayOf(commonType, outDim, ptr);
-        TMaxLessInteger<charType>((const charType*)A.dataPointer(),
-            (const charType*)B.dataPointer(), ptr, outDim.elementCount(), AStride, BStride);
     } break;
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
@@ -928,18 +888,6 @@ Maximum(bool omitNaN, const ArrayOf& A, indexType dim, int nLhs, bool& needToOve
             res.promoteType(NLS_DOUBLE);
         }
     } break;
-    case NLS_CHAR: {
-        if (nLhs > 1) {
-            iptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount());
-            index = ArrayOf(NLS_DOUBLE, outDim, iptr);
-        }
-        ArrayOf _A(A);
-        _A.promoteType(NLS_DOUBLE);
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount());
-        TMaxInteger<double>(
-            (const double*)_A.dataPointer(), (double*)ptr, iptr, planecount, planesize, linesize);
-        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
-    } break;
     }
     retval << res;
     if (nLhs > 1) {
@@ -1048,13 +996,6 @@ MaximumAll(bool omitNaN, const ArrayOf& A, bool& needToOverload)
         if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
-    } break;
-    case NLS_CHAR: {
-        ArrayOf _A(A);
-        _A.promoteType(NLS_DOUBLE);
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount());
-        TMaxAllInteger<double>((const double*)_A.dataPointer(), (double*)ptr, elementCount);
-        res = ArrayOf(NLS_DOUBLE, outDim, ptr);
     } break;
     }
     return res;

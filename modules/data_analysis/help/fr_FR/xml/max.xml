@@ -69,6 +69,8 @@
     <p>Si <b>A</b> est une matrice alors <b>M = max(A)</b> est un vecteur ligne contenant la valeur maximale de chaque colonne.</p>
     <p>Si <b>A</b> est un vecteur alors <b>M = max(A)</b> renverra le maximum de <b>A</b>.</p>
     <p>Si <b>A</b> est un nombre complexe alors <b>M = max(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
+    <p>Si <b>A</b> est un tableau de caractères, <b>max</b> renvoie des valeurs de type double. Un tableau de caractères n'est pas accepté comme deuxième entrée <b>B</b>.</p>
+    <p>Si <b>A</b> ou <b>B</b> est creux, <b>C = max(A, B)</b> est creux.</p>
   </description>
   <used_function />
   <bibliography />
